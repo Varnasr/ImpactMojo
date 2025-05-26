@@ -1,25 +1,33 @@
-
 name: Build and Auto-Changelog
+
 on:
   push:
     branches: [ main ]
   workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # ✅ Required to push the updated changelog
+
     steps:
       - uses: actions/checkout@v3
+
       - run: |
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
+
       - uses: heinrichreimer/github-changelog-generator-action@v2.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           output: CHANGELOG.md
+
       - run: |
           git add CHANGELOG.md
           git commit -m "Auto-update changelog"
           git push
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -29,6 +37,7 @@ jobs:
       id-token: write
     environment:
       name: github-pages
+
     steps:
       - uses: actions/checkout@v3
       - uses: actions/configure-pages@v3
