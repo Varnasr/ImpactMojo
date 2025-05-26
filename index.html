@@ -1,1 +1,141 @@
-<!DOCTYPE html><html><head><title>Placeholder</title></head><body><h1>Loading...</h1></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ImpactMojo 101 Knowledge Series</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fdfbf7;
+      color: #222;
+      transition: background 0.3s, color 0.3s;
+    }
+    body.dark {
+      background-color: #1e1e1e;
+      color: #eee;
+    }
+    .banner {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 960px;
+      margin: auto;
+      padding: 1rem;
+    }
+    .toggle-btn {
+      font-size: 1.2rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .container {
+      max-width: 960px;
+      margin: auto;
+      padding: 2rem;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 8px;
+    }
+    body.dark .card {
+      background: #2a2a2a;
+      border-color: #444;
+    }
+    .footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: gray;
+      margin: 4rem auto 2rem auto;
+      max-width: 960px;
+    }
+    a {
+      color: inherit;
+    }
+  </style>
+</head>
+<body>
+
+<img src="docs/ImpactMojo_101_Banner.png" alt="ImpactMojo Banner" class="banner">
+
+<div class="toolbar">
+  <div class="filter">
+    <label for="topicSelect">Filter by topic:</label>
+    <select id="topicSelect" onchange="filterDecks()">
+      <option value="all">Show All</option>
+      <option value="gender">Gender</option>
+      <option value="climate">Climate</option>
+      <option value="health">Health</option>
+      <option value="data">Data</option>
+      <option value="education">Education</option>
+      <option value="justice">Justice</option>
+      <option value="media">Media</option>
+      <option value="participation">Participation</option>
+      <option value="economics">Economics</option>
+      <option value="global">Global</option>
+    </select>
+  </div>
+  <button class="toggle-btn" onclick="toggleTheme()">🌗 Theme</button>
+</div>
+
+<div class="container">
+  <h1>ImpactMojo 101 Knowledge Series</h1>
+  <p>
+    <strong>ImpactMojo</strong> is a curated repository of full-length, open-access learning decks on key development topics in South Asia.
+    Designed for practitioners, educators, and researchers, each deck offers 60+ slides of richly contextualised, ready-to-use knowledge.
+  </p>
+
+  <p>
+    This work is part of the <strong>OpenStacks</strong> family — open knowledge tools for the social sector, built by and for practitioners.
+    All decks are openly licensed and can be adapted, shared, and taught non-commercially.
+  </p>
+
+  <div id="deckList">
+    <div class="card" data-topic="gender"><h3>Gender Studies 101</h3><p>Introduces feminist frameworks, intersectionality, queer theory, and gender movements across South Asia.</p></div>
+    <div class="card" data-topic="climate"><h3>Climate Resilience 101</h3><p>Explores adaptation, vulnerability, and risk management using real South Asian examples and frameworks.</p></div>
+    <div class="card" data-topic="MEL"><h3>MEL 101</h3><p>Demystifies Monitoring, Evaluation, and Learning tools like logframes, adaptive MEL, and outcome harvesting.</p></div>
+    <div class="card" data-topic="health"><h3>Public Health 101</h3><p>Examines health systems, equity, OneHealth, and Indian health program implementation contexts.</p></div>
+    <div class="card" data-topic="data"><h3>Data Literacy 101</h3><p>Equips learners with skills to read, interpret, and critique data used in the development sector.</p></div>
+    <!-- Add more cards here as needed -->
+  </div>
+</div>
+
+<div class="footer">
+  <p><strong>License:</strong> CC BY-NC-SA 4.0 — free to use with attribution, for non-commercial purposes.</p>
+  <p>Curated by <strong>Dr. Varna Sri Raman</strong> · <a href="mailto:varna.sr@gmail.com">varna.sr@gmail.com</a> · <a href="https://www.impactmojo.in">www.impactmojo.in</a></p>
+  <p>Part of the <strong>OpenStacks</strong> ecosystem for open knowledge.</p>
+  <p><a href="https://github.com/Varnasr/ImpactMojo">View on GitHub</a></p>
+</div>
+
+<script>
+function filterDecks() {
+  const value = document.getElementById("topicSelect").value;
+  document.querySelectorAll(".card").forEach(card => {
+    card.style.display = value === "all" || card.dataset.topic === value ? "block" : "none";
+  });
+}
+function toggleTheme() {
+  const mode = document.body.classList.contains("dark") ? "light" : "dark";
+  document.body.classList.toggle("dark", mode === "dark");
+  localStorage.setItem("theme", mode);
+}
+window.onload = () => {
+  const saved = localStorage.getItem("theme");
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  if (saved === "dark" || (!saved && prefersDark)) {
+    document.body.classList.add("dark");
+  }
+};
+</script>
+
+</body>
+</html>
