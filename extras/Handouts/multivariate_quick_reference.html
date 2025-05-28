@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multivariate Analysis Quick Reference Guide - South Asian Development</title>
+    <style>
+        @media print {
+            body { margin: 0.5in; }
+            .page-break { page-break-before: always; }
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.4;
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 15px;
+            background: white;
+            font-size: 10px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        
+        h2 {
+            color: #8e44ad;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 12px;
+            border-left: 4px solid #9b59b6;
+            padding-left: 10px;
+        }
+        
+        h3 {
+            color: #e74c3c;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            font-size: 11px;
+        }
+        
+        .method-card {
+            border: 2px solid #3498db;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 6px;
+            background-color: #f8f9ff;
+            page-break-inside: avoid;
+        }
+        
+        .correlation-card {
+            border-color: #e74c3c;
+            background-color: #fff8f8;
+        }
+        
+        .anova-card {
+            border-color: #27ae60;
+            background-color: #f8fff8;
+        }
+        
+        .regression-card {
+            border-color: #f39c12;
+            background-color: #fffdf8;
+        }
+        
+        .formula-box {
+            background-color: #ecf0f1;
+            border: 1px solid #bdc3c7;
+            padding: 8px;
+            margin: 8px 0;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 9px;
+            text-align: center;
+        }
+        
+        .interpretation-box {
+            background-color: #d5dbdb;
+            border: 1px solid #85929e;
+            padding: 8px;
+            margin: 8px 0;
+            border-radius: 4px;
+            font-size: 9px;
+        }
+        
+        .example-box {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 8px;
+            margin: 8px 0;
+            border-radius: 4px;
+            font-size: 9px;
+        }
+        
+        .decision-tree {
+            background-color: #e8f6f3;
+            border: 2px solid #16a085;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 6px;
+        }
+        
+        .assumptions-box {
+            background-color: #fdf2e9;
+            border: 1px solid #f39c12;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 4px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 9px;
+        }
+        
+        th, td {
+            border: 1px solid #bdc3c7;
+            padding: 6px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #ecf0f1;
+            font-weight: bold;
+        }
+        
+        .two-column {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .column {
+            flex: 1;
+        }
+        
+        ul, ol {
+            margin: 5px 0;
+            padding-left: 15px;
+        }
+        
+        li {
+            margin: 3px 0;
+        }
+        
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+        
+        .critical {
+            background-color: #f8d7da;
+            padding: 2px 4px;
+            border-radius: 2px;
+            color: #721c24;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            padding: 2px 4px;
+            border-radius: 2px;
+            color: #155724;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Multivariate Analysis Quick Reference Guide</h1>
+<p style="text-align: center; font-style: italic; margin-bottom: 20px;">
+    Essential formulas, interpretations, and decision rules for South Asian development research
+</p>
+
+<div class="decision-tree">
+    <h2>Method Selection Decision Tree</h2>
+    <table>
+        <tr>
+            <th style="width: 25%;">Research Question</th>
+            <th style="width: 25%;">Method</th>
+            <th style="width: 25%;">Data Requirements</th>
+            <th style="width: 25%;">Example</th>
+        </tr>
+        <tr>
+            <td>"Are X and Y related?"</td>
+            <td><strong>Correlation</strong></td>
+            <td>2 continuous variables, n ≥ 30</td>
+            <td>Education & income relationship</td>
+        </tr>
+        <tr>
+            <td>"Do groups differ?"</td>
+            <td><strong>ANOVA</strong></td>
+            <td>Continuous outcome, categorical groups</td>
+            <td>Comparing training programs</td>
+        </tr>
+        <tr>
+            <td>"What predicts outcome?"</td>
+            <td><strong>Regression</strong></td>
+            <td>Continuous outcome, mixed predictors</td>
+            <td>Factors affecting malnutrition</td>
+        </tr>
+        <tr>
+            <td>"Can we predict values?"</td>
+            <td><strong>Regression</strong></td>
+            <td>Historical data, stable relationships</td>
+            <td>Forecasting crop yields</td>
+        </tr>
+    </table>
+</div>
+
+<div class="method-card correlation-card">
+    <h2>CORRELATION ANALYSIS</h2>
+    
+    <div class="two-column">
+        <div class="column">
+            <h3>Purpose</h3>
+            <p>Measure strength and direction of relationships between variables</p>
+            
+            <div class="formula-box">
+                <strong>Correlation Coefficient (r)</strong><br>
+                Range: -1 to +1<br>
+                r = 0: No relationship<br>
+                r = ±1: Perfect relationship
+            </div>
+            
+            <h3>Types</h3>
+            <ul>
+                <li><strong>Pearson's r:</strong> Linear, continuous data</li>
+                <li><strong>Spearman's ρ:</strong> Ranked/ordinal data</li>
+                <li><strong>Point-biserial:</strong> Continuous × binary</li>
+            </ul>
+        </div>
+        
+        <div class="column">
+            <h3>Interpretation Guide</h3>
+            <table>
+                <tr>
+                    <th>|r| Value</th>
+                    <th>Strength</th>
+                    <th>Interpretation</th>
+                </tr>
+                <tr>
+                    <td>0.0 - 0.3</td>
+                    <td>Weak</td>
+                    <td>Little practical value</td>
+                </tr>
+                <tr>
+                    <td>0.3 - 0.7</td>
+                    <td>Moderate</td>
+                    <td>Meaningful relationship</td>
+                </tr>
+                <tr>
+                    <td>0.7 - 1.0</td>
+                    <td>Strong</td>
+                    <td>Very important relationship</td>
+                </tr>
+            </table>
+            
+            <div class="example-box">
+                <strong>South Asian Examples:</strong><br>
+                • Maternal education ↔ child malnutrition: r = -0.74<br>
+                • Rainfall ↔ crop yield: r = 0.62<br>
+                • Distance to school ↔ enrollment: r = -0.68
+            </div>
+        </div>
+    </div>
+    
+    <div class="assumptions-box">
+        <h3>Key Limitations</h3>
+        <ul>
+            <li><span class="critical">Correlation ≠ causation</span> - Strong relationships don't prove cause</li>
+            <li><strong>Outlier sensitivity</strong> - Extreme values distort results</li>
+            <li><strong>Linear assumption</strong> - May miss curved relationships</li>
+            <li><strong>Confounding variables</strong> - Third factors may explain relationships</li>
+        </ul>
+    </div>
+    
+    <div class="interpretation-box">
+        <strong>Statistical Significance:</strong> For n=120, critical value = ±0.18 (α = 0.05)<br>
+        <strong>Practical Significance:</strong> Consider both r-value and real-world importance
+    </div>
+</div>
+
+<div class="method-card anova-card">
+    <h2>ANOVA (ANALYSIS OF VARIANCE)</h2>
+    
+    <div class="two-column">
+        <div class="column">
+            <h3>Purpose</h3>
+            <p>Compare means across multiple groups to identify significant differences</p>
+            
+            <div class="formula-box">
+                <strong>F-statistic</strong><br>
+                F = Between-group variance / Within-group variance<br>
+                Higher F = More likely groups differ
+            </div>
+            
+            <h3>Types</h3>
+            <ul>
+                <li><strong>One-way:</strong> One factor (treatment types)</li>
+                <li><strong>Two-way:</strong> Two factors (treatment × gender)</li>
+                <li><strong>Repeated measures:</strong> Same subjects over time</li>
+            </ul>
+        </div>
+        
+        <div class="column">
+            <h3>Key Assumptions</h3>
+            <div class="assumptions-box">
+                <ul>
+                    <li><strong>Independence:</strong> Observations are independent</li>
+                    <li><strong>Normality:</strong> Data is normally distributed</li>
+                    <li><strong>Homogeneity:</strong> Equal variances across groups</li>
+                    <li><strong>Random sampling:</strong> Representative samples</li>
+                </ul>
+            </div>
+            
+            <div class="example-box">
+                <strong>Bangladesh Agriculture Example:</strong><br>
+                • Control: 2,340 kg/hectare<br>
+                • Seeds only: 2,780 kg/hectare<br>
+                • Training only: 2,650 kg/hectare<br>
+                • Combined: 3,120 kg/hectare<br>
+                F = 24.87, p < 0.001
+            </div>
+        </div>
+    </div>
+    
+    <h3>Interpretation Steps</h3>
+    <ol>
+        <li><strong>Check F-statistic:</strong> F > critical value → significant differences exist</li>
+        <li><strong>Check p-value:</strong> p < 0.05 → reject null hypothesis (groups are equal)</li>
+        <li><strong>Post-hoc tests:</strong> Determine which specific groups differ</li>
+        <li><strong>Effect size:</strong> Calculate η² to assess practical significance</li>
+    </ol>
+    
+    <div class="interpretation-box">
+        <strong>Post-hoc Tests:</strong><br>
+        • <strong>Tukey's HSD:</strong> All pairwise comparisons, moderate power<br>
+        • <strong>Bonferroni:</strong> Conservative, controls Type I error<br>
+        • <strong>Scheffé:</strong> Most conservative, best for unequal sample sizes
+    </div>
+</div>
+
+<div class="method-card regression-card">
+    <h2>REGRESSION ANALYSIS</h2>
+    
+    <div class="two-column">
+        <div class="column">
+            <h3>Purpose</h3>
+            <p>Model relationships, make predictions, quantify effects of multiple variables</p>
+            
+            <div class="formula-box">
+                <strong>Simple Linear:</strong> Y = β₀ + β₁X + ε<br>
+                <strong>Multiple:</strong> Y = β₀ + β₁X₁ + β₂X₂ + ... + ε
+            </div>
+            
+            <h3>Key Components</h3>
+            <ul>
+                <li><strong>β₀ (Intercept):</strong> Y when all X = 0</li>
+                <li><strong>β₁, β₂ (Slopes):</strong> Change in Y per unit X</li>
+                <li><strong>R²:</strong> Variance explained (0-1)</li>
+                <li><strong>p-values:</strong> Statistical significance</li>
+            </ul>
+        </div>
+        
+        <div class="column">
+            <h3>Interpretation Guide</h3>
+            <table>
+                <tr>
+                    <th>Component</th>
+                    <th>Interpretation</th>
+                </tr>
+                <tr>
+                    <td>β coefficient</td>
+                    <td>Effect size (practical significance)</td>
+                </tr>
+                <tr>
+                    <td>p-value < 0.05</td>
+                    <td>Statistically significant</td>
+                </tr>
+                <tr>
+                    <td>R² = 0.68</td>
+                    <td>68% of variance explained</td>
+                </tr>
+                <tr>
+                    <td>95% CI</td>
+                    <td>Range of plausible values</td>
+                </tr>
+            </table>
+            
+            <div class="example-box">
+                <strong>Indian Child Health Example:</strong><br>
+                Malnutrition = 52.34 + 1.24(Distance) - 0.31(Maternal_Ed)<br>
+                R² = 0.682 (68% variance explained)
+            </div>
+        </div>
+    </div>
+    
+    <h3>Model Diagnostics</h3>
+    <div class="assumptions-box">
+        <ul>
+            <li><strong>Residual analysis:</strong> Check for patterns in errors</li>
+            <li><strong>Multicollinearity:</strong> VIF > 5 indicates problems</li>
+            <li><strong>Influential points:</strong> Cook's distance > 1 is concerning</li>
+            <li><strong>Homoscedasticity:</strong> Equal variance of residuals</li>
+        </ul>
+    </div>
+    
+    <div class="interpretation-box">
+        <strong>Sample Size Rule:</strong> Minimum 10-15 observations per predictor variable<br>
+        <strong>Variable Selection:</strong> Include theoretically important variables, avoid overfitting
+    </div>
+</div>
+
+<div class="page-break"></div>
+
+<h2>South Asian Context Considerations</h2>
+
+<div class="method-card">
+    <h3>Cultural & Contextual Factors</h3>
+    <div class="two-column">
+        <div class="column">
+            <h4>Data Patterns</h4>
+            <ul>
+                <li><strong>Seasonal variations:</strong> Monsoon affects agriculture data</li>
+                <li><strong>Social hierarchies:</strong> Caste/class affect responses</li>
+                <li><strong>Gender dynamics:</strong> Women's responses vary by context</li>
+                <li><strong>Regional differences:</strong> State-level variations significant</li>
+            </ul>
+        </div>
+        
+        <div class="column">
+            <h4>Missing Data Patterns</h4>
+            <ul>
+                <li><strong>Not random:</strong> Often reflects social exclusion</li>
+                <li><strong>Seasonal migration:</strong> Affects data collection</li>
+                <li><strong>Literacy barriers:</strong> Survey completion issues</li>
+                <li><strong>Cultural sensitivity:</strong> Some topics avoided</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<h2>Common South Asian Development Variables</h2>
+
+<table>
+    <tr>
+        <th>Domain</th>
+        <th>Typical Variables</th>
+        <th>Expected Relationships</th>
+        <th>Common Issues</th>
+    </tr>
+    <tr>
+        <td><strong>Education</strong></td>
+        <td>Enrollment, test scores, dropout rates</td>
+        <td>Income (+), Distance (-), Gender gaps</td>
+        <td>Seasonal attendance, quality measures</td>
+    </tr>
+    <tr>
+        <td><strong>Health</strong></td>
+        <td>Malnutrition, vaccination, mortality</td>
+        <td>Education (+), Income (+), Access (+)</td>
+        <td>Reporting accuracy, cultural practices</td>
+    </tr>
+    <tr>
+        <td><strong>Agriculture</strong></td>
+        <td>Yield, adoption rates, income</td>
+        <td>Rainfall (+), Extension (+), Credit (+)</td>
+        <td>Weather variability, market access</td>
+    </tr>
+    <tr>
+        <td><strong>Infrastructure</strong></td>
+        <td>Water access, electricity, roads</td>
+        <td>Investment (+), Governance (+)</td>
+        <td>Equity issues, maintenance quality</td>
+    </tr>
+</table>
+
+<h2>Statistical Significance vs. Practical Importance</h2>
+
+<div class="method-card">
+    <div class="two-column">
+        <div class="column">
+            <h3>Statistical Significance</h3>
+            <div class="interpretation-box">
+                <ul>
+                    <li><strong>p < 0.05:</strong> Result unlikely due to chance</li>
+                    <li><strong>Confidence intervals:</strong> Don't include null value</li>
+                    <li><strong>Sample size matters:</strong> Large n can make small effects significant</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="column">
+            <h3>Practical Importance</h3>
+            <div class="example-box">
+                <ul>
+                    <li><strong>Effect size:</strong> Is the change meaningful?</li>
+                    <li><strong>Cost-benefit:</strong> Worth the investment?</li>
+                    <li><strong>Policy relevance:</strong> Can we act on this?</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <p><span class="highlight">Example:</span> A 0.5% improvement in test scores might be statistically significant with n=10,000 students, but may not justify expensive interventions.</p>
+</div>
+
+<h2>Reporting Results for Different Audiences</h2>
+
+<table>
+    <tr>
+        <th>Audience</th>
+        <th>Focus On</th>
+        <th>Language</th>
+        <th>Visual Tools</th>
+    </tr>
+    <tr>
+        <td><strong>Policymakers</strong></td>
+        <td>Practical significance, cost implications</td>
+        <td>Plain language, avoid jargon</td>
+        <td>Simple charts, infographics</td>
+    </tr>
+    <tr>
+        <td><strong>Field Teams</strong></td>
+        <td>Implementation insights, local patterns</td>
+        <td>Operational terms</td>
+        <td>Maps, bar charts</td>
+    </tr>
+    <tr>
+        <td><strong>Researchers</strong></td>
+        <td>Statistical details, assumptions, limitations</td>
+        <td>Technical terminology</td>
+        <td>Detailed tables, diagnostic plots</td>
+    </tr>
+    <tr>
+        <td><strong>Donors</strong></td>
+        <td>Impact evidence, scalability</td>
+        <td>Results-focused</td>
+        <td>Before/after comparisons</td>
+    </tr>
+</table>
+
+<h2>Quick Diagnostic Checklist</h2>
+
+<div class="assumptions-box">
+    <h3>Before Analysis</h3>
+    <ul>
+        <li>□ <strong>Sample size adequate?</strong> (n ≥ 30 for correlation, 20+ per group for ANOVA)</li>
+        <li>□ <strong>Data quality checked?</strong> (outliers, missing data patterns)</li>
+        <li>□ <strong>Assumptions met?</strong> (normality, independence, homogeneity)</li>
+        <li>□ <strong>Variables appropriate?</strong> (measurement level, theoretical basis)</li>
+    </ul>
+    
+    <h3>During Interpretation</h3>
+    <ul>
+        <li>□ <strong>Statistical significance assessed?</strong> (p-values, confidence intervals)</li>
+        <li>□ <strong>Practical significance considered?</strong> (effect sizes, real-world meaning)</li>
+        <li>□ <strong>Cultural context applied?</strong> (South Asian development realities)</li>
+        <li>□ <strong>Limitations acknowledged?</strong> (assumptions, causation, generalizability)</li>
+    </ul>
+</div>
+
+<div style="text-align: center; margin-top: 20px; padding: 10px; background-color: #f8f9fa; border-radius: 5px;">
+    <strong>Remember:</strong> <span class="success">Good statistics serve development goals</span> – always connect findings back to improving lives in South Asian communities.
+</div>
+
+</body>
+</html>

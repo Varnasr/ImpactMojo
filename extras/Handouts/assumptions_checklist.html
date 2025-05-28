@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistical Assumptions Checklist & Troubleshooting Guide - South Asian Development Research</title>
+    <style>
+        @media print {
+            body { margin: 0.5in; }
+            .page-break { page-break-before: always; }
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.4;
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 15px;
+            background: white;
+            font-size: 11px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            font-size: 18px;
+        }
+        
+        h2 {
+            color: #8e44ad;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            border-left: 4px solid #9b59b6;
+            padding-left: 10px;
+        }
+        
+        h3 {
+            color: #e74c3c;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+        
+        h4 {
+            color: #34495e;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            font-size: 11px;
+        }
+        
+        .method-section {
+            border: 2px solid #3498db;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            background-color: #f8f9ff;
+            page-break-inside: avoid;
+        }
+        
+        .correlation-section {
+            border-color: #e74c3c;
+            background-color: #fff8f8;
+        }
+        
+        .anova-section {
+            border-color: #27ae60;
+            background-color: #f8fff8;
+        }
+        
+        .regression-section {
+            border-color: #f39c12;
+            background-color: #fffdf8;
+        }
+        
+        .checklist {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .violation-box {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .solution-box {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .warning-box {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .sa-context {
+            background-color: #e8f4f8;
+            border: 1px solid #bee5eb;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .diagnostic-test {
+            background-color: #f0f3ff;
+            border: 1px solid #6c757d;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 10px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 10px;
+        }
+        
+        th, td {
+            border: 1px solid #bdc3c7;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #ecf0f1;
+            font-weight: bold;
+        }
+        
+        .checkbox-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .checkbox-list li {
+            margin: 8px 0;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .checkbox-list li:before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            font-size: 14px;
+            color: #3498db;
+        }
+        
+        .two-column {
+            display: flex;
+            gap: 20px;
+            margin: 15px 0;
+        }
+        
+        .column {
+            flex: 1;
+        }
+        
+        .severity-high {
+            border-left: 4px solid #e74c3c;
+            background-color: #ffeaea;
+        }
+        
+        .severity-medium {
+            border-left: 4px solid #f39c12;
+            background-color: #fff8e1;
+        }
+        
+        .severity-low {
+            border-left: 4px solid #f1c40f;
+            background-color: #fffbf0;
+        }
+        
+        .flowchart {
+            background-color: #f5f5f5;
+            border: 1px solid #666;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 4px;
+            border-radius: 2px;
+            font-weight: bold;
+        }
+        
+        .critical {
+            background-color: #f8d7da;
+            padding: 2px 4px;
+            border-radius: 2px;
+            color: #721c24;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Statistical Assumptions Checklist & Troubleshooting Guide</h1>
+<p style="text-align: center; font-style: italic; margin-bottom: 25px;">
+    Practical guide for checking assumptions and handling violations in South Asian development research
+</p>
+
+<div class="sa-context">
+    <h2>Why Assumptions Matter in South Asian Development Research</h2>
+    <ul>
+        <li><strong>Data complexity:</strong> Development data often has outliers, skewness, and cultural patterns</li>
+        <li><strong>Policy implications:</strong> Wrong conclusions can lead to ineffective interventions</li>
+        <li><strong>Resource constraints:</strong> Limited data collection opportunities make validation crucial</li>
+        <li><strong>Ethical responsibility:</strong> Communities depend on accurate research for development programs</li>
+    </ul>
+</div>
+
+<div class="flowchart">
+    <h2>General Assumption-Checking Workflow</h2>
+    <ol>
+        <li><strong>Pre-analysis:</strong> Check data quality, sample size, variable types</li>
+        <li><strong>Assumption testing:</strong> Use diagnostic tests and visualizations</li>
+        <li><strong>Violation assessment:</strong> Determine severity and impact</li>
+        <li><strong>Choose solution:</strong> Transform data, use robust methods, or acknowledge limitations</li>
+        <li><strong>Document decisions:</strong> Report assumption tests and remedial actions</li>
+    </ol>
+</div>
+
+<div class="method-section correlation-section">
+    <h2>CORRELATION ANALYSIS ASSUMPTIONS</h2>
+    
+    <div class="checklist">
+        <h3>Pre-Analysis Checklist</h3>
+        <ul class="checkbox-list">
+            <li><strong>Sample size adequate:</strong> n ≥ 30 (prefer 100+ for stability)</li>
+            <li><strong>Data type appropriate:</strong> Both variables continuous for Pearson's r</li>
+            <li><strong>Paired observations:</strong> Each case has values for both variables</li>
+            <li><strong>Independence:</strong> Observations are independent of each other</li>
+        </ul>
+    </div>
+    
+    <h3>Assumption 1: Linearity</h3>
+    <div class="two-column">
+        <div class="column">
+            <div class="diagnostic-test">
+                <strong>How to Check:</strong><br>
+                • Create scatterplot of X vs Y<br>
+                • Look for straight-line pattern<br>
+                • Check residuals plot (if using regression)
+            </div>
+        </div>
+        <div class="column">
+            <div class="violation-box severity-medium">
+                <strong>Violation Signs:</strong><br>
+                • Curved pattern in scatterplot<br>
+                • U-shaped or inverted U-shape<br>
+                • Relationship changes direction
+            </div>
+        </div>
+    </div>
+    
+    <div class="solution-box">
+        <h4>Solutions for Non-linearity:</h4>
+        <ul>
+            <li><strong>Use Spearman's correlation</strong> (rank-based, handles curves better)</li>
+            <li><strong>Transform variables:</strong> Log, square root, or polynomial transformations</li>
+            <li><strong>Report non-linear relationship:</strong> Acknowledge curvilinear patterns</li>
+        </ul>
+    </div>
+    
+    <div class="sa-context">
+        <h4>South Asian Context:</h4>
+        <p><strong>Common non-linear relationships:</strong> Income vs health outcomes (diminishing returns at high income), Education vs fertility (steep decline then plateau), Distance vs service use (threshold effects)</p>
+    </div>
+    
+    <h3>Assumption 2: Normal Distribution</h3>
+    <div class="two-column">
+        <div class="column">
+            <div class="diagnostic-test">
+                <strong>How to Check:</strong><br>
+                • Histogram of each variable<br>
+                • Q-Q plots<br>
+                • Shapiro-Wilk test (n < 50)<br>
+                • Kolmogorov-Smirnov test (n ≥ 50)
+            </div>
+        </div>
+        <div class="column">
+            <div class="violation-box severity-low">
+                <strong>Violation Signs:</strong><br>
+                • Skewed distributions<br>
+                • Multiple peaks<br>
+                • Extreme outliers<br>
+                • p < 0.05 in normality tests
+            </div>
+        </div>
+    </div>
+    
+    <div class="solution-box">
+        <h4>Solutions for Non-normality:</h4>
+        <ul>
+            <li><strong>Large samples (n > 100):</strong> Correlation is robust to non-normality</li>
+            <li><strong>Use Spearman's correlation:</strong> Non-parametric alternative</li>
+            <li><strong>Transform variables:</strong> Log transformation for positive skew</li>
+        </ul>
+    </div>
+    
+    <h3>Assumption 3: Homoscedasticity (Equal Variance)</h3>
+    <div class="diagnostic-test">
+        <strong>How to Check:</strong> Look at scatterplot - variance should be similar across all X values
+    </div>
+    
+    <div class="violation-box severity-medium">
+        <strong>Violation (Heteroscedasticity) Signs:</strong> Fan-shaped pattern, variance increases/decreases with X
+    </div>
+    
+    <div class="solution-box">
+        <h4>Solutions:</h4>
+        <ul>
+            <li><strong>Transform Y variable:</strong> Log or square root transformation</li>
+            <li><strong>Use robust correlation methods</strong></li>
+            <li><strong>Report with caution:</strong> Note heteroscedasticity in interpretation</li>
+        </ul>
+    </div>
+    
+    <div class="sa-context">
+        <h4>South Asian Examples:</h4>
+        <p><strong>Income data:</strong> Often highly skewed (few very wealthy households). <strong>Agricultural yields:</strong> May have different variance across farm sizes. <strong>Education scores:</strong> Floor/ceiling effects common.</p>
+    </div>
+</div>
+
+<div class="method-section anova-section">
+    <h2>ANOVA ASSUMPTIONS</h2>
+    
+    <div class="checklist">
+        <h3>Pre-Analysis Checklist</h3>
+        <ul class="checkbox-list">
+            <li><strong>Sample size:</strong> At least 20 per group, prefer 30+</li>
+            <li><strong>Variable types:</strong> Continuous dependent, categorical independent</li>
+            <li><strong>Balanced design preferred:</strong> Similar group sizes</li>
+            <li><strong>Random sampling:</strong> Groups represent target populations</li>
+        </ul>
+    </div>
+    
+    <h3>Assumption 1: Independence of Observations</h3>
+    <div class="violation-box severity-high">
+        <strong>Critical Assumption - Violations Seriously Affect Results</strong>
+        <ul>
+            <li><strong>Common violations:</strong> Clustering (households in villages), repeated measures, matched pairs</li>
+            <li><strong>Signs:</strong> Data from same units/locations, pre-post measurements, family members</li>
+        </ul>
+    </div>
+    
+    <div class="solution-box">
+        <h4>Solutions for Dependence:</h4>
+        <ul>
+            <li><strong>Cluster-robust standard errors</strong></li>
+            <li><strong>Mixed-effects models</strong> (random effects for clusters)</li>
+            <li><strong>Repeated measures ANOVA</strong> (for time-series data)</li>
+            <li><strong>Aggregate to cluster level</strong> (village means instead of individual data)</li>
+        </ul>
+    </div>
+    
+    <div class="sa-context">
+        <h4>South Asian Context:</h4>
+        <p><strong>Village clustering:</strong> People in same village share infrastructure, weather, policies. <strong>Household clustering:</strong> Family members share economic conditions. <strong>Regional clustering:</strong> States/districts have different governance.</p>
+    </div>
+    
+    <h3>Assumption 2: Normality of Residuals</h3>
+    <div class="two-column">
+        <div class="column">
+            <div class="diagnostic-test">
+                <strong>How to Check:</strong><br>
+                • Histogram of residuals<br>
+                • Q-Q plot of residuals<br>
+                • Shapiro-Wilk test on residuals<br>
+                • Check each group separately
+            </div>
+        </div>
+        <div class="column">
+            <div class="violation-box severity-medium">
+                <strong>Violation Signs:</strong><br>
+                • Skewed residual distribution<br>
+                • Heavy tails in Q-Q plot<br>
+                • Significant normality test<br>
+                • Different shapes across groups
+            </div>
+        </div>
+    </div>
+    
+    <div class="solution-box">
+        <h4>Solutions for Non-normality:</h4>
+        <ul>
+            <li><strong>Large samples:</strong> ANOVA is robust with n > 30 per group</li>
+            <li><strong>Transform dependent variable:</strong> Log, square root, or Box-Cox</li>
+            <li><strong>Non-parametric alternative:</strong> Kruskal-Wallis test</li>
+            <li><strong>Bootstrap confidence intervals</strong></li>
+        </ul>
+    </div>
+    
+    <h3>Assumption 3: Homogeneity of Variance (Homoscedasticity)</h3>
+    <div class="two-column">
+        <div class="column">
+            <div class="diagnostic-test">
+                <strong>How to Check:</strong><br>
+                • Levene's test<br>
+                • Bartlett's test (sensitive to normality)<br>
+                • Box plot comparison<br>
+                • Residuals vs fitted values plot
+            </div>
+        </div>
+        <div class="column">
+            <div class="violation-box severity-medium">
+                <strong>Violation Signs:</strong><br>
+                • Significant Levene's test (p < 0.05)<br>
+                • Very different group variances<br>
+                • Rule of thumb: largest/smallest variance > 4:1
+            </div>
+        </div>
+    </div>
+    
+    <div class="solution-box">
+        <h4>Solutions for Unequal Variances:</h4>
+        <ul>
+            <li><strong>Welch's ANOVA:</strong> Doesn't assume equal variances</li>
+            <li><strong>Transform dependent variable:</strong> May stabilize variances</li>
+            <li><strong>Non-parametric test:</strong> Kruskal-Wallis</li>
+            <li><strong>Robust ANOVA methods</strong></li>
+        </ul>
+    </div>
+    
+    <div class="sa-context">
+        <h4>South Asian Development Examples:</h4>
+        <p><strong>Income data:</strong> Control groups often have less variance than treatment groups. <strong>Test scores:</strong> Rural vs urban schools may have very different variance. <strong>Agricultural yields:</strong> Irrigated vs rain-fed areas show different variability.</p>
+    </div>
+    
+    <div class="warning-box">
+        <h3>Special Considerations for Development Data</h3>
+        <ul>
+            <li><strong>Unequal group sizes:</strong> Common in field studies - ANOVA still valid but less powerful</li>
+            <li><strong>Missing data:</strong> May not be random - check if missingness relates to treatment</li>
+            <li><strong>Outliers:</strong> May represent genuinely successful/failed cases, not just errors</li>
+        </ul>
+    </div>
+</div>
+
+<div class="page-break"></div>
+
+<div class="method-section regression-section">
+    <h2>REGRESSION ANALYSIS ASSUMPTIONS</h2>
+    
+    <div class="checklist">
+        <h3>Pre-Analysis Checklist</h3>
+        <ul class="checkbox-list">
+            <li><strong>Sample size:</strong> Minimum 10-15 observations per predictor</li>
+            <li><strong>Variable relationships:</strong> Theory-driven variable selection</li>
+            <li><strong>Multicollinearity check:</strong> Correlations between predictors < 0.8</li>
+            <li><strong>Complete case analysis:</strong> Handle missing data appropriately</li>
+        </ul>
+    </div>
+    
+    <h3>Assumption 1: Linearity</h3>
+    <div class="two-column">
+        <div class="column">
+            <div class="diagnostic-test">
+                <strong>How to Check:</strong><br>
+                • Scatterplots of Y vs each X<br>
+                • Residuals vs fitted values plot<br>
+                • Component-plus-residual plots<br>
+                • Added variable plots
+            </div>
+        </div>
+        <div class="column">
+            <div class="violation-box severity-high">
+                <strong>Violation Signs:</strong><br>
+                • Curved patterns in scatterplots<br>
+                • Systematic patterns in residuals<br>
+                • Poor model fit despite significance
+            </div>
+        </div>
+    </div>
+    
+    <div class="solution-box">
+        <h4>Solutions for Non-linearity:</h4>
+        <ul>
+            <li><strong>Add polynomial terms:</strong> X², X³ for curved relationships</li>
+            <li><strong>Transform variables:</strong> Log, square root transformations</li>
+            <li><strong>Piecewise regression:</strong> Different slopes for different ranges</li>
+            <li><strong>Non-linear regression models</strong></li>
+        </ul>
+    </div>
+    
+    <h3>Assumption 2: Independence of Residuals</h3>
+    <div class="violation-box severity-high">
+        <strong>Critical Assumption - Often Violated in Development Data</strong>
+        <ul>
+            <li><strong>Spatial dependence:</strong> Villages in same district are similar</li>
+            <li><strong>Temporal dependence:</strong> Observations over time are correlated</li>
+            <li><strong>Hierarchical structure:</strong> Students within schools, households within villages</li>
+        </ul>
+    </div>
+    
+    <div class="solution-box">
+        <h4>Solutions for Dependence:</h4>
+        <ul>
+            <li><strong>Cluster-robust standard errors</strong></li>
+            <li><strong>Multilevel/hierarchical models</strong></li>
+            <li><strong>Fixed effects models</strong> (control for unobserved group characteristics)</li>
+            <li><strong>Spatial regression models</strong> (for geographic data)</li>
+        </ul>
+    </div>
+    
+    <h3>Assumption 3: Homoscedasticity</h3>
+    <div class="two-column">
+        <div class="column">
+            <div class="diagnostic-test">
+                <strong>How to Check:</strong><br>
+                • Residuals vs fitted values plot<br>
+                • Breusch-Pagan test<br>
+                • White test<br>
+                • Plot residuals vs each predictor
+            </div>
+        </div>
+        <div class="column">
+            <div class="violation-box severity-medium">
+                <strong>Violation Signs:</strong><br>
+                • Fan-shaped residual pattern<br>
+                • Variance increases with fitted values<br>
+                • Significant heteroscedasticity tests
+            </div>
+        </div>
+    </div>
+    
+    <div class="solution-box">
+        <h4>Solutions for Heteroscedasticity:</h4>
+        <ul>
+            <li><strong>Robust standard errors</strong> (White/Huber-White)</li>
+            <li><strong>Weighted least squares</strong></li>
+            <li><strong>Transform dependent variable</strong> (log transformation often helps)</li>
+            <li><strong>Generalized least squares models</strong></li>
+        </ul>
+    </div>
+    
+    <h3>Assumption 4: Normality of Residuals</h3>
+    <div class="diagnostic-test">
+        <strong>How to Check:</strong> Histogram of residuals, Q-Q plot, Shapiro-Wilk test (on residuals, not original data)
+    </div>
+    
+    <div class="solution-box">
+        <h4>Solutions for Non-normal Residuals:</h4>
+        <ul>
+            <li><strong>Large samples:</strong> Regression is robust with n > 100</li>
+            <li><strong>Bootstrap confidence intervals</strong></li>
+            <li><strong>Transform dependent variable</strong></li>
+            <li><strong>Robust regression methods</strong></li>
+        </ul>
+    </div>
+    
+    <h3>Assumption 5: No Multicollinearity</h3>
+    <div class="two-column">
+        <div class="column">
+            <div class="diagnostic-test">
+                <strong>How to Check:</strong><br>
+                • Correlation matrix of predictors<br>
+                • Variance Inflation Factor (VIF)<br>
+                • Condition indices<br>
+                • Tolerance values
+            </div>
+        </div>
+        <div class="column">
+            <div class="violation-box severity-medium">
+                <strong>Violation Signs:</strong><br>
+                • High correlations (|r| > 0.8)<br>
+                • VIF > 5 (some say > 10)<br>
+                • Tolerance < 0.2<br>
+                • Unstable coefficients
+            </div>
+        </div>
+    </div>
+    
+    <div class="solution-box">
+        <h4>Solutions for Multicollinearity:</h4>
+        <ul>
+            <li><strong>Remove redundant variables</strong></li>
+            <li><strong>Create composite indices</strong> (combine related variables)</li>
+            <li><strong>Principal component analysis</strong></li>
+            <li><strong>Ridge regression</strong> (handles collinearity better)</li>
+        </ul>
+    </div>
+    
+    <div class="sa-context">
+        <h4>Common Multicollinearity in South Asian Development:</h4>
+        <p><strong>Education & Income:</strong> Highly correlated. <strong>Infrastructure variables:</strong> Water, electricity, roads often bundled. <strong>Health indicators:</strong> Multiple nutrition measures. <strong>Geographic variables:</strong> Rainfall, temperature, elevation may be collinear.</p>
+    </div>
+    
+    <h3>Assumption 6: No Influential Outliers</h3>
+    <div class="two-column">
+        <div class="column">
+            <div class="diagnostic-test">
+                <strong>How to Check:</strong><br>
+                • Cook's distance (> 1 problematic)<br>
+                • Leverage values (> 2k/n)<br>
+                • Studentized residuals (> ±3)<br>
+                • DFBETAS (> 2/√n)
+            </div>
+        </div>
+        <div class="column">
+            <div class="violation-box severity-medium">
+                <strong>Outlier Types:</strong><br>
+                • High leverage (unusual X values)<br>
+                • High residual (unusual Y values)<br>
+                • High influence (affects coefficients)<br>
+                • May be genuine or errors
+            </div>
+        </div>
+    </div>
+    
+    <div class="solution-box">
+        <h4>Handling Outliers:</h4>
+        <ul>
+            <li><strong>Investigate first:</strong> Are they data errors or genuine cases?</li>
+            <li><strong>Robust regression:</strong> Less sensitive to outliers</li>
+            <li><strong>Transform variables:</strong> May reduce outlier impact</li>
+            <li><strong>Report sensitivity:</strong> Results with and without outliers</li>
+        </ul>
+    </div>
+    
+    <div class="sa-context">
+        <h4>Outliers in Development Data:</h4>
+        <p><strong>Success stories:</strong> Exceptionally successful interventions. <strong>Extreme poverty:</strong> Households with very low income/assets. <strong>Urban-rural differences:</strong> Urban areas in rural samples. <strong>Data errors:</strong> Recording mistakes, unit confusion.</p>
+    </div>
+</div>
+
+<div class="warning-box">
+    <h2>Assumption Violation Severity Guide</h2>
+    <table>
+        <tr>
+            <th>Assumption</th>
+            <th>Method</th>
+            <th>Severity if Violated</th>
+            <th>Primary Consequence</th>
+        </tr>
+        <tr>
+            <td>Independence</td>
+            <td>All methods</td>
+            <td><span class="critical">CRITICAL</span></td>
+            <td>Invalid p-values, wrong conclusions</td>
+        </tr>
+        <tr>
+            <td>Linearity</td>
+            <td>Correlation, Regression</td>
+            <td><span class="highlight">HIGH</span></td>
+            <td>Missed relationships, poor predictions</td>
+        </tr>
+        <tr>
+            <td>Normality</td>
+            <td>All methods</td>
+            <td>MEDIUM (with large n)</td>
+            <td>Slightly inaccurate p-values</td>
+        </tr>
+        <tr>
+            <td>Homoscedasticity</td>
+            <td>ANOVA, Regression</td>
+            <td>MEDIUM</td>
+            <td>Inefficient estimates, wrong SE</td>
+        </tr>
+        <tr>
+            <td>Multicollinearity</td>
+            <td>Regression</td>
+            <td>MEDIUM</td>
+            <td>Unstable coefficients, interpretation issues</td>
+        </tr>
+    </table>
+</div>
+
+<div class="sa-context">
+    <h2>South Asian Development Data: Common Issues & Solutions</h2>
+    
+    <h3>Typical Data Challenges</h3>
+    <table>
+        <tr>
+            <th>Challenge</th>
+            <th>Description</th>
+            <th>Statistical Impact</th>
+            <th>Recommended Solution</th>
+        </tr>
+        <tr>
+            <td><strong>Seasonal effects</strong></td>
+            <td>Agricultural data varies by monsoon</td>
+            <td>Non-independence, heteroscedasticity</td>
+            <td>Include season controls, cluster by year</td>
+        </tr>
+        <tr>
+            <td><strong>Village clustering</strong></td>
+            <td>Households in same village are similar</td>
+            <td>Independence violation</td>
+            <td>Cluster-robust SE, multilevel models</td>
+        </tr>
+        <tr>
+            <td><strong>Extreme inequality</strong></td>
+            <td>Very skewed income distributions</td>
+            <td>Non-normality, outliers</td>
+            <td>Log transformation, robust methods</td>
+        </tr>
+        <tr>
+            <td><strong>Missing data patterns</strong></td>
+            <td>Non-random missingness</td>
+            <td>Selection bias</td>
+            <td>Multiple imputation, selection models</td>
+        </tr>
+        <tr>
+            <td><strong>Floor/ceiling effects</strong></td>
+            <td>Many zero values or maximum scores</td>
+            <td>Non-normality, non-linearity</td>
+            <td>Tobit models, transformations</td>
+        </tr>
+    </table>
+    
+    <h3>Practical Recommendations</h3>
+    <ul>
+        <li><strong>Always plot your data first:</strong> Visual inspection catches many issues</li>
+        <li><strong>Use robust methods when possible:</strong> They handle assumption violations better</li>
+        <li><strong>Report assumption tests:</strong> Build credibility by acknowledging limitations</li>
+        <li><strong>Consider cultural context:</strong> Statistical significance must align with practical meaning</li>
+        <li><strong>Validate with domain experts:</strong> Local knowledge helps interpret statistical findings</li>
+    </ul>
+</div>
+
+<div style="text-align: center; margin-top: 25px; padding: 15px; background-color: #d1ecf1; border-radius: 5px;">
+    <h3>Remember: Perfect Data Doesn't Exist</h3>
+    <p>The goal is not to meet every assumption perfectly, but to:</p>
+    <ul style="text-align: left; display: inline-block;">
+        <li>Check assumptions systematically</li>
+        <li>Address serious violations</li>
+        <li>Report limitations honestly</li>
+        <li>Choose methods appropriate for your data</li>
+        <li>Interpret results in context</li>
+    </ul>
+</div>
+
+</body>
+</html>
