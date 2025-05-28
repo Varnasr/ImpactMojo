@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bivariate Analysis Quick Reference - Decision Guide</title>
+    <style>
+        @media print {
+            body { margin: 0.25in; }
+            .card { page-break-inside: avoid; }
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.3;
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 15px;
+            background: white;
+            font-size: 10px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        
+        .decision-flowchart {
+            background-color: #f8f9fa;
+            border: 2px solid #34495e;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .flowchart-header {
+            text-align: center;
+            font-weight: bold;
+            font-size: 12px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 8px;
+        }
+        
+        .method-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .method-card {
+            border: 2px solid #3498db;
+            border-radius: 6px;
+            padding: 12px;
+            background: white;
+            min-height: 200px;
+        }
+        
+        .correlation-card {
+            border-color: #e74c3c;
+        }
+        
+        .regression-card {
+            border-color: #27ae60;
+        }
+        
+        .categorical-card {
+            border-color: #f39c12;
+        }
+        
+        .comparison-card {
+            border-color: #9b59b6;
+        }
+        
+        .card-header {
+            text-align: center;
+            font-weight: bold;
+            font-size: 11px;
+            margin-bottom: 8px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #bdc3c7;
+        }
+        
+        .correlation-card .card-header {
+            color: #e74c3c;
+            border-bottom-color: #e74c3c;
+        }
+        
+        .regression-card .card-header {
+            color: #27ae60;
+            border-bottom-color: #27ae60;
+        }
+        
+        .categorical-card .card-header {
+            color: #f39c12;
+            border-bottom-color: #f39c12;
+        }
+        
+        .comparison-card .card-header {
+            color: #9b59b6;
+            border-bottom-color: #9b59b6;
+        }
+        
+        .card-content {
+            font-size: 9px;
+            line-height: 1.2;
+        }
+        
+        .card-content ul {
+            margin: 4px 0;
+            padding-left: 12px;
+        }
+        
+        .card-content li {
+            margin-bottom: 3px;
+        }
+        
+        .when-to-use {
+            background-color: #e8f4f8;
+            padding: 6px;
+            margin: 6px 0;
+            border-radius: 4px;
+            font-size: 8px;
+        }
+        
+        .assumptions {
+            background-color: #fff3cd;
+            padding: 6px;
+            margin: 6px 0;
+            border-radius: 4px;
+            font-size: 8px;
+        }
+        
+        .interpretation {
+            background-color: #d4edda;
+            padding: 6px;
+            margin: 6px 0;
+            border-radius: 4px;
+            font-size: 8px;
+        }
+        
+        .south-asia-tip {
+            background-color: #f8d7da;
+            padding: 6px;
+            margin: 6px 0;
+            border-radius: 4px;
+            font-size: 8px;
+            font-style: italic;
+        }
+        
+        .decision-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 9px;
+        }
+        
+        .decision-table th,
+        .decision-table td {
+            border: 1px solid #bdc3c7;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        .decision-table th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .formula-summary {
+            background-color: #f0f8ff;
+            border: 1px solid #3498db;
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 9px;
+        }
+        
+        .troubleshooting {
+            background-color: #fff8e1;
+            border: 1px solid #ffc107;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .print-note {
+            background-color: #e8f5e8;
+            border: 1px solid #4caf50;
+            padding: 8px;
+            margin: 15px 0;
+            border-radius: 5px;
+            font-size: 9px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Bivariate Analysis Quick Reference</h1>
+<p style="text-align: center; font-style: italic; margin-bottom: 20px; font-size: 11px;">
+    Decision guide for choosing and interpreting two-variable analyses in South Asian development research
+</p>
+
+<div class="print-note">
+    <strong>Print & Use:</strong> Cut out method cards for field reference. Laminate for durability.
+</div>
+
+<div class="decision-flowchart">
+    <div class="flowchart-header">METHOD SELECTION FLOWCHART</div>
+    
+    <table class="decision-table">
+        <tr>
+            <th style="width: 25%;">Variable 1</th>
+            <th style="width: 25%;">Variable 2</th>
+            <th style="width: 25%;">Method</th>
+            <th style="width: 25%;">South Asian Example</th>
+        </tr>
+        <tr>
+            <td><strong>Continuous</strong><br>(Age, Income, Distance)</td>
+            <td><strong>Continuous</strong><br>(Test scores, Yield, Rate)</td>
+            <td><strong>Correlation</strong><br>+ Regression</td>
+            <td>Years of education × Monthly income</td>
+        </tr>
+        <tr>
+            <td><strong>Categorical</strong><br>(Gender, Caste, Region)</td>
+            <td><strong>Continuous</strong><br>(Income, Health score)</td>
+            <td><strong>t-test / ANOVA</strong></td>
+            <td>Urban/Rural × Household income</td>
+        </tr>
+        <tr>
+            <td><strong>Categorical</strong><br>(Treatment/Control)</td>
+            <td><strong>Categorical</strong><br>(Success/Failure)</td>
+            <td><strong>Chi-square test</strong></td>
+            <td>Training program × Job placement</td>
+        </tr>
+        <tr>
+            <td><strong>Continuous</strong><br>(Distance, Age, Score)</td>
+            <td><strong>Binary</strong><br>(Yes/No, Pass/Fail)</td>
+            <td><strong>Logistic Regression</strong></td>
+            <td>Distance to clinic × Vaccination (Y/N)</td>
+        </tr>
+    </table>
+</div>
+
+<div class="method-cards">
+
+<div class="method-card correlation-card">
+    <div class="card-header">CORRELATION ANALYSIS</div>
+    <div class="card-content">
+        
+        <div class="when-to-use">
+            <strong>When to use:</strong> Both variables continuous, want to measure relationship strength
+        </div>
+        
+        <strong>Coefficient ranges:</strong>
+        <ul>
+            <li>r = -1: Perfect negative</li>
+            <li>r = 0: No relationship</li>
+            <li>r = +1: Perfect positive</li>
+        </ul>
+        
+        <div class="interpretation">
+            <strong>Strength guide:</strong><br>
+            |r| < 0.3 = Weak<br>
+            0.3 ≤ |r| < 0.7 = Moderate<br>
+            |r| ≥ 0.7 = Strong
+        </div>
+        
+        <div class="assumptions">
+            <strong>Key assumptions:</strong><br>
+            • Linear relationship<br>
+            • Normal distribution<br>
+            • No extreme outliers
+        </div>
+        
+        <div class="south-asia-tip">
+            <strong>SA Context:</strong> Check for seasonal patterns, cultural factors affecting linearity
+        </div>
+    </div>
+</div>
+
+<div class="method-card regression-card">
+    <div class="card-header">SIMPLE REGRESSION</div>
+    <div class="card-content">
+        
+        <div class="when-to-use">
+            <strong>When to use:</strong> Want to predict one continuous variable from another
+        </div>
+        
+        <strong>Key outputs:</strong>
+        <ul>
+            <li>Slope (β₁): Change in Y per unit X</li>
+            <li>Intercept (β₀): Y when X = 0</li>
+            <li>R²: % variance explained</li>
+            <li>p-value: Statistical significance</li>
+        </ul>
+        
+        <div class="interpretation">
+            <strong>Model: Y = β₀ + β₁X</strong><br>
+            Slope interpretation: "For every 1-unit increase in X, Y changes by β₁ units"
+        </div>
+        
+        <div class="assumptions">
+            <strong>Check for:</strong><br>
+            • Linear relationship<br>
+            • Independence of residuals<br>
+            • Equal variance (homoscedasticity)<br>
+            • Normal residuals
+        </div>
+        
+        <div class="south-asia-tip">
+            <strong>SA Context:</strong> Consider clustering (villages, households), seasonal effects
+        </div>
+    </div>
+</div>
+
+<div class="method-card categorical-card">
+    <div class="card-header">CHI-SQUARE TEST</div>
+    <div class="card-content">
+        
+        <div class="when-to-use">
+            <strong>When to use:</strong> Both variables categorical, testing independence
+        </div>
+        
+        <strong>Hypotheses:</strong>
+        <ul>
+            <li>H₀: Variables are independent</li>
+            <li>H₁: Variables are associated</li>
+        </ul>
+        
+        <div class="interpretation">
+            <strong>If p < 0.05:</strong> Reject H₀<br>
+            Variables are significantly associated
+        </div>
+        
+        <div class="assumptions">
+            <strong>Requirements:</strong><br>
+            • Expected cell counts ≥ 5<br>
+            • Independent observations<br>
+            • Random sampling
+        </div>
+        
+        <div class="south-asia-tip">
+            <strong>SA Context:</strong> Be careful with caste/religion categories - ensure adequate sample sizes
+        </div>
+    </div>
+</div>
+
+<div class="method-card comparison-card">
+    <div class="card-header">T-TEST COMPARISON</div>
+    <div class="card-content">
+        
+        <div class="when-to-use">
+            <strong>When to use:</strong> Compare continuous outcome across 2 groups
+        </div>
+        
+        <strong>Types:</strong>
+        <ul>
+            <li>Independent samples: Different people</li>
+            <li>Paired samples: Same people, 2 times</li>
+        </ul>
+        
+        <div class="interpretation">
+            <strong>Effect size (Cohen's d):</strong><br>
+            0.2 = Small<br>
+            0.5 = Medium<br>
+            0.8 = Large effect
+        </div>
+        
+        <div class="assumptions">
+            <strong>Check for:</strong><br>
+            • Normal distribution in each group<br>
+            • Equal variances (Levene's test)<br>
+            • Independent observations
+        </div>
+        
+        <div class="south-asia-tip">
+            <strong>SA Context:</strong> Consider cultural factors in group differences (urban/rural, gender roles)
+        </div>
+    </div>
+</div>
+
+</div>
+
+<div class="formula-summary">
+    <div style="text-align: center; font-weight: bold; margin-bottom: 10px;">ESSENTIAL FORMULAS</div>
+    
+    <strong>Correlation:</strong> r = Σ(xi - x̄)(yi - ȳ) / √[Σ(xi - x̄)²Σ(yi - ȳ)²]<br><br>
+    
+    <strong>Regression:</strong> Y = β₀ + β₁X where β₁ = r(sy/sx)<br><br>
+    
+    <strong>t-statistic:</strong> t = (x̄₁ - x̄₂) / SE<br><br>
+    
+    <strong>Chi-square:</strong> χ² = Σ[(Observed - Expected)² / Expected]<br><br>
+    
+    <strong>Effect size:</strong> d = (Mean₁ - Mean₂) / Pooled SD
+</div>
+
+<div class="decision-flowchart">
+    <div class="flowchart-header">SAMPLE SIZE GUIDELINES</div>
+    
+    <table class="decision-table">
+        <tr>
+            <th>Method</th>
+            <th>Minimum Sample</th>
+            <th>Recommended</th>
+            <th>Notes</th>
+        </tr>
+        <tr>
+            <td>Correlation</td>
+            <td>n ≥ 30</td>
+            <td>n ≥ 100</td>
+            <td>Larger samples for stability</td>
+        </tr>
+        <tr>
+            <td>Regression</td>
+            <td>n ≥ 50</td>
+            <td>n ≥ 100</td>
+            <td>More observations = better predictions</td>
+        </tr>
+        <tr>
+            <td>t-test</td>
+            <td>n ≥ 15 per group</td>
+            <td>n ≥ 30 per group</td>
+            <td>Equal group sizes preferred</td>
+        </tr>
+        <tr>
+            <td>Chi-square</td>
+            <td>Expected ≥ 5 per cell</td>
+            <td>Expected ≥ 10 per cell</td>
+            <td>Fisher's exact for small samples</td>
+        </tr>
+    </tbody>
+    </table>
+</div>
+
+<div class="troubleshooting">
+    <div style="font-weight: bold; margin-bottom: 10px;">TROUBLESHOOTING COMMON ISSUES</div>
+    
+    <strong>Problem: Non-linear relationship</strong><br>
+    ➤ Try log transformation or Spearman correlation<br><br>
+    
+    <strong>Problem: Outliers affecting results</strong><br>
+    ➤ Check if outliers are data errors or genuine cases<br>
+    ➤ Report results with and without outliers<br><br>
+    
+    <strong>Problem: Assumption violations</strong><br>
+    ➤ Use robust methods (non-parametric tests)<br>
+    ➤ Bootstrap confidence intervals<br><br>
+    
+    <strong>Problem: Small sample size</strong><br>
+    ➤ Use exact tests (Fisher's exact for chi-square)<br>
+    ➤ Focus on effect sizes rather than p-values<br><br>
+    
+    <strong>Problem: Missing data</strong><br>
+    ➤ Check if missing is random<br>
+    ➤ Consider implications for generalizability
+</div>
+
+<div class="decision-flowchart">
+    <div class="flowchart-header">INTERPRETATION CHECKLIST</div>
+    
+    <div style="font-size: 10px;">
+        <strong>□ Statistical significance:</strong> Is p-value < 0.05?<br>
+        <strong>□ Practical significance:</strong> Is the effect size meaningful?<br>
+        <strong>□ Confidence intervals:</strong> What's the range of plausible values?<br>
+        <strong>□ Assumptions met:</strong> Are statistical assumptions satisfied?<br>
+        <strong>□ Context considered:</strong> Does result make sense in SA development context?<br>
+        <strong>□ Causation vs correlation:</strong> Are you claiming causation appropriately?<br>
+        <strong>□ Generalizability:</strong> Can findings apply to broader population?<br>
+        <strong>□ Policy implications:</strong> What actions does this suggest?
+    </div>
+</div>
+
+<div class="south-asia-tip" style="margin: 20px 0; padding: 15px;">
+    <div style="font-weight: bold; text-align: center; margin-bottom: 10px;">SOUTH ASIAN DEVELOPMENT CONTEXT REMINDERS</div>
+    
+    <strong>• Cultural factors:</strong> Consider how social norms affect variable relationships<br>
+    <strong>• Seasonal patterns:</strong> Agricultural and monsoon cycles affect many outcomes<br>
+    <strong>• Geographic clustering:</strong> Villages/districts may be more similar than random<br>
+    <strong>• Gender dynamics:</strong> Male-female differences may reflect structural inequalities<br>
+    <strong>• Caste/class effects:</strong> Social hierarchies influence access and outcomes<br>
+    <strong>• Informal economy:</strong> Many relationships may not follow formal sector patterns<br>
+    <strong>• Policy context:</strong> Government programs and policies affect variable relationships
+</div>
+
+<div style="text-align: center; margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 5px; font-size: 9px;">
+    <strong>Bivariate Analysis Quick Reference | ImpactMojo Knowledge Series</strong><br>
+    Licensed under CC BY-NC-SA 4.0 | For educational use with attribution<br>
+    Part of the OpenStacks initiative for development education
+</div>
+
+</body>
+</html>
