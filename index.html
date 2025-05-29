@@ -15,6 +15,42 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    /* Skip link for keyboard navigation */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 6px;
+      background: var(--primary-color);
+      color: white;
+      padding: 8px;
+      text-decoration: none;
+      border-radius: 4px;
+      z-index: 9999;
+      font-weight: bold;
+    }
+    
+    .skip-link:focus {
+      top: 6px;
+    }
+
+    /* Respect reduced motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      
+      .course-card:hover {
+        transform: none;
+      }
+      
+      .fab-btn:hover,
+      .theme-toggle:hover {
+        transform: none;
+      }
+    }
+
     :root {
       --primary-color: #2c3e50;
       --accent-color: #e74c3c;
@@ -31,18 +67,53 @@
       --shadow-hover: 0 4px 20px rgba(0,0,0,0.15);
       --border-radius: 12px;
       --transition: all 0.3s ease;
+      --focus-color: #4a90e2;
     }
 
     body.dark {
-      --light-bg: #1e1e1e;
-      --card-bg: #2a2a2a;
+      --light-bg: #1a1a1a;
+      --card-bg: #2d2d2d;
       --border-color: #404040;
-      --text-primary: #eee;
-      --text-secondary: #aaa;
+      --text-primary: #f0f0f0;
+      --text-secondary: #b8b8b8;
       --info-color: #bb86fc;
       --secondary-color: #60a5fa;
       --shadow: 0 2px 12px rgba(0,0,0,0.3);
       --shadow-hover: 0 4px 20px rgba(0,0,0,0.4);
+    }
+
+    /* Screen reader only text */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Enhanced focus indicators for accessibility */
+    *:focus {
+      outline: 2px solid var(--focus-color);
+      outline-offset: 2px;
+    }
+
+    button:focus,
+    a:focus,
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: 2px solid var(--focus-color);
+      outline-offset: 2px;
+      box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.2);
+    }
+
+    .course-card:focus-within {
+      outline: 2px solid var(--focus-color);
+      outline-offset: 2px;
     }
 
     * {
@@ -1057,26 +1128,30 @@
 </head>
 <body>
 
-<div class="header">
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<header class="header" role="banner">
   <div class="container">
-    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark/light theme" aria-label="Toggle dark and light theme">🌙</button>
     <h1>ImpactMojo 101 Knowledge Series</h1>
     <p><strong>ImpactMojo</strong> is a curated library of full-length knowledge decks that explore justice, equity, and development practice in India and South Asia. Each one is grounded in theory, applied in context, and ready for real-world use by educators, practitioners, and social researchers.</p>
   </div>
-</div>
+</header>
 
 <!-- Floating Action Buttons -->
-<div class="fab-container">
-  <button class="fab-btn feedback" onclick="openModal('feedbackModal')" title="Give Feedback">
-    <i class="fas fa-comment"></i>
+<aside class="fab-container" role="complementary" aria-label="Contact options">
+  <button class="fab-btn feedback" onclick="openModal('feedbackModal')" title="Give feedback about ImpactMojo" aria-label="Give feedback about ImpactMojo">
+    <i class="fas fa-comment" aria-hidden="true"></i>
   </button>
-  <button class="fab-btn suggest" onclick="openModal('suggestModal')" title="Suggest Course">
-    <i class="fas fa-lightbulb"></i>
+  <button class="fab-btn suggest" onclick="openModal('suggestModal')" title="Suggest a new course" aria-label="Suggest a new course">
+    <i class="fas fa-lightbulb" aria-hidden="true"></i>
   </button>
-  <button class="fab-btn question" onclick="openModal('questionModal')" title="Ask Question">
-    <i class="fas fa-question"></i>
+  <button class="fab-btn question" onclick="openModal('questionModal')" title="Ask a question" aria-label="Ask a question">
+    <i class="fas fa-question" aria-hidden="true"></i>
   </button>
-</div>
+</aside>
+
+<main id="main-content" role="main">
 
 <div class="container">
   <!-- Latest Additions Box -->
@@ -1117,10 +1192,10 @@
     </div>
   </div>
 
-  <div class="search-filters">
+  <div class="search-filters" role="search" aria-label="Course search and filters">
     <div class="search-box">
-      <i class="fas fa-search"></i>
-      <input type="text" id="searchInput" placeholder="Search courses by title, description, or keywords...">
+      <i class="fas fa-search" aria-hidden="true"></i>
+      <input type="text" id="searchInput" placeholder="Search courses by title, description, or keywords..." aria-label="Search courses by title, description, or keywords">
     </div>
     
     <div class="filters-row">
@@ -1174,15 +1249,15 @@
   </div>
 
   <div class="stats-bar">
-    <div class="course-count" id="courseCount">
+    <div class="course-count" id="courseCount" role="status" aria-live="polite">
       Showing <span id="visibleCount">32</span> of <span id="totalCount">32</span> courses
     </div>
-    <div class="view-toggle">
-      <button class="view-btn active" onclick="toggleView('grid')" title="Grid view">
-        <i class="fas fa-th"></i>
+    <div class="view-toggle" role="group" aria-label="View options">
+      <button class="view-btn active" onclick="toggleView('grid')" title="Grid view" aria-label="Switch to grid view" aria-pressed="true">
+        <i class="fas fa-th" aria-hidden="true"></i>
       </button>
-      <button class="view-btn" onclick="toggleView('list')" title="List view">
-        <i class="fas fa-list"></i>
+      <button class="view-btn" onclick="toggleView('list')" title="List view" aria-label="Switch to list view" aria-pressed="false">
+        <i class="fas fa-list" aria-hidden="true"></i>
       </button>
     </div>
   </div>
@@ -2059,56 +2134,56 @@
     <p style="font-size: 0.85rem; opacity: 0.8; margin-top: 1rem;">No spam, just course updates. Unsubscribe anytime.</p>
   </div>
 
-  <div class="author">
-    <img src="assets/images/varna-photo.jpg" alt="Dr. Varna Sri Raman" class="author-photo">
+  <section class="author" aria-labelledby="author-heading">
+    <img src="assets/images/varna-photo.jpg" alt="Portrait of Dr. Varna Sri Raman, founder of ImpactMojo" class="author-photo">
     <div class="author-content">
-      <h3>About Dr. Varna Sri Raman</h3>
+      <h3 id="author-heading">About Dr. Varna Sri Raman</h3>
       <p>Dr. Varna Sri Raman is a development economist, educator, and social researcher with two decades of experience across education, livelihoods, gender, climate, health, and other public systems in South Asia. She is the founder and chief curator of OpenStacks — an open knowledge ecosystem for the development sector.</p>
       
       <a href="mailto:varna.sr@gmail.com?subject=Coaching%20Request&body=Hi%20Varna,%0D%0A%0D%0AI'm%20interested%20in%20learning%20more%20about%20your%20coaching%20services.%0D%0A%0D%0APlease%20let%20me%20know%20your%20availability%20and%20rates.%0D%0A%0D%0AThank%20you!" class="coaching-cta">
-        <i class="fas fa-calendar-alt"></i> Book Coaching Session
+        <i class="fas fa-calendar-alt" aria-hidden="true"></i> Book Coaching Session
       </a>
       
       <div class="author-links">
-        <a href="https://www.threads.net/@varnasriraman" target="_blank">
-          <i class="fab fa-threads"></i> Threads
+        <a href="https://www.threads.net/@varnasriraman" target="_blank" rel="noopener">
+          <i class="fab fa-threads" aria-hidden="true"></i> Threads
         </a>
-        <a href="https://www.linkedin.com/in/varna" target="_blank">
-          <i class="fab fa-linkedin"></i> LinkedIn
+        <a href="https://www.linkedin.com/in/varna" target="_blank" rel="noopener">
+          <i class="fab fa-linkedin" aria-hidden="true"></i> LinkedIn
         </a>
-        <a href="https://vfolio.notion.site/" target="_blank">
-          <i class="fas fa-portfolio"></i> Portfolio
+        <a href="https://vfolio.notion.site/" target="_blank" rel="noopener">
+          <i class="fas fa-portfolio" aria-hidden="true"></i> Portfolio
         </a>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="footer">
+  <footer class="footer" role="contentinfo">
     <p>Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>. Free to use with attribution, for non-commercial purposes.</p>
     <p>Contact: <a href="mailto:varna.sr@gmail.com">varna.sr@gmail.com</a> · <a href="https://www.impactmojo.in">www.impactmojo.in</a></p>
     <p>This repository is part of <a href="https://openstacks.dev">OpenStacks</a>, a collective initiative to build reusable learning tools for the social sector.</p>
     <p><a href="https://github.com/Varnasr/ImpactMojo">View on GitHub</a></p>
-  </div>
-</div>
+  </footer>
+</main>
 
 <!-- Modals -->
 <!-- Feedback Modal -->
-<div id="feedbackModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal('feedbackModal')">&times;</span>
-    <h2>Share Your Feedback</h2>
+<div id="feedbackModal" class="modal" role="dialog" aria-labelledby="feedback-title" aria-hidden="true">
+  <div class="modal-content" role="document">
+    <span class="close" onclick="closeModal('feedbackModal')" aria-label="Close feedback form">&times;</span>
+    <h2 id="feedback-title">Share Your Feedback</h2>
     <form action="https://formspree.io/f/xpwdvgzp" method="POST">
       <div class="form-group">
-        <label for="feedbackName">Your Name</label>
-        <input type="text" id="feedbackName" name="name" required>
+        <label for="feedbackName">Your Name <span aria-label="required">*</span></label>
+        <input type="text" id="feedbackName" name="name" required aria-required="true">
       </div>
       <div class="form-group">
-        <label for="feedbackEmail">Your Email</label>
-        <input type="email" id="feedbackEmail" name="email" required>
+        <label for="feedbackEmail">Your Email <span aria-label="required">*</span></label>
+        <input type="email" id="feedbackEmail" name="email" required aria-required="true">
       </div>
       <div class="form-group">
-        <label for="feedbackType">Feedback Type</label>
-        <select id="feedbackType" name="type" required>
+        <label for="feedbackType">Feedback Type <span aria-label="required">*</span></label>
+        <select id="feedbackType" name="type" required aria-required="true">
           <option value="">Select type...</option>
           <option value="general">General Feedback</option>
           <option value="bug">Bug Report</option>
@@ -2117,8 +2192,8 @@
         </select>
       </div>
       <div class="form-group">
-        <label for="feedbackMessage">Your Feedback</label>
-        <textarea id="feedbackMessage" name="message" placeholder="Please share your thoughts, suggestions, or report any issues..." required></textarea>
+        <label for="feedbackMessage">Your Feedback <span aria-label="required">*</span></label>
+        <textarea id="feedbackMessage" name="message" placeholder="Please share your thoughts, suggestions, or report any issues..." required aria-required="true"></textarea>
       </div>
       <input type="hidden" name="_subject" value="ImpactMojo Feedback">
       <button type="submit" class="submit-btn">Send Feedback</button>
@@ -2194,6 +2269,7 @@ let allCourses = [];
 let bookmarkedCourses = JSON.parse(localStorage.getItem('bookmarkedCourses') || '[]');
 let currentView = 'grid';
 let recentlyViewed = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
+let searchTimeout;
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
@@ -2202,8 +2278,11 @@ document.addEventListener('DOMContentLoaded', function() {
   loadBookmarks();
   loadRecentlyViewed();
   
-  // Add search functionality
-  document.getElementById('searchInput').addEventListener('input', filterDecks);
+  // Add search functionality with debouncing for accessibility
+  document.getElementById('searchInput').addEventListener('input', function() {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(filterDecks, 300); // Debounce for 300ms
+  });
   
   // Apply theme from localStorage
   const savedTheme = localStorage.getItem("theme");
@@ -2291,8 +2370,13 @@ function toggleView(view) {
   const container = document.getElementById('courseContainer');
   const buttons = document.querySelectorAll('.view-btn');
   
-  buttons.forEach(btn => btn.classList.remove('active'));
+  buttons.forEach(btn => {
+    btn.classList.remove('active');
+    btn.setAttribute('aria-pressed', 'false');
+  });
+  
   event.target.classList.add('active');
+  event.target.setAttribute('aria-pressed', 'true');
   
   if (view === 'grid') {
     container.className = 'courses-grid';
@@ -2372,15 +2456,75 @@ function loadRecentlyViewed() {
   }
 }
 
-// Modal functions
+// Modal functions with accessibility improvements
+let lastFocusedElement = null;
+
 function openModal(modalId) {
-  document.getElementById(modalId).style.display = 'block';
+  // Store the element that opened the modal
+  lastFocusedElement = document.activeElement;
+  
+  const modal = document.getElementById(modalId);
+  modal.style.display = 'block';
+  modal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
+  
+  // Focus the first input in the modal
+  setTimeout(() => {
+    const firstInput = modal.querySelector('input, textarea, select');
+    if (firstInput) {
+      firstInput.focus();
+    }
+  }, 100);
+  
+  // Add keyboard event listener for ESC key
+  modal.addEventListener('keydown', handleModalKeydown);
 }
 
 function closeModal(modalId) {
-  document.getElementById(modalId).style.display = 'none';
+  const modal = document.getElementById(modalId);
+  modal.style.display = 'none';
+  modal.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = 'auto';
+  
+  // Return focus to the element that opened the modal
+  if (lastFocusedElement) {
+    lastFocusedElement.focus();
+    lastFocusedElement = null;
+  }
+  
+  modal.removeEventListener('keydown', handleModalKeydown);
+}
+
+function handleModalKeydown(event) {
+  if (event.key === 'Escape') {
+    const modalId = event.currentTarget.id;
+    closeModal(modalId);
+  }
+}
+
+// Trap focus within modal
+function trapFocus(modal) {
+  const focusableElements = modal.querySelectorAll(
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+  );
+  const firstElement = focusableElements[0];
+  const lastElement = focusableElements[focusableElements.length - 1];
+
+  modal.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') {
+      if (e.shiftKey) {
+        if (document.activeElement === firstElement) {
+          lastElement.focus();
+          e.preventDefault();
+        }
+      } else {
+        if (document.activeElement === lastElement) {
+          firstElement.focus();
+          e.preventDefault();
+        }
+      }
+    }
+  });
 }
 
 // Close modal when clicking outside
