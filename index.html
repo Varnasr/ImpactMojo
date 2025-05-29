@@ -13,7 +13,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     /* Skip link for keyboard navigation */
     .skip-link {
@@ -457,33 +457,53 @@
 
     .social-share {
       display: flex;
-      gap: 0.5rem;
+      gap: 1rem;
       justify-content: center;
-      margin: 1rem 0;
+      margin: 2rem 0;
+      flex-wrap: wrap;
     }
 
     .share-btn {
-      padding: 0.5rem;
+      padding: 0.75rem;
       border-radius: 50%;
       color: white;
       text-decoration: none;
-      font-size: 1.1rem;
+      font-size: 1.3rem;
       transition: var(--transition);
-      width: 40px;
-      height: 40px;
+      width: 55px;
+      height: 55px;
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+      position: relative;
+      overflow: hidden;
     }
 
-    .share-btn.twitter { background: #1da1f2; }
-    .share-btn.linkedin { background: #0077b5; }
-    .share-btn.whatsapp { background: #25d366; }
-    .share-btn.email { background: var(--accent-color); }
+    .share-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s;
+    }
+
+    .share-btn:hover::before {
+      left: 100%;
+    }
 
     .share-btn:hover {
-      transform: scale(1.1);
+      transform: scale(1.15);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
     }
+
+    .share-btn.twitter { background: linear-gradient(135deg, #1da1f2, #0d8bd9); }
+    .share-btn.linkedin { background: linear-gradient(135deg, #0077b5, #005582); }
+    .share-btn.whatsapp { background: linear-gradient(135deg, #25d366, #1ebe57); }
+    .share-btn.email { background: linear-gradient(135deg, var(--accent-color), #c0392b); }
 
     .recently-viewed {
       background: var(--card-bg);
@@ -582,18 +602,37 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      padding: 0.5rem 1rem;
+      padding: 0.75rem 1.25rem;
       background: var(--secondary-color);
       color: white;
       text-decoration: none;
-      border-radius: 6px;
+      border-radius: var(--border-radius);
       font-weight: 500;
       transition: var(--transition);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .author-links a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .author-links a:hover::before {
+      left: 100%;
     }
 
     .author-links a:hover {
       background: #2980b9;
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
 
     .search-filters {
@@ -1090,6 +1129,10 @@
         flex-direction: column;
         gap: 1rem;
       }
+
+      .social-share {
+        gap: 0.75rem;
+      }
     }
 
     @media (max-width: 480px) {
@@ -1109,6 +1152,12 @@
       .meta-tag {
         font-size: 0.75rem;
         padding: 0.2rem 0.6rem;
+      }
+
+      .share-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
       }
     }
 
@@ -1173,20 +1222,20 @@
     </div>
   </div>
 
-  <!-- Social Sharing -->
+  <!-- Enhanced Social Sharing -->
   <div style="text-align: center; margin: 2rem 0;">
-    <p style="margin-bottom: 1rem; color: var(--text-secondary);">Share ImpactMojo with your network:</p>
+    <p style="margin-bottom: 1.5rem; color: var(--text-secondary); font-size: 1.1rem;">Share ImpactMojo with your network:</p>
     <div class="social-share">
-      <a href="https://twitter.com/intent/tweet?text=Check%20out%20ImpactMojo%20-%20Free%20development%20education%20courses%20for%20South%20Asia&url=https://www.impactmojo.in" target="_blank" class="share-btn twitter">
+      <a href="https://twitter.com/intent/tweet?text=Check%20out%20ImpactMojo%20-%20Free%20development%20education%20courses%20for%20South%20Asia&url=https://www.impactmojo.in" target="_blank" class="share-btn twitter" title="Share on Twitter" aria-label="Share ImpactMojo on Twitter">
         <i class="fab fa-twitter"></i>
       </a>
-      <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://www.impactmojo.in" target="_blank" class="share-btn linkedin">
+      <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://www.impactmojo.in" target="_blank" class="share-btn linkedin" title="Share on LinkedIn" aria-label="Share ImpactMojo on LinkedIn">
         <i class="fab fa-linkedin"></i>
       </a>
-      <a href="https://wa.me/?text=Check%20out%20ImpactMojo%20-%20Free%20development%20education%20courses%20for%20South%20Asia%20https://www.impactmojo.in" target="_blank" class="share-btn whatsapp">
+      <a href="https://wa.me/?text=Check%20out%20ImpactMojo%20-%20Free%20development%20education%20courses%20for%20South%20Asia%20https://www.impactmojo.in" target="_blank" class="share-btn whatsapp" title="Share on WhatsApp" aria-label="Share ImpactMojo on WhatsApp">
         <i class="fab fa-whatsapp"></i>
       </a>
-      <a href="mailto:?subject=ImpactMojo%20-%20Development%20Education&body=I%20thought%20you%20might%20be%20interested%20in%20this%20free%20resource%20for%20development%20education:%20https://www.impactmojo.in" class="share-btn email">
+      <a href="mailto:?subject=ImpactMojo%20-%20Development%20Education&body=I%20thought%20you%20might%20be%20interested%20in%20this%20free%20resource%20for%20development%20education:%20https://www.impactmojo.in" class="share-btn email" title="Share via Email" aria-label="Share ImpactMojo via Email">
         <i class="fas fa-envelope"></i>
       </a>
     </div>
@@ -2145,14 +2194,17 @@
       </a>
       
       <div class="author-links">
-        <a href="https://www.threads.net/@varnasriraman" target="_blank" rel="noopener">
+        <a href="https://www.threads.net/@varnasriraman" target="_blank" rel="noopener" title="Follow Dr. Varna on Threads">
           <i class="fab fa-threads" aria-hidden="true"></i> Threads
         </a>
-        <a href="https://www.linkedin.com/in/varna" target="_blank" rel="noopener">
+        <a href="https://www.linkedin.com/in/varna" target="_blank" rel="noopener" title="Connect with Dr. Varna on LinkedIn">
           <i class="fab fa-linkedin" aria-hidden="true"></i> LinkedIn
         </a>
-        <a href="https://vfolio.notion.site/" target="_blank" rel="noopener">
-          <i class="fas fa-portfolio" aria-hidden="true"></i> Portfolio
+        <a href="https://vfolio.notion.site/" target="_blank" rel="noopener" title="View Dr. Varna's Portfolio">
+          <i class="fas fa-briefcase" aria-hidden="true"></i> Portfolio
+        </a>
+        <a href="https://github.com/Varnasr/ImpactMojo" target="_blank" rel="noopener" title="View ImpactMojo on GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i> GitHub
         </a>
       </div>
     </div>
