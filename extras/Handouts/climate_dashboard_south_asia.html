@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>South Asian Climate Dashboard - ImpactMojo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.4;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #2c3e50;
+            font-size: 13px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 15px;
+            background: white;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin: -15px -15px 20px -15px;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2em;
+            font-weight: 300;
+        }
+        
+        .header .subtitle {
+            font-size: 1em;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .section {
+            margin: 20px 0;
+            page-break-inside: avoid;
+        }
+        
+        .section h2 {
+            color: #27ae60;
+            border-bottom: 2px solid #27ae60;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .section h3 {
+            color: #2c3e50;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        
+        .data-card {
+            background: #f8f9fa;
+            border-left: 4px solid #27ae60;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        .data-card h4 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            font-size: 1em;
+        }
+        
+        .risk-card {
+            background: #fff5f5;
+            border-left: 4px solid #e74c3c;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        .risk-card h4 {
+            margin: 0 0 10px 0;
+            color: #c53030;
+            font-size: 1em;
+        }
+        
+        .adaptation-card {
+            background: #e6f3ff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        .adaptation-card h4 {
+            margin: 0 0 10px 0;
+            color: #2980b9;
+            font-size: 1em;
+        }
+        
+        .country-section {
+            background: #f0f8ff;
+            border: 1px solid #e0e6ed;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .country-section h4 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+        
+        .vulnerability-matrix {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .vulnerability-matrix h4 {
+            color: #856404;
+            margin: 0 0 10px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 0.85em;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 6px;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        th {
+            background-color: #27ae60;
+            color: white;
+            font-size: 0.8em;
+        }
+        
+        .projection-chart {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+        }
+        
+        .projection-chart h4 {
+            margin: 0 0 10px 0;
+        }
+        
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .action-item {
+            background: #e8f5e8;
+            border-radius: 5px;
+            padding: 10px;
+            border-left: 3px solid #27ae60;
+        }
+        
+        .action-item h5 {
+            margin: 0 0 5px 0;
+            color: #2c3e50;
+            font-size: 0.9em;
+        }
+        
+        .urgency-high {
+            border-left-color: #e74c3c;
+            background: #fff5f5;
+        }
+        
+        .urgency-medium {
+            border-left-color: #f39c12;
+            background: #fff8e1;
+        }
+        
+        .urgency-low {
+            border-left-color: #27ae60;
+            background: #e8f5e8;
+        }
+        
+        .key-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .stat-box {
+            background: #2c3e50;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        .stat-box .number {
+            font-size: 1.2em;
+            font-weight: bold;
+            display: block;
+        }
+        
+        .stat-box .label {
+            font-size: 0.8em;
+            opacity: 0.9;
+        }
+        
+        .resource-links {
+            background: #f0f4f8;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .resource-links h5 {
+            color: #2c3e50;
+            margin: 0 0 10px 0;
+        }
+        
+        .resource-links ul {
+            margin: 0;
+            padding-left: 15px;
+            font-size: 0.85em;
+        }
+        
+        .footer {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.8em;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #ecf0f1;
+        }
+        
+        @media print {
+            body { background: white; font-size: 11px; }
+            .container { box-shadow: none; }
+            .header { background: #27ae60 !important; }
+            .dashboard-grid { grid-template-columns: 1fr 1fr; }
+            .action-grid { grid-template-columns: 1fr 1fr; }
+            .key-stats { grid-template-columns: repeat(4, 1fr); }
+            .section { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>South Asian Climate Dashboard</h1>
+            <div class="subtitle">Regional Climate Data, Projections & Adaptation Strategies</div>
+            <div style="margin-top: 8px; font-size: 0.9em; opacity: 0.8;">
+                Updated 2025 • Based on IPCC AR6, IMD, and Regional Climate Models
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Regional Climate Overview</h2>
+            
+            <div class="key-stats">
+                <div class="stat-box">
+                    <span class="number">+0.7°C</span>
+                    <span class="label">Temperature Rise Since 1950</span>
+                </div>
+                <div class="stat-box">
+                    <span class="number">1.9B</span>
+                    <span class="label">People at Climate Risk</span>
+                </div>
+                <div class="stat-box">
+                    <span class="number">600M</span>
+                    <span class="label">Facing Water Stress</span>
+                </div>
+                <div class="stat-box">
+                    <span class="number">40M</span>
+                    <span class="label">Climate Migrants by 2050</span>
+                </div>
+            </div>
+            
+            <div class="projection-chart">
+                <h4>🌡️ Temperature Projections for South Asia</h4>
+                <p><strong>2030:</strong> +1.5-2.0°C above pre-industrial | <strong>2050:</strong> +2.0-3.5°C | <strong>2100:</strong> +3.0-5.5°C</p>
+                <p>Warming is 1.5x faster than global average, with hotspots in northwest India and eastern Pakistan</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Country-Specific Climate Profiles</h2>
+            
+            <div class="dashboard-grid">
+                <div class="country-section">
+                    <h4>🇮🇳 India</h4>
+                    <div class="data-card">
+                        <h4>Key Climate Trends</h4>
+                        <ul>
+                            <li><strong>Temperature:</strong> +0.62°C since 1901</li>
+                            <li><strong>Monsoon:</strong> 6% decline in summer rainfall</li>
+                            <li><strong>Extremes:</strong> Heat waves doubled since 1960</li>
+                            <li><strong>Sea Level:</strong> +1.3mm/year along coast</li>
+                        </ul>
+                    </div>
+                    <div class="risk-card">
+                        <h4>Top Climate Risks</h4>
+                        <ul>
+                            <li>Heat stress affecting 480M people by 2030</li>
+                            <li>Himalayan glacier loss threatening river systems</li>
+                            <li>Coastal flooding affecting 40M people</li>
+                            <li>Agricultural productivity decline (10-25% by 2050)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="country-section">
+                    <h4>🇵🇰 Pakistan</h4>
+                    <div class="data-card">
+                        <h4>Key Climate Trends</h4>
+                        <ul>
+                            <li><strong>Temperature:</strong> +0.5°C since 1960</li>
+                            <li><strong>Monsoon:</strong> Increasing variability</li>
+                            <li><strong>Extremes:</strong> Record heat (53.9°C in 2021)</li>
+                            <li><strong>Glaciers:</strong> Fastest retreat globally</li>
+                        </ul>
+                    </div>
+                    <div class="risk-card">
+                        <h4>Top Climate Risks</h4>
+                        <ul>
+                            <li>Indus River system disruption</li>
+                            <li>Extreme flooding (2022: 33M affected)</li>
+                            <li>Drought in Balochistan and Sindh</li>
+                            <li>Water stress affecting 36M people</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="country-section">
+                    <h4>🇧🇩 Bangladesh</h4>
+                    <div class="data-card">
+                        <h4>Key Climate Trends</h4>
+                        <ul>
+                            <li><strong>Temperature:</strong> +0.5°C since 1960</li>
+                            <li><strong>Rainfall:</strong> +5% annual increase</li>
+                            <li><strong>Cyclones:</strong> Increasing intensity</li>
+                            <li><strong>Sea Level:</strong> +3mm/year (above global)</li>
+                        </ul>
+                    </div>
+                    <div class="risk-card">
+                        <h4>Top Climate Risks</h4>
+                        <ul>
+                            <li>17% land area submerged by 2050</li>
+                            <li>Saltwater intrusion in coastal areas</li>
+                            <li>Riverine and flash flooding</li>
+                            <li>20M internal climate migrants by 2050</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="country-section">
+                    <h4>🇱🇰 Sri Lanka</h4>
+                    <div class="data-card">
+                        <h4>Key Climate Trends</h4>
+                        <ul>
+                            <li><strong>Temperature:</strong> +0.8°C since 1961</li>
+                            <li><strong>Rainfall:</strong> Changing seasonal patterns</li>
+                            <li><strong>Droughts:</strong> Increasing frequency</li>
+                            <li><strong>Coastal:</strong> Erosion accelerating</li>
+                        </ul>
+                    </div>
+                    <div class="risk-card">
+                        <h4>Top Climate Risks</h4>
+                        <ul>
+                            <li>Tea and coconut production decline</li>
+                            <li>Water scarcity in dry zone</li>
+                            <li>Coastal tourism infrastructure threat</li>
+                            <li>Vector-borne disease expansion</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Sectoral Vulnerability Assessment</h2>
+            
+            <table>
+                <tr>
+                    <th>Sector</th>
+                    <th>Primary Climate Risks</th>
+                    <th>Vulnerability Level</th>
+                    <th>Adaptation Priority</th>
+                    <th>Timeframe</th>
+                </tr>
+                <tr>
+                    <td><strong>Agriculture</strong></td>
+                    <td>Heat stress, drought, flooding, erratic monsoons</td>
+                    <td>Very High</td>
+                    <td>Climate-resilient varieties, irrigation efficiency</td>
+                    <td>Immediate</td>
+                </tr>
+                <tr>
+                    <td><strong>Water Resources</strong></td>
+                    <td>Glacier melt, groundwater depletion, contamination</td>
+                    <td>Very High</td>
+                    <td>Water storage, demand management, recycling</td>
+                    <td>Immediate</td>
+                </tr>
+                <tr>
+                    <td><strong>Coastal Zones</strong></td>
+                    <td>Sea level rise, storm surge, erosion, salinity</td>
+                    <td>High</td>
+                    <td>Ecosystem restoration, protective infrastructure</td>
+                    <td>Medium-term</td>
+                </tr>
+                <tr>
+                    <td><strong>Human Health</strong></td>
+                    <td>Heat waves, vector-borne diseases, air quality</td>
+                    <td>High</td>
+                    <td>Heat action plans, disease surveillance</td>
+                    <td>Immediate</td>
+                </tr>
+                <tr>
+                    <td><strong>Urban Systems</strong></td>
+                    <td>Heat islands, flooding, infrastructure stress</td>
+                    <td>Medium-High</td>
+                    <td>Green infrastructure, drainage, cooling</td>
+                    <td>Medium-term</td>
+                </tr>
+                <tr>
+                    <td><strong>Energy</strong></td>
+                    <td>Peak demand, grid instability, renewable variability</td>
+                    <td>Medium</td>
+                    <td>Grid flexibility, storage, efficiency</td>
+                    <td>Long-term</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>Priority Adaptation Strategies</h2>
+            
+            <h3>Immediate Actions (1-3 years)</h3>
+            <div class="action-grid">
+                <div class="action-item urgency-high">
+                    <h5>Early Warning Systems</h5>
+                    <p>Multi-hazard forecasting, mobile alerts, community response protocols</p>
+                </div>
+                
+                <div class="action-item urgency-high">
+                    <h5>Heat Action Plans</h5>
+                    <p>Public cooling centers, health system preparation, vulnerability mapping</p>
+                </div>
+                
+                <div class="action-item urgency-high">
+                    <h5>Climate-Resilient Agriculture</h5>
+                    <p>Drought-tolerant seeds, water-efficient irrigation, crop diversification</p>
+                </div>
+                
+                <div class="action-item urgency-high">
+                    <h5>Disaster Risk Reduction</h5>
+                    <p>Flood-resistant infrastructure, evacuation planning, emergency supplies</p>
+                </div>
+            </div>
+            
+            <h3>Medium-term Actions (3-10 years)</h3>
+            <div class="action-grid">
+                <div class="action-item urgency-medium">
+                    <h5>Ecosystem-based Adaptation</h5>
+                    <p>Mangrove restoration, wetland conservation, agroforestry systems</p>
+                </div>
+                
+                <div class="action-item urgency-medium">
+                    <h5>Water Security Infrastructure</h5>
+                    <p>Rainwater harvesting, groundwater recharge, wastewater treatment</p>
+                </div>
+                
+                <div class="action-item urgency-medium">
+                    <h5>Climate-Smart Cities</h5>
+                    <p>Green buildings, urban forests, sustainable transport</p>
+                </div>
+                
+                <div class="action-item urgency-medium">
+                    <h5>Livelihood Diversification</h5>
+                    <p>Alternative income sources, skills training, microfinance</p>
+                </div>
+            </div>
+            
+            <h3>Long-term Actions (10+ years)</h3>
+            <div class="action-grid">
+                <div class="action-item urgency-low">
+                    <h5>Planned Relocation</h5>
+                    <p>Managed retreat from high-risk areas, resettlement support</p>
+                </div>
+                
+                <div class="action-item urgency-low">
+                    <h5>Transformational Agriculture</h5>
+                    <p>Precision farming, vertical agriculture, alternative proteins</p>
+                </div>
+                
+                <div class="action-item urgency-low">
+                    <h5>Climate-Resilient Infrastructure</h5>
+                    <p>Sea walls, elevated transport, distributed energy systems</p>
+                </div>
+                
+                <div class="action-item urgency-low">
+                    <h5>Regional Cooperation</h5>
+                    <p>Cross-border water management, technology sharing</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Mitigation Opportunities & Co-benefits</h2>
+            
+            <div class="dashboard-grid">
+                <div class="adaptation-card">
+                    <h4>🌱 Renewable Energy Transition</h4>
+                    <p><strong>Target:</strong> 500 GW renewable capacity by 2030 (India)</p>
+                    <p><strong>Co-benefits:</strong> Air quality improvement, energy security, job creation</p>
+                    <p><strong>Challenges:</strong> Grid integration, storage, financing</p>
+                </div>
+                
+                <div class="adaptation-card">
+                    <h4>🌳 Nature-based Solutions</h4>
+                    <p><strong>Target:</strong> 26M hectares forest restoration by 2030</p>
+                    <p><strong>Co-benefits:</strong> Biodiversity, water regulation, livelihoods</p>
+                    <p><strong>Challenges:</strong> Land availability, community engagement</p>
+                </div>
+                
+                <div class="adaptation-card">
+                    <h4>🚌 Sustainable Transport</h4>
+                    <p><strong>Target:</strong> 30% electric vehicle penetration by 2030</p>
+                    <p><strong>Co-benefits:</strong> Air quality, noise reduction, energy independence</p>
+                    <p><strong>Challenges:</strong> Charging infrastructure, battery costs</p>
+                </div>
+                
+                <div class="adaptation-card">
+                    <h4>🏭 Industrial Efficiency</h4>
+                    <p><strong>Target:</strong> 45% emissions intensity reduction by 2030</p>
+                    <p><strong>Co-benefits:</strong> Cost savings, competitiveness, technology innovation</p>
+                    <p><strong>Challenges:</strong> Capital investment, technical capacity</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Climate Finance & Implementation</h2>
+            
+            <div class="vulnerability-matrix">
+                <h4>💰 Financing Needs & Sources (2020-2030)</h4>
+                <table style="font-size: 0.8em;">
+                    <tr>
+                        <th>Sector</th>
+                        <th>Investment Need (USD Billion)</th>
+                        <th>Current Funding</th>
+                        <th>Funding Gap</th>
+                        <th>Primary Sources</th>
+                    </tr>
+                    <tr>
+                        <td>Renewable Energy</td>
+                        <td>500</td>
+                        <td>60%</td>
+                        <td>200B</td>
+                        <td>Private, multilateral banks</td>
+                    </tr>
+                    <tr>
+                        <td>Adaptation</td>
+                        <td>300</td>
+                        <td>20%</td>
+                        <td>240B</td>
+                        <td>Public, climate funds</td>
+                    </tr>
+                    <tr>
+                        <td>Sustainable Transport</td>
+                        <td>250</td>
+                        <td>30%</td>
+                        <td>175B</td>
+                        <td>Public-private partnerships</td>
+                    </tr>
+                    <tr>
+                        <td>Agriculture & Food</td>
+                        <td>150</td>
+                        <td>25%</td>
+                        <td>112B</td>
+                        <td>Government, development banks</td>
+                    </tr>
+                    <tr>
+                        <td>Nature-based Solutions</td>
+                        <td>100</td>
+                        <td>15%</td>
+                        <td>85B</td>
+                        <td>Carbon markets, blended finance</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Success Stories & Best Practices</h2>
+            
+            <div class="dashboard-grid">
+                <div class="data-card">
+                    <h4>🌾 System of Rice Intensification (SRI)</h4>
+                    <p><strong>Location:</strong> Tamil Nadu, India</p>
+                    <p><strong>Impact:</strong> 40% water savings, 20% yield increase</p>
+                    <p><strong>Scaling:</strong> Adopted across 5M hectares in India</p>
+                </div>
+                
+                <div class="data-card">
+                    <h4>🌊 Mangrove Restoration</h4>
+                    <p><strong>Location:</strong> Sundarbans, Bangladesh</p>
+                    <p><strong>Impact:</strong> 70% reduction in cyclone damage</p>
+                    <p><strong>Scaling:</strong> 600,000 hectares restored since 2000</p>
+                </div>
+                
+                <div class="data-card">
+                    <h4>☀️ Solar Irrigation Pumps</h4>
+                    <p><strong>Location:</strong> Gujarat, India</p>
+                    <p><strong>Impact:</strong> 60% reduction in pumping costs</p>
+                    <p><strong>Scaling:</strong> 1M pumps targeted by 2025</p>
+                </div>
+                
+                <div class="data-card">
+                    <h4>🌡️ Heat Action Plans</h4>
+                    <p><strong>Location:</strong> Ahmedabad, India</p>
+                    <p><strong>Impact:</strong> 60% reduction in heat-related mortality</p>
+                    <p><strong>Scaling:</strong> Adopted by 130+ Indian cities</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Real-time Climate Resources</h2>
+            
+            <div class="dashboard-grid">
+                <div class="resource-links">
+                    <h5>🌡️ Climate Data & Monitoring</h5>
+                    <ul>
+                        <li>India Meteorological Department (IMD)</li>
+                        <li>Climate Change Knowledge Portal (World Bank)</li>
+                        <li>NASA Climate Change Time Machine</li>
+                        <li>Climate Action Tracker - South Asia</li>
+                    </ul>
+                </div>
+                
+                <div class="resource-links">
+                    <h5>⚡ Early Warning Systems</h5>
+                    <ul>
+                        <li>National Disaster Management Authority</li>
+                        <li>Bangladesh Meteorological Department</li>
+                        <li>Pakistan Meteorological Department</li>
+                        <li>UNDRR Global Risk Assessment</li>
+                    </ul>
+                </div>
+                
+                <div class="resource-links">
+                    <h5>💚 Climate Adaptation Planning</h5>
+                    <ul>
+                        <li>National Adaptation Plans (NAPs)</li>
+                        <li>State Action Plans on Climate Change</li>
+                        <li>Climate-ADAPT Platform</li>
+                        <li>Adaptation Fund Project Database</li>
+                    </ul>
+                </div>
+                
+                <div class="resource-links">
+                    <h5>💰 Climate Finance</h5>
+                    <ul>
+                        <li>Green Climate Fund</li>
+                        <li>Adaptation Fund</li>
+                        <li>Climate Investment Funds</li>
+                        <li>Asian Development Bank Climate</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Monthly Climate Calendar for South Asia</h2>
+            
+            <table>
+                <tr>
+                    <th>Month</th>
+                    <th>Key Climate Events</th>
+                    <th>Sectoral Impacts</th>
+                    <th>Action Items</th>
+                </tr>
+                <tr>
+                    <td><strong>Jan-Feb</strong></td>
+                    <td>Winter cold waves, fog</td>
+                    <td>Agriculture (rabi crops), transport disruption</td>
+                    <td>Cold wave preparedness, air quality monitoring</td>
+                </tr>
+                <tr>
+                    <td><strong>Mar-May</strong></td>
+                    <td>Pre-monsoon heat, thunderstorms</td>
+                    <td>Water stress, heat-related illnesses</td>
+                    <td>Heat action plan activation, water conservation</td>
+                </tr>
+                <tr>
+                    <td><strong>Jun-Sep</strong></td>
+                    <td>Monsoon rains, flooding, cyclones</td>
+                    <td>Agriculture (kharif), urban flooding</td>
+                    <td>Flood preparedness, drainage maintenance</td>
+                </tr>
+                <tr>
+                    <td><strong>Oct-Dec</strong></td>
+                    <td>Post-monsoon cyclones, air pollution</td>
+                    <td>Coastal vulnerabilities, respiratory health</td>
+                    <td>Cyclone preparedness, stubble burning control</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="footer">
+            <p><em>South Asian Climate Dashboard • ImpactMojo Climate Change 101</em></p>
+            <p><strong>Data Sources:</strong> IPCC AR6, IMD, NASA, World Bank | <strong>Updated:</strong> June 2025</p>
+            <p><strong>CC BY-NC-SA 4.0</strong> • Free to use with attribution • www.impactmojo.in</p>
+        </div>
+    </div>
+</body>
+</html>
