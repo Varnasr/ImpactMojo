@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Public Health Assessment Framework - South Asian Health Systems</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.4;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #2c3e50;
+            font-size: 13px;
+        }
+        
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 15px;
+            background: white;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin: -15px -15px 20px -15px;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2em;
+            font-weight: 300;
+        }
+        
+        .header .subtitle {
+            font-size: 1em;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+        
+        .assessment-section {
+            margin: 20px 0;
+            page-break-inside: avoid;
+        }
+        
+        .assessment-section h2 {
+            color: #e74c3c;
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .assessment-section h3 {
+            color: #2c3e50;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        
+        .framework-box {
+            background: #f8f9fa;
+            border-left: 4px solid #e74c3c;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        .framework-box h4 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            font-size: 1em;
+        }
+        
+        .indicator-card {
+            background: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 12px;
+            margin: 8px 0;
+        }
+        
+        .indicator-card h5 {
+            margin: 0 0 8px 0;
+            color: #2c3e50;
+            font-size: 0.9em;
+        }
+        
+        .assessment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .building-block {
+            background: #e8f4f8;
+            border: 1px solid #17a2b8;
+            border-radius: 8px;
+            padding: 15px;
+        }
+        
+        .building-block h4 {
+            color: #0c5460;
+            margin: 0 0 10px 0;
+            font-size: 1em;
+        }
+        
+        .equity-analysis {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .equity-analysis h4 {
+            color: #856404;
+            margin: 0 0 10px 0;
+        }
+        
+        .checklist-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 0.85em;
+        }
+        
+        .checklist-table th, .checklist-table td {
+            border: 1px solid #ddd;
+            padding: 6px;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        .checklist-table th {
+            background-color: #e74c3c;
+            color: white;
+            font-size: 0.8em;
+        }
+        
+        .score-box {
+            background: #e8f5e8;
+            border: 1px solid #28a745;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            text-align: center;
+        }
+        
+        .score-box h5 {
+            color: #155724;
+            margin: 0 0 5px 0;
+        }
+        
+        .action-priority {
+            background: #f8d7da;
+            border: 1px solid #dc3545;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .action-priority h4 {
+            color: #721c24;
+            margin: 0 0 10px 0;
+        }
+        
+        .tools-section {
+            background: #f0f4f8;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .tools-section h4 {
+            color: #2c3e50;
+            margin: 0 0 10px 0;
+        }
+        
+        .data-sources {
+            background: #e3f2fd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .data-sources h5 {
+            color: #1976d2;
+            margin: 0 0 10px 0;
+        }
+        
+        .rating-scale {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+            margin: 10px 0;
+            font-size: 0.8em;
+        }
+        
+        .rating-item {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 5px;
+            text-align: center;
+            border-radius: 3px;
+        }
+        
+        .rating-1 { background: #ffebee; border-color: #f44336; }
+        .rating-2 { background: #fff3e0; border-color: #ff9800; }
+        .rating-3 { background: #fff9c4; border-color: #ffeb3b; }
+        .rating-4 { background: #e8f5e8; border-color: #4caf50; }
+        .rating-5 { background: #e3f2fd; border-color: #2196f3; }
+        
+        .footer {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.8em;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #ecf0f1;
+        }
+        
+        @media print {
+            body { background: white; font-size: 11px; }
+            .container { box-shadow: none; }
+            .header { background: #e74c3c !important; }
+            .assessment-grid { grid-template-columns: 1fr; }
+            .assessment-section { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Public Health Assessment Framework</h1>
+            <div class="subtitle">Comprehensive Health Systems Analysis for South Asian Contexts</div>
+            <div style="margin-top: 8px; font-size: 0.9em; opacity: 0.8;">
+                Practical Tool for Health Practitioners, Policy Makers & Development Organizations
+            </div>
+        </div>
+        
+        <div class="tools-section">
+            <h4>📋 How to Use This Assessment Framework</h4>
+            <ol>
+                <li><strong>Scope Definition:</strong> Identify geographic area, population, and health priorities</li>
+                <li><strong>Data Collection:</strong> Gather quantitative data and conduct stakeholder interviews</li>
+                <li><strong>Building Block Analysis:</strong> Rate each health system component (1-5 scale)</li>
+                <li><strong>Equity Assessment:</strong> Analyze disparities across population groups</li>
+                <li><strong>Gap Identification:</strong> Identify priority areas for intervention</li>
+                <li><strong>Action Planning:</strong> Develop targeted improvement strategies</li>
+            </ol>
+            <p><strong>Time Required:</strong> 2-4 weeks for comprehensive assessment | <strong>Team:</strong> 3-5 people with diverse expertise</p>
+        </div>
+        
+        <div class="assessment-section">
+            <h2>1. Health System Building Blocks Assessment</h2>
+            
+            <div class="framework-box">
+                <h4>📊 Rating Scale (1-5)</h4>
+                <div class="rating-scale">
+                    <div class="rating-item rating-1"><strong>1 - Critical</strong><br>Major gaps, system failure</div>
+                    <div class="rating-item rating-2"><strong>2 - Poor</strong><br>Significant deficiencies</div>
+                    <div class="rating-item rating-3"><strong>3 - Adequate</strong><br>Basic functions, room for improvement</div>
+                    <div class="rating-item rating-4"><strong>4 - Good</strong><br>Well-functioning, minor gaps</div>
+                    <div class="rating-item rating-5"><strong>5 - Excellent</strong><br>Optimal performance, best practice</div>
+                </div>
+            </div>
+            
+            <div class="assessment-grid">
+                <div class="building-block">
+                    <h4>🏥 Service Delivery</h4>
+                    <div class="indicator-card">
+                        <h5>Geographic Access</h5>
+                        <p>• Distance to nearest health facility<br>
+                        • Transportation availability<br>
+                        • Coverage of remote areas</p>
+                        <div class="score-box">
+                            <h5>Your Rating: ___/5</h5>
+                        </div>
+                    </div>
+                    <div class="indicator-card">
+                        <h5>Service Availability</h5>
+                        <p>• Facility operating hours<br>
+                        • Essential services offered<br>
+                        • Emergency care capacity</p>
+                        <div class="score-box">
+                            <h5>Your Rating: ___/5</h5>
+                        </div>
+                    </div>
+                    <div class="indicator-card">
+                        <h5>Quality of Care</h5>
+                        <p>• Clinical protocols followed<br>
+                        • Patient satisfaction scores<br>
+                        • Health outcomes achieved</p>
+                        <div class="score-box">
+                            <h5>Your Rating: ___/5</h5>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="building-block">
+                    <h4>👩‍⚕️ Health Workforce</h4>
+                    <div class="indicator-card">
+                        <h5>Workforce Density</h5>
+                        <p>• Doctors per 1,000 population<br>
+                        • Nurses per 1,000 population<br>
+                        • CHW coverage ratio</p>
+                        <div class="score-box">
+                            <h5>Your Rating: ___/5</h5>
+                        </div>
+                    </div>
+                    <div class="indicator-card">
+                        <h5>Distribution & Retention</h5>
+                        <p>• Rural vs urban distribution<br>
+                        • Vacancy rates in facilities<br>
+                        • Staff turnover rates</p>
+                        <div class="score-box">
+                            <h5>Your Rating: ___/5</h5>
+                        </div>
+                    </div>
+                    <div class="indicator-card">
+                        <h5>Competency & Performance</h5>
+                        <p>• Training and certification<br>
+                        • Supervision quality<br>
+                        • Performance incentives</p>
+                        <div class="score-box">
+                            <h5>Your Rating: ___/5</h5>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="building-block">
+                    <h4>📱 Health Information Systems</h4>
+                    <div class="indicator-card">
+                        <h5>Data Collection</h5>
+                        <p>• Routine data systems (HMIS)<br>
+                        • Disease surveillance<br>
+                        • Vital registration coverage</p>
+                        <div class="score-box">
+                            <h5>Your Rating: ___/5</h5>
+                        </div>
+                    </div>
+                    <div class="indicator-card">
+                        <h5>Data Quality & Use</h5>
+                        <p>• Completeness and accuracy<br>
+                        • Timeliness of reporting<br>
+                        • Evidence-based decision making</p>
+                        <div class="score-box">
+                            <h5>Your Rating: ___/5</h5>
+                        </div>
+                    </div>
+                    <div class="indicator-card">
+                        <h5>Digital Health</h5>
+                        <p>• Electronic health records<br>
+                        • Telemedicine platforms<br>
+                        • Mobile health applications</p>
+                        <div class="score-box">
+                            <h5>Your Rating: ___/5</h5>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="building-block">
+                    <h4>💊 Medical Products & Technologies</h4>
+                    <div class="indicator-card">
+                        <h5>Essential Medicines</h5>
+                        <p>• Availability of essential drugs<br>
+                        • Quality assurance systems<br>
+                        • Rational use practices</p>
+                        <div class="score-box">
+                            <h5>Your Rating: ___/5</h5>
+                        </div>
+                    </div>
+                    <div class="indicator-card">
+                        <h5>Medical Equipment</h5>
+                        <p>• Equipment availability<br>
+                        • Maintenance systems<br>
+                        • Technology appropriateness</p>
+                        <div class="score-box">
+                            <h5>Your Rating: ___/5</h5>
+                        </div>
+                    </div>
+                    <div class="indicator-card">
+                        <h5>Supply Chain</h5>
+                        <p>• Procurement efficiency<br>
+                        • Distribution networks<br>
+                        • Stock management</p>
+                        <div class="score-box">
+                            <h5>Your Rating: ___/5</h5>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="building-block">
+                    <h4>💰 Health Financing</h4>
+                    <div class="indicator-card">
+                        <h5>Financial Protection</h5>
+                        <p>• Health insurance coverage<br>
+                        • Out-of-pocket expenditure<br>
+                        • Catastrophic health spending</p>
+                        <div class="score-box">
+                            <h5>Your Rating: ___/5</h5>
+                        </div>
+                    </div>
+                    <div class="indicator-card">
+                        <h5>Resource Mobilization</h5>
+                        <p>• Government health spending<br>
+                        • Revenue diversification<br>
+                        • Aid effectiveness</p>
+                        <div class="score-box">
+                            <h5>Your Rating: ___/5</h5>
+                        </div>
+                    </div>
+                    <div class="indicator-card">
+                        <h5>Resource Allocation</h5>
+                        <p>• Budget execution efficiency<br>
+                        • Priority setting processes<br>
+                        • Cost-effectiveness focus</p>
+                        <div class="score-box">
+                            <h5>Your Rating: ___/5</h5>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="building-block">
+                    <h4>🏛️ Leadership & Governance</h4>
+                    <div class="indicator-card">
+                        <h5>Policy & Strategy</h5>
+                        <p>• Health policy framework<br>
+                        • Strategic planning process<br>
+                        • Intersectoral coordination</p>
+                        <div class="score-box">
+                            <h5>Your Rating: ___/5</h5>
+                        </div>
+                    </div>
+                    <div class="indicator-card">
+                        <h5>Regulation & Oversight</h5>
+                        <p>• Regulatory framework<br>
+                        • Quality assurance<br>
+                        • Provider licensing</p>
+                        <div class="score-box">
+                            <h5>Your Rating: ___/5</h5>
+                        </div>
+                    </div>
+                    <div class="indicator-card">
+                        <h5>Accountability</h5>
+                        <p>• Transparency mechanisms<br>
+                        • Community participation<br>
+                        • Performance monitoring</p>
+                        <div class="score-box">
+                            <h5>Your Rating: ___/5</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="assessment-section">
+            <h2>2. Health Outcomes & Performance Indicators</h2>
+            
+            <table class="checklist-table">
+                <tr>
+                    <th>Indicator Category</th>
+                    <th>Key Metrics</th>
+                    <th>Current Value</th>
+                    <th>National Average</th>
+                    <th>Target/Benchmark</th>
+                    <th>Performance Gap</th>
+                </tr>
+                <tr>
+                    <td><strong>Maternal Health</strong></td>
+                    <td>Maternal Mortality Rate (per 100,000)<br>Institutional delivery rate (%)<br>Skilled birth attendance (%)</td>
+                    <td>____<br>____<br>____</td>
+                    <td>103<br>89%<br>88%</td>
+                    <td>&lt;70<br>&gt;95%<br>&gt;95%</td>
+                    <td>____<br>____<br>____</td>
+                </tr>
+                <tr>
+                    <td><strong>Child Health</strong></td>
+                    <td>Under-5 mortality rate (per 1,000)<br>Full immunization coverage (%)<br>Stunting prevalence (%)</td>
+                    <td>____<br>____<br>____</td>
+                    <td>35<br>76%<br>36%</td>
+                    <td>&lt;25<br>&gt;90%<br>&lt;20%</td>
+                    <td>____<br>____<br>____</td>
+                </tr>
+                <tr>
+                    <td><strong>Communicable Diseases</strong></td>
+                    <td>TB incidence (per 100,000)<br>Malaria cases (per 1,000)<br>HIV prevalence (%)</td>
+                    <td>____<br>____<br>____</td>
+                    <td>199<br>0.7<br>0.22%</td>
+                    <td>&lt;100<br>&lt;0.1<br>&lt;0.1%</td>
+                    <td>____<br>____<br>____</td>
+                </tr>
+                <tr>
+                    <td><strong>Non-Communicable Diseases</strong></td>
+                    <td>Diabetes prevalence (%)<br>Hypertension prevalence (%)<br>Cancer incidence (per 100,000)</td>
+                    <td>____<br>____<br>____</td>
+                    <td>8.9%<br>28%<br>100</td>
+                    <td>&lt;7%<br>&lt;25%<br>Stable</td>
+                    <td>____<br>____<br>____</td>
+                </tr>
+                <tr>
+                    <td><strong>Environmental Health</strong></td>
+                    <td>Access to improved water (%)<br>Access to improved sanitation (%)<br>Household air pollution exposure (%)</td>
+                    <td>____<br>____<br>____</td>
+                    <td>93%<br>70%<br>61%</td>
+                    <td>&gt;98%<br>&gt;95%<br>&lt;20%</td>
+                    <td>____<br>____<br>____</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="assessment-section">
+            <h2>3. Health Equity Analysis</h2>
+            
+            <div class="equity-analysis">
+                <h4>📊 Disaggregated Health Outcomes Analysis</h4>
+                <p>Analyze health indicators across different population groups to identify inequities:</p>
+                
+                <table class="checklist-table">
+                    <tr>
+                        <th>Population Group</th>
+                        <th>Child Mortality Rate</th>
+                        <th>Institutional Delivery</th>
+                        <th>Full Immunization</th>
+                        <th>Stunting Rate</th>
+                        <th>Equity Ratio*</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Wealth Quintile</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>• Poorest 20%</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                    </tr>
+                    <tr>
+                        <td>• Richest 20%</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Social Group</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>• Scheduled Caste/Tribe</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                    </tr>
+                    <tr>
+                        <td>• General Category</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Geographic</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>• Rural</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                    </tr>
+                    <tr>
+                        <td>• Urban</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                    </tr>
+                </table>
+                <p><em>*Equity Ratio = Rate in advantaged group / Rate in disadvantaged group (closer to 1.0 = more equitable)</em></p>
+            </div>
+            
+            <div class="framework-box">
+                <h4>🎯 Social Determinants Assessment</h4>
+                <table class="checklist-table">
+                    <tr>
+                        <th>Social Determinant</th>
+                        <th>Current Status</th>
+                        <th>Health Impact</th>
+                        <th>Intervention Opportunities</th>
+                    </tr>
+                    <tr>
+                        <td>Poverty & Income</td>
+                        <td>___% below poverty line</td>
+                        <td>Limited healthcare access, malnutrition</td>
+                        <td>Social protection, livelihood programs</td>
+                    </tr>
+                    <tr>
+                        <td>Education (especially women's)</td>
+                        <td>___% female literacy</td>
+                        <td>Health knowledge, healthcare seeking</td>
+                        <td>Girls' education, adult literacy</td>
+                    </tr>
+                    <tr>
+                        <td>Water & Sanitation</td>
+                        <td>___% improved access</td>
+                        <td>Diarrheal diseases, nutrition</td>
+                        <td>WASH infrastructure, behavior change</td>
+                    </tr>
+                    <tr>
+                        <td>Food Security</td>
+                        <td>___% food insecure</td>
+                        <td>Malnutrition, micronutrient deficiency</td>
+                        <td>Food systems, nutrition programs</td>
+                    </tr>
+                    <tr>
+                        <td>Social Discrimination</td>
+                        <td>Caste/gender barriers</td>
+                        <td>Healthcare access, quality of care</td>
+                        <td>Sensitization, inclusive policies</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div class="assessment-section">
+            <h2>4. OneHealth Assessment</h2>
+            
+            <div class="framework-box">
+                <h4>🌍 Human-Animal-Environment Interface</h4>
+                
+                <div class="indicator-card">
+                    <h5>Zoonotic Disease Risk</h5>
+                    <p><strong>Assessment Questions:</strong></p>
+                    <ul>
+                        <li>□ Is there integrated surveillance for zoonotic diseases?</li>
+                        <li>□ Are there protocols for investigating animal-human disease outbreaks?</li>
+                        <li>□ Is there coordination between human and veterinary health systems?</li>
+                        <li>□ Are wildlife conservation areas near human settlements monitored?</li>
+                    </ul>
+                    <div class="score-box">
+                        <h5>Zoonotic Preparedness Score: ___/5</h5>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h5>Environmental Health Risks</h5>
+                    <p><strong>Key Indicators:</strong></p>
+                    <ul>
+                        <li>Air Quality Index: _____ (WHO standard: &lt;50)</li>
+                        <li>Water contamination incidents: _____ per year</li>
+                        <li>Industrial accidents affecting health: _____ per year</li>
+                        <li>Climate vulnerability index: _____ (1-10 scale)</li>
+                    </ul>
+                    <div class="score-box">
+                        <h5>Environmental Health Score: ___/5</h5>
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <h5>Antimicrobial Resistance</h5>
+                    <p><strong>Assessment Areas:</strong></p>
+                    <ul>
+                        <li>□ AMR surveillance system functional</li>
+                        <li>□ Antibiotic stewardship programs in place</li>
+                        <li>□ Infection prevention and control protocols</li>
+                        <li>□ Agricultural antibiotic use regulated</li>
+                    </ul>
+                    <div class="score-box">
+                        <h5>AMR Preparedness Score: ___/5</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="assessment-section">
+            <h2>5. Health System Resilience & Emergency Preparedness</h2>
+            
+            <table class="checklist-table">
+                <tr>
+                    <th>Resilience Component</th>
+                    <th>Assessment Criteria</th>
+                    <th>Current Status (1-5)</th>
+                    <th>Evidence/Notes</th>
+                </tr>
+                <tr>
+                    <td><strong>Emergency Preparedness</strong></td>
+                    <td>• Emergency response plans<br>• Surge capacity<br>• Supply chain resilience</td>
+                    <td>____</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><strong>Early Warning Systems</strong></td>
+                    <td>• Disease surveillance<br>• Multi-hazard alerts<br>• Community networks</td>
+                    <td>____</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><strong>Adaptive Capacity</strong></td>
+                    <td>• Flexible service delivery<br>• Learning systems<br>• Innovation adoption</td>
+                    <td>____</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><strong>Social Cohesion</strong></td>
+                    <td>• Community trust<br>• Social networks<br>• Collective efficacy</td>
+                    <td>____</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><strong>Recovery Capacity</strong></td>
+                    <td>• Post-crisis rehabilitation<br>• Service continuity<br>• Build back better</td>
+                    <td>____</td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="assessment-section">
+            <h2>6. Priority Setting & Action Planning</h2>
+            
+            <div class="action-priority">
+                <h4>🎯 Gap Analysis & Priority Matrix</h4>
+                <table class="checklist-table">
+                    <tr>
+                        <th>Health System Area</th>
+                        <th>Current Score (1-5)</th>
+                        <th>Importance (1-5)</th>
+                        <th>Feasibility (1-5)</th>
+                        <th>Priority Score*</th>
+                        <th>Action Required</th>
+                    </tr>
+                    <tr>
+                        <td>Service Delivery</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Health Workforce</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Health Information</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Medical Products</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Health Financing</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Leadership/Governance</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td></td>
+                    </tr>
+                </table>
+                <p><em>*Priority Score = (6 - Current Score) × Importance × Feasibility</em></p>
+            </div>
+            
+            <div class="framework-box">
+                <h4>📋 Action Planning Template</h4>
+                <table class="checklist-table">
+                    <tr>
+                        <th>Priority Area</th>
+                        <th>Specific Objectives</th>
+                        <th>Key Activities</th>
+                        <th>Responsible Party</th>
+                        <th>Timeline</th>
+                        <th>Success Indicators</th>
+                    </tr>
+                    <tr>
+                        <td>1. ________________</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>2. ________________</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>3. ________________</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div class="assessment-section">
+            <h2>7. Data Sources & Tools</h2>
+            
+            <div class="data-sources">
+                <h5>📊 Key Data Sources for South Asian Health Systems</h5>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div>
+                        <p><strong>National Surveys:</strong></p>
+                        <ul>
+                            <li>National Family Health Survey (NFHS)</li>
+                            <li>Annual Health Survey (AHS)</li>
+                            <li>District Level Household Survey (DLHS)</li>
+                            <li>Coverage Evaluation Survey (CES)</li>
+                        </ul>
+                        
+                        <p><strong>Routine Information Systems:</strong></p>
+                        <ul>
+                            <li>Health Management Information System (HMIS)</li>
+                            <li>Integrated Disease Surveillance Programme (IDSP)</li>
+                            <li>Mother and Child Tracking System (MCTS)</li>
+                            <li>Electronic Vaccine Intelligence Network (eVIN)</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <p><strong>Administrative Data:</strong></p>
+                        <ul>
+                            <li>Rural Health Statistics (Ministry of Health)</li>
+                            <li>National Health Accounts</li>
+                            <li>Public Financial Management System</li>
+                            <li>Human Resources for Health data</li>
+                        </ul>
+                        
+                        <p><strong>International Sources:</strong></p>
+                        <ul>
+                            <li>WHO Global Health Observatory</li>
+                            <li>World Bank Health Data</li>
+                            <li>Institute for Health Metrics (IHME)</li>
+                            <li>UN Inter-agency Group estimates</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tools-section">
+                <h4>🛠️ Assessment Tools & Methodologies</h4>
+                <ul>
+                    <li><strong>WHO Health Systems Assessment Tool:</strong> Comprehensive framework for system analysis</li>
+                    <li><strong>Service Availability and Readiness Assessment (SARA):</strong> Facility-level capacity</li>
+                    <li><strong>Health Equity Assessment Toolkit:</strong> WHO guidance on equity analysis</li>
+                    <li><strong>OneHealth Assessment for Planning and Performance (OH-APP):</strong> Multi-sectoral tool</li>
+                    <li><strong>Community Health Assessment Toolkit:</strong> Participatory approaches</li>
+                    <li><strong>Health System Resilience Assessment:</strong> Emergency preparedness evaluation</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="assessment-section">
+            <h2>8. Summary Dashboard</h2>
+            
+            <div class="framework-box">
+                <h4>📈 Health System Performance Summary</h4>
+                <table class="checklist-table">
+                    <tr>
+                        <th>Component</th>
+                        <th>Score (1-5)</th>
+                        <th>Status</th>
+                        <th>Priority Rank</th>
+                    </tr>
+                    <tr>
+                        <td>Service Delivery</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                    </tr>
+                    <tr>
+                        <td>Health Workforce</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                    </tr>
+                    <tr>
+                        <td>Health Information</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                    </tr>
+                    <tr>
+                        <td>Medical Products</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                    </tr>
+                    <tr>
+                        <td>Health Financing</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                    </tr>
+                    <tr>
+                        <td>Leadership/Governance</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>____</td>
+                    </tr>
+                    <tr style="background: #f8f9fa; font-weight: bold;">
+                        <td>Overall System Score</td>
+                        <td>____</td>
+                        <td>____</td>
+                        <td>-</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="equity-analysis">
+                <h4>⚖️ Health Equity Summary</h4>
+                <p><strong>Most Vulnerable Populations:</strong> ________________________</p>
+                <p><strong>Largest Health Disparities:</strong> ________________________</p>
+                <p><strong>Key Social Determinants to Address:</strong> ________________________</p>
+            </div>
+            
+            <div class="action-priority">
+                <h4>🎯 Top 3 Action Priorities</h4>
+                <ol>
+                    <li><strong>Priority 1:</strong> ________________________</li>
+                    <li><strong>Priority 2:</strong> ________________________</li>
+                    <li><strong>Priority 3:</strong> ________________________</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><em>Public Health Assessment Framework • ImpactMojo Public Health 101</em></p>
+            <p><strong>Based on:</strong> WHO Health Systems Framework, USAID Health Systems Assessment Approach, and regional best practices</p>
+            <p><strong>CC BY-NC-SA 4.0</strong> • Free to use with attribution • www.impactmojo.in</p>
+        </div>
+    </div>
+</body>
+</html>
