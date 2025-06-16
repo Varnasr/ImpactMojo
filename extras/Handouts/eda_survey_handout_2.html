@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDA for Household Survey Data 101 - Workshop 2</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2980b9, #8e44ad);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        
+        .workshop-info {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .time-indicator {
+            background: #e74c3c;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section h2 {
+            color: #2980b9;
+            border-bottom: 3px solid #2980b9;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .section h3 {
+            color: #2c3e50;
+            margin-top: 25px;
+        }
+        
+        .viz-story {
+            background: #f8f9fa;
+            border-left: 5px solid #2980b9;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .viz-story h4 {
+            color: #2980b9;
+            margin-top: 0;
+        }
+        
+        .exercise-box {
+            background: #e8f4fd;
+            border: 1px solid #3498db;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .exercise-box h4 {
+            color: #2980b9;
+            margin-top: 0;
+        }
+        
+        .viz-comparison {
+            background: #fff3cd;
+            border-left: 4px solid #f39c12;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .best-practice {
+            background: #d4edda;
+            border-left: 4px solid #27ae60;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .chart-types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .chart-type-card {
+            background: #f0f9ff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        
+        .chart-type-card h5 {
+            margin: 0 0 10px 0;
+            color: #2980b9;
+        }
+        
+        .comparison-framework {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .framework-card {
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        
+        .cross-sectional {
+            background: #fef2f2;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .longitudinal {
+            background: #f0f9ff;
+            border-left: 4px solid #3498db;
+        }
+        
+        .takeaway {
+            background: linear-gradient(135deg, #2980b9, #8e44ad);
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .print-note {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ecf0f1;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #2980b9;
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        
+        .analysis-framework {
+            background: #f8f9fa;
+            border: 2px solid #2980b9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .fake-chart {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 15px 0;
+            text-align: center;
+            border-radius: 5px;
+        }
+        
+        .chart-placeholder {
+            height: 150px;
+            background: linear-gradient(45deg, #3498db 25%, transparent 25%, transparent 75%, #3498db 75%, #3498db),
+                        linear-gradient(45deg, #3498db 25%, transparent 25%, transparent 75%, #3498db 75%, #3498db);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            opacity: 0.1;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2980b9;
+            font-weight: bold;
+        }
+        
+        @media print {
+            body { background: white; }
+            .container { box-shadow: none; }
+            .header { background: #2980b9 !important; }
+            .comparison-framework { grid-template-columns: 1fr; }
+            .chart-types-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>EDA for Household Survey Data 101</h1>
+            <div class="subtitle">Advanced Visualization, Subgroup Analysis & Comparative Methods</div>
+            <div style="margin-top: 15px; font-size: 1em; opacity: 0.8;">
+                ImpactMojo Workshop Series • Multi-dimensional Survey Data Exploration
+            </div>
+        </div>
+        
+        <div class="workshop-info">
+            <div class="time-indicator">75-90 Minutes</div>
+            <h3 style="margin-top: 10px;">Workshop 2: Multi-dimensional Analysis & Visualization</h3>
+            <p><strong>Target Audience:</strong> Researchers and analysts ready to move beyond basic descriptive statistics to complex comparative analysis</p>
+            <p><strong>Prerequisites:</strong> Workshop 1 or equivalent experience with survey data EDA</p>
+            <p><strong>Materials Needed:</strong> Computers with advanced data visualization capabilities, multi-round survey data</p>
+        </div>
+        
+        <div class="section">
+            <h2>Learning Objectives</h2>
+            <p>By the end of this workshop, participants will be able to:</p>
+            <ul>
+                <li>Design and create effective visualizations for multi-dimensional survey data exploration</li>
+                <li>Conduct systematic subgroup analysis with proper statistical consideration of survey design</li>
+                <li>Compare indicators across time, geography, and demographic groups using appropriate methods</li>
+                <li>Identify and visualize patterns, trends, and outliers in complex survey datasets</li>
+                <li>Create publication-ready visualizations that accurately represent survey data complexity</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>Part 1: Advanced Visualization Strategies for Survey Data</h2>
+            <div class="time-indicator">25 minutes</div>
+            
+            <div class="viz-story">
+                <h4>📈 The Power of Good Visualization: Two Ways to Show the Same Data</h4>
+                
+                <p><strong>Data:</strong> Child malnutrition rates by state from NFHS-5</p>
+                
+                <p><strong>Approach A - Basic Table:</strong></p>
+                <div class="fake-chart">
+                    <div>
+                        <p><strong>Stunting Rates by State (%)</strong></p>
+                        <p>Bihar: 42.9%, Uttar Pradesh: 39.7%, Jharkhand: 39.6%...</p>
+                        <p><em>15 more rows of numbers...</em></p>
+                    </div>
+                </div>
+                
+                <p><strong>Approach B - Multi-dimensional Visualization:</strong></p>
+                <div class="fake-chart">
+                    <div class="chart-placeholder">
+                        <div>
+                            <p><strong>Heatmap + Small Multiples</strong></p>
+                            <p>Geographic pattern + Rural/Urban split + Wealth quintile breakdown</p>
+                            <p>Immediately shows: North-South divide, urban advantage, wealth gradient</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <p><em>Same data, completely different insights. Visualization is not decoration - it's discovery.</em></p>
+            </div>
+            
+            <h3>Choosing the Right Visualization for Survey Data</h3>
+            
+            <div class="chart-types-grid">
+                <div class="chart-type-card">
+                    <h5>📊 Small Multiples</h5>
+                    <p><strong>Best For:</strong> Comparing patterns across groups</p>
+                    <p><strong>Use Case:</strong> Health outcomes by state and gender</p>
+                    <p><strong>Advantage:</strong> Shows both overall pattern and group differences</p>
+                    <p><strong>Code:</strong> ggplot2::facet_wrap(), seaborn FacetGrid</p>
+                </div>
+                
+                <div class="chart-type-card">
+                    <h5>🗺️ Choropleth Maps</h5>
+                    <p><strong>Best For:</strong> Geographic patterns in survey indicators</p>
+                    <p><strong>Use Case:</strong> Literacy rates, health coverage by district</p>
+                    <p><strong>Advantage:</strong> Intuitive geographic interpretation</p>
+                    <p><strong>Code:</strong> ggplot2 + sf, geopandas + folium</p>
+                </div>
+                
+                <div class="chart-type-card">
+                    <h5>🎯 Dot Plots with Confidence Intervals</h5>
+                    <p><strong>Best For:</strong> Comparing estimates with uncertainty</p>
+                    <p><strong>Use Case:</strong> State-level indicators with survey errors</p>
+                    <p><strong>Advantage:</strong> Shows precision of estimates</p>
+                    <p><strong>Code:</strong> geom_pointrange(), seaborn.barplot(ci=)</p>
+                </div>
+                
+                <div class="chart-type-card">
+                    <h5>📈 Slope Graphs</h5>
+                    <p><strong>Best For:</strong> Changes between two time points</p>
+                    <p><strong>Use Case:</strong> NFHS-4 to NFHS-5 changes by state</p>
+                    <p><strong>Advantage:</strong> Highlights individual trajectories</p>
+                    <p><strong>Code:</strong> geom_segment() + geom_point()</p>
+                </div>
+                
+                <div class="chart-type-card">
+                    <h5>🔥 Heatmaps</h5>
+                    <p><strong>Best For:</strong> Two-dimensional patterns</p>
+                    <p><strong>Use Case:</strong> Age × education fertility patterns</p>
+                    <p><strong>Advantage:</strong> Reveals interaction effects</p>
+                    <p><strong>Code:</strong> geom_tile(), seaborn.heatmap()</p>
+                </div>
+                
+                <div class="chart-type-card">
+                    <h5>📦 Violin/Box Plots</h5>
+                    <p><strong>Best For:</strong> Distribution comparisons</p>
+                    <p><strong>Use Case:</strong> Income distributions by social group</p>
+                    <p><strong>Advantage:</strong> Shows full distribution shape</p>
+                    <p><strong>Code:</strong> geom_violin(), seaborn.violinplot()</p>
+                </div>
+            </div>
+            
+            <div class="best-practice">
+                <p><strong>✅ Survey Visualization Best Practices:</strong></p>
+                <ul>
+                    <li><strong>Always use sampling weights</strong> for population estimates</li>
+                    <li><strong>Show confidence intervals</strong> or standard errors when possible</li>
+                    <li><strong>Include sample sizes</strong> in titles or captions</li>
+                    <li><strong>Use consistent scales</strong> across comparable charts</li>
+                    <li><strong>Highlight meaningful differences</strong> vs. statistical noise</li>
+                    <li><strong>Consider survey design effects</strong> in uncertainty estimates</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Part 2: Problem Set - Multi-dimensional Subgroup Analysis</h2>
+            <div class="time-indicator">30 minutes</div>
+            
+            <div class="exercise-box">
+                <h4>🔍 Advanced Problem Set: Child Immunization Analysis Across Multiple Dimensions</h4>
+                
+                <p><strong>Research Question:</strong> How do childhood immunization rates vary across social groups, geography, and time in India?</p>
+                
+                <div class="analysis-framework">
+                    <h5>Dataset: NFHS-4 and NFHS-5 Children's File</h5>
+                    <p><strong>Variables for Analysis:</strong></p>
+                    <ul>
+                        <li><strong>Outcome:</strong> h9 (all basic vaccinations by age 12-23 months)</li>
+                        <li><strong>Geographic:</strong> v024 (state), v025 (urban/rural)</li>
+                        <li><strong>Social:</strong> v131 (caste/tribe), v190 (wealth quintile)</li>
+                        <li><strong>Demographic:</strong> v106 (mother's education), b4 (child sex)</li>
+                        <li><strong>Temporal:</strong> Survey round (NFHS-4 vs NFHS-5)</li>
+                        <li><strong>Weights:</strong> v005 (women's weight), scaled appropriately</li>
+                    </ul>
+                    
+                    <p><strong>Sample:</strong> 150,000 children aged 12-23 months across both surveys</p>
+                </div>
+                
+                <h5>Problem 1: Intersectional Analysis Framework (10 minutes)</h5>
+                
+                <p><strong>Design a systematic subgroup analysis plan:</strong></p>
+                
+                <table>
+                    <tr>
+                        <th>Dimension</th>
+                        <th>Categories</th>
+                        <th>Expected Sample Size</th>
+                        <th>Minimum for Analysis</th>
+                    </tr>
+                    <tr>
+                        <td>Wealth × Caste</td>
+                        <td>5 quintiles × 4 groups = 20 cells</td>
+                        <td>~7,500 per cell</td>
+                        <td>200+ per cell</td>
+                    </tr>
+                    <tr>
+                        <td>State × Urban/Rural</td>
+                        <td>28 states × 2 = 56 cells</td>
+                        <td>~2,700 per cell</td>
+                        <td>100+ per cell</td>
+                    </tr>
+                    <tr>
+                        <td>Education × Wealth</td>
+                        <td>4 levels × 5 quintiles = 20 cells</td>
+                        <td>~7,500 per cell</td>
+                        <td>200+ per cell</td>
+                    </tr>
+                </table>
+                
+                <div class="code-block">
+# R code for subgroup analysis with survey weights
+library(survey)
+
+# Set up survey design
+svydesign <- svydesign(ids = ~v021, strata = ~v023, weights = ~v005, 
+                       data = data, nest = TRUE)
+
+# Calculate weighted proportions by subgroups
+by_wealth_caste <- svyby(~immunized, ~wealth_quintile + caste, 
+                         svydesign, svymean, na.rm = TRUE)
+
+# Test for significant differences
+svyttest(immunized ~ urban_rural, svydesign)
+                </div>
+                
+                <p><strong>Analysis Questions:</strong></p>
+                <ol>
+                    <li>Which intersectional groups have <200 observations? How will you handle them?</li>
+                    <li>How would you prioritize subgroup comparisons given multiple testing concerns?</li>
+                    <li>What visualization would best show 3-way interactions (wealth × caste × urban/rural)?</li>
+                </ol>
+                
+                <h5>Problem 2: Temporal Change Analysis (10 minutes)</h5>
+                
+                <div class="viz-comparison">
+                    <p><strong>Scenario:</strong> Compare immunization improvements from NFHS-4 to NFHS-5 across states</p>
+                    
+                    <p><strong>Sample Results:</strong></p>
+                    <ul>
+                        <li><strong>National average:</strong> 62% → 76% (+14 percentage points)</li>
+                        <li><strong>Top improver:</strong> Haryana 56% → 85% (+29 pp)</li>
+                        <li><strong>Laggard:</strong> Arunachal Pradesh 45% → 48% (+3 pp)</li>
+                        <li><strong>High performer:</strong> Tamil Nadu 85% → 89% (+4 pp)</li>
+                    </ul>
+                </div>
+                
+                <p><strong>Analysis Tasks:</strong></p>
+                <ol>
+                    <li><strong>Calculate change scores:</strong> Difference and ratio for each state</li>
+                    <li><strong>Identify convergence patterns:</strong> Are gaps closing or widening?</li>
+                    <li><strong>Statistical significance:</strong> Which changes are meaningful vs. noise?</li>
+                    <li><strong>Outlier detection:</strong> Which states show unusual patterns?</li>
+                </ol>
+                
+                <div class="code-block">
+# Calculate and visualize temporal changes
+# NFHS-4 to NFHS-5 comparison with confidence intervals
+
+change_data <- data %>%
+  group_by(state, survey_round) %>%
+  summarize(
+    immunized_pct = weighted.mean(immunized, w = weight, na.rm = T),
+    n = n(),
+    se = sqrt(var(immunized, na.rm = T) / n)  # Simplified SE
+  ) %>%
+  pivot_wider(names_from = survey_round, 
+              values_from = c(immunized_pct, n, se)) %>%
+  mutate(
+    change_pp = immunized_pct_nfhs5 - immunized_pct_nfhs4,
+    change_ratio = immunized_pct_nfhs5 / immunized_pct_nfhs4
+  )
+                </div>
+                
+                <h5>Problem 3: Inequality Analysis (10 minutes)</h5>
+                
+                <p><strong>Research Question:</strong> How has inequality in immunization changed within and between states?</p>
+                
+                <p><strong>Inequality Measures to Calculate:</strong></p>
+                <ul>
+                    <li><strong>Concentration Index:</strong> Wealth-related inequality within states</li>
+                    <li><strong>Between-group variance:</strong> Differences across caste/education groups</li>
+                    <li><strong>Coefficient of variation:</strong> Dispersion across districts/states</li>
+                    <li><strong>Ratio measures:</strong> Richest/poorest quintile ratios</li>
+                </ul>
+                
+                <table>
+                    <tr>
+                        <th>State</th>
+                        <th>Overall Rate</th>
+                        <th>Rich-Poor Gap</th>
+                        <th>Urban-Rural Gap</th>
+                        <th>Inequality Rank</th>
+                    </tr>
+                    <tr>
+                        <td>Kerala</td>
+                        <td>89%</td>
+                        <td>5 pp</td>
+                        <td>2 pp</td>
+                        <td>1 (most equal)</td>
+                    </tr>
+                    <tr>
+                        <td>Uttar Pradesh</td>
+                        <td>69%</td>
+                        <td>32 pp</td>
+                        <td>18 pp</td>
+                        <td>26 (least equal)</td>
+                    </tr>
+                    <tr>
+                        <td>Maharashtra</td>
+                        <td>84%</td>
+                        <td>15 pp</td>
+                        <td>8 pp</td>
+                        <td>12 (moderate)</td>
+                    </tr>
+                </table>
+                
+                <p><strong>Interpretation Questions:</strong></p>
+                <ol>
+                    <li>Which states achieve high coverage with low inequality?</li>
+                    <li>Is there a trade-off between overall coverage and equity?</li>
+                    <li>How would you prioritize states for targeted interventions?</li>
+                    <li>What additional variables would help explain these patterns?</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Part 3: Comparative Analysis Methods</h2>
+            <div class="time-indicator">20 minutes</div>
+            
+            <h3>Cross-Sectional vs. Longitudinal Comparison Frameworks</h3>
+            
+            <div class="comparison-framework">
+                <div class="framework-card cross-sectional">
+                    <h4>Cross-Sectional Comparisons</h4>
+                    <p><strong>What:</strong> Compare across groups at one time point</p>
+                    <p><strong>Use For:</strong> Understanding current disparities</p>
+                    
+                    <p><strong>Methods:</strong></p>
+                    <ul>
+                        <li>Regression decomposition</li>
+                        <li>Concentration curves</li>
+                        <li>Standardization techniques</li>
+                        <li>Multilevel modeling</li>
+                    </ul>
+                    
+                    <p><strong>Cautions:</strong></p>
+                    <ul>
+                        <li>Selection bias in groups</li>
+                        <li>Confounding variables</li>
+                        <li>Ecological fallacy</li>
+                    </ul>
+                </div>
+                
+                <div class="framework-card longitudinal">
+                    <h4>Longitudinal Comparisons</h4>
+                    <p><strong>What:</strong> Compare changes over time</p>
+                    <p><strong>Use For:</strong> Understanding trends and policy impacts</p>
+                    
+                    <p><strong>Methods:</strong></p>
+                    <ul>
+                        <li>Difference-in-differences</li>
+                        <li>Convergence analysis</li>
+                        <li>Decomposition of change</li>
+                        <li>Cohort analysis</li>
+                    </ul>
+                    
+                    <p><strong>Cautions:</strong></p>
+                    <ul>
+                        <li>Survey design changes</li>
+                        <li>Definition modifications</li>
+                        <li>External shocks</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3>Systematic Comparison Protocol</h3>
+            
+            <div class="best-practice">
+                <p><strong>📋 6-Step Comparison Framework:</strong></p>
+                
+                <p><strong>Step 1: Define Comparison Groups</strong></p>
+                <ul>
+                    <li>Clear inclusion/exclusion criteria</li>
+                    <li>Adequate sample sizes</li>
+                    <li>Meaningful contrasts</li>
+                </ul>
+                
+                <p><strong>Step 2: Assess Comparability</strong></p>
+                <ul>
+                    <li>Baseline characteristics balance</li>
+                    <li>Survey methodology consistency</li>
+                    <li>External validity concerns</li>
+                </ul>
+                
+                <p><strong>Step 3: Choose Appropriate Statistics</strong></p>
+                <ul>
+                    <li>Means vs. medians for skewed data</li>
+                    <li>Absolute vs. relative differences</li>
+                    <li>Effect sizes and practical significance</li>
+                </ul>
+                
+                <p><strong>Step 4: Account for Survey Design</strong></p>
+                <ul>
+                    <li>Sampling weights for population inference</li>
+                    <li>Clustering and stratification effects</li>
+                    <li>Design-based standard errors</li>
+                </ul>
+                
+                <p><strong>Step 5: Test Statistical Significance</strong></p>
+                <ul>
+                    <li>Appropriate tests for survey data</li>
+                    <li>Multiple comparison adjustments</li>
+                    <li>Confidence intervals over p-values</li>
+                </ul>
+                
+                <p><strong>Step 6: Interpret Substantively</p>
+                <ul>
+                    <li>Practical vs. statistical significance</li>
+                    <li>Policy relevance of differences</li>
+                    <li>Limitations and caveats</li>
+                </ul>
+            </div>
+            
+            <div class="exercise-box">
+                <h4>⚖️ Comparison Design Exercise (12 minutes)</h4>
+                
+                <p><strong>Scenario:</strong> Design a comparison to evaluate whether Pradhan Mantri Matru Vandana Yojana (maternity benefit scheme) improved birth outcomes.</p>
+                
+                <p><strong>Available Data:</strong> NFHS-4 (2015-16) and NFHS-5 (2019-21), scheme launched 2017</p>
+                
+                <p><strong>Your Design Task:</strong></p>
+                
+                <ol>
+                    <li><strong>Comparison Strategy:</strong> What groups/time periods will you compare?</li>
+                    <li><strong>Outcome Measures:</strong> Which birth outcomes are most relevant?</li>
+                    <li><strong>Confounding Control:</strong> What other factors changed 2015-2021?</li>
+                    <li><strong>Geographic Variation:</strong> How will you handle state-level differences?</li>
+                    <li><strong>Sample Restrictions:</strong> Any exclusions needed for valid comparison?</li>
+                </ol>
+                
+                <p><strong>Methodological Questions:</strong></p>
+                <ul>
+                    <li>How would you distinguish scheme effects from secular trends?</li>
+                    <li>What robustness checks would strengthen your analysis?</li>
+                    <li>How would you present uncertainty around your estimates?</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Part 4: Publication-Ready Visualization Workshop</h2>
+            <div class="time-indicator">15 minutes</div>
+            
+            <h3>From EDA to Communication</h3>
+            
+            <table>
+                <tr>
+                    <th>Visualization Goal</th>
+                    <th>EDA Version</th>
+                    <th>Publication Version</th>
+                    <th>Key Changes</th>
+                </tr>
+                <tr>
+                    <td><strong>Explore Distributions</strong></td>
+                    <td>Quick histogram with default settings</td>
+                    <td>Carefully binned histogram with context</td>
+                    <td>Optimal bins, reference lines, annotations</td>
+                </tr>
+                <tr>
+                    <td><strong>Compare Groups</strong></td>
+                    <td>Basic box plots by category</td>
+                    <td>Box plots with significance tests, sample sizes</td>
+                    <td>Statistical annotations, uncertainty</td>
+                </tr>
+                <tr>
+                    <td><strong>Show Trends</strong></td>
+                    <td>Simple line chart over time</td>
+                    <td>Multi-series with confidence bands</td>
+                    <td>Design effects, confidence intervals</td>
+                </tr>
+                <tr>
+                    <td><strong>Geographic Patterns</strong></td>
+                    <td>Quick choropleth with raw data</td>
+                    <td>Weighted estimates with data quality indicators</td>
+                    <td>Survey weights, missing data handling</td>
+                </tr>
+            </table>
+            
+            <div class="exercise-box">
+                <h4>🎨 Visualization Makeover Challenge (10 minutes)</h4>
+                
+                <p><strong>Take a basic EDA chart and make it publication-ready following these criteria:</strong></p>
+                
+                <div class="viz-comparison">
+                    <p><strong>✅ Publication Standards Checklist:</strong></p>
+                    <ul>
+                        <li>☐ <strong>Title:</strong> Descriptive and specific</li>
+                        <li>☐ <strong>Data source:</strong> Survey name, year, sample size</li>
+                        <li>☐ <strong>Weights:</strong> Population-weighted estimates noted</li>
+                        <li>☐ <strong>Uncertainty:</strong> Confidence intervals or SE shown</li>
+                        <li>☐ <strong>Missing data:</strong> Exclusions documented</li>
+                        <li>☐ <strong>Sample sizes:</strong> Provided for subgroups</li>
+                        <li>☐ <strong>Significance:</strong> Statistical tests results indicated</li>
+                        <li>☐ <strong>Context:</strong> Reference lines, benchmarks</li>
+                        <li>☐ <strong>Accessibility:</strong> Color-blind friendly palette</li>
+                        <li>☐ <strong>Format:</strong> High resolution, proper dimensions</li>
+                    </ul>
+                </div>
+                
+                <p><strong>Common EDA → Publication Improvements:</strong></p>
+                <ul>
+                    <li><strong>From:</strong> "Age Distribution" <strong>To:</strong> "Age Distribution of Women 15-49, NFHS-5 (N=699,686)"</li>
+                    <li><strong>From:</strong> Default color palette <strong>To:</strong> Colorbrewer or viridis scales</li>
+                    <li><strong>From:</strong> Sample percentages <strong>To:</strong> Weighted population estimates ± 95% CI</li>
+                    <li><strong>From:</strong> No sample size info <strong>To:</strong> "Sample sizes: Urban n=235K, Rural n=465K"</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Reflection & Advanced Practice</h2>
+            <div class="time-indicator">5 minutes</div>
+            
+            <div class="exercise-box">
+                <h4>🎯 Advanced EDA Skills Assessment</h4>
+                <p><strong>Rate your confidence (1-5) and identify learning priorities:</strong></p>
+                
+                <table>
+                    <tr>
+                        <th>Skill Area</th>
+                        <th>Confidence (1-5)</th>
+                        <th>Priority for Development</th>
+                    </tr>
+                    <tr>
+                        <td>Multi-dimensional visualization</td>
+                        <td>____</td>
+                        <td>High/Medium/Low</td>
+                    </tr>
+                    <tr>
+                        <td>Sampling weights application</td>
+                        <td>____</td>
+                        <td>High/Medium/Low</td>
+                    </tr>
+                    <tr>
+                        <td>Subgroup analysis planning</td>
+                        <td>____</td>
+                        <td>High/Medium/Low</td>
+                    </tr>
+                    <tr>
+                        <td>Temporal comparison methods</td>
+                        <td>____</td>
+                        <td>High/Medium/Low</td>
+                    </tr>
+                    <tr>
+                        <td>Publication-ready visualization</td>
+                        <td>____</td>
+                        <td>High/Medium/Low</td>
+                    </tr>
+                </table>
+                
+                <p><strong>Next Learning Goal:</strong> What's one advanced EDA technique you want to master in the next month?</p>
+            </div>
+        </div>
+        
+        <div class="takeaway">
+            <h3>Key Takeaway</h3>
+            <p style="font-size: 1.2em; margin: 0;">
+                Advanced EDA is about asking better questions of your data, not just making prettier charts. The goal is to uncover patterns that lead to insights that inform action - always with respect for the complexity and uncertainty inherent in survey data.
+            </p>
+        </div>
+        
+        <div class="section">
+            <h3>📚 Advanced Visualization Resources</h3>
+            
+            <p><strong>Advanced R Packages:</strong></p>
+            <ul>
+                <li><strong>ggplot2 extensions:</strong> ggridges, ggrepel, gghighlight, patchwork</li>
+                <li><strong>Survey analysis:</strong> survey, srvyr, surveytoolbox</li>
+                <li><strong>Interactive viz:</strong> plotly, shiny, flexdashboard</li>
+                <li><strong>Publication quality:</strong> cowplot, ggpubr, scales</li>
+            </ul>
+            
+            <p><strong>Python Libraries:</strong></p>
+            <ul>
+                <li><strong>Advanced plotting:</strong> altair, plotnine, bokeh</li>
+                <li><strong>Statistical viz:</strong> seaborn, statsmodels</li>
+                <li><strong>Survey analysis:</strong> statsmodels.survey, scikit-learn</li>
+                <li><strong>Interactive dashboards:</strong> streamlit, dash</li>
+            </ul>
+            
+            <p><strong>Specialized Tools:</strong></p>
+            <ul>
+                <li><strong>Stata:</strong> Advanced survey commands, graph editor</li>
+                <li><strong>Tableau:</strong> Interactive dashboards for survey data</li>
+                <li><strong>D3.js:</strong> Custom web visualizations</li>
+                <li><strong>Observable:</strong> Collaborative data exploration</li>
+            </ul>
+            
+            <p><strong>Next Steps in ImpactMojo:</strong></p>
+            <ul>
+                <li><strong>Bivariate Analysis 101:</strong> Relationships and correlations in survey data</li>
+                <li><strong>Multivariate Analysis 101:</strong> Advanced modeling with complex survey design</li>
+                <li><strong>Data Feminism 101:</strong> Critical approaches to survey data interpretation</li>
+                <li><strong>Visual Ethnography 101:</strong> Combining quantitative and qualitative data visualization</li>
+            </ul>
+        </div>
+        
+        <div class="print-note">
+            <p><em>This handout is part of the ImpactMojo 101 Knowledge Series</em><br>
+            <strong>Licensed under CC BY-NC-SA 4.0</strong> • Free to use with attribution • www.impactmojo.in</p>
+            <p>For advanced visualization code templates, publication-ready chart examples, and interactive dashboard tutorials, visit the ImpactMojo platform.</p>
+        </div>
+    </div>
+</body>
+</html>

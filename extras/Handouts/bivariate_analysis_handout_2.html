@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bivariate Analysis 101 - Workshop 2</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #e67e22, #f39c12);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        
+        .workshop-info {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .time-indicator {
+            background: #e74c3c;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section h2 {
+            color: #e67e22;
+            border-bottom: 3px solid #e67e22;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .section h3 {
+            color: #2c3e50;
+            margin-top: 25px;
+        }
+        
+        .survey-story {
+            background: #f8f9fa;
+            border-left: 5px solid #e67e22;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .survey-story h4 {
+            color: #e67e22;
+            margin-top: 0;
+        }
+        
+        .exercise-box {
+            background: #e8f4fd;
+            border: 1px solid #3498db;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .exercise-box h4 {
+            color: #2980b9;
+            margin-top: 0;
+        }
+        
+        .survey-warning {
+            background: #fff3cd;
+            border-left: 4px solid #f39c12;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .best-practice {
+            background: #d4edda;
+            border-left: 4px solid #27ae60;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .methods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .method-card {
+            background: #fdf2e9;
+            border-left: 4px solid #f39c12;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        
+        .method-card h5 {
+            margin: 0 0 10px 0;
+            color: #d35400;
+        }
+        
+        .assumptions-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .assumption-card {
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        
+        .violated {
+            background: #fef2f2;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .alternative {
+            background: #f0f9ff;
+            border-left: 4px solid #3498db;
+        }
+        
+        .takeaway {
+            background: linear-gradient(135deg, #e67e22, #f39c12);
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .print-note {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ecf0f1;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #e67e22;
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        
+        .diagnostic-framework {
+            background: #f8f9fa;
+            border: 2px solid #f39c12;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .effect-size-guide {
+            background: #f0f9ff;
+            border: 2px solid #3498db;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        @media print {
+            body { background: white; }
+            .container { box-shadow: none; }
+            .header { background: #e67e22 !important; }
+            .assumptions-grid { grid-template-columns: 1fr; }
+            .methods-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Bivariate Analysis 101</h1>
+            <div class="subtitle">Survey Design Effects, Assumptions Testing & Advanced Methods</div>
+            <div style="margin-top: 15px; font-size: 1em; opacity: 0.8;">
+                ImpactMojo Workshop Series • Robust Analysis for Complex Survey Data
+            </div>
+        </div>
+        
+        <div class="workshop-info">
+            <div class="time-indicator">75-90 Minutes</div>
+            <h3 style="margin-top: 10px;">Workshop 2: Survey Data Complexities & Robust Methods</h3>
+            <p><strong>Target Audience:</strong> Researchers working with complex survey data who need to account for design effects and assumption violations</p>
+            <p><strong>Prerequisites:</strong> Workshop 1 or equivalent knowledge of basic bivariate analysis</p>
+            <p><strong>Materials Needed:</strong> Statistical software with survey analysis capabilities, complex survey datasets</p>
+        </div>
+        
+        <div class="section">
+            <h2>Learning Objectives</h2>
+            <p>By the end of this workshop, participants will be able to:</p>
+            <ul>
+                <li>Account for survey design effects (clustering, stratification, weights) in bivariate analysis</li>
+                <li>Test statistical assumptions and choose appropriate alternatives when violated</li>
+                <li>Calculate and interpret design-based standard errors and confidence intervals</li>
+                <li>Handle non-normal data and outliers using robust statistical methods</li>
+                <li>Design and interpret subgroup analyses with proper multiple comparison adjustments</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>Part 1: Survey Design Effects in Bivariate Analysis</h2>
+            <div class="time-indicator">25 minutes</div>
+            
+            <div class="survey-story">
+                <h4>🎯 The Sampling Design Matters: NFHS Clustering Effects</h4>
+                
+                <p><strong>The Problem:</strong> Analyzing child immunization rates by state using NFHS-5 data</p>
+                
+                <p><strong>Naive Approach:</strong></p>
+                <ul>
+                    <li>Treat all 230,000 children as independent observations</li>
+                    <li>Standard t-test for state comparisons</li>
+                    <li>Result: Nearly all state differences "highly significant" (p < 0.001)</li>
+                </ul>
+                
+                <p><strong>Survey-Aware Approach:</strong></p>
+                <ul>
+                    <li>Account for two-stage clustering (PSU → household → child)</li>
+                    <li>Apply sampling weights for population representation</li>
+                    <li>Calculate design-based standard errors</li>
+                    <li>Result: Much larger confidence intervals, fewer "significant" differences</li>
+                </ul>
+                
+                <p><strong>The Impact:</strong> Design-corrected standard errors were 2.3 times larger on average. What seemed like strong evidence became much more uncertain.</p>
+                
+                <p><em>Ignoring survey design doesn't just affect statistical precision - it can lead to completely wrong policy conclusions.</em></p>
+            </div>
+            
+            <h3>Understanding Design Effects</h3>
+            
+            <div class="survey-warning">
+                <p><strong>⚠️ Design Effect (DEFF) = Design-based variance / Simple random sample variance</strong></p>
+                <ul>
+                    <li><strong>DEFF = 1:</strong> Survey design is as efficient as simple random sampling</li>
+                    <li><strong>DEFF > 1:</strong> Survey design reduces precision (most common)</li>
+                    <li><strong>DEFF < 1:</strong> Survey design improves precision (rare, due to stratification)</li>
+                    <li><strong>Typical values:</strong> 1.5-3.0 for household surveys, higher for rare outcomes</li>
+                </ul>
+            </div>
+            
+            <div class="methods-grid">
+                <div class="method-card">
+                    <h5>🎯 Clustering Effects</h5>
+                    <p><strong>Cause:</strong> Observations within clusters are more similar than random</p>
+                    <p><strong>Impact:</strong> Reduces effective sample size, inflates standard errors</p>
+                    <p><strong>Solution:</strong> Design-based standard errors, finite population correction</p>
+                </div>
+                
+                <div class="method-card">
+                    <h5>⚖️ Sampling Weights</h5>
+                    <p><strong>Cause:</strong> Unequal selection probabilities across subgroups</p>
+                    <p><strong>Impact:</strong> Biased estimates if weights ignored</p>
+                    <p><strong>Solution:</strong> Weighted analysis for all population estimates</p>
+                </div>
+                
+                <div class="method-card">
+                    <h5>🔄 Stratification</h5>
+                    <p><strong>Cause:</strong> Systematic sampling within homogeneous strata</p>
+                    <p><strong>Impact:</strong> Usually improves precision (DEFF < 1)</p>
+                    <p><strong>Solution:</strong> Account for stratification in variance estimation</p>
+                </div>
+                
+                <div class="method-card">
+                    <h5>🏠 Multiple Stages</h5>
+                    <p><strong>Cause:</strong> Hierarchical sampling (PSU → household → individual)</p>
+                    <p><strong>Impact:</strong> Complex correlation structure</p>
+                    <p><strong>Solution:</strong> Multi-level variance estimation</p>
+                </div>
+            </div>
+            
+            <div class="exercise-box">
+                <h4>📊 Problem Set: Survey Design Impact Assessment (15 minutes)</h4>
+                
+                <p><strong>Scenario:</strong> Comparing child stunting rates between urban and rural areas using NFHS-5 data</p>
+                
+                <div class="code-block">
+Sample Data: Child Stunting Analysis
+• Total children (12-59 months): 185,000
+• Urban sample: 65,000 children, 35% stunted
+• Rural sample: 120,000 children, 42% stunted
+• Design: 2-stage clustering, 707 PSUs
+• Average cluster size: 261 children
+• Intracluster correlation (ICC): 0.15 for stunting
+                </div>
+                
+                <h5>Problem 1: Naive vs. Design-Based Analysis (8 minutes)</h5>
+                
+                <p><strong>Calculate both approaches:</strong></p>
+                
+                <table>
+                    <tr>
+                        <th>Approach</th>
+                        <th>Urban % (SE)</th>
+                        <th>Rural % (SE)</th>
+                        <th>Difference (SE)</th>
+                        <th>95% CI</th>
+                        <th>p-value</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Naive (ignore design)</strong></td>
+                        <td>35% (±____)</td>
+                        <td>42% (±____)</td>
+                        <td>7% (±____)</td>
+                        <td>_____ to _____</td>
+                        <td>_____</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Design-based</strong></td>
+                        <td>35% (±____)</td>
+                        <td>42% (±____)</td>
+                        <td>7% (±____)</td>
+                        <td>_____ to _____</td>
+                        <td>_____</td>
+                    </tr>
+                </table>
+                
+                <div class="code-block">
+# Standard error calculations:
+
+# Naive SE for proportion = sqrt(p*(1-p)/n)
+# Design-based SE ≈ Naive SE × sqrt(DEFF)
+# DEFF ≈ 1 + (cluster_size - 1) × ICC
+# DEFF = 1 + (261 - 1) × 0.15 = 40
+
+# For difference in proportions:
+# SE_diff = sqrt(SE_urban² + SE_rural²)
+                </div>
+                
+                <p><strong>Interpretation Questions:</strong></p>
+                <ul>
+                    <li>How much larger are the design-based standard errors?</li>
+                    <li>Does the urban-rural difference remain statistically significant?</li>
+                    <li>What is the design effect (DEFF) for this analysis?</li>
+                    <li>How would this affect sample size planning for future surveys?</li>
+                </ul>
+                
+                <h5>Problem 2: Subgroup Analysis Planning (7 minutes)</h5>
+                
+                <p><strong>Research Question:</strong> How does the urban-rural stunting gap vary by wealth quintile?</p>
+                
+                <table>
+                    <tr>
+                        <th>Wealth Quintile</th>
+                        <th>Effective Sample Size</th>
+                        <th>Expected SE (%)</th>
+                        <th>Minimum Detectable Difference</th>
+                    </tr>
+                    <tr>
+                        <td>Poorest (Q1)</td>
+                        <td>_____ (37,000 ÷ DEFF)</td>
+                        <td>_____</td>
+                        <td>_____ % points</td>
+                    </tr>
+                    <tr>
+                        <td>Richest (Q5)</td>
+                        <td>_____ (37,000 ÷ DEFF)</td>
+                        <td>_____</td>
+                        <td>_____ % points</td>
+                    </tr>
+                </table>
+                
+                <p><strong>Design Questions:</strong></p>
+                <ul>
+                    <li>Which quintiles have adequate power for detecting 5% point differences?</li>
+                    <li>How would you adjust for multiple comparisons across 5 quintiles?</li>
+                    <li>What alternative analysis strategies would you consider?</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Part 2: Testing and Handling Assumption Violations</h2>
+            <div class="time-indicator">25 minutes</div>
+            
+            <h3>Common Assumption Violations and Robust Alternatives</h3>
+            
+            <div class="assumptions-grid">
+                <div class="assumption-card violated">
+                    <h4>❌ When Assumptions Fail</h4>
+                    <p><strong>Non-normality:</strong> Highly skewed income data</p>
+                    <p><strong>Unequal variances:</strong> Different spread across groups</p>
+                    <p><strong>Outliers:</strong> Extreme values affecting means</p>
+                    <p><strong>Small samples:</strong> Central limit theorem doesn't apply</p>
+                    <p><strong>Clustered data:</strong> Non-independent observations</p>
+                </div>
+                
+                <div class="assumption-card alternative">
+                    <h4>✅ Robust Alternatives</h4>
+                    <p><strong>Non-parametric tests:</strong> Mann-Whitney, Kruskal-Wallis</p>
+                    <p><strong>Bootstrap methods:</strong> Empirical confidence intervals</p>
+                    <p><strong>Welch's t-test:</strong> Unequal variances</p>
+                    <p><strong>Trimmed means:</strong> Reduce outlier influence</p>
+                    <p><strong>Permutation tests:</strong> No distributional assumptions</p>
+                </div>
+            </div>
+            
+            <h3>Diagnostic Framework for Choosing Methods</h3>
+            
+            <div class="diagnostic-framework">
+                <h4>🔍 4-Step Diagnostic Protocol</h4>
+                
+                <p><strong>Step 1: Visual Inspection</strong></p>
+                <ul>
+                    <li>Histograms and Q-Q plots for normality</li>
+                    <li>Box plots for outliers and group differences</li>
+                    <li>Scatter plots for linearity (correlations)</li>
+                </ul>
+                
+                <p><strong>Step 2: Formal Tests</strong></p>
+                <ul>
+                    <li>Shapiro-Wilk test for normality (small samples)</li>
+                    <li>Levene's test for equal variances</li>
+                    <li>Durbin-Watson test for independence</li>
+                </ul>
+                
+                <p><strong>Step 3: Effect Assessment</strong></p>
+                <ul>
+                    <li>How severe are the violations?</li>
+                    <li>Do they affect conclusions substantially?</li>
+                    <li>Is the analysis robust to violations?</li>
+                </ul>
+                
+                <p><strong>Step 4: Method Selection</strong></p>
+                <ul>
+                    <li>Choose most appropriate alternative</li>
+                    <li>Document assumptions and decisions</li>
+                    <li>Report sensitivity analyses</li>
+                </ul>
+            </div>
+            
+            <div class="exercise-box">
+                <h4>🔧 Problem Set: Robust Analysis Methods (15 minutes)</h4>
+                
+                <p><strong>Dataset:</strong> Household expenditure data with known distributional challenges</p>
+                
+                <div class="code-block">
+Household Monthly Expenditure by Education Level:
+• No Education: n=2,500, median=₹8,500, mean=₹12,400, SD=₹18,200
+• Primary: n=1,800, median=₹11,200, mean=₹15,800, SD=₹22,100  
+• Secondary: n=2,200, median=₹15,600, mean=₹21,300, SD=₹28,900
+• Higher: n=1,500, median=₹28,400, mean=₹42,600, SD=₹45,300
+
+Distribution characteristics:
+• Highly right-skewed (many poor households, few very rich)
+• Increasing variance with education level
+• 5% extreme outliers (>3 SD from group mean)
+                </div>
+                
+                <h5>Problem 1: Assumption Checking (5 minutes)</h5>
+                
+                <p><strong>Identify violations:</strong></p>
+                <table>
+                    <tr>
+                        <th>Assumption</th>
+                        <th>Evidence</th>
+                        <th>Violated?</th>
+                        <th>Severity</th>
+                    </tr>
+                    <tr>
+                        <td>Normality</td>
+                        <td>Mean >> Median in all groups</td>
+                        <td>Y/N</td>
+                        <td>Mild/Moderate/Severe</td>
+                    </tr>
+                    <tr>
+                        <td>Equal variances</td>
+                        <td>SD ranges from ₹18K to ₹45K</td>
+                        <td>Y/N</td>
+                        <td>Mild/Moderate/Severe</td>
+                    </tr>
+                    <tr>
+                        <td>No outliers</td>
+                        <td>5% extreme values identified</td>
+                        <td>Y/N</td>
+                        <td>Mild/Moderate/Severe</td>
+                    </tr>
+                </table>
+                
+                <h5>Problem 2: Method Comparison (10 minutes)</h5>
+                
+                <p><strong>Compare four analytical approaches:</strong></p>
+                
+                <table>
+                    <tr>
+                        <th>Method</th>
+                        <th>Test Statistic</th>
+                        <th>p-value</th>
+                        <th>Effect Size</th>
+                        <th>Recommendation</th>
+                    </tr>
+                    <tr>
+                        <td>Standard ANOVA (means)</td>
+                        <td>F = 89.4</td>
+                        <td>< 0.001</td>
+                        <td>η² = 0.17</td>
+                        <td>Use/Don't use</td>
+                    </tr>
+                    <tr>
+                        <td>Welch ANOVA (unequal var)</td>
+                        <td>F = 67.2</td>
+                        <td>< 0.001</td>
+                        <td>η² = 0.14</td>
+                        <td>Use/Don't use</td>
+                    </tr>
+                    <tr>
+                        <td>Kruskal-Wallis (medians)</td>
+                        <td>H = 1,847</td>
+                        <td>< 0.001</td>
+                        <td>η² = 0.23</td>
+                        <td>Use/Don't use</td>
+                    </tr>
+                    <tr>
+                        <td>Bootstrap ANOVA</td>
+                        <td>F = 89.4</td>
+                        <td>< 0.001</td>
+                        <td>Bootstrap CI</td>
+                        <td>Use/Don't use</td>
+                    </tr>
+                </table>
+                
+                <div class="best-practice">
+                    <p><strong>✅ Decision Framework:</strong></p>
+                    <ul>
+                        <li><strong>Research question:</strong> Are you interested in means or medians?</li>
+                        <li><strong>Robustness:</strong> How sensitive are conclusions to method choice?</li>
+                        <li><strong>Interpretability:</strong> Which approach is easiest to communicate?</li>
+                        <li><strong>Precedent:</strong> What do similar studies use?</li>
+                    </ul>
+                </div>
+                
+                <p><strong>Your Recommendation:</strong> Which method would you choose and why? Consider both statistical validity and practical interpretation.</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Part 3: Advanced Effect Size Interpretation</h2>
+            <div class="time-indicator">15 minutes</div>
+            
+            <h3>Moving Beyond Statistical Significance</h3>
+            
+            <div class="effect-size-guide">
+                <h4>📏 Effect Size Guidelines for Development Research</h4>
+                
+                <table>
+                    <tr>
+                        <th>Analysis Type</th>
+                        <th>Effect Size Measure</th>
+                        <th>Small</th>
+                        <th>Medium</th>
+                        <th>Large</th>
+                        <th>Policy Relevant</th>
+                    </tr>
+                    <tr>
+                        <td>Group differences</td>
+                        <td>Cohen's d</td>
+                        <td>0.2</td>
+                        <td>0.5</td>
+                        <td>0.8</td>
+                        <td>Context-dependent</td>
+                    </tr>
+                    <tr>
+                        <td>Correlations</td>
+                        <td>Pearson's r</td>
+                        <td>0.1</td>
+                        <td>0.3</td>
+                        <td>0.5</td>
+                        <td>r > 0.2 often meaningful</td>
+                    </tr>
+                    <tr>
+                        <td>Variance explained</td>
+                        <td>R² or η²</td>
+                        <td>0.01</td>
+                        <td>0.06</td>
+                        <td>0.14</td>
+                        <td>Even 1% can matter</td>
+                    </tr>
+                    <tr>
+                        <td>Categorical associations</td>
+                        <td>Cramer's V</td>
+                        <td>0.1</td>
+                        <td>0.3</td>
+                        <td>0.5</td>
+                        <td>V > 0.15 often meaningful</td>
+                    </tr>
+                </table>
+                
+                <p><strong>🎯 Development-Specific Considerations:</strong></p>
+                <ul>
+                    <li><strong>Small effects matter:</strong> 5% improvement in child mortality is huge</li>
+                    <li><strong>Cost considerations:</strong> Expensive interventions need larger effects</li>
+                    <li><strong>Equity focus:</strong> Effects on marginalized groups may be more important</li>
+                    <li><strong>Scalability:</strong> Small effects across millions of people = large impact</li>
+                </ul>
+            </div>
+            
+            <div class="exercise-box">
+                <h4>⚖️ Effect Size Interpretation Exercise (10 minutes)</h4>
+                
+                <p><strong>Scenario:</strong> Evaluating the relationship between mother's education and child vaccination</p>
+                
+                <div class="code-block">
+Analysis Results:
+• Sample: 45,000 children from NFHS-5
+• Mother's education: 0-20 years of schooling
+• Child vaccination: Complete schedule by age 2 (Yes/No)
+
+Statistical Results:
+• Point-biserial correlation: r = 0.31 (p < 0.001)
+• Logistic regression: OR = 1.18 per year of education
+• Effect size (Cohen's d): 0.67
+• Variance explained: R² = 0.096 (9.6%)
+
+Practical Results:
+• No education: 58% fully vaccinated
+• Primary (5 years): 71% fully vaccinated  
+• Secondary (10 years): 81% fully vaccinated
+• Higher (15 years): 89% fully vaccinated
+                </div>
+                
+                <p><strong>Multi-Dimensional Interpretation:</strong></p>
+                
+                <table>
+                    <tr>
+                        <th>Perspective</th>
+                        <th>Metric</th>
+                        <th>Value</th>
+                        <th>Interpretation</th>
+                    </tr>
+                    <tr>
+                        <td>Statistical</td>
+                        <td>Correlation (r)</td>
+                        <td>0.31</td>
+                        <td>_____ (Small/Medium/Large)</td>
+                    </tr>
+                    <tr>
+                        <td>Clinical</td>
+                        <td>Rate difference</td>
+                        <td>31 percentage points</td>
+                        <td>_____ (Meaningful/Not meaningful)</td>
+                    </tr>
+                    <tr>
+                        <td>Policy</td>
+                        <td>Number needed to treat</td>
+                        <td>_____ (1/0.31)</td>
+                        <td>_____ mothers need education for 1 additional vaccination</td>
+                    </tr>
+                    <tr>
+                        <td>Explanatory</td>
+                        <td>Variance explained</td>
+                        <td>9.6%</td>
+                        <td>_____ % of vaccination differences explained</td>
+                    </tr>
+                </table>
+                
+                <p><strong>Integration Questions:</strong></p>
+                <ol>
+                    <li>Is a 31 percentage point difference between no education and higher education practically significant for public health?</li>
+                    <li>How would you communicate the 9.6% variance explained to policymakers?</li>
+                    <li>What other factors might explain the remaining 90.4% of variance?</li>
+                    <li>Would you recommend education interventions based on these results?</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Part 4: Multiple Comparisons and Subgroup Analysis</h2>
+            <div class="time-indicator">15 minutes</div>
+            
+            <h3>The Multiple Testing Problem</h3>
+            
+            <div class="survey-warning">
+                <p><strong>⚠️ The Problem:</strong> When testing multiple hypotheses simultaneously, the probability of finding at least one "significant" result by chance increases rapidly.</p>
+                
+                <p><strong>Example:</strong> Testing 20 independent comparisons at α = 0.05</p>
+                <ul>
+                    <li><strong>Expected false positives:</strong> 20 × 0.05 = 1 spurious finding</li>
+                    <li><strong>Family-wise error rate:</strong> 1 - (0.95)²⁰ = 64% chance of ≥1 false positive</li>
+                    <li><strong>Solution needed:</strong> Adjust significance levels or interpret more conservatively</li>
+                </ul>
+            </div>
+            
+            <table>
+                <tr>
+                    <th>Adjustment Method</th>
+                    <th>When to Use</th>
+                    <th>Adjustment</th>
+                    <th>Pros/Cons</th>
+                </tr>
+                <tr>
+                    <td><strong>Bonferroni</strong></td>
+                    <td>Independent tests, conservative approach</td>
+                    <td>α/m (m = number of tests)</td>
+                    <td>Simple but overly conservative</td>
+                </tr>
+                <tr>
+                    <td><strong>Holm-Bonferroni</strong></td>
+                    <td>Sequential testing, more power</td>
+                    <td>Step-down procedure</td>
+                    <td>Less conservative than Bonferroni</td>
+                </tr>
+                <tr>
+                    <td><strong>False Discovery Rate</strong></td>
+                    <td>Exploratory analysis, many tests</td>
+                    <td>Control proportion of false discoveries</td>
+                    <td>Higher power, acceptable error rate</td>
+                </tr>
+                <tr>
+                    <td><strong>No Adjustment</strong></td>
+                    <td>Pre-specified hypothesis, single test</td>
+                    <td>α = 0.05</td>
+                    <td>Use only with strong justification</td>
+                </tr>
+            </table>
+            
+            <div class="exercise-box">
+                <h4>🎯 Multiple Comparisons Challenge (10 minutes)</h4>
+                
+                <p><strong>Scenario:</strong> Testing immunization rate differences across 28 Indian states</p>
+                
+                <div class="code-block">
+Research Question: Which states have significantly different immunization rates?
+• Number of pairwise comparisons: 28 × 27 ÷ 2 = 378 tests
+• Significance level: α = 0.05
+• Results: 89 comparisons showed p < 0.05
+
+Without adjustment: 89 "significant" differences
+With Bonferroni: α = 0.05/378 = 0.00013, only 12 remain significant
+With FDR (q = 0.05): 34 remain significant
+                </div>
+                
+                <p><strong>Strategic Decisions:</strong></p>
+                
+                <table>
+                    <tr>
+                        <th>Approach</th>
+                        <th>Significant Differences</th>
+                        <th>Interpretation</th>
+                        <th>Recommendation</th>
+                    </tr>
+                    <tr>
+                        <td>No adjustment</td>
+                        <td>89</td>
+                        <td>Almost all states differ significantly</td>
+                        <td>Use/Don't use</td>
+                    </tr>
+                    <tr>
+                        <td>Bonferroni</td>
+                        <td>12</td>
+                        <td>Only extreme differences are significant</td>
+                        <td>Use/Don't use</td>
+                    </tr>
+                    <tr>
+                        <td>FDR control</td>
+                        <td>34</td>
+                        <td>Balance between discovery and false positives</td>
+                        <td>Use/Don't use</td>
+                    </tr>
+                    <tr>
+                        <td>Effect size focus</td>
+                        <td>Focus on magnitude, not p-values</td>
+                        <td>Emphasize practical significance</td>
+                        <td>Use/Don't use</td>
+                    </tr>
+                </table>
+                
+                <p><strong>Alternative Strategies:</strong></p>
+                <ul>
+                    <li><strong>Planned contrasts:</strong> Test only theoretically motivated comparisons</li>
+                    <li><strong>Clustering approach:</strong> Group similar states, then test group differences</li>
+                    <li><strong>Continuous analysis:</strong> Model immunization rate as function of state characteristics</li>
+                    <li><strong>Hierarchical analysis:</strong> Multi-level modeling with state random effects</li>
+                </ul>
+                
+                <p><strong>Your Recommendation:</strong> Given this is exploratory analysis for policy prioritization, which approach would you choose? Consider both statistical validity and practical utility.</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Integration & Best Practices</h2>
+            <div class="time-indicator">5 minutes</div>
+            
+            <div class="best-practice">
+                <p><strong>🎯 Advanced Bivariate Analysis Checklist:</strong></p>
+                
+                <p><strong>Before Analysis:</strong></p>
+                <ul>
+                    <li>☐ Understand survey design (clustering, stratification, weights)</li>
+                    <li>☐ Check assumptions using visual and formal diagnostics</li>
+                    <li>☐ Plan for multiple comparisons if relevant</li>
+                    <li>☐ Define practical significance thresholds</li>
+                </ul>
+                
+                <p><strong>During Analysis:</strong></p>
+                <ul>
+                    <li>☐ Use appropriate survey analysis procedures</li>
+                    <li>☐ Apply robust methods when assumptions violated</li>
+                    <li>☐ Calculate both statistical and practical effect sizes</li>
+                    <li>☐ Document all decisions and alternatives considered</li>
+                </ul>
+                
+                <p><strong>Reporting Results:</strong></p>
+                <ul>
+                    <li>☐ Report design effects and effective sample sizes</li>
+                    <li>☐ Include confidence intervals, not just p-values</li>
+                    <li>☐ Discuss practical significance alongside statistical significance</li>
+                    <li>☐ Acknowledge limitations and assumption violations</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="takeaway">
+            <h3>Key Takeaway</h3>
+            <p style="font-size: 1.2em; margin: 0;">
+                Sophisticated bivariate analysis requires matching methods to data characteristics and research goals. Survey design effects, assumption violations, and multiple testing concerns are not obstacles to overcome - they're realities to acknowledge and address systematically.
+            </p>
+        </div>
+        
+        <div class="section">
+            <h3>📚 Advanced Analysis Resources</h3>
+            
+            <p><strong>Survey Analysis Software:</strong></p>
+            <ul>
+                <li><strong>R packages:</strong> survey, srvyr, broom, sandwich (robust SEs)</li>
+                <li><strong>Stata commands:</strong> svy, svyset, pwcompare, margins</li>
+                <li><strong>Python libraries:</strong> statsmodels.stats.survey, scipy.stats</li>
+                <li><strong>SAS procedures:</strong> PROC SURVEYMEANS, PROC SURVEYFREQ</li>
+            </ul>
+            
+            <p><strong>Robust Methods References:</strong></p>
+            <ul>
+                <li><em>"Robust Statistics"</em> - Huber & Ronchetti</li>
+                <li><em>"Practical Nonparametric Statistics"</em> - Conover</li>
+                <li><em>"Bootstrap Methods and Their Applications"</em> - Davison & Hinkley</li>
+                <li><em>"Multiple Comparisons and Multiple Tests"</em> - Bretz et al.</li>
+            </ul>
+            
+            <p><strong>Effect Size Calculators:</strong></p>
+            <ul>
+                <li><strong>Online tools:</strong> Effect size calculators for various tests</li>
+                <li><strong>R packages:</strong> effectsize, cohen.d, eta.squared</li>
+                <li><strong>Interpretation guides:</strong> Field-specific effect size conventions</li>
+            </ul>
+            
+            <p><strong>Next Steps in ImpactMojo:</strong></p>
+            <ul>
+                <li><strong>Multivariate Analysis 101:</strong> Controlling for confounders, regression models</li>
+                <li><strong>Econometrics 101:</strong> Causal inference and advanced modeling</li>
+                <li><strong>MEL 101:</strong> Monitoring and evaluation statistical methods</li>
+                <li><strong>Data Feminism 101:</strong> Critical approaches to statistical significance</li>
+            </ul>
+        </div>
+        
+        <div class="print-note">
+            <p><em>This handout is part of the ImpactMojo 101 Knowledge Series</em><br>
+            <strong>Licensed under CC BY-NC-SA 4.0</strong> • Free to use with attribution • www.impactmojo.in</p>
+            <p>For survey analysis code templates, robust method tutorials, and effect size interpretation guides, visit the ImpactMojo platform.</p>
+        </div>
+    </div>
+</body>
+</html>

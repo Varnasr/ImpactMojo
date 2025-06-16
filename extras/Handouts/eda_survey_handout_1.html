@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDA for Household Survey Data 101 - Workshop 1</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2980b9, #8e44ad);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        
+        .workshop-info {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .time-indicator {
+            background: #e74c3c;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section h2 {
+            color: #2980b9;
+            border-bottom: 3px solid #2980b9;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .section h3 {
+            color: #2c3e50;
+            margin-top: 25px;
+        }
+        
+        .data-story {
+            background: #f8f9fa;
+            border-left: 5px solid #2980b9;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .data-story h4 {
+            color: #2980b9;
+            margin-top: 0;
+        }
+        
+        .exercise-box {
+            background: #e8f4fd;
+            border: 1px solid #3498db;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .exercise-box h4 {
+            color: #2980b9;
+            margin-top: 0;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #f39c12;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .tip-box {
+            background: #d4edda;
+            border-left: 4px solid #27ae60;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .data-types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .data-type-card {
+            background: #f0f9ff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        
+        .data-type-card h5 {
+            margin: 0 0 10px 0;
+            color: #2980b9;
+        }
+        
+        .survey-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .survey-card {
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        
+        .nfhs-card {
+            background: #fef2f2;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .nss-card {
+            background: #f0f9ff;
+            border-left: 4px solid #3498db;
+        }
+        
+        .takeaway {
+            background: linear-gradient(135deg, #2980b9, #8e44ad);
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .print-note {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ecf0f1;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #2980b9;
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        
+        .data-sample {
+            background: #f8f9fa;
+            border: 2px solid #2980b9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .quality-check {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        @media print {
+            body { background: white; }
+            .container { box-shadow: none; }
+            .header { background: #2980b9 !important; }
+            .survey-comparison { grid-template-columns: 1fr; }
+            .data-types-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>EDA for Household Survey Data 101</h1>
+            <div class="subtitle">Univariate Analysis, Distributions & Data Quality for Indian Surveys</div>
+            <div style="margin-top: 15px; font-size: 1em; opacity: 0.8;">
+                ImpactMojo Workshop Series • NFHS, NSS & Census Data Exploration
+            </div>
+        </div>
+        
+        <div class="workshop-info">
+            <div class="time-indicator">75-90 Minutes</div>
+            <h3 style="margin-top: 10px;">Workshop 1: Data Understanding & Initial Exploration</h3>
+            <p><strong>Target Audience:</strong> Researchers, data analysts, policy professionals, and development practitioners working with large-scale household survey data</p>
+            <p><strong>Prerequisites:</strong> Basic statistics knowledge, familiarity with Excel or R/Python helpful</p>
+            <p><strong>Materials Needed:</strong> Computers with data analysis software, sample datasets (NFHS/NSS extracts), calculators</p>
+        </div>
+        
+        <div class="section">
+            <h2>Learning Objectives</h2>
+            <p>By the end of this workshop, participants will be able to:</p>
+            <ul>
+                <li>Navigate and understand the structure of major Indian household surveys (NFHS, NSS, Census)</li>
+                <li>Conduct systematic data quality checks and identify common issues in survey data</li>
+                <li>Perform univariate analysis including distributions, central tendencies, and outlier detection</li>
+                <li>Create and interpret data visualizations appropriate for different variable types</li>
+                <li>Handle missing data and understand sampling weights in survey analysis</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>Part 1: Understanding Household Survey Data - Structure and Context</h2>
+            <div class="time-indicator">20 minutes</div>
+            
+            <div class="data-story">
+                <h4>📊 The Journey from Village to Dataset: How Survey Data is Born</h4>
+                
+                <p><strong>The Process:</strong></p>
+                <ol>
+                    <li><strong>Sampling Design:</strong> NFHS-5 surveyed 636,699 households across 707 districts using two-stage stratified sampling</li>
+                    <li><strong>Data Collection:</strong> 20+ surveyors spent 13 months collecting data with tablets/phones</li>
+                    <li><strong>Quality Control:</strong> GPS verification, audio recordings, supervisory checks</li>
+                    <li><strong>Data Processing:</strong> Cleaning, coding, weighting, multiple rounds of validation</li>
+                    <li><strong>Public Release:</strong> Anonymized datasets with documentation after 12-18 months</li>
+                </ol>
+                
+                <p><strong>What This Means for Analysis:</strong></p>
+                <ul>
+                    <li>Every data point represents real households with complex lives</li>
+                    <li>Sampling weights are crucial - not all observations are equal</li>
+                    <li>Missing data patterns often reflect survey logistics, not random missingness</li>
+                    <li>Variable definitions and survey context matter enormously</li>
+                </ul>
+                
+                <p><em>EDA is about understanding both the data and the process that created it.</em></p>
+            </div>
+            
+            <h3>Major Indian Household Surveys</h3>
+            
+            <div class="survey-comparison">
+                <div class="survey-card nfhs-card">
+                    <h4>NFHS (National Family Health Survey)</h4>
+                    <ul>
+                        <li><strong>Focus:</strong> Health, nutrition, population</li>
+                        <li><strong>Frequency:</strong> Every 5-7 years</li>
+                        <li><strong>Sample:</strong> ~600,000 households</li>
+                        <li><strong>Modules:</strong> Household, women (15-49), men (15-54), children</li>
+                        <li><strong>Special Features:</strong> Biomarkers, GPS coordinates, detailed anthropometry</li>
+                        <li><strong>Best For:</strong> Health outcomes, demographic patterns, maternal/child health</li>
+                    </ul>
+                </div>
+                
+                <div class="survey-card nss-card">
+                    <h4>NSS (National Sample Survey)</h4>
+                    <ul>
+                        <li><strong>Focus:</strong> Consumption, employment, specific topics</li>
+                        <li><strong>Frequency:</strong> Annual, with major rounds every 5 years</li>
+                        <li><strong>Sample:</strong> Varies (~100,000-400,000 households)</li>
+                        <li><strong>Modules:</strong> Household characteristics, consumption expenditure, employment</li>
+                        <li><strong>Special Features:</strong> Detailed consumption diary, employment schedules</li>
+                        <li><strong>Best For:</strong> Poverty analysis, consumption patterns, labor force statistics</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3>Data Structure and Variable Types</h3>
+            
+            <div class="data-types-grid">
+                <div class="data-type-card">
+                    <h5>🏠 Household Level</h5>
+                    <p><strong>Variables:</strong> Location, wealth, housing quality, composition</p>
+                    <p><strong>Key IDs:</strong> Cluster, household number, state/district codes</p>
+                    <p><strong>Analysis Unit:</strong> Household as unit of observation</p>
+                </div>
+                
+                <div class="data-type-card">
+                    <h5>👤 Individual Level</h5>
+                    <p><strong>Variables:</strong> Demographics, education, health, employment</p>
+                    <p><strong>Key IDs:</strong> Individual line number, relationship to head</p>
+                    <p><strong>Analysis Unit:</strong> Person as unit of observation</p>
+                </div>
+                
+                <div class="data-type-card">
+                    <h5>👶 Child Level</h5>
+                    <p><strong>Variables:</strong> Anthropometry, immunization, feeding practices</p>
+                    <p><strong>Key IDs:</strong> Mother's line number, birth order</p>
+                    <p><strong>Analysis Unit:</strong> Children under 5 years</p>
+                </div>
+                
+                <div class="data-type-card">
+                    <h5>🏥 Birth History</h5>
+                    <p><strong>Variables:</strong> Birth timing, survival, care seeking</p>
+                    <p><strong>Key IDs:</strong> Birth sequence, mother's ID</p>
+                    <p><strong>Analysis Unit:</strong> Individual births/pregnancies</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Part 2: Data Quality Assessment - First Steps in EDA</h2>
+            <div class="time-indicator">25 minutes</div>
+            
+            <h3>The EDA Data Quality Checklist</h3>
+            
+            <div class="tip-box">
+                <p><strong>Always Start With:</strong></p>
+                <ol>
+                    <li><strong>Dataset dimensions:</strong> How many observations and variables?</li>
+                    <li><strong>Variable types:</strong> Categorical, continuous, dates, IDs</li>
+                    <li><strong>Missing data patterns:</strong> How much and why?</li>
+                    <li><strong>Value ranges:</strong> Any impossible or suspicious values?</li>
+                    <li><strong>Distribution shapes:</strong> Normal, skewed, multimodal?</li>
+                    <li><strong>Sampling weights:</strong> Are they provided and documented?</li>
+                </ol>
+            </div>
+            
+            <div class="exercise-box">
+                <h4>🔍 Hands-On Exercise: NFHS-5 Data Quality Check (20 minutes)</h4>
+                
+                <p><strong>Dataset:</strong> NFHS-5 Women's File Sample (10,000 observations)</p>
+                
+                <div class="data-sample">
+Sample Dataset Structure:
+Variables: 1,247 variables for 10,000 women
+Key Variables for Exercise:
+• v001: Cluster number
+• v002: Household number  
+• v005: Women's individual sample weight
+• v012: Current age of respondent
+• v106: Highest educational level
+• v130: Religion
+• v190: Wealth index combined
+• v201: Total children ever born
+• v447a: Women's BMI
+• v453: Hemoglobin level (g/dl)
+                </div>
+                
+                <h5>Step 1: Basic Data Overview (5 minutes)</h5>
+                <div class="code-block">
+# R code examples - adapt for your software
+# Load and examine data structure
+data <- read.csv("nfhs5_women_sample.csv")
+dim(data)  # Dimensions
+str(data)  # Structure
+summary(data)  # Basic summary
+
+# Python equivalent
+import pandas as pd
+data = pd.read_csv("nfhs5_women_sample.csv")
+data.shape
+data.info()
+data.describe()
+                </div>
+                
+                <p><strong>Questions to Answer:</strong></p>
+                <ul>
+                    <li>How many women and variables in the dataset? _____</li>
+                    <li>What's the age range of respondents? _____ to _____ years</li>
+                    <li>How many variables have missing data? _____</li>
+                </ul>
+                
+                <h5>Step 2: Missing Data Analysis (8 minutes)</h5>
+                <div class="code-block">
+# Check missing data patterns
+# R
+missing_summary <- sapply(data, function(x) sum(is.na(x)))
+missing_pct <- (missing_summary / nrow(data)) * 100
+
+# Python
+missing_summary = data.isnull().sum()
+missing_pct = (missing_summary / len(data)) * 100
+                </div>
+                
+                <p><strong>Critical Variables to Check:</strong></p>
+                <table>
+                    <tr>
+                        <th>Variable</th>
+                        <th>Expected Range</th>
+                        <th>Missing %</th>
+                        <th>Quality Issues?</th>
+                    </tr>
+                    <tr>
+                        <td>Age (v012)</td>
+                        <td>15-49 years</td>
+                        <td>_____%</td>
+                        <td>Y/N</td>
+                    </tr>
+                    <tr>
+                        <td>Education (v106)</td>
+                        <td>0-3 (coded)</td>
+                        <td>_____%</td>
+                        <td>Y/N</td>
+                    </tr>
+                    <tr>
+                        <td>Children born (v201)</td>
+                        <td>0-20 (realistic)</td>
+                        <td>_____%</td>
+                        <td>Y/N</td>
+                    </tr>
+                    <tr>
+                        <td>BMI (v447a)</td>
+                        <td>12-60 kg/m²</td>
+                        <td>_____%</td>
+                        <td>Y/N</td>
+                    </tr>
+                    <tr>
+                        <td>Hemoglobin (v453)</td>
+                        <td>40-200 g/L</td>
+                        <td>_____%</td>
+                        <td>Y/N</td>
+                    </tr>
+                </table>
+                
+                <h5>Step 3: Value Range Checks (7 minutes)</h5>
+                <div class="quality-check">
+                    <p><strong>Red Flags to Look For:</strong></p>
+                    <ul>
+                        <li><strong>Impossible values:</strong> Negative ages, BMI > 60</li>
+                        <li><strong>Suspicious patterns:</strong> All values ending in 0 or 5</li>
+                        <li><strong>Coding inconsistencies:</strong> Mix of 99, 999, -1 for missing</li>
+                        <li><strong>Extreme outliers:</strong> Values far outside expected range</li>
+                        <li><strong>Digit preference:</strong> Heaping at round numbers</li>
+                    </ul>
+                </div>
+                
+                <p><strong>Analysis Tasks:</strong></p>
+                <ol>
+                    <li>Create histograms for age and BMI - any unusual patterns?</li>
+                    <li>Check the distribution of children ever born - realistic?</li>
+                    <li>Examine hemoglobin values - any impossible measurements?</li>
+                    <li>Look at wealth index distribution - balanced across quintiles?</li>
+                </ol>
+                
+                <p><strong>Document Your Findings:</strong> What quality issues did you identify and how would you handle them?</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Part 3: Univariate Analysis - Understanding Single Variables</h2>
+            <div class="time-indicator">25 minutes</div>
+            
+            <h3>Categorical Variables Analysis</h3>
+            
+            <table>
+                <tr>
+                    <th>Analysis Type</th>
+                    <th>Purpose</th>
+                    <th>Key Statistics</th>
+                    <th>Visualizations</th>
+                </tr>
+                <tr>
+                    <td><strong>Frequency Distributions</strong></td>
+                    <td>Understand category proportions</td>
+                    <td>Counts, percentages, mode</td>
+                    <td>Bar charts, pie charts</td>
+                </tr>
+                <tr>
+                    <td><strong>Concentration Measures</strong></td>
+                    <td>Assess distribution evenness</td>
+                    <td>Herfindahl index, entropy</td>
+                    <td>Sorted bar charts</td>
+                </tr>
+                <tr>
+                    <td><strong>Missing Patterns</strong></td>
+                    <td>Understand non-response</td>
+                    <td>Missing rates by groups</td>
+                    <td>Missing data plots</td>
+                </tr>
+            </table>
+            
+            <h3>Continuous Variables Analysis</h3>
+            
+            <div class="warning-box">
+                <p><strong>⚠️ Survey Data Special Considerations:</strong></p>
+                <ul>
+                    <li><strong>Sampling weights:</strong> Use weighted statistics for population estimates</li>
+                    <li><strong>Complex survey design:</strong> Standard errors need design adjustment</li>
+                    <li><strong>Clustered observations:</strong> Households in same area are not independent</li>
+                    <li><strong>Measurement precision:</strong> Self-reported vs. measured variables differ</li>
+                </ul>
+            </div>
+            
+            <div class="exercise-box">
+                <h4>📊 Problem Set: Descriptive Statistics with Sampling Weights (15 minutes)</h4>
+                
+                <p><strong>Scenario:</strong> Analyzing women's nutritional status using BMI data from NFHS-5</p>
+                
+                <div class="code-block">
+Sample Data for Analysis:
+• Variable: v447a (BMI in kg/m²)
+• Sample size: 10,000 women with BMI measurements
+• Sampling weight: v005 (women's individual weight)
+• Age groups: 15-19, 20-29, 30-39, 40-49
+
+BMI Categories (WHO Standards):
+• Underweight: BMI < 18.5
+• Normal: 18.5 ≤ BMI < 25
+• Overweight: 25 ≤ BMI < 30  
+• Obese: BMI ≥ 30
+                </div>
+                
+                <h5>Problem 1: Basic Descriptive Statistics (5 minutes)</h5>
+                <p><strong>Calculate both unweighted and weighted statistics:</strong></p>
+                
+                <table>
+                    <tr>
+                        <th>Statistic</th>
+                        <th>Unweighted</th>
+                        <th>Weighted</th>
+                        <th>Difference</th>
+                    </tr>
+                    <tr>
+                        <td>Mean BMI</td>
+                        <td>_____</td>
+                        <td>_____</td>
+                        <td>_____</td>
+                    </tr>
+                    <tr>
+                        <td>Median BMI</td>
+                        <td>_____</td>
+                        <td>_____</td>
+                        <td>_____</td>
+                    </tr>
+                    <tr>
+                        <td>Standard Deviation</td>
+                        <td>_____</td>
+                        <td>_____</td>
+                        <td>_____</td>
+                    </tr>
+                    <tr>
+                        <td>% Underweight</td>
+                        <td>_____%</td>
+                        <td>_____%</td>
+                        <td>_____%</td>
+                    </tr>
+                </table>
+                
+                <p><strong>Interpretation:</strong> Why might weighted and unweighted estimates differ?</p>
+                
+                <h5>Problem 2: Distribution Analysis (5 minutes)</h5>
+                <div class="code-block">
+# R code for distribution analysis
+# Calculate percentiles
+quantile(data$v447a, probs = c(0.05, 0.10, 0.25, 0.50, 0.75, 0.90, 0.95), na.rm = T)
+
+# Check for outliers (values beyond Q1-1.5*IQR or Q3+1.5*IQR)
+Q1 <- quantile(data$v447a, 0.25, na.rm = T)
+Q3 <- quantile(data$v447a, 0.75, na.rm = T)
+IQR <- Q3 - Q1
+outliers <- data$v447a < (Q1 - 1.5*IQR) | data$v447a > (Q3 + 1.5*IQR)
+                </div>
+                
+                <p><strong>Questions to Answer:</strong></p>
+                <ul>
+                    <li>What are the 5th and 95th percentiles of BMI? _____ and _____</li>
+                    <li>How many women have BMI values flagged as statistical outliers? _____</li>
+                    <li>Are these outliers likely to be data errors or genuine extreme values?</li>
+                    <li>What percentage of women fall in the "normal" BMI range? _____%</li>
+                </ul>
+                
+                <h5>Problem 3: Visualization Interpretation (5 minutes)</h5>
+                <p><strong>Create and interpret these plots:</strong></p>
+                <ol>
+                    <li><strong>Histogram of BMI:</strong> Describe the shape of the distribution</li>
+                    <li><strong>Box plot by age group:</strong> How does BMI vary with age?</li>
+                    <li><strong>Bar chart of BMI categories:</strong> Which category is most common?</li>
+                </ol>
+                
+                <p><strong>Key Questions:</strong></p>
+                <ul>
+                    <li>Is the BMI distribution normal, skewed, or multimodal?</li>
+                    <li>Which age group has the highest median BMI?</li>
+                    <li>Are there any concerning patterns (e.g., high underweight rates)?</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Part 4: Working with Survey Weights and Missing Data</h2>
+            <div class="time-indicator">15 minutes</div>
+            
+            <h3>Understanding and Applying Sampling Weights</h3>
+            
+            <div class="tip-box">
+                <p><strong>✅ When to Use Weights:</strong></p>
+                <ul>
+                    <li><strong>Descriptive statistics:</strong> Means, proportions, percentiles</li>
+                    <li><strong>Population estimates:</strong> Total numbers, prevalence rates</li>
+                    <li><strong>Cross-tabulations:</strong> Relationships between variables</li>
+                    <li><strong>Regression analysis:</strong> For population-level inference</li>
+                </ul>
+                
+                <p><strong>⚠️ When NOT to Use Weights:</strong></p>
+                <ul>
+                    <li><strong>Sample size reporting:</strong> Always report unweighted N</li>
+                    <li><strong>Data quality checks:</strong> Missing patterns, outliers</li>
+                    <li><strong>Model diagnostics:</strong> Residual analysis, fit statistics</li>
+                    <li><strong>Exploratory analysis:</strong> Understanding data structure</li>
+                </ul>
+            </div>
+            
+            <h3>Handling Missing Data in Survey Context</h3>
+            
+            <table>
+                <tr>
+                    <th>Missing Type</th>
+                    <th>Example</th>
+                    <th>Recommended Approach</th>
+                    <th>Caution</th>
+                </tr>
+                <tr>
+                    <td><strong>Skip Patterns</strong></td>
+                    <td>Contraception questions for unmarried women</td>
+                    <td>Analyze only relevant subpopulation</td>
+                    <td>Clear documentation of eligibility</td>
+                </tr>
+                <tr>
+                    <td><strong>Item Non-response</strong></td>
+                    <td>Income, sensitive topics</td>
+                    <td>Multiple imputation or sensitivity analysis</td>
+                    <td>Check if missing is systematic</td>
+                </tr>
+                <tr>
+                    <td><strong>Measurement Issues</strong></td>
+                    <td>BMI when height/weight not measured</td>
+                    <td>Separate analysis for measured subsample</td>
+                    <td>Selection bias assessment</td>
+                </tr>
+                <tr>
+                    <td><strong>Technical Problems</strong></td>
+                    <td>Equipment failure for biomarkers</td>
+                    <td>Note limitations, avoid imputation</td>
+                    <td>Random vs. systematic failures</td>
+                </tr>
+            </table>
+            
+            <div class="exercise-box">
+                <h4>⚖️ Quick Exercise: Weight Impact Assessment (8 minutes)</h4>
+                
+                <p><strong>Compare estimates with and without weights for key indicators:</strong></p>
+                
+                <table>
+                    <tr>
+                        <th>Indicator</th>
+                        <th>Unweighted %</th>
+                        <th>Weighted %</th>
+                        <th>Difference</th>
+                        <th>Implication</th>
+                    </tr>
+                    <tr>
+                        <td>Urban residence</td>
+                        <td>_____%</td>
+                        <td>_____%</td>
+                        <td>_____pp</td>
+                        <td>Rural over/under-sampled?</td>
+                    </tr>
+                    <tr>
+                        <td>Higher education</td>
+                        <td>_____%</td>
+                        <td>_____%</td>
+                        <td>_____pp</td>
+                        <td>Education bias in sampling?</td>
+                    </tr>
+                    <tr>
+                        <td>Wealth quintile 1 (poorest)</td>
+                        <td>_____%</td>
+                        <td>_____%</td>
+                        <td>_____pp</td>
+                        <td>Poor over/under-represented?</td>
+                    </tr>
+                </table>
+                
+                <p><strong>Analysis Question:</strong> If weighted and unweighted estimates differ substantially (>5 percentage points), what does this tell you about the sampling design and the importance of using weights?</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Reflection & Next Steps</h2>
+            <div class="time-indicator">10 minutes</div>
+            
+            <div class="exercise-box">
+                <h4>🎯 EDA Action Planning</h4>
+                <p><strong>Individual Reflection (7 minutes):</strong></p>
+                
+                <p><strong>Consider your work with survey data:</strong></p>
+                <ol>
+                    <li><strong>Which household survey do you use most often?</strong> _____</li>
+                    <li><strong>What's the most common data quality issue you encounter?</strong> _____</li>
+                    <li><strong>What's one EDA technique you want to improve on?</strong> _____</li>
+                    <li><strong>How will you incorporate systematic quality checks into your workflow?</strong> _____</li>
+                    <li><strong>What's one insight about sampling weights that was new to you?</strong> _____</li>
+                </ol>
+                
+                <p><strong>Quick Share (3 minutes):</strong> Exchange experiences about data quality challenges in survey analysis</p>
+            </div>
+        </div>
+        
+        <div class="takeaway">
+            <h3>Key Takeaway</h3>
+            <p style="font-size: 1.2em; margin: 0;">
+                Good EDA is detective work. Always understand your data's structure, quality, and context before jumping into analysis. Survey data carries the complexity of real-world data collection - respect that complexity in your analysis.
+            </p>
+        </div>
+        
+        <div class="section">
+            <h3>📚 Resources for Advanced EDA</h3>
+            
+            <p><strong>Survey Data Sources:</strong></p>
+            <ul>
+                <li><strong>NFHS Data:</strong> dhsprogram.com (complete datasets with documentation)</li>
+                <li><strong>NSS Data:</strong> mospi.gov.in (unit-level data for recent rounds)</li>
+                <li><strong>India Human Development Survey:</strong> ihds.umd.edu (panel data)</li>
+                <li><strong>World Bank LSMS:</strong> microdata.worldbank.org (international comparisons)</li>
+            </ul>
+            
+            <p><strong>Technical Resources:</strong></p>
+            <ul>
+                <li><strong>R packages:</strong> survey, srvyr, naniar (missing data), VIM (visualization)</li>
+                <li><strong>Python libraries:</strong> statsmodels, pandas, seaborn, missingno</li>
+                <li><strong>Stata commands:</strong> svy, svyset, misstable, tabstat</li>
+            </ul>
+            
+            <p><strong>Best Practice Guides:</strong></p>
+            <ul>
+                <li><em>"Analyzing Health Equity Using Household Survey Data"</em> - WHO</li>
+                <li><em>"DHS Data Analysis Manual"</em> - ICF International</li>
+                <li><em>"Complex Survey Data Analysis"</em> - Lumley</li>
+            </ul>
+            
+            <p><strong>Next Steps in ImpactMojo:</strong></p>
+            <ul>
+                <li><strong>EDA for Survey Data 102:</strong> Advanced visualization and quality assessment</li>
+                <li><strong>Bivariate Analysis 101:</strong> Relationships between variables</li>
+                <li><strong>Multivariate Analysis 101:</strong> Complex modeling with survey data</li>
+                <li><strong>Data Feminism 101:</strong> Critical approaches to survey data analysis</li>
+            </ul>
+        </div>
+        
+        <div class="print-note">
+            <p><em>This handout is part of the ImpactMojo 101 Knowledge Series</em><br>
+            <strong>Licensed under CC BY-NC-SA 4.0</strong> • Free to use with attribution • www.impactmojo.in</p>
+            <p>For complete code scripts, sample datasets, and EDA templates, visit the ImpactMojo platform.</p>
+        </div>
+    </div>
+</body>
+</html>
