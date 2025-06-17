@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImpactMojo - Member Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+            width: 100%;
+            max-width: 900px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 600px;
+        }
+
+        .auth-brand {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .auth-brand h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .auth-brand p {
+            font-size: 18px;
+            opacity: 0.9;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .brand-stats {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .brand-stats h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            text-align: center;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .auth-forms {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h2 {
+            color: #2c3e50;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: #6c757d;
+            font-size: 16px;
+        }
+
+        .auth-form {
+            display: block;
+        }
+
+        .auth-form.hidden {
+            display: none;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .form-group input.error {
+            border-color: #e74c3c;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-error.show {
+            display: block;
+        }
+
+        .auth-btn {
+            width: 100%;
+            background: #e74c3c;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .auth-btn:hover {
+            background: #c0392b;
+        }
+
+        .auth-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        .auth-btn.loading {
+            position: relative;
+            color: transparent;
+        }
+
+        .auth-btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .form-toggle {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-toggle a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .form-toggle a:hover {
+            text-decoration: underline;
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .forgot-password a {
+            color: #6c757d;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .forgot-password a:hover {
+            color: #3498db;
+        }
+
+        .member-benefits {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .member-benefits h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .benefits-list li {
+            padding: 8px 0;
+            color: #495057;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .benefits-list li::before {
+            content: '✅';
+            position: absolute;
+            left: 0;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #28a745;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .verification-notice {
+            background: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ffc107;
+            display: none;
+        }
+
+        .verification-notice.show {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .auth-container {
+                grid-template-columns: 1fr;
+                margin: 20px;
+            }
+            
+            .auth-brand {
+                order: 2;
+                padding: 30px 20px;
+            }
+            
+            .auth-forms {
+                order: 1;
+                padding: 30px 20px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .back-to-site {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.9);
+            color: #2c3e50;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .back-to-site:hover {
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Back to main site link -->
+    <a href="index.html" class="back-to-site">← Back to ImpactMojo</a>
+
+    <div class="auth-container">
+        <!-- Brand Section -->
+        <div class="auth-brand">
+            <h1>ImpactMojo</h1>
+            <p>Join the premier development education platform for South Asia. Access 33 comprehensive knowledge decks and track your learning journey.</p>
+            
+            <div class="brand-stats">
+                <h3>🌟 Platform Stats</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-number">33</span>
+                        <span class="stat-label">Knowledge Decks</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">Educators</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">15+</span>
+                        <span class="stat-label">Countries</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">95%</span>
+                        <span class="stat-label">Satisfaction</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Forms Section -->
+        <div class="auth-forms">
+            <!-- Success Message -->
+            <div class="success-message" id="success-message">
+                <strong>Welcome to ImpactMojo!</strong> Your account has been created successfully.
+            </div>
+
+            <!-- Verification Notice -->
+            <div class="verification-notice" id="verification-notice">
+                <strong>Check your email!</strong> We've sent you a verification link to activate your account.
+            </div>
+
+            <!-- Login Form -->
+            <form class="auth-form" id="login-form">
+                <div class="form-header">
+                    <h2>Welcome Back</h2>
+                    <p>Sign in to continue your learning journey</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="login-email">Email Address</label>
+                    <input type="email" id="login-email" name="email" required>
+                    <div class="form-error" id="login-email-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" name="password" required>
+                    <div class="form-error" id="login-password-error"></div>
+                </div>
+
+                <button type="submit" class="auth-btn" id="login-btn">Sign In</button>
+
+                <div class="forgot-password">
+                    <a href="#" onclick="showForgotPassword()">Forgot your password?</a>
+                </div>
+
+                <div class="form-toggle">
+                    <p>Don't have an account? <a href="#" onclick="showSignup()">Sign up here</a></p>
+                </div>
+            </form>
+
+            <!-- Signup Form -->
+            <form class="auth-form hidden" id="signup-form">
+                <div class="form-header">
+                    <h2>Join ImpactMojo</h2>
+                    <p>Create your free account and start learning</p>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="signup-firstname">First Name</label>
+                        <input type="text" id="signup-firstname" name="firstname" required>
+                        <div class="form-error" id="signup-firstname-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-lastname">Last Name</label>
+                        <input type="text" id="signup-lastname" name="lastname" required>
+                        <div class="form-error" id="signup-lastname-error"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-email">Email Address</label>
+                    <input type="email" id="signup-email" name="email" required>
+                    <div class="form-error" id="signup-email-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-organization">Organization</label>
+                    <input type="text" id="signup-organization" name="organization" placeholder="University, NGO, Government, etc.">
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-role">Role</label>
+                    <input type="text" id="signup-role" name="role" placeholder="Professor, Researcher, Policy Analyst, etc.">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" name="password" required minlength="6">
+                        <div class="form-error" id="signup-password-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-confirm">Confirm Password</label>
+                        <input type="password" id="signup-confirm" name="confirm" required>
+                        <div class="form-error" id="signup-confirm-error"></div>
+                    </div>
+                </div>
+
+                <button type="submit" class="auth-btn" id="signup-btn">Create Account</button>
+
+                <div class="form-toggle">
+                    <p>Already have an account? <a href="#" onclick="showLogin()">Sign in here</a></p>
+                </div>
+
+                <div class="member-benefits">
+                    <h4>🎯 Member Benefits</h4>
+                    <ul class="benefits-list">
+                        <li>Progress tracking across all 33 decks</li>
+                        <li>Interactive quizzes and assessments</li>
+                        <li>Personal notes and bookmarking</li>
+                        <li>Completion certificates</li>
+                        <li>10% discount on consulting services</li>
+                        <li>Weekly challenge questions</li>
+                    </ul>
+                </div>
+            </form>
+
+            <!-- Forgot Password Form -->
+            <form class="auth-form hidden" id="forgot-form">
+                <div class="form-header">
+                    <h2>Reset Password</h2>
+                    <p>Enter your email to receive a password reset link</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="forgot-email">Email Address</label>
+                    <input type="email" id="forgot-email" name="email" required>
+                    <div class="form-error" id="forgot-email-error"></div>
+                </div>
+
+                <button type="submit" class="auth-btn" id="forgot-btn">Send Reset Link</button>
+
+                <div class="form-toggle">
+                    <p>Remember your password? <a href="#" onclick="showLogin()">Sign in here</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import Firebase services
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+        import { getFirestore, collection, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
+
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDnF0eJsTULzOJUnBskybd44dG5w-f46vE",
+            authDomain: "impactmojo.firebaseapp.com",
+            projectId: "impactmojo",
+            storageBucket: "impactmojo.firebasestorage.app",
+            messagingSenderId: "529198336589",
+            appId: "1:529198336589:web:1664b5344de5bfb31bea04",
+            measurementId: "G-ZHPPXXMRGV"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const analytics = getAnalytics(app);
+
+        console.log("Firebase initialized successfully!");
+
+        // Form Management
+        function showLogin() {
+            hideAllForms();
+            document.getElementById('login-form').classList.remove('hidden');
+            clearErrors();
+        }
+
+        function showSignup() {
+            hideAllForms();
+            document.getElementById('signup-form').classList.remove('hidden');
+            clearErrors();
+        }
+
+        function showForgotPassword() {
+            hideAllForms();
+            document.getElementById('forgot-form').classList.remove('hidden');
+            clearErrors();
+        }
+
+        function hideAllForms() {
+            document.querySelectorAll('.auth-form').forEach(form => {
+                form.classList.add('hidden');
+            });
+            hideMessages();
+        }
+
+        function hideMessages() {
+            document.getElementById('success-message').classList.remove('show');
+            document.getElementById('verification-notice').classList.remove('show');
+        }
+
+        function clearErrors() {
+            document.querySelectorAll('.form-error').forEach(error => {
+                error.classList.remove('show');
+                error.textContent = '';
+            });
+            document.querySelectorAll('input').forEach(input => {
+                input.classList.remove('error');
+            });
+        }
+
+        function showError(fieldId, message) {
+            const field = document.getElementById(fieldId);
+            const error = document.getElementById(fieldId + '-error');
+            
+            field.classList.add('error');
+            error.textContent = message;
+            error.classList.add('show');
+        }
+
+        function setButtonLoading(buttonId, loading) {
+            const button = document.getElementById(buttonId);
+            if (loading) {
+                button.classList.add('loading');
+                button.disabled = true;
+            } else {
+                button.classList.remove('loading');
+                button.disabled = false;
+            }
+        }
+
+        // Authentication Functions
+        async function handleLogin(event) {
+            event.preventDefault();
+            clearErrors();
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            setButtonLoading('login-btn', true);
+            
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                
+                // Successful login - redirect to dashboard
+                localStorage.setItem('impactmojo_user', JSON.stringify({
+                    uid: user.uid,
+                    email: user.email,
+                    loginTime: new Date().toISOString()
+                }));
+                
+                // Redirect to dashboard
+                window.location.href = 'dashboard.html';
+                
+            } catch (error) {
+                console.error('Login error:', error);
+                
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                        showError('login-email', 'No account found with this email address.');
+                        break;
+                    case 'auth/wrong-password':
+                        showError('login-password', 'Incorrect password.');
+                        break;
+                    case 'auth/invalid-email':
+                        showError('login-email', 'Invalid email address.');
+                        break;
+                    case 'auth/too-many-requests':
+                        showError('login-email', 'Too many failed attempts. Please try again later.');
+                        break;
+                    default:
+                        showError('login-email', 'Login failed. Please try again.');
+                }
+            } finally {
+                setButtonLoading('login-btn', false);
+            }
+        }
+
+        async function handleSignup(event) {
+            event.preventDefault();
+            clearErrors();
+            
+            const firstName = document.getElementById('signup-firstname').value;
+            const lastName = document.getElementById('signup-lastname').value;
+            const email = document.getElementById('signup-email').value;
+            const organization = document.getElementById('signup-organization').value;
+            const role = document.getElementById('signup-role').value;
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-confirm').value;
+            
+            // Validation
+            let hasErrors = false;
+            
+            if (firstName.trim().length < 2) {
+                showError('signup-firstname', 'First name must be at least 2 characters.');
+                hasErrors = true;
+            }
+            
+            if (lastName.trim().length < 2) {
+                showError('signup-lastname', 'Last name must be at least 2 characters.');
+                hasErrors = true;
+            }
+            
+            if (password.length < 6) {
+                showError('signup-password', 'Password must be at least 6 characters.');
+                hasErrors = true;
+            }
+            
+            if (password !== confirmPassword) {
+                showError('signup-confirm', 'Passwords do not match.');
+                hasErrors = true;
+            }
+            
+            if (hasErrors) return;
+            
+            setButtonLoading('signup-btn', true);
+            
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                
+                // Create user profile in Firestore
+                await setDoc(doc(db, 'users', user.uid), {
+                    firstName: firstName.trim(),
+                    lastName: lastName.trim(),
+                    email: email,
+                    organization: organization.trim(),
+                    role: role.trim(),
+                    memberSince: new Date(),
+                    progress: {
+                        decksCompleted: 0,
+                        totalDecks: 33,
+                        streak: 0,
+                        lastActivity: new Date(),
+                        quizScores: {}
+                    },
+                    bookmarks: [],
+                    notes: {},
+                    discountEligible: true
+                });
+                
+                // Send email verification
+                await sendEmailVerification(user);
+                
+                // Show success message
+                document.getElementById('success-message').classList.add('show');
+                document.getElementById('verification-notice').classList.add('show');
+                
+                // Clear form
+                document.getElementById('signup-form').reset();
+                
+                // Auto-switch to login after 3 seconds
+                setTimeout(() => {
+                    showLogin();
+                }, 3000);
+                
+            } catch (error) {
+                console.error('Signup error:', error);
+                
+                switch (error.code) {
+                    case 'auth/email-already-in-use':
+                        showError('signup-email', 'An account with this email already exists.');
+                        break;
+                    case 'auth/invalid-email':
+                        showError('signup-email', 'Invalid email address.');
+                        break;
+                    case 'auth/weak-password':
+                        showError('signup-password', 'Password is too weak.');
+                        break;
+                    default:
+                        showError('signup-email', 'Account creation failed. Please try again.');
+                }
+            } finally {
+                setButtonLoading('signup-btn', false);
+            }
+        }
+
+        async function handleForgotPassword(event) {
+            event.preventDefault();
+            clearErrors();
+            
+            const email = document.getElementById('forgot-email').value;
+            
+            setButtonLoading('forgot-btn', true);
+            
+            try {
+                await sendPasswordResetEmail(auth, email);
+                
+                document.getElementById('success-message').innerHTML = 
+                    '<strong>Reset link sent!</strong> Check your email for password reset instructions.';
+                document.getElementById('success-message').classList.add('show');
+                
+                // Clear form and switch to login
+                document.getElementById('forgot-form').reset();
+                setTimeout(() => {
+                    showLogin();
+                }, 3000);
+                
+            } catch (error) {
+                console.error('Password reset error:', error);
+                
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                        showError('forgot-email', 'No account found with this email address.');
+                        break;
+                    case 'auth/invalid-email':
+                        showError('forgot-email', 'Invalid email address.');
+                        break;
+                    default:
+                        showError('forgot-email', 'Failed to send reset email. Please try again.');
+                }
+            } finally {
+                setButtonLoading('forgot-btn', false);
+            }
+        }
+
+        // Make functions global so they can be called from HTML
+        window.showLogin = showLogin;
+        window.showSignup = showSignup;
+        window.showForgotPassword = showForgotPassword;
+
+        // Event Listeners
+        document.getElementById('login-form').addEventListener('submit', handleLogin);
+        document.getElementById('signup-form').addEventListener('submit', handleSignup);
+        document.getElementById('forgot-form').addEventListener('submit', handleForgotPassword);
+
+        // Password confirmation validation
+        document.getElementById('signup-confirm').addEventListener('input', function() {
+            const password = document.getElementById('signup-password').value;
+            const confirm = this.value;
+            
+            if (confirm && password !== confirm) {
+                showError('signup-confirm', 'Passwords do not match.');
+            } else {
+                document.getElementById('signup-confirm-error').classList.remove('show');
+                this.classList.remove('error');
+            }
+        });
+
+        // Check URL hash for direct signup link
+        if (window.location.hash === '#signup') {
+            showSignup();
+        } else {
+            showLogin();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is already logged in
+            const savedUser = localStorage.getItem('impactmojo_user');
+            if (savedUser) {
+                // User already logged in, could redirect to dashboard
+                console.log('User already logged in:', JSON.parse(savedUser));
+                // Uncomment to auto-redirect: window.location.href = 'dashboard.html';
+            }
+        });
+    </script>
+</body>
+</html>

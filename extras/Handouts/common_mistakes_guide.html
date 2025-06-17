@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Econometrics 101 - Common Mistakes & Diagnostics Guide</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 30px;
+            margin: -30px -30px 30px -30px;
+            border-radius: 10px 10px 0 0;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.3em;
+            font-weight: 300;
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+        
+        .intro-box {
+            background: #e3f2fd;
+            border: 1px solid #bbdefb;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .intro-box h3 {
+            color: #1565c0;
+            margin-top: 0;
+        }
+        
+        .mistake-category {
+            margin: 30px 0;
+            border: 2px solid #dc3545;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .category-header {
+            background: #dc3545;
+            color: white;
+            padding: 15px 25px;
+            font-size: 1.3em;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .category-content {
+            padding: 25px;
+        }
+        
+        .mistake-item {
+            margin: 25px 0;
+            border-left: 4px solid #ffc107;
+            padding-left: 20px;
+            background: #fff3cd;
+            padding: 15px 15px 15px 25px;
+            border-radius: 0 6px 6px 0;
+        }
+        
+        .mistake-item h4 {
+            color: #856404;
+            margin-top: 0;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .mistake-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+        
+        .problem-description {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 4px;
+            padding: 12px;
+            margin: 10px 0;
+        }
+        
+        .problem-description h5 {
+            color: #721c24;
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+        
+        .solution-box {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 4px;
+            padding: 12px;
+            margin: 10px 0;
+        }
+        
+        .solution-box h5 {
+            color: #0c5460;
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+        
+        .code-example {
+            background: #2c3e50;
+            color: white;
+            padding: 12px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        
+        .diagnostic-checklist {
+            background: #e8f5e8;
+            border: 1px solid #c3e6cb;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .diagnostic-checklist h5 {
+            color: #155724;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        .checklist-item {
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .checklist-item input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        
+        .red-flag {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .red-flag h5 {
+            color: #721c24;
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+        
+        .good-practice {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .good-practice h5 {
+            color: #155724;
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.9em;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background: #dc3545;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .wrong {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .right {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .interpretation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .interpretation-card {
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .interpretation-card.wrong {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+        }
+        
+        .interpretation-card.right {
+            background: #d4edda;
+            border-color: #c3e6cb;
+        }
+        
+        .interpretation-card h5 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        .interpretation-card.wrong h5 {
+            color: #721c24;
+        }
+        
+        .interpretation-card.right h5 {
+            color: #155724;
+        }
+        
+        .print-note {
+            margin-top: 40px;
+            padding: 20px;
+            background: #e9ecef;
+            border-radius: 8px;
+            text-align: center;
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+        
+        .severity-high {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+        
+        .severity-medium {
+            border-left-color: #ffc107;
+            background: #fff3cd;
+        }
+        
+        .severity-low {
+            border-left-color: #17a2b8;
+            background: #d1ecf1;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                font-size: 11pt;
+            }
+            .container {
+                box-shadow: none;
+                padding: 20px;
+            }
+            .header {
+                background: #e74c3c !important;
+                -webkit-print-color-adjust: exact;
+                margin: -20px -20px 20px -20px;
+                padding: 20px;
+            }
+            .category-header {
+                background: #dc3545 !important;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            .header {
+                margin: -20px -20px 20px -20px;
+                padding: 20px;
+            }
+            .header h1 {
+                font-size: 1.8em;
+            }
+            .interpretation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Common Mistakes & Diagnostics Guide</h1>
+            <div class="subtitle">Avoiding Pitfalls in Econometric Analysis</div>
+        </div>
+        
+        <div class="intro-box">
+            <h3>🎯 How to Use This Guide</h3>
+            <p>This guide covers the most common mistakes in econometric analysis and how to avoid them. Each mistake includes:</p>
+            <ul>
+                <li><strong>🚫 The Problem:</strong> What goes wrong and why</li>
+                <li><strong>🔍 How to Detect:</strong> Warning signs and diagnostic tests</li>
+                <li><strong>✅ The Solution:</strong> Best practices and fixes</li>
+                <li><strong>💻 Code Examples:</strong> Implementation in Stata/R</li>
+            </ul>
+            
+            <p><strong>Severity Levels:</strong></p>
+            <ul>
+                <li><span style="color: #dc3545;">🔴 Critical:</span> Invalidates results, must fix</li>
+                <li><span style="color: #ffc107;">🟡 Important:</span> Affects reliability, should address</li>
+                <li><span style="color: #17a2b8;">🔵 Minor:</span> Presentation issue, good practice to fix</li>
+            </ul>
+        </div>
+        
+        <div class="mistake-category">
+            <h2 class="category-header">🔴 Interpretation and Causality Errors</h2>
+            <div class="category-content">
+                
+                <div class="mistake-item severity-high">
+                    <h4><span class="mistake-icon">🚫</span> Claiming Causation from Correlation</h4>
+                    
+                    <div class="problem-description">
+                        <h5>The Problem</h5>
+                        <p>Interpreting regression coefficients as causal effects when identification assumptions aren't met. This is the most fundamental error in applied econometrics.</p>
+                    </div>
+                    
+                    <div class="interpretation-grid">
+                        <div class="interpretation-card wrong">
+                            <h5>❌ Wrong</h5>
+                            <p>"The regression shows that education <em>causes</em> a 7.8% increase in income."</p>
+                            <p><em>Problem: Ignores ability bias, family background, and selection.</em></p>
+                        </div>
+                        
+                        <div class="interpretation-card right">
+                            <h5>✅ Right</h5>
+                            <p>"Education is <em>associated</em> with 7.8% higher income. If we could eliminate ability bias and other confounders, this might represent a causal effect."</p>
+                        </div>
+                    </div>
+                    
+                    <div class="solution-box">
+                        <h5>How to Avoid</h5>
+                        <ul>
+                            <li>Always state identification assumptions explicitly</li>
+                            <li>Use causal language only when assumptions are credible</li>
+                            <li>Acknowledge potential confounders and their likely direction of bias</li>
+                            <li>Consider alternative explanations for your results</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mistake-item severity-high">
+                    <h4><span class="mistake-icon">🎯</span> Misinterpreting Log-Linear Coefficients</h4>
+                    
+                    <div class="problem-description">
+                        <h5>The Problem</h5>
+                        <p>Incorrectly interpreting coefficients in log-linear regressions, especially for large effects or binary variables.</p>
+                    </div>
+                    
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Coefficient</th>
+                                <th>❌ Wrong Interpretation</th>
+                                <th>✅ Correct Interpretation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>β = 0.08</td>
+                                <td>8% increase</td>
+                                <td>8 percentage point increase in log(Y), ≈ 8.3% increase in Y</td>
+                            </tr>
+                            <tr>
+                                <td>β = 0.5 (binary X)</td>
+                                <td>50% increase</td>
+                                <td>65% increase: (e^0.5 - 1) × 100 = 64.9%</td>
+                            </tr>
+                            <tr>
+                                <td>β = -0.2</td>
+                                <td>20% decrease</td>
+                                <td>18% decrease: (e^-0.2 - 1) × 100 = -18.1%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="code-example">
+* Stata: Converting log coefficients correctly
+display "Percentage change: " (exp(0.08) - 1)*100  // 8.33%
+display "For binary variable: " (exp(0.5) - 1)*100  // 64.9%
+
+# R: Converting log coefficients
+(exp(0.08) - 1) * 100  # 8.33%
+(exp(0.5) - 1) * 100   # 64.9%
+                    </div>
+                </div>
+                
+                <div class="mistake-item severity-medium">
+                    <h4><span class="mistake-icon">📊</span> Confusing Statistical vs Economic Significance</h4>
+                    
+                    <div class="problem-description">
+                        <h5>The Problem</h5>
+                        <p>Focusing only on p-values without considering economic magnitude or practical importance.</p>
+                    </div>
+                    
+                    <div class="red-flag">
+                        <h5>🚩 Red Flags</h5>
+                        <ul>
+                            <li>Reporting only that results are "significant at 1%"</li>
+                            <li>With large samples, tiny effects become "significant"</li>
+                            <li>Ignoring confidence intervals and effect sizes</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="good-practice">
+                        <h5>✅ Best Practice</h5>
+                        <ul>
+                            <li>Always report effect sizes in meaningful units</li>
+                            <li>Compare effect sizes to relevant benchmarks</li>
+                            <li>Consider cost-effectiveness and policy relevance</li>
+                            <li>Report confidence intervals, not just point estimates</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mistake-category">
+            <h2 class="category-header">🟡 Specification and Model Selection</h2>
+            <div class="category-content">
+                
+                <div class="mistake-item severity-medium">
+                    <h4><span class="mistake-icon">⚙️</span> Including Bad Controls</h4>
+                    
+                    <div class="problem-description">
+                        <h5>The Problem</h5>
+                        <p>Controlling for variables that are outcomes of the treatment (bad controls) or that create collider bias.</p>
+                    </div>
+                    
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Control Type</th>
+                                <th>When to Include</th>
+                                <th>When NOT to Include</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Pre-treatment variables</strong></td>
+                                <td class="right">Age, baseline education, family background</td>
+                                <td class="wrong">Never exclude pre-treatment confounders</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Post-treatment outcomes</strong></td>
+                                <td class="wrong">NEVER - these are bad controls</td>
+                                <td class="right">Income when studying effect of education</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Mediators</strong></td>
+                                <td class="wrong">Only in mediation analysis</td>
+                                <td class="right">Job search when studying training effects</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Colliders</strong></td>
+                                <td class="wrong">NEVER - creates bias</td>
+                                <td class="right">Selection into sample based on treatment</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="diagnostic-checklist">
+                        <h5>🔍 Control Variable Checklist</h5>
+                        <div class="checklist-item">
+                            <input type="checkbox"> Variables are measured before treatment
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox"> Variables affect both treatment and outcome
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox"> Variables are not outcomes of the treatment
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox"> Variables are not mediators (unless doing mediation analysis)
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox"> Variables don't create selection bias (colliders)
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mistake-item severity-medium">
+                    <h4><span class="mistake-icon">🔍</span> Data Mining and P-Hacking</h4>
+                    
+                    <div class="problem-description">
+                        <h5>The Problem</h5>
+                        <p>Testing many specifications until finding significant results, then reporting only the "best" model without acknowledging the search process.</p>
+                    </div>
+                    
+                    <div class="red-flag">
+                        <h5>🚩 Warning Signs</h5>
+                        <ul>
+                            <li>Results are barely significant (p = 0.049)</li>
+                            <li>Many alternative specifications were tested</li>
+                            <li>Outcome definitions changed after seeing data</li>
+                            <li>Subgroup analysis seems post-hoc</li>
+                            <li>Sample restrictions appear arbitrary</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="solution-box">
+                        <h5>Prevention Strategies</h5>
+                        <ul>
+                            <li><strong>Pre-register analysis plans</strong> before seeing outcome data</li>
+                            <li><strong>Report all specifications tested</strong>, not just significant ones</li>
+                            <li><strong>Adjust for multiple testing</strong> when testing many hypotheses</li>
+                            <li><strong>Use hold-out samples</strong> for exploratory analysis</li>
+                            <li><strong>Focus on effect sizes</strong> and robustness, not just significance</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="code-example">
+* Stata: Multiple testing correction
+bonferroni: reg outcome treatment controls, by(subgroup)
+
+# R: Multiple testing correction
+library(p.adjust)
+p_values <- c(0.02, 0.04, 0.01, 0.08)
+p.adjust(p_values, method = "bonferroni")
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mistake-category">
+            <h2 class="category-header">🔵 Assumption Violations and Diagnostics</h2>
+            <div class="category-content">
+                
+                <div class="mistake-item severity-medium">
+                    <h4><span class="mistake-icon">📈</span> Ignoring Assumption Violations</h4>
+                    
+                    <div class="problem-description">
+                        <h5>The Problem</h5>
+                        <p>Running regressions without checking whether key assumptions are satisfied, leading to invalid inference.</p>
+                    </div>
+                    
+                    <div class="diagnostic-checklist">
+                        <h5>🔍 Essential Diagnostic Tests</h5>
+                        <div class="checklist-item">
+                            <input type="checkbox"> <strong>Linearity:</strong> Plot residuals vs fitted values
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox"> <strong>Homoskedasticity:</strong> Breusch-Pagan test, White test
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox"> <strong>Normality:</strong> Histogram of residuals, Shapiro-Wilk test
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox"> <strong>Independence:</strong> Durbin-Watson test for serial correlation
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox"> <strong>Multicollinearity:</strong> VIF test, correlation matrix
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox"> <strong>Outliers:</strong> Cook's distance, leverage plots
+                        </div>
+                    </div>
+                    
+                    <div class="code-example">
+* Stata: Comprehensive diagnostics
+reg y x controls
+predict resid, residuals
+predict fitted, xb
+
+* Heteroskedasticity tests
+estat hettest     // Breusch-Pagan
+estat imtest      // White test
+
+* Multicollinearity
+estat vif
+
+* Outliers
+predict leverage, leverage
+predict cooksd, cooksd
+
+# R: Comprehensive diagnostics
+model <- lm(y ~ x + controls, data = data)
+
+# Built-in diagnostic plots
+plot(model)
+
+# Individual tests
+library(car)
+ncvTest(model)        # Non-constant variance
+vif(model)           # Multicollinearity
+outlierTest(model)   # Outliers
+                    </div>
+                </div>
+                
+                <div class="mistake-item severity-high">
+                    <h4><span class="mistake-icon">🔗</span> Weak Instruments in IV Analysis</h4>
+                    
+                    <div class="problem-description">
+                        <h5>The Problem</h5>
+                        <p>Using instruments that are only weakly correlated with the endogenous variable, leading to biased and imprecise estimates.</p>
+                    </div>
+                    
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>First Stage F-stat</th>
+                                <th>Interpretation</th>
+                                <th>Action Needed</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="right">F > 104</td>
+                                <td>Strong instrument (< 5% bias)</td>
+                                <td>Proceed with IV</td>
+                            </tr>
+                            <tr>
+                                <td class="wrong">10 < F < 104</td>
+                                <td>Weak instrument (5-10% bias)</td>
+                                <td>Report weak IV robust tests</td>
+                            </tr>
+                            <tr>
+                                <td class="wrong">F < 10</td>
+                                <td>Very weak instrument</td>
+                                <td>Find better instrument or abandon IV</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="solution-box">
+                        <h5>Best Practices for IV</h5>
+                        <ul>
+                            <li>Always report first-stage F-statistics</li>
+                            <li>Use Stock-Yogo critical values for weak IV tests</li>
+                            <li>Consider LIML or Fuller-k estimators for weak IV</li>
+                            <li>Test overidentifying restrictions if multiple instruments</li>
+                            <li>Discuss exclusion restriction credibility extensively</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mistake-item severity-medium">
+                    <h4><span class="mistake-icon">📊</span> Wrong Standard Errors</h4>
+                    
+                    <div class="problem-description">
+                        <h5>The Problem</h5>
+                        <p>Using inappropriate standard errors that don't account for data structure, leading to wrong statistical inference.</p>
+                    </div>
+                    
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Data Structure</th>
+                                <th>Standard Error Type</th>
+                                <th>Stata Command</th>
+                                <th>R Command</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Heteroskedastic errors</td>
+                                <td>Robust (Huber-White)</td>
+                                <td>reg y x, robust</td>
+                                <td>lm_robust(y ~ x, se_type = "HC1")</td>
+                            </tr>
+                            <tr>
+                                <td>Clustered data</td>
+                                <td>Cluster-robust</td>
+                                <td>reg y x, cluster(id)</td>
+                                <td>lm_robust(y ~ x, clusters = id)</td>
+                            </tr>
+                            <tr>
+                                <td>Panel data</td>
+                                <td>Panel-robust</td>
+                                <td>xtreg y x, fe robust</td>
+                                <td>feols(y ~ x | id, vcov = "hetero")</td>
+                            </tr>
+                            <tr>
+                                <td>Survey data</td>
+                                <td>Survey weights</td>
+                                <td>svy: reg y x</td>
+                                <td>svyglm(y ~ x, design = survey_design)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mistake-category">
+            <h2 class="category-header">🟡 Method-Specific Mistakes</h2>
+            <div class="category-content">
+                
+                <div class="mistake-item severity-high">
+                    <h4><span class="mistake-icon">📈</span> Parallel Trends Violation in DiD</h4>
+                    
+                    <div class="problem-description">
+                        <h5>The Problem</h5>
+                        <p>Assuming parallel trends without testing, or proceeding with DiD when pre-trends are clearly different.</p>
+                    </div>
+                    
+                    <div class="diagnostic-checklist">
+                        <h5>🔍 Pre-Trends Testing</h5>
+                        <div class="checklist-item">
+                            <input type="checkbox"> Plot raw trends for treatment and control groups
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox"> Run event study regression with pre-treatment leads
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox"> Test joint significance of pre-treatment coefficients
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox"> Check if trends differ statistically
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox"> Consider alternative control groups if trends don't match
+                        </div>
+                    </div>
+                    
+                    <div class="code-example">
+* Stata: Event study for pre-trends testing
+gen rel_time = year - first_treat_year
+reg outcome i.rel_time##i.treated i.year i.district
+test 1.rel_time#1.treated 2.rel_time#1.treated // Test pre-trends
+
+# R: Event study
+library(fixest)
+data$rel_time <- data$year - data$first_treat_year
+model <- feols(outcome ~ i(rel_time, treated, ref = -1) | year + district, data)
+iplot(model)
+                    </div>
+                </div>
+                
+                <div class="mistake-item severity-medium">
+                    <h4><span class="mistake-icon">📏</span> Bandwidth Gaming in RDD</h4>
+                    
+                    <div class="problem-description">
+                        <h5>The Problem</h5>
+                        <p>Choosing bandwidth to get desired results rather than using data-driven optimal selection.</p>
+                    </div>
+                    
+                    <div class="red-flag">
+                        <h5>🚩 Suspicious Practices</h5>
+                        <ul>
+                            <li>Reporting only one bandwidth without sensitivity analysis</li>
+                            <li>Choosing bandwidth that barely makes results significant</li>
+                            <li>Not using data-driven bandwidth selection methods</li>
+                            <li>Asymmetric windows around the cutoff</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="solution-box">
+                        <h5>RDD Best Practices</h5>
+                        <ul>
+                            <li>Use optimal bandwidth selection (Imbens-Kalyanaraman)</li>
+                            <li>Show results for multiple bandwidths</li>
+                            <li>Test for manipulation around cutoff (McCrary test)</li>
+                            <li>Check covariate balance at cutoff</li>
+                            <li>Use local polynomial with bias correction</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="code-example">
+* Stata: Proper RDD analysis
+rdrobust outcome running_var, c(cutoff)
+rdrobust outcome running_var, c(cutoff) h(5 10 15)  // Multiple bandwidths
+rddensity running_var, c(cutoff)  // McCrary test
+
+# R: Proper RDD analysis
+library(rdrobust)
+rdrobust(outcome, running_var, c = cutoff)
+rdplot(outcome, running_var, c = cutoff)
+rddensity(running_var, c = cutoff)
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mistake-category">
+            <h2 class="category-header">🔵 Presentation and Reporting</h2>
+            <div class="category-content">
+                
+                <div class="mistake-item severity-low">
+                    <h4><span class="mistake-icon">📋</span> Poor Table and Figure Quality</h4>
+                    
+                    <div class="problem-description">
+                        <h5>The Problem</h5>
+                        <p>Regression tables and figures that are hard to read, poorly labeled, or missing essential information.</p>
+                    </div>
+                    
+                    <div class="good-practice">
+                        <h5>✅ Table Best Practices</h5>
+                        <ul>
+                            <li>Include standard errors in parentheses below coefficients</li>
+                            <li>Mark significance levels clearly (* p<0.1, ** p<0.05, *** p<0.01)</li>
+                            <li>Report number of observations, R², and F-statistics</li>
+                            <li>Use meaningful variable names and labels</li>
+                            <li>Include fixed effects and control variable notes</li>
+                            <li>Report confidence intervals for key estimates</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="code-example">
+* Stata: Professional table output
+eststo clear
+reg outcome treatment controls
+eststo model1
+reg outcome treatment controls i.year
+eststo model2
+
+esttab model1 model2 using "results.tex", ///
+    se star(* 0.10 ** 0.05 *** 0.01) ///
+    stats(N r2, labels("Observations" "R-squared")) ///
+    title("Impact of Treatment on Outcome") ///
+    replace
+
+# R: Professional table output
+library(stargazer)
+model1 <- lm(outcome ~ treatment + controls, data)
+model2 <- lm(outcome ~ treatment + controls + factor(year), data)
+
+stargazer(model1, model2, 
+          type = "latex",
+          star.cutoffs = c(0.05, 0.01, 0.001),
+          title = "Impact of Treatment on Outcome")
+                    </div>
+                </div>
+                
+                <div class="mistake-item severity-low">
+                    <h4><span class="mistake-icon">📝</span> Inadequate Robustness Discussion</h4>
+                    
+                    <div class="problem-description">
+                        <h5>The Problem</h5>
+                        <p>Not acknowledging limitations or discussing what could go wrong with the analysis.</p>
+                    </div>
+                    
+                    <div class="diagnostic-checklist">
+                        <h5>✅ Robustness Section Checklist</h5>
+                        <div class="checklist-item">
+                            <input type="checkbox"> Acknowledge key identification assumptions
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox"> Discuss potential sources of bias
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox"> Report alternative specifications
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox"> Test sensitivity to sample restrictions
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox"> Consider external validity limitations
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox"> Report results that don't support main findings
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="good-practice">
+            <h5>🎯 Final Advice: The Credibility Checklist</h5>
+            <p>Before submitting any econometric analysis, ask yourself:</p>
+            <ul>
+                <li><strong>Would I bet my career on this identification strategy?</strong></li>
+                <li><strong>Have I been honest about what I can and cannot conclude?</strong></li>
+                <li><strong>Would my results survive peer review by a skeptical economist?</strong></li>
+                <li><strong>Are my results robust to reasonable alternative specifications?</strong></li>
+                <li><strong>Do my results make economic sense?</strong></li>
+            </ul>
+            <p>If you can't answer "yes" to all these questions, keep working on your analysis.</p>
+        </div>
+        
+        <div class="print-note">
+            <p><em>Common Mistakes & Diagnostics Guide • ImpactMojo 101 Knowledge Series</em><br>
+            <strong>Licensed under CC BY-NC-SA 4.0</strong> • Free to use with attribution • www.impactmojo.in</p>
+            <p>Remember: Good econometrics is about being honest with the data and transparent about limitations. When in doubt, be conservative in your claims.</p>
+        </div>
+    </div>
+</body>
+</html>

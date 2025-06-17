@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Econometrics 101 - Formula Reference Sheet</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.4;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+            background: #f8f9fa;
+        }
+        
+        .container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 20px;
+            margin: -25px -25px 25px -25px;
+            border-radius: 10px 10px 0 0;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.2em;
+            font-weight: 300;
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            margin-top: 8px;
+            opacity: 0.9;
+        }
+        
+        .method-section {
+            margin: 25px 0;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .method-header {
+            background: #e74c3c;
+            color: white;
+            padding: 12px 20px;
+            font-size: 1.3em;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .method-content {
+            padding: 20px;
+        }
+        
+        .formula-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .formula-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 15px;
+        }
+        
+        .formula-card h4 {
+            color: #495057;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+        
+        .formula {
+            background: #2c3e50;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+            text-align: center;
+            margin: 8px 0;
+            overflow-x: auto;
+        }
+        
+        .interpretation {
+            background: #e8f5e8;
+            border-left: 3px solid #27ae60;
+            padding: 8px 12px;
+            margin: 8px 0;
+            font-size: 0.9em;
+        }
+        
+        .assumption-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        
+        .assumption-box h5 {
+            color: #856404;
+            margin-top: 0;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+        
+        .diagnostic-tests {
+            background: #f3e5f5;
+            border: 1px solid #e1bee7;
+            border-radius: 4px;
+            padding: 12px;
+            margin: 10px 0;
+        }
+        
+        .diagnostic-tests h5 {
+            color: #7b1fa2;
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+        
+        .quick-ref {
+            background: #e3f2fd;
+            border: 1px solid #bbdefb;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .quick-ref h3 {
+            color: #1565c0;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.9em;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background: #e74c3c;
+            color: white;
+            font-weight: 600;
+            font-size: 0.85em;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .code-snippet {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            margin: 5px 0;
+        }
+        
+        .se-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+            margin: 10px 0;
+        }
+        
+        .se-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 10px;
+        }
+        
+        .se-card h5 {
+            color: #495057;
+            margin-top: 0;
+            margin-bottom: 5px;
+            font-size: 0.85em;
+        }
+        
+        .critical-values {
+            background: #fff8e1;
+            border: 1px solid #ffecb3;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        
+        .critical-values h5 {
+            color: #f57c00;
+            margin-top: 0;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+        
+        ul {
+            padding-left: 15px;
+            margin: 5px 0;
+        }
+        
+        li {
+            margin-bottom: 3px;
+            font-size: 0.9em;
+        }
+        
+        .print-note {
+            margin-top: 30px;
+            padding: 15px;
+            background: #e9ecef;
+            border-radius: 6px;
+            text-align: center;
+            color: #6c757d;
+            font-size: 0.8em;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                font-size: 10pt;
+            }
+            .container {
+                box-shadow: none;
+                padding: 10px;
+            }
+            .header {
+                background: #e74c3c !important;
+                -webkit-print-color-adjust: exact;
+                margin: -10px -10px 15px -10px;
+                padding: 15px;
+            }
+            .method-header {
+                background: #e74c3c !important;
+                -webkit-print-color-adjust: exact;
+            }
+            .formula {
+                background: #2c3e50 !important;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            .header {
+                margin: -15px -15px 15px -15px;
+                padding: 15px;
+            }
+            .header h1 {
+                font-size: 1.8em;
+            }
+            .formula-grid {
+                grid-template-columns: 1fr;
+            }
+            .se-types {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Econometrics 101 Formula Reference</h1>
+            <div class="subtitle">Essential Formulas for Causal Inference & Policy Evaluation</div>
+        </div>
+        
+        <div class="quick-ref">
+            <h3>🎯 Quick Method Selection Guide</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>When to Use</th>
+                        <th>Key Assumption</th>
+                        <th>Estimate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>OLS</strong></td>
+                        <td>Selection on observables</td>
+                        <td>E[ε|X] = 0</td>
+                        <td>ATE (if CIA holds)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>IV/2SLS</strong></td>
+                        <td>Endogenous treatment</td>
+                        <td>Exclusion restriction</td>
+                        <td>LATE for compliers</td>
+                    </tr>
+                    <tr>
+                        <td><strong>DiD</strong></td>
+                        <td>Policy changes over time</td>
+                        <td>Parallel trends</td>
+                        <td>ATT for treated units</td>
+                    </tr>
+                    <tr>
+                        <td><strong>RDD</strong></td>
+                        <td>Assignment by threshold</td>
+                        <td>No manipulation</td>
+                        <td>LATE at cutoff</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Fixed Effects</strong></td>
+                        <td>Panel data, unobserved heterogeneity</td>
+                        <td>Strict exogeneity</td>
+                        <td>Within estimator</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="method-section">
+            <h2 class="method-header">📊 Basic Regression & OLS</h2>
+            <div class="method-content">
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <h4>Population Model</h4>
+                        <div class="formula">Y = β₀ + β₁X₁ + β₂X₂ + ... + βₖXₖ + ε</div>
+                        <div class="interpretation">β₁ = marginal effect of X₁ on Y, holding other X's constant</div>
+                    </div>
+                    
+                    <div class="formula-card">
+                        <h4>OLS Estimator</h4>
+                        <div class="formula">β̂ = (X'X)⁻¹X'Y</div>
+                        <div class="interpretation">Minimizes sum of squared residuals</div>
+                    </div>
+                    
+                    <div class="formula-card">
+                        <h4>Standard Errors</h4>
+                        <div class="formula">SE(β̂) = √diag{σ²(X'X)⁻¹}</div>
+                        <div class="interpretation">where σ² = RSS/(n-k-1)</div>
+                    </div>
+                    
+                    <div class="formula-card">
+                        <h4>t-statistic</h4>
+                        <div class="formula">t = β̂/SE(β̂)</div>
+                        <div class="interpretation">H₀: β = 0, reject if |t| > 1.96 (α = 0.05)</div>
+                    </div>
+                </div>
+                
+                <div class="assumption-box">
+                    <h5>OLS Assumptions (Gauss-Markov)</h5>
+                    <ul>
+                        <li><strong>A1:</strong> Linear in parameters</li>
+                        <li><strong>A2:</strong> Random sampling</li>
+                        <li><strong>A3:</strong> No perfect collinearity</li>
+                        <li><strong>A4:</strong> Zero conditional mean: E[ε|X] = 0</li>
+                        <li><strong>A5:</strong> Homoskedasticity: Var(ε|X) = σ²</li>
+                        <li><strong>A6:</strong> Normality: ε|X ~ N(0, σ²) [for inference]</li>
+                    </ul>
+                </div>
+                
+                <div class="se-types">
+                    <div class="se-card">
+                        <h5>Robust SEs (Heteroskedasticity)</h5>
+                        <div class="code-snippet">Stata: reg y x, robust<br>R: lm_robust(y ~ x, data)</div>
+                    </div>
+                    
+                    <div class="se-card">
+                        <h5>Clustered SEs</h5>
+                        <div class="code-snippet">Stata: reg y x, cluster(id)<br>R: lm_robust(y ~ x, clusters = id)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="method-section">
+            <h2 class="method-header">🔧 Instrumental Variables (IV/2SLS)</h2>
+            <div class="method-content">
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <h4>Structural Equation</h4>
+                        <div class="formula">Y = β₀ + β₁X + β₂Z + ε</div>
+                        <div class="interpretation">X is endogenous, Z are exogenous controls</div>
+                    </div>
+                    
+                    <div class="formula-card">
+                        <h4>First Stage</h4>
+                        <div class="formula">X = π₀ + π₁IV + π₂Z + v</div>
+                        <div class="interpretation">IV predicts endogenous variable X</div>
+                    </div>
+                    
+                    <div class="formula-card">
+                        <h4>Reduced Form</h4>
+                        <div class="formula">Y = γ₀ + γ₁IV + γ₂Z + u</div>
+                        <div class="interpretation">Total effect of IV on outcome</div>
+                    </div>
+                    
+                    <div class="formula-card">
+                        <h4>IV Estimator (Wald)</h4>
+                        <div class="formula">β̂₁ᴵⱽ = γ₁/π₁ = Cov(Y,IV)/Cov(X,IV)</div>
+                        <div class="interpretation">Ratio of reduced form to first stage</div>
+                    </div>
+                </div>
+                
+                <div class="assumption-box">
+                    <h5>IV Assumptions</h5>
+                    <ul>
+                        <li><strong>Relevance:</strong> Cov(IV, X) ≠ 0 (first stage F > 10)</li>
+                        <li><strong>Exclusion:</strong> Cov(IV, ε) = 0 (only affects Y through X)</li>
+                        <li><strong>Monotonicity:</strong> Same direction response for all units</li>
+                        <li><strong>Independence:</strong> IV uncorrelated with unobservables</li>
+                    </ul>
+                </div>
+                
+                <div class="diagnostic-tests">
+                    <h5>Key Diagnostic Tests</h5>
+                    <ul>
+                        <li><strong>Weak IV Test:</strong> F-stat in first stage > 10 (Stock-Yogo critical values)</li>
+                        <li><strong>Overidentification:</strong> Hansen J-test (p > 0.05 for valid instruments)</li>
+                        <li><strong>Endogeneity Test:</strong> Hausman test (compare OLS vs IV)</li>
+                    </ul>
+                    <div class="code-snippet">Stata: ivregress 2sls y (x = iv) z, first<br>R: ivreg(y ~ x + z | iv + z, data)</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="method-section">
+            <h2 class="method-header">📈 Difference-in-Differences (DiD)</h2>
+            <div class="method-content">
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <h4>DiD Estimator</h4>
+                        <div class="formula">δ̂ = (Ȳ₁ᵀ - Ȳ₀ᵀ) - (Ȳ₁ᶜ - Ȳ₀ᶜ)</div>
+                        <div class="interpretation">Treatment effect = difference in differences</div>
+                    </div>
+                    
+                    <div class="formula-card">
+                        <h4>Regression Specification</h4>
+                        <div class="formula">Y_{it} = β₀ + β₁Treat_i + β₂Post_t + β₃(Treat×Post) + X_{it} + ε_{it}</div>
+                        <div class="interpretation">β₃ is the DiD estimate</div>
+                    </div>
+                    
+                    <div class="formula-card">
+                        <h4>With Fixed Effects</h4>
+                        <div class="formula">Y_{it} = α_i + λ_t + β(Treat×Post) + X_{it} + ε_{it}</div>
+                        <div class="interpretation">α_i = unit FE, λ_t = time FE</div>
+                    </div>
+                    
+                    <div class="formula-card">
+                        <h4>Event Study</h4>
+                        <div class="formula">Y_{it} = α_i + λ_t + Σₖ βₖD_{i,t+k} + X_{it} + ε_{it}</div>
+                        <div class="interpretation">βₖ = effect k periods relative to treatment</div>
+                    </div>
+                </div>
+                
+                <div class="assumption-box">
+                    <h5>DiD Assumptions</h5>
+                    <ul>
+                        <li><strong>Parallel Trends:</strong> E[Y₁ᶜ - Y₀ᶜ | X] = E[Y₁ᵀ - Y₀ᵀ | X, D=0]</li>
+                        <li><strong>No Anticipation:</strong> Treatment doesn't affect pre-treatment outcomes</li>
+                        <li><strong>SUTVA:</strong> No spillovers between units</li>
+                        <li><strong>Common Shocks:</strong> Time effects same for treated/control</li>
+                    </ul>
+                </div>
+                
+                <div class="diagnostic-tests">
+                    <h5>Validity Tests</h5>
+                    <ul>
+                        <li><strong>Pre-Trends Test:</strong> Test β_{-2} = β_{-1} = 0 in event study</li>
+                        <li><strong>Placebo Test:</strong> No effect on unaffected outcomes</li>
+                        <li><strong>Balance Test:</strong> Pre-treatment characteristics similar</li>
+                    </ul>
+                    <div class="code-snippet">Stata: reghdfe y treat##post, absorb(id time)<br>R: feols(y ~ treat:post | id + time, data)</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="method-section">
+            <h2 class="method-header">📏 Regression Discontinuity (RDD)</h2>
+            <div class="method-content">
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <h4>Sharp RDD</h4>
+                        <div class="formula">Y_i = α + βT_i + f(X_i - c) + ε_i</div>
+                        <div class="interpretation">T_i = 1 if X_i ≥ c, β = treatment effect</div>
+                    </div>
+                    
+                    <div class="formula-card">
+                        <h4>Fuzzy RDD (First Stage)</h4>
+                        <div class="formula">D_i = γ + δT_i + g(X_i - c) + v_i</div>
+                        <div class="interpretation">D_i = actual treatment, δ = compliance rate</div>
+                    </div>
+                    
+                    <div class="formula-card">
+                        <h4>Local Linear Estimation</h4>
+                        <div class="formula">Y_i = α + β·1{X_i ≥ c} + γ(X_i - c) + δ(X_i - c)·1{X_i ≥ c} + ε_i</div>
+                        <div class="interpretation">Linear slopes on each side of cutoff</div>
+                    </div>
+                    
+                    <div class="formula-card">
+                        <h4>Optimal Bandwidth</h4>
+                        <div class="formula">h* = C_K[(2σ²)/(f(c)·m₂²)]^(1/5)·n^(-1/5)</div>
+                        <div class="interpretation">Imbens-Kalyanaraman bandwidth</div>
+                    </div>
+                </div>
+                
+                <div class="assumption-box">
+                    <h5>RDD Assumptions</h5>
+                    <ul>
+                        <li><strong>No Manipulation:</strong> Smooth density of running variable at cutoff</li>
+                        <li><strong>Continuity:</strong> E[Y₀|X] continuous at cutoff</li>
+                        <li><strong>Local Randomization:</strong> As-good-as-random near cutoff</li>
+                    </ul>
+                </div>
+                
+                <div class="diagnostic-tests">
+                    <h5>Validity Tests</h5>
+                    <ul>
+                        <li><strong>McCrary Test:</strong> ln(f₊/f₋) normally distributed</li>
+                        <li><strong>Covariate Balance:</strong> No jumps in pre-treatment variables</li>
+                        <li><strong>Bandwidth Sensitivity:</strong> Results stable across bandwidths</li>
+                        <li><strong>Placebo Cutoffs:</strong> No effects at fake thresholds</li>
+                    </ul>
+                    <div class="code-snippet">Stata: rdrobust y x, c(cutoff)<br>R: rdrobust(y, x, c = cutoff)</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="method-section">
+            <h2 class="method-header">📋 Panel Data & Fixed Effects</h2>
+            <div class="method-content">
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <h4>One-Way Fixed Effects</h4>
+                        <div class="formula">Y_{it} = α_i + βX_{it} + ε_{it}</div>
+                        <div class="interpretation">α_i = individual-specific effect</div>
+                    </div>
+                    
+                    <div class="formula-card">
+                        <h4>Two-Way Fixed Effects</h4>
+                        <div class="formula">Y_{it} = α_i + λ_t + βX_{it} + ε_{it}</div>
+                        <div class="interpretation">Controls individual + time effects</div>
+                    </div>
+                    
+                    <div class="formula-card">
+                        <h4>Within Estimator</h4>
+                        <div class="formula">β̂_{FE} = [Σᵢ Σₜ (X_{it} - X̄_i)(X_{it} - X̄_i)']⁻¹ Σᵢ Σₜ (X_{it} - X̄_i)(Y_{it} - Ȳ_i)</div>
+                        <div class="interpretation">Uses within-unit variation only</div>
+                    </div>
+                    
+                    <div class="formula-card">
+                        <h4>Random Effects</h4>
+                        <div class="formula">Y_{it} = β₀ + βX_{it} + α_i + ε_{it}</div>
+                        <div class="interpretation">α_i ~ N(0, σ²_α), uncorrelated with X</div>
+                    </div>
+                </div>
+                
+                <div class="assumption-box">
+                    <h5>Fixed Effects Assumptions</h5>
+                    <ul>
+                        <li><strong>Strict Exogeneity:</strong> E[ε_{it}|X_i, α_i] = 0 for all t</li>
+                        <li><strong>No Time-Varying Confounders:</strong> Other factors controlled by time FE</li>
+                        <li><strong>Sufficient Variation:</strong> X_{it} varies within units over time</li>
+                    </ul>
+                </div>
+                
+                <div class="diagnostic-tests">
+                    <h5>Panel Data Tests</h5>
+                    <ul>
+                        <li><strong>Hausman Test:</strong> H₀: Random effects consistent (prefer if p > 0.05)</li>
+                        <li><strong>F-test for FE:</strong> H₀: α_i = α for all i</li>
+                        <li><strong>Serial Correlation:</strong> Wooldridge test for AR(1)</li>
+                    </ul>
+                    <div class="code-snippet">Stata: xtreg y x, fe<br>R: feols(y ~ x | id + year, data)</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="quick-ref">
+            <h3>📊 Standard Error Types & When to Use</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>SE Type</th>
+                        <th>When to Use</th>
+                        <th>Stata Command</th>
+                        <th>R Command</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Classical</strong></td>
+                        <td>Homoskedastic errors</td>
+                        <td>reg y x</td>
+                        <td>lm(y ~ x)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Robust</strong></td>
+                        <td>Heteroskedasticity</td>
+                        <td>reg y x, robust</td>
+                        <td>lm_robust(y ~ x)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Clustered</strong></td>
+                        <td>Within-cluster correlation</td>
+                        <td>reg y x, cluster(id)</td>
+                        <td>lm_robust(y ~ x, clusters = id)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bootstrap</strong></td>
+                        <td>Non-standard distributions</td>
+                        <td>bootstrap: reg y x</td>
+                        <td>boot package</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Panel Robust</strong></td>
+                        <td>Panel heteroskedasticity</td>
+                        <td>xtreg y x, fe robust</td>
+                        <td>feols(y ~ x | id, vcov = "hetero")</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="critical-values">
+            <h5>🎯 Critical Values & Rules of Thumb</h5>
+            <ul>
+                <li><strong>t-test:</strong> |t| > 1.96 for significance at α = 0.05</li>
+                <li><strong>F-test (weak IV):</strong> F > 10 (Stock-Yogo), F > 104 for 10% bias</li>
+                <li><strong>R²:</strong> 0.02 small, 0.13 medium, 0.26 large effect sizes</li>
+                <li><strong>DW test:</strong> 1.5 < DW < 2.5 suggests no serial correlation</li>
+                <li><strong>VIF:</strong> VIF > 10 suggests multicollinearity problems</li>
+                <li><strong>Cook's D:</strong> > 4/n suggests influential observations</li>
+            </ul>
+        </div>
+        
+        <div class="print-note">
+            <p><em>Econometrics 101 Formula Reference Sheet • ImpactMojo Knowledge Series</em><br>
+            <strong>Licensed under CC BY-NC-SA 4.0</strong> • Free to use with attribution • www.impactmojo.in</p>
+        </div>
+    </div>
+</body>
+</html>

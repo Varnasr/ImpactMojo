@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Econometrics 101 - Workshop 2: Advanced Causal Inference Methods</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 30px;
+            margin: -30px -30px 30px -30px;
+            border-radius: 10px 10px 0 0;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        .subtitle {
+            font-size: 1.3em;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+        
+        .workshop-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid #e74c3c;
+        }
+        
+        .section {
+            margin: 30px 0;
+        }
+        
+        .section h2 {
+            color: #e74c3c;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        
+        .section h3 {
+            color: #495057;
+            margin-top: 25px;
+        }
+        
+        .exercise-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .exercise-box h4 {
+            color: #856404;
+            margin-top: 0;
+        }
+        
+        .method-case {
+            background: linear-gradient(45deg, #c0392b, #e74c3c);
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .method-case h4 {
+            color: white;
+            margin-top: 0;
+            font-size: 1.2em;
+        }
+        
+        .iv-framework {
+            background: #e3f2fd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid #bbdefb;
+        }
+        
+        .iv-framework h4 {
+            color: #1565c0;
+            margin-top: 0;
+        }
+        
+        .did-highlight {
+            background: #f3e5f5;
+            border: 2px solid #9c27b0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .did-highlight h4 {
+            color: #7b1fa2;
+            margin-top: 0;
+        }
+        
+        .rdd-strategy {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            background: #fafafa;
+        }
+        
+        .time-indicator {
+            background: #2c3e50;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .key-insight {
+            background: #e8f5e8;
+            border-left: 4px solid #27ae60;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .methods-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .method-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 18px;
+            transition: transform 0.2s;
+        }
+        
+        .method-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .method-card h5 {
+            color: #e74c3c;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .assumption-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .assumption-cell {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        
+        .assumption-cell h5 {
+            color: #495057;
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+        
+        .equation-block {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .results-box {
+            background: #fff8e1;
+            border: 1px solid #ffecb3;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .results-box h4 {
+            color: #f57c00;
+            margin-top: 0;
+        }
+        
+        .validity-check {
+            background: #e8f5e8;
+            border: 1px solid #c8e6c9;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .validity-check h4 {
+            color: #2e7d32;
+            margin-top: 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background: #e74c3c;
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .print-note {
+            margin-top: 40px;
+            padding: 20px;
+            background: #e9ecef;
+            border-radius: 8px;
+            text-align: center;
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+        
+        ul, ol {
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .highlight {
+            background: yellow;
+            padding: 2px 4px;
+        }
+        
+        .code-example {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        
+        .warning-box {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .warning-box h5 {
+            color: #721c24;
+            margin-top: 0;
+        }
+        
+        .did-table {
+            border: 2px solid #9c27b0;
+            margin: 20px 0;
+        }
+        
+        .did-table th {
+            background: #9c27b0;
+        }
+        
+        .checklist {
+            background: #f8f9fa;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .checklist h5 {
+            color: #155724;
+            margin-top: 0;
+        }
+        
+        .checklist input[type="checkbox"] {
+            margin-right: 8px;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                font-size: 12pt;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+            .header {
+                background: #e74c3c !important;
+                -webkit-print-color-adjust: exact;
+            }
+            .method-case {
+                background: #c0392b !important;
+                -webkit-print-color-adjust: exact;
+            }
+            .time-indicator {
+                background: #2c3e50 !important;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            .header {
+                margin: -20px -20px 20px -20px;
+                padding: 20px;
+            }
+            .header h1 {
+                font-size: 2em;
+            }
+            .methods-comparison {
+                grid-template-columns: 1fr;
+            }
+            .assumption-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Econometrics 101</h1>
+            <div class="subtitle">Advanced Causal Inference Methods</div>
+            <div style="margin-top: 15px; font-size: 1em; opacity: 0.8;">
+                ImpactMojo Workshop Series • Instrumental Variables, DiD, RDD & Panel Methods
+            </div>
+        </div>
+        
+        <div class="workshop-info">
+            <div class="time-indicator">75-90 Minutes</div>
+            <h3 style="margin-top: 10px;">Workshop 2: Identification Strategies for Policy Evaluation</h3>
+            <p><strong>Target Audience:</strong> Impact evaluators, policy researchers, applied economists, and data scientists conducting causal analysis</p>
+            <p><strong>Prerequisites:</strong> Econometrics 101 Workshop 1, understanding of regression analysis and causal inference concepts</p>
+            <p><strong>Materials Needed:</strong> Statistical software (R/Stata/Python), sample datasets with policy variation</p>
+        </div>
+        
+        <div class="section">
+            <h2>Learning Objectives</h2>
+            <p>By the end of this workshop, participants will be able to:</p>
+            <ul>
+                <li>Apply instrumental variables (IV) estimation to address endogeneity</li>
+                <li>Implement difference-in-differences (DiD) analysis for policy evaluation</li>
+                <li>Conduct regression discontinuity (RDD) analysis around treatment thresholds</li>
+                <li>Use panel data methods to control for unobserved heterogeneity</li>
+                <li>Assess the validity of identification assumptions in each method</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>Part 1: Instrumental Variables (IV) Estimation</h2>
+            <div class="time-indicator">25 minutes</div>
+            
+            <div class="method-case">
+                <h4>🎓 Classic Example: Returns to Education using Distance to School</h4>
+                
+                <p><strong>The Endogeneity Problem:</strong> Education is correlated with unobserved ability, motivation, and family background</p>
+                
+                <p><strong>The Instrument:</strong> Distance from home to nearest school</p>
+                <ul>
+                    <li><strong>Relevance:</strong> Farther distance → less likely to attend school</li>
+                    <li><strong>Exclusion:</strong> Distance affects income only through education (not directly)</li>
+                </ul>
+                
+                <p><strong>Two-Stage Estimation:</strong></p>
+                <ul>
+                    <li><strong>First stage:</strong> Education = α₀ + α₁Distance + α₂X + v</li>
+                    <li><strong>Second stage:</strong> Income = β₀ + β₁Education̂ + β₂X + u</li>
+                </ul>
+                
+                <p><strong>Key Finding:</strong> IV estimates often larger than OLS (10-15% vs 7-8% returns per year)</p>
+            </div>
+            
+            <div class="iv-framework">
+                <h4>🔧 IV Identification Requirements</h4>
+                
+                <p><strong>Three Key Assumptions:</strong></p>
+                
+                <div class="assumption-grid">
+                    <div class="assumption-cell">
+                        <h5>1. Relevance (First Stage)</h5>
+                        <p><strong>Cov(Z, X) ≠ 0</strong></p>
+                        <ul>
+                            <li>Instrument must predict treatment</li>
+                            <li>Test: F-statistic > 10 in first stage</li>
+                            <li>Weak instruments → biased estimates</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="assumption-cell">
+                        <h5>2. Exclusion Restriction</h5>
+                        <p><strong>Cov(Z, u) = 0</strong></p>
+                        <ul>
+                            <li>Instrument affects outcome only through treatment</li>
+                            <li>Untestable - requires theoretical justification</li>
+                            <li>Most critical and controversial assumption</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="assumption-cell">
+                        <h5>3. Monotonicity</h5>
+                        <p><strong>No defiers</strong></p>
+                        <ul>
+                            <li>Treatment response goes in same direction</li>
+                            <li>Enables interpretation as LATE</li>
+                            <li>Often plausible but not always testable</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="assumption-cell">
+                        <h5>4. Independence</h5>
+                        <p><strong>Instrument as-good-as-random</strong></p>
+                        <ul>
+                            <li>No confounders of Z and Y</li>
+                            <li>Can often control for observables</li>
+                            <li>Test balance on pre-treatment variables</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="exercise-box">
+                <h4>🧩 IV Evaluation Exercise (10 minutes)</h4>
+                
+                <p><strong>Policy Question:</strong> Does health insurance increase healthcare utilization?</p>
+                
+                <p><strong>Proposed Instruments - Evaluate each:</strong></p>
+                
+                <table style="margin-top: 15px;">
+                    <thead>
+                        <tr>
+                            <th>Instrument</th>
+                            <th>Relevance?</th>
+                            <th>Exclusion Restriction?</th>
+                            <th>Valid?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Employer offers insurance</strong></td>
+                            <td>✅ Strong predictor</td>
+                            <td>❓ Employers might select healthy workers</td>
+                            <td>⚠️ Questionable</td>
+                        </tr>
+                        <tr>
+                            <td><strong>State mandate laws</strong></td>
+                            <td>✅ Affects coverage rates</td>
+                            <td>✅ Policy exogenous to individuals</td>
+                            <td>✅ Likely valid</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Income level</strong></td>
+                            <td>✅ Affects insurance purchase</td>
+                            <td>❌ Income directly affects healthcare demand</td>
+                            <td>❌ Invalid</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lottery random numbers</strong></td>
+                            <td>✅ In lottery-based expansion</td>
+                            <td>✅ Random assignment</td>
+                            <td>✅ Gold standard</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Part 2: Difference-in-Differences (DiD)</h2>
+            <div class="time-indicator">25 minutes</div>
+            
+            <div name="did-highlight">
+                <h4>📊 The DiD Logic: Policy Changes as Natural Experiments</h4>
+                
+                <p><strong>Core Idea:</strong> Compare changes over time between treated and control groups</p>
+                
+                <div class="equation-block">
+                    DiD Estimator = (Y₁ᵀ - Y₀ᵀ) - (Y₁ᶜ - Y₀ᶜ)
+                </div>
+                
+                <p><strong>Two Sources of Variation:</strong></p>
+                <ul>
+                    <li><strong>Time variation:</strong> Before vs after policy implementation</li>
+                    <li><strong>Cross-sectional variation:</strong> Treated vs control units</li>
+                </ul>
+                
+                <p><strong>Key Advantage:</strong> Controls for time-invariant unobserved differences between groups</p>
+            </div>
+            
+            <div class="method-case">
+                <h4>🍔 Famous Example: Minimum Wage and Employment (Card & Krueger, 1994)</h4>
+                
+                <p><strong>Setting:</strong> New Jersey raised minimum wage from $4.25 to $5.05; Pennsylvania unchanged</p>
+                
+                <table class="did-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Before (Feb 1992)</th>
+                            <th>After (Nov 1992)</th>
+                            <th>Difference</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>New Jersey (Treated)</strong></td>
+                            <td>20.4 employees</td>
+                            <td>21.0 employees</td>
+                            <td>+0.6</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pennsylvania (Control)</strong></td>
+                            <td>23.3 employees</td>
+                            <td>21.2 employees</td>
+                            <td>-2.1</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DiD Estimate</strong></td>
+                            <td colspan="2"><strong>Treatment Effect</strong></td>
+                            <td><strong>+2.7 employees</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <p><strong>Interpretation:</strong> Minimum wage increase led to 2.7 more employees per restaurant</p>
+                <p><strong>Surprising result!</strong> Contradicted standard economic theory predictions</p>
+            </div>
+            
+            <h3>DiD Regression Specification</h3>
+            
+            <div class="equation-block">
+                Y_{it} = β₀ + β₁Treated_i + β₂Post_t + β₃(Treated_i × Post_t) + X_{it} + ε_{it}
+            </div>
+            
+            <div class="results-box">
+                <h4>📈 Interpreting DiD Coefficients</h4>
+                <ul>
+                    <li><strong>β₁:</strong> Baseline difference between treated and control groups</li>
+                    <li><strong>β₂:</strong> Time trend affecting all units equally</li>
+                    <li><strong>β₃:</strong> DiD estimate - the causal effect of treatment</li>
+                </ul>
+                
+                <p><strong>Key Assumption: Parallel Trends</strong></p>
+                <p>Without treatment, treated and control groups would have evolved similarly</p>
+            </div>
+            
+            <div class="exercise-box">
+                <h4>🎯 DiD Design Exercise (10 minutes)</h4>
+                
+                <p><strong>Scenario:</strong> Evaluating the impact of a rural employment guarantee program (like MGNREGA)</p>
+                
+                <p><strong>Setting:</strong> Program rolled out to different districts in different phases</p>
+                
+                <div class="assumption-grid">
+                    <div class="assumption-cell">
+                        <h5>✅ DiD Strengths</h5>
+                        <ul>
+                            <li>Controls for district-specific factors</li>
+                            <li>Controls for time trends</li>
+                            <li>Uses policy variation for identification</li>
+                            <li>Can examine dynamics over time</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="assumption-cell">
+                        <h5>⚠️ DiD Concerns</h5>
+                        <ul>
+                            <li>Parallel trends assumption</li>
+                            <li>Program placement might be endogenous</li>
+                            <li>Spillover effects to control districts</li>
+                            <li>Composition changes over time</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="assumption-cell">
+                        <h5>🔍 Validity Tests</h5>
+                        <ul>
+                            <li>Pre-treatment trend analysis</li>
+                            <li>Placebo tests on unaffected outcomes</li>
+                            <li>Event study design</li>
+                            <li>Robustness to different time windows</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="assumption-cell">
+                        <h5>📊 Expected Results</h5>
+                        <ul>
+                            <li>Increased rural employment</li>
+                            <li>Higher agricultural wages</li>
+                            <li>Reduced seasonal migration</li>
+                            <li>Potential effects on women's work</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Part 3: Regression Discontinuity Design (RDD)</h2>
+            <div class="time-indicator">20 minutes</div>
+            
+            <div class="rdd-strategy">
+                <h4>📏 RDD: Exploiting Arbitrary Thresholds</h4>
+                
+                <p><strong>Core Insight:</strong> When treatment assignment based on crossing a threshold, units just above and below are very similar</p>
+                
+                <div class="equation-block">
+                    Y_i = α + βT_i + f(X_i - c) + ε_i
+                </div>
+                
+                <p><strong>Where:</strong></p>
+                <ul>
+                    <li><strong>X_i:</strong> Running variable (test score, income, etc.)</li>
+                    <li><strong>c:</strong> Cutoff threshold</li>
+                    <li><strong>T_i:</strong> Treatment indicator (1 if X_i ≥ c)</li>
+                    <li><strong>β:</strong> Local average treatment effect at cutoff</li>
+                </ul>
+            </div>
+            
+            <div class="method-case">
+                <h4>🎓 Indian Example: Merit-Based Scholarship Effects</h4>
+                
+                <p><strong>Setting:</strong> Scholarship awarded to students scoring ≥75% on Class 10 exam</p>
+                
+                <p><strong>Research Question:</strong> Does receiving scholarship increase likelihood of completing Class 12?</p>
+                
+                <p><strong>RDD Logic:</strong></p>
+                <ul>
+                    <li>Students scoring 74% vs 76% are very similar</li>
+                    <li>Only difference: scholarship eligibility</li>
+                    <li>Compare outcomes in narrow window around 75%</li>
+                    <li>Difference = causal effect of scholarship</li>
+                </ul>
+                
+                <p><strong>Key Assumption:</strong> No manipulation of test scores around cutoff</p>
+            </div>
+            
+            <h3>RDD Validity Checks</h3>
+            
+            <div class="validity-check">
+                <h4>🔍 Essential Diagnostic Tests</h4>
+                
+                <div class="assumption-grid">
+                    <div class="assumption-cell">
+                        <h5>1. Manipulation Test</h5>
+                        <ul>
+                            <li>McCrary density test</li>
+                            <li>Smooth density around cutoff</li>
+                            <li>No bunching of observations</li>
+                            <li>Interview stakeholders about gaming</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="assumption-cell">
+                        <h5>2. Covariate Balance</h5>
+                        <ul>
+                            <li>Pre-treatment characteristics smooth</li>
+                            <li>No discontinuities in baseline variables</li>
+                            <li>Age, gender, family background</li>
+                            <li>Previous academic performance</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="assumption-cell">
+                        <h5>3. Bandwidth Sensitivity</h5>
+                        <ul>
+                            <li>Results robust to different windows</li>
+                            <li>Optimal bandwidth selection</li>
+                            <li>Local linear vs polynomial fits</li>
+                            <li>Cross-validation methods</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="assumption-cell">
+                        <h5>4. Placebo Tests</h5>
+                        <ul>
+                            <li>Fake cutoffs where no treatment</li>
+                            <li>Outcomes unaffected by treatment</li>
+                            <li>Pre-treatment periods</li>
+                            <li>Different subsamples</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="warning-box">
+                <h5>⚠️ Common RDD Pitfalls</h5>
+                <ul>
+                    <li><strong>Fuzzy discontinuity:</strong> Not everyone complies with treatment assignment</li>
+                    <li><strong>Multiple cutoffs:</strong> Other programs might have same threshold</li>
+                    <li><strong>Narrow external validity:</strong> Effect only at cutoff, not generalizable</li>
+                    <li><strong>Small sample sizes:</strong> Limited observations near cutoff</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Part 4: Panel Data Methods</h2>
+            <div class="time-indicator">15 minutes</div>
+            
+            <h3>Fixed Effects: Controlling for Unobserved Heterogeneity</h3>
+            
+            <div class="iv-framework">
+                <h4>🔄 Within Estimator Logic</h4>
+                
+                <p><strong>Panel Data Model:</strong></p>
+                <div class="equation-block">
+                    Y_{it} = α + βX_{it} + μ_i + λ_t + ε_{it}
+                </div>
+                
+                <p><strong>Where:</strong></p>
+                <ul>
+                    <li><strong>μ_i:</strong> Individual fixed effects (time-invariant unobservables)</li>
+                    <li><strong>λ_t:</strong> Time fixed effects (common shocks)</li>
+                    <li><strong>β:</strong> Identified from within-unit variation over time</li>
+                </ul>
+                
+                <p><strong>Key Insight:</strong> Each unit serves as its own control</p>
+            </div>
+            
+            <div class="methods-comparison">
+                <div class="method-card">
+                    <h5>🏠 Individual Fixed Effects</h5>
+                    <p><strong>Controls for:</strong> Person-specific time-invariant factors</p>
+                    <ul>
+                        <li>Ability, motivation, preferences</li>
+                        <li>Family background, genetics</li>
+                        <li>Time-invariant location factors</li>
+                    </ul>
+                    <p><strong>Example:</strong> Effect of job training on wages</p>
+                </div>
+                
+                <div class="method-card">
+                    <h5>🏢 Firm Fixed Effects</h5>
+                    <p><strong>Controls for:</strong> Company-specific factors</p>
+                    <ul>
+                        <li>Management quality, culture</li>
+                        <li>Technology, capital stock</li>
+                        <li>Industry characteristics</li>
+                    </ul>
+                    <p><strong>Example:</strong> Effect of training on productivity</p>
+                </div>
+                
+                <div class="method-card">
+                    <h5>🌍 Region Fixed Effects</h5>
+                    <p><strong>Controls for:</strong> Location-specific factors</p>
+                    <ul>
+                        <li>Geographic characteristics</li>
+                        <li>Local institutions, culture</li>
+                        <li>Market access, infrastructure</li>
+                    </ul>
+                    <p><strong>Example:</strong> Effect of roads on development</p>
+                </div>
+                
+                <div class="method-card">
+                    <h5>⏰ Time Fixed Effects</h5>
+                    <p><strong>Controls for:</strong> Common time trends</p>
+                    <ul>
+                        <li>Macroeconomic shocks</li>
+                        <li>Policy changes affecting all units</li>
+                        <li>Technological progress</li>
+                    </ul>
+                    <p><strong>Example:</strong> Economic cycles, monsoon years</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Part 5: Method Selection and Validation</h2>
+            <div class="time-indicator">10 minutes</div>
+            
+            <div class="results-box">
+                <h4>🎯 Choosing the Right Method: Decision Framework</h4>
+                
+                <table style="margin-top: 15px;">
+                    <thead>
+                        <tr>
+                            <th>Data Structure</th>
+                            <th>Assignment Mechanism</th>
+                            <th>Recommended Method</th>
+                            <th>Key Assumption</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Cross-section</td>
+                            <td>Valid instrument available</td>
+                            <td>Instrumental Variables</td>
+                            <td>Exclusion restriction</td>
+                        </tr>
+                        <tr>
+                            <td>Panel data</td>
+                            <td>Policy change over time</td>
+                            <td>Difference-in-Differences</td>
+                            <td>Parallel trends</td>
+                        </tr>
+                        <tr>
+                            <td>Cross-section</td>
+                            <td>Threshold-based assignment</td>
+                            <td>Regression Discontinuity</td>
+                            <td>No manipulation</td>
+                        </tr>
+                        <tr>
+                            <td>Panel data</td>
+                            <td>Selection on unobservables</td>
+                            <td>Fixed Effects</td>
+                            <td>No time-varying confounders</td>
+                        </tr>
+                        <tr>
+                            <td>Cross-section</td>
+                            <td>Selection on observables</td>
+                            <td>Matching/Regression</td>
+                            <td>Conditional independence</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="checklist">
+                <h5>✅ Method Validation Checklist</h5>
+                <ul>
+                    <li><input type="checkbox"> <strong>Theoretical justification:</strong> Is the identification assumption plausible?</li>
+                    <li><input type="checkbox"> <strong>Empirical tests:</strong> Do diagnostic tests support validity?</li>
+                    <li><input type="checkbox"> <strong>Robustness checks:</strong> Are results stable across specifications?</li>
+                    <li><input type="checkbox"> <strong>Placebo tests:</strong> No effects where there shouldn't be any?</li>
+                    <li><input type="checkbox"> <strong>External validity:</strong> Relevant for policy questions of interest?</li>
+                    <li><input type="checkbox"> <strong>Statistical power:</strong> Sufficient sample size for reliable inference?</li>
+                    <li><input type="checkbox"> <strong>Effect size:</strong> Economically meaningful magnitudes?</li>
+                    <li><input type="checkbox"> <strong>Heterogeneity:</strong> Effects consistent across subgroups?</li>
+                </ul>
+            </div>
+            
+            <div class="key-insight">
+                <h4>💡 The Credibility Revolution in Economics</h4>
+                <p>Modern economics emphasizes <strong>credible identification</strong> over statistical significance. A well-identified small effect is more valuable than a poorly-identified large effect. The goal is to find variation that is "as good as random" for answering policy questions.</p>
+                
+                <p><strong>Hierarchy of Evidence:</strong></p>
+                <ol>
+                    <li>Randomized controlled trials</li>
+                    <li>Natural experiments with clear identification</li>
+                    <li>Quasi-experimental methods with credible assumptions</li>
+                    <li>Observational studies with extensive controls</li>
+                    <li>Correlational analysis (descriptive only)</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h3>📚 Advanced Econometrics Resources</h3>
+            
+            <p><strong>Methods-Specific Texts:</strong></p>
+            <ul>
+                <li><em>"Mastering Metrics"</em> by Angrist & Pischke (accessible introduction)</li>
+                <li><em>"A Guide to Modern Econometrics"</em> by Marno Verbeek</li>
+                <li><em>"Econometric Analysis of Cross Section and Panel Data"</em> by Jeffrey Wooldridge</li>
+                <li><em>"Identification and Inference for Econometric Models"</em> by Andrews & Stock</li>
+            </ul>
+            
+            <p><strong>Specialized Resources:</strong></p>
+            <ul>
+                <li><strong>IV Methods:</strong> <em>"Instrumental Variables"</em> by Angrist & Krueger</li>
+                <li><strong>DiD Methods:</strong> <em>"Difference-in-Differences"</em> by Goodman-Bacon</li>
+                <li><strong>RDD Methods:</strong> <em>"Regression Discontinuity Designs"</em> by Imbens & Lemieux</li>
+                <li><strong>Panel Methods:</strong> <em>"Panel Data Econometrics"</em> by Hsiao</li>
+            </ul>
+            
+            <p><strong>Software and Implementation:</strong></p>
+            <ul>
+                <li><strong>R packages:</strong> AER, plm, rdrobust, did, fixest, ivreg</li>
+                <li><strong>Stata commands:</strong> xtivreg, reghdfe, rdrobust, event_plot, csdid</li>
+                <li><strong>Python libraries:</strong> linearmodels, rdrobust, difference_in_differences</li>
+                <li><strong>Online courses:</strong> Coursera Applied Economics, MIT 14.387</li>
+            </ul>
+            
+            <p><strong>Data for Practice:</strong></p>
+            <ul>
+                <li><strong>IHDS (India Human Development Survey):</strong> Panel household data for fixed effects</li>
+                <li><strong>ASI (Annual Survey of Industries):</strong> Firm panel data</li>
+                <li><strong>J-PAL Evaluation Data:</strong> RCT and quasi-experimental data</li>
+                <li><strong>Policy evaluation datasets:</strong> MGNREGA, NFSA implementation</li>
+            </ul>
+            
+            <p><strong>Next Steps in ImpactMojo:</strong></p>
+            <ul>
+                <li><strong>MEL 101:</strong> Designing monitoring and evaluation systems</li>
+                <li><strong>Experimental Design 101:</strong> Planning and implementing RCTs</li>
+                <li><strong>Machine Learning for Economists 101:</strong> Prediction vs causal inference</li>
+                <li><strong>Development Economics 102:</strong> Applied microeconometrics for policy</li>
+            </ul>
+        </div>
+        
+        <div class="print-note">
+            <p><em>This handout is part of the ImpactMojo 101 Knowledge Series</em><br>
+            <strong>Licensed under CC BY-NC-SA 4.0</strong> • Free to use with attribution • www.impactmojo.in</p>
+            <p>For implementation code, diagnostic tests, and advanced method tutorials, visit the ImpactMojo platform.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Econometrics 101 - Problem Sets with Indian Development Data</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 30px;
+            margin: -30px -30px 30px -30px;
+            border-radius: 10px 10px 0 0;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.3em;
+            font-weight: 300;
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+        
+        .problem-set {
+            margin: 30px 0;
+            border: 2px solid #e74c3c;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .problem-header {
+            background: #e74c3c;
+            color: white;
+            padding: 15px 25px;
+            font-size: 1.4em;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .problem-content {
+            padding: 25px;
+        }
+        
+        .context-box {
+            background: linear-gradient(45deg, #c0392b, #e74c3c);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .context-box h4 {
+            color: white;
+            margin-top: 0;
+            font-size: 1.1em;
+        }
+        
+        .data-description {
+            background: #e3f2fd;
+            border: 1px solid #bbdefb;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .data-description h4 {
+            color: #1565c0;
+            margin-top: 0;
+        }
+        
+        .question-block {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .question-block h4 {
+            color: #856404;
+            margin-top: 0;
+        }
+        
+        .code-example {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        
+        .code-example h5 {
+            color: #ecf0f1;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .step-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 15px;
+        }
+        
+        .step-card h5 {
+            color: #495057;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+        
+        .expected-output {
+            background: #e8f5e8;
+            border: 1px solid #c3e6cb;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .expected-output h5 {
+            color: #155724;
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+        
+        .interpretation-guide {
+            background: #f3e5f5;
+            border: 1px solid #e1bee7;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .interpretation-guide h5 {
+            color: #7b1fa2;
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.9em;
+        }
+        
+        .data-table th,
+        .data-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        .data-table th {
+            background: #e74c3c;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .warning-box {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .warning-box h5 {
+            color: #721c24;
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+        
+        .tip-box {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .tip-box h5 {
+            color: #0c5460;
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+        
+        .difficulty-indicator {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .beginner {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .intermediate {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .advanced {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        ul, ol {
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 5px;
+        }
+        
+        .formula-inline {
+            background: #2c3e50;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .print-note {
+            margin-top: 40px;
+            padding: 20px;
+            background: #e9ecef;
+            border-radius: 8px;
+            text-align: center;
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                font-size: 11pt;
+            }
+            .container {
+                box-shadow: none;
+                padding: 20px;
+            }
+            .header {
+                background: #e74c3c !important;
+                -webkit-print-color-adjust: exact;
+                margin: -20px -20px 20px -20px;
+                padding: 20px;
+            }
+            .problem-header {
+                background: #e74c3c !important;
+                -webkit-print-color-adjust: exact;
+            }
+            .context-box {
+                background: #c0392b !important;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            .header {
+                margin: -20px -20px 20px -20px;
+                padding: 20px;
+            }
+            .header h1 {
+                font-size: 1.8em;
+            }
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Econometrics Problem Sets</h1>
+            <div class="subtitle">Applied Causal Inference with Indian Development Data</div>
+        </div>
+        
+        <div class="data-description">
+            <h4>📊 About These Problem Sets</h4>
+            <p>These problems use realistic scenarios based on major Indian development datasets and policy interventions. Each problem set builds skills progressively, from basic regression to advanced causal inference methods.</p>
+            
+            <p><strong>Datasets Referenced:</strong></p>
+            <ul>
+                <li><strong>IHDS (India Human Development Survey):</strong> Household panel data</li>
+                <li><strong>NSS (National Sample Survey):</strong> Employment and consumption data</li>
+                <li><strong>MGNREGA MIS:</strong> Rural employment guarantee data</li>
+                <li><strong>ASER:</strong> Learning outcomes and school quality</li>
+                <li><strong>NFHS:</strong> Health and demographic outcomes</li>
+            </ul>
+            
+            <p><strong>Software:</strong> Code provided for both Stata and R. Complete datasets available on ImpactMojo platform.</p>
+        </div>
+        
+        <div class="problem-set">
+            <h2 class="problem-header">Problem Set 1: Basic Regression & OLS</h2>
+            <div class="problem-content">
+                <div class="difficulty-indicator beginner">BEGINNER</div>
+                
+                <div class="context-box">
+                    <h4>🎓 Policy Context: Education and Earnings in Rural India</h4>
+                    <p>You're analyzing the relationship between education and income using IHDS household data. The government wants to understand returns to education to justify increased education spending.</p>
+                    
+                    <p><strong>Research Question:</strong> What is the return to an additional year of schooling in rural India?</p>
+                </div>
+                
+                <div class="data-description">
+                    <h4>Dataset Description (n = 8,432 rural adults)</h4>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Variable</th>
+                                <th>Description</th>
+                                <th>Mean</th>
+                                <th>Std Dev</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>log_income</strong></td>
+                                <td>Log monthly income (Rs.)</td>
+                                <td>8.24</td>
+                                <td>0.67</td>
+                            </tr>
+                            <tr>
+                                <td><strong>education</strong></td>
+                                <td>Years of schooling completed</td>
+                                <td>4.8</td>
+                                <td>4.2</td>
+                            </tr>
+                            <tr>
+                                <td><strong>age</strong></td>
+                                <td>Age in years</td>
+                                <td>38.2</td>
+                                <td>12.1</td>
+                            </tr>
+                            <tr>
+                                <td><strong>female</strong></td>
+                                <td>1 if female, 0 if male</td>
+                                <td>0.41</td>
+                                <td>0.49</td>
+                            </tr>
+                            <tr>
+                                <td><strong>sc_st</strong></td>
+                                <td>1 if SC/ST household</td>
+                                <td>0.28</td>
+                                <td>0.45</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="question-block">
+                    <h4>Part A: Simple Regression (20 minutes)</h4>
+                    
+                    <div class="steps-grid">
+                        <div class="step-card">
+                            <h5>Step 1: Basic Model</h5>
+                            <p>Estimate: <span class="formula-inline">log_income = β₀ + β₁education + ε</span></p>
+                            <p>Interpret β₁ coefficient and significance.</p>
+                        </div>
+                        
+                        <div class="step-card">
+                            <h5>Step 2: Add Controls</h5>
+                            <p>Add age, age², female, sc_st to the regression.</p>
+                            <p>How does the education coefficient change?</p>
+                        </div>
+                        
+                        <div class="step-card">
+                            <h5>Step 3: Goodness of Fit</h5>
+                            <p>Compare R² between models.</p>
+                            <p>What percentage of income variation is explained?</p>
+                        </div>
+                        
+                        <div class="step-card">
+                            <h5>Step 4: Hypothesis Testing</h5>
+                            <p>Test: H₀: β₁ = 0.08 vs H₁: β₁ ≠ 0.08</p>
+                            <p>Use t-test with α = 0.05</p>
+                        </div>
+                    </div>
+                    
+                    <div class="code-example">
+                        <h5>Stata Code</h5>
+* Load data
+use "ihds_education.dta", clear
+
+* Basic regression
+reg log_income education
+estimates store model1
+
+* Full model
+reg log_income education age c.age#c.age female sc_st
+estimates store model2
+
+* Compare models
+estimates table model1 model2, b se stats(N r2)
+
+* Test hypothesis
+test education = 0.08
+                    </div>
+                    
+                    <div class="code-example">
+                        <h5>R Code</h5>
+# Load data
+library(tidyverse)
+library(broom)
+data <- read_csv("ihds_education.csv")
+
+# Basic regression
+model1 <- lm(log_income ~ education, data = data)
+summary(model1)
+
+# Full model
+model2 <- lm(log_income ~ education + age + I(age^2) + female + sc_st, 
+             data = data)
+summary(model2)
+
+# Compare models
+library(stargazer)
+stargazer(model1, model2, type = "text")
+
+# Test hypothesis
+library(car)
+linearHypothesis(model2, "education = 0.08")
+                    </div>
+                </div>
+                
+                <div class="expected-output">
+                    <h5>Expected Results</h5>
+                    <ul>
+                        <li><strong>Simple regression:</strong> β₁ ≈ 0.093 (9.3% return per year)</li>
+                        <li><strong>Full model:</strong> β₁ ≈ 0.076 (7.6% return per year)</li>
+                        <li><strong>R² increase:</strong> From 0.18 to 0.35</li>
+                        <li><strong>Hypothesis test:</strong> Fail to reject H₀ (p > 0.05)</li>
+                    </ul>
+                </div>
+                
+                <div class="interpretation-guide">
+                    <h5>Economic Interpretation</h5>
+                    <p><strong>Policy Implications:</strong> Each additional year of education increases income by approximately 7.6%. For a person moving from 8 to 12 years of education (primary to secondary), income would increase by about 31%.</p>
+                    
+                    <p><strong>Caution:</strong> This is correlation, not causation. Education might be correlated with ability, family background, or motivation.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="problem-set">
+            <h2 class="problem-header">Problem Set 2: Instrumental Variables</h2>
+            <div class="problem-content">
+                <div class="difficulty-indicator intermediate">INTERMEDIATE</div>
+                
+                <div class="context-box">
+                    <h4>🏫 Policy Context: School Distance and Education Outcomes</h4>
+                    <p>You suspect the education-income relationship suffers from ability bias. Students with higher unobserved ability both stay in school longer AND earn more. You'll use distance to nearest secondary school as an instrumental variable.</p>
+                    
+                    <p><strong>Research Question:</strong> What is the causal effect of education on income?</p>
+                </div>
+                
+                <div class="data-description">
+                    <h4>Additional Variables</h4>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Variable</th>
+                                <th>Description</th>
+                                <th>Mean</th>
+                                <th>Std Dev</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>distance_school</strong></td>
+                                <td>Distance to nearest secondary school (km)</td>
+                                <td>3.2</td>
+                                <td>2.8</td>
+                            </tr>
+                            <tr>
+                                <td><strong>district_literacy</strong></td>
+                                <td>District literacy rate (%)</td>
+                                <td>67.3</td>
+                                <td>12.4</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="question-block">
+                    <h4>Part A: IV Estimation (30 minutes)</h4>
+                    
+                    <div class="steps-grid">
+                        <div class="step-card">
+                            <h5>Step 1: First Stage</h5>
+                            <p>Regress education on distance_school and controls.</p>
+                            <p>Check instrument relevance (F-stat > 10).</p>
+                        </div>
+                        
+                        <div class="step-card">
+                            <h5>Step 2: Reduced Form</h5>
+                            <p>Regress log_income on distance_school and controls.</p>
+                            <p>This shows total effect of instrument.</p>
+                        </div>
+                        
+                        <div class="step-card">
+                            <h5>Step 3: 2SLS Estimation</h5>
+                            <p>Estimate IV model using two-stage least squares.</p>
+                            <p>Compare with OLS results.</p>
+                        </div>
+                        
+                        <div class="step-card">
+                            <h5>Step 4: Validity Tests</h5>
+                            <p>Test for weak instruments and endogeneity.</p>
+                            <p>Discuss exclusion restriction.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="code-example">
+                        <h5>Stata Code</h5>
+* First stage regression
+reg education distance_school age c.age#c.age female sc_st district_literacy
+test distance_school
+estat firststage
+
+* Reduced form
+reg log_income distance_school age c.age#c.age female sc_st district_literacy
+
+* IV estimation
+ivregress 2sls log_income (education = distance_school) ///
+    age c.age#c.age female sc_st district_literacy, first
+
+* Weak instrument test
+estat firststage
+
+* Endogeneity test
+estat endogenous
+                    </div>
+                    
+                    <div class="code-example">
+                        <h5>R Code</h5>
+# Load IV package
+library(AER)
+
+# First stage
+first_stage <- lm(education ~ distance_school + age + I(age^2) + 
+                  female + sc_st + district_literacy, data = data)
+summary(first_stage)
+
+# F-test for weak instruments
+first_stage_f <- summary(first_stage)$fstatistic[1]
+print(paste("First stage F-statistic:", round(first_stage_f, 2)))
+
+# Reduced form
+reduced_form <- lm(log_income ~ distance_school + age + I(age^2) + 
+                   female + sc_st + district_literacy, data = data)
+
+# IV estimation
+iv_model <- ivreg(log_income ~ education + age + I(age^2) + female + sc_st + 
+                  district_literacy | distance_school + age + I(age^2) + 
+                  female + sc_st + district_literacy, data = data)
+summary(iv_model)
+
+# Compare OLS vs IV
+ols_model <- lm(log_income ~ education + age + I(age^2) + female + sc_st + 
+                district_literacy, data = data)
+stargazer(ols_model, iv_model, type = "text")
+                    </div>
+                </div>
+                
+                <div class="expected-output">
+                    <h5>Expected Results</h5>
+                    <ul>
+                        <li><strong>First stage F-stat:</strong> ≈ 23.4 (instrument is relevant)</li>
+                        <li><strong>OLS coefficient:</strong> 0.076 (7.6% return)</li>
+                        <li><strong>IV coefficient:</strong> 0.124 (12.4% return)</li>
+                        <li><strong>Hausman test:</strong> Reject H₀ (education is endogenous)</li>
+                    </ul>
+                </div>
+                
+                <div class="interpretation-guide">
+                    <h5>Economic Interpretation</h5>
+                    <p><strong>LATE Interpretation:</strong> For students induced to get more education by being closer to school, the return is 12.4% per year—higher than OLS suggests.</p>
+                    
+                    <p><strong>Why IV > OLS?</strong> Ability bias was negative! High-ability students may choose lower-paying but personally fulfilling careers, while marginal students induced by proximity get higher returns.</p>
+                </div>
+                
+                <div class="warning-box">
+                    <h5>⚠️ Exclusion Restriction Concerns</h5>
+                    <ul>
+                        <li>School distance might affect income through job market access</li>
+                        <li>Areas with closer schools might have better infrastructure</li>
+                        <li>Distance could proxy for urbanization or development level</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="problem-set">
+            <h2 class="problem-header">Problem Set 3: Difference-in-Differences</h2>
+            <div class="problem-content">
+                <div class="difficulty-indicator intermediate">INTERMEDIATE</div>
+                
+                <div class="context-box">
+                    <h4>🚜 Policy Context: MGNREGA Impact on Agricultural Wages</h4>
+                    <p>The Mahatma Gandhi National Rural Employment Guarantee Act (MGNREGA) was rolled out in phases: Phase 1 (200 districts in 2006), Phase 2 (130 districts in 2007), Phase 3 (remaining districts in 2008). You'll evaluate its impact on agricultural wages.</p>
+                    
+                    <p><strong>Research Question:</strong> Did MGNREGA increase agricultural wages in rural areas?</p>
+                </div>
+                
+                <div class="data-description">
+                    <h4>Dataset: District-Level Panel (2004-2010)</h4>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Variable</th>
+                                <th>Description</th>
+                                <th>Mean</th>
+                                <th>Std Dev</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>log_wage</strong></td>
+                                <td>Log daily agricultural wage (Rs.)</td>
+                                <td>4.32</td>
+                                <td>0.28</td>
+                            </tr>
+                            <tr>
+                                <td><strong>mgnrega</strong></td>
+                                <td>1 if MGNREGA implemented</td>
+                                <td>0.43</td>
+                                <td>0.49</td>
+                            </tr>
+                            <tr>
+                                <td><strong>phase1</strong></td>
+                                <td>1 if Phase 1 district</td>
+                                <td>0.33</td>
+                                <td>0.47</td>
+                            </tr>
+                            <tr>
+                                <td><strong>rainfall</strong></td>
+                                <td>Annual rainfall (mm)</td>
+                                <td>1123</td>
+                                <td>456</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="question-block">
+                    <h4>Part A: Basic DiD Analysis (25 minutes)</h4>
+                    
+                    <div class="steps-grid">
+                        <div class="step-card">
+                            <h5>Step 1: Simple DiD</h5>
+                            <p>Compare Phase 1 vs Phase 3 districts, 2005 vs 2007.</p>
+                            <p>Calculate the 2×2 DiD manually.</p>
+                        </div>
+                        
+                        <div class="step-card">
+                            <h5>Step 2: Regression DiD</h5>
+                            <p>Estimate: <span class="formula-inline">wage = α + βmgnrega + δᵢ + γₜ + ε</span></p>
+                            <p>Include district and year fixed effects.</p>
+                        </div>
+                        
+                        <div class="step-card">
+                            <h5>Step 3: Event Study</h5>
+                            <p>Estimate dynamic effects: 2 years before to 2 years after.</p>
+                            <p>Test for pre-trends.</p>
+                        </div>
+                        
+                        <div class="step-card">
+                            <h5>Step 4: Robustness</h5>
+                            <p>Add time-varying controls (rainfall).</p>
+                            <p>Check sensitivity to sample period.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="code-example">
+                        <h5>Stata Code</h5>
+* Prepare data
+use "mgnrega_wages.dta", clear
+xtset district_code year
+
+* Manual 2x2 DiD (Phase 1 vs Phase 3, 2005 vs 2007)
+preserve
+keep if (phase1 == 1 | phase1 == 0) & (year == 2005 | year == 2007)
+table phase1 year, contents(mean log_wage)
+restore
+
+* Basic DiD regression
+reghdfe log_wage mgnrega, absorb(district_code year) cluster(district_code)
+
+* Add controls
+reghdfe log_wage mgnrega rainfall, absorb(district_code year) cluster(district_code)
+
+* Event study
+gen years_since_mgnrega = year - first_year_mgnrega
+forval i = -2/2 {
+    gen mgnrega_`i' = (years_since_mgnrega == `i')
+}
+
+reghdfe log_wage mgnrega_-2 mgnrega_-1 mgnrega_0 mgnrega_1 mgnrega_2, ///
+    absorb(district_code year) cluster(district_code)
+
+* Test for pre-trends
+test mgnrega_-2 = 0
+test mgnrega_-1 = 0
+                    </div>
+                    
+                    <div class="code-example">
+                        <h5>R Code</h5>
+# Load packages
+library(fixest)
+library(did)
+
+# Basic DiD
+did_basic <- feols(log_wage ~ mgnrega | district_code + year, 
+                   data = data, cluster = "district_code")
+summary(did_basic)
+
+# Add controls
+did_controls <- feols(log_wage ~ mgnrega + rainfall | district_code + year, 
+                      data = data, cluster = "district_code")
+
+# Event study
+# Create relative time variable
+data <- data %>%
+  group_by(district_code) %>%
+  mutate(first_treat = min(ifelse(mgnrega == 1, year, NA), na.rm = TRUE),
+         rel_time = year - first_treat) %>%
+  ungroup()
+
+# Event study regression
+event_study <- feols(log_wage ~ i(rel_time, ref = -1) | district_code + year,
+                     data = data, cluster = "district_code")
+iplot(event_study)
+
+# Test pre-trends
+wald(event_study, "rel_time::-2" = 0)
+                    </div>
+                </div>
+                
+                <div class="expected-output">
+                    <h5>Expected Results</h5>
+                    <ul>
+                        <li><strong>DiD coefficient:</strong> ≈ 0.087 (8.7% wage increase)</li>
+                        <li><strong>Standard error:</strong> ≈ 0.023 (significant at 1% level)</li>
+                        <li><strong>Pre-trends test:</strong> p > 0.10 (no pre-existing trends)</li>
+                        <li><strong>Effect size:</strong> Rs. 6-8 increase in daily wages</li>
+                    </ul>
+                </div>
+                
+                <div class="interpretation-guide">
+                    <h5>Policy Interpretation</h5>
+                    <p><strong>Economic Mechanism:</strong> MGNREGA provides outside option for agricultural laborers, forcing farmers to pay higher wages to retain workers.</p>
+                    
+                    <p><strong>Magnitude:</strong> 8.7% wage increase translates to approximately Rs. 6-8 more per day for agricultural workers—meaningful for poor households.</p>
+                </div>
+                
+                <div class="tip-box">
+                    <h5>💡 DiD Best Practices</h5>
+                    <ul>
+                        <li>Always plot raw data to visualize trends</li>
+                        <li>Test for pre-trends using event study</li>
+                        <li>Consider spillover effects to control areas</li>
+                        <li>Check robustness to different control groups</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="problem-set">
+            <h2 class="problem-header">Problem Set 4: Regression Discontinuity</h2>
+            <div class="problem-content">
+                <div class="difficulty-indicator advanced">ADVANCED</div>
+                
+                <div class="context-box">
+                    <h4>🎓 Policy Context: Merit Scholarship and Educational Outcomes</h4>
+                    <p>State government provides scholarships to students scoring ≥75% in Class 10 board exams. You'll evaluate whether receiving a scholarship increases the probability of completing Class 12.</p>
+                    
+                    <p><strong>Research Question:</strong> Does merit-based financial aid increase educational persistence?</p>
+                </div>
+                
+                <div class="data-description">
+                    <h4>Dataset: Class 10 Students (n = 12,847)</h4>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Variable</th>
+                                <th>Description</th>
+                                <th>Mean</th>
+                                <th>Std Dev</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>completed_12</strong></td>
+                                <td>1 if completed Class 12</td>
+                                <td>0.73</td>
+                                <td>0.44</td>
+                            </tr>
+                            <tr>
+                                <td><strong>class10_score</strong></td>
+                                <td>Class 10 percentage (30-95)</td>
+                                <td>68.2</td>
+                                <td>12.8</td>
+                            </tr>
+                            <tr>
+                                <td><strong>scholarship</strong></td>
+                                <td>1 if received scholarship</td>
+                                <td>0.31</td>
+                                <td>0.46</td>
+                            </tr>
+                            <tr>
+                                <td><strong>family_income</strong></td>
+                                <td>Annual family income (Rs. '000)</td>
+                                <td>89.4</td>
+                                <td>67.2</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="question-block">
+                    <h4>Part A: Sharp RDD Analysis (35 minutes)</h4>
+                    
+                    <div class="steps-grid">
+                        <div class="step-card">
+                            <h5>Step 1: Visual Analysis</h5>
+                            <p>Plot completion rates vs Class 10 scores.</p>
+                            <p>Look for discontinuity at 75% cutoff.</p>
+                        </div>
+                        
+                        <div class="step-card">
+                            <h5>Step 2: Manipulation Test</h5>
+                            <p>Test for bunching of scores at cutoff.</p>
+                            <p>Use McCrary density test.</p>
+                        </div>
+                        
+                        <div class="step-card">
+                            <h5>Step 3: RDD Estimation</h5>
+                            <p>Estimate local linear regression around cutoff.</p>
+                            <p>Use optimal bandwidth selection.</p>
+                        </div>
+                        
+                        <div class="step-card">
+                            <h5>Step 4: Validity Tests</h5>
+                            <p>Check balance of covariates at cutoff.</p>
+                            <p>Test robustness to bandwidth choice.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="code-example">
+                        <h5>Stata Code</h5>
+* Load RDD packages
+ssc install rdrobust
+ssc install rddensity
+
+* Visual inspection
+twoway (scatter completed_12 class10_score, msize(tiny) mcolor(gray)) ///
+       (lfit completed_12 class10_score if class10_score < 75) ///
+       (lfit completed_12 class10_score if class10_score >= 75), ///
+       xline(75, lcolor(red)) legend(off) ///
+       title("Scholarship Effect on Class 12 Completion")
+
+* Manipulation test
+rddensity class10_score, c(75)
+
+* Basic RDD estimation
+rdrobust completed_12 class10_score, c(75)
+
+* With covariates
+rdrobust completed_12 class10_score, c(75) covs(family_income female rural)
+
+* Covariate balance test
+rdrobust family_income class10_score, c(75)
+rdrobust female class10_score, c(75)
+
+* Sensitivity analysis
+rdrobust completed_12 class10_score, c(75) h(5)
+rdrobust completed_12 class10_score, c(75) h(10)
+                    </div>
+                    
+                    <div class="code-example">
+                        <h5>R Code</h5>
+# Load RDD packages
+library(rdrobust)
+library(rddensity)
+
+# Visual inspection
+ggplot(data, aes(x = class10_score, y = completed_12)) +
+  geom_point(alpha = 0.3, size = 0.5) +
+  geom_smooth(aes(group = class10_score >= 75), method = "lm", se = TRUE) +
+  geom_vline(xintercept = 75, color = "red", linetype = "dashed") +
+  labs(title = "RDD: Scholarship Effect on Class 12 Completion",
+       x = "Class 10 Score", y = "Completed Class 12") +
+  theme_minimal()
+
+# Manipulation test
+rdd_density <- rddensity(data$class10_score, c = 75)
+summary(rdd_density)
+
+# Basic RDD estimation
+rdd_basic <- rdrobust(data$completed_12, data$class10_score, c = 75)
+summary(rdd_basic)
+
+# With covariates
+rdd_covs <- rdrobust(data$completed_12, data$class10_score, c = 75,
+                     covs = cbind(data$family_income, data$female, data$rural))
+summary(rdd_covs)
+
+# Covariate balance
+balance_income <- rdrobust(data$family_income, data$class10_score, c = 75)
+balance_female <- rdrobust(data$female, data$class10_score, c = 75)
+
+# Bandwidth sensitivity
+rdd_h5 <- rdrobust(data$completed_12, data$class10_score, c = 75, h = 5)
+rdd_h10 <- rdrobust(data$completed_12, data$class10_score, c = 75, h = 10)
+                    </div>
+                </div>
+                
+                <div class="expected-output">
+                    <h5>Expected Results</h5>
+                    <ul>
+                        <li><strong>RDD coefficient:</strong> ≈ 0.082 (8.2 percentage point increase)</li>
+                        <li><strong>95% CI:</strong> [0.031, 0.133]</li>
+                        <li><strong>Manipulation test:</strong> p = 0.43 (no evidence of sorting)</li>
+                        <li><strong>Covariate balance:</strong> All p > 0.10</li>
+                    </ul>
+                </div>
+                
+                <div class="interpretation-guide">
+                    <h5>Policy Interpretation</h5>
+                    <p><strong>Local Treatment Effect:</strong> Students just above the 75% cutoff are 8.2 percentage points more likely to complete Class 12.</p>
+                    
+                    <p><strong>External Validity:</strong> Effect applies to marginal students around the cutoff—may not generalize to much lower or higher performers.</p>
+                    
+                    <p><strong>Cost-Effectiveness:</strong> For every 12 scholarships given, approximately 1 additional student completes Class 12.</p>
+                </div>
+                
+                <div class="warning-box">
+                    <h5>⚠️ RDD Limitations</h5>
+                    <ul>
+                        <li>Only identifies effects for students near the cutoff</li>
+                        <li>May miss longer-term effects (college enrollment, career outcomes)</li>
+                        <li>Assumes no other discontinuous programs at 75%</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="problem-set">
+            <h2 class="problem-header">Problem Set 5: Panel Data & Fixed Effects</h2>
+            <div class="problem-content">
+                <div class="difficulty-indicator intermediate">INTERMEDIATE</div>
+                
+                <div class="context-box">
+                    <h4>🏭 Policy Context: Training Programs and Worker Productivity</h4>
+                    <p>You have panel data on manufacturing workers before and after participating in skill development programs. Some workers receive training in different years, creating variation for analysis.</p>
+                    
+                    <p><strong>Research Question:</strong> Do worker training programs increase productivity?</p>
+                </div>
+                
+                <div class="data-description">
+                    <h4>Dataset: Worker Panel (2015-2019, n = 4,832 workers)</h4>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Variable</th>
+                                <th>Description</th>
+                                <th>Mean</th>
+                                <th>Std Dev</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>log_output</strong></td>
+                                <td>Log daily output (units)</td>
+                                <td>4.18</td>
+                                <td>0.42</td>
+                            </tr>
+                            <tr>
+                                <td><strong>trained</strong></td>
+                                <td>1 if received training by year t</td>
+                                <td>0.23</td>
+                                <td>0.42</td>
+                            </tr>
+                            <tr>
+                                <td><strong>experience</strong></td>
+                                <td>Years of work experience</td>
+                                <td>8.3</td>
+                                <td>4.7</td>
+                            </tr>
+                            <tr>
+                                <td><strong>firm_sales</strong></td>
+                                <td>Firm annual sales (Rs. crores)</td>
+                                <td>47.2</td>
+                                <td>23.8</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="question-block">
+                    <h4>Part A: Fixed Effects Analysis (25 minutes)</h4>
+                    
+                    <div class="steps-grid">
+                        <div class="step-card">
+                            <h5>Step 1: Pooled OLS</h5>
+                            <p>Estimate simple pooled regression.</p>
+                            <p>Ignore panel structure initially.</p>
+                        </div>
+                        
+                        <div class="step-card">
+                            <h5>Step 2: Worker Fixed Effects</h5>
+                            <p>Add individual worker fixed effects.</p>
+                            <p>Compare with pooled results.</p>
+                        </div>
+                        
+                        <div class="step-card">
+                            <h5>Step 3: Two-Way Fixed Effects</h5>
+                            <p>Add both worker and year fixed effects.</p>
+                            <p>Control for macro trends.</p>
+                        </div>
+                        
+                        <div class="step-card">
+                            <h5>Step 4: Dynamic Effects</h5>
+                            <p>Estimate effects 1-3 years after training.</p>
+                            <p>Do benefits persist or fade?</p>
+                        </div>
+                    </div>
+                    
+                    <div class="code-example">
+                        <h5>Stata Code</h5>
+* Set up panel data
+xtset worker_id year
+
+* Pooled OLS
+reg log_output trained experience firm_sales
+
+* Worker fixed effects
+xtreg log_output trained experience firm_sales, fe
+
+* Two-way fixed effects
+reghdfe log_output trained experience firm_sales, absorb(worker_id year)
+
+* Test for fixed effects
+xtreg log_output trained experience firm_sales, fe
+xttest3
+
+* Dynamic effects
+gen trained_lag1 = L.trained
+gen trained_lag2 = L2.trained
+gen trained_lag3 = L3.trained
+
+reghdfe log_output trained trained_lag1 trained_lag2 trained_lag3 ///
+    experience firm_sales, absorb(worker_id year)
+
+* Hausman test (RE vs FE)
+xtreg log_output trained experience firm_sales, re
+estimates store re_model
+xtreg log_output trained experience firm_sales, fe
+estimates store fe_model
+hausman fe_model re_model
+                    </div>
+                    
+                    <div class="code-example">
+                        <h5>R Code</h5>
+# Load panel data packages
+library(plm)
+library(fixest)
+
+# Convert to panel data
+panel_data <- pdata.frame(data, index = c("worker_id", "year"))
+
+# Pooled OLS
+pooled <- plm(log_output ~ trained + experience + firm_sales, 
+              data = panel_data, model = "pooling")
+
+# Worker fixed effects
+fe_model <- plm(log_output ~ trained + experience + firm_sales, 
+                data = panel_data, model = "within")
+
+# Two-way fixed effects
+twoway_fe <- feols(log_output ~ trained + experience + firm_sales | 
+                   worker_id + year, data = data)
+
+# Compare models
+stargazer(pooled, fe_model, twoway_fe, type = "text")
+
+# Hausman test
+re_model <- plm(log_output ~ trained + experience + firm_sales, 
+                data = panel_data, model = "random")
+phtest(fe_model, re_model)
+
+# Dynamic effects
+data <- data %>%
+  group_by(worker_id) %>%
+  arrange(year) %>%
+  mutate(trained_lag1 = lag(trained, 1),
+         trained_lag2 = lag(trained, 2),
+         trained_lag3 = lag(trained, 3)) %>%
+  ungroup()
+
+dynamic_fe <- feols(log_output ~ trained + trained_lag1 + trained_lag2 + 
+                    trained_lag3 + experience + firm_sales | 
+                    worker_id + year, data = data)
+                    </div>
+                </div>
+                
+                <div class="expected-output">
+                    <h5>Expected Results</h5>
+                    <ul>
+                        <li><strong>Pooled OLS:</strong> β ≈ 0.156 (15.6% increase)</li>
+                        <li><strong>Fixed effects:</strong> β ≈ 0.087 (8.7% increase)</li>
+                        <li><strong>Hausman test:</strong> p < 0.01 (prefer fixed effects)</li>
+                        <li><strong>Dynamic effects:</strong> Persistent for 2-3 years</li>
+                    </ul>
+                </div>
+                
+                <div class="interpretation-guide">
+                    <h5>Economic Interpretation</h5>
+                    <p><strong>Selection Bias:</strong> Fixed effects estimate (8.7%) much lower than pooled OLS (15.6%), suggesting more motivated workers were selected for training.</p>
+                    
+                    <p><strong>Within Estimator:</strong> Uses variation in training status within the same worker over time—eliminates time-invariant ability bias.</p>
+                    
+                    <p><strong>Policy Impact:</strong> Training increases worker output by 8.7% on average, with effects persisting for 2-3 years.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tip-box">
+            <h5>📚 Additional Practice Resources</h5>
+            <ul>
+                <li><strong>Datasets:</strong> Complete problem set data available on ImpactMojo platform</li>
+                <li><strong>Solutions:</strong> Step-by-step solutions with interpretation guides</li>
+                <li><strong>Extensions:</strong> Additional problems using NFHS, ASI, and district-level data</li>
+                <li><strong>Software tutorials:</strong> Video walkthroughs for Stata and R implementation</li>
+            </ul>
+        </div>
+        
+        <div class="print-note">
+            <p><em>This problem set is part of the ImpactMojo 101 Knowledge Series</em><br>
+            <strong>Licensed under CC BY-NC-SA 4.0</strong> • Free to use with attribution • www.impactmojo.in</p>
+            <p>For complete datasets, solution guides, and additional practice problems, visit the ImpactMojo platform.</p>
+        </div>
+    </div>
+</body>
+</html>
