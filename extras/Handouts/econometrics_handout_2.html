@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Econometrics 101 - Workshop 2: Impact Evaluation Methods with Indian Examples</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.2em;
+            font-weight: bold;
+        }
+        
+        .header h2 {
+            margin: 0;
+            font-size: 1.3em;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+        
+        .time-indicator {
+            background: #e8f4fd;
+            color: #2980b9;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+        
+        .workshop-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #9b59b6;
+            margin-bottom: 25px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section h2 {
+            color: #9b59b6;
+            border-bottom: 2px solid #9b59b6;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .section h3 {
+            color: #2c3e50;
+            margin-top: 25px;
+        }
+        
+        .evaluation-case {
+            background: #f8f9fa;
+            border-left: 5px solid #9b59b6;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .evaluation-case h4 {
+            color: #9b59b6;
+            margin-top: 0;
+        }
+        
+        .exercise-box {
+            background: #e8f4fd;
+            border: 1px solid #3498db;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .exercise-box h4 {
+            color: #2980b9;
+            margin-top: 0;
+        }
+        
+        .method-box {
+            background: #fff3cd;
+            border-left: 4px solid #f39c12;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .results-box {
+            background: #d4edda;
+            border-left: 4px solid #27ae60;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .challenge-box {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .design-comparison {
+            background: #f4e6ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .design-comparison h4 {
+            color: #8e44ad;
+            margin-top: 0;
+        }
+        
+        .formula {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            font-size: 1.1em;
+        }
+        
+        .method-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .method-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #9b59b6;
+        }
+        
+        .method-card h5 {
+            color: #9b59b6;
+            margin: 0 0 10px 0;
+        }
+        
+        .takeaway {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .resource-box {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .resource-box h3 {
+            color: #495057;
+            margin-top: 0;
+        }
+        
+        .print-note {
+            text-align: center;
+            color: #6c757d;
+            font-size: 0.9em;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #495057;
+        }
+        
+        ul, ol {
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 5px;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        
+        .study-timeline {
+            background: #f8f9fa;
+            border: 2px solid #9b59b6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .timeline-item {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: flex-start;
+        }
+        
+        .timeline-year {
+            background: #9b59b6;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-weight: bold;
+            margin-right: 15px;
+            min-width: 80px;
+            text-align: center;
+        }
+        
+        .timeline-content {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Econometrics 101</h1>
+        <h2>Workshop 2: Impact Evaluation Methods with Indian Examples</h2>
+    </div>
+    
+    <div class="workshop-info">
+        <div class="time-indicator">75-90 Minutes</div>
+        <h3 style="margin-top: 10px;">Learning from Rigorous Evaluations to Improve Development Practice</h3>
+        <p><strong>Target Audience:</strong> Development economists, policy researchers, program managers designing evaluations, and practitioners using evaluation evidence</p>
+        <p><strong>Prerequisites:</strong> Workshop 1 (Causal Inference & Natural Experiments) or equivalent econometrics background</p>
+        <p><strong>Materials Needed:</strong> Research paper excerpts, evaluation reports, policy briefs, calculator</p>
+    </div>
+    
+    <div class="section">
+        <h2>Learning Objectives</h2>
+        <p>By the end of this workshop, participants will be able to:</p>
+        <ul>
+            <li>Design rigorous impact evaluations using different methodological approaches</li>
+            <li>Interpret results from major development evaluations conducted in India</li>
+            <li>Apply evaluation findings to inform program design and scaling decisions</li>
+            <li>Assess the external validity and policy relevance of evaluation results</li>
+            <li>Navigate the practical and ethical challenges of implementing impact evaluations</li>
+        </ul>
+    </div>
+    
+    <div class="section">
+        <h2>Part 1: Randomized Controlled Trials - The Gold Standard in Action</h2>
+        <div class="time-indicator">25 minutes</div>
+        
+        <div class="evaluation-case">
+            <h4>🎓 Case Study: Pratham's Teaching at the Right Level (TaRL)</h4>
+            
+            <p><strong>Context:</strong> India's learning crisis - children in school but not learning basic skills</p>
+            
+            <p><strong>ASER Findings (2005):</strong> 50% of Class 5 children couldn't read Class 2 text</p>
+            
+            <div class="study-timeline">
+                <h4>📅 Evaluation Timeline (2001-2010)</h4>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">2001-2003</div>
+                    <div class="timeline-content">
+                        <strong>Proof of Concept:</strong> Pratham develops remedial education model in Mumbai schools
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">2004-2005</div>
+                    <div class="timeline-content">
+                        <strong>RCT Design:</strong> Partnership with J-PAL for rigorous evaluation in 122 Mumbai schools
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">2005-2007</div>
+                    <div class="timeline-content">
+                        <strong>Implementation:</strong> Randomized intervention across treatment and control schools
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">2007</div>
+                    <div class="timeline-content">
+                        <strong>Results Published:</strong> Strong positive effects on learning outcomes
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">2008-2010</div>
+                    <div class="timeline-content">
+                        <strong>Replication:</strong> Studies in Bihar, Uttarakhand confirming effectiveness
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="method-box">
+            <h4>🔬 RCT Design Elements</h4>
+            
+            <p><strong>Sample:</strong> 122 government schools in Mumbai slums</p>
+            <p><strong>Randomization:</strong> School-level assignment to treatment and control</p>
+            <p><strong>Treatment:</strong> Remedial education program targeting children at their learning level</p>
+            <p><strong>Outcomes:</strong> Reading and math test scores (pre- and post-intervention)</p>
+            <p><strong>Duration:</strong> Two academic years</p>
+            
+            <div class="formula">
+                Treatment Effect = Mean(Outcome_Treatment) - Mean(Outcome_Control)
+                <br><br>
+                Under randomization: E[Y₁ᵢ - Y₀ᵢ] = E[Y₁ᵢ | Tᵢ = 1] - E[Y₀ᵢ | Tᵢ = 0]
+            </div>
+        </div>
+        
+        <div class="results-box">
+            <h4>📊 Key Results</h4>
+            <ul>
+                <li><strong>Math scores:</strong> 0.14 standard deviation increase</li>
+                <li><strong>Language scores:</strong> 0.11 standard deviation increase</li>
+                <li><strong>Cost-effectiveness:</strong> $1.60 per child per year</li>
+                <li><strong>Heterogeneous effects:</strong> Larger gains for initially lower-performing children</li>
+            </ul>
+            
+            <p><strong>Policy Impact:</strong></p>
+            <ul>
+                <li>Adopted by multiple state governments</li>
+                <li>Influenced national education policy discussions</li>
+                <li>Replicated in Ghana, where similar results found</li>
+                <li>Led to development of TaRL approach globally</li>
+            </ul>
+        </div>
+        
+        <div class="challenge-box">
+            <h4>⚠️ Implementation Challenges</h4>
+            <ul>
+                <li><strong>Spillovers:</strong> Control schools may learn from treatment schools</li>
+                <li><strong>Attrition:</strong> Students moving between schools during study period</li>
+                <li><strong>Hawthorne Effects:</strong> Behavior change due to being observed</li>
+                <li><strong>Ethical Concerns:</strong> Withholding potentially beneficial treatment from control group</li>
+                <li><strong>External Validity:</strong> Will it work in rural schools? Different contexts?</li>
+            </ul>
+        </div>
+        
+        <div class="exercise-box">
+            <h4>🎯 RCT Design Exercise (12 minutes)</h4>
+            <p><strong>Small Groups (3-4 people):</strong> Design an RCT for a development intervention</p>
+            
+            <p><strong>Intervention Options:</strong></p>
+            <ul>
+                <li>Digital payment system for government transfers</li>
+                <li>Nutrition education program for pregnant women</li>
+                <li>Skills training program for unemployed youth</li>
+                <li>Solar lantern distribution in off-grid villages</li>
+            </ul>
+            
+            <p><strong>Design Framework (10 min):</strong></p>
+            <ol>
+                <li><strong>Research Question (2 min):</strong> What is the causal effect you want to estimate?</li>
+                <li><strong>Sample & Randomization (3 min):</strong> What units? How many? Randomization level?</li>
+                <li><strong>Outcomes (2 min):</strong> Primary and secondary outcomes? How measured?</li>
+                <li><strong>Challenges (3 min):</strong> What implementation/methodological challenges do you anticipate?</li>
+            </ol>
+            
+            <p><strong>Share (2 min):</strong> Your intervention and biggest design challenge</p>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>Part 2: Regression Discontinuity - Leveraging Policy Rules</h2>
+        <div class="time-indicator">20 minutes</div>
+        
+        <div class="evaluation-case">
+            <h4>💳 Case Study: Jan Aushadhi Generic Drug Program</h4>
+            
+            <p><strong>Policy Background:</strong> Government program to increase access to affordable generic medicines</p>
+            
+            <p><strong>RD Opportunity:</strong> Program eligibility based on village population thresholds</p>
+            <ul>
+                <li>Villages with population > 3,000 eligible for Jan Aushadhi stores</li>
+                <li>Sharp cutoff creates "as-if random" assignment</li>
+                <li>Villages just above/below threshold similar except for program access</li>
+            </ul>
+        </div>
+        
+        <div class="method-box">
+            <h4>📏 RD Design Logic</h4>
+            
+            <div class="formula">
+                τ = lim[E[Y|X = c⁺] - E[Y|X = c⁻]]
+                <br><br>
+                Where c is the cutoff, c⁺ is just above, c⁻ is just below
+            </div>
+            
+            <p><strong>Key Assumption:</strong> In absence of treatment, outcome function smooth at cutoff</p>
+            
+            <p><strong>Advantages:</strong></p>
+            <ul>
+                <li>No need for randomization - uses existing policy rules</li>
+                <li>Highly credible identification strategy</li>
+                <li>Policy-relevant - evaluates actual program eligibility rules</li>
+            </ul>
+            
+            <p><strong>Limitations:</strong></p>
+            <ul>
+                <li>Only estimates local average treatment effect at cutoff</li>
+                <li>Requires sufficient observations near cutoff</li>
+                <li>Vulnerable to manipulation of running variable</li>
+            </ul>
+        </div>
+        
+        <div class="evaluation-case">
+            <h4>🌾 Case Study: MGNREGA and Agricultural Productivity</h4>
+            
+            <p><strong>Setting:</strong> MGNREGA rolled out to poorest districts first, creating RD design opportunity</p>
+            
+            <p><strong>Research Design (Imbert & Papp 2015):</strong></p>
+            <ul>
+                <li>Phase I districts selected based on backwardness index</li>
+                <li>Sharp cutoff in program assignment</li>
+                <li>Compare districts just above/below threshold</li>
+            </ul>
+            
+            <p><strong>Key Findings:</strong></p>
+            <ul>
+                <li>Agricultural wages increased by 5.3%</li>
+                <li>Cropping patterns shifted toward labor-intensive crops</li>
+                <li>No significant impact on agricultural output</li>
+                <li>Results suggest general equilibrium effects in rural labor markets</li>
+            </ul>
+        </div>
+        
+        <div class="exercise-box">
+            <h4>🔍 RD Opportunity Identification (8 minutes)</h4>
+            <p><strong>Brainstorming Exercise:</strong> Find RD opportunities in Indian policies</p>
+            
+            <p><strong>Think about policies with eligibility cutoffs:</strong></p>
+            <ul>
+                <li>Income thresholds (BPL cards, scholarship programs)</li>
+                <li>Population thresholds (infrastructure programs, health centers)</li>
+                <li>Score cutoffs (exam-based admissions, ranking-based programs)</li>
+                <li>Geographic boundaries (different policies across borders)</li>
+                <li>Age cutoffs (pension programs, education policies)</li>
+            </ul>
+            
+            <p><strong>For each cutoff, consider:</strong></p>
+            <ol>
+                <li>Is assignment based on this rule truly discontinuous?</li>
+                <li>Can individuals/units manipulate their position relative to cutoff?</li>
+                <li>Are there other policies that change at the same cutoff?</li>
+                <li>What outcomes would be interesting to study?</li>
+            </ol>
+            
+            <p><strong>Share:</strong> Your most promising RD opportunity</p>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>Part 3: Difference-in-Differences - Before/After and Treatment/Control</h2>
+        <div class="time-indicator">20 minutes</div>
+        
+        <div class="evaluation-case">
+            <h4>🏭 Case Study: Employment Guarantee and Industrial Development</h4>
+            
+            <p><strong>Research Question:</strong> Does rural employment guarantee crowd out industrial employment?</p>
+            
+            <p><strong>Setting:</strong> MGNREGA phased rollout (2006-2008) creates natural experiment</p>
+            
+            <div class="method-box">
+                <h4>📊 Difference-in-Differences Logic</h4>
+                
+                <p><strong>Treatment Group:</strong> Phase I districts (got MGNREGA in 2006)</p>
+                <p><strong>Control Group:</strong> Phase II districts (got MGNREGA in 2007-08)</p>
+                <p><strong>Time Periods:</strong> Before (2004-2005) vs. After (2006-2007)</p>
+                
+                <div class="formula">
+                    τDD = [Y̅T,After - Y̅T,Before] - [Y̅C,After - Y̅C,Before]
+                    <br><br>
+                    = (Change in Treatment Group) - (Change in Control Group)
+                </div>
+                
+                <p><strong>Key Assumption:</strong> Parallel trends - treatment and control groups would have followed same trend in absence of treatment</p>
+            </div>
+        </div>
+        
+        <div class="results-box">
+            <h4>📈 Results from Multiple DD Studies</h4>
+            
+            <p><strong>Johnson (2016) - Industrial Employment:</strong></p>
+            <ul>
+                <li>20% decline in private sector manufacturing employment</li>
+                <li>Wages in remaining manufacturing jobs increased</li>
+                <li>Effect strongest in labor-intensive industries</li>
+            </ul>
+            
+            <p><strong>Santangelo (2019) - Firm Relocation:</strong></p>
+            <ul>
+                <li>Manufacturing firms more likely to exit MGNREGA districts</li>
+                <li>New manufacturing investment shifted to non-MGNREGA areas</li>
+                <li>Long-term structural change in industrial geography</li>
+            </ul>
+            
+            <p><strong>Policy Implications:</strong></p>
+            <ul>
+                <li>MGNREGA achieved goal of raising rural wages</li>
+                <li>But created unintended consequences for industrial development</li>
+                <li>Suggests need for coordinated rural-industrial development policy</li>
+            </ul>
+        </div>
+        
+        <div class="challenge-box">
+            <h4>⚠️ DD Assumptions and Threats</h4>
+            
+            <p><strong>Parallel Trends Assumption:</strong></p>
+            <ul>
+                <li>Can test using pre-treatment data</li>
+                <li>Vulnerable to unobserved time-varying factors</li>
+                <li>May be violated if treatment correlated with time trends</li>
+            </ul>
+            
+            <p><strong>Common Threats:</strong></p>
+            <ul>
+                <li><strong>Compositional Changes:</strong> Migration between treatment/control areas</li>
+                <li><strong>Spillover Effects:</strong> Treatment affects control group outcomes</li>
+                <li><strong>Anticipation Effects:</strong> Behavioral changes before treatment starts</li>
+                <li><strong>Other Policy Changes:</strong> Confounding policies implemented simultaneously</li>
+            </ul>
+        </div>
+        
+        <div class="exercise-box">
+            <h4>📋 DD Design Workshop (10 minutes)</h4>
+            <p><strong>Individual Exercise:</strong> Design a DD study</p>
+            
+            <p><strong>Choose a policy change or program rollout:</strong></p>
+            <ul>
+                <li>Demonetization (2016) impact on different sectors</li>
+                <li>GST implementation across states</li>
+                <li>Digital India initiatives rollout</li>
+                <li>COVID-19 lockdown effects (different timing across states)</li>
+                <li>New education policy implementation</li>
+            </ul>
+            
+            <p><strong>Design Elements (8 min):</strong></p>
+            <ol>
+                <li><strong>Treatment/Control Groups (2 min):</strong> Who gets treated when?</li>
+                <li><strong>Time Periods (2 min):</strong> Before/after periods for comparison?</li>
+                <li><strong>Outcomes (2 min):</strong> What would you measure? Data sources?</li>
+                <li><strong>Assumptions (2 min):</strong> Is parallel trends plausible? How to test?</li>
+            </ol>
+            
+            <p><strong>Quick Check (2 min):</strong> What's your biggest threat to identification?</p>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>Part 4: From Evaluation to Policy - Making Research Actionable</h2>
+        <div class="time-indicator">15 minutes</div>
+        
+        <div class="design-comparison">
+            <h4>🔄 The Evidence-to-Policy Pipeline</h4>
+            
+            <table>
+                <tr>
+                    <th>Evaluation Stage</th>
+                    <th>Key Questions</th>
+                    <th>Policy Relevance</th>
+                    <th>Example: TaRL</th>
+                </tr>
+                <tr>
+                    <td><strong>Efficacy</strong></td>
+                    <td>Does it work under ideal conditions?</td>
+                    <td>Proof of concept</td>
+                    <td>Mumbai RCT shows learning gains</td>
+                </tr>
+                <tr>
+                    <td><strong>Effectiveness</strong></td>
+                    <td>Does it work under real-world conditions?</td>
+                    <td>Scalability assessment</td>
+                    <td>Bihar, Uttarakhand studies confirm effects</td>
+                </tr>
+                <tr>
+                    <td><strong>Scale-up</strong></td>
+                    <td>Does it work when implemented at scale?</td>
+                    <td>Policy implementation</td>
+                    <td>State government adoption across India</td>
+                </tr>
+                <tr>
+                    <td><strong>Sustainability</strong></td>
+                    <td>Do effects persist over time?</td>
+                    <td>Long-term policy viability</td>
+                    <td>Ongoing evaluation of government programs</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="method-grid">
+            <div class="method-card">
+                <h5>🎯 Internal Validity</h5>
+                <p><strong>Question:</strong> Is the causal relationship credible in this specific study?</p>
+                <p><strong>Threats:</strong> Selection bias, confounding, measurement error</p>
+                <p><strong>Solutions:</strong> Rigorous identification strategy, robustness checks</p>
+            </div>
+            
+            <div class="method-card">
+                <h5>🌍 External Validity</h5>
+                <p><strong>Question:</strong> Will results generalize to other contexts?</p>
+                <p><strong>Threats:</strong> Different populations, settings, implementation</p>
+                <p><strong>Solutions:</strong> Replication studies, mechanism analysis</p>
+            </div>
+            
+            <div class="method-card">
+                <h5>💰 Cost-Effectiveness</h5>
+                <p><strong>Question:</strong> Is this the best use of limited resources?</p>
+                <p><strong>Threats:</strong> Hidden costs, incomplete benefit measurement</p>
+                <p><strong>Solutions:</strong> Comprehensive cost analysis, benefit-cost ratios</p>
+            </div>
+            
+            <div class="method-card">
+                <h5>⚖️ Equity Considerations</h5>
+                <p><strong>Question:</strong> Who benefits and who might be harmed?</p>
+                <p><strong>Threats:</strong> Heterogeneous effects, unintended consequences</p>
+                <p><strong>Solutions:</strong> Subgroup analysis, distributive impact assessment</p>
+            </div>
+        </div>
+        
+        <div class="results-box">
+            <h4>📚 Lessons from Indian Impact Evaluation Experience</h4>
+            
+            <p><strong>Success Stories:</strong></p>
+            <ul>
+                <li><strong>Pratham TaRL:</strong> Strong evidence → government adoption → scale</li>
+                <li><strong>Janani Suraksha Yojana:</strong> Evaluation → program improvement → expansion</li>
+                <li><strong>Direct Benefit Transfers:</strong> Pilot evaluation → nationwide rollout</li>
+            </ul>
+            
+            <p><strong>Common Challenges:</strong></p>
+            <ul>
+                <li><strong>Implementation Fidelity:</strong> Government programs often diluted from evaluated version</li>
+                <li><strong>Political Economy:</strong> Evidence competes with political considerations</li>
+                <li><strong>Capacity Constraints:</strong> Limited evaluation expertise in government</li>
+                <li><strong>Time Horizons:</strong> Political cycles vs. evaluation timelines</li>
+            </ul>
+            
+            <p><strong>Best Practices:</strong></p>
+            <ul>
+                <li>Engage policymakers early in evaluation design</li>
+                <li>Build evaluation capacity within implementing organizations</li>
+                <li>Communicate results in policy-relevant formats</li>
+                <li>Plan for adaptive implementation based on findings</li>
+            </ul>
+        </div>
+        
+        <div class="exercise-box">
+            <h4>🚀 Policy Translation Exercise (12 minutes)</h4>
+            <p><strong>Small Groups:</strong> Turn evaluation findings into policy recommendations</p>
+            
+            <p><strong>Choose one recent Indian evaluation:</strong></p>
+            <ul>
+                <li>Digital payment impact on women's empowerment</li>
+                <li>School-based deworming programs and learning</li>
+                <li>Solar power and rural business development</li>
+                <li>Skills training and youth employment</li>
+            </ul>
+            
+            <p><strong>Policy Brief Framework (10 min):</strong></p>
+            <ol>
+                <li><strong>Key Finding (2 min):</strong> What did the evaluation show?</li>
+                <li><strong>Policy Relevance (3 min):</strong> Why should policymakers care?</li>
+                <li><strong>Scaling Considerations (3 min):</strong> What would change at scale?</li>
+                <li><strong>Recommendations (2 min):</strong> Specific actions for government?</li>
+            </ol>
+            
+            <p><strong>Share (2 min):</strong> Your top policy recommendation and rationale</p>
+        </div>
+    </div>
+    
+    <div class="takeaway">
+        <h3>Key Takeaway</h3>
+        <p style="font-size: 1.2em; margin: 0;">
+            Rigorous impact evaluation is not just an academic exercise—it's a tool for improving lives and making better use of public resources. The best evaluations combine methodological rigor with deep policy engagement to generate actionable evidence for development practice.
+        </p>
+    </div>
+    
+    <div class="resource-box">
+        <h3>📚 Resources for Continued Learning</h3>
+        
+        <p><strong>Impact Evaluation Handbooks:</strong></p>
+        <ul>
+            <li><em>"Running Randomized Evaluations"</em> by Glennerster & Takavarasha</li>
+            <li><em>"Impact Evaluation in Practice"</em> by Gertler, Martinez, Premand, Rawlings, Vermeersch</li>
+            <li><em>"When to Use RCTs"</em> by Deaton & Cartwright</li>
+            <li><em>"Handbook of Research Methods in Development Economics"</em> by Duflo & Banerjee</li>
+        </ul>
+        
+        <p><strong>Indian Research Organizations:</strong></p>
+        <ul>
+            <li><strong>J-PAL South Asia:</strong> Randomized evaluations and policy outreach</li>
+            <li><strong>3ie (International Initiative for Impact Evaluation):</strong> Evidence synthesis and capacity building</li>
+            <li><strong>Centre for Policy Research:</strong> Policy-oriented research and evaluation</li>
+            <li><strong>Development Data Lab:</strong> Data-driven development research</li>
+        </ul>
+        
+        <p><strong>Government Evaluation Initiatives:</strong></p>
+        <ul>
+            <li><strong>Development Monitoring and Evaluation Office (DMEO), NITI Aayog:</strong> Government evaluation guidelines</li>
+            <li><strong>Performance Management Division, Cabinet Secretariat:</strong> Program evaluation framework</li>
+            <li><strong>State Evaluation Departments:</strong> State-level impact assessment systems</li>
+        </ul>
+        
+        <p><strong>Databases and Repositories:</strong></p>
+        <ul>
+            <li><strong>AEA RCT Registry:</strong> Registry of randomized controlled trials</li>
+            <li><strong>3ie Repository:</strong> Impact evaluations and systematic reviews</li>
+            <li><strong>Ideas for India:</strong> Policy-relevant research findings</li>
+            <li><strong>J-PAL Policy Case Studies:</strong> From research to policy examples</li>
+        </ul>
+        
+        <p><strong>Training Programs:</strong></p>
+        <ul>
+            <li><strong>J-PAL Executive Education:</strong> Evaluating development programs</li>
+            <li><strong>3ie Impact Evaluation Methods:</strong> Online courses and workshops</li>
+            <li><strong>World Bank DIME:</strong> Research design and implementation</li>
+            <li><strong>EGAP Learning Days:</strong> Experimental methods training</li>
+        </ul>
+        
+        <p><strong>Software and Tools:</strong></p>
+        <ul>
+            <li><strong>R:</strong> Statistical analysis with causal inference packages</li>
+            <li><strong>Stata:</strong> Standard software for impact evaluation</li>
+            <li><strong>EGAP Tools:</strong> Power calculations and research design</li>
+            <li><strong>SurveyCTO:</strong> Data collection platform for field experiments</li>
+        </ul>
+        
+        <p><strong>Next Steps in ImpactMojo:</strong></p>
+        <ul>
+            <li><strong>MEL 101:</strong> Monitoring and evaluation system design</li>
+            <li><strong>Research Ethics 101:</strong> Ethical considerations in evaluation research</li>
+            <li><strong>Political Economy 101:</strong> Understanding policy adoption and implementation</li>
+            <li><strong>Qualitative Research 101:</strong> Mixed-methods approaches to evaluation</li>
+        </ul>
+    </div>
+    
+    <div class="print-note">
+        <p><em>This handout is part of the ImpactMojo 101 Knowledge Series</em><br>
+        <strong>Licensed under CC BY-NC-SA 4.0</strong> • Free to use with attribution • www.impactmojo.in</p>
+        <p>For evaluation design templates, analysis code, and policy translation guides, visit the ImpactMojo platform.</p>
+    </div>
+</body>
+</html>
