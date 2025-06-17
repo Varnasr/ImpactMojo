@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multivariate Analysis 101 - Workshop 2</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+        
+        .workshop-info {
+            background: #f8f9fa;
+            padding: 25px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .time-indicator {
+            background: #667eea;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .difficulty-indicator {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            color: white;
+            margin: 5px 0;
+            font-weight: bold;
+        }
+        
+        .beginner { background-color: #27ae60; }
+        .intermediate { background-color: #f39c12; }
+        .advanced { background-color: #e74c3c; }
+        
+        .section {
+            padding: 30px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .section h2 {
+            color: #667eea;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        
+        .section h3 {
+            color: #764ba2;
+            margin-top: 25px;
+        }
+        
+        .problem-set {
+            margin: 30px 0;
+            page-break-inside: avoid;
+        }
+        
+        .problem-box {
+            background: #fff8e1;
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .problem-box h4 {
+            color: #f57c00;
+            margin-top: 0;
+        }
+        
+        .exercise-box {
+            background: #e8f4fd;
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .exercise-box h4 {
+            color: #2980b9;
+            margin-top: 0;
+        }
+        
+        .data-scenario {
+            background: #f3e5f5;
+            border-left: 4px solid #9c27b0;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .data-scenario h5 {
+            color: #7b1fa2;
+            margin-top: 0;
+        }
+        
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        
+        .calculation-space {
+            background: #f8f9fa;
+            border: 2px dashed #6c757d;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .calculation-space h5 {
+            color: #495057;
+            margin-top: 0;
+        }
+        
+        .interpretation-guide {
+            background: #d4edda;
+            border-left: 4px solid #27ae60;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .warning-box {
+            background: #f8d7da;
+            border: 2px solid #dc3545;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        .diagnostic-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .diagnostic-card {
+            background: #f0f3ff;
+            border-left: 4px solid #667eea;
+            padding: 18px;
+            border-radius: 8px;
+        }
+        
+        .diagnostic-card h5 {
+            margin: 0 0 10px 0;
+            color: #4a69bd;
+        }
+        
+        .formula-box {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .formula-box h5 {
+            color: #1976d2;
+            margin: 0 0 15px 0;
+        }
+        
+        .reflection-questions {
+            background: #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .reflection-questions h5 {
+            color: #2d3436;
+            margin: 0 0 15px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.9em;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .method-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .method-card {
+            background: #f0f3ff;
+            border-left: 4px solid #667eea;
+            padding: 18px;
+            border-radius: 8px;
+        }
+        
+        .method-card h5 {
+            margin: 0 0 10px 0;
+            color: #4a69bd;
+            font-size: 1.1em;
+        }
+        
+        .takeaway {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .print-note {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #6c757d;
+            border-top: 1px solid #ecf0f1;
+        }
+        
+        @media print {
+            body { background: white; font-size: 11px; }
+            .container { box-shadow: none; }
+            .header { background: #667eea !important; }
+            .diagnostic-grid { grid-template-columns: 1fr; }
+            .method-comparison { grid-template-columns: 1fr; }
+            .problem-set { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Multivariate Analysis 101</h1>
+            <div class="subtitle">Advanced Methods, Diagnostics & Applied Problem Sets</div>
+            <div style="margin-top: 15px; font-size: 1em; opacity: 0.8;">
+                ImpactMojo Workshop Series • Hands-On Policy Analysis Practice
+            </div>
+        </div>
+        
+        <div class="workshop-info">
+            <div class="time-indicator">75-90 Minutes</div>
+            <h3 style="margin-top: 10px;">Workshop 2: Interactions, Diagnostics & Real-World Applications</h3>
+            <p><strong>Target Audience:</strong> Researchers and policy analysts ready to apply advanced multivariate techniques to complex datasets</p>
+            <p><strong>Prerequisites:</strong> Workshop 1 or solid foundation in basic multiple regression</p>
+            <p><strong>Materials Needed:</strong> Statistical software with diagnostic capabilities, real policy datasets, calculators</p>
+        </div>
+        
+        <div class="section">
+            <h2>Learning Objectives</h2>
+            <p>By the end of this workshop, participants will be able to:</p>
+            <ul>
+                <li>Model and interpret interaction effects and non-linear relationships</li>
+                <li>Conduct comprehensive regression diagnostics and assumption testing</li>
+                <li>Handle multicollinearity, heteroskedasticity, and outliers appropriately</li>
+                <li>Compare and select optimal models using statistical criteria</li>
+                <li>Translate regression results into policy-relevant insights with appropriate caveats</li>
+            </ul>
+        </div>
+        
+        <div class="problem-set">
+            <h2>Problem Set 1: Interaction Effects in Education Policy</h2>
+            <div class="difficulty-indicator intermediate">Intermediate</div>
+            
+            <div class="data-scenario">
+                <h5>📊 Dataset: School Performance in Rural Maharashtra</h5>
+                <p><strong>Research Question:</strong> Does the effect of teacher training on student learning outcomes differ by school infrastructure quality?</p>
+                
+                <p><strong>Variables:</strong></p>
+                <ul>
+                    <li><strong>test_score:</strong> Average class 5 mathematics score (0-100)</li>
+                    <li><strong>teacher_training:</strong> Binary (1 = teacher received training, 0 = no training)</li>
+                    <li><strong>infrastructure:</strong> Infrastructure index (0-10 scale)</li>
+                    <li><strong>student_ses:</strong> Average student socioeconomic status (-2 to +2)</li>
+                    <li><strong>class_size:</strong> Number of students in class</li>
+                    <li><strong>years_experience:</strong> Teacher's years of experience</li>
+                </ul>
+            </div>
+            
+            <div class="problem-box">
+                <h4>Problem 1.1: Interaction Model Specification</h4>
+                <p><strong>Your task:</strong> Set up a regression model to test whether infrastructure moderates the teacher training effect.</p>
+                
+                <div class="calculation-space">
+                    <h5>🔧 Model Setup Exercise</h5>
+                    <p><strong>Step 1:</strong> Write the full regression equation including the interaction term:</p>
+                    <p>test_score = β₀ + β₁(teacher_training) + β₂(infrastructure) + β₃(_____) + β₄(student_ses) + β₅(class_size) + β₆(years_experience) + ε</p>
+                    
+                    <p><strong>Step 2:</strong> What does each coefficient represent?</p>
+                    <ul>
+                        <li><strong>β₁:</strong> Effect of teacher training when infrastructure = _____ and other variables held constant</li>
+                        <li><strong>β₂:</strong> Effect of infrastructure when teacher_training = _____ and other variables held constant</li>
+                        <li><strong>β₃:</strong> How much the effect of _____ changes per unit increase in _____</li>
+                    </ul>
+                </div>
+                
+                <div class="code-block">
+# R Code for Interaction Model
+model_interaction <- lm(test_score ~ teacher_training + infrastructure + 
+                       teacher_training * infrastructure + student_ses + 
+                       class_size + years_experience, data = school_data)
+
+# Stata Code  
+regress test_score teacher_training infrastructure ///
+        c.teacher_training#c.infrastructure student_ses class_size years_experience
+
+# Python Code
+import statsmodels.formula.api as smf
+model = smf.ols('test_score ~ teacher_training + infrastructure + 
+                teacher_training:infrastructure + student_ses + 
+                class_size + years_experience', data=school_data).fit()
+                </div>
+            </div>
+            
+            <div class="problem-box">
+                <h4>Problem 1.2: Interaction Interpretation Practice</h4>
+                <p><strong>Given these hypothetical results:</strong></p>
+                
+                <table>
+                    <tr>
+                        <th>Variable</th>
+                        <th>Coefficient</th>
+                        <th>Std Error</th>
+                        <th>p-value</th>
+                    </tr>
+                    <tr>
+                        <td>teacher_training</td>
+                        <td>8.5</td>
+                        <td>2.1</td>
+                        <td>0.001</td>
+                    </tr>
+                    <tr>
+                        <td>infrastructure</td>
+                        <td>3.2</td>
+                        <td>0.8</td>
+                        <td>0.001</td>
+                    </tr>
+                    <tr>
+                        <td>teacher_training × infrastructure</td>
+                        <td>1.7</td>
+                        <td>0.6</td>
+                        <td>0.006</td>
+                    </tr>
+                    <tr>
+                        <td>student_ses</td>
+                        <td>12.3</td>
+                        <td>1.9</td>
+                        <td>&lt;0.001</td>
+                    </tr>
+                </table>
+                
+                <div class="calculation-space">
+                    <h5>💡 Interpretation Questions</h5>
+                    <ol>
+                        <li><strong>Schools with poor infrastructure (infrastructure = 2):</strong>
+                            <br>Effect of teacher training = 8.5 + (1.7 × 2) = _____ points</li>
+                        
+                        <li><strong>Schools with good infrastructure (infrastructure = 8):</strong>
+                            <br>Effect of teacher training = 8.5 + (1.7 × _____) = _____ points</li>
+                        
+                        <li><strong>Policy insight:</strong> Teacher training is (more/less) effective in schools with better infrastructure by _____ points per unit of infrastructure improvement.</li>
+                        
+                        <li><strong>Practical significance:</strong> The difference in training effectiveness between poor (infrastructure=2) and excellent (infrastructure=10) schools is _____ points.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        
+        <div class="problem-set">
+            <h2>Problem Set 2: Regression Diagnostics Workshop</h2>
+            <div class="difficulty-indicator advanced">Advanced</div>
+            
+            <div class="data-scenario">
+                <h5>🔍 Diagnostic Challenge: MGNREGA Wage Analysis</h5>
+                <p><strong>Context:</strong> You're analyzing factors affecting daily wages in MGNREGA across 500 districts. After running your initial model, you need to check key assumptions.</p>
+                
+                <p><strong>Initial Model:</strong> daily_wage = β₀ + β₁(unemployment_rate) + β₂(literacy_rate) + β₃(distance_to_city) + β₄(state_budget_pc) + ε</p>
+            </div>
+            
+            <div class="diagnostic-grid">
+                <div class="diagnostic-card">
+                    <h5>🎯 Linearity Check</h5>
+                    <p><strong>Test:</strong> Residuals vs. Fitted plot</p>
+                    <p><strong>Look for:</strong> Random scatter around zero</p>
+                    <p><strong>Problem signs:</strong> Curved patterns, funneling</p>
+                    <p><strong>Solutions:</strong> Log transformation, polynomial terms</p>
+                </div>
+                
+                <div class="diagnostic-card">
+                    <h5>🎯 Normality of Residuals</h5>
+                    <p><strong>Test:</strong> Q-Q plot, Shapiro-Wilk test</p>
+                    <p><strong>Look for:</strong> Points along diagonal line</p>
+                    <p><strong>Problem signs:</strong> Systematic deviations</p>
+                    <p><strong>Solutions:</strong> Robust standard errors, transformations</p>
+                </div>
+                
+                <div class="diagnostic-card">
+                    <h5>🎯 Homoskedasticity</h5>
+                    <p><strong>Test:</strong> Breusch-Pagan test, residuals vs. fitted</p>
+                    <p><strong>Look for:</strong> Constant variance across fitted values</p>
+                    <p><strong>Problem signs:</strong> Funneling pattern</p>
+                    <p><strong>Solutions:</strong> Robust SEs, weighted least squares</p>
+                </div>
+                
+                <div class="diagnostic-card">
+                    <h5>🎯 Multicollinearity</h5>
+                    <p><strong>Test:</strong> VIF (Variance Inflation Factor)</p>
+                    <p><strong>Look for:</strong> VIF < 5 (ideally < 3)</p>
+                    <p><strong>Problem signs:</strong> VIF > 10</p>
+                    <p><strong>Solutions:</strong> Drop variables, ridge regression</p>
+                </div>
+            </div>
+            
+            <div class="exercise-box">
+                <h4>🔬 Hands-On Diagnostic Exercise (20 minutes)</h4>
+                
+                <div class="calculation-space">
+                    <h5>Step 1: VIF Interpretation (5 minutes)</h5>
+                    <p><strong>Given VIF values:</strong></p>
+                    <ul>
+                        <li>unemployment_rate: VIF = 2.1</li>
+                        <li>literacy_rate: VIF = 8.7</li>
+                        <li>distance_to_city: VIF = 1.8</li>
+                        <li>state_budget_pc: VIF = 9.2</li>
+                    </ul>
+                    
+                    <p><strong>Analysis:</strong></p>
+                    <ol>
+                        <li>Which variables show concerning multicollinearity? _____</li>
+                        <li>What percentage of literacy_rate's variance is explained by other predictors? _____% (Hint: 1 - 1/VIF)</li>
+                        <li>Should you drop any variables? Which ones and why?</li>
+                    </ol>
+                </div>
+                
+                <div class="calculation-space">
+                    <h5>Step 2: Heteroskedasticity Test (5 minutes)</h5>
+                    <p><strong>Breusch-Pagan test results:</strong></p>
+                    <ul>
+                        <li>Test statistic: 18.7</li>
+                        <li>p-value: 0.003</li>
+                        <li>Null hypothesis: Homoskedasticity (constant variance)</li>
+                    </ul>
+                    
+                    <p><strong>Questions:</strong></p>
+                    <ol>
+                        <li>Do you reject the null hypothesis? _____ (Yes/No)</li>
+                        <li>What does this mean for your model? _____</li>
+                        <li>What are two appropriate solutions?</li>
+                    </ol>
+                </div>
+                
+                <div class="calculation-space">
+                    <h5>Step 3: Outlier Detection (10 minutes)</h5>
+                    <p><strong>Identify problematic observations:</strong></p>
+                    <table>
+                        <tr>
+                            <th>District</th>
+                            <th>Standardized Residual</th>
+                            <th>Cook's Distance</th>
+                            <th>Leverage</th>
+                        </tr>
+                        <tr>
+                            <td>District A</td>
+                            <td>-3.2</td>
+                            <td>0.15</td>
+                            <td>0.08</td>
+                        </tr>
+                        <tr>
+                            <td>District B</td>
+                            <td>1.8</td>
+                            <td>0.003</td>
+                            <td>0.12</td>
+                        </tr>
+                        <tr>
+                            <td>District C</td>
+                            <td>2.1</td>
+                            <td>0.25</td>
+                            <td>0.15</td>
+                        </tr>
+                    </table>
+                    
+                    <p><strong>Thresholds:</strong> |Standardized residual| > 2.5, Cook's D > 4/n, Leverage > 2p/n</p>
+                    
+                    <p><strong>Analysis:</strong></p>
+                    <ol>
+                        <li>Which district is an outlier? _____</li>
+                        <li>Which has high influence? _____</li>
+                        <li>Should any observations be investigated further? Why?</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        
+        <div class="problem-set">
+            <h2>Problem Set 3: Model Selection and Comparison</h2>
+            <div class="difficulty-indicator advanced">Advanced</div>
+            
+            <div class="data-scenario">
+                <h5>📈 Policy Research Scenario</h5>
+                <p><strong>Context:</strong> You're evaluating the effectiveness of digital literacy programs on women's economic empowerment across 300 villages in rural India. You have multiple competing models and need to select the best one.</p>
+            </div>
+            
+            <div class="method-comparison">
+                <div class="method-card">
+                    <h5>Model 1: Basic Model</h5>
+                    <p><strong>R² = 0.34, AIC = 2847</strong></p>
+                    <p>empowerment_score ~ digital_program + age + education + household_income</p>
+                </div>
+                
+                <div class="method-card">
+                    <h5>Model 2: With Interactions</h5>
+                    <p><strong>R² = 0.41, AIC = 2801</strong></p>
+                    <p>empowerment_score ~ digital_program + age + education + household_income + digital_program:education</p>
+                </div>
+                
+                <div class="method-card">
+                    <h5>Model 3: Full Model</h5>
+                    <p><strong>R² = 0.45, AIC = 2823</strong></p>
+                    <p>empowerment_score ~ digital_program + age + education + household_income + digital_program:education + village_infrastructure + social_capital</p>
+                </div>
+            </div>
+            
+            <div class="problem-box">
+                <h4>Problem 3.1: Model Selection Criteria</h4>
+                
+                <div class="calculation-space">
+                    <h5>🎯 Selection Analysis</h5>
+                    <ol>
+                        <li><strong>R² criterion:</strong> Which model explains the most variance? Model _____ with _____% variance explained.</li>
+                        
+                        <li><strong>AIC criterion:</strong> Which model has the best AIC (lowest value)? Model _____ with AIC = _____.</li>
+                        
+                        <li><strong>Parsimony principle:</strong> Model 2 vs Model 3 - the improvement in R² is _____ percentage points, but AIC gets (better/worse) by _____ points.</li>
+                        
+                        <li><strong>Your recommendation:</strong> Which model would you choose and why?</li>
+                    </ol>
+                </div>
+                
+                <div class="interpretation-guide">
+                    <p><strong>📊 Model Selection Guidelines:</strong></p>
+                    <ul>
+                        <li><strong>AIC difference < 2:</strong> Models are essentially equivalent</li>
+                        <li><strong>AIC difference 2-10:</strong> Some evidence for lower AIC model</li>
+                        <li><strong>AIC difference > 10:</strong> Strong evidence for lower AIC model</li>
+                        <li><strong>R² vs AIC:</strong> AIC penalizes complexity, R² doesn't - prefer AIC for model selection</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="problem-box">
+                <h4>Problem 3.2: Policy Interpretation with Interactions</h4>
+                <p><strong>Selected Model 2 results:</strong></p>
+                
+                <table>
+                    <tr>
+                        <th>Variable</th>
+                        <th>Coefficient</th>
+                        <th>Std Error</th>
+                        <th>p-value</th>
+                    </tr>
+                    <tr>
+                        <td>digital_program</td>
+                        <td>2.8</td>
+                        <td>1.2</td>
+                        <td>0.020</td>
+                    </tr>
+                    <tr>
+                        <td>education (years)</td>
+                        <td>0.6</td>
+                        <td>0.15</td>
+                        <td>&lt;0.001</td>
+                    </tr>
+                    <tr>
+                        <td>digital_program × education</td>
+                        <td>0.4</td>
+                        <td>0.18</td>
+                        <td>0.035</td>
+                    </tr>
+                </table>
+                
+                <div class="calculation-space">
+                    <h5>💼 Policy Memo Calculations</h5>
+                    <ol>
+                        <li><strong>For women with no formal education (education = 0):</strong>
+                            <br>Digital program effect = 2.8 + (0.4 × 0) = _____ points</li>
+                        
+                        <li><strong>For women with 8 years education:</strong>
+                            <br>Digital program effect = 2.8 + (0.4 × _____) = _____ points</li>
+                        
+                        <li><strong>For women with 12 years education:</strong>
+                            <br>Digital program effect = _____ + (_____ × 12) = _____ points</li>
+                        
+                        <li><strong>Policy insight:</strong> Each additional year of education increases the program's effectiveness by _____ points.</li>
+                    </ol>
+                </div>
+                
+                <div class="reflection-questions">
+                    <h5>🤔 Policy Implications</h5>
+                    <ol>
+                        <li>Should digital literacy programs target women with higher education levels? Why or why not?</li>
+                        <li>How might you design interventions to help women with lower education benefit more from digital programs?</li>
+                        <li>What additional variables would strengthen this analysis?</li>
+                        <li>How would you communicate these findings to policymakers who aren't familiar with interaction terms?</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Problem Set 4: Non-Linear Relationships</h2>
+            <div class="difficulty-indicator intermediate">Intermediate</div>
+            
+            <div class="problem-box">
+                <h4>Problem 4.1: Polynomial Terms in Income Analysis</h4>
+                <p><strong>Research Question:</strong> Does the relationship between experience and income follow a quadratic pattern (increasing returns early in career, diminishing returns later)?</p>
+                
+                <div class="formula-box">
+                    <h5>📐 Quadratic Model Specification</h5>
+                    <p>monthly_income = β₀ + β₁(experience) + β₂(experience²) + β₃(education) + β₄(urban) + ε</p>
+                    
+                    <p><strong>Key insight:</strong> The turning point occurs at experience = -β₁/(2×β₂) years</p>
+                </div>
+                
+                <div class="calculation-space">
+                    <h5>🔢 Given Results</h5>
+                    <ul>
+                        <li>β₁ (experience) = 2,400</li>
+                        <li>β₂ (experience²) = -45</li>
+                        <li>β₃ (education) = 1,200</li>
+                    </ul>
+                    
+                    <p><strong>Calculations:</strong></p>
+                    <ol>
+                        <li><strong>Turning point:</strong> Peak income occurs at _____ years of experience</li>
+                        <li><strong>At 10 years experience:</strong> Marginal effect = 2,400 + 2(-45)(10) = _____ rupees per additional year</li>
+                        <li><strong>At 30 years experience:</strong> Marginal effect = 2,400 + 2(-45)(30) = _____ rupees per additional year</li>
+                        <li><strong>Interpretation:</strong> After _____ years, additional experience actually decreases income.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        
+        <div class="takeaway">
+            <h3>🎯 Workshop Synthesis</h3>
+            <p><strong>Advanced multivariate analysis is about telling nuanced stories with data.</strong> Interactions reveal that "one size fits all" policies often don't work. Diagnostics ensure your statistical story is credible. Model selection balances complexity with parsimony. Always ask: "What is the policy-relevant insight, and how confident should we be in it?"</p>
+        </div>
+        
+        <div class="section">
+            <h3>📚 Advanced Resources & Software</h3>
+            
+            <p><strong>Diagnostic Tools:</strong></p>
+            <ul>
+                <li><strong>R packages:</strong> car (VIF, diagnostics), lmtest (heteroskedasticity), performance (model comparison)</li>
+                <li><strong>Stata commands:</strong> vif, estat hettest, estat ovtest, margins (interaction interpretation)</li>
+                <li><strong>Python libraries:</strong> statsmodels (diagnostics), patsy (interactions), seaborn (diagnostic plots)</li>
+            </ul>
+            
+            <p><strong>Advanced Econometric Methods:</strong></p>
+            <ul>
+                <li><em>"Causal Inference: The Mixtape"</em> - Scott Cunningham (free online)</li>
+                <li><em>"The Effect"</em> - Nick Huntington-Klein (interaction interpretation)</li>
+                <li><em>"Applied Econometrics with R"</em> - Kleiber & Zeileis</li>
+                <li><em>"Microeconometrics"</em> - Cameron & Trivedi (comprehensive)</li>
+            </ul>
+            
+            <p><strong>Policy Application Examples:</strong></p>
+            <ul>
+                <li><em>"Poor Economics"</em> - Banerjee & Duflo (interaction effects in development)</li>
+                <li><em>"Randomized Control Trials in the Field of Development"</em> - Duflo et al.</li>
+                <li>J-PAL evaluation database (real-world policy applications)</li>
+            </ul>
+            
+            <p><strong>Next Steps in ImpactMojo:</strong></p>
+            <ul>
+                <li><strong>Econometrics 101:</strong> Instrumental variables, diff-in-diff, regression discontinuity</li>
+                <li><strong>Policy Evaluation 101:</strong> Program evaluation design and causal identification</li>
+                <li><strong>Machine Learning for Policy 101:</strong> Prediction vs. causal inference</li>
+                <li><strong>Advanced Statistics 101:</strong> Multilevel models, time series, panel data</li>
+            </ul>
+        </div>
+        
+        <div class="print-note">
+            <p><em>This handout is part of the ImpactMojo 101 Knowledge Series</em><br>
+            <strong>Licensed under CC BY-NC-SA 4.0</strong> • Free to use with attribution • www.impactmojo.in</p>
+            <p>For complete problem set solutions, diagnostic code scripts, and additional practice datasets, visit the ImpactMojo platform.</p>
+        </div>
+    </div>
+</body>
+</html>
