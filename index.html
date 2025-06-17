@@ -629,30 +629,7 @@
       font-size: 14px;
     }
 
-    /* Floating member access button */
-    #floating-member-btn {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      background: #e74c3c;
-      color: white;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      text-decoration: none;
-      box-shadow: 0 4px 20px rgba(231, 76, 60, 0.4);
-      transition: all 0.3s ease;
-      z-index: 1000;
-    }
-
-    #floating-member-btn:hover {
-      transform: scale(1.1);
-      color: white;
-    }
+    /* Remove floating member access button to avoid overlap */
 
     .modal {
       display: none;
@@ -1839,8 +1816,7 @@
       .social-share,
       .newsletter,
       .author,
-      .member-access-section,
-      #floating-member-btn {
+      .member-access-section {
         display: none;
       }
 
@@ -2008,14 +1984,6 @@
 
       .member-access-section p {
         font-size: 16px;
-      }
-
-      #floating-member-btn {
-        bottom: 20px;
-        right: 20px;
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
       }
     }
 
@@ -2278,9 +2246,6 @@
       </div>
     </div>
   </div>
-
-  <!-- Floating member access button -->
-  <a href="login.html" id="floating-member-btn" title="Member Login">👤</a>
 
   <!-- Recently Viewed Courses -->
   <div class="recently-viewed" id="recentlyViewed" style="display: none;">
@@ -3298,28 +3263,43 @@ function initializePage() {
 
 function generateCourseCards() {
   const container = document.getElementById('courseContainer');
+  if (!container) {
+    console.error('Course container not found');
+    return;
+  }
+  
   container.innerHTML = '';
   
-  allCourses.forEach(course => {
-    const courseCard = createCourseCard(course);
-    container.appendChild(courseCard);
-  });
-  
-  displayedCourses = [...allCourses];
-  updateCourseCount();
+  try {
+    allCourses.forEach(course => {
+      const courseCard = createCourseCard(course);
+      container.appendChild(courseCard);
+    });
+    
+    displayedCourses = [...allCourses];
+    updateCourseCount();
+    console.log(`Generated ${allCourses.length} course cards`);
+  } catch (error) {
+    console.error('Error generating course cards:', error);
+    container.innerHTML = '<p>Error loading courses. Please refresh the page.</p>';
+  }
 }
 
 function createCourseCard(course) {
-  const div = document.createElement('div');
-  div.className = `course-card ${course.topic}${course.featured ? ' featured' : ''}`;
-  div.setAttribute('data-topic', course.topic);
-  div.setAttribute('data-level', course.level);
-  div.setAttribute('data-duration', course.duration);
-  div.setAttribute('data-course-id', course.id);
-  
-  const rating = courseRatings[course.id] || course.rating || 0;
-  const isBookmarked = bookmarkedCourses.includes(course.title);
-  const isSelected = selectedForComparison.includes(course.id);
+  try {
+    const div = document.createElement('div');
+    div.className = `course-card ${course.topic}${course.featured ? ' featured' : ''}`;
+    div.setAttribute('data-topic', course.topic);
+    div.setAttribute('data-level', course.level);
+    div.setAttribute('data-duration', course.duration);
+    div.setAttribute('data-course-id', course.id);
+    
+    const rating = courseRatings[course.id] || course.rating || 0;
+    const isBookmarked = bookmarkedCourses.includes(course.title);
+    const isSelected = selectedForComparison.includes(course.id);
+    
+    // Safely escape quotes in course title for use in onclick handlers
+    const escapedTitle = course.title.replace(/'/g, "\\'");
   
   // Generate related extras
   const relatedExtras = course.relatedExtras || [];
@@ -3417,7 +3397,9 @@ function createCourseCard(course) {
     
     <div class="course-actions">
       <div class="course-actions-left">
-        <a href="${course.url}" target="_blank" class="launch-btn" onclick="addToRecentlyViewed('${course.title}', '${course.url}')">
+        <a href="${course.url}" target="_blank" class="launch-btn" onclick="addToRecentlyViewed('${escapedTitle}', '${course.url}')">
+          <i class="fas fa-external-link-alt"></i> Launch Course
+        </a>>
           <i class="fas fa-external-link-alt"></i> Launch Course
         </a>
         <button class="secondary-btn" onclick="toggleCourseDetails('${course.id}')">
@@ -3430,14 +3412,24 @@ function createCourseCard(course) {
                onchange="toggleComparison('${course.id}')" ${isSelected ? 'checked' : ''}>
         <label for="compare-${course.id}" style="font-size: 0.8rem;">Compare</label>
         
-        <button class="bookmark-btn ${isBookmarked ? 'bookmarked' : ''}" onclick="toggleBookmark(this, '${course.title}')">
+        <button class="bookmark-btn ${isBookmarked ? 'bookmarked' : ''}" onclick="toggleBookmark(this, '${escapedTitle}')">
+          <i class="${isBookmarked ? 'fas' : 'far'} fa-bookmark"></i>
+        </button>>
           <i class="${isBookmarked ? 'fas' : 'far'} fa-bookmark"></i>
         </button>
       </div>
     </div>
   `;
   
-  return div;
+      
+    return div;
+  } catch (error) {
+    console.error('Error creating course card for:', course.title, error);
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'course-card';
+    errorDiv.innerHTML = `<p>Error loading course: ${course.title}</p>`;
+    return errorDiv;
+  }
 }
 
 // Enhanced topic filtering function
