@@ -23,6 +23,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
+  <!-- Firebase CDN Scripts - Added to fix module import errors -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  
   <!-- Structured Data -->
   <script type="application/ld+json">
   {
@@ -3456,6 +3461,21 @@
       }
     }
 
+    async function loginWithGoogle() {
+      if (window.loginWithGoogle) {
+        await window.loginWithGoogle();
+      } else {
+        console.error('Firebase auth not loaded');
+        alert('Authentication system not ready. Please refresh the page and try again.');
+      }
+    }
+
+    async function logout() {
+      if (window.logout) {
+        await window.logout();
+      }
+    }
+
     function saveUserNote() {
       const noteText = document.getElementById('userNotesInput').value.trim();
       if (noteText && window.saveNote) {
@@ -3491,7 +3511,7 @@
     }
   </script>
 
-  <!-- Firebase Authentication Script -->
-  <script src="firebase-auth.js"></script>
+  <!-- Load your custom Firebase auth script as a module -->
+  <script type="module" src="firebase-auth.js"></script>
 </body>
 </html>
