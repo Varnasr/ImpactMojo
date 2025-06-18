@@ -1396,6 +1396,185 @@
   font-size: 0.8rem;
 }
 
+    /* Course Progress Indicators */
+    .course-progress-indicator {
+      position: absolute;
+      bottom: 1rem;
+      left: 1rem;
+      font-size: 0.8rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      z-index: 5;
+    }
+
+    .course-card.completed {
+      border: 2px solid var(--success-color) !important;
+    }
+
+    /* Achievement Badges */
+    .achievement-badge {
+      transition: all 0.3s ease;
+    }
+
+    .achievement-badge.unlocked {
+      opacity: 1 !important;
+      background: rgba(46, 204, 113, 0.2) !important;
+      border: 2px solid var(--success-color) !important;
+    }
+
+    /* Progress Stats */
+    .progress-stat {
+      text-align: center;
+      padding: 1rem;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      margin: 0.5rem;
+    }
+
+    .progress-stat .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--secondary-color);
+      display: block;
+    }
+
+    .progress-stat .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    /* Quiz Styles */
+    .quiz-question {
+      margin-bottom: 2rem;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .quiz-options label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      background: var(--light-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .quiz-options label:hover {
+      background: var(--secondary-color);
+      color: white;
+    }
+
+    .quiz-navigation {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .quiz-navigation button {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: var(--border-radius);
+      background: var(--secondary-color);
+      color: white;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .quiz-navigation button:hover {
+      background: #2980b9;
+    }
+
+    .quiz-navigation button:disabled {
+      background: var(--border-color);
+      cursor: not-allowed;
+    }
+
+    /* Quiz Styles */
+    .quiz-question {
+      margin-bottom: 2rem;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .quiz-options label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      background: var(--light-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .quiz-options label:hover {
+      background: var(--secondary-color);
+      color: white;
+    }
+
+    .quiz-navigation {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .quiz-navigation button {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: var(--border-radius);
+      background: var(--secondary-color);
+      color: white;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .quiz-navigation button:hover {
+      background: #2980b9;
+    }
+
+    .quiz-navigation button:disabled {
+      background: var(--border-color);
+      cursor: not-allowed;
+    }
+
+    /* Animation keyframes */
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes bounceIn {
+      0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0; }
+      50% { transform: translate(-50%, -50%) scale(1.05); }
+      70% { transform: translate(-50%, -50%) scale(0.9); }
+      100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    }
+
 /* Hide on mobile */
 @media (max-width: 768px) {
   .signup-benefits-badge {
@@ -1630,13 +1809,93 @@
                 <span class="stat-label">Overall Progress</span>
               </div>
             </div>
+            <div style="margin-top: 1rem;">
+              <h4>Recent Activity</h4>
+              <div id="recentActivity" style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 1rem; margin-top: 0.5rem;">
+                <p style="opacity: 0.8; font-style: italic;">No course activity yet. Start learning to see your progress!</p>
+              </div>
+            </div>
+            <div style="margin-top: 1rem;">
+              <button onclick="markCourseComplete()" style="background: var(--success-color); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; margin-right: 1rem;">
+                <i class="fas fa-check-circle"></i> Mark Current Course Complete
+              </button>
+              <button onclick="generateCertificate()" style="background: var(--warning-color); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer;">
+                <i class="fas fa-certificate"></i> Generate Certificate
+              </button>
+            </div>
           </div>
 
           <!-- Notes Section -->
           <div class="dashboard-section">
-            <h3><i class="fas fa-sticky-note"></i> My Notes</h3>
+            <h3><i class="fas fa-sticky-note"></i> My Academic Notes</h3>
             <div class="notes-area">
-              <textarea id="userNotes" placeholder="Add your private notes here..." style="width: 100%; min-height: 120px; padding: 1rem; border: 2px solid rgba(255,255,255,0.3); border-radius: 8px; font-family: inherit; resize: vertical; background: rgba(255,255,255,0.1); color: white;"></textarea>
+              <div style="margin-bottom: 1rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <select id="notesCourse" style="padding: 0.5rem; border: 2px solid rgba(255,255,255,0.3); border-radius: 8px; background: rgba(255,255,255,0.1); color: white; min-width: 200px;">
+                  <option value="">Select Course for Notes</option>
+                </select>
+                <button onclick="saveNotes()" style="background: var(--success-color); color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer;">
+                  <i class="fas fa-save"></i> Save Notes
+                </button>
+                <button onclick="exportNotes()" style="background: var(--secondary-color); color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer;">
+                  <i class="fas fa-download"></i> Export
+                </button>
+                <button onclick="openModal('notesSearchModal')" style="background: var(--info-color); color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer;">
+                  <i class="fas fa-search"></i> Search All Notes
+                </button>
+              </div>
+              
+              <!-- Quick Search -->
+              <div style="margin-bottom: 1rem;">
+                <input type="text" id="quickNotesSearch" placeholder="Quick search current notes..." style="width: 100%; padding: 0.5rem; border: 2px solid rgba(255,255,255,0.3); border-radius: 8px; background: rgba(255,255,255,0.1); color: white;" oninput="highlightSearchInNotes()">
+              </div>
+              
+              <div style="margin-bottom: 0.5rem; font-size: 0.9rem; color: rgba(255,255,255,0.8);">
+                <strong>Academic Format:</strong> Use headings (##), bullet points (-), tags (#tag), and citations [Source, Year]
+              </div>
+              
+              <textarea id="userNotes" placeholder="# Course Notes for [Course Name]
+
+## Key Concepts
+- Main point 1 #important
+- Main point 2 #theory
+
+## Personal Insights
+- My reflection on...
+- Connection to other courses...
+
+## Questions for Further Research
+- What about...?
+- How does this relate to...?
+
+## Action Items
+- [ ] Read more about...
+- [ ] Apply this concept to...
+
+## References
+- [Author, Year] Title of source
+- [Author, Year] Another reference
+
+## Tags
+#development #economics #gender #research #policy
+
+---
+Auto-saves every 30 seconds" style="width: 100%; min-height: 250px; padding: 1rem; border: 2px solid rgba(255,255,255,0.3); border-radius: 8px; font-family: 'Courier New', monospace; resize: vertical; background: rgba(255,255,255,0.1); color: white; font-size: 0.9rem; line-height: 1.5;"></textarea>
+              
+              <div style="margin-top: 0.5rem; font-size: 0.8rem; color: rgba(255,255,255,0.6); display: flex; justify-content: space-between; flex-wrap: wrap;">
+                <span>Last saved: <span id="lastSaved">Never</span></span>
+                <span>Words: <span id="wordCount">0</span> | Lines: <span id="lineCount">0</span></span>
+              </div>
+              
+              <!-- Notes Statistics -->
+              <div style="margin-top: 1rem; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                <h5 style="margin: 0 0 0.5rem 0;">Notes Overview</h5>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; font-size: 0.9rem;">
+                  <div><strong id="totalNotesCount">0</strong><br><small>Course Notes</small></div>
+                  <div><strong id="totalWordsCount">0</strong><br><small>Total Words</small></div>
+                  <div><strong id="uniqueTagsCount">0</strong><br><small>Unique Tags</small></div>
+                  <div><strong id="referencesCount">0</strong><br><small>References</small></div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -1654,9 +1913,115 @@
             <div class="consulting-offer">
               <h4>10% Discount on Dr. Varna's Consulting Services</h4>
               <p>As a registered ImpactMojo user, you're eligible for a 10% discount on all consulting services.</p>
-              <a href="mailto:varna.sr@gmail.com?subject=Consulting%20Request%20-%20ImpactMojo%20Member" style="background: rgba(255,255,255,0.2); color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; display: inline-block; margin-top: 1rem;">
+              <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 1rem; margin: 1rem 0;">
+                <p><strong>Your Discount Code:</strong></p>
+                <code id="discountCode" style="background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 4px; font-weight: 600; color: var(--warning-color); font-size: 1.1rem;">IMPACTMOJO10</code>
+                <button onclick="copyDiscountCode()" style="background: var(--info-color); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; margin-left: 1rem; cursor: pointer;">
+                  <i class="fas fa-copy"></i> Copy
+                </button>
+              </div>
+              <a href="mailto:varna.sr@gmail.com?subject=Consulting%20Request%20-%20ImpactMojo%20Member%20(IMPACTMOJO10%20Discount)&body=Hi%20Dr.%20Varna,%0D%0A%0D%0AI'm%20a%20registered%20ImpactMojo%20user%20and%20would%20like%20to%20inquire%20about%20your%20consulting%20services.%0D%0A%0D%0AMy%20discount%20code:%20IMPACTMOJO10%0D%0A%0D%0APlease%20let%20me%20know%20your%20availability%20and%20rates.%0D%0A%0D%0AThank%20you!" style="background: rgba(255,255,255,0.2); color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; display: inline-block; margin-top: 1rem;">
                 <i class="fas fa-envelope"></i> Contact for Consulting
               </a>
+            </div>
+          </div>
+
+          <!-- Research Library Section -->
+          <div class="dashboard-section">
+            <h3><i class="fas fa-book-open"></i> My Research Library</h3>
+            <div class="library-tools" style="margin-bottom: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+              <button onclick="openModal('addResourceModal')" style="background: var(--success-color); color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer;">
+                <i class="fas fa-plus"></i> Add Resource
+              </button>
+              <button onclick="exportBibliography()" style="background: var(--secondary-color); color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer;">
+                <i class="fas fa-download"></i> Export Bibliography
+              </button>
+              <select id="libraryFilter" onchange="filterLibrary()" style="padding: 0.5rem; border: 2px solid rgba(255,255,255,0.3); border-radius: 8px; background: rgba(255,255,255,0.1); color: white;">
+                <option value="all">All Topics</option>
+                <option value="development">Development</option>
+                <option value="economics">Economics</option>
+                <option value="gender">Gender Studies</option>
+                <option value="data">Data Analysis</option>
+                <option value="research">Research Methods</option>
+                <option value="policy">Policy</option>
+                <option value="climate">Climate</option>
+                <option value="health">Health</option>
+              </select>
+            </div>
+            <div id="researchLibraryList" style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 1rem; max-height: 300px; overflow-y: auto;">
+              <p style="opacity: 0.8; font-style: italic; text-align: center;">No resources added yet. Start building your research library!</p>
+            </div>
+            <div style="margin-top: 1rem; font-size: 0.85rem; color: rgba(255,255,255,0.7);">
+              <i class="fas fa-info-circle"></i> Tip: Add papers, reports, and articles with automatic citation formatting. Perfect for literature reviews!
+            </div>
+          </div>
+
+          <!-- Academic Achievements Section -->
+          <div class="dashboard-section">
+            <h3><i class="fas fa-trophy"></i> Academic Achievements</h3>
+            <div class="achievements-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+              <div class="achievement-badge" data-achievement="first-course" style="text-align: center; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 8px; opacity: 0.5;">
+                <i class="fas fa-play-circle" style="font-size: 2rem; color: var(--success-color);"></i>
+                <h5>First Course</h5>
+                <small>Start your first course</small>
+              </div>
+              <div class="achievement-badge" data-achievement="note-taker" style="text-align: center; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 8px; opacity: 0.5;">
+                <i class="fas fa-sticky-note" style="font-size: 2rem; color: var(--warning-color);"></i>
+                <h5>Note Taker</h5>
+                <small>Save 10 pages of notes</small>
+              </div>
+              <div class="achievement-badge" data-achievement="researcher" style="text-align: center; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 8px; opacity: 0.5;">
+                <i class="fas fa-microscope" style="font-size: 2rem; color: var(--info-color);"></i>
+                <h5>Researcher</h5>
+                <small>Add 5 library resources</small>
+              </div>
+              <div class="achievement-badge" data-achievement="completionist" style="text-align: center; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 8px; opacity: 0.5;">
+                <i class="fas fa-graduation-cap" style="font-size: 2rem; color: var(--accent-color);"></i>
+                <h5>Completionist</h5>
+                <small>Complete 5 courses</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Personalized Learning Section -->
+          <div class="dashboard-section">
+            <h3><i class="fas fa-route"></i> Personalized Learning Path</h3>
+            <div id="learningPathSection">
+              <div id="quizPrompt" style="text-align: center; padding: 2rem;">
+                <p style="margin-bottom: 1rem;">Take our quick assessment to get personalized course recommendations!</p>
+                <button onclick="startLearningQuiz()" style="background: var(--secondary-color); color: white; border: none; padding: 1rem 2rem; border-radius: 8px; font-size: 1.1rem; cursor: pointer;">
+                  <i class="fas fa-play-circle"></i> Start Learning Assessment
+                </button>
+              </div>
+              <div id="personalizedPath" style="display: none;">
+                <h4>Your Recommended Learning Path: <span id="recommendedPath"></span></h4>
+                <div id="pathCourses" style="margin-top: 1rem;"></div>
+                <button onclick="startLearningQuiz()" style="background: var(--info-color); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; margin-top: 1rem; cursor: pointer;">
+                  <i class="fas fa-redo"></i> Retake Assessment
+                </button>
+              </div>
+            </div>
+          </div>: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+              <div class="achievement-badge" data-achievement="first-course" style="text-align: center; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 8px; opacity: 0.5;">
+                <i class="fas fa-play-circle" style="font-size: 2rem; color: var(--success-color);"></i>
+                <h5>First Course</h5>
+                <small>Start your first course</small>
+              </div>
+              <div class="achievement-badge" data-achievement="note-taker" style="text-align: center; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 8px; opacity: 0.5;">
+                <i class="fas fa-sticky-note" style="font-size: 2rem; color: var(--warning-color);"></i>
+                <h5>Note Taker</h5>
+                <small>Save 10 pages of notes</small>
+              </div>
+              <div class="achievement-badge" data-achievement="researcher" style="text-align: center; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 8px; opacity: 0.5;">
+                <i class="fas fa-microscope" style="font-size: 2rem; color: var(--info-color);"></i>
+                <h5>Researcher</h5>
+                <small>Add 5 library resources</small>
+              </div>
+              <div class="achievement-badge" data-achievement="completionist" style="text-align: center; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 8px; opacity: 0.5;">
+                <i class="fas fa-graduation-cap" style="font-size: 2rem; color: var(--accent-color);"></i>
+                <h5>Completionist</h5>
+                <small>Complete 5 courses</small>
+              </div>
             </div>
           </div>
         </div>
@@ -2303,6 +2668,159 @@
         <div style="text-align: center; margin-top: 1rem;">
           <a href="#" onclick="closeModal('signupModal'); openModal('loginModal')" style="color: var(--secondary-color);">Already have an account? Login</a>
         </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Learning Path Quiz Modal -->
+  <div id="learningQuizModal" class="modal">
+    <div class="modal-content large">
+      <span class="close" onclick="closeModal('learningQuizModal')">&times;</span>
+      <h2><i class="fas fa-brain"></i> Learning Path Assessment</h2>
+      <div id="quizContent">
+        <div id="question1" class="quiz-question">
+          <h3>1. What's your primary background?</h3>
+          <div class="quiz-options">
+            <label><input type="radio" name="background" value="economics"> Economics/Policy</label>
+            <label><input type="radio" name="background" value="data"> Data/Analytics</label>
+            <label><input type="radio" name="background" value="gender"> Gender Studies/Social Work</label>
+            <label><input type="radio" name="background" value="research"> Research/Academia</label>
+            <label><input type="radio" name="background" value="other"> Other/New to Development</label>
+          </div>
+        </div>
+        
+        <div id="question2" class="quiz-question" style="display: none;">
+          <h3>2. What's your main goal with ImpactMojo?</h3>
+          <div class="quiz-options">
+            <label><input type="radio" name="goal" value="skills"> Build practical skills</label>
+            <label><input type="radio" name="goal" value="career"> Advance my career</label>
+            <label><input type="radio" name="goal" value="research"> Support my research</label>
+            <label><input type="radio" name="goal" value="teaching"> Enhance my teaching</label>
+            <label><input type="radio" name="goal" value="understanding"> Deepen my understanding</label>
+          </div>
+        </div>
+        
+        <div id="question3" class="quiz-question" style="display: none;">
+          <h3>3. Which topics interest you most? (Select all that apply)</h3>
+          <div class="quiz-options">
+            <label><input type="checkbox" name="interests" value="data"> Data Analysis & Visualization</label>
+            <label><input type="checkbox" name="interests" value="gender"> Gender & Social Justice</label>
+            <label><input type="checkbox" name="interests" value="economics"> Economics & Policy</label>
+            <label><input type="checkbox" name="interests" value="research"> Research Methods</label>
+            <label><input type="checkbox" name="interests" value="climate"> Climate & Environment</label>
+            <label><input type="checkbox" name="interests" value="health"> Health Systems</label>
+          </div>
+        </div>
+        
+        <div id="question4" class="quiz-question" style="display: none;">
+          <h3>4. How much time can you dedicate to learning?</h3>
+          <div class="quiz-options">
+            <label><input type="radio" name="time" value="1-2"> 1-2 hours per week</label>
+            <label><input type="radio" name="time" value="3-5"> 3-5 hours per week</label>
+            <label><input type="radio" name="time" value="6-10"> 6-10 hours per week</label>
+            <label><input type="radio" name="time" value="10+"> More than 10 hours per week</label>
+          </div>
+        </div>
+        
+        <div class="quiz-navigation">
+          <button id="prevBtn" onclick="changeQuestion(-1)" style="display: none;">Previous</button>
+          <button id="nextBtn" onclick="changeQuestion(1)">Next</button>
+          <button id="submitQuiz" onclick="submitQuiz()" style="display: none;">Get My Learning Path</button>
+        </div>
+      </div>
+      
+      <div id="quizResults" style="display: none;">
+        <h3>Your Personalized Learning Path</h3>
+        <div id="pathRecommendation"></div>
+        <button onclick="applyRecommendedPath()" style="background: var(--success-color); color: white; border: none; padding: 1rem 2rem; border-radius: 8px; margin-top: 1rem;">
+          Apply This Path
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notes Search Modal -->
+  <div id="notesSearchModal" class="modal">
+    <div class="modal-content large">
+      <span class="close" onclick="closeModal('notesSearchModal')">&times;</span>
+      <h2><i class="fas fa-search"></i> Search All Notes</h2>
+      
+      <div style="margin-bottom: 2rem;">
+        <div style="display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
+          <input type="text" id="globalNotesSearch" placeholder="Search across all your notes..." style="flex: 1; min-width: 250px; padding: 0.75rem; border: 2px solid var(--border-color); border-radius: 8px; background: var(--light-bg); color: var(--text-primary);" oninput="performGlobalNotesSearch()">
+          <select id="searchFilter" onchange="performGlobalNotesSearch()" style="padding: 0.75rem; border: 2px solid var(--border-color); border-radius: 8px; background: var(--light-bg); color: var(--text-primary);">
+            <option value="all">All Notes</option>
+            <option value="tags">Tags Only</option>
+            <option value="headings">Headings Only</option>
+            <option value="references">References Only</option>
+          </select>
+        </div>
+        
+        <!-- Popular Tags -->
+        <div id="popularTags" style="margin-bottom: 1rem;">
+          <strong>Popular Tags:</strong>
+          <div id="tagsContainer" style="margin-top: 0.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
+        </div>
+      </div>
+      
+      <div id="searchResults" style="max-height: 400px; overflow-y: auto;">
+        <p style="text-align: center; color: var(--text-secondary); font-style: italic;">Enter search terms above to find content across all your notes</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Resource Modal -->
+  <div id="addResourceModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('addResourceModal')">&times;</span>
+      <h2><i class="fas fa-plus"></i> Add Research Resource</h2>
+      <form onsubmit="addResourceToLibrary(event)">
+        <div class="form-group">
+          <label>Resource Type:</label>
+          <select id="resourceType" required>
+            <option value="">Select Type</option>
+            <option value="paper">Academic Paper</option>
+            <option value="report">Research Report</option>
+            <option value="article">Article</option>
+            <option value="book">Book/Chapter</option>
+            <option value="website">Website</option>
+            <option value="course">Course Material</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Title:</label>
+          <input type="text" id="resourceTitle" required>
+        </div>
+        <div class="form-group">
+          <label>Authors:</label>
+          <input type="text" id="resourceAuthors" placeholder="Smith, J. & Jones, M.">
+        </div>
+        <div class="form-group">
+          <label>Year:</label>
+          <input type="number" id="resourceYear" min="1900" max="2030">
+        </div>
+        <div class="form-group">
+          <label>Topic:</label>
+          <select id="resourceTopic">
+            <option value="development">Development</option>
+            <option value="economics">Economics</option>
+            <option value="gender">Gender Studies</option>
+            <option value="data">Data Analysis</option>
+            <option value="research">Research Methods</option>
+            <option value="policy">Policy</option>
+            <option value="climate">Climate</option>
+            <option value="health">Health</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>URL (optional):</label>
+          <input type="url" id="resourceUrl" placeholder="https://...">
+        </div>
+        <div class="form-group">
+          <label>Personal Notes:</label>
+          <textarea id="resourceNotes" placeholder="Why is this resource valuable? Key insights..."></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Add to Library</button>
       </form>
     </div>
   </div>
@@ -3185,9 +3703,1131 @@
       document.getElementById('totalCount').textContent = totalCount;
     }
 
-    // Add to recently viewed (placeholder)
+    // Add to recently viewed (realistic tracking)
     function addToRecentlyViewed(courseTitle, courseUrl) {
-      // Recently viewed logic would go here
+      trackCourseAccess(courseTitle, courseUrl);
+    }
+
+    // Course tracking functions
+    function trackCourseAccess(courseTitle, courseUrl) {
+      const timestamp = new Date().toISOString();
+      let courseAccess = JSON.parse(localStorage.getItem('courseAccess') || '{}');
+      
+      if (!courseAccess[courseTitle]) {
+        courseAccess[courseTitle] = {
+          firstAccess: timestamp,
+          accessCount: 1,
+          url: courseUrl,
+          totalTimeEstimate: 0
+        };
+        console.log('First access to course:', courseTitle);
+        unlockAchievement('first-course');
+      } else {
+        courseAccess[courseTitle].accessCount++;
+        courseAccess[courseTitle].lastAccess = timestamp;
+        console.log('Return access to course:', courseTitle, 'Count:', courseAccess[courseTitle].accessCount);
+      }
+      
+      localStorage.setItem('courseAccess', JSON.stringify(courseAccess));
+      updateProgressDisplay();
+      checkRealisticAchievements();
+      enhanceCourseCards();
+    }
+
+    // Calculate engagement score for a course
+    function calculateCourseEngagement(courseTitle) {
+      const bookmarks = JSON.parse(localStorage.getItem('bookmarkedCourses') || '[]');
+      const notes = localStorage.getItem(`notes-${courseTitle}`) || '';
+      const access = JSON.parse(localStorage.getItem('courseAccess') || '{}')[courseTitle];
+      
+      let engagementScore = 0;
+      
+      if (bookmarks.includes(courseTitle)) engagementScore += 25;
+      if (notes.length > 100) engagementScore += 25;
+      if (access && access.accessCount >= 2) engagementScore += 25;
+      if (access && access.accessCount >= 5) engagementScore += 25;
+      
+      return Math.min(engagementScore, 100);
+    }
+
+    // Mark course as complete (self-reported)
+    function markCourseComplete() {
+      const courseAccess = JSON.parse(localStorage.getItem('courseAccess') || '{}');
+      const recentCourses = Object.entries(courseAccess)
+        .sort(([,a], [,b]) => new Date(b.lastAccess || b.firstAccess) - new Date(a.lastAccess || a.firstAccess));
+      
+      if (recentCourses.length === 0) {
+        alert('No recent course activity found. Please launch a course first.');
+        return;
+      }
+      
+      const [mostRecentCourse] = recentCourses[0];
+      
+      if (confirm(`Mark "${mostRecentCourse}" as completed?`)) {
+        let completedCourses = JSON.parse(localStorage.getItem('completedCourses') || '[]');
+        
+        if (!completedCourses.some(c => c.title === mostRecentCourse)) {
+          completedCourses.push({
+            title: mostRecentCourse,
+            completedDate: new Date().toISOString(),
+            method: 'self-reported'
+          });
+          
+          localStorage.setItem('completedCourses', JSON.stringify(completedCourses));
+          showCompletionCelebration(mostRecentCourse);
+          updateProgressDisplay();
+          checkRealisticAchievements();
+        } else {
+          alert('Course already marked as completed!');
+        }
+      }
+    }
+
+    // Show completion celebration
+    function showCompletionCelebration(courseTitle) {
+      const celebration = document.createElement('div');
+      celebration.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(135deg, var(--success-color), var(--secondary-color));
+        color: white;
+        padding: 2rem;
+        border-radius: 12px;
+        text-align: center;
+        z-index: 3000;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        animation: bounceIn 0.6s ease-out;
+      `;
+      
+      celebration.innerHTML = `
+        <h2><i class="fas fa-trophy"></i> Congratulations!</h2>
+        <p>You've completed <strong>${courseTitle}</strong></p>
+        <button onclick="this.parentElement.remove()" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; margin-top: 1rem; cursor: pointer;">
+          Continue Learning
+        </button>
+      `;
+      
+      document.body.appendChild(celebration);
+      setTimeout(() => celebration.remove(), 5000);
+    }
+
+    // Update progress display
+    function updateProgressDisplay() {
+      const courseAccess = JSON.parse(localStorage.getItem('courseAccess') || '{}');
+      const completedCourses = JSON.parse(localStorage.getItem('completedCourses') || '[]');
+      
+      const coursesExplored = Object.keys(courseAccess).length;
+      const coursesCompleted = completedCourses.length;
+      const progressPercentage = coursesExplored > 0 ? Math.round((coursesCompleted / coursesExplored) * 100) : 0;
+      
+      const coursesStartedEl = document.getElementById('coursesStarted');
+      const coursesCompletedEl = document.getElementById('coursesCompleted');
+      const totalProgressEl = document.getElementById('totalProgress');
+      
+      if (coursesStartedEl) coursesStartedEl.textContent = coursesExplored;
+      if (coursesCompletedEl) coursesCompletedEl.textContent = coursesCompleted;
+      if (totalProgressEl) totalProgressEl.textContent = progressPercentage + '%';
+      
+      updateRecentActivity();
+    }
+
+    // Update recent activity display
+    function updateRecentActivity() {
+      const courseAccess = JSON.parse(localStorage.getItem('courseAccess') || '{}');
+      const recentActivity = document.getElementById('recentActivity');
+      
+      if (!recentActivity) return;
+      
+      const sortedCourses = Object.entries(courseAccess)
+        .sort(([,a], [,b]) => new Date(b.lastAccess || b.firstAccess) - new Date(a.lastAccess || a.firstAccess))
+        .slice(0, 3);
+      
+      if (sortedCourses.length === 0) {
+        recentActivity.innerHTML = '<p style="opacity: 0.8; font-style: italic;">No course activity yet. Start learning to see your progress!</p>';
+      } else {
+        recentActivity.innerHTML = sortedCourses.map(([title, data]) => {
+          const engagement = calculateCourseEngagement(title);
+          return `
+            <div style="padding: 0.75rem; background: rgba(255,255,255,0.1); border-radius: 8px; margin: 0.5rem 0; border-left: 4px solid var(--secondary-color);">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <strong style="color: white;">${title}</strong>
+                <span style="background: var(--secondary-color); color: white; padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.8rem;">${engagement}% engaged</span>
+              </div>
+              <small style="color: rgba(255,255,255,0.8);">
+                Accessed ${data.accessCount} times • Last: ${new Date(data.lastAccess || data.firstAccess).toLocaleDateString()}
+              </small>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    // Achievement system
+    function unlockAchievement(achievementId) {
+      let unlockedAchievements = JSON.parse(localStorage.getItem('unlockedAchievements') || '[]');
+      
+      if (!unlockedAchievements.includes(achievementId)) {
+        unlockedAchievements.push(achievementId);
+        localStorage.setItem('unlockedAchievements', JSON.stringify(unlockedAchievements));
+        
+        // Update achievement display
+        const achievementBadge = document.querySelector(`[data-achievement="${achievementId}"]`);
+        if (achievementBadge) {
+          achievementBadge.style.opacity = '1';
+          achievementBadge.style.background = 'rgba(46, 204, 113, 0.2)';
+          achievementBadge.style.border = '2px solid var(--success-color)';
+        }
+        
+        console.log('Achievement unlocked:', achievementId);
+        showAchievementNotification(achievementId);
+      }
+    }
+
+    function showAchievementNotification(achievementId) {
+      const achievementNames = {
+        'first-course': 'First Course Explorer',
+        'active-learner': 'Active Learner',
+        'course-completer': 'Course Completer',
+        'note-taker': 'Dedicated Note Taker',
+        'researcher': 'Research Library Builder'
+      };
+      
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, var(--warning-color), var(--success-color));
+        color: white;
+        padding: 1rem;
+        border-radius: 8px;
+        z-index: 2000;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        animation: slideIn 0.5s ease-out;
+      `;
+      
+      notification.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <i class="fas fa-trophy"></i>
+          <div>
+            <strong>Achievement Unlocked!</strong><br>
+            <small>${achievementNames[achievementId] || achievementId}</small>
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(notification);
+      setTimeout(() => notification.remove(), 4000);
+    }
+
+    function checkRealisticAchievements() {
+      const courseAccess = JSON.parse(localStorage.getItem('courseAccess') || '{}');
+      const completedCourses = JSON.parse(localStorage.getItem('completedCourses') || '[]');
+      const notes = Object.keys(localStorage).filter(key => key.startsWith('notes-')).length;
+      const library = JSON.parse(localStorage.getItem('researchLibrary') || '[]');
+      
+      // First Course Launch
+      if (Object.keys(courseAccess).length >= 1) {
+        unlockAchievement('first-course');
+      }
+      
+      // Active Learner (accessed 5+ courses)
+      if (Object.keys(courseAccess).length >= 5) {
+        unlockAchievement('active-learner');
+      }
+      
+      // Course Completer
+      if (completedCourses.length >= 1) {
+        unlockAchievement('course-completer');
+      }
+      
+      // Note Taker
+      if (notes >= 3) {
+        unlockAchievement('note-taker');
+      }
+      
+      // Researcher
+      if (library.length >= 5) {
+        unlockAchievement('researcher');
+      }
+    }
+
+    // Enhance course cards with progress indicators
+    function enhanceCourseCards() {
+      setTimeout(() => {
+        const courseCards = document.querySelectorAll('.course-card');
+        const courseAccess = JSON.parse(localStorage.getItem('courseAccess') || '{}');
+        const completedCourses = JSON.parse(localStorage.getItem('completedCourses') || '[]');
+        
+        courseCards.forEach(card => {
+          const courseTitle = card.querySelector('.course-title').textContent;
+          const isCompleted = completedCourses.some(c => c.title === courseTitle);
+          const accessData = courseAccess[courseTitle];
+          
+          // Remove existing progress indicator
+          const existingIndicator = card.querySelector('.course-progress-indicator');
+          if (existingIndicator) existingIndicator.remove();
+          
+          // Add progress indicator
+          const progressIndicator = document.createElement('div');
+          progressIndicator.className = 'course-progress-indicator';
+          progressIndicator.style.cssText = `
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            font-size: 0.8rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+          `;
+          
+          if (isCompleted) {
+            progressIndicator.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
+            progressIndicator.style.background = 'var(--success-color)';
+            progressIndicator.style.color = 'white';
+            card.style.border = '2px solid var(--success-color)';
+          } else if (accessData) {
+            const engagement = calculateCourseEngagement(courseTitle);
+            progressIndicator.innerHTML = `<i class="fas fa-chart-line"></i> ${engagement}% engaged`;
+            progressIndicator.style.background = 'var(--secondary-color)';
+            progressIndicator.style.color = 'white';
+          }
+          
+          if (progressIndicator.innerHTML) {
+            card.appendChild(progressIndicator);
+          }
+        });
+      }, 1000);
+    }
+
+    // Enhanced Notes functions
+    function saveNotes() {
+      const courseSelect = document.getElementById('notesCourse');
+      const notesTextarea = document.getElementById('userNotes');
+      const lastSavedSpan = document.getElementById('lastSaved');
+      
+      if (!courseSelect || !notesTextarea) return;
+      
+      const selectedCourse = courseSelect.value;
+      const notes = notesTextarea.value;
+      
+      if (!selectedCourse) {
+        alert('Please select a course for these notes.');
+        return;
+      }
+      
+      // Save notes with metadata
+      const noteData = {
+        content: notes,
+        lastModified: new Date().toISOString(),
+        wordCount: notes.trim().split(/\s+/).filter(word => word.length > 0).length,
+        lineCount: notes.split('\n').length,
+        tags: extractTags(notes),
+        course: selectedCourse
+      };
+      
+      localStorage.setItem(`notes-${selectedCourse}`, JSON.stringify(noteData));
+      
+      if (lastSavedSpan) {
+        lastSavedSpan.textContent = new Date().toLocaleTimeString();
+      }
+      
+      updateWordCount();
+      updateNotesStatistics();
+      checkRealisticAchievements();
+      
+      console.log('Notes saved for:', selectedCourse);
+    }
+
+    function loadNotes(courseName) {
+      const notesTextarea = document.getElementById('userNotes');
+      if (!notesTextarea) return;
+      
+      const savedData = localStorage.getItem(`notes-${courseName}`);
+      
+      if (savedData) {
+        try {
+          const noteData = JSON.parse(savedData);
+          notesTextarea.value = noteData.content || savedData; // Backward compatibility
+        } catch (e) {
+          // Handle old format (plain text)
+          notesTextarea.value = savedData;
+        }
+      } else {
+        // Load template for new notes
+        notesTextarea.value = `# Course Notes for ${courseName}
+
+## Key Concepts
+- 
+
+## Personal Insights
+- 
+
+## Questions for Further Research
+- 
+
+## Action Items
+- [ ] 
+
+## References
+- 
+
+## Tags
+#${courseName.toLowerCase().replace(/\s+/g, '')} #development
+
+---
+`;
+      }
+      
+      updateWordCount();
+    }
+
+    function updateWordCount() {
+      const notesTextarea = document.getElementById('userNotes');
+      const wordCountSpan = document.getElementById('wordCount');
+      const lineCountSpan = document.getElementById('lineCount');
+      
+      if (notesTextarea) {
+        const text = notesTextarea.value;
+        const wordCount = text.trim().split(/\s+/).filter(word => word.length > 0).length;
+        const lineCount = text.split('\n').length;
+        
+        if (wordCountSpan) wordCountSpan.textContent = wordCount;
+        if (lineCountSpan) lineCountSpan.textContent = lineCount;
+      }
+    }
+
+    function updateNotesStatistics() {
+      const totalNotesEl = document.getElementById('totalNotesCount');
+      const totalWordsEl = document.getElementById('totalWordsCount');
+      const uniqueTagsEl = document.getElementById('uniqueTagsCount');
+      const referencesEl = document.getElementById('referencesCount');
+      
+      if (!totalNotesEl) return;
+      
+      let totalNotes = 0;
+      let totalWords = 0;
+      let allTags = new Set();
+      let totalReferences = 0;
+      
+      // Scan all notes
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('notes-')) {
+          totalNotes++;
+          
+          const savedData = localStorage.getItem(key);
+          let content = '';
+          
+          try {
+            const noteData = JSON.parse(savedData);
+            content = noteData.content || '';
+            if (noteData.tags) {
+              noteData.tags.forEach(tag => allTags.add(tag));
+            }
+          } catch (e) {
+            content = savedData || '';
+          }
+          
+          // Count words
+          const words = content.trim().split(/\s+/).filter(word => word.length > 0);
+          totalWords += words.length;
+          
+          // Extract tags if not already parsed
+          const tags = extractTags(content);
+          tags.forEach(tag => allTags.add(tag));
+          
+          // Count references
+          const references = content.match(/\[.*?\]/g) || [];
+          totalReferences += references.length;
+        }
+      }
+      
+      totalNotesEl.textContent = totalNotes;
+      totalWordsEl.textContent = totalWords.toLocaleString();
+      uniqueTagsEl.textContent = allTags.size;
+      referencesEl.textContent = totalReferences;
+    }
+
+    function extractTags(text) {
+      const tagRegex = /#[\w\-]+/g;
+      const tags = text.match(tagRegex) || [];
+      return tags.map(tag => tag.toLowerCase());
+    }
+
+    function highlightSearchInNotes() {
+      const searchTerm = document.getElementById('quickNotesSearch').value.toLowerCase();
+      const notesTextarea = document.getElementById('userNotes');
+      
+      if (!searchTerm || !notesTextarea) {
+        // Remove any existing highlights
+        notesTextarea.style.background = 'rgba(255,255,255,0.1)';
+        return;
+      }
+      
+      // Simple highlight effect (visual feedback)
+      const content = notesTextarea.value.toLowerCase();
+      if (content.includes(searchTerm)) {
+        notesTextarea.style.background = 'rgba(255, 255, 0, 0.1)';
+      } else {
+        notesTextarea.style.background = 'rgba(255,255,255,0.1)';
+      }
+    }
+
+    function performGlobalNotesSearch() {
+      const searchTerm = document.getElementById('globalNotesSearch').value.toLowerCase();
+      const filter = document.getElementById('searchFilter').value;
+      const resultsContainer = document.getElementById('searchResults');
+      
+      if (!searchTerm.trim()) {
+        resultsContainer.innerHTML = '<p style="text-align: center; color: var(--text-secondary); font-style: italic;">Enter search terms above to find content across all your notes</p>';
+        return;
+      }
+      
+      const results = [];
+      
+      // Search through all notes
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('notes-')) {
+          const courseName = key.replace('notes-', '');
+          const savedData = localStorage.getItem(key);
+          
+          let content = '';
+          let lastModified = '';
+          
+          try {
+            const noteData = JSON.parse(savedData);
+            content = noteData.content || '';
+            lastModified = noteData.lastModified || '';
+          } catch (e) {
+            content = savedData || '';
+          }
+          
+          // Apply filter
+          let searchContent = content;
+          if (filter === 'tags') {
+            const tags = extractTags(content);
+            searchContent = tags.join(' ');
+          } else if (filter === 'headings') {
+            const headings = content.match(/^#+\s+.+$/gm) || [];
+            searchContent = headings.join(' ');
+          } else if (filter === 'references') {
+            const references = content.match(/\[.*?\]/g) || [];
+            searchContent = references.join(' ');
+          }
+          
+          if (searchContent.toLowerCase().includes(searchTerm)) {
+            // Find context around the match
+            const lines = content.split('\n');
+            const matchingLines = [];
+            
+            lines.forEach((line, index) => {
+              if (line.toLowerCase().includes(searchTerm)) {
+                const start = Math.max(0, index - 1);
+                const end = Math.min(lines.length, index + 2);
+                const context = lines.slice(start, end).join('\n');
+                matchingLines.push({
+                  line: line,
+                  context: context,
+                  lineNumber: index + 1
+                });
+              }
+            });
+            
+            results.push({
+              course: courseName,
+              matches: matchingLines,
+              lastModified: lastModified
+            });
+          }
+        }
+      }
+      
+      // Display results
+      if (results.length === 0) {
+        resultsContainer.innerHTML = `<p style="text-align: center; color: var(--text-secondary);">No results found for "${searchTerm}"</p>`;
+      } else {
+        resultsContainer.innerHTML = results.map(result => `
+          <div style="background: var(--light-bg); border-radius: 8px; padding: 1rem; margin: 1rem 0; border-left: 4px solid var(--secondary-color);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <h4 style="margin: 0; color: var(--text-primary);">${result.course}</h4>
+              <button onclick="openNotesForCourse('${result.course}')" style="background: var(--secondary-color); color: white; border: none; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.8rem; cursor: pointer;">
+                Open Notes
+              </button>
+            </div>
+            ${result.matches.map(match => `
+              <div style="background: rgba(255,255,255,0.1); border-radius: 4px; padding: 0.5rem; margin: 0.5rem 0;">
+                <small style="color: var(--text-secondary);">Line ${match.lineNumber}:</small>
+                <pre style="white-space: pre-wrap; font-family: inherit; margin: 0.25rem 0; font-size: 0.9rem;">${highlightSearchTerm(match.context, searchTerm)}</pre>
+              </div>
+            `).join('')}
+            ${result.lastModified ? `<small style="color: var(--text-secondary);">Last modified: ${new Date(result.lastModified).toLocaleString()}</small>` : ''}
+          </div>
+        `).join('');
+      }
+      
+      updatePopularTags();
+    }
+
+    function highlightSearchTerm(text, searchTerm) {
+      const regex = new RegExp(`(${searchTerm})`, 'gi');
+      return text.replace(regex, '<mark style="background: yellow; color: black; padding: 0 2px;">$1</mark>');
+    }
+
+    function updatePopularTags() {
+      const tagsContainer = document.getElementById('tagsContainer');
+      if (!tagsContainer) return;
+      
+      const tagCounts = {};
+      
+      // Count tag frequency across all notes
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('notes-')) {
+          const savedData = localStorage.getItem(key);
+          let content = '';
+          
+          try {
+            const noteData = JSON.parse(savedData);
+            content = noteData.content || '';
+          } catch (e) {
+            content = savedData || '';
+          }
+          
+          const tags = extractTags(content);
+          tags.forEach(tag => {
+            tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+          });
+        }
+      }
+      
+      // Get top 10 tags
+      const sortedTags = Object.entries(tagCounts)
+        .sort(([,a], [,b]) => b - a)
+        .slice(0, 10);
+      
+      if (sortedTags.length === 0) {
+        tagsContainer.innerHTML = '<span style="color: var(--text-secondary); font-style: italic;">No tags found yet</span>';
+      } else {
+        tagsContainer.innerHTML = sortedTags.map(([tag, count]) => `
+          <button onclick="searchByTag('${tag}')" style="background: var(--secondary-color); color: white; border: none; padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.8rem; cursor: pointer; margin: 0.25rem;">
+            ${tag} (${count})
+          </button>
+        `).join('');
+      }
+    }
+
+    function searchByTag(tag) {
+      document.getElementById('globalNotesSearch').value = tag;
+      document.getElementById('searchFilter').value = 'tags';
+      performGlobalNotesSearch();
+    }
+
+    function openNotesForCourse(courseName) {
+      closeModal('notesSearchModal');
+      
+      // Select the course and load its notes
+      const courseSelect = document.getElementById('notesCourse');
+      if (courseSelect) {
+        courseSelect.value = courseName;
+        loadNotes(courseName);
+      }
+      
+      // Scroll to notes section
+      const notesSection = document.querySelector('.dashboard-section:has(#userNotes)');
+      if (notesSection) {
+        notesSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    function exportNotes() {
+      const courseSelect = document.getElementById('notesCourse');
+      const notesTextarea = document.getElementById('userNotes');
+      
+      if (!courseSelect || !notesTextarea || !courseSelect.value) {
+        // Export all notes if no specific course selected
+        if (confirm('No specific course selected. Export all notes as a combined file?')) {
+          exportAllNotes();
+          return;
+        }
+        alert('Please select a course and add some notes to export.');
+        return;
+      }
+      
+      const course = courseSelect.value;
+      const notes = notesTextarea.value;
+      const date = new Date().toLocaleDateString();
+      
+      const exportContent = `# Notes for ${course}
+
+**Date:** ${date}  
+**Course:** ${course}  
+**Word Count:** ${notes.trim().split(/\s+/).filter(word => word.length > 0).length}
+
+---
+
+${notes}
+
+---
+*Generated by ImpactMojo Dashboard*`;
+      
+      const blob = new Blob([exportContent], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${course.replace(/\s+/g, '_')}_notes.md`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function exportAllNotes() {
+      let allNotesContent = `# Complete ImpactMojo Notes Collection
+
+**Generated:** ${new Date().toLocaleDateString()}  
+**Total Courses:** ${document.querySelectorAll('#notesCourse option').length - 1}
+
+---
+
+`;
+      
+      let notesCount = 0;
+      
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('notes-')) {
+          const courseName = key.replace('notes-', '');
+          const savedData = localStorage.getItem(key);
+          
+          let content = '';
+          let lastModified = '';
+          
+          try {
+            const noteData = JSON.parse(savedData);
+            content = noteData.content || '';
+            lastModified = noteData.lastModified || '';
+          } catch (e) {
+            content = savedData || '';
+          }
+          
+          if (content.trim()) {
+            notesCount++;
+            allNotesContent += `\n## ${courseName}\n\n`;
+            if (lastModified) {
+              allNotesContent += `*Last modified: ${new Date(lastModified).toLocaleString()}*\n\n`;
+            }
+            allNotesContent += content + '\n\n---\n\n';
+          }
+        }
+      }
+      
+      if (notesCount === 0) {
+        alert('No notes found to export.');
+        return;
+      }
+      
+      allNotesContent += `\n*Total Notes Exported: ${notesCount}*\n*Generated by ImpactMojo Dashboard*`;
+      
+      const blob = new Blob([allNotesContent], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `ImpactMojo_All_Notes_${new Date().toISOString().split('T')[0]}.md`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function generateCertificate() {
+      const completedCourses = JSON.parse(localStorage.getItem('completedCourses') || '[]');
+      const user = window.auth && window.auth.currentUser;
+      
+      if (completedCourses.length === 0) {
+        alert('Complete at least one course to generate a certificate.');
+        return;
+      }
+      
+      const userName = user ? (user.displayName || user.email.split('@')[0]) : 'ImpactMojo Learner';
+      
+      // Simple certificate generation (you could enhance this with a proper PDF library)
+      const certificateContent = `
+CERTIFICATE OF COMPLETION
+
+This is to certify that
+
+${userName}
+
+has successfully completed the following courses from ImpactMojo:
+
+${completedCourses.map(course => `• ${course.title} (${new Date(course.completedDate).toLocaleDateString()})`).join('\n')}
+
+Total Courses Completed: ${completedCourses.length}
+
+Date: ${new Date().toLocaleDateString()}
+
+ImpactMojo - Development Education for South Asia
+Curated by Dr. Varna Sri Raman
+`;
+      
+      const blob = new Blob([certificateContent], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `ImpactMojo_Certificate_${userName.replace(/\s+/g, '_')}.txt`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function copyDiscountCode() {
+      const code = 'IMPACTMOJO10';
+      navigator.clipboard.writeText(code).then(() => {
+        alert('Discount code copied to clipboard!');
+      }).catch(() => {
+        alert('Discount code: IMPACTMOJO10');
+      });
+    }
+
+    // Initialize dashboard when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      // Existing initialization code...
+      
+      // Initialize dashboard features
+      setTimeout(() => {
+        updateProgressDisplay();
+        checkRealisticAchievements();
+        enhanceCourseCards();
+        populateCoursesDropdown();
+        initializeAchievements();
+        updateResearchLibraryDisplay();
+        
+        // Auto-save notes every 30 seconds
+        setInterval(() => {
+          const notesTextarea = document.getElementById('userNotes');
+          if (notesTextarea && notesTextarea.value.length > 10) {
+            saveNotes();
+          }
+        }, 30000);
+        
+        // Update word count on typing
+        const notesTextarea = document.getElementById('userNotes');
+        if (notesTextarea) {
+          notesTextarea.addEventListener('input', updateWordCount);
+        }
+
+        // Initialize quiz if results exist
+        const quizResults = JSON.parse(localStorage.getItem('quizResults') || 'null');
+        if (quizResults) {
+          const personalizedPath = document.getElementById('personalizedPath');
+          const quizPrompt = document.getElementById('quizPrompt');
+          const recommendedPathSpan = document.getElementById('recommendedPath');
+          
+          if (personalizedPath && quizPrompt && recommendedPathSpan) {
+            quizPrompt.style.display = 'none';
+            personalizedPath.style.display = 'block';
+            
+            // Determine path from quiz results
+            let pathName = 'Data Analysis Track';
+            if (quizResults.background === 'gender' || quizResults.interests?.includes('gender')) {
+              pathName = 'Gender Studies Track';
+            } else if (quizResults.background === 'economics' || quizResults.interests?.includes('economics')) {
+              pathName = 'Policy & Economics Track';
+            } else if (quizResults.background === 'research' || quizResults.interests?.includes('research')) {
+              pathName = 'Research Methods Track';
+            }
+            
+            recommendedPathSpan.textContent = pathName;
+          }
+        }
+      }, 2000);
+    });
+
+    function populateCoursesDropdown() {
+      const courseSelect = document.getElementById('notesCourse');
+      if (!courseSelect) return;
+      
+      const courseAccess = JSON.parse(localStorage.getItem('courseAccess') || '{}');
+      
+      courseSelect.innerHTML = '<option value="">Select Course for Notes</option>';
+      
+      Object.keys(courseAccess).forEach(courseTitle => {
+        const option = document.createElement('option');
+        option.value = courseTitle;
+        option.textContent = courseTitle;
+        courseSelect.appendChild(option);
+      });
+      
+      // Load notes when course is selected
+      courseSelect.addEventListener('change', function() {
+        const notesTextarea = document.getElementById('userNotes');
+        if (this.value && notesTextarea) {
+          const savedNotes = localStorage.getItem(`notes-${this.value}`) || '';
+          notesTextarea.value = savedNotes;
+          updateWordCount();
+        }
+      });
+    }
+
+    function initializeAchievements() {
+      const unlockedAchievements = JSON.parse(localStorage.getItem('unlockedAchievements') || '[]');
+      
+      unlockedAchievements.forEach(achievementId => {
+        const achievementBadge = document.querySelector(`[data-achievement="${achievementId}"]`);
+        if (achievementBadge) {
+          achievementBadge.style.opacity = '1';
+          achievementBadge.style.background = 'rgba(46, 204, 113, 0.2)';
+          achievementBadge.style.border = '2px solid var(--success-color)';
+        }
+      });
+    }
+
+    // Learning Quiz Functions
+    let currentQuestion = 1;
+    const totalQuestions = 4;
+
+    function startLearningQuiz() {
+      currentQuestion = 1;
+      openModal('learningQuizModal');
+      showQuestion(1);
+    }
+
+    function changeQuestion(direction) {
+      const current = document.getElementById(`question${currentQuestion}`);
+      if (current) current.style.display = 'none';
+      
+      currentQuestion += direction;
+      
+      if (currentQuestion < 1) currentQuestion = 1;
+      if (currentQuestion > totalQuestions) currentQuestion = totalQuestions;
+      
+      showQuestion(currentQuestion);
+    }
+
+    function showQuestion(questionNum) {
+      // Hide all questions
+      for (let i = 1; i <= totalQuestions; i++) {
+        const q = document.getElementById(`question${i}`);
+        if (q) q.style.display = 'none';
+      }
+      
+      // Show current question
+      const current = document.getElementById(`question${questionNum}`);
+      if (current) current.style.display = 'block';
+      
+      // Update navigation
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const submitBtn = document.getElementById('submitQuiz');
+      
+      if (prevBtn) prevBtn.style.display = questionNum > 1 ? 'inline-block' : 'none';
+      if (nextBtn) nextBtn.style.display = questionNum < totalQuestions ? 'inline-block' : 'none';
+      if (submitBtn) submitBtn.style.display = questionNum === totalQuestions ? 'inline-block' : 'none';
+    }
+
+    function submitQuiz() {
+      const formData = new FormData();
+      const form = document.getElementById('learningQuizModal');
+      
+      // Collect answers
+      const background = form.querySelector('input[name="background"]:checked')?.value || 'other';
+      const goal = form.querySelector('input[name="goal"]:checked')?.value || 'understanding';
+      const interests = Array.from(form.querySelectorAll('input[name="interests"]:checked')).map(i => i.value);
+      const time = form.querySelector('input[name="time"]:checked')?.value || '1-2';
+      
+      const quizResults = { background, goal, interests, time };
+      localStorage.setItem('quizResults', JSON.stringify(quizResults));
+      
+      // Generate recommendation
+      const recommendation = generateLearningPathRecommendation(quizResults);
+      
+      // Hide quiz, show results
+      document.getElementById('quizContent').style.display = 'none';
+      document.getElementById('quizResults').style.display = 'block';
+      document.getElementById('pathRecommendation').innerHTML = recommendation;
+    }
+
+    function generateLearningPathRecommendation(results) {
+      let recommendedPath = 'data-analysis'; // default
+      let pathName = 'Data Analysis Track';
+      let description = 'Perfect for building analytical skills';
+      
+      // Logic to determine best path
+      if (results.background === 'gender' || results.interests.includes('gender')) {
+        recommendedPath = 'gender-studies';
+        pathName = 'Gender Studies Track';
+        description = 'Comprehensive understanding of gender in development';
+      } else if (results.background === 'economics' || results.interests.includes('economics')) {
+        recommendedPath = 'policy-economics';
+        pathName = 'Policy & Economics Track';
+        description = 'From basic economics to policy analysis';
+      } else if (results.background === 'research' || results.interests.includes('research')) {
+        recommendedPath = 'research-methods';
+        pathName = 'Research Methods Track';
+        description = 'Complete research toolkit for development work';
+      }
+      
+      const estimatedTime = {
+        '1-2': '2-3 months',
+        '3-5': '1-2 months',
+        '6-10': '3-4 weeks',
+        '10+': '2-3 weeks'
+      }[results.time] || '2-3 months';
+      
+      return `
+        <div style="background: var(--light-bg); border-radius: 8px; padding: 1.5rem; margin: 1rem 0;">
+          <h4 style="color: var(--secondary-color); margin: 0 0 1rem 0;">${pathName}</h4>
+          <p>${description}</p>
+          <p><strong>Estimated completion time:</strong> ${estimatedTime}</p>
+          <p><strong>Based on your interests in:</strong> ${results.interests.join(', ') || 'general development'}</p>
+        </div>
+      `;
+    }
+
+    function applyRecommendedPath() {
+      const quizResults = JSON.parse(localStorage.getItem('quizResults') || '{}');
+      let pathId = 'data-analysis';
+      
+      if (quizResults.background === 'gender' || quizResults.interests?.includes('gender')) {
+        pathId = 'gender-studies';
+      } else if (quizResults.background === 'economics' || quizResults.interests?.includes('economics')) {
+        pathId = 'policy-economics';
+      } else if (quizResults.background === 'research' || quizResults.interests?.includes('research')) {
+        pathId = 'research-methods';
+      }
+      
+      closeModal('learningQuizModal');
+      applyLearningPath(pathId);
+      
+      // Update dashboard
+      const personalizedPath = document.getElementById('personalizedPath');
+      const quizPrompt = document.getElementById('quizPrompt');
+      const recommendedPathSpan = document.getElementById('recommendedPath');
+      
+      if (personalizedPath && quizPrompt && recommendedPathSpan) {
+        quizPrompt.style.display = 'none';
+        personalizedPath.style.display = 'block';
+        recommendedPathSpan.textContent = learningPaths[pathId].name;
+      }
+    }
+
+    // Research Library Functions
+    function addResourceToLibrary(event) {
+      event.preventDefault();
+      
+      const resource = {
+        type: document.getElementById('resourceType').value,
+        title: document.getElementById('resourceTitle').value,
+        authors: document.getElementById('resourceAuthors').value,
+        year: document.getElementById('resourceYear').value,
+        topic: document.getElementById('resourceTopic').value,
+        url: document.getElementById('resourceUrl').value,
+        notes: document.getElementById('resourceNotes').value,
+        dateAdded: new Date().toISOString(),
+        id: Date.now()
+      };
+      
+      let library = JSON.parse(localStorage.getItem('researchLibrary') || '[]');
+      library.push(resource);
+      localStorage.setItem('researchLibrary', JSON.stringify(library));
+      
+      updateResearchLibraryDisplay();
+      closeModal('addResourceModal');
+      
+      // Reset form
+      event.target.reset();
+      
+      checkRealisticAchievements();
+      
+      alert('Resource added to your library!');
+    }
+
+    function updateResearchLibraryDisplay() {
+      const libraryList = document.getElementById('researchLibraryList');
+      if (!libraryList) return;
+      
+      const library = JSON.parse(localStorage.getItem('researchLibrary') || '[]');
+      const filter = document.getElementById('libraryFilter')?.value || 'all';
+      
+      const filteredLibrary = filter === 'all' ? library : library.filter(item => item.topic === filter);
+      
+      if (filteredLibrary.length === 0) {
+        libraryList.innerHTML = '<p style="opacity: 0.8; font-style: italic; text-align: center;">No resources found. Add some resources to build your library!</p>';
+      } else {
+        libraryList.innerHTML = filteredLibrary.map(resource => `
+          <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 1rem; margin: 0.5rem 0; border-left: 4px solid var(--secondary-color);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+              <div style="flex: 1;">
+                <h5 style="margin: 0 0 0.5rem 0; color: white;">${resource.title}</h5>
+                ${resource.authors ? `<p style="margin: 0; color: rgba(255,255,255,0.8); font-size: 0.9rem;">${resource.authors} ${resource.year ? `(${resource.year})` : ''}</p>` : ''}
+                <div style="margin: 0.5rem 0; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                  <span style="background: var(--info-color); color: white; padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.8rem;">${resource.type}</span>
+                  <span style="background: var(--secondary-color); color: white; padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.8rem;">${resource.topic}</span>
+                </div>
+                ${resource.notes ? `<p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: rgba(255,255,255,0.8); font-style: italic;">${resource.notes}</p>` : ''}
+                ${resource.url ? `<a href="${resource.url}" target="_blank" style="color: var(--warning-color); text-decoration: none; font-size: 0.9rem;">🔗 View Resource</a>` : ''}
+              </div>
+              <button onclick="removeFromLibrary(${resource.id})" style="background: var(--accent-color); color: white; border: none; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer; margin-left: 1rem;">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function removeFromLibrary(resourceId) {
+      if (confirm('Remove this resource from your library?')) {
+        let library = JSON.parse(localStorage.getItem('researchLibrary') || '[]');
+        library = library.filter(item => item.id !== resourceId);
+        localStorage.setItem('researchLibrary', JSON.stringify(library));
+        updateResearchLibraryDisplay();
+      }
+    }
+
+    function filterLibrary() {
+      updateResearchLibraryDisplay();
+    }
+
+    function exportBibliography() {
+      const library = JSON.parse(localStorage.getItem('researchLibrary') || '[]');
+      
+      if (library.length === 0) {
+        alert('No resources in your library to export.');
+        return;
+      }
+      
+      const bibliography = library.map(resource => {
+        // Generate APA-style citation
+        let citation = '';
+        if (resource.authors && resource.year) {
+          citation = `${resource.authors} (${resource.year}). ${resource.title}.`;
+        } else {
+          citation = `${resource.title}.`;
+        }
+        if (resource.url) {
+          citation += ` Retrieved from ${resource.url}`;
+        }
+        return citation;
+      }).join('\n\n');
+      
+      const exportContent = `ImpactMojo Research Library Bibliography
+Generated: ${new Date().toLocaleDateString()}
+
+${bibliography}
+
+---
+Total Resources: ${library.length}
+Generated by ImpactMojo Dashboard`;
+      
+      const blob = new Blob([exportContent], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'ImpactMojo_Bibliography.txt';
+      a.click();
+      URL.revokeObjectURL(url);
     }
 
     // Modal functions
@@ -3382,7 +5022,7 @@
     }
   </script>
 
-  <!-- Load your custom Firebase auth script as a module -->
-  <script type="module" src="firebase-auth.js"></script>
+  <!-- Load your custom Firebase auth script -->
+  <script src="firebase-auth.js"></script>
 </body>
 </html>
