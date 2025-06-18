@@ -3513,5 +3513,497 @@
 
   <!-- Load your custom Firebase auth script as a module -->
   <script type="module" src="firebase-auth.js"></script>
+  <!-- Add these modals just before the closing </body> tag in your index.html -->
+
+<!-- Login Modal -->
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('loginModal')">&times;</span>
+    <h2><i class="fas fa-sign-in-alt"></i> Sign In to ImpactMojo</h2>
+    <form onsubmit="event.preventDefault(); handleLogin();">
+      <div class="form-group">
+        <label for="loginEmail">Email:</label>
+        <input type="email" id="loginEmail" required>
+      </div>
+      <div class="form-group">
+        <label for="loginPassword">Password:</label>
+        <input type="password" id="loginPassword" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Sign In</button>
+      <button type="button" class="btn btn-google" onclick="loginWithGoogle()">
+        <i class="fab fa-google"></i> Sign in with Google
+      </button>
+    </form>
+    <div class="modal-footer">
+      <p><a href="#" onclick="closeModal('loginModal'); openModal('resetPasswordModal');">Forgot password?</a></p>
+      <p>Don't have an account? <a href="#" onclick="closeModal('loginModal'); openModal('signupModal');">Sign up</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- Signup Modal -->
+<div id="signupModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('signupModal')">&times;</span>
+    <h2><i class="fas fa-user-plus"></i> Join ImpactMojo</h2>
+    <form onsubmit="event.preventDefault(); handleSignup();">
+      <div class="form-group">
+        <label for="signupName">Full Name:</label>
+        <input type="text" id="signupName" required>
+      </div>
+      <div class="form-group">
+        <label for="signupEmail">Email:</label>
+        <input type="email" id="signupEmail" required>
+      </div>
+      <div class="form-group">
+        <label for="signupPassword">Password:</label>
+        <input type="password" id="signupPassword" required minlength="6">
+      </div>
+      <button type="submit" class="btn btn-primary">Create Account</button>
+      <button type="button" class="btn btn-google" onclick="loginWithGoogle()">
+        <i class="fab fa-google"></i> Sign up with Google
+      </button>
+    </form>
+    <div class="modal-footer">
+      <p>Already have an account? <a href="#" onclick="closeModal('signupModal'); openModal('loginModal');">Sign in</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- Reset Password Modal -->
+<div id="resetPasswordModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('resetPasswordModal')">&times;</span>
+    <h2><i class="fas fa-key"></i> Reset Password</h2>
+    <form onsubmit="event.preventDefault(); handlePasswordReset();">
+      <div class="form-group">
+        <label for="resetEmail">Email:</label>
+        <input type="email" id="resetEmail" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Send Reset Email</button>
+    </form>
+    <div class="modal-footer">
+      <p><a href="#" onclick="closeModal('resetPasswordModal'); openModal('loginModal');">Back to Sign In</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- Book Consultation Modal -->
+<div id="bookConsultationModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('bookConsultationModal')">&times;</span>
+    <h2><i class="fas fa-user-tie"></i> Book Career Consultation</h2>
+    <p>Schedule your free 30-minute career guidance session with Dr. Varna</p>
+    
+    <form id="consultationForm" onsubmit="event.preventDefault(); submitConsultationRequest();">
+      <div class="form-group">
+        <label for="consultationType">Consultation Type:</label>
+        <select id="consultationType" required>
+          <option value="">Select consultation type</option>
+          <option value="career-guidance">Career Guidance (Free)</option>
+          <option value="technical-consultation">Technical Consultation (10% Member Discount)</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="preferredDate">Preferred Date:</label>
+        <input type="date" id="preferredDate" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="preferredTime">Preferred Time:</label>
+        <select id="preferredTime" required>
+          <option value="">Select time</option>
+          <option value="09:00">9:00 AM</option>
+          <option value="10:00">10:00 AM</option>
+          <option value="11:00">11:00 AM</option>
+          <option value="14:00">2:00 PM</option>
+          <option value="15:00">3:00 PM</option>
+          <option value="16:00">4:00 PM</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="consultationMessage">What would you like to discuss?</label>
+        <textarea id="consultationMessage" rows="4" placeholder="Brief description of topics you'd like to cover..." required></textarea>
+      </div>
+      
+      <button type="submit" class="btn btn-primary">Submit Request</button>
+    </form>
+  </div>
+</div>
+
+<!-- CV Review Modal -->
+<div id="cvReviewModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('cvReviewModal')">&times;</span>
+    <h2><i class="fas fa-file-alt"></i> CV Review Service</h2>
+    <p>Get professional feedback on your development sector CV</p>
+    
+    <form id="cvReviewForm" onsubmit="event.preventDefault(); submitCVReviewRequest();">
+      <div class="form-group">
+        <label for="cvReviewUrgency">Timeline:</label>
+        <select id="cvReviewUrgency" required>
+          <option value="">Select timeline</option>
+          <option value="standard">Standard (1 week)</option>
+          <option value="urgent">Urgent (3 days)</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="cvReviewMessage">Additional Information:</label>
+        <textarea id="cvReviewMessage" rows="4" placeholder="Target positions, specific concerns, etc." required></textarea>
+      </div>
+      
+      <button type="submit" class="btn btn-primary">Request CV Review</button>
+    </form>
+  </div>
+</div>
+
+<!-- Interview Prep Modal -->
+<div id="interviewPrepModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('interviewPrepModal')">&times;</span>
+    <h2><i class="fas fa-comments"></i> Interview Preparation</h2>
+    <p>Mock interview sessions for development sector positions</p>
+    
+    <form id="interviewPrepForm" onsubmit="event.preventDefault(); submitInterviewPrepRequest();">
+      <div class="form-group">
+        <label for="interviewType">Interview Type:</label>
+        <select id="interviewType" required>
+          <option value="">Select interview type</option>
+          <option value="behavioral">Behavioral Interview</option>
+          <option value="technical">Technical Interview</option>
+          <option value="case-study">Case Study Interview</option>
+          <option value="presentation">Presentation Interview</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="companyInfo">Organization/Position:</label>
+        <input type="text" id="companyInfo" placeholder="UN, World Bank, NGO, etc." required>
+      </div>
+      
+      <div class="form-group">
+        <label for="interviewTimeframe">Interview Timeline:</label>
+        <select id="interviewTimeframe" required>
+          <option value="">When is your interview?</option>
+          <option value="this-week">This week</option>
+          <option value="next-week">Next week</option>
+          <option value="2-weeks">In 2 weeks</option>
+          <option value="month">Within a month</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="specificAreas">Specific Areas to Focus On:</label>
+        <textarea id="specificAreas" rows="3" placeholder="e.g., M&E experience, stakeholder management, etc."></textarea>
+      </div>
+      
+      <button type="submit" class="btn btn-primary">Request Interview Prep</button>
+    </form>
+  </div>
+</div>
+
+<!-- Skills Assessment Modal -->
+<div id="skillsAssessmentModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('skillsAssessmentModal')">&times;</span>
+    <h2><i class="fas fa-certificate"></i> Skill Assessments</h2>
+    <p>Test your knowledge and earn certificates</p>
+    
+    <div class="assessment-grid">
+      <div class="assessment-card" onclick="startSkillAssessment('data-literacy')">
+        <h4>📊 Data Literacy</h4>
+        <p>Basic data analysis and visualization concepts</p>
+        <div class="assessment-details">
+          <span>15 minutes</span> • <span>70% to pass</span>
+        </div>
+      </div>
+      
+      <div class="assessment-card" onclick="startSkillAssessment('gender-analysis')">
+        <h4>⚖️ Gender Analysis</h4>
+        <p>Gender frameworks and analysis methods</p>
+        <div class="assessment-details">
+          <span>10 minutes</span> • <span>75% to pass</span>
+        </div>
+      </div>
+      
+      <div class="assessment-card" onclick="startSkillAssessment('policy-analysis')">
+        <h4>🏛️ Policy Analysis</h4>
+        <p>Policy frameworks and analysis fundamentals</p>
+        <div class="assessment-details">
+          <span>12 minutes</span> • <span>70% to pass</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Modal and form handling functions
+function openModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+  }
+}
+
+// Authentication form handlers
+async function handleLogin() {
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  
+  if (email && password) {
+    await login(email, password);
+  }
+}
+
+async function handleSignup() {
+  const name = document.getElementById('signupName').value;
+  const email = document.getElementById('signupEmail').value;
+  const password = document.getElementById('signupPassword').value;
+  
+  if (name && email && password) {
+    await signup(email, password, name);
+  }
+}
+
+async function handlePasswordReset() {
+  const email = document.getElementById('resetEmail').value;
+  
+  if (email) {
+    await resetPassword(email);
+    closeModal('resetPasswordModal');
+  }
+}
+
+// Member service form handlers
+async function submitConsultationRequest() {
+  const consultationType = document.getElementById('consultationType').value;
+  const preferredDate = document.getElementById('preferredDate').value;
+  const preferredTime = document.getElementById('preferredTime').value;
+  const message = document.getElementById('consultationMessage').value;
+  
+  const result = await bookConsultation(consultationType, preferredDate, preferredTime, message);
+  if (result.success) {
+    document.getElementById('consultationForm').reset();
+    closeModal('bookConsultationModal');
+  }
+}
+
+async function submitCVReviewRequest() {
+  const urgency = document.getElementById('cvReviewUrgency').value;
+  const message = document.getElementById('cvReviewMessage').value;
+  
+  const result = await requestCVReview(message, urgency);
+  if (result.success) {
+    document.getElementById('cvReviewForm').reset();
+    closeModal('cvReviewModal');
+  }
+}
+
+async function submitInterviewPrepRequest() {
+  const interviewType = document.getElementById('interviewType').value;
+  const companyInfo = document.getElementById('companyInfo').value;
+  const timeframe = document.getElementById('interviewTimeframe').value;
+  const specificAreas = document.getElementById('specificAreas').value;
+  
+  const result = await bookInterviewPrep(interviewType, companyInfo, timeframe, specificAreas);
+  if (result.success) {
+    document.getElementById('interviewPrepForm').reset();
+    closeModal('interviewPrepModal');
+  }
+}
+
+// Member feature buttons
+function scheduleConsultation() {
+  openModal('bookConsultationModal');
+}
+
+function requestCVReviewService() {
+  openModal('cvReviewModal');
+}
+
+function startInterviewPrep() {
+  openModal('interviewPrepModal');
+}
+
+function openSkillsAssessment() {
+  openModal('skillsAssessmentModal');
+}
+
+// Close modal when clicking outside
+window.addEventListener('click', function(event) {
+  if (event.target.classList.contains('modal')) {
+    const modalId = event.target.id;
+    closeModal(modalId);
+  }
+});
+</script>
+
+<style>
+/* Modal Styling */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+  background-color: white;
+  margin: 5% auto;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.modal-content h2 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.close {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-secondary);
+}
+
+.close:hover {
+  color: var(--accent-color);
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--secondary-color);
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  margin: 0.25rem;
+}
+
+.btn-primary {
+  background: var(--secondary-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #2980b9;
+  transform: translateY(-2px);
+}
+
+.btn-google {
+  background: #db4437;
+  color: white;
+}
+
+.btn-google:hover {
+  background: #c23321;
+}
+
+.modal-footer {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.modal-footer a {
+  color: var(--secondary-color);
+  text-decoration: none;
+}
+
+.modal-footer a:hover {
+  text-decoration: underline;
+}
+
+.assessment-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.assessment-card {
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.assessment-card:hover {
+  border-color: var(--secondary-color);
+  background: #f8f9ff;
+  transform: translateY(-2px);
+}
+
+.assessment-card h4 {
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+}
+
+.assessment-details {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+}
+</style>
 </body>
 </html>
