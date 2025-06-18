@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Path Assessment - ImpactMojo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --bg-primary: #ffffff;
+            --border-color: #ecf0f1;
+            --text-primary: #2c3e50;
+            --text-secondary: #7f8c8d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .quiz-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-header h1 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+
+        .quiz-progress {
+            background: var(--border-color);
+            height: 8px;
+            border-radius: 4px;
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+
+        .quiz-progress-bar {
+            background: var(--secondary-color);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-container {
+            margin-bottom: 2rem;
+        }
+
+        .question {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .options {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .option {
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .option:hover {
+            border-color: var(--secondary-color);
+            background: #f8f9ff;
+        }
+
+        .option.selected {
+            border-color: var(--secondary-color);
+            background: #e3f2fd;
+        }
+
+        .option-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .option-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .quiz-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+
+        .btn-secondary {
+            background: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: #d5dbdb;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .results-container {
+            display: none;
+            text-align: center;
+        }
+
+        .results-container.show {
+            display: block;
+        }
+
+        .result-path {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+
+        .path-courses {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .course-card {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .course-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .course-duration {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--secondary-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to ImpactMojo
+        </a>
+        
+        <div class="quiz-header">
+            <h1>🎯 Find Your Learning Path</h1>
+            <p>Answer a few questions to get personalized course recommendations based on your background and goals.</p>
+        </div>
+
+        <div class="quiz-progress">
+            <div class="quiz-progress-bar" id="progressBar"></div>
+        </div>
+
+        <div id="quizContent">
+            <!-- Questions will be populated here -->
+        </div>
+
+        <div class="quiz-buttons">
+            <button class="btn btn-secondary" id="prevBtn" onclick="previousQuestion()" disabled>Previous</button>
+            <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>Next</button>
+        </div>
+
+        <div class="results-container" id="resultsContainer">
+            <h2>🎉 Your Recommended Learning Path</h2>
+            <div id="resultContent"></div>
+            <button class="btn btn-primary" onclick="applyRecommendedPath()">Start Learning Journey</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                id: 1,
+                question: "What's your current role or primary interest?",
+                options: [
+                    { value: "practitioner", title: "Development Practitioner", description: "Working directly on development programs and interventions" },
+                    { value: "researcher", title: "Researcher/Academic", description: "Conducting research, analysis, or teaching in development" },
+                    { value: "policymaker", title: "Policy Maker", description: "Working in government or policy organizations" },
+                    { value: "student", title: "Student/New to Field", description: "Learning about development economics and practice" }
+                ]
+            },
+            {
+                id: 2,
+                question: "What's your experience level with data analysis?",
+                options: [
+                    { value: "beginner", title: "Beginner", description: "Little to no experience with data analysis tools" },
+                    { value: "intermediate", title: "Intermediate", description: "Some experience with Excel, basic statistics" },
+                    { value: "advanced", title: "Advanced", description: "Comfortable with statistical software and analysis" },
+                    { value: "expert", title: "Expert", description: "Extensive experience with advanced analytical methods" }
+                ]
+            },
+            {
+                id: 3,
+                question: "Which development topics interest you most?",
+                options: [
+                    { value: "gender", title: "Gender & Social Inclusion", description: "Women's empowerment, care economy, inclusive development" },
+                    { value: "economics", title: "Economics & Policy", description: "Poverty, inequality, economic policy analysis" },
+                    { value: "health", title: "Public Health", description: "Health systems, epidemiology, health policy" },
+                    { value: "livelihoods", title: "Livelihoods & Jobs", description: "Employment, skills development, economic opportunities" }
+                ]
+            },
+            {
+                id: 4,
+                question: "What's your primary goal for learning?",
+                options: [
+                    { value: "skills", title: "Build Technical Skills", description: "Learn specific tools and methodologies" },
+                    { value: "knowledge", title: "Deepen Understanding", description: "Gain theoretical knowledge and frameworks" },
+                    { value: "application", title: "Apply to Current Work", description: "Immediately use learning in ongoing projects" },
+                    { value: "career", title: "Career Development", description: "Advance career or change specialization" }
+                ]
+            },
+            {
+                id: 5,
+                question: "How much time can you dedicate to learning weekly?",
+                options: [
+                    { value: "light", title: "2-4 hours", description: "Light engagement, fits around busy schedule" },
+                    { value: "moderate", title: "5-8 hours", description: "Regular learning routine" },
+                    { value: "intensive", title: "9+ hours", description: "Intensive study period" },
+                    { value: "flexible", title: "Varies", description: "Time availability changes week to week" }
+                ]
+            }
+        ];
+
+        const learningPaths = {
+            'data-analysis': {
+                name: 'Data Analysis Mastery Track',
+                description: 'Master data skills from basics to advanced analysis',
+                courses: [
+                    { title: 'Data Literacy 101', duration: '3-4 hours' },
+                    { title: 'EDA for Survey Data', duration: '4-5 hours' },
+                    { title: 'Bivariate Analysis', duration: '3-4 hours' },
+                    { title: 'Multivariate Analysis', duration: '5-6 hours' }
+                ],
+                totalDuration: '15-19 hours'
+            },
+            'gender-studies': {
+                name: 'Gender Studies Pathway',
+                description: 'Comprehensive understanding of gender in development',
+                courses: [
+                    { title: 'Gender Studies 101', duration: '4-5 hours' },
+                    { title: 'Data Feminism 101', duration: '3-4 hours' },
+                    { title: 'Care Economy', duration: '3-4 hours' },
+                    { title: 'Women\'s Economic Empowerment', duration: '4-5 hours' }
+                ],
+                totalDuration: '14-18 hours'
+            },
+            'policy-economics': {
+                name: 'Policy & Economics Track',
+                description: 'From basic economics to policy analysis',
+                courses: [
+                    { title: 'Development Economics 101', duration: '5-6 hours' },
+                    { title: 'Political Economy', duration: '4-5 hours' },
+                    { title: 'Poverty & Inequality', duration: '4-5 hours' },
+                    { title: 'Social Safety Nets', duration: '3-4 hours' }
+                ],
+                totalDuration: '16-20 hours'
+            },
+            'research-methods': {
+                name: 'Research Methods Journey',
+                description: 'Complete research toolkit for development work',
+                courses: [
+                    { title: 'Research Ethics', duration: '2-3 hours' },
+                    { title: 'Qualitative Research', duration: '4-5 hours' },
+                    { title: 'Econometrics', duration: '6-7 hours' },
+                    { title: 'MEL Framework', duration: '4-5 hours' }
+                ],
+                totalDuration: '16-20 hours'
+            },
+            'public-health': {
+                name: 'Public Health Foundation',
+                description: 'Health systems and policy fundamentals',
+                courses: [
+                    { title: 'Public Health 101', duration: '4-5 hours' },
+                    { title: 'Health Economics', duration: '3-4 hours' },
+                    { title: 'SRHR Framework', duration: '3-4 hours' },
+                    { title: 'Health Policy Analysis', duration: '4-5 hours' }
+                ],
+                totalDuration: '14-18 hours'
+            }
+        };
+
+        let currentQuestion = 0;
+        let answers = {};
+
+        function initializeQuiz() {
+            displayQuestion();
+            updateProgress();
+        }
+
+        function displayQuestion() {
+            const question = questions[currentQuestion];
+            const content = document.getElementById('quizContent');
+            
+            content.innerHTML = `
+                <div class="question-container">
+                    <div class="question">
+                        Question ${currentQuestion + 1} of ${questions.length}: ${question.question}
+                    </div>
+                    <div class="options">
+                        ${question.options.map(option => `
+                            <div class="option" onclick="selectOption('${option.value}')" data-value="${option.value}">
+                                <div class="option-title">${option.title}</div>
+                                <div class="option-description">${option.description}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            // Restore previous selection if exists
+            if (answers[question.id]) {
+                const selectedOption = document.querySelector(`[data-value="${answers[question.id]}"]`);
+                if (selectedOption) selectedOption.classList.add('selected');
+                document.getElementById('nextBtn').disabled = false;
+            } else {
+                document.getElementById('nextBtn').disabled = true;
+            }
+        }
+
+        function selectOption(value) {
+            // Remove previous selection
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            
+            // Add selection to clicked option
+            document.querySelector(`[data-value="${value}"]`).classList.add('selected');
+            
+            // Store answer
+            answers[questions[currentQuestion].id] = value;
+            
+            // Enable next button
+            document.getElementById('nextBtn').disabled = false;
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion >= questions.length) {
+                showResults();
+                return;
+            }
+            
+            displayQuestion();
+            updateProgress();
+            updateButtons();
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                displayQuestion();
+                updateProgress();
+                updateButtons();
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function updateButtons() {
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            
+            if (currentQuestion === questions.length - 1) {
+                document.getElementById('nextBtn').textContent = 'Get Results';
+            } else {
+                document.getElementById('nextBtn').textContent = 'Next';
+            }
+        }
+
+        function calculateRecommendation() {
+            const role = answers[1];
+            const dataLevel = answers[2];
+            const interest = answers[3];
+            const goal = answers[4];
+            const time = answers[5];
+
+            // Enhanced recommendation logic
+            if (interest === 'gender') return 'gender-studies';
+            if (interest === 'economics') return 'policy-economics';
+            if (interest === 'health') return 'public-health';
+            if (dataLevel === 'beginner' && goal === 'skills') return 'data-analysis';
+            if (goal === 'skills' && role === 'researcher') return 'research-methods';
+            if (dataLevel === 'advanced' || dataLevel === 'expert') return 'research-methods';
+            
+            return 'data-analysis'; // Default fallback
+        }
+
+        function showResults() {
+            const recommendedPath = calculateRecommendation();
+            const path = learningPaths[recommendedPath];
+            
+            document.getElementById('quizContent').style.display = 'none';
+            document.querySelector('.quiz-buttons').style.display = 'none';
+            document.getElementById('resultsContainer').classList.add('show');
+            
+            document.getElementById('resultContent').innerHTML = `
+                <div class="result-path">
+                    <h3>${path.name}</h3>
+                    <p>${path.description}</p>
+                    <p><strong>Total Duration:</strong> ${path.totalDuration}</p>
+                    
+                    <div class="path-courses">
+                        ${path.courses.map(course => `
+                            <div class="course-card">
+                                <div class="course-title">${course.title}</div>
+                                <div class="course-duration">${course.duration}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            // Store recommended path for use on main site
+            localStorage.setItem('recommendedLearningPath', recommendedPath);
+        }
+
+        function applyRecommendedPath() {
+            // Redirect to main site with the path applied
+            window.location.href = 'index.html#recommended-path';
+        }
+
+        // Initialize quiz when page loads
+        document.addEventListener('DOMContentLoaded', initializeQuiz);
+    </script>
+</body>
+</html>
