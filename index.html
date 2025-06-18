@@ -23,7 +23,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
-  <!-- Firebase CDN Scripts - Added to fix module import errors -->
+  <!-- Firebase CDN Scripts -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
@@ -44,6 +44,24 @@
   </script>
 
   <style>
+    /* Skip link for accessibility */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 6px;
+      background: var(--primary-color);
+      color: white;
+      padding: 8px;
+      text-decoration: none;
+      border-radius: 4px;
+      z-index: 9999;
+      font-weight: bold;
+    }
+    
+    .skip-link:focus {
+      top: 6px;
+    }
+
     :root {
       --primary-color: #2c3e50;
       --secondary-color: #3498db;
@@ -63,6 +81,18 @@
       --border-radius: 8px;
     }
 
+    /* Dark mode variables */
+    body.dark {
+      --bg-primary: #1a1a1a;
+      --card-bg: #2d2d2d;
+      --border-color: #404040;
+      --text-primary: #f0f0f0;
+      --text-secondary: #b8b8b8;
+      --light-bg: #333333;
+      --shadow: 0 2px 12px rgba(0,0,0,0.3);
+      --shadow-hover: 0 4px 20px rgba(0,0,0,0.4);
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -74,12 +104,39 @@
       background: var(--bg-primary);
       color: var(--text-primary);
       line-height: 1.6;
+      transition: var(--transition);
     }
 
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 1rem;
+    }
+
+    /* Theme Toggle Button */
+    .theme-toggle {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 1000;
+      font-size: 1.2rem;
+      background: var(--card-bg);
+      border: 2px solid var(--border-color);
+      color: var(--text-primary);
+      cursor: pointer;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.1);
+      box-shadow: var(--shadow-hover);
     }
 
     /* Header */
@@ -296,6 +353,8 @@
       border-radius: var(--border-radius);
       font-size: 1rem;
       transition: var(--transition);
+      background: var(--bg-primary);
+      color: var(--text-primary);
     }
 
     .search-input:focus {
@@ -328,32 +387,7 @@
       border: 1px solid var(--border-color);
       border-radius: var(--border-radius);
       background: var(--bg-primary);
-    }
-
-    .topic-filters {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      justify-content: center;
-      margin-bottom: 1rem;
-    }
-
-    .topic-filter-btn {
-      padding: 0.5rem 1rem;
-      border: 1px solid var(--border-color);
-      background: var(--bg-primary);
-      color: var(--text-secondary);
-      border-radius: 20px;
-      cursor: pointer;
-      transition: var(--transition);
-      font-size: 0.9rem;
-    }
-
-    .topic-filter-btn:hover,
-    .topic-filter-btn.active {
-      background: var(--secondary-color);
-      color: white;
-      border-color: var(--secondary-color);
+      color: var(--text-primary);
     }
 
     .clear-filters {
@@ -403,6 +437,7 @@
       background: var(--bg-primary);
       cursor: pointer;
       transition: var(--transition);
+      color: var(--text-primary);
     }
 
     .view-btn.active {
@@ -421,6 +456,7 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      color: var(--text-primary);
     }
 
     .compare-btn:hover,
@@ -663,6 +699,61 @@
       font-size: 3rem;
       margin-bottom: 1rem;
       color: var(--border-color);
+    }
+
+    /* User Dashboard */
+    .user-dashboard {
+      background: linear-gradient(135deg, var(--success-color), var(--secondary-color));
+      color: white;
+      padding: 2rem;
+      margin: 2rem 0;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      display: none;
+    }
+
+    .dashboard-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .dashboard-header h2 {
+      margin: 0 0 1rem 0;
+      font-size: 1.8rem;
+    }
+
+    .dashboard-benefits {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .benefit-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
+    }
+
+    .dashboard-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .dashboard-section {
+      background: rgba(255,255,255,0.1);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+    }
+
+    .dashboard-section h3 {
+      margin: 0 0 1rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     /* Wall of Love */
@@ -925,6 +1016,8 @@
       border: 2px solid var(--border-color);
       border-radius: var(--border-radius);
       font-size: 1rem;
+      background: var(--bg-primary);
+      color: var(--text-primary);
     }
 
     .newsletter-form button {
@@ -1237,425 +1330,6 @@
       text-decoration: none;
     }
 
-    /* User Dashboard Styles */
-    .user-dashboard {
-      background: linear-gradient(135deg, var(--success-color), var(--secondary-color));
-      color: white;
-      padding: 2rem;
-      margin: 2rem 0;
-      border-radius: var(--border-radius);
-      box-shadow: var(--shadow);
-      display: none;
-    }
-
-    .dashboard-header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    .dashboard-header h2 {
-      margin: 0 0 1rem 0;
-      font-size: 1.8rem;
-    }
-
-    .dashboard-benefits {
-      display: flex;
-      gap: 2rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 2rem;
-    }
-
-    .benefit-item {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-weight: 500;
-    }
-
-    .dashboard-content {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-
-    .dashboard-section {
-      background: rgba(255,255,255,0.1);
-      border-radius: var(--border-radius);
-      padding: 1.5rem;
-    }
-
-    .dashboard-section h3 {
-      margin: 0 0 1rem 0;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .notes-input {
-      width: 100%;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      color: white;
-      padding: 0.75rem;
-      border-radius: var(--border-radius);
-      resize: vertical;
-      min-height: 80px;
-    }
-
-    .notes-input::placeholder {
-      color: rgba(255,255,255,0.7);
-    }
-
-    .save-note-btn {
-      background: rgba(255,255,255,0.2);
-      color: white;
-      border: 1px solid rgba(255,255,255,0.3);
-      padding: 0.5rem 1rem;
-      border-radius: var(--border-radius);
-      margin-top: 0.5rem;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .save-note-btn:hover {
-      background: rgba(255,255,255,0.3);
-    }
-
-    .dashboard-stat {
-      font-size: 2rem;
-      font-weight: 700;
-      display: block;
-    }
-
-    .bookmarked-courses, .user-notes-list {
-      background: rgba(255,255,255,0.05);
-      border-radius: var(--border-radius);
-      padding: 1rem;
-      margin-top: 1rem;
-      min-height: 100px;
-    }
-
-    .bookmark-item, .note-item {
-      background: rgba(255,255,255,0.1);
-      border-radius: var(--border-radius);
-      padding: 0.75rem;
-      margin-bottom: 0.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .note-content {
-      flex: 1;
-      margin-bottom: 0.5rem;
-    }
-
-    .note-meta {
-      font-size: 0.8rem;
-      opacity: 0.8;
-    }
-
-    .remove-bookmark {
-      background: none;
-      border: none;
-      color: rgba(255,255,255,0.7);
-      cursor: pointer;
-      padding: 0.25rem;
-    }
-
-    .remove-bookmark:hover {
-      color: white;
-    }
-
-    /* Member-only content styles */
-    .member-only {
-      display: none;
-    }
-
-    .discount-code {
-      display: none;
-      background: var(--success-color);
-      color: white;
-      padding: 0.25rem 0.5rem;
-      border-radius: 12px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      margin-left: 0.5rem;
-    }
-
-    /* Enhanced Dashboard Styling - Adding to existing styles */
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1rem;
-    }
-
-    /* Member Services Grid */
-    .member-services {
-      grid-column: 1 / -1;
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1rem;
-    }
-
-    .service-card {
-      background: rgba(255,255,255,0.15);
-      border: 2px solid rgba(255,255,255,0.2);
-      border-radius: 12px;
-      padding: 1.5rem;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .service-card:hover {
-      border-color: rgba(255,255,255,0.4);
-      transform: translateY(-4px);
-      background: rgba(255,255,255,0.2);
-    }
-
-    .service-icon {
-      font-size: 2rem;
-      color: white;
-      margin-bottom: 1rem;
-      opacity: 0.9;
-    }
-
-    .service-card h4 {
-      color: white;
-      margin-bottom: 0.5rem;
-      font-size: 1.1rem;
-    }
-
-    .service-card p {
-      color: rgba(255,255,255,0.8);
-      font-size: 0.9rem;
-      margin-bottom: 1rem;
-    }
-
-    .service-btn {
-      background: rgba(255,255,255,0.2);
-      color: white;
-      border: 2px solid rgba(255,255,255,0.3);
-      padding: 0.5rem 1rem;
-      border-radius: 6px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .service-btn:hover {
-      background: rgba(255,255,255,0.3);
-      border-color: rgba(255,255,255,0.5);
-      transform: translateY(-1px);
-    }
-
-    /* Progress Summary */
-    .progress-summary {
-      display: flex;
-      justify-content: space-around;
-      margin-bottom: 1rem;
-      background: rgba(255,255,255,0.1);
-      padding: 1rem;
-      border-radius: 8px;
-    }
-
-    .progress-stat {
-      text-align: center;
-    }
-
-    .stat-number {
-      display: block;
-      font-size: 2rem;
-      font-weight: 700;
-      color: white;
-    }
-
-    .stat-label {
-      font-size: 0.85rem;
-      color: rgba(255,255,255,0.8);
-    }
-
-    /* Consulting Section */
-    .consulting-section {
-      background: rgba(255,255,255,0.15);
-      border: 2px solid rgba(255,255,255,0.3);
-    }
-
-    .offer-content h4 {
-      color: white;
-      margin-bottom: 0.5rem;
-    }
-
-    .offer-content p {
-      color: rgba(255,255,255,0.9);
-      margin-bottom: 1rem;
-    }
-
-    .discount-code-box {
-      background: rgba(255,255,255,0.2);
-      padding: 1rem;
-      border-radius: 8px;
-      margin: 1rem 0;
-      border: 2px dashed rgba(255,255,255,0.4);
-    }
-
-    .discount-code-box label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      color: white;
-    }
-
-    .discount-code {
-      font-family: 'Courier New', monospace;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: white;
-      background: rgba(255,255,255,0.2);
-      padding: 0.5rem;
-      border-radius: 4px;
-      display: inline-block;
-      margin-right: 0.5rem;
-    }
-
-    .copy-code-btn {
-      background: rgba(255,255,255,0.2);
-      color: white;
-      border: 2px solid rgba(255,255,255,0.3);
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      transition: all 0.3s ease;
-    }
-
-    .copy-code-btn:hover {
-      background: rgba(255,255,255,0.3);
-      border-color: rgba(255,255,255,0.5);
-    }
-
-    .contact-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: rgba(255,255,255,0.2);
-      color: white;
-      text-decoration: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      border: 2px solid rgba(255,255,255,0.3);
-    }
-
-    .contact-btn:hover {
-      background: rgba(255,255,255,0.3);
-      border-color: rgba(255,255,255,0.5);
-      transform: translateY(-2px);
-    }
-
-    /* Learning Path Section */
-    .learning-path-section {
-      background: rgba(255,255,255,0.15);
-      border: 2px solid rgba(255,255,255,0.3);
-    }
-
-    .path-quiz-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: rgba(255,255,255,0.2);
-      color: white;
-      text-decoration: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      font-weight: 600;
-      margin-top: 1rem;
-      transition: all 0.3s ease;
-      border: 2px solid rgba(255,255,255,0.3);
-    }
-
-    .path-quiz-btn:hover {
-      background: rgba(255,255,255,0.3);
-      border-color: rgba(255,255,255,0.5);
-      transform: translateY(-2px);
-    }
-
-    /* Bookmarked Courses */
-    .bookmarked-courses {
-      display: grid;
-      gap: 0.5rem;
-    }
-
-    .bookmarked-course-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.75rem;
-      background: rgba(255,255,255,0.1);
-      border-radius: 6px;
-      border-left: 4px solid rgba(255,255,255,0.5);
-    }
-
-    .bookmarked-course-title {
-      font-weight: 500;
-      color: white;
-    }
-
-    .remove-bookmark {
-      background: rgba(231, 76, 60, 0.8);
-      color: white;
-      border: none;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 0.8rem;
-      transition: all 0.3s ease;
-    }
-
-    .remove-bookmark:hover {
-      background: rgba(231, 76, 60, 1);
-    }
-
-    /* Certificates */
-    .certificates-list {
-      display: grid;
-      gap: 1rem;
-    }
-
-    .certificate-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem;
-      background: rgba(255,255,255,0.1);
-      border-radius: 8px;
-      border-left: 4px solid rgba(241, 196, 15, 0.8);
-    }
-
-    .certificate-info h5 {
-      color: white;
-      margin-bottom: 0.25rem;
-    }
-
-    .certificate-date {
-      font-size: 0.85rem;
-      color: rgba(255,255,255,0.8);
-    }
-
-    .certificate-score {
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: rgba(39, 174, 96, 1);
-    }
-
     /* Responsive Design */
     @media (max-width: 768px) {
       h1 {
@@ -1670,87 +1344,20 @@
         padding: 0 0.5rem;
       }
 
-      /* Better mobile navigation */
-      nav {
-        margin-top: 1.5rem;
-      }
-
-      nav a {
-        margin: 0 0.5rem;
-        padding: 0.75rem 1rem;
-        font-size: 0.9rem;
-        display: inline-block;
-        margin-bottom: 0.5rem;
-      }
-
-      .auth-buttons, .user-menu {
-        margin-left: 0;
-        margin-top: 1rem;
-        justify-content: center;
-      }
-
-      /* Mobile-friendly learning paths */
       .paths-grid {
         grid-template-columns: 1fr;
         gap: 1rem;
       }
 
-      .path-card {
-        padding: 1rem;
-      }
-
-      /* Mobile course grid */
       .courses-grid {
         grid-template-columns: 1fr;
         gap: 1rem;
       }
 
-      /* Better mobile course cards */
       .course-card {
         padding: 1rem;
       }
 
-      .course-number {
-        width: 24px;
-        height: 24px;
-        font-size: 0.75rem;
-        top: 0.5rem;
-        right: 0.5rem;
-      }
-
-      .course-header {
-        gap: 0.75rem;
-      }
-
-      .course-icon {
-        width: 40px;
-        height: 40px;
-        font-size: 1.2rem;
-      }
-
-      .course-title {
-        font-size: 1rem;
-      }
-
-      /* Touch-friendly buttons */
-      .launch-btn {
-        padding: 0.875rem 1.25rem;
-        font-size: 0.9rem;
-        min-height: 44px;
-      }
-
-      .bookmark-btn {
-        padding: 0.875rem;
-        min-width: 44px;
-        min-height: 44px;
-      }
-
-      .compare-checkbox {
-        transform: scale(1.5);
-        margin-right: 0.75rem;
-      }
-
-      /* Mobile stats bar */
       .stats-bar {
         flex-direction: column;
         align-items: stretch;
@@ -1763,18 +1370,6 @@
         gap: 0.5rem;
       }
 
-      .view-btn {
-        min-width: 44px;
-        min-height: 44px;
-      }
-
-      .compare-btn,
-      .secondary-btn {
-        min-height: 44px;
-        padding: 0.75rem 1rem;
-      }
-
-      /* Mobile filters */
       .filters {
         flex-direction: column;
         align-items: stretch;
@@ -1785,75 +1380,21 @@
         width: 100%;
       }
 
-      .filter-select {
-        width: 100%;
-        padding: 0.75rem;
-        font-size: 1rem;
-        min-height: 44px;
-      }
-
-      .clear-filters {
-        padding: 0.875rem 1.5rem;
-        font-size: 1rem;
-        min-height: 44px;
-      }
-
-      /* Mobile search */
       .search-input {
         padding: 1rem 1rem 1rem 3.5rem;
         font-size: 1rem;
-        min-height: 44px;
       }
 
-      .search-icon {
-        left: 1.25rem;
-        font-size: 1.1rem;
-      }
-
-      /* Mobile testimonials */
       .testimonials-grid {
         grid-template-columns: 1fr;
         gap: 1rem;
       }
 
-      .testimonial {
-        padding: 1rem;
-      }
-
-      /* Mobile extras */
       .extras-grid {
         grid-template-columns: 1fr;
         gap: 1rem;
       }
 
-      .extras-card {
-        padding: 1rem;
-      }
-
-      /* Mobile social sharing */
-      .social-share {
-        gap: 0.75rem;
-      }
-
-      .share-btn {
-        width: 48px;
-        height: 48px;
-        font-size: 1.1rem;
-      }
-
-      /* Mobile FABs */
-      .fab-container {
-        bottom: 10px;
-        right: 10px;
-      }
-
-      .fab-btn {
-        width: 48px;
-        height: 48px;
-        font-size: 1rem;
-      }
-
-      /* Mobile author section */
       .author {
         flex-direction: column;
         text-align: center;
@@ -1866,89 +1407,15 @@
         align-self: center;
       }
 
-      .author-links {
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-
-      .coaching-cta {
-        padding: 1rem 1.5rem;
-        min-height: 44px;
-      }
-
-      /* Mobile newsletter */
-      .newsletter {
-        padding: 1.5rem;
-      }
-
       .newsletter-form {
         flex-direction: column;
         gap: 0.75rem;
       }
 
-      .newsletter-form input,
-      .newsletter-form button {
-        min-height: 44px;
-        font-size: 1rem;
-      }
-
-      /* Mobile modals */
       .modal-content {
         margin: 5% auto;
         width: 95%;
         padding: 1.5rem;
-        max-height: 85vh;
-      }
-
-      .close {
-        font-size: 1.75rem;
-        padding: 0.5rem;
-        min-width: 44px;
-        min-height: 44px;
-      }
-
-      /* Mobile form inputs */
-      .form-group input,
-      .form-group textarea,
-      .form-group select {
-        padding: 1rem;
-        font-size: 1rem;
-        min-height: 44px;
-      }
-
-      .submit-btn {
-        padding: 1rem 2rem;
-        font-size: 1rem;
-        min-height: 44px;
-      }
-
-      /* Mobile popular courses */
-      .popular-item {
-        padding: 1rem;
-      }
-
-      .popular-rank {
-        width: 35px;
-        height: 35px;
-        font-size: 1rem;
-      }
-
-      /* Mobile upcoming courses */
-      .upcoming-courses .section-header h2 {
-        font-size: 1.5rem;
-      }
-
-      /* Mobile typography improvements */
-      .section-header h2 {
-        font-size: 1.8rem;
-      }
-
-      .testimonial-stats {
-        padding: 1.5rem;
-      }
-
-      .stat-number {
-        font-size: 2rem;
       }
 
       .dashboard-benefits {
@@ -1964,33 +1431,29 @@
         padding: 1.5rem;
       }
 
-      /* Better mobile touch targets */
-      button, a, input[type="checkbox"], input[type="radio"] {
-        min-height: 44px;
-      }
-
-      /* Mobile table improvements */
-      table {
+      nav a {
+        margin: 0 0.5rem;
+        padding: 0.75rem 1rem;
         font-size: 0.9rem;
+        display: inline-block;
+        margin-bottom: 0.5rem;
       }
 
-      .services-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .dashboard-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .progress-summary {
-        flex-direction: column;
-        gap: 1rem;
+      .auth-buttons, .user-menu {
+        margin-left: 0;
+        margin-top: 1rem;
+        justify-content: center;
       }
     }
   </style>
 </head>
 
 <body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Theme Toggle Button -->
+  <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark/light theme" aria-label="Toggle dark and light theme">🌙</button>
+
   <!-- Header -->
   <header>
     <div class="container">
@@ -2060,50 +1523,7 @@
           </div>
         </div>
 
-        <div class="dashboard-grid">
-          <!-- Member Services Section -->
-          <div class="dashboard-section member-services">
-            <h3><i class="fas fa-star"></i> Exclusive Member Services</h3>
-            
-            <div class="services-grid">
-              <div class="service-card" onclick="scheduleConsultation()">
-                <div class="service-icon">
-                  <i class="fas fa-user-tie"></i>
-                </div>
-                <h4>Free Career Consultation</h4>
-                <p>30-minute personalized career guidance session with Dr. Varna</p>
-                <button class="service-btn">Schedule Now</button>
-              </div>
-              
-              <div class="service-card" onclick="requestCVReviewService()">
-                <div class="service-icon">
-                  <i class="fas fa-file-alt"></i>
-                </div>
-                <h4>CV Review Service</h4>
-                <p>Professional review of your development sector CV</p>
-                <button class="service-btn">Request Review</button>
-              </div>
-              
-              <div class="service-card" onclick="startInterviewPrep()">
-                <div class="service-icon">
-                  <i class="fas fa-comments"></i>
-                </div>
-                <h4>Interview Preparation</h4>
-                <p>Mock interview sessions for development positions</p>
-                <button class="service-btn">Book Session</button>
-              </div>
-              
-              <div class="service-card" onclick="openSkillsAssessment()">
-                <div class="service-icon">
-                  <i class="fas fa-certificate"></i>
-                </div>
-                <h4>Skill Assessments</h4>
-                <p>Test your knowledge and earn certificates</p>
-                <button class="service-btn">Take Assessment</button>
-              </div>
-            </div>
-          </div>
-
+        <div class="dashboard-content">
           <!-- Learning Progress Section -->
           <div class="dashboard-section">
             <h3><i class="fas fa-graduation-cap"></i> Learning Progress</h3>
@@ -2121,23 +1541,17 @@
                 <span class="stat-label">Overall Progress</span>
               </div>
             </div>
-            <div class="recent-activity" id="recentActivity">
-              <p style="color: rgba(255,255,255,0.8); font-style: italic;">No course activity yet. Start exploring courses below!</p>
-            </div>
           </div>
 
-          <!-- Enhanced Notes Section -->
+          <!-- Notes Section -->
           <div class="dashboard-section">
             <h3><i class="fas fa-sticky-note"></i> My Notes</h3>
             <div class="notes-area">
-              <textarea id="userNotes" placeholder="Add your private notes here... These are saved automatically and only visible to you." style="width: 100%; min-height: 120px; padding: 1rem; border: 2px solid rgba(255,255,255,0.3); border-radius: 8px; font-family: inherit; resize: vertical; background: rgba(255,255,255,0.1); color: white;"></textarea>
-              <div style="margin-top: 0.5rem; font-size: 0.85rem; opacity: 0.8;">
-                <i class="fas fa-lock"></i> Private notes are automatically saved and encrypted
-              </div>
+              <textarea id="userNotes" placeholder="Add your private notes here..." style="width: 100%; min-height: 120px; padding: 1rem; border: 2px solid rgba(255,255,255,0.3); border-radius: 8px; font-family: inherit; resize: vertical; background: rgba(255,255,255,0.1); color: white;"></textarea>
             </div>
           </div>
 
-          <!-- Enhanced Bookmarks Section -->
+          <!-- Bookmarks Section -->
           <div class="dashboard-section">
             <h3><i class="fas fa-bookmark"></i> Bookmarked Courses</h3>
             <div class="bookmarked-courses" id="bookmarkedCoursesList">
@@ -2146,45 +1560,14 @@
           </div>
 
           <!-- Consulting Benefits Section -->
-          <div class="dashboard-section consulting-section">
+          <div class="dashboard-section">
             <h3><i class="fas fa-handshake"></i> Member Consulting Discount</h3>
             <div class="consulting-offer">
-              <div class="offer-content">
-                <h4>10% Discount on Dr. Varna's Consulting Services</h4>
-                <p>As a registered ImpactMojo user, you're eligible for a 10% discount on all consulting services.</p>
-                <div class="discount-code-box">
-                  <label>Your Discount Code:</label>
-                  <div class="discount-code" id="discountCode">IMPACT10-[USER-ID]</div>
-                  <button class="copy-code-btn" onclick="copyDiscountCode()">
-                    <i class="fas fa-copy"></i> Copy Code
-                  </button>
-                </div>
-                <a href="mailto:varna.sr@gmail.com?subject=Consulting%20Request%20-%20ImpactMojo%20Member&body=Hi%20Varna,%0D%0A%0D%0AI'm%20a%20registered%20ImpactMojo%20user%20and%20would%20like%20to%20discuss%20consulting%20services.%0D%0A%0D%0AMy%20discount%20code:%20IMPACT10-[USER-ID]%0D%0A%0D%0APlease%20let%20me%20know%20your%20availability.%0D%0A%0D%0AThank%20you!" class="contact-btn">
-                  <i class="fas fa-envelope"></i> Contact for Consulting
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <!-- Skill Certificates Section -->
-          <div class="dashboard-section">
-            <h3><i class="fas fa-award"></i> My Certificates</h3>
-            <div class="certificates-list" id="certificatesList">
-              <p style="opacity: 0.8; font-style: italic;">Complete skill assessments to earn certificates!</p>
-            </div>
-          </div>
-
-          <!-- Learning Path Recommendation -->
-          <div class="dashboard-section learning-path-section">
-            <h3><i class="fas fa-route"></i> Your Learning Path</h3>
-            <div class="learning-path-content">
-              <p>Get personalized course recommendations based on your goals and experience.</p>
-              <a href="learning-path-quiz.html" class="path-quiz-btn">
-                <i class="fas fa-compass"></i> Take Learning Path Quiz
+              <h4>10% Discount on Dr. Varna's Consulting Services</h4>
+              <p>As a registered ImpactMojo user, you're eligible for a 10% discount on all consulting services.</p>
+              <a href="mailto:varna.sr@gmail.com?subject=Consulting%20Request%20-%20ImpactMojo%20Member" style="background: rgba(255,255,255,0.2); color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; display: inline-block; margin-top: 1rem;">
+                <i class="fas fa-envelope"></i> Contact for Consulting
               </a>
-              <div class="recommended-path" id="recommendedPath" style="display: none;">
-                <!-- Recommended path will be populated here -->
-              </div>
             </div>
           </div>
         </div>
@@ -2847,7 +2230,7 @@
   </div>
 
   <script>
-    // Complete course data with all 33 courses
+    // Complete course data with ALL 33 courses
     const courseData = [
       {
         id: 1,
@@ -2858,11 +2241,203 @@
         icon: 'fas fa-venus',
         description: 'Challenges dominant data narratives using feminist theory. Covers intersectionality, visibility, and the politics of knowledge in South Asian development.',
         url: 'https://101.www.impactmojo.in/DataFeminism',
-        prerequisites: ['Health awareness', 'Rights perspective'],
-        outcomes: ['Apply rights-based frameworks', 'Design inclusive health programs', 'Address systemic barriers'],
-        audience: 'Health professionals, rights advocates, policy makers',
-        learnerCount: 1234,
+        prerequisites: ['Basic data literacy', 'Interest in gender studies'],
+        outcomes: ['Apply feminist lens to data analysis', 'Identify bias in datasets', 'Design inclusive data collection'],
+        audience: 'Data scientists, researchers, gender advocates',
+        learnerCount: 2847,
+        rating: 4.8,
+        relatedExtras: ['handouts', 'data']
+      },
+      {
+        id: 2,
+        title: 'Social Safety Nets 101',
+        topic: 'justice',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-shield-alt',
+        description: 'Unpacks India\'s welfare architecture—PDS, NREGA, pensions—through lifecycle needs and exclusion errors, with discussion on Aadhaar and last-mile barriers.',
+        url: 'https://101.www.impactmojo.in/SocialSafety',
+        prerequisites: ['Understanding of Indian governance', 'Basic economics'],
+        outcomes: ['Analyze welfare system effectiveness', 'Design inclusive social programs', 'Evaluate targeting mechanisms'],
+        audience: 'Policy makers, development practitioners, government officials',
+        learnerCount: 2156,
+        rating: 4.7,
+        relatedExtras: ['handouts', 'research']
+      },
+      {
+        id: 3,
+        title: 'Development Economics 101',
+        topic: 'economics',
+        level: 'intermediate',
+        duration: 'long',
+        icon: 'fas fa-chart-line',
+        description: 'From growth and inequality to institutions and state capacity, this deck introduces core economic debates using Indian and South Asian policy experiences.',
+        url: 'https://101.www.impactmojo.in/DevEcon',
+        prerequisites: ['Basic economics', 'Mathematics fundamentals'],
+        outcomes: ['Understand development theories', 'Analyze economic policies', 'Apply economic frameworks'],
+        audience: 'Economics students, policy analysts, development practitioners',
+        learnerCount: 1923,
+        rating: 4.6,
+        relatedExtras: ['handouts', 'data']
+      },
+      {
+        id: 4,
+        title: 'Data Literacy 101',
+        topic: 'data',
+        level: 'beginner',
+        duration: 'short',
+        icon: 'fas fa-chart-bar',
+        description: 'Empowers practitioners to read graphs, question indicators, spot misleading visuals, and use open datasets in everyday program work.',
+        url: 'https://101.www.impactmojo.in/DataLit',
+        prerequisites: ['None - beginner friendly'],
+        outcomes: ['Read and interpret charts', 'Identify misleading statistics', 'Use open data sources'],
+        audience: 'Development practitioners, program managers, advocates',
+        learnerCount: 1734,
+        rating: 4.9,
+        relatedExtras: ['data', 'handouts']
+      },
+      {
+        id: 5,
+        title: 'Care Economy 101',
+        topic: 'gender',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-heart',
+        description: 'Examines unpaid care work, time use surveys, care infrastructure, and policy solutions for recognizing and redistributing care responsibilities.',
+        url: 'https://101.www.impactmojo.in/CareEcon',
+        prerequisites: ['Gender awareness', 'Basic economics'],
+        outcomes: ['Understand care economy concepts', 'Analyze time use data', 'Design care-sensitive policies'],
+        audience: 'Gender practitioners, policy makers, social researchers',
+        learnerCount: 1654,
+        rating: 4.5,
+        relatedExtras: ['handouts', 'data']
+      },
+      {
+        id: 6,
+        title: 'Research Ethics 101',
+        topic: 'research',
+        level: 'beginner',
+        duration: 'medium',
+        icon: 'fas fa-balance-scale',
+        description: 'Covers consent, privacy, power dynamics, and ethical frameworks for conducting development research in vulnerable communities.',
+        url: 'https://101.www.impactmojo.in/ResEthics',
+        prerequisites: ['Basic research awareness'],
+        outcomes: ['Apply ethical research principles', 'Design consent processes', 'Address power imbalances'],
+        audience: 'Researchers, students, field workers',
+        learnerCount: 1821,
+        rating: 4.6,
+        relatedExtras: ['research', 'handouts']
+      },
+      {
+        id: 7,
+        title: 'Political Economy 101',
+        topic: 'economics',
+        level: 'advanced',
+        duration: 'long',
+        icon: 'fas fa-university',
+        description: 'Explores power structures, institutions, rent-seeking, and political processes that shape economic outcomes in developing countries.',
+        url: 'https://101.www.impactmojo.in/PolEcon',
+        prerequisites: ['Intermediate economics', 'Political science background'],
+        outcomes: ['Analyze political-economic systems', 'Understand institutional dynamics', 'Evaluate policy political feasibility'],
+        audience: 'Political economists, policy analysts, graduate students',
+        learnerCount: 1376,
+        rating: 4.4,
+        relatedExtras: ['handouts', 'research']
+      },
+      {
+        id: 8,
+        title: 'Econometrics 101',
+        topic: 'research',
+        level: 'advanced',
+        duration: 'long',
+        icon: 'fas fa-calculator',
+        description: 'Introduction to statistical methods for causal inference in development economics, covering OLS, IV, RCTs, and difference-in-differences.',
+        url: 'https://101.www.impactmojo.in/Econometrics',
+        prerequisites: ['Statistics background', 'Research methods'],
+        outcomes: ['Conduct econometric analysis', 'Design impact evaluations', 'Interpret causal estimates'],
+        audience: 'Economists, researchers, impact evaluation specialists',
+        learnerCount: 1245,
         rating: 4.3,
+        relatedExtras: ['data', 'research']
+      },
+      {
+        id: 9,
+        title: 'Poverty and Inequality 101',
+        topic: 'economics',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-chart-area',
+        description: 'Examines poverty measurement, inequality trends, and redistribution policies using Indian data and international comparisons.',
+        url: 'https://101.www.impactmojo.in/PovInequal',
+        prerequisites: ['Basic economics', 'Statistical literacy'],
+        outcomes: ['Measure poverty and inequality', 'Analyze distributional patterns', 'Design redistributive policies'],
+        audience: 'Development economists, policy analysts, researchers',
+        learnerCount: 1432,
+        rating: 4.6,
+        relatedExtras: ['data', 'handouts']
+      },
+      {
+        id: 10,
+        title: 'MEL (Monitoring, Evaluation, and Learning) 101',
+        topic: 'systems',
+        level: 'intermediate',
+        duration: 'long',
+        icon: 'fas fa-cogs',
+        description: 'Covers theories of change, indicator development, evaluation methods, and adaptive management systems for development programs.',
+        url: 'https://101.www.impactmojo.in/MEL',
+        prerequisites: ['Program management experience', 'Logical thinking skills'],
+        outcomes: ['Design MEL frameworks', 'Develop indicators', 'Conduct evaluations'],
+        audience: 'Program managers, MEL specialists, development practitioners',
+        learnerCount: 1567,
+        rating: 4.4,
+        relatedExtras: ['research', 'handouts']
+      },
+      {
+        id: 11,
+        title: 'Decent Work 101',
+        topic: 'livelihoods',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-hammer',
+        description: 'Explores ILO decent work framework, labor rights, informal sector challenges, and employment policies in South Asian contexts.',
+        url: 'https://101.www.impactmojo.in/DecentWork',
+        prerequisites: ['Labor market awareness', 'Basic economics'],
+        outcomes: ['Apply decent work framework', 'Analyze labor market dynamics', 'Design employment interventions'],
+        audience: 'Labor economists, policy makers, development practitioners',
+        learnerCount: 1298,
+        rating: 4.5,
+        relatedExtras: ['handouts', 'research']
+      },
+      {
+        id: 12,
+        title: 'Digital Development Ethics 101',
+        topic: 'systems',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-laptop-code',
+        description: 'Examines ethical challenges in technology for development, digital divides, data governance, and inclusive technology design.',
+        url: 'https://101.www.impactmojo.in/DigitalEthics',
+        prerequisites: ['Technology awareness', 'Ethics background'],
+        outcomes: ['Analyze digital ethics issues', 'Design inclusive technology', 'Address digital divides'],
+        audience: 'Technology professionals, policy makers, development practitioners',
+        learnerCount: 934,
+        rating: 4.2,
+        relatedExtras: ['handouts', 'research']
+      },
+      {
+        id: 13,
+        title: 'Health Systems 101',
+        topic: 'health',
+        level: 'intermediate',
+        duration: 'long',
+        icon: 'fas fa-hospital',
+        description: 'Covers health system building blocks, universal health coverage, and health governance challenges in low-resource settings.',
+        url: 'https://101.www.impactmojo.in/HealthSystems',
+        prerequisites: ['Health awareness', 'Systems thinking'],
+        outcomes: ['Understand health systems', 'Analyze health governance', 'Design health interventions'],
+        audience: 'Health professionals, policy makers, public health students',
+        learnerCount: 1456,
+        rating: 4.5,
         relatedExtras: ['handouts', 'research']
       },
       {
@@ -3211,103 +2786,38 @@
       },
       'policy-economics': {
         name: 'Policy & Economics Track',
-        courses: [3, 7, 11, 2], // Dev Economics, Political Economy, Poverty, Safety Nets
+        courses: [3, 7, 9, 2], // Dev Economics, Political Economy, Poverty, Safety Nets
         description: 'From basic economics to policy analysis'
       },
       'research-methods': {
         name: 'Research Methods Track',
-        courses: [8, 21, 10, 12], // Research Ethics, Qualitative, Econometrics, MEL
+        courses: [6, 21, 8, 10], // Research Ethics, Qualitative, Econometrics, MEL
         description: 'Complete research toolkit for development work'
       }
     };
 
-    // Enhanced dashboard functions
-    function scheduleConsultation() {
-      openModal('bookConsultationModal');
+    // Theme toggle function
+    function toggleTheme() {
+      document.body.classList.toggle("dark");
+      const icon = document.querySelector('.theme-toggle');
+      const isDark = document.body.classList.contains("dark");
+      icon.textContent = isDark ? "☀️" : "🌙";
+      localStorage.setItem("theme", isDark ? "dark" : "light");
     }
 
-    function requestCVReviewService() {
-      openModal('cvReviewModal');
-    }
-
-    function startInterviewPrep() {
-      openModal('interviewPrepModal');
-    }
-
-    function openSkillsAssessment() {
-      openModal('skillsAssessmentModal');
-    }
-
-    function copyDiscountCode() {
-      const discountCode = document.getElementById('discountCode')?.textContent;
-      if (discountCode && navigator.clipboard) {
-        navigator.clipboard.writeText(discountCode).then(() => {
-          alert('Discount code copied to clipboard!');
-        }).catch(() => {
-          // Fallback for older browsers
-          const textArea = document.createElement('textarea');
-          textArea.value = discountCode;
-          document.body.appendChild(textArea);
-          textArea.select();
-          document.execCommand('copy');
-          document.body.removeChild(textArea);
-          alert('Discount code copied to clipboard!');
-        });
-      } else {
-        // Fallback for browsers without clipboard API
-        const textArea = document.createElement('textarea');
-        textArea.value = discountCode || 'IMPACT10-[USER-ID]';
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textArea);
-        alert('Discount code copied to clipboard!');
-      }
-    }
-
-    function updateBookmarkedCoursesList() {
-      // This will be called by the Firebase auth system to update the list
-      console.log('Updating bookmarked courses list');
-    }
-
-    function loadUserCertificates() {
-      // This will be populated when assessment system is fully implemented
-      console.log('Loading user certificates');
-    }
-
-    // Check for recommended learning path from quiz
-    function checkRecommendedPath() {
-      const recommendedPath = localStorage.getItem('recommendedLearningPath');
-      if (recommendedPath) {
-        const pathElement = document.getElementById('recommendedPath');
-        const learningPaths = {
-          'data-analysis': 'Data Analysis Mastery Track',
-          'gender-studies': 'Gender Studies Pathway',
-          'policy-economics': 'Policy & Economics Track',
-          'research-methods': 'Research Methods Journey',
-          'public-health': 'Public Health Foundation'
-        };
-        
-        if (pathElement && learningPaths[recommendedPath]) {
-          pathElement.style.display = 'block';
-          pathElement.innerHTML = `
-            <div style="background: rgba(255,255,255,0.2); color: white; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
-              <h4><i class="fas fa-star"></i> Recommended for You</h4>
-              <p>${learningPaths[recommendedPath]}</p>
-              <button onclick="applyLearningPath('${recommendedPath}')" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid rgba(255,255,255,0.3); padding: 0.5rem 1rem; border-radius: 4px; margin-top: 0.5rem; cursor: pointer;">
-                Start This Path
-              </button>
-            </div>
-          `;
-        }
+    // Initialize theme
+    function initTheme() {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "dark") {
+        document.body.classList.add("dark");
+        document.querySelector('.theme-toggle').textContent = "☀️";
       }
     }
 
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', function() {
+      initTheme();
       loadCourses();
-      loadTheme();
-      checkRecommendedPath();
       
       // Add search input listener with debouncing
       const searchInput = document.getElementById('searchInput');
@@ -3586,11 +3096,6 @@
       document.getElementById('totalCount').textContent = totalCount;
     }
 
-    // Load theme (placeholder)
-    function loadTheme() {
-      // Theme loading logic would go here
-    }
-
     // Add to recently viewed (placeholder)
     function addToRecentlyViewed(courseTitle, courseUrl) {
       // Recently viewed logic would go here
@@ -3743,16 +3248,6 @@
       }
     }
 
-    function saveUserNote() {
-      const noteText = document.getElementById('userNotesInput')?.value?.trim();
-      if (noteText && window.saveNote) {
-        window.saveNote(noteText);
-        document.getElementById('userNotesInput').value = '';
-      } else if (!noteText) {
-        alert('Please enter a note before saving.');
-      }
-    }
-
     // Global function for user dashboard toggle
     window.toggleUserDashboard = function() {
       const dashboard = document.getElementById('userDashboard');
@@ -3780,3 +3275,5 @@
 
   <!-- Load your custom Firebase auth script as a module -->
   <script type="module" src="firebase-auth.js"></script>
+</body>
+</html>
