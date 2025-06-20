@@ -189,10 +189,14 @@
       margin: 0 auto 2rem;
     }
 
-    /* Navigation */
+    /* Navigation - CHANGE 1: Horizontally align sign-up button */
     nav {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
       margin-top: 2rem;
       text-align: center;
+      justify-content: center;
     }
 
     nav a {
@@ -207,6 +211,219 @@
 
     nav a:hover {
       background: rgba(255,255,255,0.3);
+    }
+
+    /* Auth Buttons - CHANGE 1: Proper alignment */
+    .auth-buttons {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      margin-left: auto;
+    }
+
+    .auth-btn {
+      color: white !important;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      background: rgba(255,255,255,0.2);
+      border-radius: 20px;
+      transition: var(--transition);
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+    }
+
+    .auth-btn.signup {
+      background: var(--accent-color);
+    }
+
+    .auth-btn:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-1px);
+    }
+
+    .auth-btn.signup:hover {
+      background: #c0392b;
+    }
+
+    .user-menu {
+      display: inline-flex;
+      gap: 0.5rem;
+      align-items: center;
+      margin-left: 1rem;
+    }
+
+    .user-welcome {
+      color: white !important;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      background: rgba(255,255,255,0.15);
+      border-radius: 20px;
+      text-decoration: none;
+    }
+
+    /* Signup Benefits Badge */
+    .signup-benefits-badge {
+      position: absolute;
+      top: calc(100% + 15px);
+      right: -50px;
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+      color: white;
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(231, 76, 60, 0.3);
+      z-index: 1500;
+      min-width: 250px;
+      font-size: 0.9rem;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+
+    .auth-btn.signup:hover + .signup-benefits-badge,
+    .signup-benefits-badge:hover {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .benefits-arrow {
+      position: absolute;
+      top: -8px;
+      right: 70px;
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-bottom: 8px solid #e74c3c;
+    }
+
+    .benefits-content h4 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .benefits-content ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 0.75rem 0;
+    }
+
+    .benefits-content li {
+      padding: 0.2rem 0;
+      font-size: 0.85rem;
+    }
+
+    .benefits-cta {
+      background: rgba(255,255,255,0.2);
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+
+    /* CHANGE 3: Hide badge on mobile */
+    @media (max-width: 768px) {
+      .signup-benefits-badge {
+        display: none !important;
+      }
+    }
+
+    /* CHANGE 6: Navigation Dropdown Styles */
+    .nav-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .nav-dropdown-toggle {
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .nav-dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-hover);
+      min-width: 200px;
+      margin-top: 0.5rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+
+    .nav-dropdown-menu::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-bottom: 6px solid var(--border-color);
+    }
+
+    .nav-dropdown-menu::after {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-bottom: 6px solid var(--card-bg);
+    }
+
+    .nav-dropdown.active .nav-dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      margin-top: 1rem;
+    }
+
+    .nav-dropdown-menu a {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      color: var(--text-primary);
+      text-decoration: none;
+      transition: var(--transition);
+      white-space: nowrap;
+      background: none !important;
+      margin: 0 !important;
+      border-radius: 0 !important;
+    }
+
+    .nav-dropdown-menu a:hover {
+      background: var(--light-bg) !important;
+      color: var(--secondary-color);
+    }
+
+    .nav-dropdown.active .fa-chevron-down {
+      transform: rotate(180deg);
+    }
+
+    @media (max-width: 768px) {
+      .nav-dropdown-menu {
+        position: fixed;
+        left: 1rem;
+        right: 1rem;
+        transform: none;
+      }
     }
 
     /* Latest Additions */
@@ -320,24 +537,23 @@
     }
 
     .popular-list {
-      display: grid;
+      display: flex;
+      flex-direction: column;
       gap: 1rem;
     }
 
     .popular-item {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 1rem;
       padding: 1rem;
       background: var(--light-bg);
       border-radius: var(--border-radius);
-      border: 1px solid var(--border-color);
       transition: var(--transition);
     }
 
     .popular-item:hover {
-      transform: translateY(-1px);
-      box-shadow: var(--shadow);
+      transform: translateX(5px);
     }
 
     .popular-rank {
@@ -349,20 +565,23 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 600;
-      font-size: 0.9rem;
+      font-weight: bold;
       flex-shrink: 0;
     }
 
     /* Search Section */
     .search-section {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 2rem;
       margin: 3rem 0;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-color);
     }
 
     .search-container {
       position: relative;
-      max-width: 600px;
-      margin: 0 auto 2rem;
+      margin-bottom: 1.5rem;
     }
 
     .search-icon {
@@ -387,15 +606,15 @@
     .search-input:focus {
       outline: none;
       border-color: var(--secondary-color);
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
     }
 
     /* Filters */
     .filters {
       display: flex;
-      flex-wrap: wrap;
       gap: 1rem;
-      justify-content: center;
-      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     .filter-group {
@@ -410,25 +629,35 @@
     }
 
     .filter-select {
-      padding: 0.5rem;
-      border: 1px solid var(--border-color);
+      padding: 0.5rem 1rem;
+      border: 2px solid var(--border-color);
       border-radius: var(--border-radius);
       background: var(--bg-primary);
       color: var(--text-primary);
-    }
-
-    .clear-filters {
-      background: var(--accent-color);
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: var(--border-radius);
       cursor: pointer;
       transition: var(--transition);
     }
 
+    .filter-select:focus {
+      outline: none;
+      border-color: var(--secondary-color);
+    }
+
+    .clear-filters {
+      background: var(--light-bg);
+      border: 2px solid var(--border-color);
+      color: var(--text-secondary);
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 500;
+    }
+
     .clear-filters:hover {
-      background: #c0392b;
+      background: var(--accent-color);
+      color: white;
+      border-color: var(--accent-color);
     }
 
     /* Stats Bar */
@@ -436,13 +665,15 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 2rem;
-      flex-wrap: wrap;
-      gap: 1rem;
+      margin: 2rem 0 1rem;
+      padding: 1rem;
+      background: var(--light-bg);
+      border-radius: var(--border-radius);
     }
 
     .course-count {
-      color: var(--text-secondary);
+      font-weight: 600;
+      color: var(--text-primary);
     }
 
     .comparison-tools {
@@ -454,107 +685,118 @@
     .view-toggle {
       display: flex;
       gap: 0.25rem;
-      border: 1px solid var(--border-color);
-      border-radius: var(--border-radius);
     }
 
     .view-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
       padding: 0.5rem;
-      border: none;
-      background: var(--bg-primary);
       cursor: pointer;
       transition: var(--transition);
-      color: var(--text-primary);
+      color: var(--text-secondary);
+    }
+
+    .view-btn:first-child {
+      border-radius: var(--border-radius) 0 0 var(--border-radius);
+    }
+
+    .view-btn:last-child {
+      border-radius: 0 var(--border-radius) var(--border-radius) 0;
     }
 
     .view-btn.active {
       background: var(--secondary-color);
       color: white;
+      border-color: var(--secondary-color);
     }
 
-    .compare-btn,
-    .secondary-btn {
+    .compare-btn {
+      background: var(--info-color);
+      color: white;
+      border: none;
       padding: 0.5rem 1rem;
-      border: 1px solid var(--border-color);
-      background: var(--bg-primary);
-      cursor: pointer;
       border-radius: var(--border-radius);
+      cursor: pointer;
       transition: var(--transition);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      display: none;
+    }
+
+    .compare-btn:hover {
+      background: #8e44ad;
+    }
+
+    .secondary-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .secondary-btn:hover {
+      background: var(--light-bg);
       color: var(--text-primary);
     }
 
-    .compare-btn:hover,
-    .secondary-btn:hover {
-      background: var(--light-bg);
-    }
-
-    /* Course Grid */
+    /* Course Grid/List */
     .courses-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
       gap: 1.5rem;
-      margin-bottom: 3rem;
+      margin: 2rem 0;
     }
 
     .courses-list {
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      margin-bottom: 3rem;
+      margin: 2rem 0;
     }
 
-    /* Course Cards */
+    /* Course Card */
     .course-card {
       background: var(--card-bg);
       border: 1px solid var(--border-color);
       border-radius: var(--border-radius);
       padding: 1.5rem;
+      box-shadow: var(--shadow);
       transition: var(--transition);
-      cursor: pointer;
       position: relative;
+      cursor: pointer;
     }
 
     .course-card:hover {
-      transform: translateY(-2px);
+      transform: translateY(-3px);
       box-shadow: var(--shadow-hover);
     }
 
-    .course-card.expanded {
-      transform: none;
-      box-shadow: var(--shadow-hover);
+    .course-card.list-view {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
     }
 
     .course-number {
       position: absolute;
-      top: 0.75rem;
-      right: 0.75rem;
-      background: var(--secondary-color);
-      color: white;
-      width: 32px;
-      height: 32px;
+      top: 1rem;
+      right: 1rem;
+      background: var(--light-bg);
+      color: var(--text-secondary);
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 0.8rem;
       font-weight: 600;
-      font-size: 0.85rem;
-      z-index: 10;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
-    .course-header {
-      display: flex;
-      gap: 1rem;
-      align-items: flex-start;
-      margin-bottom: 1rem;
-    }
-
-    .course-icon {
-      width: 50px;
-      height: 50px;
+    .course-icon-wrapper {
+      width: 60px;
+      height: 60px;
       background: var(--light-bg);
       border-radius: var(--border-radius);
       display: flex;
@@ -567,7 +809,7 @@
 
     .course-title-section {
       flex: 1;
-      padding-right: 2.5rem; /* Add padding to avoid overlap with course number */
+      padding-right: 2.5rem;
     }
 
     .course-title {
@@ -1311,118 +1553,6 @@
       transform: translateY(-1px);
     }
 
-    /* Auth Navigation Styles */
-    .auth-buttons {
-      display: inline-flex;
-      gap: 0.5rem;
-      margin-left: 1rem;
-    }
-
-    .auth-btn {
-      color: white !important;
-      text-decoration: none;
-      padding: 0.5rem 1rem;
-      background: rgba(255,255,255,0.2);
-      border-radius: 20px;
-      transition: var(--transition);
-      font-weight: 500;
-      border: none;
-      cursor: pointer;
-    }
-
-    .auth-btn.signup {
-      background: var(--accent-color);
-    }
-
-    .auth-btn:hover {
-      background: rgba(255,255,255,0.3);
-      transform: translateY(-1px);
-    }
-
-    .auth-btn.signup:hover {
-      background: #c0392b;
-    }
-
-    .user-menu {
-      display: inline-flex;
-      gap: 0.5rem;
-      align-items: center;
-      margin-left: 1rem;
-    }
-
-    .user-welcome {
-      color: white !important;
-      font-weight: 600;
-      padding: 0.5rem 1rem;
-      background: rgba(255,255,255,0.15);
-      border-radius: 20px;
-      text-decoration: none;
-    }
-    /* Signup Benefits Badge */
-.signup-benefits-badge {
-  position: absolute;
-  top: calc(100% + 15px);
-  right: -50px;
-  background: linear-gradient(135deg, #e74c3c, #c0392b);
-  color: white;
-  padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(231, 76, 60, 0.3);
-  z-index: 1500;
-  min-width: 250px;
-  font-size: 0.9rem;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-10px);
-  transition: all 0.3s ease;
-  pointer-events: none;
-}
-
-.auth-btn.signup:hover + .signup-benefits-badge,
-.signup-benefits-badge:hover {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-.benefits-arrow {
-  position: absolute;
-  top: -8px;
-  right: 70px;
-  width: 0;
-  height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-bottom: 8px solid #e74c3c;
-}
-
-.benefits-content h4 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.benefits-content ul {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 0.75rem 0;
-}
-
-.benefits-content li {
-  padding: 0.2rem 0;
-  font-size: 0.85rem;
-}
-
-.benefits-cta {
-  background: rgba(255,255,255,0.2);
-  padding: 0.4rem 0.8rem;
-  border-radius: 20px;
-  text-align: center;
-  font-weight: 600;
-  font-size: 0.8rem;
-}
-
     /* Course Progress Indicators */
     .course-progress-indicator {
       position: absolute;
@@ -1602,13 +1732,6 @@
       100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
     }
 
-/* Hide on mobile */
-@media (max-width: 768px) {
-  .signup-benefits-badge {
-    display: none !important;
-  }
-}
-
     /* Responsive Design */
     @media (max-width: 768px) {
       h1 {
@@ -1666,113 +1789,180 @@
 
       .testimonials-grid {
         grid-template-columns: 1fr;
-        gap: 1rem;
-      }
-
-      .extras-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
       }
 
       .author {
         flex-direction: column;
         text-align: center;
-        padding: 1.5rem;
       }
 
       .author-photo {
-        width: 100px;
-        height: 100px;
-        align-self: center;
+        margin: 0 auto;
       }
 
-      .newsletter-form {
+      .footer-links {
         flex-direction: column;
-        gap: 0.75rem;
+        align-items: center;
+        gap: 1rem;
       }
 
-      .modal-content {
-        margin: 5% auto;
-        width: 95%;
-        padding: 1.5rem;
-      }
-
-      .dashboard-benefits {
+      nav {
         flex-direction: column;
         gap: 1rem;
       }
 
-      .dashboard-content {
-        grid-template-columns: 1fr;
+      .auth-buttons {
+        margin-left: 0;
+        margin-top: 1rem;
       }
 
-      .user-dashboard {
-        padding: 1.5rem;
-      }
-
-      nav a {
-        margin: 0 0.5rem;
-        padding: 0.75rem 1rem;
-        font-size: 0.9rem;
+      /* CHANGE 3: Fix for upcoming course badges on mobile */
+      .upcoming-courses div[style*="position: absolute"] {
+        position: relative !important;
+        top: auto !important;
+        right: auto !important;
         display: inline-block;
         margin-bottom: 0.5rem;
       }
+    }
 
-      .auth-buttons, .user-menu {
-        margin-left: 0;
-        margin-top: 1rem;
-        justify-content: center;
+    /* Utility Classes */
+    .hidden {
+      display: none;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .mt-2 {
+      margin-top: 2rem;
+    }
+
+    .mb-2 {
+      margin-bottom: 2rem;
+    }
+
+    /* Loading State */
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid var(--border-color);
+      border-radius: 50%;
+      border-top-color: var(--secondary-color);
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Alert Messages */
+    .alert {
+      padding: 1rem;
+      border-radius: var(--border-radius);
+      margin-bottom: 1rem;
+    }
+
+    .alert-success {
+      background: rgba(39, 174, 96, 0.1);
+      color: var(--success-color);
+      border: 1px solid var(--success-color);
+    }
+
+    .alert-error {
+      background: rgba(231, 76, 60, 0.1);
+      color: var(--accent-color);
+      border: 1px solid var(--accent-color);
+    }
+
+    /* Dashboard Styles (for logged-in users) */
+    .user-dashboard {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      margin: 2rem 0;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .user-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--secondary-color);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    /* Animation Classes */
+    .fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
   </style>
 </head>
-
 <body>
-  <a href="#main-content" class="skip-link">Skip to main content</a>
-
-  <!-- Theme Toggle Button -->
-  <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark/light theme" aria-label="Toggle dark and light theme">🌙</button>
+  <!-- Skip to main content link for accessibility -->
+  <a href="#main" class="skip-link">Skip to main content</a>
+  
+  <!-- Theme Toggle -->
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+    🌙
+  </button>
 
   <!-- Header -->
   <header>
     <div class="container">
-      <!-- === NEW ENHANCED USER DASHBOARD === -->
-<div class="user-dashboard" id="userDashboard" style="display: none;">
-  <div class="dashboard-header">
-    <h2><i class="fas fa-user-circle"></i> My ImpactMojo Dashboard</h2>
-    <div class="dashboard-benefits">
-      <div class="benefit-item">
-        <i class="fas fa-chart-line"></i>
-        <span>Track Your Progress</span>
-      </div>
-      <div class="benefit-item">
-        <i class="fas fa-sticky-note"></i>
-        <span>Private Notes</span>
-      </div>
-      <div class="benefit-item">
-        <i class="fas fa-bookmark"></i>
-        <span>Save Bookmarks</span>
-      </div>
-      <div class="benefit-item">
-        <i class="fas fa-users"></i>
-        <span>Study Groups</span>
-      </div>
-      <div class="benefit-item">
-        <i class="fas fa-percentage"></i>
-        <span>10% Consulting Discount</span>
-      </div>
-    </div>
-  </div>
-  <!-- Additional dashboard sections... -->
-</div>
       <h1>ImpactMojo 101 Knowledge Series</h1>
       <p class="subtitle">
         ImpactMojo is a curated library of full-length knowledge decks that explore justice, equity, and development practice in India and South Asia. Each one is grounded in theory, applied in context, and ready for real-world use by educators, practitioners, and social researchers worldwide.
       </p>
       
-      <!-- Navigation with Auth -->
+      <!-- CHANGE 4: Navigation with Auth -->
       <nav>
         <a href="#courses">Browse Courses</a>
+        <!-- CHANGE 4: Add Notes navigation item -->
+        <a href="#notes">Notes</a>
+        <!-- CHANGE 4: Add Labs with dropdown -->
+        <div class="nav-dropdown">
+          <a href="#labs" class="nav-dropdown-toggle" onclick="handleLabsClick(event)">
+            Labs <i class="fas fa-chevron-down" style="font-size: 0.8em; margin-left: 0.3em;"></i>
+          </a>
+          <div class="nav-dropdown-menu">
+            <a href="https://toc-workbench.netlify.app/" target="_blank" rel="noopener">
+              <i class="fas fa-tools"></i> TOC Workbench
+              <i class="fas fa-external-link-alt" style="font-size: 0.8em; margin-left: auto;"></i>
+            </a>
+          </div>
+        </div>
         <a href="#wall-of-love">Wall of Love</a>
         <a href="#extras">Resources</a>
         
@@ -1821,276 +2011,17 @@
     </button>
   </aside>
 
-  <main id="main-content" role="main">
+  <!-- Main Content -->
+  <main id="main" role="main">
     <div class="container">
-      <!-- User Dashboard (hidden by default, shown when logged in) -->
-      <div class="user-dashboard" id="userDashboard" style="display: none;">
-        <div class="dashboard-header">
-          <h2><i class="fas fa-user-circle"></i> My ImpactMojo Dashboard</h2>
-          <div class="dashboard-benefits">
-            <div class="benefit-item">
-              <i class="fas fa-chart-line"></i>
-              <span>Track Your Progress</span>
-            </div>
-            <div class="benefit-item">
-              <i class="fas fa-sticky-note"></i>
-              <span>Private Notes</span>
-            </div>
-            <div class="benefit-item">
-              <i class="fas fa-bookmark"></i>
-              <span>Save Bookmarks</span>
-            </div>
-            <div class="benefit-item consulting-discount">
-              <i class="fas fa-percentage"></i>
-              <span>10% Consulting Discount</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="dashboard-content">
-          <!-- Learning Progress Section -->
-          <div class="dashboard-section">
-            <h3><i class="fas fa-graduation-cap"></i> Learning Progress</h3>
-            <div class="progress-summary">
-              <div class="progress-stat">
-                <span class="stat-number" id="coursesStarted">0</span>
-                <span class="stat-label">Courses Started</span>
-              </div>
-              <div class="progress-stat">
-                <span class="stat-number" id="coursesCompleted">0</span>
-                <span class="stat-label">Courses Completed</span>
-              </div>
-              <div class="progress-stat">
-                <span class="stat-number" id="totalProgress">0%</span>
-                <span class="stat-label">Overall Progress</span>
-              </div>
-            </div>
-            <div style="margin-top: 1rem;">
-              <h4>Recent Activity</h4>
-              <div id="recentActivity" style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 1rem; margin-top: 0.5rem;">
-                <p style="opacity: 0.8; font-style: italic;">No course activity yet. Start learning to see your progress!</p>
-              </div>
-            </div>
-            <div style="margin-top: 1rem;">
-              <button onclick="markCourseComplete()" style="background: var(--success-color); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; margin-right: 1rem;">
-                <i class="fas fa-check-circle"></i> Mark Current Course Complete
-              </button>
-              <button onclick="generateCertificate()" style="background: var(--warning-color); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer;">
-                <i class="fas fa-certificate"></i> Generate Certificate
-              </button>
-            </div>
-          </div>
-
-          <!-- Notes Section -->
-          <div class="dashboard-section">
-            <h3><i class="fas fa-sticky-note"></i> My Academic Notes</h3>
-            <div class="notes-area">
-              <div style="margin-bottom: 1rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-                <select id="notesCourse" style="padding: 0.5rem; border: 2px solid rgba(255,255,255,0.3); border-radius: 8px; background: rgba(255,255,255,0.1); color: white; min-width: 200px;">
-                  <option value="">Select Course for Notes</option>
-                </select>
-                <button onclick="saveNotes()" style="background: var(--success-color); color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer;">
-                  <i class="fas fa-save"></i> Save Notes
-                </button>
-                <button onclick="exportNotes()" style="background: var(--secondary-color); color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer;">
-                  <i class="fas fa-download"></i> Export
-                </button>
-                <button onclick="openModal('notesSearchModal')" style="background: var(--info-color); color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer;">
-                  <i class="fas fa-search"></i> Search All Notes
-                </button>
-              </div>
-              
-              <!-- Quick Search -->
-              <div style="margin-bottom: 1rem;">
-                <input type="text" id="quickNotesSearch" placeholder="Quick search current notes..." style="width: 100%; padding: 0.5rem; border: 2px solid rgba(255,255,255,0.3); border-radius: 8px; background: rgba(255,255,255,0.1); color: white;" oninput="highlightSearchInNotes()">
-              </div>
-              
-              <div style="margin-bottom: 0.5rem; font-size: 0.9rem; color: rgba(255,255,255,0.8);">
-                <strong>Academic Format:</strong> Use headings (##), bullet points (-), tags (#tag), and citations [Source, Year]
-              </div>
-              
-              <textarea id="userNotes" placeholder="# Course Notes for [Course Name]
-
-## Key Concepts
-- Main point 1 #important
-- Main point 2 #theory
-
-## Personal Insights
-- My reflection on...
-- Connection to other courses...
-
-## Questions for Further Research
-- What about...?
-- How does this relate to...?
-
-## Action Items
-- [ ] Read more about...
-- [ ] Apply this concept to...
-
-## References
-- [Author, Year] Title of source
-- [Author, Year] Another reference
-
-## Tags
-#development #economics #gender #research #policy
-
----
-Auto-saves every 30 seconds" style="width: 100%; min-height: 250px; padding: 1rem; border: 2px solid rgba(255,255,255,0.3); border-radius: 8px; font-family: 'Courier New', monospace; resize: vertical; background: rgba(255,255,255,0.1); color: white; font-size: 0.9rem; line-height: 1.5;"></textarea>
-              
-              <div style="margin-top: 0.5rem; font-size: 0.8rem; color: rgba(255,255,255,0.6); display: flex; justify-content: space-between; flex-wrap: wrap;">
-                <span>Last saved: <span id="lastSaved">Never</span></span>
-                <span>Words: <span id="wordCount">0</span> | Lines: <span id="lineCount">0</span></span>
-              </div>
-              
-              <!-- Notes Statistics -->
-              <div style="margin-top: 1rem; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 8px;">
-                <h5 style="margin: 0 0 0.5rem 0;">Notes Overview</h5>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; font-size: 0.9rem;">
-                  <div><strong id="totalNotesCount">0</strong><br><small>Course Notes</small></div>
-                  <div><strong id="totalWordsCount">0</strong><br><small>Total Words</small></div>
-                  <div><strong id="uniqueTagsCount">0</strong><br><small>Unique Tags</small></div>
-                  <div><strong id="referencesCount">0</strong><br><small>References</small></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Bookmarks Section -->
-          <div class="dashboard-section">
-            <h3><i class="fas fa-bookmark"></i> Bookmarked Courses</h3>
-            <div class="bookmarked-courses" id="bookmarkedCoursesList">
-              <p style="opacity: 0.8; font-style: italic;">No bookmarked courses yet. Bookmark courses to see them here!</p>
-            </div>
-          </div>
-
-          <!-- Consulting Benefits Section -->
-          <div class="dashboard-section">
-            <h3><i class="fas fa-handshake"></i> Member Consulting Discount</h3>
-            <div class="consulting-offer">
-              <h4>10% Discount on Dr. Varna's Consulting Services</h4>
-              <p>As a registered ImpactMojo user, you're eligible for a 10% discount on all consulting services.</p>
-              <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 1rem; margin: 1rem 0;">
-                <p><strong>Your Discount Code:</strong></p>
-                <code id="discountCode" style="background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 4px; font-weight: 600; color: var(--warning-color); font-size: 1.1rem;">IMPACTMOJO10</code>
-                <button onclick="copyDiscountCode()" style="background: var(--info-color); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; margin-left: 1rem; cursor: pointer;">
-                  <i class="fas fa-copy"></i> Copy
-                </button>
-              </div>
-              <a href="mailto:varna.sr@gmail.com?subject=Consulting%20Request%20-%20ImpactMojo%20Member%20(IMPACTMOJO10%20Discount)&body=Hi%20Dr.%20Varna,%0D%0A%0D%0AI'm%20a%20registered%20ImpactMojo%20user%20and%20would%20like%20to%20inquire%20about%20your%20consulting%20services.%0D%0A%0D%0AMy%20discount%20code:%20IMPACTMOJO10%0D%0A%0D%0APlease%20let%20me%20know%20your%20availability%20and%20rates.%0D%0A%0D%0AThank%20you!" style="background: rgba(255,255,255,0.2); color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; display: inline-block; margin-top: 1rem;">
-                <i class="fas fa-envelope"></i> Contact for Consulting
-              </a>
-            </div>
-          </div>
-
-          <!-- Research Library Section -->
-          <div class="dashboard-section">
-            <h3><i class="fas fa-book-open"></i> My Research Library</h3>
-            <div class="library-tools" style="margin-bottom: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-              <button onclick="openModal('addResourceModal')" style="background: var(--success-color); color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer;">
-                <i class="fas fa-plus"></i> Add Resource
-              </button>
-              <button onclick="exportBibliography()" style="background: var(--secondary-color); color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer;">
-                <i class="fas fa-download"></i> Export Bibliography
-              </button>
-              <select id="libraryFilter" onchange="filterLibrary()" style="padding: 0.5rem; border: 2px solid rgba(255,255,255,0.3); border-radius: 8px; background: rgba(255,255,255,0.1); color: white;">
-                <option value="all">All Topics</option>
-                <option value="development">Development</option>
-                <option value="economics">Economics</option>
-                <option value="gender">Gender Studies</option>
-                <option value="data">Data Analysis</option>
-                <option value="research">Research Methods</option>
-                <option value="policy">Policy</option>
-                <option value="climate">Climate</option>
-                <option value="health">Health</option>
-              </select>
-            </div>
-            <div id="researchLibraryList" style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 1rem; max-height: 300px; overflow-y: auto;">
-              <p style="opacity: 0.8; font-style: italic; text-align: center;">No resources added yet. Start building your research library!</p>
-            </div>
-            <div style="margin-top: 1rem; font-size: 0.85rem; color: rgba(255,255,255,0.7);">
-              <i class="fas fa-info-circle"></i> Tip: Add papers, reports, and articles with automatic citation formatting. Perfect for literature reviews!
-            </div>
-          </div>
-
-          <!-- Academic Achievements Section -->
-          <div class="dashboard-section">
-            <h3><i class="fas fa-trophy"></i> Academic Achievements</h3>
-            <div class="achievements-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
-              <div class="achievement-badge" data-achievement="first-course" style="text-align: center; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 8px; opacity: 0.5;">
-                <i class="fas fa-play-circle" style="font-size: 2rem; color: var(--success-color);"></i>
-                <h5>First Course</h5>
-                <small>Start your first course</small>
-              </div>
-              <div class="achievement-badge" data-achievement="note-taker" style="text-align: center; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 8px; opacity: 0.5;">
-                <i class="fas fa-sticky-note" style="font-size: 2rem; color: var(--warning-color);"></i>
-                <h5>Note Taker</h5>
-                <small>Save 10 pages of notes</small>
-              </div>
-              <div class="achievement-badge" data-achievement="researcher" style="text-align: center; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 8px; opacity: 0.5;">
-                <i class="fas fa-microscope" style="font-size: 2rem; color: var(--info-color);"></i>
-                <h5>Researcher</h5>
-                <small>Add 5 library resources</small>
-              </div>
-              <div class="achievement-badge" data-achievement="completionist" style="text-align: center; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 8px; opacity: 0.5;">
-                <i class="fas fa-graduation-cap" style="font-size: 2rem; color: var(--accent-color);"></i>
-                <h5>Completionist</h5>
-                <small>Complete 5 courses</small>
-              </div>
-            </div>
-          </div>
-
-          <!-- Personalized Learning Section -->
-          <div class="dashboard-section">
-            <h3><i class="fas fa-route"></i> Personalized Learning Path</h3>
-            <div id="learningPathSection">
-              <div id="quizPrompt" style="text-align: center; padding: 2rem;">
-                <p style="margin-bottom: 1rem;">Take our quick assessment to get personalized course recommendations!</p>
-                <button onclick="startLearningQuiz()" style="background: var(--secondary-color); color: white; border: none; padding: 1rem 2rem; border-radius: 8px; font-size: 1.1rem; cursor: pointer;">
-                  <i class="fas fa-play-circle"></i> Start Learning Assessment
-                </button>
-              </div>
-              <div id="personalizedPath" style="display: none;">
-                <h4>Your Recommended Learning Path: <span id="recommendedPath"></span></h4>
-                <div id="pathCourses" style="margin-top: 1rem;"></div>
-                <button onclick="startLearningQuiz()" style="background: var(--info-color); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; margin-top: 1rem; cursor: pointer;">
-                  <i class="fas fa-redo"></i> Retake Assessment
-                </button>
-              </div>
-            </div>
-          </div>: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
-              <div class="achievement-badge" data-achievement="first-course" style="text-align: center; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 8px; opacity: 0.5;">
-                <i class="fas fa-play-circle" style="font-size: 2rem; color: var(--success-color);"></i>
-                <h5>First Course</h5>
-                <small>Start your first course</small>
-              </div>
-              <div class="achievement-badge" data-achievement="note-taker" style="text-align: center; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 8px; opacity: 0.5;">
-                <i class="fas fa-sticky-note" style="font-size: 2rem; color: var(--warning-color);"></i>
-                <h5>Note Taker</h5>
-                <small>Save 10 pages of notes</small>
-              </div>
-              <div class="achievement-badge" data-achievement="researcher" style="text-align: center; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 8px; opacity: 0.5;">
-                <i class="fas fa-microscope" style="font-size: 2rem; color: var(--info-color);"></i>
-                <h5>Researcher</h5>
-                <small>Add 5 library resources</small>
-              </div>
-              <div class="achievement-badge" data-achievement="completionist" style="text-align: center; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 8px; opacity: 0.5;">
-                <i class="fas fa-graduation-cap" style="font-size: 2rem; color: var(--accent-color);"></i>
-                <h5>Completionist</h5>
-                <small>Complete 5 courses</small>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- Latest Additions Box -->
       <div class="latest-additions">
         <h3>Latest Additions</h3>
         <ul>
-          <li><a href="https://github.com/Varnasr/ImpactMojo/blob/main/extras/handouts/qualitative_research_handout.html" target="_blank" style="color: var(--secondary-color); text-decoration: none;">Qualitative Research Ethics Handout</a> <span class="date">• Added May 2025</span></li>
-          <li><a href="https://github.com/Varnasr/ImpactMojo/blob/main/extras/handouts/eda_survey_handout_1.html" target="_blank" style="color: var(--secondary-color); text-decoration: none;">EDA for Survey Data Workshop Module</a> <span class="date">• Added May 2025</span></li>
-          <li><a href="https://github.com/Varnasr/ImpactMojo/blob/main/extras/handouts/data_feminism_handout.html" target="_blank" style="color: var(--secondary-color); text-decoration: none;">Data Feminism Teaching Guide</a> <span class="date">• Added April 2025</span></li>
-          <li><a href="https://github.com/Varnasr/ImpactMojo/blob/main/extras/handouts/decent_work_handout.html" target="_blank" style="color: var(--secondary-color); text-decoration: none;">Decent Work Framework Handout</a> <span class="date">• Added April 2025</span></li>
+          <li>Education and Pedagogy 101 <span class="date">• Added May 2025</span></li>
+          <li>Public Health 101 <span class="date">• Added May 2025</span></li>
+          <li>Livelihoods 101 <span class="date">• Added April 2025</span></li>
+          <li>Gender Studies 101 <span class="date">• Added April 2025</span></li>
         </ul>
       </div>
 
@@ -2108,9 +2039,9 @@ Auto-saves every 30 seconds" style="width: 100%; min-height: 250px; padding: 1re
               <span class="path-course-tag">Multivariate Analysis</span>
             </div>
           </div>
-          
+
           <div class="path-card" onclick="applyLearningPath('gender-studies')">
-            <h4>Gender Studies Track</h4>
+            <h4>Gender Studies Pathway</h4>
             <p class="path-description">Comprehensive understanding of gender in development</p>
             <div class="path-courses">
               <span class="path-course-tag">Gender Studies 101</span>
@@ -2278,7 +2209,8 @@ Auto-saves every 30 seconds" style="width: 100%; min-height: 250px; padding: 1re
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
           <div style="background: var(--light-bg); border: 1px solid var(--border-color); border-radius: var(--border-radius); padding: 1.5rem; position: relative;">
             <div style="position: absolute; top: 1rem; right: 1rem; background: var(--info-color); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.8rem; font-weight: 600;">Coming Soon</div>
-            <h4 style="color: var(--text-primary); margin: 0 0 1rem 0; font-size: 1.2rem;">Technology for All (TAL) 101</h4>
+            <!-- CHANGE 2: Update TAL to TALL -->
+            <h4 style="color: var(--text-primary); margin: 0 0 1rem 0; font-size: 1.2rem;">Technology for All (TALL) 101</h4>
             <p style="color: var(--text-secondary); margin: 0; line-height: 1.6;">Online technology classes providing basic domain knowledge of 10 future technologies: IoT, AI, Robotics, Blockchain, Cryptocurrency, Cybercrime, Digital Transformation, Telehealth, Edutech & Metaworld. Designed for all who use computers, phones and internet, including non-engineers. Teaching in simple, jargon-free language.</p>
             <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
               <span style="background: var(--light-bg); color: var(--text-secondary); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.8rem; border: 1px solid var(--border-color);">technology</span>
@@ -2300,9 +2232,73 @@ Auto-saves every 30 seconds" style="width: 100%; min-height: 250px; padding: 1re
         </div>
         
         <div style="text-align: center; margin-top: 2rem; padding: 1.5rem; background: rgba(142, 68, 173, 0.1); border-radius: var(--border-radius); border: 1px solid rgba(142, 68, 173, 0.2);">
-          <p style="margin: 0; color: var(--text-secondary); font-size: 1rem;">Have suggestions for future courses? <a href="mailto:suggestions@impactmojo.in" style="color: var(--info-color); text-decoration: none; font-weight: 500;">Let us know!</a></p>
+          <p style="margin: 0; color: var(--text-secondary); font-size: 1rem;">Have suggestions for future courses? We'd love to hear from you!</p>
+          <a href="mailto:suggestions@impactmojo.in" style="display: inline-block; margin-top: 1rem; color: var(--info-color); text-decoration: none; font-weight: 600;">
+            <i class="fas fa-envelope"></i> Share Your Ideas
+          </a>
         </div>
       </div>
+
+      <!-- User Dashboard (hidden by default) -->
+      <div class="user-dashboard" id="userDashboard">
+        <!-- Dashboard content will be populated by JavaScript -->
+      </div>
+
+      <!-- CHANGE 7: Add Notes Section -->
+      <section id="notes" style="padding: 4rem 0; background: var(--bg-primary);">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-icon"><i class="fas fa-sticky-note"></i></div>
+            <h2>Course Notes</h2>
+            <p>Access and manage your personal notes from all courses</p>
+          </div>
+          
+          <div style="background: var(--card-bg); border-radius: var(--border-radius); padding: 2rem; box-shadow: var(--shadow); margin-top: 2rem;">
+            <p style="text-align: center; color: var(--text-secondary);">
+              <i class="fas fa-lock" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+              Please <a href="#" onclick="openModal('loginModal')" style="color: var(--secondary-color);">login</a> to access your notes
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHANGE 7: Add Labs Section -->
+      <section id="labs" style="padding: 4rem 0; background: var(--light-bg);">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-icon"><i class="fas fa-flask"></i></div>
+            <h2>ImpactMojo Labs</h2>
+            <p>Experimental features and interactive learning tools</p>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+            <!-- TOC Workbench - Live -->
+            <div style="background: var(--card-bg); border-radius: var(--border-radius); padding: 2rem; box-shadow: var(--shadow); border: 2px solid var(--success-color);">
+              <h3 style="margin-bottom: 1rem;"><i class="fas fa-tools"></i> TOC Workbench</h3>
+              <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Theory of Change builder for development practitioners. Create, visualize, and share your intervention logic models.</p>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="background: var(--success-color); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.8rem; font-weight: 600;">Live</span>
+                <a href="https://toc-workbench.netlify.app/" target="_blank" rel="noopener" style="background: var(--secondary-color); color: white; padding: 0.5rem 1rem; border-radius: var(--border-radius); text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">
+                  Launch Lab <i class="fas fa-external-link-alt"></i>
+                </a>
+              </div>
+            </div>
+            
+            <!-- Future labs placeholders -->
+            <div style="background: var(--card-bg); border-radius: var(--border-radius); padding: 2rem; box-shadow: var(--shadow);">
+              <h3 style="margin-bottom: 1rem;"><i class="fas fa-chart-bar"></i> Data Visualization Lab</h3>
+              <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Practice creating compelling data visualizations with real development datasets</p>
+              <span style="background: var(--warning-color); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.8rem;">Coming Soon</span>
+            </div>
+            
+            <div style="background: var(--card-bg); border-radius: var(--border-radius); padding: 2rem; box-shadow: var(--shadow);">
+              <h3 style="margin-bottom: 1rem;"><i class="fas fa-calculator"></i> Impact Calculator</h3>
+              <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Calculate and measure the social impact of development interventions</p>
+              <span style="background: var(--warning-color); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.8rem;">Coming Soon</span>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <!-- Wall of Love Section -->
       <div class="wall-of-love" id="wall-of-love">
@@ -2371,146 +2367,137 @@ Auto-saves every 30 seconds" style="width: 100%; min-height: 250px; padding: 1re
               <div class="author-avatar">C</div>
               <div class="author-info">
                 <h5>Anonymous</h5>
-                <p>Program Manager, Development Organization</p>
+                <p>Program Director, Development Organization</p>
               </div>
             </div>
           </div>
           
           <div class="testimonial">
             <div class="testimonial-text">
-              The qualitative research methods have transformed how we conduct field studies. The ethical frameworks are particularly valuable for sensitive topics.
+              As a policy maker, I find the political economy and social safety nets courses invaluable. They help us design better interventions for marginalized communities.
             </div>
             <div class="testimonial-author">
               <div class="author-avatar">D</div>
               <div class="author-info">
                 <h5>Anonymous</h5>
-                <p>Field Researcher</p>
+                <p>Senior Policy Analyst, Government</p>
               </div>
             </div>
           </div>
-
+          
           <div class="testimonial">
             <div class="testimonial-text">
-              Finally, educational resources that don't assume a Western context! The climate change course is particularly relevant for our policy work.
+              The climate resilience content is exactly what South Asian practitioners need. It's not just theory - it's actionable knowledge for our communities.
             </div>
             <div class="testimonial-author">
               <div class="author-avatar">E</div>
               <div class="author-info">
                 <h5>Anonymous</h5>
-                <p>Policy Analyst</p>
+                <p>Climate Action Coordinator</p>
               </div>
             </div>
           </div>
-
+          
           <div class="testimonial">
             <div class="testimonial-text">
-              The MEL course has been invaluable for our organization. Clear frameworks, practical tools, and relevant examples from Indian development programs.
+              ImpactMojo fills a critical gap in development education. The focus on Indian laws, policies, and contexts makes it immediately applicable to our work.
             </div>
             <div class="testimonial-author">
               <div class="author-avatar">F</div>
               <div class="author-info">
                 <h5>Anonymous</h5>
-                <p>M&E Specialist</p>
+                <p>Legal Researcher, Human Rights NGO</p>
               </div>
             </div>
           </div>
         </div>
 
-        <div style="text-align: center; margin-top: 2rem; padding: 2rem; background: var(--light-bg); border-radius: var(--border-radius);">
-          <p style="margin-bottom: 1rem; color: var(--text-secondary);">Have you used ImpactMojo in your work or teaching? We'd love to feature your story!</p>
-          <a href="mailto:testimonials@impactmojo.in" style="background: var(--secondary-color); color: white; padding: 0.75rem 2rem; border-radius: var(--border-radius); text-decoration: none; font-weight: 500; transition: var(--transition);">Submit Your Testimonial</a>
-        </div>
-      </div>
-
-      <!-- Enhanced Social Sharing -->
-      <div style="text-align: center; margin: 3rem 0;">
-        <p style="margin-bottom: 1.5rem; color: var(--text-secondary); font-size: 1.1rem;">Share ImpactMojo with your network:</p>
         <div class="social-share">
-          <a href="https://twitter.com/intent/tweet?text=Check%20out%20ImpactMojo%20-%20Free%20development%20education%20courses%20for%20South%20Asia&url=https://www.impactmojo.in" target="_blank" class="share-btn twitter" title="Share on Twitter" aria-label="Share ImpactMojo on Twitter">
+          <a href="https://twitter.com/intent/tweet?text=Check%20out%20ImpactMojo%20-%20Free%20development%20education%20for%20South%20Asia!&url=https://www.impactmojo.in" target="_blank" class="share-btn twitter" title="Share on Twitter">
             <i class="fab fa-twitter"></i>
           </a>
-          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://www.impactmojo.in" target="_blank" class="share-btn linkedin" title="Share on LinkedIn" aria-label="Share ImpactMojo on LinkedIn">
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://www.impactmojo.in" target="_blank" class="share-btn linkedin" title="Share on LinkedIn">
             <i class="fab fa-linkedin"></i>
           </a>
-          <a href="https://wa.me/?text=Check%20out%20ImpactMojo%20-%20Free%20development%20education%20courses%20for%20South%20Asia%20https://www.impactmojo.in" target="_blank" class="share-btn whatsapp" title="Share on WhatsApp" aria-label="Share ImpactMojo on WhatsApp">
+          <a href="https://wa.me/?text=Check%20out%20ImpactMojo%20-%20Free%20development%20education%20for%20South%20Asia!%20https://www.impactmojo.in" target="_blank" class="share-btn whatsapp" title="Share on WhatsApp">
             <i class="fab fa-whatsapp"></i>
           </a>
-          <a href="mailto:?subject=ImpactMojo%20-%20Development%20Education&body=I%20thought%20you%20might%20be%20interested%20in%20this%20free%20resource%20for%20development%20education:%20https://www.impactmojo.in" class="share-btn email" title="Share via Email" aria-label="Share ImpactMojo via Email">
+          <a href="mailto:?subject=Check%20out%20ImpactMojo&body=I%20found%20this%20great%20resource%20for%20development%20education:%20https://www.impactmojo.in" class="share-btn email" title="Share via Email">
             <i class="fas fa-envelope"></i>
           </a>
         </div>
       </div>
 
-      <!-- Enhanced EXTRAS Section -->
-      <div class="section-header" id="extras">
-        <div class="section-icon"><i class="fas fa-plus"></i></div>
-        <h2 style="font-family: 'Inter', sans-serif; font-weight: 600;">EXTRAS & RESOURCES</h2>
-      </div>
-      
-      <div class="extras">
-        <p>
-          <strong><a href="https://github.com/Varnasr/ImpactMojo/tree/main/extras" target="_blank">Comprehensive Development Education Toolkit</a></strong><br>
-          An extensive collection of ready-to-use educational materials, practical research tools, and implementation resources supporting development education and practice across South Asian contexts. Features over 20 workshop handouts covering topics from Digital Development Ethics to Statistical Analysis, plus research design templates, data analysis scripts, and assessment frameworks designed for immediate classroom and professional use.
+      <!-- Extras Section -->
+      <div class="extras" id="extras">
+        <div class="section-header">
+          <div class="section-icon"><i class="fas fa-plus"></i></div>
+          <h2>EXTRAS & RESOURCES</h2>
+        </div>
+        
+        <p style="text-align: center; margin-bottom: 2rem;">
+          <strong><a href="https://github.com/Varnasr/ImpactMojo/tree/main/extras" target="_blank" style="color: var(--secondary-color);">Supplementary Resources for Development Education</a></strong><br>
+          A comprehensive collection of practical tools and resources to support development research, data analysis, and educational practice across South Asian contexts.
         </p>
         
         <div class="extras-grid">
-          <div class="extras-card" data-extra-type="handouts">
-            <h4><i class="fas fa-chalkboard-teacher"></i> <a href="https://github.com/Varnasr/ImpactMojo/tree/main/extras/handouts" target="_blank">Educational Handouts</a></h4>
-            <p>Over 20 ready-to-use workshop modules covering Digital Development Ethics, Data Feminism, EDA for Survey Data, Decent Work frameworks, Qualitative Research methods, and South Asian Development Applications. Each designed for 75-90 minute classroom sessions with complete facilitator guides.</p>
-            <div style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-secondary);">
-              <strong>Related to:</strong> Education & Pedagogy, Digital Development Ethics, Data Analysis, Gender Studies, Research Methods courses
-            </div>
+          <div class="extras-card">
+            <h4><i class="fas fa-chalkboard-teacher"></i> <a href="https://github.com/Varnasr/ImpactMojo/tree/main/extras/handouts">Educational Handouts</a></h4>
+            <p>Over 20 ready-to-use workshop modules covering Digital Development Ethics, Statistical Analysis, and South Asian Applications. Perfect for educators and trainers.</p>
           </div>
           
-          <div class="extras-card" data-extra-type="research">
-            <h4><i class="fas fa-flask"></i> <a href="https://github.com/Varnasr/ImpactMojo/tree/main/extras/research-design" target="_blank">Research Design Resources</a></h4>
-            <p>Practical tools for conducting rigorous development research, including design standards checklists, ethical guidelines, specialized papers like "Understanding Attributable Risk", and methodological frameworks for field studies in South Asian contexts.</p>
-            <div style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-secondary);">
-              <strong>Related to:</strong> Research Ethics, Qualitative Research, MEL, Econometrics courses
-            </div>
+          <div class="extras-card">
+            <h4><i class="fas fa-database"></i> <a href="https://github.com/Varnasr/ImpactMojo/tree/main/extras/data">Data Repository</a></h4>
+            <p>Real development datasets, Excel templates, Python scripts, and analysis resources. Includes cleaned data from NFHS, economic surveys, and social indicators.</p>
           </div>
           
-          <div class="extras-card" data-extra-type="data">
-            <h4><i class="fas fa-code"></i> <a href="https://github.com/Varnasr/ImpactMojo/tree/main/extras/data-analysis" target="_blank">Data Analysis Toolkit</a></h4>
-            <p>Comprehensive technical resources including R and Python analysis scripts, Excel templates for survey data cleaning, code samples for bivariate and multivariate analysis, and qualitative data analysis tools with examples from Indian datasets.</p>
-            <div style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-secondary);">
-              <strong>Related to:</strong> Data Literacy, EDA, Bivariate Analysis, Multivariate Analysis, Econometrics courses
-            </div>
+          <div class="extras-card">
+            <h4><i class="fas fa-microscope"></i> <a href="https://github.com/Varnasr/ImpactMojo/tree/main/extras/research">Research Tools</a></h4>
+            <p>Templates for literature reviews, research proposals, and ethics documentation. Designed for South Asian research contexts and institutional requirements.</p>
           </div>
         </div>
         
-        <div style="margin-top: 2rem; padding: 1.5rem; background: var(--light-bg); border-radius: var(--border-radius); border: 1px solid var(--border-color);">
-          <h4><i class="fas fa-info-circle"></i> How to Use These Resources</h4>
-          <div style="margin-top: 1rem;">
-            <p><strong>Print to PDF Instructions:</strong> Click any HTML file to view directly in your browser. Use your browser's print function (Ctrl+P or Cmd+P) and select "Save as PDF" for clean, formatted materials. For the best free PDF printer, we recommend <a href="https://www.pdfforge.org/pdfcreator" target="_blank" style="color: var(--secondary-color); text-decoration: none; font-weight: 500;">PDFCreator</a> (free download) or your browser's built-in "Save as PDF" option which works on Chrome, Firefox, Safari, and Edge.</p>
-          </div>
-        </div>
+        <p style="text-align: center; margin-top: 2rem; font-style: italic; color: var(--text-secondary);">
+          All resources are open-source and free to use, modify, and share under CC BY-NC-SA 4.0 license.
+        </p>
       </div>
 
-      <!-- Newsletter Signup -->
+      <!-- Newsletter Section -->
       <div class="newsletter">
         <h3>Stay Updated</h3>
-        <p>Get notified when new courses are added to the ImpactMojo library</p>
+        <p>Get notified about new courses, resources, and updates from ImpactMojo</p>
         <form class="newsletter-form" action="https://formspree.io/f/xpwdvgzp" method="POST">
-          <input type="email" name="email" placeholder="Enter your email" required>
+          <input type="email" name="email" placeholder="Your email address" required>
+          <input type="hidden" name="_subject" value="ImpactMojo Newsletter Signup">
           <button type="submit">Subscribe</button>
         </form>
-        <p style="font-size: 0.85rem; opacity: 0.8; margin-top: 1rem;">No spam, just course updates. Unsubscribe anytime.</p>
+        <p style="font-size: 0.9rem; margin-top: 1rem; color: var(--text-secondary);">
+          We respect your privacy. Unsubscribe anytime.
+        </p>
       </div>
 
-      <!-- About the Author Section -->
-      <section class="author" aria-labelledby="author-heading">
-        <img src="assets/images/varna-photo.jpg" alt="Portrait of Dr. Varna Sri Raman, founder of ImpactMojo" class="author-photo" loading="lazy">
+      <!-- Author Section -->
+      <section class="author" id="author">
+        <img src="https://vfolio.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F0f9c6bc5-dd33-4eec-b7f6-d3ec3bdc0e28%2FIMG_20190830_182145~2-01.jpeg?table=block&id=0b813e55-b2d7-4a0f-9e1a-62a92e3c7ba9&spaceId=52de9e1f-e55e-48d7-ba02-e6df11f4c951&width=2000&userId=&cache=v2" alt="Dr. Varna Sri Raman" class="author-photo">
         <div class="author-content">
-          <h3 id="author-heading">About Dr. Varna Sri Raman</h3>
-          <p>Dr. Varna Sri Raman is a development economist, educator, and social researcher with two decades of experience across education, livelihoods, gender, climate, health, and other public systems in South Asia. She is the founder and chief curator of OpenStacks — an open knowledge ecosystem for the development sector.</p>
-          
-          <a href="mailto:varna.sr@gmail.com?subject=Coaching%20Request&body=Hi%20Varna,%0D%0A%0D%0AI'm%20interested%20in%20learning%20more%20about%20your%20coaching%20services.%0D%0A%0D%0APlease%20let%20me%20know%20your%20availability%20and%20rates.%0D%0A%0D%0AThank%20you!" class="coaching-cta">
-            <i class="fas fa-calendar-alt" aria-hidden="true"></i> Book Coaching Session
+          <h3>Dr. Varna Sri Raman</h3>
+          <p>
+            Development Economist with a PhD from Cambridge University, specializing in economics, gender, and social policy. 
+            With years of field experience across India and a passion for making knowledge accessible, I created ImpactMojo 
+            to bridge the gap between academic theory and development practice.
+          </p>
+          <a href="https://calendly.com/varna-sr/consulting" target="_blank" class="coaching-cta">
+            <i class="fas fa-calendar"></i> Book Development Economics Coaching
           </a>
-          
+          <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+            <strong>Coaching Areas:</strong> Theory of Change, Research Methods, Gender Analysis, Impact Evaluation, 
+            Career Guidance in Development Sector
+          </p>
           <div class="author-links">
-            <a href="https://www.threads.net/@varnasriraman" target="_blank" rel="noopener" title="Follow Dr. Varna on Threads">
+            <a href="https://twitter.com/varsraman" target="_blank" rel="noopener" title="Follow Dr. Varna on Twitter">
+              <i class="fab fa-twitter" aria-hidden="true"></i> Twitter
+            </a>
+            <a href="https://www.threads.net/@varsraman" target="_blank" rel="noopener" title="Follow Dr. Varna on Threads">
               <i class="fab fa-threads" aria-hidden="true"></i> Threads
             </a>
             <a href="https://www.linkedin.com/in/varna" target="_blank" rel="noopener" title="Connect with Dr. Varna on LinkedIn">
@@ -2536,7 +2523,8 @@ Auto-saves every 30 seconds" style="width: 100%; min-height: 250px; padding: 1re
         <a href="#wall-of-love">Wall of Love</a>
         <a href="#extras">Resources</a>
         <a href="https://github.com/Varnasr/ImpactMojo" target="_blank">GitHub</a>
-        <a href="mailto:contact@impactmojo.in">Contact</a>
+        <!-- CHANGE 5: Update footer contact link -->
+        <a href="/contact">Contact</a>
         <a href="/terms-of-use">Terms of Use</a>
         <a href="/privacy-policy">Privacy Policy</a>
         <a href="/cookie-policy">Cookie Policy</a>
@@ -2627,15 +2615,15 @@ Auto-saves every 30 seconds" style="width: 100%; min-height: 250px; padding: 1re
           <input type="email" id="suggestEmail" name="email">
         </div>
         <div class="form-group">
-          <label for="courseTitle">Suggested Course Title:</label>
-          <input type="text" id="courseTitle" name="course_title" required>
+          <label for="suggestCourse">Course Topic/Title:</label>
+          <input type="text" id="suggestCourse" name="course_suggestion" required>
         </div>
         <div class="form-group">
-          <label for="courseDescription">Why would this course be valuable?</label>
-          <textarea id="courseDescription" name="course_description" required></textarea>
+          <label for="suggestDescription">Description:</label>
+          <textarea id="suggestDescription" name="description"></textarea>
         </div>
         <input type="hidden" name="_subject" value="ImpactMojo Course Suggestion">
-        <button type="submit" class="submit-btn">Send Suggestion</button>
+        <button type="submit" class="submit-btn">Submit Suggestion</button>
       </form>
     </div>
   </div>
@@ -2685,8 +2673,7 @@ Auto-saves every 30 seconds" style="width: 100%; min-height: 250px; padding: 1re
           </button>
         </div>
         <div style="text-align: center; margin-top: 1rem;">
-          <a href="#" onclick="closeModal('loginModal'); openModal('signupModal')" style="color: var(--secondary-color);">Don't have an account? Sign up</a><br>
-          <a href="#" onclick="handleForgotPassword()" style="color: var(--secondary-color); font-size: 0.9rem;">Forgot your password?</a>
+          <a href="#" onclick="closeModal('loginModal'); openModal('signupModal')" style="color: var(--secondary-color);">Don't have an account? Sign up</a>
         </div>
       </form>
     </div>
@@ -2696,7 +2683,17 @@ Auto-saves every 30 seconds" style="width: 100%; min-height: 250px; padding: 1re
   <div id="signupModal" class="modal" role="dialog" aria-labelledby="signup-title" aria-hidden="true">
     <div class="modal-content" role="document">
       <span class="close" onclick="closeModal('signupModal')" aria-label="Close signup form">&times;</span>
-      <h2 id="signup-title">Join ImpactMojo</h2>
+      <h2 id="signup-title">Create Your Free Account</h2>
+      <div style="background: var(--light-bg); border-radius: var(--border-radius); padding: 1rem; margin-bottom: 1rem;">
+        <h4 style="margin: 0 0 0.5rem 0; color: var(--success-color);">🎉 FREE Membership Benefits:</h4>
+        <ul style="margin: 0; padding-left: 1.5rem;">
+          <li>Access all 33 courses</li>
+          <li>Save notes & bookmarks</li>
+          <li>Track your progress</li>
+          <li>Get course updates</li>
+          <li>10% consulting discount</li>
+        </ul>
+      </div>
       <form id="signupForm" onsubmit="handleSignup(event)">
         <div class="form-group">
           <label for="signupName">Full Name <span aria-label="required">*</span></label>
@@ -2711,13 +2708,9 @@ Auto-saves every 30 seconds" style="width: 100%; min-height: 250px; padding: 1re
           <input type="password" id="signupPassword" name="password" required minlength="6">
           <small style="color: var(--text-secondary);">Minimum 6 characters</small>
         </div>
-        <div class="form-group">
-          <label for="signupPasswordConfirm">Confirm Password <span aria-label="required">*</span></label>
-          <input type="password" id="signupPasswordConfirm" name="passwordConfirm" required>
-        </div>
         <button type="submit" class="submit-btn">Create Account</button>
         <div style="text-align: center; margin-top: 1rem;">
-          <button type="button" onclick="loginWithGoogle()" class="submit-btn" style="background: #db4437; width: 100%; margin-top: 0.5rem;">
+          <button type="button" onclick="signupWithGoogle()" class="submit-btn" style="background: #db4437; width: 100%; margin-top: 0.5rem;">
             <i class="fab fa-google"></i> Sign up with Google
           </button>
         </div>
@@ -2728,213 +2721,61 @@ Auto-saves every 30 seconds" style="width: 100%; min-height: 250px; padding: 1re
     </div>
   </div>
 
-  <!-- Learning Path Quiz Modal -->
-  <div id="learningQuizModal" class="modal">
-    <div class="modal-content large">
-      <span class="close" onclick="closeModal('learningQuizModal')">&times;</span>
-      <h2><i class="fas fa-brain"></i> Learning Path Assessment</h2>
-      <div id="quizContent">
-        <div id="question1" class="quiz-question">
-          <h3>1. What's your primary background?</h3>
-          <div class="quiz-options">
-            <label><input type="radio" name="background" value="economics"> Economics/Policy</label>
-            <label><input type="radio" name="background" value="data"> Data/Analytics</label>
-            <label><input type="radio" name="background" value="gender"> Gender Studies/Social Work</label>
-            <label><input type="radio" name="background" value="research"> Research/Academia</label>
-            <label><input type="radio" name="background" value="other"> Other/New to Development</label>
-          </div>
-        </div>
-        
-        <div id="question2" class="quiz-question" style="display: none;">
-          <h3>2. What's your main goal with ImpactMojo?</h3>
-          <div class="quiz-options">
-            <label><input type="radio" name="goal" value="skills"> Build practical skills</label>
-            <label><input type="radio" name="goal" value="career"> Advance my career</label>
-            <label><input type="radio" name="goal" value="research"> Support my research</label>
-            <label><input type="radio" name="goal" value="teaching"> Enhance my teaching</label>
-            <label><input type="radio" name="goal" value="understanding"> Deepen my understanding</label>
-          </div>
-        </div>
-        
-        <div id="question3" class="quiz-question" style="display: none;">
-          <h3>3. Which topics interest you most? (Select all that apply)</h3>
-          <div class="quiz-options">
-            <label><input type="checkbox" name="interests" value="data"> Data Analysis & Visualization</label>
-            <label><input type="checkbox" name="interests" value="gender"> Gender & Social Justice</label>
-            <label><input type="checkbox" name="interests" value="economics"> Economics & Policy</label>
-            <label><input type="checkbox" name="interests" value="research"> Research Methods</label>
-            <label><input type="checkbox" name="interests" value="climate"> Climate & Environment</label>
-            <label><input type="checkbox" name="interests" value="health"> Health Systems</label>
-          </div>
-        </div>
-        
-        <div id="question4" class="quiz-question" style="display: none;">
-          <h3>4. How much time can you dedicate to learning?</h3>
-          <div class="quiz-options">
-            <label><input type="radio" name="time" value="1-2"> 1-2 hours per week</label>
-            <label><input type="radio" name="time" value="3-5"> 3-5 hours per week</label>
-            <label><input type="radio" name="time" value="6-10"> 6-10 hours per week</label>
-            <label><input type="radio" name="time" value="10+"> More than 10 hours per week</label>
-          </div>
-        </div>
-        
-        <div class="quiz-navigation">
-          <button id="prevBtn" onclick="changeQuestion(-1)" style="display: none;">Previous</button>
-          <button id="nextBtn" onclick="changeQuestion(1)">Next</button>
-          <button id="submitQuiz" onclick="submitQuiz()" style="display: none;">Get My Learning Path</button>
-        </div>
-      </div>
-      
-      <div id="quizResults" style="display: none;">
-        <h3>Your Personalized Learning Path</h3>
-        <div id="pathRecommendation"></div>
-        <button onclick="applyRecommendedPath()" style="background: var(--success-color); color: white; border: none; padding: 1rem 2rem; border-radius: 8px; margin-top: 1rem;">
-          Apply This Path
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Notes Search Modal -->
-  <div id="notesSearchModal" class="modal">
-    <div class="modal-content large">
-      <span class="close" onclick="closeModal('notesSearchModal')">&times;</span>
-      <h2><i class="fas fa-search"></i> Search All Notes</h2>
-      
-      <div style="margin-bottom: 2rem;">
-        <div style="display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
-          <input type="text" id="globalNotesSearch" placeholder="Search across all your notes..." style="flex: 1; min-width: 250px; padding: 0.75rem; border: 2px solid var(--border-color); border-radius: 8px; background: var(--light-bg); color: var(--text-primary);" oninput="performGlobalNotesSearch()">
-          <select id="searchFilter" onchange="performGlobalNotesSearch()" style="padding: 0.75rem; border: 2px solid var(--border-color); border-radius: 8px; background: var(--light-bg); color: var(--text-primary);">
-            <option value="all">All Notes</option>
-            <option value="tags">Tags Only</option>
-            <option value="headings">Headings Only</option>
-            <option value="references">References Only</option>
-          </select>
-        </div>
-        
-        <!-- Popular Tags -->
-        <div id="popularTags" style="margin-bottom: 1rem;">
-          <strong>Popular Tags:</strong>
-          <div id="tagsContainer" style="margin-top: 0.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
-        </div>
-      </div>
-      
-      <div id="searchResults" style="max-height: 400px; overflow-y: auto;">
-        <p style="text-align: center; color: var(--text-secondary); font-style: italic;">Enter search terms above to find content across all your notes</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Add Resource Modal -->
-  <div id="addResourceModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('addResourceModal')">&times;</span>
-      <h2><i class="fas fa-plus"></i> Add Research Resource</h2>
-      <form onsubmit="addResourceToLibrary(event)">
-        <div class="form-group">
-          <label>Resource Type:</label>
-          <select id="resourceType" required>
-            <option value="">Select Type</option>
-            <option value="paper">Academic Paper</option>
-            <option value="report">Research Report</option>
-            <option value="article">Article</option>
-            <option value="book">Book/Chapter</option>
-            <option value="website">Website</option>
-            <option value="course">Course Material</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Title:</label>
-          <input type="text" id="resourceTitle" required>
-        </div>
-        <div class="form-group">
-          <label>Authors:</label>
-          <input type="text" id="resourceAuthors" placeholder="Smith, J. & Jones, M.">
-        </div>
-        <div class="form-group">
-          <label>Year:</label>
-          <input type="number" id="resourceYear" min="1900" max="2030">
-        </div>
-        <div class="form-group">
-          <label>Topic:</label>
-          <select id="resourceTopic">
-            <option value="development">Development</option>
-            <option value="economics">Economics</option>
-            <option value="gender">Gender Studies</option>
-            <option value="data">Data Analysis</option>
-            <option value="research">Research Methods</option>
-            <option value="policy">Policy</option>
-            <option value="climate">Climate</option>
-            <option value="health">Health</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>URL (optional):</label>
-          <input type="url" id="resourceUrl" placeholder="https://...">
-        </div>
-        <div class="form-group">
-          <label>Personal Notes:</label>
-          <textarea id="resourceNotes" placeholder="Why is this resource valuable? Key insights..."></textarea>
-        </div>
-        <button type="submit" class="submit-btn">Add to Library</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Course Comparison Modal -->
-  <div id="comparisonModal" class="modal">
-    <div class="modal-content large">
-      <span class="close" onclick="closeModal('comparisonModal')">&times;</span>
-      <h2><i class="fas fa-balance-scale"></i> Course Comparison</h2>
+  <!-- Comparison Modal -->
+  <div id="comparisonModal" class="modal" role="dialog" aria-labelledby="comparison-title" aria-hidden="true">
+    <div class="modal-content large" role="document">
+      <span class="close" onclick="closeModal('comparisonModal')" aria-label="Close comparison">&times;</span>
+      <h2 id="comparison-title">Course Comparison</h2>
       <div id="comparisonContent">
-        <p>Select courses to compare by checking the boxes on course cards.</p>
+        <!-- Comparison content will be populated by JavaScript -->
       </div>
     </div>
   </div>
 
+  <!-- JavaScript -->
   <script>
-    // Complete course data with ALL 33 courses
-    const courseData = [
+    // Course data - normally this would come from a database
+    const allCourses = [
       {
         id: 1,
-        title: 'Data Feminism 101',
+        title: 'Gender Studies 101',
         topic: 'gender',
         level: 'intermediate',
-        duration: 'medium',
-        icon: 'fas fa-venus',
-        description: 'Challenges dominant data narratives using feminist theory. Covers intersectionality, visibility, and the politics of knowledge in South Asian development.',
-        url: 'https://101.www.impactmojo.in/DataFeminism',
-        prerequisites: ['Basic data literacy', 'Interest in gender studies'],
-        outcomes: ['Apply feminist lens to data analysis', 'Identify bias in datasets', 'Design inclusive data collection'],
-        audience: 'Data scientists, researchers, gender advocates',
-        learnerCount: 2847,
+        duration: 'long',
+        icon: 'fas fa-venus-mars',
+        description: 'Surveys feminist theory, gender and sexuality, patriarchy, queer movements, and legal shifts across India and South Asia.',
+        url: 'https://101.www.impactmojo.in/GS',
+        prerequisites: ['Social awareness', 'Open mindset'],
+        outcomes: ['Understand gender theories', 'Analyze power structures', 'Design inclusive policies'],
+        audience: 'Gender studies students, activists, policy makers',
+        learnerCount: 2345,
         rating: 4.8,
-        relatedExtras: ['handouts', 'data']
+        relatedExtras: ['handouts']
       },
       {
         id: 2,
-        title: 'Social Safety Nets 101',
-        topic: 'justice',
+        title: 'Data Feminism 101',
+        topic: 'data',
         level: 'intermediate',
         duration: 'medium',
-        icon: 'fas fa-shield-alt',
-        description: 'Unpacks India\'s welfare architecture—PDS, NREGA, pensions—through lifecycle needs and exclusion errors, with discussion on Aadhaar and last-mile barriers.',
-        url: 'https://101.www.impactmojo.in/SocialSafety',
-        prerequisites: ['Understanding of Indian governance', 'Basic economics'],
-        outcomes: ['Analyze welfare system effectiveness', 'Design inclusive social programs', 'Evaluate targeting mechanisms'],
-        audience: 'Policy makers, development practitioners, government officials',
-        learnerCount: 2156,
-        rating: 4.7,
-        relatedExtras: ['handouts', 'research']
+        icon: 'fas fa-chart-pie',
+        description: 'Explores how power shapes data collection, analysis, and use. Challenges the myth of data neutrality with real-world examples.',
+        url: 'https://101.www.impactmojo.in/DF',
+        prerequisites: ['Basic data literacy', 'Critical thinking'],
+        outcomes: ['Apply feminist data principles', 'Identify data biases', 'Design equitable data systems'],
+        audience: 'Data analysts, researchers, policy makers',
+        learnerCount: 1876,
+        rating: 4.9,
+        relatedExtras: ['handouts', 'data']
       },
       {
         id: 3,
         title: 'Development Economics 101',
         topic: 'economics',
-        level: 'intermediate',
+        level: 'beginner',
         duration: 'long',
-        icon: 'fas fa-chart-line',
-        description: 'From growth and inequality to institutions and state capacity, this deck introduces core economic debates using Indian and South Asian policy experiences.',
+        icon: 'fas fa-coins',
+        description: 'Core economic theories applied to Indian and South Asian development challenges, covering poverty, inequality, and growth.',
         url: 'https://101.www.impactmojo.in/DevEcon',
         prerequisites: ['Basic economics', 'Mathematics fundamentals'],
         outcomes: ['Understand development theories', 'Analyze economic policies', 'Apply economic frameworks'],
@@ -3000,53 +2841,53 @@ Auto-saves every 30 seconds" style="width: 100%; min-height: 250px; padding: 1re
         icon: 'fas fa-university',
         description: 'Explores power structures, institutions, rent-seeking, and political processes that shape economic outcomes in developing countries.',
         url: 'https://101.www.impactmojo.in/PolEcon',
-        prerequisites: ['Intermediate economics', 'Political science background'],
-        outcomes: ['Analyze political-economic systems', 'Understand institutional dynamics', 'Evaluate policy political feasibility'],
-        audience: 'Political economists, policy analysts, graduate students',
-        learnerCount: 1376,
+        prerequisites: ['Development economics', 'Political science basics'],
+        outcomes: ['Analyze political-economic systems', 'Understand institutional dynamics', 'Apply PE frameworks'],
+        audience: 'Policy analysts, researchers, advanced students',
+        learnerCount: 1432,
         rating: 4.4,
         relatedExtras: ['handouts', 'research']
       },
       {
         id: 8,
-        title: 'Econometrics 101',
-        topic: 'research',
-        level: 'advanced',
-        duration: 'long',
-        icon: 'fas fa-calculator',
-        description: 'Introduction to statistical methods for causal inference in development economics, covering OLS, IV, RCTs, and difference-in-differences.',
-        url: 'https://101.www.impactmojo.in/Econometrics',
-        prerequisites: ['Statistics background', 'Research methods'],
-        outcomes: ['Conduct econometric analysis', 'Design impact evaluations', 'Interpret causal estimates'],
-        audience: 'Economists, researchers, impact evaluation specialists',
-        learnerCount: 1245,
-        rating: 4.3,
-        relatedExtras: ['data', 'research']
+        title: 'Social Safety Nets 101',
+        topic: 'economics',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-shield-alt',
+        description: 'Reviews India\'s welfare programs—PDS, MGNREGA, pensions—with implementation challenges and design principles for effective social protection.',
+        url: 'https://101.www.impactmojo.in/SSN',
+        prerequisites: ['Basic economics', 'Indian policy awareness'],
+        outcomes: ['Evaluate safety net programs', 'Design social protection', 'Analyze implementation gaps'],
+        audience: 'Policy makers, program managers, researchers',
+        learnerCount: 1567,
+        rating: 4.7,
+        relatedExtras: ['handouts', 'data']
       },
       {
         id: 9,
         title: 'Poverty and Inequality 101',
         topic: 'economics',
         level: 'intermediate',
-        duration: 'medium',
-        icon: 'fas fa-chart-area',
-        description: 'Examines poverty measurement, inequality trends, and redistribution policies using Indian data and international comparisons.',
-        url: 'https://101.www.impactmojo.in/PovInequal',
-        prerequisites: ['Basic economics', 'Statistical literacy'],
-        outcomes: ['Measure poverty and inequality', 'Analyze distributional patterns', 'Design redistributive policies'],
-        audience: 'Development economists, policy analysts, researchers',
-        learnerCount: 1432,
-        rating: 4.6,
-        relatedExtras: ['data', 'handouts']
+        duration: 'long',
+        icon: 'fas fa-balance-scale-left',
+        description: 'Measurement debates, multidimensional poverty, inequality trends, and pro-poor policies in India with global comparisons.',
+        url: 'https://101.www.impactmojo.in/poverty-inequality',
+        prerequisites: ['Basic statistics', 'Development awareness'],
+        outcomes: ['Measure poverty accurately', 'Analyze inequality patterns', 'Design pro-poor interventions'],
+        audience: 'Development practitioners, policy analysts, researchers',
+        learnerCount: 1890,
+        rating: 4.8,
+        relatedExtras: ['handouts', 'data']
       },
       {
         id: 10,
-        title: 'MEL (Monitoring, Evaluation, and Learning) 101',
-        topic: 'systems',
+        title: 'Monitoring, Evaluation and Learning 101',
+        topic: 'research',
         level: 'intermediate',
         duration: 'long',
-        icon: 'fas fa-cogs',
-        description: 'Covers theories of change, indicator development, evaluation methods, and adaptive management systems for development programs.',
+        icon: 'fas fa-chart-line',
+        description: 'Theory of change, indicators, data collection, and learning systems for development programs with Indian case examples.',
         url: 'https://101.www.impactmojo.in/MEL',
         prerequisites: ['Program management experience', 'Logical thinking skills'],
         outcomes: ['Design MEL frameworks', 'Develop indicators', 'Conduct evaluations'],
@@ -3095,102 +2936,102 @@ Auto-saves every 30 seconds" style="width: 100%; min-height: 250px; padding: 1re
         duration: 'long',
         icon: 'fas fa-hospital',
         description: 'Covers health system building blocks, universal health coverage, and health governance challenges in low-resource settings.',
-        url: 'https://101.www.impactmojo.in/HealthSystems',
-        prerequisites: ['Health awareness', 'Systems thinking'],
-        outcomes: ['Understand health systems', 'Analyze health governance', 'Design health interventions'],
+        url: 'https://101.www.impactmojo.in/health-systems',
+        prerequisites: ['Public health basics', 'Systems thinking'],
+        outcomes: ['Analyze health systems', 'Design health interventions', 'Understand UHC pathways'],
         audience: 'Health professionals, policy makers, public health students',
-        learnerCount: 1456,
-        rating: 4.5,
+        learnerCount: 1678,
+        rating: 4.6,
         relatedExtras: ['handouts', 'research']
       },
       {
         id: 14,
-        title: 'Multivariate Analysis 101',
-        topic: 'data',
-        level: 'advanced',
+        title: 'Climate Resilience and Development 101',
+        topic: 'climate',
+        level: 'intermediate',
         duration: 'long',
-        icon: 'fas fa-project-diagram',
-        description: 'Introduces causal modeling, control variables, interaction terms, and statistical power for policy analysis, with real survey examples.',
-        url: 'https://101.www.impactmojo.in/MultivariateA',
-        prerequisites: ['Intermediate statistics', 'Experience with data analysis'],
-        outcomes: ['Conduct multivariate analysis', 'Build causal models', 'Interpret complex statistical results'],
-        audience: 'Data analysts, researchers, statisticians',
-        learnerCount: 743,
-        rating: 4.2,
-        relatedExtras: ['data', 'handouts']
+        icon: 'fas fa-leaf',
+        description: 'Climate impacts on development, adaptation strategies, climate finance, and just transitions for vulnerable communities.',
+        url: 'https://101.www.impactmojo.in/climate-resilience',
+        prerequisites: ['Environmental awareness', 'Development basics'],
+        outcomes: ['Design climate-resilient programs', 'Access climate finance', 'Implement adaptation strategies'],
+        audience: 'Development practitioners, environmental specialists, policy makers',
+        learnerCount: 1234,
+        rating: 4.5,
+        relatedExtras: ['handouts', 'data']
       },
       {
         id: 15,
-        title: 'Bivariate Analysis 101',
-        topic: 'data',
-        level: 'intermediate',
-        duration: 'medium',
-        icon: 'fas fa-chart-area',
-        description: 'Covers cross-tabs, chi-square tests, means comparisons, and correlation for social researchers working on program outcomes.',
-        url: 'https://101.www.impactmojo.in/bivariateA',
-        prerequisites: ['Basic statistics', 'Data literacy fundamentals'],
-        outcomes: ['Perform bivariate analysis', 'Interpret correlation results', 'Conduct significance tests'],
-        audience: 'Social researchers, program managers, data analysts',
-        learnerCount: 1245,
-        rating: 4.4,
-        relatedExtras: ['data', 'handouts']
-      },
-      {
-        id: 16,
-        title: 'Climate Change 101',
-        topic: 'climate',
-        level: 'beginner',
-        duration: 'medium',
-        icon: 'fas fa-leaf',
-        description: 'Covers IPCC basics, vulnerability, adaptation, and mitigation strategies. Rooted in Indian geography and climate justice governance.',
-        url: 'https://101.www.impactmojo.in/ClimateScience',
-        prerequisites: ['Basic environmental awareness'],
-        outcomes: ['Understand climate science fundamentals', 'Analyze vulnerability patterns', 'Design adaptation strategies'],
-        audience: 'Environmental professionals, policy makers, students',
-        learnerCount: 1234,
-        rating: 4.4,
-        relatedExtras: ['handouts']
-      },
-      {
-        id: 17,
-        title: 'Women\'s Economic Empowerment (WEE) 101',
+        title: 'Women\'s Economic Empowerment 101',
         topic: 'gender',
         level: 'intermediate',
         duration: 'medium',
         icon: 'fas fa-female',
-        description: 'Frames economic agency, control over resources, institutional barriers, and enabling ecosystems using Indian WEE program evidence.',
+        description: 'Barriers to women\'s workforce participation, entrepreneurship support, financial inclusion, and empowerment measurement.',
         url: 'https://101.www.impactmojo.in/WEE',
         prerequisites: ['Gender awareness', 'Economic concepts'],
-        outcomes: ['Design WEE programs', 'Measure economic empowerment', 'Address systemic barriers'],
-        audience: 'Gender practitioners, microfinance professionals, program managers',
-        learnerCount: 1178,
-        rating: 4.4,
+        outcomes: ['Design WEE programs', 'Measure empowerment', 'Address structural barriers'],
+        audience: 'Gender specialists, microfinance professionals, program designers',
+        learnerCount: 1876,
+        rating: 4.7,
         relatedExtras: ['handouts', 'data']
       },
       {
-        id: 18,
-        title: 'Community-Led Development 101',
-        topic: 'development',
+        id: 16,
+        title: 'Econometrics 101',
+        topic: 'research',
+        level: 'advanced',
+        duration: 'long',
+        icon: 'fas fa-square-root-alt',
+        description: 'Regression analysis, causal inference, impact evaluation methods, and handling real-world data challenges in development research.',
+        url: 'https://101.www.impactmojo.in/econometrics',
+        prerequisites: ['Statistics', 'Mathematics', 'Research methods'],
+        outcomes: ['Run regression analyses', 'Design impact evaluations', 'Handle econometric challenges'],
+        audience: 'Researchers, PhD students, evaluation specialists',
+        learnerCount: 987,
+        rating: 4.3,
+        relatedExtras: ['data', 'research']
+      },
+      {
+        id: 17,
+        title: 'Bivariate Analysis 101',
+        topic: 'data',
         level: 'intermediate',
         duration: 'medium',
-        icon: 'fas fa-users',
-        description: 'Focuses on PLA tools, participatory planning, facilitation ethics, and the evolution of community-led models in India.',
-        url: 'https://101.www.impactmojo.in/community-dev',
-        prerequisites: ['Community work experience', 'Basic facilitation skills'],
-        outcomes: ['Design participatory processes', 'Facilitate community meetings', 'Build local capacity'],
-        audience: 'Community workers, development practitioners, NGO staff',
-        learnerCount: 1123,
-        rating: 4.3,
-        relatedExtras: ['handouts', 'research']
+        icon: 'fas fa-project-diagram',
+        description: 'Cross-tabulation, correlation, chi-square tests, and relationship analysis between variables using development data.',
+        url: 'https://101.www.impactmojo.in/bivariate',
+        prerequisites: ['Basic statistics', 'Data literacy'],
+        outcomes: ['Analyze relationships', 'Test associations', 'Interpret bivariate results'],
+        audience: 'Data analysts, researchers, M&E professionals',
+        learnerCount: 1345,
+        rating: 4.5,
+        relatedExtras: ['data', 'handouts']
+      },
+      {
+        id: 18,
+        title: 'Multivariate Analysis 101',
+        topic: 'data',
+        level: 'advanced',
+        duration: 'long',
+        icon: 'fas fa-layer-group',
+        description: 'Multiple regression, factor analysis, clustering, and advanced statistical methods for complex development questions.',
+        url: 'https://101.www.impactmojo.in/multivariate',
+        prerequisites: ['Bivariate analysis', 'Advanced statistics'],
+        outcomes: ['Apply multivariate techniques', 'Handle complex datasets', 'Interpret advanced results'],
+        audience: 'Advanced researchers, data scientists, evaluation experts',
+        learnerCount: 876,
+        rating: 4.2,
+        relatedExtras: ['data', 'research']
       },
       {
         id: 19,
         title: 'Marginalized Identities 101',
         topic: 'identity',
         level: 'intermediate',
-        duration: 'long',
-        icon: 'fas fa-user-friends',
-        description: 'Explores caste, tribe, gender, religion, disability, and intersectionality through rights, representation, and discrimination data.',
+        duration: 'medium',
+        icon: 'fas fa-users',
+        description: 'Intersectionality, caste, religion, sexuality, and disability in Indian contexts with rights-based approaches.',
         url: 'https://101.www.impactmojo.in/marginalized-identities',
         prerequisites: ['Social awareness', 'Human rights perspective'],
         outcomes: ['Understand intersectionality', 'Analyze discrimination patterns', 'Design inclusive policies'],
@@ -3368,112 +3209,109 @@ Auto-saves every 30 seconds" style="width: 100%; min-height: 250px; padding: 1re
         icon: 'fas fa-city',
         description: 'Urban development challenges, participatory planning, smart cities, and local governance in Indian metropolitan contexts.',
         url: 'https://101.www.impactmojo.in/urban-planning',
-        prerequisites: ['Urban studies background', 'Governance awareness'],
-        outcomes: ['Understand urban planning processes', 'Design participatory approaches', 'Evaluate urban policies'],
-        audience: 'Urban planners, government officials, civil society organizations',
+        prerequisites: ['Urban awareness', 'Governance concepts'],
+        outcomes: ['Analyze urban challenges', 'Design participatory processes', 'Understand urban governance'],
+        audience: 'Urban planners, municipal officials, civic activists',
         learnerCount: 845,
         rating: 4.2,
         relatedExtras: ['handouts', 'research']
       },
       {
         id: 31,
-        title: 'Agriculture and Food Security 101',
-        topic: 'livelihoods',
+        title: 'Justice and Rights 101',
+        topic: 'justice',
         level: 'intermediate',
-        duration: 'medium',
-        icon: 'fas fa-tractor',
-        description: 'Smallholder agriculture, food systems, climate resilience, and agricultural policy in South Asian contexts.',
-        url: 'https://101.www.impactmojo.in/agriculture',
-        prerequisites: ['Agricultural awareness', 'Rural development experience'],
-        outcomes: ['Understand food systems', 'Design agricultural interventions', 'Address food security challenges'],
-        audience: 'Agricultural specialists, rural development practitioners, food security experts',
-        learnerCount: 1156,
-        rating: 4.3,
-        relatedExtras: ['handouts']
+        duration: 'long',
+        icon: 'fas fa-gavel',
+        description: 'Constitutional rights, access to justice, legal aid, and rights-based approaches in Indian development practice.',
+        url: 'https://101.www.impactmojo.in/justice-rights',
+        prerequisites: ['Legal awareness', 'Rights perspective'],
+        outcomes: ['Apply rights-based approaches', 'Navigate legal systems', 'Design justice interventions'],
+        audience: 'Legal aid workers, rights advocates, development practitioners',
+        learnerCount: 1123,
+        rating: 4.5,
+        relatedExtras: ['handouts', 'research']
       },
       {
         id: 32,
-        title: 'Behavioral Science for Development 101',
-        topic: 'systems',
+        title: 'Food Systems and Nutrition 101',
+        topic: 'development',
         level: 'intermediate',
         duration: 'medium',
-        icon: 'fas fa-brain',
-        description: 'Behavioral insights, nudges, and psychological factors influencing development program effectiveness and behavior change.',
-        url: 'https://101.www.impactmojo.in/behavioral-science',
-        prerequisites: ['Psychology awareness', 'Program design experience'],
-        outcomes: ['Apply behavioral insights', 'Design behavioral interventions', 'Test behavioral hypotheses'],
-        audience: 'Behavioral economists, program designers, policy makers',
-        learnerCount: 723,
-        rating: 4.1,
-        relatedExtras: ['research', 'handouts']
+        icon: 'fas fa-apple-alt',
+        description: 'Food security, nutrition programs, sustainable agriculture, and food policy in South Asian contexts.',
+        url: 'https://101.www.impactmojo.in/food-systems',
+        prerequisites: ['Basic nutrition awareness', 'Development concepts'],
+        outcomes: ['Analyze food systems', 'Design nutrition interventions', 'Understand food policy'],
+        audience: 'Nutritionists, agriculture specialists, policy makers',
+        learnerCount: 1345,
+        rating: 4.4,
+        relatedExtras: ['handouts', 'data']
       },
       {
         id: 33,
-        title: 'Environmental Justice 101',
-        topic: 'climate',
+        title: 'Migration and Development 101',
+        topic: 'development',
         level: 'intermediate',
         duration: 'medium',
-        icon: 'fas fa-tree',
-        description: 'Environmental rights, pollution, natural resource governance, and climate justice movements in India and South Asia.',
-        url: 'https://101.www.impactmojo.in/environmental-justice',
-        prerequisites: ['Environmental awareness', 'Justice perspective'],
-        outcomes: ['Understand environmental justice frameworks', 'Analyze environmental conflicts', 'Design rights-based solutions'],
-        audience: 'Environmental advocates, rights activists, policy makers',
+        icon: 'fas fa-route',
+        description: 'Internal and international migration, remittances, displacement, and migration-development nexus in South Asia.',
+        url: 'https://101.www.impactmojo.in/migration',
+        prerequisites: ['Development awareness', 'Social concepts'],
+        outcomes: ['Understand migration dynamics', 'Design migrant-friendly policies', 'Analyze migration impacts'],
+        audience: 'Migration specialists, policy makers, researchers',
         learnerCount: 967,
-        rating: 4.4,
+        rating: 4.3,
         relatedExtras: ['handouts', 'research']
       }
     ];
 
-    // Global variables
-    let allCourses = courseData;
-    let displayedCourses = [];
-    let bookmarkedCourses = JSON.parse(localStorage.getItem('bookmarkedCourses') || '[]');
-    let courseRatings = JSON.parse(localStorage.getItem('courseRatings') || '{}');
-    let currentView = 'grid';
-    let selectedForComparison = [];
-    let searchTimeout;
-    let currentTopicFilter = 'all';
-
-    // Learning paths configuration
+    // Learning Paths data
     const learningPaths = {
       'data-analysis': {
         name: 'Data Analysis Track',
-        courses: [4, 20, 15, 14], // Data Literacy, EDA, Bivariate, Multivariate
+        courses: [4, 20, 17, 18],
         description: 'Master data skills from basics to advanced analysis'
       },
       'gender-studies': {
-        name: 'Gender Studies Track', 
-        courses: [24, 1, 5, 17], // Gender Studies, Data Feminism, Care Economy, WEE
+        name: 'Gender Studies Pathway',
+        courses: [1, 2, 5, 15],
         description: 'Comprehensive understanding of gender in development'
       },
       'policy-economics': {
         name: 'Policy & Economics Track',
-        courses: [3, 7, 9, 2], // Dev Economics, Political Economy, Poverty, Safety Nets
+        courses: [3, 7, 8, 9],
         description: 'From basic economics to policy analysis'
       },
       'research-methods': {
         name: 'Research Methods Track',
-        courses: [6, 21, 8, 10], // Research Ethics, Qualitative, Econometrics, MEL
+        courses: [6, 21, 16, 10],
         description: 'Complete research toolkit for development work'
       }
     };
 
-    // Theme toggle function
+    // Global variables
+    let filteredCourses = [...allCourses];
+    let displayedCourses = [...allCourses];
+    let selectedForComparison = [];
+    let bookmarkedCourses = JSON.parse(localStorage.getItem('bookmarkedCourses') || '[]');
+    let searchTimeout;
+    let currentUser = null;
+
+    // Theme Toggle
     function toggleTheme() {
-      document.body.classList.toggle("dark");
-      const icon = document.querySelector('.theme-toggle');
-      const isDark = document.body.classList.contains("dark");
-      icon.textContent = isDark ? "☀️" : "🌙";
-      localStorage.setItem("theme", isDark ? "dark" : "light");
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
     }
 
     // Initialize theme
     function initTheme() {
-      const savedTheme = localStorage.getItem("theme");
-      if (savedTheme === "dark") {
-        document.body.classList.add("dark");
-        document.querySelector('.theme-toggle').textContent = "☀️";
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        document.body.classList.add('dark');
+        document.querySelector('.theme-toggle').textContent = '☀️';
       }
     }
 
@@ -3504,60 +3342,49 @@ Auto-saves every 30 seconds" style="width: 100%; min-height: 250px; padding: 1re
       const bookmarkClass = isBookmarked ? 'bookmarked' : '';
       
       card.innerHTML = `
-        <div class="course-number">${course.id}</div>
-        <div class="course-header">
-          <div class="course-icon">
-            <i class="${course.icon}" aria-hidden="true"></i>
-          </div>
-          <div class="course-title-section">
-            <h3 class="course-title">${course.title}</h3>
-            <div class="course-meta">
-              <span class="meta-tag">${course.topic}</span>
-              <span class="meta-tag">${course.level}</span>
-              <span class="meta-tag">${course.duration}</span>
-            </div>
+        <div class="course-number">${index + 1}</div>
+        <div class="course-icon-wrapper">
+          <i class="${course.icon}"></i>
+        </div>
+        <div class="course-title-section">
+          <h3 class="course-title">${course.title}</h3>
+          <div class="course-meta">
+            <span class="meta-tag">${course.topic}</span>
+            <span class="meta-tag">${course.level}</span>
+            <span class="meta-tag">${course.duration}</span>
           </div>
         </div>
-        
         <p class="course-description">${course.description}</p>
-        
         <div class="course-stats">
-          <div class="course-stat">
-            <i class="fas fa-users"></i>
-            <span>${course.learnerCount.toLocaleString()} learners</span>
-          </div>
-          <div class="course-stat">
-            <i class="fas fa-star"></i>
-            <span>${course.rating.toFixed(1)}</span>
-          </div>
+          <span class="course-stat"><i class="fas fa-users"></i> ${course.learnerCount.toLocaleString()}</span>
+          <span class="course-stat"><i class="fas fa-star"></i> ${course.rating}</span>
+          <span class="course-stat"><i class="fas fa-clock"></i> ${course.duration}</span>
         </div>
-        
         <div class="course-actions">
           <div class="course-actions-left">
-            <a href="${course.url}" class="launch-btn" target="_blank" onclick="event.stopPropagation(); addToRecentlyViewed('${course.title}', '${course.url}')">
-              <i class="fas fa-external-link-alt"></i> Launch Course
+            <a href="${course.url}" target="_blank" class="launch-btn" onclick="event.stopPropagation();">
+              Launch Course <i class="fas fa-external-link-alt"></i>
             </a>
-            <button class="bookmark-btn ${bookmarkClass}" onclick="event.stopPropagation(); toggleBookmark(this, '${course.title}')" title="Bookmark this course">
+            <button class="bookmark-btn ${bookmarkClass}" onclick="event.stopPropagation(); toggleBookmark(this, '${course.title}');">
               <i class="${bookmarkIcon}"></i>
             </button>
           </div>
-          <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; cursor: pointer;" onclick="event.stopPropagation();">
-            <input type="checkbox" class="compare-checkbox" onchange="toggleComparison(${course.id})" title="Add to comparison">
+          <label onclick="event.stopPropagation();">
+            <input type="checkbox" class="compare-checkbox" onchange="toggleComparison(${course.id})">
             Compare
           </label>
         </div>
-
         <div class="course-details">
           <div class="details-section">
             <h4>Prerequisites</h4>
             <ul>
-              ${course.prerequisites.map(req => `<li>${req}</li>`).join('')}
+              ${course.prerequisites.map(p => `<li>${p}</li>`).join('')}
             </ul>
           </div>
           <div class="details-section">
             <h4>Learning Outcomes</h4>
             <ul>
-              ${course.outcomes.map(outcome => `<li>${outcome}</li>`).join('')}
+              ${course.outcomes.map(o => `<li>${o}</li>`).join('')}
             </ul>
           </div>
           <div class="details-section">
@@ -3631,13 +3458,12 @@ Auto-saves every 30 seconds" style="width: 100%; min-height: 250px; padding: 1re
       const levelFilter = document.getElementById('levelFilter').value;
       const durationFilter = document.getElementById('durationFilter').value;
       
-      let filteredCourses = allCourses.filter(course => {
+      filteredCourses = allCourses.filter(course => {
         const matchesSearch = searchTerm === '' || 
           course.title.toLowerCase().includes(searchTerm) ||
           course.description.toLowerCase().includes(searchTerm) ||
-          course.topic.toLowerCase().includes(searchTerm) ||
-          course.audience.toLowerCase().includes(searchTerm);
-        
+          course.topic.toLowerCase().includes(searchTerm);
+          
         const matchesTopic = topicFilter === 'all' || course.topic === topicFilter;
         const matchesLevel = levelFilter === 'all' || course.level === levelFilter;
         const matchesDuration = durationFilter === 'all' || course.duration === durationFilter;
@@ -3658,9 +3484,14 @@ Auto-saves every 30 seconds" style="width: 100%; min-height: 250px; padding: 1re
       filterCourses();
     }
 
+    // Update course count
+    function updateCourseCount() {
+      document.getElementById('visibleCount').textContent = displayedCourses.length;
+      document.getElementById('totalCount').textContent = allCourses.length;
+    }
+
     // Toggle view
     function toggleView(view) {
-      currentView = view;
       const container = document.getElementById('courseContainer');
       const buttons = document.querySelectorAll('.view-btn');
       
@@ -3749,1336 +3580,118 @@ Auto-saves every 30 seconds" style="width: 100%; min-height: 250px; padding: 1re
       // Update search input to show path name
       document.getElementById('searchInput').value = `Learning Path: ${path.name}`;
       
-      // Scroll to courses
-      document.getElementById('courseContainer').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    // Update course count
-    function updateCourseCount() {
-      const totalCount = allCourses.length;
-      document.getElementById('totalCount').textContent = totalCount;
-    }
-
-    // Add to recently viewed (realistic tracking)
-    function addToRecentlyViewed(courseTitle, courseUrl) {
-      trackCourseAccess(courseTitle, courseUrl);
-    }
-
-    // Course tracking functions
-    function trackCourseAccess(courseTitle, courseUrl) {
-      const timestamp = new Date().toISOString();
-      let courseAccess = JSON.parse(localStorage.getItem('courseAccess') || '{}');
-      
-      if (!courseAccess[courseTitle]) {
-        courseAccess[courseTitle] = {
-          firstAccess: timestamp,
-          accessCount: 1,
-          url: courseUrl,
-          totalTimeEstimate: 0
-        };
-        console.log('First access to course:', courseTitle);
-        unlockAchievement('first-course');
-      } else {
-        courseAccess[courseTitle].accessCount++;
-        courseAccess[courseTitle].lastAccess = timestamp;
-        console.log('Return access to course:', courseTitle, 'Count:', courseAccess[courseTitle].accessCount);
-      }
-      
-      localStorage.setItem('courseAccess', JSON.stringify(courseAccess));
-      updateProgressDisplay();
-      checkRealisticAchievements();
-      enhanceCourseCards();
-    }
-
-    // Calculate engagement score for a course
-    function calculateCourseEngagement(courseTitle) {
-      const bookmarks = JSON.parse(localStorage.getItem('bookmarkedCourses') || '[]');
-      const notes = localStorage.getItem(`notes-${courseTitle}`) || '';
-      const access = JSON.parse(localStorage.getItem('courseAccess') || '{}')[courseTitle];
-      
-      let engagementScore = 0;
-      
-      if (bookmarks.includes(courseTitle)) engagementScore += 25;
-      if (notes.length > 100) engagementScore += 25;
-      if (access && access.accessCount >= 2) engagementScore += 25;
-      if (access && access.accessCount >= 5) engagementScore += 25;
-      
-      return Math.min(engagementScore, 100);
-    }
-
-    // Mark course as complete (self-reported)
-    function markCourseComplete() {
-      const courseAccess = JSON.parse(localStorage.getItem('courseAccess') || '{}');
-      const recentCourses = Object.entries(courseAccess)
-        .sort(([,a], [,b]) => new Date(b.lastAccess || b.firstAccess) - new Date(a.lastAccess || a.firstAccess));
-      
-      if (recentCourses.length === 0) {
-        alert('No recent course activity found. Please launch a course first.');
-        return;
-      }
-      
-      const [mostRecentCourse] = recentCourses[0];
-      
-      if (confirm(`Mark "${mostRecentCourse}" as completed?`)) {
-        let completedCourses = JSON.parse(localStorage.getItem('completedCourses') || '[]');
-        
-        if (!completedCourses.some(c => c.title === mostRecentCourse)) {
-          completedCourses.push({
-            title: mostRecentCourse,
-            completedDate: new Date().toISOString(),
-            method: 'self-reported'
-          });
-          
-          localStorage.setItem('completedCourses', JSON.stringify(completedCourses));
-          showCompletionCelebration(mostRecentCourse);
-          updateProgressDisplay();
-          checkRealisticAchievements();
-        } else {
-          alert('Course already marked as completed!');
-        }
-      }
-    }
-
-    // Show completion celebration
-    function showCompletionCelebration(courseTitle) {
-      const celebration = document.createElement('div');
-      celebration.style.cssText = `
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: linear-gradient(135deg, var(--success-color), var(--secondary-color));
-        color: white;
-        padding: 2rem;
-        border-radius: 12px;
-        text-align: center;
-        z-index: 3000;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-        animation: bounceIn 0.6s ease-out;
-      `;
-      
-      celebration.innerHTML = `
-        <h2><i class="fas fa-trophy"></i> Congratulations!</h2>
-        <p>You've completed <strong>${courseTitle}</strong></p>
-        <button onclick="this.parentElement.remove()" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; margin-top: 1rem; cursor: pointer;">
-          Continue Learning
-        </button>
-      `;
-      
-      document.body.appendChild(celebration);
-      setTimeout(() => celebration.remove(), 5000);
-    }
-
-    // Update progress display
-    function updateProgressDisplay() {
-      const courseAccess = JSON.parse(localStorage.getItem('courseAccess') || '{}');
-      const completedCourses = JSON.parse(localStorage.getItem('completedCourses') || '[]');
-      
-      const coursesExplored = Object.keys(courseAccess).length;
-      const coursesCompleted = completedCourses.length;
-      const progressPercentage = coursesExplored > 0 ? Math.round((coursesCompleted / coursesExplored) * 100) : 0;
-      
-      const coursesStartedEl = document.getElementById('coursesStarted');
-      const coursesCompletedEl = document.getElementById('coursesCompleted');
-      const totalProgressEl = document.getElementById('totalProgress');
-      
-      if (coursesStartedEl) coursesStartedEl.textContent = coursesExplored;
-      if (coursesCompletedEl) coursesCompletedEl.textContent = coursesCompleted;
-      if (totalProgressEl) totalProgressEl.textContent = progressPercentage + '%';
-      
-      updateRecentActivity();
-    }
-
-    // Update recent activity display
-    function updateRecentActivity() {
-      const courseAccess = JSON.parse(localStorage.getItem('courseAccess') || '{}');
-      const recentActivity = document.getElementById('recentActivity');
-      
-      if (!recentActivity) return;
-      
-      const sortedCourses = Object.entries(courseAccess)
-        .sort(([,a], [,b]) => new Date(b.lastAccess || b.firstAccess) - new Date(a.lastAccess || a.firstAccess))
-        .slice(0, 3);
-      
-      if (sortedCourses.length === 0) {
-        recentActivity.innerHTML = '<p style="opacity: 0.8; font-style: italic;">No course activity yet. Start learning to see your progress!</p>';
-      } else {
-        recentActivity.innerHTML = sortedCourses.map(([title, data]) => {
-          const engagement = calculateCourseEngagement(title);
-          return `
-            <div style="padding: 0.75rem; background: rgba(255,255,255,0.1); border-radius: 8px; margin: 0.5rem 0; border-left: 4px solid var(--secondary-color);">
-              <div style="display: flex; justify-content: space-between; align-items: center;">
-                <strong style="color: white;">${title}</strong>
-                <span style="background: var(--secondary-color); color: white; padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.8rem;">${engagement}% engaged</span>
-              </div>
-              <small style="color: rgba(255,255,255,0.8);">
-                Accessed ${data.accessCount} times • Last: ${new Date(data.lastAccess || data.firstAccess).toLocaleDateString()}
-              </small>
-            </div>
-          `;
-        }).join('');
-      }
-    }
-
-    // Achievement system
-    function unlockAchievement(achievementId) {
-      let unlockedAchievements = JSON.parse(localStorage.getItem('unlockedAchievements') || '[]');
-      
-      if (!unlockedAchievements.includes(achievementId)) {
-        unlockedAchievements.push(achievementId);
-        localStorage.setItem('unlockedAchievements', JSON.stringify(unlockedAchievements));
-        
-        // Update achievement display
-        const achievementBadge = document.querySelector(`[data-achievement="${achievementId}"]`);
-        if (achievementBadge) {
-          achievementBadge.style.opacity = '1';
-          achievementBadge.style.background = 'rgba(46, 204, 113, 0.2)';
-          achievementBadge.style.border = '2px solid var(--success-color)';
-        }
-        
-        console.log('Achievement unlocked:', achievementId);
-        showAchievementNotification(achievementId);
-      }
-    }
-
-    function showAchievementNotification(achievementId) {
-      const achievementNames = {
-        'first-course': 'First Course Explorer',
-        'active-learner': 'Active Learner',
-        'course-completer': 'Course Completer',
-        'note-taker': 'Dedicated Note Taker',
-        'researcher': 'Research Library Builder'
-      };
-      
-      const notification = document.createElement('div');
-      notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: linear-gradient(135deg, var(--warning-color), var(--success-color));
-        color: white;
-        padding: 1rem;
-        border-radius: 8px;
-        z-index: 2000;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        animation: slideIn 0.5s ease-out;
-      `;
-      
-      notification.innerHTML = `
-        <div style="display: flex; align-items: center; gap: 0.5rem;">
-          <i class="fas fa-trophy"></i>
-          <div>
-            <strong>Achievement Unlocked!</strong><br>
-            <small>${achievementNames[achievementId] || achievementId}</small>
-          </div>
-        </div>
-      `;
-      
-      document.body.appendChild(notification);
-      setTimeout(() => notification.remove(), 4000);
-    }
-
-    function checkRealisticAchievements() {
-      const courseAccess = JSON.parse(localStorage.getItem('courseAccess') || '{}');
-      const completedCourses = JSON.parse(localStorage.getItem('completedCourses') || '[]');
-      const notes = Object.keys(localStorage).filter(key => key.startsWith('notes-')).length;
-      const library = JSON.parse(localStorage.getItem('researchLibrary') || '[]');
-      
-      // First Course Launch
-      if (Object.keys(courseAccess).length >= 1) {
-        unlockAchievement('first-course');
-      }
-      
-      // Active Learner (accessed 5+ courses)
-      if (Object.keys(courseAccess).length >= 5) {
-        unlockAchievement('active-learner');
-      }
-      
-      // Course Completer
-      if (completedCourses.length >= 1) {
-        unlockAchievement('course-completer');
-      }
-      
-      // Note Taker
-      if (notes >= 3) {
-        unlockAchievement('note-taker');
-      }
-      
-      // Researcher
-      if (library.length >= 5) {
-        unlockAchievement('researcher');
-      }
-    }
-
-    // Enhance course cards with progress indicators
-    function enhanceCourseCards() {
-      setTimeout(() => {
-        const courseCards = document.querySelectorAll('.course-card');
-        const courseAccess = JSON.parse(localStorage.getItem('courseAccess') || '{}');
-        const completedCourses = JSON.parse(localStorage.getItem('completedCourses') || '[]');
-        
-        courseCards.forEach(card => {
-          const courseTitle = card.querySelector('.course-title').textContent;
-          const isCompleted = completedCourses.some(c => c.title === courseTitle);
-          const accessData = courseAccess[courseTitle];
-          
-          // Remove existing progress indicator
-          const existingIndicator = card.querySelector('.course-progress-indicator');
-          if (existingIndicator) existingIndicator.remove();
-          
-          // Add progress indicator
-          const progressIndicator = document.createElement('div');
-          progressIndicator.className = 'course-progress-indicator';
-          progressIndicator.style.cssText = `
-            position: absolute;
-            bottom: 1rem;
-            left: 1rem;
-            font-size: 0.8rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-          `;
-          
-          if (isCompleted) {
-            progressIndicator.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
-            progressIndicator.style.background = 'var(--success-color)';
-            progressIndicator.style.color = 'white';
-            card.style.border = '2px solid var(--success-color)';
-          } else if (accessData) {
-            const engagement = calculateCourseEngagement(courseTitle);
-            progressIndicator.innerHTML = `<i class="fas fa-chart-line"></i> ${engagement}% engaged`;
-            progressIndicator.style.background = 'var(--secondary-color)';
-            progressIndicator.style.color = 'white';
-          }
-          
-          if (progressIndicator.innerHTML) {
-            card.appendChild(progressIndicator);
-          }
-        });
-      }, 1000);
-    }
-
-    // Enhanced Notes functions
-    function saveNotes() {
-      const courseSelect = document.getElementById('notesCourse');
-      const notesTextarea = document.getElementById('userNotes');
-      const lastSavedSpan = document.getElementById('lastSaved');
-      
-      if (!courseSelect || !notesTextarea) return;
-      
-      const selectedCourse = courseSelect.value;
-      const notes = notesTextarea.value;
-      
-      if (!selectedCourse) {
-        alert('Please select a course for these notes.');
-        return;
-      }
-      
-      // Save notes with metadata
-      const noteData = {
-        content: notes,
-        lastModified: new Date().toISOString(),
-        wordCount: notes.trim().split(/\s+/).filter(word => word.length > 0).length,
-        lineCount: notes.split('\n').length,
-        tags: extractTags(notes),
-        course: selectedCourse
-      };
-      
-      localStorage.setItem(`notes-${selectedCourse}`, JSON.stringify(noteData));
-      
-      if (lastSavedSpan) {
-        lastSavedSpan.textContent = new Date().toLocaleTimeString();
-      }
-      
-      updateWordCount();
-      updateNotesStatistics();
-      checkRealisticAchievements();
-      
-      console.log('Notes saved for:', selectedCourse);
-    }
-
-    function loadNotes(courseName) {
-      const notesTextarea = document.getElementById('userNotes');
-      if (!notesTextarea) return;
-      
-      const savedData = localStorage.getItem(`notes-${courseName}`);
-      
-      if (savedData) {
-        try {
-          const noteData = JSON.parse(savedData);
-          notesTextarea.value = noteData.content || savedData; // Backward compatibility
-        } catch (e) {
-          // Handle old format (plain text)
-          notesTextarea.value = savedData;
-        }
-      } else {
-        // Load template for new notes
-        notesTextarea.value = `# Course Notes for ${courseName}
-
-## Key Concepts
-- 
-
-## Personal Insights
-- 
-
-## Questions for Further Research
-- 
-
-## Action Items
-- [ ] 
-
-## References
-- 
-
-## Tags
-#${courseName.toLowerCase().replace(/\s+/g, '')} #development
-
----
-`;
-      }
-      
-      updateWordCount();
-    }
-
-    function updateWordCount() {
-      const notesTextarea = document.getElementById('userNotes');
-      const wordCountSpan = document.getElementById('wordCount');
-      const lineCountSpan = document.getElementById('lineCount');
-      
-      if (notesTextarea) {
-        const text = notesTextarea.value;
-        const wordCount = text.trim().split(/\s+/).filter(word => word.length > 0).length;
-        const lineCount = text.split('\n').length;
-        
-        if (wordCountSpan) wordCountSpan.textContent = wordCount;
-        if (lineCountSpan) lineCountSpan.textContent = lineCount;
-      }
-    }
-
-    function updateNotesStatistics() {
-      const totalNotesEl = document.getElementById('totalNotesCount');
-      const totalWordsEl = document.getElementById('totalWordsCount');
-      const uniqueTagsEl = document.getElementById('uniqueTagsCount');
-      const referencesEl = document.getElementById('referencesCount');
-      
-      if (!totalNotesEl) return;
-      
-      let totalNotes = 0;
-      let totalWords = 0;
-      let allTags = new Set();
-      let totalReferences = 0;
-      
-      // Scan all notes
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key && key.startsWith('notes-')) {
-          totalNotes++;
-          
-          const savedData = localStorage.getItem(key);
-          let content = '';
-          
-          try {
-            const noteData = JSON.parse(savedData);
-            content = noteData.content || '';
-            if (noteData.tags) {
-              noteData.tags.forEach(tag => allTags.add(tag));
-            }
-          } catch (e) {
-            content = savedData || '';
-          }
-          
-          // Count words
-          const words = content.trim().split(/\s+/).filter(word => word.length > 0);
-          totalWords += words.length;
-          
-          // Extract tags if not already parsed
-          const tags = extractTags(content);
-          tags.forEach(tag => allTags.add(tag));
-          
-          // Count references
-          const references = content.match(/\[.*?\]/g) || [];
-          totalReferences += references.length;
-        }
-      }
-      
-      totalNotesEl.textContent = totalNotes;
-      totalWordsEl.textContent = totalWords.toLocaleString();
-      uniqueTagsEl.textContent = allTags.size;
-      referencesEl.textContent = totalReferences;
-    }
-
-    function extractTags(text) {
-      const tagRegex = /#[\w\-]+/g;
-      const tags = text.match(tagRegex) || [];
-      return tags.map(tag => tag.toLowerCase());
-    }
-
-    function highlightSearchInNotes() {
-      const searchTerm = document.getElementById('quickNotesSearch').value.toLowerCase();
-      const notesTextarea = document.getElementById('userNotes');
-      
-      if (!searchTerm || !notesTextarea) {
-        // Remove any existing highlights
-        notesTextarea.style.background = 'rgba(255,255,255,0.1)';
-        return;
-      }
-      
-      // Simple highlight effect (visual feedback)
-      const content = notesTextarea.value.toLowerCase();
-      if (content.includes(searchTerm)) {
-        notesTextarea.style.background = 'rgba(255, 255, 0, 0.1)';
-      } else {
-        notesTextarea.style.background = 'rgba(255,255,255,0.1)';
-      }
-    }
-
-    function performGlobalNotesSearch() {
-      const searchTerm = document.getElementById('globalNotesSearch').value.toLowerCase();
-      const filter = document.getElementById('searchFilter').value;
-      const resultsContainer = document.getElementById('searchResults');
-      
-      if (!searchTerm.trim()) {
-        resultsContainer.innerHTML = '<p style="text-align: center; color: var(--text-secondary); font-style: italic;">Enter search terms above to find content across all your notes</p>';
-        return;
-      }
-      
-      const results = [];
-      
-      // Search through all notes
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key && key.startsWith('notes-')) {
-          const courseName = key.replace('notes-', '');
-          const savedData = localStorage.getItem(key);
-          
-          let content = '';
-          let lastModified = '';
-          
-          try {
-            const noteData = JSON.parse(savedData);
-            content = noteData.content || '';
-            lastModified = noteData.lastModified || '';
-          } catch (e) {
-            content = savedData || '';
-          }
-          
-          // Apply filter
-          let searchContent = content;
-          if (filter === 'tags') {
-            const tags = extractTags(content);
-            searchContent = tags.join(' ');
-          } else if (filter === 'headings') {
-            const headings = content.match(/^#+\s+.+$/gm) || [];
-            searchContent = headings.join(' ');
-          } else if (filter === 'references') {
-            const references = content.match(/\[.*?\]/g) || [];
-            searchContent = references.join(' ');
-          }
-          
-          if (searchContent.toLowerCase().includes(searchTerm)) {
-            // Find context around the match
-            const lines = content.split('\n');
-            const matchingLines = [];
-            
-            lines.forEach((line, index) => {
-              if (line.toLowerCase().includes(searchTerm)) {
-                const start = Math.max(0, index - 1);
-                const end = Math.min(lines.length, index + 2);
-                const context = lines.slice(start, end).join('\n');
-                matchingLines.push({
-                  line: line,
-                  context: context,
-                  lineNumber: index + 1
-                });
-              }
-            });
-            
-            results.push({
-              course: courseName,
-              matches: matchingLines,
-              lastModified: lastModified
-            });
-          }
-        }
-      }
-      
-      // Display results
-      if (results.length === 0) {
-        resultsContainer.innerHTML = `<p style="text-align: center; color: var(--text-secondary);">No results found for "${searchTerm}"</p>`;
-      } else {
-        resultsContainer.innerHTML = results.map(result => `
-          <div style="background: var(--light-bg); border-radius: 8px; padding: 1rem; margin: 1rem 0; border-left: 4px solid var(--secondary-color);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-              <h4 style="margin: 0; color: var(--text-primary);">${result.course}</h4>
-              <button onclick="openNotesForCourse('${result.course}')" style="background: var(--secondary-color); color: white; border: none; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.8rem; cursor: pointer;">
-                Open Notes
-              </button>
-            </div>
-            ${result.matches.map(match => `
-              <div style="background: rgba(255,255,255,0.1); border-radius: 4px; padding: 0.5rem; margin: 0.5rem 0;">
-                <small style="color: var(--text-secondary);">Line ${match.lineNumber}:</small>
-                <pre style="white-space: pre-wrap; font-family: inherit; margin: 0.25rem 0; font-size: 0.9rem;">${highlightSearchTerm(match.context, searchTerm)}</pre>
-              </div>
-            `).join('')}
-            ${result.lastModified ? `<small style="color: var(--text-secondary);">Last modified: ${new Date(result.lastModified).toLocaleString()}</small>` : ''}
-          </div>
-        `).join('');
-      }
-      
-      updatePopularTags();
-    }
-
-    function highlightSearchTerm(text, searchTerm) {
-      const regex = new RegExp(`(${searchTerm})`, 'gi');
-      return text.replace(regex, '<mark style="background: yellow; color: black; padding: 0 2px;">$1</mark>');
-    }
-
-    function updatePopularTags() {
-      const tagsContainer = document.getElementById('tagsContainer');
-      if (!tagsContainer) return;
-      
-      const tagCounts = {};
-      
-      // Count tag frequency across all notes
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key && key.startsWith('notes-')) {
-          const savedData = localStorage.getItem(key);
-          let content = '';
-          
-          try {
-            const noteData = JSON.parse(savedData);
-            content = noteData.content || '';
-          } catch (e) {
-            content = savedData || '';
-          }
-          
-          const tags = extractTags(content);
-          tags.forEach(tag => {
-            tagCounts[tag] = (tagCounts[tag] || 0) + 1;
-          });
-        }
-      }
-      
-      // Get top 10 tags
-      const sortedTags = Object.entries(tagCounts)
-        .sort(([,a], [,b]) => b - a)
-        .slice(0, 10);
-      
-      if (sortedTags.length === 0) {
-        tagsContainer.innerHTML = '<span style="color: var(--text-secondary); font-style: italic;">No tags found yet</span>';
-      } else {
-        tagsContainer.innerHTML = sortedTags.map(([tag, count]) => `
-          <button onclick="searchByTag('${tag}')" style="background: var(--secondary-color); color: white; border: none; padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.8rem; cursor: pointer; margin: 0.25rem;">
-            ${tag} (${count})
-          </button>
-        `).join('');
-      }
-    }
-
-    function searchByTag(tag) {
-      document.getElementById('globalNotesSearch').value = tag;
-      document.getElementById('searchFilter').value = 'tags';
-      performGlobalNotesSearch();
-    }
-
-    function openNotesForCourse(courseName) {
-      closeModal('notesSearchModal');
-      
-      // Select the course and load its notes
-      const courseSelect = document.getElementById('notesCourse');
-      if (courseSelect) {
-        courseSelect.value = courseName;
-        loadNotes(courseName);
-      }
-      
-      // Scroll to notes section
-      const notesSection = document.querySelector('.dashboard-section:has(#userNotes)');
-      if (notesSection) {
-        notesSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-
-    function exportNotes() {
-      const courseSelect = document.getElementById('notesCourse');
-      const notesTextarea = document.getElementById('userNotes');
-      
-      if (!courseSelect || !notesTextarea || !courseSelect.value) {
-        // Export all notes if no specific course selected
-        if (confirm('No specific course selected. Export all notes as a combined file?')) {
-          exportAllNotes();
-          return;
-        }
-        alert('Please select a course and add some notes to export.');
-        return;
-      }
-      
-      const course = courseSelect.value;
-      const notes = notesTextarea.value;
-      const date = new Date().toLocaleDateString();
-      
-      const exportContent = `# Notes for ${course}
-
-**Date:** ${date}  
-**Course:** ${course}  
-**Word Count:** ${notes.trim().split(/\s+/).filter(word => word.length > 0).length}
-
----
-
-${notes}
-
----
-*Generated by ImpactMojo Dashboard*`;
-      
-      const blob = new Blob([exportContent], { type: 'text/markdown' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${course.replace(/\s+/g, '_')}_notes.md`;
-      a.click();
-      URL.revokeObjectURL(url);
-    }
-
-    function exportAllNotes() {
-      let allNotesContent = `# Complete ImpactMojo Notes Collection
-
-**Generated:** ${new Date().toLocaleDateString()}  
-**Total Courses:** ${document.querySelectorAll('#notesCourse option').length - 1}
-
----
-
-`;
-      
-      let notesCount = 0;
-      
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key && key.startsWith('notes-')) {
-          const courseName = key.replace('notes-', '');
-          const savedData = localStorage.getItem(key);
-          
-          let content = '';
-          let lastModified = '';
-          
-          try {
-            const noteData = JSON.parse(savedData);
-            content = noteData.content || '';
-            lastModified = noteData.lastModified || '';
-          } catch (e) {
-            content = savedData || '';
-          }
-          
-          if (content.trim()) {
-            notesCount++;
-            allNotesContent += `\n## ${courseName}\n\n`;
-            if (lastModified) {
-              allNotesContent += `*Last modified: ${new Date(lastModified).toLocaleString()}*\n\n`;
-            }
-            allNotesContent += content + '\n\n---\n\n';
-          }
-        }
-      }
-      
-      if (notesCount === 0) {
-        alert('No notes found to export.');
-        return;
-      }
-      
-      allNotesContent += `\n*Total Notes Exported: ${notesCount}*\n*Generated by ImpactMojo Dashboard*`;
-      
-      const blob = new Blob([allNotesContent], { type: 'text/markdown' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `ImpactMojo_All_Notes_${new Date().toISOString().split('T')[0]}.md`;
-      a.click();
-      URL.revokeObjectURL(url);
-    }
-
-    function generateCertificate() {
-      const completedCourses = JSON.parse(localStorage.getItem('completedCourses') || '[]');
-      const user = window.auth && window.auth.currentUser;
-      
-      if (completedCourses.length === 0) {
-        alert('Complete at least one course to generate a certificate.');
-        return;
-      }
-      
-      const userName = user ? (user.displayName || user.email.split('@')[0]) : 'ImpactMojo Learner';
-      
-      // Simple certificate generation (you could enhance this with a proper PDF library)
-      const certificateContent = `
-CERTIFICATE OF COMPLETION
-
-This is to certify that
-
-${userName}
-
-has successfully completed the following courses from ImpactMojo:
-
-${completedCourses.map(course => `• ${course.title} (${new Date(course.completedDate).toLocaleDateString()})`).join('\n')}
-
-Total Courses Completed: ${completedCourses.length}
-
-Date: ${new Date().toLocaleDateString()}
-
-ImpactMojo - Development Education for South Asia
-Curated by Dr. Varna Sri Raman
-`;
-      
-      const blob = new Blob([certificateContent], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `ImpactMojo_Certificate_${userName.replace(/\s+/g, '_')}.txt`;
-      a.click();
-      URL.revokeObjectURL(url);
-    }
-
-    function copyDiscountCode() {
-      const code = 'IMPACTMOJO10';
-      navigator.clipboard.writeText(code).then(() => {
-        alert('Discount code copied to clipboard!');
-      }).catch(() => {
-        alert('Discount code: IMPACTMOJO10');
-      });
-    }
-
-    // Initialize dashboard when page loads
-    document.addEventListener('DOMContentLoaded', function() {
-      // Existing initialization code...
-      
-      // Initialize dashboard features
-      setTimeout(() => {
-        updateProgressDisplay();
-        checkRealisticAchievements();
-        enhanceCourseCards();
-        populateCoursesDropdown();
-        initializeAchievements();
-        updateResearchLibraryDisplay();
-        
-        // Auto-save notes every 30 seconds
-        setInterval(() => {
-          const notesTextarea = document.getElementById('userNotes');
-          if (notesTextarea && notesTextarea.value.length > 10) {
-            saveNotes();
-          }
-        }, 30000);
-        
-        // Update word count on typing
-        const notesTextarea = document.getElementById('userNotes');
-        if (notesTextarea) {
-          notesTextarea.addEventListener('input', updateWordCount);
-        }
-
-        // Initialize quiz if results exist
-        const quizResults = JSON.parse(localStorage.getItem('quizResults') || 'null');
-        if (quizResults) {
-          const personalizedPath = document.getElementById('personalizedPath');
-          const quizPrompt = document.getElementById('quizPrompt');
-          const recommendedPathSpan = document.getElementById('recommendedPath');
-          
-          if (personalizedPath && quizPrompt && recommendedPathSpan) {
-            quizPrompt.style.display = 'none';
-            personalizedPath.style.display = 'block';
-            
-            // Determine path from quiz results
-            let pathName = 'Data Analysis Track';
-            if (quizResults.background === 'gender' || quizResults.interests?.includes('gender')) {
-              pathName = 'Gender Studies Track';
-            } else if (quizResults.background === 'economics' || quizResults.interests?.includes('economics')) {
-              pathName = 'Policy & Economics Track';
-            } else if (quizResults.background === 'research' || quizResults.interests?.includes('research')) {
-              pathName = 'Research Methods Track';
-            }
-            
-            recommendedPathSpan.textContent = pathName;
-          }
-        }
-      }, 2000);
-    });
-
-    function populateCoursesDropdown() {
-      const courseSelect = document.getElementById('notesCourse');
-      if (!courseSelect) return;
-      
-      const courseAccess = JSON.parse(localStorage.getItem('courseAccess') || '{}');
-      
-      courseSelect.innerHTML = '<option value="">Select Course for Notes</option>';
-      
-      Object.keys(courseAccess).forEach(courseTitle => {
-        const option = document.createElement('option');
-        option.value = courseTitle;
-        option.textContent = courseTitle;
-        courseSelect.appendChild(option);
-      });
-      
-      // Load notes when course is selected
-      courseSelect.addEventListener('change', function() {
-        const notesTextarea = document.getElementById('userNotes');
-        if (this.value && notesTextarea) {
-          const savedNotes = localStorage.getItem(`notes-${this.value}`) || '';
-          notesTextarea.value = savedNotes;
-          updateWordCount();
-        }
-      });
-    }
-
-    function initializeAchievements() {
-      const unlockedAchievements = JSON.parse(localStorage.getItem('unlockedAchievements') || '[]');
-      
-      unlockedAchievements.forEach(achievementId => {
-        const achievementBadge = document.querySelector(`[data-achievement="${achievementId}"]`);
-        if (achievementBadge) {
-          achievementBadge.style.opacity = '1';
-          achievementBadge.style.background = 'rgba(46, 204, 113, 0.2)';
-          achievementBadge.style.border = '2px solid var(--success-color)';
-        }
-      });
-    }
-
-    // Learning Quiz Functions
-    let currentQuestion = 1;
-    const totalQuestions = 4;
-
-    function startLearningQuiz() {
-      currentQuestion = 1;
-      openModal('learningQuizModal');
-      showQuestion(1);
-    }
-
-    function changeQuestion(direction) {
-      const current = document.getElementById(`question${currentQuestion}`);
-      if (current) current.style.display = 'none';
-      
-      currentQuestion += direction;
-      
-      if (currentQuestion < 1) currentQuestion = 1;
-      if (currentQuestion > totalQuestions) currentQuestion = totalQuestions;
-      
-      showQuestion(currentQuestion);
-    }
-
-    function showQuestion(questionNum) {
-      // Hide all questions
-      for (let i = 1; i <= totalQuestions; i++) {
-        const q = document.getElementById(`question${i}`);
-        if (q) q.style.display = 'none';
-      }
-      
-      // Show current question
-      const current = document.getElementById(`question${questionNum}`);
-      if (current) current.style.display = 'block';
-      
-      // Update navigation
-      const prevBtn = document.getElementById('prevBtn');
-      const nextBtn = document.getElementById('nextBtn');
-      const submitBtn = document.getElementById('submitQuiz');
-      
-      if (prevBtn) prevBtn.style.display = questionNum > 1 ? 'inline-block' : 'none';
-      if (nextBtn) nextBtn.style.display = questionNum < totalQuestions ? 'inline-block' : 'none';
-      if (submitBtn) submitBtn.style.display = questionNum === totalQuestions ? 'inline-block' : 'none';
-    }
-
-    function submitQuiz() {
-      const formData = new FormData();
-      const form = document.getElementById('learningQuizModal');
-      
-      // Collect answers
-      const background = form.querySelector('input[name="background"]:checked')?.value || 'other';
-      const goal = form.querySelector('input[name="goal"]:checked')?.value || 'understanding';
-      const interests = Array.from(form.querySelectorAll('input[name="interests"]:checked')).map(i => i.value);
-      const time = form.querySelector('input[name="time"]:checked')?.value || '1-2';
-      
-      const quizResults = { background, goal, interests, time };
-      localStorage.setItem('quizResults', JSON.stringify(quizResults));
-      
-      // Generate recommendation
-      const recommendation = generateLearningPathRecommendation(quizResults);
-      
-      // Hide quiz, show results
-      document.getElementById('quizContent').style.display = 'none';
-      document.getElementById('quizResults').style.display = 'block';
-      document.getElementById('pathRecommendation').innerHTML = recommendation;
-    }
-
-    function generateLearningPathRecommendation(results) {
-      let recommendedPath = 'data-analysis'; // default
-      let pathName = 'Data Analysis Track';
-      let description = 'Perfect for building analytical skills';
-      
-      // Logic to determine best path
-      if (results.background === 'gender' || results.interests.includes('gender')) {
-        recommendedPath = 'gender-studies';
-        pathName = 'Gender Studies Track';
-        description = 'Comprehensive understanding of gender in development';
-      } else if (results.background === 'economics' || results.interests.includes('economics')) {
-        recommendedPath = 'policy-economics';
-        pathName = 'Policy & Economics Track';
-        description = 'From basic economics to policy analysis';
-      } else if (results.background === 'research' || results.interests.includes('research')) {
-        recommendedPath = 'research-methods';
-        pathName = 'Research Methods Track';
-        description = 'Complete research toolkit for development work';
-      }
-      
-      const estimatedTime = {
-        '1-2': '2-3 months',
-        '3-5': '1-2 months',
-        '6-10': '3-4 weeks',
-        '10+': '2-3 weeks'
-      }[results.time] || '2-3 months';
-      
-      return `
-        <div style="background: var(--light-bg); border-radius: 8px; padding: 1.5rem; margin: 1rem 0;">
-          <h4 style="color: var(--secondary-color); margin: 0 0 1rem 0;">${pathName}</h4>
-          <p>${description}</p>
-          <p><strong>Estimated completion time:</strong> ${estimatedTime}</p>
-          <p><strong>Based on your interests in:</strong> ${results.interests.join(', ') || 'general development'}</p>
-        </div>
-      `;
-    }
-
-    function applyRecommendedPath() {
-      const quizResults = JSON.parse(localStorage.getItem('quizResults') || '{}');
-      let pathId = 'data-analysis';
-      
-      if (quizResults.background === 'gender' || quizResults.interests?.includes('gender')) {
-        pathId = 'gender-studies';
-      } else if (quizResults.background === 'economics' || quizResults.interests?.includes('economics')) {
-        pathId = 'policy-economics';
-      } else if (quizResults.background === 'research' || quizResults.interests?.includes('research')) {
-        pathId = 'research-methods';
-      }
-      
-      closeModal('learningQuizModal');
-      applyLearningPath(pathId);
-      
-      // Update dashboard
-      const personalizedPath = document.getElementById('personalizedPath');
-      const quizPrompt = document.getElementById('quizPrompt');
-      const recommendedPathSpan = document.getElementById('recommendedPath');
-      
-      if (personalizedPath && quizPrompt && recommendedPathSpan) {
-        quizPrompt.style.display = 'none';
-        personalizedPath.style.display = 'block';
-        recommendedPathSpan.textContent = learningPaths[pathId].name;
-      }
-    }
-
-    // Research Library Functions
-    function addResourceToLibrary(event) {
-      event.preventDefault();
-      
-      const resource = {
-        type: document.getElementById('resourceType').value,
-        title: document.getElementById('resourceTitle').value,
-        authors: document.getElementById('resourceAuthors').value,
-        year: document.getElementById('resourceYear').value,
-        topic: document.getElementById('resourceTopic').value,
-        url: document.getElementById('resourceUrl').value,
-        notes: document.getElementById('resourceNotes').value,
-        dateAdded: new Date().toISOString(),
-        id: Date.now()
-      };
-      
-      let library = JSON.parse(localStorage.getItem('researchLibrary') || '[]');
-      library.push(resource);
-      localStorage.setItem('researchLibrary', JSON.stringify(library));
-      
-      updateResearchLibraryDisplay();
-      closeModal('addResourceModal');
-      
-      // Reset form
-      event.target.reset();
-      
-      checkRealisticAchievements();
-      
-      alert('Resource added to your library!');
-    }
-
-    function updateResearchLibraryDisplay() {
-      const libraryList = document.getElementById('researchLibraryList');
-      if (!libraryList) return;
-      
-      const library = JSON.parse(localStorage.getItem('researchLibrary') || '[]');
-      const filter = document.getElementById('libraryFilter')?.value || 'all';
-      
-      const filteredLibrary = filter === 'all' ? library : library.filter(item => item.topic === filter);
-      
-      if (filteredLibrary.length === 0) {
-        libraryList.innerHTML = '<p style="opacity: 0.8; font-style: italic; text-align: center;">No resources found. Add some resources to build your library!</p>';
-      } else {
-        libraryList.innerHTML = filteredLibrary.map(resource => `
-          <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 1rem; margin: 0.5rem 0; border-left: 4px solid var(--secondary-color);">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-              <div style="flex: 1;">
-                <h5 style="margin: 0 0 0.5rem 0; color: white;">${resource.title}</h5>
-                ${resource.authors ? `<p style="margin: 0; color: rgba(255,255,255,0.8); font-size: 0.9rem;">${resource.authors} ${resource.year ? `(${resource.year})` : ''}</p>` : ''}
-                <div style="margin: 0.5rem 0; display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                  <span style="background: var(--info-color); color: white; padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.8rem;">${resource.type}</span>
-                  <span style="background: var(--secondary-color); color: white; padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.8rem;">${resource.topic}</span>
-                </div>
-                ${resource.notes ? `<p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: rgba(255,255,255,0.8); font-style: italic;">${resource.notes}</p>` : ''}
-                ${resource.url ? `<a href="${resource.url}" target="_blank" style="color: var(--warning-color); text-decoration: none; font-size: 0.9rem;">🔗 View Resource</a>` : ''}
-              </div>
-              <button onclick="removeFromLibrary(${resource.id})" style="background: var(--accent-color); color: white; border: none; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer; margin-left: 1rem;">
-                <i class="fas fa-times"></i>
-              </button>
-            </div>
-          </div>
-        `).join('');
-      }
-    }
-
-    function removeFromLibrary(resourceId) {
-      if (confirm('Remove this resource from your library?')) {
-        let library = JSON.parse(localStorage.getItem('researchLibrary') || '[]');
-        library = library.filter(item => item.id !== resourceId);
-        localStorage.setItem('researchLibrary', JSON.stringify(library));
-        updateResearchLibraryDisplay();
-      }
-    }
-
-    function filterLibrary() {
-      updateResearchLibraryDisplay();
-    }
-
-    function exportBibliography() {
-      const library = JSON.parse(localStorage.getItem('researchLibrary') || '[]');
-      
-      if (library.length === 0) {
-        alert('No resources in your library to export.');
-        return;
-      }
-      
-      const bibliography = library.map(resource => {
-        // Generate APA-style citation
-        let citation = '';
-        if (resource.authors && resource.year) {
-          citation = `${resource.authors} (${resource.year}). ${resource.title}.`;
-        } else {
-          citation = `${resource.title}.`;
-        }
-        if (resource.url) {
-          citation += ` Retrieved from ${resource.url}`;
-        }
-        return citation;
-      }).join('\n\n');
-      
-      const exportContent = `ImpactMojo Research Library Bibliography
-Generated: ${new Date().toLocaleDateString()}
-
-${bibliography}
-
----
-Total Resources: ${library.length}
-Generated by ImpactMojo Dashboard`;
-      
-      const blob = new Blob([exportContent], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'ImpactMojo_Bibliography.txt';
-      a.click();
-      URL.revokeObjectURL(url);
+      // Scroll to courses section
+      document.getElementById('courses').scrollIntoView({ behavior: 'smooth' });
     }
 
     // Modal functions
     function openModal(modalId) {
-      const modal = document.getElementById(modalId);
-      if (modal) {
-        modal.style.display = 'block';
-        modal.setAttribute('aria-hidden', 'false');
-        
-        if (modalId === 'comparisonModal') {
-          updateComparisonModal();
-        }
-      }
+      document.getElementById(modalId).style.display = 'block';
     }
 
     function closeModal(modalId) {
-      const modal = document.getElementById(modalId);
-      if (modal) {
-        modal.style.display = 'none';
-        modal.setAttribute('aria-hidden', 'true');
-      }
+      document.getElementById(modalId).style.display = 'none';
     }
-
-    // Update comparison modal
-    function updateComparisonModal() {
-      const content = document.getElementById('comparisonContent');
-      
-      if (selectedForComparison.length === 0) {
-        content.innerHTML = '<p>Select courses to compare by checking the boxes on course cards.</p>';
-        return;
-      }
-      
-      const selectedCourses = allCourses.filter(course => selectedForComparison.includes(course.id));
-      
-      let comparisonHTML = '<div style="overflow-x: auto;"><table style="width: 100%; border-collapse: collapse;">';
-      comparisonHTML += '<thead><tr><th style="border: 1px solid var(--border-color); padding: 0.5rem;">Aspect</th>';
-      
-      selectedCourses.forEach(course => {
-        comparisonHTML += `<th style="border: 1px solid var(--border-color); padding: 0.5rem;">${course.title}</th>`;
-      });
-      
-      comparisonHTML += '</tr></thead><tbody>';
-      
-      // Compare different aspects
-      const aspects = [
-        { key: 'topic', label: 'Topic' },
-        { key: 'level', label: 'Difficulty Level' },
-        { key: 'duration', label: 'Duration' },
-        { key: 'rating', label: 'Rating' },
-        { key: 'learnerCount', label: 'Learners', format: (val) => val.toLocaleString() },
-        { key: 'audience', label: 'Target Audience' }
-      ];
-      
-      aspects.forEach(aspect => {
-        comparisonHTML += `<tr><td style="border: 1px solid var(--border-color); padding: 0.5rem; font-weight: 600;">${aspect.label}</td>`;
-        selectedCourses.forEach(course => {
-          let value = course[aspect.key];
-          if (aspect.format) {
-            value = aspect.format(value);
-          }
-          comparisonHTML += `<td style="border: 1px solid var(--border-color); padding: 0.5rem;">${value}</td>`;
-        });
-        comparisonHTML += '</tr>';
-      });
-      
-      comparisonHTML += '</tbody></table></div>';
-      comparisonHTML += '<div style="margin-top: 1rem; text-align: center;"><button onclick="clearComparison()" style="background: var(--accent-color); color: white; border: none; padding: 0.5rem 1rem; border-radius: var(--border-radius); cursor: pointer;">Clear Comparison</button></div>';
-      
-      content.innerHTML = comparisonHTML;
-    }
-
-    // Clear comparison
-    function clearComparison() {
-      selectedForComparison = [];
-      updateComparisonCount();
-      updateComparisonButton();
-      
-      // Uncheck all comparison checkboxes
-      document.querySelectorAll('.compare-checkbox').forEach(checkbox => {
-        checkbox.checked = false;
-      });
-      
-      closeModal('comparisonModal');
-    }
-
-    // Authentication form handlers
-    async function handleLogin(event) {
-      event.preventDefault();
-      
-      const email = document.getElementById('loginEmail').value;
-      const password = document.getElementById('loginPassword').value;
-      
-      try {
-        if (window.login) {
-          console.log('Attempting login with:', email); // Debug log
-          const result = await window.login(email, password);
-          console.log('Login result:', result); // Debug log
-          if (result.success) {
-            document.getElementById('loginForm').reset();
-            closeModal('loginModal');
-          } else {
-            alert(result.error || 'Login failed. Please try again.');
-          }
-        } else {
-          console.error('Firebase auth not loaded');
-          alert('Authentication system not ready. Please refresh the page and try again.');
-        }
-      } catch (error) {
-        console.error('Login error:', error);
-        alert('Login failed: ' + error.message);
-      }
-    }
-
-    async function handleSignup(event) {
-      event.preventDefault();
-      
-      const name = document.getElementById('signupName').value;
-      const email = document.getElementById('signupEmail').value;
-      const password = document.getElementById('signupPassword').value;
-      const passwordConfirm = document.getElementById('signupPasswordConfirm').value;
-      
-      if (password !== passwordConfirm) {
-        alert('Passwords do not match');
-        return;
-      }
-      
-      try {
-        if (window.signup) {
-          console.log('Attempting signup with:', email); // Debug log
-          const result = await window.signup(email, password, name);
-          console.log('Signup result:', result); // Debug log
-          if (result.success) {
-            document.getElementById('signupForm').reset();
-            closeModal('signupModal');
-          } else {
-            alert(result.error || 'Signup failed. Please try again.');
-          }
-        } else {
-          console.error('Firebase auth not loaded');
-          alert('Authentication system not ready. Please refresh the page and try again.');
-        }
-      } catch (error) {
-        console.error('Signup error:', error);
-        alert('Signup failed: ' + error.message);
-      }
-    }
-
-    async function handleForgotPassword() {
-      const email = prompt('Enter your email address to reset your password:');
-      if (email && window.resetPassword) {
-        await window.resetPassword(email);
-      }
-    }
-
-    async function loginWithGoogle() {
-      if (window.loginWithGoogle) {
-        await window.loginWithGoogle();
-      } else {
-        console.error('Firebase auth not loaded');
-        alert('Authentication system not ready. Please refresh the page and try again.');
-      }
-    }
-
-    async function logout() {
-      if (window.logout) {
-        await window.logout();
-      }
-    }
-
-    // Global function for user dashboard toggle
-    window.toggleUserDashboard = function() {
-      const dashboard = document.getElementById('userDashboard');
-      if (dashboard) {
-        dashboard.style.display = dashboard.style.display === 'none' ? 'block' : 'none';
-        
-        // Scroll to dashboard if showing
-        if (dashboard.style.display === 'block') {
-          dashboard.scrollIntoView({ behavior: 'smooth' });
-        }
-      }
-    };
 
     // Close modal when clicking outside
     window.onclick = function(event) {
       if (event.target.classList.contains('modal')) {
-        const modals = document.querySelectorAll('.modal');
-        modals.forEach(modal => {
-          modal.style.display = 'none';
-          modal.setAttribute('aria-hidden', 'true');
-        });
+        event.target.style.display = 'none';
       }
     }
-  </script>
 
-  <!-- Load your custom Firebase auth script -->
-  <script src="firebase-auth.js"></script>
+    // CHANGE 6: Handle Labs dropdown click
+    function handleLabsClick(event) {
+      const isArrowClick = event.target.classList.contains('fa-chevron-down');
+      const dropdown = event.currentTarget.closest('.nav-dropdown');
+      
+      if (isArrowClick) {
+        event.preventDefault();
+        dropdown.classList.toggle('active');
+      } else {
+        dropdown.classList.remove('active');
+      }
+    }
+
+    // CHANGE 6: Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+      if (!event.target.closest('.nav-dropdown')) {
+        document.querySelectorAll('.nav-dropdown').forEach(d => {
+          d.classList.remove('active');
+        });
+      }
+    });
+
+    // CHANGE 6: Show dropdown on hover (desktop only)
+    document.addEventListener('DOMContentLoaded', function() {
+      const dropdowns = document.querySelectorAll('.nav-dropdown');
+      
+      dropdowns.forEach(dropdown => {
+        dropdown.addEventListener('mouseenter', function() {
+          if (window.innerWidth > 768) {
+            this.classList.add('active');
+          }
+        });
+        
+        dropdown.addEventListener('mouseleave', function() {
+          if (window.innerWidth > 768) {
+            setTimeout(() => {
+              this.classList.remove('active');
+            }, 300);
+          }
+        });
+      });
+    });
+
+    // Firebase Authentication Placeholder Functions
+    function handleLogin(event) {
+      event.preventDefault();
+      alert('Login functionality will be implemented with Firebase');
+      closeModal('loginModal');
+    }
+
+    function handleSignup(event) {
+      event.preventDefault();
+      alert('Signup functionality will be implemented with Firebase');
+      closeModal('signupModal');
+    }
+
+    function loginWithGoogle() {
+      alert('Google login will be implemented with Firebase');
+    }
+
+    function signupWithGoogle() {
+      alert('Google signup will be implemented with Firebase');
+    }
+
+    function logout() {
+      alert('Logout functionality will be implemented with Firebase');
+    }
+
+    function toggleUserDashboard() {
+      const dashboard = document.getElementById('userDashboard');
+      if (dashboard.style.display === 'none' || dashboard.style.display === '') {
+        dashboard.style.display = 'block';
+        dashboard.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        dashboard.style.display = 'none';
+      }
+    }
+
+    // Print functionality
+    window.addEventListener('beforeprint', function() {
+      // Expand all course cards for printing
+      document.querySelectorAll('.course-card').forEach(card => {
+        card.classList.add('expanded');
+      });
+    });
+
+    window.addEventListener('afterprint', function() {
+      // Collapse all course cards after printing
+      document.querySelectorAll('.course-card').forEach(card => {
+        card.classList.remove('expanded');
+      });
+    });
+  </script>
 </body>
 </html>
