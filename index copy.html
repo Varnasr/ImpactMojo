@@ -189,7 +189,7 @@
       margin: 0 auto 2rem;
     }
 
-    /* Navigation - FIXED */
+    /* Navigation - CHANGE 1: Horizontally align sign-up button */
     nav {
       display: flex;
       align-items: center;
@@ -197,11 +197,9 @@
       margin-top: 2rem;
       text-align: center;
       justify-content: center;
-      flex-wrap: wrap;
     }
 
-    nav a,
-    nav > a {
+    nav a {
       color: white;
       text-decoration: none;
       margin: 0 1rem;
@@ -211,12 +209,32 @@
       transition: var(--transition);
     }
 
-    nav a:hover,
-    nav > a:hover {
+    nav a:hover {
       background: rgba(255,255,255,0.3);
     }
 
-    /* Auth Buttons */
+nav a:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    /* FIX: Navigation button styling for "Wall of Love" and "Resources" links */
+    nav a[href="#wall-of-love"],
+    nav a[href="#extras"] {
+      color: white !important;
+      text-decoration: none;
+      margin: 0 1rem;
+      padding: 0.5rem 1rem;
+      background: rgba(255,255,255,0.2);
+      border-radius: 20px;
+      transition: var(--transition);
+      display: inline-block;
+    }
+
+    nav a[href="#wall-of-love"]:hover,
+    nav a[href="#extras"]:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    /* Auth Buttons - CHANGE 1: Proper alignment */
     .auth-buttons {
       display: flex;
       gap: 1rem;
@@ -330,7 +348,14 @@
       font-size: 0.8rem;
     }
 
-    /* Navigation Dropdown Styles */
+    /* CHANGE 3: Hide badge on mobile */
+    @media (max-width: 768px) {
+      .signup-benefits-badge {
+        display: none !important;
+      }
+    }
+
+    /* CHANGE 6: Navigation Dropdown Styles */
     .nav-dropdown {
       position: relative;
       display: inline-block;
@@ -411,6 +436,15 @@
 
     .nav-dropdown.active .fa-chevron-down {
       transform: rotate(180deg);
+    }
+
+    @media (max-width: 768px) {
+      .nav-dropdown-menu {
+        position: fixed;
+        left: 1rem;
+        right: 1rem;
+        transform: none;
+      }
     }
 
     /* Latest Additions */
@@ -1645,6 +1679,61 @@
       cursor: not-allowed;
     }
 
+    /* Quiz Styles */
+    .quiz-question {
+      margin-bottom: 2rem;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .quiz-options label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      background: var(--light-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .quiz-options label:hover {
+      background: var(--secondary-color);
+      color: white;
+    }
+
+    .quiz-navigation {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .quiz-navigation button {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: var(--border-radius);
+      background: var(--secondary-color);
+      color: white;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .quiz-navigation button:hover {
+      background: #2980b9;
+    }
+
+    .quiz-navigation button:disabled {
+      background: var(--border-color);
+      cursor: not-allowed;
+    }
+
     /* Animation keyframes */
     @keyframes slideIn {
       from {
@@ -1748,17 +1837,7 @@
         margin-top: 1rem;
       }
 
-      .nav-dropdown-menu {
-        position: fixed;
-        left: 1rem;
-        right: 1rem;
-        transform: none;
-      }
-
-      .signup-benefits-badge {
-        display: none !important;
-      }
-
+      /* CHANGE 3: Fix for upcoming course badges on mobile */
       .upcoming-courses div[style*="position: absolute"] {
         position: relative !important;
         top: auto !important;
@@ -1888,9 +1967,8 @@
         ImpactMojo is a curated library of full-length knowledge decks that explore justice, equity, and development practice in India and South Asia. Each one is grounded in theory, applied in context, and ready for real-world use by educators, practitioners, and social researchers worldwide.
       </p>
       
-      <!-- FIXED Navigation -->
-      <nav>
-        <div class="nav-dropdown">
+      <!-- CHANGE 4: Navigation with Auth -->
+      <div class="nav-dropdown">
           <a href="#labs" class="nav-dropdown-toggle" onclick="handleLabsClick(event)">
             Labs <i class="fas fa-chevron-down" style="font-size: 0.8em; margin-left: 0.3em;"></i>
           </a>
@@ -1938,10 +2016,15 @@
         <a href="#extras">Resources</a>
         
         <!-- AUTH BUTTONS -->
+        <div class="auth-buttons">
+          <div id="authButtons">
+        
+        <!-- AUTH BUTTONS -->
         <div class="auth-buttons" id="authButtons">
           <a href="#" onclick="openModal('loginModal')" class="auth-btn">Login</a>
           <div style="position: relative; display: inline-block;">
             <a href="#" onclick="openModal('signupModal')" class="auth-btn signup">Sign Up</a>
+            <!-- Add this right after the signup button -->
             <div class="signup-benefits-badge" id="signupBenefits">
               <div class="benefits-arrow"></div>
               <div class="benefits-content">
@@ -2179,6 +2262,7 @@
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
           <div style="background: var(--light-bg); border: 1px solid var(--border-color); border-radius: var(--border-radius); padding: 1.5rem; position: relative;">
             <div style="position: absolute; top: 1rem; right: 1rem; background: var(--info-color); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.8rem; font-weight: 600;">Coming Soon</div>
+            <!-- CHANGE 2: Update TAL to TALL -->
             <h4 style="color: var(--text-primary); margin: 0 0 1rem 0; font-size: 1.2rem;">Technology for All (TALL) 101</h4>
             <p style="color: var(--text-secondary); margin: 0; line-height: 1.6;">Online technology classes providing basic domain knowledge of 10 future technologies: IoT, AI, Robotics, Blockchain, Cryptocurrency, Cybercrime, Digital Transformation, Telehealth, Edutech & Metaworld. Designed for all who use computers, phones and internet, including non-engineers. Teaching in simple, jargon-free language.</p>
             <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
@@ -2213,7 +2297,7 @@
         <!-- Dashboard content will be populated by JavaScript -->
       </div>
 
-      <!-- Notes Section -->
+      <!-- CHANGE 7: Add Notes Section -->
       <section id="notes" style="padding: 4rem 0; background: var(--bg-primary);">
         <div class="container">
           <div class="section-header">
@@ -2231,7 +2315,7 @@
         </div>
       </section>
 
-      <!-- Labs Section -->
+      <!-- CHANGE 7: Add Labs Section -->
       <section id="labs" style="padding: 4rem 0; background: var(--light-bg);">
         <div class="container">
           <div class="section-header">
@@ -2447,7 +2531,7 @@
 
       <!-- Author Section -->
       <section class="author" id="author">
-        <img src="https://github.com/Varnasr/ImpactMojo/blob/main/assets/varna-photo.jpg?raw=true" alt="Dr. Varna Sri Raman" class="author-photo" onerror="this.style.display='none'">
+        <img src="https://vfolio.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F0f9c6bc5-dd33-4eec-b7f6-d3ec3bdc0e28%2FIMG_20190830_182145~2-01.jpeg?table=block&id=0b813e55-b2d7-4a0f-9e1a-62a92e3c7ba9&spaceId=52de9e1f-e55e-48d7-ba02-e6df11f4c951&width=2000&userId=&cache=v2" alt="Dr. Varna Sri Raman" class="author-photo">
         <div class="author-content">
           <h3>Dr. Varna Sri Raman</h3>
           <p>
@@ -2492,6 +2576,7 @@
         <a href="#wall-of-love">Wall of Love</a>
         <a href="#extras">Resources</a>
         <a href="https://github.com/Varnasr/ImpactMojo" target="_blank">GitHub</a>
+        <!-- CHANGE 5: Update footer contact link -->
         <a href="/contact">Contact</a>
         <a href="/terms-of-use">Terms of Use</a>
         <a href="/privacy-policy">Privacy Policy</a>
@@ -2979,3 +3064,687 @@
       {
         id: 18,
         title: 'Multivariate Analysis 101',
+        topic: 'data',
+        level: 'advanced',
+        duration: 'long',
+        icon: 'fas fa-layer-group',
+        description: 'Multiple regression, factor analysis, clustering, and advanced statistical methods for complex development questions.',
+        url: 'https://101.www.impactmojo.in/multivariate',
+        prerequisites: ['Bivariate analysis', 'Advanced statistics'],
+        outcomes: ['Apply multivariate techniques', 'Handle complex datasets', 'Interpret advanced results'],
+        audience: 'Advanced researchers, data scientists, evaluation experts',
+        learnerCount: 876,
+        rating: 4.2,
+        relatedExtras: ['data', 'research']
+      },
+      {
+        id: 19,
+        title: 'Marginalized Identities 101',
+        topic: 'identity',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-users',
+        description: 'Intersectionality, caste, religion, sexuality, and disability in Indian contexts with rights-based approaches.',
+        url: 'https://101.www.impactmojo.in/marginalized-identities',
+        prerequisites: ['Social awareness', 'Human rights perspective'],
+        outcomes: ['Understand intersectionality', 'Analyze discrimination patterns', 'Design inclusive policies'],
+        audience: 'Rights advocates, social workers, policy makers',
+        learnerCount: 987,
+        rating: 4.5,
+        relatedExtras: ['handouts', 'research']
+      },
+      {
+        id: 20,
+        title: 'EDA for Household Survey Data 101',
+        topic: 'data',
+        level: 'beginner',
+        duration: 'medium',
+        icon: 'fas fa-search',
+        description: 'Teaches univariate and distributional analysis, skewness, missingness, and data hygiene checks using real survey microdata.',
+        url: 'https://101.www.impactmojo.in/HH-EDA',
+        prerequisites: ['Basic spreadsheet skills', 'Interest in data analysis'],
+        outcomes: ['Perform exploratory data analysis', 'Clean and validate datasets', 'Identify data quality issues'],
+        audience: 'Researchers, program officers, data entry staff',
+        learnerCount: 1567,
+        rating: 4.6,
+        relatedExtras: ['data', 'handouts']
+      },
+      {
+        id: 21,
+        title: 'Qualitative Research 101',
+        topic: 'research',
+        level: 'intermediate',
+        duration: 'long',
+        icon: 'fas fa-microscope',
+        description: 'Complete guide to qualitative methods—IDIs, FGDs, ethnography, coding, consent—with Indian case examples.',
+        url: 'https://101.www.impactmojo.in/QualR',
+        prerequisites: ['Basic research awareness', 'Interest in field methods'],
+        outcomes: ['Design qualitative studies', 'Conduct interviews and focus groups', 'Analyze qualitative data'],
+        audience: 'Researchers, social workers, anthropologists',
+        learnerCount: 1389,
+        rating: 4.5,
+        relatedExtras: ['research', 'handouts']
+      },
+      {
+        id: 22,
+        title: 'Post-Truth Politics 101',
+        topic: 'media',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-exclamation-triangle',
+        description: 'Examines misinformation, narrative warfare, political polarization, and trust erosion in India\'s public sphere.',
+        url: 'https://101.www.impactmojo.in/post-truth',
+        prerequisites: ['Political awareness', 'Media literacy'],
+        outcomes: ['Identify misinformation', 'Analyze political narratives', 'Design counter-strategies'],
+        audience: 'Journalists, political scientists, civic educators',
+        learnerCount: 892,
+        rating: 4.1,
+        relatedExtras: ['handouts']
+      },
+      {
+        id: 23,
+        title: 'Media and Technology for Development 101',
+        topic: 'media',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-broadcast-tower',
+        description: 'Explores digital media\'s role in development communication, behavior change, and civic engagement in India.',
+        url: 'https://101.www.impactmojo.in/media-tech-dev',
+        prerequisites: ['Media awareness', 'Development experience'],
+        outcomes: ['Design media campaigns', 'Use technology for behavior change', 'Evaluate media impact'],
+        audience: 'Communication specialists, development practitioners, media professionals',
+        learnerCount: 756,
+        rating: 4.2,
+        relatedExtras: ['handouts']
+      },
+      {
+        id: 24,
+        title: 'Gender Studies 101',
+        topic: 'gender',
+        level: 'intermediate',
+        duration: 'long',
+        icon: 'fas fa-venus-mars',
+        description: 'Surveys feminist theory, gender and sexuality, patriarchy, queer movements, and legal shifts across India and South Asia.',
+        url: 'https://101.www.impactmojo.in/Gender',
+        prerequisites: ['Social awareness', 'Open mindset'],
+        outcomes: ['Understand gender theories', 'Analyze power structures', 'Design inclusive policies'],
+        audience: 'Gender studies students, activists, policy makers',
+        learnerCount: 1567,
+        rating: 4.6,
+        relatedExtras: ['handouts']
+      },
+      {
+        id: 25,
+        title: 'Livelihoods 101',
+        topic: 'livelihoods',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-seedling',
+        description: 'Covers assets, strategies, and outcomes with practical tools for livelihood programming in rural and urban contexts.',
+        url: 'https://101.www.impactmojo.in/Livelihoods',
+        prerequisites: ['Basic development concepts'],
+        outcomes: ['Apply livelihoods framework', 'Design livelihood interventions', 'Measure livelihood outcomes'],
+        audience: 'Development practitioners, program managers, field workers',
+        learnerCount: 1823,
+        rating: 4.6,
+        relatedExtras: ['handouts']
+      },
+      {
+        id: 26,
+        title: 'Public Health 101',
+        topic: 'health',
+        level: 'intermediate',
+        duration: 'long',
+        icon: 'fas fa-stethoscope',
+        description: 'Covers primary health care, OneHealth, health systems, and social determinants with South Asian equity challenges.',
+        url: 'https://101.www.impactmojo.in/ph',
+        prerequisites: ['Basic health awareness', 'Systems thinking'],
+        outcomes: ['Understand health systems', 'Apply public health principles', 'Design health interventions'],
+        audience: 'Health professionals, public health students, policy makers',
+        learnerCount: 1456,
+        rating: 4.5,
+        relatedExtras: ['handouts', 'research']
+      },
+      {
+        id: 27,
+        title: 'Education and Pedagogy 101',
+        topic: 'education',
+        level: 'intermediate',
+        duration: 'long',
+        icon: 'fas fa-graduation-cap',
+        description: 'Introduces learning theory, pedagogy, curriculum debates, and NEP 2020 themes for Indian education professionals.',
+        url: 'https://101.www.impactmojo.in/edu',
+        prerequisites: ['Teaching experience', 'Interest in education policy'],
+        outcomes: ['Apply learning theories', 'Design effective curricula', 'Implement pedagogical innovations'],
+        audience: 'Teachers, education administrators, curriculum designers',
+        learnerCount: 1623,
+        rating: 4.7,
+        relatedExtras: ['handouts']
+      },
+      {
+        id: 28,
+        title: 'Human-Centered Design 101',
+        topic: 'systems',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-lightbulb',
+        description: 'Design thinking methodology for development programs, focusing on user research, prototyping, and iterative improvement.',
+        url: 'https://101.www.impactmojo.in/hcd',
+        prerequisites: ['Program design experience', 'Creative thinking'],
+        outcomes: ['Apply design thinking methods', 'Conduct user research', 'Prototype solutions'],
+        audience: 'Program designers, innovation specialists, development practitioners',
+        learnerCount: 934,
+        rating: 4.3,
+        relatedExtras: ['handouts', 'research']
+      },
+      {
+        id: 29,
+        title: 'Financial Inclusion 101',
+        topic: 'economics',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-money-bill-wave',
+        description: 'Examines access to financial services, digital payments, microfinance, and financial capability in Indian contexts.',
+        url: 'https://101.www.impactmojo.in/financial-inclusion',
+        prerequisites: ['Basic finance', 'Development awareness'],
+        outcomes: ['Design financial inclusion programs', 'Evaluate financial services', 'Address access barriers'],
+        audience: 'Microfinance professionals, fintech specialists, financial inclusion advocates',
+        learnerCount: 1267,
+        rating: 4.4,
+        relatedExtras: ['handouts', 'data']
+      },
+      {
+        id: 30,
+        title: 'Urban Planning and Governance 101',
+        topic: 'systems',
+        level: 'intermediate',
+        duration: 'long',
+        icon: 'fas fa-city',
+        description: 'Urban development challenges, participatory planning, smart cities, and local governance in Indian metropolitan contexts.',
+        url: 'https://101.www.impactmojo.in/urban-planning',
+        prerequisites: ['Urban awareness', 'Governance concepts'],
+        outcomes: ['Analyze urban challenges', 'Design participatory processes', 'Understand urban governance'],
+        audience: 'Urban planners, municipal officials, civic activists',
+        learnerCount: 845,
+        rating: 4.2,
+        relatedExtras: ['handouts', 'research']
+      },
+      {
+        id: 31,
+        title: 'Justice and Rights 101',
+        topic: 'justice',
+        level: 'intermediate',
+        duration: 'long',
+        icon: 'fas fa-gavel',
+        description: 'Constitutional rights, access to justice, legal aid, and rights-based approaches in Indian development practice.',
+        url: 'https://101.www.impactmojo.in/justice-rights',
+        prerequisites: ['Legal awareness', 'Rights perspective'],
+        outcomes: ['Apply rights-based approaches', 'Navigate legal systems', 'Design justice interventions'],
+        audience: 'Legal aid workers, rights advocates, development practitioners',
+        learnerCount: 1123,
+        rating: 4.5,
+        relatedExtras: ['handouts', 'research']
+      },
+      {
+        id: 32,
+        title: 'Food Systems and Nutrition 101',
+        topic: 'development',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-apple-alt',
+        description: 'Food security, nutrition programs, sustainable agriculture, and food policy in South Asian contexts.',
+        url: 'https://101.www.impactmojo.in/food-systems',
+        prerequisites: ['Basic nutrition awareness', 'Development concepts'],
+        outcomes: ['Analyze food systems', 'Design nutrition interventions', 'Understand food policy'],
+        audience: 'Nutritionists, agriculture specialists, policy makers',
+        learnerCount: 1345,
+        rating: 4.4,
+        relatedExtras: ['handouts', 'data']
+      },
+      {
+        id: 33,
+        title: 'Migration and Development 101',
+        topic: 'development',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-route',
+        description: 'Internal and international migration, remittances, displacement, and migration-development nexus in South Asia.',
+        url: 'https://101.www.impactmojo.in/migration',
+        prerequisites: ['Development awareness', 'Social concepts'],
+        outcomes: ['Understand migration dynamics', 'Design migrant-friendly policies', 'Analyze migration impacts'],
+        audience: 'Migration specialists, policy makers, researchers',
+        learnerCount: 967,
+        rating: 4.3,
+        relatedExtras: ['handouts', 'research']
+      }
+    ];
+
+    // Learning Paths data
+    const learningPaths = {
+      'data-analysis': {
+        name: 'Data Analysis Track',
+        courses: [4, 20, 17, 18],
+        description: 'Master data skills from basics to advanced analysis'
+      },
+      'gender-studies': {
+        name: 'Gender Studies Pathway',
+        courses: [1, 2, 5, 15],
+        description: 'Comprehensive understanding of gender in development'
+      },
+      'policy-economics': {
+        name: 'Policy & Economics Track',
+        courses: [3, 7, 8, 9],
+        description: 'From basic economics to policy analysis'
+      },
+      'research-methods': {
+        name: 'Research Methods Track',
+        courses: [6, 21, 16, 10],
+        description: 'Complete research toolkit for development work'
+      }
+    };
+
+    // Global variables
+    let filteredCourses = [...allCourses];
+    let displayedCourses = [...allCourses];
+    let selectedForComparison = [];
+    let bookmarkedCourses = JSON.parse(localStorage.getItem('bookmarkedCourses') || '[]');
+    let searchTimeout;
+    let currentUser = null;
+
+    // Theme Toggle
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+
+    // Initialize theme
+    function initTheme() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        document.body.classList.add('dark');
+        document.querySelector('.theme-toggle').textContent = '☀️';
+      }
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      initTheme();
+      loadCourses();
+      
+      // Add search input listener with debouncing
+      const searchInput = document.getElementById('searchInput');
+      if (searchInput) {
+        searchInput.addEventListener('input', function() {
+          clearTimeout(searchTimeout);
+          searchTimeout = setTimeout(filterCourses, 300);
+        });
+      }
+    });
+
+    // Create course card
+    function createCourseCard(course, index) {
+      const card = document.createElement('div');
+      card.className = 'course-card';
+      card.setAttribute('data-course-id', course.id);
+      card.onclick = () => toggleCourseDetails(card);
+      
+      const isBookmarked = bookmarkedCourses.includes(course.title);
+      const bookmarkIcon = isBookmarked ? 'fas fa-bookmark' : 'far fa-bookmark';
+      const bookmarkClass = isBookmarked ? 'bookmarked' : '';
+      
+      card.innerHTML = `
+        <div class="course-number">${index + 1}</div>
+        <div class="course-icon-wrapper">
+          <i class="${course.icon}"></i>
+        </div>
+        <div class="course-title-section">
+          <h3 class="course-title">${course.title}</h3>
+          <div class="course-meta">
+            <span class="meta-tag">${course.topic}</span>
+            <span class="meta-tag">${course.level}</span>
+            <span class="meta-tag">${course.duration}</span>
+          </div>
+        </div>
+        <p class="course-description">${course.description}</p>
+        <div class="course-stats">
+          <span class="course-stat"><i class="fas fa-users"></i> ${course.learnerCount.toLocaleString()}</span>
+          <span class="course-stat"><i class="fas fa-star"></i> ${course.rating}</span>
+          <span class="course-stat"><i class="fas fa-clock"></i> ${course.duration}</span>
+        </div>
+        <div class="course-actions">
+          <div class="course-actions-left">
+            <a href="${course.url}" target="_blank" class="launch-btn" onclick="event.stopPropagation();">
+              Launch Course <i class="fas fa-external-link-alt"></i>
+            </a>
+            <button class="bookmark-btn ${bookmarkClass}" onclick="event.stopPropagation(); toggleBookmark(this, '${course.title}');">
+              <i class="${bookmarkIcon}"></i>
+            </button>
+          </div>
+          <label onclick="event.stopPropagation();">
+            <input type="checkbox" class="compare-checkbox" onchange="toggleComparison(${course.id})">
+            Compare
+          </label>
+        </div>
+        <div class="course-details">
+          <div class="details-section">
+            <h4>Prerequisites</h4>
+            <ul>
+              ${course.prerequisites.map(p => `<li>${p}</li>`).join('')}
+            </ul>
+          </div>
+          <div class="details-section">
+            <h4>Learning Outcomes</h4>
+            <ul>
+              ${course.outcomes.map(o => `<li>${o}</li>`).join('')}
+            </ul>
+          </div>
+          <div class="details-section">
+            <h4>Target Audience</h4>
+            <p>${course.audience}</p>
+          </div>
+          ${course.relatedExtras ? `
+          <div class="details-section">
+            <h4>Related Resources</h4>
+            <p>${course.relatedExtras.map(extra => extra.charAt(0).toUpperCase() + extra.slice(1)).join(', ')}</p>
+          </div>
+          ` : ''}
+        </div>
+      `;
+      
+      return card;
+    }
+
+    // Toggle course details
+    function toggleCourseDetails(card) {
+      const isExpanded = card.classList.contains('expanded');
+      
+      // Close all other expanded cards
+      document.querySelectorAll('.course-card.expanded').forEach(otherCard => {
+        if (otherCard !== card) {
+          otherCard.classList.remove('expanded');
+        }
+      });
+      
+      // Toggle current card
+      if (isExpanded) {
+        card.classList.remove('expanded');
+      } else {
+        card.classList.add('expanded');
+      }
+    }
+
+    // Load and display courses
+    function loadCourses() {
+      displayCourses(allCourses);
+      updateCourseCount();
+    }
+
+    // Display courses
+    function displayCourses(courses) {
+      const container = document.getElementById('courseContainer');
+      const noResults = document.getElementById('noResults');
+      
+      if (courses.length === 0) {
+        container.style.display = 'none';
+        noResults.classList.remove('hidden');
+      } else {
+        container.style.display = 'grid';
+        noResults.classList.add('hidden');
+        
+        container.innerHTML = '';
+        courses.forEach((course, index) => {
+          const courseCard = createCourseCard(course, index);
+          container.appendChild(courseCard);
+        });
+      }
+      
+      displayedCourses = courses;
+      document.getElementById('visibleCount').textContent = courses.length;
+    }
+
+    // Filter courses
+    function filterCourses() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const topicFilter = document.getElementById('topicFilter').value;
+      const levelFilter = document.getElementById('levelFilter').value;
+      const durationFilter = document.getElementById('durationFilter').value;
+      
+      filteredCourses = allCourses.filter(course => {
+        const matchesSearch = searchTerm === '' || 
+          course.title.toLowerCase().includes(searchTerm) ||
+          course.description.toLowerCase().includes(searchTerm) ||
+          course.topic.toLowerCase().includes(searchTerm);
+          
+        const matchesTopic = topicFilter === 'all' || course.topic === topicFilter;
+        const matchesLevel = levelFilter === 'all' || course.level === levelFilter;
+        const matchesDuration = durationFilter === 'all' || course.duration === durationFilter;
+        
+        return matchesSearch && matchesTopic && matchesLevel && matchesDuration;
+      });
+      
+      displayCourses(filteredCourses);
+      updateCourseCount();
+    }
+
+    // Clear all filters
+    function clearAllFilters() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('topicFilter').value = 'all';
+      document.getElementById('levelFilter').value = 'all';
+      document.getElementById('durationFilter').value = 'all';
+      filterCourses();
+    }
+
+    // Update course count
+    function updateCourseCount() {
+      document.getElementById('visibleCount').textContent = displayedCourses.length;
+      document.getElementById('totalCount').textContent = allCourses.length;
+    }
+
+    // Toggle view
+    function toggleView(view) {
+      const container = document.getElementById('courseContainer');
+      const buttons = document.querySelectorAll('.view-btn');
+      
+      buttons.forEach(btn => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-pressed', 'false');
+      });
+      
+      event.target.classList.add('active');
+      event.target.setAttribute('aria-pressed', 'true');
+      
+      if (view === 'grid') {
+        container.className = 'courses-grid';
+      } else {
+        container.className = 'courses-list';
+      }
+    }
+
+    // Toggle bookmark
+    function toggleBookmark(button, courseTitle) {
+      if (window.toggleBookmark) {
+        window.toggleBookmark(courseTitle, courseTitle);
+      } else {
+        // Fallback to localStorage if Firebase not available
+        const icon = button.querySelector('i');
+        
+        if (bookmarkedCourses.includes(courseTitle)) {
+          bookmarkedCourses = bookmarkedCourses.filter(title => title !== courseTitle);
+          button.classList.remove('bookmarked');
+          icon.className = 'far fa-bookmark';
+        } else {
+          bookmarkedCourses.push(courseTitle);
+          button.classList.add('bookmarked');
+          icon.className = 'fas fa-bookmark';
+        }
+        
+        localStorage.setItem('bookmarkedCourses', JSON.stringify(bookmarkedCourses));
+      }
+    }
+
+    // Toggle comparison
+    function toggleComparison(courseId) {
+      const index = selectedForComparison.indexOf(courseId);
+      if (index > -1) {
+        selectedForComparison.splice(index, 1);
+      } else {
+        if (selectedForComparison.length >= 3) {
+          alert('You can compare up to 3 courses at a time.');
+          return;
+        }
+        selectedForComparison.push(courseId);
+      }
+      
+      updateComparisonCount();
+      updateComparisonButton();
+    }
+
+    // Update comparison count
+    function updateComparisonCount() {
+      document.getElementById('compareCount').textContent = selectedForComparison.length;
+    }
+
+    // Update comparison button visibility
+    function updateComparisonButton() {
+      const compareBtn = document.getElementById('compareBtn');
+      const fabCompareBtn = document.querySelector('.fab-btn.compare');
+      
+      if (selectedForComparison.length > 0) {
+        compareBtn.style.display = 'flex';
+        if (fabCompareBtn) fabCompareBtn.style.display = 'flex';
+      } else {
+        compareBtn.style.display = 'none';
+        if (fabCompareBtn) fabCompareBtn.style.display = 'none';
+      }
+    }
+
+    // Apply learning path
+    function applyLearningPath(pathId) {
+      const path = learningPaths[pathId];
+      if (!path) return;
+      
+      // Filter courses to show only those in the learning path
+      const pathCourses = allCourses.filter(course => path.courses.includes(course.id));
+      displayCourses(pathCourses);
+      
+      // Update search input to show path name
+      document.getElementById('searchInput').value = `Learning Path: ${path.name}`;
+      
+      // Scroll to courses section
+      document.getElementById('courses').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Modal functions
+    function openModal(modalId) {
+      document.getElementById(modalId).style.display = 'block';
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      if (event.target.classList.contains('modal')) {
+        event.target.style.display = 'none';
+      }
+    }
+
+    // CHANGE 6: Handle Labs dropdown click
+    function handleLabsClick(event) {
+      const isArrowClick = event.target.classList.contains('fa-chevron-down');
+      const dropdown = event.currentTarget.closest('.nav-dropdown');
+      
+      if (isArrowClick) {
+        event.preventDefault();
+        dropdown.classList.toggle('active');
+      } else {
+        dropdown.classList.remove('active');
+      }
+    }
+
+    // CHANGE 6: Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+      if (!event.target.closest('.nav-dropdown')) {
+        document.querySelectorAll('.nav-dropdown').forEach(d => {
+          d.classList.remove('active');
+        });
+      }
+    });
+
+    // CHANGE 6: Show dropdown on hover (desktop only)
+    document.addEventListener('DOMContentLoaded', function() {
+      const dropdowns = document.querySelectorAll('.nav-dropdown');
+      
+      dropdowns.forEach(dropdown => {
+        dropdown.addEventListener('mouseenter', function() {
+          if (window.innerWidth > 768) {
+            this.classList.add('active');
+          }
+        });
+        
+        dropdown.addEventListener('mouseleave', function() {
+          if (window.innerWidth > 768) {
+            setTimeout(() => {
+              this.classList.remove('active');
+            }, 300);
+          }
+        });
+      });
+    });
+
+    // Firebase Authentication Placeholder Functions
+    function handleLogin(event) {
+      event.preventDefault();
+      alert('Login functionality will be implemented with Firebase');
+      closeModal('loginModal');
+    }
+
+    function handleSignup(event) {
+      event.preventDefault();
+      alert('Signup functionality will be implemented with Firebase');
+      closeModal('signupModal');
+    }
+
+    function loginWithGoogle() {
+      alert('Google login will be implemented with Firebase');
+    }
+
+    function signupWithGoogle() {
+      alert('Google signup will be implemented with Firebase');
+    }
+
+    function logout() {
+      alert('Logout functionality will be implemented with Firebase');
+    }
+
+    function toggleUserDashboard() {
+      const dashboard = document.getElementById('userDashboard');
+      if (dashboard.style.display === 'none' || dashboard.style.display === '') {
+        dashboard.style.display = 'block';
+        dashboard.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        dashboard.style.display = 'none';
+      }
+    }
+
+    // Print functionality
+    window.addEventListener('beforeprint', function() {
+      // Expand all course cards for printing
+      document.querySelectorAll('.course-card').forEach(card => {
+        card.classList.add('expanded');
+      });
+    });
+
+    window.addEventListener('afterprint', function() {
+      // Collapse all course cards after printing
+      document.querySelectorAll('.course-card').forEach(card => {
+        card.classList.remove('expanded');
+      });
+    });
+  </script>
+</body>
+</html>
