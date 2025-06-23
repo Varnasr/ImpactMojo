@@ -2237,3 +2237,367 @@ if (selectedCourses && selectedCourses.length > 0) {
   console.log('🔄 Courses already selected, creating button...');
   createFloatingButton();
 }
+// 🔧 CONFLICT FIX - Add this to the END of your main.js file (after the emergency fixes)
+
+console.log('🔧 Starting conflict resolution...');
+
+// Step 1: Debug what's happening when compare is clicked
+window.debugCompareClick = function(courseId) {
+  console.log('🖱️ Compare clicked for course:', courseId);
+  console.log('📋 Before - selectedCourses:', [...selectedCourses]);
+  console.log('📋 Before - comparisonList:', [...comparisonList]);
+  
+  // Call the emergency function
+  toggleCourseComparison(courseId);
+  
+  console.log('📋 After - selectedCourses:', [...selectedCourses]);
+  console.log('📋 After - comparisonList:', [...comparisonList]);
+};
+
+// Step 2: Override ALL compare functions to use our emergency one
+window.toggleCompare = window.toggleCourseComparison;
+
+// Step 3: Fix the floating button issue
+window.createFloatingButton = function() {
+  console.log('🔘 Creating floating button, selectedCourses count:', selectedCourses.length);
+  
+  // Remove ALL existing floating buttons
+  const existingBtns = document.querySelectorAll('.emergency-fab-btn, .fab-btn.compare, .compare-fab');
+  existingBtns.forEach(btn => {
+    console.log('🗑️ Removing existing button:', btn.className);
+    btn.remove();
+  });
+  
+  if (selectedCourses.length === 0) {
+    console.log('❌ No courses selected, no button needed');
+    return;
+  }
+  
+  console.log('✅ Creating new floating button...');
+  
+  // Create ONE floating button
+  const fabBtn = document.createElement('button');
+  fabBtn.className = 'emergency-fab-btn';
+  fabBtn.innerHTML = `<i class="fas fa-balance-scale"></i> Compare Selected (${selectedCourses.length})`;
+  
+  // Position and style
+  fabBtn.style.cssText = `
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  background: #f59e0b !important;
+  color: white !important;
+  border: none !important;
+  padding: 15px 25px !important;
+  border-radius: 30px !important;
+  cursor: pointer !important;
+  font-weight: bold !important;
+  font-size: 16px !important;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4) !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  transition: all 0.3s ease !important;
+  font-family: inherit !important;
+  `;
+  
+  // Click handler with debugging
+  fabBtn.onclick = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log('🖱️ FLOATING BUTTON CLICKED!');
+    console.log('📋 Current selectedCourses:', selectedCourses);
+    
+    if (selectedCourses.length < 2) {
+      alert('Please select at least 2 courses to compare.');
+      return;
+    }
+    
+    emergencyShowComparison();
+  };
+  
+  // Hover effects
+  fabBtn.onmouseover = function() {
+    this.style.transform = 'scale(1.05)';
+    this.style.background = '#d97706';
+    this.style.boxShadow = '0 8px 25px rgba(0,0,0,0.5)';
+  };
+  
+  fabBtn.onmouseout = function() {
+    this.style.transform = 'scale(1)';
+    this.style.background = '#f59e0b';
+    this.style.boxShadow = '0 6px 20px rgba(0,0,0,0.4)';
+  };
+  
+  document.body.appendChild(fabBtn);
+  console.log('✅ Floating button created and positioned');
+  
+  // Test if button is visible
+  const rect = fabBtn.getBoundingClientRect();
+  console.log('📍 Button position:', rect);
+};
+
+// Step 4: Fix the updateCourseCardStates function
+window.updateCourseCardStates = function() {
+  console.log('🔄 Updating course card states...');
+  
+  // Update selected course buttons
+  selectedCourses.forEach(courseId => {
+    const compareBtn = document.querySelector(`[data-course-id="${courseId}"] .course-compare-btn, [data-course-id="${courseId}"] .compare-btn`);
+    if (compareBtn) {
+      compareBtn.classList.add('selected', 'active');
+      compareBtn.innerHTML = '<i class="fas fa-check"></i> Selected';
+      compareBtn.style.background = '#059669';
+      compareBtn.style.color = 'white';
+      compareBtn.style.borderColor = '#059669';
+      console.log('✅ Updated button for course:', courseId);
+    }
+  });
+  
+  // Reset unselected course buttons
+  const allCompareBtns = document.querySelectorAll('.course-compare-btn, .compare-btn');
+  allCompareBtns.forEach(btn => {
+    const courseCard = btn.closest('[data-course-id]');
+    if (courseCard) {
+      const courseId = courseCard.getAttribute('data-course-id');
+      if (!selectedCourses.includes(courseId)) {
+        btn.classList.remove('selected', 'active');
+        btn.innerHTML = '<i class="fas fa-balance-scale"></i> Compare';
+        btn.style.background = '';
+        btn.style.color = '';
+        btn.style.borderColor = '';
+      }
+    }
+  });
+  
+  console.log('🔄 Card states updated');
+};
+
+// Step 5: Enhanced emergencyShowComparison with better debugging
+window.emergencyShowComparison = function() {
+  console.log('🚨 EMERGENCY COMPARISON MODAL STARTING');
+  console.log('📋 Selected courses to compare:', selectedCourses);
+  
+  if (selectedCourses.length < 2) {
+    alert('Please select at least 2 courses to compare.');
+    return;
+  }
+  
+  // Get course data with detailed logging
+  const coursesToCompare = [];
+  selectedCourses.forEach(id => {
+    const course = courses.find(c => c.id === id);
+    if (course) {
+      coursesToCompare.push(course);
+      console.log(`✅ Found course: ${course.title}`);
+    } else {
+      console.log(`❌ Course not found: ${id}`);
+    }
+  });
+  
+  if (coursesToCompare.length === 0) {
+    alert('Course data not found. Please refresh the page.');
+    return;
+  }
+  
+  console.log('📊 Creating comparison for:', coursesToCompare.map(c => c.title));
+  
+  // Enhanced comparison content
+  let comparisonHTML = `
+  <div style="max-height: 75vh; overflow-y: auto; padding: 10px;">
+  <div style="text-align: center; margin-bottom: 25px;">
+  <h2 style="color: #2563eb; margin: 0; font-size: 28px;">
+  <i class="fas fa-balance-scale"></i> Course Comparison
+  </h2>
+  <p style="color: #64748b; margin: 10px 0 0 0;">Compare ${coursesToCompare.length} selected courses</p>
+  </div>
+  
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px;">
+  `;
+  
+  coursesToCompare.forEach((course, index) => {
+    comparisonHTML += `
+  <div style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); padding: 25px; border-radius: 15px; border: 2px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+  <div style="background: ${index === 0 ? '#2563eb' : index === 1 ? '#059669' : '#dc2626'}; color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center;">
+  <h3 style="margin: 0; font-size: 20px; font-weight: bold;">${course.title}</h3>
+  </div>
+  
+  <div style="space-y: 12px;">
+  <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e2e8f0;">
+  <strong style="color: #374151;">Category:</strong> 
+  <span style="color: #6b7280;">${course.category}</span>
+  </div>
+  
+  <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e2e8f0;">
+  <strong style="color: #374151;">Difficulty:</strong> 
+  <span style="padding: 4px 12px; border-radius: 15px; font-size: 13px; font-weight: bold; color: white; background: ${
+              course.difficulty === 'beginner' ? '#059669' : 
+              course.difficulty === 'intermediate' ? '#d97706' : '#dc2626'
+            };">${course.difficulty.toUpperCase()}</span>
+  </div>
+  
+  <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e2e8f0;">
+  <strong style="color: #374151;">Duration:</strong> 
+  <span style="color: #6b7280;">${course.duration}</span>
+  </div>
+  
+  <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e2e8f0;">
+  <strong style="color: #374151;">Rating:</strong> 
+  <span style="color: #f59e0b; font-weight: bold;">⭐ ${course.rating}/5</span>
+  </div>
+  
+  <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e2e8f0;">
+  <strong style="color: #374151;">Learners:</strong> 
+  <span style="color: #6b7280;">${course.learnerCount ? course.learnerCount.toLocaleString() : 'N/A'}</span>
+  </div>
+  </div>
+  
+  <div style="margin: 20px 0; padding: 15px; background: white; border-radius: 8px; border-left: 4px solid ${index === 0 ? '#2563eb' : index === 1 ? '#059669' : '#dc2626'};">
+  <strong style="color: #374151; display: block; margin-bottom: 8px;">Description:</strong>
+  <p style="margin: 0; color: #6b7280; line-height: 1.6; font-size: 14px;">${course.description}</p>
+  </div>
+  
+  <div style="text-align: center; margin-top: 20px;">
+  <a href="${course.url}" target="_blank" rel="noopener" style="background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-weight: bold; box-shadow: 0 3px 10px rgba(37, 99, 235, 0.3); transition: all 0.3s ease;">
+  <i class="fas fa-external-link-alt"></i> Launch Course
+  </a>
+  </div>
+  </div>
+  `;
+  });
+  
+  comparisonHTML += `
+  </div>
+  <div style="margin-top: 30px; text-align: center; padding: 20px; background: #f8fafc; border-radius: 10px;">
+  <button onclick="emergencyClearComparison()" style="background: #dc2626; color: white; padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; box-shadow: 0 3px 10px rgba(220, 38, 38, 0.3); transition: all 0.3s ease;">
+  <i class="fas fa-times"></i> Clear All & Close
+  </button>
+  </div>
+  </div>
+  `;
+  
+  // Create and show enhanced modal
+  createEnhancedEmergencyModal(comparisonHTML);
+  console.log('✅ Enhanced comparison modal created');
+};
+
+// Step 6: Enhanced modal creation
+function createEnhancedEmergencyModal(content) {
+  // Remove existing modal
+  const existingModal = document.getElementById('emergencyModal');
+  if (existingModal) {
+    existingModal.remove();
+  }
+  
+  // Create modal backdrop
+  const modal = document.createElement('div');
+  modal.id = 'emergencyModal';
+  modal.style.cssText = `
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: rgba(0, 0, 0, 0.7) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 10000 !important;
+  backdrop-filter: blur(5px) !important;
+  animation: fadeIn 0.3s ease !important;
+  `;
+  
+  // Create modal content
+  const modalContent = document.createElement('div');
+  modalContent.style.cssText = `
+  background: white !important;
+  padding: 0 !important;
+  border-radius: 20px !important;
+  width: 95% !important;
+  max-width: 1200px !important;
+  max-height: 90vh !important;
+  overflow: hidden !important;
+  position: relative !important;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4) !important;
+  animation: slideUp 0.3s ease !important;
+  `;
+  
+  // Add close button
+  const closeBtn = document.createElement('button');
+  closeBtn.innerHTML = '&times;';
+  closeBtn.style.cssText = `
+  position: absolute !important;
+  top: 20px !important;
+  right: 25px !important;
+  background: none !important;
+  border: none !important;
+  font-size: 35px !important;
+  cursor: pointer !important;
+  color: #64748b !important;
+  z-index: 10001 !important;
+  border-radius: 50% !important;
+  width: 45px !important;
+  height: 45px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.3s ease !important;
+  `;
+  closeBtn.onclick = () => {
+    modal.style.animation = 'fadeOut 0.3s ease';
+    setTimeout(() => modal.remove(), 300);
+  };
+  closeBtn.onmouseover = () => {
+    closeBtn.style.background = '#dc2626';
+    closeBtn.style.color = 'white';
+  };
+  closeBtn.onmouseout = () => {
+    closeBtn.style.background = 'none';
+    closeBtn.style.color = '#64748b';
+  };
+  
+  modalContent.innerHTML = content;
+  modalContent.appendChild(closeBtn);
+  modal.appendChild(modalContent);
+  
+  // Close on backdrop click
+  modal.onclick = (e) => {
+    if (e.target === modal) {
+      modal.style.animation = 'fadeOut 0.3s ease';
+      setTimeout(() => modal.remove(), 300);
+    }
+  };
+  
+  // Add animations
+  const style = document.createElement('style');
+  style.textContent = `
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+  @keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  `;
+  document.head.appendChild(style);
+  
+  document.body.appendChild(modal);
+  console.log('✅ Enhanced emergency modal displayed');
+}
+
+// Step 7: Initialize conflict resolution
+console.log('🔧 Conflict resolution loaded!');
+console.log('🎯 All functions ready for testing');
+
+// Step 8: Force update if courses already selected
+if (selectedCourses && selectedCourses.length > 0) {
+  console.log('🔄 Updating existing selection...');
+  createFloatingButton();
+  updateCourseCardStates();
+}
