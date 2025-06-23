@@ -1,56 +1,46 @@
-// Main Application JavaScript
-// Contains all the core functionality for ImpactMojo
+// ImpactMojo Main JavaScript
+// Complete functionality for course display, filtering, authentication, and all interactive features
 
-// Global variables
+// Global state variables
+let currentUser = null;
+let userBookmarks = [];
+let userNotes = '';
+let filteredCourses = [];
+let selectedCourses = [];
+let currentView = 'grid';
 let currentFilters = {
   search: '',
-  category: 'all',
-  difficulty: 'all',
-  duration: 'all'
+  category: 'All Courses',
+  difficulty: '',
+  bookmarks: false
 };
-let currentView = 'grid';
-let currentBookmarkFilter = false;
-let savedSearches = JSON.parse(localStorage.getItem('impactmojo_saved_searches')) || [];
 
-// Initialize application when DOM is loaded
+// Initialize the application when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
   initializeApp();
 });
 
-// Initialize the application
+// Main initialization function
 function initializeApp() {
+  console.log('Initializing ImpactMojo...');
+  
+  // Initialize theme
   initializeTheme();
-  renderCourses();
-  renderLabs();
-  loadSavedSearches();
-  updateCourseCount();
+  
+  // Load courses and labs
+  loadCourses();
+  loadLabs();
   
   // Set up event listeners
   setupEventListeners();
-}
-
-// Set up event listeners
-function setupEventListeners() {
-  // Mobile menu toggle
-  const mobileToggle = document.querySelector('.mobile-menu-toggle button');
-  if (mobileToggle) {
-    mobileToggle.addEventListener('click', toggleMobileMenu);
-  }
   
-  // Close mobile menu when clicking outside
-  document.addEventListener('click', function(event) {
-    const navMenu = document.querySelector('.nav-menu');
-    const mobileToggle = document.querySelector('.mobile-menu-toggle');
-    
-    if (navMenu && mobileToggle && 
-        !navMenu.contains(event.target) && 
-        !mobileToggle.contains(event.target)) {
-      navMenu.classList.remove('mobile-active');
-    }
-  });
+  // Initialize Firebase auth state listener
+  initializeAuth();
+  
+  console.log('ImpactMojo initialized successfully');
 }
 
-// Theme functionality
+// Theme management
 function initializeTheme() {
   const savedTheme = localStorage.getItem('impactmojo_theme') || 'light';
   document.documentElement.setAttribute('data-theme', savedTheme);
@@ -73,333 +63,247 @@ function updateThemeIcon(theme) {
   }
 }
 
-// Mobile menu functionality
-function toggleMobileMenu() {
-  const navMenu = document.querySelector('.nav-menu');
-  if (navMenu) {
-    navMenu.classList.toggle('mobile-active');
-  }
-}
-
-// Course rendering and filtering
-function renderCourses() {
-  const container = document.getElementById('courseContainer');
-  if (!container || !window.coursesData) return;
-  
-  const filteredCourses = filterCourses();
-  container.innerHTML = '';
-  
-  if (filteredCourses.length === 0) {
-    showNoResults();
+// Course loading and display
+function loadCourses() {
+  if (!window.coursesData) {
+    console.error('Course data not found. Make sure course-data.js is loaded.');
     return;
   }
   
-  hideNoResults();
-  
-  filteredCourses.forEach(course => {
-    const courseCard = createCourseCard(course);
-    container.appendChild(courseCard);
-  });
-  
+  filteredCourses = [...window.coursesData];
+  displayCourses();
   updateCourseCount();
+  console.log(`Loaded ${window.coursesData.length} courses`);
+}
+
+function displayCourses() {
+  const container = document.getElementById('courseContainer');
+  const noResults = document.getElementById('noResults');
+  
+  if (!container) {
+    console.error('Course container not found');
+    return;
+  }
+  
+  if (filteredCourses.length === 0) {
+    container.innerHTML = '';
+    if (noResults) noResults.classList.remove('hidden');
+    return;
+  }
+  
+  if (noResults) noResults.classList.add('hidden');
+  
+  container.innerHTML = filteredCourses.map(course => createCourseCard(course)).join('');
+  console.log(`Displayed ${filteredCourses.length} courses`);
 }
 
 function createCourseCard(course) {
-  const card = document.createElement('div');
-  card.className = 'course-card';
-  card.innerHTML = `
-    <div class="course-header">
-      <div class="course-number">Course ${course.number}</div>
-      <h3 class="course-title">${course.title}</h3>
-      <div class="course-meta">
-        <span class="meta-tag">${course.category}</span>
-        <span class="meta-tag">${course.difficulty}</span>
-        <span class="meta-tag">${course.duration}</span>
+  const isBookmarked = userBookmarks.includes(course.id);
+  const isSelected = selectedCourses.includes(course.id);
+  
+  return `
+    <div class="course-card" data-course-id="${course.id}">
+      <div class="course-number">${course.number}</div>
+      
+      <div class="course-header">
+        <div class="course-icon">
+          <i class="${course.icon}"></i>
+        </div>
+        <div class="course-title-section">
+          <h3 class="course-title">${course.title}</h3>
+          <div class="course-meta">
+            <span class="meta-tag category">${course.category}</span>
+            <span class="meta-tag difficulty">${course.difficulty}</span>
+            <span class="meta-tag duration">${course.duration}</span>
+          </div>
+        </div>
       </div>
-    </div>
-    
-    <div class="course-description">
-      ${course.description}
-    </div>
-    
-    <div class="course-stats">
-      <div class="course-stat">
-        <i class="fas fa-star"></i>
-        <span class="number">${course.rating}</span>
+      
+      <div class="course-description">
+        <p>${course.description}</p>
       </div>
-      <div class="course-stat">
-        <i class="fas fa-users"></i>
-        <span class="number">${course.learnerCount.toLocaleString()}</span>
-        <span>learners</span>
+      
+      <div class="course-stats">
+        <div class="course-stat">
+          <i class="fas fa-star"></i>
+          <span class="number">${course.rating}</span>
+          <span class="label">rating</span>
+        </div>
+        <div class="course-stat">
+          <i class="fas fa-users"></i>
+          <span class="number">${course.learnerCount.toLocaleString()}</span>
+          <span class="label">learners</span>
+        </div>
       </div>
-    </div>
-    
-    <div class="course-actions">
-      <div class="course-actions-left">
-        <a href="${course.url}" class="launch-btn" target="_blank">
-          <i class="fas fa-play"></i>
-          Launch Course
-        </a>
+      
+      <div class="course-actions">
+        <div class="course-actions-left">
+          <a href="${course.url}" class="launch-btn" target="_blank" rel="noopener">
+            <i class="fas fa-play"></i>
+            Launch Course
+          </a>
+        </div>
+        <div class="course-actions-right">
+          <button class="bookmark-btn ${isBookmarked ? 'bookmarked' : ''}" 
+                  onclick="toggleBookmark('${course.id}')" 
+                  title="${isBookmarked ? 'Remove bookmark' : 'Bookmark course'}">
+            <i class="${isBookmarked ? 'fas' : 'far'} fa-bookmark"></i>
+          </button>
+          <input type="checkbox" id="compare-${course.id}" 
+                 ${isSelected ? 'checked' : ''} 
+                 onchange="toggleCourseSelection('${course.id}')"
+                 aria-label="Select for comparison">
+          <button class="expand-btn" onclick="toggleCourseDetails('${course.id}')" 
+                  title="Show details">
+            <i class="fas fa-chevron-down"></i>
+          </button>
+        </div>
       </div>
-      <div class="course-actions-right">
-        <button class="bookmark-btn" onclick="toggleBookmark('${course.id}')" data-course-id="${course.id}">
-          <i class="far fa-bookmark"></i>
-        </button>
-        <button class="expand-btn" onclick="toggleCourseDetails('${course.id}')">
-          <i class="fas fa-info-circle"></i>
-        </button>
-      </div>
-    </div>
-    
-    <div class="course-details hidden" id="details-${course.id}">
-      <div class="detail-section">
-        <h4>Prerequisites</h4>
-        <ul>
-          ${course.prerequisites.map(prereq => `<li>${prereq}</li>`).join('')}
-        </ul>
-      </div>
-      <div class="detail-section">
-        <h4>Learning Outcomes</h4>
-        <ul>
-          ${course.outcomes.map(outcome => `<li>${outcome}</li>`).join('')}
-        </ul>
-      </div>
-      <div class="detail-section">
-        <h4>Target Audience</h4>
-        <p>${course.audience}</p>
+      
+      <div class="course-details hidden" id="details-${course.id}">
+        <div class="details-section">
+          <h4>Prerequisites</h4>
+          <ul>
+            ${course.prerequisites.map(prereq => `<li>${prereq}</li>`).join('')}
+          </ul>
+        </div>
+        
+        <div class="details-section">
+          <h4>Learning Outcomes</h4>
+          <ul>
+            ${course.outcomes.map(outcome => `<li>${outcome}</li>`).join('')}
+          </ul>
+        </div>
+        
+        <div class="details-section">
+          <h4>Target Audience</h4>
+          <p>${course.audience}</p>
+        </div>
       </div>
     </div>
   `;
-  
-  return card;
 }
 
-function toggleCourseDetails(courseId) {
-  const details = document.getElementById(`details-${courseId}`);
-  if (details) {
-    details.classList.toggle('hidden');
-  }
-}
-
-// Filtering functionality
-function filterCourses() {
-  if (!window.coursesData) return [];
-  
-  let filtered = window.coursesData;
-  
-  // Apply bookmark filter
-  if (currentBookmarkFilter && userBookmarks) {
-    filtered = filtered.filter(course => userBookmarks.includes(course.id));
-  }
-  
-  // Apply search filter
-  if (currentFilters.search) {
-    const searchTerm = currentFilters.search.toLowerCase();
-    filtered = filtered.filter(course => 
-      course.title.toLowerCase().includes(searchTerm) ||
-      course.description.toLowerCase().includes(searchTerm) ||
-      course.category.toLowerCase().includes(searchTerm) ||
-      course.audience.toLowerCase().includes(searchTerm)
-    );
-  }
-  
-  // Apply category filter
-  if (currentFilters.category !== 'all') {
-    filtered = filtered.filter(course => course.category === currentFilters.category);
-  }
-  
-  // Apply difficulty filter
-  if (currentFilters.difficulty !== 'all') {
-    filtered = filtered.filter(course => course.difficulty === currentFilters.difficulty);
-  }
-  
-  // Apply duration filter
-  if (currentFilters.duration !== 'all') {
-    filtered = filtered.filter(course => {
-      const duration = course.duration;
-      switch (currentFilters.duration) {
-        case 'short':
-          return duration.includes('2') || duration.includes('1');
-        case 'medium':
-          return duration.includes('3') || duration.includes('4');
-        case 'long':
-          return duration.includes('5') || duration.includes('6') || duration.includes('4+');
-        default:
-          return true;
-      }
-    });
-  }
-  
-  return filtered;
-}
-
-function searchCourses() {
-  const searchInput = document.getElementById('searchInput');
-  if (searchInput) {
-    currentFilters.search = searchInput.value;
-    currentBookmarkFilter = false; // Reset bookmark filter when searching
-    renderCourses();
-  }
-}
-
-function filterCoursesByCategory() {
-  const categoryFilter = document.getElementById('categoryFilter');
-  if (categoryFilter) {
-    currentFilters.category = categoryFilter.value;
-    renderCourses();
-  }
-}
-
-function filterDecks() {
-  const levelFilter = document.getElementById('levelFilter');
-  const durationFilter = document.getElementById('durationFilter');
-  
-  if (levelFilter) currentFilters.difficulty = levelFilter.value;
-  if (durationFilter) currentFilters.duration = durationFilter.value;
-  
-  renderCourses();
-}
-
-function clearAllFilters() {
-  currentFilters = {
-    search: '',
-    category: 'all',
-    difficulty: 'all',
-    duration: 'all'
-  };
-  currentBookmarkFilter = false;
-  
-  // Reset form inputs
-  const searchInput = document.getElementById('searchInput');
-  const categoryFilter = document.getElementById('categoryFilter');
-  const levelFilter = document.getElementById('levelFilter');
-  const durationFilter = document.getElementById('durationFilter');
-  
-  if (searchInput) searchInput.value = '';
-  if (categoryFilter) categoryFilter.value = 'all';
-  if (levelFilter) levelFilter.value = 'all';
-  if (durationFilter) durationFilter.value = 'all';
-  
-  renderCourses();
-}
-
-function filterByPath(pathType) {
-  let categoryFilter = '';
-  
-  switch (pathType) {
-    case 'data-analysis':
-      categoryFilter = 'Data Analysis';
-      break;
-    case 'gender-studies':
-      categoryFilter = 'Gender Studies';
-      break;
-    case 'economics':
-      categoryFilter = 'Economics';
-      break;
-    case 'justice':
-      categoryFilter = 'Justice';
-      break;
-  }
-  
-  currentFilters.category = categoryFilter;
-  const categorySelect = document.getElementById('categoryFilter');
-  if (categorySelect) {
-    categorySelect.value = categoryFilter;
-  }
-  
-  renderCourses();
-  
-  // Scroll to courses section
-  const coursesSection = document.getElementById('courses');
-  if (coursesSection) {
-    coursesSection.scrollIntoView({ behavior: 'smooth' });
-  }
-}
-
-// Advanced search functionality
-function toggleAdvancedSearch() {
-  const advancedSearch = document.getElementById('advancedSearch');
-  if (advancedSearch) {
-    advancedSearch.classList.toggle('hidden');
-  }
-}
-
-function addOperator(operator) {
-  const searchInput = document.getElementById('searchInput');
-  if (searchInput) {
-    const currentValue = searchInput.value;
-    const cursorPosition = searchInput.selectionStart;
-    const newValue = currentValue.slice(0, cursorPosition) + ' ' + operator + ' ' + currentValue.slice(cursorPosition);
-    searchInput.value = newValue;
-    searchInput.focus();
-  }
-}
-
-function saveCurrentSearch() {
-  const searchInput = document.getElementById('searchInput');
-  if (!searchInput || !searchInput.value.trim()) {
-    showNotification('Please enter a search term first', 'error');
+// Labs loading and display
+function loadLabs() {
+  if (!window.labsData) {
+    console.error('Labs data not found. Make sure course-data.js is loaded.');
     return;
   }
   
-  const searchTerm = searchInput.value.trim();
-  
-  if (!savedSearches.includes(searchTerm)) {
-    savedSearches.push(searchTerm);
-    localStorage.setItem('impactmojo_saved_searches', JSON.stringify(savedSearches));
-    loadSavedSearches();
-    showNotification('Search saved!', 'success');
-  } else {
-    showNotification('Search already saved', 'info');
-  }
-}
-
-function loadSavedSearches() {
-  const container = document.getElementById('savedSearches');
+  const container = document.getElementById('labsContainer');
   if (!container) return;
   
-  container.innerHTML = '';
-  
-  savedSearches.forEach(search => {
-    const searchItem = document.createElement('span');
-    searchItem.className = 'saved-search-item';
-    searchItem.textContent = search;
-    searchItem.onclick = () => applySavedSearch(search);
-    container.appendChild(searchItem);
-  });
+  // Labs are already hardcoded in HTML, but we could dynamically generate them here if needed
+  console.log(`${window.labsData.length} labs available`);
 }
 
-function applySavedSearch(searchTerm) {
+// Course interaction functions
+function toggleCourseDetails(courseId) {
+  const details = document.getElementById(`details-${courseId}`);
+  const expandBtn = document.querySelector(`[onclick="toggleCourseDetails('${courseId}')"] i`);
+  
+  if (details) {
+    details.classList.toggle('hidden');
+    if (expandBtn) {
+      expandBtn.className = details.classList.contains('hidden') ? 
+        'fas fa-chevron-down' : 'fas fa-chevron-up';
+    }
+  }
+}
+
+function toggleBookmark(courseId) {
+  if (!currentUser) {
+    showNotification('Please log in to bookmark courses', 'warning');
+    showLoginModal();
+    return;
+  }
+  
+  const index = userBookmarks.indexOf(courseId);
+  if (index > -1) {
+    userBookmarks.splice(index, 1);
+    showNotification('Bookmark removed', 'info');
+  } else {
+    userBookmarks.push(courseId);
+    showNotification('Course bookmarked', 'success');
+  }
+  
+  saveUserData();
+  displayCourses(); // Refresh to update bookmark icons
+}
+
+function toggleCourseSelection(courseId) {
+  const index = selectedCourses.indexOf(courseId);
+  if (index > -1) {
+    selectedCourses.splice(index, 1);
+  } else {
+    selectedCourses.push(courseId);
+  }
+  
+  updateCompareButton();
+}
+
+function updateCompareButton() {
+  const compareBtn = document.querySelector('.fab-btn.compare');
+  if (compareBtn) {
+    if (selectedCourses.length > 1) {
+      compareBtn.style.display = 'flex';
+    } else {
+      compareBtn.style.display = 'none';
+    }
+  }
+}
+
+// Filtering and search functionality
+function searchCourses() {
   const searchInput = document.getElementById('searchInput');
   if (searchInput) {
-    searchInput.value = searchTerm;
-    searchCourses();
+    currentFilters.search = searchInput.value.toLowerCase();
+    applyFilters();
   }
 }
 
-// View functionality
-function setView(viewType) {
-  currentView = viewType;
+function filterCourses() {
+  const categoryFilter = document.getElementById('categoryFilter');
+  const difficultyFilter = document.getElementById('difficultyFilter');
   
-  // Update view buttons
-  const viewButtons = document.querySelectorAll('.view-btn');
-  viewButtons.forEach(btn => {
-    btn.classList.remove('active');
-    if (btn.dataset.view === viewType) {
-      btn.classList.add('active');
-    }
+  if (categoryFilter) currentFilters.category = categoryFilter.value;
+  if (difficultyFilter) currentFilters.difficulty = difficultyFilter.value;
+  
+  applyFilters();
+}
+
+function applyFilters() {
+  if (!window.coursesData) return;
+  
+  filteredCourses = window.coursesData.filter(course => {
+    // Search filter
+    const matchesSearch = !currentFilters.search || 
+      course.title.toLowerCase().includes(currentFilters.search) ||
+      course.description.toLowerCase().includes(currentFilters.search) ||
+      course.category.toLowerCase().includes(currentFilters.search) ||
+      course.audience.toLowerCase().includes(currentFilters.search);
+    
+    // Category filter
+    const matchesCategory = currentFilters.category === 'All Courses' || 
+      course.category === currentFilters.category;
+    
+    // Difficulty filter
+    const matchesDifficulty = !currentFilters.difficulty || 
+      course.difficulty === currentFilters.difficulty;
+    
+    // Bookmark filter
+    const matchesBookmark = !currentFilters.bookmarks || 
+      userBookmarks.includes(course.id);
+    
+    return matchesSearch && matchesCategory && matchesDifficulty && matchesBookmark;
   });
   
-  // Update courses container class
-  const container = document.getElementById('courseContainer');
-  if (container) {
-    container.className = viewType === 'grid' ? 'courses-grid' : 'courses-list';
-  }
+  displayCourses();
+  updateCourseCount();
 }
 
-// Course count functionality
 function updateCourseCount() {
-  const filteredCourses = filterCourses();
   const visibleCount = document.getElementById('visibleCount');
   const totalCount = document.getElementById('totalCount');
   
@@ -407,181 +311,361 @@ function updateCourseCount() {
   if (totalCount) totalCount.textContent = window.coursesData ? window.coursesData.length : 0;
 }
 
-// No results functionality
-function showNoResults() {
-  const noResults = document.getElementById('noResults');
-  if (noResults) {
-    noResults.classList.remove('hidden');
+// Learning path functionality
+function applyLearningPath(pathName) {
+  const paths = {
+    'data-analysis': ['Data Literacy 101', 'EDA for Survey Data', 'Bivariate Analysis', 'Multivariate Analysis'],
+    'gender-studies': ['Gender Studies 101', 'Data Feminism 101', 'Care Economy', 'Women\'s Economic Empowerment'],
+    'research-methods': ['Research Methods 101', 'Sampling 101', 'Survey Design', 'Impact Measurement'],
+    'economics': ['Development Economics 101', 'Behavioral Economics', 'Social Protection', 'Livelihoods 101']
+  };
+  
+  const pathCourses = paths[pathName];
+  if (pathCourses) {
+    // Filter to show only courses in this learning path
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+      // Create a search pattern that matches any of the path course titles
+      const searchPattern = pathCourses.join('|');
+      currentFilters.search = '';
+      
+      filteredCourses = window.coursesData.filter(course => 
+        pathCourses.some(pathCourse => 
+          course.title.toLowerCase().includes(pathCourse.toLowerCase())
+        )
+      );
+      
+      displayCourses();
+      updateCourseCount();
+      
+      // Scroll to courses section
+      document.getElementById('courses')?.scrollIntoView({ behavior: 'smooth' });
+      
+      showNotification(`Showing ${pathName.replace('-', ' ')} courses`, 'info');
+    }
   }
 }
 
-function hideNoResults() {
-  const noResults = document.getElementById('noResults');
-  if (noResults) {
-    noResults.classList.add('hidden');
+// View toggle functionality
+function toggleView(viewType, event) {
+  if (event) {
+    // Update button states
+    document.querySelectorAll('.view-btn').forEach(btn => {
+      btn.classList.remove('active');
+      btn.setAttribute('aria-pressed', 'false');
+    });
+    event.target.closest('.view-btn').classList.add('active');
+    event.target.closest('.view-btn').setAttribute('aria-pressed', 'true');
+  }
+  
+  currentView = viewType;
+  const container = document.getElementById('courseContainer');
+  if (container) {
+    container.className = viewType === 'list' ? 'courses-list' : 'courses-grid';
   }
 }
 
-// Labs rendering
-function renderLabs() {
-  const container = document.getElementById('labsContainer');
-  if (!container || !window.labsData) return;
+// Modal management
+function openModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+  }
+}
+
+function closeModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto'; // Restore scrolling
+  }
+}
+
+// Authentication functions
+function initializeAuth() {
+  if (typeof window.onAuthStateChanged !== 'undefined' && window.auth) {
+    window.onAuthStateChanged(window.auth, handleAuthStateChange);
+  }
+}
+
+function handleAuthStateChange(user) {
+  currentUser = user;
+  updateAuthUI();
   
-  container.innerHTML = '';
+  if (user) {
+    loadUserData();
+    console.log('User logged in:', user.email);
+  } else {
+    userBookmarks = [];
+    userNotes = '';
+    console.log('User logged out');
+  }
   
-  window.labsData.forEach(lab => {
-    const labCard = createLabCard(lab);
-    container.appendChild(labCard);
+  displayCourses(); // Refresh to update bookmark states
+}
+
+function updateAuthUI() {
+  const authButtons = document.getElementById('authButtons');
+  const userMenu = document.getElementById('userMenu');
+  
+  if (currentUser) {
+    if (authButtons) authButtons.classList.add('hidden');
+    if (userMenu) userMenu.classList.remove('hidden');
+    
+    const userDisplayName = document.getElementById('userDisplayName');
+    if (userDisplayName) {
+      userDisplayName.textContent = currentUser.displayName || currentUser.email.split('@')[0];
+    }
+  } else {
+    if (authButtons) authButtons.classList.remove('hidden');
+    if (userMenu) userMenu.classList.add('hidden');
+  }
+}
+
+function showLoginModal() {
+  openModal('loginModal');
+}
+
+function showSignupModal() {
+  openModal('signupModal');
+}
+
+function showDashboard() {
+  loadUserDashboard();
+  openModal('dashboardModal');
+}
+
+// Authentication form handlers
+async function login(event) {
+  event.preventDefault();
+  
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  
+  try {
+    await window.signInWithEmailAndPassword(window.auth, email, password);
+    closeModal('loginModal');
+    showNotification('Successfully logged in!', 'success');
+  } catch (error) {
+    console.error('Login error:', error);
+    showNotification(error.message, 'error');
+  }
+}
+
+async function signup(event) {
+  event.preventDefault();
+  
+  const name = document.getElementById('signupName').value;
+  const email = document.getElementById('signupEmail').value;
+  const password = document.getElementById('signupPassword').value;
+  
+  try {
+    const userCredential = await window.createUserWithEmailAndPassword(window.auth, email, password);
+    
+    // Update user profile with name
+    if (name && window.updateProfile) {
+      await window.updateProfile(userCredential.user, { displayName: name });
+    }
+    
+    closeModal('signupModal');
+    showNotification('Account created successfully!', 'success');
+  } catch (error) {
+    console.error('Signup error:', error);
+    showNotification(error.message, 'error');
+  }
+}
+
+async function loginWithGoogle() {
+  try {
+    const provider = new window.GoogleAuthProvider();
+    await window.signInWithPopup(window.auth, provider);
+    closeModal('loginModal');
+    closeModal('signupModal');
+    showNotification('Successfully logged in with Google!', 'success');
+  } catch (error) {
+    console.error('Google login error:', error);
+    showNotification(error.message, 'error');
+  }
+}
+
+async function logout() {
+  try {
+    await window.signOut(window.auth);
+    showNotification('Successfully logged out!', 'info');
+  } catch (error) {
+    console.error('Logout error:', error);
+    showNotification('Error logging out', 'error');
+  }
+}
+
+async function forgotPassword() {
+  const email = prompt('Enter your email address:');
+  if (email) {
+    try {
+      await window.sendPasswordResetEmail(window.auth, email);
+      showNotification('Password reset email sent!', 'success');
+    } catch (error) {
+      console.error('Password reset error:', error);
+      showNotification(error.message, 'error');
+    }
+  }
+}
+
+// User data management
+async function loadUserData() {
+  if (!currentUser || !window.getDoc) return;
+  
+  try {
+    const userDoc = await window.getDoc(window.doc(window.db, 'users', currentUser.uid));
+    if (userDoc.exists()) {
+      const userData = userDoc.data();
+      userBookmarks = userData.bookmarks || [];
+      userNotes = userData.notes || '';
+    }
+  } catch (error) {
+    console.error('Error loading user data:', error);
+  }
+}
+
+async function saveUserData() {
+  if (!currentUser || !window.setDoc) return;
+  
+  try {
+    await window.setDoc(window.doc(window.db, 'users', currentUser.uid), {
+      bookmarks: userBookmarks,
+      notes: userNotes,
+      lastUpdated: new Date()
+    }, { merge: true });
+  } catch (error) {
+    console.error('Error saving user data:', error);
+  }
+}
+
+function loadUserDashboard() {
+  // Load bookmarked courses
+  const bookmarksList = document.getElementById('userBookmarksList');
+  if (bookmarksList && window.coursesData) {
+    const bookmarkedCourses = window.coursesData.filter(course => 
+      userBookmarks.includes(course.id)
+    );
+    
+    if (bookmarkedCourses.length > 0) {
+      bookmarksList.innerHTML = bookmarkedCourses.map(course => `
+        <div class="bookmark-item">
+          <i class="${course.icon}"></i>
+          <span>${course.title}</span>
+          <a href="${course.url}" target="_blank" class="launch-btn-small">Launch</a>
+        </div>
+      `).join('');
+    } else {
+      bookmarksList.innerHTML = '<p>No bookmarked courses yet.</p>';
+    }
+  }
+  
+  // Load user notes
+  const notesTextarea = document.getElementById('userNotes');
+  if (notesTextarea) {
+    notesTextarea.value = userNotes;
+  }
+}
+
+async function saveNotes() {
+  const notesTextarea = document.getElementById('userNotes');
+  if (notesTextarea) {
+    userNotes = notesTextarea.value;
+    await saveUserData();
+    showNotification('Notes saved!', 'success');
+  }
+}
+
+// Event listeners setup
+function setupEventListeners() {
+  // Search input
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) {
+    searchInput.addEventListener('input', searchCourses);
+  }
+  
+  // Filter dropdowns
+  const categoryFilter = document.getElementById('categoryFilter');
+  const difficultyFilter = document.getElementById('difficultyFilter');
+  
+  if (categoryFilter) categoryFilter.addEventListener('change', filterCourses);
+  if (difficultyFilter) difficultyFilter.addEventListener('change', filterCourses);
+  
+  // Close modals when clicking outside
+  window.addEventListener('click', function(event) {
+    if (event.target.classList.contains('modal')) {
+      event.target.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+  });
+  
+  // Keyboard shortcuts
+  document.addEventListener('keydown', function(event) {
+    // Escape key closes modals
+    if (event.key === 'Escape') {
+      const openModal = document.querySelector('.modal[style*="block"]');
+      if (openModal) {
+        openModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    }
+    
+    // Ctrl/Cmd + K for search
+    if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+      event.preventDefault();
+      const searchInput = document.getElementById('searchInput');
+      if (searchInput) {
+        searchInput.focus();
+      }
+    }
   });
 }
 
-function createLabCard(lab) {
-  const card = document.createElement('div');
-  card.className = 'lab-card';
+// Notification system
+function showNotification(message, type = 'info') {
+  const notification = document.getElementById('notification');
+  if (!notification) return;
   
-  const statusColor = getStatusColor(lab.statusClass);
+  notification.textContent = message;
+  notification.className = `notification ${type}`;
+  notification.style.display = 'block';
   
-  card.innerHTML = `
-    <div class="lab-header">
-      <h3 class="lab-title">${lab.title}</h3>
-      <span class="lab-status" style="background-color: ${statusColor};">${lab.status}</span>
-    </div>
-    <p class="lab-description">${lab.description}</p>
-    <div class="lab-features">
-      <ul>
-        ${lab.features.map(feature => `<li>${feature}</li>`).join('')}
-      </ul>
-    </div>
-    <a href="${lab.url}" class="lab-launch-btn" ${lab.url === '#' ? 'onclick="return false;" style="opacity: 0.5; cursor: not-allowed;"' : 'target="_blank"'}>
-      <i class="fas fa-rocket"></i>
-      ${lab.status === 'Coming Soon' || lab.status === 'Research' ? 'Coming Soon' : 'Launch Lab'}
-    </a>
-  `;
-  
-  return card;
+  setTimeout(() => {
+    notification.style.display = 'none';
+  }, 4000);
 }
 
-function getStatusColor(statusClass) {
-  switch (statusClass) {
-    case 'success': return '#2ecc71';
-    case 'warning': return '#f39c12';
-    case 'info': return '#3498db';
-    case 'secondary': return '#95a5a6';
-    case 'dark': return '#34495e';
-    default: return '#3498db';
-  }
-}
-
-// Section navigation
-function showSection(sectionId) {
+// Utility functions
+function scrollToSection(sectionId) {
   const section = document.getElementById(sectionId);
   if (section) {
     section.scrollIntoView({ behavior: 'smooth' });
   }
 }
 
-// Utility functions
-function debounce(func, wait) {
-  let timeout;
-  return function executedFunction(...args) {
-    const later = () => {
-      clearTimeout(timeout);
-      func(...args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-}
+// Make functions globally available
+window.toggleTheme = toggleTheme;
+window.searchCourses = searchCourses;
+window.filterCourses = filterCourses;
+window.applyLearningPath = applyLearningPath;
+window.toggleView = toggleView;
+window.toggleCourseDetails = toggleCourseDetails;
+window.toggleBookmark = toggleBookmark;
+window.toggleCourseSelection = toggleCourseSelection;
+window.openModal = openModal;
+window.closeModal = closeModal;
+window.showLoginModal = showLoginModal;
+window.showSignupModal = showSignupModal;
+window.showDashboard = showDashboard;
+window.login = login;
+window.signup = signup;
+window.loginWithGoogle = loginWithGoogle;
+window.logout = logout;
+window.forgotPassword = forgotPassword;
+window.saveNotes = saveNotes;
+window.showNotification = showNotification;
 
-// Add debounced search
-const debouncedSearch = debounce(searchCourses, 300);
-
-// Update search input to use debounced search
-document.addEventListener('DOMContentLoaded', function() {
-  const searchInput = document.getElementById('searchInput');
-  if (searchInput) {
-    searchInput.addEventListener('input', debouncedSearch);
-  }
-});
-
-// Error handling
-window.addEventListener('error', function(event) {
-  console.error('Application error:', event.error);
-  showNotification('An error occurred. Please refresh the page.', 'error');
-});
-
-// Performance monitoring (simple)
-if ('performance' in window) {
-  window.addEventListener('load', function() {
-    setTimeout(() => {
-      const perfData = performance.getEntriesByType('navigation')[0];
-      console.log('Page load time:', perfData.loadEventEnd - perfData.loadEventStart, 'ms');
-    }, 0);
-  });
-}
-
-// Service worker registration (if available)
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/sw.js')
-      .then(function(registration) {
-        console.log('SW registered: ', registration);
-      })
-      .catch(function(registrationError) {
-        console.log('SW registration failed: ', registrationError);
-      });
-  });
-}
-
-// Analytics (placeholder)
-function trackEvent(category, action, label) {
-  // Placeholder for analytics tracking
-  console.log('Analytics event:', category, action, label);
-  
-  // Example Google Analytics 4 event
-  if (typeof gtag !== 'undefined') {
-    gtag('event', action, {
-      'event_category': category,
-      'event_label': label
-    });
-  }
-}
-
-// Track course launches
-document.addEventListener('click', function(event) {
-  if (event.target.classList.contains('launch-btn')) {
-    const courseTitle = event.target.closest('.course-card').querySelector('.course-title').textContent;
-    trackEvent('Course', 'Launch', courseTitle);
-  }
-});
-
-// Accessibility improvements
-document.addEventListener('keydown', function(event) {
-  // Escape key closes modals
-  if (event.key === 'Escape') {
-    const modals = document.querySelectorAll('.modal');
-    modals.forEach(modal => {
-      if (modal.style.display === 'block') {
-        modal.style.display = 'none';
-      }
-    });
-  }
-  
-  // Enter key on course cards launches course
-  if (event.key === 'Enter' && event.target.classList.contains('course-card')) {
-    const launchBtn = event.target.querySelector('.launch-btn');
-    if (launchBtn) {
-      launchBtn.click();
-    }
-  }
-});
-
-// Make course cards focusable for keyboard navigation
-document.addEventListener('DOMContentLoaded', function() {
-  const courseCards = document.querySelectorAll('.course-card');
-  courseCards.forEach(card => {
-    card.setAttribute('tabindex', '0');
-    card.setAttribute('role', 'button');
-    card.setAttribute('aria-label', 'Course card. Press Enter to launch course.');
-  });
-});
+console.log('main.js loaded successfully');
