@@ -87,22 +87,21 @@ function renderCourses() {
         <span><i class="fas fa-star"></i> ${course.rating}</span>
       </div>
       
-      <div class="course-actions">
-        <div class="course-actions-left">
-          <a href="${course.url}" target="_blank" rel="noopener" class="launch-btn" onclick="trackCourseClick('${course.id}')">
-            Launch Course <i class="fas fa-external-link-alt"></i>
-          </a>
-        </div>
-        <div class="course-actions-right">
-          <button class="expand-btn" onclick="expandCourse('${course.id}')" title="View details">
-            <i class="fas fa-expand"></i> Details
-          </button>
-          <button class="compare-btn ${comparisonList.includes(course.id) ? 'active' : ''}" onclick="toggleCompare('${course.id}')" title="Add to comparison">
-            <i class="fas fa-balance-scale"></i> Compare
-          </button>
-        </div>
-      </div>
-      
+      <div class="course-actions course-actions-enhanced">
+  <div class="course-actions-left">
+    <a href="${course.url}" target="_blank" rel="noopener" class="launch-btn" onclick="trackCourseClick('${course.id}')">
+      Launch Course <i class="fas fa-external-link-alt"></i>
+    </a>
+  </div>
+  <div class="course-actions-right">
+    <button class="expand-btn" onclick="expandCourse('${course.id}')" title="View details">
+      <i class="fas fa-expand"></i> Details
+    </button>
+    <button class="course-compare-btn compare-btn ${comparisonList.includes(course.id) ? 'active' : ''}" onclick="toggleCourseComparison('${course.id}')" title="Add to comparison">
+      <i class="fas fa-balance-scale"></i> Compare
+    </button>
+  </div>
+</div>      
       <div class="course-expanded-content">
         <div class="course-prerequisites">
           <h5>Prerequisites</h5>
