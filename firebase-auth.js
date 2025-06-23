@@ -1,5 +1,5 @@
-// Firebase Authentication Module
-// Note: Firebase is initialized in index.html via CDN
+// ImpactMojo 101 - Firebase Authentication Module
+// Handles all user authentication and data management
 
 let currentUser = null;
 let userBookmarks = [];
@@ -89,6 +89,10 @@ async function login(event) {
     await window.signInWithEmailAndPassword(window.auth, email, password);
     closeModal('loginModal');
     showNotification('Successfully logged in!', 'success');
+    
+    // Clear form
+    document.getElementById('loginEmail').value = '';
+    document.getElementById('loginPassword').value = '';
   } catch (error) {
     console.error('Login error:', error);
     showNotification(getErrorMessage(error), 'error');
@@ -119,6 +123,11 @@ async function signup(event) {
     
     closeModal('signupModal');
     showNotification('Account created successfully!', 'success');
+    
+    // Clear form
+    document.getElementById('signupName').value = '';
+    document.getElementById('signupEmail').value = '';
+    document.getElementById('signupPassword').value = '';
   } catch (error) {
     console.error('Signup error:', error);
     showNotification(getErrorMessage(error), 'error');
@@ -158,6 +167,15 @@ async function logout() {
   try {
     await window.signOut(window.auth);
     showNotification('Successfully logged out!', 'success');
+    
+    // Reset user data
+    userBookmarks = [];
+    userNotes = '';
+    
+    // Reset any filtered views
+    if (typeof clearAllFilters === 'function') {
+      clearAllFilters();
+    }
   } catch (error) {
     console.error('Logout error:', error);
     showNotification('Error logging out', 'error');
@@ -281,8 +299,8 @@ function showDashboard() {
     return;
   }
   
-  // Create dashboard modal or redirect to dashboard page
-  showNotification('Dashboard coming soon!', 'info');
+  // Create dashboard functionality
+  showNotification('Dashboard feature coming soon! Track your progress and manage your learning path.', 'info');
 }
 
 // Show bookmarks
@@ -304,11 +322,23 @@ function showBookmarks() {
     searchInput.value = '';
   }
   
-  // Set filter to show only bookmarked courses
-  currentBookmarkFilter = true;
-  filterCourses();
+  // Reset other filters
+  document.getElementById('categoryFilter').value = 'all';
+  document.getElementById('difficultyFilter').value = 'all';
+  document.getElementById('durationFilter').value = 'all';
+  
+  // Set bookmark filter and render
+  if (typeof setBookmarkFilter === 'function') {
+    setBookmarkFilter(true);
+  }
   
   showNotification(`Showing ${userBookmarks.length} bookmarked courses`, 'success');
+  
+  // Scroll to courses section
+  const coursesSection = document.getElementById('courses');
+  if (coursesSection) {
+    coursesSection.scrollIntoView({ behavior: 'smooth' });
+  }
 }
 
 // Show profile
@@ -319,7 +349,53 @@ function showProfile() {
     return;
   }
   
-  showNotification('Profile settings coming soon!', 'info');
+  // Create profile modal or page
+  const profileInfo = `
+    Name: ${currentUser.displayName || 'Not provided'}
+    Email: ${currentUser.email}
+    Joined: ${currentUser.metadata.creationTime ? new Date(currentUser.metadata.creationTime).toLocaleDateString() : 'Unknown'}
+    Bookmarks: ${userBookmarks.length} courses
+  `;
+  
+  showNotification('Profile: ' + profileInfo, 'info');
+}
+
+// Save user notes
+async function saveUserNotes(notes) {
+  if (!currentUser) {
+    showNotification('Please log in to save notes', 'error');
+    return;
+  }
+  
+  try {
+    const userRef = window.doc(window.db, 'users', currentUser.uid);
+    await window.updateDoc(userRef, {
+      notes: notes
+    });
+    userNotes = notes;
+    showNotification('Notes saved successfully', 'success');
+  } catch (error) {
+    console.error('Error saving notes:', error);
+    showNotification('Error saving notes', 'error');
+  }
+}
+
+// Update user progress
+async function updateUserProgress(courseId, progress) {
+  if (!currentUser) return;
+  
+  try {
+    const userRef = window.doc(window.db, 'users', currentUser.uid);
+    await window.updateDoc(userRef, {
+      [`progress.${courseId}`]: {
+        completed: progress.completed || false,
+        lastAccessed: new Date(),
+        timeSpent: progress.timeSpent || 0
+      }
+    });
+  } catch (error) {
+    console.error('Error updating progress:', error);
+  }
 }
 
 // Get user-friendly error message
@@ -339,47 +415,27 @@ function getErrorMessage(error) {
       return 'Too many failed attempts. Please try again later.';
     case 'auth/popup-closed-by-user':
       return 'Sign-in popup was closed.';
+    case 'auth/popup-blocked':
+      return 'Popup was blocked. Please allow popups for this site.';
+    case 'auth/cancelled-popup-request':
+      return 'Sign-in popup was cancelled.';
+    case 'auth/network-request-failed':
+      return 'Network error. Please check your connection.';
     default:
       return error.message || 'An error occurred. Please try again.';
   }
 }
 
-// Show notification
-function showNotification(message, type = 'info') {
-  // Remove existing notifications
-  const existingNotifications = document.querySelectorAll('.notification');
-  existingNotifications.forEach(notification => notification.remove());
-  
-  // Create new notification
-  const notification = document.createElement('div');
-  notification.className = `notification ${type}`;
-  notification.textContent = message;
-  
-  // Add to page
-  document.body.appendChild(notification);
-  
-  // Remove after 3 seconds
-  setTimeout(() => {
-    notification.remove();
-  }, 3000);
+// Utility function to check if user is authenticated
+function isAuthenticated() {
+  return currentUser !== null;
 }
 
-// Close modals when clicking outside
-window.onclick = function(event) {
-  const modals = document.querySelectorAll('.modal');
-  modals.forEach(modal => {
-    if (event.target === modal) {
-      modal.style.display = 'none';
-    }
-  });
+// Get current user data
+function getCurrentUserData() {
+  return {
+    user: currentUser,
+    bookmarks: userBookmarks,
+    notes: userNotes
+  };
 }
-
-// Handle escape key to close modals
-document.addEventListener('keydown', function(event) {
-  if (event.key === 'Escape') {
-    const modals = document.querySelectorAll('.modal');
-    modals.forEach(modal => {
-      modal.style.display = 'none';
-    });
-  }
-});
