@@ -650,3 +650,620 @@ document.addEventListener('keydown', function(event) {
     }
   }
 });
+/* ===== ADD THIS TO YOUR EXISTING main.js FILE ===== */
+
+// Enhanced Labs and Comparison Functionality
+let selectedCourses = [];
+
+// Generate Labs Content - preserving your original 9 labs
+function generateLabsContent() {
+  const labsContainer = document.getElementById('labsContainer');
+  if (!labsContainer) return;
+  
+  const labsHTML = `
+    <div class="labs-grid">
+      <!-- TOC Workbench -->
+      <div class="lab-card">
+        <h3><i class="fas fa-tools"></i> TOC Workbench</h3>
+        <p>Create, visualize, and share your intervention logic models.</p>
+        <div class="lab-status">
+          <span class="lab-badge live">Live</span>
+          <a href="https://toc-workbench.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
+            Launch Lab <i class="fas fa-external-link-alt"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- MEL Toolkit -->
+      <div class="lab-card">
+        <h3><i class="fas fa-chart-line"></i> MEL Toolkit</h3>
+        <p>Monitoring, evaluation, and learning framework builder.</p>
+        <div class="lab-status">
+          <span class="lab-badge live">Live</span>
+          <a href="https://mel-toolkit.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
+            Launch Lab <i class="fas fa-external-link-alt"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Budget Calculator -->
+      <div class="lab-card">
+        <h3><i class="fas fa-calculator"></i> Development Budget Calculator</h3>
+        <p>Project budget planning and cost estimation tool.</p>
+        <div class="lab-status">
+          <span class="lab-badge live">Live</span>
+          <a href="https://budget-calculator.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
+            Launch Lab <i class="fas fa-external-link-alt"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Stakeholder Mapping -->
+      <div class="lab-card">
+        <h3><i class="fas fa-users"></i> Stakeholder Mapping Tool</h3>
+        <p>Visualize and analyze stakeholder relationships and influence.</p>
+        <div class="lab-status">
+          <span class="lab-badge live">Live</span>
+          <a href="https://stakeholder-mapper.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
+            Launch Lab <i class="fas fa-external-link-alt"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Community Engagement Lab -->
+      <div class="lab-card">
+        <h3><i class="fas fa-hands-helping"></i> Community Engagement Lab</h3>
+        <p>Design participatory processes and community consultation frameworks.</p>
+        <div class="lab-status">
+          <span class="lab-badge live">Live</span>
+          <a href="https://community-engagement-lab.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
+            Launch Lab <i class="fas fa-external-link-alt"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Survey Design Lab -->
+      <div class="lab-card">
+        <h3><i class="fas fa-clipboard-list"></i> Survey Design Lab</h3>
+        <p>Interactive tool for designing surveys and questionnaires for development research.</p>
+        <div class="lab-status">
+          <span class="lab-badge live">Live</span>
+          <a href="https://survey-design-lab.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
+            Launch Lab <i class="fas fa-external-link-alt"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Data Visualization Lab -->
+      <div class="lab-card">
+        <h3><i class="fas fa-chart-bar"></i> Data Visualization Lab</h3>
+        <p>Create compelling data visualizations and infographics for development data.</p>
+        <div class="lab-status">
+          <span class="lab-badge live">Live</span>
+          <a href="https://data-viz-lab.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
+            Launch Lab <i class="fas fa-external-link-alt"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Impact Measurement -->
+      <div class="lab-card">
+        <h3><i class="fas fa-bullseye"></i> Impact Measurement Lab</h3>
+        <p>Design and track impact metrics for development interventions.</p>
+        <div class="lab-status">
+          <span class="lab-badge live">Live</span>
+          <a href="https://impact-measurement-lab.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
+            Launch Lab <i class="fas fa-external-link-alt"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Policy Analysis Tool -->
+      <div class="lab-card">
+        <h3><i class="fas fa-gavel"></i> Policy Analysis Tool</h3>
+        <p>Framework for analyzing and comparing development policies.</p>
+        <div class="lab-status">
+          <span class="lab-badge live">Live</span>
+          <a href="https://policy-analysis-tool.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
+            Launch Lab <i class="fas fa-external-link-alt"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  `;
+  labsContainer.innerHTML = labsHTML;
+}
+
+// Enhanced Course Comparison Functionality
+function toggleCourseComparison(courseId) {
+  const index = selectedCourses.indexOf(courseId);
+  if (index > -1) {
+    selectedCourses.splice(index, 1);
+  } else {
+    if (selectedCourses.length < 3) {
+      selectedCourses.push(courseId);
+    } else {
+      alert('You can compare up to 3 courses at a time.');
+      return;
+    }
+  }
+  updateComparisonUI();
+  updateCourseCardStates();
+}
+
+function updateComparisonUI() {
+  // Update comparison panel
+  const comparisonCount = document.getElementById('comparisonCount');
+  const comparisonPanel = document.getElementById('comparisonPanel');
+  const enhancedBtn = document.querySelector('.enhanced-comparison-btn');
+  
+  if (comparisonCount) {
+    comparisonCount.textContent = `${selectedCourses.length} courses selected`;
+  }
+  
+  if (comparisonPanel) {
+    if (selectedCourses.length > 0) {
+      comparisonPanel.style.display = 'block';
+    } else {
+      comparisonPanel.style.display = 'none';
+    }
+  }
+  
+  if (enhancedBtn) {
+    enhancedBtn.disabled = selectedCourses.length < 2;
+  }
+  
+  // Update FAB button
+  updateFABButton();
+}
+
+function updateCourseCardStates() {
+  // Update all course compare buttons to show selected state
+  selectedCourses.forEach(courseId => {
+    const btn = document.querySelector(`[data-course-id="${courseId}"] .course-compare-btn`);
+    if (btn) {
+      btn.classList.add('selected');
+      btn.innerHTML = '<i class="fas fa-check"></i> Selected';
+    }
+  });
+  
+  // Update unselected buttons
+  const allBtns = document.querySelectorAll('.course-compare-btn');
+  allBtns.forEach(btn => {
+    const courseCard = btn.closest('[data-course-id]');
+    if (courseCard) {
+      const courseId = courseCard.getAttribute('data-course-id');
+      if (!selectedCourses.includes(courseId)) {
+        btn.classList.remove('selected');
+        btn.innerHTML = '<i class="fas fa-balance-scale"></i> Compare';
+      }
+    }
+  });
+}
+
+function updateFABButton() {
+  let fabBtn = document.querySelector('.fab-btn.compare');
+  
+  if (selectedCourses.length > 0) {
+    if (!fabBtn) {
+      // Create FAB if it doesn't exist
+      let fabContainer = document.querySelector('.fab-container');
+      if (!fabContainer) {
+        fabContainer = document.createElement('div');
+        fabContainer.className = 'fab-container';
+        document.body.appendChild(fabContainer);
+      }
+      
+      fabBtn = document.createElement('button');
+      fabBtn.className = 'fab-btn compare';
+      fabBtn.onclick = showEnhancedComparisonModal;
+      fabContainer.appendChild(fabBtn);
+    }
+    
+    fabBtn.innerHTML = `<i class="fas fa-balance-scale"></i> Compare (${selectedCourses.length})`;
+    fabBtn.classList.remove('hidden');
+    fabBtn.style.display = 'flex';
+  } else if (fabBtn) {
+    fabBtn.classList.add('hidden');
+    fabBtn.style.display = 'none';
+  }
+}
+
+function calculateContentDepth(course) {
+  let score = 0;
+  
+  // Duration scoring (out of 3)
+  if (course.duration && (course.duration.includes('5-6') || course.duration.includes('6+'))) score += 3;
+  else if (course.duration && course.duration.includes('4-5')) score += 2;
+  else score += 1;
+  
+  // Prerequisites scoring (out of 2)
+  if (course.prerequisites && course.prerequisites.length > 2) score += 2;
+  else if (course.prerequisites && course.prerequisites.length > 0 && !course.prerequisites.includes('None - foundational course')) score += 1;
+  
+  // Learning outcomes complexity (out of 3)
+  if (course.outcomes && course.outcomes.length >= 4) score += 3;
+  else if (course.outcomes && course.outcomes.length >= 3) score += 2;
+  else score += 1;
+  
+  // Difficulty scoring (out of 2)
+  if (course.difficulty === 'advanced') score += 2;
+  else if (course.difficulty === 'intermediate') score += 1;
+  
+  return Math.min(score, 10);
+}
+
+function analyzeContentOverlap(courses) {
+  const overlaps = [];
+  
+  for (let i = 0; i < courses.length; i++) {
+    for (let j = i + 1; j < courses.length; j++) {
+      const course1 = courses[i];
+      const course2 = courses[j];
+      
+      // Check category overlap
+      const categoryMatch = course1.category === course2.category;
+      
+      // Check audience overlap
+      const audienceWords1 = (course1.audience || '').toLowerCase().split(/[,\s]+/);
+      const audienceWords2 = (course2.audience || '').toLowerCase().split(/[,\s]+/);
+      const audienceOverlap = audienceWords1.filter(word => 
+        audienceWords2.includes(word) && word.length > 3
+      ).length;
+      
+      let overlapScore = 0;
+      if (categoryMatch) overlapScore += 3;
+      overlapScore += Math.min(audienceOverlap, 2);
+      
+      if (overlapScore > 2) {
+        overlaps.push({
+          courses: [course1.title, course2.title],
+          score: overlapScore,
+          details: {
+            category: categoryMatch,
+            audienceWords: audienceOverlap
+          }
+        });
+      }
+    }
+  }
+  
+  return overlaps;
+}
+
+function generateLearningPath(courses) {
+  return [...courses].sort((a, b) => {
+    const difficultyOrder = { 'beginner': 1, 'intermediate': 2, 'advanced': 3 };
+    const aDiff = difficultyOrder[a.difficulty] || 2;
+    const bDiff = difficultyOrder[b.difficulty] || 2;
+    
+    if (aDiff !== bDiff) return aDiff - bDiff;
+    
+    // If same difficulty, prioritize foundational courses
+    const aFoundational = (a.prerequisites || []).includes('None - foundational course');
+    const bFoundational = (b.prerequisites || []).includes('None - foundational course');
+    
+    if (aFoundational && !bFoundational) return -1;
+    if (!aFoundational && bFoundational) return 1;
+    
+    return 0;
+  });
+}
+
+function showEnhancedComparisonModal() {
+  if (selectedCourses.length < 2) {
+    alert('Please select at least 2 courses to compare.');
+    return;
+  }
+  
+  const modal = document.getElementById('enhancedComparisonModal');
+  const comparisonTable = document.getElementById('comparisonTable');
+  
+  if (!modal || !comparisonTable) {
+    alert('Comparison modal not found. Please refresh the page.');
+    return;
+  }
+  
+  // Get courses from the global courses array
+  const coursesSource = window.courses || courses || [];
+  const coursesToCompare = selectedCourses.map(id => 
+    coursesSource.find(course => course.id === id)
+  ).filter(Boolean);
+  
+  if (coursesToCompare.length === 0) {
+    alert('Course data not found. Please ensure course-data.js is loaded.');
+    return;
+  }
+  
+  const contentDepths = coursesToCompare.map(calculateContentDepth);
+  const overlaps = analyzeContentOverlap(coursesToCompare);
+  const suggestedPath = generateLearningPath(coursesToCompare);
+  
+  const tableHTML = `
+    <div class="comparison-container">
+      <!-- Basic Information Comparison -->
+      <div class="comparison-section">
+        <h4><i class="fas fa-info-circle"></i> Course Overview</h4>
+        <div class="comparison-table-grid">
+          <div class="comparison-header">
+            <div class="feature-column">Feature</div>
+            ${coursesToCompare.map(course => `
+              <div class="course-column">${course.title}</div>
+            `).join('')}
+          </div>
+          <div class="comparison-row">
+            <div class="feature-cell">Difficulty</div>
+            ${coursesToCompare.map(course => `
+              <div class="course-cell">
+                <span class="difficulty ${course.difficulty || 'intermediate'}">${course.difficulty || 'intermediate'}</span>
+              </div>
+            `).join('')}
+          </div>
+          <div class="comparison-row">
+            <div class="feature-cell">Duration</div>
+            ${coursesToCompare.map(course => `
+              <div class="course-cell">${course.duration || 'Not specified'}</div>
+            `).join('')}
+          </div>
+          <div class="comparison-row">
+            <div class="feature-cell">Category</div>
+            ${coursesToCompare.map(course => `
+              <div class="course-cell">${course.category || 'General'}</div>
+            `).join('')}
+          </div>
+          <div class="comparison-row">
+            <div class="feature-cell">Content Depth</div>
+            ${coursesToCompare.map((course, index) => `
+              <div class="course-cell">
+                <div class="depth-bar-mini" style="width: ${contentDepths[index] * 10}%; background: linear-gradient(90deg, #10b981, #f59e0b, #3b82f6);"></div>
+                ${contentDepths[index]}/10
+              </div>
+            `).join('')}
+          </div>
+          <div class="comparison-row">
+            <div class="feature-cell">Learner Count</div>
+            ${coursesToCompare.map(course => `
+              <div class="course-cell">${course.learnerCount ? course.learnerCount.toLocaleString() : 'N/A'} learners</div>
+            `).join('')}
+          </div>
+          <div class="comparison-row">
+            <div class="feature-cell">Rating</div>
+            ${coursesToCompare.map(course => `
+              <div class="course-cell">${course.rating ? '★ ' + course.rating : 'Not rated'}</div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+
+      <!-- Prerequisites Analysis -->
+      ${coursesToCompare.some(c => c.prerequisites && c.prerequisites.length > 0) ? `
+      <div class="comparison-section">
+        <h4><i class="fas fa-list-check"></i> Prerequisites Analysis</h4>
+        <div class="comparison-table-grid">
+          <div class="comparison-header">
+            <div class="feature-column">Prerequisites</div>
+            ${coursesToCompare.map(course => `
+              <div class="course-column">${course.title}</div>
+            `).join('')}
+          </div>
+          <div class="comparison-row">
+            <div class="feature-cell">Requirements</div>
+            ${coursesToCompare.map(course => `
+              <div class="course-cell">
+                ${course.prerequisites && course.prerequisites.length > 0 ? 
+    course.prerequisites.map(prereq => `<div class="prereq-item">${prereq}</div>`).join('') : 
+    'None specified'}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+      ` : ''}
+
+      <!-- Learning Outcomes Comparison -->
+      ${coursesToCompare.some(c => c.outcomes && c.outcomes.length > 0) ? `
+      <div class="comparison-section">
+        <h4><i class="fas fa-graduation-cap"></i> Learning Outcomes</h4>
+        <div class="comparison-table-grid">
+          <div class="comparison-header">
+            <div class="feature-column">What You'll Learn</div>
+            ${coursesToCompare.map(course => `
+              <div class="course-column">${course.title}</div>
+            `).join('')}
+          </div>
+          <div class="comparison-row">
+            <div class="feature-cell">Key Outcomes</div>
+            ${coursesToCompare.map(course => `
+              <div class="course-cell">
+                ${course.outcomes && course.outcomes.length > 0 ? 
+    course.outcomes.map(outcome => `<div class="outcome-item">• ${outcome}</div>`).join('') : 
+    'Not specified'}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+      ` : ''}
+
+      <!-- Target Audience Comparison -->
+      ${coursesToCompare.some(c => c.audience) ? `
+      <div class="comparison-section">
+        <h4><i class="fas fa-users"></i> Target Audience</h4>
+        <div class="comparison-table-grid">
+          <div class="comparison-header">
+            <div class="feature-column">Best For</div>
+            ${coursesToCompare.map(course => `
+              <div class="course-column">${course.title}</div>
+            `).join('')}
+          </div>
+          <div class="comparison-row">
+            <div class="feature-cell">Audience</div>
+            ${coursesToCompare.map(course => `
+              <div class="course-cell">${course.audience || 'General audience'}</div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+      ` : ''}
+
+      <!-- Content Overlap Analysis -->
+      ${overlaps.length > 0 ? `
+        <div class="comparison-section">
+          <h4><i class="fas fa-intersection"></i> Content Overlap Analysis</h4>
+          <div class="overlap-analysis">
+            ${overlaps.map(overlap => `
+              <div class="overlap-item">
+                <strong>${overlap.courses.join(' & ')}</strong>
+                <div class="overlap-score">Overlap Score: ${overlap.score}/5</div>
+                <div class="overlap-details">
+                  ${overlap.details.category ? '<span class="overlap-tag">Same Category</span>' : ''}
+                  ${overlap.details.audienceWords > 0 ? `<span class="overlap-tag">Shared Audience (${overlap.details.audienceWords} matches)</span>` : ''}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      ` : ''}
+
+      <!-- Suggested Learning Path -->
+      <div class="comparison-section">
+        <h4><i class="fas fa-route"></i> Suggested Learning Path</h4>
+        <div class="learning-path">
+          ${suggestedPath.map((course, index) => `
+            <div class="path-step">
+              <div class="step-number">${index + 1}</div>
+              <div class="step-content">
+                <h5>${course.title}</h5>
+                <div class="step-rationale">
+                  ${index === 0 ? 'Start here - ' : ''}
+                  ${course.difficulty || 'intermediate'} level, ${course.duration || 'duration not specified'}
+                  ${course.prerequisites && course.prerequisites.includes('None - foundational course') ? ' (Foundational)' : ''}
+                </div>
+              </div>
+            </div>
+            ${index < suggestedPath.length - 1 ? '<div class="path-arrow">↓</div>' : ''}
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+  
+  comparisonTable.innerHTML = tableHTML;
+  modal.classList.remove('hidden');
+}
+
+function closeEnhancedComparisonModal() {
+  const modal = document.getElementById('enhancedComparisonModal');
+  if (modal) {
+    modal.classList.add('hidden');
+  }
+}
+
+function clearComparison() {
+  selectedCourses = [];
+  updateComparisonUI();
+  updateCourseCardStates();
+  closeEnhancedComparisonModal();
+}
+
+function exportComparison() {
+  if (selectedCourses.length === 0) {
+    alert('No courses selected for comparison.');
+    return;
+  }
+  
+  // Simple export functionality - can be enhanced later
+  const coursesSource = window.courses || courses || [];
+  const coursesToExport = selectedCourses.map(id => 
+    coursesSource.find(course => course.id === id)
+  ).filter(Boolean);
+  
+  const exportData = {
+    exportDate: new Date().toISOString(),
+    courses: coursesToExport.map(course => ({
+      title: course.title,
+      category: course.category,
+      difficulty: course.difficulty,
+      duration: course.duration,
+      learnerCount: course.learnerCount,
+      rating: course.rating
+    }))
+  };
+  
+  const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'impactmojo-course-comparison.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// Enhanced course rendering to include compare buttons
+function enhanceCourseCards() {
+  // Wait for courses to be rendered, then add compare buttons
+  setTimeout(() => {
+    const courseCards = document.querySelectorAll('.course-card');
+    courseCards.forEach(card => {
+      if (!card.querySelector('.course-compare-btn')) {
+        const courseId = card.getAttribute('data-course-id');
+        if (courseId) {
+          const actionsDiv = card.querySelector('.course-actions');
+          if (actionsDiv && !actionsDiv.classList.contains('course-actions-enhanced')) {
+            actionsDiv.classList.add('course-actions-enhanced');
+            
+            const compareBtn = document.createElement('button');
+            compareBtn.className = 'course-compare-btn';
+            compareBtn.innerHTML = '<i class="fas fa-balance-scale"></i> Compare';
+            compareBtn.onclick = (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleCourseComparison(courseId);
+            };
+            
+            actionsDiv.appendChild(compareBtn);
+          }
+        }
+      }
+    });
+    
+    // Update button states
+    updateCourseCardStates();
+  }, 100);
+}
+
+// Initialize enhanced features when DOM loads
+document.addEventListener('DOMContentLoaded', function() {
+  generateLabsContent();
+  
+  // Enhanced course cards after a delay to ensure courses are loaded
+  setTimeout(() => {
+    enhanceCourseCards();
+  }, 500);
+  
+  // Re-enhance when courses are filtered
+  const originalFilterCourses = window.filterCourses;
+  if (originalFilterCourses) {
+    window.filterCourses = function() {
+      originalFilterCourses.apply(this, arguments);
+      setTimeout(enhanceCourseCards, 100);
+    };
+  }
+});
+
+// Add event listener for modal clicks
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('modal') && e.target.id === 'enhancedComparisonModal') {
+    closeEnhancedComparisonModal();
+  }
+});
+
+// Make functions globally available
+window.generateLabsContent = generateLabsContent;
+window.toggleCourseComparison = toggleCourseComparison;
+window.showEnhancedComparisonModal = showEnhancedComparisonModal;
+window.closeEnhancedComparisonModal = closeEnhancedComparisonModal;
+window.clearComparison = clearComparison;
+window.exportComparison = exportComparison;
