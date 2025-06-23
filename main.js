@@ -1975,3 +1975,1142 @@ console.log('🔥 RICH COMPARISON SYSTEM LOADED!');
 console.log('📝 Rich comparison features: ✅ Content depth bars, ✅ Learning paths, ✅ Overlap analysis');
 console.log('🧪 Test: run testRichComparison() in console');
 console.log('🔧 Fix labs: run fixLabDuplicates() in console');
+// 🔧 FINAL WORKING FIX - Add this to the VERY END of your main.js file
+
+console.log('🔧 Loading FINAL working fix for compare and duplicates...');
+
+// ===== STEP 1: Clean Reset Everything =====
+function completeSystemReset() {
+  console.log('🧹 Complete system reset starting...');
+  
+  // Clear all comparison arrays
+  window.selectedCourses = [];
+  window.comparisonList = [];
+  
+  // Remove ALL floating buttons
+  const allFabs = document.querySelectorAll(`
+    .unified-fab-btn, 
+    .emergency-fab-btn, 
+    .fab-btn, 
+    .compare-fab, 
+    .working-fab-btn,
+    [class*="fab"]
+  `);
+  allFabs.forEach(fab => {
+    if (fab.textContent && fab.textContent.toLowerCase().includes('compare')) {
+      fab.remove();
+    }
+  });
+  
+  // Reset all compare button states
+  const allCompareBtns = document.querySelectorAll('.course-compare-btn, .compare-btn');
+  allCompareBtns.forEach(btn => {
+    btn.classList.remove('selected', 'active');
+    btn.innerHTML = '<i class="fas fa-balance-scale"></i> Compare';
+    btn.style.background = '';
+    btn.style.color = '';
+    btn.style.borderColor = '';
+  });
+  
+  console.log('✅ Complete system reset done');
+}
+
+// ===== STEP 2: Working Toggle Function (Final Version) =====
+window.toggleCourseComparison = function(courseId) {
+  console.log('🎯 FINAL toggleCourseComparison called:', courseId);
+  
+  // Ensure we have a clean array
+  if (!Array.isArray(selectedCourses)) {
+    window.selectedCourses = [];
+  }
+  
+  const index = selectedCourses.indexOf(courseId);
+  
+  if (index > -1) {
+    // Remove from selection
+    selectedCourses.splice(index, 1);
+    console.log(`➖ Removed ${courseId}. Current:`, [...selectedCourses]);
+    showNotification('Course removed from comparison', 'info');
+  } else {
+    // Add to selection
+    if (selectedCourses.length >= 4) {
+      alert('Maximum 4 courses can be compared at once');
+      return;
+    }
+    selectedCourses.push(courseId);
+    console.log(`➕ Added ${courseId}. Current:`, [...selectedCourses]);
+    showNotification('Course added to comparison', 'success');
+  }
+  
+  // Update UI immediately
+  updateFinalComparisonUI();
+  updateFinalFAB();
+};
+
+// ===== STEP 3: Final UI Update Function =====
+function updateFinalComparisonUI() {
+  console.log('🔄 Final UI update for selection:', [...selectedCourses]);
+  
+  const allCompareBtns = document.querySelectorAll('.course-compare-btn, .compare-btn');
+  console.log(`🔍 Updating ${allCompareBtns.length} compare buttons`);
+  
+  allCompareBtns.forEach(btn => {
+    const courseCard = btn.closest('[data-course-id]');
+    if (!courseCard) return;
+    
+    const courseId = courseCard.getAttribute('data-course-id');
+    const isSelected = selectedCourses.includes(courseId);
+    
+    if (isSelected) {
+      btn.classList.add('selected', 'active');
+      btn.innerHTML = '<i class="fas fa-check"></i> Selected';
+      btn.style.cssText = `
+        background: #059669 !important;
+        color: white !important;
+        border-color: #059669 !important;
+        font-weight: bold !important;
+      `;
+    } else {
+      btn.classList.remove('selected', 'active');
+      btn.innerHTML = '<i class="fas fa-balance-scale"></i> Compare';
+      btn.style.cssText = '';
+    }
+  });
+  
+  console.log('✅ Final UI update complete');
+}
+
+// ===== STEP 4: Final FAB Function =====
+function updateFinalFAB() {
+  console.log('🔘 Final FAB update, count:', selectedCourses.length);
+  
+  // Remove existing FAB
+  const existingFab = document.querySelector('.final-fab-btn');
+  if (existingFab) {
+    existingFab.remove();
+  }
+  
+  if (selectedCourses.length === 0) {
+    return;
+  }
+  
+  // Create final FAB
+  const finalFab = document.createElement('button');
+  finalFab.className = 'final-fab-btn';
+  finalFab.innerHTML = `<i class="fas fa-balance-scale"></i> Compare Selected (${selectedCourses.length})`;
+  
+  finalFab.style.cssText = `
+    position: fixed !important;
+    bottom: 25px !important;
+    right: 25px !important;
+    background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+    color: white !important;
+    border: none !important;
+    padding: 18px 30px !important;
+    border-radius: 50px !important;
+    cursor: pointer !important;
+    font-weight: bold !important;
+    font-size: 16px !important;
+    box-shadow: 0 10px 30px rgba(245, 158, 11, 0.4) !important;
+    z-index: 9999 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    transition: all 0.3s ease !important;
+    font-family: inherit !important;
+    white-space: nowrap !important;
+  `;
+  
+  finalFab.onclick = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log('🖱️ FINAL FAB CLICKED! Selected:', [...selectedCourses]);
+    
+    if (selectedCourses.length < 2) {
+      alert('Please select at least 2 courses to compare.');
+      return;
+    }
+    
+    showFinalComparison();
+  };
+  
+  // Hover effects
+  finalFab.onmouseover = () => {
+    finalFab.style.transform = 'scale(1.05) translateY(-3px)';
+    finalFab.style.boxShadow = '0 15px 40px rgba(245, 158, 11, 0.5)';
+  };
+  
+  finalFab.onmouseout = () => {
+    finalFab.style.transform = 'scale(1) translateY(0)';
+    finalFab.style.boxShadow = '0 10px 30px rgba(245, 158, 11, 0.4)';
+  };
+  
+  document.body.appendChild(finalFab);
+  console.log('✅ Final FAB created and positioned');
+}
+
+// ===== STEP 5: Final Comparison Modal =====
+function showFinalComparison() {
+  console.log('🚨 Final comparison modal starting');
+  
+  if (selectedCourses.length < 2) {
+    alert('Please select at least 2 courses to compare.');
+    return;
+  }
+  
+  const coursesToCompare = selectedCourses.map(id => 
+    courses.find(c => c.id === id)
+  ).filter(Boolean);
+  
+  if (coursesToCompare.length === 0) {
+    alert('Course data not found. Please refresh the page.');
+    return;
+  }
+  
+  console.log('📊 Final comparison for:', coursesToCompare.map(c => c.title));
+  
+  // Create comparison content with rich features
+  const comparisonHTML = `
+    <div style="padding: 30px; max-height: 85vh; overflow-y: auto; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+      
+      <!-- Header -->
+      <div style="text-align: center; margin-bottom: 40px; background: linear-gradient(135deg, #2563eb, #3b82f6); color: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);">
+        <h1 style="margin: 0; font-size: 2.5rem; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 15px;">
+          <i class="fas fa-balance-scale"></i> Course Comparison
+        </h1>
+        <p style="margin: 15px 0 0 0; font-size: 1.2rem; opacity: 0.9;">Detailed analysis of ${coursesToCompare.length} selected courses</p>
+      </div>
+  
+      <!-- Quick Stats -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px;">
+        ${coursesToCompare.map((course, index) => `
+          <div style="background: white; border: 3px solid ${['#2563eb', '#059669', '#dc2626', '#7c3aed'][index] || '#6b7280'}; border-radius: 15px; padding: 20px; text-align: center; box-shadow: 0 6px 20px rgba(0,0,0,0.1);">
+            <h3 style="color: ${['#2563eb', '#059669', '#dc2626', '#7c3aed'][index] || '#6b7280'}; margin: 0 0 15px 0; font-size: 1.2rem; font-weight: bold;">${course.title}</h3>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: #6b7280;">Difficulty:</span>
+                <span style="padding: 2px 8px; border-radius: 8px; font-size: 0.8rem; font-weight: bold; color: white; background: ${
+    course.difficulty === 'beginner' ? '#059669' : 
+    course.difficulty === 'intermediate' ? '#d97706' : '#dc2626'
+    };">${course.difficulty.toUpperCase()}</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: #6b7280;">Duration:</span>
+                <span style="font-weight: 600; color: #374151;">${course.duration}</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: #6b7280;">Rating:</span>
+                <span style="color: #f59e0b; font-weight: bold;">⭐ ${course.rating}</span>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+  
+      <!-- Detailed Comparison -->
+      <div style="background: white; border-radius: 15px; padding: 25px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); margin-bottom: 30px;">
+        <h2 style="color: #2563eb; margin-bottom: 25px; font-size: 1.8rem; font-weight: bold; display: flex; align-items: center; gap: 10px;">
+          <i class="fas fa-table"></i> Detailed Comparison
+        </h2>
+        
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden;">
+            <thead>
+              <tr style="background: #f8fafc;">
+                <th style="padding: 15px; text-align: left; font-weight: bold; color: #374151; border-bottom: 2px solid #e5e7eb;">Feature</th>
+                ${coursesToCompare.map((course, index) => `
+                  <th style="padding: 15px; text-align: left; font-weight: bold; color: ${['#2563eb', '#059669', '#dc2626', '#7c3aed'][index] || '#6b7280'}; border-bottom: 2px solid #e5e7eb; min-width: 200px;">${course.title}</th>
+                `).join('')}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding: 12px 15px; font-weight: 600; background: #f8fafc; border-bottom: 1px solid #e5e7eb;">Category</td>
+                ${coursesToCompare.map(course => `
+                  <td style="padding: 12px 15px; border-bottom: 1px solid #e5e7eb; color: #6b7280;">${course.category}</td>
+                `).join('')}
+              </tr>
+              <tr>
+                <td style="padding: 12px 15px; font-weight: 600; background: #f8fafc; border-bottom: 1px solid #e5e7eb;">Audience</td>
+                ${coursesToCompare.map(course => `
+                  <td style="padding: 12px 15px; border-bottom: 1px solid #e5e7eb; color: #6b7280; font-size: 0.9rem;">${course.audience || 'General'}</td>
+                `).join('')}
+              </tr>
+              <tr>
+                <td style="padding: 12px 15px; font-weight: 600; background: #f8fafc; border-bottom: 1px solid #e5e7eb;">Learners</td>
+                ${coursesToCompare.map(course => `
+                  <td style="padding: 12px 15px; border-bottom: 1px solid #e5e7eb; color: #6b7280; font-weight: 600;">${course.learnerCount ? course.learnerCount.toLocaleString() : 'N/A'}</td>
+                `).join('')}
+              </tr>
+              <tr>
+                <td style="padding: 12px 15px; font-weight: 600; background: #f8fafc;">Description</td>
+                ${coursesToCompare.map(course => `
+                  <td style="padding: 12px 15px; color: #6b7280; line-height: 1.4; font-size: 0.9rem;">${course.description.substring(0, 100)}${course.description.length > 100 ? '...' : ''}</td>
+                `).join('')}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+  
+      <!-- Action Buttons -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 30px;">
+        ${coursesToCompare.map((course, index) => `
+          <a href="${course.url}" target="_blank" rel="noopener" 
+              style="background: linear-gradient(135deg, ${['#2563eb', '#059669', '#dc2626', '#7c3aed'][index] || '#6b7280'}, ${['#1d4ed8', '#047857', '#b91c1c', '#6d28d9'][index] || '#4b5563'}); 
+                    color: white; padding: 15px 20px; border-radius: 12px; text-decoration: none; 
+                    display: flex; align-items: center; justify-content: center; gap: 8px; 
+                    font-weight: bold; font-size: 1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
+                    transition: all 0.3s ease; text-align: center;" 
+              onmouseover="this.style.transform='translateY(-2px)'" 
+              onmouseout="this.style.transform='translateY(0)'">
+            <i class="fas fa-external-link-alt"></i> Launch ${course.title}
+          </a>
+        `).join('')}
+      </div>
+      
+      <!-- Footer -->
+      <div style="text-align: center; padding: 25px; background: #f8fafc; border-radius: 15px;">
+        <button onclick="clearFinalComparison()" 
+                style="background: #dc2626; color: white; padding: 15px 30px; border: none; 
+                        border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 1rem; 
+                        box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3); transition: all 0.3s ease; 
+                        margin-right: 15px;" 
+                onmouseover="this.style.background='#b91c1c'" 
+                onmouseout="this.style.background='#dc2626'">
+          <i class="fas fa-times"></i> Clear All
+        </button>
+        <button onclick="closeFinalModal()" 
+                style="background: #6b7280; color: white; padding: 15px 30px; border: none; 
+                        border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 1rem; 
+                        box-shadow: 0 4px 15px rgba(107, 114, 128, 0.3); transition: all 0.3s ease;" 
+                onmouseover="this.style.background='#4b5563'" 
+                onmouseout="this.style.background='#6b7280'">
+          Close
+        </button>
+      </div>
+    </div>
+  `;
+  
+  createFinalModal(comparisonHTML);
+}
+
+// ===== STEP 6: Final Modal Creation =====
+function createFinalModal(content) {
+  // Remove existing modal
+  const existingModal = document.getElementById('finalComparisonModal');
+  if (existingModal) {
+    existingModal.remove();
+  }
+  
+  const modal = document.createElement('div');
+  modal.id = 'finalComparisonModal';
+  modal.style.cssText = `
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: rgba(0, 0, 0, 0.8) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 10000 !important;
+    backdrop-filter: blur(8px) !important;
+  `;
+  
+  const modalContent = document.createElement('div');
+  modalContent.style.cssText = `
+    background: white !important;
+    border-radius: 20px !important;
+    width: 95% !important;
+    max-width: 1200px !important;
+    max-height: 90vh !important;
+    overflow: hidden !important;
+    position: relative !important;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6) !important;
+  `;
+  
+  // Close button
+  const closeBtn = document.createElement('button');
+  closeBtn.innerHTML = '×';
+  closeBtn.style.cssText = `
+    position: absolute !important;
+    top: 20px !important;
+    right: 25px !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: none !important;
+    font-size: 30px !important;
+    cursor: pointer !important;
+    color: #6b7280 !important;
+    z-index: 10001 !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.3s ease !important;
+  `;
+  
+  closeBtn.onclick = closeFinalModal;
+  closeBtn.onmouseover = () => {
+    closeBtn.style.background = '#dc2626';
+    closeBtn.style.color = 'white';
+  };
+  closeBtn.onmouseout = () => {
+    closeBtn.style.background = 'rgba(255, 255, 255, 0.9)';
+    closeBtn.style.color = '#6b7280';
+  };
+  
+  modalContent.innerHTML = content;
+  modalContent.appendChild(closeBtn);
+  modal.appendChild(modalContent);
+  
+  // Close on backdrop click
+  modal.onclick = (e) => {
+    if (e.target === modal) {
+      closeFinalModal();
+    }
+  };
+  
+  document.body.appendChild(modal);
+  console.log('✅ Final modal created and displayed');
+}
+
+// ===== STEP 7: Final Clear and Close Functions =====
+function clearFinalComparison() {
+  selectedCourses.length = 0;
+  
+  // Remove modal
+  const modal = document.getElementById('finalComparisonModal');
+  if (modal) modal.remove();
+  
+  // Remove FAB
+  const fab = document.querySelector('.final-fab-btn');
+  if (fab) fab.remove();
+  
+  // Update buttons
+  updateFinalComparisonUI();
+  
+  showNotification('Comparison cleared!', 'success');
+  console.log('✅ Final comparison cleared');
+}
+
+function closeFinalModal() {
+  const modal = document.getElementById('finalComparisonModal');
+  if (modal) {
+    modal.remove();
+  }
+}
+
+// ===== STEP 8: Remove Course Duplicates =====
+function removeDuplicateCoursesFromDisplay() {
+  console.log('🧹 Checking for duplicate courses in display...');
+  
+  const courseContainer = document.getElementById('courseContainer');
+  if (!courseContainer) return;
+  
+  const allCourseCards = courseContainer.querySelectorAll('.course-card[data-course-id]');
+  const seenIds = new Set();
+  let duplicatesRemoved = 0;
+  
+  allCourseCards.forEach(card => {
+    const courseId = card.getAttribute('data-course-id');
+    if (seenIds.has(courseId)) {
+      card.remove();
+      duplicatesRemoved++;
+      console.log(`🗑️ Removed duplicate course card: ${courseId}`);
+    } else {
+      seenIds.add(courseId);
+    }
+  });
+  
+  console.log(`✅ Removed ${duplicatesRemoved} duplicate course cards`);
+  
+  // Update course count
+  if (typeof updateCourseCount === 'function') {
+    updateCourseCount();
+  }
+}
+
+// ===== STEP 9: Override All Conflicting Functions =====
+window.clearFinalComparison = clearFinalComparison;
+window.closeFinalModal = closeFinalModal;
+
+// Override all other comparison functions to use our final version
+window.toggleCompare = window.toggleCourseComparison;
+window.unifiedUpdateComparisonUI = updateFinalComparisonUI;
+window.unifiedUpdateFAB = updateFinalFAB;
+window.unifiedShowComparison = showFinalComparison;
+window.unifiedClearComparison = clearFinalComparison;
+
+// ===== STEP 10: Initialize Final System =====
+function initializeFinalSystem() {
+  console.log('🔧 Initializing final comparison system...');
+  
+  // Complete reset
+  completeSystemReset();
+  
+  // Remove duplicate courses from display
+  setTimeout(removeDuplicateCoursesFromDisplay, 500);
+  
+  // Update existing compare buttons
+  setTimeout(() => {
+    const existingButtons = document.querySelectorAll('.course-compare-btn, .compare-btn');
+    if (existingButtons.length > 0) {
+      console.log(`🔄 Found ${existingButtons.length} existing compare buttons, updating...`);
+      updateFinalComparisonUI();
+    }
+  }, 1000);
+  
+  console.log('✅ Final system initialized');
+}
+
+// ===== STEP 11: Auto-Initialize =====
+document.addEventListener('DOMContentLoaded', initializeFinalSystem);
+
+if (document.readyState !== 'loading') {
+  initializeFinalSystem();
+}
+
+// ===== STEP 12: Testing Functions =====
+window.testFinalComparison = function() {
+  console.log('🧪 Testing final comparison system...');
+  
+  // Add test courses if none selected
+  if (selectedCourses.length === 0) {
+    const availableCourses = courses.slice(0, 3).map(c => c.id);
+    selectedCourses.push(...availableCourses);
+    console.log('📝 Added test courses:', availableCourses);
+  }
+  
+  updateFinalComparisonUI();
+  updateFinalFAB();
+  
+  console.log('🚀 Test complete. Try clicking compare buttons or the floating button.');
+};
+
+window.debugFinalState = function() {
+  console.log('🔍 FINAL DEBUG INFO:');
+  console.log('Selected courses:', [...selectedCourses]);
+  console.log('Total unique courses:', new Set(courses.map(c => c.id)).size);
+  console.log('Course cards displayed:', document.querySelectorAll('.course-card[data-course-id]').length);
+  console.log('Compare buttons found:', document.querySelectorAll('.course-compare-btn, .compare-btn').length);
+  console.log('Final FAB exists:', !!document.querySelector('.final-fab-btn'));
+  
+  // Check for duplicates
+  const courseCards = document.querySelectorAll('.course-card[data-course-id]');
+  const ids = Array.from(courseCards).map(card => card.getAttribute('data-course-id'));
+  const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
+  console.log('Duplicate course IDs in display:', [...new Set(duplicates)]);
+};
+
+// ===== STEP 13: Fix Lab Duplicate Buttons =====
+function fixLabDuplicateButtons() {
+  console.log('🧨 Nuclear lab fix - removing ALL duplicate buttons...');
+  
+  // Step 1: Remove ALL existing lab action buttons completely
+  const allLabActions = document.querySelectorAll(`
+    .emergency-lab-actions, 
+    .lab-enhanced-actions, 
+    .final-lab-actions,
+    .nuclear-lab-actions,
+    .lab-bookmark-btn,
+    .lab-details-btn,
+    .lab-compare-btn,
+    .nuclear-bookmark-btn,
+    .nuclear-details-btn
+  `);
+  
+  allLabActions.forEach((element, index) => {
+    console.log(`🗑️ Removing lab action element ${index + 1}:`, element.className);
+    element.remove();
+  });
+  
+  // Step 2: Clear all markers
+  document.querySelectorAll('[data-enhanced], [data-lab-enhanced]').forEach(element => {
+    element.removeAttribute('data-enhanced');
+    element.removeAttribute('data-lab-enhanced');
+  });
+  
+  // Step 3: Wait and add ONE set of clean buttons
+  setTimeout(() => {
+    const labCards = document.querySelectorAll('.lab-card');
+    console.log(`📦 Nuclear fix: Found ${labCards.length} lab cards`);
+    
+    labCards.forEach((card, index) => {
+      // Triple check - skip if ANY buttons exist
+      if (card.querySelector('button[class*="lab-"], button[class*="nuclear-"], .final-lab-actions, .nuclear-lab-actions')) {
+        console.log(`⏭️ Lab ${index + 1} already has buttons, skipping...`);
+        return;
+      }
+      
+      // Mark as processed
+      card.setAttribute('data-lab-enhanced', 'final-nuclear-fixed');
+      
+      const labId = `lab-${index + 1}`;
+      const title = card.querySelector('h3')?.textContent || `Lab ${index + 1}`;
+      
+      console.log(`🔧 Nuclear fix enhancing: ${title}`);
+      
+      // Create ONE clean container
+      const actionsContainer = document.createElement('div');
+      actionsContainer.className = 'final-nuclear-lab-actions';
+      actionsContainer.style.cssText = `
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 2px solid #e2e8f0;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+        padding: 15px;
+        border-radius: 10px;
+        margin: 15px -20px -20px -20px;
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+      `;
+      
+      // Bookmark button
+      const bookmarkBtn = document.createElement('button');
+      bookmarkBtn.innerHTML = '<i class="far fa-bookmark"></i> Bookmark';
+      bookmarkBtn.className = 'final-nuclear-bookmark-btn';
+      bookmarkBtn.style.cssText = `
+        background: white;
+        border: 2px solid #f59e0b;
+        color: #f59e0b;
+        padding: 10px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      `;
+      
+      bookmarkBtn.onclick = function() {
+        const icon = this.querySelector('i');
+        if (icon.classList.contains('far')) {
+          icon.className = 'fas fa-bookmark';
+          this.style.background = '#f59e0b';
+          this.style.color = 'white';
+          this.style.borderColor = '#f59e0b';
+          showNotification('Lab bookmarked! 🎯', 'success');
+        } else {
+          icon.className = 'far fa-bookmark';
+          this.style.background = 'white';
+          this.style.color = '#f59e0b';
+          this.style.borderColor = '#f59e0b';
+          showNotification('Bookmark removed', 'info');
+        }
+      };
+      
+      // Details button
+      const detailsBtn = document.createElement('button');
+      detailsBtn.innerHTML = '<i class="fas fa-info-circle"></i> Details';
+      detailsBtn.className = 'final-nuclear-details-btn';
+      detailsBtn.style.cssText = `
+        background: white;
+        border: 2px solid #2563eb;
+        color: #2563eb;
+        padding: 10px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      `;
+      
+      detailsBtn.onclick = function() {
+        this.style.background = '#2563eb';
+        this.style.color = 'white';
+        
+        const description = card.querySelector('p')?.textContent || 'Interactive development tool';
+        const launchUrl = card.querySelector('a[href]')?.href || '#';
+        
+        // Create beautiful details modal instead of alert
+        createBeautifulLabDetailsModal(title, description, launchUrl);
+        
+        // Reset button
+        setTimeout(() => {
+          this.style.background = 'white';
+          this.style.color = '#2563eb';
+        }, 200);
+      };
+      
+      // Add hover effects
+      bookmarkBtn.onmouseover = () => {
+        if (!bookmarkBtn.style.background.includes('#f59e0b')) {
+          bookmarkBtn.style.background = '#fef3c7';
+          bookmarkBtn.style.transform = 'translateY(-1px)';
+          bookmarkBtn.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+        }
+      };
+      bookmarkBtn.onmouseout = () => {
+        if (!bookmarkBtn.style.background.includes('#f59e0b')) {
+          bookmarkBtn.style.background = 'white';
+          bookmarkBtn.style.transform = 'translateY(0)';
+          bookmarkBtn.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+        }
+      };
+      
+      detailsBtn.onmouseover = () => {
+        if (!detailsBtn.style.background.includes('#2563eb')) {
+          detailsBtn.style.background = '#dbeafe';
+          detailsBtn.style.transform = 'translateY(-1px)';
+          detailsBtn.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+        }
+      };
+      detailsBtn.onmouseout = () => {
+        if (!detailsBtn.style.background.includes('#2563eb')) {
+          detailsBtn.style.background = 'white';
+          detailsBtn.style.transform = 'translateY(0)';
+          detailsBtn.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+        }
+      };
+      
+      actionsContainer.appendChild(bookmarkBtn);
+      actionsContainer.appendChild(detailsBtn);
+      card.appendChild(actionsContainer);
+      
+      console.log(`✅ Nuclear fix completed for: ${title}`);
+    });
+    
+    console.log('🎯 Nuclear lab fix complete - no more duplicates!');
+  }, 500);
+}
+
+// ===== STEP 14: Beautiful Lab Details Modal =====
+function createBeautifulLabDetailsModal(title, description, url) {
+  // Remove existing modal
+  const existingModal = document.getElementById('beautifulLabDetailsModal');
+  if (existingModal) existingModal.remove();
+  
+  const modal = document.createElement('div');
+  modal.id = 'beautifulLabDetailsModal';
+  modal.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    backdrop-filter: blur(8px);
+  `;
+  
+  const modalContent = document.createElement('div');
+  modalContent.style.cssText = `
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6);
+    position: relative;
+  `;
+  
+  modalContent.innerHTML = `
+    <div style="text-align: center; margin-bottom: 30px;">
+      <h2 style="color: #2563eb; margin: 0 0 10px 0; font-size: 2rem; font-weight: bold;">
+        📋 ${title}
+      </h2>
+      <div style="width: 60px; height: 4px; background: linear-gradient(90deg, #2563eb, #3b82f6); margin: 0 auto; border-radius: 2px;"></div>
+    </div>
+    
+    <div style="margin-bottom: 25px; padding: 20px; background: #f8fafc; border-radius: 12px; border-left: 4px solid #2563eb;">
+      <h3 style="color: #374151; margin: 0 0 15px 0; font-size: 1.2rem;">📝 Description</h3>
+      <p style="margin: 0; color: #6b7280; line-height: 1.6; font-size: 1.1rem;">${description}</p>
+    </div>
+    
+    <div style="margin-bottom: 25px; padding: 20px; background: #f0fdf4; border-radius: 12px; border-left: 4px solid #059669;">
+      <h3 style="color: #374151; margin: 0 0 15px 0; font-size: 1.2rem;">✨ Features</h3>
+      <ul style="margin: 0; padding: 0 0 0 20px; color: #6b7280; line-height: 1.8;">
+        <li>🎯 Interactive tools and simulations</li>
+        <li>📊 Real-world case studies and examples</li>
+        <li>📥 Downloadable resources and templates</li>
+        <li>📖 Step-by-step guidance and tutorials</li>
+        <li>🎨 Professional interface design</li>
+      </ul>
+    </div>
+    
+    <div style="text-align: center; margin-top: 30px;">
+      <a href="${url}" target="_blank" rel="noopener" style="background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white; padding: 15px 30px; border-radius: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; font-weight: bold; font-size: 1.1rem; box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3); transition: all 0.3s ease; margin-right: 15px;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+        <i class="fas fa-external-link-alt"></i> Launch Lab
+      </a>
+      <button onclick="document.getElementById('beautifulLabDetailsModal').remove()" style="background: #f3f4f6; color: #6b7280; padding: 15px 30px; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 1.1rem; transition: all 0.3s ease;" onmouseover="this.style.background='#e5e7eb'" onmouseout="this.style.background='#f3f4f6'">
+        Close
+      </button>
+    </div>
+  `;
+  
+  // Close button
+  const closeBtn = document.createElement('button');
+  closeBtn.innerHTML = '×';
+  closeBtn.style.cssText = `
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    color: #9ca3af;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+  `;
+  closeBtn.onclick = () => modal.remove();
+  closeBtn.onmouseover = () => {
+    closeBtn.style.background = '#ef4444';
+    closeBtn.style.color = 'white';
+  };
+  closeBtn.onmouseout = () => {
+    closeBtn.style.background = 'none';
+    closeBtn.style.color = '#9ca3af';
+  };
+  
+  modalContent.appendChild(closeBtn);
+  modal.appendChild(modalContent);
+  
+  // Close on backdrop click
+  modal.onclick = (e) => {
+    if (e.target === modal) modal.remove();
+  };
+  
+  document.body.appendChild(modal);
+}
+
+// ===== STEP 15: Fix Course Expansion Modal Visibility =====
+function fixCourseExpansionModal() {
+  // Add beautiful styling for course expansion modal
+  const style = document.createElement('style');
+  style.id = 'course-expansion-modal-fix';
+  style.textContent = `
+    /* Enhanced Course Details Modal - Fixed Visibility */
+    .course-card.expanded {
+      position: fixed !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      width: 90% !important;
+      max-width: 900px !important;
+      max-height: 85vh !important;
+      z-index: 10000 !important;
+      background: white !important;
+      border-radius: 20px !important;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6) !important;
+      overflow-y: auto !important;
+      padding: 40px !important;
+      border: none !important;
+      animation: modalSlideIn 0.4s ease !important;
+    }
+    
+    /* Add backdrop */
+    .course-card.expanded::before {
+      content: '' !important;
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      background: rgba(0, 0, 0, 0.8) !important;
+      z-index: -1 !important;
+      backdrop-filter: blur(8px) !important;
+    }
+    
+    /* Enhanced course content in modal - FIXED VISIBILITY */
+    .course-card.expanded .course-title {
+      color: #2563eb !important;
+      font-size: 2.5rem !important;
+      margin-bottom: 25px !important;
+      text-align: center !important;
+      border-bottom: 4px solid #2563eb !important;
+      padding-bottom: 20px !important;
+      background: linear-gradient(135deg, #dbeafe, #bfdbfe) !important;
+      padding: 25px !important;
+      border-radius: 15px !important;
+      margin: -20px -20px 30px -20px !important;
+    }
+    
+    .course-card.expanded .course-description {
+      font-size: 1.2rem !important;
+      line-height: 1.7 !important;
+      color: #374151 !important;
+      margin-bottom: 30px !important;
+      padding: 25px !important;
+      background: linear-gradient(135deg, #f8fafc, #e2e8f0) !important;
+      border-radius: 15px !important;
+      border-left: 6px solid #2563eb !important;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    }
+    
+    .course-card.expanded .course-meta {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
+      gap: 20px !important;
+      margin-bottom: 35px !important;
+      padding: 25px !important;
+      background: linear-gradient(135deg, #f8fafc, #e2e8f0) !important;
+      border-radius: 15px !important;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    }
+    
+    .course-card.expanded .course-meta span {
+      background: white !important;
+      padding: 15px 20px !important;
+      border-radius: 12px !important;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+      text-align: center !important;
+      font-weight: 600 !important;
+      color: #374151 !important;
+      border: 2px solid #e5e7eb !important;
+      transition: all 0.3s ease !important;
+    }
+    
+    .course-card.expanded .course-meta span:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2) !important;
+    }
+    
+    .course-card.expanded .course-expanded-content {
+      display: block !important;
+      margin-top: 30px !important;
+    }
+    
+    .course-card.expanded .course-expanded-content > div {
+      margin-bottom: 30px !important;
+      padding: 25px !important;
+      background: white !important;
+      border-radius: 15px !important;
+      border: 3px solid #e5e7eb !important;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1) !important;
+      transition: all 0.3s ease !important;
+    }
+    
+    .course-card.expanded .course-expanded-content > div:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+    }
+    
+    .course-card.expanded .course-expanded-content h5 {
+      color: #2563eb !important;
+      font-size: 1.5rem !important;
+      margin-bottom: 20px !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 12px !important;
+      font-weight: bold !important;
+      padding-bottom: 10px !important;
+      border-bottom: 2px solid #e5e7eb !important;
+    }
+    
+    .course-card.expanded .course-prerequisites h5::before {
+      content: '📋' !important;
+      font-size: 1.5rem !important;
+    }
+    
+    .course-card.expanded .course-outcomes h5::before {
+      content: '🎯' !important;
+      font-size: 1.5rem !important;
+    }
+    
+    .course-card.expanded .course-audience h5::before {
+      content: '👥' !important;
+      font-size: 1.5rem !important;
+    }
+    
+    .course-card.expanded .course-expanded-content ul {
+      list-style: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    
+    .course-card.expanded .course-expanded-content li {
+      padding: 12px 0 !important;
+      border-bottom: 1px solid #f3f4f6 !important;
+      position: relative !important;
+      padding-left: 30px !important;
+      color: #374151 !important;
+      line-height: 1.6 !important;
+      font-size: 1.1rem !important;
+      transition: all 0.3s ease !important;
+    }
+    
+    .course-card.expanded .course-expanded-content li:hover {
+      background: #f8fafc !important;
+      padding-left: 35px !important;
+      margin: 0 -15px !important;
+      padding-right: 15px !important;
+      border-radius: 8px !important;
+    }
+    
+    .course-card.expanded .course-expanded-content li::before {
+      content: '✓' !important;
+      position: absolute !important;
+      left: 0 !important;
+      color: #059669 !important;
+      font-weight: bold !important;
+      font-size: 1.2rem !important;
+    }
+    
+    .course-card.expanded .course-audience p {
+      color: #374151 !important;
+      line-height: 1.7 !important;
+      margin: 0 !important;
+      font-size: 1.1rem !important;
+      padding: 15px !important;
+      background: #f8fafc !important;
+      border-radius: 10px !important;
+    }
+    
+    /* Enhanced close button */
+    .close-expanded {
+      position: absolute !important;
+      top: 25px !important;
+      right: 30px !important;
+      background: rgba(239, 68, 68, 0.1) !important;
+      border: 3px solid #ef4444 !important;
+      color: #ef4444 !important;
+      width: 50px !important;
+      height: 50px !important;
+      border-radius: 50% !important;
+      cursor: pointer !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-size: 24px !important;
+      font-weight: bold !important;
+      transition: all 0.3s ease !important;
+      z-index: 10001 !important;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+    }
+    
+    .close-expanded:hover {
+      background: #ef4444 !important;
+      color: white !important;
+      transform: scale(1.1) !important;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3) !important;
+    }
+    
+    /* Enhanced action buttons in modal */
+    .course-card.expanded .course-actions {
+      margin-top: 40px !important;
+      display: flex !important;
+      gap: 20px !important;
+      justify-content: center !important;
+      flex-wrap: wrap !important;
+      padding: 30px !important;
+      background: linear-gradient(135deg, #f8fafc, #e2e8f0) !important;
+      border-radius: 15px !important;
+      margin-bottom: -20px !important;
+      margin-left: -20px !important;
+      margin-right: -20px !important;
+    }
+    
+    .course-card.expanded .launch-btn {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+      color: white !important;
+      padding: 18px 35px !important;
+      border-radius: 15px !important;
+      text-decoration: none !important;
+      font-weight: bold !important;
+      font-size: 1.2rem !important;
+      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3) !important;
+      transition: all 0.3s ease !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 12px !important;
+    }
+    
+    .course-card.expanded .launch-btn:hover {
+      transform: translateY(-3px) !important;
+      box-shadow: 0 12px 35px rgba(37, 99, 235, 0.4) !important;
+    }
+    
+    /* Animation keyframes */
+    @keyframes modalSlideIn {
+      from { 
+        transform: translate(-50%, -50%) scale(0.9); 
+        opacity: 0; 
+      }
+      to { 
+        transform: translate(-50%, -50%) scale(1); 
+        opacity: 1; 
+      }
+    }
+  `;
+  
+  // Remove existing style if it exists
+  const existingStyle = document.getElementById('course-expansion-modal-fix');
+  if (existingStyle) {
+    existingStyle.remove();
+  }
+  
+  document.head.appendChild(style);
+  console.log('✅ Course expansion modal visibility fixed');
+}
+
+// ===== STEP 16: Initialize All Fixes =====
+function initializeAllFixes() {
+  console.log('🔧 Initializing ALL fixes...');
+  
+  // Fix 1: Complete comparison system
+  completeSystemReset();
+  
+  // Fix 2: Remove duplicate courses from display
+  setTimeout(removeDuplicateCoursesFromDisplay, 500);
+  
+  // Fix 3: Fix lab duplicate buttons
+  setTimeout(fixLabDuplicateButtons, 1000);
+  
+  // Fix 4: Fix course expansion modal visibility
+  fixCourseExpansionModal();
+  
+  // Fix 5: Update existing compare buttons
+  setTimeout(() => {
+    const existingButtons = document.querySelectorAll('.course-compare-btn, .compare-btn');
+    if (existingButtons.length > 0) {
+      console.log(`🔄 Found ${existingButtons.length} existing compare buttons, updating...`);
+      updateFinalComparisonUI();
+    }
+  }, 1500);
+  
+  console.log('✅ ALL fixes initialized');
+}
+
+// Override the old initialization
+window.initializeFinalSystem = initializeAllFixes;
+
+// Re-initialize with all fixes
+document.addEventListener('DOMContentLoaded', initializeAllFixes);
+
+if (document.readyState !== 'loading') {
+  initializeAllFixes();
+}
+
+// Manual fix functions
+window.fixLabButtons = fixLabDuplicateButtons;
+window.fixCourseModal = fixCourseExpansionModal;
+
+console.log('🎯 COMPLETE FIX LOADED!');
+console.log('🧹 Duplicates: Courses removed from display');
+console.log('🔄 Compare: Reset to working state');
+console.log('🧨 Labs: Duplicate buttons removed');
+console.log('🎨 Course Modal: Visibility fixed for light/dark themes');
+console.log('🧪 Test: run testFinalComparison() in console');
+console.log('🔍 Debug: run debugFinalState() in console');
