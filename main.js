@@ -1839,3 +1839,401 @@ function updateFABButton() {
     fabBtn.style.display = 'none';
   }
 }
+// 🔥 EMERGENCY DEBUG & FIX - Replace the entire bottom section of your main.js
+
+// Step 1: Check what's happening
+console.log('🔍 DEBUG: Starting emergency fixes...');
+console.log('🔍 DEBUG: selectedCourses exists?', typeof selectedCourses);
+console.log('🔍 DEBUG: comparisonList exists?', typeof comparisonList);
+
+// Step 2: Initialize arrays if they don't exist
+if (typeof selectedCourses === 'undefined') {
+  window.selectedCourses = [];
+  console.log('✅ Created selectedCourses array');
+}
+
+if (typeof comparisonList === 'undefined') {
+  window.comparisonList = [];
+  console.log('✅ Created comparisonList array');
+}
+
+// Step 3: Override the toggleCourseComparison function completely
+window.toggleCourseComparison = function(courseId) {
+  console.log('🖱️ toggleCourseComparison called with:', courseId);
+  
+  const index = selectedCourses.indexOf(courseId);
+  if (index > -1) {
+    selectedCourses.splice(index, 1);
+    console.log('➖ Removed course from comparison:', courseId);
+  } else {
+    if (selectedCourses.length >= 4) {
+      alert('Maximum 4 courses can be compared at once');
+      return;
+    }
+    selectedCourses.push(courseId);
+    console.log('➕ Added course to comparison:', courseId);
+  }
+  
+  console.log('📋 Current selectedCourses:', selectedCourses);
+  
+  // Update UI
+  updateComparisonUI();
+  updateCourseCardStates();
+  createFloatingButton();
+  
+  // Show notification
+  const message = index > -1 ? 'Removed from comparison' : 'Added to comparison';
+  showNotification(message, 'info');
+};
+
+// Step 4: Create floating button function
+window.createFloatingButton = function() {
+  console.log('🔘 Creating floating button, count:', selectedCourses.length);
+  
+  // Remove existing button
+  const existingBtn = document.querySelector('.emergency-fab-btn');
+  if (existingBtn) {
+    existingBtn.remove();
+  }
+  
+  if (selectedCourses.length === 0) {
+    console.log('❌ No courses selected, hiding button');
+    return;
+  }
+  
+  // Create new button
+  const fabBtn = document.createElement('button');
+  fabBtn.className = 'emergency-fab-btn';
+  fabBtn.innerHTML = `<i class="fas fa-balance-scale"></i> Compare (${selectedCourses.length})`;
+  fabBtn.style.cssText = `
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #f59e0b;
+  color: white;
+  border: none;
+  padding: 15px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  `;
+  
+  // Add click handler
+  fabBtn.onclick = function() {
+    console.log('🖱️ Emergency FAB clicked!');
+    emergencyShowComparison();
+  };
+  
+  // Add hover effect
+  fabBtn.onmouseover = function() {
+    this.style.transform = 'scale(1.1)';
+    this.style.background = '#d97706';
+  };
+  
+  fabBtn.onmouseout = function() {
+    this.style.transform = 'scale(1)';
+    this.style.background = '#f59e0b';
+  };
+  
+  document.body.appendChild(fabBtn);
+  console.log('✅ Emergency FAB button created and added');
+};
+
+// Step 5: Emergency comparison modal
+window.emergencyShowComparison = function() {
+  console.log('🚨 Emergency comparison modal called');
+  console.log('📋 Comparing courses:', selectedCourses);
+  
+  if (selectedCourses.length < 2) {
+    alert('Please select at least 2 courses to compare.');
+    return;
+  }
+  
+  // Get course data
+  const coursesToCompare = selectedCourses.map(id => {
+    const course = courses.find(c => c.id === id);
+    console.log(`🔍 Found course ${id}:`, course ? course.title : 'NOT FOUND');
+    return course;
+  }).filter(Boolean);
+  
+  if (coursesToCompare.length === 0) {
+    alert('Course data not found. Please refresh the page.');
+    return;
+  }
+  
+  // Create simple comparison content
+  let comparisonHTML = `
+  <div style="max-height: 70vh; overflow-y: auto;">
+  <h3 style="margin-bottom: 20px; color: #2563eb;">📊 Course Comparison</h3>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+  `;
+  
+  coursesToCompare.forEach(course => {
+    comparisonHTML += `
+  <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;">
+  <h4 style="color: #2563eb; margin-bottom: 15px;">${course.title}</h4>
+  <div style="margin-bottom: 10px;">
+  <strong>Category:</strong> ${course.category}
+  </div>
+  <div style="margin-bottom: 10px;">
+  <strong>Difficulty:</strong> 
+  <span style="padding: 2px 8px; border-radius: 12px; font-size: 12px; color: white; background: ${
+            course.difficulty === 'beginner' ? '#059669' : 
+            course.difficulty === 'intermediate' ? '#d97706' : '#dc2626'
+          };">${course.difficulty}</span>
+  </div>
+  <div style="margin-bottom: 10px;">
+  <strong>Duration:</strong> ${course.duration}
+  </div>
+  <div style="margin-bottom: 10px;">
+  <strong>Rating:</strong> ⭐ ${course.rating}
+  </div>
+  <div style="margin-bottom: 15px;">
+  <strong>Learners:</strong> ${course.learnerCount ? course.learnerCount.toLocaleString() : 'N/A'}
+  </div>
+  <div style="margin-bottom: 15px; border-top: 1px solid #e2e8f0; padding-top: 15px;">
+  <strong>Description:</strong><br>
+  <div style="margin-top: 5px; color: #64748b; line-height: 1.5;">${course.description}</div>
+  </div>
+  <a href="${course.url}" target="_blank" rel="noopener" style="background: #2563eb; color: white; padding: 10px 15px; border-radius: 5px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; font-weight: 600;">
+  <i class="fas fa-external-link-alt"></i> Launch Course
+  </a>
+  </div>
+  `;
+  });
+  
+  comparisonHTML += `
+  </div>
+  <div style="margin-top: 20px; text-align: center;">
+  <button onclick="emergencyClearComparison()" style="background: #dc2626; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: 600;">
+  <i class="fas fa-times"></i> Clear Comparison
+  </button>
+  </div>
+  </div>
+  `;
+  
+  // Create and show modal
+  createEmergencyModal(comparisonHTML);
+};
+
+// Step 6: Create emergency modal
+function createEmergencyModal(content) {
+  // Remove existing modal
+  const existingModal = document.getElementById('emergencyModal');
+  if (existingModal) {
+    existingModal.remove();
+  }
+  
+  // Create modal
+  const modal = document.createElement('div');
+  modal.id = 'emergencyModal';
+  modal.style.cssText = `
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  `;
+  
+  const modalContent = document.createElement('div');
+  modalContent.style.cssText = `
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 1000px;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  `;
+  
+  // Add close button
+  const closeBtn = document.createElement('button');
+  closeBtn.innerHTML = '&times;';
+  closeBtn.style.cssText = `
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
+  color: #64748b;
+  `;
+  closeBtn.onclick = () => modal.remove();
+  
+  modalContent.innerHTML = content;
+  modalContent.appendChild(closeBtn);
+  modal.appendChild(modalContent);
+  
+  // Close on background click
+  modal.onclick = (e) => {
+    if (e.target === modal) {
+      modal.remove();
+    }
+  };
+  
+  document.body.appendChild(modal);
+  console.log('✅ Emergency modal created and shown');
+}
+
+// Step 7: Clear comparison function
+window.emergencyClearComparison = function() {
+  selectedCourses.length = 0;
+  comparisonList.length = 0;
+  
+  // Remove FAB button
+  const fabBtn = document.querySelector('.emergency-fab-btn');
+  if (fabBtn) {
+    fabBtn.remove();
+  }
+  
+  // Remove modal
+  const modal = document.getElementById('emergencyModal');
+  if (modal) {
+    modal.remove();
+  }
+  
+  // Update course card states
+  updateCourseCardStates();
+  
+  showNotification('Comparison cleared', 'info');
+  console.log('✅ Comparison cleared');
+};
+
+// Step 8: Enhance lab cards with simple approach
+window.enhanceLabCardsEmergency = function() {
+  console.log('🔧 Emergency lab enhancement starting...');
+  
+  // Wait for labs to load
+  setTimeout(() => {
+    const labCards = document.querySelectorAll('.lab-card');
+    console.log(`📦 Found ${labCards.length} lab cards`);
+    
+    if (labCards.length === 0) {
+      console.log('❌ No lab cards found, trying again...');
+      // Try again with different selectors
+      const alternativeLabCards = document.querySelectorAll('[class*="lab"]');
+      console.log(`📦 Found ${alternativeLabCards.length} elements with "lab" in class`);
+    }
+    
+    labCards.forEach((card, index) => {
+      if (card.querySelector('.emergency-lab-actions')) {
+        return; // Already enhanced
+      }
+      
+      const labId = `lab-${index + 1}`;
+      const title = card.querySelector('h3')?.textContent || `Lab ${index + 1}`;
+      
+      console.log(`🔧 Enhancing lab: ${title}`);
+      
+      // Create action buttons
+      const actionsDiv = document.createElement('div');
+      actionsDiv.className = 'emergency-lab-actions';
+      actionsDiv.style.cssText = `
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  `;
+      
+      // Bookmark button
+      const bookmarkBtn = document.createElement('button');
+      bookmarkBtn.innerHTML = '<i class="far fa-bookmark"></i> Bookmark';
+      bookmarkBtn.style.cssText = `
+  background: none;
+  border: 1px solid #f59e0b;
+  color: #f59e0b;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  `;
+      bookmarkBtn.onclick = function() {
+        const icon = this.querySelector('i');
+        if (icon.classList.contains('far')) {
+          icon.className = 'fas fa-bookmark';
+          this.style.background = '#f59e0b';
+          this.style.color = 'white';
+          showNotification('Lab bookmarked!', 'success');
+        } else {
+          icon.className = 'far fa-bookmark';
+          this.style.background = 'none';
+          this.style.color = '#f59e0b';
+          showNotification('Bookmark removed', 'info');
+        }
+      };
+      
+      // Details button
+      const detailsBtn = document.createElement('button');
+      detailsBtn.innerHTML = '<i class="fas fa-info-circle"></i> Details';
+      detailsBtn.style.cssText = `
+  background: none;
+  border: 1px solid #2563eb;
+  color: #2563eb;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  `;
+      detailsBtn.onclick = function() {
+        const description = card.querySelector('p')?.textContent || 'No description available';
+        const launchUrl = card.querySelector('a[href]')?.href || '#';
+        
+        alert(`📋 ${title}\n\n📝 ${description}\n\n🔗 ${launchUrl}\n\n✨ Features:\n• Interactive tools\n• Real-world examples\n• Downloadable resources`);
+      };
+      
+      actionsDiv.appendChild(bookmarkBtn);
+      actionsDiv.appendChild(detailsBtn);
+      card.appendChild(actionsDiv);
+      
+      console.log(`✅ Enhanced lab: ${title}`);
+    });
+    
+    console.log('✅ Emergency lab enhancement complete');
+  }, 1000);
+};
+
+// Step 9: Initialize everything
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('🚨 Emergency initialization started');
+  
+  // Initialize lab enhancements
+  enhanceLabCardsEmergency();
+  
+  // Try again after delay in case content loads dynamically
+  setTimeout(enhanceLabCardsEmergency, 3000);
+  setTimeout(enhanceLabCardsEmergency, 5000);
+});
+
+// Step 10: Test everything
+console.log('🔥 Emergency fixes loaded!');
+console.log('🧪 Testing selectedCourses:', selectedCourses);
+console.log('🧪 Testing functions available:', {
+  toggleCourseComparison: typeof toggleCourseComparison,
+  createFloatingButton: typeof createFloatingButton,
+  emergencyShowComparison: typeof emergencyShowComparison
+});
+
+// Force creation of floating button if courses are already selected
+if (selectedCourses && selectedCourses.length > 0) {
+  console.log('🔄 Courses already selected, creating button...');
+  createFloatingButton();
+}
