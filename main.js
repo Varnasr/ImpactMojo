@@ -4,6 +4,8 @@
 // Global variables
 let filteredCourses = [...courses];
 let currentBookmarkFilter = false;
+let comparisonList = [];
+let expandedCourse = null;
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
@@ -86,9 +88,40 @@ function renderCourses() {
       </div>
       
       <div class="course-actions">
-        <a href="${course.url}" target="_blank" rel="noopener" class="launch-btn" onclick="trackCourseClick('${course.id}')">
-          Launch Course <i class="fas fa-external-link-alt"></i>
-        </a>
+        <div class="course-actions-left">
+          <a href="${course.url}" target="_blank" rel="noopener" class="launch-btn" onclick="trackCourseClick('${course.id}')">
+            Launch Course <i class="fas fa-external-link-alt"></i>
+          </a>
+        </div>
+        <div class="course-actions-right">
+          <button class="expand-btn" onclick="expandCourse('${course.id}')" title="View details">
+            <i class="fas fa-expand"></i> Details
+          </button>
+          <button class="compare-btn ${comparisonList.includes(course.id) ? 'active' : ''}" onclick="toggleCompare('${course.id}')" title="Add to comparison">
+            <i class="fas fa-balance-scale"></i> Compare
+          </button>
+        </div>
+      </div>
+      
+      <div class="course-expanded-content">
+        <div class="course-prerequisites">
+          <h5>Prerequisites</h5>
+          <ul>
+            ${course.prerequisites.map(prereq => `<li>${prereq}</li>`).join('')}
+          </ul>
+        </div>
+        
+        <div class="course-outcomes">
+          <h5>Learning Outcomes</h5>
+          <ul>
+            ${course.outcomes.map(outcome => `<li>${outcome}</li>`).join('')}
+          </ul>
+        </div>
+        
+        <div class="course-audience">
+          <h5>Target Audience</h5>
+          <p>${course.audience}</p>
+        </div>
       </div>
     </div>
   `).join('');
@@ -466,3 +499,154 @@ document.addEventListener('keydown', function(event) {
 console.log(`ImpactMojo 101 loaded with ${courses.length} courses`);
 console.log('Available categories:', [...new Set(courses.map(c => c.category))]);
 console.log('Course statistics:', getCourseStatistics());
+
+// Course Expansion Functionality
+function expandCourse(courseId) {
+  const course = courses.find(c => c.id === courseId);
+  if (!course) return;
+  
+  // Close any existing expanded course
+  if (expandedCourse) {
+    closeExpandedCourse();
+  }
+  
+  const courseCard = document.querySelector(`[data-course-id="${courseId}"]`).closest('.course-card');
+  if (courseCard) {
+    courseCard.classList.add('expanded');
+    expandedCourse = courseId;
+    
+    // Add close button if not exists
+    if (!courseCard.querySelector('.close-expanded')) {
+      const closeBtn = document.createElement('button');
+      closeBtn.className = 'close-expanded';
+      closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+      closeBtn.onclick = closeExpandedCourse;
+      closeBtn.title = 'Close details';
+      courseCard.appendChild(closeBtn);
+    }
+    
+    // Prevent body scroll
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeExpandedCourse() {
+  if (expandedCourse) {
+    const courseCard = document.querySelector(`[data-course-id="${expandedCourse}"]`).closest('.course-card');
+    if (courseCard) {
+      courseCard.classList.remove('expanded');
+      const closeBtn = courseCard.querySelector('.close-expanded');
+      if (closeBtn) {
+        closeBtn.remove();
+      }
+    }
+    expandedCourse = null;
+    document.body.style.overflow = '';
+  }
+}
+
+// Course Comparison Functionality
+function toggleCompare(courseId) {
+  const course = courses.find(c => c.id === courseId);
+  if (!course) return;
+  
+  const index = comparisonList.indexOf(courseId);
+  
+  if (index > -1) {
+    // Remove from comparison
+    comparisonList.splice(index, 1);
+    showNotification(`${course.title} removed from comparison`, 'info');
+  } else {
+    // Add to comparison (max 4 courses)
+    if (comparisonList.length >= 4) {
+      showNotification('Maximum 4 courses can be compared at once', 'warning');
+      return;
+    }
+    comparisonList.push(courseId);
+    showNotification(`${course.title} added to comparison`, 'success');
+  }
+  
+  updateComparisonUI();
+  updateComparisonPanel();
+}
+
+function updateComparisonUI() {
+  // Update compare button states
+  const compareButtons = document.querySelectorAll('.compare-btn');
+  compareButtons.forEach(btn => {
+    const courseCard = btn.closest('.course-card');
+    const courseId = courseCard.querySelector('.bookmark-btn').dataset.courseId;
+    
+    if (comparisonList.includes(courseId)) {
+      btn.classList.add('active');
+      btn.innerHTML = '<i class="fas fa-check"></i> Added';
+    } else {
+      btn.classList.remove('active');
+      btn.innerHTML = '<i class="fas fa-balance-scale"></i> Compare';
+    }
+  });
+}
+
+function updateComparisonPanel() {
+  const panel = document.getElementById('comparisonPanel');
+  const grid = document.getElementById('comparisonGrid');
+  const count = document.getElementById('comparisonCount');
+  
+  if (!panel || !grid || !count) return;
+  
+  count.textContent = `${comparisonList.length} course${comparisonList.length !== 1 ? 's' : ''} selected`;
+  
+  if (comparisonList.length === 0) {
+    panel.classList.remove('active');
+    grid.innerHTML = '<div class="comparison-empty"><p>Select courses to compare by clicking the "Compare" button on course cards.</p></div>';
+    return;
+  }
+  
+  panel.classList.add('active');
+  
+  const comparisonCourses = comparisonList.map(id => courses.find(c => c.id === id));
+  
+  grid.innerHTML = comparisonCourses.map(course => `
+    <div class="comparison-item">
+      <h5>${course.title}</h5>
+      <div class="meta">
+        <span>${course.category}</span>
+        <span>${course.difficulty}</span>
+        <span>${course.duration}</span>
+        <span>★ ${course.rating}</span>
+      </div>
+      <div class="description">${course.description}</div>
+      <div class="actions">
+        <a href="${course.url}" target="_blank" rel="noopener" class="launch-btn" style="font-size: 0.8rem; padding: 0.25rem 0.5rem;">
+          Launch <i class="fas fa-external-link-alt"></i>
+        </a>
+        <button class="remove-comparison" onclick="toggleCompare('${course.id}')" title="Remove from comparison">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function clearComparison() {
+  comparisonList = [];
+  updateComparisonUI();
+  updateComparisonPanel();
+  showNotification('Comparison cleared', 'info');
+}
+
+// Close expanded course when clicking outside
+document.addEventListener('click', function(event) {
+  if (expandedCourse && event.target.closest('.course-card.expanded') === null && !event.target.closest('.close-expanded')) {
+    closeExpandedCourse();
+  }
+});
+
+// Handle escape key
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') {
+    if (expandedCourse) {
+      closeExpandedCourse();
+    }
+  }
+});
