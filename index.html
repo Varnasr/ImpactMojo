@@ -34,6 +34,47 @@
   
   <!-- External CSS -->
   <link rel="stylesheet" href="styles.css">
+
+  <!-- Firebase Configuration -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail, updateProfile } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+    import { getFirestore, doc, setDoc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+    // Your Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDnF0eJsTULzOJUnBskybd44dG5w-f46vE",
+      authDomain: "impactmojo.firebaseapp.com",
+      projectId: "impactmojo",
+      storageBucket: "impactmojo.firebasestorage.app",
+      messagingSenderId: "529198336589",
+      appId: "1:529198336589:web:1664b5344de5bfb31bea04",
+      measurementId: "G-ZHPPXXMRGV"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Make Firebase available globally
+    window.auth = auth;
+    window.db = db;
+    window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+    window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+    window.signOut = signOut;
+    window.onAuthStateChanged = onAuthStateChanged;
+    window.GoogleAuthProvider = GoogleAuthProvider;
+    window.signInWithPopup = signInWithPopup;
+    window.sendPasswordResetEmail = sendPasswordResetEmail;
+    window.updateProfile = updateProfile;
+    window.doc = doc;
+    window.setDoc = setDoc;
+    window.getDoc = getDoc;
+    window.updateDoc = updateDoc;
+    window.arrayUnion = arrayUnion;
+    window.arrayRemove = arrayRemove;
+  </script>
 </head>
 
 <body>
@@ -52,6 +93,8 @@
         <nav>
           <a href="#courses">Browse Courses</a>
           <a href="#labs">Labs</a>
+          <a href="#upcoming">Upcoming</a>
+          <a href="#learning-paths">Learning Paths</a>
           <a href="#author">About</a>
           
           <!-- Authentication Buttons -->
@@ -76,8 +119,24 @@
     </div>
   </header>
 
+  <!-- Floating Action Buttons -->
+  <aside class="fab-container" role="complementary" aria-label="Quick actions">
+    <button class="fab-btn feedback" onclick="openModal('feedbackModal')" title="Give feedback about ImpactMojo" aria-label="Give feedback about ImpactMojo">
+      <i class="fas fa-comment" aria-hidden="true"></i>
+    </button>
+    <button class="fab-btn suggest" onclick="openModal('suggestModal')" title="Suggest a new course" aria-label="Suggest a new course">
+      <i class="fas fa-lightbulb" aria-hidden="true"></i>
+    </button>
+    <button class="fab-btn question" onclick="openModal('questionModal')" title="Ask a question" aria-label="Ask a question">
+      <i class="fas fa-question" aria-hidden="true"></i>
+    </button>
+    <button class="fab-btn compare" onclick="openModal('comparisonModal')" title="Compare courses" aria-label="Compare selected courses" style="display: none;">
+      <i class="fas fa-balance-scale" aria-hidden="true"></i>
+    </button>
+  </aside>
+
   <!-- Main Content -->
-  <main>
+  <main id="main-content" role="main">
     <div class="container">
       <!-- Latest Additions -->
       <section class="latest-additions">
@@ -91,7 +150,7 @@
       </section>
 
       <!-- Learning Paths -->
-      <section class="learning-paths">
+      <section id="learning-paths" class="learning-paths">
         <h3><i class="fas fa-route"></i> Recommended Learning Paths</h3>
         <div class="paths-grid">
           <!-- Data Analysis Track -->
@@ -137,8 +196,8 @@
             <div class="path-courses">
               <span class="course-chip">Development Economics 101</span>
               <span class="course-chip">Behavioral Economics</span>
-              <span class="course-chip">Public Policy Analysis</span>
               <span class="course-chip">Social Protection</span>
+              <span class="course-chip">Livelihoods 101</span>
             </div>
           </div>
         </div>
@@ -165,8 +224,8 @@
             <option value="Health">Health</option>
             <option value="Education">Education</option>
             <option value="Technology">Technology</option>
-            <option value="Rural Development">Rural Development</option>
-            <option value="Urban Planning">Urban Planning</option>
+            <option value="Climate">Climate</option>
+            <option value="Urban & Systems">Urban & Systems</option>
           </select>
           
           <select id="difficultyFilter" onchange="filterCourses()">
@@ -200,6 +259,39 @@
       </div>
     </div>
   </main>
+
+  <!-- Upcoming Courses Section -->
+  <section id="upcoming" class="upcoming-section">
+    <div class="container">
+      <h3><i class="fas fa-clock"></i> Upcoming Courses</h3>
+      <p>New courses currently in development, launching soon.</p>
+      <div class="upcoming-grid">
+        <div class="upcoming-card">
+          <div class="upcoming-header">
+            <h4>TALL (Technology for ALL) 101</h4>
+            <span class="status-badge coming-soon">Coming Soon</span>
+          </div>
+          <p>Technology literacy platform covering 10 future technologies: IoT, AI, Robotics, Blockchain, Cryptocurrency, Cybercrime, Digital Transformation, Telehealth, Edutech & Metaworld. Designed for all internet and mobile users in simple, jargon-free language.</p>
+          <div class="upcoming-meta">
+            <span><i class="fas fa-calendar-alt"></i> Expected: Q3 2025</span>
+            <span><i class="fas fa-users"></i> All internet users, non-engineers, students</span>
+          </div>
+        </div>
+        
+        <div class="upcoming-card">
+          <div class="upcoming-header">
+            <h4>Advanced Research Design 101</h4>
+            <span class="status-badge coming-soon">Coming Soon</span>
+          </div>
+          <p>Advanced research methodologies for complex development challenges, including mixed methods and innovative data collection approaches.</p>
+          <div class="upcoming-meta">
+            <span><i class="fas fa-calendar-alt"></i> Expected: Q4 2025</span>
+            <span><i class="fas fa-users"></i> Advanced researchers, PhD students</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Labs Section -->
   <section id="labs" class="labs-section">
@@ -464,49 +556,95 @@
     </div>
   </div>
 
+  <!-- Feedback Modal -->
+  <div id="feedbackModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('feedbackModal')">&times;</span>
+      <h2><i class="fas fa-comment"></i> Give Feedback</h2>
+      <form action="https://formspree.io/f/xpzgkqpd" method="POST">
+        <div class="form-group">
+          <label for="feedbackName">Name (Optional)</label>
+          <input type="text" id="feedbackName" name="name" placeholder="Your name">
+        </div>
+        <div class="form-group">
+          <label for="feedbackEmail">Email (Optional)</label>
+          <input type="email" id="feedbackEmail" name="email" placeholder="your.email@example.com">
+        </div>
+        <div class="form-group">
+          <label for="feedbackMessage">Your Feedback</label>
+          <textarea id="feedbackMessage" name="message" placeholder="What do you think about ImpactMojo? Any suggestions for improvement?" required></textarea>
+        </div>
+        <input type="hidden" name="_subject" value="ImpactMojo Feedback">
+        <button type="submit" class="submit-btn">Send Feedback</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Suggest Course Modal -->
+  <div id="suggestModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('suggestModal')">&times;</span>
+      <h2><i class="fas fa-lightbulb"></i> Suggest a Course</h2>
+      <form action="https://formspree.io/f/xpzgkqpd" method="POST">
+        <div class="form-group">
+          <label for="suggestName">Name (Optional)</label>
+          <input type="text" id="suggestName" name="name" placeholder="Your name">
+        </div>
+        <div class="form-group">
+          <label for="suggestEmail">Email (Optional)</label>
+          <input type="email" id="suggestEmail" name="email" placeholder="your.email@example.com">
+        </div>
+        <div class="form-group">
+          <label for="courseTitle">Course Title</label>
+          <input type="text" id="courseTitle" name="course_title" placeholder="What should the course be called?" required>
+        </div>
+        <div class="form-group">
+          <label for="courseDescription">Course Description</label>
+          <textarea id="courseDescription" name="course_description" placeholder="What should this course cover? What would learners gain?" required></textarea>
+        </div>
+        <input type="hidden" name="_subject" value="ImpactMojo Course Suggestion">
+        <button type="submit" class="submit-btn">Submit Suggestion</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Question Modal -->
+  <div id="questionModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('questionModal')">&times;</span>
+      <h2><i class="fas fa-question"></i> Ask a Question</h2>
+      <form action="https://formspree.io/f/xpzgkqpd" method="POST">
+        <div class="form-group">
+          <label for="questionName">Name (Optional)</label>
+          <input type="text" id="questionName" name="name" placeholder="Your name">
+        </div>
+        <div class="form-group">
+          <label for="questionEmail">Email (Optional)</label>
+          <input type="email" id="questionEmail" name="email" placeholder="your.email@example.com">
+        </div>
+        <div class="form-group">
+          <label for="questionMessage">Your Question</label>
+          <textarea id="questionMessage" name="message" placeholder="What would you like to know about ImpactMojo or development practice?" required></textarea>
+        </div>
+        <input type="hidden" name="_subject" value="ImpactMojo Question">
+        <button type="submit" class="submit-btn">Send Question</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Course Comparison Modal -->
+  <div id="comparisonModal" class="modal">
+    <div class="modal-content large">
+      <span class="close" onclick="closeModal('comparisonModal')">&times;</span>
+      <h2><i class="fas fa-balance-scale"></i> Course Comparison</h2>
+      <div id="comparisonContent">
+        <p>Select courses to compare by checking the boxes on course cards.</p>
+      </div>
+    </div>
+  </div>
+
   <!-- Notification -->
   <div id="notification" class="notification"></div>
-
-  <!-- Firebase Configuration -->
-  <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail, updateProfile } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-    import { getFirestore, doc, setDoc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-
-    // Your Firebase Configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyDnF0eJsTULzOJUnBskybd44dG5w-f46vE",
-      authDomain: "impactmojo.firebaseapp.com",
-      projectId: "impactmojo",
-      storageBucket: "impactmojo.firebasestorage.app",
-      messagingSenderId: "529198336589",
-      appId: "1:529198336589:web:1664b5344de5bfb31bea04",
-      measurementId: "G-ZHPPXXMRGV"
-    };
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    // Make Firebase available globally
-    window.auth = auth;
-    window.db = db;
-    window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
-    window.signInWithEmailAndPassword = signInWithEmailAndPassword;
-    window.signOut = signOut;
-    window.onAuthStateChanged = onAuthStateChanged;
-    window.GoogleAuthProvider = GoogleAuthProvider;
-    window.signInWithPopup = signInWithPopup;
-    window.sendPasswordResetEmail = sendPasswordResetEmail;
-    window.updateProfile = updateProfile;
-    window.doc = doc;
-    window.setDoc = setDoc;
-    window.getDoc = getDoc;
-    window.updateDoc = updateDoc;
-    window.arrayUnion = arrayUnion;
-    window.arrayRemove = arrayRemove;
-  </script>
 
   <!-- External JavaScript Files -->
   <script src="course-data.js"></script>
