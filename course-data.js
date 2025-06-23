@@ -257,4 +257,410 @@ const courses = [
     number: 16,
     title: 'Survey Design 101',
     description: 'Designing effective surveys and questionnaires for development research.',
-    category
+    category: 'Research Methods',
+    difficulty: 'intermediate',
+    duration: '3-4 hours',
+    icon: 'fas fa-clipboard-list',
+    url: 'https://101.www.impactmojo.in/SurveyDesign',
+    learnerCount: 1987,
+    rating: 4.5,
+    prerequisites: ['Research Methods 101'],
+    outcomes: ['Design effective surveys', 'Write clear questions', 'Test survey instruments'],
+    audience: 'Researchers, M&E specialists, data collectors'
+  },
+
+  // HEALTH
+  {
+    id: 'public-health-101',
+    number: 17,
+    title: 'Public Health 101',
+    description: 'Fundamentals of public health systems and approaches in development contexts.',
+    category: 'Health',
+    difficulty: 'beginner',
+    duration: '4-5 hours',
+    icon: 'fas fa-heartbeat',
+    url: 'https://101.www.impactmojo.in/PublicHealth',
+    learnerCount: 2456,
+    rating: 4.6,
+    prerequisites: ['None - foundational course'],
+    outcomes: ['Understand health systems', 'Apply public health approaches', 'Design health interventions'],
+    audience: 'Health practitioners, program managers, medical professionals'
+  },
+  {
+    id: 'nutrition-101',
+    number: 18,
+    title: 'Nutrition 101',
+    description: 'Nutrition science and programming for improved health outcomes.',
+    category: 'Health',
+    difficulty: 'intermediate',
+    duration: '3-4 hours',
+    icon: 'fas fa-apple-alt',
+    url: 'https://101.www.impactmojo.in/Nutrition',
+    learnerCount: 1432,
+    rating: 4.6,
+    prerequisites: ['Public Health 101'],
+    outcomes: ['Assess nutritional status', 'Design nutrition programs', 'Understand food systems'],
+    audience: 'Nutrition specialists, health workers, program managers'
+  },
+
+  // CLIMATE & ENVIRONMENT
+  {
+    id: 'climate-change-101',
+    number: 19,
+    title: 'Climate Change 101',
+    description: 'Understanding climate science and its implications for development programming.',
+    category: 'Climate',
+    difficulty: 'beginner',
+    duration: '3-4 hours',
+    icon: 'fas fa-thermometer-half',
+    url: 'https://101.www.impactmojo.in/ClimateChange',
+    learnerCount: 1234,
+    rating: 4.4,
+    prerequisites: ['Basic environmental science'],
+    outcomes: ['Understand climate science', 'Assess vulnerability', 'Design adaptation strategies'],
+    audience: 'Environmental practitioners, policy makers, activists'
+  },
+  {
+    id: 'climate-adaptation-101',
+    number: 20,
+    title: 'Climate Adaptation 101',
+    description: 'Practical approaches to building resilience in vulnerable communities.',
+    category: 'Climate',
+    difficulty: 'intermediate',
+    duration: '4-5 hours',
+    icon: 'fas fa-seedling',
+    url: 'https://101.www.impactmojo.in/ClimateAdaptation',
+    learnerCount: 876,
+    rating: 4.3,
+    prerequisites: ['Climate Change 101'],
+    outcomes: ['Assess climate risks', 'Design adaptation programs', 'Build community resilience'],
+    audience: 'Program managers, climate specialists, community workers'
+  },
+
+  // SYSTEMS THINKING
+  {
+    id: 'systems-thinking-101',
+    number: 21,
+    title: 'Systems Thinking 101',
+    description: 'Systems approaches and tools for understanding complex development challenges.',
+    category: 'Urban & Systems',
+    difficulty: 'intermediate',
+    duration: '3-4 hours',
+    icon: 'fas fa-project-diagram',
+    url: 'https://101.www.impactmojo.in/SystemsThinking',
+    learnerCount: 1678,
+    rating: 4.5,
+    prerequisites: ['None - foundational course'],
+    outcomes: ['Apply systems thinking tools', 'Map system relationships', 'Design systems interventions'],
+    audience: 'Program managers, policy makers, development practitioners'
+  },
+
+  // EDUCATION
+  {
+    id: 'education-pedagogy-101',
+    number: 22,
+    title: 'Education and Pedagogy 101',
+    description: 'Progressive education approaches and pedagogical innovations for equitable learning.',
+    category: 'Education',
+    difficulty: 'intermediate',
+    duration: '4-5 hours',
+    icon: 'fas fa-graduation-cap',
+    url: 'https://101.www.impactmojo.in/EducationPedagogy',
+    learnerCount: 1789,
+    rating: 4.4,
+    prerequisites: ['None - foundational course'],
+    outcomes: ['Apply progressive pedagogy', 'Design inclusive curricula', 'Assess learning outcomes'],
+    audience: 'Educators, curriculum designers, education researchers'
+  },
+
+  // RESEARCH METHODS (CONTINUED)
+  {
+    id: 'research-ethics-101',
+    number: 23,
+    title: 'Research Ethics 101',
+    description: 'Ethical principles and practices for conducting research in development contexts.',
+    category: 'Research Methods',
+    difficulty: 'beginner',
+    duration: '2-3 hours',
+    icon: 'fas fa-gavel',
+    url: 'https://101.www.impactmojo.in/ResearchEthics',
+    learnerCount: 1567,
+    rating: 4.6,
+    prerequisites: ['None - foundational course'],
+    outcomes: ['Apply ethical principles', 'Design consent processes', 'Protect research participants'],
+    audience: 'Researchers, graduate students, evaluators'
+  },
+  {
+    id: 'qualitative-research-101',
+    number: 24,
+    title: 'Qualitative Research 101',
+    description: 'Methods and approaches for conducting rigorous qualitative research.',
+    category: 'Research Methods',
+    difficulty: 'intermediate',
+    duration: '5-6 hours',
+    icon: 'fas fa-microscope',
+    url: 'https://101.www.impactmojo.in/QualitativeResearch',
+    learnerCount: 2234,
+    rating: 4.7,
+    prerequisites: ['Research Ethics 101'],
+    outcomes: ['Conduct qualitative interviews', 'Analyze qualitative data', 'Write research findings'],
+    audience: 'Researchers, evaluators, graduate students'
+  },
+  {
+    id: 'econometrics-101',
+    number: 25,
+    title: 'Econometrics 101',
+    description: 'Statistical methods for causal inference and impact evaluation in development contexts.',
+    category: 'Research Methods',
+    difficulty: 'advanced',
+    duration: '6-8 hours',
+    icon: 'fas fa-calculator',
+    url: 'https://101.www.impactmojo.in/Econometrics',
+    learnerCount: 1234,
+    rating: 4.7,
+    prerequisites: ['Multivariate Analysis 101', 'Research design knowledge'],
+    outcomes: ['Conduct impact evaluations', 'Apply causal inference methods', 'Interpret econometric results'],
+    audience: 'Advanced researchers, economists, impact evaluators'
+  },
+  {
+    id: 'mel-101',
+    number: 26,
+    title: 'Monitoring, Evaluation & Learning (MEL) 101',
+    description: 'Frameworks and tools for effective program monitoring and evaluation in development contexts.',
+    category: 'Research Methods',
+    difficulty: 'intermediate',
+    duration: '5-6 hours',
+    icon: 'fas fa-chart-line',
+    url: 'https://101.www.impactmojo.in/MEL',
+    learnerCount: 1678,
+    rating: 4.5,
+    prerequisites: ['Research Ethics 101'],
+    outcomes: ['Design MEL frameworks', 'Conduct evaluations', 'Use data for learning'],
+    audience: 'M&E specialists, program managers, donors'
+  },
+
+  // TECHNOLOGY
+  {
+    id: 'digital-development-ethics-101',
+    number: 27,
+    title: 'Digital Development Ethics 101',
+    description: 'Ethical frameworks for technology use in development programming and digital rights.',
+    category: 'Technology',
+    difficulty: 'intermediate',
+    duration: '3-4 hours',
+    icon: 'fas fa-laptop-code',
+    url: 'https://101.www.impactmojo.in/DigitalDevelopmentEthics',
+    learnerCount: 987,
+    rating: 4.3,
+    prerequisites: ['Basic technology understanding'],
+    outcomes: ['Apply ethical frameworks', 'Design responsible tech', 'Protect digital rights'],
+    audience: 'Tech practitioners, program managers, digital rights advocates'
+  },
+  {
+    id: 'data-protection-101',
+    number: 28,
+    title: 'Data Protection and Privacy 101',
+    description: 'Understanding data protection laws and implementing privacy-by-design in development programs.',
+    category: 'Technology',
+    difficulty: 'intermediate',
+    duration: '3-4 hours',
+    icon: 'fas fa-shield-alt',
+    url: 'https://101.www.impactmojo.in/DataProtection',
+    learnerCount: 756,
+    rating: 4.2,
+    prerequisites: ['Digital Development Ethics 101'],
+    outcomes: ['Comply with data laws', 'Implement privacy measures', 'Conduct data audits'],
+    audience: 'Data managers, compliance officers, program managers'
+  },
+
+  // ADDITIONAL SPECIALIZED COURSES
+  {
+    id: 'impact-measurement-101',
+    number: 29,
+    title: 'Impact Measurement 101',
+    description: 'Methods and tools for measuring social and economic impact in development programs.',
+    category: 'Research Methods',
+    difficulty: 'advanced',
+    duration: '5-6 hours',
+    icon: 'fas fa-bullseye',
+    url: 'https://101.www.impactmojo.in/ImpactMeasurement',
+    learnerCount: 1123,
+    rating: 4.6,
+    prerequisites: ['MEL 101', 'Statistics knowledge'],
+    outcomes: ['Design impact measurement systems', 'Collect impact data', 'Report on outcomes'],
+    audience: 'Impact specialists, evaluators, donors'
+  },
+  {
+    id: 'participatory-approaches-101',
+    number: 30,
+    title: 'Participatory Approaches 101',
+    description: 'Methods for meaningful community participation in development programming.',
+    category: 'Research Methods',
+    difficulty: 'intermediate',
+    duration: '4-5 hours',
+    icon: 'fas fa-users',
+    url: 'https://101.www.impactmojo.in/ParticipatoryApproaches',
+    learnerCount: 1345,
+    rating: 4.4,
+    prerequisites: ['Systems Thinking 101'],
+    outcomes: ['Facilitate participatory processes', 'Build community ownership', 'Ensure inclusive participation'],
+    audience: 'Community workers, facilitators, program managers'
+  },
+  {
+    id: 'livelihoods-101',
+    number: 31,
+    title: 'Livelihoods 101',
+    description: 'Sustainable livelihoods frameworks and approaches for poverty reduction.',
+    category: 'Economics',
+    difficulty: 'intermediate',
+    duration: '3-4 hours',
+    icon: 'fas fa-tools',
+    url: 'https://101.www.impactmojo.in/Livelihoods',
+    learnerCount: 1876,
+    rating: 4.4,
+    prerequisites: ['Basic development economics'],
+    outcomes: ['Apply livelihoods frameworks', 'Assess livelihood assets', 'Design livelihood programs'],
+    audience: 'Program managers, rural development specialists'
+  },
+  {
+    id: 'urban-development-101',
+    number: 32,
+    title: 'Urban Development 101',
+    description: 'Challenges and opportunities in urban development and slum upgrading.',
+    category: 'Urban & Systems',
+    difficulty: 'intermediate',
+    duration: '4-5 hours',
+    icon: 'fas fa-city',
+    url: 'https://101.www.impactmojo.in/UrbanDevelopment',
+    learnerCount: 987,
+    rating: 4.2,
+    prerequisites: ['Basic planning knowledge'],
+    outcomes: ['Understand urban challenges', 'Design urban interventions', 'Engage communities'],
+    audience: 'Urban planners, program managers, local government'
+  },
+  {
+    id: 'conflict-peace-101',
+    number: 33,
+    title: 'Conflict and Peace 101',
+    description: 'Understanding conflict dynamics and approaches to peacebuilding.',
+    category: 'Justice',
+    difficulty: 'intermediate',
+    duration: '4-5 hours',
+    icon: 'fas fa-dove',
+    url: 'https://101.www.impactmojo.in/ConflictPeace',
+    learnerCount: 876,
+    rating: 4.3,
+    prerequisites: ['Basic conflict analysis'],
+    outcomes: ['Analyze conflict dynamics', 'Design peace interventions', 'Build social cohesion'],
+    audience: 'Peacebuilding practitioners, conflict analysts, community workers'
+  }
+];
+
+// UPCOMING COURSES (For reference in upcoming section)
+const upcomingCourses = [
+  {
+    id: 'tall-101',
+    title: 'TALL (Technology for ALL) 101',
+    description: 'Technology literacy platform covering 10 future technologies: IoT, AI, Robotics, Blockchain, Cryptocurrency, Cybercrime, Digital Transformation, Telehealth, Edutech & Metaworld. Designed for all internet and mobile users in simple, jargon-free language.',
+    category: 'Technology',
+    difficulty: 'beginner',
+    duration: '32 classes (45 min each)',
+    icon: 'fas fa-microchip',
+    status: 'coming-soon',
+    learnerCount: 0,
+    rating: 0,
+    prerequisites: ['Basic internet/mobile usage', 'English comprehension'],
+    outcomes: ['Understand 10 future technologies', 'Apply technology concepts', 'Build digital literacy'],
+    audience: 'All internet users, non-engineers, students, professionals seeking tech literacy'
+  }
+];
+
+// LABS DATA - ALL 9 LABS WITH CORRECTED NETLIFY URLS
+const labs = [
+  {
+    id: 'toc-workbench',
+    title: 'TOC Workbench',
+    description: 'Create, visualize, and share your intervention logic models.',
+    icon: 'fas fa-tools',
+    status: 'live',
+    url: 'https://toc-workbench.netlify.app/',
+    category: 'Planning Tools'
+  },
+  {
+    id: 'risk-mitigation-lab',
+    title: 'Risk Mitigation Lab',
+    description: 'Identify and plan for potential risks in development projects.',
+    icon: 'fas fa-shield-alt',
+    status: 'live',
+    url: 'https://impactrisk-mitigation.netlify.app/',
+    category: 'Risk Management'
+  },
+  {
+    id: 'mel-framework-designer',
+    title: 'MEL Framework Designer',
+    description: 'Design comprehensive monitoring, evaluation, and learning frameworks.',
+    icon: 'fas fa-cogs',
+    status: 'live',
+    url: 'https://mle-frameworkdesign.netlify.app/',
+    category: 'MEL Tools'
+  },
+  {
+    id: 'mel-planning-lab',
+    title: 'MEL Planning Lab',
+    description: 'Create detailed monitoring and evaluation plans for your projects.',
+    icon: 'fas fa-project-diagram',
+    status: 'live',
+    url: 'https://mle-plan-lab.netlify.app/',
+    category: 'MEL Tools'
+  },
+  {
+    id: 'resource-mobilization-lab',
+    title: 'Resource Mobilization Lab',
+    description: 'Develop strategies for sustainable funding and resource mobilization.',
+    icon: 'fas fa-hand-holding-usd',
+    status: 'live',
+    url: 'https://rm-sustainability4impact.netlify.app/',
+    category: 'Fundraising'
+  },
+  {
+    id: 'policy-advocacy-lab',
+    title: 'Policy & Advocacy Lab',
+    description: 'Build effective advocacy strategies and policy recommendations.',
+    icon: 'fas fa-gavel',
+    status: 'live',
+    url: 'https://pol-advocacy4impact.netlify.app/',
+    category: 'Advocacy'
+  },
+  {
+    id: 'community-engagement-lab',
+    title: 'Community Engagement Lab',
+    description: 'Tools and frameworks for meaningful community engagement and participation.',
+    icon: 'fas fa-users',
+    status: 'live',
+    url: 'https://community-engagement-lab.netlify.app/',
+    category: 'Community Work'
+  },
+  {
+    id: 'survey-design-lab',
+    title: 'Survey Design Lab',
+    description: 'Interactive tool for designing surveys and questionnaires for development research.',
+    icon: 'fas fa-clipboard-list',
+    status: 'live',
+    url: 'https://survey-design-lab.netlify.app/',
+    category: 'Research Tools'
+  },
+  {
+    id: 'data-visualization-lab',
+    title: 'Data Visualization Lab',
+    description: 'Create compelling data visualizations and infographics for development data.',
+    icon: 'fas fa-chart-pie',
+    status: 'live',
+    url: 'https://dataviz-lab.netlify.app/',
+    category: 'Data Tools'
+  }
+];
+
+// Make courses and labs available globally
+window.coursesData = courses;
+window.labsData = labs;
+window.upcomingCoursesData = upcomingCourses;
