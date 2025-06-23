@@ -29,6 +29,542 @@ function initializeTheme() {
     if (themeIcon) themeIcon.className = 'fas fa-moon';
   }
 }
+// 🔧 TARGETED FIXES - Add this to the END of your main.js file
+
+console.log('🔧 Loading targeted fixes for modal styling and lab duplicates...');
+
+// ===== FIX 1: Beautiful Course Details Modal =====
+function enhanceCourseDetailsModal() {
+  // Add beautiful styling for course expansion modal
+  const style = document.createElement('style');
+  style.id = 'course-details-modal-fix';
+  style.textContent = `
+    /* Enhanced Course Details Modal */
+    .course-card.expanded {
+      position: fixed !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      width: 90% !important;
+      max-width: 800px !important;
+      max-height: 85vh !important;
+      z-index: 10000 !important;
+      background: white !important;
+      border-radius: 20px !important;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6) !important;
+      overflow-y: auto !important;
+      padding: 30px !important;
+      border: none !important;
+      animation: modalSlideIn 0.4s ease !important;
+    }
+    
+    /* Add backdrop */
+    .course-card.expanded::before {
+      content: '' !important;
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      background: rgba(0, 0, 0, 0.7) !important;
+      z-index: -1 !important;
+      backdrop-filter: blur(8px) !important;
+    }
+    
+    /* Enhanced course content in modal */
+    .course-card.expanded .course-title {
+      color: #2563eb !important;
+      font-size: 2rem !important;
+      margin-bottom: 20px !important;
+      text-align: center !important;
+      border-bottom: 3px solid #2563eb !important;
+      padding-bottom: 15px !important;
+    }
+    
+    .course-card.expanded .course-description {
+      font-size: 1.1rem !important;
+      line-height: 1.6 !important;
+      color: #374151 !important;
+      margin-bottom: 25px !important;
+      padding: 20px !important;
+      background: #f8fafc !important;
+      border-radius: 12px !important;
+      border-left: 4px solid #2563eb !important;
+    }
+    
+    .course-card.expanded .course-meta {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+      gap: 15px !important;
+      margin-bottom: 30px !important;
+      padding: 20px !important;
+      background: linear-gradient(135deg, #f8fafc, #e2e8f0) !important;
+      border-radius: 12px !important;
+    }
+    
+    .course-card.expanded .course-meta span {
+      background: white !important;
+      padding: 12px 15px !important;
+      border-radius: 8px !important;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+      text-align: center !important;
+      font-weight: 600 !important;
+      color: #374151 !important;
+    }
+    
+    .course-card.expanded .course-expanded-content {
+      display: block !important;
+      margin-top: 25px !important;
+    }
+    
+    .course-card.expanded .course-expanded-content > div {
+      margin-bottom: 25px !important;
+      padding: 20px !important;
+      background: white !important;
+      border-radius: 12px !important;
+      border: 2px solid #e5e7eb !important;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    }
+    
+    .course-card.expanded .course-expanded-content h5 {
+      color: #2563eb !important;
+      font-size: 1.3rem !important;
+      margin-bottom: 15px !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+    }
+    
+    .course-card.expanded .course-prerequisites h5::before {
+      content: '📋' !important;
+    }
+    
+    .course-card.expanded .course-outcomes h5::before {
+      content: '🎯' !important;
+    }
+    
+    .course-card.expanded .course-audience h5::before {
+      content: '👥' !important;
+    }
+    
+    .course-card.expanded .course-expanded-content ul {
+      list-style: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    
+    .course-card.expanded .course-expanded-content li {
+      padding: 10px 0 !important;
+      border-bottom: 1px solid #f3f4f6 !important;
+      position: relative !important;
+      padding-left: 25px !important;
+      color: #6b7280 !important;
+      line-height: 1.5 !important;
+    }
+    
+    .course-card.expanded .course-expanded-content li::before {
+      content: '✓' !important;
+      position: absolute !important;
+      left: 0 !important;
+      color: #059669 !important;
+      font-weight: bold !important;
+    }
+    
+    .course-card.expanded .course-audience p {
+      color: #6b7280 !important;
+      line-height: 1.6 !important;
+      margin: 0 !important;
+    }
+    
+    /* Enhanced close button */
+    .close-expanded {
+      position: absolute !important;
+      top: 20px !important;
+      right: 25px !important;
+      background: rgba(239, 68, 68, 0.1) !important;
+      border: 2px solid #ef4444 !important;
+      color: #ef4444 !important;
+      width: 45px !important;
+      height: 45px !important;
+      border-radius: 50% !important;
+      cursor: pointer !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-size: 20px !important;
+      font-weight: bold !important;
+      transition: all 0.3s ease !important;
+      z-index: 10001 !important;
+    }
+    
+    .close-expanded:hover {
+      background: #ef4444 !important;
+      color: white !important;
+      transform: scale(1.1) !important;
+    }
+    
+    /* Enhanced action buttons in modal */
+    .course-card.expanded .course-actions {
+      margin-top: 30px !important;
+      display: flex !important;
+      gap: 15px !important;
+      justify-content: center !important;
+      flex-wrap: wrap !important;
+    }
+    
+    .course-card.expanded .launch-btn {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+      color: white !important;
+      padding: 15px 30px !important;
+      border-radius: 12px !important;
+      text-decoration: none !important;
+      font-weight: bold !important;
+      font-size: 1.1rem !important;
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3) !important;
+      transition: all 0.3s ease !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+    }
+    
+    .course-card.expanded .launch-btn:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.4) !important;
+    }
+  `;
+  
+  // Remove existing style if it exists
+  const existingStyle = document.getElementById('course-details-modal-fix');
+  if (existingStyle) {
+    existingStyle.remove();
+  }
+  
+  document.head.appendChild(style);
+  console.log('✅ Course details modal styling enhanced');
+}
+
+// ===== FIX 2: Completely Remove Lab Duplicate Buttons =====
+function nuclearLabFix() {
+  console.log('🧨 Nuclear lab fix - removing ALL duplicate buttons...');
+  
+  // Step 1: Remove ALL existing lab action buttons completely
+  const allLabActions = document.querySelectorAll(`
+    .emergency-lab-actions, 
+    .lab-enhanced-actions, 
+    .final-lab-actions,
+    .lab-bookmark-btn,
+    .lab-details-btn,
+    .lab-compare-btn
+  `);
+  
+  allLabActions.forEach((element, index) => {
+    console.log(`🗑️ Removing lab action element ${index + 1}:`, element.className);
+    element.remove();
+  });
+  
+  // Step 2: Clear all markers
+  document.querySelectorAll('[data-enhanced], [data-lab-enhanced]').forEach(element => {
+    element.removeAttribute('data-enhanced');
+    element.removeAttribute('data-lab-enhanced');
+  });
+  
+  // Step 3: Wait and add ONE set of clean buttons
+  setTimeout(() => {
+    const labCards = document.querySelectorAll('.lab-card');
+    console.log(`📦 Nuclear fix: Found ${labCards.length} lab cards`);
+    
+    labCards.forEach((card, index) => {
+      // Triple check - skip if ANY buttons exist
+      if (card.querySelector('button[class*="lab-"], .lab-bookmark-btn, .lab-details-btn, .final-lab-actions')) {
+        console.log(`⏭️ Lab ${index + 1} already has buttons, skipping...`);
+        return;
+      }
+      
+      // Mark as processed
+      card.setAttribute('data-lab-enhanced', 'nuclear-fixed');
+      
+      const labId = `lab-${index + 1}`;
+      const title = card.querySelector('h3')?.textContent || `Lab ${index + 1}`;
+      
+      console.log(`🔧 Nuclear fix enhancing: ${title}`);
+      
+      // Create ONE clean container
+      const actionsContainer = document.createElement('div');
+      actionsContainer.className = 'nuclear-lab-actions';
+      actionsContainer.style.cssText = `
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 2px solid #e2e8f0;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        background: #f8fafc;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 15px -15px -15px -15px;
+      `;
+      
+      // Bookmark button
+      const bookmarkBtn = document.createElement('button');
+      bookmarkBtn.innerHTML = '<i class="far fa-bookmark"></i> Bookmark';
+      bookmarkBtn.className = 'nuclear-bookmark-btn';
+      bookmarkBtn.style.cssText = `
+        background: white;
+        border: 2px solid #f59e0b;
+        color: #f59e0b;
+        padding: 10px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      `;
+      
+      bookmarkBtn.onclick = function() {
+        const icon = this.querySelector('i');
+        if (icon.classList.contains('far')) {
+          icon.className = 'fas fa-bookmark';
+          this.style.background = '#f59e0b';
+          this.style.color = 'white';
+          this.style.borderColor = '#f59e0b';
+          showNotification('Lab bookmarked! 🎯', 'success');
+        } else {
+          icon.className = 'far fa-bookmark';
+          this.style.background = 'white';
+          this.style.color = '#f59e0b';
+          this.style.borderColor = '#f59e0b';
+          showNotification('Bookmark removed', 'info');
+        }
+      };
+      
+      // Details button
+      const detailsBtn = document.createElement('button');
+      detailsBtn.innerHTML = '<i class="fas fa-info-circle"></i> Details';
+      detailsBtn.className = 'nuclear-details-btn';
+      detailsBtn.style.cssText = `
+        background: white;
+        border: 2px solid #2563eb;
+        color: #2563eb;
+        padding: 10px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      `;
+      
+      detailsBtn.onclick = function() {
+        this.style.background = '#2563eb';
+        this.style.color = 'white';
+        
+        const description = card.querySelector('p')?.textContent || 'Interactive development tool';
+        const launchUrl = card.querySelector('a[href]')?.href || '#';
+        
+        // Create beautiful details modal
+        createLabDetailsModal(title, description, launchUrl);
+        
+        // Reset button
+        setTimeout(() => {
+          this.style.background = 'white';
+          this.style.color = '#2563eb';
+        }, 200);
+      };
+      
+      // Add hover effects
+      bookmarkBtn.onmouseover = () => {
+        if (!bookmarkBtn.style.background.includes('#f59e0b')) {
+          bookmarkBtn.style.background = '#fef3c7';
+          bookmarkBtn.style.transform = 'translateY(-1px)';
+        }
+      };
+      bookmarkBtn.onmouseout = () => {
+        if (!bookmarkBtn.style.background.includes('#f59e0b')) {
+          bookmarkBtn.style.background = 'white';
+          bookmarkBtn.style.transform = 'translateY(0)';
+        }
+      };
+      
+      detailsBtn.onmouseover = () => {
+        if (!detailsBtn.style.background.includes('#2563eb')) {
+          detailsBtn.style.background = '#dbeafe';
+          detailsBtn.style.transform = 'translateY(-1px)';
+        }
+      };
+      detailsBtn.onmouseout = () => {
+        if (!detailsBtn.style.background.includes('#2563eb')) {
+          detailsBtn.style.background = 'white';
+          detailsBtn.style.transform = 'translateY(0)';
+        }
+      };
+      
+      actionsContainer.appendChild(bookmarkBtn);
+      actionsContainer.appendChild(detailsBtn);
+      card.appendChild(actionsContainer);
+      
+      console.log(`✅ Nuclear fix completed for: ${title}`);
+    });
+    
+    console.log('🎯 Nuclear lab fix complete - no more duplicates!');
+  }, 500);
+}
+
+// ===== Beautiful Lab Details Modal =====
+function createLabDetailsModal(title, description, url) {
+  // Remove existing modal
+  const existingModal = document.getElementById('labDetailsModal');
+  if (existingModal) existingModal.remove();
+  
+  const modal = document.createElement('div');
+  modal.id = 'labDetailsModal';
+  modal.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    backdrop-filter: blur(8px);
+    animation: modalFadeIn 0.3s ease;
+  `;
+  
+  const modalContent = document.createElement('div');
+  modalContent.style.cssText = `
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6);
+    position: relative;
+    animation: modalSlideIn 0.4s ease;
+  `;
+  
+  modalContent.innerHTML = `
+    <div style="text-align: center; margin-bottom: 30px;">
+      <h2 style="color: #2563eb; margin: 0 0 10px 0; font-size: 2rem; font-weight: bold;">
+        📋 ${title}
+      </h2>
+      <div style="width: 60px; height: 4px; background: linear-gradient(90deg, #2563eb, #3b82f6); margin: 0 auto; border-radius: 2px;"></div>
+    </div>
+    
+    <div style="margin-bottom: 25px; padding: 20px; background: #f8fafc; border-radius: 12px; border-left: 4px solid #2563eb;">
+      <h3 style="color: #374151; margin: 0 0 15px 0; font-size: 1.2rem;">📝 Description</h3>
+      <p style="margin: 0; color: #6b7280; line-height: 1.6; font-size: 1.1rem;">${description}</p>
+    </div>
+    
+    <div style="margin-bottom: 25px; padding: 20px; background: #f0fdf4; border-radius: 12px; border-left: 4px solid #059669;">
+      <h3 style="color: #374151; margin: 0 0 15px 0; font-size: 1.2rem;">✨ Features</h3>
+      <ul style="margin: 0; padding: 0 0 0 20px; color: #6b7280; line-height: 1.8;">
+        <li>🎯 Interactive tools and simulations</li>
+        <li>📊 Real-world case studies and examples</li>
+        <li>📥 Downloadable resources and templates</li>
+        <li>📖 Step-by-step guidance and tutorials</li>
+        <li>🎨 Professional interface design</li>
+      </ul>
+    </div>
+    
+    <div style="text-align: center; margin-top: 30px;">
+      <a href="${url}" target="_blank" rel="noopener" style="background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white; padding: 15px 30px; border-radius: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; font-weight: bold; font-size: 1.1rem; box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3); transition: all 0.3s ease; margin-right: 15px;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+        <i class="fas fa-external-link-alt"></i> Launch Lab
+      </a>
+      <button onclick="document.getElementById('labDetailsModal').remove()" style="background: #f3f4f6; color: #6b7280; padding: 15px 30px; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 1.1rem; transition: all 0.3s ease;" onmouseover="this.style.background='#e5e7eb'" onmouseout="this.style.background='#f3f4f6'">
+        Close
+      </button>
+    </div>
+  `;
+  
+  // Close button
+  const closeBtn = document.createElement('button');
+  closeBtn.innerHTML = '×';
+  closeBtn.style.cssText = `
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    color: #9ca3af;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+  `;
+  closeBtn.onclick = () => modal.remove();
+  closeBtn.onmouseover = () => {
+    closeBtn.style.background = '#ef4444';
+    closeBtn.style.color = 'white';
+  };
+  closeBtn.onmouseout = () => {
+    closeBtn.style.background = 'none';
+    closeBtn.style.color = '#9ca3af';
+  };
+  
+  modalContent.appendChild(closeBtn);
+  modal.appendChild(modalContent);
+  
+  // Close on backdrop click
+  modal.onclick = (e) => {
+    if (e.target === modal) modal.remove();
+  };
+  
+  document.body.appendChild(modal);
+}
+
+// ===== AUTO-INITIALIZE FIXES =====
+function initializeFixes() {
+  console.log('🔧 Initializing targeted fixes...');
+  
+  // Fix 1: Enhanced course modal styling
+  enhanceCourseDetailsModal();
+  
+  // Fix 2: Nuclear lab duplicate removal
+  setTimeout(nuclearLabFix, 1000);
+  
+  // Re-apply fixes when content changes
+  const observer = new MutationObserver(() => {
+    setTimeout(nuclearLabFix, 500);
+  });
+  
+  const labsContainer = document.getElementById('labsContainer');
+  if (labsContainer) {
+    observer.observe(labsContainer, { childList: true, subtree: true });
+  }
+  
+  console.log('✅ Targeted fixes initialized');
+}
+
+// Initialize on DOM ready
+document.addEventListener('DOMContentLoaded', initializeFixes);
+
+// Also initialize if DOM already loaded
+if (document.readyState !== 'loading') {
+  initializeFixes();
+}
+
+// Manual fix functions for testing
+window.fixCourseModal = enhanceCourseDetailsModal;
+window.fixLabDuplicates = nuclearLabFix;
+
+console.log('🎯 TARGETED FIXES LOADED!');
+console.log('🔧 Course modal: Enhanced with beautiful styling');
+console.log('🧨 Lab duplicates: Nuclear removal system active');
+console.log('🧪 Manual fix: run fixLabDuplicates() in console if needed');
 
 function toggleTheme() {
   const currentTheme = document.documentElement.getAttribute('data-theme');
