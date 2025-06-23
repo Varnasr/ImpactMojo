@@ -2601,3 +2601,339 @@ if (selectedCourses && selectedCourses.length > 0) {
   createFloatingButton();
   updateCourseCardStates();
 }
+// 🧹 FINAL CLEANUP - Add this to the END of your main.js file
+
+console.log('🧹 Starting final cleanup...');
+
+// Step 1: Remove all existing compare functions and replace with ONE unified function
+window.toggleCourseComparison = function(courseId) {
+  console.log('🎯 UNIFIED toggleCourseComparison called:', courseId);
+  
+  const index = selectedCourses.indexOf(courseId);
+  if (index > -1) {
+    selectedCourses.splice(index, 1);
+    console.log('➖ Removed:', courseId);
+  } else {
+    if (selectedCourses.length >= 4) {
+      alert('Maximum 4 courses can be compared at once');
+      return;
+    }
+    selectedCourses.push(courseId);
+    console.log('➕ Added:', courseId);
+  }
+  
+  console.log('📋 Final selectedCourses:', selectedCourses);
+  
+  // Update everything
+  unifiedUpdateComparisonUI();
+  unifiedUpdateFAB();
+  
+  showNotification(index > -1 ? 'Removed from comparison' : 'Added to comparison', 'info');
+};
+
+// Step 2: Unified comparison UI update
+window.unifiedUpdateComparisonUI = function() {
+  console.log('🔄 Unified UI update...');
+  
+  // Update ALL compare buttons on course cards
+  const allCompareBtns = document.querySelectorAll('.course-compare-btn, .compare-btn');
+  console.log(`🔍 Found ${allCompareBtns.length} compare buttons to update`);
+  
+  allCompareBtns.forEach(btn => {
+    const courseCard = btn.closest('[data-course-id]');
+    if (!courseCard) return;
+    
+    const courseId = courseCard.getAttribute('data-course-id');
+    const isSelected = selectedCourses.includes(courseId);
+    
+    // Update button appearance
+    if (isSelected) {
+      btn.classList.add('selected', 'active');
+      btn.innerHTML = '<i class="fas fa-check"></i> Selected';
+      btn.style.background = '#059669';
+      btn.style.color = 'white';
+      btn.style.borderColor = '#059669';
+    } else {
+      btn.classList.remove('selected', 'active');
+      btn.innerHTML = '<i class="fas fa-balance-scale"></i> Compare';
+      btn.style.background = '';
+      btn.style.color = '';
+      btn.style.borderColor = '';
+    }
+  });
+  
+  console.log('✅ Comparison UI updated');
+};
+
+// Step 3: Unified FAB button management
+window.unifiedUpdateFAB = function() {
+  console.log('🔘 Unified FAB update, count:', selectedCourses.length);
+  
+  // Remove ALL existing floating buttons to prevent duplicates
+  const existingFABs = document.querySelectorAll('.emergency-fab-btn, .fab-btn.compare, .compare-fab, [class*="fab"]');
+  existingFABs.forEach(fab => {
+    if (fab.textContent.includes('Compare')) {
+      console.log('🗑️ Removing duplicate FAB:', fab.className);
+      fab.remove();
+    }
+  });
+  
+  if (selectedCourses.length === 0) {
+    console.log('❌ No courses selected');
+    return;
+  }
+  
+  // Create ONE clean floating button
+  const unifiedFAB = document.createElement('button');
+  unifiedFAB.className = 'unified-fab-btn';
+  unifiedFAB.innerHTML = `<i class="fas fa-balance-scale"></i> Compare (${selectedCourses.length})`;
+  
+  // Clean styling
+  unifiedFAB.style.cssText = `
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  background: #f59e0b !important;
+  color: white !important;
+  border: none !important;
+  padding: 15px 25px !important;
+  border-radius: 30px !important;
+  cursor: pointer !important;
+  font-weight: bold !important;
+  font-size: 16px !important;
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4) !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  transition: all 0.3s ease !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  `;
+  
+  // Click handler
+  unifiedFAB.onclick = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log('🖱️ UNIFIED FAB CLICKED!');
+    unifiedShowComparison();
+  };
+  
+  // Hover effects
+  unifiedFAB.onmouseover = () => {
+    unifiedFAB.style.transform = 'scale(1.05)';
+    unifiedFAB.style.background = '#d97706';
+  };
+  unifiedFAB.onmouseout = () => {
+    unifiedFAB.style.transform = 'scale(1)';
+    unifiedFAB.style.background = '#f59e0b';
+  };
+  
+  document.body.appendChild(unifiedFAB);
+  console.log('✅ Unified FAB created');
+};
+
+// Step 4: Unified comparison modal
+window.unifiedShowComparison = function() {
+  console.log('🚨 Unified comparison modal');
+  
+  if (selectedCourses.length < 2) {
+    alert('Please select at least 2 courses to compare.');
+    return;
+  }
+  
+  const coursesToCompare = selectedCourses.map(id => 
+    courses.find(c => c.id === id)
+  ).filter(Boolean);
+  
+  if (coursesToCompare.length === 0) {
+    alert('Course data not found. Please refresh the page.');
+    return;
+  }
+  
+  // Create clean comparison HTML
+  const comparisonHTML = `
+  <div style="padding: 20px; max-height: 75vh; overflow-y: auto;">
+  <div style="text-align: center; margin-bottom: 30px;">
+  <h2 style="color: #2563eb; margin: 0; font-size: 2rem; font-weight: bold;">
+  📊 Course Comparison
+  </h2>
+  <p style="color: #64748b; margin: 10px 0;">Comparing ${coursesToCompare.length} selected courses</p>
+  </div>
+  
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px;">
+  ${coursesToCompare.map((course, index) => `
+          <div style="background: white; border: 2px solid #e5e7eb; border-radius: 15px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+            <div style="background: ${['#2563eb', '#059669', '#dc2626', '#7c3aed'][index] || '#6b7280'}; color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center;">
+              <h3 style="margin: 0; font-size: 1.25rem; font-weight: bold;">${course.title}</h3>
+            </div>
+            
+            <div style="space-y: 15px;">
+              <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f3f4f6;">
+                <span style="font-weight: 600; color: #374151;">Category:</span>
+                <span style="color: #6b7280;">${course.category}</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f3f4f6;">
+                <span style="font-weight: 600; color: #374151;">Difficulty:</span>
+                <span style="padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: bold; color: white; background: ${
+    course.difficulty === 'beginner' ? '#059669' : 
+    course.difficulty === 'intermediate' ? '#d97706' : '#dc2626'
+    };">${course.difficulty.toUpperCase()}</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f3f4f6;">
+                <span style="font-weight: 600; color: #374151;">Duration:</span>
+                <span style="color: #6b7280;">${course.duration}</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f3f4f6;">
+                <span style="font-weight: 600; color: #374151;">Rating:</span>
+                <span style="color: #f59e0b; font-weight: bold;">⭐ ${course.rating}/5</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f3f4f6;">
+                <span style="font-weight: 600; color: #374151;">Learners:</span>
+                <span style="color: #6b7280;">${course.learnerCount ? course.learnerCount.toLocaleString() : 'N/A'}</span>
+              </div>
+            </div>
+            
+            <div style="margin: 20px 0; padding: 15px; background: #f8fafc; border-radius: 8px; border-left: 4px solid ${['#2563eb', '#059669', '#dc2626', '#7c3aed'][index] || '#6b7280'};">
+              <strong style="color: #374151; display: block; margin-bottom: 8px;">Description:</strong>
+              <p style="margin: 0; color: #6b7280; line-height: 1.5;">${course.description}</p>
+            </div>
+            
+            <div style="text-align: center;">
+              <a href="${course.url}" target="_blank" rel="noopener" style="background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-weight: bold; box-shadow: 0 3px 10px rgba(37, 99, 235, 0.3);">
+                <i class="fas fa-external-link-alt"></i> Launch Course
+              </a>
+            </div>
+          </div>
+        `).join('')}
+  </div>
+  
+  <div style="margin-top: 30px; text-align: center; padding: 20px; background: #f8fafc; border-radius: 10px;">
+  <button onclick="unifiedClearComparison()" style="background: #dc2626; color: white; padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; box-shadow: 0 3px 10px rgba(220, 38, 38, 0.3);">
+  <i class="fas fa-times"></i> Clear All & Close
+  </button>
+  </div>
+  </div>
+  `;
+  
+  unifiedCreateModal(comparisonHTML);
+};
+
+// Step 5: Unified modal creation
+function unifiedCreateModal(content) {
+  // Remove any existing modals
+  const existingModals = document.querySelectorAll('#unifiedModal, #emergencyModal, [id*="Modal"]');
+  existingModals.forEach(modal => {
+    if (modal.id.includes('comparison') || modal.id.includes('emergency') || modal.id.includes('unified')) {
+      modal.remove();
+    }
+  });
+  
+  const modal = document.createElement('div');
+  modal.id = 'unifiedModal';
+  modal.style.cssText = `
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: rgba(0, 0, 0, 0.75) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 10000 !important;
+  backdrop-filter: blur(4px) !important;
+  `;
+  
+  const modalContent = document.createElement('div');
+  modalContent.style.cssText = `
+  background: white !important;
+  border-radius: 20px !important;
+  width: 95% !important;
+  max-width: 1200px !important;
+  max-height: 90vh !important;
+  overflow: hidden !important;
+  position: relative !important;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5) !important;
+  `;
+  
+  const closeBtn = document.createElement('button');
+  closeBtn.innerHTML = '×';
+  closeBtn.style.cssText = `
+  position: absolute !important;
+  top: 15px !important;
+  right: 20px !important;
+  background: none !important;
+  border: none !important;
+  font-size: 30px !important;
+  cursor: pointer !important;
+  color: #9ca3af !important;
+  z-index: 10001 !important;
+  width: 40px !important;
+  height: 40px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 50% !important;
+  `;
+  closeBtn.onclick = () => modal.remove();
+  closeBtn.onmouseover = () => {
+    closeBtn.style.background = '#dc2626';
+    closeBtn.style.color = 'white';
+  };
+  closeBtn.onmouseout = () => {
+    closeBtn.style.background = 'none';
+    closeBtn.style.color = '#9ca3af';
+  };
+  
+  modalContent.innerHTML = content;
+  modalContent.appendChild(closeBtn);
+  modal.appendChild(modalContent);
+  
+  modal.onclick = (e) => {
+    if (e.target === modal) modal.remove();
+  };
+  
+  document.body.appendChild(modal);
+  console.log('✅ Unified modal created');
+}
+
+// Step 6: Unified clear function
+window.unifiedClearComparison = function() {
+  selectedCourses.length = 0;
+  
+  // Remove modal
+  const modal = document.getElementById('unifiedModal');
+  if (modal) modal.remove();
+  
+  // Remove FAB
+  const fab = document.querySelector('.unified-fab-btn');
+  if (fab) fab.remove();
+  
+  // Update UI
+  unifiedUpdateComparisonUI();
+  
+  showNotification('Comparison cleared!', 'success');
+  console.log('✅ Unified clear complete');
+};
+
+// Step 7: Override ALL existing functions to prevent conflicts
+window.toggleCompare = window.toggleCourseComparison;
+window.updateComparisonUI = window.unifiedUpdateComparisonUI;
+window.updateFABButton = window.unifiedUpdateFAB;
+window.createFloatingButton = window.unifiedUpdateFAB;
+window.emergencyShowComparison = window.unifiedShowComparison;
+window.showEnhancedComparisonModal = window.unifiedShowComparison;
+
+// Step 8: Clean initialization
+console.log('🧹 Final cleanup complete!');
+console.log('🎯 Unified comparison system ready');
+
+// Force update if needed
+if (selectedCourses && selectedCourses.length > 0) {
+  unifiedUpdateComparisonUI();
+  unifiedUpdateFAB();
+}
