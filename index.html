@@ -218,7 +218,7 @@
       <!-- Courses Section -->
       <section id="courses" class="courses-section">
         <h3><i class="fas fa-graduation-cap"></i> All Courses</h3>
-        <p>Explore our complete library of 34 knowledge decks</p>
+        <p>Explore our complete library of 33 knowledge decks</p>
         
         <!-- Filters -->
         <div class="filters-row">
@@ -272,7 +272,7 @@
 
         <div class="stats-bar">
           <div class="course-count" id="courseCount" role="status" aria-live="polite">
-            Showing <span id="visibleCount">34</span> of <span id="totalCount">34</span> courses
+            Showing <span id="visibleCount">33</span> of <span id="totalCount">33</span> courses
           </div>
         </div>
 
@@ -305,7 +305,7 @@
           <h4>Data Feminism 101</h4>
           <p>★ 4.8 | 2,847 learners</p>
           <p>Challenges dominant data narratives using feminist theory and South Asian contexts.</p>
-          <a href="https://101.www.impactmojo.in/DataFem" target="_blank" rel="noopener" class="launch-btn">
+          <a href="https://101.www.impactmojo.in/DataFeminism" target="_blank" rel="noopener" class="launch-btn">
             Launch Course <i class="fas fa-external-link-alt"></i>
           </a>
         </div>
@@ -314,7 +314,7 @@
           <h4>Gender Studies 101</h4>
           <p>★ 4.7 | 2,341 learners</p>
           <p>Foundational concepts in gender studies with South Asian development applications.</p>
-          <a href="https://101.www.impactmojo.in/Gender" target="_blank" rel="noopener" class="launch-btn">
+          <a href="https://101.www.impactmojo.in/GenderStudies" target="_blank" rel="noopener" class="launch-btn">
             Launch Course <i class="fas fa-external-link-alt"></i>
           </a>
         </div>
@@ -323,7 +323,7 @@
           <h4>MEL 101</h4>
           <p>★ 4.8 | 2,156 learners</p>
           <p>Comprehensive monitoring, evaluation, and learning frameworks for development programs.</p>
-          <a href="https://101.www.impactmojo.in/MEAL" target="_blank" rel="noopener" class="launch-btn">
+          <a href="https://101.www.impactmojo.in/MEL" target="_blank" rel="noopener" class="launch-btn">
             Launch Course <i class="fas fa-external-link-alt"></i>
           </a>
         </div>
@@ -520,7 +520,7 @@
         <div class="footer-section">
           <h4>About ImpactMojo</h4>
           <p>Empowering changemakers across South Asia with practical development education.</p>
-          <p>34+ comprehensive courses covering data feminism to climate justice.</p>
+          <p>33+ comprehensive courses covering data feminism to climate justice.</p>
           <p>Real-world ready - bridging theory with practice in South Asian contexts.</p>
         </div>
         
@@ -646,33 +646,6 @@
     </div>
   </div>
 
-  <!-- Course Comparison Modal -->
-  <div id="comparisonModal" class="modal">
-    <div class="modal-content large">
-      <span class="close" onclick="closeModal('comparisonModal')">&times;</span>
-      <h2><i class="fas fa-balance-scale"></i> Course Comparison</h2>
-      <div id="comparisonContent">
-        <div id="comparison-instructions" class="comparison-empty">
-          <div class="comparison-icon">
-            <i class="fas fa-balance-scale-right"></i>
-          </div>
-          <h3>Compare Courses Side by Side</h3>
-          <p>Select 2 or more courses using the checkboxes on course cards to compare their:</p>
-          <ul>
-            <li>Difficulty levels and duration</li>
-            <li>Prerequisites and target audience</li>
-            <li>Learning outcomes</li>
-            <li>Course ratings and popularity</li>
-          </ul>
-          <p><strong>Tip:</strong> Use course comparison to plan your learning path and find complementary courses.</p>
-        </div>
-        <div id="comparison-table" class="comparison-results" style="display: none;">
-          <!-- Comparison table will be populated by JavaScript -->
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Login Modal -->
   <div id="loginModal" class="modal">
     <div class="modal-content">
@@ -747,152 +720,5 @@
   <script src="course-data.js"></script>
   <script src="firebase-auth.js"></script>
   <script src="main.js"></script>
-  
-  <script>
-  // Enhanced Course Comparison Functionality
-  let selectedCoursesForComparison = [];
-
-  function updateComparisonModal() {
-    const comparisonContent = document.getElementById('comparisonContent');
-    const instructions = document.getElementById('comparison-instructions');
-    const table = document.getElementById('comparison-table');
-    
-    if (selectedCoursesForComparison.length < 2) {
-      instructions.style.display = 'block';
-      table.style.display = 'none';
-      return;
-    }
-    
-    instructions.style.display = 'none';
-    table.style.display = 'block';
-    
-    // Get course data for selected courses
-    const selectedCourseData = selectedCoursesForComparison.map(courseId => 
-      courseData.find(course => course.id === courseId)
-    ).filter(course => course); // Filter out any null results
-    
-    // Generate comparison table
-    table.innerHTML = `
-      <div class="comparison-header">
-        <h3>Comparing ${selectedCourseData.length} Courses</h3>
-        <button onclick="clearComparison()" class="clear-comparison-btn">
-          <i class="fas fa-times"></i> Clear All
-        </button>
-      </div>
-      <div class="comparison-grid">
-        ${selectedCourseData.map(course => `
-          <div class="comparison-card">
-            <div class="comparison-course-header">
-              <h4>${course.title}</h4>
-              <div class="course-rating">
-                <span class="rating-stars">★ ${course.rating || '4.5'}</span>
-                <span class="learner-count">${(course.learnerCount || 1000).toLocaleString()} learners</span>
-              </div>
-            </div>
-            
-            <div class="comparison-details">
-              <div class="detail-row">
-                <strong>Category:</strong> ${course.topic || course.category || 'Development'}
-              </div>
-              <div class="detail-row">
-                <strong>Difficulty:</strong> 
-                <span class="difficulty-badge ${course.level || course.difficulty}">${course.level || course.difficulty}</span>
-              </div>
-              <div class="detail-row">
-                <strong>Duration:</strong> ${course.duration || '3-4 hours'}
-              </div>
-              <div class="detail-row">
-                <strong>Prerequisites:</strong>
-                <ul class="prerequisites-list">
-                  ${(course.prerequisites || ['None']).map(prereq => `<li>${prereq}</li>`).join('')}
-                </ul>
-              </div>
-              <div class="detail-row">
-                <strong>Target Audience:</strong> ${course.audience || 'Development practitioners'}
-              </div>
-              <div class="detail-row">
-                <strong>Learning Outcomes:</strong>
-                <ul class="outcomes-list">
-                  ${(course.outcomes || ['Learn key concepts', 'Apply knowledge']).map(outcome => `<li>${outcome}</li>`).join('')}
-                </ul>
-              </div>
-            </div>
-            
-            <div class="comparison-actions">
-              <a href="${course.url}" class="launch-course-btn" target="_blank" rel="noopener">
-                <i class="fas fa-external-link-alt"></i> Launch Course
-              </a>
-              <button onclick="removeFromComparison('${course.id}')" class="remove-btn">
-                <i class="fas fa-minus-circle"></i> Remove
-              </button>
-            </div>
-          </div>
-        `).join('')}
-      </div>
-    `;
-  }
-
-  function clearComparison() {
-    selectedCoursesForComparison = [];
-    // Uncheck all comparison checkboxes
-    document.querySelectorAll('input[id^="compare-"]').forEach(checkbox => {
-      checkbox.checked = false;
-    });
-    updateComparisonModal();
-    updateCompareButton();
-  }
-
-  function removeFromComparison(courseId) {
-    selectedCoursesForComparison = selectedCoursesForComparison.filter(id => id !== courseId);
-    // Uncheck the specific checkbox
-    const checkbox = document.getElementById(`compare-${courseId}`);
-    if (checkbox) checkbox.checked = false;
-    
-    updateComparisonModal();
-    updateCompareButton();
-  }
-
-  // Update the existing toggleCourseSelection function
-  function toggleCourseSelection(courseId) {
-    const index = selectedCoursesForComparison.indexOf(courseId);
-    if (index > -1) {
-      selectedCoursesForComparison.splice(index, 1);
-    } else {
-      selectedCoursesForComparison.push(courseId);
-    }
-    
-    updateCompareButton();
-    // Update modal if it's open
-    if (document.getElementById('comparisonModal').style.display === 'block') {
-      updateComparisonModal();
-    }
-  }
-
-  // Update the existing updateCompareButton function
-  function updateCompareButton() {
-    const compareCount = document.getElementById('compareCount');
-    const compareBtn = document.getElementById('compareBtn');
-    
-    if (compareCount) compareCount.textContent = selectedCoursesForComparison.length;
-    if (compareBtn) {
-      compareBtn.disabled = selectedCoursesForComparison.length < 2;
-      compareBtn.className = selectedCoursesForComparison.length >= 2 ? 'compare-btn active' : 'compare-btn';
-    }
-  }
-
-  // Update modal opening to refresh comparison
-  function openComparisonModal() {
-    updateComparisonModal();
-    openModal('comparisonModal');
-  }
-
-  // Update the compare button onclick
-  document.addEventListener('DOMContentLoaded', function() {
-    const compareBtn = document.getElementById('compareBtn');
-    if (compareBtn) {
-      compareBtn.onclick = openComparisonModal;
-    }
-  });
-  </script>
 </body>
 </html>
