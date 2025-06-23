@@ -43,28 +43,22 @@
 
     const firebaseConfig = {
       apiKey: "AIzaSyDnF0eJsTULzOJUnBskybd44dG5w-f46vE",
-      authDomain: "impactmojo.firebaseapp.com",
-      projectId: "impactmojo",
-      storageBucket: "impactmojo.firebasestorage.app",
-      messagingSenderId: "529198336589",
-      appId: "1:529198336589:web:1664b5344de5bfb31bea04",
-      measurementId: "G-ZHPPXXMRGV"
+      authDomain: "impactmojo-53ddd.firebaseapp.com",
+      projectId: "impactmojo-53ddd",
+      storageBucket: "impactmojo-53ddd.appspot.com",
+      messagingSenderId: "982522486622",
+      appId: "1:982522486622:web:b0f53c8b5eea0b9b50cf82"
     };
 
     const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const provider = new GoogleAuthProvider();
-
-    // Make Firebase available globally
-    window.auth = auth;
-    window.db = db;
-    window.provider = provider;
+    window.auth = getAuth(app);
+    window.db = getFirestore(app);
+    window.GoogleAuthProvider = GoogleAuthProvider;
+    window.signInWithPopup = signInWithPopup;
     window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
     window.signInWithEmailAndPassword = signInWithEmailAndPassword;
     window.signOut = signOut;
     window.onAuthStateChanged = onAuthStateChanged;
-    window.signInWithPopup = signInWithPopup;
     window.sendPasswordResetEmail = sendPasswordResetEmail;
     window.doc = doc;
     window.setDoc = setDoc;
@@ -73,37 +67,37 @@
     window.arrayUnion = arrayUnion;
     window.arrayRemove = arrayRemove;
   </script>
+
+  <!-- External Scripts -->
+  <script src="course-data.js"></script>
+  <script src="firebase-auth.js"></script>
+  <script src="main.js"></script>
 </head>
+
 <body>
-  <!-- Header -->
-  <header class="header">
+  <!-- Navigation -->
+  <header>
     <nav class="navbar">
       <div class="container">
-        <div class="nav-brand">
-          <a href="#home" class="brand-link">
+        <div class="nav-content">
+          <div class="nav-brand">
             <h1>ImpactMojo</h1>
-            <span>101 Knowledge Series</span>
-          </a>
-        </div>
-        
-        <div class="nav-menu">
-          <ul class="nav-links">
-            <li><a href="#courses">Courses</a></li>
-            <li><a href="#labs">Labs</a></li>
-            <li><a href="#upcoming">Upcoming</a></li>
-            <li><a href="#learning-paths">Learning Paths</a></li>
-            <li><a href="#author">About</a></li>
-          </ul>
+            <span>Development Education for South Asia</span>
+          </div>
+          
+          <div class="nav-links">
+            <a href="#courses">Courses</a>
+            <a href="#labs">Labs</a>
+            <a href="#learning-paths">Learning Paths</a>
+            <a href="#upcoming">Upcoming</a>
+            <a href="#author">About</a>
+          </div>
           
           <div class="nav-actions">
-            <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
-              <i id="themeIcon" class="fas fa-moon"></i>
-            </button>
-            
             <!-- Auth buttons - shown when not logged in -->
             <div class="auth-buttons" id="authButtons">
-              <button class="auth-btn" onclick="showLoginModal()">Login</button>
-              <button class="auth-btn signup" onclick="showSignupModal()" title="Join our community of development practitioners and get access to personalized learning features, course bookmarks, and progress tracking!">Sign Up</button>
+              <button class="auth-btn login" onclick="showLoginModal()">Log In</button>
+              <button class="auth-btn signup" onclick="showSignupModal()">Sign Up</button>
             </div>
             
             <!-- User menu - shown when logged in -->
@@ -218,7 +212,7 @@
       <!-- Courses Section -->
       <section id="courses" class="courses-section">
         <h3><i class="fas fa-graduation-cap"></i> All Courses</h3>
-        <p>Explore our complete library of 33 knowledge decks</p>
+        <p>Explore our complete library of 34 knowledge decks</p>
         
         <!-- Filters -->
         <div class="filters-row">
@@ -253,26 +247,8 @@
             </select>
           </div>
           
-          <div class="filter-group">
-            <label for="durationFilter">Duration:</label>
-            <select id="durationFilter" onchange="filterCourses()">
-              <option value="all">Any Duration</option>
-              <option value="short">Short (< 3 hours)</option>
-              <option value="medium">Medium (3-5 hours)</option>
-              <option value="long">Long (5+ hours)</option>
-            </select>
-          </div>
-          
-          <div class="filter-group">
-            <button class="clear-filters" onclick="clearAllFilters()">
-              <i class="fas fa-times"></i> Clear Filters
-            </button>
-          </div>
-        </div>
-
-        <div class="stats-bar">
-          <div class="course-count" id="courseCount" role="status" aria-live="polite">
-            Showing <span id="visibleCount">33</span> of <span id="totalCount">33</span> courses
+          <div class="results-info">
+            <span id="visibleCount">34</span> of <span id="totalCount">34</span> courses
           </div>
         </div>
 
@@ -290,22 +266,17 @@
       </section>
     </div>
   </main>
-  </section>
-  </div>
-  </main>
-  
+
   <!-- Popular Courses Section -->
   <section id="popular" class="popular-section">
     <div class="container">
-      <h3><i class="fas fa-fire"></i> Popular Courses</h3>
-      <p>Most loved courses by our community of development practitioners</p>
-      
+      <h3><i class="fas fa-fire"></i> Most Popular Courses</h3>
       <div class="popular-grid">
         <div class="popular-card">
           <h4>Data Feminism 101</h4>
-          <p>★ 4.8 | 2,847 learners</p>
-          <p>Challenges dominant data narratives using feminist theory and South Asian contexts.</p>
-          <a href="https://101.www.impactmojo.in/DataFeminism" target="_blank" rel="noopener" class="launch-btn">
+          <p>★ 4.9 | 3,247 learners</p>
+          <p>Learn how to examine and challenge power, ask questions about data science, and consider how analysis and communication can be more ethical and inclusive.</p>
+          <a href="/DataFem" target="_blank" rel="noopener" class="launch-btn">
             Launch Course <i class="fas fa-external-link-alt"></i>
           </a>
         </div>
@@ -314,7 +285,7 @@
           <h4>Gender Studies 101</h4>
           <p>★ 4.7 | 2,341 learners</p>
           <p>Foundational concepts in gender studies with South Asian development applications.</p>
-          <a href="https://101.www.impactmojo.in/GenderStudies" target="_blank" rel="noopener" class="launch-btn">
+          <a href="/Gender" target="_blank" rel="noopener" class="launch-btn">
             Launch Course <i class="fas fa-external-link-alt"></i>
           </a>
         </div>
@@ -323,7 +294,7 @@
           <h4>MEL 101</h4>
           <p>★ 4.8 | 2,156 learners</p>
           <p>Comprehensive monitoring, evaluation, and learning frameworks for development programs.</p>
-          <a href="https://101.www.impactmojo.in/MEL" target="_blank" rel="noopener" class="launch-btn">
+          <a href="/MEAL" target="_blank" rel="noopener" class="launch-btn">
             Launch Course <i class="fas fa-external-link-alt"></i>
           </a>
         </div>
@@ -331,172 +302,81 @@
     </div>
   </section>
   
-  <!-- Labs Section -->
-  <section id="labs" class="labs-section">
-  <!-- Labs Section -->
+  <!-- Enhanced Labs Section -->
   <section id="labs" class="labs-section">
     <div class="container">
       <h3><i class="fas fa-flask"></i> ImpactMojo Labs</h3>
       <p>Interactive tools and experimental features for development practitioners</p>
       
-      <div class="labs-grid">
-        <!-- TOC Workbench -->
-        <div class="lab-card">
-          <h3><i class="fas fa-tools"></i> TOC Workbench</h3>
-          <p>Create, visualize, and share your intervention logic models.</p>
-          <div class="lab-status">
-            <span class="lab-badge live">Live</span>
-            <a href="https://toc-workbench.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
-              Launch Lab <i class="fas fa-external-link-alt"></i>
-            </a>
+      <div id="labsContainer">
+        <!-- Lab cards will be generated by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Upcoming Courses Section -->
+  <section id="upcoming" class="upcoming-section">
+    <div class="container">
+      <h3><i class="fas fa-calendar-plus"></i> Coming Soon</h3>
+      <div class="upcoming-grid">
+        <div class="upcoming-card">
+          <div class="upcoming-badge">Summer 2025</div>
+          <h4>Urban Planning 101</h4>
+          <p>Sustainable city development and planning methodologies for South Asian contexts.</p>
+          <div class="upcoming-features">
+            <span><i class="fas fa-clock"></i> 6-8 hours</span>
+            <span><i class="fas fa-users"></i> Interactive exercises</span>
+            <span><i class="fas fa-certificate"></i> Completion certificate</span>
           </div>
         </div>
         
-        <!-- MEL Toolkit -->
-        <div class="lab-card">
-          <h3><i class="fas fa-chart-line"></i> MEL Toolkit</h3>
-          <p>Monitoring, evaluation, and learning framework builder.</p>
-          <div class="lab-status">
-            <span class="lab-badge live">Live</span>
-            <a href="https://mel-toolkit.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
-              Launch Lab <i class="fas fa-external-link-alt"></i>
-            </a>
+        <div class="upcoming-card">
+          <div class="upcoming-badge">Fall 2025</div>
+          <h4>Climate Adaptation 101</h4>
+          <p>Community-based adaptation strategies and resilience building frameworks.</p>
+          <div class="upcoming-features">
+            <span><i class="fas fa-clock"></i> 8-10 hours</span>
+            <span><i class="fas fa-users"></i> Case studies</span>
+            <span><i class="fas fa-certificate"></i> Completion certificate</span>
           </div>
         </div>
         
-        <!-- Budget Calculator -->
-        <div class="lab-card">
-          <h3><i class="fas fa-calculator"></i> Development Budget Calculator</h3>
-          <p>Project budget planning and cost estimation tool.</p>
-          <div class="lab-status">
-            <span class="lab-badge live">Live</span>
-            <a href="https://budget-calculator.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
-              Launch Lab <i class="fas fa-external-link-alt"></i>
-            </a>
-          </div>
-        </div>
-        
-        <!-- Stakeholder Mapping -->
-        <div class="lab-card">
-          <h3><i class="fas fa-users"></i> Stakeholder Mapping Tool</h3>
-          <p>Visualize and analyze stakeholder relationships and influence.</p>
-          <div class="lab-status">
-            <span class="lab-badge live">Live</span>
-            <a href="https://stakeholder-mapper.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
-              Launch Lab <i class="fas fa-external-link-alt"></i>
-            </a>
-          </div>
-        </div>
-        
-        <!-- Community Engagement Lab -->
-        <div class="lab-card">
-          <h3><i class="fas fa-hands-helping"></i> Community Engagement Lab</h3>
-          <p>Design participatory processes and community consultation frameworks.</p>
-          <div class="lab-status">
-            <span class="lab-badge live">Live</span>
-            <a href="https://community-engagement-lab.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
-              Launch Lab <i class="fas fa-external-link-alt"></i>
-            </a>
-          </div>
-        </div>
-        
-        <!-- Survey Design Lab -->
-        <div class="lab-card">
-          <h3><i class="fas fa-clipboard-list"></i> Survey Design Lab</h3>
-          <p>Interactive tool for designing surveys and questionnaires for development research.</p>
-          <div class="lab-status">
-            <span class="lab-badge live">Live</span>
-            <a href="https://survey-design-lab.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
-              Launch Lab <i class="fas fa-external-link-alt"></i>
-            </a>
-          </div>
-        </div>
-        
-        <!-- Data Visualization Lab -->
-        <div class="lab-card">
-          <h3><i class="fas fa-chart-bar"></i> Data Visualization Lab</h3>
-          <p>Create compelling data visualizations and infographics for development data.</p>
-          <div class="lab-status">
-            <span class="lab-badge live">Live</span>
-            <a href="https://data-viz-lab.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
-              Launch Lab <i class="fas fa-external-link-alt"></i>
-            </a>
-          </div>
-        </div>
-        
-        <!-- Impact Measurement -->
-        <div class="lab-card">
-          <h3><i class="fas fa-bullseye"></i> Impact Measurement Lab</h3>
-          <p>Design and track impact metrics for development interventions.</p>
-          <div class="lab-status">
-            <span class="lab-badge live">Live</span>
-            <a href="https://impact-measurement-lab.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
-              Launch Lab <i class="fas fa-external-link-alt"></i>
-            </a>
-          </div>
-        </div>
-        
-        <!-- Policy Analysis Tool -->
-        <div class="lab-card">
-          <h3><i class="fas fa-gavel"></i> Policy Analysis Tool</h3>
-          <p>Framework for analyzing and comparing development policies.</p>
-          <div class="lab-status">
-            <span class="lab-badge live">Live</span>
-            <a href="https://policy-analysis-tool.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
-              Launch Lab <i class="fas fa-external-link-alt"></i>
-            </a>
+        <div class="upcoming-card">
+          <div class="upcoming-badge">Winter 2025</div>
+          <h4>Digital Governance 101</h4>
+          <p>Technology, transparency, and citizen engagement in South Asian governance.</p>
+          <div class="upcoming-features">
+            <span><i class="fas fa-clock"></i> 7-9 hours</span>
+            <span><i class="fas fa-users"></i> Policy analysis</span>
+            <span><i class="fas fa-certificate"></i> Completion certificate</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-    <!-- Upcoming Courses Section -->
-  <section id="upcoming" class="upcoming-section">
-    <div class="container">
-      <h3><i class="fas fa-clock"></i> Upcoming Courses</h3>
-      <p>New courses currently in development, launching soon.</p>
-      <div class="upcoming-grid">
-        <div class="upcoming-card">
-          <div class="upcoming-header">
-            <h4>TALL (Technology for All) 101</h4>
-            <span class="status-badge coming-soon">Coming Soon</span>
-          </div>
-          <p>A global technology literacy platform teaching 10 future technologies in simple, jargon-free language. Covers IoT, AI, Robotics, Blockchain, Cryptocurrency, Cybercrime, Digital Transformation, Telehealth, Edutech & Metaverse. Designed for all computer, phone and internet users - including non-engineers and students of arts, law and commerce.</p>
-          <div class="upcoming-meta">
-            <span><i class="fas fa-calendar-alt"></i> Expected: Q3 2025</span>
-            <span><i class="fas fa-users"></i> All technology users, non-engineers, students, professionals</span>
-          </div>
-        </div>
-        
-        <div class="upcoming-card">
-          <div class="upcoming-header">
-            <h4>English for Development Professionals 101</h4>
-            <span class="status-badge coming-soon">Coming Soon</span>
-          </div>
-          <p>Professional English communication skills specifically tailored for development practitioners, including grant writing, proposal development, and stakeholder communication.</p>
-          <div class="upcoming-meta">
-            <span><i class="fas fa-calendar-alt"></i> Expected: Q4 2025</span>
-            <span><i class="fas fa-users"></i> Development professionals</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  
   <!-- Author Section -->
   <section id="author" class="author-section">
     <div class="container">
-      <div class="author-card">
-        <img src="assets/images/varna-photo.jpg" alt="Dr. Varna Sri Raman" class="author-photo" onerror="this.src='https://via.placeholder.com/150x150/2563eb/ffffff?text=VSR'">
-        <div class="author-content">
-          <h3>Dr. Varna Sri Raman</h3>
+      <div class="author-content">
+        <div class="author-image">
+          <img src="https://via.placeholder.com/300x300/6366f1/ffffff?text=Dr.+Varna" alt="Dr. Varna Sri Raman" loading="lazy">
+        </div>
+        <div class="author-info">
+          <h3>About the Author</h3>
+          <h4>Dr. Varna Sri Raman</h4>
+          <p class="author-title">Development Economist & Education Technologist</p>
           <p>
-            Dr. Varna Sri Raman is a development economist, educator, and social researcher with two decades of experience across education, livelihoods, gender, climate, health, and other public systems in South Asia. She is the founder and chief curator of OpenStacks — an open knowledge ecosystem for the development sector.
+            Dr. Varna is a passionate advocate for evidence-based development practice and 
+            accessible education. With over a decade of experience in South Asian development 
+            contexts, she creates learning resources that bridge academic rigor with practical 
+            application.
           </p>
-          <a href="https://calendly.com/varna-raman/impactmojo-consultation" target="_blank" rel="noopener" class="coaching-cta">
-            <i class="fas fa-calendar-alt"></i> Book a Development Consultation
-          </a>
+          <p>
+            Her work focuses on making complex development concepts accessible to practitioners, 
+            researchers, and students across the region, emphasizing justice, equity, and 
+            sustainable impact.
+          </p>
           <div class="author-links">
             <a href="https://www.threads.net/@varnasriraman" target="_blank" rel="noopener" title="Follow Dr. Varna on Threads">
               <i class="fab fa-threads"></i> Threads
@@ -520,7 +400,7 @@
         <div class="footer-section">
           <h4>About ImpactMojo</h4>
           <p>Empowering changemakers across South Asia with practical development education.</p>
-          <p>33+ comprehensive courses covering data feminism to climate justice.</p>
+          <p>34+ comprehensive courses covering data feminism to climate justice.</p>
           <p>Real-world ready - bridging theory with practice in South Asian contexts.</p>
         </div>
         
@@ -546,179 +426,805 @@
         
         <div class="footer-section">
           <h4>Connect with Dr. Varna</h4>
-          <p><a href="https://www.threads.net/@varnasriraman" target="_blank" rel="noopener">📱 Follow on Threads</a></p>
-          <p><a href="https://www.linkedin.com/in/varna" target="_blank" rel="noopener">💼 Connect on LinkedIn</a></p>
-          <p><a href="https://vfolio.notion.site/" target="_blank" rel="noopener">📂 View Portfolio</a></p>
-          <p><a href="mailto:varna.sr@gmail.com">✉️ Email Directly</a></p>
-        </div>
-        
-        <div class="footer-faq">
-          <h4>Frequently Asked Questions</h4>
-          <div class="faq-grid">
-            <div class="faq-item">
-              <h5><i class="fas fa-question-circle"></i> How do I get started?</h5>
-              <p>Browse our course library, choose a learning path that matches your interests, or start with foundational courses like Data Literacy 101 or Gender Studies 101.</p>
-            </div>
-            
-            <div class="faq-item">
-              <h5><i class="fas fa-question-circle"></i> Are the courses free?</h5>
-              <p>Yes! All ImpactMojo 101 courses are freely available under Creative Commons licensing. Create an account to bookmark courses and track your progress.</p>
-            </div>
-            
-            <div class="faq-item">
-              <h5><i class="fas fa-question-circle"></i> Can I use these for teaching?</h5>
-              <p>Absolutely! All content is licensed CC BY-NC-SA 4.0, meaning you can adapt and use materials for non-commercial educational purposes with attribution.</p>
-            </div>
-            
-            <div class="faq-item">
-              <h5><i class="fas fa-question-circle"></i> How often are new courses added?</h5>
-              <p>We regularly add new courses and update existing content. Check our "Latest Additions" section or subscribe to updates to stay informed.</p>
-            </div>
-            
-            <div class="faq-item">
-              <h5><i class="fas fa-question-circle"></i> What devices do I need to access the courses?</h5>
-              <p>All courses work on any device with internet access - computers, tablets, or smartphones. No special software required. Our platform is optimized for mobile learning, perfect for learners across South Asia with varying technology access.</p>
-            </div>
-            
-            <div class="faq-item">
-              <h5><i class="fas fa-question-circle"></i> Why focus specifically on South Asia?</h5>
-              <p>Our courses use local case studies, policy examples, and cultural contexts from India and South Asia. This makes the learning more relevant and applicable than generic global content. However, the frameworks and concepts are valuable for development practitioners worldwide.</p>
-            </div>
-          </div>
-        </div>
-        
-        <div class="footer-disclaimer">
-          <h5><i class="fas fa-exclamation-triangle"></i> Important Disclaimer</h5>
-          <p>The content provided in ImpactMojo courses is for educational purposes only. While we strive for accuracy, users should verify information independently and adapt content to their specific contexts. The courses represent academic perspectives and should not be considered as official policy guidance. We provide NO formal qualifications or certifications.</p>
-        </div>
-        
-        <div class="footer-legal">
-          <div class="legal-grid">
-            <div class="legal-section">
-              <h6>Licensing</h6>
-              <p><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></p>
-              <p>Free to use for non-commercial purposes with attribution</p>
-            </div>
-            
-            <div class="legal-section">
-              <h6>Privacy</h6>
-              <p>We respect your privacy and use minimal data collection</p>
-              <p>Contact us for data requests</p>
-            </div>
-            
-            <div class="legal-section">
-              <h6>Support</h6>
-              <p><a href="mailto:varna.sr@gmail.com">Technical Support</a></p>
-              <p><a href="mailto:varna.sr@gmail.com">Content Feedback</a></p>
-            </div>
-            
-            <div class="legal-section">
-              <h6>Attribution</h6>
-              <p>When using content, please cite: "Dr. Varna Sri Raman, ImpactMojo 101 Series"</p>
-            </div>
+          <div class="footer-social">
+            <a href="https://www.threads.net/@varnasriraman" target="_blank" rel="noopener" title="Follow Dr. Varna on Threads">
+              <i class="fab fa-threads"></i> Threads
+            </a>
+            <a href="https://www.linkedin.com/in/varna" target="_blank" rel="noopener" title="Connect with Dr. Varna on LinkedIn">
+              <i class="fab fa-linkedin"></i> LinkedIn
+            </a>
+            <a href="https://vfolio.notion.site/" target="_blank" rel="noopener" title="View Dr. Varna's Portfolio">
+              <i class="fas fa-briefcase"></i> Portfolio
+            </a>
           </div>
         </div>
       </div>
       
       <div class="footer-bottom">
-        <p>&copy; 2025 ImpactMojo. Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>.</p>
-        <p>Development education for South Asia. <a href="mailto:varna.sr@gmail.com">Contact us</a> for partnerships and collaborations.</p>
+        <div class="footer-legal">
+          <p>&copy; 2025 ImpactMojo. Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>.</p>
+          <div class="legal-links">
+            <a href="/terms-of-use">Terms of Use</a> • 
+            <a href="/privacy-policy">Privacy Policy</a> • 
+            <a href="/cookie-policy">Cookie Policy</a> • 
+            <a href="/accessibility">Accessibility</a>
+          </div>
+        </div>
       </div>
     </div>
   </footer>
-  <!-- Comparison Panel -->
-  <div id="comparisonPanel" class="comparison-panel">
-    <div class="container">
-      <div class="comparison-header">
-        <h4>Course Comparison</h4>
-        <div class="comparison-controls">
-          <span class="comparison-count" id="comparisonCount">0 courses selected</span>
-          <button class="clear-comparison" onclick="clearComparison()">
-            <i class="fas fa-times"></i> Clear All
-          </button>
+
+  <!-- Enhanced Comparison Modal -->
+  <div id="enhancedComparisonModal" class="modal hidden">
+    <div class="modal-content comparison-modal-content">
+      <div class="modal-header">
+        <h3><i class="fas fa-balance-scale"></i> Comprehensive Course Comparison</h3>
+        <button class="close-btn" onclick="closeEnhancedComparisonModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="comparisonContent">
+          <p>Detailed analysis of course content, learning outcomes, and suitability.</p>
+          <div id="comparisonTable"></div>
         </div>
       </div>
-      <div class="comparison-grid" id="comparisonGrid">
-        <div class="comparison-empty">
-          <p>Select courses to compare by clicking the "Compare" button on course cards.</p>
-        </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="clearComparison()">Clear All</button>
+        <button class="btn btn-primary" onclick="exportComparison()">Export Comparison</button>
       </div>
     </div>
   </div>
 
-  <!-- Login Modal -->
-  <div id="loginModal" class="modal">
+  <style>
+    /* Enhanced Comparison Modal Styles */
+    .comparison-modal-content {
+      max-width: 95vw;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .comparison-container {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .comparison-section {
+      background: var(--surface);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .comparison-section h4 {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    .comparison-header {
+      display: grid;
+      grid-template-columns: 200px repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1px;
+      background: var(--border-color);
+      border-radius: var(--border-radius) var(--border-radius) 0 0;
+    }
+
+    .comparison-row {
+      display: grid;
+      grid-template-columns: 200px repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1px;
+      background: var(--border-color);
+    }
+
+    .feature-column,
+    .course-column {
+      background: var(--primary-color);
+      color: white;
+      padding: 1rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .feature-cell,
+    .course-cell {
+      background: var(--background);
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .feature-cell {
+      font-weight: 600;
+      color: var(--text-primary);
+      background: var(--surface);
+    }
+
+    .comparison-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .comparison-list li {
+      padding: 0.25rem 0;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.9rem;
+    }
+
+    .comparison-list li:last-child {
+      border-bottom: none;
+    }
+
+    .na {
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    /* Content Depth Visualization */
+    .depth-visualization {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+
+    .depth-card {
+      background: var(--background);
+      border-radius: var(--border-radius);
+      padding: 1rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .depth-card h5 {
+      margin: 0 0 0.5rem 0;
+      color: var(--text-primary);
+    }
+
+    .depth-meter {
+      position: relative;
+      background: var(--border-color);
+      height: 20px;
+      border-radius: 10px;
+      margin: 0.5rem 0;
+      overflow: hidden;
+    }
+
+    .depth-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--success-color), var(--warning-color), var(--primary-color));
+      border-radius: 10px;
+      transition: width 0.3s ease;
+    }
+
+    .depth-score {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .depth-factors {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .factor {
+      background: var(--surface);
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    /* Overlap Analysis */
+    .overlap-analysis {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .overlap-item {
+      background: var(--background);
+      border-radius: var(--border-radius);
+      padding: 1rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .overlap-score {
+      color: var(--primary-color);
+      font-weight: 600;
+      margin: 0.5rem 0;
+    }
+
+    .overlap-details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .overlap-tag {
+      background: var(--info-color);
+      color: white;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.8rem;
+    }
+
+    /* Learning Path */
+    .learning-path {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .path-step {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--background);
+      border-radius: var(--border-radius);
+      padding: 1rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .step-number {
+      background: var(--primary-color);
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .step-content h5 {
+      margin: 0 0 0.25rem 0;
+      color: var(--text-primary);
+    }
+
+    .step-rationale {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .path-arrow {
+      text-align: center;
+      color: var(--primary-color);
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .comparison-header,
+      .comparison-row {
+        grid-template-columns: 120px repeat(auto-fit, minmax(150px, 1fr));
+      }
+
+      .depth-visualization {
+        grid-template-columns: 1fr;
+      }
+
+      .comparison-modal-content {
+        max-width: 98vw;
+        margin: 1%;
+      }
+    }
+  </style>
+
+  <!-- Existing Login Modal -->
+  <div id="loginModal" class="modal hidden">
     <div class="modal-content">
-      <span class="close" onclick="closeModal('loginModal')">&times;</span>
-      <h2>Login to ImpactMojo</h2>
-      <form onsubmit="login(event)">
-        <div class="form-group">
-          <label for="loginEmail">Email:</label>
-          <input type="email" id="loginEmail" required>
-        </div>
-        <div class="form-group">
-          <label for="loginPassword">Password:</label>
-          <input type="password" id="loginPassword" required>
-        </div>
-        <button type="submit" class="modal-btn">Login</button>
-      </form>
-      
-      <div class="modal-divider">
-        <span>or</span>
+      <div class="modal-header">
+        <h3>Welcome Back</h3>
+        <button class="close-btn" onclick="closeModal('loginModal')">&times;</button>
       </div>
-      
-      <button onclick="signInWithGoogle()" class="modal-btn google-btn">
-        <i class="fab fa-google"></i> Continue with Google
-      </button>
-      
-      <div class="modal-link">
-        <a href="#" onclick="showForgotPassword()">Forgot Password?</a>
-      </div>
-      
-      <div class="modal-link">
-        Don't have an account? <a href="#" onclick="closeModal('loginModal'); showSignupModal()">Sign Up</a>
+      <div class="modal-body">
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="loginEmail">Email</label>
+            <input type="email" id="loginEmail" required>
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Sign In</button>
+          <div class="divider">or</div>
+          <button type="button" class="btn btn-google" onclick="signInWithGoogle()">
+            <i class="fab fa-google"></i> Continue with Google
+          </button>
+        </form>
+        <div class="modal-footer">
+          <a href="#" onclick="showForgotPassword()">Forgot password?</a>
+          <p>Don't have an account? <a href="#" onclick="showSignupModal()">Sign up</a></p>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- Signup Modal -->
-  <div id="signupModal" class="modal">
+  <div id="signupModal" class="modal hidden">
     <div class="modal-content">
-      <span class="close" onclick="closeModal('signupModal')">&times;</span>
-      <h2>Join ImpactMojo</h2>
-      <form onsubmit="signup(event)">
-        <div class="form-group">
-          <label for="signupName">Full Name:</label>
-          <input type="text" id="signupName" required>
-        </div>
-        <div class="form-group">
-          <label for="signupEmail">Email:</label>
-          <input type="email" id="signupEmail" required>
-        </div>
-        <div class="form-group">
-          <label for="signupPassword">Password:</label>
-          <input type="password" id="signupPassword" required minlength="6">
-        </div>
-        <button type="submit" class="modal-btn">Create Account</button>
-      </form>
-      
-      <div class="modal-divider">
-        <span>or</span>
+      <div class="modal-header">
+        <h3>Join ImpactMojo</h3>
+        <button class="close-btn" onclick="closeModal('signupModal')">&times;</button>
       </div>
-      
-      <button onclick="signInWithGoogle()" class="modal-btn google-btn">
-        <i class="fab fa-google"></i> Continue with Google
-      </button>
-      
-      <div class="modal-link">
-        Already have an account? <a href="#" onclick="closeModal('signupModal'); showLoginModal()">Login</a>
+      <div class="modal-body">
+        <form id="signupForm">
+          <div class="form-group">
+            <label for="signupName">Full Name</label>
+            <input type="text" id="signupName" required>
+          </div>
+          <div class="form-group">
+            <label for="signupEmail">Email</label>
+            <input type="email" id="signupEmail" required>
+          </div>
+          <div class="form-group">
+            <label for="signupPassword">Password</label>
+            <input type="password" id="signupPassword" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Create Account</button>
+          <div class="divider">or</div>
+          <button type="button" class="btn btn-google" onclick="signInWithGoogle()">
+            <i class="fab fa-google"></i> Continue with Google
+          </button>
+        </form>
+        <div class="modal-footer">
+          <p>Already have an account? <a href="#" onclick="showLoginModal()">Sign in</a></p>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- JavaScript Files -->
-  <script src="course-data.js"></script>
-  <script src="firebase-auth.js"></script>
-  <script src="main.js"></script>
+  <!-- Enhanced JavaScript for Labs and Comparison -->
+  <script>
+    // Enhanced Labs Data
+    const labsData = [
+      {
+        id: 'toc-workbench',
+        title: 'TOC Workbench',
+        description: 'Create, visualize, and share your intervention logic models.',
+        icon: 'fas fa-tools',
+        status: 'live',
+        url: 'https://toc-workbench.netlify.app/',
+        features: ['Interactive canvas', 'Logic model builder', 'Export options']
+      },
+      {
+        id: 'mel-toolkit',
+        title: 'MEL Toolkit',
+        description: 'Monitoring, evaluation, and learning framework builder.',
+        icon: 'fas fa-chart-line',
+        status: 'live',
+        url: 'https://mel-toolkit.netlify.app/',
+        features: ['Framework templates', 'Indicator library', 'Progress tracking']
+      },
+      {
+        id: 'data-viz-studio',
+        title: 'Data Viz Studio',
+        description: 'Create compelling visualizations for your development data.',
+        icon: 'fas fa-chart-bar',
+        status: 'beta',
+        url: '#',
+        features: ['Chart templates', 'Interactive plots', 'Export ready']
+      },
+      {
+        id: 'impact-calculator',
+        title: 'Impact Calculator',
+        description: 'Calculate and project social impact metrics.',
+        icon: 'fas fa-calculator',
+        status: 'coming-soon',
+        url: '#',
+        features: ['Impact models', 'ROI calculations', 'Scenario planning']
+      }
+    ];
+
+    // Generate Labs Content
+    function generateLabsContent() {
+      const labsContainer = document.getElementById('labsContainer');
+      const labsHTML = `
+        <div class="labs-grid">
+          ${labsData.map(lab => `
+            <div class="lab-card ${lab.status}">
+              <div class="lab-header">
+                <h4><i class="${lab.icon}"></i> ${lab.title}</h4>
+                <span class="lab-badge ${lab.status}">${lab.status.replace('-', ' ')}</span>
+              </div>
+              <p>${lab.description}</p>
+              <div class="lab-features">
+                ${lab.features.map(feature => `<span class="feature-tag">${feature}</span>`).join('')}
+              </div>
+              <div class="lab-actions">
+                ${lab.status === 'live' ? 
+                  `<a href="${lab.url}" target="_blank" rel="noopener" class="lab-launch-btn">
+                    Launch Lab <i class="fas fa-external-link-alt"></i>
+                  </a>` :
+                  lab.status === 'beta' ?
+                  `<button class="lab-launch-btn beta" onclick="requestBetaAccess('${lab.id}')">
+                    Request Beta Access
+                  </button>` :
+                  `<button class="lab-launch-btn disabled" disabled>
+                    Coming Soon
+                  </button>`
+                }
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      labsContainer.innerHTML = labsHTML;
+    }
+
+    // Enhanced Comparison Functionality with Content Analysis
+    let selectedCourses = [];
+
+    function toggleCourseComparison(courseId) {
+      const index = selectedCourses.indexOf(courseId);
+      if (index > -1) {
+        selectedCourses.splice(index, 1);
+      } else {
+        if (selectedCourses.length < 3) {
+          selectedCourses.push(courseId);
+        } else {
+          alert('You can compare up to 3 courses at a time.');
+          return;
+        }
+      }
+      updateComparisonUI();
+    }
+
+    function updateComparisonUI() {
+      const compareBtn = document.querySelector('.fab-btn.compare');
+      if (compareBtn) {
+        compareBtn.style.display = selectedCourses.length > 0 ? 'flex' : 'none';
+        compareBtn.innerHTML = `<i class="fas fa-balance-scale"></i> Compare (${selectedCourses.length})`;
+      }
+    }
+
+    function calculateContentDepth(course) {
+      // Content depth scoring based on multiple factors
+      let score = 0;
+      
+      // Duration scoring (out of 3)
+      if (course.duration.includes('5-6') || course.duration.includes('6+')) score += 3;
+      else if (course.duration.includes('4-5')) score += 2;
+      else score += 1;
+      
+      // Prerequisites scoring (out of 2)
+      if (course.prerequisites.length > 2) score += 2;
+      else if (course.prerequisites.length > 0 && !course.prerequisites.includes('None - foundational course')) score += 1;
+      
+      // Learning outcomes complexity (out of 3)
+      if (course.outcomes.length >= 4) score += 3;
+      else if (course.outcomes.length >= 3) score += 2;
+      else score += 1;
+      
+      // Difficulty scoring (out of 2)
+      if (course.difficulty === 'advanced') score += 2;
+      else if (course.difficulty === 'intermediate') score += 1;
+      
+      return Math.min(score, 10); // Cap at 10
+    }
+
+    function analyzeContentOverlap(courses) {
+      const overlaps = [];
+      
+      for (let i = 0; i < courses.length; i++) {
+        for (let j = i + 1; j < courses.length; j++) {
+          const course1 = courses[i];
+          const course2 = courses[j];
+          
+          // Check category overlap
+          const categoryMatch = course1.category === course2.category;
+          
+          // Check audience overlap
+          const audienceWords1 = course1.audience.toLowerCase().split(/[,\s]+/);
+          const audienceWords2 = course2.audience.toLowerCase().split(/[,\s]+/);
+          const audienceOverlap = audienceWords1.filter(word => 
+            audienceWords2.includes(word) && word.length > 3
+          ).length;
+          
+          // Check prerequisites overlap
+          const prereqOverlap = course1.prerequisites.filter(prereq =>
+            course2.prerequisites.some(p => p.toLowerCase().includes(prereq.toLowerCase().split(' ')[0]))
+          ).length;
+          
+          let overlapScore = 0;
+          if (categoryMatch) overlapScore += 3;
+          overlapScore += Math.min(audienceOverlap, 2);
+          overlapScore += Math.min(prereqOverlap, 2);
+          
+          if (overlapScore > 2) {
+            overlaps.push({
+              courses: [course1.title, course2.title],
+              score: overlapScore,
+              details: {
+                category: categoryMatch,
+                audienceWords: audienceOverlap,
+                prerequisites: prereqOverlap
+              }
+            });
+          }
+        }
+      }
+      
+      return overlaps;
+    }
+
+    function generateLearningPath(courses) {
+      // Sort courses by difficulty and prerequisites
+      const sorted = [...courses].sort((a, b) => {
+        const difficultyOrder = { 'beginner': 1, 'intermediate': 2, 'advanced': 3 };
+        const aDiff = difficultyOrder[a.difficulty] || 2;
+        const bDiff = difficultyOrder[b.difficulty] || 2;
+        
+        if (aDiff !== bDiff) return aDiff - bDiff;
+        
+        // If same difficulty, prioritize foundational courses
+        const aFoundational = a.prerequisites.includes('None - foundational course');
+        const bFoundational = b.prerequisites.includes('None - foundational course');
+        
+        if (aFoundational && !bFoundational) return -1;
+        if (!aFoundational && bFoundational) return 1;
+        
+        return 0;
+      });
+      
+      return sorted;
+    }
+
+    function showEnhancedComparisonModal() {
+      if (selectedCourses.length < 2) {
+        alert('Please select at least 2 courses to compare.');
+        return;
+      }
+      
+      const modal = document.getElementById('enhancedComparisonModal');
+      const comparisonTable = document.getElementById('comparisonTable');
+      
+      // Get course data (assuming coursesData is available from course-data.js)
+      const coursesToCompare = selectedCourses.map(id => 
+        courses.find(course => course.id === id)
+      ).filter(Boolean);
+      
+      if (coursesToCompare.length === 0) {
+        alert('Course data not found. Please ensure course-data.js is loaded.');
+        return;
+      }
+      
+      // Calculate content analysis
+      const contentDepths = coursesToCompare.map(calculateContentDepth);
+      const overlaps = analyzeContentOverlap(coursesToCompare);
+      const suggestedPath = generateLearningPath(coursesToCompare);
+      
+      const tableHTML = `
+        <div class="comparison-container">
+          <!-- Basic Information Comparison -->
+          <div class="comparison-section">
+            <h4><i class="fas fa-info-circle"></i> Course Overview</h4>
+            <div class="comparison-table">
+              <div class="comparison-header">
+                <div class="feature-column">Feature</div>
+                ${coursesToCompare.map(course => `
+                  <div class="course-column">${course.title}</div>
+                `).join('')}
+              </div>
+              <div class="comparison-row">
+                <div class="feature-cell">Difficulty</div>
+                ${coursesToCompare.map(course => `
+                  <div class="course-cell">
+                    <span class="difficulty ${course.difficulty}">${course.difficulty}</span>
+                  </div>
+                `).join('')}
+              </div>
+              <div class="comparison-row">
+                <div class="feature-cell">Duration</div>
+                ${coursesToCompare.map(course => `
+                  <div class="course-cell">${course.duration}</div>
+                `).join('')}
+              </div>
+              <div class="comparison-row">
+                <div class="feature-cell">Category</div>
+                ${coursesToCompare.map(course => `
+                  <div class="course-cell">${course.category}</div>
+                `).join('')}
+              </div>
+              <div class="comparison-row">
+                <div class="feature-cell">Rating</div>
+                ${coursesToCompare.map(course => `
+                  <div class="course-cell">★ ${course.rating} (${course.learnerCount} learners)</div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+
+          <!-- Prerequisites Analysis -->
+          <div class="comparison-section">
+            <h4><i class="fas fa-list-check"></i> Prerequisites Analysis</h4>
+            <div class="comparison-table">
+              <div class="comparison-header">
+                <div class="feature-column">Prerequisites</div>
+                ${coursesToCompare.map(course => `
+                  <div class="course-column">${course.title}</div>
+                `).join('')}
+              </div>
+              ${coursesToCompare.map(course => `
+                <div class="comparison-row">
+                  <div class="feature-cell">Requirements</div>
+                  <div class="course-cell">
+                    <ul class="comparison-list">
+                      ${course.prerequisites.map(prereq => `<li>${prereq}</li>`).join('')}
+                    </ul>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- Learning Outcomes Comparison -->
+          <div class="comparison-section">
+            <h4><i class="fas fa-graduation-cap"></i> Learning Outcomes</h4>
+            <div class="comparison-table">
+              <div class="comparison-header">
+                <div class="feature-column">What You'll Learn</div>
+                ${coursesToCompare.map(course => `
+                  <div class="course-column">${course.title}</div>
+                `).join('')}
+              </div>
+              ${Math.max(...coursesToCompare.map(c => c.outcomes.length)) > 0 ? 
+                Array.from({length: Math.max(...coursesToCompare.map(c => c.outcomes.length))}, (_, i) => `
+                  <div class="comparison-row">
+                    <div class="feature-cell">Outcome ${i + 1}</div>
+                    ${coursesToCompare.map(course => `
+                      <div class="course-cell">
+                        ${course.outcomes[i] || '<span class="na">N/A</span>'}
+                      </div>
+                    `).join('')}
+                  </div>
+                `).join('') : ''
+              }
+            </div>
+          </div>
+
+          <!-- Target Audience Comparison -->
+          <div class="comparison-section">
+            <h4><i class="fas fa-users"></i> Target Audience</h4>
+            <div class="comparison-table">
+              <div class="comparison-header">
+                <div class="feature-column">Best For</div>
+                ${coursesToCompare.map(course => `
+                  <div class="course-column">${course.title}</div>
+                `).join('')}
+              </div>
+              <div class="comparison-row">
+                <div class="feature-cell">Audience</div>
+                ${coursesToCompare.map(course => `
+                  <div class="course-cell">${course.audience}</div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+
+          <!-- Content Depth Analysis -->
+          <div class="comparison-section">
+            <h4><i class="fas fa-chart-bar"></i> Content Depth Analysis</h4>
+            <div class="depth-visualization">
+              ${coursesToCompare.map((course, index) => `
+                <div class="depth-card">
+                  <h5>${course.title}</h5>
+                  <div class="depth-meter">
+                    <div class="depth-bar" style="width: ${contentDepths[index] * 10}%"></div>
+                    <span class="depth-score">${contentDepths[index]}/10</span>
+                  </div>
+                  <div class="depth-factors">
+                    <span class="factor">Duration: ${course.duration}</span>
+                    <span class="factor">Prerequisites: ${course.prerequisites.length}</span>
+                    <span class="factor">Outcomes: ${course.outcomes.length}</span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- Content Overlap Analysis -->
+          ${overlaps.length > 0 ? `
+            <div class="comparison-section">
+              <h4><i class="fas fa-intersection"></i> Content Overlap Analysis</h4>
+              <div class="overlap-analysis">
+                ${overlaps.map(overlap => `
+                  <div class="overlap-item">
+                    <strong>${overlap.courses.join(' & ')}</strong>
+                    <div class="overlap-score">Overlap Score: ${overlap.score}/7</div>
+                    <div class="overlap-details">
+                      ${overlap.details.category ? '<span class="overlap-tag">Same Category</span>' : ''}
+                      ${overlap.details.audienceWords > 0 ? `<span class="overlap-tag">Shared Audience (${overlap.details.audienceWords} matches)</span>` : ''}
+                      ${overlap.details.prerequisites > 0 ? `<span class="overlap-tag">Related Prerequisites</span>` : ''}
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          ` : ''}
+
+          <!-- Suggested Learning Path -->
+          <div class="comparison-section">
+            <h4><i class="fas fa-route"></i> Suggested Learning Path</h4>
+            <div class="learning-path">
+              ${suggestedPath.map((course, index) => `
+                <div class="path-step">
+                  <div class="step-number">${index + 1}</div>
+                  <div class="step-content">
+                    <h5>${course.title}</h5>
+                    <div class="step-rationale">
+                      ${index === 0 ? 'Start here - ' : ''}
+                      ${course.difficulty} level, ${course.duration}
+                      ${course.prerequisites.includes('None - foundational course') ? ' (Foundational)' : ''}
+                    </div>
+                  </div>
+                </div>
+                ${index < suggestedPath.length - 1 ? '<div class="path-arrow">↓</div>' : ''}
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+      
+      comparisonTable.innerHTML = tableHTML;
+      modal.classList.remove('hidden');
+    }
+
+    function closeEnhancedComparisonModal() {
+      document.getElementById('enhancedComparisonModal').classList.add('hidden');
+    }
+
+    function clearComparison() {
+      selectedCourses = [];
+      updateComparisonUI();
+      closeEnhancedComparisonModal();
+    }
+
+    function exportComparison() {
+      // Implementation for exporting comparison
+      alert('Export functionality coming soon!');
+    }
+
+    function requestBetaAccess(labId) {
+      alert(`Beta access request for ${labId} will be available soon!`);
+    }
+
+    // Initialize enhanced features when DOM loads
+    document.addEventListener('DOMContentLoaded', function() {
+      generateLabsContent();
+      
+      // Add floating action button for comparison
+      const existingFab = document.querySelector('.fab-container');
+      if (!existingFab) {
+        const fabHTML = `
+          <div class="fab-container">
+            <button class="fab-btn compare" onclick="showEnhancedComparisonModal()" style="display: none;">
+              <i class="fas fa-balance-scale"></i>
+            </button>
+          </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', fabHTML);
+      }
+    });
+  </script>
 </body>
 </html>
