@@ -10,12 +10,14 @@ const courses = [
     category: 'Data Analysis',
     difficulty: 'intermediate',
     duration: '3-4 hours',
-    path: 'data-analysis',
     tags: ['feminism', 'data', 'intersectionality'],
     url: 'https://101.www.impactmojo.in/DataFeminism',
     featured: true,
     learnerCount: 2847,
-    rating: 4.8
+    rating: 4.8,
+    prerequisites: ['Basic data literacy', 'Interest in gender studies'],
+    outcomes: ['Apply feminist lens to data analysis', 'Identify bias in datasets', 'Design inclusive data collection'],
+    audience: 'Data scientists, researchers, gender advocates'
   },
   {
     id: 'data-literacy-101',
@@ -24,12 +26,14 @@ const courses = [
     category: 'Data Analysis',
     difficulty: 'beginner',
     duration: '3-4 hours',
-    path: 'data-analysis',
     tags: ['data', 'literacy', 'fundamentals'],
-    url: 'data_literacy_101.html',
+    url: 'https://101.www.impactmojo.in/DataLiteracy',
     featured: true,
     learnerCount: 1734,
-    rating: 4.9
+    rating: 4.9,
+    prerequisites: ['None - foundational course'],
+    outcomes: ['Understand data concepts', 'Read data visualizations', 'Ask good questions of data'],
+    audience: 'Beginners, development practitioners, program managers'
   },
   {
     id: 'eda-survey-data',
@@ -38,12 +42,14 @@ const courses = [
     category: 'Data Analysis',
     difficulty: 'intermediate',
     duration: '4-5 hours',
-    path: 'data-analysis',
     tags: ['eda', 'survey', 'analysis'],
-    url: 'eda_survey_handout_1.html',
+    url: 'https://101.www.impactmojo.in/EDAForSurveyData',
     featured: true,
     learnerCount: 2156,
-    rating: 4.7
+    rating: 4.7,
+    prerequisites: ['Data Literacy 101', 'Basic statistics'],
+    outcomes: ['Conduct exploratory data analysis', 'Clean survey data', 'Identify patterns and anomalies'],
+    audience: 'Researchers, data analysts, program evaluators'
   },
   {
     id: 'bivariate-analysis-101',
@@ -52,11 +58,13 @@ const courses = [
     category: 'Data Analysis',
     difficulty: 'intermediate',
     duration: '5-6 hours',
-    path: 'data-analysis',
     tags: ['statistics', 'relationships', 'correlation'],
     url: 'https://101.www.impactmojo.in/BivariateAnalysis',
     learnerCount: 1445,
-    rating: 4.5
+    rating: 4.5,
+    prerequisites: ['EDA for Survey Data', 'Statistical foundations'],
+    outcomes: ['Analyze variable relationships', 'Interpret correlation coefficients', 'Conduct regression analysis'],
+    audience: 'Researchers, data analysts, monitoring & evaluation specialists'
   },
   {
     id: 'multivariate-analysis-101',
@@ -65,345 +73,349 @@ const courses = [
     category: 'Data Analysis',
     difficulty: 'advanced',
     duration: '5-6 hours',
-    path: 'data-analysis',
     tags: ['statistics', 'multivariate', 'advanced'],
     url: 'https://101.www.impactmojo.in/MultivariateAnalysis',
     learnerCount: 1234,
-    rating: 4.6
+    rating: 4.6,
+    prerequisites: ['Bivariate Analysis 101', 'Statistical software experience'],
+    outcomes: ['Conduct multivariate analysis', 'Interpret complex models', 'Control for confounding variables'],
+    audience: 'Advanced researchers, data scientists, policy analysts'
   },
 
   // ECONOMICS TRACK
   {
     id: 'development-economics-101',
     title: 'Development Economics 101',
-    description: 'Core principles of development economics with South Asian examples.',
-    category: 'Economics',
-    difficulty: 'intermediate',
-    duration: '5-6 hours',
-    path: 'economics',
-    tags: ['economics', 'development', 'theory'],
-    url: 'development_economics_problem_sets.html',
-    featured: true,
-    learnerCount: 1923,
-    rating: 4.6
-  },
-  {
-    id: 'social-safety-nets-101',
-    title: 'Social Safety Nets 101',
-    description: 'Unpacks India\'s welfare architecture—PDS, NREGA, pensions—through lifecycle needs and exclusion errors, with discussion on Aadhaar and last-mile barriers.',
-    category: 'Economics',
-    difficulty: 'intermediate',
-    duration: '3-4 hours',
-    path: 'economics',
-    tags: ['welfare', 'policy', 'safety nets'],
-    url: 'https://101.www.impactmojo.in/SocialSafetyNets',
-    featured: true,
-    learnerCount: 2156,
-    rating: 4.7
-  },
-  {
-    id: 'political-economy-101',
-    title: 'Political Economy 101',
-    description: 'Explores incentives, institutions, and power in policymaking, featuring comparative case studies and Indian governance contexts.',
-    category: 'Economics',
-    difficulty: 'advanced',
-    duration: '4+ hours',
-    path: 'economics',
-    tags: ['political economy', 'institutions', 'governance'],
-    url: 'https://101.www.impactmojo.in/PoliticalEconomy',
-    learnerCount: 698,
-    rating: 4.2
-  },
-  {
-    id: 'poverty-inequality-101',
-    title: 'Poverty & Inequality 101',
-    description: 'Comprehensive analysis of poverty measurement, inequality trends, and policy responses in South Asian contexts.',
+    description: 'Core principles of development economics with South Asian examples and case studies.',
     category: 'Economics',
     difficulty: 'intermediate',
     duration: '4-5 hours',
-    path: 'economics',
-    tags: ['poverty', 'inequality', 'measurement'],
-    url: 'https://101.www.impactmojo.in/PovertyInequality',
-    learnerCount: 1567,
-    rating: 4.4
+    tags: ['economics', 'development', 'policy'],
+    url: 'https://101.www.impactmojo.in/DevelopmentEconomics',
+    learnerCount: 1889,
+    rating: 4.4,
+    prerequisites: ['Basic economics knowledge'],
+    outcomes: ['Understand development theories', 'Analyze economic policies', 'Apply economic frameworks'],
+    audience: 'Policy makers, economists, development practitioners'
   },
   {
-    id: 'livelihoods-101',
-    title: 'Livelihoods 101',
-    description: 'Introduction to sustainable livelihoods approaches, rural economy dynamics, and livelihood diversification strategies.',
-    category: 'Economics',
-    difficulty: 'beginner',
-    duration: '4-5 hours',
-    path: 'economics',
-    tags: ['livelihoods', 'sustainability', 'rural'],
-    url: 'livelihood_assessment_toolkit.html',
-    featured: true,
-    learnerCount: 1876,
-    rating: 4.5
-  },
-  {
-    id: 'decent-work-101',
-    title: 'Decent Work for All 101',
-    description: 'ILO frameworks, labour rights, and employment quality in South Asian labour markets.',
+    id: 'behavioral-economics-101',
+    title: 'Behavioral Economics 101',
+    description: 'How psychological insights improve program design and policy effectiveness in development contexts.',
     category: 'Economics',
     difficulty: 'intermediate',
     duration: '3-4 hours',
-    path: 'economics',
-    tags: ['labour', 'employment', 'rights'],
-    url: 'https://101.www.impactmojo.in/DecentWork',
-    learnerCount: 1345,
-    rating: 4.3
+    tags: ['behavioral economics', 'psychology', 'nudges'],
+    url: 'https://101.www.impactmojo.in/BehavioralEconomics',
+    learnerCount: 1267,
+    rating: 4.3,
+    prerequisites: ['Development Economics 101'],
+    outcomes: ['Apply behavioral insights', 'Design effective interventions', 'Understand decision-making biases'],
+    audience: 'Program designers, policy makers, behavioral researchers'
   },
 
   // GENDER STUDIES TRACK
   {
     id: 'gender-studies-101',
     title: 'Gender Studies 101',
-    description: 'Foundational concepts in gender studies applied to development practice. Covers intersectionality, power dynamics, and gender-sensitive programming.',
+    description: 'Foundational concepts in gender studies with applications to South Asian development contexts.',
     category: 'Gender Studies',
     difficulty: 'beginner',
-    duration: '4-5 hours',
-    path: 'gender-studies',
-    tags: ['gender', 'development', 'social justice'],
-    url: 'gender_studies_101.html',
+    duration: '3-4 hours',
+    tags: ['gender', 'feminism', 'intersectionality'],
+    url: 'https://101.www.impactmojo.in/GenderStudies',
     featured: true,
-    learnerCount: 3789,
-    rating: 4.6
+    learnerCount: 2341,
+    rating: 4.7,
+    prerequisites: ['None - foundational course'],
+    outcomes: ['Understand gender concepts', 'Apply intersectional analysis', 'Design gender-sensitive programs'],
+    audience: 'Development practitioners, social workers, policy makers'
   },
   {
     id: 'care-economy-101',
-    title: 'Care Economy and Time Use 101',
-    description: 'Analyzes unpaid care work, time-use surveys, care infrastructure, and feminist economics, rooted in Indian labour statistics and policy debates.',
-    category: 'Gender Studies',
-    difficulty: 'intermediate',
-    duration: '3-4 hours',
-    path: 'gender-studies',
-    tags: ['care work', 'time use', 'feminist economics'],
-    url: 'https://101.www.impactmojo.in/CareEconomy',
-    learnerCount: 934,
-    rating: 4.4
-  },
-  {
-    id: 'womens-economic-empowerment-101',
-    title: "Women's Economic Empowerment 101",
-    description: 'Strategies and frameworks for promoting women\'s economic participation and addressing barriers to economic inclusion.',
+    title: 'Care Economy 101',
+    description: 'Understanding unpaid care work and its implications for economic development and gender equality.',
     category: 'Gender Studies',
     difficulty: 'intermediate',
     duration: '4-5 hours',
-    path: 'gender-studies',
-    tags: ['empowerment', 'economics', 'women'],
-    url: 'womens_economic_empowerment.html',
-    learnerCount: 2456,
-    rating: 4.8
+    tags: ['care economy', 'unpaid work', 'gender'],
+    url: 'https://101.www.impactmojo.in/CareEconomy',
+    learnerCount: 1523,
+    rating: 4.6,
+    prerequisites: ['Gender Studies 101'],
+    outcomes: ['Measure care work', 'Design care-responsive policies', 'Analyze time use data'],
+    audience: 'Gender specialists, economists, policy researchers'
+  },
+  {
+    id: 'womens-economic-empowerment-101',
+    title: 'Women\'s Economic Empowerment 101',
+    description: 'Strategies and frameworks for promoting women\'s economic participation and empowerment.',
+    category: 'Gender Studies',
+    difficulty: 'intermediate',
+    duration: '4-5 hours',
+    tags: ['women empowerment', 'economic participation', 'livelihoods'],
+    url: 'https://101.www.impactmojo.in/WomensEconomicEmpowerment',
+    learnerCount: 1834,
+    rating: 4.5,
+    prerequisites: ['Gender Studies 101', 'Development Economics 101'],
+    outcomes: ['Design empowerment programs', 'Measure economic outcomes', 'Address structural barriers'],
+    audience: 'Program managers, gender specialists, livelihood practitioners'
   },
 
   // HEALTH TRACK
   {
     id: 'public-health-101',
     title: 'Public Health 101',
-    description: 'Introduction to public health concepts, health systems, and major health challenges in South Asia including infectious diseases and NCDs.',
+    description: 'Foundational concepts in public health with focus on South Asian health systems and challenges.',
     category: 'Health',
     difficulty: 'beginner',
-    duration: '5-6 hours',
-    path: 'health',
-    tags: ['public health', 'health systems', 'policy'],
-    url: 'public_health_assessment_framework.html',
+    duration: '3-4 hours',
+    tags: ['public health', 'health systems', 'epidemiology'],
+    url: 'https://101.www.impactmojo.in/PublicHealth',
     featured: true,
-    learnerCount: 3456,
-    rating: 4.5
+    learnerCount: 1945,
+    rating: 4.4,
+    prerequisites: ['None - foundational course'],
+    outcomes: ['Understand health determinants', 'Analyze health data', 'Design health interventions'],
+    audience: 'Health practitioners, public health students, program managers'
   },
   {
     id: 'mental-health-101',
-    title: 'Mental Health and Well-being 101',
-    description: 'Explores mental health challenges, stigma, and community-based approaches to mental wellness in South Asian contexts.',
+    title: 'Mental Health 101',
+    description: 'Understanding mental health challenges and interventions in South Asian contexts.',
     category: 'Health',
     difficulty: 'intermediate',
     duration: '3-4 hours',
-    path: 'health',
-    tags: ['mental health', 'community', 'wellness'],
+    tags: ['mental health', 'psychosocial', 'wellbeing'],
     url: 'https://101.www.impactmojo.in/MentalHealth',
-    learnerCount: 1678,
-    rating: 4.8
+    learnerCount: 1234,
+    rating: 4.3,
+    prerequisites: ['Public Health 101'],
+    outcomes: ['Identify mental health needs', 'Design psychosocial interventions', 'Reduce stigma'],
+    audience: 'Health workers, social workers, counselors'
   },
   {
     id: 'nutrition-food-security-101',
     title: 'Nutrition and Food Security 101',
-    description: 'Comprehensive analysis of malnutrition, food systems, and nutrition-sensitive programming approaches.',
+    description: 'Comprehensive overview of nutrition challenges and food security interventions.',
     category: 'Health',
     difficulty: 'intermediate',
     duration: '4-5 hours',
-    path: 'health',
     tags: ['nutrition', 'food security', 'malnutrition'],
-    url: 'https://101.www.impactmojo.in/Nutrition',
-    learnerCount: 2123,
-    rating: 4.6
+    url: 'https://101.www.impactmojo.in/NutritionFoodSecurity',
+    learnerCount: 1567,
+    rating: 4.5,
+    prerequisites: ['Public Health 101'],
+    outcomes: ['Assess nutritional status', 'Design nutrition programs', 'Address food insecurity'],
+    audience: 'Nutrition specialists, health practitioners, program managers'
   },
   {
     id: 'srhr-101',
-    title: 'Sexual & Reproductive Health Rights 101',
-    description: 'Comprehensive overview of SRHR frameworks, policy landscape, and implementation challenges in South Asian contexts.',
+    title: 'Sexual and Reproductive Health and Rights (SRHR) 101',
+    description: 'Comprehensive approach to sexual and reproductive health programming and advocacy.',
     category: 'Health',
     difficulty: 'intermediate',
-    duration: '3-4 hours',
-    path: 'health',
-    tags: ['SRHR', 'rights', 'reproductive health'],
-    url: 'srhr.html',
-    learnerCount: 823,
-    rating: 4.3
+    duration: '4-5 hours',
+    tags: ['SRHR', 'reproductive health', 'rights'],
+    url: 'https://101.www.impactmojo.in/SRHR',
+    learnerCount: 1123,
+    rating: 4.4,
+    prerequisites: ['Public Health 101', 'Gender Studies 101'],
+    outcomes: ['Design SRHR programs', 'Advocate for reproductive rights', 'Address health inequities'],
+    audience: 'Health practitioners, gender specialists, advocates'
   },
 
   // IDENTITY & JUSTICE TRACK
   {
-    id: 'marginalized-identities-101',
-    title: 'Marginalized Identities 101',
-    description: 'Explores caste, tribe, gender, religion, disability, and intersectionality through rights, representation, and discrimination data in South Asia.',
-    category: 'Identity & Justice',
-    difficulty: 'intermediate',
-    duration: '4+ hours',
-    path: 'identity',
-    tags: ['caste', 'identity', 'discrimination'],
-    url: 'https://101.www.impactmojo.in/MarginalizedIdentities',
-    learnerCount: 1056,
-    rating: 4.5
-  },
-  {
-    id: 'caste-class-identity-101',
-    title: 'Caste, Class and Identity 101',
-    description: 'Critical examination of social stratification in South Asia. Covers caste dynamics, class mobility, and intersections with development outcomes.',
+    id: 'social-safety-nets-101',
+    title: 'Social Safety Nets 101',
+    description: 'Unpacks India\'s welfare architecture—PDS, NREGA, pensions—through lifecycle needs and exclusion errors.',
     category: 'Identity & Justice',
     difficulty: 'intermediate',
     duration: '4-5 hours',
-    path: 'identity',
-    tags: ['caste', 'class', 'stratification'],
-    url: 'https://101.www.impactmojo.in/CasteClass',
-    learnerCount: 2134,
-    rating: 4.5
+    tags: ['social protection', 'welfare', 'policy'],
+    url: 'https://101.www.impactmojo.in/SocialSafetyNets',
+    featured: true,
+    learnerCount: 1923,
+    rating: 4.6,
+    prerequisites: ['Basic understanding of public policy'],
+    outcomes: ['Analyze welfare programs', 'Identify exclusion patterns', 'Design inclusive safety nets'],
+    audience: 'Policy researchers, development practitioners, social workers'
   },
   {
-    id: 'religion-development-101',
-    title: 'Religion and Development 101',
-    description: 'Explores the complex relationships between religious identity, social capital, and development outcomes in pluralistic South Asian societies.',
+    id: 'caste-development-101',
+    title: 'Caste and Development 101',
+    description: 'Understanding how caste intersects with development outcomes and program design.',
+    category: 'Identity & Justice',
+    difficulty: 'intermediate',
+    duration: '4-5 hours',
+    tags: ['caste', 'social justice', 'intersectionality'],
+    url: 'https://101.www.impactmojo.in/CasteDevelopment',
+    learnerCount: 1345,
+    rating: 4.5,
+    prerequisites: ['Social Safety Nets 101'],
+    outcomes: ['Analyze caste-based discrimination', 'Design inclusive programs', 'Address structural inequities'],
+    audience: 'Social justice advocates, program designers, researchers'
+  },
+  {
+    id: 'disability-inclusion-101',
+    title: 'Disability Inclusion 101',
+    description: 'Principles and practices for designing disability-inclusive development programs.',
     category: 'Identity & Justice',
     difficulty: 'intermediate',
     duration: '3-4 hours',
-    path: 'identity',
-    tags: ['religion', 'social capital', 'pluralism'],
-    url: 'https://101.www.impactmojo.in/Religion',
-    learnerCount: 1567,
-    rating: 4.4
+    tags: ['disability', 'inclusion', 'accessibility'],
+    url: 'https://101.www.impactmojo.in/DisabilityInclusion',
+    learnerCount: 987,
+    rating: 4.3,
+    prerequisites: ['None - standalone course'],
+    outcomes: ['Apply universal design principles', 'Conduct accessibility audits', 'Design inclusive programs'],
+    audience: 'Program managers, accessibility specialists, advocates'
   },
 
-  // CLIMATE & ENVIRONMENT TRACK
+  // CLIMATE & ENVIRONMENT
   {
-    id: 'climate-change-development-101',
-    title: 'Climate Change and Development 101',
-    description: 'Comprehensive coverage of climate impacts on development, adaptation strategies, and mitigation approaches relevant to South Asian contexts.',
+    id: 'climate-adaptation-101',
+    title: 'Climate Adaptation 101',
+    description: 'Strategies for building climate resilience in vulnerable communities.',
     category: 'Climate & Environment',
     difficulty: 'intermediate',
-    duration: '5-6 hours',
-    path: 'climate',
-    tags: ['climate change', 'adaptation', 'mitigation'],
-    url: 'https://101.www.impactmojo.in/Climate',
-    learnerCount: 2234,
-    rating: 4.7
+    duration: '4-5 hours',
+    tags: ['climate change', 'adaptation', 'resilience'],
+    url: 'https://101.www.impactmojo.in/ClimateAdaptation',
+    learnerCount: 1456,
+    rating: 4.4,
+    prerequisites: ['Basic environmental knowledge'],
+    outcomes: ['Assess climate risks', 'Design adaptation strategies', 'Build community resilience'],
+    audience: 'Environmental practitioners, climate specialists, community workers'
   },
   {
-    id: 'environmental-justice-101',
-    title: 'Environmental Justice 101',
-    description: 'Explores air, water, land, and environmental decision-making through equity and procedural justice lenses in the Indian regulatory context.',
+    id: 'sustainable-livelihoods-101',
+    title: 'Sustainable Livelihoods 101',
+    description: 'Livelihood frameworks and approaches for sustainable development programming.',
     category: 'Climate & Environment',
     difficulty: 'intermediate',
-    duration: '3-4 hours',
-    path: 'climate',
-    tags: ['environmental justice', 'equity', 'regulation'],
-    url: 'https://101.www.impactmojo.in/EnvironmentalJustice',
-    learnerCount: 789,
-    rating: 4.2
+    duration: '4-5 hours',
+    tags: ['livelihoods', 'sustainability', 'rural development'],
+    url: 'https://101.www.impactmojo.in/SustainableLivelihoods',
+    learnerCount: 1678,
+    rating: 4.5,
+    prerequisites: ['Climate Adaptation 101'],
+    outcomes: ['Apply livelihood frameworks', 'Design sustainable programs', 'Build resilient livelihoods'],
+    audience: 'Rural development practitioners, livelihood specialists, program managers'
   },
 
-  // URBAN & SYSTEMS TRACK
+  // URBAN & SYSTEMS
   {
-    id: 'urbanization-cities-101',
-    title: 'Urbanization and Cities 101',
-    description: 'Analysis of rapid urbanization in South Asia, urban governance challenges, and sustainable city planning approaches.',
+    id: 'urban-governance-101',
+    title: 'Urban Governance 101',
+    description: 'Understanding urban governance challenges and participatory planning approaches.',
     category: 'Urban & Systems',
     difficulty: 'intermediate',
     duration: '4-5 hours',
-    path: 'systems',
-    tags: ['urbanization', 'governance', 'planning'],
-    url: 'https://101.www.impactmojo.in/Cities',
-    learnerCount: 1889,
-    rating: 4.6
+    tags: ['urban planning', 'governance', 'participation'],
+    url: 'https://101.www.impactmojo.in/UrbanGovernance',
+    learnerCount: 1234,
+    rating: 4.3,
+    prerequisites: ['Basic governance concepts'],
+    outcomes: ['Analyze urban challenges', 'Design participatory processes', 'Strengthen urban governance'],
+    audience: 'Urban planners, governance specialists, municipal officials'
+  },
+  {
+    id: 'systems-thinking-101',
+    title: 'Systems Thinking 101',
+    description: 'Systems approaches to understanding and addressing complex development challenges.',
+    category: 'Urban & Systems',
+    difficulty: 'intermediate',
+    duration: '3-4 hours',
+    tags: ['systems thinking', 'complexity', 'design'],
+    url: 'https://101.www.impactmojo.in/SystemsThinking',
+    featured: true,
+    learnerCount: 1678,
+    rating: 4.5,
+    prerequisites: ['None - foundational course'],
+    outcomes: ['Apply systems thinking tools', 'Map system relationships', 'Design systems interventions'],
+    audience: 'Program managers, policy makers, development practitioners'
   },
 
-  // EDUCATION TRACK
+  // EDUCATION
   {
     id: 'education-pedagogy-101',
     title: 'Education and Pedagogy 101',
-    description: 'Explores educational challenges, pedagogy innovations, and evidence-based approaches to improving learning outcomes in South Asia.',
-    category: 'Education',
-    difficulty: 'beginner',
-    duration: '4-5 hours',
-    path: 'education',
-    tags: ['education', 'pedagogy', 'learning'],
-    url: 'education_pedagogy_101.html',
-    featured: true,
-    learnerCount: 2789,
-    rating: 4.7
-  },
-  {
-    id: 'digital-education-tech-101',
-    title: 'Digital Education Technologies 101',
-    description: 'Examination of technology-enabled learning, digital divide issues, and effective integration of tech in educational programming.',
+    description: 'Progressive education approaches and pedagogical innovations for equitable learning.',
     category: 'Education',
     difficulty: 'intermediate',
     duration: '4-5 hours',
-    path: 'education',
-    tags: ['edtech', 'digital divide', 'technology'],
-    url: 'https://101.www.impactmojo.in/EdTech',
-    learnerCount: 1567,
-    rating: 4.5
+    tags: ['education', 'pedagogy', 'learning'],
+    url: 'https://101.www.impactmojo.in/EducationPedagogy',
+    learnerCount: 1789,
+    rating: 4.4,
+    prerequisites: ['None - foundational course'],
+    outcomes: ['Apply progressive pedagogy', 'Design inclusive curricula', 'Assess learning outcomes'],
+    audience: 'Educators, curriculum designers, education researchers'
+  },
+  {
+    id: 'digital-literacy-education-101',
+    title: 'Digital Literacy in Education 101',
+    description: 'Integrating digital technologies effectively in educational programming.',
+    category: 'Education',
+    difficulty: 'intermediate',
+    duration: '3-4 hours',
+    tags: ['digital literacy', 'technology', 'education'],
+    url: 'https://101.www.impactmojo.in/DigitalLiteracyEducation',
+    learnerCount: 1345,
+    rating: 4.2,
+    prerequisites: ['Education and Pedagogy 101'],
+    outcomes: ['Integrate digital tools', 'Design online learning', 'Build digital competencies'],
+    audience: 'Educators, technology specialists, program managers'
   },
 
-  // RESEARCH METHODS TRACK
+  // RESEARCH METHODS
   {
     id: 'research-ethics-101',
     title: 'Research Ethics 101',
-    description: 'Ethical considerations in development research and practice, covering consent, harm minimization, and community engagement.',
+    description: 'Ethical principles and practices for conducting research in development contexts.',
     category: 'Research Methods',
-    difficulty: 'intermediate',
-    duration: '3-4 hours',
-    path: 'research',
-    tags: ['ethics', 'research', 'methodology'],
-    url: 'research_ethics.html',
-    learnerCount: 1456,
-    rating: 4.4
+    difficulty: 'beginner',
+    duration: '2-3 hours',
+    tags: ['research ethics', 'consent', 'protection'],
+    url: 'https://101.www.impactmojo.in/ResearchEthics',
+    learnerCount: 1567,
+    rating: 4.6,
+    prerequisites: ['None - foundational course'],
+    outcomes: ['Apply ethical principles', 'Design consent processes', 'Protect research participants'],
+    audience: 'Researchers, graduate students, evaluators'
   },
   {
     id: 'qualitative-research-101',
-    title: 'Qualitative Research Methods 101',
-    description: 'Comprehensive guide to qualitative research in development contexts, including interviews, focus groups, and ethnography.',
+    title: 'Qualitative Research 101',
+    description: 'Methods and approaches for conducting rigorous qualitative research.',
     category: 'Research Methods',
     difficulty: 'intermediate',
     duration: '5-6 hours',
-    path: 'research',
-    tags: ['qualitative', 'interviews', 'ethnography'],
-    url: 'qualitative_research.html',
-    learnerCount: 1789,
-    rating: 4.6
+    tags: ['qualitative research', 'interviews', 'analysis'],
+    url: 'https://101.www.impactmojo.in/QualitativeResearch',
+    featured: true,
+    learnerCount: 2234,
+    rating: 4.7,
+    prerequisites: ['Research Ethics 101'],
+    outcomes: ['Conduct qualitative interviews', 'Analyze qualitative data', 'Write research findings'],
+    audience: 'Researchers, evaluators, graduate students'
   },
   {
     id: 'econometrics-101',
     title: 'Econometrics 101',
-    description: 'Statistical methods for economic analysis and causal inference in development research.',
+    description: 'Statistical methods for causal inference and impact evaluation in development contexts.',
     category: 'Research Methods',
     difficulty: 'advanced',
     duration: '6-8 hours',
-    path: 'research',
     tags: ['econometrics', 'statistics', 'causal inference'],
-    url: 'econometrics.html',
+    url: 'https://101.www.impactmojo.in/Econometrics',
     learnerCount: 1234,
-    rating: 4.7
+    rating: 4.7,
+    prerequisites: ['Multivariate Analysis 101', 'Research design knowledge'],
+    outcomes: ['Conduct impact evaluations', 'Apply causal inference methods', 'Interpret econometric results'],
+    audience: 'Advanced researchers, economists, impact evaluators'
   },
   {
     id: 'mel-101',
@@ -412,42 +424,64 @@ const courses = [
     category: 'Research Methods',
     difficulty: 'intermediate',
     duration: '5-6 hours',
-    path: 'research',
     tags: ['MEL', 'evaluation', 'monitoring'],
-    url: 'mel.html',
+    url: 'https://101.www.impactmojo.in/MEL',
+    featured: true,
     learnerCount: 1678,
-    rating: 4.5
+    rating: 4.5,
+    prerequisites: ['Research Ethics 101'],
+    outcomes: ['Design MEL frameworks', 'Conduct evaluations', 'Use data for learning'],
+    audience: 'M&E specialists, program managers, donors'
   },
   {
     id: 'visual-ethnography-101',
     title: 'Visual Ethnography and Storytelling 101',
-    description: 'Introduces participatory photography, visual documentation ethics, field aesthetics, and representation frameworks for South Asian contexts.',
+    description: 'Participatory photography, visual documentation ethics, and representation frameworks.',
     category: 'Research Methods',
     difficulty: 'intermediate',
     duration: '3-4 hours',
-    path: 'research',
     tags: ['visual ethnography', 'photography', 'storytelling'],
     url: 'https://101.www.impactmojo.in/VisualEthnography',
     learnerCount: 445,
-    rating: 4.1
+    rating: 4.1,
+    prerequisites: ['Qualitative Research 101'],
+    outcomes: ['Use visual methods', 'Conduct ethical documentation', 'Create compelling narratives'],
+    audience: 'Researchers, documentary makers, communication specialists'
   },
 
-  // TECHNOLOGY & INNOVATION
+  // TECHNOLOGY
   {
     id: 'digital-development-ethics-101',
     title: 'Digital Development Ethics 101',
-    description: 'Ethical frameworks for technology use in development programming, covering privacy, consent, and digital rights.',
+    description: 'Ethical frameworks for technology use in development programming.',
     category: 'Technology',
     difficulty: 'intermediate',
     duration: '3-4 hours',
-    path: 'technology',
     tags: ['digital ethics', 'technology', 'privacy'],
-    url: 'digital_development_ethics.html',
+    url: 'https://101.www.impactmojo.in/DigitalDevelopmentEthics',
     learnerCount: 987,
-    rating: 4.3
+    rating: 4.3,
+    prerequisites: ['Basic technology understanding'],
+    outcomes: ['Apply ethical frameworks', 'Design responsible tech', 'Protect digital rights'],
+    audience: 'Tech practitioners, program managers, digital rights advocates'
+  },
+  {
+    id: 'data-protection-101',
+    title: 'Data Protection and Privacy 101',
+    description: 'Understanding data protection laws and implementing privacy-by-design in development programs.',
+    category: 'Technology',
+    difficulty: 'intermediate',
+    duration: '3-4 hours',
+    tags: ['data protection', 'privacy', 'GDPR'],
+    url: 'https://101.www.impactmojo.in/DataProtection',
+    learnerCount: 756,
+    rating: 4.2,
+    prerequisites: ['Digital Development Ethics 101'],
+    outcomes: ['Comply with data laws', 'Implement privacy measures', 'Conduct data audits'],
+    audience: 'Data managers, compliance officers, program managers'
   },
 
-  // ADDITIONAL SPECIALIZED COURSES
+  // SPECIALIZED COURSES
   {
     id: 'impact-measurement-101',
     title: 'Impact Measurement 101',
@@ -455,11 +489,43 @@ const courses = [
     category: 'Research Methods',
     difficulty: 'advanced',
     duration: '5-6 hours',
-    path: 'research',
     tags: ['impact', 'measurement', 'evaluation'],
-    url: 'impact_measurement.html',
+    url: 'https://101.www.impactmojo.in/ImpactMeasurement',
     learnerCount: 1123,
-    rating: 4.6
+    rating: 4.6,
+    prerequisites: ['MEL 101', 'Statistics knowledge'],
+    outcomes: ['Design impact measurement systems', 'Collect impact data', 'Report on outcomes'],
+    audience: 'Impact specialists, evaluators, donors'
+  },
+  {
+    id: 'participatory-approaches-101',
+    title: 'Participatory Approaches 101',
+    description: 'Methods for meaningful community participation in development programming.',
+    category: 'Research Methods',
+    difficulty: 'intermediate',
+    duration: '4-5 hours',
+    tags: ['participation', 'community', 'engagement'],
+    url: 'https://101.www.impactmojo.in/ParticipatoryApproaches',
+    learnerCount: 1345,
+    rating: 4.4,
+    prerequisites: ['Systems Thinking 101'],
+    outcomes: ['Facilitate participatory processes', 'Build community ownership', 'Ensure inclusive participation'],
+    audience: 'Community workers, facilitators, program managers'
+  },
+  {
+    id: 'financial-inclusion-101',
+    title: 'Financial Inclusion 101',
+    description: 'Strategies for expanding access to financial services for underserved populations.',
+    category: 'Economics',
+    difficulty: 'intermediate',
+    duration: '4-5 hours',
+    tags: ['financial inclusion', 'microfinance', 'fintech'],
+    url: 'https://101.www.impactmojo.in/FinancialInclusion',
+    learnerCount: 1456,
+    rating: 4.3,
+    prerequisites: ['Development Economics 101'],
+    outcomes: ['Design financial products', 'Assess financial needs', 'Promote digital payments'],
+    audience: 'Financial inclusion specialists, microfinance practitioners, fintech developers'
   }
 ];
 
@@ -472,7 +538,9 @@ const labs = [
     icon: 'fas fa-tools',
     status: 'live',
     url: 'https://toc-workbench.netlify.app/',
-    category: 'Planning Tools'
+    category: 'Planning Tools',
+    users: 2341,
+    lastUpdated: '2 days ago'
   },
   {
     id: 'risk-mitigation-lab',
@@ -481,7 +549,9 @@ const labs = [
     icon: 'fas fa-shield-alt',
     status: 'live',
     url: 'https://impactrisk-mitigation.netlify.app/',
-    category: 'Risk Management'
+    category: 'Risk Management',
+    users: 1567,
+    lastUpdated: '1 week ago'
   },
   {
     id: 'mel-framework-designer',
@@ -489,122 +559,101 @@ const labs = [
     description: 'Design comprehensive monitoring, evaluation, and learning frameworks.',
     icon: 'fas fa-cogs',
     status: 'live',
-    url: 'https://mel-framework.netlify.app/',
-    category: 'MEL Tools'
+    url: 'https://mle-frameworkdesign.netlify.app/',
+    category: 'MEL Tools',
+    users: 1834,
+    lastUpdated: '3 days ago'
   },
   {
-    id: 'budget-simulator',
-    title: 'Budget Simulator',
-    description: 'Model and test different budget scenarios for development projects.',
-    icon: 'fas fa-calculator',
-    status: 'coming-soon',
-    url: '#',
-    category: 'Financial Planning'
+    id: 'mel-planning-lab',
+    title: 'MEL Planning Lab',
+    description: 'Create detailed monitoring and evaluation plans for your projects.',
+    icon: 'fas fa-project-diagram',
+    status: 'live',
+    url: 'https://mle-plan-lab.netlify.app/',
+    category: 'MEL Tools',
+    users: 1234,
+    lastUpdated: '5 days ago'
   },
   {
-    id: 'stakeholder-mapper',
-    title: 'Stakeholder Mapping Tool',
-    description: 'Visualize and analyze stakeholder relationships and influence.',
-    icon: 'fas fa-sitemap',
-    status: 'coming-soon',
-    url: '#',
-    category: 'Analysis Tools'
+    id: 'resource-mobilization-lab',
+    title: 'Resource Mobilization Lab',
+    description: 'Develop strategies for sustainable funding and resource mobilization.',
+    icon: 'fas fa-hand-holding-usd',
+    status: 'live',
+    url: 'https://rm-sustainability4impact.netlify.app/',
+    category: 'Fundraising',
+    users: 987,
+    lastUpdated: '1 week ago'
   },
   {
-    id: 'data-viz-builder',
-    title: 'Data Visualization Builder',
-    description: 'Create interactive charts and dashboards from development data.',
-    icon: 'fas fa-chart-pie',
-    status: 'coming-soon',
-    url: '#',
-    category: 'Data Tools'
+    id: 'policy-advocacy-lab',
+    title: 'Policy & Advocacy Lab',
+    description: 'Build effective advocacy strategies and policy recommendations.',
+    icon: 'fas fa-gavel',
+    status: 'live',
+    url: 'https://pol-advocacy4impact.netlify.app/',
+    category: 'Advocacy',
+    users: 1456,
+    lastUpdated: '4 days ago'
   },
   {
-    id: 'survey-designer',
-    title: 'Survey Design Assistant',
-    description: 'Build and validate survey instruments for development research.',
+    id: 'community-engagement-lab',
+    title: 'Community Engagement Lab',
+    description: 'Tools and frameworks for meaningful community engagement and participation.',
+    icon: 'fas fa-users',
+    status: 'live',
+    url: 'https://community-engagement-lab.netlify.app/',
+    category: 'Community Work',
+    users: 1123,
+    lastUpdated: '1 week ago'
+  },
+  {
+    id: 'survey-design-lab',
+    title: 'Survey Design Lab',
+    description: 'Interactive tool for designing surveys and questionnaires for development research.',
     icon: 'fas fa-clipboard-list',
-    status: 'coming-soon',
-    url: '#',
-    category: 'Research Tools'
+    status: 'live',
+    url: 'https://survey-design-lab.netlify.app/',
+    category: 'Research Tools',
+    users: 2156,
+    lastUpdated: '2 days ago'
   },
   {
-    id: 'policy-simulator',
-    title: 'Policy Impact Simulator',
-    description: 'Model potential impacts of policy interventions.',
-    icon: 'fas fa-balance-scale',
-    status: 'coming-soon',
-    url: '#',
-    category: 'Policy Tools'
-  },
-  {
-    id: 'community-feedback',
-    title: 'Community Feedback Portal',
-    description: 'Collect and analyze community feedback on development programs.',
-    icon: 'fas fa-comments',
-    status: 'coming-soon',
-    url: '#',
-    category: 'Community Tools'
+    id: 'data-visualization-lab',
+    title: 'Data Visualization Lab',
+    description: 'Create compelling data visualizations and infographics for development data.',
+    icon: 'fas fa-chart-pie',
+    status: 'live',
+    url: 'https://dataviz-lab.netlify.app/',
+    category: 'Data Tools',
+    users: 1789,
+    lastUpdated: '6 days ago'
   }
 ];
 
-// Additional Resources (Extras)
-const additionalResources = {
-  handouts: {
-    title: 'Educational Handouts',
-    description: 'Over 20 ready-to-use workshop modules covering Digital Development Ethics, Statistical Analysis, and South Asian Applications. Each designed for 75-90 minute classroom sessions.',
-    url: 'https://github.com/Varnasr/ImpactMojo/tree/main/extras/handouts',
-    relatedCourses: ['education-pedagogy-101', 'digital-development-ethics-101', 'data-literacy-101']
-  },
-  research: {
-    title: 'Research Design Resources',
-    description: 'Practical tools for conducting rigorous development research, including design standards checklists and specialized papers like "Understanding Attributable Risk".',
-    url: 'https://github.com/Varnasr/ImpactMojo/tree/main/extras/research-design',
-    relatedCourses: ['research-ethics-101', 'qualitative-research-101', 'mel-101', 'econometrics-101']
-  },
-  health: {
-    title: 'Public Health Materials',
-    description: 'Complete course on public health fundamentals developed by the CDC, providing evidence-based frameworks for health program design and evaluation.',
-    url: 'https://github.com/Varnasr/ImpactMojo/tree/main/extras/public-health',
-    relatedCourses: ['public-health-101', 'srhr-101']
-  },
-  data: {
-    title: 'Data Analysis Toolkit',
-    description: 'Comprehensive technical resources including analysis scripts, Excel templates, Python code samples, and qualitative data analysis tools.',
-    url: 'https://github.com/Varnasr/ImpactMojo/tree/main/extras/data-analysis',
-    relatedCourses: ['data-literacy-101', 'eda-survey-data', 'bivariate-analysis-101', 'multivariate-analysis-101', 'econometrics-101']
-  }
-};
-
-// Learning paths configuration
+// Learning paths
 const learningPaths = {
   'data-analysis': {
     name: 'Data Analysis Track',
     description: 'Master data skills from basics to advanced analysis',
     icon: 'fas fa-chart-bar',
-    courses: ['data-literacy-101', 'eda-survey-data', 'bivariate-analysis-101', 'multivariate-analysis-101', 'data-feminism-101'],
+    courses: ['data-literacy-101', 'data-feminism-101', 'eda-survey-data', 'bivariate-analysis-101', 'multivariate-analysis-101'],
     color: '#3498db'
   },
   'gender-studies': {
     name: 'Gender Studies Pathway',
     description: 'Comprehensive understanding of gender in development',
-    icon: 'fas fa-venus-mars',
+    icon: 'fas fa-venus',
     courses: ['gender-studies-101', 'data-feminism-101', 'care-economy-101', 'womens-economic-empowerment-101'],
-    color: '#8e44ad'
+    color: '#e74c3c'
   },
-  'economics': {
-    name: 'Development Economics',
-    description: 'Economic theory and practice for development professionals',
-    icon: 'fas fa-coins',
-    courses: ['development-economics-101', 'social-safety-nets-101', 'political-economy-101', 'livelihoods-101'],
-    color: '#2c3e50'
-  },
-  'research': {
+  'research-methods': {
     name: 'Research Methods Journey',
     description: 'Complete research toolkit for development work',
     icon: 'fas fa-flask',
     courses: ['research-ethics-101', 'qualitative-research-101', 'econometrics-101', 'mel-101'],
-    color: '#e74c3c'
+    color: '#8e44ad'
   },
   'health': {
     name: 'Health Systems Track',
@@ -629,6 +678,25 @@ const categories = [
   'Research Methods',
   'Technology'
 ];
+
+// Additional resources
+const additionalResources = {
+  handouts: [
+    { title: 'Data Analysis Cheat Sheet', url: 'handouts/data-analysis-cheat-sheet.pdf' },
+    { title: 'Gender Mainstreaming Checklist', url: 'handouts/gender-mainstreaming-checklist.pdf' },
+    { title: 'MEL Framework Template', url: 'handouts/mel-framework-template.xlsx' }
+  ],
+  datasets: [
+    { title: 'India Development Indicators', url: 'data/india-development-indicators.csv' },
+    { title: 'Gender Equality Index Data', url: 'data/gender-equality-index.csv' },
+    { title: 'Health System Performance Data', url: 'data/health-system-performance.csv' }
+  ],
+  tools: [
+    { title: 'Logic Model Template', url: 'tools/logic-model-template.pptx' },
+    { title: 'Survey Design Checklist', url: 'tools/survey-design-checklist.pdf' },
+    { title: 'Stakeholder Mapping Tool', url: 'tools/stakeholder-mapping-tool.xlsx' }
+  ]
+};
 
 // Utility Functions
 function getCourseById(id) {
