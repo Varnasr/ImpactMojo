@@ -2937,3 +2937,432 @@ if (selectedCourses && selectedCourses.length > 0) {
   unifiedUpdateComparisonUI();
   unifiedUpdateFAB();
 }
+// 🔥 RESTORE RICH COMPARISON + FIX LAB DUPLICATES - Add to END of main.js
+
+console.log('🔥 Restoring rich comparison features...');
+
+// Step 1: Enhanced comparison with all the original rich features
+window.unifiedShowComparison = function() {
+  console.log('🚨 Rich unified comparison modal');
+  
+  if (selectedCourses.length < 2) {
+    alert('Please select at least 2 courses to compare.');
+    return;
+  }
+  
+  const coursesToCompare = selectedCourses.map(id => 
+    courses.find(c => c.id === id)
+  ).filter(Boolean);
+  
+  if (coursesToCompare.length === 0) {
+    alert('Course data not found. Please refresh the page.');
+    return;
+  }
+  
+  // Calculate rich comparison data
+  const contentDepths = coursesToCompare.map(calculateContentDepth);
+  const overlaps = analyzeContentOverlap(coursesToCompare);
+  const suggestedPath = generateLearningPath(coursesToCompare);
+  
+  // Create rich comparison HTML with all features
+  const comparisonHTML = `
+  <div style="padding: 20px; max-height: 80vh; overflow-y: auto;">
+  <div style="text-align: center; margin-bottom: 30px;">
+  <h2 style="color: #2563eb; margin: 0; font-size: 2rem; font-weight: bold;">
+  <i class="fas fa-balance-scale"></i> Advanced Course Comparison
+  </h2>
+  <p style="color: #64748b; margin: 10px 0;">Comprehensive analysis of ${coursesToCompare.length} selected courses</p>
+  </div>
+  
+  <!-- Basic Information Comparison -->
+  <div style="margin-bottom: 30px;">
+  <h3 style="color: #2563eb; margin-bottom: 20px; font-size: 1.5rem; display: flex; align-items: center; gap: 10px;">
+  <i class="fas fa-info-circle"></i> Course Overview
+  </h3>
+  <div style="overflow-x: auto;">
+  <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+  <thead>
+  <tr style="background: #f8fafc;">
+  <th style="padding: 15px; border: 1px solid #e5e7eb; font-weight: bold; color: #374151;">Feature</th>
+  ${coursesToCompare.map(course => `
+                  <th style="padding: 15px; border: 1px solid #e5e7eb; font-weight: bold; color: #2563eb; min-width: 200px;">${course.title}</th>
+                `).join('')}
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+  <td style="padding: 12px 15px; border: 1px solid #e5e7eb; font-weight: 600; background: #f8fafc;">Category</td>
+  ${coursesToCompare.map(course => `
+                  <td style="padding: 12px 15px; border: 1px solid #e5e7eb;">${course.category}</td>
+                `).join('')}
+  </tr>
+  <tr>
+  <td style="padding: 12px 15px; border: 1px solid #e5e7eb; font-weight: 600; background: #f8fafc;">Difficulty</td>
+  ${coursesToCompare.map(course => `
+                  <td style="padding: 12px 15px; border: 1px solid #e5e7eb;">
+                    <span style="padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: bold; color: white; background: ${
+    course.difficulty === 'beginner' ? '#059669' : 
+    course.difficulty === 'intermediate' ? '#d97706' : '#dc2626'
+    };">${course.difficulty.toUpperCase()}</span>
+                  </td>
+                `).join('')}
+  </tr>
+  <tr>
+  <td style="padding: 12px 15px; border: 1px solid #e5e7eb; font-weight: 600; background: #f8fafc;">Duration</td>
+  ${coursesToCompare.map(course => `
+                  <td style="padding: 12px 15px; border: 1px solid #e5e7eb;">${course.duration}</td>
+                `).join('')}
+  </tr>
+  <tr>
+  <td style="padding: 12px 15px; border: 1px solid #e5e7eb; font-weight: 600; background: #f8fafc;">Content Depth</td>
+  ${coursesToCompare.map((course, index) => `
+                  <td style="padding: 12px 15px; border: 1px solid #e5e7eb;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <div style="flex: 1; height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden;">
+                        <div style="width: ${contentDepths[index] * 10}%; height: 100%; background: linear-gradient(90deg, #10b981, #f59e0b, #3b82f6); border-radius: 4px;"></div>
+                      </div>
+                      <span style="font-weight: bold; color: #2563eb;">${contentDepths[index]}/10</span>
+                    </div>
+                  </td>
+                `).join('')}
+  </tr>
+  <tr>
+  <td style="padding: 12px 15px; border: 1px solid #e5e7eb; font-weight: 600; background: #f8fafc;">Rating</td>
+  ${coursesToCompare.map(course => `
+                  <td style="padding: 12px 15px; border: 1px solid #e5e7eb;">
+                    <span style="color: #f59e0b; font-weight: bold;">⭐ ${course.rating}/5</span>
+                  </td>
+                `).join('')}
+  </tr>
+  <tr>
+  <td style="padding: 12px 15px; border: 1px solid #e5e7eb; font-weight: 600; background: #f8fafc;">Learners</td>
+  ${coursesToCompare.map(course => `
+                  <td style="padding: 12px 15px; border: 1px solid #e5e7eb;">${course.learnerCount ? course.learnerCount.toLocaleString() : 'N/A'}</td>
+                `).join('')}
+  </tr>
+  </tbody>
+  </table>
+  </div>
+  </div>
+  
+  <!-- Learning Outcomes Comparison -->
+  ${coursesToCompare.some(c => c.outcomes && c.outcomes.length > 0) ? `
+      <div style="margin-bottom: 30px;">
+        <h3 style="color: #2563eb; margin-bottom: 20px; font-size: 1.5rem; display: flex; align-items: center; gap: 10px;">
+          <i class="fas fa-graduation-cap"></i> Learning Outcomes
+        </h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+          ${coursesToCompare.map((course, index) => `
+            <div style="background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+              <h4 style="color: ${['#2563eb', '#059669', '#dc2626', '#7c3aed'][index] || '#6b7280'}; margin: 0 0 15px 0; font-size: 1.1rem; font-weight: bold;">${course.title}</h4>
+              <div style="color: #374151;">
+                <strong>What you'll learn:</strong>
+                <ul style="margin: 10px 0 0 20px; padding: 0;">
+                  ${course.outcomes ? course.outcomes.slice(0, 4).map(outcome => `
+                    <li style="margin-bottom: 8px; line-height: 1.4; color: #6b7280;">🎯 ${outcome}</li>
+                  `).join('') : '<li style="color: #9ca3af;">No specific outcomes listed</li>'}
+                </ul>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      ` : ''}
+  
+  <!-- Prerequisites Analysis -->
+  ${coursesToCompare.some(c => c.prerequisites && c.prerequisites.length > 0) ? `
+      <div style="margin-bottom: 30px;">
+        <h3 style="color: #2563eb; margin-bottom: 20px; font-size: 1.5rem; display: flex; align-items: center; gap: 10px;">
+          <i class="fas fa-list-check"></i> Prerequisites
+        </h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+          ${coursesToCompare.map((course, index) => `
+            <div style="background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+              <h4 style="color: ${['#2563eb', '#059669', '#dc2626', '#7c3aed'][index] || '#6b7280'}; margin: 0 0 15px 0; font-size: 1.1rem; font-weight: bold;">${course.title}</h4>
+              <div style="color: #374151;">
+                <strong>Requirements:</strong>
+                <ul style="margin: 10px 0 0 20px; padding: 0;">
+                  ${course.prerequisites && course.prerequisites.length > 0 ? 
+      course.prerequisites.map(prereq => `
+                      <li style="margin-bottom: 8px; line-height: 1.4; color: #6b7280;">📋 ${prereq}</li>
+                    `).join('') : 
+      '<li style="color: #9ca3af;">No specific prerequisites</li>'
+      }
+                </ul>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      ` : ''}
+  
+  <!-- Content Overlap Analysis -->
+  ${overlaps.length > 0 ? `
+      <div style="margin-bottom: 30px;">
+        <h3 style="color: #2563eb; margin-bottom: 20px; font-size: 1.5rem; display: flex; align-items: center; gap: 10px;">
+          <i class="fas fa-intersection"></i> Content Overlap Analysis
+        </h3>
+        <div style="background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+          ${overlaps.map(overlap => `
+            <div style="margin-bottom: 20px; padding: 15px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #f59e0b;">
+              <h4 style="margin: 0 0 10px 0; color: #374151; font-size: 1rem;">${overlap.courses.join(' & ')}</h4>
+              <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
+                <span style="font-weight: bold; color: #f59e0b;">Overlap Score: ${overlap.score}/5</span>
+                <div style="display: flex; gap: 5px;">
+                  ${overlap.details.category ? '<span style="background: #059669; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem;">Same Category</span>' : ''}
+                  ${overlap.details.audienceWords > 0 ? `<span style="background: #2563eb; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem;">Shared Audience</span>` : ''}
+                </div>
+              </div>
+              <p style="margin: 0; color: #6b7280; font-size: 0.9rem;">These courses have significant content overlap and may complement each other well.</p>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      ` : ''}
+  
+  <!-- Suggested Learning Path -->
+  <div style="margin-bottom: 30px;">
+  <h3 style="color: #2563eb; margin-bottom: 20px; font-size: 1.5rem; display: flex; align-items: center; gap: 10px;">
+  <i class="fas fa-route"></i> Suggested Learning Path
+  </h3>
+  <div style="background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+  <p style="margin: 0 0 20px 0; color: #6b7280;">Based on difficulty levels and prerequisites, here's the recommended order:</p>
+          ${suggestedPath.map((course, index) => `
+            <div style="display: flex; align-items: flex-start; gap: 15px; margin-bottom: ${index < suggestedPath.length - 1 ? '20px' : '0'};">
+              <div style="width: 40px; height: 40px; border-radius: 50%; background: ${['#2563eb', '#059669', '#dc2626', '#7c3aed'][index] || '#6b7280'}; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; flex-shrink: 0;">${index + 1}</div>
+              <div style="flex: 1;">
+                <h4 style="margin: 0 0 8px 0; color: #374151; font-size: 1.1rem; font-weight: bold;">${course.title}</h4>
+                <p style="margin: 0; color: #6b7280; line-height: 1.4;">
+                  ${index === 0 ? '🚀 Start here - ' : ''}
+                  ${course.difficulty || 'intermediate'} level • ${course.duration || 'duration not specified'}
+                  ${course.prerequisites && course.prerequisites.includes('None - foundational course') ? ' • Foundational course' : ''}
+                </p>
+              </div>
+            </div>
+            ${index < suggestedPath.length - 1 ? '<div style="margin: 10px 0; text-align: center; color: #9ca3af; font-size: 1.5rem;">↓</div>' : ''}
+          `).join('')}
+        </div>
+      </div>
+      
+      <!-- Course Actions -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 20px;">
+        ${coursesToCompare.map((course, index) => `
+          <a href="${course.url}" target="_blank" rel="noopener" style="background: linear-gradient(135deg, ${['#2563eb', '#059669', '#dc2626', '#7c3aed'][index] || '#6b7280'}, ${['#1d4ed8', '#047857', '#b91c1c', '#6d28d9'][index] || '#4b5563'}); color: white; padding: 15px 20px; border-radius: 10px; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+            <i class="fas fa-external-link-alt"></i> Launch ${course.title}
+          </a>
+        `).join('')}
+      </div>
+      
+      <!-- Close Button -->
+      <div style="text-align: center; padding: 20px; background: #f8fafc; border-radius: 10px;">
+        <button onclick="unifiedClearComparison()" style="background: #dc2626; color: white; padding: 15px 30px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 16px; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3); transition: all 0.3s;" onmouseover="this.style.background='#b91c1c'" onmouseout="this.style.background='#dc2626'">
+          <i class="fas fa-times"></i> Clear All & Close
+        </button>
+      </div>
+    </div>
+  `;
+  
+  unifiedCreateModal(comparisonHTML);
+  console.log('✅ Rich comparison modal created');
+};
+
+// Step 2: Ensure the helper functions exist (copy from your existing code)
+function calculateContentDepth(course) {
+  let score = 0;
+  
+  // Duration scoring (out of 3)
+  if (course.duration && (course.duration.includes('5-6') || course.duration.includes('6+'))) score += 3;
+  else if (course.duration && course.duration.includes('4-5')) score += 2;
+  else score += 1;
+  
+  // Prerequisites scoring (out of 2)
+  if (course.prerequisites && course.prerequisites.length > 2) score += 2;
+  else if (course.prerequisites && course.prerequisites.length > 0 && !course.prerequisites.includes('None - foundational course')) score += 1;
+  
+  // Learning outcomes complexity (out of 3)
+  if (course.outcomes && course.outcomes.length >= 4) score += 3;
+  else if (course.outcomes && course.outcomes.length >= 3) score += 2;
+  else score += 1;
+  
+  // Difficulty scoring (out of 2)
+  if (course.difficulty === 'advanced') score += 2;
+  else if (course.difficulty === 'intermediate') score += 1;
+  
+  return Math.min(score, 10);
+}
+
+function analyzeContentOverlap(courses) {
+  const overlaps = [];
+  
+  for (let i = 0; i < courses.length; i++) {
+    for (let j = i + 1; j < courses.length; j++) {
+      const course1 = courses[i];
+      const course2 = courses[j];
+      
+      // Check category overlap
+      const categoryMatch = course1.category === course2.category;
+      
+      // Check audience overlap
+      const audienceWords1 = (course1.audience || '').toLowerCase().split(/[,\s]+/);
+      const audienceWords2 = (course2.audience || '').toLowerCase().split(/[,\s]+/);
+      const audienceOverlap = audienceWords1.filter(word => 
+        audienceWords2.includes(word) && word.length > 3
+      ).length;
+      
+      let overlapScore = 0;
+      if (categoryMatch) overlapScore += 3;
+      overlapScore += Math.min(audienceOverlap, 2);
+      
+      if (overlapScore > 2) {
+        overlaps.push({
+          courses: [course1.title, course2.title],
+          score: overlapScore,
+          details: {
+            category: categoryMatch,
+            audienceWords: audienceOverlap
+          }
+        });
+      }
+    }
+  }
+  
+  return overlaps;
+}
+
+function generateLearningPath(courses) {
+  return [...courses].sort((a, b) => {
+    const difficultyOrder = { 'beginner': 1, 'intermediate': 2, 'advanced': 3 };
+    const aDiff = difficultyOrder[a.difficulty] || 2;
+    const bDiff = difficultyOrder[b.difficulty] || 2;
+    
+    if (aDiff !== bDiff) return aDiff - bDiff;
+    
+    // If same difficulty, prioritize foundational courses
+    const aFoundational = (a.prerequisites || []).includes('None - foundational course');
+    const bFoundational = (b.prerequisites || []).includes('None - foundational course');
+    
+    if (aFoundational && !bFoundational) return -1;
+    if (!aFoundational && bFoundational) return 1;
+    
+    return 0;
+  });
+}
+
+// Step 3: Fix duplicate lab buttons
+window.enhanceLabCardsEmergency = function() {
+  console.log('🔧 FIXED lab enhancement starting...');
+  
+  setTimeout(() => {
+    const labCards = document.querySelectorAll('.lab-card');
+    console.log(`📦 Found ${labCards.length} lab cards`);
+    
+    labCards.forEach((card, index) => {
+      // Check if already enhanced - IMPROVED CHECK
+      if (card.querySelector('.emergency-lab-actions') || card.hasAttribute('data-enhanced')) {
+        console.log(`⏭️ Lab ${index + 1} already enhanced, skipping`);
+        return;
+      }
+      
+      // Mark as enhanced to prevent duplicates
+      card.setAttribute('data-enhanced', 'true');
+      
+      const labId = `lab-${index + 1}`;
+      const title = card.querySelector('h3')?.textContent || `Lab ${index + 1}`;
+      
+      console.log(`🔧 Enhancing lab: ${title}`);
+      
+      // Create action buttons
+      const actionsDiv = document.createElement('div');
+      actionsDiv.className = 'emergency-lab-actions';
+      actionsDiv.style.cssText = `
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid #e2e8f0;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      `;
+      
+      // Bookmark button
+      const bookmarkBtn = document.createElement('button');
+      bookmarkBtn.innerHTML = '<i class="far fa-bookmark"></i> Bookmark';
+      bookmarkBtn.style.cssText = `
+        background: none;
+        border: 1px solid #f59e0b;
+        color: #f59e0b;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.3s ease;
+      `;
+      bookmarkBtn.onclick = function() {
+        const icon = this.querySelector('i');
+        if (icon.classList.contains('far')) {
+          icon.className = 'fas fa-bookmark';
+          this.style.background = '#f59e0b';
+          this.style.color = 'white';
+          showNotification('Lab bookmarked!', 'success');
+        } else {
+          icon.className = 'far fa-bookmark';
+          this.style.background = 'none';
+          this.style.color = '#f59e0b';
+          showNotification('Bookmark removed', 'info');
+        }
+      };
+      
+      // Details button
+      const detailsBtn = document.createElement('button');
+      detailsBtn.innerHTML = '<i class="fas fa-info-circle"></i> Details';
+      detailsBtn.style.cssText = `
+        background: none;
+        border: 1px solid #2563eb;
+        color: #2563eb;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.3s ease;
+      `;
+      detailsBtn.onclick = function() {
+        const description = card.querySelector('p')?.textContent || 'No description available';
+        const launchUrl = card.querySelector('a[href]')?.href || '#';
+        
+        alert(`📋 ${title}\n\n📝 ${description}\n\n🔗 ${launchUrl}\n\n✨ Features:\n• Interactive tools\n• Real-world examples\n• Downloadable resources`);
+      };
+      
+      actionsDiv.appendChild(bookmarkBtn);
+      actionsDiv.appendChild(detailsBtn);
+      card.appendChild(actionsDiv);
+      
+      console.log(`✅ Enhanced lab: ${title}`);
+    });
+    
+    console.log('✅ FIXED lab enhancement complete');
+  }, 1000);
+};
+
+// Step 4: Re-initialize lab enhancement with fix
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('🚨 Fixed lab initialization started');
+  
+  // Clear any existing data-enhanced attributes first
+  setTimeout(() => {
+    document.querySelectorAll('.lab-card[data-enhanced]').forEach(card => {
+      card.removeAttribute('data-enhanced');
+    });
+    
+    // Remove any duplicate lab actions
+    document.querySelectorAll('.emergency-lab-actions').forEach((actions, index) => {
+      if (index > 0 && actions.parentNode.querySelector('.emergency-lab-actions:not(:last-child)')) {
+        actions.remove();
+      }
+    });
+    
+    // Then enhance
+    enhanceLabCardsEmergency();
+  }, 2000);
+});
+
+console.log('🔥 Rich comparison features restored!');
+console.log('🔧 Lab duplicate fix applied!');
