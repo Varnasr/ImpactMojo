@@ -1266,3 +1266,576 @@ window.showEnhancedComparisonModal = showEnhancedComparisonModal;
 window.closeEnhancedComparisonModal = closeEnhancedComparisonModal;
 window.clearComparison = clearComparison;
 window.exportComparison = exportComparison;
+// 🔥 DIRECT FIXES - ADD THIS TO THE END OF YOUR main.js FILE
+
+// Fix 1: Ensure the comparison modal works
+function showEnhancedComparisonModal() {
+  console.log('🔥 Modal called with selected courses:', selectedCourses);
+  
+  // Create modal if it doesn't exist
+  let modal = document.getElementById('enhancedComparisonModal');
+  if (!modal) {
+    console.log('❌ Modal not found, creating it...');
+    createEnhancedModal();
+    modal = document.getElementById('enhancedComparisonModal');
+  }
+  
+  if (selectedCourses.length < 2) {
+    alert('Please select at least 2 courses to compare.');
+    return;
+  }
+  
+  // Get the courses data
+  const coursesToCompare = selectedCourses.map(id => 
+    courses.find(course => course.id === id)
+  ).filter(Boolean);
+  
+  if (coursesToCompare.length === 0) {
+    alert('Course data not found. Please refresh the page.');
+    return;
+  }
+  
+  console.log('📊 Comparing courses:', coursesToCompare.map(c => c.title));
+  
+  // Generate comparison content
+  const comparisonTable = document.getElementById('comparisonTable');
+  if (comparisonTable) {
+    comparisonTable.innerHTML = generateSimpleComparison(coursesToCompare);
+  }
+  
+  // Show modal
+  modal.classList.remove('hidden');
+  modal.style.display = 'block';
+}
+
+// Fix 2: Create the modal if it doesn't exist
+function createEnhancedModal() {
+  const modalHTML = `
+    <div id="enhancedComparisonModal" class="modal enhanced-modal hidden">
+      <div class="modal-content comparison-modal-content">
+        <div class="modal-header">
+          <h2><i class="fas fa-balance-scale"></i> Course Comparison</h2>
+          <button class="close-modal" onclick="closeEnhancedComparisonModal()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="comparisonTable">
+            <!-- Dynamic comparison content will be inserted here -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="clear-comparison-btn" onclick="clearComparison()">
+            <i class="fas fa-times"></i> Clear All
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+  console.log('✅ Enhanced modal created');
+}
+
+// Fix 3: Generate simple comparison content
+function generateSimpleComparison(coursesToCompare) {
+  return `
+    <div class="comparison-container">
+      <div class="comparison-section">
+        <h4><i class="fas fa-info-circle"></i> Course Overview</h4>
+        <div class="simple-comparison-grid">
+          ${coursesToCompare.map(course => `
+            <div class="course-comparison-card">
+              <h5>${course.title}</h5>
+              <div class="course-details">
+                <p><strong>Category:</strong> ${course.category}</p>
+                <p><strong>Difficulty:</strong> <span class="difficulty ${course.difficulty}">${course.difficulty}</span></p>
+                <p><strong>Duration:</strong> ${course.duration}</p>
+                <p><strong>Rating:</strong> ⭐ ${course.rating}</p>
+                <p><strong>Learners:</strong> ${course.learnerCount?.toLocaleString() || 'N/A'}</p>
+              </div>
+              <div class="course-description">
+                <p><strong>Description:</strong></p>
+                <p>${course.description}</p>
+              </div>
+              ${course.outcomes ? `
+                <div class="course-outcomes">
+                  <p><strong>What you'll learn:</strong></p>
+<ul>
+${course.outcomes.slice(0, 3).map(outcome => `<li>${outcome}</li>`).join('')}
+</ul>
+</div>
+` : ''}
+              <div class="course-actions">
+                <a href="${course.url}" target="_blank" rel="noopener" class="launch-btn-modal">
+                  <i class="fas fa-external-link-alt"></i> Launch Course
+                </a>
+              </div>
+            </div>
+          `).join('')}
+</div>
+</div>
+</div>
+`;
+}
+
+// Fix 4: Ensure clearComparison works
+function clearComparison() {
+  selectedCourses = [];
+  comparisonList = []; // Clear both arrays
+  updateComparisonUI();
+  updateCourseCardStates();
+  closeEnhancedComparisonModal();
+  showNotification('Comparison cleared', 'info');
+}
+
+// Fix 5: Close modal function
+function closeEnhancedComparisonModal() {
+  const modal = document.getElementById('enhancedComparisonModal');
+  if (modal) {
+    modal.classList.add('hidden');
+    modal.style.display = 'none';
+  }
+}
+
+// Fix 6: Enhanced Lab Cards - with debugging
+function enhanceLabCards() {
+  console.log('🔧 Enhancing lab cards...');
+  
+  // Look for lab cards in the labs container
+  const labsContainer = document.getElementById('labsContainer');
+  if (!labsContainer) {
+    console.log('❌ Labs container not found');
+    return;
+  }
+  
+  const labCards = labsContainer.querySelectorAll('.lab-card');
+  console.log(`📦 Found ${labCards.length} lab cards`);
+  
+  if (labCards.length === 0) {
+    console.log('❌ No lab cards found');
+    return;
+  }
+  
+  labCards.forEach((card, index) => {
+    // Add unique ID if not present
+    if (!card.getAttribute('data-lab-id')) {
+      card.setAttribute('data-lab-id', `lab-${index + 1}`);
+    }
+    
+    const labId = card.getAttribute('data-lab-id');
+    const labTitle = card.querySelector('h3') ? card.querySelector('h3').textContent : `Lab ${index + 1}`;
+    
+    console.log(`🔧 Enhancing lab: ${labTitle} (ID: ${labId})`);
+    
+    // Check if already enhanced
+    if (card.querySelector('.lab-enhanced-actions')) {
+      console.log(`⏭️ Lab ${labId} already enhanced`);
+      return;
+    }
+    
+    // Create enhanced actions
+    const enhancedActions = document.createElement('div');
+    enhancedActions.className = 'lab-enhanced-actions';
+    enhancedActions.innerHTML = `
+<div class="lab-actions-row">
+<button class="lab-bookmark-btn" data-lab-id="${labId}" onclick="toggleLabBookmark('${labId}')" title="Bookmark this lab">
+<i class="far fa-bookmark"></i> Bookmark
+</button>
+<button class="lab-compare-btn" onclick="alert('Lab comparison feature coming soon!')" title="Compare labs">
+<i class="fas fa-balance-scale"></i> Compare
+</button>
+<button class="lab-details-btn" onclick="showLabDetails('${labId}')" title="View details">
+<i class="fas fa-info-circle"></i> Details
+</button>
+</div>
+`;
+    
+    // Insert at the end of the card
+    card.appendChild(enhancedActions);
+    console.log(`✅ Enhanced lab: ${labTitle}`);
+  });
+  
+  console.log('✅ Lab enhancement complete');
+}
+
+// Fix 7: Lab bookmark functionality
+function toggleLabBookmark(labId) {
+  console.log('🔖 Bookmarking lab:', labId);
+  const btn = document.querySelector(`[data-lab-id="${labId}"] .lab-bookmark-btn`);
+  if (btn) {
+    const icon = btn.querySelector('i');
+    if (icon.classList.contains('far')) {
+      icon.className = 'fas fa-bookmark';
+      btn.style.color = '#f59e0b';
+      showNotification('Lab bookmarked!', 'success');
+    } else {
+      icon.className = 'far fa-bookmark';
+      btn.style.color = '';
+      showNotification('Bookmark removed', 'info');
+    }
+  }
+}
+
+// Fix 8: Lab details functionality
+function showLabDetails(labId) {
+  const labCard = document.querySelector(`[data-lab-id="${labId}"]`);
+  if (!labCard) {
+    console.log('❌ Lab card not found:', labId);
+    return;
+  }
+  
+  const title = labCard.querySelector('h3')?.textContent || 'Lab Details';
+  const description = labCard.querySelector('p')?.textContent || 'No description available';
+  const launchLink = labCard.querySelector('.lab-launch-btn')?.href || '#';
+  
+  // Simple alert for now - can be enhanced later
+  const details = `
+📋 ${title}
+
+📝 Description:
+${description}
+
+🔗 Link: ${launchLink}
+
+✨ Features:
+• Interactive tools and simulations
+• Real-world case studies  
+  • Downloadable resources
+  • Step-by-step guidance
+  `;
+  
+  alert(details);
+}
+
+// Fix 9: Initialize everything properly
+function initializeEnhancements() {
+  console.log('🚀 Initializing enhancements...');
+  
+  // Add styles for lab enhancements
+  addLabStyles();
+  
+  // Add modal styles
+  addModalStyles();
+  
+  // Try to enhance lab cards multiple times to catch different loading states
+  setTimeout(() => enhanceLabCards(), 500);
+  setTimeout(() => enhanceLabCards(), 1500);
+  setTimeout(() => enhanceLabCards(), 3000);
+  
+  console.log('✅ Enhancement initialization complete');
+}
+
+// Fix 10: Add required styles
+function addLabStyles() {
+  if (document.getElementById('lab-enhancement-styles')) return;
+  
+  const styles = document.createElement('style');
+  styles.id = 'lab-enhancement-styles';
+  styles.textContent = `
+  .lab-enhanced-actions {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+  }
+  
+  .lab-actions-row {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  
+  .lab-bookmark-btn,
+  .lab-compare-btn,
+  .lab-details-btn {
+    background: none;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  
+  .lab-bookmark-btn:hover,
+  .lab-details-btn:hover {
+    background: var(--primary-color);
+    color: white;
+  }
+  
+  .lab-compare-btn {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+  }
+  
+  .lab-compare-btn:hover {
+    background: var(--accent-color);
+    color: white;
+  }
+  `;
+  document.head.appendChild(styles);
+}
+
+// Fix 11: Add modal styles
+function addModalStyles() {
+  if (document.getElementById('enhanced-modal-styles')) return;
+  
+  const styles = document.createElement('style');
+  styles.id = 'enhanced-modal-styles';
+  styles.textContent = `
+  .enhanced-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+  }
+  
+  .comparison-modal-content {
+    background: var(--background);
+    margin: 5% auto;
+    padding: 0;
+    border-radius: 1rem;
+    width: 90%;
+    max-width: 900px;
+    max-height: 80vh;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .modal-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--surface);
+    border-radius: 1rem 1rem 0 0;
+  }
+  
+  .modal-header h2 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 1.5rem;
+  }
+  
+  .close-modal {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+  }
+  
+  .close-modal:hover {
+    background: var(--error-color);
+    color: white;
+  }
+  
+  .modal-body {
+    flex: 1;
+    padding: 1.5rem;
+    overflow-y: auto;
+    background: var(--background);
+  }
+  
+  .modal-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    background: var(--surface);
+    border-radius: 0 0 1rem 1rem;
+  }
+  
+  .clear-comparison-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    background: var(--error-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .clear-comparison-btn:hover {
+    background: #b91c1c;
+  }
+  
+  .simple-comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
+  
+  .course-comparison-card {
+    background: var(--surface);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+  }
+  
+  .course-comparison-card h5 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+  
+  .course-details p {
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+  }
+  
+  .course-description {
+    margin: 1rem 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+  }
+  
+  .course-outcomes ul {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+  }
+  
+  .course-outcomes li {
+    margin-bottom: 0.25rem;
+    color: var(--text-secondary);
+  }
+  
+  .course-actions {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+  }
+  
+  .launch-btn-modal {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  .launch-btn-modal:hover {
+    background: var(--secondary-color);
+  }
+  
+  .difficulty {
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+  
+  .difficulty.beginner {
+    background: var(--success-color);
+    color: white;
+  }
+  
+  .difficulty.intermediate {
+    background: var(--warning-color);
+    color: white;
+  }
+  
+  .difficulty.advanced {
+    background: var(--error-color);
+    color: white;
+  }
+  `;
+  document.head.appendChild(styles);
+}
+
+// Fix 12: Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('🔥 DOM ready, initializing fixes...');
+  initializeEnhancements();
+});
+
+// Also try to initialize immediately in case DOM is already loaded
+if (document.readyState !== 'loading') {
+  console.log('🔥 DOM already loaded, initializing fixes...');
+  initializeEnhancements();
+}
+
+// Fix 13: Debug selectedCourses array
+console.log('🔍 Current selectedCourses:', selectedCourses);
+console.log('🔍 Current comparisonList:', comparisonList);
+
+// Override the FAB update to ensure it works
+function updateFABButton() {
+  let fabBtn = document.querySelector('.fab-btn.compare');
+  
+  console.log('🔄 Updating FAB button, selectedCourses:', selectedCourses);
+  
+  if (selectedCourses.length > 0) {
+    if (!fabBtn) {
+      // Create FAB if it doesn't exist
+      let fabContainer = document.querySelector('.fab-container');
+      if (!fabContainer) {
+        fabContainer = document.createElement('div');
+        fabContainer.className = 'fab-container';
+        fabContainer.style.cssText = `
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 998;
+  `;
+        document.body.appendChild(fabContainer);
+      }
+      
+      fabBtn = document.createElement('button');
+      fabBtn.className = 'fab-btn compare';
+      fabBtn.onclick = () => {
+        console.log('🖱️ FAB button clicked!');
+        showEnhancedComparisonModal();
+      };
+      fabBtn.style.cssText = `
+  padding: 1rem 1.5rem;
+  border-radius: 2rem;
+  border: none;
+  background: var(--accent-color);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  `;
+      fabContainer.appendChild(fabBtn);
+    }
+    
+    fabBtn.innerHTML = `<i class="fas fa-balance-scale"></i> Compare (${selectedCourses.length})`;
+    fabBtn.style.display = 'flex';
+  } else if (fabBtn) {
+    fabBtn.style.display = 'none';
+  }
+}
