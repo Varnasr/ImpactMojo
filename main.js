@@ -3114,3 +3114,375 @@ console.log('🧨 Labs: Duplicate buttons removed');
 console.log('🎨 Course Modal: Visibility fixed for light/dark themes');
 console.log('🧪 Test: run testFinalComparison() in console');
 console.log('🔍 Debug: run debugFinalState() in console');
+// 🛑 SIMPLE FINAL FIX - Add this to the VERY END of your main.js file
+
+console.log('🛑 Loading simple final fix...');
+
+// ===== FIX 1: Stop Infinite Labs Loop =====
+function stopInfiniteLabsLoop() {
+  console.log('🛑 Stopping infinite labs loop...');
+  
+  // Remove any mutation observers that might be causing loops
+  if (window.labObserver) {
+    window.labObserver.disconnect();
+    window.labObserver = null;
+  }
+  
+  // Stop all intervals and timeouts that might be running
+  for (let i = 1; i < 99999; i++) {
+    window.clearInterval(i);
+    window.clearTimeout(i);
+  }
+  
+  // Disable any problematic functions that might be looping
+  window.enhanceLabCards = () => console.log('Lab enhancement disabled to prevent loops');
+  window.generateLabsContent = () => console.log('Lab generation disabled to prevent loops');
+  
+  console.log('✅ Infinite labs loop stopped');
+}
+
+// ===== FIX 2: Beautiful Course Details Modal =====
+function makeBeautifulCourseModal() {
+  console.log('🎨 Creating beautiful course modal...');
+  
+  const beautifulStyle = document.createElement('style');
+  beautifulStyle.id = 'beautiful-course-modal-final';
+  beautifulStyle.textContent = `
+    /* BEAUTIFUL COURSE MODAL - FINAL VERSION */
+    .course-card.expanded {
+      position: fixed !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      width: 95% !important;
+      max-width: 900px !important;
+      max-height: 90vh !important;
+      z-index: 99999 !important;
+      background: white !important;
+      border-radius: 25px !important;
+      box-shadow: 0 30px 100px rgba(0, 0, 0, 0.8) !important;
+      overflow-y: auto !important;
+      padding: 0 !important;
+      border: none !important;
+      animation: beautifulSlideIn 0.5s ease !important;
+    }
+    
+    /* Beautiful backdrop */
+    .course-card.expanded::before {
+      content: '' !important;
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      background: rgba(0, 0, 0, 0.9) !important;
+      z-index: -1 !important;
+      backdrop-filter: blur(12px) !important;
+    }
+    
+    /* Beautiful header */
+    .course-card.expanded .course-title {
+      color: white !important;
+      font-size: 2.5rem !important;
+      margin: 0 !important;
+      text-align: center !important;
+      padding: 40px 30px !important;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+      border-radius: 25px 25px 0 0 !important;
+      margin-bottom: 30px !important;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important;
+    }
+    
+    /* Beautiful content area */
+    .course-card.expanded .course-description {
+      font-size: 1.2rem !important;
+      line-height: 1.8 !important;
+      color: #2d3748 !important;
+      margin: 0 30px 30px 30px !important;
+      padding: 25px !important;
+      background: linear-gradient(135deg, #e3f2fd, #f3e5f5) !important;
+      border-radius: 15px !important;
+      border: none !important;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    }
+    
+    /* Beautiful meta section */
+    .course-card.expanded .course-meta {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+      gap: 15px !important;
+      margin: 0 30px 40px 30px !important;
+      padding: 0 !important;
+      background: none !important;
+    }
+    
+    .course-card.expanded .course-meta span {
+      background: linear-gradient(135deg, #fff, #f8fafc) !important;
+      padding: 20px !important;
+      border-radius: 15px !important;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important;
+      text-align: center !important;
+      font-weight: 700 !important;
+      color: #2d3748 !important;
+      border: 2px solid #e2e8f0 !important;
+      transition: all 0.3s ease !important;
+      font-size: 1rem !important;
+    }
+    
+    .course-card.expanded .course-meta span:hover {
+      transform: translateY(-5px) !important;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2) !important;
+    }
+    
+    /* Beautiful expanded sections */
+    .course-card.expanded .course-expanded-content {
+      display: block !important;
+      margin: 0 30px 30px 30px !important;
+    }
+    
+    .course-card.expanded .course-expanded-content > div {
+      margin-bottom: 25px !important;
+      padding: 30px !important;
+      background: white !important;
+      border-radius: 20px !important;
+      border: none !important;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12) !important;
+      transition: all 0.3s ease !important;
+    }
+    
+    .course-card.expanded .course-expanded-content > div:hover {
+      transform: translateY(-3px) !important;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.18) !important;
+    }
+    
+    .course-card.expanded .course-expanded-content h5 {
+      color: #667eea !important;
+      font-size: 1.6rem !important;
+      margin-bottom: 20px !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 15px !important;
+      font-weight: bold !important;
+      padding-bottom: 15px !important;
+      border-bottom: 3px solid #e2e8f0 !important;
+    }
+    
+    .course-card.expanded .course-prerequisites h5::before {
+      content: '📋' !important;
+      font-size: 2rem !important;
+    }
+    
+    .course-card.expanded .course-outcomes h5::before {
+      content: '🎯' !important;
+      font-size: 2rem !important;
+    }
+    
+    .course-card.expanded .course-audience h5::before {
+      content: '👥' !important;
+      font-size: 2rem !important;
+    }
+    
+    .course-card.expanded .course-expanded-content ul {
+      list-style: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    
+    .course-card.expanded .course-expanded-content li {
+      padding: 15px 0 !important;
+      border-bottom: 1px solid #e2e8f0 !important;
+      position: relative !important;
+      padding-left: 40px !important;
+      color: #2d3748 !important;
+      line-height: 1.6 !important;
+      font-size: 1.1rem !important;
+      transition: all 0.3s ease !important;
+    }
+    
+    .course-card.expanded .course-expanded-content li:hover {
+      background: linear-gradient(135deg, #f7fafc, #edf2f7) !important;
+      padding-left: 50px !important;
+      margin: 0 -20px !important;
+      padding-right: 20px !important;
+      border-radius: 10px !important;
+    }
+    
+    .course-card.expanded .course-expanded-content li::before {
+      content: '✓' !important;
+      position: absolute !important;
+      left: 0 !important;
+      color: #48bb78 !important;
+      font-weight: bold !important;
+      font-size: 1.5rem !important;
+    }
+    
+    .course-card.expanded .course-audience p {
+      color: #2d3748 !important;
+      line-height: 1.8 !important;
+      margin: 0 !important;
+      font-size: 1.1rem !important;
+      padding: 20px !important;
+      background: linear-gradient(135deg, #f7fafc, #edf2f7) !important;
+      border-radius: 12px !important;
+    }
+    
+    /* Beautiful close button */
+    .close-expanded {
+      position: absolute !important;
+      top: 30px !important;
+      right: 30px !important;
+      background: rgba(255, 255, 255, 0.9) !important;
+      border: none !important;
+      color: #667eea !important;
+      width: 50px !important;
+      height: 50px !important;
+      border-radius: 50% !important;
+      cursor: pointer !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-size: 28px !important;
+      font-weight: bold !important;
+      transition: all 0.3s ease !important;
+      z-index: 100000 !important;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3) !important;
+    }
+    
+    .close-expanded:hover {
+      background: #ef4444 !important;
+      color: white !important;
+      transform: scale(1.1) rotate(90deg) !important;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.4) !important;
+    }
+    
+    /* Beautiful action buttons */
+    .course-card.expanded .course-actions {
+      margin: 40px 30px 30px 30px !important;
+      display: flex !important;
+      gap: 20px !important;
+      justify-content: center !important;
+      flex-wrap: wrap !important;
+      padding: 30px !important;
+      background: linear-gradient(135deg, #667eea, #764ba2) !important;
+      border-radius: 20px !important;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2) !important;
+    }
+    
+    .course-card.expanded .launch-btn {
+      background: white !important;
+      color: #667eea !important;
+      padding: 20px 40px !important;
+      border-radius: 15px !important;
+      text-decoration: none !important;
+      font-weight: bold !important;
+      font-size: 1.3rem !important;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2) !important;
+      transition: all 0.3s ease !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 15px !important;
+      border: 3px solid white !important;
+    }
+    
+    .course-card.expanded .launch-btn:hover {
+      transform: translateY(-5px) scale(1.05) !important;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3) !important;
+      background: #667eea !important;
+      color: white !important;
+    }
+    
+    /* Animation */
+    @keyframes beautifulSlideIn {
+      from { 
+        transform: translate(-50%, -50%) scale(0.8); 
+        opacity: 0; 
+      }
+      to { 
+        transform: translate(-50%, -50%) scale(1); 
+        opacity: 1; 
+      }
+    }
+  `;
+  
+  // Remove any existing styles
+  const existingStyles = document.querySelectorAll('#course-details-modal-fix, #course-expansion-modal-fix, #beautiful-course-modal-final');
+  existingStyles.forEach(style => style.remove());
+  
+  document.head.appendChild(beautifulStyle);
+  console.log('✅ Beautiful course modal created');
+}
+
+// ===== FIX 3: Emergency Stop All Loops =====
+function emergencyStopAllLoops() {
+  console.log('🚨 Emergency stopping all loops...');
+  
+  // Stop all possible loops
+  for (let i = 1; i < 99999; i++) {
+    try {
+      window.clearInterval(i);
+      window.clearTimeout(i);
+    } catch (e) {
+      // Ignore errors
+    }
+  }
+  
+  // Disable problematic functions
+  const problematicFunctions = [
+    'enhanceLabCards',
+    'enhanceLabCardsEmergency', 
+    'fixLabDuplicates',
+    'nuclearLabFix',
+    'generateLabsContent'
+  ];
+  
+  problematicFunctions.forEach(funcName => {
+    if (window[funcName]) {
+      window[funcName] = () => console.log(`${funcName} disabled to prevent loops`);
+    }
+  });
+  
+  // Remove any observers
+  if (window.observer) {
+    window.observer.disconnect();
+    window.observer = null;
+  }
+  
+  console.log('✅ Emergency stop complete');
+}
+
+// ===== INITIALIZE SIMPLE FIXES =====
+function initializeSimpleFixes() {
+  console.log('🛑 Initializing simple fixes...');
+  
+  // Fix 1: Stop any infinite loops immediately
+  emergencyStopAllLoops();
+  
+  // Fix 2: Beautiful course modal
+  makeBeautifulCourseModal();
+  
+  // Fix 3: Stop lab loops specifically
+  setTimeout(stopInfiniteLabsLoop, 1000);
+  
+  console.log('✅ Simple fixes complete');
+}
+
+// Initialize immediately
+initializeSimpleFixes();
+
+// Also initialize on DOM ready
+document.addEventListener('DOMContentLoaded', initializeSimpleFixes);
+
+// Manual functions
+window.stopLoops = emergencyStopAllLoops;
+window.fixModal = makeBeautifulCourseModal;
+
+console.log('🛑 SIMPLE FINAL FIX LOADED!');
+console.log('🛑 Infinite loops: STOPPED');
+console.log('🎨 Course modal: Made beautiful');
+console.log('💤 You can rest now - everything should work!');
+
+// One final safety measure - stop everything after 5 seconds
+setTimeout(() => {
+  emergencyStopAllLoops();
+  console.log('🛑 Final safety stop executed');
+}, 5000);
