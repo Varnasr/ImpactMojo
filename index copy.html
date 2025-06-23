@@ -1,0 +1,3257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ImpactMojo 101 Knowledge Series - Development Education for South Asia</title>
+  <meta name="description" content="A curated library of full-length knowledge decks exploring justice, equity, and development practice in India and South Asia. Grounded in theory, applied in context.">
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+    import { getFirestore, doc, setDoc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN", 
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const provider = new GoogleAuthProvider();
+
+    window.auth = auth;
+    window.db = db;
+    window.provider = provider;
+    window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+    window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+    window.signOut = signOut;
+    window.onAuthStateChanged = onAuthStateChanged;
+    window.signInWithPopup = signInWithPopup;
+    window.sendPasswordResetEmail = sendPasswordResetEmail;
+    window.doc = doc;
+    window.setDoc = setDoc;
+    window.getDoc = getDoc;
+    window.updateDoc = updateDoc;
+    window.arrayUnion = arrayUnion;
+    window.arrayRemove = arrayRemove;
+  </script>
+
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #3498db;
+      --accent-color: #e74c3c;
+      --success-color: #2ecc71;
+      --warning-color: #f39c12;
+      --danger-color: #e74c3c;
+      --info-color: #3498db;
+      --light-bg: #f8f9fa;
+      --card-bg: #ffffff;
+      --text-primary: #2c3e50;
+      --text-secondary: #7f8c8d;
+      --border-color: #ecf0f1;
+      --border-radius: 8px;
+      --shadow: 0 2px 10px rgba(0,0,0,0.1);
+      --shadow-hover: 0 4px 20px rgba(0,0,0,0.15);
+      --transition: all 0.3s ease;
+      --bg-primary: #ffffff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background: var(--bg-primary);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 3rem 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+      opacity: 0.3;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .header p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Navigation - FIXED SPACING */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    nav > a {
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      background: rgba(255,255,255,0.2);
+      border-radius: 20px;
+      transition: var(--transition);
+      font-weight: 500;
+    }
+
+    nav > a:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-1px);
+    }
+
+    /* Labs Dropdown Navigation */
+    .nav-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .nav-dropdown-toggle {
+      color: white !important;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      background: rgba(255,255,255,0.2);
+      border-radius: 20px;
+      transition: var(--transition);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-dropdown-toggle:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    .nav-dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      min-width: 280px;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: var(--transition);
+    }
+
+    .nav-dropdown:hover .nav-dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .nav-dropdown-menu a {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem;
+      color: var(--text-primary);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border-color);
+      transition: var(--transition);
+    }
+
+    .nav-dropdown-menu a:last-child {
+      border-bottom: none;
+    }
+
+    .nav-dropdown-menu a:hover {
+      background: var(--light-bg);
+    }
+
+    /* Auth Buttons */
+    .auth-buttons {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .auth-btn {
+      color: white !important;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      background: rgba(255,255,255,0.2);
+      border-radius: 20px;
+      transition: var(--transition);
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+    }
+
+    .auth-btn.signup {
+      background: var(--accent-color);
+    }
+
+    .auth-btn:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-1px);
+    }
+
+    .auth-btn.signup:hover {
+      background: #c0392b;
+    }
+
+    .user-menu {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .user-welcome {
+      color: white !important;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      background: rgba(255,255,255,0.15);
+      border-radius: 20px;
+      text-decoration: none;
+    }
+
+    /* Main Content */
+    main {
+      padding: 4rem 0;
+    }
+
+    /* Latest Additions */
+    .latest-additions {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      margin-bottom: 3rem;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-color);
+    }
+
+    .latest-additions h3 {
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 1.5rem;
+    }
+
+    .latest-additions ul {
+      list-style: none;
+    }
+
+    .latest-additions li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .latest-additions li:last-child {
+      border-bottom: none;
+    }
+
+    .date {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Learning Paths */
+    .learning-paths {
+      margin-bottom: 3rem;
+    }
+
+    .learning-paths h3 {
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .paths-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .path-card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .path-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .path-card h4 {
+      color: var(--secondary-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .path-description {
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .path-courses {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .path-course-tag {
+      background: var(--light-bg);
+      color: var(--text-secondary);
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      border: 1px solid var(--border-color);
+    }
+
+    /* Course Section */
+    .course-section {
+      margin-bottom: 3rem;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .section-icon {
+      font-size: 2rem;
+      color: var(--secondary-color);
+      margin-bottom: 1rem;
+    }
+
+    .section-header h2 {
+      color: var(--text-primary);
+      margin: 0 0 1rem 0;
+      font-family: 'Inter', sans-serif;
+      font-size: 2rem;
+    }
+
+    /* Search and Filters */
+    .search-filter-bar {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-color);
+    }
+
+    .search-box {
+      margin-bottom: 1rem;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 1rem;
+      border: 2px solid var(--border-color);
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--secondary-color);
+    }
+
+    .topic-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .topic-filter-btn {
+      padding: 0.5rem 1rem;
+      border: 2px solid var(--border-color);
+      border-radius: 20px;
+      background: var(--bg-primary);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.9rem;
+    }
+
+    .topic-filter-btn:hover,
+    .topic-filter-btn.active {
+      border-color: var(--secondary-color);
+      background: var(--secondary-color);
+      color: white;
+    }
+
+    .filter-controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .filter-group label {
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+    }
+
+    .filter-select {
+      padding: 0.75rem;
+      border: 2px solid var(--border-color);
+      border-radius: var(--border-radius);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-size: 0.9rem;
+    }
+
+    .clear-filters {
+      padding: 0.75rem 1.5rem;
+      background: var(--danger-color);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .clear-filters:hover {
+      background: #c0392b;
+    }
+
+    /* Stats Bar */
+    .stats-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .course-count {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .comparison-tools {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .view-toggle {
+      display: flex;
+      border: 2px solid var(--border-color);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+    }
+
+    .view-btn {
+      padding: 0.5rem 1rem;
+      background: var(--bg-primary);
+      border: none;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: var(--transition);
+    }
+
+    .view-btn.active {
+      background: var(--secondary-color);
+      color: white;
+    }
+
+    .compare-btn,
+    .secondary-btn {
+      padding: 0.5rem 1rem;
+      border: 2px solid var(--secondary-color);
+      border-radius: var(--border-radius);
+      background: var(--secondary-color);
+      color: white;
+      cursor: pointer;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+    }
+
+    .compare-btn {
+      display: none;
+    }
+
+    .secondary-btn {
+      background: transparent;
+      color: var(--secondary-color);
+    }
+
+    .secondary-btn:hover {
+      background: var(--secondary-color);
+      color: white;
+    }
+
+    /* Course Grid */
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .courses-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .course-card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .course-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .course-number {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--secondary-color);
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+      z-index: 2;
+    }
+
+    .course-header {
+      padding: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .course-icon {
+      font-size: 2rem;
+      color: var(--secondary-color);
+      flex-shrink: 0;
+    }
+
+    .course-title-section {
+      flex: 1;
+      margin-right: 2.5rem; /* Space for badge */
+    }
+
+    .course-title {
+      margin: 0 0 0.5rem 0;
+      color: var(--text-primary);
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .course-meta {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .meta-tag {
+      background: var(--light-bg);
+      color: var(--text-secondary);
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .course-description {
+      padding: 0 1.5rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .course-stats {
+      padding: 0 1.5rem;
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .course-stat {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .course-actions {
+      padding: 1.5rem;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .course-actions-left {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .launch-btn {
+      background: var(--secondary-color);
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+    }
+
+    .launch-btn:hover {
+      background: #2980b9;
+    }
+
+    .bookmark-btn {
+      background: transparent;
+      border: 2px solid var(--border-color);
+      color: var(--text-secondary);
+      padding: 0.5rem;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .bookmark-btn:hover,
+    .bookmark-btn.bookmarked {
+      border-color: var(--warning-color);
+      color: var(--warning-color);
+    }
+
+    .course-details {
+      padding: 1.5rem;
+      background: var(--light-bg);
+      border-top: 1px solid var(--border-color);
+      display: none;
+    }
+
+    .course-card.expanded .course-details {
+      display: block;
+    }
+
+    .details-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .details-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .details-section h4 {
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .details-section ul {
+      list-style: none;
+      margin-left: 1rem;
+    }
+
+    .details-section li {
+      color: var(--text-secondary);
+      margin-bottom: 0.25rem;
+      position: relative;
+    }
+
+    .details-section li::before {
+      content: '•';
+      color: var(--secondary-color);
+      position: absolute;
+      left: -1rem;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-secondary);
+    }
+
+    .no-results.hidden {
+      display: none;
+    }
+
+    .no-results i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: var(--border-color);
+    }
+
+    /* Notes Section */
+    .notes-section {
+      padding: 4rem 0;
+      background: var(--bg-primary);
+    }
+
+    /* Labs Section - ALL 9 LABS */
+    .labs-section {
+      padding: 4rem 0;
+      background: var(--light-bg);
+    }
+
+    .labs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .lab-card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-color);
+      transition: var(--transition);
+    }
+
+    .lab-card.live {
+      border: 2px solid var(--success-color);
+    }
+
+    .lab-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .lab-card h3 {
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .lab-card p {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .lab-status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .lab-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .lab-badge.live {
+      background: var(--success-color);
+      color: white;
+    }
+
+    .lab-badge.coming-soon {
+      background: var(--warning-color);
+      color: white;
+    }
+
+    .lab-launch-btn {
+      background: var(--secondary-color);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+    }
+
+    .lab-launch-btn:hover {
+      background: #2980b9;
+    }
+
+    /* Wall of Love */
+    .wall-of-love {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      margin-bottom: 3rem;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-color);
+    }
+
+    .testimonial-stats {
+      text-align: center;
+      margin: 2rem 0;
+      padding: 2rem;
+      background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+      color: white;
+      border-radius: var(--border-radius);
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 2rem;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      font-family: 'Playfair Display', serif;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .testimonial {
+      background: var(--light-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .testimonial:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .testimonial::before {
+      content: '"';
+      position: absolute;
+      top: -10px;
+      left: 15px;
+      font-size: 4rem;
+      color: var(--secondary-color);
+      font-family: 'Playfair Display', serif;
+      line-height: 1;
+    }
+
+    .testimonial-text {
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      font-style: italic;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .author-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--secondary-color);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
+
+    .author-info h5 {
+      margin: 0;
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .author-info p {
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Extras Section - FIXED FONT */
+    .extras-section {
+      margin-bottom: 3rem;
+    }
+
+    .extras-section h2 {
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 2rem;
+      text-align: center;
+    }
+
+    .extras-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .extras-card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-color);
+      transition: var(--transition);
+    }
+
+    .extras-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .extras-card h4 {
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 1.2rem;
+    }
+
+    .extras-card h4 a {
+      color: var(--secondary-color);
+      text-decoration: none;
+    }
+
+    .extras-card h4 a:hover {
+      text-decoration: underline;
+    }
+
+    /* Author Section */
+    .author {
+      background: var(--card-bg);
+      color: var(--text-primary);
+      border-left: 4px solid var(--secondary-color);
+      padding: 2rem;
+      margin-top: 3rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      display: flex;
+      gap: 2rem;
+      align-items: flex-start;
+    }
+
+    .author-photo {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .author-content h3 {
+      margin: 0 0 1rem 0;
+      color: var(--text-primary);
+      font-family: 'Playfair Display', serif;
+    }
+
+    .coaching-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--secondary-color);
+      color: white;
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--border-radius);
+      margin: 1rem 0;
+      transition: var(--transition);
+      font-weight: 600;
+    }
+
+    .coaching-cta:hover {
+      background: #2980b9;
+      transform: translateY(-1px);
+    }
+
+    .author-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .author-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .author-links a:hover {
+      color: var(--secondary-color);
+    }
+
+    /* Newsletter */
+    .newsletter {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      margin: 3rem 0;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-color);
+      text-align: center;
+    }
+
+    .newsletter h3 {
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 1rem;
+      max-width: 400px;
+      margin: 1rem auto 0;
+    }
+
+    .newsletter-form input {
+      flex: 1;
+      padding: 0.75rem;
+      border: 2px solid var(--border-color);
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    .newsletter-form button {
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .newsletter-form button:hover {
+      background: #c0392b;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--primary-color);
+      color: white;
+      padding: 3rem 0 1rem;
+      margin-top: 3rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-section h3 {
+      margin-bottom: 1rem;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .footer-section p,
+    .footer-section li {
+      color: rgba(255,255,255,0.8);
+      line-height: 1.6;
+    }
+
+    .footer-section ul {
+      list-style: none;
+    }
+
+    .footer-section a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer-section a:hover {
+      color: white;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 1rem;
+      text-align: center;
+      color: rgba(255,255,255,0.6);
+    }
+    
+    /* Footer links hover effects */
+    .footer a:hover {
+      color: white !important;
+      opacity: 1;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+    }
+
+    .modal-content {
+      background-color: var(--card-bg);
+      margin: 5% auto;
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-content.large {
+      max-width: 800px;
+    }
+
+    .close {
+      color: var(--text-secondary);
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+    }
+
+    .close:hover {
+      color: var(--text-primary);
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid var(--border-color);
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--secondary-color);
+    }
+
+    .submit-btn {
+      background: var(--secondary-color);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      width: 100%;
+    }
+
+    .submit-btn:hover {
+      background: #2980b9;
+    }
+
+    /* User Dashboard */
+    .user-dashboard {
+      display: none;
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      margin: 2rem 0;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-color);
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .dashboard-section {
+      background: rgba(255,255,255,0.1);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+    }
+
+    .dashboard-section h3 {
+      margin: 0 0 1rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Floating Action Buttons */
+    .fab-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .fab-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--secondary-color);
+      color: white;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .fab-btn:hover {
+      transform: scale(1.1);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .fab-btn.feedback { background: var(--warning-color); }
+    .fab-btn.suggest { background: var(--success-color); }
+    .fab-btn.question { background: var(--info-color); }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 2rem;
+      }
+
+      .header p {
+        font-size: 1rem;
+      }
+
+      nav {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .courses-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .course-number {
+        width: 24px;
+        height: 24px;
+        font-size: 0.75rem;
+      }
+
+      .course-title-section {
+        margin-right: 2rem;
+      }
+
+      .stats-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .comparison-tools {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .author {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .newsletter-form {
+        flex-direction: column;
+      }
+
+      .fab-container {
+        bottom: 10px;
+        right: 10px;
+      }
+
+      .modal-content {
+        margin: 10% auto;
+        width: 95%;
+      }
+    }
+
+    /* Utilities */
+    .hidden {
+      display: none !important;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <h1>ImpactMojo 101 Knowledge Series</h1>
+        <p>
+          ImpactMojo is a curated library of full-length knowledge decks that explore justice, equity, and development practice in India and South Asia. 
+          Each one is grounded in theory, applied in context, and ready for real-world use by educators, practitioners, and social researchers worldwide.
+        </p>
+        
+        <!-- Navigation with FIXED spacing -->
+        <nav>
+          <a href="#courses">Browse Courses</a>
+          <a href="#wall-of-love">Wall of Love</a>
+          <a href="#extras">Resources</a>
+          
+          <!-- Labs Dropdown -->
+          <div class="nav-dropdown">
+            <a href="#labs" class="nav-dropdown-toggle" onclick="handleLabsClick(event)">
+              Labs <i class="fas fa-chevron-down" style="font-size: 0.8em; margin-left: 0.3em;"></i>
+            </a>
+            <div class="nav-dropdown-menu">
+              <a href="https://toc-workbench.netlify.app/" target="_blank" rel="noopener">
+                <i class="fas fa-tools"></i> TOC Workbench
+                <i class="fas fa-external-link-alt" style="font-size: 0.8em; margin-left: auto;"></i>
+              </a>
+              <a href="https://impactrisk-mitigation.netlify.app/" target="_blank" rel="noopener">
+                <i class="fas fa-shield-alt"></i> Risk Mitigation Lab
+                <i class="fas fa-external-link-alt" style="font-size: 0.8em; margin-left: auto;"></i>
+              </a>
+              <a href="https://mle-frameworkdesign.netlify.app/" target="_blank" rel="noopener">
+                <i class="fas fa-cogs"></i> MEL Framework Designer
+                <i class="fas fa-external-link-alt" style="font-size: 0.8em; margin-left: auto;"></i>
+              </a>
+              <a href="https://mle-plan-lab.netlify.app/" target="_blank" rel="noopener">
+                <i class="fas fa-project-diagram"></i> MEL Planning Lab
+                <i class="fas fa-external-link-alt" style="font-size: 0.8em; margin-left: auto;"></i>
+              </a>
+              <a href="https://rm-sustainability4impact.netlify.app/" target="_blank" rel="noopener">
+                <i class="fas fa-hand-holding-usd"></i> Resource Mobilization Lab
+                <i class="fas fa-external-link-alt" style="font-size: 0.8em; margin-left: auto;"></i>
+              </a>
+              <a href="https://pol-advocacy4impact.netlify.app/" target="_blank" rel="noopener">
+                <i class="fas fa-gavel"></i> Policy & Advocacy Lab
+                <i class="fas fa-external-link-alt" style="font-size: 0.8em; margin-left: auto;"></i>
+              </a>
+              <a href="https://community-engagement.netlify.app/" target="_blank" rel="noopener">
+                <i class="fas fa-users"></i> Community Engagement Lab
+                <i class="fas fa-external-link-alt" style="font-size: 0.8em; margin-left: auto;"></i>
+              </a>
+              <a href="https://survey-design-lab.netlify.app/" target="_blank" rel="noopener">
+                <i class="fas fa-poll"></i> Survey Design Lab
+                <i class="fas fa-external-link-alt" style="font-size: 0.8em; margin-left: auto;"></i>
+              </a>
+              <a href="https://data-viz-lab.netlify.app/" target="_blank" rel="noopener">
+                <i class="fas fa-chart-bar"></i> Data Visualization Lab
+                <i class="fas fa-external-link-alt" style="font-size: 0.8em; margin-left: auto;"></i>
+              </a>
+            </div>
+          </div>
+          
+          <!-- Auth Buttons -->
+          <div class="auth-buttons" id="authButtons">
+            <a href="#" onclick="openModal('loginModal')" class="auth-btn">Login</a>
+            <a href="#" onclick="openModal('signupModal')" class="auth-btn signup">Sign Up</a>
+          </div>
+          <div class="user-menu" id="userMenu" style="display: none;">
+            <a href="#" onclick="toggleUserDashboard()" class="user-welcome">Welcome, <span id="userName">User</span>!</a>
+            <a href="#" onclick="logout()" class="auth-btn">Logout</a>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main" role="main">
+    <div class="container">
+      <!-- Latest Additions Box -->
+      <div class="latest-additions">
+        <h3>Latest Additions</h3>
+        <ul>
+          <li>Education and Pedagogy 101 <span class="date">• Added May 2025</span></li>
+          <li>Public Health 101 <span class="date">• Added May 2025</span></li>
+          <li>Livelihoods 101 <span class="date">• Added April 2025</span></li>
+          <li>Gender Studies 101 <span class="date">• Added April 2025</span></li>
+        </ul>
+      </div>
+
+      <!-- Learning Paths -->
+      <div class="learning-paths">
+        <h3><i class="fas fa-route"></i> Recommended Learning Paths</h3>
+        <div class="paths-grid">
+          <div class="path-card" onclick="applyLearningPath('data-analysis')">
+            <h4>Data Analysis Track</h4>
+            <p class="path-description">Master data skills from basics to advanced analysis</p>
+            <div class="path-courses">
+              <span class="path-course-tag">Data Literacy 101</span>
+              <span class="path-course-tag">EDA for Survey Data</span>
+              <span class="path-course-tag">Bivariate Analysis</span>
+              <span class="path-course-tag">Multivariate Analysis</span>
+            </div>
+          </div>
+
+          <div class="path-card" onclick="applyLearningPath('gender-studies')">
+            <h4>Gender Studies Pathway</h4>
+            <p class="path-description">Comprehensive understanding of gender in development</p>
+            <div class="path-courses">
+              <span class="path-course-tag">Gender Studies 101</span>
+              <span class="path-course-tag">Data Feminism 101</span>
+              <span class="path-course-tag">Care Economy</span>
+              <span class="path-course-tag">Women's Economic Empowerment</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Course Section -->
+      <section id="courses" class="course-section">
+        <div class="section-header">
+          <div class="section-icon"><i class="fas fa-graduation-cap"></i></div>
+          <h2>Browse All Courses</h2>
+          <p>Explore our collection of 33 comprehensive courses designed for development practitioners</p>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="search-filter-bar">
+          <div class="search-box">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search courses by title, topic, or description..." onkeyup="searchCourses()">
+          </div>
+
+          <div class="topic-filters">
+            <button class="topic-filter-btn active" data-topic="all" onclick="filterByTopic('all')">All Topics</button>
+            <button class="topic-filter-btn" data-topic="data" onclick="filterByTopic('data')">Data</button>
+            <button class="topic-filter-btn" data-topic="economics" onclick="filterByTopic('economics')">Economics</button>
+            <button class="topic-filter-btn" data-topic="education" onclick="filterByTopic('education')">Education</button>
+            <button class="topic-filter-btn" data-topic="gender" onclick="filterByTopic('gender')">Gender</button>
+            <button class="topic-filter-btn" data-topic="health" onclick="filterByTopic('health')">Health</button>
+            <button class="topic-filter-btn" data-topic="identity" onclick="filterByTopic('identity')">Identity</button>
+            <button class="topic-filter-btn" data-topic="justice" onclick="filterByTopic('justice')">Justice</button>
+            <button class="topic-filter-btn" data-topic="livelihoods" onclick="filterByTopic('livelihoods')">Livelihoods</button>
+            <button class="topic-filter-btn" data-topic="media" onclick="filterByTopic('media')">Media</button>
+            <button class="topic-filter-btn" data-topic="research" onclick="filterByTopic('research')">Research</button>
+            <button class="topic-filter-btn" data-topic="systems" onclick="filterByTopic('systems')">Systems</button>
+          </div>
+
+          <div class="filter-controls">
+            <div class="filter-group">
+              <label for="levelFilter">Level:</label>
+              <select id="levelFilter" class="filter-select" onchange="filterCourses()">
+                <option value="all">All Levels</option>
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="durationFilter">Duration:</label>
+              <select id="durationFilter" class="filter-select" onchange="filterCourses()">
+                <option value="all">Any Duration</option>
+                <option value="short">Short (1-2 hours)</option>
+                <option value="medium">Medium (3-4 hours)</option>
+                <option value="long">Long (4+ hours)</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <button class="clear-filters" onclick="clearAllFilters()">Clear Filters</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats Bar with Course Count and Comparison -->
+        <div class="stats-bar">
+          <div class="course-count" id="courseCount" role="status" aria-live="polite">
+            Showing <span id="visibleCount">33</span> of <span id="totalCount">33</span> courses
+          </div>
+          <div class="comparison-tools">
+            <div class="view-toggle" role="group" aria-label="View options">
+              <button class="view-btn active" onclick="toggleView('grid', event)" title="Grid view" aria-label="Switch to grid view" aria-pressed="true">
+                <i class="fas fa-th" aria-hidden="true"></i>
+              </button>
+              <button class="view-btn" onclick="toggleView('list', event)" title="List view" aria-label="Switch to list view" aria-pressed="false">
+                <i class="fas fa-list" aria-hidden="true"></i>
+              </button>
+            </div>
+            <button class="compare-btn" id="compareBtn" onclick="openModal('comparisonModal')">
+              <i class="fas fa-balance-scale"></i> Compare Selected (<span id="compareCount">0</span>)
+            </button>
+            <button class="secondary-btn" onclick="window.print()">
+              <i class="fas fa-print"></i> Print
+            </button>
+          </div>
+        </div>
+
+        <!-- Course Grid -->
+        <div class="courses-grid" id="courseContainer">
+          <!-- Course cards will be generated by JavaScript -->
+        </div>
+
+        <!-- No Results -->
+        <div class="no-results hidden" id="noResults">
+          <i class="fas fa-search"></i>
+          <h3>No courses found</h3>
+          <p>Try adjusting your search terms or filters to find what you're looking for.</p>
+        </div>
+      </section>
+
+      <!-- User Dashboard (hidden by default) -->
+      <div class="user-dashboard" id="userDashboard">
+        <!-- Dashboard content will be populated by JavaScript -->
+      </div>
+
+      <!-- Notes Section -->
+      <section id="notes" class="notes-section">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-icon"><i class="fas fa-sticky-note"></i></div>
+            <h2>Course Notes</h2>
+            <p>Access and manage your personal notes from all courses</p>
+          </div>
+          
+          <div style="background: var(--card-bg); border-radius: var(--border-radius); padding: 2rem; box-shadow: var(--shadow); margin-top: 2rem;">
+            <p style="text-align: center; color: var(--text-secondary);">
+              <i class="fas fa-lock" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+              Please <a href="#" onclick="openModal('loginModal')" style="color: var(--secondary-color);">login</a> to access your notes
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Labs Section - ALL 9 LABS LIVE -->
+      <section id="labs" class="labs-section">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-icon"><i class="fas fa-flask"></i></div>
+            <h2>ImpactMojo Labs</h2>
+            <p>Interactive tools and experimental features for development practitioners</p>
+          </div>
+          
+          <div class="labs-grid">
+            <!-- TOC Workbench -->
+            <div class="lab-card live">
+              <h3><i class="fas fa-tools"></i> TOC Workbench</h3>
+              <p>Create, visualize, and share your intervention logic models.</p>
+              <div class="lab-status">
+                <span class="lab-badge live">Live</span>
+                <a href="https://toc-workbench.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
+                  Launch Lab <i class="fas fa-external-link-alt"></i>
+                </a>
+              </div>
+            </div>
+            
+            <!-- Risk Mitigation Lab -->
+            <div class="lab-card live">
+              <h3><i class="fas fa-shield-alt"></i> Risk Mitigation Lab</h3>
+              <p>Identify and plan for potential risks in development projects.</p>
+              <div class="lab-status">
+                <span class="lab-badge live">Live</span>
+                <a href="https://impactrisk-mitigation.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
+                  Launch Lab <i class="fas fa-external-link-alt"></i>
+                </a>
+              </div>
+            </div>
+            
+            <!-- MEL Framework Designer -->
+            <div class="lab-card live">
+              <h3><i class="fas fa-cogs"></i> MEL Framework Designer</h3>
+              <p>Design comprehensive monitoring, evaluation, and learning frameworks.</p>
+              <div class="lab-status">
+                <span class="lab-badge live">Live</span>
+                <a href="https://mle-frameworkdesign.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
+                  Launch Lab <i class="fas fa-external-link-alt"></i>
+                </a>
+              </div>
+            </div>
+            
+            <!-- MEL Planning Lab -->
+            <div class="lab-card live">
+              <h3><i class="fas fa-project-diagram"></i> MEL Planning Lab</h3>
+              <p>Create detailed monitoring and evaluation plans for your projects.</p>
+              <div class="lab-status">
+                <span class="lab-badge live">Live</span>
+                <a href="https://mle-plan-lab.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
+                  Launch Lab <i class="fas fa-external-link-alt"></i>
+                </a>
+              </div>
+            </div>
+            
+            <!-- Resource Mobilization Lab -->
+            <div class="lab-card live">
+              <h3><i class="fas fa-hand-holding-usd"></i> Resource Mobilization Lab</h3>
+              <p>Develop strategies for sustainable funding and resource mobilization.</p>
+              <div class="lab-status">
+                <span class="lab-badge live">Live</span>
+                <a href="https://rm-sustainability4impact.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
+                  Launch Lab <i class="fas fa-external-link-alt"></i>
+                </a>
+              </div>
+            </div>
+            
+            <!-- Policy & Advocacy Lab -->
+            <div class="lab-card live">
+              <h3><i class="fas fa-gavel"></i> Policy & Advocacy Lab</h3>
+              <p>Build effective advocacy strategies and policy recommendations.</p>
+              <div class="lab-status">
+                <span class="lab-badge live">Live</span>
+                <a href="https://pol-advocacy4impact.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
+                  Launch Lab <i class="fas fa-external-link-alt"></i>
+                </a>
+              </div>
+            </div>
+            
+            <!-- Community Engagement Lab -->
+            <div class="lab-card live">
+              <h3><i class="fas fa-users"></i> Community Engagement Lab</h3>
+              <p>Design meaningful community participation and engagement strategies.</p>
+              <div class="lab-status">
+                <span class="lab-badge live">Live</span>
+                <a href="https://community-engagement.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
+                  Launch Lab <i class="fas fa-external-link-alt"></i>
+                </a>
+              </div>
+            </div>
+            
+            <!-- Survey Design Lab -->
+            <div class="lab-card live">
+              <h3><i class="fas fa-poll"></i> Survey Design Lab</h3>
+              <p>Create effective surveys and questionnaires for development research.</p>
+              <div class="lab-status">
+                <span class="lab-badge live">Live</span>
+                <a href="https://survey-design-lab.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
+                  Launch Lab <i class="fas fa-external-link-alt"></i>
+                </a>
+              </div>
+            </div>
+            
+            <!-- Data Visualization Lab -->
+            <div class="lab-card live">
+              <h3><i class="fas fa-chart-bar"></i> Data Visualization Lab</h3>
+              <p>Practice creating compelling data visualizations with real development datasets.</p>
+              <div class="lab-status">
+                <span class="lab-badge live">Live</span>
+                <a href="https://data-viz-lab.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
+                  Launch Lab <i class="fas fa-external-link-alt"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Wall of Love Section - FIXED LINKING -->
+      <section id="wall-of-love" class="wall-of-love">
+        <div class="section-header">
+          <div class="section-icon"><i class="fas fa-heart"></i></div>
+          <h2>Wall of Love</h2>
+        </div>
+        
+        <p style="text-align: center; font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 2rem;">
+          Hear from educators, researchers, and practitioners who are using ImpactMojo to advance justice and equity in development practice.
+        </p>
+
+        <div class="testimonial-stats">
+          <div class="stats-row">
+            <div class="stat-item">
+              <span class="stat-number">25,000+</span>
+              <span class="stat-label">Learners</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">150+</span>
+              <span class="stat-label">Organizations</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">33</span>
+              <span class="stat-label">Knowledge Decks</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">4.7★</span>
+              <span class="stat-label">Average Rating</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonials-grid">
+          <div class="testimonial">
+            <div class="testimonial-text">
+              ImpactMojo has revolutionized how I teach development economics. The South Asian context and real-world applications make complex concepts accessible to my students.
+            </div>
+            <div class="testimonial-author">
+              <div class="author-avatar">A</div>
+              <div class="author-info">
+                <h5>Dr. Anonymous</h5>
+                <p>Professor, Economics Department</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="testimonial">
+            <div class="testimonial-text">
+              The data feminism course opened my eyes to new ways of thinking about our research. Now I question every dataset and methodology with a critical lens.
+            </div>
+            <div class="testimonial-author">
+              <div class="author-avatar">B</div>
+              <div class="author-info">
+                <h5>Anonymous</h5>
+                <p>Research Officer, International NGO</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="testimonial">
+            <div class="testimonial-text">
+              These courses provide exactly what we need - theory grounded in practice with examples from our own context. My team uses them for professional development.
+            </div>
+            <div class="testimonial-author">
+              <div class="author-avatar">C</div>
+              <div class="author-info">
+                <h5>Anonymous</h5>
+                <p>Program Manager, Development NGO</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial">
+            <div class="testimonial-text">
+              The gender studies pathway transformed how our organization approaches programming. We now integrate intersectional analysis into all our work.
+            </div>
+            <div class="testimonial-author">
+              <div class="author-avatar">D</div>
+              <div class="author-info">
+                <h5>Anonymous</h5>
+                <p>Country Director, International Foundation</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial">
+            <div class="testimonial-text">
+              As a consultant, these courses keep me updated with the latest research and methodologies. The handouts are perfect for client workshops.
+            </div>
+            <div class="testimonial-author">
+              <div class="author-avatar">E</div>
+              <div class="author-info">
+                <h5>Anonymous</h5>
+                <p>Independent Development Consultant</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial">
+            <div class="testimonial-text">
+              The bivariate analysis course helped me finally understand statistical concepts I'd been struggling with. The South Asian examples made all the difference.
+            </div>
+            <div class="testimonial-author">
+              <div class="author-avatar">F</div>
+              <div class="author-info">
+                <h5>Anonymous</h5>
+                <p>Graduate Student, Development Studies</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Extras Section - FIXED FONT -->
+      <section id="extras" class="extras-section">
+        <div class="section-header">
+          <div class="section-icon"><i class="fas fa-tools"></i></div>
+          <h2>EXTRAS & RESOURCES</h2>
+          <p>Additional materials, datasets, and tools to support your learning and teaching</p>
+        </div>
+        
+        <div class="extras-grid">
+          <div class="extras-card">
+            <h4><i class="fas fa-chalkboard-teacher"></i> <a href="https://github.com/Varnasr/ImpactMojo/tree/main/extras/handouts">Educational Handouts</a></h4>
+            <p>Over 20 ready-to-use workshop modules covering Digital Development Ethics, Statistical Analysis, and South Asian Applications. Perfect for educators and trainers.</p>
+          </div>
+          
+          <div class="extras-card">
+            <h4><i class="fas fa-database"></i> <a href="https://github.com/Varnasr/ImpactMojo/tree/main/extras/data">Data Repository</a></h4>
+            <p>Real development datasets, Excel templates, Python scripts, and analysis resources. Includes cleaned data from NFHS, economic surveys, and social indicators.</p>
+          </div>
+          
+          <div class="extras-card">
+            <h4><i class="fas fa-microscope"></i> <a href="https://github.com/Varnasr/ImpactMojo/tree/main/extras/research">Research Tools</a></h4>
+            <p>Templates for literature reviews, research proposals, and ethics documentation. Designed for South Asian research contexts and institutional requirements.</p>
+          </div>
+        </div>
+        
+        <p style="text-align: center; margin-top: 2rem; font-style: italic; color: var(--text-secondary);">
+          All resources are open-source and free to use, modify, and share under CC BY-NC-SA 4.0 license.
+        </p>
+      </section>
+
+      <!-- Newsletter Section -->
+      <div class="newsletter">
+        <h3>Stay Updated</h3>
+        <p>Get notified about new courses, resources, and updates from ImpactMojo</p>
+        <form class="newsletter-form" action="https://formspree.io/f/xpwdvgzp" method="POST">
+          <input type="email" name="email" placeholder="Your email address" required>
+          <input type="hidden" name="_subject" value="ImpactMojo Newsletter Signup">
+          <button type="submit">Subscribe</button>
+        </form>
+        <p style="font-size: 0.9rem; margin-top: 1rem; color: var(--text-secondary);">
+          We respect your privacy. Unsubscribe anytime.
+        </p>
+      </div>
+
+      <!-- Author Section - FIXED PHOTO -->
+      <section class="author" id="author">
+        <img src="https://raw.githubusercontent.com/Varnasr/ImpactMojo/main/assets/varna-photo.jpg" alt="Dr. Varna Sri Raman" class="author-photo">
+        <div class="author-content">
+          <h3>Dr. Varna Sri Raman</h3>
+          <p>
+            Development Economist with a PhD from Cambridge University, specializing in economics, gender, and social policy. 
+            With years of field experience across India and a passion for making knowledge accessible, I created ImpactMojo 
+            to bridge the gap between academic theory and development practice.
+          </p>
+          <a href="https://calendly.com/varna-raman/impactmojo-consultation" target="_blank" rel="noopener" class="coaching-cta">
+            <i class="fas fa-calendar-alt"></i> Book a Development Consultation
+          </a>
+          <div class="author-links">
+            <a href="https://www.threads.net/@varna.raman" target="_blank" rel="noopener" title="Follow Varna on Threads">
+              <i class="fab fa-threads" aria-hidden="true"></i> Threads
+            </a>
+            <a href="https://www.linkedin.com/in/varna" target="_blank" rel="noopener" title="Connect with Dr. Varna on LinkedIn">
+              <i class="fab fa-linkedin" aria-hidden="true"></i> LinkedIn
+            </a>
+            <a href="https://vfolio.notion.site/" target="_blank" rel="noopener" title="View Dr. Varna's Portfolio">
+              <i class="fas fa-globe" aria-hidden="true"></i> Portfolio
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo">
+    <!-- Disclaimer Section -->
+    <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--border-radius); padding: 2rem; margin: 2rem auto; max-width: 1200px; text-align: left; color: var(--text-primary);">
+      <h4 style="color: var(--text-primary); margin: 0 0 1.5rem 0; font-size: 1.2rem; display: flex; align-items: center; gap: 0.5rem;">
+        <i class="fas fa-info-circle" style="color: var(--secondary-color);"></i> 
+        Important Disclaimer
+      </h4>
+      
+      <div style="display: grid; gap: 1rem; font-size: 0.95rem; line-height: 1.6;">
+        <p style="margin: 0; display: flex; align-items: flex-start; gap: 0.75rem;">
+          <i class="fas fa-gift" style="color: var(--success-color); margin-top: 0.2rem; flex-shrink: 0;"></i>
+          <span><strong>Free Resource:</strong> ImpactMojo is provided completely free of charge. Use, adapt, and share responsibly within your development work.</span>
+        </p>
+        
+        <p style="margin: 0; display: flex; align-items: flex-start; gap: 0.75rem;">
+          <i class="fas fa-graduation-cap" style="color: var(--info-color); margin-top: 0.2rem; flex-shrink: 0;"></i>
+          <span><strong>Educational Purpose:</strong> These courses are designed for educational purposes to support learning and capacity building in development practice.</span>
+        </p>
+        
+        <p style="margin: 0; display: flex; align-items: flex-start; gap: 0.75rem;">
+          <i class="fas fa-exclamation-triangle" style="color: var(--warning-color); margin-top: 0.2rem; flex-shrink: 0;"></i>
+          <span><strong>No Professional Advice:</strong> Content should not be considered as professional, legal, or financial advice. Always consult qualified professionals for specific guidance.</span>
+        </p>
+        
+        <p style="margin: 0; display: flex; align-items: flex-start; gap: 0.75rem;">
+          <i class="fas fa-shield-alt" style="color: var(--danger-color); margin-top: 0.2rem; flex-shrink: 0;"></i>
+          <span><strong>No Guarantees:</strong> While we strive for accuracy, we make no guarantees about the completeness, reliability, or suitability of the content for any purpose.</span>
+        </p>
+        
+        <p style="margin: 0; display: flex; align-items: flex-start; gap: 0.75rem;">
+          <i class="fas fa-user-shield" style="color: var(--secondary-color); margin-top: 0.2rem; flex-shrink: 0;"></i>
+          <span><strong>Use at Your Own Risk:</strong> Users assume full responsibility for how they apply the knowledge and methods discussed in these courses.</span>
+        </p>
+        
+        <p style="margin: 0; display: flex; align-items: flex-start; gap: 0.75rem;">
+          <i class="fas fa-book-open" style="color: var(--primary-color); margin-top: 0.2rem; flex-shrink: 0;"></i>
+          <span><strong>Academic Content:</strong> Courses represent academic perspectives and should be considered alongside other sources and local context when making decisions.</span>
+        </p>
+        
+        <p style="margin: 0; display: flex; align-items: flex-start; gap: 0.75rem;">
+          <i class="fab fa-osi" style="color: var(--success-color); margin-top: 0.2rem; flex-shrink: 0;"></i>
+          <span><strong>Open Source:</strong> Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener" style="color: var(--secondary-color);">CC BY-NC-SA 4.0</a>. You're free to share and adapt for non-commercial purposes with attribution.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>ImpactMojo</h3>
+        <p>Advancing justice through evidence-based learning in South Asian development practice.</p>
+        <p>
+          <i class="fas fa-envelope"></i> suggestions@impactmojo.in<br>
+          <i class="fas fa-globe"></i> www.impactmojo.in
+        </p>
+      </div>
+      <div class="footer-section">
+        <h3>Resources</h3>
+        <ul>
+          <li><a href="#courses">Browse Courses</a></li>
+          <li><a href="#labs">ImpactMojo Labs</a></li>
+          <li><a href="#extras">Extras & Resources</a></li>
+          <li><a href="#wall-of-love">Wall of Love</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="https://www.threads.net/@varna.raman" target="_blank">Threads</a></li>
+          <li><a href="https://www.linkedin.com/in/varna" target="_blank">LinkedIn</a></li>
+          <li><a href="https://github.com/Varnasr/ImpactMojo" target="_blank">GitHub</a></li>
+          <li><a href="mailto:suggestions@impactmojo.in">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- Footer Links -->
+    <div style="border-top: 1px solid rgba(255,255,255,0.1); padding: 2rem; text-align: center;">
+      <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; margin-bottom: 1rem;">
+        <a href="#courses" style="color: rgba(255,255,255,0.8); text-decoration: none; transition: var(--transition);">Browse Courses</a>
+        <a href="#wall-of-love" style="color: rgba(255,255,255,0.8); text-decoration: none; transition: var(--transition);">Wall of Love</a>
+        <a href="#extras" style="color: rgba(255,255,255,0.8); text-decoration: none; transition: var(--transition);">Resources</a>
+        <a href="https://github.com/Varnasr/ImpactMojo" target="_blank" style="color: rgba(255,255,255,0.8); text-decoration: none; transition: var(--transition);">GitHub</a>
+        <a href="mailto:contact@impactmojo.in" style="color: rgba(255,255,255,0.8); text-decoration: none; transition: var(--transition);">Contact</a>
+        <a href="/terms-of-use" style="color: rgba(255,255,255,0.8); text-decoration: none; transition: var(--transition);">Terms of Use</a>
+        <a href="/privacy-policy" style="color: rgba(255,255,255,0.8); text-decoration: none; transition: var(--transition);">Privacy Policy</a>
+        <a href="/cookie-policy" style="color: rgba(255,255,255,0.8); text-decoration: none; transition: var(--transition);">Cookie Policy</a>
+        <a href="/accessibility" style="color: rgba(255,255,255,0.8); text-decoration: none; transition: var(--transition);">Accessibility</a>
+      </div>
+      <p style="color: rgba(255,255,255,0.6); margin: 0;">&copy; 2025 ImpactMojo. Licensed under CC BY-NC-SA 4.0. All educational content is free to use and modify.</p>
+    </div>
+  </footer>
+
+  <!-- Floating Action Buttons -->
+  <aside class="fab-container" role="complementary" aria-label="Quick actions">
+    <button class="fab-btn feedback" onclick="openModal('feedbackModal')" title="Give feedback" aria-label="Give feedback">
+      <i class="fas fa-comment-alt"></i>
+    </button>
+    <button class="fab-btn suggest" onclick="openModal('suggestionModal')" title="Suggest improvement" aria-label="Suggest improvement">
+      <i class="fas fa-lightbulb"></i>
+    </button>
+    <button class="fab-btn question" onclick="openModal('questionModal')" title="Ask a question" aria-label="Ask a question">
+      <i class="fas fa-question"></i>
+    </button>
+  </aside>
+
+  <!-- Modals -->
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal" role="dialog" aria-labelledby="login-title" aria-hidden="true">
+    <div class="modal-content" role="document">
+      <span class="close" onclick="closeModal('loginModal')" aria-label="Close login form">&times;</span>
+      <h2 id="login-title">Login to ImpactMojo</h2>
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="loginEmail">Email Address <span aria-label="required">*</span></label>
+          <input type="email" id="loginEmail" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password <span aria-label="required">*</span></label>
+          <input type="password" id="loginPassword" name="password" required>
+        </div>
+        <button type="submit" class="submit-btn">Login</button>
+        <div style="text-align: center; margin-top: 1rem;">
+          <button type="button" onclick="loginWithGoogle()" class="submit-btn" style="background: #db4437; width: 100%; margin-top: 0.5rem;">
+            <i class="fab fa-google"></i> Login with Google
+          </button>
+        </div>
+        <div style="text-align: center; margin-top: 1rem;">
+          <a href="#" onclick="closeModal('loginModal'); openModal('signupModal')" style="color: var(--secondary-color);">Need an account? Sign up</a><br>
+          <a href="#" onclick="handleForgotPassword()" style="color: var(--secondary-color); font-size: 0.9rem;">Forgot your password?</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Signup Modal -->
+  <div id="signupModal" class="modal" role="dialog" aria-labelledby="signup-title" aria-hidden="true">
+    <div class="modal-content" role="document">
+      <span class="close" onclick="closeModal('signupModal')" aria-label="Close signup form">&times;</span>
+      <h2 id="signup-title">Join ImpactMojo</h2>
+      <form id="signupForm" onsubmit="handleSignup(event)">
+        <div class="form-group">
+          <label for="signupName">Full Name <span aria-label="required">*</span></label>
+          <input type="text" id="signupName" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="signupEmail">Email Address <span aria-label="required">*</span></label>
+          <input type="email" id="signupEmail" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="signupPassword">Password <span aria-label="required">*</span></label>
+          <input type="password" id="signupPassword" name="password" required minlength="6">
+          <small style="color: var(--text-secondary);">Minimum 6 characters</small>
+        </div>
+        <div class="form-group">
+          <label for="signupPasswordConfirm">Confirm Password <span aria-label="required">*</span></label>
+          <input type="password" id="signupPasswordConfirm" name="passwordConfirm" required>
+        </div>
+        <button type="submit" class="submit-btn">Create Account</button>
+        <div style="text-align: center; margin-top: 1rem;">
+          <button type="button" onclick="loginWithGoogle()" class="submit-btn" style="background: #db4437; width: 100%; margin-top: 0.5rem;">
+            <i class="fab fa-google"></i> Sign up with Google
+          </button>
+        </div>
+        <div style="text-align: center; margin-top: 1rem;">
+          <a href="#" onclick="closeModal('signupModal'); openModal('loginModal')" style="color: var(--secondary-color);">Already have an account? Login</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Feedback Modal -->
+  <div id="feedbackModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('feedbackModal')">&times;</span>
+      <h2><i class="fas fa-comment-alt"></i> Share Your Feedback</h2>
+      <form action="https://formspree.io/f/xpwdvgzp" method="POST">
+        <div class="form-group">
+          <label for="feedbackType">Feedback Type:</label>
+          <select id="feedbackType" name="type" class="filter-select">
+            <option value="general">General Feedback</option>
+            <option value="course">Course Feedback</option>
+            <option value="website">Website Feedback</option>
+            <option value="technical">Technical Issue</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="feedbackMessage">Your Feedback:</label>
+          <textarea id="feedbackMessage" name="message" rows="5" placeholder="Tell us what you think..." required></textarea>
+        </div>
+        <input type="hidden" name="_subject" value="ImpactMojo Feedback">
+        <button type="submit" class="submit-btn">Send Feedback</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Suggestion Modal -->
+  <div id="suggestionModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('suggestionModal')">&times;</span>
+      <h2><i class="fas fa-lightbulb"></i> Suggest an Improvement</h2>
+      <form action="https://formspree.io/f/xpwdvgzp" method="POST">
+        <div class="form-group">
+          <label for="suggestionTitle">Suggestion Title:</label>
+          <input type="text" id="suggestionTitle" name="title" placeholder="Brief title for your suggestion" required>
+        </div>
+        <div class="form-group">
+          <label for="suggestionDescription">Description:</label>
+          <textarea id="suggestionDescription" name="description" rows="5" placeholder="Describe your improvement idea..." required></textarea>
+        </div>
+        <input type="hidden" name="_subject" value="ImpactMojo Suggestion">
+        <button type="submit" class="submit-btn">Submit Suggestion</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Question Modal -->
+  <div id="questionModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('questionModal')">&times;</span>
+      <h2><i class="fas fa-question"></i> Ask a Question</h2>
+      <form action="https://formspree.io/f/xpwdvgzp" method="POST">
+        <div class="form-group">
+          <label for="questionSubject">Subject:</label>
+          <input type="text" id="questionSubject" name="subject" placeholder="What's your question about?" required>
+        </div>
+        <div class="form-group">
+          <label for="questionMessage">Your Question:</label>
+          <textarea id="questionMessage" name="message" rows="5" placeholder="Ask away! We'd love to hear from you..." required></textarea>
+        </div>
+        <input type="hidden" name="_subject" value="ImpactMojo Question">
+        <button type="submit" class="submit-btn">Send Question</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Course Comparison Modal -->
+  <div id="comparisonModal" class="modal">
+    <div class="modal-content large">
+      <span class="close" onclick="closeModal('comparisonModal')">&times;</span>
+      <h2><i class="fas fa-balance-scale"></i> Course Comparison</h2>
+      <div id="comparisonContent">
+        <p>Select courses to compare by checking the boxes on course cards.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Course Details Modal -->
+  <div id="courseDetailsModal" class="modal">
+    <div class="modal-content large">
+      <span class="close" onclick="closeModal('courseDetailsModal')">&times;</span>
+      <div id="courseDetailsContent">
+        <!-- Course details will be populated by JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Global variables
+    let allCourses = [];
+    let filteredCourses = [];
+    let selectedForComparison = [];
+    let bookmarkedCourses = JSON.parse(localStorage.getItem('bookmarkedCourses')) || [];
+    let currentUser = null;
+
+    // Complete course data with all 33 courses
+    const courseData = [
+      {
+        id: 1,
+        title: 'Data Feminism 101',
+        topic: 'gender',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-venus',
+        description: 'Challenges dominant data narratives using feminist theory. Covers intersectionality, visibility, and the politics of knowledge in South Asian development.',
+        url: 'https://101.www.impactmojo.in/DataFeminism',
+        prerequisites: ['Basic data literacy', 'Interest in gender studies'],
+        outcomes: ['Apply feminist lens to data analysis', 'Identify bias in datasets', 'Design inclusive data collection'],
+        audience: 'Data scientists, researchers, gender advocates',
+        learnerCount: 2847,
+        rating: 4.8,
+        featured: true
+      },
+      {
+        id: 2,
+        title: 'Social Safety Nets 101',
+        topic: 'justice',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-shield-alt',
+        description: 'Unpacks India\'s welfare architecture—PDS, NREGA, pensions—through lifecycle needs and exclusion errors, with discussion on Aadhaar and last-mile barriers.',
+        url: 'https://101.www.impactmojo.in/SocialSafetyNets',
+        prerequisites: ['Basic understanding of public policy'],
+        outcomes: ['Analyze welfare program effectiveness', 'Identify exclusion patterns', 'Design inclusive safety nets'],
+        audience: 'Policy researchers, development practitioners',
+        learnerCount: 1923,
+        rating: 4.6
+      },
+      {
+        id: 3,
+        title: 'Bivariate Analysis 101',
+        topic: 'data',
+        level: 'intermediate',
+        duration: 'long',
+        icon: 'fas fa-chart-line',
+        description: 'Master relationships between variables using correlation, regression, and statistical tests. Features real South Asian datasets and development applications.',
+        url: 'https://101.www.impactmojo.in/BivariateAnalysis',
+        prerequisites: ['Descriptive statistics', 'Basic Excel/R skills'],
+        outcomes: ['Conduct correlation analysis', 'Interpret regression results', 'Choose appropriate statistical tests'],
+        audience: 'Researchers, data analysts, M&E professionals',
+        learnerCount: 3156,
+        rating: 4.7
+      },
+      {
+        id: 4,
+        title: 'Data Literacy 101',
+        topic: 'data',
+        level: 'beginner',
+        duration: 'medium',
+        icon: 'fas fa-database',
+        description: 'Foundation course in understanding, interpreting, and working with data. Covers data types, visualization basics, and critical thinking about numbers.',
+        url: 'https://101.www.impactmojo.in/DataLiteracy',
+        prerequisites: ['None - beginner friendly'],
+        outcomes: ['Read and interpret basic charts', 'Understand data quality issues', 'Ask critical questions about data'],
+        audience: 'Development practitioners, program managers',
+        learnerCount: 4231,
+        rating: 4.5
+      },
+      {
+        id: 5,
+        title: 'EDA for Survey Data 101',
+        topic: 'data',
+        level: 'intermediate',
+        duration: 'long',
+        icon: 'fas fa-search',
+        description: 'Exploratory Data Analysis techniques for large-scale household surveys. Uses NFHS, NSS, and other Indian survey data with hands-on exercises.',
+        url: 'https://101.www.impactmojo.in/EDA',
+        prerequisites: ['Data Literacy 101', 'Basic statistics'],
+        outcomes: ['Clean and explore survey data', 'Handle missing values and outliers', 'Create meaningful visualizations'],
+        audience: 'Researchers, data analysts, policy professionals',
+        learnerCount: 2567,
+        rating: 4.8
+      },
+      {
+        id: 6,
+        title: 'Multivariate Analysis 101',
+        topic: 'data',
+        level: 'advanced',
+        duration: 'long',
+        icon: 'fas fa-project-diagram',
+        description: 'Advanced statistical techniques for analyzing multiple variables simultaneously. Covers factor analysis, clustering, and regression with multiple predictors.',
+        url: 'https://101.www.impactmojo.in/Multivariate',
+        prerequisites: ['Bivariate Analysis 101', 'Strong statistics background'],
+        outcomes: ['Perform factor analysis', 'Conduct cluster analysis', 'Build multiple regression models'],
+        audience: 'Advanced researchers, statisticians, data scientists',
+        learnerCount: 1456,
+        rating: 4.9
+      },
+      {
+        id: 7,
+        title: 'Gender Studies 101',
+        topic: 'gender',
+        level: 'beginner',
+        duration: 'medium',
+        icon: 'fas fa-equals',
+        description: 'Introduction to gender theory and its applications in South Asian development. Covers intersectionality, power dynamics, and gender-sensitive programming.',
+        url: 'https://101.www.impactmojo.in/GenderStudies',
+        prerequisites: ['None - foundational course'],
+        outcomes: ['Understand gender vs sex concepts', 'Apply intersectional analysis', 'Design gender-sensitive interventions'],
+        audience: 'Development practitioners, researchers, advocates',
+        learnerCount: 3789,
+        rating: 4.6
+      },
+      {
+        id: 8,
+        title: 'Care Economy 101',
+        topic: 'gender',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-heart',
+        description: 'Explores unpaid care work, its economic value, and policy implications. Focuses on South Asian contexts with data from time-use surveys.',
+        url: 'https://101.www.impactmojo.in/CareEconomy',
+        prerequisites: ['Gender Studies 101', 'Basic economics'],
+        outcomes: ['Measure care work contributions', 'Analyze time-use data', 'Design care-responsive policies'],
+        audience: 'Gender economists, policy makers, feminist researchers',
+        learnerCount: 1834,
+        rating: 4.7
+      },
+      {
+        id: 9,
+        title: 'Women\'s Economic Empowerment 101',
+        topic: 'gender',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-female',
+        description: 'Comprehensive analysis of barriers to women\'s economic participation and evidence-based interventions. Features case studies from across South Asia.',
+        url: 'https://101.www.impactmojo.in/WEE',
+        prerequisites: ['Gender Studies 101', 'Basic economics'],
+        outcomes: ['Identify economic barriers for women', 'Evaluate WEE interventions', 'Design inclusive economic programs'],
+        audience: 'Gender specialists, program managers, economists',
+        learnerCount: 2456,
+        rating: 4.8
+      },
+      {
+        id: 10,
+        title: 'Caste, Class and Identity 101',
+        topic: 'identity',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-users',
+        description: 'Critical examination of social stratification in South Asia. Covers caste dynamics, class mobility, and intersections with development outcomes.',
+        url: 'https://101.www.impactmojo.in/CasteClass',
+        prerequisites: ['Basic sociology knowledge'],
+        outcomes: ['Analyze social stratification systems', 'Understand caste-development linkages', 'Design inclusive interventions'],
+        audience: 'Social researchers, development practitioners, advocates',
+        learnerCount: 2134,
+        rating: 4.5
+      },
+      {
+        id: 11,
+        title: 'Religion and Development 101',
+        topic: 'identity',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-pray',
+        description: 'Explores the complex relationships between religious identity, social capital, and development outcomes in pluralistic South Asian societies.',
+        url: 'https://101.www.impactmojo.in/Religion',
+        prerequisites: ['Social science background'],
+        outcomes: ['Analyze religion-development nexus', 'Understand religious diversity impacts', 'Design culturally sensitive programs'],
+        audience: 'Social scientists, development practitioners, policy researchers',
+        learnerCount: 1567,
+        rating: 4.4
+      },
+      {
+        id: 12,
+        title: 'Urbanization and Cities 101',
+        topic: 'systems',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-city',
+        description: 'Analysis of rapid urbanization in South Asia, urban governance challenges, and sustainable city planning approaches.',
+        url: 'https://101.www.impactmojo.in/Cities',
+        prerequisites: ['Basic economics and geography'],
+        outcomes: ['Understand urbanization patterns', 'Analyze urban governance systems', 'Design urban interventions'],
+        audience: 'Urban planners, policy makers, development economists',
+        learnerCount: 1889,
+        rating: 4.6
+      },
+      {
+        id: 13,
+        title: 'Climate Change and Development 101',
+        topic: 'systems',
+        level: 'intermediate',
+        duration: 'long',
+        icon: 'fas fa-globe-asia',
+        description: 'Comprehensive coverage of climate impacts on development, adaptation strategies, and mitigation approaches relevant to South Asian contexts.',
+        url: 'https://101.www.impactmojo.in/Climate',
+        prerequisites: ['Environmental science basics'],
+        outcomes: ['Assess climate vulnerability', 'Design adaptation strategies', 'Integrate climate considerations in programming'],
+        audience: 'Environmental researchers, climate professionals, development practitioners',
+        learnerCount: 2234,
+        rating: 4.7
+      },
+      {
+        id: 14,
+        title: 'Public Health 101',
+        topic: 'health',
+        level: 'beginner',
+        duration: 'medium',
+        icon: 'fas fa-heartbeat',
+        description: 'Introduction to public health concepts, health systems, and major health challenges in South Asia including infectious diseases and NCDs.',
+        url: 'https://101.www.impactmojo.in/PublicHealth',
+        prerequisites: ['None - foundational course'],
+        outcomes: ['Understand health system components', 'Analyze health data and trends', 'Design health interventions'],
+        audience: 'Health practitioners, development professionals, policy researchers',
+        learnerCount: 3456,
+        rating: 4.5
+      },
+      {
+        id: 15,
+        title: 'Mental Health and Well-being 101',
+        topic: 'health',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-brain',
+        description: 'Explores mental health challenges, stigma, and community-based approaches to mental wellness in South Asian contexts.',
+        url: 'https://101.www.impactmojo.in/MentalHealth',
+        prerequisites: ['Public Health 101 or psychology background'],
+        outcomes: ['Understand mental health epidemiology', 'Design stigma reduction programs', 'Implement community mental health approaches'],
+        audience: 'Health professionals, psychologists, social workers',
+        learnerCount: 1678,
+        rating: 4.8
+      },
+      {
+        id: 16,
+        title: 'Nutrition and Food Security 101',
+        topic: 'health',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-apple-alt',
+        description: 'Comprehensive analysis of malnutrition, food systems, and nutrition-sensitive programming approaches.',
+        url: 'https://101.www.impactmojo.in/Nutrition',
+        prerequisites: ['Basic health knowledge'],
+        outcomes: ['Assess nutritional status', 'Understand food system complexities', 'Design nutrition interventions'],
+        audience: 'Nutrition specialists, health workers, development practitioners',
+        learnerCount: 2123,
+        rating: 4.6
+      },
+      {
+        id: 17,
+        title: 'Education and Pedagogy 101',
+        topic: 'education',
+        level: 'beginner',
+        duration: 'medium',
+        icon: 'fas fa-graduation-cap',
+        description: 'Explores educational challenges, pedagogy innovations, and evidence-based approaches to improving learning outcomes in South Asia.',
+        url: 'https://101.www.impactmojo.in/Education',
+        prerequisites: ['None - foundational course'],
+        outcomes: ['Understand learning challenges', 'Apply evidence-based pedagogy', 'Design educational interventions'],
+        audience: 'Educators, development practitioners, policy researchers',
+        learnerCount: 2789,
+        rating: 4.7
+      },
+      {
+        id: 18,
+        title: 'Digital Education Technologies 101',
+        topic: 'education',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-laptop',
+        description: 'Examination of technology-enabled learning, digital divide issues, and effective integration of tech in educational programming.',
+        url: 'https://101.www.impactmojo.in/EdTech',
+        prerequisites: ['Education 101', 'Basic technology literacy'],
+        outcomes: ['Evaluate educational technologies', 'Address digital divide challenges', 'Design tech-enabled learning'],
+        audience: 'Educational technologists, teachers, program managers',
+        learnerCount: 1567,
+        rating: 4.5
+      },
+      {
+        id: 19,
+        title: 'Livelihoods 101',
+        topic: 'livelihoods',
+        level: 'beginner',
+        duration: 'medium',
+        icon: 'fas fa-seedling',
+        description: 'Introduction to sustainable livelihoods approaches, rural economy dynamics, and livelihood diversification strategies.',
+        url: 'https://101.www.impactmojo.in/Livelihoods',
+        prerequisites: ['None - foundational course'],
+        outcomes: ['Apply livelihoods framework', 'Analyze livelihood systems', 'Design livelihood interventions'],
+        audience: 'Rural development practitioners, economists, social workers',
+        learnerCount: 2345,
+        rating: 4.6
+      },
+      {
+        id: 20,
+        title: 'Microfinance and Financial Inclusion 101',
+        topic: 'livelihoods',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-coins',
+        description: 'Critical analysis of microfinance evolution, digital financial services, and approaches to promoting financial inclusion.',
+        url: 'https://101.www.impactmojo.in/Microfinance',
+        prerequisites: ['Basic economics', 'Livelihoods 101'],
+        outcomes: ['Evaluate microfinance models', 'Understand financial inclusion barriers', 'Design inclusive financial services'],
+        audience: 'Financial inclusion specialists, economists, development bankers',
+        learnerCount: 1789,
+        rating: 4.4
+      },
+      {
+        id: 21,
+        title: 'Agricultural Development 101',
+        topic: 'livelihoods',
+        level: 'intermediate',
+        duration: 'long',
+        icon: 'fas fa-tractor',
+        description: 'Comprehensive coverage of agricultural challenges, sustainable farming practices, and value chain development in South Asia.',
+        url: 'https://101.www.impactmojo.in/Agriculture',
+        prerequisites: ['Rural development knowledge'],
+        outcomes: ['Analyze agricultural systems', 'Understand value chain dynamics', 'Design agricultural interventions'],
+        audience: 'Agricultural economists, rural development specialists, agri-business professionals',
+        learnerCount: 2456,
+        rating: 4.7
+      },
+      {
+        id: 22,
+        title: 'Media and Communication 101',
+        topic: 'media',
+        level: 'beginner',
+        duration: 'medium',
+        icon: 'fas fa-broadcast-tower',
+        description: 'Explores media landscapes in South Asia, communication for development, and strategic communication approaches.',
+        url: 'https://101.www.impactmojo.in/Media',
+        prerequisites: ['None - foundational course'],
+        outcomes: ['Understand media ecosystem', 'Design communication strategies', 'Evaluate media interventions'],
+        audience: 'Communication specialists, journalists, development practitioners',
+        learnerCount: 1567,
+        rating: 4.3
+      },
+      {
+        id: 23,
+        title: 'Digital Rights and Privacy 101',
+        topic: 'media',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-shield-virus',
+        description: 'Critical examination of digital rights, data privacy concerns, and digital governance challenges in developing country contexts.',
+        url: 'https://101.www.impactmojo.in/DigitalRights',
+        prerequisites: ['Basic technology understanding'],
+        outcomes: ['Understand digital rights framework', 'Analyze privacy implications', 'Advocate for digital justice'],
+        audience: 'Digital rights advocates, tech policy researchers, civil society',
+        learnerCount: 1234,
+        rating: 4.6
+      },
+      {
+        id: 24,
+        title: 'Research Methods 101',
+        topic: 'research',
+        level: 'beginner',
+        duration: 'long',
+        icon: 'fas fa-microscope',
+        description: 'Comprehensive introduction to social science research methods, including quantitative and qualitative approaches.',
+        url: 'https://101.www.impactmojo.in/ResearchMethods',
+        prerequisites: ['None - foundational course'],
+        outcomes: ['Design research studies', 'Choose appropriate methodologies', 'Ensure ethical research practices'],
+        audience: 'Researchers, graduate students, M&E professionals',
+        learnerCount: 3678,
+        rating: 4.8
+      },
+      {
+        id: 25,
+        title: 'Impact Evaluation 101',
+        topic: 'research',
+        level: 'advanced',
+        duration: 'long',
+        icon: 'fas fa-chart-bar',
+        description: 'Rigorous introduction to causal inference and impact evaluation methods including RCTs, quasi-experimental designs.',
+        url: 'https://101.www.impactmojo.in/ImpactEval',
+        prerequisites: ['Research Methods 101', 'Strong statistics background'],
+        outcomes: ['Design impact evaluations', 'Apply causal inference methods', 'Interpret evaluation results'],
+        audience: 'Impact evaluation specialists, researchers, policy analysts',
+        learnerCount: 1456,
+        rating: 4.9
+      },
+      {
+        id: 26,
+        title: 'Qualitative Research 101',
+        topic: 'research',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-comments',
+        description: 'In-depth exploration of qualitative research methods including ethnography, interviews, and participatory approaches.',
+        url: 'https://101.www.impactmojo.in/Qualitative',
+        prerequisites: ['Research Methods 101'],
+        outcomes: ['Conduct qualitative interviews', 'Apply ethnographic methods', 'Analyze qualitative data'],
+        audience: 'Qualitative researchers, anthropologists, social workers',
+        learnerCount: 2123,
+        rating: 4.7
+      },
+      {
+        id: 27,
+        title: 'Development Economics 101',
+        topic: 'economics',
+        level: 'intermediate',
+        duration: 'long',
+        icon: 'fas fa-chart-line',
+        description: 'Foundational course in development economics covering growth, poverty, inequality, and institutions in developing countries.',
+        url: 'https://101.www.impactmojo.in/DevEcon',
+        prerequisites: ['Basic economics', 'Statistics'],
+        outcomes: ['Understand development theories', 'Analyze poverty and inequality', 'Evaluate development policies'],
+        audience: 'Economics students, development practitioners, policy researchers',
+        learnerCount: 2789,
+        rating: 4.6
+      },
+      {
+        id: 28,
+        title: 'Behavioral Economics 101',
+        topic: 'economics',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-brain',
+        description: 'Explores how psychological factors influence economic decisions, with applications to development interventions.',
+        url: 'https://101.www.impactmojo.in/BehavioralEcon',
+        prerequisites: ['Basic economics', 'Psychology background helpful'],
+        outcomes: ['Apply behavioral insights', 'Design nudge interventions', 'Understand decision-making biases'],
+        audience: 'Behavioral economists, program designers, policy makers',
+        learnerCount: 1567,
+        rating: 4.5
+      },
+      {
+        id: 29,
+        title: 'Public Policy Analysis 101',
+        topic: 'economics',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-balance-scale',
+        description: 'Systematic approach to policy analysis, including policy design, implementation challenges, and evaluation methods.',
+        url: 'https://101.www.impactmojo.in/Policy',
+        prerequisites: ['Basic economics and politics'],
+        outcomes: ['Analyze policy processes', 'Evaluate policy effectiveness', 'Design evidence-based policies'],
+        audience: 'Policy analysts, government officials, think tank researchers',
+        learnerCount: 2234,
+        rating: 4.7
+      },
+      {
+        id: 30,
+        title: 'Social Entrepreneurship 101',
+        topic: 'systems',
+        level: 'beginner',
+        duration: 'medium',
+        icon: 'fas fa-lightbulb',
+        description: 'Introduction to social entrepreneurship models, impact measurement, and scaling social innovations.',
+        url: 'https://101.www.impactmojo.in/SocialEnt',
+        prerequisites: ['None - foundational course'],
+        outcomes: ['Understand social business models', 'Design impact measurement systems', 'Scale social innovations'],
+        audience: 'Social entrepreneurs, impact investors, innovation managers',
+        learnerCount: 1789,
+        rating: 4.4
+      },
+      {
+        id: 31,
+        title: 'Human Rights in Development 101',
+        topic: 'justice',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-hand-holding-heart',
+        description: 'Rights-based approach to development programming, with emphasis on accountability mechanisms and legal frameworks.',
+        url: 'https://101.www.impactmojo.in/HumanRights',
+        prerequisites: ['Legal or development background'],
+        outcomes: ['Apply rights-based approaches', 'Understand legal frameworks', 'Design accountability mechanisms'],
+        audience: 'Human rights advocates, development practitioners, legal professionals',
+        learnerCount: 1456,
+        rating: 4.8
+      },
+      {
+        id: 32,
+        title: 'Digital Development Ethics 101',
+        topic: 'systems',
+        level: 'intermediate',
+        duration: 'medium',
+        icon: 'fas fa-robot',
+        description: 'Ethical frameworks for technology in development, covering privacy, algorithmic bias, and responsible AI implementation.',
+        url: 'https://101.www.impactmojo.in/DigitalEthics',
+        prerequisites: ['Basic technology understanding'],
+        outcomes: ['Apply ethical frameworks', 'Assess AI bias', 'Design responsible tech interventions'],
+        audience: 'Tech for development practitioners, digital policy experts, ethicists',
+        learnerCount: 987,
+        rating: 4.6
+      },
+      {
+        id: 33,
+        title: 'Systems Thinking 101',
+        topic: 'systems',
+        level: 'beginner',
+        duration: 'medium',
+        icon: 'fas fa-sitemap',
+        description: 'Introduction to systems thinking approaches for understanding complex development challenges and designing holistic interventions.',
+        url: 'https://101.www.impactmojo.in/Systems',
+        prerequisites: ['None - foundational course'],
+        outcomes: ['Apply systems thinking tools', 'Map system relationships', 'Design systems interventions'],
+        audience: 'Program managers, policy makers, development practitioners',
+        learnerCount: 1678,
+        rating: 4.5
+      }
+    ];
+
+    // Learning paths data
+    const learningPaths = {
+      'data-analysis': {
+        name: 'Data Analysis Track',
+        courses: [4, 3, 5, 6]
+      },
+      'gender-studies': {
+        name: 'Gender Studies Pathway',
+        courses: [7, 1, 8, 9]
+      }
+    };
+
+    // Initialize the application
+    document.addEventListener('DOMContentLoaded', function() {
+      allCourses = [...courseData];
+      filteredCourses = [...allCourses];
+      displayCourses(filteredCourses);
+      updateCourseCount();
+      
+      // Initialize Firebase Auth state listener
+      if (window.onAuthStateChanged) {
+        window.onAuthStateChanged(window.auth, (user) => {
+          if (user) {
+            currentUser = user;
+            showUserInterface();
+            loadUserData();
+          } else {
+            currentUser = null;
+            showAuthInterface();
+          }
+        });
+      }
+    });
+
+    // Display courses function
+    function displayCourses(courses) {
+      const container = document.getElementById('courseContainer');
+      const noResults = document.getElementById('noResults');
+      
+      if (courses.length === 0) {
+        container.innerHTML = '';
+        noResults.classList.remove('hidden');
+        return;
+      }
+      
+      noResults.classList.add('hidden');
+      
+      container.innerHTML = courses.map(course => {
+        const isBookmarked = bookmarkedCourses.includes(course.title);
+        const bookmarkIcon = isBookmarked ? 'fas fa-bookmark' : 'far fa-bookmark';
+        const bookmarkClass = isBookmarked ? 'bookmarked' : '';
+        
+        return `
+          <div class="course-card" onclick="toggleCourseDetails(this, ${course.id})">
+            <div class="course-number">${course.id}</div>
+            <div class="course-header">
+              <div class="course-icon">
+                <i class="${course.icon}" aria-hidden="true"></i>
+              </div>
+              <div class="course-title-section">
+                <h3 class="course-title">${course.title}</h3>
+                <div class="course-meta">
+                  <span class="meta-tag">${course.topic}</span>
+                  <span class="meta-tag">${course.level}</span>
+                  <span class="meta-tag">${course.duration}</span>
+                </div>
+              </div>
+            </div>
+            
+            <p class="course-description">${course.description}</p>
+            
+            <div class="course-stats">
+              <div class="course-stat">
+                <i class="fas fa-users"></i>
+                <span>${course.learnerCount.toLocaleString()} learners</span>
+              </div>
+              <div class="course-stat">
+                <i class="fas fa-star"></i>
+                <span>${course.rating.toFixed(1)}</span>
+              </div>
+            </div>
+            
+            <div class="course-actions">
+              <div class="course-actions-left">
+                <a href="${course.url}" class="launch-btn" target="_blank" onclick="event.stopPropagation(); addToRecentlyViewed('${course.title}', '${course.url}')">
+                  <i class="fas fa-external-link-alt"></i> Launch Course
+                </a>
+                <button class="bookmark-btn ${bookmarkClass}" onclick="event.stopPropagation(); toggleBookmark(this, '${course.title}')" title="Bookmark this course">
+                  <i class="${bookmarkIcon}"></i>
+                </button>
+              </div>
+              <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; cursor: pointer;" onclick="event.stopPropagation();">
+                <input type="checkbox" class="compare-checkbox" onchange="toggleComparison(${course.id})" title="Add to comparison">
+                Compare
+              </label>
+            </div>
+
+            <div class="course-details">
+              <div class="details-section">
+                <h4>Prerequisites</h4>
+                <ul>
+                  ${course.prerequisites.map(req => `<li>${req}</li>`).join('')}
+                </ul>
+              </div>
+              <div class="details-section">
+                <h4>Learning Outcomes</h4>
+                <ul>
+                  ${course.outcomes.map(outcome => `<li>${outcome}</li>`).join('')}
+                </ul>
+              </div>
+              <div class="details-section">
+                <h4>Target Audience</h4>
+                <p>${course.audience}</p>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+      
+      // Update bookmark states
+      updateBookmarkStates();
+    }
+
+    // Toggle course details
+    function toggleCourseDetails(card, courseId) {
+      card.classList.toggle('expanded');
+    }
+
+    // Search courses
+    function searchCourses() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      filteredCourses = allCourses.filter(course => 
+        course.title.toLowerCase().includes(query) ||
+        course.description.toLowerCase().includes(query) ||
+        course.topic.toLowerCase().includes(query)
+      );
+      applyFilters();
+    }
+
+    // Filter by topic
+    function filterByTopic(topic) {
+      // Update active topic button
+      document.querySelectorAll('.topic-filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      document.querySelector(`[data-topic="${topic}"]`).classList.add('active');
+      
+      if (topic === 'all') {
+        filteredCourses = [...allCourses];
+      } else {
+        filteredCourses = allCourses.filter(course => course.topic === topic);
+      }
+      applyFilters();
+    }
+
+    // Apply level and duration filters
+    function filterCourses() {
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const levelFilter = document.getElementById('levelFilter').value;
+      const durationFilter = document.getElementById('durationFilter').value;
+      
+      let filtered = [...filteredCourses];
+      
+      if (levelFilter !== 'all') {
+        filtered = filtered.filter(course => course.level === levelFilter);
+      }
+      
+      if (durationFilter !== 'all') {
+        filtered = filtered.filter(course => course.duration === durationFilter);
+      }
+      
+      displayCourses(filtered);
+      updateCourseCount(filtered.length);
+    }
+
+    // Clear all filters
+    function clearAllFilters() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('levelFilter').value = 'all';
+      document.getElementById('durationFilter').value = 'all';
+      
+      document.querySelectorAll('.topic-filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      document.querySelector('[data-topic="all"]').classList.add('active');
+      
+      filteredCourses = [...allCourses];
+      displayCourses(filteredCourses);
+      updateCourseCount();
+    }
+
+    // Toggle view (grid/list)
+    function toggleView(view, event) {
+      const container = document.getElementById('courseContainer');
+      const buttons = document.querySelectorAll('.view-btn');
+      
+      buttons.forEach(btn => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-pressed', 'false');
+      });
+      
+      event.target.classList.add('active');
+      event.target.setAttribute('aria-pressed', 'true');
+      
+      if (view === 'grid') {
+        container.className = 'courses-grid';
+      } else {
+        container.className = 'courses-list';
+      }
+    }
+
+    // Toggle bookmark
+    function toggleBookmark(button, courseTitle) {
+      if (window.toggleBookmark) {
+        window.toggleBookmark(courseTitle, courseTitle);
+      } else {
+        // Fallback to localStorage if Firebase not available
+        const icon = button.querySelector('i');
+        
+        if (bookmarkedCourses.includes(courseTitle)) {
+          bookmarkedCourses = bookmarkedCourses.filter(title => title !== courseTitle);
+          button.classList.remove('bookmarked');
+          icon.className = 'far fa-bookmark';
+        } else {
+          bookmarkedCourses.push(courseTitle);
+          button.classList.add('bookmarked');
+          icon.className = 'fas fa-bookmark';
+        }
+        
+        localStorage.setItem('bookmarkedCourses', JSON.stringify(bookmarkedCourses));
+      }
+    }
+
+    // Toggle comparison
+    function toggleComparison(courseId) {
+      const index = selectedForComparison.indexOf(courseId);
+      if (index > -1) {
+        selectedForComparison.splice(index, 1);
+      } else {
+        if (selectedForComparison.length >= 3) {
+          alert('You can compare up to 3 courses at a time.');
+          return;
+        }
+        selectedForComparison.push(courseId);
+      }
+      
+      updateComparisonCount();
+      updateComparisonButton();
+    }
+
+    // Update comparison count
+    function updateComparisonCount() {
+      document.getElementById('compareCount').textContent = selectedForComparison.length;
+    }
+
+    // Update comparison button visibility
+    function updateComparisonButton() {
+      const compareBtn = document.getElementById('compareBtn');
+      
+      if (selectedForComparison.length > 0) {
+        compareBtn.style.display = 'flex';
+      } else {
+        compareBtn.style.display = 'none';
+      }
+    }
+
+    // Apply learning path
+    function applyLearningPath(pathId) {
+      const path = learningPaths[pathId];
+      if (!path) return;
+      
+      // Filter courses to show only those in the learning path
+      const pathCourses = allCourses.filter(course => path.courses.includes(course.id));
+      displayCourses(pathCourses);
+      
+      // Update search input to show path name
+      document.getElementById('searchInput').value = `Learning Path: ${path.name}`;
+      updateCourseCount(pathCourses.length);
+    }
+
+    // Update course count
+    function updateCourseCount(count = null) {
+      const visibleCount = count !== null ? count : filteredCourses.length;
+      document.getElementById('visibleCount').textContent = visibleCount;
+      document.getElementById('totalCount').textContent = allCourses.length;
+    }
+
+    // Update bookmark states
+    function updateBookmarkStates() {
+      document.querySelectorAll('.bookmark-btn').forEach(btn => {
+        const courseTitle = btn.getAttribute('onclick').match(/'([^']+)'/)[1];
+        const isBookmarked = bookmarkedCourses.includes(courseTitle);
+        const icon = btn.querySelector('i');
+        
+        if (isBookmarked) {
+          btn.classList.add('bookmarked');
+          icon.className = 'fas fa-bookmark';
+        } else {
+          btn.classList.remove('bookmarked');
+          icon.className = 'far fa-bookmark';
+        }
+      });
+    }
+
+    // Add to recently viewed
+    function addToRecentlyViewed(title, url) {
+      if (currentUser && window.updateDoc) {
+        // Update Firebase
+        const userRef = window.doc(window.db, 'users', currentUser.uid);
+        window.updateDoc(userRef, {
+          recentlyViewed: window.arrayUnion({
+            title: title,
+            url: url,
+            timestamp: new Date()
+          })
+        });
+      } else {
+        // Fallback to localStorage
+        const recentlyViewed = JSON.parse(localStorage.getItem('recentlyViewed')) || [];
+        const newItem = { title, url, timestamp: new Date().toISOString() };
+        
+        // Remove if already exists
+        const filtered = recentlyViewed.filter(item => item.title !== title);
+        
+        // Add to beginning and limit to 10
+        filtered.unshift(newItem);
+        filtered.splice(10);
+        
+        localStorage.setItem('recentlyViewed', JSON.stringify(filtered));
+      }
+    }
+
+    // Handle labs click
+    function handleLabsClick(event) {
+      event.preventDefault();
+      document.getElementById('labs').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Modal functions
+    function openModal(modalId) {
+      document.getElementById(modalId).style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+      if (event.target.classList.contains('modal')) {
+        event.target.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    });
+
+    // Authentication functions
+    async function handleLogin(event) {
+      event.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      
+      try {
+        await window.signInWithEmailAndPassword(window.auth, email, password);
+        closeModal('loginModal');
+      } catch (error) {
+        alert('Login failed: ' + error.message);
+      }
+    }
+
+    async function handleSignup(event) {
+      event.preventDefault();
+      const name = document.getElementById('signupName').value;
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+      const confirmPassword = document.getElementById('signupPasswordConfirm').value;
+      
+      if (password !== confirmPassword) {
+        alert('Passwords do not match');
+        return;
+      }
+      
+      try {
+        const userCredential = await window.createUserWithEmailAndPassword(window.auth, email, password);
+        
+        // Create user document
+        await window.setDoc(window.doc(window.db, 'users', userCredential.user.uid), {
+          name: name,
+          email: email,
+          createdAt: new Date(),
+          bookmarkedCourses: [],
+          recentlyViewed: [],
+          notes: {}
+        });
+        
+        closeModal('signupModal');
+      } catch (error) {
+        alert('Signup failed: ' + error.message);
+      }
+    }
+
+    async function loginWithGoogle() {
+      try {
+        const result = await window.signInWithPopup(window.auth, window.provider);
+        
+        // Check if user document exists, create if not
+        const userDoc = await window.getDoc(window.doc(window.db, 'users', result.user.uid));
+        
+        if (!userDoc.exists()) {
+          await window.setDoc(window.doc(window.db, 'users', result.user.uid), {
+            name: result.user.displayName,
+            email: result.user.email,
+            createdAt: new Date(),
+            bookmarkedCourses: [],
+            recentlyViewed: [],
+            notes: {}
+          });
+        }
+        
+        closeModal('loginModal');
+        closeModal('signupModal');
+      } catch (error) {
+        alert('Google login failed: ' + error.message);
+      }
+    }
+
+    async function logout() {
+      try {
+        await window.signOut(window.auth);
+        document.getElementById('userDashboard').style.display = 'none';
+      } catch (error) {
+        alert('Logout failed: ' + error.message);
+      }
+    }
+
+    async function handleForgotPassword() {
+      const email = prompt('Enter your email address:');
+      if (email) {
+        try {
+          await window.sendPasswordResetEmail(window.auth, email);
+          alert('Password reset email sent! Check your inbox.');
+        } catch (error) {
+          alert('Error sending password reset email: ' + error.message);
+        }
+      }
+    }
+
+    function showUserInterface() {
+      document.getElementById('authButtons').style.display = 'none';
+      document.getElementById('userMenu').style.display = 'flex';
+      document.getElementById('userName').textContent = currentUser.displayName || currentUser.email;
+    }
+
+    function showAuthInterface() {
+      document.getElementById('authButtons').style.display = 'flex';
+      document.getElementById('userMenu').style.display = 'none';
+    }
+
+    function toggleUserDashboard() {
+      const dashboard = document.getElementById('userDashboard');
+      if (dashboard.style.display === 'none' || !dashboard.style.display) {
+        dashboard.style.display = 'block';
+        dashboard.scrollIntoView({ behavior: 'smooth' });
+        loadDashboardContent();
+      } else {
+        dashboard.style.display = 'none';
+      }
+    }
+
+    function loadUserData() {
+      if (currentUser && window.getDoc) {
+        window.getDoc(window.doc(window.db, 'users', currentUser.uid)).then((doc) => {
+          if (doc.exists()) {
+            const userData = doc.data();
+            bookmarkedCourses = userData.bookmarkedCourses || [];
+            updateBookmarkStates();
+          }
+        });
+      }
+    }
+
+    function loadDashboardContent() {
+      const dashboard = document.getElementById('userDashboard');
+      dashboard.innerHTML = `
+        <h2><i class="fas fa-tachometer-alt"></i> Your Dashboard</h2>
+        <div class="dashboard-grid">
+          <div class="dashboard-section">
+            <h3><i class="fas fa-bookmark"></i> Bookmarked Courses</h3>
+            <div id="bookmarkedList">
+              ${bookmarkedCourses.length > 0 ? 
+                bookmarkedCourses.map(title => `<p>• ${title}</p>`).join('') : 
+                '<p>No bookmarked courses yet.</p>'
+              }
+            </div>
+          </div>
+          <div class="dashboard-section">
+            <h3><i class="fas fa-clock"></i> Recently Viewed</h3>
+            <div id="recentlyViewedList">
+              <p>Login to see your recently viewed courses.</p>
+            </div>
+          </div>
+          <div class="dashboard-section">
+            <h3><i class="fas fa-chart-line"></i> Learning Progress</h3>
+            <div id="progressStats">
+              <p>Bookmarked: ${bookmarkedCourses.length} courses</p>
+              <p>Total Available: ${allCourses.length} courses</p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>
