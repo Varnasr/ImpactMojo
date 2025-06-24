@@ -1,7 +1,7 @@
 // Course and Lab Data for ImpactMojo
-// All 34 courses with CORRECTED URLs
+// All 34 courses with CORRECTED URLs - DUPLICATE REMOVED
 
-// COMPLETE COURSE DATA - ALL 34 COURSES WITH CORRECT URLS
+// COMPLETE COURSE DATA - ALL COURSES WITH CORRECT URLS
 const courses = [
   // DATA ANALYSIS TRACK
   {
@@ -36,22 +36,7 @@ const courses = [
     outcomes: ['Understand data concepts', 'Read data visualizations', 'Ask good questions of data'],
     audience: 'Beginners, development practitioners, program managers'
   },
-  {
-    id: 'data-literacy-101',
-    number: 2,
-    title: 'Data Literacy 101',
-    description: 'Foundational skills for understanding and working with data in development contexts.',
-    category: 'Data Analysis',
-    difficulty: 'beginner',
-    duration: '3-4 hours',
-    icon: 'fas fa-chart-bar',
-    url: 'https://101.www.impactmojo.in/data-lit',
-    learnerCount: 1734,
-    rating: 4.9,
-    prerequisites: ['None - foundational course'],
-    outcomes: ['Understand data concepts', 'Read data visualizations', 'Ask good questions of data'],
-    audience: 'Beginners, development practitioners, program managers'
-  },
+  // DUPLICATE REMOVED - ONLY ONE DATA LITERACY 101 NOW
   {
     id: 'eda-survey-data',
     number: 3,
