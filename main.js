@@ -1,5 +1,5 @@
 // Complete ImpactMojo Main JavaScript File
-// Fixed version that handles undefined values properly
+// All functionality working: theme toggle, login/signup, courses, labs
 
 console.log('🚀 Loading ImpactMojo...');
 
@@ -10,6 +10,82 @@ let selectedCourses = [];
 let selectedLabs = [];
 let userBookmarks = JSON.parse(localStorage.getItem('userBookmarks')) || [];
 let userLabBookmarks = JSON.parse(localStorage.getItem('userLabBookmarks')) || [];
+
+// ===== WORKING THEME TOGGLE =====
+function toggleTheme() {
+  console.log('🎨 Toggling theme...');
+  
+  const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+  const themeIcon = document.getElementById('themeIcon');
+  
+  console.log(`Switching from ${currentTheme} to ${newTheme}`);
+  
+  // Update the theme
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  
+  // Update the icon
+  if (themeIcon) {
+    themeIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    console.log(`Icon updated to: ${themeIcon.className}`);
+  } else {
+    console.error('Theme icon not found!');
+  }
+  
+  // Show notification
+  showNotification(`Switched to ${newTheme} mode`, 'success');
+}
+
+// Initialize theme on page load
+function initializeThemeToggle() {
+  console.log('🎨 Initializing theme toggle');
+  
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  const themeIcon = document.getElementById('themeIcon');
+  
+  console.log(`Saved theme: ${savedTheme}`);
+  
+  // Set the theme
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  
+  // Set the icon
+  if (themeIcon) {
+    themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    console.log(`Initial icon set to: ${themeIcon.className}`);
+  } else {
+    console.error('Theme icon not found during initialization!');
+  }
+}
+
+// ===== MODAL FUNCTIONS =====
+function showLoginModal() {
+  console.log('📝 Opening login modal');
+  const modal = document.getElementById('loginModal');
+  if (modal) {
+    modal.style.display = 'block';
+  } else {
+    console.error('❌ Login modal not found');
+  }
+}
+
+function showSignupModal() {
+  console.log('📝 Opening signup modal');
+  const modal = document.getElementById('signupModal');
+  if (modal) {
+    modal.style.display = 'block';
+  } else {
+    console.error('❌ Signup modal not found');
+  }
+}
+
+function closeModal(modalId) {
+  console.log(`📝 Closing modal: ${modalId}`);
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.style.display = 'none';
+  }
+}
 
 // ===== INITIALIZATION =====
 function initializeApp() {
@@ -37,6 +113,9 @@ function initializeApp() {
   displayLabs();
   updateCourseCount();
   setupEventListeners();
+  
+  // Initialize theme
+  initializeThemeToggle();
   
   console.log('✅ ImpactMojo initialized successfully!');
 }
@@ -231,8 +310,10 @@ function launchCourse(courseId) {
   const course = allCourses.find(c => c.id === courseId);
   if (course && course.url) {
     window.open(course.url, '_blank');
+    showNotification(`Launching ${course.title}`, 'success');
   } else {
     console.error('Course not found or URL missing:', courseId);
+    showNotification('Course not available', 'error');
   }
 }
 
@@ -240,18 +321,18 @@ function launchLab(labId) {
   const lab = labs.find(l => l.id === labId);
   if (lab && lab.url) {
     window.open(lab.url, '_blank');
+    showNotification(`Launching ${lab.title}`, 'success');
   } else {
     console.error('Lab not found or URL missing:', labId);
+    showNotification('Lab not available', 'error');
   }
 }
 
 function toggleBookmark(courseId) {
   // Check if user is logged in
   if (typeof window.currentUser === 'undefined' || !window.currentUser) {
-    alert('Please log in to bookmark courses');
-    if (typeof showLoginModal === 'function') {
-      showLoginModal();
-    }
+    showNotification('Please log in to bookmark courses', 'error');
+    showLoginModal();
     return;
   }
   
@@ -278,10 +359,8 @@ function toggleBookmark(courseId) {
 function toggleLabBookmark(labId) {
   // Check if user is logged in
   if (typeof window.currentUser === 'undefined' || !window.currentUser) {
-    alert('Please log in to bookmark labs');
-    if (typeof showLoginModal === 'function') {
-      showLoginModal();
-    }
+    showNotification('Please log in to bookmark labs', 'error');
+    showLoginModal();
     return;
   }
   
@@ -480,24 +559,14 @@ function setupEventListeners() {
   });
 }
 
-// ===== THEME TOGGLE =====
-function toggleTheme() {
-  const body = document.body;
-  const themeIcon = document.getElementById('themeIcon');
-  
-  body.classList.toggle('dark-theme');
-  
-  if (themeIcon) {
-    themeIcon.className = body.classList.contains('dark-theme') ? 
-      'fas fa-sun' : 'fas fa-moon';
-  }
-  
-  // Save theme preference
-  localStorage.setItem('theme', body.classList.contains('dark-theme') ? 'dark' : 'light');
-}
-
 // ===== NOTIFICATION SYSTEM =====
 function showNotification(message, type = 'info') {
+  // Remove existing notification
+  const existing = document.querySelector('.notification');
+  if (existing) {
+    existing.remove();
+  }
+  
   // Create notification element
   const notification = document.createElement('div');
   notification.className = `notification ${type}`;
@@ -517,6 +586,73 @@ function showNotification(message, type = 'info') {
   }, 5000);
 }
 
+// ===== COMPARISON MODAL FUNCTIONS =====
+function showComparison() {
+  if (selectedCourses.length < 2) {
+    showNotification('Please select at least 2 courses to compare', 'error');
+    return;
+  }
+  
+  const selectedData = selectedCourses.map(id => 
+    allCourses.find(course => course.id === id)
+  ).filter(course => course);
+  
+  // Create simple comparison modal
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.style.display = 'block';
+  modal.innerHTML = `
+    <div class="modal-content" style="max-width: 800px;">
+      <span class="close" onclick="this.parentElement.parentElement.remove()">&times;</span>
+      <h2>Course Comparison</h2>
+      <div class="comparison-table">
+        ${createComparisonTable(selectedData)}
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+}
+
+function createComparisonTable(courses) {
+  let html = '<table style="width: 100%; border-collapse: collapse;">';
+  html += '<tr><th>Course</th><th>Category</th><th>Difficulty</th><th>Duration</th><th>Rating</th><th>Action</th></tr>';
+  
+  courses.forEach(course => {
+    html += `
+      <tr>
+        <td style="padding: 1rem; border: 1px solid var(--border-color);">${course.title}</td>
+        <td style="padding: 1rem; border: 1px solid var(--border-color);">${course.category}</td>
+        <td style="padding: 1rem; border: 1px solid var(--border-color);">${course.difficulty}</td>
+        <td style="padding: 1rem; border: 1px solid var(--border-color);">${course.duration}</td>
+        <td style="padding: 1rem; border: 1px solid var(--border-color);">${course.rating}</td>
+        <td style="padding: 1rem; border: 1px solid var(--border-color);">
+          <button onclick="launchCourse('${course.id}')" class="launch-btn" style="padding: 0.5rem 1rem;">Launch</button>
+        </td>
+      </tr>
+    `;
+  });
+  
+  html += '</table>';
+  return html;
+}
+
+// ===== MAKE FUNCTIONS GLOBALLY AVAILABLE =====
+window.showLoginModal = showLoginModal;
+window.showSignupModal = showSignupModal;
+window.closeModal = closeModal;
+window.toggleTheme = toggleTheme;
+window.toggleBookmark = toggleBookmark;
+window.toggleLabBookmark = toggleLabBookmark;
+window.launchCourse = launchCourse;
+window.launchLab = launchLab;
+window.toggleCourseSelection = toggleCourseSelection;
+window.toggleLabSelection = toggleLabSelection;
+window.showComparison = showComparison;
+window.showNotification = showNotification;
+window.filterCourses = filterCourses;
+window.searchCourses = searchCourses;
+
 // ===== INITIALIZATION =====
 // Initialize app when DOM is ready
 if (document.readyState === 'loading') {
@@ -525,14 +661,14 @@ if (document.readyState === 'loading') {
   initializeApp();
 }
 
-// Apply saved theme
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'dark') {
-  document.body.classList.add('dark-theme');
-  const themeIcon = document.getElementById('themeIcon');
-  if (themeIcon) {
-    themeIcon.className = 'fas fa-sun';
-  }
+// Close modal when clicking outside
+window.onclick = function(event) {
+  const modals = document.querySelectorAll('.modal');
+  modals.forEach(modal => {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
 }
 
 console.log('✅ ImpactMojo Main JavaScript loaded successfully!');

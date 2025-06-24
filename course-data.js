@@ -653,13 +653,24 @@ const upcomingCourses = [
 // ===== EXPORT CONFIGURATION =====
 console.log(`✅ Loaded ${courses.length} courses and ${labs.length} labs successfully!`);
 
-// Make data available globally
-if (typeof window !== 'undefined') {
-  window.courses = courses;
-  window.labs = labs;
-  window.learningPaths = learningPaths;
-  window.courseCategories = courseCategories;
-  window.popularCourses = popularCourses;
-  window.featuredCourses = featuredCourses;
-  window.upcomingCourses = upcomingCourses;
+// Make data available globally and ensure they're accessible
+try {
+  if (typeof window !== 'undefined') {
+    window.courses = courses;
+    window.labs = labs;
+    window.learningPaths = learningPaths;
+    window.courseCategories = courseCategories;
+    window.popularCourses = popularCourses;
+    window.featuredCourses = featuredCourses;
+    window.upcomingCourses = upcomingCourses;
+    
+    // Trigger data loaded event
+    window.dispatchEvent(new CustomEvent('dataLoaded', { 
+      detail: { courses, labs } 
+    }));
+    
+    console.log('✅ Course data successfully attached to window object');
+  }
+} catch (error) {
+  console.error('❌ Error making data globally available:', error);
 }
