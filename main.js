@@ -1487,3 +1487,559 @@ if (document.readyState !== 'loading') {
 }
 
 console.log('✅ Complete ImpactMojo loaded with ALL features!');
+/* ===== COMPREHENSIVE IMPACTMOJO JAVASCRIPT - ALL FIXES INCLUDED ===== */
+/* Add this to the bottom of your main.js file */
+
+// Global variables for enhanced functionality
+let selectedCourses = [];
+let selectedLabs = [];
+let userBookmarks = JSON.parse(localStorage.getItem('userBookmarks')) || [];
+let userLabBookmarks = JSON.parse(localStorage.getItem('userLabBookmarks')) || [];
+
+// 1. ENHANCED THEME TOGGLE SYSTEM WITH DEBUG LOGGING
+window.toggleTheme = function() {
+  console.log('🌓 Theme toggle clicked');
+  
+  const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  const themeIcon = document.getElementById('themeIcon');
+  
+  console.log(`Switching from ${currentTheme} to ${newTheme}`);
+  
+  // Update the theme
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  
+  // Update the icon
+  if (themeIcon) {
+    themeIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    console.log(`Icon updated to: ${themeIcon.className}`);
+  } else {
+    console.error('Theme icon not found!');
+  }
+  
+  // Show notification
+  const message = `Switched to ${newTheme} mode`;
+  showNotification(message, 'success');
+};
+
+// Initialize theme on page load
+function initializeThemeToggle() {
+  console.log('🎨 Initializing theme toggle');
+  
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  const themeIcon = document.getElementById('themeIcon');
+  
+  console.log(`Saved theme: ${savedTheme}`);
+  
+  // Set the theme
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  
+  // Set the icon
+  if (themeIcon) {
+    themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    console.log(`Initial icon set to: ${themeIcon.className}`);
+  } else {
+    console.error('Theme icon not found during initialization!');
+  }
+}
+
+// 2. ENHANCED NOTIFICATION SYSTEM
+function showNotification(messageKey, type = 'info', replacements = {}) {
+  let message;
+  
+  // Try to get message from JSON config if available
+  if (window.formatContentMessage && typeof messageKey === 'string' && !messageKey.includes(' ')) {
+    message = window.formatContentMessage(messageKey, replacements);
+  } else {
+    // Direct message or fallback
+    message = messageKey;
+  }
+  
+  showEnhancedNotification(message, type);
+}
+
+function showEnhancedNotification(message, type) {
+  // Remove existing notification
+  const existing = document.querySelector('.temp-notification');
+  if (existing) existing.remove();
+  
+  const notification = document.createElement('div');
+  notification.className = 'temp-notification';
+  notification.textContent = message;
+  
+  const colors = {
+    success: '#059669',
+    error: '#dc2626', 
+    warning: '#d97706',
+    info: '#2563eb'
+  };
+  
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    color: white;
+    font-weight: 500;
+    z-index: 3000;
+    animation: slideIn 0.3s ease;
+    max-width: 300px;
+    background: ${colors[type] || colors.info};
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  `;
+  
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.style.animation = 'fadeOut 0.3s ease';
+    setTimeout(() => notification.remove(), 300);
+  }, 3000);
+}
+
+// Make showNotification globally available
+window.showNotification = showNotification;
+
+// 3. COURSE NUMBER BADGES FUNCTIONALITY
+function addCourseNumberBadges() {
+  const courseCards = document.querySelectorAll('.course-card');
+  courseCards.forEach((card, index) => {
+    if (!card.querySelector('.course-number')) {
+      const courseId = card.getAttribute('data-course-id');
+      let courseNumber;
+      
+      // Try to get course number from courses array
+      if (typeof courses !== 'undefined') {
+        const course = courses.find(c => c.id === courseId);
+        courseNumber = course ? course.number : index + 1;
+      } else {
+        courseNumber = index + 1;
+      }
+      
+      const badge = document.createElement('div');
+      badge.className = 'course-number';
+      badge.setAttribute('data-number', courseNumber);
+      badge.textContent = courseNumber;
+      
+      // Enhanced tooltip with JSON content if available
+      const tooltipText = window.getContentText ? 
+      window.getContentText('labels.course_number', `Course #${courseNumber}`) :
+      `Course #${courseNumber}`;
+      badge.setAttribute('title', tooltipText);
+      
+      card.appendChild(badge);
+    }
+  });
+}
+
+// 4. LAB LIVE BADGES FUNCTIONALITY
+function addLabLiveBadges() {
+  const labCards = document.querySelectorAll('.lab-card');
+  labCards.forEach(card => {
+    if (!card.querySelector('.lab-badge') && !card.querySelector('.lab-status')) {
+      const badge = document.createElement('div');
+      badge.className = 'lab-badge';
+      
+      // Use JSON content if available
+      const liveText = window.getContentText ? 
+      window.getContentText('labels.live_status', 'LIVE') : 
+      'LIVE';
+      badge.textContent = liveText;
+      
+      card.appendChild(badge);
+    }
+  });
+}
+
+// 5. ENHANCED BOOKMARK FUNCTIONALITY
+function enhanceBookmarkFunctionality() {
+  const bookmarkButtons = document.querySelectorAll('.bookmark-btn');
+  bookmarkButtons.forEach(btn => {
+    if (!btn.hasAttribute('data-enhanced')) {
+      btn.setAttribute('data-enhanced', 'true');
+      
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const courseCard = this.closest('.course-card');
+        const courseId = courseCard ? courseCard.getAttribute('data-course-id') : null;
+        
+        if (courseId) {
+          toggleBookmark(courseId, this);
+        }
+      });
+    }
+  });
+}
+
+function toggleBookmark(courseId, buttonElement = null) {
+  if (!buttonElement) {
+    buttonElement = document.querySelector(`[data-course-id="${courseId}"] .bookmark-btn`);
+  }
+  
+  if (!buttonElement) return;
+  
+  const isBookmarked = userBookmarks.includes(courseId);
+  const icon = buttonElement.querySelector('i');
+  
+  if (isBookmarked) {
+    // Remove bookmark
+    userBookmarks = userBookmarks.filter(id => id !== courseId);
+    buttonElement.classList.remove('bookmarked');
+    if (icon) icon.className = 'far fa-bookmark';
+    showNotification('bookmark_removed', 'info');
+  } else {
+    // Add bookmark
+    userBookmarks.push(courseId);
+    buttonElement.classList.add('bookmarked');
+    if (icon) icon.className = 'fas fa-bookmark';
+    showNotification('bookmark_added', 'success');
+  }
+  
+  // Save to localStorage
+  localStorage.setItem('userBookmarks', JSON.stringify(userBookmarks));
+  
+  // Update compare button if it exists
+  updateCompareButton();
+}
+
+// 6. COURSE COMPARISON FUNCTIONALITY
+function toggleCourseSelection(courseId) {
+  const checkbox = document.getElementById(`compare-${courseId}`);
+  
+  if (checkbox && checkbox.checked) {
+    if (!selectedCourses.includes(courseId)) {
+      selectedCourses.push(courseId);
+    }
+  } else {
+    selectedCourses = selectedCourses.filter(id => id !== courseId);
+  }
+  
+  updateCompareButton();
+}
+
+function updateCompareButton() {
+  let compareBtn = document.getElementById('compareButton');
+  
+  if (!compareBtn) {
+    // Create floating compare button
+    const fabContainer = document.createElement('div');
+    fabContainer.className = 'fab-container';
+    fabContainer.innerHTML = `
+      <button id="compareButton" class="compare-fab hidden" onclick="openComparisonModal()">
+        <i class="fas fa-balance-scale"></i>
+        <span>Compare (<span id="compareCount">0</span>)</span>
+      </button>
+    `;
+    document.body.appendChild(fabContainer);
+    compareBtn = document.getElementById('compareButton');
+  }
+  
+  const countSpan = document.getElementById('compareCount');
+  const count = selectedCourses.length;
+  
+  if (count > 0) {
+    compareBtn.classList.remove('hidden');
+    if (countSpan) countSpan.textContent = count;
+  } else {
+    compareBtn.classList.add('hidden');
+  }
+}
+
+// 7. COMPARISON MODAL FUNCTIONALITY
+function openComparisonModal() {
+  if (selectedCourses.length === 0) {
+    showNotification('Please select courses to compare', 'warning');
+    return;
+  }
+  
+  // Get selected course data
+  let selectedCourseData = [];
+  if (typeof courses !== 'undefined') {
+    selectedCourseData = selectedCourses.map(id => 
+      courses.find(course => course.id === id)
+    ).filter(Boolean);
+  }
+  
+  const modalHTML = `
+    <div id="comparisonModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2><i class="fas fa-balance-scale"></i> Course Comparison</h2>
+          <button class="close" onclick="closeComparisonModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+          ${createComparisonContent(selectedCourseData)}
+        </div>
+      </div>
+    </div>
+  `;
+  
+  // Remove existing modal if present
+  const existingModal = document.getElementById('comparisonModal');
+  if (existingModal) {
+    existingModal.remove();
+  }
+  
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+  document.getElementById('comparisonModal').style.display = 'block';
+}
+
+function createComparisonContent(courses) {
+  if (courses.length === 0) {
+    return '<p>No courses selected for comparison.</p>';
+  }
+  
+  return `
+    <div class="comparison-cards">
+      ${courses.map((course, index) => `
+        <div class="comparison-card" style="border-left-color: ${getColorForIndex(index)};">
+          <h4>${course.title}</h4>
+          <div class="card-meta">
+            <span class="meta-tag">${course.category}</span>
+            <span class="meta-tag difficulty-${course.difficulty}">${course.difficulty}</span>
+            <span class="meta-tag">${course.duration}</span>
+          </div>
+          <div class="rating">⭐ ${course.rating}/5 • ${course.learnerCount.toLocaleString()} learners</div>
+        </div>
+      `).join('')}
+    </div>
+    
+    <h3><i class="fas fa-table"></i> Detailed Comparison</h3>
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Aspect</th>
+          ${courses.map(course => `<th>${course.title}</th>`).join('')}
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Category</strong></td>
+          ${courses.map(course => `<td>${course.category}</td>`).join('')}
+        </tr>
+        <tr>
+          <td><strong>Difficulty</strong></td>
+          ${courses.map(course => `<td><span class="meta-tag difficulty-${course.difficulty}">${course.difficulty}</span></td>`).join('')}
+        </tr>
+        <tr>
+          <td><strong>Duration</strong></td>
+          ${courses.map(course => `<td>${course.duration}</td>`).join('')}
+        </tr>
+        <tr>
+          <td><strong>Rating</strong></td>
+          ${courses.map(course => `<td>⭐ ${course.rating}/5</td>`).join('')}
+        </tr>
+        <tr>
+          <td><strong>Learners</strong></td>
+          ${courses.map(course => `<td>${course.learnerCount.toLocaleString()}</td>`).join('')}
+        </tr>
+        <tr>
+          <td><strong>Prerequisites</strong></td>
+          ${courses.map(course => `<td>${course.prerequisites ? course.prerequisites.join(', ') : 'None'}</td>`).join('')}
+        </tr>
+        <tr>
+          <td><strong>Target Audience</strong></td>
+          ${courses.map(course => `<td>${course.audience || 'General'}</td>`).join('')}
+        </tr>
+      </tbody>
+    </table>
+  `;
+}
+
+function getColorForIndex(index) {
+  const colors = ['#2563eb', '#059669', '#dc2626', '#7c3aed', '#ea580c'];
+  return colors[index % colors.length];
+}
+
+function closeComparisonModal() {
+  const modal = document.getElementById('comparisonModal');
+  if (modal) {
+    modal.style.display = 'none';
+    modal.remove();
+  }
+}
+
+// 8. COURSE EXPANSION FUNCTIONALITY
+function toggleCourseDetails(courseId) {
+  const card = document.querySelector(`[data-course-id="${courseId}"]`);
+  const detailsElement = document.getElementById(`details-${courseId}`);
+  const expandBtn = card ? card.querySelector('.expand-btn i') : null;
+  
+  if (!card || !detailsElement) return;
+  
+  if (card.classList.contains('expanded')) {
+    // Collapse
+    card.classList.remove('expanded');
+    detailsElement.style.display = 'none';
+    if (expandBtn) expandBtn.style.transform = 'rotate(0deg)';
+  } else {
+    // Expand
+    card.classList.add('expanded');
+    detailsElement.style.display = 'block';
+    if (expandBtn) expandBtn.style.transform = 'rotate(180deg)';
+    
+    // Scroll to make sure details are visible
+    setTimeout(() => {
+      detailsElement.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'nearest' 
+      });
+    }, 100);
+  }
+}
+
+// Make toggleCourseDetails globally available
+window.toggleCourseDetails = toggleCourseDetails;
+
+// 9. CONTENT OBSERVER FOR DYNAMIC UPDATES
+function setupContentObserver() {
+  if (typeof MutationObserver !== 'undefined') {
+    const observer = new MutationObserver(function(mutations) {
+      let shouldRun = false;
+      mutations.forEach(mutation => {
+        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+          mutation.addedNodes.forEach(node => {
+            if (node.nodeType === 1 && (
+              node.classList?.contains('course-card') || 
+              node.classList?.contains('lab-card') ||
+              node.querySelector?.('.course-card') ||
+              node.querySelector?.('.lab-card')
+            )) {
+              shouldRun = true;
+            }
+          });
+        }
+      });
+      
+      if (shouldRun) {
+        setTimeout(() => {
+          runAllEnhancements();
+        }, 100);
+      }
+    });
+    
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  }
+}
+
+// 10. ENHANCED INITIALIZATION WITH JSON INTEGRATION
+function enhanceWithContentManager() {
+  console.log('🎉 Enhancing with JSON content manager');
+  runAllEnhancements();
+}
+
+function enhanceWithoutContentManager() {
+  console.log('🔧 Enhancing without content manager (fallback mode)');
+  runAllEnhancements();
+}
+
+function runAllEnhancements() {
+  // Initialize theme
+  initializeThemeToggle();
+  
+  // Add course number badges
+  addCourseNumberBadges();
+  
+  // Add lab LIVE badges  
+  addLabLiveBadges();
+  
+  // Enhance bookmarks
+  enhanceBookmarkFunctionality();
+  
+  // Update compare button
+  updateCompareButton();
+  
+  // Setup content observer (only once)
+  if (!window.contentObserverSetup) {
+    setupContentObserver();
+    window.contentObserverSetup = true;
+  }
+}
+
+// 11. INITIALIZATION LOGIC
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('🚀 ImpactMojo enhancements loading...');
+  
+  // Wait for content manager to load, then enhance
+  if (window.contentManager) {
+    enhanceWithContentManager();
+  } else {
+    // Listen for content manager to be ready
+    window.addEventListener('contentManagerReady', enhanceWithContentManager);
+    // Fallback if no content manager
+    setTimeout(enhanceWithoutContentManager, 200);
+  }
+  
+  // Add modal click outside to close
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('modal')) {
+      e.target.style.display = 'none';
+    }
+  });
+});
+
+// Run enhancements again after a delay to catch any late-loading content
+setTimeout(() => {
+  runAllEnhancements();
+  console.log('🎯 Late enhancement pass completed');
+}, 1000);
+
+// 12. UTILITY FUNCTIONS
+function createLabCard(lab) {
+  return `
+    <div class="lab-card" data-lab-id="${lab.id}">
+      <div class="lab-status">
+        Live
+      </div>
+      
+      <div class="lab-icon">
+        <i class="${lab.icon}"></i>
+      </div>
+      
+      <h3 class="lab-title">${lab.title}</h3>
+      <p class="lab-description">${lab.description}</p>
+      
+      <a href="${lab.url}" target="_blank" rel="noopener" class="lab-launch-btn">
+        <i class="fas fa-external-link-alt"></i> Launch Lab
+      </a>
+    </div>
+  `;
+}
+
+function renderLabs() {
+  const container = document.getElementById('labsContainer');
+  if (container && typeof labs !== 'undefined') {
+    container.innerHTML = labs.map(lab => createLabCard(lab)).join('');
+    addLabLiveBadges();
+  }
+}
+
+// 13. GLOBAL FUNCTION EXPORTS
+window.toggleBookmark = toggleBookmark;
+window.toggleCourseSelection = toggleCourseSelection;
+window.openComparisonModal = openComparisonModal;
+window.closeComparisonModal = closeComparisonModal;
+window.runAllEnhancements = runAllEnhancements;
+
+// Add CSS animations if not already present
+if (!document.querySelector('#impactmojo-animations')) {
+  const safeAnimationCSS = document.createElement('style');
+  safeAnimationCSS.id = 'impactmojo-animations';
+  safeAnimationCSS.textContent = `
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+  `;
+  document.head.appendChild(safeAnimationCSS);
+}
+
+console.log('✅ ImpactMojo comprehensive enhancements loaded successfully!');
