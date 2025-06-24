@@ -1,374 +1,359 @@
-/**
- * Simple Content Manager - Works alongside existing main.js
- * Only handles text content updates, preserves all existing functionality
- */
+// Simple Content Manager for ImpactMojo
+// Manages dynamic content updates based on content-config.json
+
+console.log('📝 Loading Simple Content Manager...');
 
 class SimpleContentManager {
   constructor() {
-    this.content = null;
+    this.config = null;
     this.isLoaded = false;
   }
 
-  /**
-   * Load content configuration from JSON file
-   */
-  async loadContent() {
+  async loadConfig() {
     try {
       const response = await fetch('./content-config.json');
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      this.content = await response.json();
+      this.config = await response.json();
       this.isLoaded = true;
       console.log('✅ Content configuration loaded successfully');
-      return this.content;
+      return this.config;
     } catch (error) {
-      console.warn('⚠️ Could not load content configuration, using defaults:', error);
-      // Use defaults if config file not found
-      this.useDefaults();
-      return null;
+      console.error('❌ Failed to load content configuration:', error);
+      // Fallback to default configuration
+      this.config = this.getDefaultConfig();
+      this.isLoaded = true;
+      return this.config;
     }
   }
 
-  /**
-   * Use default content if config file not available
-   */
-  useDefaults() {
-    this.content = {
+  getDefaultConfig() {
+    return {
       site: {
-        title: "ImpactMojo 101 Knowledge Series - Development Education for South Asia",
-        description: "Curated library of full-length knowledge decks exploring justice, equity, and development practice in India and South Asia.",
-        keywords: "development education, South Asia, India, social justice, data feminism, development economics",
-        author: "Dr. Varna Sri Raman"
-      },
-      hero: {
         title: "ImpactMojo 101 Knowledge Series",
-        description: "ImpactMojo is a curated library of full-length knowledge decks that explore justice, equity, and development practice in India and South Asia. Each one is grounded in theory, applied in context, and ready for real-world use by educators, practitioners, and social researchers."
+        tagline: "Development Education for South Asia",
+        description: "A curated library of full-length knowledge decks and interactive tools/labs exploring justice, equity, and development practice in India and South Asia.",
+        email: "info@impactmojo.in"
       },
-      interface_text: {
-        messages: {
-          no_results: "No courses found. Try adjusting your search terms or filters.",
-          loading: "Loading courses...",
-          error: "Unable to load content. Please refresh the page.",
-          welcome_back: "Welcome back!",
-          login_success: "Successfully logged in!",
-          logout_success: "Successfully logged out!"
-        },
-        buttons: {
-          explore_courses: "Explore Courses",
-          try_labs: "Try Labs",
-          launch_course: "Launch Course",
-          launch_lab: "Launch Lab",
-          bookmark: "Bookmark",
-          compare: "Compare",
-          login: "Log In",
-          signup: "Sign Up",
-          logout: "Log Out"
-        }
+      branding: {
+        showTitleInTopLeft: false,
+        showTaglineOnly: true
       }
     };
-    this.isLoaded = true;
   }
 
-  /**
-   * Get content by path (e.g., 'hero.title')
-   */
-  get(path) {
-    if (!this.isLoaded || !this.content) {
-      return null;
-    }
-
-    const keys = path.split('.');
-    let current = this.content;
-    
-    for (const key of keys) {
-      if (current && typeof current === 'object' && key in current) {
-        current = current[key];
-      } else {
-        return null;
-      }
-    }
-    
-    return current;
-  }
-
-  /**
-   * Get interface text with fallback
-   */
-  getInterfaceText(path, fallback = null) {
-    const text = this.get(`interface_text.${path}`);
-    return text || fallback;
-  }
-
-  /**
-   * Format dynamic messages
-   */
-  formatMessage(messageKey, replacements = {}) {
-    if (!this.isLoaded) return messageKey;
-    
-    let message = this.get(`interface_text.messages.${messageKey}`) || messageKey;
-    
-    // Replace placeholders like {count} with actual values
-    Object.keys(replacements).forEach(key => {
-      message = message.replace(`{${key}}`, replacements[key]);
-    });
-    
-    return message;
-  }
-
-  /**
-   * Update page title and meta tags (non-destructive)
-   */
-  updatePageMeta() {
+  // Update site metadata
+  updateSiteMetadata() {
     if (!this.isLoaded) return;
 
-    const site = this.content.site;
-    if (!site) return;
+    const { site } = this.config;
     
-    // Only update if not already set
-    if (document.title === '' || document.title.includes('Document')) {
+    // Update document title
+    if (site.title) {
       document.title = site.title;
     }
-    
-    // Update meta tags safely
-    this.safeUpdateMeta('description', site.description);
-    this.safeUpdateMeta('keywords', site.keywords);
-    this.safeUpdateMeta('author', site.author);
-  }
 
-  /**
-   * Safely update meta tags without breaking existing ones
-   */
-  safeUpdateMeta(name, content) {
-    if (!content) return;
-    
-    let meta = document.querySelector(`meta[name="${name}"]`);
-    if (!meta) {
-      meta = document.createElement('meta');
-      meta.name = name;
-      document.head.appendChild(meta);
-    }
-    
-    // Only update if empty or default
-    if (!meta.content || meta.content.includes('Generated') || meta.content.length < 10) {
-      meta.content = content;
+    // Update meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription && site.description) {
+      metaDescription.setAttribute('content', site.description);
     }
   }
 
-  /**
-   * Update hero section text (preserves existing if content not available)
-   */
+  // Update hero section content
   updateHeroSection() {
-    if (!this.isLoaded) return;
+    if (!this.isLoaded || !this.config.hero) return;
 
-    const hero = this.content.hero;
-    if (!hero) return;
+    const { hero } = this.config;
 
-    // Update hero title
-    const titleSelectors = [
-      '.hero-title',
-      '.hero h1', 
-      'section:first-of-type h1',
-      'header + main h1'
-    ];
-    
-    for (const selector of titleSelectors) {
-      const element = document.querySelector(selector);
-      if (element && hero.title) {
-        element.textContent = hero.title;
-        break;
-      }
+    // Update main heading
+    const mainHeading = document.querySelector('.hero h1');
+    if (mainHeading && hero.title) {
+      mainHeading.textContent = hero.title;
     }
 
-    // Update hero description
-    const descSelectors = [
-      '.hero-description',
-      '.hero p',
-      'section:first-of-type p'
-    ];
-    
-    for (const selector of descSelectors) {
-      const element = document.querySelector(selector);
-      if (element && hero.description) {
-        element.textContent = hero.description;
-        break;
-      }
-    }
-  }
-
-  /**
-   * Update learning paths (preserves existing structure)
-   */
-  updateLearningPaths() {
-    if (!this.isLoaded) return;
-
-    const paths = this.content.learning_paths;
-    if (!paths || !paths.paths) return;
-
-    // Update section title
-    const sectionTitle = document.querySelector('.learning-paths-section h2');
-    if (sectionTitle && paths.title) {
-      sectionTitle.innerHTML = `<i class="fas fa-route"></i> ${paths.title}`;
+    // Update subtitle
+    const subtitle = document.querySelector('.hero .subtitle');
+    if (subtitle && hero.subtitle) {
+      subtitle.textContent = hero.subtitle;
     }
 
-    // Update individual path cards (non-destructive)
-    paths.paths.forEach((path, index) => {
-      const pathCard = document.querySelectorAll('.learning-path-card')[index];
-      if (!pathCard) return;
-
-      const titleElement = pathCard.querySelector('h3');
-      if (titleElement && path.title) {
-        titleElement.textContent = path.title;
-      }
-
-      const descElement = pathCard.querySelector('p');
-      if (descElement && path.description) {
-        descElement.textContent = path.description;
-      }
-
-      // Update course tags if provided
-      if (path.courses) {
-        const tagsContainer = pathCard.querySelector('.path-courses');
-        if (tagsContainer) {
-          tagsContainer.innerHTML = path.courses.map(course => 
-            `<span class="course-tag">${course}</span>`
-          ).join('');
-        }
-      }
-    });
-  }
-
-  /**
-   * Update courses section header
-   */
-  updateCoursesSection() {
-    if (!this.isLoaded) return;
-
-    const courses = this.content.courses_section;
-    if (!courses) return;
-
-    const sectionTitle = document.querySelector('.courses-section h2');
-    if (sectionTitle && courses.title && courses.icon) {
-      sectionTitle.innerHTML = `<i class="${courses.icon}"></i> ${courses.title}`;
-    }
-  }
-
-  /**
-   * Update labs section header
-   */
-  updateLabsSection() {
-    if (!this.isLoaded) return;
-
-    const labs = this.content.labs_section;
-    if (!labs) return;
-
-    const sectionTitle = document.querySelector('.labs-section h2');
-    if (sectionTitle && labs.title && labs.icon) {
-      sectionTitle.innerHTML = `<i class="${labs.icon}"></i> ${labs.title}`;
+    // Update description
+    const description = document.querySelector('.hero .description');
+    if (description && hero.description) {
+      description.textContent = hero.description;
     }
 
-    const subtitle = document.querySelector('.labs-section .section-header p');
-    if (subtitle && labs.subtitle) {
-      subtitle.textContent = labs.subtitle;
-    }
-  }
-
-  /**
-   * Update footer content (preserves existing structure)
-   */
-  updateFooter() {
-    if (!this.isLoaded) return;
-
-    const footer = this.content.footer;
-    if (!footer || !footer.sections) return;
-
-    footer.sections.forEach((section, index) => {
-      const footerSection = document.querySelectorAll('.footer-section')[index];
-      if (!footerSection) return;
-
-      const titleElement = footerSection.querySelector('h4');
-      if (titleElement && section.title) {
-        titleElement.textContent = section.title;
-      }
-
-      // Update content safely
-      if (section.content) {
-        const contentContainer = footerSection.querySelector('p') || 
-                               footerSection.querySelector('ul') ||
-                               footerSection.querySelector('.contact-info');
-        
-        if (contentContainer && section.content[0]) {
-          if (section.content[0].includes('@') || section.content[0].includes('www.')) {
-            // Contact info
-            if (contentContainer.classList.contains('contact-info')) {
-              contentContainer.innerHTML = section.content.map(item => `<p>${item}</p>`).join('');
-            }
-          } else if (contentContainer.tagName === 'P') {
-            // Regular paragraph
-            contentContainer.textContent = section.content[0];
+    // Update CTA buttons
+    if (hero.ctaButtons) {
+      hero.ctaButtons.forEach((button, index) => {
+        const ctaButton = document.querySelector(`.hero .cta-btn:nth-child(${index + 1})`);
+        if (ctaButton) {
+          ctaButton.textContent = button.text;
+          ctaButton.href = button.href;
+          
+          if (button.primary) {
+            ctaButton.style.backgroundColor = button.backgroundColor;
+            ctaButton.style.color = button.color;
           }
         }
-      }
-    });
+      });
+    }
   }
 
-  /**
-   * Initialize all content updates (non-destructive)
-   */
-  async initialize() {
-    try {
-      await this.loadContent();
-      
-      // Update content in a safe, non-destructive way
-      this.updatePageMeta();
-      this.updateHeroSection();
-      this.updateLearningPaths();
-      this.updateCoursesSection();
-      this.updateLabsSection();
-      this.updateFooter();
-      
-      // Dispatch event for existing code to hook into
-      window.dispatchEvent(new CustomEvent('contentManagerReady', { 
-        detail: { 
-          content: this.content,
-          getText: (path, fallback) => this.getInterfaceText(path, fallback),
-          formatMessage: (key, replacements) => this.formatMessage(key, replacements)
+  // Update branding display
+  updateBranding() {
+    if (!this.isLoaded || !this.config.branding) return;
+
+    const { branding, site } = this.config;
+    const brandElement = document.querySelector('.nav-brand');
+    
+    if (brandElement) {
+      if (branding.showTaglineOnly && !branding.showTitleInTopLeft) {
+        const titleElement = brandElement.querySelector('h1');
+        const taglineElement = brandElement.querySelector('span');
+        
+        if (titleElement) titleElement.style.display = 'none';
+        if (taglineElement && site.tagline) {
+          taglineElement.textContent = site.tagline;
+          taglineElement.style.display = 'block';
         }
-      }));
-      
-      console.log('✅ Content manager initialized (preserving existing functionality)');
-      
-    } catch (error) {
-      console.warn('⚠️ Content manager initialization failed, website will work normally:', error);
+      }
     }
+  }
+
+  // Update section titles and descriptions
+  updateSectionContent() {
+    if (!this.isLoaded || !this.config.sections) return;
+
+    const { sections } = this.config;
+
+    // Update Latest Additions section
+    if (sections.latestAdditions) {
+      const section = document.querySelector('#latest-additions');
+      if (section) {
+        const title = section.querySelector('h2');
+        const description = section.querySelector('.section-description');
+        
+        if (title) title.textContent = sections.latestAdditions.title;
+        if (description) description.textContent = sections.latestAdditions.description;
+      }
+    }
+
+    // Update Learning Paths section
+    if (sections.learningPaths) {
+      const section = document.querySelector('#learning-paths');
+      if (section) {
+        const title = section.querySelector('h2');
+        const description = section.querySelector('.section-description');
+        
+        if (title) title.textContent = sections.learningPaths.title;
+        if (description) description.textContent = sections.learningPaths.description;
+      }
+    }
+
+    // Update Popular Courses section
+    if (sections.popularCourses) {
+      const section = document.querySelector('#popular-courses');
+      if (section) {
+        const title = section.querySelector('h2');
+        const description = section.querySelector('.section-description');
+        
+        if (title) title.textContent = sections.popularCourses.title;
+        if (description) description.textContent = sections.popularCourses.description;
+      }
+    }
+
+    // Update Upcoming Content section
+    if (sections.upcomingContent) {
+      const section = document.querySelector('#upcoming');
+      if (section) {
+        const title = section.querySelector('h2');
+        const description = section.querySelector('.section-description');
+        
+        if (title) title.textContent = sections.upcomingContent.title;
+        if (description) description.textContent = sections.upcomingContent.description;
+      }
+    }
+  }
+
+  // Update footer content
+  updateFooter() {
+    if (!this.isLoaded || !this.config.footer) return;
+
+    const { footer } = this.config;
+
+    // Update contact email
+    const contactEmail = document.querySelector('.footer-email a');
+    if (contactEmail && footer.contactEmail) {
+      contactEmail.href = `mailto:${footer.contactEmail}`;
+      contactEmail.textContent = footer.contactEmail;
+    }
+
+    // Update copyright text
+    const copyright = document.querySelector('.footer-copyright');
+    if (copyright && footer.copyrightText) {
+      copyright.textContent = footer.copyrightText;
+    }
+  }
+
+  // Update author section
+  updateAuthorSection() {
+    if (!this.isLoaded || !this.config.author) return;
+
+    const { author } = this.config;
+    const authorSection = document.querySelector('#author');
+    
+    if (authorSection) {
+      // Update author name
+      const nameElement = authorSection.querySelector('.author-name');
+      if (nameElement && author.name) {
+        nameElement.textContent = author.name;
+      }
+
+      // Update author title
+      const titleElement = authorSection.querySelector('.author-title');
+      if (titleElement && author.title) {
+        titleElement.textContent = author.title;
+      }
+
+      // Update author bio
+      const bioElement = authorSection.querySelector('.author-bio');
+      if (bioElement && author.bio) {
+        bioElement.textContent = author.bio;
+      }
+
+      // Update author photo
+      const photoElement = authorSection.querySelector('.author-photo img');
+      if (photoElement && author.photoUrl) {
+        photoElement.src = author.photoUrl;
+        photoElement.alt = `Photo of ${author.name}`;
+      }
+    }
+  }
+
+  // Update theme configuration
+  updateThemeSettings() {
+    if (!this.isLoaded || !this.config.theme) return;
+
+    const { theme } = this.config;
+
+    // Set CSS custom properties for theme colors
+    if (theme.colors) {
+      const root = document.documentElement;
+      
+      if (theme.colors.primary) {
+        root.style.setProperty('--primary-color', theme.colors.primary);
+      }
+      if (theme.colors.secondary) {
+        root.style.setProperty('--secondary-color', theme.colors.secondary);
+      }
+      if (theme.colors.accent) {
+        root.style.setProperty('--accent-color', theme.colors.accent);
+      }
+    }
+
+    // Update dark mode toggle icons
+    if (theme.darkMode && theme.darkMode.toggleIcon) {
+      const toggleButton = document.querySelector('.theme-toggle i');
+      if (toggleButton) {
+        // Set initial icon based on current theme
+        const isDark = document.body.classList.contains('dark-theme');
+        toggleButton.className = isDark ? 
+          theme.darkMode.toggleIcon.dark : 
+          theme.darkMode.toggleIcon.light;
+      }
+    }
+  }
+
+  // Update authentication tooltips
+  updateAuthTooltips() {
+    if (!this.isLoaded || !this.config.authentication) return;
+
+    const { authentication } = this.config;
+
+    // Update login tooltip
+    const loginBtn = document.querySelector('[onclick="showLoginModal()"]');
+    if (loginBtn && authentication.loginTooltip) {
+      loginBtn.setAttribute('title', authentication.loginTooltip);
+    }
+
+    // Update signup tooltip
+    const signupBtn = document.querySelector('[onclick="showSignupModal()"]');
+    if (signupBtn && authentication.signupTooltip) {
+      signupBtn.setAttribute('title', authentication.signupTooltip);
+    }
+  }
+
+  // Initialize all content updates
+  async initialize() {
+    await this.loadConfig();
+    
+    if (this.isLoaded) {
+      this.updateSiteMetadata();
+      this.updateBranding();
+      this.updateHeroSection();
+      this.updateSectionContent();
+      this.updateFooter();
+      this.updateAuthorSection();
+      this.updateThemeSettings();
+      this.updateAuthTooltips();
+      
+      console.log('✅ Content Manager initialized successfully');
+    } else {
+      console.warn('⚠️ Content Manager initialized with default configuration');
+    }
+  }
+
+  // Get configuration value by path
+  getConfig(path) {
+    if (!this.isLoaded) return null;
+    
+    return path.split('.').reduce((obj, key) => obj && obj[key], this.config);
+  }
+
+  // Check if feature is enabled
+  isFeatureEnabled(feature) {
+    return this.getConfig(`features.${feature}`) || false;
+  }
+
+  // Get course exclusions
+  getExcludedCourses() {
+    return this.getConfig('excludedCourses') || [];
+  }
+
+  // Update content dynamically
+  updateContent(path, value) {
+    if (!this.isLoaded) return false;
+
+    const keys = path.split('.');
+    const lastKey = keys.pop();
+    const target = keys.reduce((obj, key) => obj && obj[key], this.config);
+    
+    if (target) {
+      target[lastKey] = value;
+      return true;
+    }
+    
+    return false;
   }
 }
 
 // Create global instance
-const simpleContentManager = new SimpleContentManager();
+const contentManager = new SimpleContentManager();
 
-// Auto-initialize when DOM is ready (doesn't interfere with existing code)
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
-    // Add small delay to let existing scripts run first
-    setTimeout(() => {
-      simpleContentManager.initialize();
-    }, 100);
-  });
-} else {
-  setTimeout(() => {
-    simpleContentManager.initialize();
-  }, 100);
+// Make available globally
+if (typeof window !== 'undefined') {
+  window.contentManager = contentManager;
 }
 
-// Export for use in existing scripts (backwards compatible)
-window.contentManager = simpleContentManager;
+// Auto-initialize when DOM is ready
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      contentManager.initialize();
+    });
+  } else {
+    contentManager.initialize();
+  }
+}
 
-// Helper function for existing code to use
-window.getContentText = function(path, fallback = null) {
-  return simpleContentManager.getInterfaceText(path, fallback);
-};
-
-window.formatContentMessage = function(messageKey, replacements = {}) {
-  return simpleContentManager.formatMessage(messageKey, replacements);
-};
+console.log('✅ Simple Content Manager loaded successfully!');
