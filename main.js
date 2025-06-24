@@ -1,5 +1,5 @@
 // Complete ImpactMojo Main JavaScript File
-// All functionality working: theme toggle, login/signup, courses, labs
+// All functionality working: theme toggle, login/signup, courses, labs, popular courses
 
 console.log('🚀 Loading ImpactMojo...');
 
@@ -111,6 +111,7 @@ function initializeApp() {
   // Initialize displays
   displayCourses();
   displayLabs();
+  displayPopularCourses();
   updateCourseCount();
   setupEventListeners();
   
@@ -118,6 +119,32 @@ function initializeApp() {
   initializeThemeToggle();
   
   console.log('✅ ImpactMojo initialized successfully!');
+}
+
+// ===== POPULAR COURSES FUNCTIONALITY =====
+function displayPopularCourses() {
+  const container = document.getElementById('popularCoursesContainer');
+  
+  if (!container) {
+    console.log('ℹ️ Popular courses container not found');
+    return;
+  }
+  
+  // Get popular courses (highest rated)
+  const popularCourseIds = ['gender-studies-101', 'dev-econ-101', 'research-ethics-101', 'public-health-101', 'data-literacy-101', 'poverty-inequality-101'];
+  const popularCourses = popularCourseIds.map(id => 
+    allCourses.find(course => course.id === id)
+  ).filter(course => course);
+  
+  if (popularCourses.length === 0) {
+    container.innerHTML = '<div class="no-results">No popular courses found.</div>';
+    return;
+  }
+
+  container.innerHTML = popularCourses.map(course => createCourseCard(course)).join('');
+  
+  // Update bookmark UI after displaying
+  setTimeout(updateAllBookmarkUI, 100);
 }
 
 // ===== COURSE DISPLAY FUNCTIONS =====
@@ -140,7 +167,7 @@ function displayCourses() {
   setTimeout(updateAllBookmarkUI, 100);
 }
 
-// ===== FIXED COURSE CARD CREATION =====
+// ===== FIXED COURSE CARD CREATION WITH CATEGORY COLORS =====
 function createCourseCard(course) {
   // Safely handle potentially undefined values
   const rating = course.rating || 4.5;
@@ -281,7 +308,7 @@ function createLabCard(lab) {
   `;
 }
 
-// ===== UTILITY FUNCTIONS =====
+// ===== CATEGORY COLOR DISCRIMINATION =====
 function getCategoryColor(category) {
   const colors = {
     'Economics & Development': '#6366f1',
@@ -485,6 +512,107 @@ function updateLabComparisonUI() {
   }
 }
 
+// ===== RESPONSIVE COMPARISON MODALS =====
+function showComparison() {
+  if (selectedCourses.length < 2) {
+    showNotification('Please select at least 2 courses to compare', 'error');
+    return;
+  }
+  
+  const selectedData = selectedCourses.map(id => 
+    allCourses.find(course => course.id === id)
+  ).filter(course => course);
+  
+  // Create responsive comparison modal
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.style.display = 'block';
+  modal.innerHTML = `
+    <div class="modal-content" style="max-width: 90vw; max-height: 80vh; overflow-y: auto;">
+      <span class="close" onclick="this.parentElement.parentElement.remove()">&times;</span>
+      <h2>Course Comparison</h2>
+      <div class="comparison-table">
+        ${createResponsiveComparisonTable(selectedData)}
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+}
+
+function showLabComparison() {
+  if (selectedLabs.length < 2) {
+    showNotification('Please select at least 2 labs to compare', 'error');
+    return;
+  }
+  
+  const selectedData = selectedLabs.map(id => 
+    labs.find(lab => lab.id === id)
+  ).filter(lab => lab);
+  
+  // Create responsive lab comparison modal
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.style.display = 'block';
+  modal.innerHTML = `
+    <div class="modal-content" style="max-width: 90vw; max-height: 80vh; overflow-y: auto;">
+      <span class="close" onclick="this.parentElement.parentElement.remove()">&times;</span>
+      <h2>Lab Comparison</h2>
+      <div class="comparison-table">
+        ${createResponsiveLabComparisonTable(selectedData)}
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+}
+
+function createResponsiveComparisonTable(courses) {
+  let html = '<div style="overflow-x: auto;"><table style="width: 100%; min-width: 600px; border-collapse: collapse;">';
+  html += '<tr><th style="padding: 1rem; border: 1px solid var(--border-color); background: var(--surface);">Course</th><th style="padding: 1rem; border: 1px solid var(--border-color); background: var(--surface);">Category</th><th style="padding: 1rem; border: 1px solid var(--border-color); background: var(--surface);">Difficulty</th><th style="padding: 1rem; border: 1px solid var(--border-color); background: var(--surface);">Duration</th><th style="padding: 1rem; border: 1px solid var(--border-color); background: var(--surface);">Rating</th><th style="padding: 1rem; border: 1px solid var(--border-color); background: var(--surface);">Action</th></tr>';
+  
+  courses.forEach(course => {
+    html += `
+      <tr>
+        <td style="padding: 1rem; border: 1px solid var(--border-color); color: var(--text-primary);">${course.title}</td>
+        <td style="padding: 1rem; border: 1px solid var(--border-color); color: var(--text-primary);">${course.category}</td>
+        <td style="padding: 1rem; border: 1px solid var(--border-color); color: var(--text-primary);">${course.difficulty}</td>
+        <td style="padding: 1rem; border: 1px solid var(--border-color); color: var(--text-primary);">${course.duration}</td>
+        <td style="padding: 1rem; border: 1px solid var(--border-color); color: var(--text-primary);">${course.rating}</td>
+        <td style="padding: 1rem; border: 1px solid var(--border-color);">
+          <button onclick="launchCourse('${course.id}')" class="launch-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Launch</button>
+        </td>
+      </tr>
+    `;
+  });
+  
+  html += '</table></div>';
+  return html;
+}
+
+function createResponsiveLabComparisonTable(labs) {
+  let html = '<div style="overflow-x: auto;"><table style="width: 100%; min-width: 600px; border-collapse: collapse;">';
+  html += '<tr><th style="padding: 1rem; border: 1px solid var(--border-color); background: var(--surface);">Lab</th><th style="padding: 1rem; border: 1px solid var(--border-color); background: var(--surface);">Category</th><th style="padding: 1rem; border: 1px solid var(--border-color); background: var(--surface);">Type</th><th style="padding: 1rem; border: 1px solid var(--border-color); background: var(--surface);">Duration</th><th style="padding: 1rem; border: 1px solid var(--border-color); background: var(--surface);">Rating</th><th style="padding: 1rem; border: 1px solid var(--border-color); background: var(--surface);">Action</th></tr>';
+  
+  labs.forEach(lab => {
+    html += `
+      <tr>
+        <td style="padding: 1rem; border: 1px solid var(--border-color); color: var(--text-primary);">${lab.title}</td>
+        <td style="padding: 1rem; border: 1px solid var(--border-color); color: var(--text-primary);">${lab.category}</td>
+        <td style="padding: 1rem; border: 1px solid var(--border-color); color: var(--text-primary);">${lab.labType}</td>
+        <td style="padding: 1rem; border: 1px solid var(--border-color); color: var(--text-primary);">${lab.duration}</td>
+        <td style="padding: 1rem; border: 1px solid var(--border-color); color: var(--text-primary);">${lab.rating}</td>
+        <td style="padding: 1rem; border: 1px solid var(--border-color);">
+          <button onclick="launchLab('${lab.id}')" class="launch-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Launch</button>
+        </td>
+      </tr>
+    `;
+  });
+  
+  html += '</table></div>';
+  return html;
+}
+
 // ===== FILTERING FUNCTIONS =====
 function filterCourses(category = 'All Courses', difficulty = '') {
   let filtered = [...allCourses];
@@ -586,57 +714,6 @@ function showNotification(message, type = 'info') {
   }, 5000);
 }
 
-// ===== COMPARISON MODAL FUNCTIONS =====
-function showComparison() {
-  if (selectedCourses.length < 2) {
-    showNotification('Please select at least 2 courses to compare', 'error');
-    return;
-  }
-  
-  const selectedData = selectedCourses.map(id => 
-    allCourses.find(course => course.id === id)
-  ).filter(course => course);
-  
-  // Create simple comparison modal
-  const modal = document.createElement('div');
-  modal.className = 'modal';
-  modal.style.display = 'block';
-  modal.innerHTML = `
-    <div class="modal-content" style="max-width: 800px;">
-      <span class="close" onclick="this.parentElement.parentElement.remove()">&times;</span>
-      <h2>Course Comparison</h2>
-      <div class="comparison-table">
-        ${createComparisonTable(selectedData)}
-      </div>
-    </div>
-  `;
-  
-  document.body.appendChild(modal);
-}
-
-function createComparisonTable(courses) {
-  let html = '<table style="width: 100%; border-collapse: collapse;">';
-  html += '<tr><th>Course</th><th>Category</th><th>Difficulty</th><th>Duration</th><th>Rating</th><th>Action</th></tr>';
-  
-  courses.forEach(course => {
-    html += `
-      <tr>
-        <td style="padding: 1rem; border: 1px solid var(--border-color);">${course.title}</td>
-        <td style="padding: 1rem; border: 1px solid var(--border-color);">${course.category}</td>
-        <td style="padding: 1rem; border: 1px solid var(--border-color);">${course.difficulty}</td>
-        <td style="padding: 1rem; border: 1px solid var(--border-color);">${course.duration}</td>
-        <td style="padding: 1rem; border: 1px solid var(--border-color);">${course.rating}</td>
-        <td style="padding: 1rem; border: 1px solid var(--border-color);">
-          <button onclick="launchCourse('${course.id}')" class="launch-btn" style="padding: 0.5rem 1rem;">Launch</button>
-        </td>
-      </tr>
-    `;
-  });
-  
-  html += '</table>';
-  return html;
-}
-
 // ===== MAKE FUNCTIONS GLOBALLY AVAILABLE =====
 window.showLoginModal = showLoginModal;
 window.showSignupModal = showSignupModal;
@@ -649,6 +726,7 @@ window.launchLab = launchLab;
 window.toggleCourseSelection = toggleCourseSelection;
 window.toggleLabSelection = toggleLabSelection;
 window.showComparison = showComparison;
+window.showLabComparison = showLabComparison;
 window.showNotification = showNotification;
 window.filterCourses = filterCourses;
 window.searchCourses = searchCourses;
