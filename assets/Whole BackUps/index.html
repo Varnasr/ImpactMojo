@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ImpactMojo 101 Knowledge Series - Development Education for South Asia</title>
+  <meta name="description" content="A curated library of full-length knowledge decks exploring justice, equity, and development practice in India and South Asia. Grounded in theory, applied in context.">
+  
+  <!-- Schema.org structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "ImpactMojo 101 Knowledge Series",
+    "description": "Development Education for South Asia",
+    "url": "https://www.impactmojo.in",
+    "founder": {
+      "@type": "Person",
+      "name": "Dr. Varna Sri Raman"
+    },
+    "educationalLevel": "Higher Education",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "IN"
+    }
+  }
+  </script>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- External CSS -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Firebase Configuration -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+    import { getFirestore, doc, setDoc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDnF0eJsTULzOJUnBskybd44dG5w-f46vE",
+      authDomain: "impactmojo.firebaseapp.com",
+      projectId: "impactmojo",
+      storageBucket: "impactmojo.firebasestorage.app",
+      messagingSenderId: "529198336589",
+      appId: "1:529198336589:web:1664b5344de5bfb31bea04",
+      measurementId: "G-ZHPPXXMRGV"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const provider = new GoogleAuthProvider();
+
+    // Make Firebase available globally
+    window.auth = auth;
+    window.db = db;
+    window.provider = provider;
+    window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+    window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+    window.signOut = signOut;
+    window.onAuthStateChanged = onAuthStateChanged;
+    window.signInWithPopup = signInWithPopup;
+    window.sendPasswordResetEmail = sendPasswordResetEmail;
+    window.doc = doc;
+    window.setDoc = setDoc;
+    window.getDoc = getDoc;
+    window.updateDoc = updateDoc;
+    window.arrayUnion = arrayUnion;
+    window.arrayRemove = arrayRemove;
+  </script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <nav class="navbar">
+      <div class="container">
+        <div class="nav-brand">
+          <a href="#home" class="brand-link">
+            <h1>ImpactMojo</h1>
+            <span>101 Knowledge Series</span>
+          </a>
+        </div>
+        
+        <div class="nav-menu">
+          <ul class="nav-links">
+            <li><a href="#courses">Courses</a></li>
+            <li><a href="#labs">Labs</a></li>
+            <li><a href="#upcoming">Upcoming</a></li>
+            <li><a href="#learning-paths">Learning Paths</a></li>
+            <li><a href="#author">About</a></li>
+          </ul>
+          
+          <div class="nav-actions">
+            <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+              <i id="themeIcon" class="fas fa-moon"></i>
+            </button>
+            
+            <!-- Auth buttons - shown when not logged in -->
+            <div class="auth-buttons" id="authButtons">
+              <button class="auth-btn" onclick="showLoginModal()">Login</button>
+              <button class="auth-btn signup" onclick="showSignupModal()" title="Join our community of development practitioners and get access to personalized learning features, course bookmarks, and progress tracking!">Sign Up</button>
+            </div>
+            
+            <!-- User menu - shown when logged in -->
+            <div class="user-menu hidden" id="userMenu">
+              <button class="user-btn" onclick="toggleUserDropdown()">
+                <i class="fas fa-user-circle"></i>
+                <span id="userDisplayName">User</span>
+                <i class="fas fa-chevron-down"></i>
+              </button>
+              <div class="user-dropdown hidden" id="userDropdown">
+                <a href="#" onclick="showDashboard()"><i class="fas fa-dashboard"></i> Dashboard</a>
+                <a href="#" onclick="showBookmarks()"><i class="fas fa-bookmark"></i> My Bookmarks</a>
+                <a href="#" onclick="showProfile()"><i class="fas fa-user"></i> Profile</a>
+                <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1>ImpactMojo 101 Knowledge Series</h1>
+      <p>
+        ImpactMojo is a curated library of full-length knowledge decks that explore
+        justice, equity, and development practice in India and South Asia.
+        Each one is grounded in theory, applied in context, and ready for real-world use by
+        educators, practitioners, and social researchers.
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main>
+    <div class="container">
+      <!-- Latest Additions -->
+      <div class="latest-additions">
+        <h3><i class="fas fa-star"></i> Latest Additions</h3>
+        <ul>
+          <li>
+            <span>Education and Pedagogy 101</span>
+            <span class="date">Added May 2025</span>
+          </li>
+          <li>
+            <span>Public Health 101</span>
+            <span class="date">Added May 2025</span>
+          </li>
+          <li>
+            <span>Livelihoods 101</span>
+            <span class="date">Added April 2025</span>
+          </li>
+          <li>
+            <span>Gender Studies 101</span>
+            <span class="date">Added April 2025</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Learning Paths -->
+      <section id="learning-paths" class="learning-paths">
+        <h3><i class="fas fa-route"></i> Recommended Learning Paths</h3>
+        <div class="paths-grid">
+          <div class="path-card" onclick="filterByPath('data-analysis')">
+            <h4>Data Analysis Track</h4>
+            <p>Master data skills from basics to advanced analysis</p>
+            <div class="course-tags">
+              <span>Data Literacy 101</span>
+              <span>EDA for Survey Data</span>
+              <span>Bivariate Analysis</span>
+              <span>Multivariate Analysis</span>
+            </div>
+          </div>
+          
+          <div class="path-card" onclick="filterByPath('gender-studies')">
+            <h4>Gender Studies Pathway</h4>
+            <p>Comprehensive understanding of gender in development</p>
+            <div class="course-tags">
+              <span>Gender Studies 101</span>
+              <span>Data Feminism 101</span>
+              <span>Care Economy</span>
+              <span>Women's Economic Empowerment</span>
+            </div>
+          </div>
+          
+          <div class="path-card" onclick="filterByPath('economics')">
+            <h4>Development Economics</h4>
+            <p>Economic analysis for development practitioners</p>
+            <div class="course-tags">
+              <span>Development Economics 101</span>
+              <span>Econometrics 101</span>
+              <span>Decent Work for All 101</span>
+              <span>Social Safety Nets 101</span>
+            </div>
+          </div>
+          
+          <div class="path-card" onclick="filterByPath('justice')">
+            <h4>Justice & Rights</h4>
+            <p>Human rights and social justice frameworks</p>
+            <div class="course-tags">
+              <span>Indian Constitution and Law 101</span>
+              <span>Environmental Justice 101</span>
+              <span>Digital Development Ethics 101</span>
+              <span>Data Protection 101</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Courses Section -->
+      <section id="courses" class="courses-section">
+        <h3><i class="fas fa-graduation-cap"></i> All Courses</h3>
+        <p>Explore our complete library of 34 knowledge decks</p>
+        
+        <!-- Filters -->
+        <div class="filters-row">
+          <div class="filter-group">
+            <label for="searchInput">Search Courses:</label>
+            <input type="text" id="searchInput" placeholder="Search by title, topic, or description..." oninput="filterCourses()">
+          </div>
+          
+          <div class="filter-group">
+            <label for="categoryFilter">Category:</label>
+            <select id="categoryFilter" onchange="filterCourses()">
+              <option value="all">All Categories</option>
+              <option value="Data Analysis">Data Analysis</option>
+              <option value="Gender Studies">Gender Studies</option>
+              <option value="Economics">Economics</option>
+              <option value="Health">Health</option>
+              <option value="Justice">Justice & Rights</option>
+              <option value="Education">Education</option>
+              <option value="Environment">Environment</option>
+              <option value="Media">Media</option>
+              <option value="MEL">MEL</option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <label for="difficultyFilter">Difficulty:</label>
+            <select id="difficultyFilter" onchange="filterCourses()">
+              <option value="all">All Levels</option>
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <label for="durationFilter">Duration:</label>
+            <select id="durationFilter" onchange="filterCourses()">
+              <option value="all">Any Duration</option>
+              <option value="short">Short (< 3 hours)</option>
+              <option value="medium">Medium (3-5 hours)</option>
+              <option value="long">Long (5+ hours)</option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <button class="clear-filters" onclick="clearAllFilters()">
+              <i class="fas fa-times"></i> Clear Filters
+            </button>
+          </div>
+        </div>
+
+        <div class="stats-bar">
+          <div class="course-count" id="courseCount" role="status" aria-live="polite">
+            Showing <span id="visibleCount">34</span> of <span id="totalCount">34</span> courses
+          </div>
+        </div>
+
+        <!-- Course Grid -->
+        <div class="courses-grid" id="courseContainer">
+          <!-- Course cards will be generated by JavaScript -->
+        </div>
+
+        <!-- No Results -->
+        <div class="no-results hidden" id="noResults">
+          <i class="fas fa-search"></i>
+          <h3>No courses found</h3>
+          <p>Try adjusting your search terms or filters to find what you're looking for.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+  
+  <!-- Popular Courses Section -->
+  <section id="popular" class="popular-section">
+    <div class="container">
+      <h3><i class="fas fa-fire"></i> Popular Courses</h3>
+      <p>Most loved courses by our community of development practitioners</p>
+      
+      <div class="popular-grid">
+        <div class="popular-card">
+          <h4>Data Feminism 101</h4>
+          <p>★ 4.8 | 2,847 learners</p>
+          <p>Challenges dominant data narratives using feminist theory and South Asian contexts.</p>
+          <a href="/DataFem" target="_blank" rel="noopener" class="launch-btn">
+            Launch Course <i class="fas fa-external-link-alt"></i>
+          </a>
+        </div>
+        
+        <div class="popular-card">
+          <h4>Gender Studies 101</h4>
+          <p>★ 4.7 | 2,341 learners</p>
+          <p>Foundational concepts in gender studies with South Asian development applications.</p>
+          <a href="/Gender" target="_blank" rel="noopener" class="launch-btn">
+            Launch Course <i class="fas fa-external-link-alt"></i>
+          </a>
+        </div>
+        
+        <div class="popular-card">
+          <h4>MEL 101</h4>
+          <p>★ 4.8 | 2,156 learners</p>
+          <p>Comprehensive monitoring, evaluation, and learning frameworks for development programs.</p>
+          <a href="/MEAL" target="_blank" rel="noopener" class="launch-btn">
+            Launch Course <i class="fas fa-external-link-alt"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Labs Section -->
+  <section id="labs" class="labs-section">
+    <div class="container">
+      <h3><i class="fas fa-flask"></i> ImpactMojo Labs</h3>
+      <p>Interactive tools and experimental features for development practitioners</p>
+      
+      <div id="labsContainer">
+        <!-- Lab cards will be generated by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Upcoming Courses Section -->
+  <section id="upcoming" class="upcoming-section">
+    <div class="container">
+      <h3><i class="fas fa-clock"></i> Upcoming Courses</h3>
+      <p>New courses currently in development, launching soon.</p>
+      <div class="upcoming-grid">
+        <div class="upcoming-card">
+          <div class="upcoming-header">
+            <h4>TALL (Technology for All) 101</h4>
+            <span class="status-badge coming-soon">Coming Soon</span>
+          </div>
+          <p>A global technology literacy platform teaching 10 future technologies in simple, jargon-free language. Covers IoT, AI, Robotics, Blockchain, Cryptocurrency, Cybercrime, Digital Transformation, Telehealth, Edutech & Metaverse. Designed for all computer, phone and internet users - including non-engineers and students of arts, law and commerce.</p>
+          <div class="upcoming-meta">
+            <span><i class="fas fa-calendar-alt"></i> Expected: Q3 2025</span>
+            <span><i class="fas fa-users"></i> All technology users, non-engineers, students, professionals</span>
+          </div>
+        </div>
+        
+        <div class="upcoming-card">
+          <div class="upcoming-header">
+            <h4>English for Development Professionals 101</h4>
+            <span class="status-badge coming-soon">Coming Soon</span>
+          </div>
+          <p>Professional English communication skills specifically tailored for development practitioners, including grant writing, proposal development, and stakeholder communication.</p>
+          <div class="upcoming-meta">
+            <span><i class="fas fa-calendar-alt"></i> Expected: Q4 2025</span>
+            <span><i class="fas fa-users"></i> Development professionals</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Author Section -->
+  <section id="author" class="author-section">
+    <div class="container">
+      <div class="author-card">
+        <img src="assets/images/varna-photo.jpg" alt="Dr. Varna Sri Raman" class="author-photo" onerror="this.src='https://via.placeholder.com/150x150/2563eb/ffffff?text=VSR'">
+        <div class="author-content">
+          <h3>Dr. Varna Sri Raman</h3>
+          <p>
+            Dr. Varna Sri Raman is a development economist, educator, and social researcher with two decades of experience across education, livelihoods, gender, climate, health, and other public systems in South Asia. She is the founder and chief curator of OpenStacks — an open knowledge ecosystem for the development sector.
+          </p>
+          <a href="https://calendly.com/varna-raman/impactmojo-consultation" target="_blank" rel="noopener" class="coaching-cta">
+            <i class="fas fa-calendar-alt"></i> Book a Development Consultation
+          </a>
+          <div class="author-links">
+            <a href="https://www.threads.net/@varnasriraman" target="_blank" rel="noopener" title="Follow Dr. Varna on Threads">
+              <i class="fab fa-threads"></i> Threads
+            </a>
+            <a href="https://www.linkedin.com/in/varna" target="_blank" rel="noopener" title="Connect with Dr. Varna on LinkedIn">
+              <i class="fab fa-linkedin"></i> LinkedIn
+            </a>
+            <a href="https://vfolio.notion.site/" target="_blank" rel="noopener" title="View Dr. Varna's Portfolio">
+              <i class="fas fa-briefcase"></i> Portfolio
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>About ImpactMojo</h4>
+          <p>Empowering changemakers across South Asia with practical development education.</p>
+          <p>34+ comprehensive courses covering data feminism to climate justice.</p>
+          <p>Real-world ready - bridging theory with practice in South Asian contexts.</p>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#courses">All Courses</a></li>
+            <li><a href="#labs">ImpactMojo Labs</a></li>
+            <li><a href="#learning-paths">Learning Paths</a></li>
+            <li><a href="#upcoming">Upcoming Courses</a></li>
+            <li><a href="#author">About the Author</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="https://github.com/Varnasr/ImpactMojo" target="_blank" rel="noopener">GitHub Repository</a></li>
+            <li><a href="mailto:varna.sr@gmail.com">Contact Support</a></li>
+            <li><a href="https://calendly.com/varna-raman/impactmojo-consultation" target="_blank" rel="noopener">Book Consultation</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Connect with Dr. Varna</h4>
+          <p><a href="https://www.threads.net/@varnasriraman" target="_blank" rel="noopener">📱 Follow on Threads</a></p>
+          <p><a href="https://www.linkedin.com/in/varna" target="_blank" rel="noopener">💼 Connect on LinkedIn</a></p>
+          <p><a href="https://vfolio.notion.site/" target="_blank" rel="noopener">📂 View Portfolio</a></p>
+          <p><a href="mailto:varna.sr@gmail.com">✉️ Email Directly</a></p>
+        </div>
+        
+        <div class="footer-faq">
+          <h4>Frequently Asked Questions</h4>
+          <div class="faq-grid">
+            <div class="faq-item">
+              <h5><i class="fas fa-question-circle"></i> How do I get started?</h5>
+              <p>Browse our course library, choose a learning path that matches your interests, or start with foundational courses like Data Literacy 101 or Gender Studies 101.</p>
+            </div>
+            
+            <div class="faq-item">
+              <h5><i class="fas fa-question-circle"></i> Are the courses free?</h5>
+              <p>Yes! All ImpactMojo 101 courses are freely available under Creative Commons licensing. Create an account to bookmark courses and track your progress.</p>
+            </div>
+            
+            <div class="faq-item">
+              <h5><i class="fas fa-question-circle"></i> Can I use these for teaching?</h5>
+              <p>Absolutely! All content is licensed CC BY-NC-SA 4.0, meaning you can adapt and use materials for non-commercial educational purposes with attribution.</p>
+            </div>
+            
+            <div class="faq-item">
+              <h5><i class="fas fa-question-circle"></i> How often are new courses added?</h5>
+              <p>We regularly add new courses and update existing content. Check our "Latest Additions" section or subscribe to updates to stay informed.</p>
+            </div>
+            
+            <div class="faq-item">
+              <h5><i class="fas fa-question-circle"></i> What devices do I need to access the courses?</h5>
+              <p>All courses work on any device with internet access - computers, tablets, or smartphones. No special software required. Our platform is optimized for mobile learning, perfect for learners across South Asia with varying technology access.</p>
+            </div>
+            
+            <div class="faq-item">
+              <h5><i class="fas fa-question-circle"></i> Why focus specifically on South Asia?</h5>
+              <p>Our courses use local case studies, policy examples, and cultural contexts from India and South Asia. This makes the learning more relevant and applicable than generic global content. However, the frameworks and concepts are valuable for development practitioners worldwide.</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="footer-disclaimer">
+          <h5><i class="fas fa-exclamation-triangle"></i> Important Disclaimer</h5>
+          <p>The content provided in ImpactMojo courses is for educational purposes only. While we strive for accuracy, users should verify information independently and adapt content to their specific contexts. The courses represent academic perspectives and should not be considered as official policy guidance. We provide NO formal qualifications or certifications.</p>
+        </div>
+        
+        <div class="footer-legal">
+          <div class="legal-grid">
+            <div class="legal-section">
+              <h6>Licensing</h6>
+              <p><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></p>
+              <p>Free to use for non-commercial purposes with attribution</p>
+            </div>
+            
+            <div class="legal-section">
+              <h6>Privacy</h6>
+              <p>We respect your privacy and use minimal data collection</p>
+              <p>Contact us for data requests</p>
+            </div>
+            
+            <div class="legal-section">
+              <h6>Support</h6>
+              <p><a href="mailto:varna.sr@gmail.com">Technical Support</a></p>
+              <p><a href="mailto:varna.sr@gmail.com">Content Feedback</a></p>
+            </div>
+            
+            <div class="legal-section">
+              <h6>Attribution</h6>
+              <p>When using content, please cite: "Dr. Varna Sri Raman, ImpactMojo 101 Series"</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2025 ImpactMojo. Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>.</p>
+        <p>Development education for South Asia. <a href="mailto:varna.sr@gmail.com">Contact us</a> for partnerships and collaborations.</p>
+        <div class="legal-links">
+          <a href="/terms-of-use">Terms of Use</a> • 
+          <a href="/privacy-policy">Privacy Policy</a> • 
+          <a href="/cookie-policy">Cookie Policy</a> • 
+          <a href="/accessibility">Accessibility</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Comparison Panel -->
+  <div id="comparisonPanel" class="comparison-panel">
+    <div class="container">
+      <div class="comparison-header">
+        <h4>Course Comparison</h4>
+        <div class="comparison-controls">
+          <span class="comparison-count" id="comparisonCount">0 courses selected</span>
+          <button class="clear-comparison" onclick="clearComparison()">
+            <i class="fas fa-times"></i> Clear All
+          </button>
+          <button class="enhanced-comparison-btn" onclick="showEnhancedComparisonModal()">
+            <i class="fas fa-chart-bar"></i> Detailed Analysis
+          </button>
+        </div>
+      </div>
+      <div class="comparison-grid" id="comparisonGrid">
+        <div class="comparison-empty">
+          <p>Select courses to compare by clicking the "Compare" button on course cards.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Enhanced Comparison Modal -->
+  <div id="enhancedComparisonModal" class="modal hidden">
+    <div class="modal-content comparison-modal-content">
+      <div class="modal-header">
+        <h3><i class="fas fa-balance-scale"></i> Comprehensive Course Comparison</h3>
+        <button class="close-btn" onclick="closeEnhancedComparisonModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="comparisonContent">
+          <p>Detailed analysis of course content, learning outcomes, and suitability.</p>
+          <div id="comparisonTable"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="clearComparison()">Clear All</button>
+        <button class="btn btn-primary" onclick="exportComparison()">Export Comparison</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('loginModal')">&times;</span>
+      <h2>Login to ImpactMojo</h2>
+      <form onsubmit="login(event)">
+        <div class="form-group">
+          <label for="loginEmail">Email:</label>
+          <input type="email" id="loginEmail" required>
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password:</label>
+          <input type="password" id="loginPassword" required>
+        </div>
+        <button type="submit" class="modal-btn">Login</button>
+      </form>
+      
+      <div class="modal-divider">
+        <span>or</span>
+      </div>
+      
+      <button onclick="signInWithGoogle()" class="modal-btn google-btn">
+        <i class="fab fa-google"></i> Continue with Google
+      </button>
+      
+      <div class="modal-link">
+        <a href="#" onclick="showForgotPassword()">Forgot Password?</a>
+      </div>
+      
+      <div class="modal-link">
+        Don't have an account? <a href="#" onclick="closeModal('loginModal'); showSignupModal()">Sign Up</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Signup Modal -->
+  <div id="signupModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('signupModal')">&times;</span>
+      <h2>Join ImpactMojo</h2>
+      <form onsubmit="signup(event)">
+        <div class="form-group">
+          <label for="signupName">Full Name:</label>
+          <input type="text" id="signupName" required>
+        </div>
+        <div class="form-group">
+          <label for="signupEmail">Email:</label>
+          <input type="email" id="signupEmail" required>
+        </div>
+        <div class="form-group">
+          <label for="signupPassword">Password:</label>
+          <input type="password" id="signupPassword" required minlength="6">
+        </div>
+        <button type="submit" class="modal-btn">Create Account</button>
+      </form>
+      
+      <div class="modal-divider">
+        <span>or</span>
+      </div>
+      
+      <button onclick="signInWithGoogle()" class="modal-btn google-btn">
+        <i class="fab fa-google"></i> Continue with Google
+      </button>
+      
+      <div class="modal-link">
+        Already have an account? <a href="#" onclick="closeModal('signupModal'); showLoginModal()">Login</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Files -->
+  <!-- JavaScript Files -->
+  <script src="simple-content-manager.js"></script>  
+  <script src="course-data.js"></script>
+  <script src="firebase-auth.js"></script>
+  <script src="main.js"></script>
+    <!-- ADD THESE MISSING HTML ELEMENTS TO YOUR INDEX.HTML BEFORE THE CLOSING </body> TAG -->
+  
+  <!-- ✅ 1. ENHANCED COMPARISON MODAL (MISSING!) -->
+  <div id="enhancedComparisonModal" class="modal enhanced-modal hidden">
+    <div class="modal-content comparison-modal-content">
+      <div class="modal-header">
+        <h2><i class="fas fa-balance-scale"></i> Course Comparison Analysis</h2>
+        <button class="close-modal" onclick="closeEnhancedComparisonModal()" title="Close">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="comparisonTable">
+          <!-- Dynamic comparison content will be inserted here -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="export-btn" onclick="exportComparison()">
+          <i class="fas fa-download"></i> Export Comparison
+        </button>
+        <button class="clear-comparison-btn" onclick="clearComparison()">
+          <i class="fas fa-times"></i> Clear All
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- ✅ 2. FAB CONTAINER (MISSING!) -->
+  <div class="fab-container">
+    <!-- FAB buttons will be dynamically added here -->
+  </div>
+  
+  <!-- ✅ 3. ADD THIS CSS TO FIX MODAL BACKGROUNDS AND COMPARISON FEATURES -->
+  <style>
+    /* 🔧 FIX MODAL BACKGROUND ISSUES */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6) !important; /* Fixed overlay */
+      z-index: 1000;
+      backdrop-filter: blur(4px);
+    }
+    
+    .modal-content {
+      background: var(--background) !important;
+      margin: 5% auto;
+      padding: 0;
+      border-radius: 1rem;
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3) !important;
+      border: 1px solid var(--border-color);
+    }
+    
+    /* 🔧 ENHANCED COMPARISON MODAL */
+    .enhanced-modal .modal-content {
+      max-width: 95vw;
+      max-height: 90vh;
+      width: 95%;
+      margin: 2.5% auto;
+    }
+    
+    .comparison-modal-content {
+      display: flex;
+      flex-direction: column;
+      max-height: 90vh;
+    }
+    
+    .modal-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--surface);
+      border-radius: 1rem 1rem 0 0;
+    }
+    
+    .modal-header h2 {
+      margin: 0;
+      color: var(--text-primary);
+      font-size: 1.5rem;
+    }
+    
+    .close-modal {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+    
+    .close-modal:hover {
+      background: var(--error-color);
+      color: white;
+    }
+    
+    .modal-body {
+      flex: 1;
+      padding: 1.5rem;
+      overflow-y: auto;
+      background: var(--background);
+    }
+    
+    .modal-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      background: var(--surface);
+      border-radius: 0 0 1rem 1rem;
+    }
+    
+    .export-btn, .clear-comparison-btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .export-btn {
+      background: var(--primary-color);
+      color: white;
+    }
+    
+    .export-btn:hover {
+      background: var(--secondary-color);
+    }
+    
+    .clear-comparison-btn {
+      background: var(--error-color);
+      color: white;
+    }
+    
+    .clear-comparison-btn:hover {
+      background: #b91c1c;
+    }
+    
+    /* 🔧 COMPARISON TABLE STYLES */
+    .comparison-container {
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+    
+    .comparison-section {
+      margin-bottom: 2rem;
+    }
+    
+    .comparison-section h4 {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .comparison-table-grid {
+      display: grid;
+      gap: 0.5rem;
+      border: 1px solid var(--border-color);
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+    
+    .comparison-header {
+      display: grid;
+      grid-template-columns: 200px repeat(auto-fit, minmax(200px, 1fr));
+      background: var(--surface);
+      font-weight: 600;
+    }
+    
+    .comparison-row {
+      display: grid;
+      grid-template-columns: 200px repeat(auto-fit, minmax(200px, 1fr));
+    }
+    
+    .comparison-row:nth-child(even) {
+      background: var(--surface);
+    }
+    
+    .feature-column,
+    .course-column,
+    .feature-cell,
+    .course-cell {
+      padding: 1rem;
+      border-right: 1px solid var(--border-color);
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+    }
+    
+    .feature-column,
+    .feature-cell {
+      background: var(--surface);
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+    
+    .course-column {
+      font-weight: 600;
+      background: var(--primary-color);
+      color: white;
+      text-align: center;
+      justify-content: center;
+    }
+    
+    .difficulty {
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+    
+    .difficulty.beginner {
+      background: var(--success-color);
+      color: white;
+    }
+    
+    .difficulty.intermediate {
+      background: var(--warning-color);
+      color: white;
+    }
+    
+    .difficulty.advanced {
+      background: var(--error-color);
+      color: white;
+    }
+    
+    .depth-bar-mini {
+      height: 8px;
+      border-radius: 4px;
+      margin-right: 0.5rem;
+      min-width: 20px;
+    }
+    
+    .prereq-item,
+    .outcome-item {
+      margin-bottom: 0.25rem;
+      padding: 0.25rem 0;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+    
+    .overlap-analysis {
+      background: var(--surface);
+      padding: 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid var(--border-color);
+    }
+    
+    .overlap-item {
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .overlap-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+    
+    .overlap-score {
+      font-weight: 600;
+      color: var(--primary-color);
+      margin: 0.5rem 0;
+    }
+    
+    .overlap-tag {
+      display: inline-block;
+      background: var(--accent-color);
+      color: white;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.8rem;
+      margin-right: 0.5rem;
+      margin-bottom: 0.25rem;
+    }
+    
+    .learning-path {
+      background: var(--surface);
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      border: 1px solid var(--border-color);
+    }
+    
+    .path-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .step-number {
+      background: var(--primary-color);
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    
+    .step-content h5 {
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+    
+    .step-rationale {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+    
+    .path-arrow {
+      text-align: center;
+      color: var(--primary-color);
+      font-size: 1.5rem;
+      margin: 0.5rem 0;
+    }
+    
+    /* 🔧 FAB (FLOATING ACTION BUTTON) STYLES */
+    .fab-container {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      z-index: 998;
+    }
+    
+    .fab-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: none;
+      background: var(--primary-color);
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    
+    .fab-btn:hover {
+      transform: scale(1.1);
+      background: var(--secondary-color);
+    }
+    
+    .fab-btn.compare {
+      width: auto;
+      padding: 1rem 1.5rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      background: var(--accent-color);
+      white-space: nowrap;
+    }
+    
+    .fab-btn.compare:hover {
+      background: #d97706;
+    }
+    
+    /* 🔧 ENHANCED COURSE CARD STYLES */
+    .course-compare-btn {
+      background: none;
+      border: 1px solid var(--accent-color);
+      color: var(--accent-color);
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
+    }
+    
+    .course-compare-btn:hover {
+      background: var(--accent-color);
+      color: white;
+    }
+    
+    .course-compare-btn.selected {
+      background: var(--accent-color);
+      color: white;
+      border-color: var(--accent-color);
+    }
+    
+    .course-actions-enhanced {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .course-actions-enhanced .course-actions-left,
+    .course-actions-enhanced .course-actions-right {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    
+    /* 🔧 RESPONSIVE DESIGN */
+    @media (max-width: 768px) {
+      .comparison-header,
+      .comparison-row {
+        grid-template-columns: 150px repeat(auto-fit, minmax(150px, 1fr));
+      }
+      
+      .feature-column,
+      .course-column,
+      .feature-cell,
+      .course-cell {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.9rem;
+      }
+      
+      .enhanced-modal .modal-content {
+        width: 98%;
+        margin: 1% auto;
+        max-height: 95vh;
+      }
+      
+      .fab-container {
+        bottom: 1rem;
+        right: 1rem;
+      }
+      
+      .fab-btn.compare {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .comparison-header,
+      .comparison-row {
+        grid-template-columns: 120px repeat(auto-fit, minmax(120px, 1fr));
+      }
+    }
+    
+    /* 🔧 LIGHT MODE SPECIFIC FIXES */
+    [data-theme="light"] .modal {
+      background: rgba(0, 0, 0, 0.4) !important;
+    }
+    
+    [data-theme="light"] .modal-content {
+      background: #ffffff !important;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15) !important;
+    }
+    
+    [data-theme="light"] .modal-header,
+    [data-theme="light"] .modal-footer {
+      background: #f8fafc !important;
+    }
+    
+    [data-theme="light"] .comparison-section h4 {
+      color: #2563eb !important;
+    }
+    
+    /* 🔧 DARK MODE SPECIFIC FIXES */
+    [data-theme="dark"] .modal {
+      background: rgba(0, 0, 0, 0.8) !important;
+    }
+    
+    [data-theme="dark"] .modal-content {
+      background: #0f172a !important;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important;
+    }
+    
+    [data-theme="dark"] .modal-header,
+    [data-theme="dark"] .modal-footer {
+      background: #1e293b !important;
+    }
+  </style>
+  
+  <!-- ✅ 4. ADD THIS JAVASCRIPT TO ENHANCE LAB CARDS -->
+  <script>
+    // 🔧 ENHANCE LAB CARDS WITH COMPARE AND BOOKMARK FEATURES
+    function enhanceLabCards() {
+      const labCards = document.querySelectorAll('.lab-card');
+      
+      labCards.forEach((card, index) => {
+        // Add unique ID if not present
+        if (!card.getAttribute('data-lab-id')) {
+          card.setAttribute('data-lab-id', `lab-${index + 1}`);
+        }
+        
+        const labId = card.getAttribute('data-lab-id');
+        const labTitle = card.querySelector('h3') ? card.querySelector('h3').textContent : `Lab ${index + 1}`;
+        
+        // Check if already enhanced
+        if (card.querySelector('.lab-enhanced-actions')) {
+          return;
+        }
+        
+        // Create enhanced actions
+        const enhancedActions = document.createElement('div');
+        enhancedActions.className = 'lab-enhanced-actions';
+        enhancedActions.innerHTML = `
+      <div class="lab-actions-row">
+        <button class="lab-bookmark-btn" data-lab-id="${labId}" onclick="toggleLabBookmark('${labId}')" title="Bookmark this lab">
+          <i class="far fa-bookmark"></i>
+        </button>
+        <button class="lab-compare-btn" onclick="toggleLabComparison('${labId}')" title="Add to comparison">
+          <i class="fas fa-balance-scale"></i> Compare
+        </button>
+        <button class="lab-details-btn" onclick="showLabDetails('${labId}')" title="View details">
+          <i class="fas fa-info-circle"></i> Details
+        </button>
+      </div>
+    `;
+        
+        // Insert before the existing lab-status div or at the end
+        const labStatus = card.querySelector('.lab-status');
+        if (labStatus) {
+          card.insertBefore(enhancedActions, labStatus);
+        } else {
+          card.appendChild(enhancedActions);
+        }
+      });
+    }
+    
+    // 🔧 LAB BOOKMARK FUNCTIONALITY
+    function toggleLabBookmark(labId) {
+      console.log('Bookmarking lab:', labId);
+      const btn = document.querySelector(`[data-lab-id="${labId}"] .lab-bookmark-btn`);
+      if (btn) {
+        const icon = btn.querySelector('i');
+        if (icon.classList.contains('far')) {
+          icon.className = 'fas fa-bookmark';
+          btn.style.color = 'var(--accent-color)';
+          showNotification('Lab bookmarked!', 'success');
+        } else {
+          icon.className = 'far fa-bookmark';
+          btn.style.color = '';
+          showNotification('Bookmark removed', 'info');
+        }
+      }
+    }
+    
+    // 🔧 LAB COMPARISON FUNCTIONALITY
+    let selectedLabs = [];
+    
+    function toggleLabComparison(labId) {
+      const index = selectedLabs.indexOf(labId);
+      if (index > -1) {
+        selectedLabs.splice(index, 1);
+      } else {
+        if (selectedLabs.length >= 3) {
+          showNotification('Maximum 3 labs can be compared at once', 'warning');
+          return;
+        }
+        selectedLabs.push(labId);
+      }
+      
+      updateLabComparisonUI();
+      showNotification(`${index > -1 ? 'Removed from' : 'Added to'} comparison`, 'info');
+    }
+    
+    function updateLabComparisonUI() {
+      // Update compare button states
+      selectedLabs.forEach(labId => {
+        const btn = document.querySelector(`[data-lab-id="${labId}"] .lab-compare-btn`);
+        if (btn) {
+          btn.classList.add('selected');
+          btn.innerHTML = '<i class="fas fa-check"></i> Selected';
+        }
+      });
+      
+      // Update unselected buttons
+      const allBtns = document.querySelectorAll('.lab-compare-btn');
+      allBtns.forEach(btn => {
+        const labCard = btn.closest('[data-lab-id]');
+        if (labCard) {
+          const labId = labCard.getAttribute('data-lab-id');
+          if (!selectedLabs.includes(labId)) {
+            btn.classList.remove('selected');
+            btn.innerHTML = '<i class="fas fa-balance-scale"></i> Compare';
+          }
+        }
+      });
+    }
+    
+    // 🔧 LAB DETAILS FUNCTIONALITY
+    function showLabDetails(labId) {
+      const labCard = document.querySelector(`[data-lab-id="${labId}"]`);
+      if (!labCard) return;
+      
+      const title = labCard.querySelector('h3')?.textContent || 'Lab Details';
+      const description = labCard.querySelector('p')?.textContent || 'No description available';
+      const launchLink = labCard.querySelector('.lab-launch-btn')?.href || '#';
+      
+      // Create and show details modal
+      showLabDetailsModal(title, description, launchLink);
+    }
+    
+    function showLabDetailsModal(title, description, launchLink) {
+      // Create modal if it doesn't exist
+      let modal = document.getElementById('labDetailsModal');
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'labDetailsModal';
+        modal.className = 'modal';
+        modal.innerHTML = `
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="labModalTitle">${title}</h2>
+          <button class="close-modal" onclick="closeLabDetailsModal()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="labModalContent">
+            <p><strong>Description:</strong></p>
+            <p id="labModalDescription">${description}</p>
+            <p><strong>Features:</strong></p>
+            <ul>
+              <li>Interactive tools and simulations</li>
+              <li>Real-world case studies</li>
+              <li>Downloadable templates and resources</li>
+              <li>Step-by-step guidance</li>
+            </ul>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a href="${launchLink}" target="_blank" rel="noopener" class="export-btn" id="labModalLaunch">
+            <i class="fas fa-external-link-alt"></i> Launch Lab
+          </a>
+          <button class="clear-comparison-btn" onclick="closeLabDetailsModal()">
+            <i class="fas fa-times"></i> Close
+          </button>
+        </div>
+      </div>
+    `;
+        document.body.appendChild(modal);
+      } else {
+        // Update existing modal
+        document.getElementById('labModalTitle').textContent = title;
+        document.getElementById('labModalDescription').textContent = description;
+        document.getElementById('labModalLaunch').href = launchLink;
+      }
+      
+      modal.style.display = 'block';
+    }
+    
+    function closeLabDetailsModal() {
+      const modal = document.getElementById('labDetailsModal');
+      if (modal) {
+        modal.style.display = 'none';
+      }
+    }
+    
+    // 🔧 INITIALIZE ENHANCED FEATURES
+    document.addEventListener('DOMContentLoaded', function() {
+      // Enhance lab cards after a short delay to ensure they're loaded
+      setTimeout(() => {
+        enhanceLabCards();
+      }, 1000);
+    });
+    
+    // 🔧 CSS FOR LAB ENHANCEMENTS
+    const labStyles = document.createElement('style');
+    labStyles.textContent = `
+.lab-enhanced-actions {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.lab-actions-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.lab-bookmark-btn,
+.lab-compare-btn,
+.lab-details-btn {
+  background: none;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.lab-bookmark-btn:hover,
+.lab-details-btn:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+.lab-compare-btn {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+
+.lab-compare-btn:hover {
+  background: var(--accent-color);
+  color: white;
+}
+
+.lab-compare-btn.selected {
+  background: var(--accent-color);
+  color: white;
+  border-color: var(--accent-color);
+}
+
+.lab-bookmark-btn {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+
+.lab-bookmark-btn:hover {
+  background: var(--accent-color);
+}
+`;
+    document.head.appendChild(labStyles);
+    </script>
+</body>
+</html>
