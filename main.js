@@ -11,6 +11,10 @@ let selectedLabs = [];
 let userBookmarks = JSON.parse(localStorage.getItem('userBookmarks')) || [];
 let userLabBookmarks = JSON.parse(localStorage.getItem('userLabBookmarks')) || [];
 
+// Firebase auth variables (managed by Firebase script in HTML)
+let currentUser = null;
+let userNotes = '';
+
 // ===== INITIALIZATION =====
 function initializeApp() {
   console.log('📚 Initializing ImpactMojo...');
@@ -35,10 +39,231 @@ function initializeApp() {
   // Initialize displays
   displayCourses();
   displayLabs();
+  displayPopularCourses();
   updateCourseCount();
   setupEventListeners();
+  initializeTheme();
+  setupFirebaseAuth();
   
   console.log('✅ ImpactMojo initialized successfully!');
+}
+
+// ===== FIREBASE AUTH SETUP =====
+function setupFirebaseAuth() {
+  if (typeof window.auth === 'undefined') {
+    console.warn('Firebase not yet loaded, retrying...');
+    setTimeout(setupFirebaseAuth, 1000);
+    return;
+  }
+
+  // Authentication state observer
+  window.onAuthStateChanged(window.auth, async (user) => {
+    currentUser = user;
+    
+    if (user) {
+      // User is signed in
+      console.log('User signed in:', user.email);
+      
+      // Update UI
+      document.getElementById('authButtons').style.display = 'none';
+      document.getElementById('userMenu').style.display = 'block';
+      document.getElementById('userDisplayName').textContent = user.displayName || user.email.split('@')[0];
+      document.getElementById('userEmail').textContent = user.email;
+      
+      // Load user data
+      await loadUserData(user.uid);
+      
+      showNotification('Welcome back!', 'success');
+    } else {
+      // User is signed out
+      console.log('User signed out');
+      
+      // Update UI
+      document.getElementById('authButtons').style.display = 'flex';
+      document.getElementById('userMenu').style.display = 'none';
+      
+      // Clear user data
+      userBookmarks = [];
+      userLabBookmarks = [];
+      userNotes = '';
+    }
+  });
+}
+
+// Load user data from Firestore
+async function loadUserData(userId) {
+  try {
+    const userDoc = await window.getDoc(window.doc(window.db, 'users', userId));
+    if (userDoc.exists()) {
+      const userData = userDoc.data();
+      userBookmarks = userData.bookmarks || [];
+      userLabBookmarks = userData.labBookmarks || [];
+      userNotes = userData.notes || '';
+      
+      // Update UI to reflect loaded bookmarks
+      updateAllBookmarkStates();
+      updateAllLabBookmarkStates();
+    }
+  } catch (error) {
+    console.error('Error loading user data:', error);
+  }
+}
+
+// ===== THEME FUNCTIONS - Fix Issue 3: Dark/light toggle with sun/moon icons =====
+function initializeTheme() {
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  updateThemeIcon(savedTheme);
+}
+
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  updateThemeIcon(newTheme);
+}
+
+function updateThemeIcon(theme) {
+  const themeIcon = document.getElementById('themeIcon');
+  if (themeIcon) {
+    themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+  }
+}
+
+// ===== AUTHENTICATION FUNCTIONS - Fix Issue 4: Login/signup functionality =====
+function showLoginModal() {
+  const modal = document.getElementById('loginModal');
+  if (modal) {
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function showSignupModal() {
+  const modal = document.getElementById('signupModal');
+  if (modal) {
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+}
+
+async function login(event) {
+  event.preventDefault();
+  
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  
+  try {
+    await window.signInWithEmailAndPassword(window.auth, email, password);
+    closeModal('loginModal');
+    document.getElementById('loginEmail').value = '';
+    document.getElementById('loginPassword').value = '';
+  } catch (error) {
+    console.error('Login error:', error);
+    showNotification(getErrorMessage(error), 'error');
+  }
+}
+
+async function signup(event) {
+  event.preventDefault();
+  
+  const name = document.getElementById('signupName').value;
+  const email = document.getElementById('signupEmail').value;
+  const password = document.getElementById('signupPassword').value;
+  
+  try {
+    const userCredential = await window.createUserWithEmailAndPassword(window.auth, email, password);
+    const user = userCredential.user;
+    
+    // Create user document in Firestore
+    await window.setDoc(window.doc(window.db, 'users', user.uid), {
+      displayName: name,
+      email: email,
+      createdAt: new Date(),
+      bookmarks: [],
+      labBookmarks: [],
+      notes: '',
+      progress: {}
+    });
+    
+    closeModal('signupModal');
+    showNotification('Account created successfully!', 'success');
+    
+    // Clear form
+    document.getElementById('signupName').value = '';
+    document.getElementById('signupEmail').value = '';
+    document.getElementById('signupPassword').value = '';
+  } catch (error) {
+    console.error('Signup error:', error);
+    showNotification(getErrorMessage(error), 'error');
+  }
+}
+
+async function signInWithGoogle() {
+  try {
+    const result = await window.signInWithPopup(window.auth, window.provider);
+    const user = result.user;
+    
+    // Check if user document exists, create if not
+    const userDoc = await window.getDoc(window.doc(window.db, 'users', user.uid));
+    if (!userDoc.exists()) {
+      await window.setDoc(window.doc(window.db, 'users', user.uid), {
+        displayName: user.displayName,
+        email: user.email,
+        createdAt: new Date(),
+        bookmarks: [],
+        labBookmarks: [],
+        notes: '',
+        progress: {}
+      });
+    }
+    
+    closeModal('loginModal');
+    closeModal('signupModal');
+    showNotification('Successfully signed in with Google!', 'success');
+  } catch (error) {
+    console.error('Google sign-in error:', error);
+    showNotification(getErrorMessage(error), 'error');
+  }
+}
+
+async function logout() {
+  try {
+    await window.signOut(window.auth);
+    showNotification('Successfully logged out!', 'success');
+  } catch (error) {
+    console.error('Logout error:', error);
+    showNotification('Error logging out', 'error');
+  }
+}
+
+function getErrorMessage(error) {
+  switch (error.code) {
+    case 'auth/user-not-found':
+      return 'No account found with this email address.';
+    case 'auth/wrong-password':
+      return 'Incorrect password.';
+    case 'auth/email-already-in-use':
+      return 'An account already exists with this email address.';
+    case 'auth/weak-password':
+      return 'Password should be at least 6 characters.';
+    case 'auth/invalid-email':
+      return 'Please enter a valid email address.';
+    case 'auth/too-many-requests':
+      return 'Too many failed attempts. Please try again later.';
+    default:
+      return error.message || 'An error occurred. Please try again.';
+  }
 }
 
 // ===== COURSE DISPLAY FUNCTIONS =====
@@ -61,12 +286,27 @@ function displayCourses() {
   updateAllBookmarkStates();
 }
 
+function displayPopularCourses() {
+  const container = document.getElementById('popularContainer');
+  
+  if (!container) {
+    return;
+  }
+  
+  // Get top 6 most popular courses by learner count
+  const popularCourses = [...courses]
+    .sort((a, b) => b.learnerCount - a.learnerCount)
+    .slice(0, 6);
+  
+  container.innerHTML = popularCourses.map(course => createCourseCard(course)).join('');
+}
+
 function createCourseCard(course) {
   const isBookmarked = userBookmarks.includes(course.id);
   const isSelected = selectedCourses.includes(course.id);
   
   return `
-    <div class="course-card" data-course-id="${course.id}">
+    <div class="course-card" data-course-id="${course.id}" data-category="${course.category}">
       <div class="course-header">
         <div class="course-icon">
           <i class="${course.icon}"></i>
@@ -98,8 +338,7 @@ function createCourseCard(course) {
       
       <div class="course-actions">
         <a href="${course.url}" target="_blank" rel="noopener" class="launch-btn">
-          <i class="fas fa-external-link-alt"></i>
-          Launch Course
+          Launch
         </a>
         
         <div class="course-actions-right">
@@ -189,8 +428,7 @@ function createLabCard(lab) {
       
       <div class="lab-actions">
         <a href="${lab.url}" target="_blank" rel="noopener" class="lab-launch-btn ${lab.status !== 'live' ? 'disabled' : ''}">
-          <i class="fas fa-flask"></i>
-          ${lab.status === 'live' ? 'Launch Lab' : 'Coming Soon'}
+          ${lab.status === 'live' ? 'Launch' : 'Coming Soon'}
         </a>
         
         <div class="lab-actions-right">
@@ -374,10 +612,16 @@ function updateComparisonUI() {
 }
 
 function updateLabComparisonUI() {
-  // Update lab comparison UI if needed
+  // Lab comparison UI can be added if needed
   console.log(`${selectedLabs.length} labs selected for comparison`);
+  
+  // If you want to add a lab comparison button, implement it here
+  if (selectedLabs.length >= 2) {
+    showLabComparison();
+  }
 }
 
+// ===== COMPARISON MODALS - Fix Issue 9 & 14 =====
 function showComparison() {
   if (selectedCourses.length < 2) {
     showNotification('Please select at least 2 courses to compare', 'warning');
@@ -396,6 +640,29 @@ function showComparison() {
   content.innerHTML = createCourseComparison(coursesToCompare);
   
   modal.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+// Fix Issue 14: Lab comparison functionality
+function showLabComparison() {
+  if (selectedLabs.length < 2) {
+    showNotification('Please select at least 2 labs to compare', 'warning');
+    return;
+  }
+  
+  const modal = document.getElementById('labComparisonModal');
+  const content = document.getElementById('labComparisonContent');
+  
+  if (!modal || !content) return;
+  
+  // Get selected lab data
+  const labsToCompare = labs.filter(lab => selectedLabs.includes(lab.id));
+  
+  // Generate comparison content
+  content.innerHTML = createLabComparison(labsToCompare);
+  
+  modal.style.display = 'block';
+  document.body.style.overflow = 'hidden';
 }
 
 function createCourseComparison(courses) {
@@ -416,36 +683,38 @@ function createCourseComparison(courses) {
     
     <div class="comparison-section">
       <h3>📊 Basic Comparison</h3>
-      <table class="comparison-table">
-        <thead>
-          <tr>
-            <th>Aspect</th>
-            ${courses.map(course => `<th>${course.title}</th>`).join('')}
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Category</strong></td>
-            ${courses.map(course => `<td>${course.category}</td>`).join('')}
-          </tr>
-          <tr>
-            <td><strong>Difficulty</strong></td>
-            ${courses.map(course => `<td><span class="difficulty ${course.difficulty}">${course.difficulty}</span></td>`).join('')}
-          </tr>
-          <tr>
-            <td><strong>Duration</strong></td>
-            ${courses.map(course => `<td>${course.duration}</td>`).join('')}
-          </tr>
-          <tr>
-            <td><strong>Rating</strong></td>
-            ${courses.map(course => `<td><span class="rating">${course.rating}/5</span></td>`).join('')}
-          </tr>
-          <tr>
-            <td><strong>Learners</strong></td>
-            ${courses.map(course => `<td>${course.learnerCount.toLocaleString()}</td>`).join('')}
-          </tr>
-        </tbody>
-      </table>
+      <div style="overflow-x: auto;">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Aspect</th>
+              ${courses.map(course => `<th>${course.title}</th>`).join('')}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Category</strong></td>
+              ${courses.map(course => `<td>${course.category}</td>`).join('')}
+            </tr>
+            <tr>
+              <td><strong>Difficulty</strong></td>
+              ${courses.map(course => `<td><span class="difficulty ${course.difficulty}">${course.difficulty}</span></td>`).join('')}
+            </tr>
+            <tr>
+              <td><strong>Duration</strong></td>
+              ${courses.map(course => `<td>${course.duration}</td>`).join('')}
+            </tr>
+            <tr>
+              <td><strong>Rating</strong></td>
+              ${courses.map(course => `<td><span class="rating">${course.rating}/5</span></td>`).join('')}
+            </tr>
+            <tr>
+              <td><strong>Learners</strong></td>
+              ${courses.map(course => `<td>${course.learnerCount.toLocaleString()}</td>`).join('')}
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     
     <div class="comparison-section">
@@ -490,35 +759,67 @@ function createCourseComparison(courses) {
       </div>
       <p style="margin-top: 16px;"><strong>Learning Path Suggestion:</strong> ${overlapAnalysis.learningPath}</p>
     </div>
+  `;
+}
+
+function createLabComparison(labs) {
+  return `
+    <div class="comparison-overview">
+      ${labs.map((lab, index) => `
+        <div class="comparison-course-card">
+          <div class="comparison-course-title">${lab.title}</div>
+          <div class="comparison-quick-stats">
+            ${lab.category} • ${lab.status}
+          </div>
+        </div>
+      `).join('')}
+    </div>
     
     <div class="comparison-section">
-      <h3>📚 Prerequisites & Outcomes</h3>
-      <table class="comparison-table">
-        <thead>
-          <tr>
-            <th>Course</th>
-            <th>Prerequisites</th>
-            <th>Learning Outcomes</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${courses.map(course => `
+      <h3>🧪 Lab Comparison</h3>
+      <div style="overflow-x: auto;">
+        <table class="comparison-table">
+          <thead>
             <tr>
-              <td><strong>${course.title}</strong></td>
-              <td>
-                <ul style="margin: 0; padding-left: 16px;">
-                  ${course.prerequisites.map(prereq => `<li>${prereq}</li>`).join('')}
-                </ul>
-              </td>
-              <td>
-                <ul style="margin: 0; padding-left: 16px;">
-                  ${course.outcomes.map(outcome => `<li>${outcome}</li>`).join('')}
-                </ul>
-              </td>
+              <th>Aspect</th>
+              ${labs.map(lab => `<th>${lab.title}</th>`).join('')}
             </tr>
-          `).join('')}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Category</strong></td>
+              ${labs.map(lab => `<td>${lab.category}</td>`).join('')}
+            </tr>
+            <tr>
+              <td><strong>Status</strong></td>
+              ${labs.map(lab => `<td><span class="lab-status ${lab.status}">${lab.status}</span></td>`).join('')}
+            </tr>
+            <tr>
+              <td><strong>Description</strong></td>
+              ${labs.map(lab => `<td>${lab.description}</td>`).join('')}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    <div class="comparison-section">
+      <h3>🔧 Feature Analysis</h3>
+      <div class="content-depth-analysis">
+        ${labs.map(lab => `
+          <div class="depth-card">
+            <h4>${lab.title}</h4>
+            <p><strong>Purpose:</strong> ${lab.description}</p>
+            <p><strong>Category:</strong> ${lab.category}</p>
+            <p><strong>Status:</strong> ${lab.status}</p>
+            <div style="margin-top: 1rem;">
+              <a href="${lab.url}" target="_blank" class="btn btn-primary" ${lab.status !== 'live' ? 'style="pointer-events: none; opacity: 0.5;"' : ''}>
+                ${lab.status === 'live' ? 'Launch Lab' : 'Coming Soon'}
+              </a>
+            </div>
+          </div>
+        `).join('')}
+      </div>
     </div>
   `;
 }
@@ -633,6 +934,70 @@ function determineLearningPath(courses) {
   return `Start with "${sortedCourses[0].title}" and progress to "${sortedCourses[sortedCourses.length - 1].title}" for optimal learning sequence.`;
 }
 
+// ===== DASHBOARD FUNCTIONS =====
+function showDashboard() {
+  const modal = document.getElementById('dashboardModal');
+  const content = document.getElementById('dashboardContent');
+  
+  if (!modal || !content) return;
+  
+  content.innerHTML = `
+    <div class="dashboard-stats">
+      <div class="stat-card">
+        <h3>Bookmarked Courses</h3>
+        <p class="stat-number">${userBookmarks.length}</p>
+      </div>
+      <div class="stat-card">
+        <h3>Bookmarked Labs</h3>
+        <p class="stat-number">${userLabBookmarks.length}</p>
+      </div>
+    </div>
+    <div class="dashboard-section">
+      <h3>Your Notes</h3>
+      <textarea id="userNotesTextarea" placeholder="Add your notes here..." rows="4" style="width: 100%; padding: 1rem; border: 1px solid var(--border-color); border-radius: 0.5rem;">${userNotes}</textarea>
+      <button onclick="saveNotes()" class="btn btn-primary" style="margin-top: 1rem;">Save Notes</button>
+    </div>
+  `;
+  
+  modal.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+function showBookmarks() {
+  // Filter courses by bookmarked IDs
+  const bookmarkedCourses = courses.filter(course => userBookmarks.includes(course.id));
+  const bookmarkedLabs = labs.filter(lab => userLabBookmarks.includes(lab.id));
+  
+  showNotification(`You have ${bookmarkedCourses.length} bookmarked courses and ${bookmarkedLabs.length} bookmarked labs`, 'info');
+}
+
+function showProfile() {
+  if (!currentUser) return;
+  
+  const profileInfo = `Email: ${currentUser.email}\nMember since: ${currentUser.metadata?.creationTime ? new Date(currentUser.metadata.creationTime).toLocaleDateString() : 'Unknown'}\nBookmarks: ${userBookmarks.length} courses, ${userLabBookmarks.length} labs`;
+  
+  showNotification('Profile: ' + profileInfo, 'info');
+}
+
+async function saveNotes() {
+  if (!currentUser) {
+    showNotification('Please log in to save notes', 'error');
+    return;
+  }
+  
+  const notes = document.getElementById('userNotesTextarea')?.value || '';
+  
+  try {
+    const userRef = window.doc(window.db, 'users', currentUser.uid);
+    await window.updateDoc(userRef, { notes: notes });
+    userNotes = notes;
+    showNotification('Notes saved successfully', 'success');
+  } catch (error) {
+    console.error('Error saving notes:', error);
+    showNotification('Error saving notes', 'error');
+  }
+}
+
 // ===== UTILITY FUNCTIONS =====
 function showNotification(message, type = 'info') {
   const notification = document.createElement('div');
@@ -660,16 +1025,18 @@ function setupEventListeners() {
   window.onclick = function(event) {
     if (event.target.classList.contains('modal')) {
       event.target.style.display = 'none';
+      document.body.style.overflow = '';
     }
   };
   
   // Escape key to close modals
   document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
-      const modal = document.getElementById('comparisonModal');
-      if (modal) {
+      const modals = document.querySelectorAll('.modal[style*="block"]');
+      modals.forEach(modal => {
         modal.style.display = 'none';
-      }
+        document.body.style.overflow = '';
+      });
     }
   });
 }
