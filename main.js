@@ -147,7 +147,7 @@ function displayPopularCourses() {
     container.innerHTML = '<div class="no-results">Loading popular content...</div>';
     return;
   }
-  
+
   container.innerHTML = popularItems.map(item => {
     if (item.labType) {
       return createLabCard(item);
@@ -162,6 +162,27 @@ function displayPopularCourses() {
     updateAllLabBookmarkUI();
   }, 100);
 }
+
+// ===== COURSE DISPLAY FUNCTIONS =====
+function displayCourses() {
+  const container = document.getElementById('courseContainer');
+  
+  if (!container) {
+    console.error('❌ Course container not found');
+    return;
+  }
+  
+  if (!filteredCourses || filteredCourses.length === 0) {
+    container.innerHTML = '<div class="no-results">No courses found.</div>';
+    return;
+  }
+
+  container.innerHTML = filteredCourses.map(course => createCourseCard(course)).join('');
+  
+  // Update bookmark UI after displaying
+  setTimeout(updateAllBookmarkUI, 100);
+}
+
 // ===== FIXED COURSE CARD CREATION WITH CATEGORY COLORS =====
 function createCourseCard(course) {
   // Safely handle potentially undefined values
