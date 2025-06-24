@@ -1487,3 +1487,439 @@ if (document.readyState !== 'loading') {
 }
 
 console.log('✅ Complete ImpactMojo loaded with ALL features!');
+/* ===== IMPACTMOJO JAVASCRIPT FIXES ===== */
+/* TARGETED FIXES FOR SPECIFIC FUNCTIONALITY ISSUES */
+
+// 1. FIX THEME TOGGLE FUNCTIONALITY
+function initializeTheme() {
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  const themeIcon = document.getElementById('themeIcon');
+  
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  
+  if (themeIcon) {
+    themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+  }
+}
+
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme');
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  const themeIcon = document.getElementById('themeIcon');
+  
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  
+  if (themeIcon) {
+    themeIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+  }
+}
+
+// 2. COURSE CARD FUNCTIONALITY WITH BOOKMARKING
+let selectedCourses = [];
+let userBookmarks = JSON.parse(localStorage.getItem('userBookmarks')) || [];
+
+function createCourseCard(course) {
+  const isBookmarked = userBookmarks.includes(course.id);
+  const isSelected = selectedCourses.includes(course.id);
+  
+  return `
+    <div class="course-card" data-course-id="${course.id}">
+      <div class="course-number" data-tooltip="Course #${course.number}">
+        ${course.number}
+      </div>
+      
+      <div class="course-header" onclick="toggleCourseDetails('${course.id}')">
+        <div class="course-icon">
+          <i class="${course.icon}"></i>
+        </div>
+        <div class="course-title-section">
+          <h4 class="course-title">${course.title}</h4>
+          <div class="course-meta">
+            <span class="meta-tag">${course.category}</span>
+            <span class="meta-tag difficulty ${course.difficulty}">${course.difficulty}</span>
+            <span class="meta-tag">${course.duration}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="course-description">${course.description}</div>
+      
+      <div class="course-stats">
+        <div class="course-stat">
+          <i class="fas fa-users"></i>
+          <span class="number">${course.learnerCount.toLocaleString()}</span> learners
+        </div>
+        <div class="course-stat">
+          <i class="fas fa-star"></i>
+          <span class="number">${course.rating}</span> rating
+        </div>
+      </div>
+      
+      <div class="course-actions">
+        <div class="course-actions-left">
+          <a href="${course.url}" target="_blank" rel="noopener" class="launch-btn">
+            <i class="fas fa-external-link-alt"></i> Launch Course
+          </a>
+          <button class="bookmark-btn ${isBookmarked ? 'bookmarked' : ''}" 
+                  onclick="toggleBookmark('${course.id}')" 
+                  title="${isBookmarked ? 'Remove bookmark' : 'Bookmark course'}">
+            <i class="${isBookmarked ? 'fas' : 'far'} fa-bookmark"></i>
+          </button>
+        </div>
+        <div class="course-actions-right">
+          <label class="compare-checkbox">
+            <input type="checkbox" id="compare-${course.id}" 
+                    ${isSelected ? 'checked' : ''} 
+                    onchange="toggleCourseSelection('${course.id}')">
+            Compare
+          </label>
+          <button class="expand-btn" onclick="toggleCourseDetails('${course.id}')" 
+                  title="Show details">
+            <i class="fas fa-chevron-down"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div class="course-details" id="details-${course.id}">
+        <div class="details-section">
+          <h4><i class="fas fa-prerequisite"></i> Prerequisites</h4>
+          <ul>
+            ${course.prerequisites.map(prereq => `<li>${prereq}</li>`).join('')}
+          </ul>
+        </div>
+        
+        <div class="details-section">
+          <h4><i class="fas fa-target"></i> Learning Outcomes</h4>
+          <ul>
+            ${course.outcomes.map(outcome => `<li>${outcome}</li>`).join('')}
+          </ul>
+        </div>
+        
+        <div class="details-section">
+          <h4><i class="fas fa-users"></i> Target Audience</h4>
+          <p>${course.audience}</p>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// 3. TOGGLE COURSE DETAILS (CLICK TO EXPAND)
+function toggleCourseDetails(courseId) {
+  const card = document.querySelector(`[data-course-id="${courseId}"]`);
+  const detailsElement = document.getElementById(`details-${courseId}`);
+  const expandBtn = card.querySelector('.expand-btn i');
+  
+  if (card.classList.contains('expanded')) {
+    // Collapse
+    card.classList.remove('expanded');
+    detailsElement.style.display = 'none';
+    expandBtn.style.transform = 'rotate(0deg)';
+  } else {
+    // Expand
+    card.classList.add('expanded');
+    detailsElement.style.display = 'block';
+    expandBtn.style.transform = 'rotate(180deg)';
+    
+    // Scroll to make sure details are visible
+    setTimeout(() => {
+      detailsElement.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'nearest' 
+      });
+    }, 100);
+  }
+}
+
+// 4. BOOKMARKING FUNCTIONALITY
+function toggleBookmark(courseId) {
+  const bookmarkBtn = document.querySelector(`[data-course-id="${courseId}"] .bookmark-btn`);
+  const icon = bookmarkBtn.querySelector('i');
+  
+  if (userBookmarks.includes(courseId)) {
+    // Remove bookmark
+    userBookmarks = userBookmarks.filter(id => id !== courseId);
+    bookmarkBtn.classList.remove('bookmarked');
+    icon.className = 'far fa-bookmark';
+    showNotification('Bookmark removed', 'info');
+  } else {
+    // Add bookmark
+    userBookmarks.push(courseId);
+    bookmarkBtn.classList.add('bookmarked');
+    icon.className = 'fas fa-bookmark';
+    showNotification('Course bookmarked!', 'success');
+  }
+  
+  // Save to localStorage
+  localStorage.setItem('userBookmarks', JSON.stringify(userBookmarks));
+  
+  // Update floating compare button
+  updateCompareButton();
+}
+
+// 5. COURSE COMPARISON FUNCTIONALITY
+function toggleCourseSelection(courseId) {
+  const checkbox = document.getElementById(`compare-${courseId}`);
+  
+  if (checkbox.checked) {
+    if (!selectedCourses.includes(courseId)) {
+      selectedCourses.push(courseId);
+    }
+  } else {
+    selectedCourses = selectedCourses.filter(id => id !== courseId);
+  }
+  
+  updateCompareButton();
+}
+
+function updateCompareButton() {
+  let compareBtn = document.getElementById('compareButton');
+  
+  if (!compareBtn) {
+    // Create floating compare button
+    const fabContainer = document.createElement('div');
+    fabContainer.className = 'fab-container';
+    fabContainer.innerHTML = `
+      <button id="compareButton" class="compare-fab hidden" onclick="openComparisonModal()">
+        <i class="fas fa-balance-scale"></i>
+        <span>Compare (<span id="compareCount">0</span>)</span>
+      </button>
+    `;
+    document.body.appendChild(fabContainer);
+    compareBtn = document.getElementById('compareButton');
+  }
+  
+  const countSpan = document.getElementById('compareCount');
+  const count = selectedCourses.length;
+  
+  if (count > 0) {
+    compareBtn.classList.remove('hidden');
+    countSpan.textContent = count;
+  } else {
+    compareBtn.classList.add('hidden');
+  }
+}
+
+// 6. BEAUTIFUL COMPARISON MODAL
+function openComparisonModal() {
+  if (selectedCourses.length === 0) {
+    showNotification('Please select courses to compare', 'warning');
+    return;
+  }
+  
+  // Get selected course data (assuming courses array exists)
+  const selectedCourseData = selectedCourses.map(id => 
+    courses.find(course => course.id === id)
+  ).filter(Boolean);
+  
+  const modalHTML = `
+    <div id="comparisonModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2><i class="fas fa-balance-scale"></i> Course Comparison</h2>
+          <button class="close" onclick="closeComparisonModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+          ${createComparisonContent(selectedCourseData)}
+        </div>
+      </div>
+    </div>
+  `;
+  
+  // Remove existing modal if present
+  const existingModal = document.getElementById('comparisonModal');
+  if (existingModal) {
+    existingModal.remove();
+  }
+  
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+  document.getElementById('comparisonModal').style.display = 'block';
+}
+
+function createComparisonContent(courses) {
+  if (courses.length === 0) {
+    return '<p>No courses selected for comparison.</p>';
+  }
+  
+  return `
+    <div class="comparison-cards">
+      ${courses.map((course, index) => `
+        <div class="comparison-card" style="border-left-color: ${getColorForIndex(index)};">
+          <h4>${course.title}</h4>
+          <div class="card-meta">
+            <span class="meta-tag">${course.category}</span>
+            <span class="meta-tag difficulty-${course.difficulty}">${course.difficulty}</span>
+            <span class="meta-tag">${course.duration}</span>
+          </div>
+          <div class="rating">⭐ ${course.rating}/5 • ${course.learnerCount.toLocaleString()} learners</div>
+        </div>
+      `).join('')}
+    </div>
+    
+    <h3><i class="fas fa-table"></i> Detailed Comparison</h3>
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Aspect</th>
+          ${courses.map(course => `<th>${course.title}</th>`).join('')}
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Category</strong></td>
+          ${courses.map(course => `<td>${course.category}</td>`).join('')}
+        </tr>
+        <tr>
+          <td><strong>Difficulty</strong></td>
+          ${courses.map(course => `<td><span class="meta-tag difficulty-${course.difficulty}">${course.difficulty}</span></td>`).join('')}
+        </tr>
+        <tr>
+          <td><strong>Duration</strong></td>
+          ${courses.map(course => `<td>${course.duration}</td>`).join('')}
+        </tr>
+        <tr>
+          <td><strong>Rating</strong></td>
+          ${courses.map(course => `<td>⭐ ${course.rating}/5</td>`).join('')}
+        </tr>
+        <tr>
+          <td><strong>Learners</strong></td>
+          ${courses.map(course => `<td>${course.learnerCount.toLocaleString()}</td>`).join('')}
+        </tr>
+        <tr>
+          <td><strong>Prerequisites</strong></td>
+          ${courses.map(course => `<td>${course.prerequisites.join(', ')}</td>`).join('')}
+        </tr>
+        <tr>
+          <td><strong>Target Audience</strong></td>
+          ${courses.map(course => `<td>${course.audience}</td>`).join('')}
+        </tr>
+      </tbody>
+    </table>
+  `;
+}
+
+function getColorForIndex(index) {
+  const colors = ['#2563eb', '#059669', '#dc2626', '#7c3aed', '#ea580c'];
+  return colors[index % colors.length];
+}
+
+function closeComparisonModal() {
+  const modal = document.getElementById('comparisonModal');
+  if (modal) {
+    modal.style.display = 'none';
+    modal.remove();
+  }
+}
+
+// 7. LABS SECTION WITH GREEN THEME AND LIVE INDICATORS
+function createLabCard(lab) {
+  return `
+    <div class="lab-card" data-lab-id="${lab.id}">
+      <div class="lab-status">
+        Live
+      </div>
+      
+      <div class="lab-icon">
+        <i class="${lab.icon}"></i>
+      </div>
+      
+      <h3 class="lab-title">${lab.title}</h3>
+      <p class="lab-description">${lab.description}</p>
+      
+      <a href="${lab.url}" target="_blank" rel="noopener" class="lab-launch-btn">
+        <i class="fas fa-external-link-alt"></i> Launch Lab
+      </a>
+    </div>
+  `;
+}
+
+// 8. NOTIFICATION SYSTEM
+function showNotification(message, type = 'info') {
+  const notification = document.createElement('div');
+  notification.className = `notification ${type}`;
+  notification.textContent = message;
+  
+  // Style the notification
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    color: white;
+    font-weight: 500;
+    z-index: 3000;
+    animation: slideIn 0.3s ease;
+    max-width: 300px;
+  `;
+  
+  // Set color based on type
+  const colors = {
+    success: '#059669',
+    error: '#dc2626',
+    warning: '#d97706',
+    info: '#2563eb'
+  };
+  notification.style.background = colors[type] || colors.info;
+  
+  document.body.appendChild(notification);
+  
+  // Auto remove after 3 seconds
+  setTimeout(() => {
+    notification.style.animation = 'slideOut 0.3s ease';
+    setTimeout(() => notification.remove(), 300);
+  }, 3000);
+}
+
+// 9. INITIALIZE EVERYTHING ON PAGE LOAD
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize theme
+  initializeTheme();
+  
+  // Initialize course cards if courses exist
+  if (typeof courses !== 'undefined' && Array.isArray(courses)) {
+    renderCourses();
+  }
+  
+  // Initialize lab cards if labs exist  
+  if (typeof labs !== 'undefined' && Array.isArray(labs)) {
+    renderLabs();
+  }
+  
+  // Add modal click outside to close
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('modal')) {
+      e.target.style.display = 'none';
+    }
+  });
+});
+
+// 10. RENDER FUNCTIONS
+function renderCourses() {
+  const container = document.getElementById('courseContainer');
+  if (container && typeof courses !== 'undefined') {
+    container.innerHTML = courses.map(course => createCourseCard(course)).join('');
+  }
+}
+
+function renderLabs() {
+  const container = document.getElementById('labsContainer');
+  if (container && typeof labs !== 'undefined') {
+    container.innerHTML = labs.map(lab => createLabCard(lab)).join('');
+  }
+}
+
+// Add CSS animation for notifications
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  @keyframes slideOut {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+  }
+`;
+document.head.appendChild(style);
