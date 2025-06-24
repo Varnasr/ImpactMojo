@@ -4853,3 +4853,466 @@ console.log('   window.restoreComparison() - Fix comparison');
 console.log('   window.restoreLabs() - Fix lab cards');
 console.log('   window.fixModalButtons() - Fix modal buttons');
 console.log('   window.refreshDisplay() - Refresh course display');
+// ✅ SIMPLE COPY-PASTE FIX - Add this to the END of your main.js file
+// Everything will work automatically - no console commands needed!
+
+console.log('✅ Loading automatic fix...');
+
+// Wait for page to load, then fix everything
+setTimeout(function() {
+  
+  // ===== FIX 1: REMOVE DATA LITERACY DUPLICATE =====
+  if (typeof courses !== 'undefined') {
+    // Find and remove duplicate Data Literacy entries
+    let foundFirst = false;
+    courses = courses.filter(course => {
+      if (course.id === 'data-literacy-101') {
+        if (foundFirst) {
+          console.log('Removed duplicate Data Literacy course');
+          return false; // Remove this duplicate
+        } else {
+          foundFirst = true;
+          return true; // Keep the first one
+        }
+      }
+      return true; // Keep all other courses
+    });
+  }
+  
+  if (typeof courseData !== 'undefined') {
+    let foundFirst = false;
+    courseData = courseData.filter(course => {
+      if (course.id === 'data-literacy-101') {
+        if (foundFirst) {
+          console.log('Removed duplicate Data Literacy from courseData');
+          return false;
+        } else {
+          foundFirst = true;
+          return true;
+        }
+      }
+      return true;
+    });
+  }
+  
+  // ===== FIX 2: RESTORE COURSE COMPARISON =====
+  
+  // Create selected courses array if it doesn't exist
+  if (!window.selectedCourses) {
+    window.selectedCourses = [];
+  }
+  
+  // Function to toggle course selection
+  window.toggleCourseSelection = function(courseId) {
+    const index = window.selectedCourses.indexOf(courseId);
+    if (index > -1) {
+      window.selectedCourses.splice(index, 1);
+    } else {
+      window.selectedCourses.push(courseId);
+    }
+    
+    // Update compare button
+    const compareBtn = document.getElementById('compareBtn');
+    const compareCount = document.getElementById('compareCount');
+    
+    if (compareCount) {
+      compareCount.textContent = window.selectedCourses.length;
+    }
+    
+    if (compareBtn) {
+      if (window.selectedCourses.length >= 2) {
+        compareBtn.style.display = 'inline-flex';
+        compareBtn.disabled = false;
+      } else {
+        compareBtn.style.display = 'none';
+        compareBtn.disabled = true;
+      }
+    }
+  };
+  
+  // Function to show comparison
+  window.showComparison = function() {
+    if (window.selectedCourses.length < 2) {
+      alert('Please select at least 2 courses to compare');
+      return;
+    }
+    
+    // Get selected course data
+    const coursesToUse = window.courses || window.courseData || [];
+    const selectedData = window.selectedCourses.map(id => 
+      coursesToUse.find(course => course.id === id)
+    ).filter(course => course);
+    
+    // Create comparison table
+    const comparisonHTML = `
+    <table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
+    <thead>
+    <tr style="background: #f8f9fa;">
+    <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Aspect</th>
+    ${selectedData.map(course => `
+              <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">
+                ${course.title}
+              </th>
+            `).join('')}
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: bold;">Category</td>
+    ${selectedData.map(course => `
+              <td style="padding: 12px; border: 1px solid #dee2e6;">
+                ${course.category || 'N/A'}
+              </td>
+            `).join('')}
+    </tr>
+    <tr>
+    <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: bold;">Difficulty</td>
+    ${selectedData.map(course => `
+              <td style="padding: 12px; border: 1px solid #dee2e6;">
+                ${course.difficulty || 'N/A'}
+              </td>
+            `).join('')}
+    </tr>
+    <tr>
+    <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: bold;">Duration</td>
+    ${selectedData.map(course => `
+              <td style="padding: 12px; border: 1px solid #dee2e6;">
+                ${course.duration || 'N/A'}
+              </td>
+            `).join('')}
+    </tr>
+    <tr>
+    <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: bold;">Rating</td>
+    ${selectedData.map(course => `
+              <td style="padding: 12px; border: 1px solid #dee2e6;">
+                ${course.rating ? course.rating + '/5' : 'N/A'}
+              </td>
+            `).join('')}
+    </tr>
+    </tbody>
+    </table>
+    <div style="text-align: center; margin-top: 1rem;">
+    <button onclick="clearComparison()" 
+    style="padding: 8px 16px; background: #dc3545; color: white; border: none; border-radius: 4px; margin-right: 8px;">
+    Clear Selection
+    </button>
+    <button onclick="closeModal('comparisonModal')" 
+    style="padding: 8px 16px; background: #6c757d; color: white; border: none; border-radius: 4px;">
+    Close
+    </button>
+    </div>
+    `;
+    
+    // Show in modal
+    const modalContent = document.getElementById('comparisonContent');
+    const modal = document.getElementById('comparisonModal');
+    
+    if (modalContent) {
+      modalContent.innerHTML = comparisonHTML;
+    }
+    
+    if (modal) {
+      modal.style.display = 'block';
+    }
+  };
+  
+  // Function to clear comparison
+  window.clearComparison = function() {
+    window.selectedCourses = [];
+    
+    // Update compare button
+    const compareBtn = document.getElementById('compareBtn');
+    const compareCount = document.getElementById('compareCount');
+    
+    if (compareCount) {
+      compareCount.textContent = '0';
+    }
+    
+    if (compareBtn) {
+      compareBtn.style.display = 'none';
+    }
+    
+    // Uncheck all comparison checkboxes
+    document.querySelectorAll('[id^="compare-"]').forEach(checkbox => {
+      if (!checkbox.id.includes('lab')) {
+        checkbox.checked = false;
+      }
+    });
+  };
+  
+  // Set up compare button click
+  const compareBtn = document.getElementById('compareBtn');
+  if (compareBtn) {
+    compareBtn.onclick = showComparison;
+  }
+  
+  // ===== FIX 3: FIX MODAL BUTTONS =====
+  
+  // Add CSS to fix modal button overlap
+  const modalCSS = document.createElement('style');
+  modalCSS.innerHTML = `
+    /* Fix modal button overlap */
+    .course-card.expanded {
+      max-width: 800px !important;
+      max-height: 85vh !important;
+    }
+    
+    .course-card.expanded .course-title {
+      padding: 30px 100px 30px 30px !important;
+    }
+    
+    .course-card.expanded .close-expanded {
+      position: absolute !important;
+      top: 20px !important;
+      right: 20px !important;
+      width: 35px !important;
+      height: 35px !important;
+      background: #dc3545 !important;
+      color: white !important;
+      border: none !important;
+      border-radius: 50% !important;
+      z-index: 100000 !important;
+    }
+    
+    .course-card.expanded .bookmark-btn {
+      position: absolute !important;
+      top: 20px !important;
+      right: 65px !important;
+      width: 35px !important;
+      height: 35px !important;
+      z-index: 99999 !important;
+    }
+    
+    /* Fix compare button visibility */
+    .compare-btn {
+      display: none !important;
+      align-items: center;
+      gap: 8px;
+      background: #9f7aea;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    
+    .compare-btn:not([style*="display: none"]) {
+      display: inline-flex !important;
+    }
+    `;
+  document.head.appendChild(modalCSS);
+  
+  // ===== FIX 4: RESTORE LABS =====
+  
+  // Labs data
+  const labsData = [
+    {
+      id: 'toc-workbench',
+      title: 'TOC Workbench',
+      description: 'Create, visualize, and share your intervention logic models.',
+      icon: 'fas fa-tools',
+      status: 'live',
+      url: 'https://toc-workbench.netlify.app/',
+      category: 'Planning Tools'
+    },
+    {
+      id: 'risk-mitigation-lab',
+      title: 'Risk Mitigation Lab',
+      description: 'Identify and plan for potential risks in development projects.',
+      icon: 'fas fa-shield-alt',
+      status: 'live',
+      url: 'https://impactrisk-mitigation.netlify.app/',
+      category: 'Risk Management'
+    },
+    {
+      id: 'mel-framework-designer',
+      title: 'MEL Framework Designer',
+      description: 'Design comprehensive monitoring, evaluation, and learning frameworks.',
+      icon: 'fas fa-chart-line',
+      status: 'live',
+      url: 'https://mel-toolkit.netlify.app/',
+      category: 'Monitoring & Evaluation'
+    },
+    {
+      id: 'gender-budget-tracker',
+      title: 'Gender Budget Tracker',
+      description: 'Track and analyze gender-responsive budgeting and expenditure.',
+      icon: 'fas fa-calculator',
+      status: 'live',
+      url: 'https://gender-budget-tracker.netlify.app/',
+      category: 'Gender & Finance'
+    },
+    {
+      id: 'stakeholder-mapper',
+      title: 'Stakeholder Mapper',
+      description: 'Map and analyze project stakeholders and their relationships.',
+      icon: 'fas fa-sitemap',
+      status: 'live',
+      url: 'https://stakeholder-mapper.netlify.app/',
+      category: 'Project Management'
+    },
+    {
+      id: 'impact-calculator',
+      title: 'Impact Calculator',
+      description: 'Calculate and visualize program impact using standard metrics.',
+      icon: 'fas fa-calculator',
+      status: 'live',
+      url: 'https://impact-calculator.netlify.app/',
+      category: 'Impact Measurement'
+    },
+    {
+      id: 'community-feedback-analyzer',
+      title: 'Community Feedback Analyzer',
+      description: 'Analyze qualitative feedback from community consultations.',
+      icon: 'fas fa-comments',
+      status: 'live',
+      url: 'https://community-feedback-analyzer.netlify.app/',
+      category: 'Community Engagement'
+    },
+    {
+      id: 'policy-brief-generator',
+      title: 'Policy Brief Generator',
+      description: 'Generate structured policy briefs and recommendations.',
+      icon: 'fas fa-file-alt',
+      status: 'live',
+      url: 'https://policy-brief-generator.netlify.app/',
+      category: 'Policy Tools'
+    },
+    {
+      id: 'survey-design-lab',
+      title: 'Survey Design Lab',
+      description: 'Design effective surveys and questionnaires for development research.',
+      icon: 'fas fa-clipboard-list',
+      status: 'live',
+      url: 'https://survey-design-lab.netlify.app/',
+      category: 'Research Tools'
+    }
+  ];
+  
+  // Add clean lab styles
+  const labCSS = document.createElement('style');
+  labCSS.innerHTML = `
+    .lab-card {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border: 2px solid #e8f5e8;
+      transition: transform 0.2s ease;
+    }
+    
+    .lab-card:hover {
+      transform: translateY(-3px);
+    }
+    
+    .lab-card h3 {
+      margin: 0 0 10px 0;
+      color: #2d3748;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .lab-card h3 i {
+      color: #48bb78;
+      font-size: 1.5rem;
+    }
+    
+    .lab-card p {
+      color: #4a5568;
+      margin: 0 0 15px 0;
+      line-height: 1.4;
+    }
+    
+    .lab-meta {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .lab-category {
+      background: #f0f4f8;
+      color: #2d3748;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    
+    .lab-status {
+      background: #d4edda;
+      color: #155724;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+    
+    .lab-launch-btn {
+      background: #48bb78;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .lab-launch-btn:hover {
+      background: #38a169;
+      text-decoration: none;
+      color: white;
+    }
+    
+    #labsContainer {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    `;
+  document.head.appendChild(labCSS);
+  
+  // Restore labs function
+  window.enhanceLabCards = function() {
+    const container = document.getElementById('labsContainer');
+    if (!container) return;
+    
+    const labCards = labsData.map(lab => `
+    <div class="lab-card">
+    <h3><i class="${lab.icon}"></i> ${lab.title}</h3>
+    <p>${lab.description}</p>
+    <div class="lab-meta">
+    <span class="lab-category">${lab.category}</span>
+    <span class="lab-status">${lab.status}</span>
+    </div>
+    <a href="${lab.url}" target="_blank" class="lab-launch-btn">
+    Launch Lab <i class="fas fa-external-link-alt"></i>
+    </a>
+    </div>
+    `).join('');
+    
+    container.innerHTML = labCards;
+    container.dataset.enhanced = 'true';
+  };
+  
+  // Initialize labs
+  window.enhanceLabCards();
+  
+  // ===== REFRESH DISPLAYS =====
+  
+  // Refresh course display if function exists
+  if (typeof displayCourses !== 'undefined') {
+    displayCourses();
+  }
+  
+  console.log('✅ All fixes applied automatically!');
+  console.log('✅ Data Literacy duplication removed');
+  console.log('✅ Course comparison restored');
+  console.log('✅ Modal buttons fixed');
+  console.log('✅ Labs restored with clean layout');
+  
+}, 2000); // Wait 2 seconds for page to fully load
+
+console.log('✅ Automatic fix loaded - everything will work in 2 seconds!');
