@@ -1,44 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ImpactMojo 101 Knowledge Series - Development Education for South Asia</title>
-  <meta name="description" content="A curated library of full-length knowledge decks exploring justice, equity, and development practice in India and South Asia. Grounded in theory, applied in context.">
+  <meta name="description" content="A curated library of full-length knowledge decks and interactive tools/labs exploring justice, equity, and development practice in India and South Asia. Each one is grounded in theory, applied in context, and ready for real-world use by educators, practitioners, and social researchers.">
   
-  <!-- Schema.org structured data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "EducationalOrganization",
-    "name": "ImpactMojo 101 Knowledge Series",
-    "description": "Development Education for South Asia",
-    "url": "https://www.impactmojo.in",
-    "founder": {
-      "@type": "Person",
-      "name": "Dr. Varna Sri Raman"
-    },
-    "educationalLevel": "Higher Education",
-    "address": {
-      "@type": "PostalAddress",
-      "addressCountry": "IN"
-    }
-  }
-  </script>
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
   
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <!-- External CSS -->
+  <!-- Main Styles -->
   <link rel="stylesheet" href="styles.css">
   
   <!-- Firebase Configuration -->
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+    import { getAuth, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, signInWithPopup, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
     import { getFirestore, doc, setDoc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
     const firebaseConfig = {
@@ -81,20 +65,19 @@
       <div class="container">
         <div class="nav-brand">
           <a href="#home" class="brand-link">
-            <h1>ImpactMojo</h1>
-            <span>101 Knowledge Series</span>
+            <span>Development Education for South Asia</span>
           </a>
         </div>
         
         <div class="nav-menu">
           <ul class="nav-links">
+            <li><a href="#popular-courses" class="start-here-link">Start Here</a></li>
             <li><a href="#courses">Courses</a></li>
             <li><a href="#labs">Labs</a></li>
             <li><a href="#upcoming">Upcoming</a></li>
             <li><a href="#learning-paths">Learning Paths</a></li>
             <li><a href="#author">About</a></li>
-          </ul>
-          
+          </ul>  
           <div class="nav-actions">
             <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
               <i id="themeIcon" class="fas fa-moon"></i>
@@ -102,23 +85,14 @@
             
             <!-- Auth buttons - shown when not logged in -->
             <div class="auth-buttons" id="authButtons">
-              <button class="auth-btn" onclick="showLoginModal()">Login</button>
+              <button class="auth-btn" onclick="showLoginModal()" title="Access your personalized dashboard, save bookmarks, and track learning progress">Login</button>
               <button class="auth-btn signup" onclick="showSignupModal()" title="Join our community of development practitioners and get access to personalized learning features, course bookmarks, and progress tracking!">Sign Up</button>
             </div>
             
-            <!-- User menu - shown when logged in -->
-            <div class="user-menu hidden" id="userMenu">
-              <button class="user-btn" onclick="toggleUserDropdown()">
-                <i class="fas fa-user-circle"></i>
-                <span id="userDisplayName">User</span>
-                <i class="fas fa-chevron-down"></i>
-              </button>
-              <div class="user-dropdown hidden" id="userDropdown">
-                <a href="#" onclick="showDashboard()"><i class="fas fa-dashboard"></i> Dashboard</a>
-                <a href="#" onclick="showBookmarks()"><i class="fas fa-bookmark"></i> My Bookmarks</a>
-                <a href="#" onclick="showProfile()"><i class="fas fa-user"></i> Profile</a>
-                <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
-              </div>
+            <!-- User profile - shown when logged in -->
+            <div class="user-profile hidden" id="userProfile">
+              <span class="user-name" id="userName">User</span>
+              <button class="auth-btn" onclick="signOutUser()">Sign Out</button>
             </div>
           </div>
         </div>
@@ -130,384 +104,230 @@
   <section class="hero">
     <div class="container">
       <h1>ImpactMojo 101 Knowledge Series</h1>
-      <p>
-        ImpactMojo is a curated library of full-length knowledge decks that explore
-        justice, equity, and development practice in India and South Asia.
-        Each one is grounded in theory, applied in context, and ready for real-world use by
-        educators, practitioners, and social researchers.
-      </p>
+      <p>A curated library of full-length knowledge decks and interactive tools/labs exploring justice, equity, and development practice in India and South Asia. Each one is grounded in theory, applied in context, and ready for real-world use by educators, practitioners, and social researchers.</p>
+      <div class="cta-buttons">
+        <a href="#courses" class="cta-btn primary">
+          <i class="fas fa-book"></i>
+          Explore Courses
+        </a>
+        <a href="#labs" class="cta-btn secondary">
+          <i class="fas fa-flask"></i>
+          Try Interactive Labs
+        </a>
+      </div>
     </div>
   </section>
 
-  <!-- Main Content -->
-  <main>
+  <!-- Latest Additions -->
+  <section class="section">
     <div class="container">
-      <!-- Latest Additions -->
       <div class="latest-additions">
-        <h3><i class="fas fa-star"></i> Latest Additions</h3>
+        <h3><i class="fas fa-sparkles"></i> Latest Additions</h3>
+        <p class="section-description">New courses and labs added to our growing library</p>
         <ul>
           <li>
-            <span>Education and Pedagogy 101</span>
+            <span class="course-name">Data Feminism 101 Course</span>
+            <span class="date">Added June 2025</span>
+          </li>
+          <li>
+            <span class="course-name">Digital Ethics 101 Course</span>
             <span class="date">Added May 2025</span>
           </li>
           <li>
-            <span>Public Health 101</span>
+            <span class="course-name">Ethics Scenarios Interactive Lab</span>
             <span class="date">Added May 2025</span>
           </li>
           <li>
-            <span>Livelihoods 101</span>
-            <span class="date">Added April 2025</span>
-          </li>
-          <li>
-            <span>Gender Studies 101</span>
+            <span class="course-name">Gender Budget Analysis Lab</span>
             <span class="date">Added April 2025</span>
           </li>
         </ul>
       </div>
+    </div>
+  </section>
 
-      <!-- Learning Paths -->
-      <section id="learning-paths" class="learning-paths">
-        <h3><i class="fas fa-route"></i> Recommended Learning Paths</h3>
-        <div class="paths-grid">
-          <div class="path-card" onclick="filterByPath('data-analysis')">
-            <h4>Data Analysis Track</h4>
-            <p>Master data skills from basics to advanced analysis</p>
-            <div class="course-tags">
-              <span>Data Literacy 101</span>
-              <span>EDA for Survey Data</span>
-              <span>Bivariate Analysis</span>
-              <span>Multivariate Analysis</span>
-            </div>
-          </div>
-          
-          <div class="path-card" onclick="filterByPath('gender-studies')">
-            <h4>Gender Studies Pathway</h4>
-            <p>Comprehensive understanding of gender in development</p>
-            <div class="course-tags">
-              <span>Gender Studies 101</span>
-              <span>Data Feminism 101</span>
-              <span>Care Economy</span>
-              <span>Women's Economic Empowerment</span>
-            </div>
-          </div>
-          
-          <div class="path-card" onclick="filterByPath('economics')">
-            <h4>Development Economics</h4>
-            <p>Economic analysis for development practitioners</p>
-            <div class="course-tags">
-              <span>Development Economics 101</span>
-              <span>Econometrics 101</span>
-              <span>Decent Work for All 101</span>
-              <span>Social Safety Nets 101</span>
-            </div>
-          </div>
-          
-          <div class="path-card" onclick="filterByPath('justice')">
-            <h4>Justice & Rights</h4>
-            <p>Human rights and social justice frameworks</p>
-            <div class="course-tags">
-              <span>Indian Constitution and Law 101</span>
-              <span>Environmental Justice 101</span>
-              <span>Digital Development Ethics 101</span>
-              <span>Data Protection 101</span>
-            </div>
+  <!-- Learning Paths -->
+  <section class="section learning-paths" id="learning-paths">
+    <div class="container">
+      <h2>🎯 Recommended Learning Paths</h2>
+      <p class="section-description">Structured journeys through interconnected topics</p>
+      <div class="paths-grid">
+        <div class="path-card">
+          <h4>Development Foundations</h4>
+          <p>Core concepts in international development theory and practice</p>
+          <div class="course-tags">
+            <span>Development Economics</span>
+            <span>Political Economy</span>
+            <span>Poverty & Inequality</span>
+            <span>Global Development</span>
           </div>
         </div>
-      </section>
+        <div class="path-card">
+          <h4>Data Analysis Track</h4>
+          <p>Master data skills from basics to advanced analysis</p>
+          <div class="course-tags">
+            <span>Data Literacy</span>
+            <span>Exploratory Analysis</span>
+            <span>Bivariate Analysis</span>
+            <span>Econometrics</span>
+          </div>
+        </div>
+        <div class="path-card">
+          <h4>Gender Studies Pathway</h4>
+          <p>Comprehensive understanding of gender in development</p>
+          <div class="course-tags">
+            <span>Gender Studies</span>
+            <span>Data Feminism</span>
+            <span>Care Economy</span>
+            <span>Women's Empowerment</span>
+          </div>
+        </div>
+        <div class="path-card">
+          <h4>Research Methods</h4>
+          <p>Essential research skills for development practitioners</p>
+          <div class="course-tags">
+            <span>Qualitative Research</span>
+            <span>Research Ethics</span>
+            <span>Visual Ethnography</span>
+            <span>Survey Design</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      <!-- Courses Section -->
-      <section id="courses" class="courses-section">
-        <h3><i class="fas fa-graduation-cap"></i> All Courses</h3>
-        <p>Explore our complete library of 33 knowledge decks</p>
-        
-        <!-- Filters -->
-        <div class="filters-row">
-          <div class="filter-group">
-            <label for="searchInput">Search Courses:</label>
-            <input type="text" id="searchInput" placeholder="Search by title, topic, or description..." oninput="filterCourses()">
+  <!-- Most Popular Courses -->
+  <section class="section" id="popular-courses">
+    <div class="container">
+      <h2>📈 Most Popular Courses and Labs</h2>
+      <p class="section-description">Community favorites and highly-rated content</p>
+      <div class="courses-grid" id="popularCoursesContainer">
+        <div class="loading">Loading popular courses...</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- All Courses -->
+  <section class="section courses-section" id="courses">
+    <div class="container">
+      <h2><i class="fas fa-graduation-cap"></i> All Courses</h2>
+      <p class="section-description">Explore our complete library of development education courses</p>
+      
+      <!-- Course Stats -->
+      <div class="stats-bar">
+        <div>
+          <strong id="courseCount">34</strong> courses available
+        </div>
+        <div>
+          <button id="compareBtn" onclick="showComparison()" style="display: none;">
+            <i class="fas fa-balance-scale"></i> Compare Selected (<span id="compareCount">0</span>)
+          </button>
+        </div>
+      </div>
+      
+      <!-- Courses Grid -->
+      <div class="courses-grid" id="courseContainer">
+        <div class="loading">Loading courses...</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Labs -->
+  <section class="section labs-section" id="labs">
+    <div class="container">
+      <h2><i class="fas fa-flask"></i> Interactive Labs</h2>
+      <p class="section-description">Hands-on tools for practical application of theoretical knowledge</p>
+      
+      <!-- Lab Stats -->
+      <div class="stats-bar">
+        <div>
+          <strong id="labCount">9</strong> labs available
+        </div>
+        <div>
+          <button id="labCompareBtn" onclick="showLabComparison()" style="display: none;">
+            <i class="fas fa-balance-scale"></i> Compare Selected (<span id="labCompareCount">0</span>)
+          </button>
+        </div>
+      </div>
+      
+      <!-- Labs Grid -->
+      <div class="labs-grid" id="labsContainer">
+        <div class="loading">Loading labs...</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Upcoming Courses & Labs -->
+  <section class="section" id="upcoming">
+    <div class="container">
+      <h2>🚀 Upcoming Courses & Labs</h2>
+      <p class="section-description">Coming soon to the ImpactMojo library</p>
+      <div class="upcoming-grid">
+        <div class="course-card">
+          <div class="course-card-header">
+            <div class="course-category" style="background-color: #ea580c20; color: #ea580c">
+              Governance & Policy
+            </div>
+            <div class="upcoming-badge">Coming August 2025</div>
           </div>
-          
-          <div class="filter-group">
-            <label for="categoryFilter">Category:</label>
-            <select id="categoryFilter" onchange="filterCourses()">
-              <option value="all">All Categories</option>
-              <option value="Data Analysis">Data Analysis</option>
-              <option value="Gender Studies">Gender Studies</option>
-              <option value="Economics">Economics</option>
-              <option value="Health">Health</option>
-              <option value="Justice">Justice & Rights</option>
-              <option value="Education">Education</option>
-              <option value="Environment">Environment</option>
-              <option value="Media">Media</option>
-              <option value="MEL">MEL</option>
-            </select>
+          <div class="course-content">
+            <h3 class="course-title">TALL Methodology for Development Programs</h3>
+            <p class="course-description">Thinking and Acting Like a Learner (TALL) methodology for adaptive programming in complex development contexts.</p>
+            <div class="course-meta">
+              <span class="course-difficulty difficulty-advanced">Advanced</span>
+              <span class="course-duration">
+                <i class="fas fa-clock"></i>
+                60 min
+              </span>
+            </div>
           </div>
-          
-          <div class="filter-group">
-            <label for="difficultyFilter">Difficulty:</label>
-            <select id="difficultyFilter" onchange="filterCourses()">
-              <option value="all">All Levels</option>
-              <option value="beginner">Beginner</option>
-              <option value="intermediate">Intermediate</option>
-              <option value="advanced">Advanced</option>
-            </select>
-          </div>
-          
-          <div class="filter-group">
-            <label for="durationFilter">Duration:</label>
-            <select id="durationFilter" onchange="filterCourses()">
-              <option value="all">Any Duration</option>
-              <option value="short">Short (< 3 hours)</option>
-              <option value="medium">Medium (3-5 hours)</option>
-              <option value="long">Long (5+ hours)</option>
-            </select>
-          </div>
-          
-          <div class="filter-group">
-            <button class="clear-filters" onclick="clearAllFilters()">
-              <i class="fas fa-times"></i> Clear Filters
+          <div class="course-card-footer">
+            <button class="launch-btn" disabled>
+              <i class="fas fa-bell"></i>
+              Pre-register
             </button>
           </div>
         </div>
-
-        <div class="stats-bar">
-          <div class="course-count" id="courseCount" role="status" aria-live="polite">
-            Showing <span id="visibleCount">33</span> of <span id="totalCount">33</span> courses
+        
+        <div class="course-card">
+          <div class="course-card-header">
+            <div class="course-category" style="background-color: #be185d20; color: #be185d">
+              Education & Communication
+            </div>
+            <div class="upcoming-badge">Coming September 2025</div>
           </div>
-        </div>
-
-        <!-- Course Grid -->
-        <div class="courses-grid" id="courseContainer">
-          <!-- Course cards will be generated by JavaScript -->
-        </div>
-
-        <!-- No Results -->
-        <div class="no-results hidden" id="noResults">
-          <i class="fas fa-search"></i>
-          <h3>No courses found</h3>
-          <p>Try adjusting your search terms or filters to find what you're looking for.</p>
-        </div>
-      </section>
-    </div>
-  </main>
-  </section>
-  </div>
-  </main>
-  
-  <!-- Popular Courses Section -->
-  <section id="popular" class="popular-section">
-    <div class="container">
-      <h3><i class="fas fa-fire"></i> Popular Courses</h3>
-      <p>Most loved courses by our community of development practitioners</p>
-      
-      <div class="popular-grid">
-        <div class="popular-card">
-          <h4>Data Feminism 101</h4>
-          <p>★ 4.8 | 2,847 learners</p>
-          <p>Challenges dominant data narratives using feminist theory and South Asian contexts.</p>
-          <a href="https://101.www.impactmojo.in/DataFeminism" target="_blank" rel="noopener" class="launch-btn">
-            Launch Course <i class="fas fa-external-link-alt"></i>
-          </a>
-        </div>
-        
-        <div class="popular-card">
-          <h4>Gender Studies 101</h4>
-          <p>★ 4.7 | 2,341 learners</p>
-          <p>Foundational concepts in gender studies with South Asian development applications.</p>
-          <a href="https://101.www.impactmojo.in/GenderStudies" target="_blank" rel="noopener" class="launch-btn">
-            Launch Course <i class="fas fa-external-link-alt"></i>
-          </a>
-        </div>
-        
-        <div class="popular-card">
-          <h4>MEL 101</h4>
-          <p>★ 4.8 | 2,156 learners</p>
-          <p>Comprehensive monitoring, evaluation, and learning frameworks for development programs.</p>
-          <a href="https://101.www.impactmojo.in/MEL" target="_blank" rel="noopener" class="launch-btn">
-            Launch Course <i class="fas fa-external-link-alt"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-  
-  <!-- Labs Section -->
-  <section id="labs" class="labs-section">
-  <!-- Labs Section -->
-  <section id="labs" class="labs-section">
-    <div class="container">
-      <h3><i class="fas fa-flask"></i> ImpactMojo Labs</h3>
-      <p>Interactive tools and experimental features for development practitioners</p>
-      
-      <div class="labs-grid">
-        <!-- TOC Workbench -->
-        <div class="lab-card">
-          <h3><i class="fas fa-tools"></i> TOC Workbench</h3>
-          <p>Create, visualize, and share your intervention logic models.</p>
-          <div class="lab-status">
-            <span class="lab-badge live">Live</span>
-            <a href="https://toc-workbench.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
-              Launch Lab <i class="fas fa-external-link-alt"></i>
-            </a>
+          <div class="course-content">
+            <h3 class="course-title">Basic English for Development Practitioners</h3>
+            <p class="course-description">Essential English communication skills for development professionals working in international contexts.</p>
+            <div class="course-meta">
+              <span class="course-difficulty difficulty-beginner">Beginner</span>
+              <span class="course-duration">
+                <i class="fas fa-clock"></i>
+                45 min
+              </span>
+            </div>
           </div>
-        </div>
-        
-        <!-- MEL Toolkit -->
-        <div class="lab-card">
-          <h3><i class="fas fa-chart-line"></i> MEL Toolkit</h3>
-          <p>Monitoring, evaluation, and learning framework builder.</p>
-          <div class="lab-status">
-            <span class="lab-badge live">Live</span>
-            <a href="https://mel-toolkit.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
-              Launch Lab <i class="fas fa-external-link-alt"></i>
-            </a>
-          </div>
-        </div>
-        
-        <!-- Budget Calculator -->
-        <div class="lab-card">
-          <h3><i class="fas fa-calculator"></i> Development Budget Calculator</h3>
-          <p>Project budget planning and cost estimation tool.</p>
-          <div class="lab-status">
-            <span class="lab-badge live">Live</span>
-            <a href="https://budget-calculator.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
-              Launch Lab <i class="fas fa-external-link-alt"></i>
-            </a>
-          </div>
-        </div>
-        
-        <!-- Stakeholder Mapping -->
-        <div class="lab-card">
-          <h3><i class="fas fa-users"></i> Stakeholder Mapping Tool</h3>
-          <p>Visualize and analyze stakeholder relationships and influence.</p>
-          <div class="lab-status">
-            <span class="lab-badge live">Live</span>
-            <a href="https://stakeholder-mapper.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
-              Launch Lab <i class="fas fa-external-link-alt"></i>
-            </a>
-          </div>
-        </div>
-        
-        <!-- Community Engagement Lab -->
-        <div class="lab-card">
-          <h3><i class="fas fa-hands-helping"></i> Community Engagement Lab</h3>
-          <p>Design participatory processes and community consultation frameworks.</p>
-          <div class="lab-status">
-            <span class="lab-badge live">Live</span>
-            <a href="https://community-engagement-lab.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
-              Launch Lab <i class="fas fa-external-link-alt"></i>
-            </a>
-          </div>
-        </div>
-        
-        <!-- Survey Design Lab -->
-        <div class="lab-card">
-          <h3><i class="fas fa-clipboard-list"></i> Survey Design Lab</h3>
-          <p>Interactive tool for designing surveys and questionnaires for development research.</p>
-          <div class="lab-status">
-            <span class="lab-badge live">Live</span>
-            <a href="https://survey-design-lab.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
-              Launch Lab <i class="fas fa-external-link-alt"></i>
-            </a>
-          </div>
-        </div>
-        
-        <!-- Data Visualization Lab -->
-        <div class="lab-card">
-          <h3><i class="fas fa-chart-bar"></i> Data Visualization Lab</h3>
-          <p>Create compelling data visualizations and infographics for development data.</p>
-          <div class="lab-status">
-            <span class="lab-badge live">Live</span>
-            <a href="https://data-viz-lab.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
-              Launch Lab <i class="fas fa-external-link-alt"></i>
-            </a>
-          </div>
-        </div>
-        
-        <!-- Impact Measurement -->
-        <div class="lab-card">
-          <h3><i class="fas fa-bullseye"></i> Impact Measurement Lab</h3>
-          <p>Design and track impact metrics for development interventions.</p>
-          <div class="lab-status">
-            <span class="lab-badge live">Live</span>
-            <a href="https://impact-measurement-lab.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
-              Launch Lab <i class="fas fa-external-link-alt"></i>
-            </a>
-          </div>
-        </div>
-        
-        <!-- Policy Analysis Tool -->
-        <div class="lab-card">
-          <h3><i class="fas fa-gavel"></i> Policy Analysis Tool</h3>
-          <p>Framework for analyzing and comparing development policies.</p>
-          <div class="lab-status">
-            <span class="lab-badge live">Live</span>
-            <a href="https://policy-analysis-tool.netlify.app/" target="_blank" rel="noopener" class="lab-launch-btn">
-              Launch Lab <i class="fas fa-external-link-alt"></i>
-            </a>
+          <div class="course-card-footer">
+            <button class="launch-btn" disabled>
+              <i class="fas fa-bell"></i>
+              Pre-register
+            </button>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-    <!-- Upcoming Courses Section -->
-  <section id="upcoming" class="upcoming-section">
+  <!-- About Author -->
+  <section class="section author-section" id="author">
     <div class="container">
-      <h3><i class="fas fa-clock"></i> Upcoming Courses</h3>
-      <p>New courses currently in development, launching soon.</p>
-      <div class="upcoming-grid">
-        <div class="upcoming-card">
-          <div class="upcoming-header">
-            <h4>TALL (Technology for All) 101</h4>
-            <span class="status-badge coming-soon">Coming Soon</span>
-          </div>
-          <p>A global technology literacy platform teaching 10 future technologies in simple, jargon-free language. Covers IoT, AI, Robotics, Blockchain, Cryptocurrency, Cybercrime, Digital Transformation, Telehealth, Edutech & Metaverse. Designed for all computer, phone and internet users - including non-engineers and students of arts, law and commerce.</p>
-          <div class="upcoming-meta">
-            <span><i class="fas fa-calendar-alt"></i> Expected: Q3 2025</span>
-            <span><i class="fas fa-users"></i> All technology users, non-engineers, students, professionals</span>
-          </div>
-        </div>
-        
-        <div class="upcoming-card">
-          <div class="upcoming-header">
-            <h4>English for Development Professionals 101</h4>
-            <span class="status-badge coming-soon">Coming Soon</span>
-          </div>
-          <p>Professional English communication skills specifically tailored for development practitioners, including grant writing, proposal development, and stakeholder communication.</p>
-          <div class="upcoming-meta">
-            <span><i class="fas fa-calendar-alt"></i> Expected: Q4 2025</span>
-            <span><i class="fas fa-users"></i> Development professionals</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  
-  <!-- Author Section -->
-  <section id="author" class="author-section">
-    <div class="container">
+      <h2>About the Author</h2>
       <div class="author-card">
-        <img src="assets/images/varna-photo.jpg" alt="Dr. Varna Sri Raman" class="author-photo" onerror="this.src='https://via.placeholder.com/150x150/2563eb/ffffff?text=VSR'">
+        <img src="/assets/varna-photo.jpg" alt="Dr. Varna Sri Raman" class="author-photo">
         <div class="author-content">
           <h3>Dr. Varna Sri Raman</h3>
-          <p>
-            Dr. Varna Sri Raman is a development economist, educator, and social researcher with two decades of experience across education, livelihoods, gender, climate, health, and other public systems in South Asia. She is the founder and chief curator of OpenStacks — an open knowledge ecosystem for the development sector.
-          </p>
-          <a href="https://calendly.com/varna-raman/impactmojo-consultation" target="_blank" rel="noopener" class="coaching-cta">
-            <i class="fas fa-calendar-alt"></i> Book a Development Consultation
-          </a>
-          <div class="author-links">
-            <a href="https://www.threads.net/@varnasriraman" target="_blank" rel="noopener" title="Follow Dr. Varna on Threads">
-              <i class="fab fa-threads"></i> Threads
-            </a>
-            <a href="https://www.linkedin.com/in/varna" target="_blank" rel="noopener" title="Connect with Dr. Varna on LinkedIn">
-              <i class="fab fa-linkedin"></i> LinkedIn
-            </a>
-            <a href="https://vfolio.notion.site/" target="_blank" rel="noopener" title="View Dr. Varna's Portfolio">
-              <i class="fas fa-briefcase"></i> Portfolio
-            </a>
-          </div>
+          <p class="title">Development Economist, PhD</p>
+          <p>Dr. Varna Sri Raman is a development economist with extensive experience in South Asian contexts. Her work focuses on applied development economics, gender studies, and evidence-based policy making. She has worked with various international organizations and brings both academic rigor and practical experience to development education.</p>
         </div>
       </div>
     </div>
@@ -518,133 +338,35 @@
     <div class="container">
       <div class="footer-content">
         <div class="footer-section">
-          <h4>About ImpactMojo</h4>
-          <p>Empowering changemakers across South Asia with practical development education.</p>
-          <p>33+ comprehensive courses covering data feminism to climate justice.</p>
-          <p>Real-world ready - bridging theory with practice in South Asian contexts.</p>
+          <h4>ImpactMojo 101</h4>
+          <p>Development Education for South Asia</p>
+          <p>Grounded in theory, applied in context.</p>
         </div>
-        
         <div class="footer-section">
           <h4>Quick Links</h4>
-          <ul>
-            <li><a href="#courses">All Courses</a></li>
-            <li><a href="#labs">ImpactMojo Labs</a></li>
-            <li><a href="#learning-paths">Learning Paths</a></li>
-            <li><a href="#upcoming">Upcoming Courses</a></li>
-            <li><a href="#author">About the Author</a></li>
-          </ul>
+          <p><a href="#courses">All Courses</a></p>
+          <p><a href="#labs">Interactive Labs</a></p>
+          <p><a href="#learning-paths">Learning Paths</a></p>
+          <p><a href="#author">About</a></p>
         </div>
-        
         <div class="footer-section">
-          <h4>Resources</h4>
-          <ul>
-            <li><a href="https://github.com/Varnasr/ImpactMojo" target="_blank" rel="noopener">GitHub Repository</a></li>
-            <li><a href="mailto:varna.sr@gmail.com">Contact Support</a></li>
-            <li><a href="https://calendly.com/varna-raman/impactmojo-consultation" target="_blank" rel="noopener">Book Consultation</a></li>
-          </ul>
+          <h4>Contact</h4>
+          <p class="footer-email">
+            <a href="mailto:info@impactmojo.in">info@impactmojo.in</a>
+          </p>
+          <p>Based in India</p>
         </div>
-        
         <div class="footer-section">
-          <h4>Connect with Dr. Varna</h4>
-          <p><a href="https://www.threads.net/@varnasriraman" target="_blank" rel="noopener">📱 Follow on Threads</a></p>
-          <p><a href="https://www.linkedin.com/in/varna" target="_blank" rel="noopener">💼 Connect on LinkedIn</a></p>
-          <p><a href="https://vfolio.notion.site/" target="_blank" rel="noopener">📂 View Portfolio</a></p>
-          <p><a href="mailto:varna.sr@gmail.com">✉️ Email Directly</a></p>
-        </div>
-        
-        <div class="footer-faq">
-          <h4>Frequently Asked Questions</h4>
-          <div class="faq-grid">
-            <div class="faq-item">
-              <h5><i class="fas fa-question-circle"></i> How do I get started?</h5>
-              <p>Browse our course library, choose a learning path that matches your interests, or start with foundational courses like Data Literacy 101 or Gender Studies 101.</p>
-            </div>
-            
-            <div class="faq-item">
-              <h5><i class="fas fa-question-circle"></i> Are the courses free?</h5>
-              <p>Yes! All ImpactMojo 101 courses are freely available under Creative Commons licensing. Create an account to bookmark courses and track your progress.</p>
-            </div>
-            
-            <div class="faq-item">
-              <h5><i class="fas fa-question-circle"></i> Can I use these for teaching?</h5>
-              <p>Absolutely! All content is licensed CC BY-NC-SA 4.0, meaning you can adapt and use materials for non-commercial educational purposes with attribution.</p>
-            </div>
-            
-            <div class="faq-item">
-              <h5><i class="fas fa-question-circle"></i> How often are new courses added?</h5>
-              <p>We regularly add new courses and update existing content. Check our "Latest Additions" section or subscribe to updates to stay informed.</p>
-            </div>
-            
-            <div class="faq-item">
-              <h5><i class="fas fa-question-circle"></i> What devices do I need to access the courses?</h5>
-              <p>All courses work on any device with internet access - computers, tablets, or smartphones. No special software required. Our platform is optimized for mobile learning, perfect for learners across South Asia with varying technology access.</p>
-            </div>
-            
-            <div class="faq-item">
-              <h5><i class="fas fa-question-circle"></i> Why focus specifically on South Asia?</h5>
-              <p>Our courses use local case studies, policy examples, and cultural contexts from India and South Asia. This makes the learning more relevant and applicable than generic global content. However, the frameworks and concepts are valuable for development practitioners worldwide.</p>
-            </div>
-          </div>
-        </div>
-        
-        <div class="footer-disclaimer">
-          <h5><i class="fas fa-exclamation-triangle"></i> Important Disclaimer</h5>
-          <p>The content provided in ImpactMojo courses is for educational purposes only. While we strive for accuracy, users should verify information independently and adapt content to their specific contexts. The courses represent academic perspectives and should not be considered as official policy guidance. We provide NO formal qualifications or certifications.</p>
-        </div>
-        
-        <div class="footer-legal">
-          <div class="legal-grid">
-            <div class="legal-section">
-              <h6>Licensing</h6>
-              <p><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></p>
-              <p>Free to use for non-commercial purposes with attribution</p>
-            </div>
-            
-            <div class="legal-section">
-              <h6>Privacy</h6>
-              <p>We respect your privacy and use minimal data collection</p>
-              <p>Contact us for data requests</p>
-            </div>
-            
-            <div class="legal-section">
-              <h6>Support</h6>
-              <p><a href="mailto:varna.sr@gmail.com">Technical Support</a></p>
-              <p><a href="mailto:varna.sr@gmail.com">Content Feedback</a></p>
-            </div>
-            
-            <div class="legal-section">
-              <h6>Attribution</h6>
-              <p>When using content, please cite: "Dr. Varna Sri Raman, ImpactMojo 101 Series"</p>
-            </div>
-          </div>
+          <h4>Connect</h4>
+          <p><a href="https://linkedin.com/in/varnasriraman" target="_blank">LinkedIn</a></p>
+          <p><a href="https://twitter.com/varnasriraman" target="_blank">Twitter</a></p>
         </div>
       </div>
-      
       <div class="footer-bottom">
-        <p>&copy; 2025 ImpactMojo. Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>.</p>
-        <p>Development education for South Asia. <a href="mailto:varna.sr@gmail.com">Contact us</a> for partnerships and collaborations.</p>
+        <p class="footer-copyright">© 2025 ImpactMojo. All rights reserved.</p>
       </div>
     </div>
   </footer>
-  <!-- Comparison Panel -->
-  <div id="comparisonPanel" class="comparison-panel">
-    <div class="container">
-      <div class="comparison-header">
-        <h4>Course Comparison</h4>
-        <div class="comparison-controls">
-          <span class="comparison-count" id="comparisonCount">0 courses selected</span>
-          <button class="clear-comparison" onclick="clearComparison()">
-            <i class="fas fa-times"></i> Clear All
-          </button>
-        </div>
-      </div>
-      <div class="comparison-grid" id="comparisonGrid">
-        <div class="comparison-empty">
-          <p>Select courses to compare by clicking the "Compare" button on course cards.</p>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Login Modal -->
   <div id="loginModal" class="modal">
@@ -717,6 +439,7 @@
   </div>
 
   <!-- JavaScript Files -->
+  <script src="simple-content-manager.js"></script>  
   <script src="course-data.js"></script>
   <script src="firebase-auth.js"></script>
   <script src="main.js"></script>
