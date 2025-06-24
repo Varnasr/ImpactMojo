@@ -130,43 +130,38 @@ function displayPopularCourses() {
     return;
   }
   
+  // Wait for courses to be loaded
+  if (!allCourses || allCourses.length === 0) {
+    setTimeout(displayPopularCourses, 500);
+    return;
+  }
+  
   // Get popular courses (highest rated)
-  const popularCourseIds = ['gender-studies-101', 'dev-econ-101', 'research-ethics-101', 'public-health-101', 'data-literacy-101', 'poverty-inequality-101'];
-  const popularCourses = popularCourseIds.map(id => 
-    allCourses.find(course => course.id === id)
-  ).filter(course => course);
+  const popularCourseIds = ['gender-studies-101', 'dev-econ-101', 'research-ethics-101', 'public-health-101', 'data-literacy-101'];
+  const popularItems = [
+    ...popularCourseIds.map(id => allCourses.find(course => course && course.id === id)).filter(item => item),
+    ...labs.slice(0, 2) // Add first 2 labs
+  ];
   
-  if (popularCourses.length === 0) {
-    container.innerHTML = '<div class="no-results">No popular courses found.</div>';
+  if (popularItems.length === 0) {
+    container.innerHTML = '<div class="no-results">Loading popular content...</div>';
     return;
   }
-
-  container.innerHTML = popularCourses.map(course => createCourseCard(course)).join('');
+  
+  container.innerHTML = popularItems.map(item => {
+    if (item.labType) {
+      return createLabCard(item);
+    } else {
+      return createCourseCard(item);
+    }
+  }).join('');
   
   // Update bookmark UI after displaying
-  setTimeout(updateAllBookmarkUI, 100);
+  setTimeout(() => {
+    updateAllBookmarkUI();
+    updateAllLabBookmarkUI();
+  }, 100);
 }
-
-// ===== COURSE DISPLAY FUNCTIONS =====
-function displayCourses() {
-  const container = document.getElementById('courseContainer');
-  
-  if (!container) {
-    console.error('❌ Course container not found');
-    return;
-  }
-  
-  if (!filteredCourses || filteredCourses.length === 0) {
-    container.innerHTML = '<div class="no-results">No courses found.</div>';
-    return;
-  }
-
-  container.innerHTML = filteredCourses.map(course => createCourseCard(course)).join('');
-  
-  // Update bookmark UI after displaying
-  setTimeout(updateAllBookmarkUI, 100);
-}
-
 // ===== FIXED COURSE CARD CREATION WITH CATEGORY COLORS =====
 function createCourseCard(course) {
   // Safely handle potentially undefined values
