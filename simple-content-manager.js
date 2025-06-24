@@ -35,13 +35,35 @@ class SimpleContentManager {
    */
   useDefaults() {
     this.content = {
+      site: {
+        title: "ImpactMojo 101 Knowledge Series - Development Education for South Asia",
+        description: "Curated library of full-length knowledge decks exploring justice, equity, and development practice in India and South Asia.",
+        keywords: "development education, South Asia, India, social justice, data feminism, development economics",
+        author: "Dr. Varna Sri Raman"
+      },
       hero: {
         title: "ImpactMojo 101 Knowledge Series",
         description: "ImpactMojo is a curated library of full-length knowledge decks that explore justice, equity, and development practice in India and South Asia. Each one is grounded in theory, applied in context, and ready for real-world use by educators, practitioners, and social researchers."
       },
       interface_text: {
         messages: {
-          no_results: "No courses found. Try adjusting your search terms or filters."
+          no_results: "No courses found. Try adjusting your search terms or filters.",
+          loading: "Loading courses...",
+          error: "Unable to load content. Please refresh the page.",
+          welcome_back: "Welcome back!",
+          login_success: "Successfully logged in!",
+          logout_success: "Successfully logged out!"
+        },
+        buttons: {
+          explore_courses: "Explore Courses",
+          try_labs: "Try Labs",
+          launch_course: "Launch Course",
+          launch_lab: "Launch Lab",
+          bookmark: "Bookmark",
+          compare: "Compare",
+          login: "Log In",
+          signup: "Sign Up",
+          logout: "Log Out"
         }
       }
     };
@@ -68,6 +90,30 @@ class SimpleContentManager {
     }
     
     return current;
+  }
+
+  /**
+   * Get interface text with fallback
+   */
+  getInterfaceText(path, fallback = null) {
+    const text = this.get(`interface_text.${path}`);
+    return text || fallback;
+  }
+
+  /**
+   * Format dynamic messages
+   */
+  formatMessage(messageKey, replacements = {}) {
+    if (!this.isLoaded) return messageKey;
+    
+    let message = this.get(`interface_text.messages.${messageKey}`) || messageKey;
+    
+    // Replace placeholders like {count} with actual values
+    Object.keys(replacements).forEach(key => {
+      message = message.replace(`{${key}}`, replacements[key]);
+    });
+    
+    return message;
   }
 
   /**
@@ -128,7 +174,7 @@ class SimpleContentManager {
     
     for (const selector of titleSelectors) {
       const element = document.querySelector(selector);
-      if (element && this.shouldUpdateElement(element)) {
+      if (element && hero.title) {
         element.textContent = hero.title;
         break;
       }
@@ -138,13 +184,12 @@ class SimpleContentManager {
     const descSelectors = [
       '.hero-description',
       '.hero p',
-      'section:first-of-type p',
-      'header + main p'
+      'section:first-of-type p'
     ];
     
     for (const selector of descSelectors) {
       const element = document.querySelector(selector);
-      if (element && this.shouldUpdateElement(element)) {
+      if (element && hero.description) {
         element.textContent = hero.description;
         break;
       }
@@ -152,108 +197,119 @@ class SimpleContentManager {
   }
 
   /**
-   * Check if element should be updated (not empty, not user-customized)
-   */
-  shouldUpdateElement(element) {
-    const text = element.textContent.trim();
-    return text === '' || 
-           text.includes('ImpactMojo') || 
-           text.includes('knowledge deck') ||
-           text.length < 10;
-  }
-
-  /**
-   * Update learning paths section
+   * Update learning paths (preserves existing structure)
    */
   updateLearningPaths() {
     if (!this.isLoaded) return;
 
-    const pathsData = this.content.learning_paths;
-    if (!pathsData) return;
+    const paths = this.content.learning_paths;
+    if (!paths || !paths.paths) return;
 
     // Update section title
-    const titleElement = document.querySelector('#learning-paths h3, .learning-paths h3');
-    if (titleElement && this.shouldUpdateElement(titleElement)) {
-      titleElement.innerHTML = `<i class="${pathsData.icon}"></i> ${pathsData.title}`;
+    const sectionTitle = document.querySelector('.learning-paths-section h2');
+    if (sectionTitle && paths.title) {
+      sectionTitle.innerHTML = `<i class="fas fa-route"></i> ${paths.title}`;
     }
 
-    // Update subtitle if it exists
-    const subtitleElement = document.querySelector('#learning-paths .section-subtitle, .learning-paths .section-subtitle');
-    if (subtitleElement && pathsData.subtitle) {
-      subtitleElement.textContent = pathsData.subtitle;
-    }
+    // Update individual path cards (non-destructive)
+    paths.paths.forEach((path, index) => {
+      const pathCard = document.querySelectorAll('.learning-path-card')[index];
+      if (!pathCard) return;
+
+      const titleElement = pathCard.querySelector('h3');
+      if (titleElement && path.title) {
+        titleElement.textContent = path.title;
+      }
+
+      const descElement = pathCard.querySelector('p');
+      if (descElement && path.description) {
+        descElement.textContent = path.description;
+      }
+
+      // Update course tags if provided
+      if (path.courses) {
+        const tagsContainer = pathCard.querySelector('.path-courses');
+        if (tagsContainer) {
+          tagsContainer.innerHTML = path.courses.map(course => 
+            `<span class="course-tag">${course}</span>`
+          ).join('');
+        }
+      }
+    });
   }
 
   /**
-   * Update courses section headers
+   * Update courses section header
    */
   updateCoursesSection() {
     if (!this.isLoaded) return;
 
-    const coursesData = this.content.courses_section;
-    if (!coursesData) return;
+    const courses = this.content.courses_section;
+    if (!courses) return;
 
-    // Update section title
-    const titleElement = document.querySelector('#courses h3, .courses-section h3');
-    if (titleElement && this.shouldUpdateElement(titleElement)) {
-      titleElement.innerHTML = `<i class="${coursesData.icon}"></i> ${coursesData.title}`;
-    }
-
-    // Update subtitle
-    const subtitleElement = document.querySelector('#courses h3 + p, .courses-section h3 + p');
-    if (subtitleElement && this.shouldUpdateElement(subtitleElement)) {
-      subtitleElement.textContent = coursesData.subtitle;
-    }
-
-    // Update search placeholder
-    const searchInput = document.querySelector('#searchInput');
-    if (searchInput && (!searchInput.placeholder || searchInput.placeholder === '')) {
-      searchInput.placeholder = this.get('interface_text.labels.search_placeholder') || 'Search courses...';
+    const sectionTitle = document.querySelector('.courses-section h2');
+    if (sectionTitle && courses.title && courses.icon) {
+      sectionTitle.innerHTML = `<i class="${courses.icon}"></i> ${courses.title}`;
     }
   }
 
   /**
-   * Update labs section
+   * Update labs section header
    */
   updateLabsSection() {
     if (!this.isLoaded) return;
 
-    const labsData = this.content.labs_section;
-    if (!labsData) return;
+    const labs = this.content.labs_section;
+    if (!labs) return;
 
-    const titleElement = document.querySelector('#labs h3, .labs-section h3');
-    if (titleElement && this.shouldUpdateElement(titleElement)) {
-      titleElement.innerHTML = `<i class="${labsData.icon}"></i> ${labsData.title}`;
+    const sectionTitle = document.querySelector('.labs-section h2');
+    if (sectionTitle && labs.title && labs.icon) {
+      sectionTitle.innerHTML = `<i class="${labs.icon}"></i> ${labs.title}`;
     }
 
-    const subtitleElement = document.querySelector('#labs h3 + p, .labs-section h3 + p');
-    if (subtitleElement && this.shouldUpdateElement(subtitleElement)) {
-      subtitleElement.textContent = labsData.subtitle;
+    const subtitle = document.querySelector('.labs-section .section-header p');
+    if (subtitle && labs.subtitle) {
+      subtitle.textContent = labs.subtitle;
     }
   }
 
   /**
-   * Get interface text (fallback to key if not found)
+   * Update footer content (preserves existing structure)
    */
-  getInterfaceText(path, fallback = null) {
-    const text = this.get(`interface_text.${path}`);
-    return text || fallback || path.split('.').pop();
-  }
+  updateFooter() {
+    if (!this.isLoaded) return;
 
-  /**
-   * Format dynamic messages
-   */
-  formatMessage(messageKey, replacements = {}) {
-    if (!this.isLoaded) return messageKey;
-    
-    let message = this.get(`interface_text.messages.${messageKey}`) || messageKey;
-    
-    // Replace placeholders like {count} with actual values
-    Object.keys(replacements).forEach(key => {
-      message = message.replace(`{${key}}`, replacements[key]);
+    const footer = this.content.footer;
+    if (!footer || !footer.sections) return;
+
+    footer.sections.forEach((section, index) => {
+      const footerSection = document.querySelectorAll('.footer-section')[index];
+      if (!footerSection) return;
+
+      const titleElement = footerSection.querySelector('h4');
+      if (titleElement && section.title) {
+        titleElement.textContent = section.title;
+      }
+
+      // Update content safely
+      if (section.content) {
+        const contentContainer = footerSection.querySelector('p') || 
+                               footerSection.querySelector('ul') ||
+                               footerSection.querySelector('.contact-info');
+        
+        if (contentContainer && section.content[0]) {
+          if (section.content[0].includes('@') || section.content[0].includes('www.')) {
+            // Contact info
+            if (contentContainer.classList.contains('contact-info')) {
+              contentContainer.innerHTML = section.content.map(item => `<p>${item}</p>`).join('');
+            }
+          } else if (contentContainer.tagName === 'P') {
+            // Regular paragraph
+            contentContainer.textContent = section.content[0];
+          }
+        }
+      }
     });
-    
-    return message;
   }
 
   /**
@@ -269,6 +325,7 @@ class SimpleContentManager {
       this.updateLearningPaths();
       this.updateCoursesSection();
       this.updateLabsSection();
+      this.updateFooter();
       
       // Dispatch event for existing code to hook into
       window.dispatchEvent(new CustomEvent('contentManagerReady', { 
