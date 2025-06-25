@@ -1265,96 +1265,192 @@ if (document.readyState === 'loading') {
 }
 
 console.log('🎉 Clean FAB and comparison system loaded!');
-// ===== FIX FAB BUTTON FUNCTIONALITY =====
-function fixFABButtons() {
-  console.log('🔧 Fixing FAB button functionality...');
+// ===== WORKING FAB BUTTON & NOTIFICATION FIX =====
+function fixEverything() {
+  console.log('🔧 Fixing FAB buttons and notifications...');
   
-  // Remove any old FAB containers to avoid conflicts
-  const fabContainers = document.querySelectorAll('.fab-container');
-  if (fabContainers.length > 1) {
-    // Keep only the first one, remove others
-    for (let i = 1; i < fabContainers.length; i++) {
-      fabContainers[i].remove();
+  // STEP 1: Fix showNotification function to be visible
+  window.showNotification = function(message, type = 'info') {
+    console.log(`Showing notification: ${message} (${type})`);
+    
+    // Remove existing notifications
+    const existingNotifications = document.querySelectorAll('.notification');
+    existingNotifications.forEach(notification => notification.remove());
+    
+    // Create new notification
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    
+    // Set proper styling based on type
+    let backgroundColor, textColor;
+    switch(type) {
+      case 'success':
+        backgroundColor = '#10b981';
+        textColor = '#ffffff';
+        break;
+      case 'warning':
+        backgroundColor = '#f59e0b';
+        textColor = '#ffffff';
+        break;
+      case 'error':
+        backgroundColor = '#ef4444';
+        textColor = '#ffffff';
+        break;
+      default: // info
+        backgroundColor = '#3b82f6';
+        textColor = '#ffffff';
     }
-    console.log(`Removed ${fabContainers.length - 1} duplicate FAB containers`);
-  }
+    
+    notification.style.cssText = `
+      position: fixed !important;
+      top: 20px !important;
+      right: 20px !important;
+      background: ${backgroundColor} !important;
+      color: ${textColor} !important;
+      padding: 1rem 1.5rem !important;
+      border-radius: 8px !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+      z-index: 10000 !important;
+      font-weight: 500 !important;
+      font-size: 14px !important;
+      max-width: 300px !important;
+      word-wrap: break-word !important;
+    `;
+    
+    notification.innerHTML = `
+      <span style="color: ${textColor} !important; display: block; margin-bottom: 8px;">${message}</span>
+      <button onclick="this.parentElement.remove()" style="
+        background: rgba(255,255,255,0.2) !important;
+        border: none !important;
+        color: ${textColor} !important;
+        padding: 4px 8px !important;
+        border-radius: 4px !important;
+        cursor: pointer !important;
+        font-size: 12px !important;
+      ">✕ Close</button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+      if (notification.parentElement) {
+        notification.remove();
+      }
+    }, 5000);
+  };
   
-  // Ensure modal display function works
+  // STEP 2: Fix modal opening
   window.openModal = function(modalId) {
-    console.log(`Opening modal: ${modalId}`);
+    console.log(`Attempting to open modal: ${modalId}`);
     const modal = document.getElementById(modalId);
     if (modal) {
       modal.style.display = 'flex';
-      modal.classList.add('active');
+      modal.style.alignItems = 'center';
+      modal.style.justifyContent = 'center';
       document.body.style.overflow = 'hidden';
-      console.log(`✅ Modal ${modalId} opened successfully`);
+      console.log(`✅ Opened modal: ${modalId}`);
+      showNotification(`Opened ${modalId.replace('Modal', '')} form`, 'success');
     } else {
-      console.error(`❌ Modal ${modalId} not found`);
-      // List all available modals for debugging
-      const allModals = document.querySelectorAll('.modal');
-      console.log('Available modals:', Array.from(allModals).map(m => m.id));
+      console.error(`❌ Modal not found: ${modalId}`);
+      showNotification(`Could not find ${modalId}`, 'error');
+      
+      // Debug: show what modals exist
+      const allModals = document.querySelectorAll('[id*="Modal"], .modal');
+      console.log('Available modals:', Array.from(allModals).map(m => m.id || m.className));
     }
   };
   
-  // Ensure modal close function works  
   window.closeModal = function(modalId) {
-    console.log(`Closing modal: ${modalId}`);
     const modal = document.getElementById(modalId);
     if (modal) {
       modal.style.display = 'none';
-      modal.classList.remove('active');
       document.body.style.overflow = 'auto';
-      console.log(`✅ Modal ${modalId} closed successfully`);
+      console.log(`✅ Closed modal: ${modalId}`);
     }
   };
   
-  // Test if modals exist
-  const feedbackModal = document.getElementById('feedbackModal');
-  const suggestModal = document.getElementById('suggestModal');
-  const comparisonModal = document.getElementById('comparisonModal');
+  // STEP 3: Direct FAB button handlers (backup method)
+  window.handleFeedbackClick = function() {
+    console.log('🗨️ Feedback button clicked');
+    
+    // Try multiple modal IDs that might exist
+    const possibleIds = ['feedbackModal', 'feedback-modal', 'modal-feedback'];
+    let modalFound = false;
+    
+    for (let id of possibleIds) {
+      const modal = document.getElementById(id);
+      if (modal) {
+        modal.style.display = 'flex';
+        modal.style.alignItems = 'center';
+        modal.style.justifyContent = 'center';
+        document.body.style.overflow = 'hidden';
+        showNotification('Feedback form opened', 'success');
+        modalFound = true;
+        console.log(`✅ Opened feedback modal: ${id}`);
+        break;
+      }
+    }
+    
+    if (!modalFound) {
+      showNotification('Feedback form not found - please contact support', 'error');
+      console.error('❌ No feedback modal found');
+    }
+  };
   
-  console.log('Modal check:');
-  console.log('- feedbackModal:', feedbackModal ? '✅ Found' : '❌ Missing');
-  console.log('- suggestModal:', suggestModal ? '✅ Found' : '❌ Missing');
-  console.log('- comparisonModal:', comparisonModal ? '✅ Found' : '❌ Missing');
+  window.handleSuggestClick = function() {
+    console.log('💡 Suggest button clicked');
+    
+    // Try multiple modal IDs that might exist
+    const possibleIds = ['suggestModal', 'suggest-modal', 'modal-suggest'];
+    let modalFound = false;
+    
+    for (let id of possibleIds) {
+      const modal = document.getElementById(id);
+      if (modal) {
+        modal.style.display = 'flex';
+        modal.style.alignItems = 'center';
+        modal.style.justifyContent = 'center';
+        document.body.style.overflow = 'hidden';
+        showNotification('Suggestion form opened', 'success');
+        modalFound = true;
+        console.log(`✅ Opened suggestion modal: ${id}`);
+        break;
+      }
+    }
+    
+    if (!modalFound) {
+      showNotification('Suggestion form not found - please contact support', 'error');
+      console.error('❌ No suggestion modal found');
+    }
+  };
   
-  // Fix FAB button click handlers if needed
-  const fabButtons = document.querySelectorAll('.fab-btn');
-  fabButtons.forEach((btn, index) => {
-    console.log(`FAB Button ${index + 1}:`, btn.className, btn.getAttribute('onclick'));
-  });
+  // STEP 4: Update FAB buttons to use new handlers
+  setTimeout(() => {
+    const feedbackBtn = document.querySelector('.fab-btn.feedback');
+    const suggestBtn = document.querySelector('.fab-btn.suggest');
+    
+    if (feedbackBtn) {
+      feedbackBtn.onclick = window.handleFeedbackClick;
+      console.log('✅ Feedback button handler attached');
+    }
+    
+    if (suggestBtn) {
+      suggestBtn.onclick = window.handleSuggestClick;
+      console.log('✅ Suggest button handler attached');
+    }
+    
+    // Test notification
+    showNotification('FAB buttons are now working!', 'success');
+    
+  }, 1000);
   
-  console.log('✅ FAB button functionality fixed!');
+  console.log('✅ Everything fixed!');
 }
 
-// ===== ALTERNATIVE BACKUP FUNCTIONS =====
-// If openModal doesn't work, these will
-window.showFeedbackModal = function() {
-  console.log('Using backup feedback function');
-  const modal = document.getElementById('feedbackModal');
-  if (modal) {
-    modal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-  }
-};
+// Run the fix
+fixEverything();
+setTimeout(fixEverything, 2000);
+document.addEventListener('DOMContentLoaded', fixEverything);
 
-window.showSuggestModal = function() {
-  console.log('Using backup suggest function');
-  const modal = document.getElementById('suggestModal');
-  if (modal) {
-    modal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-  }
-};
-
-// ===== RUN THE FIX =====
-// Run immediately
-fixFABButtons();
-
-// Run again after a delay
-setTimeout(fixFABButtons, 2000);
-
-// Run when DOM changes
-document.addEventListener('DOMContentLoaded', fixFABButtons);
-
-console.log('🎉 FAB button fixes loaded!');
+console.log('🎉 Working FAB button and notification system loaded!');
