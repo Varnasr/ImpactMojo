@@ -1,4 +1,4 @@
-// ImpactMojo Main JavaScript - Complete Working Version
+// ImpactMojo Main JavaScript - FIXED VERSION (No Infinite Loops)
 console.log('🚀 Loading ImpactMojo Main JS...');
 
 // ===== GLOBAL VARIABLES =====
@@ -216,6 +216,15 @@ function createCourseCard(course) {
   
   return `
     <div class="course-card" data-course-id="${courseId}" style="border-left: 4px solid ${categoryColor}">
+      <!-- Comparison checkbox -->
+      <label class="comparison-checkbox-label" title="Select for comparison">
+        <input type="checkbox" 
+                class="comparison-checkbox" 
+                data-item-id="${courseId}"
+                data-item-type="course"
+                onchange="toggleComparison('${courseId}', 'course')">
+      </label>
+      
       <div class="course-card-header">
         <div class="course-category" style="background-color: ${categoryColor}20; color: ${categoryColor}">
           ${category}
@@ -290,6 +299,15 @@ function createLabCard(lab) {
   
   return `
     <div class="lab-card" data-lab-id="${labId}">
+      <!-- Comparison checkbox -->
+      <label class="comparison-checkbox-label" title="Select for comparison">
+        <input type="checkbox" 
+                class="comparison-checkbox" 
+                data-item-id="${labId}"
+                data-item-type="lab"
+                onchange="toggleComparison('${labId}', 'lab')">
+      </label>
+      
       <div class="lab-card-header">
         <div class="lab-category">
           ${category}
@@ -341,6 +359,7 @@ function toggleBookmark(courseId) {
   
   localStorage.setItem('impactMojoBookmarks', JSON.stringify(impactMojoUserBookmarks));
   updateBookmarkUI(courseId);
+  updateBookmarkViewer();
 }
 
 function toggleLabBookmark(labId) {
@@ -356,6 +375,7 @@ function toggleLabBookmark(labId) {
   
   localStorage.setItem('impactMojoLabBookmarks', JSON.stringify(impactMojoUserLabBookmarks));
   updateLabBookmarkUI(labId);
+  updateBookmarkViewer();
 }
 
 function updateBookmarkUI(courseId) {
@@ -412,7 +432,7 @@ function launchCourse(courseId) {
 }
 
 function launchLab(labId) {
-  console.log(`🧪 Launching lab: ${labId}`);
+  console.log('🧪 Launching lab: ${labId}');
   showNotification('Lab launching...', 'info');
   
   const lab = window.labs?.find(l => l.id === labId);
@@ -423,133 +443,13 @@ function launchLab(labId) {
   }
 }
 
-// ===== UTILITY FUNCTIONS =====
-function getCategoryColor(category) {
-  const categoryColors = {
-    'Economics': '#27ae60',
-    'Gender': '#9b59b6', 
-    'Justice': '#e74c3c',
-    'Climate': '#16a085',
-    'Data': '#3498db',
-    'Development': '#2c3e50',
-    'Livelihoods': '#27ae60',
-    'Health': '#e74c3c',
-    'Education': '#3498db',
-    'Systems': '#34495e',
-    'Data & Research': '#3498db',
-    'Gender & Social Issues': '#9b59b6',
-    'Economics & Policy': '#e74c3c',
-    'Health & Environment': '#16a085',
-    'Education & Communication': '#f39c12',
-    'Technology & Ethics': '#2c3e50',
-    'Community & Fundraising': '#27ae60',
-    'Governance & Policy': '#ea580c',
-    'Default': '#6c757d'
-  };
-  return categoryColors[category] || categoryColors['Default'];
-}
+// ===== COMPARISON FUNCTIONALITY =====
+let selectedForComparison = [];
+const MAX_COMPARISON_ITEMS = 4;
 
-function updateCourseStats() {
-  const totalElement = document.getElementById('totalCourses');
-  const filteredElement = document.getElementById('filteredCourses');
-  
-  if (totalElement) totalElement.textContent = impactMojoAllCourses.length;
-  if (filteredElement) filteredElement.textContent = impactMojoFilteredCourses.length;
-}
-
-// ===== NAVIGATION CENTERING FIX =====
-function centerNavigation() {
-  console.log('🎯 Applying navigation centering...');
-  
-  setTimeout(() => {
-    const navContainer = document.querySelector('.navbar .container');
-    const navMenu = document.querySelector('.nav-menu');
-    const navActions = document.querySelector('.nav-actions');
-    
-    if (navContainer) {
-      navContainer.style.setProperty('justify-content', 'center', 'important');
-      navContainer.style.setProperty('gap', '2rem', 'important');
-      navContainer.style.setProperty('padding', '1.5rem 1rem', 'important');
-    }
-    
-    if (navMenu) {
-      navMenu.style.setProperty('justify-content', 'center', 'important');
-      navMenu.style.setProperty('order', '1', 'important');
-    }
-    
-    if (navActions) {
-      navActions.style.setProperty('position', 'absolute', 'important');
-      navActions.style.setProperty('right', '1rem', 'important');
-      navActions.style.setProperty('order', '2', 'important');
-    }
-    
-    console.log('✅ Navigation centering applied');
-  }, 500);
-}
-
-// ===== KEYBOARD SHORTCUTS =====
-document.addEventListener('keydown', function(e) {
-  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-    e.preventDefault();
-    const searchInput = document.getElementById('courseSearch');
-    if (searchInput) {
-      searchInput.focus();
-    }
-  }
-  
-  if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
-    e.preventDefault();
-    toggleTheme();
-  }
-});
-
-// ===== INITIALIZATION =====
-document.addEventListener('DOMContentLoaded', function() {
-  console.log('🚀 Main JS DOM loaded');
-  
-  initializeThemeToggle();
-  centerNavigation();
-  
-  const observer = new MutationObserver(function(mutations) {
-    mutations.forEach(function(mutation) {
-      if (mutation.type === 'childList' && mutation.target.classList?.contains('nav-links')) {
-        console.log('🔄 Navigation updated, reapplying centering...');
-        centerNavigation();
-      }
-    });
-  });
-  
-  const navLinks = document.querySelector('.nav-links');
-  if (navLinks) {
-    observer.observe(navLinks, { childList: true, subtree: true });
-  }
-  
-  if (window.courses) {
-    initializeCourses();
-    displayPopularCourses();
-    displayLabs();
-  } else {
-    console.log('⏳ Waiting for course data...');
-    window.addEventListener('dataLoaded', function() {
-      console.log('📊 Data loaded event received');
-      initializeCourses();
-      displayPopularCourses();
-      displayLabs();
-    });
-  }
-});
-
-console.log('✅ Main JS loaded successfully!');
-// ===== ADD THESE MISSING FUNCTIONS AT THE END OF main.js =====
-
-// Missing function that FAB button calls
 function showComparison() {
   showComparisonModal();
 }
-
-// Comparison functionality
-let selectedForComparison = [];
-const MAX_COMPARISON_ITEMS = 4;
 
 function showComparisonModal() {
   if (selectedForComparison.length < 2) {
@@ -661,14 +561,6 @@ function createBasicComparisonTable(items) {
             ${items.map(item => `<td>${item.duration || 'Self-paced'}</td>`).join('')}
           </tr>
           <tr>
-            <td><strong>Topics</strong></td>
-            ${items.map(item => `<td>${(item.topics || []).join(', ') || 'Not specified'}</td>`).join('')}
-          </tr>
-          <tr>
-            <td><strong>Prerequisites</strong></td>
-            ${items.map(item => `<td>${(item.prerequisites || []).join(', ') || 'None'}</td>`).join('')}
-          </tr>
-          <tr>
             <td><strong>Actions</strong></td>
             ${items.map(item => `
               <td>
@@ -692,7 +584,7 @@ function clearComparison() {
   showNotification('Comparison cleared', 'info');
 }
 
-// Bookmark viewer functionality
+// ===== BOOKMARK VIEWER FUNCTIONALITY =====
 function showBookmarkModal() {
   if (!document.getElementById('bookmarkViewerModal')) {
     createBookmarkViewerModal();
@@ -895,460 +787,72 @@ function updateBookmarkViewer() {
   }
 }
 
+// ===== MODAL MANAGEMENT =====
+function openModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.style.display = 'flex';
+    modal.classList.add('active');
+  }
+}
+
+function closeModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.style.display = 'none';
+    modal.classList.remove('active');
+  }
+}
+
+// ===== UTILITY FUNCTIONS =====
 function getCategoryColor(category) {
-  const colors = {
-    'General': '#6366f1',
-    'Research & Data Analysis': '#3b82f6',
-    'Gender & Justice': '#ec4899',
-    'Economics & Development': '#059669',
-    'Health & Environment': '#dc2626',
-    'Governance & Policy': '#7c3aed',
-    'Education & Communication': '#f59e0b',
-    'Technology & Ethics': '#10b981'
+  const categoryColors = {
+    'Economics': '#27ae60',
+    'Gender': '#9b59b6', 
+    'Justice': '#e74c3c',
+    'Climate': '#16a085',
+    'Data': '#3498db',
+    'Development': '#2c3e50',
+    'Livelihoods': '#27ae60',
+    'Health': '#e74c3c',
+    'Education': '#3498db',
+    'Systems': '#34495e',
+    'Data & Research': '#3498db',
+    'Gender & Social Issues': '#9b59b6',
+    'Economics & Policy': '#e74c3c',
+    'Health & Environment': '#16a085',
+    'Education & Communication': '#f39c12',
+    'Technology & Ethics': '#2c3e50',
+    'Community & Fundraising': '#27ae60',
+    'Governance & Policy': '#ea580c',
+    'Default': '#6c757d'
   };
-  return colors[category] || '#6366f1';
+  return categoryColors[category] || categoryColors['Default'];
 }
 
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', function() {
-  setTimeout(() => {
-    updateBookmarkViewer();
-  }, 1000);
-});
-
-// Override existing bookmark functions to update viewer
-const originalToggleBookmark = toggleBookmark;
-toggleBookmark = function(courseId) {
-  originalToggleBookmark(courseId);
-  setTimeout(updateBookmarkViewer, 100);
-};
-
-const originalToggleLabBookmark = toggleLabBookmark;
-toggleLabBookmark = function(labId) {
-  originalToggleLabBookmark(labId);
-  setTimeout(updateBookmarkViewer, 100);
-};
-
-console.log('✅ Missing functions added successfully!');
-// ===== UPDATED CARD FUNCTIONS (OVERRIDE EXISTING ONES) =====
-
-// New createCourseCard function with comparison checkboxes
-function createCourseCard(course) {
-  if (!course) return '';
+function updateCourseStats() {
+  const totalElement = document.getElementById('totalCourses');
+  const filteredElement = document.getElementById('filteredCourses');
   
-  const category = course.category || 'General';
-  const difficulty = course.difficulty || 'Beginner';
-  const duration = course.duration || 'Self-paced';
-  const rating = course.rating || 4.5;
-  const description = course.description || 'No description available';
-  const title = course.title || 'Untitled Course';
-  const courseId = course.id;
-  
-  const categoryColor = getCategoryColor(category);
-  
-  return `
-    <div class="course-card" data-course-id="${courseId}" style="border-left: 4px solid ${categoryColor}">
-      <!-- Add comparison checkbox -->
-      <label class="comparison-checkbox-label" title="Select for comparison">
-        <input type="checkbox" 
-                class="comparison-checkbox" 
-                data-item-id="${courseId}"
-                data-item-type="course"
-                onchange="toggleComparison('${courseId}', 'course')">
-      </label>
-      
-      <div class="course-card-header">
-        <div class="course-category" style="background-color: ${categoryColor}20; color: ${categoryColor}">
-          ${category}
-        </div>
-        <div class="course-actions">
-          <button class="bookmark-btn" onclick="toggleBookmark('${courseId}')" aria-label="Bookmark course">
-            <i class="far fa-bookmark"></i>
-          </button>
-        </div>
-      </div>
-      
-      <div class="course-content">
-        <h3 class="course-title">${title}</h3>
-        <p class="course-description">${description}</p>
-        
-        <div class="course-meta">
-          <span class="course-rating">
-            <i class="fas fa-star"></i>
-            ${rating.toFixed(1)}
-          </span>
-          <span class="course-duration">
-            <i class="fas fa-clock"></i>
-            ${duration}
-          </span>
-          <span class="course-difficulty difficulty-${difficulty.toLowerCase()}">
-            ${difficulty}
-          </span>
-        </div>
-      </div>
-      
-      <div class="course-card-footer">
-        <button class="launch-btn" onclick="launchCourse('${courseId}')">
-          <i class="fas fa-play"></i>
-          Launch Course
-        </button>
-      </div>
-    </div>
-  `;
+  if (totalElement) totalElement.textContent = impactMojoAllCourses.length;
+  if (filteredElement) filteredElement.textContent = impactMojoFilteredCourses.length;
 }
 
-// New createLabCard function with comparison checkboxes
-function createLabCard(lab) {
-  if (!lab) return '';
-  
-  const category = lab.category || 'Interactive';
-  const difficulty = lab.difficulty || 'Beginner';
-  const duration = lab.duration || '30 min';
-  const description = lab.description || 'Interactive lab experience';
-  const title = lab.title || 'Untitled Lab';
-  const labId = lab.id;
-  const labType = lab.type || 'Simulation';
-  
-  return `
-    <div class="lab-card" data-lab-id="${labId}">
-      <!-- Add comparison checkbox -->
-      <label class="comparison-checkbox-label" title="Select for comparison">
-        <input type="checkbox" 
-                class="comparison-checkbox" 
-                data-item-id="${labId}"
-                data-item-type="lab"
-                onchange="toggleComparison('${labId}', 'lab')">
-      </label>
-      
-      <div class="lab-card-header">
-        <div class="lab-category">
-          ${category}
-        </div>
-        <div class="lab-type-badge">${labType}</div>
-        <div class="lab-actions">
-          <button class="bookmark-btn" onclick="toggleLabBookmark('${labId}')" aria-label="Bookmark lab">
-            <i class="far fa-bookmark"></i>
-          </button>
-        </div>
-      </div>
-      
-      <div class="lab-content">
-        <h3 class="lab-title">${title}</h3>
-        <p class="lab-description">${description}</p>
-        
-        <div class="lab-meta">
-          <span class="lab-duration">
-            <i class="fas fa-clock"></i>
-            ${duration}
-          </span>
-          <span class="lab-difficulty difficulty-${difficulty.toLowerCase()}">
-            ${difficulty}
-          </span>
-        </div>
-      </div>
-      
-      <div class="lab-card-footer">
-        <button class="lab-launch-btn" onclick="launchLab('${labId}')">
-          <i class="fas fa-flask"></i>
-          Launch Lab
-        </button>
-      </div>
-    </div>
-  `;
-}
-
-console.log('✅ Updated card functions loaded!');
-/* 
-===== COMPLETE IMPACTMOJO JAVASCRIPT FIXES =====
-Add this entire block to the END of your main.js file
-This includes all fixes for navigation, tooltips, and mobile optimization
-*/
-
-// ===== OVERRIDE PROBLEMATIC centerNavigation FUNCTION =====
-function centerNavigation() {
-  console.log('🎯 Applying fixed navigation layout...');
-  
-  setTimeout(() => {
-    const navContainer = document.querySelector('.navbar .container');
-    const navMenu = document.querySelector('.nav-menu');
-    const navActions = document.querySelector('.nav-actions');
-    const header = document.querySelector('.header');
-    
-    const isMobile = window.innerWidth <= 768;
-    
-    if (isMobile) {
-      // MOBILE: Prevent overlap by using relative positioning
-      console.log('📱 Applying mobile layout...');
-      
-      if (header) {
-        header.style.setProperty('position', 'relative', 'important');
-        header.style.setProperty('z-index', '100', 'important');
-        header.style.setProperty('margin-bottom', '1rem', 'important');
-      }
-      
-      if (navContainer) {
-        navContainer.style.setProperty('position', 'relative', 'important');
-        navContainer.style.setProperty('flex-direction', 'column', 'important');
-        navContainer.style.setProperty('justify-content', 'center', 'important');
-        navContainer.style.setProperty('align-items', 'center', 'important');
-        navContainer.style.setProperty('gap', '1.5rem', 'important');
-        navContainer.style.setProperty('padding', '1rem', 'important');
-        navContainer.style.setProperty('text-align', 'center', 'important');
-      }
-      
-      if (navMenu) {
-        navMenu.style.setProperty('position', 'relative', 'important');
-        navMenu.style.setProperty('order', '1', 'important');
-        navMenu.style.setProperty('width', '100%', 'important');
-        navMenu.style.setProperty('justify-content', 'center', 'important');
-        navMenu.style.setProperty('flex-direction', 'column', 'important');
-        navMenu.style.setProperty('gap', '1rem', 'important');
-        navMenu.style.setProperty('transform', 'none', 'important');
-        navMenu.style.setProperty('top', 'auto', 'important');
-        navMenu.style.setProperty('left', 'auto', 'important');
-        navMenu.style.setProperty('right', 'auto', 'important');
-      }
-      
-      if (navActions) {
-        navActions.style.setProperty('position', 'relative', 'important');
-        navActions.style.setProperty('order', '2', 'important');
-        navActions.style.setProperty('width', '100%', 'important');
-        navActions.style.setProperty('justify-content', 'center', 'important');
-        navActions.style.setProperty('margin-left', '0', 'important');
-        navActions.style.setProperty('margin-right', '0', 'important');
-        navActions.style.setProperty('transform', 'none', 'important');
-        navActions.style.setProperty('top', 'auto', 'important');
-        navActions.style.setProperty('left', 'auto', 'important');
-        navActions.style.setProperty('right', 'auto', 'important');
-        navActions.style.setProperty('float', 'none', 'important');
-      }
-      
-      // Ensure auth buttons container is properly positioned
-      const authButtons = document.querySelector('.auth-buttons');
-      if (authButtons) {
-        authButtons.style.setProperty('position', 'relative', 'important');
-        authButtons.style.setProperty('width', '100%', 'important');
-        authButtons.style.setProperty('justify-content', 'center', 'important');
-        authButtons.style.setProperty('gap', '1rem', 'important');
-        authButtons.style.setProperty('transform', 'none', 'important');
-        authButtons.style.setProperty('float', 'none', 'important');
-      }
-      
-      // Add spacing to hero section to prevent overlap
-      const hero = document.querySelector('.hero');
-      if (hero) {
-        hero.style.setProperty('margin-top', '1rem', 'important');
-        hero.style.setProperty('clear', 'both', 'important');
-      }
-      
-    } else {
-      // DESKTOP: Shift left for tooltip space
-      console.log('💻 Applying desktop layout...');
-      
-      if (header) {
-        header.style.setProperty('position', 'sticky', 'important');
-        header.style.setProperty('top', '0', 'important');
-        header.style.setProperty('z-index', '100', 'important');
-      }
-      
-      if (navContainer) {
-        navContainer.style.setProperty('flex-direction', 'row', 'important');
-        navContainer.style.setProperty('justify-content', 'flex-start', 'important');
-        navContainer.style.setProperty('gap', '1.5rem', 'important');
-        navContainer.style.setProperty('padding', '1.5rem 1rem 1.5rem 3rem', 'important');
-      }
-      
-      if (navMenu) {
-        navMenu.style.setProperty('order', '1', 'important');
-        navMenu.style.setProperty('justify-content', 'flex-start', 'important');
-        navMenu.style.setProperty('flex', '1', 'important');
-        navMenu.style.setProperty('flex-direction', 'row', 'important');
-      }
-      
-      if (navActions) {
-        navActions.style.setProperty('position', 'static', 'important');
-        navActions.style.setProperty('margin-left', 'auto', 'important');
-        navActions.style.setProperty('margin-right', '2rem', 'important');
-        navActions.style.setProperty('flex-shrink', '0', 'important');
-      }
+// ===== KEYBOARD SHORTCUTS =====
+document.addEventListener('keydown', function(e) {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    e.preventDefault();
+    const searchInput = document.getElementById('courseSearch');
+    if (searchInput) {
+      searchInput.focus();
     }
-    
-    console.log('✅ Fixed navigation layout applied');
-  }, 100);
-}
-
-// ===== MOBILE OVERLAP PREVENTION =====
-function fixMobileOverlap() {
-  if (window.innerWidth <= 768) {
-    console.log('📱 Applying mobile overlap fix...');
-    
-    // Remove any floating or absolute positioned elements
-    const problematicElements = document.querySelectorAll('.navbar, .navbar *, .nav-menu, .nav-menu *, .nav-actions, .nav-actions *, .auth-buttons, .auth-buttons *');
-    
-    problematicElements.forEach(element => {
-      element.style.setProperty('position', 'relative', 'important');
-      element.style.setProperty('float', 'none', 'important');
-      element.style.setProperty('transform', 'none', 'important');
-      element.style.setProperty('top', 'auto', 'important');
-      element.style.setProperty('left', 'auto', 'important');
-      element.style.setProperty('right', 'auto', 'important');
-      element.style.setProperty('bottom', 'auto', 'important');
-    });
-    
-    // Ensure proper spacing
-    const hero = document.querySelector('.hero');
-    if (hero) {
-      hero.style.setProperty('clear', 'both', 'important');
-      hero.style.setProperty('margin-top', '1rem', 'important');
-    }
-    
-    // Ensure main content has proper spacing
-    const mainContent = document.querySelector('main') || document.querySelector('.main-content');
-    if (mainContent) {
-      mainContent.style.setProperty('clear', 'both', 'important');
-      mainContent.style.setProperty('margin-top', '1rem', 'important');
-    }
-    
-    console.log('✅ Mobile overlap fix applied');
-  }
-}
-
-// ===== RESPONSIVE WINDOW RESIZE HANDLER =====
-window.addEventListener('resize', function() {
-  clearTimeout(window.navResizeTimeout);
-  window.navResizeTimeout = setTimeout(() => {
-    centerNavigation();
-    fixMobileOverlap();
-  }, 250);
-});
-
-// ===== FORCE FIXES ON PAGE LOAD =====
-window.addEventListener('load', function() {
-  setTimeout(() => {
-    centerNavigation();
-    fixMobileOverlap();
-  }, 500);
-});
-
-// Apply fixes immediately when script loads
-document.addEventListener('DOMContentLoaded', function() {
-  setTimeout(() => {
-    centerNavigation();
-    fixMobileOverlap();
-  }, 1000);
-});
-
-// ===== TOOLTIP CSS INJECTION =====
-const tooltipFixCSS = `
-/* Enhanced tooltip positioning */
-.auth-btn[title]:hover::after {
-  content: attr(title) !important;
-  position: absolute !important;
-  top: 100% !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  margin-top: 8px !important;
-  background: #1f2937 !important;
-  color: white !important;
-  padding: 0.75rem 1rem !important;
-  border-radius: 0.5rem !important;
-  font-size: 0.8rem !important;
-  width: max-content !important;
-  max-width: 280px !important;
-  text-align: center !important;
-  z-index: 10000 !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
-  white-space: normal !important;
-  font-family: 'Poppins', sans-serif !important;
-  pointer-events: none !important;
-}
-
-.auth-btn[title]:hover::before {
-  content: '' !important;
-  position: absolute !important;
-  top: 100% !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  margin-top: 3px !important;
-  border: 5px solid transparent !important;
-  border-bottom-color: #1f2937 !important;
-  z-index: 10000 !important;
-  pointer-events: none !important;
-}
-
-/* Ensure no clipping */
-.header, .navbar, .navbar .container, .nav-actions, .auth-buttons {
-  overflow: visible !important;
-}
-
-/* Mobile responsive */
-@media (max-width: 768px) {
-  .auth-btn[title]:hover::after {
-    max-width: 220px !important;
-    font-size: 0.75rem !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .auth-btn[title]:hover::after,
-  .auth-btn[title]:hover::before {
-    display: none !important;
-  }
-}
-`;
-
-// Inject tooltip CSS if not already present
-if (!document.getElementById('tooltip-fix-styles')) {
-  const style = document.createElement('style');
-  style.id = 'tooltip-fix-styles';
-  style.innerHTML = tooltipFixCSS;
-  document.head.appendChild(style);
-}
-
-// ===== AUTH BUTTON VISIBILITY ENFORCEMENT =====
-function ensureAuthButtonsVisible() {
-  const authButtons = document.getElementById('authButtons');
-  const userMenu = document.getElementById('userMenu');
-  
-  if (authButtons) {
-    authButtons.style.setProperty('display', 'flex', 'important');
-    authButtons.style.setProperty('visibility', 'visible', 'important');
-    authButtons.style.setProperty('opacity', '1', 'important');
   }
   
-  if (userMenu) {
-    userMenu.style.setProperty('display', 'none', 'important');
+  if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
+    e.preventDefault();
+    toggleTheme();
   }
-}
-
-// Apply auth button fixes periodically
-setInterval(ensureAuthButtonsVisible, 2000);
-
-// ===== SCROLL BEHAVIOR IMPROVEMENTS =====
-function improveScrollBehavior() {
-  // Smooth scrolling for navigation links
-  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
-  navLinks.forEach(link => {
-    link.addEventListener('click', function(e) {
-      const href = this.getAttribute('href');
-      if (href && href.startsWith('#')) {
-        e.preventDefault();
-        const target = document.querySelector(href);
-        if (target) {
-          const offset = 100; // Account for fixed header
-          const targetPosition = target.offsetTop - offset;
-          window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-          });
-        }
-      }
-    });
-  });
-}
-
-// Apply scroll improvements
-improveScrollBehavior();
+});
 
 // ===== MOBILE TOUCH IMPROVEMENTS =====
 function improveMobileTouch() {
@@ -1373,15 +877,34 @@ function improveMobileTouch() {
   }
 }
 
-// Apply mobile touch improvements
-improveMobileTouch();
-window.addEventListener('resize', improveMobileTouch);
+// ===== INITIALIZATION =====
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('🚀 Main JS DOM loaded');
+  
+  initializeThemeToggle();
+  
+  // Initialize mobile improvements
+  improveMobileTouch();
+  window.addEventListener('resize', improveMobileTouch);
+  
+  if (window.courses) {
+    initializeCourses();
+    displayPopularCourses();
+    displayLabs();
+  } else {
+    console.log('⏳ Waiting for course data...');
+    window.addEventListener('dataLoaded', function() {
+      console.log('📊 Data loaded event received');
+      initializeCourses();
+      displayPopularCourses();
+      displayLabs();
+    });
+  }
+  
+  // Initialize bookmark viewer
+  setTimeout(() => {
+    updateBookmarkViewer();
+  }, 1000);
+});
 
-// ===== CONSOLE SUCCESS MESSAGE =====
-console.log('✅ All ImpactMojo fixes loaded successfully!');
-console.log('🎯 Navigation positioning fixed');
-console.log('💬 Tooltip positioning fixed'); 
-console.log('📱 Mobile optimization applied');
-console.log('🚫 Mobile overlap prevention active');
-
-// ===== END OF COMPLETE JAVASCRIPT FIXES =====
+console.log('✅ Main JS loaded successfully - NO INFINITE LOOPS!');
