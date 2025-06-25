@@ -908,3 +908,26 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 console.log('✅ Main JS loaded successfully - NO INFINITE LOOPS!');
+// ===== COMPARISON FAB BUTTON UPDATE =====
+function updateComparisonUI() {
+  // Update all comparison checkboxes
+  document.querySelectorAll('.comparison-checkbox').forEach(checkbox => {
+    const itemId = checkbox.dataset.itemId;
+    const itemType = checkbox.dataset.itemType;
+    const itemKey = `${itemType}-${itemId}`;
+    checkbox.checked = selectedForComparison.some(item => item.key === itemKey);
+  });
+  
+  // Update FAB button visibility - FIXED
+  const compareFab = document.querySelector('.fab-btn.compare');
+  if (compareFab) {
+    if (selectedForComparison.length > 1) {
+      compareFab.style.display = 'flex'; // Changed from 'block' to 'flex'
+      compareFab.title = `Compare ${selectedForComparison.length} items`;
+    } else {
+      compareFab.style.display = 'none';
+    }
+  }
+}
+
+console.log('✅ Comparison FAB button update added!');
