@@ -725,3 +725,378 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ===== END: Enhanced Filter Functions =====
+// ===== START: Comparison Feature =====
+
+// Global comparison state
+let selectedForComparison = [];
+const MAX_COMPARISON_ITEMS = 4;
+
+// Add item to comparison
+function addToComparison(id, type, item) {
+  // Check if already selected
+  const existingIndex = selectedForComparison.findIndex(selected => selected.id === id && selected.type === type);
+  
+  if (existingIndex !== -1) {
+    // Remove if already selected
+    selectedForComparison.splice(existingIndex, 1);
+    updateComparisonCheckbox(id, type, false);
+    showNotification('Removed from comparison', 'info');
+  } else {
+    // Check limit
+    if (selectedForComparison.length >= MAX_COMPARISON_ITEMS) {
+      showNotification(`Maximum ${MAX_COMPARISON_ITEMS} items can be compared`, 'warning');
+      return;
+    }
+    
+    // Add to comparison
+    selectedForComparison.push({
+      id: id,
+      type: type, // 'course' or 'lab'
+      item: item
+    });
+    updateComparisonCheckbox(id, type, true);
+    showNotification('Added to comparison', 'success');
+  }
+  
+  updateComparisonButton();
+  updateComparisonCounter();
+}
+
+// Update checkbox state
+function updateComparisonCheckbox(id, type, isSelected) {
+  const checkbox = document.querySelector(`[data-compare-id="${id}"][data-compare-type="${type}"]`);
+  if (checkbox) {
+    checkbox.checked = isSelected;
+  }
+}
+
+// Update comparison button visibility and state
+function updateComparisonButton() {
+  let compareBtn = document.getElementById('compareSelectedBtn');
+  
+  if (!compareBtn) {
+    // Create comparison button if it doesn't exist
+    compareBtn = document.createElement('button');
+    compareBtn.id = 'compareSelectedBtn';
+    compareBtn.className = 'compare-floating-btn';
+    compareBtn.innerHTML = '<i class="fas fa-balance-scale"></i> Compare (<span id="compareCount">0</span>)';
+    compareBtn.onclick = openComparisonModal;
+    document.body.appendChild(compareBtn);
+  }
+  
+  if (selectedForComparison.length >= 2) {
+    compareBtn.style.display = 'block';
+    compareBtn.classList.add('visible');
+  } else {
+    compareBtn.style.display = 'none';
+    compareBtn.classList.remove('visible');
+  }
+}
+
+// Update comparison counter
+function updateComparisonCounter() {
+  const countSpan = document.getElementById('compareCount');
+  if (countSpan) {
+    countSpan.textContent = selectedForComparison.length;
+  }
+}
+
+// Open comparison modal
+function openComparisonModal() {
+  if (selectedForComparison.length < 2) {
+    showNotification('Select at least 2 items to compare', 'warning');
+    return;
+  }
+  
+  createComparisonModal();
+  populateComparisonModal();
+  
+  const modal = document.getElementById('comparisonModal');
+  if (modal) {
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+// Close comparison modal
+function closeComparisonModal() {
+  const modal = document.getElementById('comparisonModal');
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+  }
+}
+
+// Clear all comparisons
+function clearAllComparisons() {
+  selectedForComparison = [];
+  
+  document.querySelectorAll('.comparison-checkbox').forEach(checkbox => {
+    checkbox.checked = false;
+  });
+  
+  updateComparisonButton();
+  updateComparisonCounter();
+  closeComparisonModal();
+  
+  showNotification('Comparison cleared', 'info');
+}
+
+// Create comparison modal HTML
+function createComparisonModal() {
+  const existingModal = document.getElementById('comparisonModal');
+  if (existingModal) {
+    existingModal.remove();
+  }
+  
+  const modal = document.createElement('div');
+  modal.id = 'comparisonModal';
+  modal.className = 'comparison-modal';
+  
+  modal.innerHTML = `
+    <div class="comparison-modal-content">
+      <div class="comparison-header">
+        <h2><i class="fas fa-balance-scale"></i> Compare Items</h2>
+        <div class="comparison-actions">
+          <button class="btn-secondary" onclick="clearAllComparisons()">
+            <i class="fas fa-trash"></i> Clear All
+          </button>
+          <button class="btn-close" onclick="closeComparisonModal()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <div class="comparison-content" id="comparisonContent"></div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) {
+      closeComparisonModal();
+    }
+  });
+}
+
+// Populate comparison modal with selected items
+function populateComparisonModal() {
+  const content = document.getElementById('comparisonContent');
+  if (!content) return;
+  
+  const table = document.createElement('div');
+  table.className = 'comparison-table';
+  table.style.setProperty('--comparison-items', selectedForComparison.length);
+  
+  // Create header row
+  const headerRow = document.createElement('div');
+  headerRow.className = 'comparison-row comparison-header-row';
+  headerRow.style.gridTemplateColumns = `200px repeat(${selectedForComparison.length}, 1fr)`;
+  headerRow.innerHTML = '<div class="comparison-cell comparison-label">Feature</div>';
+  
+  selectedForComparison.forEach(selected => {
+    const headerCell = document.createElement('div');
+    headerCell.className = 'comparison-cell comparison-item-header';
+    headerCell.innerHTML = `
+      <div class="item-type-badge ${selected.type}">${selected.type === 'course' ? 'Course' : 'Lab'}</div>
+      <h3>${selected.item.title}</h3>
+      <button class="remove-from-comparison" onclick="removeFromComparison('${selected.id}', '${selected.type}')" title="Remove from comparison">
+        <i class="fas fa-times"></i>
+      </button>
+    `;
+    headerRow.appendChild(headerCell);
+  });
+  
+  table.appendChild(headerRow);
+  
+  // Create comparison rows
+  const comparisonRows = [
+    {
+      label: 'Description',
+      getValue: (item) => item.description || 'No description available'
+    },
+    {
+      label: 'Category',
+      getValue: (item) => item.category || 'Not specified'
+    },
+    {
+      label: 'Level/Difficulty',
+      getValue: (item) => item.difficulty || item.complexity || 'Not specified'
+    },
+    {
+      label: 'Duration',
+      getValue: (item) => {
+        if (item.duration) return item.duration + ' hours';
+        if (item.estimatedTime) return item.estimatedTime + ' hours';
+        return 'Not specified';
+      }
+    },
+    {
+      label: 'Type',
+      getValue: (item, type) => {
+        if (type === 'course') return 'Educational Course';
+        return item.labType || 'Interactive Tool';
+      }
+    }
+  ];
+  
+  comparisonRows.forEach(row => {
+    const comparisonRow = document.createElement('div');
+    comparisonRow.className = 'comparison-row';
+    comparisonRow.style.gridTemplateColumns = `200px repeat(${selectedForComparison.length}, 1fr)`;
+    
+    const labelCell = document.createElement('div');
+    labelCell.className = 'comparison-cell comparison-label';
+    labelCell.textContent = row.label;
+    comparisonRow.appendChild(labelCell);
+    
+    selectedForComparison.forEach(selected => {
+      const valueCell = document.createElement('div');
+      valueCell.className = 'comparison-cell comparison-value';
+      const value = row.getValue(selected.item, selected.type);
+      valueCell.innerHTML = `<div class="comparison-text">${value}</div>`;
+      comparisonRow.appendChild(valueCell);
+    });
+    
+    table.appendChild(comparisonRow);
+  });
+  
+  // Add action buttons row
+  const actionRow = document.createElement('div');
+  actionRow.className = 'comparison-row comparison-actions-row';
+  actionRow.style.gridTemplateColumns = `200px repeat(${selectedForComparison.length}, 1fr)`;
+  actionRow.innerHTML = '<div class="comparison-cell comparison-label">Actions</div>';
+  
+  selectedForComparison.forEach(selected => {
+    const actionCell = document.createElement('div');
+    actionCell.className = 'comparison-cell comparison-actions';
+    
+    if (selected.type === 'course') {
+      actionCell.innerHTML = `
+        <button class="btn-primary" onclick="launchCourse('${selected.id}')">
+          <i class="fas fa-play"></i> Launch Course
+        </button>
+      `;
+    } else {
+      actionCell.innerHTML = `
+        <button class="btn-success" onclick="launchLab('${selected.id}')">
+          <i class="fas fa-play"></i> Launch Lab
+        </button>
+      `;
+    }
+    
+    actionRow.appendChild(actionCell);
+  });
+  
+  table.appendChild(actionRow);
+  content.appendChild(table);
+}
+
+// Remove item from comparison
+function removeFromComparison(id, type) {
+  const index = selectedForComparison.findIndex(selected => selected.id === id && selected.type === type);
+  if (index !== -1) {
+    selectedForComparison.splice(index, 1);
+    updateComparisonCheckbox(id, type, false);
+    updateComparisonButton();
+    updateComparisonCounter();
+    
+    if (selectedForComparison.length < 2) {
+      closeComparisonModal();
+    } else {
+      populateComparisonModal();
+    }
+    
+    showNotification('Removed from comparison', 'info');
+  }
+}
+
+// Add comparison checkboxes to existing cards
+function addComparisonCheckboxesToExistingCards() {
+  document.querySelectorAll('.course-card').forEach(card => {
+    if (card.querySelector('.comparison-checkbox')) return;
+    
+    const courseId = card.dataset.courseId || card.getAttribute('data-course-id');
+    if (!courseId) return;
+    
+    const checkbox = document.createElement('div');
+    checkbox.className = 'comparison-checkbox-container';
+    checkbox.innerHTML = `
+      <input 
+        type="checkbox" 
+        class="comparison-checkbox" 
+        data-compare-id="${courseId}" 
+        data-compare-type="course"
+        onchange="handleComparisonCheckbox(this)"
+      >
+      <label class="comparison-label">Compare</label>
+    `;
+    
+    card.style.position = 'relative';
+    card.insertBefore(checkbox, card.firstChild);
+  });
+  
+  document.querySelectorAll('.lab-card').forEach(card => {
+    if (card.querySelector('.comparison-checkbox')) return;
+    
+    const labId = card.dataset.labId || card.getAttribute('data-lab-id');
+    if (!labId) return;
+    
+    const checkbox = document.createElement('div');
+    checkbox.className = 'comparison-checkbox-container';
+    checkbox.innerHTML = `
+      <input 
+        type="checkbox" 
+        class="comparison-checkbox" 
+        data-compare-id="${labId}" 
+        data-compare-type="lab"
+        onchange="handleComparisonCheckbox(this)"
+      >
+      <label class="comparison-label">Compare</label>
+    `;
+    
+    card.style.position = 'relative';
+    card.insertBefore(checkbox, card.firstChild);
+  });
+}
+
+// Handle checkbox change
+function handleComparisonCheckbox(checkbox) {
+  const id = checkbox.getAttribute('data-compare-id');
+  const type = checkbox.getAttribute('data-compare-type');
+  
+  let item;
+  if (type === 'course') {
+    item = (window.impactMojoAllCourses || window.courses || []).find(course => course.id === id);
+  } else {
+    item = (window.labs || []).find(lab => lab.id === id);
+  }
+  
+  if (item) {
+    addToComparison(id, type, item);
+  }
+}
+
+// Initialize comparison feature
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('🔍 Initializing comparison feature...');
+  setTimeout(() => {
+    addComparisonCheckboxesToExistingCards();
+  }, 1000);
+});
+
+// Keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+  if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'C') {
+    e.preventDefault();
+    if (selectedForComparison.length >= 2) {
+      openComparisonModal();
+    }
+  }
+  
+  if (e.key === 'Escape') {
+    closeComparisonModal();
+  }
+});
+
+// ===== END: Comparison Feature =====
