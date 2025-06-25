@@ -11,7 +11,7 @@ let selectedLabs = [];
 let userBookmarks = JSON.parse(localStorage.getItem('userBookmarks')) || [];
 let userLabBookmarks = JSON.parse(localStorage.getItem('userLabBookmarks')) || [];
 
-// ===== WORKING THEME TOGGLE (FIXED) =====
+// ===== WORKING THEME TOGGLE =====
 function toggleTheme() {
   console.log('🎨 Toggling theme...');
   
@@ -60,21 +60,19 @@ function initializeThemeToggle() {
 
 // ===== NOTIFICATION SYSTEM =====
 function showNotification(message, type = 'info') {
-  const container = document.getElementById('notificationContainer') || createNotificationContainer();
+  // Remove existing notifications
+  const existingNotifications = document.querySelectorAll('.notification');
+  existingNotifications.forEach(notification => notification.remove());
   
+  // Create new notification
   const notification = document.createElement('div');
-  notification.className = `notification notification-${type}`;
+  notification.className = `notification ${type}`;
   notification.innerHTML = `
-    <div class="notification-content">
-      <i class="fas fa-${getNotificationIcon(type)}"></i>
-      <span>${message}</span>
-    </div>
-    <button class="notification-close" onclick="this.parentElement.remove()">
-      <i class="fas fa-times"></i>
-    </button>
+    <span>${message}</span>
+    <button onclick="this.parentElement.remove()">&times;</button>
   `;
   
-  container.appendChild(notification);
+  document.body.appendChild(notification);
   
   // Auto remove after 5 seconds
   setTimeout(() => {
@@ -84,25 +82,7 @@ function showNotification(message, type = 'info') {
   }, 5000);
 }
 
-function createNotificationContainer() {
-  const container = document.createElement('div');
-  container.id = 'notificationContainer';
-  container.className = 'notification-container';
-  document.body.appendChild(container);
-  return container;
-}
-
-function getNotificationIcon(type) {
-  const icons = {
-    success: 'check-circle',
-    error: 'exclamation-circle',
-    warning: 'exclamation-triangle',
-    info: 'info-circle'
-  };
-  return icons[type] || 'info-circle';
-}
-
-// ===== FIXED COURSE INITIALIZATION =====
+// ===== COURSE INITIALIZATION =====
 function initializeCourses() {
   console.log('📚 Initializing courses...');
   
@@ -128,7 +108,7 @@ function initializeCourses() {
   }
 }
 
-// ===== FIXED POPULAR COURSES FUNCTIONALITY =====
+// ===== POPULAR COURSES FUNCTIONALITY =====
 function displayPopularCourses() {
   const container = document.getElementById('popularCoursesContainer');
   
@@ -139,25 +119,32 @@ function displayPopularCourses() {
   
   // Wait for courses to be loaded
   if (!allCourses || allCourses.length === 0) {
-    container.innerHTML = '<div class="loading">Loading popular courses...</div>';
+    container.innerHTML = '<div class="loading" style="text-align: center; padding: 2rem; color: var(--text-secondary);">Loading popular courses...</div>';
     setTimeout(displayPopularCourses, 500);
     return;
   }
   
-  // Get popular courses (highest rated)
-  const popularCourseIds = ['gender-studies-101', 'dev-econ-101', 'research-ethics-101', 'public-health-101', 'data-literacy-101'];
-  const popularItems = popularCourseIds.map(id => 
-    allCourses.find(course => course && course.id === id)
-  ).filter(item => item);
+  // Get popular courses by filtering for specific titles or taking first few
+  let popularItems = allCourses.filter(course => 
+    course && (
+      course.title?.toLowerCase().includes('gender') ||
+      course.title?.toLowerCase().includes('development economics') ||
+      course.title?.toLowerCase().includes('research ethics') ||
+      course.title?.toLowerCase().includes('public health') ||
+      course.title?.toLowerCase().includes('data literacy')
+    )
+  );
+  
+  // If no matches found, take first 6 courses
+  if (popularItems.length === 0) {
+    popularItems = allCourses.slice(0, 6);
+  } else {
+    popularItems = popularItems.slice(0, 6);
+  }
   
   // Add some labs if available
   if (window.labs && window.labs.length > 0) {
-    popularItems.push(...window.labs.slice(0, 2));
-  }
-  
-  if (popularItems.length === 0) {
-    container.innerHTML = '<div class="no-results">Loading popular content...</div>';
-    return;
+    popularItems = [...popularItems.slice(0, 4), ...window.labs.slice(0, 2)];
   }
 
   container.innerHTML = popularItems.map(item => {
@@ -177,7 +164,7 @@ function displayPopularCourses() {
   }, 100);
 }
 
-// ===== FIXED COURSE DISPLAY FUNCTIONS =====
+// ===== COURSE DISPLAY FUNCTIONS =====
 function displayCourses() {
   const container = document.getElementById('coursesContainer');
   
@@ -187,7 +174,7 @@ function displayCourses() {
   }
   
   if (!filteredCourses || filteredCourses.length === 0) {
-    container.innerHTML = '<div class="no-results">No courses found matching your criteria.</div>';
+    container.innerHTML = '<div class="no-results" style="text-align: center; padding: 2rem; color: var(--text-secondary);">No courses found matching your criteria.</div>';
     return;
   }
 
@@ -202,7 +189,7 @@ function displayCourses() {
   setTimeout(updateAllBookmarkUI, 100);
 }
 
-// ===== FIXED COURSE CARD CREATION =====
+// ===== COURSE CARD CREATION =====
 function createCourseCard(course) {
   if (!course || !course.id) {
     console.warn('Invalid course data:', course);
@@ -228,10 +215,6 @@ function createCourseCard(course) {
           ${category}
         </div>
         <div class="course-actions">
-          <label class="comparison-checkbox">
-            <input type="checkbox" onchange="toggleCourseSelection('${courseId}')" aria-label="Select for comparison">
-            <span class="checkmark"></span>
-          </label>
           <button class="bookmark-btn" onclick="toggleBookmark('${courseId}')" aria-label="Bookmark course">
             <i class="far fa-bookmark"></i>
           </button>
@@ -267,7 +250,7 @@ function createCourseCard(course) {
   `;
 }
 
-// ===== FIXED LAB DISPLAY FUNCTIONS =====
+// ===== LAB DISPLAY FUNCTIONS =====
 function displayLabs() {
   const container = document.getElementById('labsContainer');
   
@@ -277,7 +260,7 @@ function displayLabs() {
   }
   
   if (!window.labs || window.labs.length === 0) {
-    container.innerHTML = '<div class="no-results">Labs will be available soon...</div>';
+    container.innerHTML = '<div class="no-results" style="text-align: center; padding: 2rem; color: var(--text-secondary);">Interactive labs will be available soon...</div>';
     return;
   }
 
@@ -355,7 +338,7 @@ function filterCourses(searchTerm = '') {
   console.log(`Filtered to ${filteredCourses.length} courses`);
 }
 
-function clearAllFilters() {
+function clearFilters() {
   document.getElementById('courseSearch').value = '';
   document.getElementById('categoryFilter').value = '';
   document.getElementById('difficultyFilter').value = '';
@@ -373,7 +356,16 @@ function populateCategoryFilter() {
   const categories = [...new Set(allCourses.map(course => course.category).filter(Boolean))];
   
   // Clear existing options (except the first one)
-  categoryFilter.innerHTML = '<option value="">All Categories</option>';
+  const firstOption = categoryFilter.querySelector('option[value=""]');
+  categoryFilter.innerHTML = '';
+  if (firstOption) {
+    categoryFilter.appendChild(firstOption);
+  } else {
+    const allOption = document.createElement('option');
+    allOption.value = '';
+    allOption.textContent = 'All Categories';
+    categoryFilter.appendChild(allOption);
+  }
   
   categories.forEach(category => {
     const option = document.createElement('option');
@@ -512,6 +504,16 @@ function updateAllLabBookmarkUI() {
 // ===== UTILITY FUNCTIONS =====
 function getCategoryColor(category) {
   const categoryColors = {
+    'Economics': '#27ae60',
+    'Gender': '#9b59b6', 
+    'Justice': '#e74c3c',
+    'Climate': '#16a085',
+    'Data': '#3498db',
+    'Development': '#2c3e50',
+    'Livelihoods': '#27ae60',
+    'Health': '#e74c3c',
+    'Education': '#3498db',
+    'Systems': '#34495e',
     'Data & Research': '#3498db',
     'Gender & Social Issues': '#9b59b6',
     'Economics & Policy': '#e74c3c',
@@ -615,362 +617,6 @@ document.addEventListener('DOMContentLoaded', function() {
   // Wait for data to be available
   if (window.courses) {
     initializeCourses();
-  } else {
-    console.log('⏳ Waiting for course data...');
-    window.addEventListener('dataLoaded', function() {
-      console.log('📊 Data loaded event received');
-      initializeCourses();
-    });
-  }
-});
-
-console.log('✅ Main JS loaded successfully!');
-// ===== ESSENTIAL FIXES FOR YOUR MAIN.JS FILE =====
-// Add these functions to fix the broken course/lab loading
-
-// FIX 1: Ensure course initialization works
-function initializeCourses() {
-  console.log('📚 Initializing courses...');
-  
-  if (window.courses && Array.isArray(window.courses)) {
-    allCourses = window.courses;
-    filteredCourses = [...allCourses];
-    
-    console.log(`Loaded ${allCourses.length} courses`);
-    
-    // Update course stats
-    updateCourseStats();
-    
-    // Populate category filter
-    populateCategoryFilter();
-    
-    // Display courses
-    displayCourses();
-    
-    console.log('✅ Courses initialized successfully');
-  } else {
-    console.warn('⚠️ Course data not available yet, retrying...');
-    setTimeout(initializeCourses, 1000);
-  }
-}
-
-// FIX 2: Popular courses display function
-function displayPopularCourses() {
-  const container = document.getElementById('popularCoursesContainer');
-  
-  if (!container) {
-    console.log('Popular courses container not found');
-    return;
-  }
-  
-  // Wait for courses to be loaded
-  if (!allCourses || allCourses.length === 0) {
-    container.innerHTML = '<div class="loading">Loading popular courses...</div>';
-    setTimeout(displayPopularCourses, 500);
-    return;
-  }
-  
-  // Get popular courses by name/id
-  const popularItems = allCourses.filter(course => 
-    course && (
-      course.title?.includes('Gender Studies') ||
-      course.title?.includes('Development Economics') ||
-      course.title?.includes('Research Ethics') ||
-      course.title?.includes('Public Health') ||
-      course.title?.includes('Data Literacy')
-    )
-  ).slice(0, 6); // Get first 6 matches
-  
-  if (popularItems.length === 0) {
-    // Fallback to first few courses
-    popularItems = allCourses.slice(0, 6);
-  }
-  
-  container.innerHTML = popularItems.map(item => createCourseCard(item)).join('');
-  
-  console.log(`✅ Displayed ${popularItems.length} popular courses`);
-  
-  // Update bookmark UI after displaying
-  setTimeout(updateAllBookmarkUI, 100);
-}
-
-// FIX 3: Course display function
-function displayCourses() {
-  const container = document.getElementById('coursesContainer');
-  
-  if (!container) {
-    console.error('Course container not found');
-    return;
-  }
-  
-  if (!filteredCourses || filteredCourses.length === 0) {
-    container.innerHTML = '<div class="no-results">No courses found matching your criteria.</div>';
-    return;
-  }
-  
-  container.innerHTML = filteredCourses.map(course => createCourseCard(course)).join('');
-  
-  console.log(`✅ Displayed ${filteredCourses.length} courses`);
-  
-  // Update stats
-  updateCourseStats();
-  
-  // Update bookmark UI after displaying
-  setTimeout(updateAllBookmarkUI, 100);
-}
-
-// FIX 4: Labs display function
-function displayLabs() {
-  const container = document.getElementById('labsContainer');
-  
-  if (!container) {
-    console.log('Labs container not found');
-    return;
-  }
-  
-  if (!window.labs || window.labs.length === 0) {
-    container.innerHTML = '<div class="no-results">Interactive labs will be available soon...</div>';
-    return;
-  }
-  
-  container.innerHTML = window.labs.map(lab => createLabCard(lab)).join('');
-  
-  console.log(`✅ Displayed ${window.labs.length} labs`);
-  
-  // Update bookmark UI
-  setTimeout(updateAllLabBookmarkUI, 100);
-}
-
-// FIX 5: Course card creation function
-function createCourseCard(course) {
-  if (!course || !course.id) {
-    console.warn('Invalid course data:', course);
-    return '';
-  }
-  
-  const rating = course.rating || 4.5;
-  const duration = course.duration || '30 min';
-  const difficulty = course.difficulty || 'Intermediate';
-  const category = course.category || 'General';
-  const description = course.description || 'No description available';
-  const title = course.title || 'Untitled Course';
-  const courseId = course.id;
-  
-  // Get category color
-  const categoryColor = getCategoryColor(category);
-  
-  return `
-    <div class="course-card" data-course-id="${courseId}">
-      <div class="course-card-header">
-        <div class="course-category" style="background-color: ${categoryColor}20; color: ${categoryColor}">
-          ${category}
-        </div>
-        <div class="course-actions">
-          <button class="bookmark-btn" onclick="toggleBookmark('${courseId}')" aria-label="Bookmark course">
-            <i class="far fa-bookmark"></i>
-          </button>
-        </div>
-      </div>
-      
-      <div class="course-content">
-        <h3 class="course-title">${title}</h3>
-        <p class="course-description">${description}</p>
-        
-        <div class="course-meta">
-          <span class="course-rating">
-            <i class="fas fa-star"></i>
-            ${rating.toFixed(1)}
-          </span>
-          <span class="course-duration">
-            <i class="fas fa-clock"></i>
-            ${duration}
-          </span>
-          <span class="course-difficulty">
-            ${difficulty}
-          </span>
-        </div>
-      </div>
-      
-      <div class="course-card-footer">
-        <button class="launch-btn" onclick="launchCourse('${courseId}')">
-          <i class="fas fa-play"></i>
-          Launch Course
-        </button>
-      </div>
-    </div>
-  `;
-}
-
-// FIX 6: Lab card creation function
-function createLabCard(lab) {
-  if (!lab || !lab.id) {
-    console.warn('Invalid lab data:', lab);
-    return '';
-  }
-  
-  const labId = lab.id;
-  const title = lab.title || 'Untitled Lab';
-  const description = lab.description || 'No description available';
-  const category = lab.category || 'Interactive Tool';
-  
-  return `
-    <div class="lab-card" data-lab-id="${labId}">
-      <div class="lab-card-header">
-        <div class="lab-category">${category}</div>
-        <div class="lab-actions">
-          <button class="bookmark-btn" onclick="toggleLabBookmark('${labId}')" aria-label="Bookmark lab">
-            <i class="far fa-bookmark"></i>
-          </button>
-        </div>
-      </div>
-      
-      <div class="lab-content">
-        <h3 class="lab-title">${title}</h3>
-        <p class="lab-description">${description}</p>
-      </div>
-      
-      <div class="lab-card-footer">
-        <button class="lab-launch" onclick="launchLab('${labId}')">
-          <i class="fas fa-play"></i>
-          Launch Lab
-        </button>
-      </div>
-    </div>
-  `;
-}
-
-// FIX 7: Utility functions
-function getCategoryColor(category) {
-  const categoryColors = {
-    'Economics': '#27ae60',
-    'Gender': '#9b59b6', 
-    'Justice': '#e74c3c',
-    'Climate': '#16a085',
-    'Data': '#3498db',
-    'Development': '#2c3e50',
-    'Livelihoods': '#27ae60',
-    'Health': '#e74c3c',
-    'Education': '#3498db',
-    'Systems': '#34495e',
-    'Default': '#6c757d'
-  };
-  return categoryColors[category] || categoryColors['Default'];
-}
-
-function updateCourseStats() {
-  const totalElement = document.getElementById('totalCourses');
-  const filteredElement = document.getElementById('filteredCourses');
-  
-  if (totalElement) totalElement.textContent = allCourses.length;
-  if (filteredElement) filteredElement.textContent = filteredCourses.length;
-}
-
-function populateCategoryFilter() {
-  const categoryFilter = document.getElementById('categoryFilter');
-  if (!categoryFilter || !allCourses) return;
-  
-  const categories = [...new Set(allCourses.map(course => course.category).filter(Boolean))];
-  
-  categories.forEach(category => {
-    const option = document.createElement('option');
-    option.value = category;
-    option.textContent = category;
-    categoryFilter.appendChild(option);
-  });
-}
-
-// FIX 8: Search and filter functions
-function searchCourses() {
-  const searchTerm = document.getElementById('courseSearch')?.value.toLowerCase() || '';
-  filterCourses(searchTerm);
-}
-
-function filterCourses(searchTerm = '') {
-  const categoryFilter = document.getElementById('categoryFilter')?.value || '';
-  const difficultyFilter = document.getElementById('difficultyFilter')?.value || '';
-  const search = searchTerm || document.getElementById('courseSearch')?.value.toLowerCase() || '';
-  
-  filteredCourses = allCourses.filter(course => {
-    const matchesSearch = !search || 
-    course.title?.toLowerCase().includes(search) ||
-    course.description?.toLowerCase().includes(search) ||
-    course.category?.toLowerCase().includes(search);
-    
-    const matchesCategory = !categoryFilter || course.category === categoryFilter;
-    const matchesDifficulty = !difficultyFilter || course.difficulty === difficultyFilter;
-    
-    return matchesSearch && matchesCategory && matchesDifficulty;
-  });
-  
-  displayCourses();
-}
-
-function clearFilters() {
-  document.getElementById('courseSearch').value = '';
-  document.getElementById('categoryFilter').value = '';
-  document.getElementById('difficultyFilter').value = '';
-  
-  filteredCourses = [...allCourses];
-  displayCourses();
-  
-  showNotification('Filters cleared', 'info');
-}
-
-// FIX 9: Course interaction functions
-function launchCourse(courseId) {
-  const course = allCourses.find(c => c.id === courseId);
-  if (!course) {
-    showNotification('Course not found', 'error');
-    return;
-  }
-  
-  console.log(`Launching course: ${course.title}`);
-  showNotification(`Opening ${course.title}...`, 'info');
-  
-  // You can add actual course launching logic here
-}
-
-function launchLab(labId) {
-  const lab = window.labs?.find(l => l.id === labId);
-  if (!lab) {
-    showNotification('Lab not found', 'error');
-    return;
-  }
-  
-  console.log(`Launching lab: ${lab.title}`);
-  showNotification(`Opening ${lab.title}...`, 'info');
-  
-  // You can add actual lab launching logic here
-}
-
-// FIX 10: Bookmark functions (simplified)
-function toggleBookmark(courseId) {
-  console.log(`Toggling bookmark for course: ${courseId}`);
-  showNotification('Bookmark feature coming soon!', 'info');
-}
-
-function toggleLabBookmark(labId) {
-  console.log(`Toggling bookmark for lab: ${labId}`);
-  showNotification('Lab bookmark feature coming soon!', 'info');
-}
-
-function updateAllBookmarkUI() {
-  // Placeholder for bookmark UI updates
-  console.log('Updating bookmark UI...');
-}
-
-function updateAllLabBookmarkUI() {
-  // Placeholder for lab bookmark UI updates
-  console.log('Updating lab bookmark UI...');
-}
-
-// FIX 11: Initialization
-document.addEventListener('DOMContentLoaded', function() {
-  console.log('🚀 Main JS DOM loaded');
-  
-  // Wait for data to be available
-  if (window.courses) {
-    initializeCourses();
     displayPopularCourses();
     displayLabs();
   } else {
@@ -984,4 +630,4 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-console.log('✅ Main JS fixes loaded successfully!');
+console.log('✅ Main JS loaded successfully!');
