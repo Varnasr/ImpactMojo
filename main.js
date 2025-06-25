@@ -1,15 +1,13 @@
-// Complete ImpactMojo Main JavaScript File
-// Fixed version addressing all broken elements
-
+// ImpactMojo Main JavaScript - Conflict-Free Version
 console.log('🚀 Loading ImpactMojo Main JS...');
 
-// ===== GLOBAL VARIABLES =====
-let allCourses = [];
-let filteredCourses = [];
-let selectedCourses = [];
-let selectedLabs = [];
-let userBookmarks = JSON.parse(localStorage.getItem('userBookmarks')) || [];
-let userLabBookmarks = JSON.parse(localStorage.getItem('userLabBookmarks')) || [];
+// ===== GLOBAL VARIABLES (with unique names to avoid conflicts) =====
+let impactMojoAllCourses = [];
+let impactMojoFilteredCourses = [];
+let impactMojoSelectedCourses = [];
+let impactMojoSelectedLabs = [];
+let impactMojoUserBookmarks = JSON.parse(localStorage.getItem('impactMojoBookmarks')) || [];
+let impactMojoUserLabBookmarks = JSON.parse(localStorage.getItem('impactMojoLabBookmarks')) || [];
 
 // ===== WORKING THEME TOGGLE =====
 function toggleTheme() {
@@ -87,10 +85,10 @@ function initializeCourses() {
   console.log('📚 Initializing courses...');
   
   if (window.courses && Array.isArray(window.courses)) {
-    allCourses = window.courses;
-    filteredCourses = [...allCourses];
+    impactMojoAllCourses = window.courses;
+    impactMojoFilteredCourses = [...impactMojoAllCourses];
     
-    console.log(`Loaded ${allCourses.length} courses`);
+    console.log(`Loaded ${impactMojoAllCourses.length} courses`);
     
     // Update course stats
     updateCourseStats();
@@ -118,14 +116,14 @@ function displayPopularCourses() {
   }
   
   // Wait for courses to be loaded
-  if (!allCourses || allCourses.length === 0) {
+  if (!impactMojoAllCourses || impactMojoAllCourses.length === 0) {
     container.innerHTML = '<div class="loading" style="text-align: center; padding: 2rem; color: var(--text-secondary);">Loading popular courses...</div>';
     setTimeout(displayPopularCourses, 500);
     return;
   }
   
   // Get popular courses by filtering for specific titles or taking first few
-  let popularItems = allCourses.filter(course => 
+  let popularItems = impactMojoAllCourses.filter(course => 
     course && (
       course.title?.toLowerCase().includes('gender') ||
       course.title?.toLowerCase().includes('development economics') ||
@@ -137,7 +135,7 @@ function displayPopularCourses() {
   
   // If no matches found, take first 6 courses
   if (popularItems.length === 0) {
-    popularItems = allCourses.slice(0, 6);
+    popularItems = impactMojoAllCourses.slice(0, 6);
   } else {
     popularItems = popularItems.slice(0, 6);
   }
@@ -173,14 +171,14 @@ function displayCourses() {
     return;
   }
   
-  if (!filteredCourses || filteredCourses.length === 0) {
+  if (!impactMojoFilteredCourses || impactMojoFilteredCourses.length === 0) {
     container.innerHTML = '<div class="no-results" style="text-align: center; padding: 2rem; color: var(--text-secondary);">No courses found matching your criteria.</div>';
     return;
   }
 
-  container.innerHTML = filteredCourses.map(course => createCourseCard(course)).join('');
+  container.innerHTML = impactMojoFilteredCourses.map(course => createCourseCard(course)).join('');
   
-  console.log(`✅ Displayed ${filteredCourses.length} courses`);
+  console.log(`✅ Displayed ${impactMojoFilteredCourses.length} courses`);
   
   // Update stats
   updateCourseStats();
@@ -322,7 +320,7 @@ function filterCourses(searchTerm = '') {
   const difficultyFilter = document.getElementById('difficultyFilter')?.value || '';
   const search = searchTerm || document.getElementById('courseSearch')?.value.toLowerCase() || '';
   
-  filteredCourses = allCourses.filter(course => {
+  impactMojoFilteredCourses = impactMojoAllCourses.filter(course => {
     const matchesSearch = !search || 
       course.title?.toLowerCase().includes(search) ||
       course.description?.toLowerCase().includes(search) ||
@@ -335,7 +333,7 @@ function filterCourses(searchTerm = '') {
   });
   
   displayCourses();
-  console.log(`Filtered to ${filteredCourses.length} courses`);
+  console.log(`Filtered to ${impactMojoFilteredCourses.length} courses`);
 }
 
 function clearFilters() {
@@ -343,7 +341,7 @@ function clearFilters() {
   document.getElementById('categoryFilter').value = '';
   document.getElementById('difficultyFilter').value = '';
   
-  filteredCourses = [...allCourses];
+  impactMojoFilteredCourses = [...impactMojoAllCourses];
   displayCourses();
   
   showNotification('Filters cleared', 'info');
@@ -351,9 +349,9 @@ function clearFilters() {
 
 function populateCategoryFilter() {
   const categoryFilter = document.getElementById('categoryFilter');
-  if (!categoryFilter || !allCourses) return;
+  if (!categoryFilter || !impactMojoAllCourses) return;
   
-  const categories = [...new Set(allCourses.map(course => course.category).filter(Boolean))];
+  const categories = [...new Set(impactMojoAllCourses.map(course => course.category).filter(Boolean))];
   
   // Clear existing options (except the first one)
   const firstOption = categoryFilter.querySelector('option[value=""]');
@@ -377,25 +375,14 @@ function populateCategoryFilter() {
 
 // ===== COURSE INTERACTION FUNCTIONS =====
 function launchCourse(courseId) {
-  const course = allCourses.find(c => c.id === courseId);
+  const course = impactMojoAllCourses.find(c => c.id === courseId);
   if (!course) {
     showNotification('Course not found', 'error');
     return;
   }
   
-  // Track course launch
   console.log(`Launching course: ${course.title}`);
-  
-  // Update user progress if authenticated
-  if (typeof updateUserProgress === 'function' && window.auth?.currentUser) {
-    updateUserProgress(courseId, { lastAccessed: new Date() });
-  }
-  
-  // For now, show notification (can be enhanced to open course viewer)
   showNotification(`Opening ${course.title}...`, 'info');
-  
-  // Could open in new window or modal here
-  // window.open(`/courses/${courseId}`, '_blank');
 }
 
 function launchLab(labId) {
@@ -407,64 +394,46 @@ function launchLab(labId) {
   
   console.log(`Launching lab: ${lab.title}`);
   showNotification(`Opening ${lab.title}...`, 'info');
-  
-  // Could open lab in new window
-  // window.open(`/labs/${labId}`, '_blank');
 }
 
 // ===== BOOKMARK FUNCTIONS =====
 function toggleBookmark(courseId) {
-  if (!window.auth?.currentUser) {
-    showNotification('Please log in to bookmark courses', 'warning');
-    return;
-  }
-  
-  const isBookmarked = userBookmarks.includes(courseId);
+  const isBookmarked = impactMojoUserBookmarks.includes(courseId);
   
   if (isBookmarked) {
-    userBookmarks = userBookmarks.filter(id => id !== courseId);
+    impactMojoUserBookmarks = impactMojoUserBookmarks.filter(id => id !== courseId);
     showNotification('Bookmark removed', 'info');
   } else {
-    userBookmarks.push(courseId);
+    impactMojoUserBookmarks.push(courseId);
     showNotification('Course bookmarked!', 'success');
   }
   
   // Save to localStorage
-  localStorage.setItem('userBookmarks', JSON.stringify(userBookmarks));
+  localStorage.setItem('impactMojoBookmarks', JSON.stringify(impactMojoUserBookmarks));
   
   // Update UI
   updateBookmarkUI(courseId);
-  
-  // Save to Firebase if available
-  if (typeof saveUserBookmarks === 'function') {
-    saveUserBookmarks();
-  }
 }
 
 function toggleLabBookmark(labId) {
-  if (!window.auth?.currentUser) {
-    showNotification('Please log in to bookmark labs', 'warning');
-    return;
-  }
-  
-  const isBookmarked = userLabBookmarks.includes(labId);
+  const isBookmarked = impactMojoUserLabBookmarks.includes(labId);
   
   if (isBookmarked) {
-    userLabBookmarks = userLabBookmarks.filter(id => id !== labId);
+    impactMojoUserLabBookmarks = impactMojoUserLabBookmarks.filter(id => id !== labId);
     showNotification('Lab bookmark removed', 'info');
   } else {
-    userLabBookmarks.push(labId);
+    impactMojoUserLabBookmarks.push(labId);
     showNotification('Lab bookmarked!', 'success');
   }
   
-  localStorage.setItem('userLabBookmarks', JSON.stringify(userLabBookmarks));
+  localStorage.setItem('impactMojoLabBookmarks', JSON.stringify(impactMojoUserLabBookmarks));
   updateLabBookmarkUI(labId);
 }
 
 function updateBookmarkUI(courseId) {
   const bookmarkBtn = document.querySelector(`[onclick="toggleBookmark('${courseId}')"]`);
   if (bookmarkBtn) {
-    const isBookmarked = userBookmarks.includes(courseId);
+    const isBookmarked = impactMojoUserBookmarks.includes(courseId);
     const icon = bookmarkBtn.querySelector('i');
     if (icon) {
       icon.className = isBookmarked ? 'fas fa-bookmark' : 'far fa-bookmark';
@@ -476,7 +445,7 @@ function updateBookmarkUI(courseId) {
 function updateLabBookmarkUI(labId) {
   const bookmarkBtn = document.querySelector(`[onclick="toggleLabBookmark('${labId}')"]`);
   if (bookmarkBtn) {
-    const isBookmarked = userLabBookmarks.includes(labId);
+    const isBookmarked = impactMojoUserLabBookmarks.includes(labId);
     const icon = bookmarkBtn.querySelector('i');
     if (icon) {
       icon.className = isBookmarked ? 'fas fa-bookmark' : 'far fa-bookmark';
@@ -486,8 +455,8 @@ function updateLabBookmarkUI(labId) {
 }
 
 function updateAllBookmarkUI() {
-  if (allCourses && allCourses.length > 0) {
-    allCourses.forEach(course => {
+  if (impactMojoAllCourses && impactMojoAllCourses.length > 0) {
+    impactMojoAllCourses.forEach(course => {
       updateBookmarkUI(course.id);
     });
   }
@@ -531,62 +500,8 @@ function updateCourseStats() {
   const totalElement = document.getElementById('totalCourses');
   const filteredElement = document.getElementById('filteredCourses');
   
-  if (totalElement) totalElement.textContent = allCourses.length;
-  if (filteredElement) filteredElement.textContent = filteredCourses.length;
-}
-
-// ===== COMPARISON FUNCTIONS =====
-function toggleCourseSelection(courseId) {
-  const index = selectedCourses.indexOf(courseId);
-  if (index > -1) {
-    selectedCourses.splice(index, 1);
-  } else {
-    selectedCourses.push(courseId);
-  }
-  
-  updateComparisonUI();
-}
-
-function updateComparisonUI() {
-  const compareCount = document.getElementById('compareCount');
-  const compareBtn = document.getElementById('compareBtn');
-  
-  if (compareCount) {
-    compareCount.textContent = selectedCourses.length;
-  }
-  
-  if (compareBtn) {
-    if (selectedCourses.length >= 2) {
-      compareBtn.style.display = 'inline-flex';
-      compareBtn.classList.add('active');
-    } else {
-      compareBtn.style.display = 'none';
-      compareBtn.classList.remove('active');
-    }
-  }
-}
-
-// ===== LEARNING PATH FUNCTIONS =====
-function filterCoursesByPath(pathId) {
-  console.log(`Filtering courses by path: ${pathId}`);
-  
-  // Define learning path mappings
-  const pathMappings = {
-    'data-analysis': ['data-literacy-101', 'eda-survey-data', 'bivariate-analysis', 'multivariate-analysis'],
-    'gender-studies': ['gender-studies-101', 'data-feminism-101', 'care-economy', 'womens-empowerment'],
-    'policy-economics': ['dev-econ-101', 'political-economy', 'poverty-inequality-101', 'social-safety-nets'],
-    'research-methods': ['research-ethics-101', 'qualitative-research', 'econometrics', 'mel']
-  };
-  
-  const pathCourseIds = pathMappings[pathId] || [];
-  
-  if (pathCourseIds.length > 0) {
-    filteredCourses = allCourses.filter(course => 
-      pathCourseIds.includes(course.id)
-    );
-    displayCourses();
-    showNotification(`Showing ${pathId.replace('-', ' ')} learning path`, 'info');
-  }
+  if (totalElement) totalElement.textContent = impactMojoAllCourses.length;
+  if (filteredElement) filteredElement.textContent = impactMojoFilteredCourses.length;
 }
 
 // ===== KEYBOARD SHORTCUTS =====
