@@ -4094,3 +4094,114 @@ body {
 [data-theme="dark"] .bookmark-viewer-btn:hover {
   background: rgba(30, 41, 59, 1);
 }
+/* ===== NAVBAR LEFT SHIFT TO GIVE TOOLTIPS MORE SPACE ===== */
+
+/* Shift the entire navbar content to the left to provide more space for tooltips */
+.navbar .container {
+  display: flex !important;
+  justify-content: flex-start !important; /* Changed from center to flex-start */
+  align-items: center !important;
+  flex-wrap: nowrap !important;
+  gap: 2rem !important;
+  max-width: 1200px !important;
+  padding: 1.5rem 1rem 1.5rem 2rem !important; /* Added more left padding */
+  margin-left: 0 !important; /* Ensure it starts from the left */
+}
+
+/* Keep nav menu on the left side */
+.nav-menu {
+  display: flex !important;
+  align-items: center !important;
+  gap: 2rem !important;
+  flex-wrap: nowrap !important;
+  order: 1 !important;
+  margin-right: auto !important; /* Push auth buttons to the right */
+}
+
+/* Auth buttons stay on the right but now have more space */
+.nav-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  order: 2 !important;
+  margin-right: 2rem !important; /* Add some margin from the edge */
+}
+
+/* Ensure tooltips have proper z-index and positioning */
+.auth-btn[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  top: 100%;
+  margin-top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1f2937;
+  color: white;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.8rem;
+  width: max-content;
+  max-width: 300px; /* Increased since we have more space now */
+  text-align: center;
+  z-index: 9999;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  white-space: normal;
+  font-family: 'Poppins', sans-serif;
+  pointer-events: none;
+}
+
+.auth-btn[title]:hover::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  margin-top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-bottom-color: #1f2937;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* Ensure parent containers don't clip tooltips */
+.navbar,
+.navbar .container,
+.nav-actions,
+.auth-buttons {
+  overflow: visible !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .navbar .container {
+    justify-content: center !important; /* Back to center on tablets */
+    padding: 1.5rem 1rem !important;
+  }
+  
+  .nav-menu {
+    margin-right: 0 !important;
+  }
+  
+  .nav-actions {
+    margin-right: 1rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar .container {
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+    justify-content: center !important;
+    padding: 1.5rem 1rem !important;
+  }
+  
+  .nav-menu {
+    order: 1 !important;
+    margin-right: 0 !important;
+  }
+  
+  .nav-actions {
+    order: 2 !important;
+    margin-right: 0 !important;
+  }
+}
