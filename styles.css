@@ -5034,3 +5034,70 @@ html {
   /* This creates a compact, centered layout where auth buttons are close to nav */
   /* Tooltips will have space because the whole navbar is constrained to 1000px */
 }
+/* ===== MINIMAL TOOLTIP & NAVIGATION SPACING FIX ===== */
+/* Add this to the very END of your existing styles.css file */
+
+/* Fix navigation spacing - reduce gap between nav links and auth buttons */
+@media (min-width: 769px) {
+  .navbar .container {
+    gap: 1rem !important; /* Reduced from larger gap */
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+  
+  .nav-actions {
+    margin-left: 0 !important; /* Remove auto margin that creates too much space */
+  }
+}
+
+/* Enhanced tooltip system for auth buttons */
+.auth-btn[title] {
+  position: relative !important;
+}
+
+.auth-btn[title]:hover::after {
+  content: attr(title) !important;
+  position: absolute !important;
+  top: calc(100% + 8px) !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  background: #1f2937 !important;
+  color: white !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: 0.5rem !important;
+  font-size: 0.8rem !important;
+  white-space: nowrap !important;
+  z-index: 10000 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  pointer-events: none !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.auth-btn[title]:hover::before {
+  content: '' !important;
+  position: absolute !important;
+  top: calc(100% + 3px) !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  border: 5px solid transparent !important;
+  border-bottom-color: #1f2937 !important;
+  z-index: 10000 !important;
+  pointer-events: none !important;
+}
+
+/* Ensure containers don't clip tooltips */
+.header,
+.navbar,
+.navbar .container,
+.nav-actions,
+.auth-buttons {
+  overflow: visible !important;
+}
+
+/* Mobile - disable tooltips on small screens */
+@media (max-width: 768px) {
+  .auth-btn[title]:hover::after,
+  .auth-btn[title]:hover::before {
+    display: none !important;
+  }
+}
