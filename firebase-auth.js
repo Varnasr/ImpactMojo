@@ -31,20 +31,28 @@ function initializeAuth() {
   });
 }
 
-// Show authentication UI (login/signup buttons)
+// Show authentication UI (login/signup buttons) - ENHANCED VERSION
 function showAuthUI() {
+  console.log('🔧 showAuthUI called');
   const authButtons = document.getElementById('authButtons');
   const userMenu = document.getElementById('userMenu');
   
   if (authButtons) {
     authButtons.classList.remove('hidden');
     authButtons.style.display = 'flex';
+    authButtons.style.visibility = 'visible';
+    authButtons.style.opacity = '1';
+    console.log('✅ Auth UI shown');
+  } else {
+    console.error('❌ Auth buttons not found in showAuthUI');
   }
+  
   if (userMenu) {
     userMenu.classList.add('hidden');
     userMenu.style.display = 'none';
   }
 }
+
 // Show user UI (user menu)
 function showUserUI() {
   const authButtons = document.getElementById('authButtons');
@@ -444,6 +452,7 @@ function getCurrentUserData() {
     notes: userNotes
   };
 }
+
 // TARGETED FIX: Ensure auth buttons show on page load
 document.addEventListener('DOMContentLoaded', function() {
   // Force show auth buttons if no user is logged in
