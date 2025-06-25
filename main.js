@@ -127,3 +127,4 @@ function applyLabFilters() {
     
     const matchesCategory = categoryFilter === 'all' || lab.category === categoryFilter;
     const matchesDifficulty = difficultyFilter === 'all' || lab.difficulty ===
+    
