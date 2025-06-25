@@ -1131,6 +1131,7 @@ upcomingFixObserver.observe(document.body, {
 console.log('🎨 Upcoming courses section formatting fix loaded and ready!');
 
 // ===== END UPCOMING COURSES FIX =====
+
 // ===== CLEAN COMPARISON FUNCTIONALITY =====
 if (!window.selectedForComparison) {
   window.selectedForComparison = [];
@@ -1265,100 +1266,57 @@ if (document.readyState === 'loading') {
 }
 
 console.log('🎉 Clean FAB and comparison system loaded!');
-// ===== CORRECTED FAB BUTTON & MODAL FIX =====
-function fixFABAndModals() {
-  console.log('🔧 Fixing FAB buttons and modals...');
+// ===== FINAL WORKING FAB BUTTONS & ADVANCED COMPARISON =====
+function finalFixEverything() {
+  console.log('🔧 Applying final fixes...');
   
-  // STEP 1: Fix showNotification function to be visible (keeping this working)
+  // STEP 1: Simple working notification system
   window.showNotification = function(message, type = 'info') {
-    console.log(`Notification: ${message} (${type})`);
-    
-    // Remove existing notifications
     const existingNotifications = document.querySelectorAll('.notification');
     existingNotifications.forEach(notification => notification.remove());
     
-    // Create new notification
     const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    
-    // Set proper styling based on type
     let backgroundColor, textColor;
     switch(type) {
-      case 'success':
-        backgroundColor = '#10b981';
-        textColor = '#ffffff';
-        break;
-      case 'warning':
-        backgroundColor = '#f59e0b';
-        textColor = '#ffffff';
-        break;
-      case 'error':
-        backgroundColor = '#ef4444';
-        textColor = '#ffffff';
-        break;
-      default: // info
-        backgroundColor = '#3b82f6';
-        textColor = '#ffffff';
+      case 'success': backgroundColor = '#10b981'; textColor = '#ffffff'; break;
+      case 'warning': backgroundColor = '#f59e0b'; textColor = '#ffffff'; break;
+      case 'error': backgroundColor = '#ef4444'; textColor = '#ffffff'; break;
+      default: backgroundColor = '#3b82f6'; textColor = '#ffffff';
     }
     
     notification.style.cssText = `
-      position: fixed !important;
-      top: 20px !important;
-      right: 20px !important;
-      background: ${backgroundColor} !important;
-      color: ${textColor} !important;
-      padding: 1rem 1.5rem !important;
-      border-radius: 8px !important;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
-      z-index: 10000 !important;
-      font-weight: 500 !important;
-      font-size: 14px !important;
-      max-width: 300px !important;
-      word-wrap: break-word !important;
+      position: fixed !important; top: 20px !important; right: 20px !important;
+      background: ${backgroundColor} !important; color: ${textColor} !important;
+      padding: 1rem 1.5rem !important; border-radius: 8px !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important; z-index: 10000 !important;
+      font-weight: 500 !important; font-size: 14px !important; max-width: 300px !important;
     `;
     
     notification.innerHTML = `
-      <span style="color: ${textColor} !important; display: block; margin-bottom: 8px;">${message}</span>
+      <span style="color: ${textColor} !important;">${message}</span>
       <button onclick="this.parentElement.remove()" style="
-        background: rgba(255,255,255,0.2) !important;
-        border: none !important;
-        color: ${textColor} !important;
-        padding: 4px 8px !important;
-        border-radius: 4px !important;
-        cursor: pointer !important;
-        font-size: 12px !important;
-      ">✕ Close</button>
+        background: rgba(255,255,255,0.2) !important; border: none !important;
+        color: ${textColor} !important; padding: 4px 8px !important; 
+        border-radius: 4px !important; cursor: pointer !important; margin-left: 8px !important;
+      ">✕</button>
     `;
     
     document.body.appendChild(notification);
-    
-    // Auto remove after 5 seconds
-    setTimeout(() => {
-      if (notification.parentElement) {
-        notification.remove();
-      }
-    }, 5000);
+    setTimeout(() => notification.remove(), 5000);
   };
   
-  // STEP 2: Fix modal opening - check what actually exists
+  // STEP 2: Simple direct modal opening
   window.openModal = function(modalId) {
-    console.log(`Opening modal: ${modalId}`);
+    console.log(`🎯 Opening modal: ${modalId}`);
     const modal = document.getElementById(modalId);
     if (modal) {
       modal.style.display = 'flex';
       modal.style.alignItems = 'center';
       modal.style.justifyContent = 'center';
       document.body.style.overflow = 'hidden';
-      console.log(`✅ Opened modal: ${modalId}`);
+      console.log(`✅ Successfully opened: ${modalId}`);
     } else {
       console.error(`❌ Modal not found: ${modalId}`);
-      // Debug: list all elements with modal-related IDs
-      const allElements = document.querySelectorAll('[id*="modal"], [id*="Modal"], .modal');
-      console.log('Available modal elements:', Array.from(allElements).map(el => ({
-        id: el.id,
-        className: el.className,
-        tagName: el.tagName
-      })));
     }
   };
   
@@ -1370,100 +1328,43 @@ function fixFABAndModals() {
     }
   };
   
-  // STEP 3: Direct button handlers that definitely work
-  window.handleFeedbackClick = function() {
-    console.log('🗨️ Feedback button clicked - searching for feedback modal...');
-    
-    // Search for feedback modal more thoroughly
-    let modal = document.getElementById('feedbackModal');
-    if (!modal) {
-      // Try other possible selectors
-      const selectors = [
-        '#feedback-modal',
-        '.modal[id*="feedback"]',
-        'div[id*="feedback"]',
-        '.feedback-modal'
-      ];
-      
-      for (let selector of selectors) {
-        modal = document.querySelector(selector);
-        if (modal) {
-          console.log(`Found feedback modal with selector: ${selector}`);
-          break;
-        }
-      }
-    }
-    
-    if (modal) {
-      modal.style.display = 'flex';
-      modal.style.alignItems = 'center';
-      modal.style.justifyContent = 'center';
-      document.body.style.overflow = 'hidden';
-      console.log('✅ Feedback modal opened');
-    } else {
-      console.error('❌ Feedback modal not found');
-      // Show what we do have
-      const allModals = document.querySelectorAll('.modal, [id*="modal"], [id*="Modal"]');
-      console.log('All modal-like elements found:', Array.from(allModals).map(m => m.id || m.className));
-    }
-  };
-  
-  window.handleSuggestClick = function() {
-    console.log('💡 Suggest button clicked - searching for suggest modal...');
-    
-    // Search for suggest modal more thoroughly  
-    let modal = document.getElementById('suggestModal');
-    if (!modal) {
-      const selectors = [
-        '#suggest-modal',
-        '.modal[id*="suggest"]',
-        'div[id*="suggest"]',
-        '.suggest-modal'
-      ];
-      
-      for (let selector of selectors) {
-        modal = document.querySelector(selector);
-        if (modal) {
-          console.log(`Found suggest modal with selector: ${selector}`);
-          break;
-        }
-      }
-    }
-    
-    if (modal) {
-      modal.style.display = 'flex';
-      modal.style.alignItems = 'center';
-      modal.style.justifyContent = 'center';
-      document.body.style.overflow = 'hidden';
-      console.log('✅ Suggest modal opened');
-    } else {
-      console.error('❌ Suggest modal not found');
-    }
-  };
-  
-  // STEP 4: Attach handlers to FAB buttons
+  // STEP 3: Direct FAB button fix 
   setTimeout(() => {
-    const feedbackBtn = document.querySelector('.fab-btn.feedback');
-    const suggestBtn = document.querySelector('.fab-btn.suggest');
+    // Force update FAB buttons to use correct modal IDs
+    const fabBtns = document.querySelectorAll('.fab-btn');
     
-    if (feedbackBtn) {
-      feedbackBtn.onclick = window.handleFeedbackClick;
-      console.log('✅ Feedback button handler attached');
-    }
+    fabBtns.forEach(btn => {
+      if (btn.classList.contains('feedback')) {
+        btn.onclick = () => {
+          console.log('🗨️ Feedback clicked');
+          openModal('feedbackModal');
+        };
+        console.log('✅ Feedback button fixed');
+      }
+      
+      if (btn.classList.contains('suggest')) {
+        btn.onclick = () => {
+          console.log('💡 Suggest clicked');
+          openModal('suggestModal');
+        };
+        console.log('✅ Suggest button fixed');
+      }
+      
+      if (btn.classList.contains('compare')) {
+        btn.onclick = () => {
+          console.log('⚖️ Compare clicked');
+          showComparison();
+        };
+        console.log('✅ Compare button fixed');
+      }
+    });
     
-    if (suggestBtn) {
-      suggestBtn.onclick = window.handleSuggestClick;
-      console.log('✅ Suggest button handler attached');
-    }
-    
-    // NO MORE TEST NOTIFICATION - REMOVED!
-    
-  }, 1000);
+  }, 500);
   
-  console.log('✅ FAB and modal fixes applied');
+  console.log('✅ Final fixes applied');
 }
 
-// ===== FULL COMPARISON IMPLEMENTATION =====
+// ===== ADVANCED RICH CONTENT COMPARISON =====
 function updateComparisonContent() {
   const content = document.getElementById('comparisonContent');
   if (!content) return;
@@ -1495,86 +1396,179 @@ function updateComparisonContent() {
     return;
   }
   
-  // Generate full comparison table
-  const tableHTML = generateFullComparisonTable(items);
+  // Generate advanced comparison
+  const comparisonHTML = generateAdvancedComparison(items);
   
   content.innerHTML = `
-    <div class="comparison-stats">
-      <span><i class="fas fa-balance-scale"></i> Comparing ${items.length} item${items.length > 1 ? 's' : ''}</span>
-      <button class="clear-btn" onclick="clearComparison()">
-        <i class="fas fa-times"></i> Clear Selection
-      </button>
+    <div class="comparison-header">
+      <div class="comparison-stats">
+        <span><i class="fas fa-balance-scale"></i> Comparing ${items.length} item${items.length > 1 ? 's' : ''}</span>
+        <button class="clear-btn" onclick="clearComparison()" style="
+          background: #ef4444; color: white; border: none; padding: 0.5rem 1rem; 
+          border-radius: 0.25rem; cursor: pointer; margin-left: 1rem;
+        ">
+          <i class="fas fa-times"></i> Clear Selection
+        </button>
+      </div>
     </div>
-    ${tableHTML}
+    ${comparisonHTML}
   `;
 }
 
-function generateFullComparisonTable(items) {
-  console.log('Generating comparison table for:', items.map(i => i.title));
+function generateAdvancedComparison(items) {
+  console.log('🔍 Generating advanced comparison for:', items.map(i => i.title));
+  
+  // ADVANCED CONTENT ANALYSIS
+  const contentAnalysis = analyzeContentRichness(items);
   
   return `
-    <div class="comparison-table-container">
-      <table class="comparison-table">
-        <thead>
-          <tr>
-            <th style="background: #4f46e5; color: white; font-weight: 600;">Parameter</th>
-            ${items.map(item => `<th style="background: #6366f1; color: white; font-weight: 600;">${item.title || 'Untitled'}</th>`).join('')}
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style="background: #f8fafc; font-weight: 600; color: #374151;">Category</td>
-            ${items.map(item => `<td style="padding: 1rem; border-bottom: 1px solid #e5e7eb;">${item.category || 'Not specified'}</td>`).join('')}
-          </tr>
-          <tr>
-            <td style="background: #f8fafc; font-weight: 600; color: #374151;">Difficulty Level</td>
-            ${items.map(item => `<td style="padding: 1rem; border-bottom: 1px solid #e5e7eb;">${item.difficulty || item.level || 'Not specified'}</td>`).join('')}
-          </tr>
-          <tr>
-            <td style="background: #f8fafc; font-weight: 600; color: #374151;">Duration</td>
-            ${items.map(item => `<td style="padding: 1rem; border-bottom: 1px solid #e5e7eb;">${item.duration || item.timeToComplete || 'Not specified'}</td>`).join('')}
-          </tr>
-          <tr>
-            <td style="background: #f8fafc; font-weight: 600; color: #374151;">Description</td>
-            ${items.map(item => `<td style="padding: 1rem; border-bottom: 1px solid #e5e7eb; max-width: 200px; word-wrap: break-word;">${(item.description || 'No description available').substring(0, 150)}${(item.description || '').length > 150 ? '...' : ''}</td>`).join('')}
-          </tr>
-          <tr>
-            <td style="background: #f8fafc; font-weight: 600; color: #374151;">Key Topics</td>
-            ${items.map(item => {
-    const topics = item.topics || item.keyTopics || item.tags || [];
-    const topicsText = Array.isArray(topics) ? topics.join(', ') : (topics || 'Not specified');
-    return `<td style="padding: 1rem; border-bottom: 1px solid #e5e7eb;">${topicsText}</td>`;
-  }).join('')}
-          </tr>
-          <tr>
-            <td style="background: #f8fafc; font-weight: 600; color: #374151;">Prerequisites</td>
-            ${items.map(item => `<td style="padding: 1rem; border-bottom: 1px solid #e5e7eb;">${item.prerequisites || item.requirements || 'None specified'}</td>`).join('')}
-          </tr>
-          <tr>
-            <td style="background: #f8fafc; font-weight: 600; color: #374151;">Rating</td>
-            ${items.map(item => {
-    const rating = item.rating || item.stars || item.score;
-    return `<td style="padding: 1rem; border-bottom: 1px solid #e5e7eb;">${rating ? `⭐ ${rating}` : 'Not rated'}</td>`;
-  }).join('')}
-          </tr>
-          <tr>
-            <td style="background: #f8fafc; font-weight: 600; color: #374151;">Access</td>
-            ${items.map(item => `<td style="padding: 1rem;">
-              <button onclick="window.open('${item.url || '#'}', '_blank')" 
-                style="background: #6366f1; color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.25rem; cursor: pointer;">
-                <i class="fas fa-external-link-alt"></i> Launch
-              </button>
-            </td>`).join('')}
-          </tr>
-        </tbody>
-      </table>
+    <!-- QUICK COMPARISON CARDS -->
+    <div class="comparison-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 2rem 0;">
+      ${items.map(item => `
+        <div class="comparison-card" style="border: 2px solid #e5e7eb; border-radius: 0.5rem; padding: 1rem; background: #f9fafb;">
+          <h4 style="color: #6366f1; margin-bottom: 0.5rem; font-size: 1.1rem;">${item.title}</h4>
+          <div style="font-size: 0.9rem; color: #6b7280;">
+            <div style="margin-bottom: 0.25rem;"><strong>Level:</strong> ${item.difficulty || item.level || 'Not specified'}</div>
+            <div style="margin-bottom: 0.25rem;"><strong>Duration:</strong> ${item.duration || 'Not specified'}</div>
+            <div style="margin-bottom: 0.25rem;"><strong>Rating:</strong> ${item.rating ? `⭐ ${item.rating}` : 'Not rated'}</div>
+            <div style="margin-bottom: 0.5rem;"><strong>Learners:</strong> ${item.learnerCount || 'Not available'}</div>
+            <button onclick="window.open('${item.url || '#'}', '_blank')" style="
+              background: #6366f1; color: white; border: none; padding: 0.5rem 1rem; 
+              border-radius: 0.25rem; cursor: pointer; width: 100%; font-size: 0.9rem;
+            ">
+              <i class="fas fa-external-link-alt"></i> Launch Course
+            </button>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+
+    <!-- CONTENT RICHNESS ANALYSIS -->
+    <div class="content-analysis" style="background: #f0f9ff; border: 1px solid #0284c7; border-radius: 0.5rem; padding: 1.5rem; margin: 2rem 0;">
+      <h3 style="color: #0284c7; margin-bottom: 1rem; display: flex; align-items: center;">
+        <i class="fas fa-chart-line" style="margin-right: 0.5rem;"></i> 
+        Advanced Content Analysis
+      </h3>
+      ${contentAnalysis}
+    </div>
+
+    <!-- DETAILED COMPARISON TABLE -->
+    <div class="detailed-comparison" style="margin: 2rem 0;">
+      <h3 style="color: #374151; margin-bottom: 1rem;">📊 Detailed Parameter Comparison</h3>
+      <div style="overflow-x: auto; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
+        <table style="width: 100%; border-collapse: collapse; background: white;">
+          <thead>
+            <tr style="background: #4f46e5;">
+              <th style="padding: 1rem; color: white; text-align: left; font-weight: 600;">Parameter</th>
+              ${items.map(item => `<th style="padding: 1rem; color: white; text-align: left; font-weight: 600; min-width: 200px;">${item.title}</th>`).join('')}
+            </tr>
+          </thead>
+          <tbody>
+            ${generateComparisonRows(items)}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- LEARNING PATH RECOMMENDATIONS -->
+    <div class="learning-recommendations" style="background: #f0fdf4; border: 1px solid #16a34a; border-radius: 0.5rem; padding: 1.5rem; margin: 2rem 0;">
+      <h3 style="color: #16a34a; margin-bottom: 1rem;">
+        <i class="fas fa-route" style="margin-right: 0.5rem;"></i> 
+        Recommended Learning Path
+      </h3>
+      ${generateLearningPath(items)}
     </div>
   `;
 }
 
-// Run the fixes
-fixFABAndModals();
-setTimeout(fixFABAndModals, 2000);
-document.addEventListener('DOMContentLoaded', fixFABAndModals);
+function analyzeContentRichness(items) {
+  const analysis = items.map(item => {
+    let richness = 0;
+    const features = [];
+    
+    if (item.description && item.description.length > 50) { richness += 2; features.push('Detailed description'); }
+    if (item.prerequisites && item.prerequisites.length > 0) { richness += 1; features.push('Prerequisites listed'); }
+    if (item.outcomes && item.outcomes.length > 0) { richness += 2; features.push('Learning outcomes'); }
+    if (item.audience) { richness += 1; features.push('Target audience'); }
+    if (item.rating && item.rating > 4) { richness += 1; features.push('Highly rated'); }
+    if (item.learnerCount && item.learnerCount > 1000) { richness += 1; features.push('Popular choice'); }
+    if (item.relatedExtras) { richness += 1; features.push('Extra resources'); }
+    
+    const level = richness >= 6 ? '🌟 Comprehensive' : richness >= 4 ? '📚 Well-detailed' : richness >= 2 ? '📄 Basic info' : '⚠️ Limited info';
+    
+    return { title: item.title, richness, level, features };
+  });
+  
+  const bestCourse = analysis.reduce((best, current) => current.richness > best.richness ? current : best);
+  
+  return `
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+      ${analysis.map(item => `
+        <div style="text-align: center; padding: 1rem; background: white; border-radius: 0.25rem;">
+          <div style="font-weight: 600; color: #374151; margin-bottom: 0.5rem;">${item.title}</div>
+          <div style="font-size: 1.2rem; margin-bottom: 0.5rem;">${item.level}</div>
+          <div style="font-size: 0.8rem; color: #6b7280;">Richness Score: ${item.richness}/8</div>
+        </div>
+      `).join('')}
+    </div>
+    <div style="background: white; padding: 1rem; border-radius: 0.25rem; border-left: 4px solid #0284c7;">
+      <strong>🏆 Most Comprehensive:</strong> ${bestCourse.title} 
+      <br><strong>Features:</strong> ${bestCourse.features.join(', ')}
+    </div>
+  `;
+}
 
-console.log('🎉 Complete FAB, modal, and comparison system loaded!');
+function generateComparisonRows(items) {
+  const parameters = [
+    { key: 'category', label: '🏷️ Category', getValue: (item) => item.category || item.topic || 'Not specified' },
+    { key: 'level', label: '📊 Difficulty Level', getValue: (item) => item.difficulty || item.level || 'Not specified' },
+    { key: 'duration', label: '⏱️ Duration', getValue: (item) => item.duration || 'Not specified' },
+    { key: 'description', label: '📝 Description', getValue: (item) => item.description ? (item.description.substring(0, 100) + '...') : 'No description' },
+    { key: 'prerequisites', label: '📋 Prerequisites', getValue: (item) => item.prerequisites ? (Array.isArray(item.prerequisites) ? item.prerequisites.join(', ') : item.prerequisites) : 'None specified' },
+    { key: 'outcomes', label: '🎯 Learning Outcomes', getValue: (item) => item.outcomes ? (Array.isArray(item.outcomes) ? item.outcomes.slice(0,2).join('; ') : item.outcomes) : 'Not specified' },
+    { key: 'audience', label: '👥 Target Audience', getValue: (item) => item.audience || 'General audience' },
+    { key: 'rating', label: '⭐ Rating', getValue: (item) => item.rating ? `${item.rating}/5.0` : 'Not rated' },
+    { key: 'learners', label: '👨‍🎓 Learner Count', getValue: (item) => item.learnerCount ? item.learnerCount.toLocaleString() : 'Not available' }
+  ];
+  
+  return parameters.map(param => `
+    <tr style="border-bottom: 1px solid #e5e7eb;">
+      <td style="padding: 1rem; background: #f8fafc; font-weight: 600; color: #374151;">${param.label}</td>
+      ${items.map(item => `<td style="padding: 1rem; vertical-align: top;">${param.getValue(item)}</td>`).join('')}
+    </tr>
+  `).join('');
+}
+
+function generateLearningPath(items) {
+  // Sort by difficulty/level
+  const sorted = [...items].sort((a, b) => {
+    const levels = { 'beginner': 1, 'intermediate': 2, 'advanced': 3 };
+    const aLevel = levels[a.difficulty] || levels[a.level] || 2;
+    const bLevel = levels[b.difficulty] || levels[b.level] || 2;
+    return aLevel - bLevel;
+  });
+  
+  return `
+    <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+      ${sorted.map((item, index) => `
+        <div style="display: flex; align-items: center;">
+          <div style="background: white; border: 2px solid #16a34a; border-radius: 0.5rem; padding: 0.75rem; text-align: center; min-width: 120px;">
+            <div style="font-weight: 600; color: #16a34a; font-size: 0.9rem;">${index + 1}. ${item.title}</div>
+            <div style="font-size: 0.8rem; color: #6b7280;">${item.difficulty || item.level || 'Standard'}</div>
+          </div>
+          ${index < sorted.length - 1 ? '<div style="color: #16a34a; font-size: 1.5rem;">→</div>' : ''}
+        </div>
+      `).join('')}
+    </div>
+    <div style="margin-top: 1rem; padding: 0.75rem; background: white; border-radius: 0.25rem; font-size: 0.9rem; color: #6b7280;">
+      💡 <strong>Recommendation:</strong> Start with ${sorted[0]?.title} and progress through this sequence for optimal learning.
+  </div>
+  `;
+}
+
+// Run the final fix
+finalFixEverything();
+setTimeout(finalFixEverything, 1000);
+document.addEventListener('DOMContentLoaded', finalFixEverything);
+
+console.log('🎉 Final working system with advanced comparison loaded!');
