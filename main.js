@@ -1152,3 +1152,138 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 });
+// TARGETED FIX: Bookmark management functions
+function updateBookmarkViewerButton() {
+  const viewerBtn = document.getElementById('bookmarkViewerBtn');
+  const countSpan = document.getElementById('bookmarkCount');
+  const totalBookmarks = impactMojoUserBookmarks.length + impactMojoUserLabBookmarks.length;
+  
+  if (viewerBtn) {
+    if (totalBookmarks > 0) {
+      viewerBtn.style.display = 'flex';
+      countSpan.textContent = totalBookmarks;
+    } else {
+      viewerBtn.style.display = 'none';
+    }
+  }
+}
+
+function showBookmarkModal() {
+  let modal = document.getElementById('bookmarkModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'bookmarkModal';
+    modal.className = 'modal';
+    document.body.appendChild(modal);
+  }
+  
+  const bookmarkedCourses = impactMojoAllCourses.filter(course => 
+    impactMojoUserBookmarks.includes(course.id)
+  );
+  const bookmarkedLabs = (window.labs || []).filter(lab => 
+    impactMojoUserLabBookmarks.includes(lab.id)
+  );
+  
+  modal.innerHTML = `
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('bookmarkModal')">&times;</span>
+      <h2><i class="fas fa-bookmark"></i> Your Bookmarks</h2>
+      <div style="margin-bottom: 1rem;">
+        <button onclick="exportBookmarks()" class="modal-btn" style="width: auto; margin-right: 1rem;">
+          <i class="fas fa-download"></i> Export List
+        </button>
+        <button onclick="clearAllBookmarks()" class="modal-btn" style="width: auto; background: var(--accent-color);">
+          <i class="fas fa-trash"></i> Clear All
+        </button>
+      </div>
+      ${bookmarkedCourses.length > 0 ? `
+        <h3>Courses (${bookmarkedCourses.length})</h3>
+        ${bookmarkedCourses.map(course => `
+          <div style="padding: 1rem; border: 1px solid var(--border-color); margin-bottom: 0.5rem; border-radius: 0.5rem;">
+            <strong>${course.title}</strong><br>
+            <small>${course.category} • ${course.duration}</small>
+            <button onclick="toggleBookmark('${course.id}')" style="float: right; background: var(--accent-color); color: white; border: none; padding: 0.25rem 0.5rem; border-radius: 0.25rem;">Remove</button>
+          </div>
+        `).join('')}
+      ` : ''}
+      ${bookmarkedLabs.length > 0 ? `
+        <h3>Labs (${bookmarkedLabs.length})</h3>
+        ${bookmarkedLabs.map(lab => `
+          <div style="padding: 1rem; border: 1px solid var(--border-color); margin-bottom: 0.5rem; border-radius: 0.5rem;">
+            <strong>${lab.title}</strong><br>
+            <small>${lab.labType}</small>
+            <button onclick="toggleLabBookmark('${lab.id}')" style="float: right; background: var(--accent-color); color: white; border: none; padding: 0.25rem 0.5rem; border-radius: 0.25rem;">Remove</button>
+          </div>
+        `).join('')}
+      ` : ''}
+      ${bookmarkedCourses.length === 0 && bookmarkedLabs.length === 0 ? '<p>No bookmarks yet. Start exploring courses and labs!</p>' : ''}
+    </div>
+  `;
+  
+  modal.style.display = 'block';
+}
+
+function exportBookmarks() {
+  const bookmarkedCourses = impactMojoAllCourses.filter(course => 
+    impactMojoUserBookmarks.includes(course.id)
+  );
+  const bookmarkedLabs = (window.labs || []).filter(lab => 
+    impactMojoUserLabBookmarks.includes(lab.id)
+  );
+  
+  let exportText = "MY IMPACTMOJO BOOKMARKS\n\n";
+  
+  if (bookmarkedCourses.length > 0) {
+    exportText += "COURSES:\n";
+    bookmarkedCourses.forEach(course => {
+      exportText += `• ${course.title} (${course.category}, ${course.duration})\n`;
+    });
+    exportText += "\n";
+  }
+  
+  if (bookmarkedLabs.length > 0) {
+    exportText += "LABS:\n";
+    bookmarkedLabs.forEach(lab => {
+      exportText += `• ${lab.title} (${lab.labType})\n`;
+    });
+  }
+  
+  navigator.clipboard.writeText(exportText).then(() => {
+    showNotification('Bookmarks copied to clipboard!', 'success');
+  });
+  
+  const blob = new Blob([exportText], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'impactmojo-bookmarks.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function clearAllBookmarks() {
+  if (confirm('Clear all bookmarks? This cannot be undone.')) {
+    impactMojoUserBookmarks = [];
+    impactMojoUserLabBookmarks = [];
+    localStorage.setItem('impactMojoBookmarks', JSON.stringify([]));
+    localStorage.setItem('impactMojoLabBookmarks', JSON.stringify([]));
+    updateBookmarkViewerButton();
+    updateAllBookmarkUI();
+    updateAllLabBookmarkUI();
+    closeModal('bookmarkModal');
+    showNotification('All bookmarks cleared', 'info');
+  }
+}
+
+// TARGETED FIX: Update existing bookmark functions
+const originalToggleBookmark = toggleBookmark;
+toggleBookmark = function(courseId) {
+  originalToggleBookmark.call(this, courseId);
+  updateBookmarkViewerButton();
+};
+
+const originalToggleLabBookmark = toggleLabBookmark;
+toggleLabBookmark = function(labId) {
+  originalToggleLabBookmark.call(this, labId);
+  updateBookmarkViewerButton();
+};
