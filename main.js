@@ -540,3 +540,521 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 console.log('✅ Main JS loaded successfully!');
+// ===== ADD THESE MISSING FUNCTIONS AT THE END OF main.js =====
+
+// Missing function that FAB button calls
+function showComparison() {
+  showComparisonModal();
+}
+
+// Comparison functionality
+let selectedForComparison = [];
+const MAX_COMPARISON_ITEMS = 4;
+
+function showComparisonModal() {
+  if (selectedForComparison.length < 2) {
+    showNotification('Please select at least 2 items to compare', 'warning');
+    return;
+  }
+  
+  updateComparisonContent();
+  openModal('comparisonModal');
+}
+
+function toggleComparison(itemId, itemType) {
+  const itemKey = `${itemType}-${itemId}`;
+  const index = selectedForComparison.findIndex(item => item.key === itemKey);
+  
+  if (index === -1) {
+    if (selectedForComparison.length >= MAX_COMPARISON_ITEMS) {
+      showNotification(`You can only compare up to ${MAX_COMPARISON_ITEMS} items at once`, 'warning');
+      return false;
+    }
+    
+    selectedForComparison.push({
+      key: itemKey,
+      id: itemId,
+      type: itemType
+    });
+    
+    showNotification(`Added to comparison (${selectedForComparison.length}/${MAX_COMPARISON_ITEMS})`, 'success');
+  } else {
+    selectedForComparison.splice(index, 1);
+    showNotification('Removed from comparison', 'info');
+  }
+  
+  updateComparisonUI();
+  return true;
+}
+
+function updateComparisonUI() {
+  // Update all comparison checkboxes
+  document.querySelectorAll('.comparison-checkbox').forEach(checkbox => {
+    const itemId = checkbox.dataset.itemId;
+    const itemType = checkbox.dataset.itemType;
+    const itemKey = `${itemType}-${itemId}`;
+    checkbox.checked = selectedForComparison.some(item => item.key === itemKey);
+  });
+  
+  // Update FAB button visibility
+  const compareFab = document.querySelector('.fab-btn.compare');
+  if (compareFab) {
+    compareFab.style.display = selectedForComparison.length > 1 ? 'block' : 'none';
+  }
+}
+
+function updateComparisonContent() {
+  const content = document.getElementById('comparisonContent');
+  if (!content) return;
+  
+  if (selectedForComparison.length === 0) {
+    content.innerHTML = `
+      <div class="comparison-placeholder">
+        <i class="fas fa-balance-scale"></i>
+        <h3>No items selected for comparison</h3>
+        <p>Select courses or labs using the comparison checkboxes to compare them here.</p>
+      </div>
+    `;
+    return;
+  }
+  
+  // Get the actual items
+  const items = selectedForComparison.map(selected => {
+    if (selected.type === 'course') {
+      return { ...impactMojoAllCourses.find(c => c.id === selected.id), type: 'course' };
+    } else if (selected.type === 'lab') {
+      return { ...(window.labs || []).find(l => l.id === selected.id), type: 'lab' };
+    }
+  }).filter(item => item && item.id);
+  
+  content.innerHTML = createBasicComparisonTable(items);
+}
+
+function createBasicComparisonTable(items) {
+  return `
+    <div class="comparison-stats">
+      <p>Comparing <strong>${items.length}</strong> items</p>
+      <button onclick="clearComparison()" class="clear-btn" style="margin-left: 1rem;">
+        <i class="fas fa-trash"></i> Clear All
+      </button>
+    </div>
+    
+    <div class="comparison-table-container">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Attribute</th>
+            ${items.map(item => `<th>${item.title} (${item.type})</th>`).join('')}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Description</strong></td>
+            ${items.map(item => `<td>${item.description || 'No description'}</td>`).join('')}
+          </tr>
+          <tr>
+            <td><strong>Difficulty</strong></td>
+            ${items.map(item => `<td><span class="difficulty-badge difficulty-${(item.difficulty || 'beginner').toLowerCase()}">${item.difficulty || 'Beginner'}</span></td>`).join('')}
+          </tr>
+          <tr>
+            <td><strong>Duration</strong></td>
+            ${items.map(item => `<td>${item.duration || 'Self-paced'}</td>`).join('')}
+          </tr>
+          <tr>
+            <td><strong>Topics</strong></td>
+            ${items.map(item => `<td>${(item.topics || []).join(', ') || 'Not specified'}</td>`).join('')}
+          </tr>
+          <tr>
+            <td><strong>Prerequisites</strong></td>
+            ${items.map(item => `<td>${(item.prerequisites || []).join(', ') || 'None'}</td>`).join('')}
+          </tr>
+          <tr>
+            <td><strong>Actions</strong></td>
+            ${items.map(item => `
+              <td>
+                <button onclick="${item.type === 'course' ? 'launchCourse' : 'launchLab'}('${item.id}')" 
+                        class="launch-comparison-btn">
+                  <i class="fas fa-external-link-alt"></i> Launch
+                </button>
+              </td>
+            `).join('')}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function clearComparison() {
+  selectedForComparison = [];
+  updateComparisonUI();
+  updateComparisonContent();
+  showNotification('Comparison cleared', 'info');
+}
+
+// Bookmark viewer functionality
+function showBookmarkModal() {
+  if (!document.getElementById('bookmarkViewerModal')) {
+    createBookmarkViewerModal();
+  }
+  
+  displayBookmarkedItems();
+  openModal('bookmarkViewerModal');
+}
+
+function createBookmarkViewerModal() {
+  const modal = document.createElement('div');
+  modal.id = 'bookmarkViewerModal';
+  modal.className = 'modal';
+  modal.innerHTML = `
+    <div class="modal-content large">
+      <span class="close" onclick="closeModal('bookmarkViewerModal')">&times;</span>
+      <div class="bookmark-modal-header">
+        <h2><i class="fas fa-bookmark"></i> Your Bookmarks</h2>
+        <div class="bookmark-modal-actions">
+          <button onclick="exportBookmarks('csv')" class="export-btn">
+            <i class="fas fa-file-csv"></i> Export CSV
+          </button>
+          <button onclick="clearAllBookmarks()" class="clear-btn">
+            <i class="fas fa-trash"></i> Clear All
+          </button>
+        </div>
+      </div>
+      <div id="bookmarkViewerContent">
+        <!-- Bookmarked items will be displayed here -->
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+
+function displayBookmarkedItems() {
+  const content = document.getElementById('bookmarkViewerContent');
+  if (!content) return;
+  
+  const bookmarkedCourses = impactMojoAllCourses.filter(course => 
+    impactMojoUserBookmarks.includes(course.id)
+  );
+  
+  const bookmarkedLabs = (window.labs || []).filter(lab => 
+    impactMojoUserLabBookmarks.includes(lab.id)
+  );
+  
+  if (bookmarkedCourses.length === 0 && bookmarkedLabs.length === 0) {
+    content.innerHTML = `
+      <div class="no-bookmarks">
+        <i class="fas fa-bookmark"></i>
+        <h3>No bookmarks yet</h3>
+        <p>Bookmark courses and labs to access them quickly!</p>
+      </div>
+    `;
+    return;
+  }
+  
+  let html = '';
+  
+  if (bookmarkedCourses.length > 0) {
+    html += `
+      <div class="bookmark-section">
+        <h3><i class="fas fa-graduation-cap"></i> Courses (${bookmarkedCourses.length})</h3>
+        <div class="bookmark-grid">
+          ${bookmarkedCourses.map(course => createBookmarkCard(course, 'course')).join('')}
+        </div>
+      </div>
+    `;
+  }
+  
+  if (bookmarkedLabs.length > 0) {
+    html += `
+      <div class="bookmark-section">
+        <h3><i class="fas fa-flask"></i> Labs (${bookmarkedLabs.length})</h3>
+        <div class="bookmark-grid">
+          ${bookmarkedLabs.map(lab => createBookmarkCard(lab, 'lab')).join('')}
+        </div>
+      </div>
+    `;
+  }
+  
+  content.innerHTML = html;
+}
+
+function createBookmarkCard(item, type) {
+  const isLab = type === 'lab';
+  const toggleFunction = isLab ? 'toggleLabBookmark' : 'toggleBookmark';
+  const launchFunction = isLab ? 'launchLab' : 'launchCourse';
+  
+  return `
+    <div class="bookmark-item-card">
+      <div class="bookmark-item-header">
+        <h4>${item.title}</h4>
+        <span class="bookmark-type-badge ${type}">${isLab ? 'Lab' : 'Course'}</span>
+      </div>
+      <p class="bookmark-item-description">${item.description || 'No description'}</p>
+      <div class="bookmark-item-meta">
+        <span><i class="fas fa-clock"></i> ${item.duration || 'Self-paced'}</span>
+        <span><i class="fas fa-signal"></i> ${item.difficulty || 'Beginner'}</span>
+        ${!isLab ? `<span><i class="fas fa-star"></i> ${item.rating || '4.5'}/5</span>` : ''}
+      </div>
+      <div class="bookmark-item-actions">
+        <button onclick="${launchFunction}('${item.id}')" class="launch-bookmark-btn">
+          <i class="fas fa-external-link-alt"></i> Launch
+        </button>
+        <button onclick="${toggleFunction}('${item.id}'); displayBookmarkedItems(); updateBookmarkViewer();" 
+                class="remove-bookmark-btn">
+          <i class="fas fa-trash"></i> Remove
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function exportBookmarks(format) {
+  const bookmarkedCourses = impactMojoAllCourses.filter(course => 
+    impactMojoUserBookmarks.includes(course.id)
+  );
+  
+  const bookmarkedLabs = (window.labs || []).filter(lab => 
+    impactMojoUserLabBookmarks.includes(lab.id)
+  );
+  
+  const allBookmarks = [
+    ...bookmarkedCourses.map(course => ({ ...course, type: 'course' })),
+    ...bookmarkedLabs.map(lab => ({ ...lab, type: 'lab' }))
+  ];
+  
+  if (allBookmarks.length === 0) {
+    showNotification('No bookmarks to export', 'warning');
+    return;
+  }
+  
+  if (format === 'csv') {
+    exportAsCSV(allBookmarks);
+  }
+}
+
+function exportAsCSV(bookmarks) {
+  const headers = ['Title', 'Type', 'Description', 'Difficulty', 'Duration', 'Rating'];
+  const csvContent = [
+    headers.join(','),
+    ...bookmarks.map(item => [
+      `"${(item.title || '').replace(/"/g, '""')}"`,
+      item.type || '',
+      `"${(item.description || '').replace(/"/g, '""')}"`,
+      item.difficulty || '',
+      item.duration || '',
+      item.rating || ''
+    ].join(','))
+  ].join('\n');
+  
+  const blob = new Blob([csvContent], { type: 'text/csv' });
+  downloadFile(blob, `impactmojo-bookmarks-${new Date().toISOString().split('T')[0]}.csv`);
+  showNotification('Bookmarks exported as CSV', 'success');
+}
+
+function downloadFile(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function clearAllBookmarks() {
+  if (confirm('Are you sure you want to clear all bookmarks? This action cannot be undone.')) {
+    impactMojoUserBookmarks = [];
+    impactMojoUserLabBookmarks = [];
+    localStorage.setItem('impactMojoBookmarks', JSON.stringify([]));
+    localStorage.setItem('impactMojoLabBookmarks', JSON.stringify([]));
+    
+    updateBookmarkViewer();
+    updateAllBookmarkUI();
+    updateAllLabBookmarkUI();
+    displayBookmarkedItems();
+    
+    showNotification('All bookmarks cleared', 'info');
+  }
+}
+
+function updateBookmarkViewer() {
+  const bookmarkViewerBtn = document.getElementById('bookmarkViewerBtn');
+  const totalBookmarks = impactMojoUserBookmarks.length + impactMojoUserLabBookmarks.length;
+  
+  if (bookmarkViewerBtn) {
+    if (totalBookmarks > 0) {
+      bookmarkViewerBtn.style.display = 'block';
+      const countSpan = document.getElementById('bookmarkCount');
+      if (countSpan) {
+        countSpan.textContent = totalBookmarks;
+      }
+    } else {
+      bookmarkViewerBtn.style.display = 'none';
+    }
+  }
+}
+
+function getCategoryColor(category) {
+  const colors = {
+    'General': '#6366f1',
+    'Research & Data Analysis': '#3b82f6',
+    'Gender & Justice': '#ec4899',
+    'Economics & Development': '#059669',
+    'Health & Environment': '#dc2626',
+    'Governance & Policy': '#7c3aed',
+    'Education & Communication': '#f59e0b',
+    'Technology & Ethics': '#10b981'
+  };
+  return colors[category] || '#6366f1';
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(() => {
+    updateBookmarkViewer();
+  }, 1000);
+});
+
+// Override existing bookmark functions to update viewer
+const originalToggleBookmark = toggleBookmark;
+toggleBookmark = function(courseId) {
+  originalToggleBookmark(courseId);
+  setTimeout(updateBookmarkViewer, 100);
+};
+
+const originalToggleLabBookmark = toggleLabBookmark;
+toggleLabBookmark = function(labId) {
+  originalToggleLabBookmark(labId);
+  setTimeout(updateBookmarkViewer, 100);
+};
+
+console.log('✅ Missing functions added successfully!');
+// ===== UPDATED CARD FUNCTIONS (OVERRIDE EXISTING ONES) =====
+
+// New createCourseCard function with comparison checkboxes
+function createCourseCard(course) {
+  if (!course) return '';
+  
+  const category = course.category || 'General';
+  const difficulty = course.difficulty || 'Beginner';
+  const duration = course.duration || 'Self-paced';
+  const rating = course.rating || 4.5;
+  const description = course.description || 'No description available';
+  const title = course.title || 'Untitled Course';
+  const courseId = course.id;
+  
+  const categoryColor = getCategoryColor(category);
+  
+  return `
+    <div class="course-card" data-course-id="${courseId}" style="border-left: 4px solid ${categoryColor}">
+      <!-- Add comparison checkbox -->
+      <label class="comparison-checkbox-label" title="Select for comparison">
+        <input type="checkbox" 
+                class="comparison-checkbox" 
+                data-item-id="${courseId}"
+                data-item-type="course"
+                onchange="toggleComparison('${courseId}', 'course')">
+      </label>
+      
+      <div class="course-card-header">
+        <div class="course-category" style="background-color: ${categoryColor}20; color: ${categoryColor}">
+          ${category}
+        </div>
+        <div class="course-actions">
+          <button class="bookmark-btn" onclick="toggleBookmark('${courseId}')" aria-label="Bookmark course">
+            <i class="far fa-bookmark"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div class="course-content">
+        <h3 class="course-title">${title}</h3>
+        <p class="course-description">${description}</p>
+        
+        <div class="course-meta">
+          <span class="course-rating">
+            <i class="fas fa-star"></i>
+            ${rating.toFixed(1)}
+          </span>
+          <span class="course-duration">
+            <i class="fas fa-clock"></i>
+            ${duration}
+          </span>
+          <span class="course-difficulty difficulty-${difficulty.toLowerCase()}">
+            ${difficulty}
+          </span>
+        </div>
+      </div>
+      
+      <div class="course-card-footer">
+        <button class="launch-btn" onclick="launchCourse('${courseId}')">
+          <i class="fas fa-play"></i>
+          Launch Course
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+// New createLabCard function with comparison checkboxes
+function createLabCard(lab) {
+  if (!lab) return '';
+  
+  const category = lab.category || 'Interactive';
+  const difficulty = lab.difficulty || 'Beginner';
+  const duration = lab.duration || '30 min';
+  const description = lab.description || 'Interactive lab experience';
+  const title = lab.title || 'Untitled Lab';
+  const labId = lab.id;
+  const labType = lab.type || 'Simulation';
+  
+  return `
+    <div class="lab-card" data-lab-id="${labId}">
+      <!-- Add comparison checkbox -->
+      <label class="comparison-checkbox-label" title="Select for comparison">
+        <input type="checkbox" 
+                class="comparison-checkbox" 
+                data-item-id="${labId}"
+                data-item-type="lab"
+                onchange="toggleComparison('${labId}', 'lab')">
+      </label>
+      
+      <div class="lab-card-header">
+        <div class="lab-category">
+          ${category}
+        </div>
+        <div class="lab-type-badge">${labType}</div>
+        <div class="lab-actions">
+          <button class="bookmark-btn" onclick="toggleLabBookmark('${labId}')" aria-label="Bookmark lab">
+            <i class="far fa-bookmark"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div class="lab-content">
+        <h3 class="lab-title">${title}</h3>
+        <p class="lab-description">${description}</p>
+        
+        <div class="lab-meta">
+          <span class="lab-duration">
+            <i class="fas fa-clock"></i>
+            ${duration}
+          </span>
+          <span class="lab-difficulty difficulty-${difficulty.toLowerCase()}">
+            ${difficulty}
+          </span>
+        </div>
+      </div>
+      
+      <div class="lab-card-footer">
+        <button class="lab-launch-btn" onclick="launchLab('${labId}')">
+          <i class="fas fa-flask"></i>
+          Launch Lab
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+console.log('✅ Updated card functions loaded!');
