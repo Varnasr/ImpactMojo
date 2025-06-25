@@ -931,3 +931,203 @@ function updateComparisonUI() {
 }
 
 console.log('✅ Comparison FAB button update added!');
+// ===== UPCOMING COURSES SECTION - CONSOLIDATED FIX =====
+
+function fixUpcomingSectionFormatting() {
+  console.log('🎨 Fixing upcoming courses section formatting...');
+  
+  // Find upcoming section by ID or class
+  let upcomingSection = document.getElementById('upcoming') || 
+  document.querySelector('.upcoming-section') ||
+  document.querySelector('.upcoming-courses');
+  
+  // If not found, look for any element containing "development" text
+  if (!upcomingSection) {
+    const allElements = document.querySelectorAll('section, div, article');
+    for (let element of allElements) {
+      if (element.textContent && 
+        (element.textContent.includes('New courses and labs currently in development') ||
+          element.textContent.includes('development') ||
+          element.textContent.includes('upcoming'))) {
+            upcomingSection = element;
+            break;
+          }
+    }
+  }
+  
+  if (upcomingSection) {
+    console.log('✅ Found upcoming section, applying formatting...');
+    
+    // Apply container styling
+    upcomingSection.style.setProperty('padding', '3rem 2rem', 'important');
+    upcomingSection.style.setProperty('background', 'var(--surface, #f8fafc)', 'important');
+    upcomingSection.style.setProperty('border-radius', '1rem', 'important');
+    upcomingSection.style.setProperty('margin', '2rem auto', 'important');
+    upcomingSection.style.setProperty('max-width', '1000px', 'important');
+    upcomingSection.style.setProperty('border', '1px solid var(--border-color, #e5e7eb)', 'important');
+    upcomingSection.style.setProperty('box-shadow', '0 2px 4px rgba(0, 0, 0, 0.05)', 'important');
+    upcomingSection.style.setProperty('text-align', 'center', 'important');
+    
+    // Fix headings inside
+    const headings = upcomingSection.querySelectorAll('h1, h2, h3, h4, h5, h6');
+    headings.forEach(heading => {
+      heading.style.setProperty('font-size', '2.25rem', 'important');
+      heading.style.setProperty('font-weight', '700', 'important');
+      heading.style.setProperty('line-height', '1.3', 'important');
+      heading.style.setProperty('text-align', 'center', 'important');
+      heading.style.setProperty('margin', '0 0 1.5rem 0', 'important');
+      heading.style.setProperty('padding', '0 1rem', 'important');
+      heading.style.setProperty('color', 'var(--text-primary, #1f2937)', 'important');
+      heading.style.setProperty('letter-spacing', '-0.025em', 'important');
+    });
+    
+    // Fix paragraphs inside
+    const paragraphs = upcomingSection.querySelectorAll('p');
+    paragraphs.forEach(p => {
+      p.style.setProperty('font-size', '1.125rem', 'important');
+      p.style.setProperty('line-height', '1.7', 'important');
+      p.style.setProperty('text-align', 'center', 'important');
+      p.style.setProperty('margin', '0 auto 2rem auto', 'important');
+      p.style.setProperty('padding', '0 1rem', 'important');
+      p.style.setProperty('max-width', '700px', 'important');
+      p.style.setProperty('color', 'var(--text-secondary, #6b7280)', 'important');
+      
+      // Special styling for development text
+      if (p.textContent && 
+        (p.textContent.includes('development') || 
+          p.textContent.includes('New courses and labs currently'))) {
+            p.style.setProperty('background', 'linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(59, 130, 246, 0.1))', 'important');
+            p.style.setProperty('border', '1px solid rgba(99, 102, 241, 0.2)', 'important');
+            p.style.setProperty('border-radius', '0.75rem', 'important');
+            p.style.setProperty('padding', '1.5rem 2rem', 'important');
+            p.style.setProperty('margin', '1rem auto', 'important');
+            p.style.setProperty('position', 'relative', 'important');
+            
+            // Add construction icon
+            if (!p.querySelector('.construction-icon')) {
+              const icon = document.createElement('span');
+              icon.className = 'construction-icon';
+              icon.innerHTML = '🚧 ';
+              icon.style.cssText = 'font-size: 1.5rem; margin-right: 0.5rem; display: inline-block;';
+              p.insertBefore(icon, p.firstChild);
+            }
+          }
+    });
+    
+    // Handle mobile responsiveness
+    function applyMobileStyles() {
+      if (window.innerWidth <= 768) {
+        upcomingSection.style.setProperty('padding', '2rem 1rem', 'important');
+        upcomingSection.style.setProperty('margin', '1rem', 'important');
+        
+        headings.forEach(heading => {
+          heading.style.setProperty('font-size', '1.75rem', 'important');
+          heading.style.setProperty('padding', '0 0.5rem', 'important');
+        });
+        
+        paragraphs.forEach(p => {
+          p.style.setProperty('font-size', '1rem', 'important');
+          p.style.setProperty('padding', '0 0.5rem', 'important');
+        });
+      }
+      
+      if (window.innerWidth <= 480) {
+        headings.forEach(heading => {
+          heading.style.setProperty('font-size', '1.5rem', 'important');
+        });
+      }
+    }
+    
+    // Apply mobile styles initially
+    applyMobileStyles();
+    
+    // Apply mobile styles on resize
+    window.addEventListener('resize', applyMobileStyles);
+    
+    console.log('✅ Upcoming section formatting applied successfully');
+  } else {
+    console.log('⚠️ Upcoming section not found');
+    
+    // Fallback: look for any text containing the specific phrase
+    const allTextElements = document.querySelectorAll('*');
+    for (let element of allTextElements) {
+      if (element.textContent && 
+        element.textContent.trim() === 'New courses and labs currently in development') {
+          console.log('✅ Found specific development text, applying formatting...');
+          
+          // Get the parent container
+          let container = element.closest('section') || element.closest('div') || element.parentElement;
+          
+          if (container) {
+            container.style.setProperty('padding', '3rem 2rem', 'important');
+            container.style.setProperty('background', 'var(--surface, #f8fafc)', 'important');
+            container.style.setProperty('border-radius', '1rem', 'important');
+            container.style.setProperty('margin', '2rem auto', 'important');
+            container.style.setProperty('max-width', '800px', 'important');
+            container.style.setProperty('text-align', 'center', 'important');
+            container.style.setProperty('border', '1px solid var(--border-color, #e5e7eb)', 'important');
+          }
+          
+          element.style.setProperty('font-size', '1.125rem', 'important');
+          element.style.setProperty('line-height', '1.7', 'important');
+          element.style.setProperty('color', 'var(--text-secondary, #6b7280)', 'important');
+          element.style.setProperty('margin', '1rem auto', 'important');
+          
+          // Add icon
+          if (!element.querySelector('.construction-icon')) {
+            const icon = document.createElement('span');
+            icon.className = 'construction-icon';
+            icon.innerHTML = '🚧 ';
+            icon.style.cssText = 'font-size: 1.5rem; margin-right: 0.5rem;';
+            element.insertBefore(icon, element.firstChild);
+          }
+          
+          break;
+        }
+    }
+  }
+}
+
+// Apply the fix when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(fixUpcomingSectionFormatting, 1500);
+});
+
+// Apply the fix when window loads (in case content loads late)
+window.addEventListener('load', function() {
+  setTimeout(fixUpcomingSectionFormatting, 1000);
+});
+
+// Watch for content changes and reapply fix
+let upcomingFixObserver = new MutationObserver(function(mutations) {
+  let shouldReapply = false;
+  
+  mutations.forEach(function(mutation) {
+    if (mutation.type === 'childList') {
+      mutation.addedNodes.forEach(function(node) {
+        if (node.nodeType === 1 && // Element node
+          (node.textContent?.includes('development') || 
+            node.textContent?.includes('upcoming') ||
+            node.id?.includes('upcoming') ||
+            node.className?.includes('upcoming'))) {
+              shouldReapply = true;
+            }
+      });
+    }
+  });
+  
+  if (shouldReapply) {
+    console.log('🔄 Content changed, reapplying upcoming section formatting...');
+    setTimeout(fixUpcomingSectionFormatting, 500);
+  }
+});
+
+// Start observing for content changes
+upcomingFixObserver.observe(document.body, { 
+  childList: true, 
+  subtree: true 
+});
+
+console.log('🎨 Upcoming courses section formatting fix loaded and ready!');
+
+// ===== END UPCOMING COURSES FIX =====
