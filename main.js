@@ -1265,13 +1265,13 @@ if (document.readyState === 'loading') {
 }
 
 console.log('🎉 Clean FAB and comparison system loaded!');
-// ===== WORKING FAB BUTTON & NOTIFICATION FIX =====
-function fixEverything() {
-  console.log('🔧 Fixing FAB buttons and notifications...');
+// ===== CORRECTED FAB BUTTON & MODAL FIX =====
+function fixFABAndModals() {
+  console.log('🔧 Fixing FAB buttons and modals...');
   
-  // STEP 1: Fix showNotification function to be visible
+  // STEP 1: Fix showNotification function to be visible (keeping this working)
   window.showNotification = function(message, type = 'info') {
-    console.log(`Showing notification: ${message} (${type})`);
+    console.log(`Notification: ${message} (${type})`);
     
     // Remove existing notifications
     const existingNotifications = document.querySelectorAll('.notification');
@@ -1340,9 +1340,9 @@ function fixEverything() {
     }, 5000);
   };
   
-  // STEP 2: Fix modal opening
+  // STEP 2: Fix modal opening - check what actually exists
   window.openModal = function(modalId) {
-    console.log(`Attempting to open modal: ${modalId}`);
+    console.log(`Opening modal: ${modalId}`);
     const modal = document.getElementById(modalId);
     if (modal) {
       modal.style.display = 'flex';
@@ -1350,14 +1350,15 @@ function fixEverything() {
       modal.style.justifyContent = 'center';
       document.body.style.overflow = 'hidden';
       console.log(`✅ Opened modal: ${modalId}`);
-      showNotification(`Opened ${modalId.replace('Modal', '')} form`, 'success');
     } else {
       console.error(`❌ Modal not found: ${modalId}`);
-      showNotification(`Could not find ${modalId}`, 'error');
-      
-      // Debug: show what modals exist
-      const allModals = document.querySelectorAll('[id*="Modal"], .modal');
-      console.log('Available modals:', Array.from(allModals).map(m => m.id || m.className));
+      // Debug: list all elements with modal-related IDs
+      const allElements = document.querySelectorAll('[id*="modal"], [id*="Modal"], .modal');
+      console.log('Available modal elements:', Array.from(allElements).map(el => ({
+        id: el.id,
+        className: el.className,
+        tagName: el.tagName
+      })));
     }
   };
   
@@ -1366,66 +1367,81 @@ function fixEverything() {
     if (modal) {
       modal.style.display = 'none';
       document.body.style.overflow = 'auto';
-      console.log(`✅ Closed modal: ${modalId}`);
     }
   };
   
-  // STEP 3: Direct FAB button handlers (backup method)
+  // STEP 3: Direct button handlers that definitely work
   window.handleFeedbackClick = function() {
-    console.log('🗨️ Feedback button clicked');
+    console.log('🗨️ Feedback button clicked - searching for feedback modal...');
     
-    // Try multiple modal IDs that might exist
-    const possibleIds = ['feedbackModal', 'feedback-modal', 'modal-feedback'];
-    let modalFound = false;
-    
-    for (let id of possibleIds) {
-      const modal = document.getElementById(id);
-      if (modal) {
-        modal.style.display = 'flex';
-        modal.style.alignItems = 'center';
-        modal.style.justifyContent = 'center';
-        document.body.style.overflow = 'hidden';
-        showNotification('Feedback form opened', 'success');
-        modalFound = true;
-        console.log(`✅ Opened feedback modal: ${id}`);
-        break;
+    // Search for feedback modal more thoroughly
+    let modal = document.getElementById('feedbackModal');
+    if (!modal) {
+      // Try other possible selectors
+      const selectors = [
+        '#feedback-modal',
+        '.modal[id*="feedback"]',
+        'div[id*="feedback"]',
+        '.feedback-modal'
+      ];
+      
+      for (let selector of selectors) {
+        modal = document.querySelector(selector);
+        if (modal) {
+          console.log(`Found feedback modal with selector: ${selector}`);
+          break;
+        }
       }
     }
     
-    if (!modalFound) {
-      showNotification('Feedback form not found - please contact support', 'error');
-      console.error('❌ No feedback modal found');
+    if (modal) {
+      modal.style.display = 'flex';
+      modal.style.alignItems = 'center';
+      modal.style.justifyContent = 'center';
+      document.body.style.overflow = 'hidden';
+      console.log('✅ Feedback modal opened');
+    } else {
+      console.error('❌ Feedback modal not found');
+      // Show what we do have
+      const allModals = document.querySelectorAll('.modal, [id*="modal"], [id*="Modal"]');
+      console.log('All modal-like elements found:', Array.from(allModals).map(m => m.id || m.className));
     }
   };
   
   window.handleSuggestClick = function() {
-    console.log('💡 Suggest button clicked');
+    console.log('💡 Suggest button clicked - searching for suggest modal...');
     
-    // Try multiple modal IDs that might exist
-    const possibleIds = ['suggestModal', 'suggest-modal', 'modal-suggest'];
-    let modalFound = false;
-    
-    for (let id of possibleIds) {
-      const modal = document.getElementById(id);
-      if (modal) {
-        modal.style.display = 'flex';
-        modal.style.alignItems = 'center';
-        modal.style.justifyContent = 'center';
-        document.body.style.overflow = 'hidden';
-        showNotification('Suggestion form opened', 'success');
-        modalFound = true;
-        console.log(`✅ Opened suggestion modal: ${id}`);
-        break;
+    // Search for suggest modal more thoroughly  
+    let modal = document.getElementById('suggestModal');
+    if (!modal) {
+      const selectors = [
+        '#suggest-modal',
+        '.modal[id*="suggest"]',
+        'div[id*="suggest"]',
+        '.suggest-modal'
+      ];
+      
+      for (let selector of selectors) {
+        modal = document.querySelector(selector);
+        if (modal) {
+          console.log(`Found suggest modal with selector: ${selector}`);
+          break;
+        }
       }
     }
     
-    if (!modalFound) {
-      showNotification('Suggestion form not found - please contact support', 'error');
-      console.error('❌ No suggestion modal found');
+    if (modal) {
+      modal.style.display = 'flex';
+      modal.style.alignItems = 'center';
+      modal.style.justifyContent = 'center';
+      document.body.style.overflow = 'hidden';
+      console.log('✅ Suggest modal opened');
+    } else {
+      console.error('❌ Suggest modal not found');
     }
   };
   
-  // STEP 4: Update FAB buttons to use new handlers
+  // STEP 4: Attach handlers to FAB buttons
   setTimeout(() => {
     const feedbackBtn = document.querySelector('.fab-btn.feedback');
     const suggestBtn = document.querySelector('.fab-btn.suggest');
@@ -1440,17 +1456,125 @@ function fixEverything() {
       console.log('✅ Suggest button handler attached');
     }
     
-    // Test notification
-    showNotification('FAB buttons are now working!', 'success');
+    // NO MORE TEST NOTIFICATION - REMOVED!
     
   }, 1000);
   
-  console.log('✅ Everything fixed!');
+  console.log('✅ FAB and modal fixes applied');
 }
 
-// Run the fix
-fixEverything();
-setTimeout(fixEverything, 2000);
-document.addEventListener('DOMContentLoaded', fixEverything);
+// ===== FULL COMPARISON IMPLEMENTATION =====
+function updateComparisonContent() {
+  const content = document.getElementById('comparisonContent');
+  if (!content) return;
+  
+  if (window.selectedForComparison.length < 2) {
+    content.innerHTML = `
+      <div class="comparison-placeholder">
+        <i class="fas fa-balance-scale"></i>
+        <h3>Select items to compare</h3>
+        <p>Use the checkboxes on course and lab cards to select items for comparison. You can compare 2-4 items at once.</p>
+      </div>
+    `;
+    return;
+  }
+  
+  // Get actual course/lab data
+  const items = window.selectedForComparison.map(item => {
+    if (item.type === 'course') {
+      return window.courses?.find(c => c.id === item.id) || 
+      impactMojoAllCourses?.find(c => c.id === item.id);
+    } else if (item.type === 'lab') {
+      return window.labs?.find(l => l.id === item.id);
+    }
+    return null;
+  }).filter(Boolean);
+  
+  if (items.length === 0) {
+    content.innerHTML = '<p>Error loading comparison data.</p>';
+    return;
+  }
+  
+  // Generate full comparison table
+  const tableHTML = generateFullComparisonTable(items);
+  
+  content.innerHTML = `
+    <div class="comparison-stats">
+      <span><i class="fas fa-balance-scale"></i> Comparing ${items.length} item${items.length > 1 ? 's' : ''}</span>
+      <button class="clear-btn" onclick="clearComparison()">
+        <i class="fas fa-times"></i> Clear Selection
+      </button>
+    </div>
+    ${tableHTML}
+  `;
+}
 
-console.log('🎉 Working FAB button and notification system loaded!');
+function generateFullComparisonTable(items) {
+  console.log('Generating comparison table for:', items.map(i => i.title));
+  
+  return `
+    <div class="comparison-table-container">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th style="background: #4f46e5; color: white; font-weight: 600;">Parameter</th>
+            ${items.map(item => `<th style="background: #6366f1; color: white; font-weight: 600;">${item.title || 'Untitled'}</th>`).join('')}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="background: #f8fafc; font-weight: 600; color: #374151;">Category</td>
+            ${items.map(item => `<td style="padding: 1rem; border-bottom: 1px solid #e5e7eb;">${item.category || 'Not specified'}</td>`).join('')}
+          </tr>
+          <tr>
+            <td style="background: #f8fafc; font-weight: 600; color: #374151;">Difficulty Level</td>
+            ${items.map(item => `<td style="padding: 1rem; border-bottom: 1px solid #e5e7eb;">${item.difficulty || item.level || 'Not specified'}</td>`).join('')}
+          </tr>
+          <tr>
+            <td style="background: #f8fafc; font-weight: 600; color: #374151;">Duration</td>
+            ${items.map(item => `<td style="padding: 1rem; border-bottom: 1px solid #e5e7eb;">${item.duration || item.timeToComplete || 'Not specified'}</td>`).join('')}
+          </tr>
+          <tr>
+            <td style="background: #f8fafc; font-weight: 600; color: #374151;">Description</td>
+            ${items.map(item => `<td style="padding: 1rem; border-bottom: 1px solid #e5e7eb; max-width: 200px; word-wrap: break-word;">${(item.description || 'No description available').substring(0, 150)}${(item.description || '').length > 150 ? '...' : ''}</td>`).join('')}
+          </tr>
+          <tr>
+            <td style="background: #f8fafc; font-weight: 600; color: #374151;">Key Topics</td>
+            ${items.map(item => {
+    const topics = item.topics || item.keyTopics || item.tags || [];
+    const topicsText = Array.isArray(topics) ? topics.join(', ') : (topics || 'Not specified');
+    return `<td style="padding: 1rem; border-bottom: 1px solid #e5e7eb;">${topicsText}</td>`;
+  }).join('')}
+          </tr>
+          <tr>
+            <td style="background: #f8fafc; font-weight: 600; color: #374151;">Prerequisites</td>
+            ${items.map(item => `<td style="padding: 1rem; border-bottom: 1px solid #e5e7eb;">${item.prerequisites || item.requirements || 'None specified'}</td>`).join('')}
+          </tr>
+          <tr>
+            <td style="background: #f8fafc; font-weight: 600; color: #374151;">Rating</td>
+            ${items.map(item => {
+    const rating = item.rating || item.stars || item.score;
+    return `<td style="padding: 1rem; border-bottom: 1px solid #e5e7eb;">${rating ? `⭐ ${rating}` : 'Not rated'}</td>`;
+  }).join('')}
+          </tr>
+          <tr>
+            <td style="background: #f8fafc; font-weight: 600; color: #374151;">Access</td>
+            ${items.map(item => `<td style="padding: 1rem;">
+              <button onclick="window.open('${item.url || '#'}', '_blank')" 
+                style="background: #6366f1; color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.25rem; cursor: pointer;">
+                <i class="fas fa-external-link-alt"></i> Launch
+              </button>
+            </td>`).join('')}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+// Run the fixes
+fixFABAndModals();
+setTimeout(fixFABAndModals, 2000);
+document.addEventListener('DOMContentLoaded', fixFABAndModals);
+
+console.log('🎉 Complete FAB, modal, and comparison system loaded!');
