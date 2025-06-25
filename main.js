@@ -1265,3 +1265,96 @@ if (document.readyState === 'loading') {
 }
 
 console.log('🎉 Clean FAB and comparison system loaded!');
+// ===== FIX FAB BUTTON FUNCTIONALITY =====
+function fixFABButtons() {
+  console.log('🔧 Fixing FAB button functionality...');
+  
+  // Remove any old FAB containers to avoid conflicts
+  const fabContainers = document.querySelectorAll('.fab-container');
+  if (fabContainers.length > 1) {
+    // Keep only the first one, remove others
+    for (let i = 1; i < fabContainers.length; i++) {
+      fabContainers[i].remove();
+    }
+    console.log(`Removed ${fabContainers.length - 1} duplicate FAB containers`);
+  }
+  
+  // Ensure modal display function works
+  window.openModal = function(modalId) {
+    console.log(`Opening modal: ${modalId}`);
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.style.display = 'flex';
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      console.log(`✅ Modal ${modalId} opened successfully`);
+    } else {
+      console.error(`❌ Modal ${modalId} not found`);
+      // List all available modals for debugging
+      const allModals = document.querySelectorAll('.modal');
+      console.log('Available modals:', Array.from(allModals).map(m => m.id));
+    }
+  };
+  
+  // Ensure modal close function works  
+  window.closeModal = function(modalId) {
+    console.log(`Closing modal: ${modalId}`);
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.style.display = 'none';
+      modal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+      console.log(`✅ Modal ${modalId} closed successfully`);
+    }
+  };
+  
+  // Test if modals exist
+  const feedbackModal = document.getElementById('feedbackModal');
+  const suggestModal = document.getElementById('suggestModal');
+  const comparisonModal = document.getElementById('comparisonModal');
+  
+  console.log('Modal check:');
+  console.log('- feedbackModal:', feedbackModal ? '✅ Found' : '❌ Missing');
+  console.log('- suggestModal:', suggestModal ? '✅ Found' : '❌ Missing');
+  console.log('- comparisonModal:', comparisonModal ? '✅ Found' : '❌ Missing');
+  
+  // Fix FAB button click handlers if needed
+  const fabButtons = document.querySelectorAll('.fab-btn');
+  fabButtons.forEach((btn, index) => {
+    console.log(`FAB Button ${index + 1}:`, btn.className, btn.getAttribute('onclick'));
+  });
+  
+  console.log('✅ FAB button functionality fixed!');
+}
+
+// ===== ALTERNATIVE BACKUP FUNCTIONS =====
+// If openModal doesn't work, these will
+window.showFeedbackModal = function() {
+  console.log('Using backup feedback function');
+  const modal = document.getElementById('feedbackModal');
+  if (modal) {
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+};
+
+window.showSuggestModal = function() {
+  console.log('Using backup suggest function');
+  const modal = document.getElementById('suggestModal');
+  if (modal) {
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+};
+
+// ===== RUN THE FIX =====
+// Run immediately
+fixFABButtons();
+
+// Run again after a delay
+setTimeout(fixFABButtons, 2000);
+
+// Run when DOM changes
+document.addEventListener('DOMContentLoaded', fixFABButtons);
+
+console.log('🎉 FAB button fixes loaded!');
