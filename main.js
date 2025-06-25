@@ -1572,3 +1572,130 @@ setTimeout(finalFixEverything, 1000);
 document.addEventListener('DOMContentLoaded', finalFixEverything);
 
 console.log('🎉 Final working system with advanced comparison loaded!');
+// ===== DIRECT UPCOMING SECTION CLEANUP =====
+function cleanUpcomingSection() {
+  console.log('🧹 Cleaning upcoming section...');
+  
+  // Find upcoming section
+  const upcomingSections = document.querySelectorAll('#upcoming, .upcoming-section, *[id*="upcoming"], *[class*="upcoming"]');
+  
+  upcomingSections.forEach(section => {
+    // Remove ALL checkboxes
+    const checkboxes = section.querySelectorAll('.comparison-checkbox-label, .comparison-checkbox, input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+      checkbox.remove();
+      console.log('Removed checkbox');
+    });
+    
+    // Reset section to normal size
+    section.style.setProperty('padding', '2rem 0', 'important');
+    section.style.setProperty('margin', '2rem 0', 'important');
+    section.style.setProperty('background', 'transparent', 'important');
+    section.style.setProperty('border', 'none', 'important');
+    section.style.setProperty('border-radius', '0', 'important');
+    section.style.setProperty('box-shadow', 'none', 'important');
+    section.style.setProperty('max-width', '1200px', 'important');
+    section.style.setProperty('margin-left', 'auto', 'important');
+    section.style.setProperty('margin-right', 'auto', 'important');
+    
+    // Fix titles - remove construction icons and make normal size
+    const titles = section.querySelectorAll('h1, h2, h3, h4, h5, h6');
+    titles.forEach(title => {
+      // Remove construction emoji if present
+      title.innerHTML = title.innerHTML.replace(/🚧\s*/g, '');
+      title.innerHTML = title.innerHTML.replace(/::before/g, '');
+      
+      // Normal title styling
+      title.style.setProperty('font-size', '2.2rem', 'important');
+      title.style.setProperty('font-weight', '600', 'important');
+      title.style.setProperty('margin-bottom', '1rem', 'important');
+      title.style.setProperty('text-align', 'center', 'important');
+      title.style.setProperty('color', 'var(--text-primary)', 'important');
+      title.style.setProperty('line-height', '1.3', 'important');
+    });
+    
+    // Fix paragraphs - normal text styling  
+    const paragraphs = section.querySelectorAll('p, div');
+    paragraphs.forEach(p => {
+      p.style.setProperty('font-size', '1.1rem', 'important');
+      p.style.setProperty('color', 'var(--text-secondary)', 'important');
+      p.style.setProperty('text-align', 'center', 'important');
+      p.style.setProperty('margin', '0 auto 2rem auto', 'important');
+      p.style.setProperty('max-width', '600px', 'important');
+      p.style.setProperty('padding', '0', 'important');
+      p.style.setProperty('background', 'transparent', 'important');
+      p.style.setProperty('border', 'none', 'important');
+      p.style.setProperty('border-radius', '0', 'important');
+      p.style.setProperty('box-shadow', 'none', 'important');
+    });
+    
+    // Fix any cards to normal padding
+    const cards = section.querySelectorAll('.course-card, .lab-card, .card');
+    cards.forEach(card => {
+      card.style.setProperty('padding-top', '1.5rem', 'important');
+    });
+    
+    console.log('✅ Cleaned upcoming section');
+  });
+}
+
+// ===== REMOVE CONSTRUCTION ICONS FROM CSS =====
+function removeConstructionIcons() {
+  console.log('🚧 Removing construction icons...');
+  
+  // Create style to override construction icons
+  const style = document.createElement('style');
+  style.textContent = `
+  #upcoming h1::before,
+  #upcoming h2::before,
+  #upcoming h3::before,
+  .upcoming-section h1::before,
+  .upcoming-section h2::before,
+  .upcoming-section h3::before {
+    display: none !important;
+    content: none !important;
+  }
+  
+  #upcoming,
+  .upcoming-section,
+  *[id*="upcoming"] {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 2rem 0 !important;
+    margin: 2rem 0 !important;
+  }
+  
+  #upcoming::before,
+  .upcoming-section::before {
+    display: none !important;
+  }
+  `;
+  document.head.appendChild(style);
+  console.log('✅ Construction icons removed');
+}
+
+// ===== RUN CLEANUP IMMEDIATELY =====
+function runUpcomingCleanup() {
+  cleanUpcomingSection();
+  removeConstructionIcons();
+  
+  // Run again after short delay to catch late-loading content
+  setTimeout(cleanUpcomingSection, 1000);
+  setTimeout(cleanUpcomingSection, 3000);
+}
+
+// Run cleanup now
+runUpcomingCleanup();
+
+// Run on DOM changes
+const upcomingObserver = new MutationObserver(() => {
+  setTimeout(runUpcomingCleanup, 100);
+});
+
+upcomingObserver.observe(document.body, {
+  childList: true,
+  subtree: true
+});
+
+console.log('🎯 Upcoming section cleanup active');
