@@ -3310,3 +3310,661 @@ footer .fab.fa-twitter,
 footer .fab.fa-threads {
   display: none !important;
 }
+<!-- CSS FIXES FOR LAYOUT OVERLAPPING -->
+<style>
+/* ===== FIX 1: PREVENT OVERLAPPING OF CHECKBOXES AND BOOKMARKS ===== */
+
+/* Create proper spacing at top of course cards - increased for clearance */
+.course-card, .lab-card {
+  position: relative !important;
+  padding-top: 4.5rem !important; /* Increased space for buttons */
+}
+
+/* Position comparison checkbox in top-left with proper clearance */
+.comparison-checkbox-container {
+  position: absolute !important;
+  top: 0.5rem !important; /* Moved higher up */
+  left: 0.5rem !important; /* Moved closer to edge */
+  z-index: 15 !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid var(--border-color, #e2e8f0) !important;
+  border-radius: 6px !important;
+  padding: 0.4rem !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  backdrop-filter: blur(8px) !important;
+  transition: all 0.2s ease !important;
+}
+
+.comparison-checkbox-container:hover {
+  background: rgba(255, 255, 255, 1) !important;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15) !important;
+  transform: scale(1.05) !important;
+}
+
+.comparison-checkbox {
+  width: 16px !important;
+  height: 16px !important;
+  accent-color: var(--secondary-color, #3498db) !important;
+  cursor: pointer !important;
+  margin: 0 !important;
+}
+
+/* Position bookmark button in top-right with proper clearance */
+.bookmark-btn {
+  position: absolute !important;
+  top: 0.5rem !important; /* Moved higher up */
+  right: 0.5rem !important; /* Moved closer to edge */
+  z-index: 15 !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid var(--border-color, #e2e8f0) !important;
+  border-radius: 50% !important;
+  width: 36px !important;
+  height: 36px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+.bookmark-btn:hover {
+  background: rgba(255, 255, 255, 1) !important;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15) !important;
+  transform: scale(1.05) !important;
+}
+
+.bookmark-btn i {
+  font-size: 1rem !important;
+  color: var(--text-secondary, #718096) !important;
+}
+
+.bookmark-btn.bookmarked i {
+  color: var(--accent-color, #e74c3c) !important;
+}
+
+/* Ensure course content starts below the buttons with extra clearance */
+.course-card-header, .lab-card-header {
+  margin-top: 1.5rem !important; /* More space from buttons */
+  margin-bottom: 1.5rem !important;
+}
+
+.course-title, .lab-title {
+  margin-top: 0 !important;
+  clear: both !important;
+}
+
+/* Extra clearance for category tags specifically */
+.course-category, .lab-category {
+  margin-top: 0.75rem !important; /* Push category tags down */
+}
+
+/* Ensure type badges don't conflict with bookmark buttons */
+.course-card .course-actions,
+.lab-card .lab-actions {
+  margin-top: 1rem !important; /* More space from bookmark area */
+}
+
+/* Dark mode support */
+[data-theme="dark"] .comparison-checkbox-container,
+[data-theme="dark"] .bookmark-btn {
+  background: rgba(30, 41, 59, 0.95) !important;
+  border-color: #475569 !important;
+}
+
+[data-theme="dark"] .comparison-checkbox-container:hover,
+[data-theme="dark"] .bookmark-btn:hover {
+  background: rgba(30, 41, 59, 1) !important;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .course-card, .lab-card {
+    padding-top: 4rem !important; /* Slightly less on mobile */
+  }
+  
+  .comparison-checkbox-container {
+    top: 0.4rem !important;
+    left: 0.4rem !important;
+    padding: 0.3rem !important;
+  }
+  
+  .bookmark-btn {
+    top: 0.4rem !important;
+    right: 0.4rem !important;
+    width: 32px !important;
+    height: 32px !important;
+  }
+  
+  .bookmark-btn i {
+    font-size: 0.9rem !important;
+  }
+  
+  .course-card-header, .lab-card-header {
+    margin-top: 1.25rem !important; /* Adjusted for mobile */
+  }
+}
+</style>
+
+<!-- JAVASCRIPT FIXES FOR ENHANCED COMPARISON -->
+<script>
+// ===== FIX 2: ENHANCED COMPARISON MODAL WITH DETAILED CONTENT ===== //
+
+// Enhanced populateComparisonModal function with detailed content analysis
+function populateComparisonModal() {
+  const content = document.getElementById('comparisonContent');
+  if (!content) return;
+  
+  content.innerHTML = '';
+  
+  // Create comparison container
+  const container = document.createElement('div');
+  container.className = 'detailed-comparison-container';
+  
+  // Create summary section first
+  const summarySection = createComparisonSummary();
+  container.appendChild(summarySection);
+  
+  // Create detailed comparison table
+  const table = document.createElement('table');
+  table.className = 'comparison-table';
+  
+  // Create table header
+  const thead = document.createElement('thead');
+  const headerRow = document.createElement('tr');
+  
+  // Feature column header
+  const featureHeader = document.createElement('th');
+  featureHeader.textContent = 'COMPARISON ASPECT';
+  featureHeader.className = 'feature-label';
+  headerRow.appendChild(featureHeader);
+  
+  // Item headers with enhanced info
+  selectedForComparison.forEach(selected => {
+    const itemHeader = document.createElement('th');
+    itemHeader.className = 'item-header';
+    itemHeader.innerHTML = `
+      <div class="item-type-badge ${selected.type}">${selected.type.toUpperCase()}</div>
+      <h3 class="item-title">${selected.item.title}</h3>
+      <div class="item-meta">
+        <span class="duration">${selected.item.duration || 'Not specified'}</span>
+        <span class="difficulty">${selected.item.difficulty || selected.item.level || 'Not specified'}</span>
+      </div>
+      <button class="remove-from-comparison" onclick="removeFromComparison('${selected.id}', '${selected.type}')" title="Remove from comparison">
+        <i class="fas fa-times"></i>
+      </button>
+    `;
+    headerRow.appendChild(itemHeader);
+  });
+  
+  thead.appendChild(headerRow);
+  table.appendChild(thead);
+  
+  // Create table body with enhanced comparison data
+  const tbody = document.createElement('tbody');
+  
+  // Enhanced comparison rows with content analysis
+  const enhancedComparisonData = [
+    {
+      label: 'OVERVIEW',
+      icon: 'fas fa-info-circle',
+      getValue: (item) => item.description || 'No description available'
+    },
+    {
+      label: 'TOPICS COVERED',
+      icon: 'fas fa-list-ul',
+      getValue: (item) => {
+        if (item.topics && Array.isArray(item.topics)) {
+          return `<div class="topics-list">
+            ${item.topics.map(topic => `<span class="topic-tag">${topic}</span>`).join('')}
+          </div>`;
+        }
+        return 'Topics not specified';
+      }
+    },
+    {
+      label: 'PREREQUISITES',
+      icon: 'fas fa-graduation-cap',
+      getValue: (item) => {
+        if (item.prerequisites && Array.isArray(item.prerequisites)) {
+          return `<ul class="prerequisites-list">
+            ${item.prerequisites.map(prereq => `<li>${prereq}</li>`).join('')}
+          </ul>`;
+        }
+        return 'No prerequisites specified';
+      }
+    },
+    {
+      label: 'LEARNING OUTCOMES',
+      icon: 'fas fa-bullseye',
+      getValue: (item) => {
+        if (item.outcomes && Array.isArray(item.outcomes)) {
+          return `<ul class="outcomes-list">
+            ${item.outcomes.map(outcome => `<li>${outcome}</li>`).join('')}
+          </ul>`;
+        }
+        return 'Learning outcomes not specified';
+      }
+    },
+    {
+      label: 'TARGET AUDIENCE',
+      icon: 'fas fa-users',
+      getValue: (item) => item.audience || 'Not specified'
+    },
+    {
+      label: 'LEARNING PATH',
+      icon: 'fas fa-route',
+      getValue: (item) => item.learningPath || 'Independent course'
+    },
+    {
+      label: 'CATEGORY',
+      icon: 'fas fa-folder',
+      getValue: (item) => item.category || 'Not specified'
+    },
+    {
+      label: 'DIFFICULTY LEVEL',
+      icon: 'fas fa-chart-line',
+      getValue: (item) => {
+        const difficulty = item.difficulty || item.level || 'Not specified';
+        return `<span class="difficulty-badge ${difficulty.toLowerCase()}">${difficulty}</span>`;
+      }
+    },
+    {
+      label: 'ESTIMATED DURATION',
+      icon: 'fas fa-clock',
+      getValue: (item) => {
+        if (item.duration) {
+          if (typeof item.duration === 'string' && item.duration.includes('min')) {
+            return item.duration;
+          }
+          return item.duration + ' hours';
+        }
+        if (item.estimatedTime) return item.estimatedTime + ' hours';
+        return 'Not specified';
+      }
+    },
+    {
+      label: 'POPULARITY',
+      icon: 'fas fa-star',
+      getValue: (item) => {
+        if (item.learnerCount && item.rating) {
+          return `${item.learnerCount.toLocaleString()} learners • ${item.rating}★`;
+        }
+        if (item.learnerCount) return `${item.learnerCount.toLocaleString()} learners`;
+        if (item.rating) return `${item.rating}★ rating`;
+        return 'Data not available';
+      }
+    }
+  ];
+  
+  // Create comparison rows
+  enhancedComparisonData.forEach(rowData => {
+    const row = document.createElement('tr');
+    
+    // Feature label cell with icon
+    const labelCell = document.createElement('td');
+    labelCell.className = 'feature-label';
+    labelCell.innerHTML = `<i class="${rowData.icon}"></i> ${rowData.label}`;
+    row.appendChild(labelCell);
+    
+    // Value cells for each selected item
+    selectedForComparison.forEach(selected => {
+      const valueCell = document.createElement('td');
+      valueCell.className = 'comparison-text';
+      valueCell.innerHTML = rowData.getValue(selected.item, selected.type);
+      row.appendChild(valueCell);
+    });
+    
+    tbody.appendChild(row);
+  });
+  
+  // Add content overlap analysis if comparing courses
+  if (selectedForComparison.length >= 2) {
+    const overlapRow = createContentOverlapRow();
+    tbody.appendChild(overlapRow);
+  }
+  
+  table.appendChild(tbody);
+  container.appendChild(table);
+  content.appendChild(container);
+}
+
+// Create comparison summary section
+function createComparisonSummary() {
+  const summaryDiv = document.createElement('div');
+  summaryDiv.className = 'comparison-summary';
+  
+  // Analyze content overlap
+  const overlap = analyzeContentOverlap();
+  
+  summaryDiv.innerHTML = `
+    <div class="summary-header">
+      <h3><i class="fas fa-chart-pie"></i> Comparison Summary</h3>
+    </div>
+    <div class="summary-stats">
+      <div class="stat-item">
+        <span class="stat-number">${selectedForComparison.length}</span>
+        <span class="stat-label">Items Compared</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">${overlap.commonTopics}</span>
+        <span class="stat-label">Shared Topics</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">${overlap.overlapPercentage}%</span>
+        <span class="stat-label">Content Overlap</span>
+      </div>
+    </div>
+    ${overlap.recommendation ? `<div class="overlap-recommendation">
+      <i class="fas fa-lightbulb"></i>
+      <strong>Recommendation:</strong> ${overlap.recommendation}
+    </div>` : ''}
+  `;
+  
+  return summaryDiv;
+}
+
+// Analyze content overlap between selected items
+function analyzeContentOverlap() {
+  if (selectedForComparison.length < 2) return { commonTopics: 0, overlapPercentage: 0 };
+  
+  // Get all topics from all selected items
+  const allTopicsArrays = selectedForComparison.map(item => item.item.topics || []);
+  
+  // Find common topics
+  const commonTopics = allTopicsArrays.reduce((common, topics) => {
+    return common.filter(topic => topics.includes(topic));
+  });
+  
+  // Calculate overlap percentage
+  const totalUniqueTopics = [...new Set(allTopicsArrays.flat())];
+  const overlapPercentage = totalUniqueTopics.length > 0 
+    ? Math.round((commonTopics.length / totalUniqueTopics.length) * 100) 
+    : 0;
+  
+  // Generate recommendation
+  let recommendation = '';
+  if (overlapPercentage > 70) {
+    recommendation = 'These items have high content overlap. Consider choosing one as your primary focus.';
+  } else if (overlapPercentage > 30) {
+    recommendation = 'These items complement each other well. Taking both could provide comprehensive coverage.';
+  } else {
+    recommendation = 'These items cover different topics. Taking all would provide diverse knowledge.';
+  }
+  
+  return {
+    commonTopics: commonTopics.length,
+    overlapPercentage,
+    totalTopics: totalUniqueTopics.length,
+    recommendation
+  };
+}
+
+// Create content overlap analysis row
+function createContentOverlapRow() {
+  const row = document.createElement('tr');
+  row.className = 'overlap-analysis-row';
+  
+  // Label cell
+  const labelCell = document.createElement('td');
+  labelCell.className = 'feature-label';
+  labelCell.innerHTML = '<i class="fas fa-venn-diagram"></i> CONTENT OVERLAP ANALYSIS';
+  row.appendChild(labelCell);
+  
+  // Create a spanning cell for the overlap analysis
+  const analysisCell = document.createElement('td');
+  analysisCell.colSpan = selectedForComparison.length;
+  analysisCell.className = 'overlap-analysis-cell';
+  
+  const overlap = analyzeContentOverlap();
+  
+  // Get common and unique topics
+  const allTopics = selectedForComparison.map(item => item.item.topics || []);
+  const commonTopics = allTopics.reduce((common, topics) => {
+    return common.filter(topic => topics.includes(topic));
+  });
+  
+  analysisCell.innerHTML = `
+    <div class="overlap-visualization">
+      ${commonTopics.length > 0 ? `
+        <div class="common-topics">
+          <h5><i class="fas fa-intersection"></i> Shared Topics (${commonTopics.length})</h5>
+          <div class="topics-grid">
+            ${commonTopics.map(topic => `<span class="topic-tag shared">${topic}</span>`).join('')}
+          </div>
+        </div>
+      ` : '<p class="no-overlap">No shared topics found between these items.</p>'}
+  
+      <div class="unique-topics-grid">
+        ${selectedForComparison.map(selected => `
+          <div class="unique-topics-column">
+            <h5>${selected.item.title} - Unique Topics</h5>
+            <div class="topics-grid">
+              ${(selected.item.topics || [])
+                .filter(topic => !commonTopics.includes(topic))
+                .map(topic => `<span class="topic-tag unique">${topic}</span>`)
+                .join('') || '<span class="no-unique">No unique topics</span>'}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+  
+  row.appendChild(analysisCell);
+  return row;
+}
+
+// Enhanced styling for the new comparison features
+const enhancedComparisonStyles = `
+<style>
+.detailed-comparison-container {
+  padding: 0;
+}
+
+.comparison-summary {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  padding: 2rem;
+  margin-bottom: 0;
+  border-radius: 0;
+}
+
+.summary-header h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.summary-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  display: block;
+  font-size: 2rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-top: 0.25rem;
+}
+
+.overlap-recommendation {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.feature-label i {
+  margin-right: 0.5rem;
+  color: var(--primary-color);
+}
+
+.topics-list, .topics-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.topic-tag {
+  background: var(--primary-color);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.topic-tag.shared {
+  background: var(--success-color);
+}
+
+.topic-tag.unique {
+  background: var(--secondary-color);
+}
+
+.difficulty-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.difficulty-badge.beginner {
+  background: var(--success-color);
+  color: white;
+}
+
+.difficulty-badge.intermediate {
+  background: var(--warning-color);
+  color: white;
+}
+
+.difficulty-badge.advanced {
+  background: var(--accent-color);
+  color: white;
+}
+
+.prerequisites-list, .outcomes-list {
+  margin: 0;
+  padding-left: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.overlap-analysis-cell {
+  padding: 2rem 1rem;
+  background: var(--surface);
+  border-radius: 0.5rem;
+}
+
+.overlap-visualization h5 {
+  margin: 0 0 1rem 0;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.common-topics {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: rgba(34, 197, 94, 0.1);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.unique-topics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.unique-topics-column {
+  padding: 1rem;
+  background: rgba(52, 152, 219, 0.1);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(52, 152, 219, 0.2);
+}
+
+.no-overlap, .no-unique {
+  font-style: italic;
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 1rem;
+}
+
+.item-meta {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+/* Dark mode support */
+[data-theme="dark"] .comparison-summary {
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+}
+
+[data-theme="dark"] .overlap-analysis-cell {
+  background: #1e293b;
+}
+
+[data-theme="dark"] .common-topics {
+  background: rgba(34, 197, 94, 0.2);
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+[data-theme="dark"] .unique-topics-column {
+  background: rgba(52, 152, 219, 0.2);
+  border-color: rgba(52, 152, 219, 0.3);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .summary-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  .stat-number {
+    font-size: 1.5rem;
+  }
+  
+  .unique-topics-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .overlap-analysis-cell {
+    padding: 1rem 0.5rem;
+  }
+}
+</style>
+`;
+
+// Inject the enhanced styles
+document.head.insertAdjacentHTML('beforeend', enhancedComparisonStyles);
+
+console.log('✅ Enhanced comparison modal with detailed content analysis loaded');
+</script>
