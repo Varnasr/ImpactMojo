@@ -1,94 +1,186 @@
-// ===== IMPACTMOJO COMPLETE JAVASCRIPT - ALL FEATURES PRESERVED =====
+// ImpactMojo Main JavaScript - Complete Working Version
+console.log('🚀 Loading ImpactMojo Main JS...');
 
 // ===== GLOBAL VARIABLES =====
-let currentUser = null;
-let userBookmarks = [];
-let userLabBookmarks = [];
-let userNotes = '';
-let selectedForComparison = [];
-const MAX_COMPARISON_ITEMS = 4;
-
-// Course data - will be loaded from course-data.js
 let impactMojoAllCourses = [];
-let impactMojoUserBookmarks = [];
-let impactMojoUserLabBookmarks = [];
+let impactMojoFilteredCourses = [];
+let impactMojoSelectedCourses = [];
+let impactMojoSelectedLabs = [];
+let impactMojoUserBookmarks = JSON.parse(localStorage.getItem('impactMojoBookmarks')) || [];
+let impactMojoUserLabBookmarks = JSON.parse(localStorage.getItem('impactMojoLabBookmarks')) || [];
 
-// ===== THEME MANAGEMENT =====
-function initializeTheme() {
-  const themeToggle = document.getElementById('themeToggle');
-  const savedTheme = localStorage.getItem('theme') || 'light';
-  
-  document.documentElement.setAttribute('data-theme', savedTheme);
-  updateThemeIcon(savedTheme);
-  
-  if (themeToggle) {
-    themeToggle.addEventListener('click', toggleTheme);
-  }
-}
-
+// ===== THEME TOGGLE =====
 function toggleTheme() {
-  const currentTheme = document.documentElement.getAttribute('data-theme');
-  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  console.log('🎨 Toggling theme...');
+  
+  const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+  const themeIcon = document.getElementById('themeIcon');
+  
+  console.log(`Switching from ${currentTheme} to ${newTheme}`);
   
   document.documentElement.setAttribute('data-theme', newTheme);
   localStorage.setItem('theme', newTheme);
-  updateThemeIcon(newTheme);
+  
+  if (themeIcon) {
+    themeIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    console.log(`Icon updated to: ${themeIcon.className}`);
+  }
+  
+  showNotification(`Switched to ${newTheme} mode`, 'success');
 }
 
-function updateThemeIcon(theme) {
-  const themeToggle = document.getElementById('themeToggle');
-  if (themeToggle) {
-    themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+function initializeThemeToggle() {
+  console.log('🎨 Initializing theme toggle');
+  
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  const themeIcon = document.getElementById('themeIcon');
+  
+  console.log(`Saved theme: ${savedTheme}`);
+  
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  
+  if (themeIcon) {
+    themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    console.log(`Initial icon set to: ${themeIcon.className}`);
   }
 }
 
-// ===== AUTH STATE MANAGEMENT =====
-function updateAuthState() {
-  const authButtons = document.getElementById('authButtons');
-  const userMenu = document.getElementById('userMenu');
+// ===== NOTIFICATION SYSTEM =====
+function showNotification(message, type = 'info') {
+  const existingNotifications = document.querySelectorAll('.notification');
+  existingNotifications.forEach(notification => notification.remove());
   
-  if (currentUser) {
-    if (authButtons) authButtons.style.display = 'none';
-    if (userMenu) {
-      userMenu.style.display = 'flex';
-      userMenu.classList.add('active');
-      const userNameElement = userMenu.querySelector('.user-name');
-      if (userNameElement) {
-        userNameElement.textContent = currentUser.displayName || currentUser.email;
-      }
-      const userAvatar = userMenu.querySelector('.user-avatar');
-      if (userAvatar) {
-        userAvatar.textContent = (currentUser.displayName || currentUser.email).charAt(0).toUpperCase();
-      }
+  const notification = document.createElement('div');
+  notification.className = `notification ${type}`;
+  notification.innerHTML = `
+    <span>${message}</span>
+    <button onclick="this.parentElement.remove()">&times;</button>
+  `;
+  
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    if (notification.parentElement) {
+      notification.remove();
     }
+  }, 5000);
+}
+
+// ===== COURSE INITIALIZATION =====
+function initializeCourses() {
+  console.log('📚 Initializing courses...');
+  
+  if (window.courses && Array.isArray(window.courses)) {
+    impactMojoAllCourses = window.courses;
+    impactMojoFilteredCourses = [...impactMojoAllCourses];
+    
+    console.log(`Loaded ${impactMojoAllCourses.length} courses`);
+    
+    updateCourseStats();
+    populateCategoryFilter();
+    displayCourses();
+    
+    console.log('✅ Courses initialized successfully');
   } else {
-    if (authButtons) authButtons.style.display = 'flex';
-    if (userMenu) {
-      userMenu.style.display = 'none';
-      userMenu.classList.remove('active');
-    }
+    console.warn('⚠️ Course data not available yet, retrying...');
+    setTimeout(initializeCourses, 1000);
   }
 }
 
-// ===== USER DROPDOWN MANAGEMENT =====
-function toggleUserDropdown() {
-  const dropdown = document.getElementById('userDropdown');
-  if (dropdown) {
-    dropdown.classList.toggle('hidden');
-  }
-}
-
-// Close dropdown when clicking outside
-document.addEventListener('click', function(event) {
-  const userMenu = document.getElementById('userMenu');
-  const dropdown = document.getElementById('userDropdown');
+// ===== POPULAR COURSES =====
+function displayPopularCourses() {
+  const container = document.getElementById('popularCoursesContainer');
   
-  if (userMenu && dropdown && !userMenu.contains(event.target)) {
-    dropdown.classList.add('hidden');
+  if (!container) {
+    console.log('ℹ️ Popular courses container not found');
+    return;
   }
-});
+  
+  if (!impactMojoAllCourses || impactMojoAllCourses.length === 0) {
+    container.innerHTML = '<div class="loading" style="text-align: center; padding: 2rem; color: var(--text-secondary);">Loading popular courses...</div>';
+    setTimeout(displayPopularCourses, 500);
+    return;
+  }
+  
+  let popularItems = impactMojoAllCourses.filter(course => 
+    course && (
+      course.title?.toLowerCase().includes('gender') ||
+      course.title?.toLowerCase().includes('data') ||
+      course.title?.toLowerCase().includes('economics') ||
+      course.title?.toLowerCase().includes('health')
+    )
+  ).slice(0, 6);
+  
+  if (popularItems.length === 0) {
+    popularItems = impactMojoAllCourses.slice(0, 6);
+  }
+  
+  container.innerHTML = popularItems.map(course => createCourseCard(course)).join('');
+  
+  console.log(`✅ Displayed ${popularItems.length} popular courses`);
+  
+  setTimeout(updateAllBookmarkUI, 100);
+}
 
-// ===== COURSE DISPLAY FUNCTIONS =====
+// ===== SEARCH AND FILTER =====
+function searchCourses() {
+  const searchTerm = document.getElementById('courseSearch')?.value.toLowerCase() || '';
+  const selectedCategory = document.getElementById('categoryFilter')?.value || 'all';
+  const selectedDifficulty = document.getElementById('difficultyFilter')?.value || 'all';
+  
+  impactMojoFilteredCourses = impactMojoAllCourses.filter(course => {
+    const matchesSearch = !searchTerm || 
+      course.title?.toLowerCase().includes(searchTerm) ||
+      course.description?.toLowerCase().includes(searchTerm) ||
+      course.category?.toLowerCase().includes(searchTerm);
+    
+    const matchesCategory = selectedCategory === 'all' || 
+      course.category === selectedCategory;
+    
+    const matchesDifficulty = selectedDifficulty === 'all' || 
+      course.difficulty?.toLowerCase() === selectedDifficulty.toLowerCase();
+    
+    return matchesSearch && matchesCategory && matchesDifficulty;
+  });
+  
+  displayCourses();
+  updateCourseStats();
+}
+
+function populateCategoryFilter() {
+  const categoryFilter = document.getElementById('categoryFilter');
+  if (!categoryFilter) return;
+  
+  const categories = [...new Set(impactMojoAllCourses.map(course => course.category))].filter(Boolean);
+  
+  categoryFilter.innerHTML = '<option value="all">All Categories</option>';
+  categories.forEach(category => {
+    const option = document.createElement('option');
+    option.value = category;
+    option.textContent = category;
+    categoryFilter.appendChild(option);
+  });
+}
+
+function clearAllFilters() {
+  const searchInput = document.getElementById('courseSearch');
+  const categoryFilter = document.getElementById('categoryFilter');
+  const difficultyFilter = document.getElementById('difficultyFilter');
+  
+  if (searchInput) searchInput.value = '';
+  if (categoryFilter) categoryFilter.value = 'all';
+  if (difficultyFilter) difficultyFilter.value = 'all';
+  
+  impactMojoFilteredCourses = [...impactMojoAllCourses];
+  
+  displayCourses();
+  updateCourseStats();
+  
+  showNotification('All filters cleared', 'info');
+}
+
+// ===== DISPLAY FUNCTIONS =====
 function displayCourses() {
   const container = document.getElementById('coursesContainer');
   
@@ -97,14 +189,16 @@ function displayCourses() {
     return;
   }
   
-  if (!impactMojoAllCourses || impactMojoAllCourses.length === 0) {
-    container.innerHTML = '<div class="no-results" style="text-align: center; padding: 2rem; color: var(--text-secondary);">Courses are loading...</div>';
+  if (impactMojoFilteredCourses.length === 0) {
+    container.innerHTML = '<div class="no-results"><i class="fas fa-search"></i><h3>No courses found</h3><p>Try adjusting your filters or search terms.</p></div>';
     return;
   }
 
-  container.innerHTML = impactMojoAllCourses.map(course => createCourseCard(course)).join('');
-  updateBookmarkUI();
-  updateComparisonUI();
+  container.innerHTML = impactMojoFilteredCourses.map(course => createCourseCard(course)).join('');
+  
+  console.log(`✅ Displayed ${impactMojoFilteredCourses.length} courses`);
+  
+  setTimeout(updateAllBookmarkUI, 100);
 }
 
 function createCourseCard(course) {
@@ -122,23 +216,14 @@ function createCourseCard(course) {
   
   return `
     <div class="course-card" data-course-id="${courseId}" style="border-left: 4px solid ${categoryColor}">
-      <!-- Comparison checkbox -->
-      <label class="comparison-checkbox-label" title="Select for comparison">
-        <input type="checkbox" 
-                class="comparison-checkbox" 
-                data-item-id="${courseId}"
-                data-item-type="course"
-                onchange="toggleComparison('${courseId}', 'course')">
-      </label>
-      
-      <!-- Bookmark button -->
-      <button class="bookmark-btn" data-course-id="${courseId}" onclick="toggleBookmark('${courseId}')" aria-label="Bookmark course">
-        <i class="far fa-bookmark"></i>
-      </button>
-      
       <div class="course-card-header">
         <div class="course-category" style="background-color: ${categoryColor}20; color: ${categoryColor}">
           ${category}
+        </div>
+        <div class="course-actions">
+          <button class="bookmark-btn" onclick="toggleBookmark('${courseId}')" aria-label="Bookmark course">
+            <i class="far fa-bookmark"></i>
+          </button>
         </div>
       </div>
       
@@ -171,20 +256,7 @@ function createCourseCard(course) {
   `;
 }
 
-function getCategoryColor(category) {
-  const colors = {
-    'Data Analysis': '#3b82f6',
-    'Development': '#10b981',
-    'Research': '#8b5cf6',
-    'Economics': '#f59e0b',
-    'Policy': '#ef4444',
-    'Statistics': '#06b6d4',
-    'General': '#6b7280'
-  };
-  return colors[category] || colors['General'];
-}
-
-// ===== LAB DISPLAY FUNCTIONS =====
+// ===== LAB FUNCTIONS =====
 function displayLabs() {
   const container = document.getElementById('labsContainer');
   
@@ -199,8 +271,10 @@ function displayLabs() {
   }
 
   container.innerHTML = window.labs.map(lab => createLabCard(lab)).join('');
-  updateLabBookmarkUI();
-  updateComparisonUI();
+  
+  console.log(`✅ Displayed ${window.labs.length} labs`);
+  
+  setTimeout(updateAllLabBookmarkUI, 100);
 }
 
 function createLabCard(lab) {
@@ -216,26 +290,15 @@ function createLabCard(lab) {
   
   return `
     <div class="lab-card" data-lab-id="${labId}">
-      <!-- Comparison checkbox -->
-      <label class="comparison-checkbox-label" title="Select for comparison">
-        <input type="checkbox" 
-                class="comparison-checkbox" 
-                data-item-id="${labId}"
-                data-item-type="lab"
-                onchange="toggleComparison('${labId}', 'lab')">
-      </label>
-      
-      <!-- Bookmark button -->
-      <button class="bookmark-btn" data-lab-id="${labId}" onclick="toggleLabBookmark('${labId}')" aria-label="Bookmark lab">
-        <i class="far fa-bookmark"></i>
-      </button>
-      
       <div class="lab-card-header">
         <div class="lab-category">
           ${category}
         </div>
-        <div class="lab-type">
-          ${labType}
+        <div class="lab-type-badge">${labType}</div>
+        <div class="lab-actions">
+          <button class="bookmark-btn" onclick="toggleLabBookmark('${labId}')" aria-label="Bookmark lab">
+            <i class="far fa-bookmark"></i>
+          </button>
         </div>
       </div>
       
@@ -243,134 +306,393 @@ function createLabCard(lab) {
         <h3 class="lab-title">${title}</h3>
         <p class="lab-description">${description}</p>
         
-        <div class="course-meta">
-          <span class="course-duration">
+        <div class="lab-meta">
+          <span class="lab-duration">
             <i class="fas fa-clock"></i>
             ${duration}
           </span>
-          <span class="course-difficulty difficulty-${difficulty.toLowerCase()}">
+          <span class="lab-difficulty difficulty-${difficulty.toLowerCase()}">
             ${difficulty}
           </span>
         </div>
       </div>
       
       <div class="lab-card-footer">
-        <button class="launch-btn" onclick="startLab('${labId}')">
+        <button class="lab-launch-btn" onclick="launchLab('${labId}')">
           <i class="fas fa-flask"></i>
-          Start Lab
+          Launch Lab
         </button>
       </div>
     </div>
   `;
 }
 
-// ===== BOOKMARK FUNCTIONALITY =====
-async function toggleBookmark(courseId) {
-  if (!currentUser) {
-    showNotification('Please log in to bookmark courses', 'error');
-    showLoginModal();
+// ===== BOOKMARKING =====
+function toggleBookmark(courseId) {
+  const index = impactMojoUserBookmarks.indexOf(courseId);
+  
+  if (index === -1) {
+    impactMojoUserBookmarks.push(courseId);
+    showNotification('Course bookmarked!', 'success');
+  } else {
+    impactMojoUserBookmarks.splice(index, 1);
+    showNotification('Bookmark removed', 'info');
+  }
+  
+  localStorage.setItem('impactMojoBookmarks', JSON.stringify(impactMojoUserBookmarks));
+  updateBookmarkUI(courseId);
+}
+
+function toggleLabBookmark(labId) {
+  const index = impactMojoUserLabBookmarks.indexOf(labId);
+  
+  if (index === -1) {
+    impactMojoUserLabBookmarks.push(labId);
+    showNotification('Lab bookmarked!', 'success');
+  } else {
+    impactMojoUserLabBookmarks.splice(index, 1);
+    showNotification('Lab bookmark removed', 'info');
+  }
+  
+  localStorage.setItem('impactMojoLabBookmarks', JSON.stringify(impactMojoUserLabBookmarks));
+  updateLabBookmarkUI(labId);
+}
+
+function updateBookmarkUI(courseId) {
+  const bookmarkBtn = document.querySelector(`[onclick="toggleBookmark('${courseId}')"]`);
+  if (bookmarkBtn) {
+    const isBookmarked = impactMojoUserBookmarks.includes(courseId);
+    const icon = bookmarkBtn.querySelector('i');
+    if (icon) {
+      icon.className = isBookmarked ? 'fas fa-bookmark' : 'far fa-bookmark';
+    }
+    bookmarkBtn.classList.toggle('bookmarked', isBookmarked);
+  }
+}
+
+function updateLabBookmarkUI(labId) {
+  const bookmarkBtn = document.querySelector(`[onclick="toggleLabBookmark('${labId}')"]`);
+  if (bookmarkBtn) {
+    const isBookmarked = impactMojoUserLabBookmarks.includes(labId);
+    const icon = bookmarkBtn.querySelector('i');
+    if (icon) {
+      icon.className = isBookmarked ? 'fas fa-bookmark' : 'far fa-bookmark';
+    }
+    bookmarkBtn.classList.toggle('bookmarked', isBookmarked);
+  }
+}
+
+function updateAllBookmarkUI() {
+  if (impactMojoAllCourses && impactMojoAllCourses.length > 0) {
+    impactMojoAllCourses.forEach(course => {
+      updateBookmarkUI(course.id);
+    });
+  }
+}
+
+function updateAllLabBookmarkUI() {
+  if (window.labs && window.labs.length > 0) {
+    window.labs.forEach(lab => {
+      updateLabBookmarkUI(lab.id);
+    });
+  }
+}
+
+// ===== LAUNCHING =====
+function launchCourse(courseId) {
+  console.log(`🚀 Launching course: ${courseId}`);
+  showNotification('Course launching...', 'info');
+  
+  const course = impactMojoAllCourses.find(c => c.id === courseId);
+  if (course && course.url) {
+    window.open(course.url, '_blank');
+  } else {
+    showNotification('Course content coming soon!', 'info');
+  }
+}
+
+function launchLab(labId) {
+  console.log(`🧪 Launching lab: ${labId}`);
+  showNotification('Lab launching...', 'info');
+  
+  const lab = window.labs?.find(l => l.id === labId);
+  if (lab && lab.url) {
+    window.open(lab.url, '_blank');
+  } else {
+    showNotification('Lab content coming soon!', 'info');
+  }
+}
+
+// ===== UTILITY FUNCTIONS =====
+function getCategoryColor(category) {
+  const categoryColors = {
+    'Economics': '#27ae60',
+    'Gender': '#9b59b6', 
+    'Justice': '#e74c3c',
+    'Climate': '#16a085',
+    'Data': '#3498db',
+    'Development': '#2c3e50',
+    'Livelihoods': '#27ae60',
+    'Health': '#e74c3c',
+    'Education': '#3498db',
+    'Systems': '#34495e',
+    'Data & Research': '#3498db',
+    'Gender & Social Issues': '#9b59b6',
+    'Economics & Policy': '#e74c3c',
+    'Health & Environment': '#16a085',
+    'Education & Communication': '#f39c12',
+    'Technology & Ethics': '#2c3e50',
+    'Community & Fundraising': '#27ae60',
+    'Governance & Policy': '#ea580c',
+    'Default': '#6c757d'
+  };
+  return categoryColors[category] || categoryColors['Default'];
+}
+
+function updateCourseStats() {
+  const totalElement = document.getElementById('totalCourses');
+  const filteredElement = document.getElementById('filteredCourses');
+  
+  if (totalElement) totalElement.textContent = impactMojoAllCourses.length;
+  if (filteredElement) filteredElement.textContent = impactMojoFilteredCourses.length;
+}
+
+// ===== NAVIGATION CENTERING FIX =====
+function centerNavigation() {
+  console.log('🎯 Applying navigation centering...');
+  
+  setTimeout(() => {
+    const navContainer = document.querySelector('.navbar .container');
+    const navMenu = document.querySelector('.nav-menu');
+    const navActions = document.querySelector('.nav-actions');
+    
+    if (navContainer) {
+      navContainer.style.setProperty('justify-content', 'center', 'important');
+      navContainer.style.setProperty('gap', '2rem', 'important');
+      navContainer.style.setProperty('padding', '1.5rem 1rem', 'important');
+    }
+    
+    if (navMenu) {
+      navMenu.style.setProperty('justify-content', 'center', 'important');
+      navMenu.style.setProperty('order', '1', 'important');
+    }
+    
+    if (navActions) {
+      navActions.style.setProperty('position', 'absolute', 'important');
+      navActions.style.setProperty('right', '1rem', 'important');
+      navActions.style.setProperty('order', '2', 'important');
+    }
+    
+    console.log('✅ Navigation centering applied');
+  }, 500);
+}
+
+// ===== KEYBOARD SHORTCUTS =====
+document.addEventListener('keydown', function(e) {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    e.preventDefault();
+    const searchInput = document.getElementById('courseSearch');
+    if (searchInput) {
+      searchInput.focus();
+    }
+  }
+  
+  if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
+    e.preventDefault();
+    toggleTheme();
+  }
+});
+
+// ===== INITIALIZATION =====
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('🚀 Main JS DOM loaded');
+  
+  initializeThemeToggle();
+  centerNavigation();
+  
+  const observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+      if (mutation.type === 'childList' && mutation.target.classList?.contains('nav-links')) {
+        console.log('🔄 Navigation updated, reapplying centering...');
+        centerNavigation();
+      }
+    });
+  });
+  
+  const navLinks = document.querySelector('.nav-links');
+  if (navLinks) {
+    observer.observe(navLinks, { childList: true, subtree: true });
+  }
+  
+  if (window.courses) {
+    initializeCourses();
+    displayPopularCourses();
+    displayLabs();
+  } else {
+    console.log('⏳ Waiting for course data...');
+    window.addEventListener('dataLoaded', function() {
+      console.log('📊 Data loaded event received');
+      initializeCourses();
+      displayPopularCourses();
+      displayLabs();
+    });
+  }
+});
+
+console.log('✅ Main JS loaded successfully!');
+// ===== ADD THESE MISSING FUNCTIONS AT THE END OF main.js =====
+
+// Missing function that FAB button calls
+function showComparison() {
+  showComparisonModal();
+}
+
+// Comparison functionality
+let selectedForComparison = [];
+const MAX_COMPARISON_ITEMS = 4;
+
+function showComparisonModal() {
+  if (selectedForComparison.length < 2) {
+    showNotification('Please select at least 2 items to compare', 'warning');
     return;
   }
   
-  try {
-    const userRef = window.doc(window.db, 'users', currentUser.uid);
-    
-    if (impactMojoUserBookmarks.includes(courseId)) {
-      // Remove bookmark
-      await window.updateDoc(userRef, {
-        bookmarks: window.arrayRemove(courseId)
-      });
-      impactMojoUserBookmarks = impactMojoUserBookmarks.filter(id => id !== courseId);
-      showNotification('Bookmark removed', 'success');
-    } else {
-      // Add bookmark
-      await window.updateDoc(userRef, {
-        bookmarks: window.arrayUnion(courseId)
-      });
-      impactMojoUserBookmarks.push(courseId);
-      showNotification('Course bookmarked!', 'success');
+  updateComparisonContent();
+  openModal('comparisonModal');
+}
+
+function toggleComparison(itemId, itemType) {
+  const itemKey = `${itemType}-${itemId}`;
+  const index = selectedForComparison.findIndex(item => item.key === itemKey);
+  
+  if (index === -1) {
+    if (selectedForComparison.length >= MAX_COMPARISON_ITEMS) {
+      showNotification(`You can only compare up to ${MAX_COMPARISON_ITEMS} items at once`, 'warning');
+      return false;
     }
     
-    updateBookmarkUI();
-    updateBookmarkCount();
-  } catch (error) {
-    console.error('Bookmark error:', error);
-    showNotification('Error updating bookmark', 'error');
+    selectedForComparison.push({
+      key: itemKey,
+      id: itemId,
+      type: itemType
+    });
+    
+    showNotification(`Added to comparison (${selectedForComparison.length}/${MAX_COMPARISON_ITEMS})`, 'success');
+  } else {
+    selectedForComparison.splice(index, 1);
+    showNotification('Removed from comparison', 'info');
+  }
+  
+  updateComparisonUI();
+  return true;
+}
+
+function updateComparisonUI() {
+  // Update all comparison checkboxes
+  document.querySelectorAll('.comparison-checkbox').forEach(checkbox => {
+    const itemId = checkbox.dataset.itemId;
+    const itemType = checkbox.dataset.itemType;
+    const itemKey = `${itemType}-${itemId}`;
+    checkbox.checked = selectedForComparison.some(item => item.key === itemKey);
+  });
+  
+  // Update FAB button visibility
+  const compareFab = document.querySelector('.fab-btn.compare');
+  if (compareFab) {
+    compareFab.style.display = selectedForComparison.length > 1 ? 'block' : 'none';
   }
 }
 
-async function toggleLabBookmark(labId) {
-  if (!currentUser) {
-    showNotification('Please log in to bookmark labs', 'error');
-    showLoginModal();
+function updateComparisonContent() {
+  const content = document.getElementById('comparisonContent');
+  if (!content) return;
+  
+  if (selectedForComparison.length === 0) {
+    content.innerHTML = `
+      <div class="comparison-placeholder">
+        <i class="fas fa-balance-scale"></i>
+        <h3>No items selected for comparison</h3>
+        <p>Select courses or labs using the comparison checkboxes to compare them here.</p>
+      </div>
+    `;
     return;
   }
   
-  try {
-    const userRef = window.doc(window.db, 'users', currentUser.uid);
+  // Get the actual items
+  const items = selectedForComparison.map(selected => {
+    if (selected.type === 'course') {
+      return { ...impactMojoAllCourses.find(c => c.id === selected.id), type: 'course' };
+    } else if (selected.type === 'lab') {
+      return { ...(window.labs || []).find(l => l.id === selected.id), type: 'lab' };
+    }
+  }).filter(item => item && item.id);
+  
+  content.innerHTML = createBasicComparisonTable(items);
+}
+
+function createBasicComparisonTable(items) {
+  return `
+    <div class="comparison-stats">
+      <p>Comparing <strong>${items.length}</strong> items</p>
+      <button onclick="clearComparison()" class="clear-btn" style="margin-left: 1rem;">
+        <i class="fas fa-trash"></i> Clear All
+      </button>
+    </div>
     
-    if (impactMojoUserLabBookmarks.includes(labId)) {
-      // Remove bookmark
-      await window.updateDoc(userRef, {
-        labBookmarks: window.arrayRemove(labId)
-      });
-      impactMojoUserLabBookmarks = impactMojoUserLabBookmarks.filter(id => id !== labId);
-      showNotification('Lab bookmark removed', 'success');
-    } else {
-      // Add bookmark
-      await window.updateDoc(userRef, {
-        labBookmarks: window.arrayUnion(labId)
-      });
-      impactMojoUserLabBookmarks.push(labId);
-      showNotification('Lab bookmarked!', 'success');
-    }
-    
-    updateLabBookmarkUI();
-    updateBookmarkCount();
-  } catch (error) {
-    console.error('Lab bookmark error:', error);
-    showNotification('Error updating lab bookmark', 'error');
-  }
+    <div class="comparison-table-container">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Attribute</th>
+            ${items.map(item => `<th>${item.title} (${item.type})</th>`).join('')}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Description</strong></td>
+            ${items.map(item => `<td>${item.description || 'No description'}</td>`).join('')}
+          </tr>
+          <tr>
+            <td><strong>Difficulty</strong></td>
+            ${items.map(item => `<td><span class="difficulty-badge difficulty-${(item.difficulty || 'beginner').toLowerCase()}">${item.difficulty || 'Beginner'}</span></td>`).join('')}
+          </tr>
+          <tr>
+            <td><strong>Duration</strong></td>
+            ${items.map(item => `<td>${item.duration || 'Self-paced'}</td>`).join('')}
+          </tr>
+          <tr>
+            <td><strong>Topics</strong></td>
+            ${items.map(item => `<td>${(item.topics || []).join(', ') || 'Not specified'}</td>`).join('')}
+          </tr>
+          <tr>
+            <td><strong>Prerequisites</strong></td>
+            ${items.map(item => `<td>${(item.prerequisites || []).join(', ') || 'None'}</td>`).join('')}
+          </tr>
+          <tr>
+            <td><strong>Actions</strong></td>
+            ${items.map(item => `
+              <td>
+                <button onclick="${item.type === 'course' ? 'launchCourse' : 'launchLab'}('${item.id}')" 
+                        class="launch-comparison-btn">
+                  <i class="fas fa-external-link-alt"></i> Launch
+                </button>
+              </td>
+            `).join('')}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  `;
 }
 
-function updateBookmarkUI() {
-  const bookmarkButtons = document.querySelectorAll('.bookmark-btn[data-course-id]');
-  bookmarkButtons.forEach(btn => {
-    const courseId = btn.dataset.courseId;
-    if (impactMojoUserBookmarks.includes(courseId)) {
-      btn.classList.add('bookmarked');
-      btn.innerHTML = '<i class="fas fa-bookmark"></i>';
-    } else {
-      btn.classList.remove('bookmarked');
-      btn.innerHTML = '<i class="far fa-bookmark"></i>';
-    }
-  });
+function clearComparison() {
+  selectedForComparison = [];
+  updateComparisonUI();
+  updateComparisonContent();
+  showNotification('Comparison cleared', 'info');
 }
 
-function updateLabBookmarkUI() {
-  const bookmarkButtons = document.querySelectorAll('.bookmark-btn[data-lab-id]');
-  bookmarkButtons.forEach(btn => {
-    const labId = btn.dataset.labId;
-    if (impactMojoUserLabBookmarks.includes(labId)) {
-      btn.classList.add('bookmarked');
-      btn.innerHTML = '<i class="fas fa-bookmark"></i>';
-    } else {
-      btn.classList.remove('bookmarked');
-      btn.innerHTML = '<i class="far fa-bookmark"></i>';
-    }
-  });
-}
-
-function updateBookmarkCount() {
-  const bookmarkCountElement = document.querySelector('.bookmark-viewer-btn span');
-  if (bookmarkCountElement) {
-    const totalBookmarks = impactMojoUserBookmarks.length + impactMojoUserLabBookmarks.length;
-    bookmarkCountElement.textContent = totalBookmarks;
-    bookmarkCountElement.style.display = totalBookmarks > 0 ? 'flex' : 'none';
-  }
-}
-
-// ===== BOOKMARK VIEWER FUNCTIONALITY =====
+// Bookmark viewer functionality
 function showBookmarkModal() {
   if (!document.getElementById('bookmarkViewerModal')) {
     createBookmarkViewerModal();
@@ -459,7 +781,7 @@ function displayBookmarkedItems() {
 function createBookmarkCard(item, type) {
   const isLab = type === 'lab';
   const toggleFunction = isLab ? 'toggleLabBookmark' : 'toggleBookmark';
-  const launchFunction = isLab ? 'startLab' : 'launchCourse';
+  const launchFunction = isLab ? 'launchLab' : 'launchCourse';
   
   return `
     <div class="bookmark-item-card">
@@ -471,14 +793,15 @@ function createBookmarkCard(item, type) {
       <div class="bookmark-item-meta">
         <span><i class="fas fa-clock"></i> ${item.duration || 'Self-paced'}</span>
         <span><i class="fas fa-signal"></i> ${item.difficulty || 'Beginner'}</span>
-        ${!isLab ? `<span><i class="fas fa-star"></i> ${(item.rating || 4.5).toFixed(1)}</span>` : ''}
+        ${!isLab ? `<span><i class="fas fa-star"></i> ${item.rating || '4.5'}/5</span>` : ''}
       </div>
       <div class="bookmark-item-actions">
         <button onclick="${launchFunction}('${item.id}')" class="launch-bookmark-btn">
-          <i class="fas fa-${isLab ? 'flask' : 'play'}"></i> Launch
+          <i class="fas fa-external-link-alt"></i> Launch
         </button>
-        <button onclick="${toggleFunction}('${item.id}')" class="remove-bookmark-btn">
-          <i class="fas fa-trash"></i>
+        <button onclick="${toggleFunction}('${item.id}'); displayBookmarkedItems(); updateBookmarkViewer();" 
+                class="remove-bookmark-btn">
+          <i class="fas fa-trash"></i> Remove
         </button>
       </div>
     </div>
@@ -494,29 +817,41 @@ function exportBookmarks(format) {
     impactMojoUserLabBookmarks.includes(lab.id)
   );
   
+  const allBookmarks = [
+    ...bookmarkedCourses.map(course => ({ ...course, type: 'course' })),
+    ...bookmarkedLabs.map(lab => ({ ...lab, type: 'lab' }))
+  ];
+  
+  if (allBookmarks.length === 0) {
+    showNotification('No bookmarks to export', 'warning');
+    return;
+  }
+  
   if (format === 'csv') {
-    const csvContent = generateBookmarkCSV(bookmarkedCourses, bookmarkedLabs);
-    downloadFile(csvContent, 'impactmojo-bookmarks.csv', 'text/csv');
-    showNotification('Bookmarks exported successfully!', 'success');
+    exportAsCSV(allBookmarks);
   }
 }
 
-function generateBookmarkCSV(courses, labs) {
-  let csv = 'Type,Title,Description,Category,Difficulty,Duration,Rating\n';
+function exportAsCSV(bookmarks) {
+  const headers = ['Title', 'Type', 'Description', 'Difficulty', 'Duration', 'Rating'];
+  const csvContent = [
+    headers.join(','),
+    ...bookmarks.map(item => [
+      `"${(item.title || '').replace(/"/g, '""')}"`,
+      item.type || '',
+      `"${(item.description || '').replace(/"/g, '""')}"`,
+      item.difficulty || '',
+      item.duration || '',
+      item.rating || ''
+    ].join(','))
+  ].join('\n');
   
-  courses.forEach(course => {
-    csv += `Course,"${course.title}","${course.description}","${course.category}","${course.difficulty}","${course.duration}","${course.rating}"\n`;
-  });
-  
-  labs.forEach(lab => {
-    csv += `Lab,"${lab.title}","${lab.description}","${lab.category}","${lab.difficulty}","${lab.duration}","N/A"\n`;
-  });
-  
-  return csv;
+  const blob = new Blob([csvContent], { type: 'text/csv' });
+  downloadFile(blob, `impactmojo-bookmarks-${new Date().toISOString().split('T')[0]}.csv`);
+  showNotification('Bookmarks exported as CSV', 'success');
 }
 
-function downloadFile(content, filename, mimeType) {
-  const blob = new Blob([content], { type: mimeType });
+function downloadFile(blob, filename) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
@@ -527,533 +862,526 @@ function downloadFile(content, filename, mimeType) {
   URL.revokeObjectURL(url);
 }
 
-async function clearAllBookmarks() {
-  if (!currentUser) return;
-  
-  if (!confirm('Are you sure you want to clear all bookmarks? This action cannot be undone.')) {
-    return;
-  }
-  
-  try {
-    const userRef = window.doc(window.db, 'users', currentUser.uid);
-    await window.updateDoc(userRef, {
-      bookmarks: [],
-      labBookmarks: []
-    });
-    
+function clearAllBookmarks() {
+  if (confirm('Are you sure you want to clear all bookmarks? This action cannot be undone.')) {
     impactMojoUserBookmarks = [];
     impactMojoUserLabBookmarks = [];
+    localStorage.setItem('impactMojoBookmarks', JSON.stringify([]));
+    localStorage.setItem('impactMojoLabBookmarks', JSON.stringify([]));
     
-    updateBookmarkUI();
-    updateLabBookmarkUI();
-    updateBookmarkCount();
+    updateBookmarkViewer();
+    updateAllBookmarkUI();
+    updateAllLabBookmarkUI();
     displayBookmarkedItems();
     
-    showNotification('All bookmarks cleared', 'success');
-  } catch (error) {
-    console.error('Error clearing bookmarks:', error);
-    showNotification('Error clearing bookmarks', 'error');
+    showNotification('All bookmarks cleared', 'info');
   }
 }
 
-// ===== COMPARISON FUNCTIONALITY =====
-function toggleComparison(itemId, itemType) {
-  const itemKey = `${itemType}-${itemId}`;
-  const index = selectedForComparison.findIndex(item => item.key === itemKey);
+function updateBookmarkViewer() {
+  const bookmarkViewerBtn = document.getElementById('bookmarkViewerBtn');
+  const totalBookmarks = impactMojoUserBookmarks.length + impactMojoUserLabBookmarks.length;
   
-  if (index === -1) {
-    if (selectedForComparison.length >= MAX_COMPARISON_ITEMS) {
-      showNotification(`You can only compare up to ${MAX_COMPARISON_ITEMS} items at once`, 'warning');
-      return false;
-    }
-    
-    selectedForComparison.push({
-      key: itemKey,
-      id: itemId,
-      type: itemType
-    });
-    
-    showNotification(`Added to comparison (${selectedForComparison.length}/${MAX_COMPARISON_ITEMS})`, 'success');
-  } else {
-    selectedForComparison.splice(index, 1);
-    showNotification('Removed from comparison', 'info');
-  }
-  
-  updateComparisonUI();
-  return true;
-}
-
-function updateComparisonUI() {
-  // Update all comparison checkboxes
-  document.querySelectorAll('.comparison-checkbox').forEach(checkbox => {
-    const itemId = checkbox.dataset.itemId;
-    const itemType = checkbox.dataset.itemType;
-    const itemKey = `${itemType}-${itemId}`;
-    checkbox.checked = selectedForComparison.some(item => item.key === itemKey);
-  });
-  
-  // Update FAB button visibility
-  const compareFab = document.querySelector('.fab-btn.compare');
-  if (compareFab) {
-    compareFab.style.display = selectedForComparison.length > 1 ? 'flex' : 'none';
-  }
-}
-
-function showComparison() {
-  showComparisonModal();
-}
-
-function showComparisonModal() {
-  if (selectedForComparison.length < 2) {
-    showNotification('Please select at least 2 items to compare', 'warning');
-    return;
-  }
-  
-  if (!document.getElementById('comparisonModal')) {
-    createComparisonModal();
-  }
-  
-  updateComparisonContent();
-  openModal('comparisonModal');
-}
-
-function createComparisonModal() {
-  const modal = document.createElement('div');
-  modal.id = 'comparisonModal';
-  modal.className = 'modal';
-  modal.innerHTML = `
-    <div class="modal-content large">
-      <span class="close" onclick="closeModal('comparisonModal')">&times;</span>
-      <div id="comparisonContent">
-        <!-- Comparison content will be displayed here -->
-      </div>
-    </div>
-  `;
-  document.body.appendChild(modal);
-}
-
-function updateComparisonContent() {
-  const content = document.getElementById('comparisonContent');
-  if (!content) return;
-  
-  const items = selectedForComparison.map(item => {
-    if (item.type === 'course') {
-      return impactMojoAllCourses.find(course => course.id === item.id);
+  if (bookmarkViewerBtn) {
+    if (totalBookmarks > 0) {
+      bookmarkViewerBtn.style.display = 'block';
+      const countSpan = document.getElementById('bookmarkCount');
+      if (countSpan) {
+        countSpan.textContent = totalBookmarks;
+      }
     } else {
-      return (window.labs || []).find(lab => lab.id === item.id);
+      bookmarkViewerBtn.style.display = 'none';
     }
-  }).filter(Boolean);
-  
-  if (items.length === 0) {
-    content.innerHTML = '<div class="comparison-placeholder"><i class="fas fa-balance-scale"></i><h3>No items to compare</h3></div>';
-    return;
   }
+}
+
+function getCategoryColor(category) {
+  const colors = {
+    'General': '#6366f1',
+    'Research & Data Analysis': '#3b82f6',
+    'Gender & Justice': '#ec4899',
+    'Economics & Development': '#059669',
+    'Health & Environment': '#dc2626',
+    'Governance & Policy': '#7c3aed',
+    'Education & Communication': '#f59e0b',
+    'Technology & Ethics': '#10b981'
+  };
+  return colors[category] || '#6366f1';
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(() => {
+    updateBookmarkViewer();
+  }, 1000);
+});
+
+// Override existing bookmark functions to update viewer
+const originalToggleBookmark = toggleBookmark;
+toggleBookmark = function(courseId) {
+  originalToggleBookmark(courseId);
+  setTimeout(updateBookmarkViewer, 100);
+};
+
+const originalToggleLabBookmark = toggleLabBookmark;
+toggleLabBookmark = function(labId) {
+  originalToggleLabBookmark(labId);
+  setTimeout(updateBookmarkViewer, 100);
+};
+
+console.log('✅ Missing functions added successfully!');
+// ===== UPDATED CARD FUNCTIONS (OVERRIDE EXISTING ONES) =====
+
+// New createCourseCard function with comparison checkboxes
+function createCourseCard(course) {
+  if (!course) return '';
   
-  content.innerHTML = `
-    <div class="comparison-header">
-      <h2><i class="fas fa-balance-scale"></i> Comparison</h2>
-      <div class="comparison-stats">
-        <span>Comparing ${items.length} items</span>
-        <button onclick="clearComparison()" class="btn secondary">
-          <i class="fas fa-trash"></i> Clear All
+  const category = course.category || 'General';
+  const difficulty = course.difficulty || 'Beginner';
+  const duration = course.duration || 'Self-paced';
+  const rating = course.rating || 4.5;
+  const description = course.description || 'No description available';
+  const title = course.title || 'Untitled Course';
+  const courseId = course.id;
+  
+  const categoryColor = getCategoryColor(category);
+  
+  return `
+    <div class="course-card" data-course-id="${courseId}" style="border-left: 4px solid ${categoryColor}">
+      <!-- Add comparison checkbox -->
+      <label class="comparison-checkbox-label" title="Select for comparison">
+        <input type="checkbox" 
+                class="comparison-checkbox" 
+                data-item-id="${courseId}"
+                data-item-type="course"
+                onchange="toggleComparison('${courseId}', 'course')">
+      </label>
+      
+      <div class="course-card-header">
+        <div class="course-category" style="background-color: ${categoryColor}20; color: ${categoryColor}">
+          ${category}
+        </div>
+        <div class="course-actions">
+          <button class="bookmark-btn" onclick="toggleBookmark('${courseId}')" aria-label="Bookmark course">
+            <i class="far fa-bookmark"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div class="course-content">
+        <h3 class="course-title">${title}</h3>
+        <p class="course-description">${description}</p>
+        
+        <div class="course-meta">
+          <span class="course-rating">
+            <i class="fas fa-star"></i>
+            ${rating.toFixed(1)}
+          </span>
+          <span class="course-duration">
+            <i class="fas fa-clock"></i>
+            ${duration}
+          </span>
+          <span class="course-difficulty difficulty-${difficulty.toLowerCase()}">
+            ${difficulty}
+          </span>
+        </div>
+      </div>
+      
+      <div class="course-card-footer">
+        <button class="launch-btn" onclick="launchCourse('${courseId}')">
+          <i class="fas fa-play"></i>
+          Launch Course
         </button>
       </div>
     </div>
-    
-    <div class="comparison-table-container">
-      <table class="comparison-table">
-        <thead>
-          <tr>
-            <th>Feature</th>
-            ${items.map((item, index) => `
-              <th>
-                ${item.title}
-                <br><small>${selectedForComparison[index].type}</small>
-              </th>
-            `).join('')}
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Description</td>
-            ${items.map(item => `<td>${item.description || 'N/A'}</td>`).join('')}
-          </tr>
-          <tr>
-            <td>Category</td>
-            ${items.map(item => `<td>${item.category || 'N/A'}</td>`).join('')}
-          </tr>
-          <tr>
-            <td>Difficulty</td>
-            ${items.map(item => `<td><span class="difficulty-badge ${(item.difficulty || 'beginner').toLowerCase()}">${item.difficulty || 'Beginner'}</span></td>`).join('')}
-          </tr>
-          <tr>
-            <td>Duration</td>
-            ${items.map(item => `<td>${item.duration || 'N/A'}</td>`).join('')}
-          </tr>
-          <tr>
-            <td>Rating</td>
-            ${items.map(item => `<td>${item.rating ? item.rating.toFixed(1) + ' ★' : 'N/A'}</td>`).join('')}
-          </tr>
-          <tr>
-            <td>Action</td>
-            ${items.map((item, index) => `
-              <td>
-                <button onclick="${selectedForComparison[index].type === 'course' ? 'launchCourse' : 'startLab'}('${item.id}')" 
-                        class="launch-comparison-btn">
-                  <i class="fas fa-external-link-alt"></i> Launch
-                </button>
-              </td>
-            `).join('')}
-          </tr>
-        </tbody>
-      </table>
+  `;
+}
+
+// New createLabCard function with comparison checkboxes
+function createLabCard(lab) {
+  if (!lab) return '';
+  
+  const category = lab.category || 'Interactive';
+  const difficulty = lab.difficulty || 'Beginner';
+  const duration = lab.duration || '30 min';
+  const description = lab.description || 'Interactive lab experience';
+  const title = lab.title || 'Untitled Lab';
+  const labId = lab.id;
+  const labType = lab.type || 'Simulation';
+  
+  return `
+    <div class="lab-card" data-lab-id="${labId}">
+      <!-- Add comparison checkbox -->
+      <label class="comparison-checkbox-label" title="Select for comparison">
+        <input type="checkbox" 
+                class="comparison-checkbox" 
+                data-item-id="${labId}"
+                data-item-type="lab"
+                onchange="toggleComparison('${labId}', 'lab')">
+      </label>
+      
+      <div class="lab-card-header">
+        <div class="lab-category">
+          ${category}
+        </div>
+        <div class="lab-type-badge">${labType}</div>
+        <div class="lab-actions">
+          <button class="bookmark-btn" onclick="toggleLabBookmark('${labId}')" aria-label="Bookmark lab">
+            <i class="far fa-bookmark"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div class="lab-content">
+        <h3 class="lab-title">${title}</h3>
+        <p class="lab-description">${description}</p>
+        
+        <div class="lab-meta">
+          <span class="lab-duration">
+            <i class="fas fa-clock"></i>
+            ${duration}
+          </span>
+          <span class="lab-difficulty difficulty-${difficulty.toLowerCase()}">
+            ${difficulty}
+          </span>
+        </div>
+      </div>
+      
+      <div class="lab-card-footer">
+        <button class="lab-launch-btn" onclick="launchLab('${labId}')">
+          <i class="fas fa-flask"></i>
+          Launch Lab
+        </button>
+      </div>
     </div>
   `;
 }
 
-function clearComparison() {
-  selectedForComparison = [];
-  updateComparisonUI();
-  updateComparisonContent();
-  showNotification('Comparison cleared', 'info');
-}
+console.log('✅ Updated card functions loaded!');
+/* 
+===== COMPLETE IMPACTMOJO JAVASCRIPT FIXES =====
+Add this entire block to the END of your main.js file
+This includes all fixes for navigation, tooltips, and mobile optimization
+*/
 
-// ===== SEARCH AND FILTER FUNCTIONALITY =====
-function initializeSearch() {
-  const searchInput = document.getElementById('searchInput');
-  const searchBtn = document.getElementById('searchBtn');
-  const categoryFilter = document.getElementById('categoryFilter');
-  const difficultyFilter = document.getElementById('difficultyFilter');
-  const durationFilter = document.getElementById('durationFilter');
+// ===== OVERRIDE PROBLEMATIC centerNavigation FUNCTION =====
+function centerNavigation() {
+  console.log('🎯 Applying fixed navigation layout...');
   
-  if (searchBtn) {
-    searchBtn.addEventListener('click', performSearch);
-  }
-  
-  if (searchInput) {
-    searchInput.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        performSearch();
-      }
-    });
-  }
-  
-  if (categoryFilter) {
-    categoryFilter.addEventListener('change', performSearch);
-  }
-  
-  if (difficultyFilter) {
-    difficultyFilter.addEventListener('change', performSearch);
-  }
-  
-  if (durationFilter) {
-    durationFilter.addEventListener('change', performSearch);
-  }
-}
-
-function performSearch() {
-  const query = document.getElementById('searchInput')?.value.toLowerCase() || '';
-  const category = document.getElementById('categoryFilter')?.value || 'all';
-  const difficulty = document.getElementById('difficultyFilter')?.value || 'all';
-  const duration = document.getElementById('durationFilter')?.value || 'all';
-  
-  filterAndDisplayContent(query, category, difficulty, duration);
-}
-
-function filterAndDisplayContent(query, category, difficulty, duration) {
-  // Filter courses
-  const filteredCourses = impactMojoAllCourses.filter(course => {
-    const matchesQuery = query === '' || 
-      course.title.toLowerCase().includes(query) ||
-      course.description.toLowerCase().includes(query) ||
-      (course.tags && course.tags.some(tag => tag.toLowerCase().includes(query)));
-    
-    const matchesCategory = category === 'all' || course.category === category;
-    const matchesDifficulty = difficulty === 'all' || course.difficulty === difficulty;
-    const matchesDuration = duration === 'all' || course.duration === duration;
-    
-    return matchesQuery && matchesCategory && matchesDifficulty && matchesDuration;
-  });
-  
-  // Filter labs
-  const filteredLabs = (window.labs || []).filter(lab => {
-    const matchesQuery = query === '' || 
-      lab.title.toLowerCase().includes(query) ||
-      lab.description.toLowerCase().includes(query);
-    
-    const matchesCategory = category === 'all' || lab.category === category;
-    const matchesDifficulty = difficulty === 'all' || lab.difficulty === difficulty;
-    const matchesDuration = duration === 'all' || lab.duration === duration;
-    
-    return matchesQuery && matchesCategory && matchesDifficulty && matchesDuration;
-  });
-  
-  displayFilteredCourses(filteredCourses);
-  displayFilteredLabs(filteredLabs);
-  
-  // Update result count
-  const totalResults = filteredCourses.length + filteredLabs.length;
-  updateResultCount(totalResults);
-}
-
-function displayFilteredCourses(courses) {
-  const container = document.getElementById('coursesContainer');
-  if (!container) return;
-  
-  if (courses.length === 0) {
-    container.innerHTML = '<div class="no-results" style="text-align: center; padding: 2rem; color: var(--text-secondary);">No courses found matching your criteria.</div>';
-    return;
-  }
-  
-  container.innerHTML = courses.map(course => createCourseCard(course)).join('');
-  updateBookmarkUI();
-  updateComparisonUI();
-}
-
-function displayFilteredLabs(labs) {
-  const container = document.getElementById('labsContainer');
-  if (!container) return;
-  
-  if (labs.length === 0) {
-    container.innerHTML = '<div class="no-results" style="text-align: center; padding: 2rem; color: var(--text-secondary);">No labs found matching your criteria.</div>';
-    return;
-  }
-  
-  container.innerHTML = labs.map(lab => createLabCard(lab)).join('');
-  updateLabBookmarkUI();
-  updateComparisonUI();
-}
-
-function updateResultCount(count) {
-  const resultElement = document.getElementById('searchResults');
-  if (resultElement) {
-    resultElement.textContent = `${count} result${count !== 1 ? 's' : ''} found`;
-  }
-}
-
-// ===== ACTION HANDLERS =====
-function launchCourse(courseId) {
-  if (!currentUser) {
-    showNotification('Please sign up or log in to access courses.', 'error');
-    showLoginModal();
-    return;
-  }
-  
-  const course = impactMojoAllCourses.find(c => c.id === courseId);
-  if (course) {
-    console.log(`Launching course: ${course.title}`);
-    showNotification(`Launching: ${course.title}`, 'success');
-    // Add actual course launch logic here
-    // For example: window.open(course.url, '_blank');
-  }
-}
-
-function startLab(labId) {
-  if (!currentUser) {
-    showNotification('Please sign up or log in to access labs.', 'error');
-    showLoginModal();
-    return;
-  }
-  
-  const lab = (window.labs || []).find(l => l.id === labId);
-  if (lab) {
-    console.log(`Starting lab: ${lab.title}`);
-    showNotification(`Starting: ${lab.title}`, 'success');
-    // Add actual lab start logic here
-  }
-}
-
-function launchLab(labId) {
-  startLab(labId); // Alias for compatibility
-}
-
-// ===== USER DASHBOARD FUNCTIONS =====
-function showDashboard() {
-  if (!currentUser) {
-    showNotification('Please log in to view dashboard', 'error');
-    showLoginModal();
-    return;
-  }
-  
-  showNotification('Dashboard feature coming soon! Track your progress and manage your learning path.', 'info');
-}
-
-function showBookmarks() {
-  if (!currentUser) {
-    showNotification('Please log in to view bookmarks', 'error');
-    showLoginModal();
-    return;
-  }
-  
-  showBookmarkModal();
-}
-
-function showProfile() {
-  if (!currentUser) {
-    showNotification('Please log in to view profile', 'error');
-    showLoginModal();
-    return;
-  }
-  
-  const profileInfo = `
-    Name: ${currentUser.displayName || 'Not provided'}
-    Email: ${currentUser.email}
-    Joined: ${currentUser.metadata.creationTime ? new Date(currentUser.metadata.creationTime).toLocaleDateString() : 'Unknown'}
-  `;
-  
-  showNotification(`Profile Info:\n${profileInfo}`, 'info');
-}
-
-// ===== MODAL MANAGEMENT =====
-function openModal(modalId) {
-  const modal = document.getElementById(modalId);
-  if (modal) {
-    modal.classList.add('active');
-    modal.style.display = 'flex';
-  }
-}
-
-function closeModal(modalId) {
-  const modal = document.getElementById(modalId);
-  if (modal) {
-    modal.classList.remove('active');
-    modal.style.display = 'none';
-  }
-}
-
-function showLoginModal() {
-  if (typeof window.showLoginModal === 'function') {
-    window.showLoginModal();
-  } else {
-    showNotification('Please log in to continue', 'info');
-  }
-}
-
-// ===== NOTIFICATION SYSTEM =====
-function showNotification(message, type = 'info') {
-  // Remove existing notifications
-  const existingNotifications = document.querySelectorAll('.notification');
-  existingNotifications.forEach(notification => notification.remove());
-  
-  const notification = document.createElement('div');
-  notification.className = `notification ${type}`;
-  notification.textContent = message;
-  
-  document.body.appendChild(notification);
-  
-  // Show notification
   setTimeout(() => {
-    notification.classList.add('show');
-  }, 100);
-  
-  // Hide notification after 4 seconds
-  setTimeout(() => {
-    notification.classList.remove('show');
-    setTimeout(() => {
-      if (notification.parentNode) {
-        notification.parentNode.removeChild(notification);
-      }
-    }, 300);
-  }, 4000);
-}
-
-// ===== NAVIGATION HELPERS =====
-function scrollToSection(sectionId) {
-  const element = document.getElementById(sectionId);
-  if (element) {
-    element.scrollIntoView({ 
-      behavior: 'smooth',
-      block: 'start'
-    });
-  }
-}
-
-// ===== LOAD USER DATA FROM FIRESTORE =====
-async function loadUserData() {
-  if (!currentUser) return;
-  
-  try {
-    const userDoc = await window.getDoc(window.doc(window.db, 'users', currentUser.uid));
-    if (userDoc.exists()) {
-      const userData = userDoc.data();
-      impactMojoUserBookmarks = userData.bookmarks || [];
-      impactMojoUserLabBookmarks = userData.labBookmarks || [];
-      userNotes = userData.notes || '';
+    const navContainer = document.querySelector('.navbar .container');
+    const navMenu = document.querySelector('.nav-menu');
+    const navActions = document.querySelector('.nav-actions');
+    const header = document.querySelector('.header');
+    
+    const isMobile = window.innerWidth <= 768;
+    
+    if (isMobile) {
+      // MOBILE: Prevent overlap by using relative positioning
+      console.log('📱 Applying mobile layout...');
       
-      // Update UI to reflect bookmarks
-      updateBookmarkUI();
-      updateLabBookmarkUI();
-      updateBookmarkCount();
+      if (header) {
+        header.style.setProperty('position', 'relative', 'important');
+        header.style.setProperty('z-index', '100', 'important');
+        header.style.setProperty('margin-bottom', '1rem', 'important');
+      }
+      
+      if (navContainer) {
+        navContainer.style.setProperty('position', 'relative', 'important');
+        navContainer.style.setProperty('flex-direction', 'column', 'important');
+        navContainer.style.setProperty('justify-content', 'center', 'important');
+        navContainer.style.setProperty('align-items', 'center', 'important');
+        navContainer.style.setProperty('gap', '1.5rem', 'important');
+        navContainer.style.setProperty('padding', '1rem', 'important');
+        navContainer.style.setProperty('text-align', 'center', 'important');
+      }
+      
+      if (navMenu) {
+        navMenu.style.setProperty('position', 'relative', 'important');
+        navMenu.style.setProperty('order', '1', 'important');
+        navMenu.style.setProperty('width', '100%', 'important');
+        navMenu.style.setProperty('justify-content', 'center', 'important');
+        navMenu.style.setProperty('flex-direction', 'column', 'important');
+        navMenu.style.setProperty('gap', '1rem', 'important');
+        navMenu.style.setProperty('transform', 'none', 'important');
+        navMenu.style.setProperty('top', 'auto', 'important');
+        navMenu.style.setProperty('left', 'auto', 'important');
+        navMenu.style.setProperty('right', 'auto', 'important');
+      }
+      
+      if (navActions) {
+        navActions.style.setProperty('position', 'relative', 'important');
+        navActions.style.setProperty('order', '2', 'important');
+        navActions.style.setProperty('width', '100%', 'important');
+        navActions.style.setProperty('justify-content', 'center', 'important');
+        navActions.style.setProperty('margin-left', '0', 'important');
+        navActions.style.setProperty('margin-right', '0', 'important');
+        navActions.style.setProperty('transform', 'none', 'important');
+        navActions.style.setProperty('top', 'auto', 'important');
+        navActions.style.setProperty('left', 'auto', 'important');
+        navActions.style.setProperty('right', 'auto', 'important');
+        navActions.style.setProperty('float', 'none', 'important');
+      }
+      
+      // Ensure auth buttons container is properly positioned
+      const authButtons = document.querySelector('.auth-buttons');
+      if (authButtons) {
+        authButtons.style.setProperty('position', 'relative', 'important');
+        authButtons.style.setProperty('width', '100%', 'important');
+        authButtons.style.setProperty('justify-content', 'center', 'important');
+        authButtons.style.setProperty('gap', '1rem', 'important');
+        authButtons.style.setProperty('transform', 'none', 'important');
+        authButtons.style.setProperty('float', 'none', 'important');
+      }
+      
+      // Add spacing to hero section to prevent overlap
+      const hero = document.querySelector('.hero');
+      if (hero) {
+        hero.style.setProperty('margin-top', '1rem', 'important');
+        hero.style.setProperty('clear', 'both', 'important');
+      }
+      
+    } else {
+      // DESKTOP: Shift left for tooltip space
+      console.log('💻 Applying desktop layout...');
+      
+      if (header) {
+        header.style.setProperty('position', 'sticky', 'important');
+        header.style.setProperty('top', '0', 'important');
+        header.style.setProperty('z-index', '100', 'important');
+      }
+      
+      if (navContainer) {
+        navContainer.style.setProperty('flex-direction', 'row', 'important');
+        navContainer.style.setProperty('justify-content', 'flex-start', 'important');
+        navContainer.style.setProperty('gap', '1.5rem', 'important');
+        navContainer.style.setProperty('padding', '1.5rem 1rem 1.5rem 3rem', 'important');
+      }
+      
+      if (navMenu) {
+        navMenu.style.setProperty('order', '1', 'important');
+        navMenu.style.setProperty('justify-content', 'flex-start', 'important');
+        navMenu.style.setProperty('flex', '1', 'important');
+        navMenu.style.setProperty('flex-direction', 'row', 'important');
+      }
+      
+      if (navActions) {
+        navActions.style.setProperty('position', 'static', 'important');
+        navActions.style.setProperty('margin-left', 'auto', 'important');
+        navActions.style.setProperty('margin-right', '2rem', 'important');
+        navActions.style.setProperty('flex-shrink', '0', 'important');
+      }
     }
-  } catch (error) {
-    console.error('Error loading user data:', error);
+    
+    console.log('✅ Fixed navigation layout applied');
+  }, 100);
+}
+
+// ===== MOBILE OVERLAP PREVENTION =====
+function fixMobileOverlap() {
+  if (window.innerWidth <= 768) {
+    console.log('📱 Applying mobile overlap fix...');
+    
+    // Remove any floating or absolute positioned elements
+    const problematicElements = document.querySelectorAll('.navbar, .navbar *, .nav-menu, .nav-menu *, .nav-actions, .nav-actions *, .auth-buttons, .auth-buttons *');
+    
+    problematicElements.forEach(element => {
+      element.style.setProperty('position', 'relative', 'important');
+      element.style.setProperty('float', 'none', 'important');
+      element.style.setProperty('transform', 'none', 'important');
+      element.style.setProperty('top', 'auto', 'important');
+      element.style.setProperty('left', 'auto', 'important');
+      element.style.setProperty('right', 'auto', 'important');
+      element.style.setProperty('bottom', 'auto', 'important');
+    });
+    
+    // Ensure proper spacing
+    const hero = document.querySelector('.hero');
+    if (hero) {
+      hero.style.setProperty('clear', 'both', 'important');
+      hero.style.setProperty('margin-top', '1rem', 'important');
+    }
+    
+    // Ensure main content has proper spacing
+    const mainContent = document.querySelector('main') || document.querySelector('.main-content');
+    if (mainContent) {
+      mainContent.style.setProperty('clear', 'both', 'important');
+      mainContent.style.setProperty('margin-top', '1rem', 'important');
+    }
+    
+    console.log('✅ Mobile overlap fix applied');
   }
 }
 
-// ===== SIMPLE RESPONSIVE HANDLER (NO CONFLICTING POSITIONING) =====
-function handleResponsiveNavigation() {
-  const isMobile = window.innerWidth <= 768;
-  const navMenu = document.querySelector('.nav-menu');
-  const navActions = document.querySelector('.nav-actions');
-  
-  // Simple responsive adjustments without forcing styles
-  if (isMobile) {
-    if (navMenu) navMenu.classList.add('mobile-nav');
-    if (navActions) navActions.classList.add('mobile-actions');
-  } else {
-    if (navMenu) navMenu.classList.remove('mobile-nav');
-    if (navActions) navActions.classList.remove('mobile-actions');
-  }
-}
-
-// ===== EVENT LISTENERS =====
+// ===== RESPONSIVE WINDOW RESIZE HANDLER =====
 window.addEventListener('resize', function() {
-  clearTimeout(window.resizeTimeout);
-  window.resizeTimeout = setTimeout(handleResponsiveNavigation, 150);
+  clearTimeout(window.navResizeTimeout);
+  window.navResizeTimeout = setTimeout(() => {
+    centerNavigation();
+    fixMobileOverlap();
+  }, 250);
 });
 
-// ===== INITIALIZATION =====
+// ===== FORCE FIXES ON PAGE LOAD =====
+window.addEventListener('load', function() {
+  setTimeout(() => {
+    centerNavigation();
+    fixMobileOverlap();
+  }, 500);
+});
+
+// Apply fixes immediately when script loads
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('🚀 ImpactMojo initialized');
-  
-  // Initialize core features
-  initializeTheme();
-  initializeSearch();
-  updateAuthState();
-  handleResponsiveNavigation();
-  
-  // Load content if containers exist
-  if (document.getElementById('coursesContainer')) {
-    displayCourses();
-  }
-  
-  if (document.getElementById('labsContainer')) {
-    displayLabs();
-  }
-  
-  // Initialize bookmark count
-  updateBookmarkCount();
-  
-  console.log('✅ ImpactMojo ready');
+  setTimeout(() => {
+    centerNavigation();
+    fixMobileOverlap();
+  }, 1000);
 });
 
-// ===== GLOBAL FUNCTIONS FOR HTML ONCLICK EVENTS =====
-window.scrollToSection = scrollToSection;
-window.launchCourse = launchCourse;
-window.startLab = startLab;
-window.launchLab = launchLab;
-window.toggleBookmark = toggleBookmark;
-window.toggleLabBookmark = toggleLabBookmark;
-window.toggleComparison = toggleComparison;
-window.showComparison = showComparison;
-window.showBookmarkModal = showBookmarkModal;
-window.showDashboard = showDashboard;
-window.showBookmarks = showBookmarks;
-window.showProfile = showProfile;
-window.toggleUserDropdown = toggleUserDropdown;
-window.openModal = openModal;
-window.closeModal = closeModal;
-window.exportBookmarks = exportBookmarks;
-window.clearAllBookmarks = clearAllBookmarks;
-window.clearComparison = clearComparison;
-window.performSearch = performSearch;
+// ===== TOOLTIP CSS INJECTION =====
+const tooltipFixCSS = `
+/* Enhanced tooltip positioning */
+.auth-btn[title]:hover::after {
+  content: attr(title) !important;
+  position: absolute !important;
+  top: 100% !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  margin-top: 8px !important;
+  background: #1f2937 !important;
+  color: white !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: 0.5rem !important;
+  font-size: 0.8rem !important;
+  width: max-content !important;
+  max-width: 280px !important;
+  text-align: center !important;
+  z-index: 10000 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  white-space: normal !important;
+  font-family: 'Poppins', sans-serif !important;
+  pointer-events: none !important;
+}
+
+.auth-btn[title]:hover::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 100% !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  margin-top: 3px !important;
+  border: 5px solid transparent !important;
+  border-bottom-color: #1f2937 !important;
+  z-index: 10000 !important;
+  pointer-events: none !important;
+}
+
+/* Ensure no clipping */
+.header, .navbar, .navbar .container, .nav-actions, .auth-buttons {
+  overflow: visible !important;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .auth-btn[title]:hover::after {
+    max-width: 220px !important;
+    font-size: 0.75rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-btn[title]:hover::after,
+  .auth-btn[title]:hover::before {
+    display: none !important;
+  }
+}
+`;
+
+// Inject tooltip CSS if not already present
+if (!document.getElementById('tooltip-fix-styles')) {
+  const style = document.createElement('style');
+  style.id = 'tooltip-fix-styles';
+  style.innerHTML = tooltipFixCSS;
+  document.head.appendChild(style);
+}
+
+// ===== AUTH BUTTON VISIBILITY ENFORCEMENT =====
+function ensureAuthButtonsVisible() {
+  const authButtons = document.getElementById('authButtons');
+  const userMenu = document.getElementById('userMenu');
+  
+  if (authButtons) {
+    authButtons.style.setProperty('display', 'flex', 'important');
+    authButtons.style.setProperty('visibility', 'visible', 'important');
+    authButtons.style.setProperty('opacity', '1', 'important');
+  }
+  
+  if (userMenu) {
+    userMenu.style.setProperty('display', 'none', 'important');
+  }
+}
+
+// Apply auth button fixes periodically
+setInterval(ensureAuthButtonsVisible, 2000);
+
+// ===== SCROLL BEHAVIOR IMPROVEMENTS =====
+function improveScrollBehavior() {
+  // Smooth scrolling for navigation links
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+  navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+          const offset = 100; // Account for fixed header
+          const targetPosition = target.offsetTop - offset;
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }
+    });
+  });
+}
+
+// Apply scroll improvements
+improveScrollBehavior();
+
+// ===== MOBILE TOUCH IMPROVEMENTS =====
+function improveMobileTouch() {
+  if (window.innerWidth <= 768) {
+    // Improve touch targets
+    const buttons = document.querySelectorAll('button, .btn, .auth-btn, .cta-btn');
+    buttons.forEach(button => {
+      if (button.offsetHeight < 44) {
+        button.style.setProperty('min-height', '44px', 'important');
+        button.style.setProperty('padding', '0.7rem 1rem', 'important');
+      }
+    });
+    
+    // Improve form inputs
+    const inputs = document.querySelectorAll('input, textarea, select');
+    inputs.forEach(input => {
+      input.style.setProperty('font-size', '16px', 'important');
+      if (input.offsetHeight < 44) {
+        input.style.setProperty('min-height', '44px', 'important');
+      }
+    });
+  }
+}
+
+// Apply mobile touch improvements
+improveMobileTouch();
+window.addEventListener('resize', improveMobileTouch);
+
+// ===== CONSOLE SUCCESS MESSAGE =====
+console.log('✅ All ImpactMojo fixes loaded successfully!');
+console.log('🎯 Navigation positioning fixed');
+console.log('💬 Tooltip positioning fixed'); 
+console.log('📱 Mobile optimization applied');
+console.log('🚫 Mobile overlap prevention active');
+
+// ===== END OF COMPLETE JAVASCRIPT FIXES =====
