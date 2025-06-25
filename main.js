@@ -1058,3 +1058,330 @@ function createLabCard(lab) {
 }
 
 console.log('✅ Updated card functions loaded!');
+/* 
+===== COMPLETE IMPACTMOJO JAVASCRIPT FIXES =====
+Add this entire block to the END of your main.js file
+This includes all fixes for navigation, tooltips, and mobile optimization
+*/
+
+// ===== OVERRIDE PROBLEMATIC centerNavigation FUNCTION =====
+function centerNavigation() {
+  console.log('🎯 Applying fixed navigation layout...');
+  
+  setTimeout(() => {
+    const navContainer = document.querySelector('.navbar .container');
+    const navMenu = document.querySelector('.nav-menu');
+    const navActions = document.querySelector('.nav-actions');
+    const header = document.querySelector('.header');
+    
+    const isMobile = window.innerWidth <= 768;
+    
+    if (isMobile) {
+      // MOBILE: Prevent overlap by using relative positioning
+      console.log('📱 Applying mobile layout...');
+      
+      if (header) {
+        header.style.setProperty('position', 'relative', 'important');
+        header.style.setProperty('z-index', '100', 'important');
+        header.style.setProperty('margin-bottom', '1rem', 'important');
+      }
+      
+      if (navContainer) {
+        navContainer.style.setProperty('position', 'relative', 'important');
+        navContainer.style.setProperty('flex-direction', 'column', 'important');
+        navContainer.style.setProperty('justify-content', 'center', 'important');
+        navContainer.style.setProperty('align-items', 'center', 'important');
+        navContainer.style.setProperty('gap', '1.5rem', 'important');
+        navContainer.style.setProperty('padding', '1rem', 'important');
+        navContainer.style.setProperty('text-align', 'center', 'important');
+      }
+      
+      if (navMenu) {
+        navMenu.style.setProperty('position', 'relative', 'important');
+        navMenu.style.setProperty('order', '1', 'important');
+        navMenu.style.setProperty('width', '100%', 'important');
+        navMenu.style.setProperty('justify-content', 'center', 'important');
+        navMenu.style.setProperty('flex-direction', 'column', 'important');
+        navMenu.style.setProperty('gap', '1rem', 'important');
+        navMenu.style.setProperty('transform', 'none', 'important');
+        navMenu.style.setProperty('top', 'auto', 'important');
+        navMenu.style.setProperty('left', 'auto', 'important');
+        navMenu.style.setProperty('right', 'auto', 'important');
+      }
+      
+      if (navActions) {
+        navActions.style.setProperty('position', 'relative', 'important');
+        navActions.style.setProperty('order', '2', 'important');
+        navActions.style.setProperty('width', '100%', 'important');
+        navActions.style.setProperty('justify-content', 'center', 'important');
+        navActions.style.setProperty('margin-left', '0', 'important');
+        navActions.style.setProperty('margin-right', '0', 'important');
+        navActions.style.setProperty('transform', 'none', 'important');
+        navActions.style.setProperty('top', 'auto', 'important');
+        navActions.style.setProperty('left', 'auto', 'important');
+        navActions.style.setProperty('right', 'auto', 'important');
+        navActions.style.setProperty('float', 'none', 'important');
+      }
+      
+      // Ensure auth buttons container is properly positioned
+      const authButtons = document.querySelector('.auth-buttons');
+      if (authButtons) {
+        authButtons.style.setProperty('position', 'relative', 'important');
+        authButtons.style.setProperty('width', '100%', 'important');
+        authButtons.style.setProperty('justify-content', 'center', 'important');
+        authButtons.style.setProperty('gap', '1rem', 'important');
+        authButtons.style.setProperty('transform', 'none', 'important');
+        authButtons.style.setProperty('float', 'none', 'important');
+      }
+      
+      // Add spacing to hero section to prevent overlap
+      const hero = document.querySelector('.hero');
+      if (hero) {
+        hero.style.setProperty('margin-top', '1rem', 'important');
+        hero.style.setProperty('clear', 'both', 'important');
+      }
+      
+    } else {
+      // DESKTOP: Shift left for tooltip space
+      console.log('💻 Applying desktop layout...');
+      
+      if (header) {
+        header.style.setProperty('position', 'sticky', 'important');
+        header.style.setProperty('top', '0', 'important');
+        header.style.setProperty('z-index', '100', 'important');
+      }
+      
+      if (navContainer) {
+        navContainer.style.setProperty('flex-direction', 'row', 'important');
+        navContainer.style.setProperty('justify-content', 'flex-start', 'important');
+        navContainer.style.setProperty('gap', '1.5rem', 'important');
+        navContainer.style.setProperty('padding', '1.5rem 1rem 1.5rem 3rem', 'important');
+      }
+      
+      if (navMenu) {
+        navMenu.style.setProperty('order', '1', 'important');
+        navMenu.style.setProperty('justify-content', 'flex-start', 'important');
+        navMenu.style.setProperty('flex', '1', 'important');
+        navMenu.style.setProperty('flex-direction', 'row', 'important');
+      }
+      
+      if (navActions) {
+        navActions.style.setProperty('position', 'static', 'important');
+        navActions.style.setProperty('margin-left', 'auto', 'important');
+        navActions.style.setProperty('margin-right', '2rem', 'important');
+        navActions.style.setProperty('flex-shrink', '0', 'important');
+      }
+    }
+    
+    console.log('✅ Fixed navigation layout applied');
+  }, 100);
+}
+
+// ===== MOBILE OVERLAP PREVENTION =====
+function fixMobileOverlap() {
+  if (window.innerWidth <= 768) {
+    console.log('📱 Applying mobile overlap fix...');
+    
+    // Remove any floating or absolute positioned elements
+    const problematicElements = document.querySelectorAll('.navbar, .navbar *, .nav-menu, .nav-menu *, .nav-actions, .nav-actions *, .auth-buttons, .auth-buttons *');
+    
+    problematicElements.forEach(element => {
+      element.style.setProperty('position', 'relative', 'important');
+      element.style.setProperty('float', 'none', 'important');
+      element.style.setProperty('transform', 'none', 'important');
+      element.style.setProperty('top', 'auto', 'important');
+      element.style.setProperty('left', 'auto', 'important');
+      element.style.setProperty('right', 'auto', 'important');
+      element.style.setProperty('bottom', 'auto', 'important');
+    });
+    
+    // Ensure proper spacing
+    const hero = document.querySelector('.hero');
+    if (hero) {
+      hero.style.setProperty('clear', 'both', 'important');
+      hero.style.setProperty('margin-top', '1rem', 'important');
+    }
+    
+    // Ensure main content has proper spacing
+    const mainContent = document.querySelector('main') || document.querySelector('.main-content');
+    if (mainContent) {
+      mainContent.style.setProperty('clear', 'both', 'important');
+      mainContent.style.setProperty('margin-top', '1rem', 'important');
+    }
+    
+    console.log('✅ Mobile overlap fix applied');
+  }
+}
+
+// ===== RESPONSIVE WINDOW RESIZE HANDLER =====
+window.addEventListener('resize', function() {
+  clearTimeout(window.navResizeTimeout);
+  window.navResizeTimeout = setTimeout(() => {
+    centerNavigation();
+    fixMobileOverlap();
+  }, 250);
+});
+
+// ===== FORCE FIXES ON PAGE LOAD =====
+window.addEventListener('load', function() {
+  setTimeout(() => {
+    centerNavigation();
+    fixMobileOverlap();
+  }, 500);
+});
+
+// Apply fixes immediately when script loads
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(() => {
+    centerNavigation();
+    fixMobileOverlap();
+  }, 1000);
+});
+
+// ===== TOOLTIP CSS INJECTION =====
+const tooltipFixCSS = `
+/* Enhanced tooltip positioning */
+.auth-btn[title]:hover::after {
+  content: attr(title) !important;
+  position: absolute !important;
+  top: 100% !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  margin-top: 8px !important;
+  background: #1f2937 !important;
+  color: white !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: 0.5rem !important;
+  font-size: 0.8rem !important;
+  width: max-content !important;
+  max-width: 280px !important;
+  text-align: center !important;
+  z-index: 10000 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  white-space: normal !important;
+  font-family: 'Poppins', sans-serif !important;
+  pointer-events: none !important;
+}
+
+.auth-btn[title]:hover::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 100% !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  margin-top: 3px !important;
+  border: 5px solid transparent !important;
+  border-bottom-color: #1f2937 !important;
+  z-index: 10000 !important;
+  pointer-events: none !important;
+}
+
+/* Ensure no clipping */
+.header, .navbar, .navbar .container, .nav-actions, .auth-buttons {
+  overflow: visible !important;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .auth-btn[title]:hover::after {
+    max-width: 220px !important;
+    font-size: 0.75rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-btn[title]:hover::after,
+  .auth-btn[title]:hover::before {
+    display: none !important;
+  }
+}
+`;
+
+// Inject tooltip CSS if not already present
+if (!document.getElementById('tooltip-fix-styles')) {
+  const style = document.createElement('style');
+  style.id = 'tooltip-fix-styles';
+  style.innerHTML = tooltipFixCSS;
+  document.head.appendChild(style);
+}
+
+// ===== AUTH BUTTON VISIBILITY ENFORCEMENT =====
+function ensureAuthButtonsVisible() {
+  const authButtons = document.getElementById('authButtons');
+  const userMenu = document.getElementById('userMenu');
+  
+  if (authButtons) {
+    authButtons.style.setProperty('display', 'flex', 'important');
+    authButtons.style.setProperty('visibility', 'visible', 'important');
+    authButtons.style.setProperty('opacity', '1', 'important');
+  }
+  
+  if (userMenu) {
+    userMenu.style.setProperty('display', 'none', 'important');
+  }
+}
+
+// Apply auth button fixes periodically
+setInterval(ensureAuthButtonsVisible, 2000);
+
+// ===== SCROLL BEHAVIOR IMPROVEMENTS =====
+function improveScrollBehavior() {
+  // Smooth scrolling for navigation links
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+  navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+          const offset = 100; // Account for fixed header
+          const targetPosition = target.offsetTop - offset;
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }
+    });
+  });
+}
+
+// Apply scroll improvements
+improveScrollBehavior();
+
+// ===== MOBILE TOUCH IMPROVEMENTS =====
+function improveMobileTouch() {
+  if (window.innerWidth <= 768) {
+    // Improve touch targets
+    const buttons = document.querySelectorAll('button, .btn, .auth-btn, .cta-btn');
+    buttons.forEach(button => {
+      if (button.offsetHeight < 44) {
+        button.style.setProperty('min-height', '44px', 'important');
+        button.style.setProperty('padding', '0.7rem 1rem', 'important');
+      }
+    });
+    
+    // Improve form inputs
+    const inputs = document.querySelectorAll('input, textarea, select');
+    inputs.forEach(input => {
+      input.style.setProperty('font-size', '16px', 'important');
+      if (input.offsetHeight < 44) {
+        input.style.setProperty('min-height', '44px', 'important');
+      }
+    });
+  }
+}
+
+// Apply mobile touch improvements
+improveMobileTouch();
+window.addEventListener('resize', improveMobileTouch);
+
+// ===== CONSOLE SUCCESS MESSAGE =====
+console.log('✅ All ImpactMojo fixes loaded successfully!');
+console.log('🎯 Navigation positioning fixed');
+console.log('💬 Tooltip positioning fixed'); 
+console.log('📱 Mobile optimization applied');
+console.log('🚫 Mobile overlap prevention active');
+
+// ===== END OF COMPLETE JAVASCRIPT FIXES =====
