@@ -892,38 +892,32 @@ function createComparisonModal() {
   });
 }
 
-// Fixed populateComparisonModal function with proper HTML table
+// TARGETED FIX: Enhanced content-level comparison
 function populateComparisonModal() {
   const content = document.getElementById('comparisonContent');
   if (!content) return;
   
-  // Clear content
   content.innerHTML = '';
   
-  // Create proper HTML table
   const table = document.createElement('table');
   table.className = 'comparison-table';
   
-  // Create table header
+  // Table Header
   const thead = document.createElement('thead');
   const headerRow = document.createElement('tr');
   
-  // Feature column header
   const featureHeader = document.createElement('th');
   featureHeader.textContent = 'FEATURE';
   featureHeader.className = 'feature-label';
   headerRow.appendChild(featureHeader);
   
-  // Item headers
   selectedForComparison.forEach(selected => {
     const itemHeader = document.createElement('th');
     itemHeader.className = 'item-header';
     itemHeader.innerHTML = `
-      <div class="item-type-badge ${selected.type}">${selected.type === 'course' ? 'COURSE' : 'LAB'}</div>
-      <h3 class="item-title">${selected.item.title}</h3>
-      <button class="remove-from-comparison" onclick="removeFromComparison('${selected.id}', '${selected.type}')" title="Remove from comparison">
-        <i class="fas fa-times"></i>
-      </button>
+      <div class="item-type-badge ${selected.type}">${selected.type.toUpperCase()}</div>
+      <h4 class="item-title">${selected.item.title}</h4>
+      <button class="remove-from-comparison" onclick="removeFromComparison('${selected.id}', '${selected.type}')" title="Remove">×</button>
     `;
     headerRow.appendChild(itemHeader);
   });
@@ -931,116 +925,153 @@ function populateComparisonModal() {
   thead.appendChild(headerRow);
   table.appendChild(thead);
   
-  // Create table body
+  // Table Body with Rich Content
   const tbody = document.createElement('tbody');
   
-  // Define comparison rows
-  const comparisonData = [
+  // Content comparison rows
+  const comparisonRows = [
     {
-      label: 'DESCRIPTION',
+      label: 'Description',
       getValue: (item) => item.description || 'No description available'
     },
     {
-      label: 'CATEGORY',
-      getValue: (item) => item.category || 'Not specified'
+      label: 'Topics Covered',
+      getValue: (item) => item.topics ? item.topics.join(', ') : 'Not specified'
     },
     {
-      label: 'LEVEL/DIFFICULTY',
-      getValue: (item) => item.difficulty || item.complexity || 'Not specified'
+      label: 'Learning Outcomes',
+      getValue: (item) => item.outcomes ? item.outcomes.join('; ') : 'Not specified'
     },
     {
-      label: 'DURATION',
-      getValue: (item) => {
-        if (item.duration) return item.duration + ' hours';
-        if (item.estimatedTime) return item.estimatedTime + ' hours';
-        return 'Not specified';
-      }
+      label: 'Prerequisites',
+      getValue: (item) => item.prerequisites ? item.prerequisites.join(', ') : 'None specified'
     },
     {
-      label: 'TYPE',
-      getValue: (item, type) => {
-        if (type === 'course') return 'Educational Course';
-        return item.labType || 'Interactive Tool';
-      }
+      label: 'Target Audience',
+      getValue: (item) => item.audience || 'General'
+    },
+    {
+      label: 'Learning Path',
+      getValue: (item) => item.learningPath || 'Standalone'
+    },
+    {
+      label: 'Category',
+      getValue: (item) => item.category || 'General'
+    },
+    {
+      label: 'Difficulty',
+      getValue: (item) => item.difficulty || 'Not specified'
+    },
+    {
+      label: 'Duration',
+      getValue: (item) => item.duration || 'Not specified'
+    },
+    {
+      label: 'Rating',
+      getValue: (item) => item.rating ? `${item.rating}/5.0` : 'Not rated'
+    },
+    {
+      label: 'Related Resources',
+      getValue: (item) => item.relatedExtras ? item.relatedExtras.join(', ') : 'None'
     }
   ];
   
-  // Create comparison rows
-  comparisonData.forEach(rowData => {
-    const row = document.createElement('tr');
+  comparisonRows.forEach(row => {
+    const tr = document.createElement('tr');
     
     // Feature label cell
-    const labelCell = document.createElement('td');
-    labelCell.className = 'feature-label';
-    labelCell.textContent = rowData.label;
-    row.appendChild(labelCell);
+    const featureCell = document.createElement('td');
+    featureCell.className = 'feature-label';
+    featureCell.textContent = row.label;
+    tr.appendChild(featureCell);
     
-    // Value cells for each selected item
+    // Content cells for each selected item
     selectedForComparison.forEach(selected => {
-      const valueCell = document.createElement('td');
-      const value = rowData.getValue(selected.item, selected.type);
-      valueCell.innerHTML = `<div class="comparison-text">${value}</div>`;
-      row.appendChild(valueCell);
+      const contentCell = document.createElement('td');
+      contentCell.className = 'comparison-text';
+      const value = row.getValue(selected.item);
+      
+      // Special formatting for longer content
+      if (row.label === 'Description' && value.length > 100) {
+        contentCell.innerHTML = `
+          <div class="description-preview">${value.substring(0, 100)}...</div>
+          <button onclick="toggleFullDescription(this)" class="toggle-description">Show Full</button>
+          <div class="description-full" style="display: none;">${value}</div>
+        `;
+      } else if (row.label === 'Topics Covered' || row.label === 'Learning Outcomes') {
+        // Format as bullet list for better readability
+        const items = value.includes(';') ? value.split(';') : value.split(',');
+        if (items.length > 1) {
+          contentCell.innerHTML = '<ul style="margin: 0; padding-left: 1rem;">' + 
+            items.map(item => `<li>${item.trim()}</li>`).join('') + '</ul>';
+        } else {
+          contentCell.textContent = value;
+        }
+      } else {
+        contentCell.textContent = value;
+      }
+      
+      tr.appendChild(contentCell);
     });
     
-    tbody.appendChild(row);
+    tbody.appendChild(tr);
   });
   
-  // Create actions row
-  const actionsRow = document.createElement('tr');
+  // Action row
+  const actionRow = document.createElement('tr');
+  const actionFeatureCell = document.createElement('td');
+  actionFeatureCell.className = 'feature-label';
+  actionFeatureCell.textContent = 'ACTIONS';
+  actionRow.appendChild(actionFeatureCell);
   
-  // Actions label
-  const actionsLabel = document.createElement('td');
-  actionsLabel.className = 'feature-label';
-  actionsLabel.textContent = 'ACTIONS';
-  actionsRow.appendChild(actionsLabel);
-  
-  // Action buttons for each item
   selectedForComparison.forEach(selected => {
     const actionCell = document.createElement('td');
     actionCell.className = 'actions-cell';
-    
-    if (selected.type === 'course') {
-      actionCell.innerHTML = `
-        <button class="btn-primary" onclick="launchCourse('${selected.id}')">
-          <i class="fas fa-play"></i> Launch Course
-        </button>
-      `;
-    } else {
-      actionCell.innerHTML = `
-        <button class="btn-success" onclick="launchLab('${selected.id}')">
-          <i class="fas fa-play"></i> Launch Lab
-        </button>
-      `;
-    }
-    
-    actionsRow.appendChild(actionCell);
+    actionCell.innerHTML = `
+      <button class="btn-primary" onclick="window.open('${selected.item.url}', '_blank')">
+        <i class="fas fa-external-link-alt"></i> Launch ${selected.type}
+      </button>
+    `;
+    actionRow.appendChild(actionCell);
   });
   
-  tbody.appendChild(actionsRow);
+  tbody.appendChild(actionRow);
   table.appendChild(tbody);
-  
-  // Add table to content
   content.appendChild(table);
 }
 
-// Remove item from comparison
-function removeFromComparison(id, type) {
-  const index = selectedForComparison.findIndex(selected => selected.id === id && selected.type === type);
-  if (index !== -1) {
-    selectedForComparison.splice(index, 1);
-    updateComparisonCheckbox(id, type, false);
-    updateComparisonButton();
-    updateComparisonCounter();
-    
-    if (selectedForComparison.length < 2) {
-      closeComparisonModal();
-    } else {
-      populateComparisonModal();
-    }
-    
-    showNotification('Removed from comparison', 'info');
+// TARGETED FIX: Toggle description helper function
+function toggleFullDescription(button) {
+  const preview = button.parentElement.querySelector('.description-preview');
+  const full = button.parentElement.querySelector('.description-full');
+  
+  if (full.style.display === 'none') {
+    preview.style.display = 'none';
+    full.style.display = 'block';
+    button.textContent = 'Show Less';
+  } else {
+    preview.style.display = 'block';
+    full.style.display = 'none';
+    button.textContent = 'Show Full';
   }
+}
+
+// TARGETED FIX: Enhanced remove function
+function removeFromComparison(id, type) {
+  selectedForComparison = selectedForComparison.filter(item => 
+    !(item.id === id && item.type === type)
+  );
+  updateComparisonCheckbox(id, type, false);
+  
+  if (selectedForComparison.length < 2) {
+    closeComparisonModal();
+    showNotification('Need at least 2 items to compare', 'info');
+  } else {
+    populateComparisonModal();
+  }
+  
+  updateComparisonButton();
+  updateComparisonCounter();
 }
 
 // Fixed addComparisonCheckboxesToExistingCards function that preserves bookmarks
