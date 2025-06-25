@@ -1142,3 +1142,13 @@ document.addEventListener('keydown', function(e) {
 });
 
 // ===== END: Comparison Feature =====
+// TARGETED FIX: Force show auth buttons if no user
+document.addEventListener('DOMContentLoaded', function() {
+  if (!currentUser) {
+    const authButtons = document.getElementById('authButtons');
+    if (authButtons) {
+      authButtons.classList.remove('hidden');
+      authButtons.style.display = 'flex';
+    }
+  }
+});
