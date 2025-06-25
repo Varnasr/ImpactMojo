@@ -1131,12 +1131,16 @@ upcomingFixObserver.observe(document.body, {
 console.log('🎨 Upcoming courses section formatting fix loaded and ready!');
 
 // ===== END UPCOMING COURSES FIX =====
-// ===== ENHANCED COMPARISON FUNCTIONALITY =====
-let selectedForComparison = [];
-const MAX_COMPARISON_ITEMS = 4;
+// ===== CLEAN COMPARISON FUNCTIONALITY =====
+if (!window.selectedForComparison) {
+  window.selectedForComparison = [];
+}
+if (!window.MAX_COMPARISON_ITEMS) {
+  window.MAX_COMPARISON_ITEMS = 4;
+}
 
 function showComparison() {
-  if (selectedForComparison.length < 2) {
+  if (window.selectedForComparison.length < 2) {
     showNotification('Please select at least 2 items to compare', 'warning');
     return;
   }
@@ -1147,23 +1151,23 @@ function showComparison() {
 
 function toggleComparison(itemId, itemType) {
   const itemKey = `${itemType}-${itemId}`;
-  const index = selectedForComparison.findIndex(item => item.key === itemKey);
+  const index = window.selectedForComparison.findIndex(item => item.key === itemKey);
   
   if (index === -1) {
-    if (selectedForComparison.length >= MAX_COMPARISON_ITEMS) {
-      showNotification(`You can only compare up to ${MAX_COMPARISON_ITEMS} items at once`, 'warning');
+    if (window.selectedForComparison.length >= window.MAX_COMPARISON_ITEMS) {
+      showNotification(`You can only compare up to ${window.MAX_COMPARISON_ITEMS} items at once`, 'warning');
       return false;
     }
     
-    selectedForComparison.push({
+    window.selectedForComparison.push({
       key: itemKey,
       id: itemId,
       type: itemType
     });
     
-    showNotification(`Added to comparison (${selectedForComparison.length}/${MAX_COMPARISON_ITEMS})`, 'success');
+    showNotification(`Added to comparison (${window.selectedForComparison.length}/${window.MAX_COMPARISON_ITEMS})`, 'success');
   } else {
-    selectedForComparison.splice(index, 1);
+    window.selectedForComparison.splice(index, 1);
     showNotification('Removed from comparison', 'info');
   }
   
@@ -1172,18 +1176,10 @@ function toggleComparison(itemId, itemType) {
 }
 
 function updateComparisonUI() {
-  // Update all comparison checkboxes
-  document.querySelectorAll('.comparison-checkbox').forEach(checkbox => {
-    const itemId = checkbox.dataset.itemId;
-    const itemType = checkbox.dataset.itemType;
-    const itemKey = `${itemType}-${itemId}`;
-    checkbox.checked = selectedForComparison.some(item => item.key === itemKey);
-  });
-  
   // Update FAB button visibility
   const compareFab = document.querySelector('.fab-btn.compare');
   if (compareFab) {
-    compareFab.style.display = selectedForComparison.length > 1 ? 'flex' : 'none';
+    compareFab.style.display = window.selectedForComparison.length > 1 ? 'flex' : 'none';
   }
 }
 
@@ -1191,7 +1187,7 @@ function updateComparisonContent() {
   const content = document.getElementById('comparisonContent');
   if (!content) return;
   
-  if (selectedForComparison.length < 2) {
+  if (window.selectedForComparison.length < 2) {
     content.innerHTML = `
       <div class="comparison-placeholder">
         <i class="fas fa-balance-scale"></i>
@@ -1202,110 +1198,48 @@ function updateComparisonContent() {
     return;
   }
   
-  // Get actual course/lab data
-  const items = selectedForComparison.map(item => {
-    if (item.type === 'course') {
-      return window.courses?.find(c => c.id === item.id) || 
-      impactMojoAllCourses?.find(c => c.id === item.id);
-    } else if (item.type === 'lab') {
-      return window.labs?.find(l => l.id === item.id);
-    }
-    return null;
-  }).filter(Boolean);
-  
-  if (items.length === 0) {
-    content.innerHTML = '<p>Error loading comparison data.</p>';
-    return;
-  }
-  
-  // Generate comparison table
-  const tableHTML = generateComparisonTable(items);
-  
   content.innerHTML = `
     <div class="comparison-stats">
-      <span>Comparing ${items.length} item${items.length > 1 ? 's' : ''}</span>
+      <span>Comparing ${window.selectedForComparison.length} items</span>
       <button class="clear-btn" onclick="clearComparison()">
         <i class="fas fa-times"></i> Clear Selection
       </button>
     </div>
-    ${tableHTML}
-  `;
-}
-
-function generateComparisonTable(items) {
-  const headers = items.map(item => item.title || 'Untitled').join('</th><th>');
-  
-  return `
-    <div class="comparison-table-container">
-      <table class="comparison-table">
-        <thead>
-          <tr>
-            <th>Parameter</th>
-            <th>${headers}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Category</td>
-            ${items.map(item => `<td>${item.category || 'N/A'}</td>`).join('')}
-          </tr>
-          <tr>
-            <td>Difficulty</td>
-            ${items.map(item => `<td>${item.difficulty || 'N/A'}</td>`).join('')}
-          </tr>
-          <tr>
-            <td>Duration</td>
-            ${items.map(item => `<td>${item.duration || 'N/A'}</td>`).join('')}
-          </tr>
-          <tr>
-            <td>Description</td>
-            ${items.map(item => `<td>${item.description || 'N/A'}</td>`).join('')}
-          </tr>
-          <tr>
-            <td>Key Topics</td>
-            ${items.map(item => {
-    const topics = item.topics || item.keyTopics || [];
-    return `<td>${Array.isArray(topics) ? topics.join(', ') : 'N/A'}</td>`;
-  }).join('')}
-          </tr>
-          <tr>
-            <td>Prerequisites</td>
-            ${items.map(item => `<td>${item.prerequisites || 'None'}</td>`).join('')}
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <p>Comparison table will load here when feature is fully implemented.</p>
   `;
 }
 
 function clearComparison() {
-  selectedForComparison = [];
+  window.selectedForComparison = [];
   updateComparisonUI();
   updateComparisonContent();
   showNotification('Comparison cleared', 'info');
 }
-// ===== MODAL HELPER FUNCTIONS =====
-function openModal(modalId) {
+
+// ===== MODAL FUNCTIONS =====
+window.openModal = function(modalId) {
   const modal = document.getElementById(modalId);
   if (modal) {
     modal.style.display = 'flex';
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
+    console.log(`Opened modal: ${modalId}`);
   }
-}
+};
 
-function closeModal(modalId) {
+window.closeModal = function(modalId) {
   const modal = document.getElementById(modalId);
   if (modal) {
     modal.style.display = 'none';
     modal.classList.remove('active');
     document.body.style.overflow = 'auto';
+    console.log(`Closed modal: ${modalId}`);
   }
-}
+};
 
 // ===== INITIALIZATION =====
-function initializeAllFixes() {
-  console.log('🚀 Initializing fixes...');
+function initializeCleanFixes() {
+  console.log('🚀 Initializing clean fixes...');
   
   // Hide comparison FAB initially
   const compareFab = document.querySelector('.fab-btn.compare');
@@ -1313,24 +1247,21 @@ function initializeAllFixes() {
     compareFab.style.display = 'none';
   }
   
-  // Set up modal click-outside-to-close
-  document.addEventListener('click', function(e) {
-    if (e.target.classList.contains('modal')) {
-      const modalId = e.target.id;
-      if (modalId) {
-        closeModal(modalId);
-      }
+  // Clean up any duplicate elements
+  document.querySelectorAll('.fab-container').forEach((container, index) => {
+    if (index > 0) {
+      container.remove(); // Remove duplicate FAB containers
     }
   });
   
-  console.log('✅ All fixes initialized!');
+  console.log('✅ Clean fixes initialized!');
 }
 
 // Run initialization
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initializeAllFixes);
+  document.addEventListener('DOMContentLoaded', initializeCleanFixes);
 } else {
-  initializeAllFixes();
+  initializeCleanFixes();
 }
 
-console.log('🎉 FAB buttons and comparison feature loaded!');
+console.log('🎉 Clean FAB and comparison system loaded!');
