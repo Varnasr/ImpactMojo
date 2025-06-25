@@ -731,9 +731,8 @@ document.addEventListener('DOMContentLoaded', function() {
 let selectedForComparison = [];
 const MAX_COMPARISON_ITEMS = 4;
 
-// Add item to comparison
+// Enhanced addToComparison function with better checkbox management
 function addToComparison(id, type, item) {
-  // Check if already selected
   const existingIndex = selectedForComparison.findIndex(selected => selected.id === id && selected.type === type);
   
   if (existingIndex !== -1) {
@@ -745,13 +744,19 @@ function addToComparison(id, type, item) {
     // Check limit
     if (selectedForComparison.length >= MAX_COMPARISON_ITEMS) {
       showNotification(`Maximum ${MAX_COMPARISON_ITEMS} items can be compared`, 'warning');
+      // Uncheck the checkbox since we can't add more
+      const checkbox = document.querySelector(`[data-compare-id="${id}"][data-compare-type="${type}"]`);
+      if (checkbox) {
+        checkbox.checked = false;
+        checkbox.closest('.comparison-checkbox-container')?.classList.remove('selected');
+      }
       return;
     }
     
     // Add to comparison
     selectedForComparison.push({
       id: id,
-      type: type, // 'course' or 'lab'
+      type: type,
       item: item
     });
     updateComparisonCheckbox(id, type, true);
@@ -762,11 +767,19 @@ function addToComparison(id, type, item) {
   updateComparisonCounter();
 }
 
-// Update checkbox state
+// Enhanced updateComparisonCheckbox function
 function updateComparisonCheckbox(id, type, isSelected) {
   const checkbox = document.querySelector(`[data-compare-id="${id}"][data-compare-type="${type}"]`);
   if (checkbox) {
     checkbox.checked = isSelected;
+    const container = checkbox.closest('.comparison-checkbox-container');
+    if (container) {
+      if (isSelected) {
+        container.classList.add('selected');
+      } else {
+        container.classList.remove('selected');
+      }
+    }
   }
 }
 
@@ -879,52 +892,64 @@ function createComparisonModal() {
   });
 }
 
-// Populate comparison modal with selected items
+// Fixed populateComparisonModal function with proper HTML table
 function populateComparisonModal() {
   const content = document.getElementById('comparisonContent');
   if (!content) return;
   
-  const table = document.createElement('div');
+  // Clear content
+  content.innerHTML = '';
+  
+  // Create proper HTML table
+  const table = document.createElement('table');
   table.className = 'comparison-table';
-  table.style.setProperty('--comparison-items', selectedForComparison.length);
   
-  // Create header row
-  const headerRow = document.createElement('div');
-  headerRow.className = 'comparison-row comparison-header-row';
-  headerRow.style.gridTemplateColumns = `200px repeat(${selectedForComparison.length}, 1fr)`;
-  headerRow.innerHTML = '<div class="comparison-cell comparison-label">Feature</div>';
+  // Create table header
+  const thead = document.createElement('thead');
+  const headerRow = document.createElement('tr');
   
+  // Feature column header
+  const featureHeader = document.createElement('th');
+  featureHeader.textContent = 'FEATURE';
+  featureHeader.className = 'feature-label';
+  headerRow.appendChild(featureHeader);
+  
+  // Item headers
   selectedForComparison.forEach(selected => {
-    const headerCell = document.createElement('div');
-    headerCell.className = 'comparison-cell comparison-item-header';
-    headerCell.innerHTML = `
-      <div class="item-type-badge ${selected.type}">${selected.type === 'course' ? 'Course' : 'Lab'}</div>
-      <h3>${selected.item.title}</h3>
+    const itemHeader = document.createElement('th');
+    itemHeader.className = 'item-header';
+    itemHeader.innerHTML = `
+      <div class="item-type-badge ${selected.type}">${selected.type === 'course' ? 'COURSE' : 'LAB'}</div>
+      <h3 class="item-title">${selected.item.title}</h3>
       <button class="remove-from-comparison" onclick="removeFromComparison('${selected.id}', '${selected.type}')" title="Remove from comparison">
         <i class="fas fa-times"></i>
       </button>
     `;
-    headerRow.appendChild(headerCell);
+    headerRow.appendChild(itemHeader);
   });
   
-  table.appendChild(headerRow);
+  thead.appendChild(headerRow);
+  table.appendChild(thead);
   
-  // Create comparison rows
-  const comparisonRows = [
+  // Create table body
+  const tbody = document.createElement('tbody');
+  
+  // Define comparison rows
+  const comparisonData = [
     {
-      label: 'Description',
+      label: 'DESCRIPTION',
       getValue: (item) => item.description || 'No description available'
     },
     {
-      label: 'Category',
+      label: 'CATEGORY',
       getValue: (item) => item.category || 'Not specified'
     },
     {
-      label: 'Level/Difficulty',
+      label: 'LEVEL/DIFFICULTY',
       getValue: (item) => item.difficulty || item.complexity || 'Not specified'
     },
     {
-      label: 'Duration',
+      label: 'DURATION',
       getValue: (item) => {
         if (item.duration) return item.duration + ' hours';
         if (item.estimatedTime) return item.estimatedTime + ' hours';
@@ -932,7 +957,7 @@ function populateComparisonModal() {
       }
     },
     {
-      label: 'Type',
+      label: 'TYPE',
       getValue: (item, type) => {
         if (type === 'course') return 'Educational Course';
         return item.labType || 'Interactive Tool';
@@ -940,36 +965,40 @@ function populateComparisonModal() {
     }
   ];
   
-  comparisonRows.forEach(row => {
-    const comparisonRow = document.createElement('div');
-    comparisonRow.className = 'comparison-row';
-    comparisonRow.style.gridTemplateColumns = `200px repeat(${selectedForComparison.length}, 1fr)`;
+  // Create comparison rows
+  comparisonData.forEach(rowData => {
+    const row = document.createElement('tr');
     
-    const labelCell = document.createElement('div');
-    labelCell.className = 'comparison-cell comparison-label';
-    labelCell.textContent = row.label;
-    comparisonRow.appendChild(labelCell);
+    // Feature label cell
+    const labelCell = document.createElement('td');
+    labelCell.className = 'feature-label';
+    labelCell.textContent = rowData.label;
+    row.appendChild(labelCell);
     
+    // Value cells for each selected item
     selectedForComparison.forEach(selected => {
-      const valueCell = document.createElement('div');
-      valueCell.className = 'comparison-cell comparison-value';
-      const value = row.getValue(selected.item, selected.type);
+      const valueCell = document.createElement('td');
+      const value = rowData.getValue(selected.item, selected.type);
       valueCell.innerHTML = `<div class="comparison-text">${value}</div>`;
-      comparisonRow.appendChild(valueCell);
+      row.appendChild(valueCell);
     });
     
-    table.appendChild(comparisonRow);
+    tbody.appendChild(row);
   });
   
-  // Add action buttons row
-  const actionRow = document.createElement('div');
-  actionRow.className = 'comparison-row comparison-actions-row';
-  actionRow.style.gridTemplateColumns = `200px repeat(${selectedForComparison.length}, 1fr)`;
-  actionRow.innerHTML = '<div class="comparison-cell comparison-label">Actions</div>';
+  // Create actions row
+  const actionsRow = document.createElement('tr');
   
+  // Actions label
+  const actionsLabel = document.createElement('td');
+  actionsLabel.className = 'feature-label';
+  actionsLabel.textContent = 'ACTIONS';
+  actionsRow.appendChild(actionsLabel);
+  
+  // Action buttons for each item
   selectedForComparison.forEach(selected => {
-    const actionCell = document.createElement('div');
-    actionCell.className = 'comparison-cell comparison-actions';
+    const actionCell = document.createElement('td');
+    actionCell.className = 'actions-cell';
     
     if (selected.type === 'course') {
       actionCell.innerHTML = `
@@ -985,10 +1014,13 @@ function populateComparisonModal() {
       `;
     }
     
-    actionRow.appendChild(actionCell);
+    actionsRow.appendChild(actionCell);
   });
   
-  table.appendChild(actionRow);
+  tbody.appendChild(actionsRow);
+  table.appendChild(tbody);
+  
+  // Add table to content
   content.appendChild(table);
 }
 
@@ -1011,8 +1043,9 @@ function removeFromComparison(id, type) {
   }
 }
 
-// Add comparison checkboxes to existing cards
+// Fixed addComparisonCheckboxesToExistingCards function that preserves bookmarks
 function addComparisonCheckboxesToExistingCards() {
+  // Add to course cards
   document.querySelectorAll('.course-card').forEach(card => {
     if (card.querySelector('.comparison-checkbox')) return;
     
@@ -1028,14 +1061,15 @@ function addComparisonCheckboxesToExistingCards() {
         data-compare-id="${courseId}" 
         data-compare-type="course"
         onchange="handleComparisonCheckbox(this)"
+        title="Add to comparison"
       >
-      <label class="comparison-label">Compare</label>
     `;
     
     card.style.position = 'relative';
     card.insertBefore(checkbox, card.firstChild);
   });
   
+  // Add to lab cards
   document.querySelectorAll('.lab-card').forEach(card => {
     if (card.querySelector('.comparison-checkbox')) return;
     
@@ -1051,8 +1085,8 @@ function addComparisonCheckboxesToExistingCards() {
         data-compare-id="${labId}" 
         data-compare-type="lab"
         onchange="handleComparisonCheckbox(this)"
+        title="Add to comparison"
       >
-      <label class="comparison-label">Compare</label>
     `;
     
     card.style.position = 'relative';
@@ -1060,10 +1094,11 @@ function addComparisonCheckboxesToExistingCards() {
   });
 }
 
-// Handle checkbox change
+// Enhanced handleComparisonCheckbox function with visual feedback
 function handleComparisonCheckbox(checkbox) {
   const id = checkbox.getAttribute('data-compare-id');
   const type = checkbox.getAttribute('data-compare-type');
+  const container = checkbox.closest('.comparison-checkbox-container');
   
   let item;
   if (type === 'course') {
@@ -1074,6 +1109,13 @@ function handleComparisonCheckbox(checkbox) {
   
   if (item) {
     addToComparison(id, type, item);
+    
+    // Add visual feedback
+    if (checkbox.checked) {
+      container.classList.add('selected');
+    } else {
+      container.classList.remove('selected');
+    }
   }
 }
 
