@@ -546,3 +546,182 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 console.log('✅ Main JS loaded successfully!');
+// ===== START: Enhanced Filter Functions =====
+
+// Course filtering (enhanced version of your existing function)
+function applyCourseFilters() {
+  const searchTerm = document.getElementById('courseSearch')?.value.toLowerCase() || '';
+  const category = document.getElementById('categoryFilter')?.value || '';
+  const difficulty = document.getElementById('difficultyFilter')?.value || '';
+  
+  let allCourses = window.impactMojoAllCourses || window.courses || [];
+  let filteredCourses = [...allCourses];
+  
+  // Apply search filter
+  if (searchTerm) {
+    filteredCourses = filteredCourses.filter(course => {
+      return (course.title?.toLowerCase().includes(searchTerm)) ||
+      (course.description?.toLowerCase().includes(searchTerm)) ||
+      (course.category?.toLowerCase().includes(searchTerm));
+    });
+  }
+  
+  // Apply category filter
+  if (category && category !== '') {
+    filteredCourses = filteredCourses.filter(course => course.category === category);
+  }
+  
+  // Apply difficulty filter
+  if (difficulty && difficulty !== '') {
+    filteredCourses = filteredCourses.filter(course => course.difficulty === difficulty);
+  }
+  
+  // Update global variable
+  if (window.impactMojoFilteredCourses !== undefined) {
+    window.impactMojoFilteredCourses = filteredCourses;
+  }
+  
+  // Update display
+  if (typeof displayCourses === 'function') {
+    displayCourses(filteredCourses);
+  }
+  
+  // Update counts
+  updateCourseStats(filteredCourses.length, allCourses.length);
+  
+  console.log(`Course filters applied: ${filteredCourses.length} of ${allCourses.length} courses`);
+}
+
+// Lab filtering (NEW function for labs)
+function applyLabFilters() {
+  const searchTerm = document.getElementById('labSearch')?.value.toLowerCase() || '';
+  const category = document.getElementById('labCategoryFilter')?.value || '';
+  const type = document.getElementById('labTypeFilter')?.value || '';
+  
+  let allLabs = window.labs || [];
+  let filteredLabs = [...allLabs];
+  
+  // Apply search filter
+  if (searchTerm) {
+    filteredLabs = filteredLabs.filter(lab => {
+      return (lab.title?.toLowerCase().includes(searchTerm)) ||
+      (lab.description?.toLowerCase().includes(searchTerm)) ||
+      (lab.category?.toLowerCase().includes(searchTerm)) ||
+      (lab.labType?.toLowerCase().includes(searchTerm));
+    });
+  }
+  
+  // Apply category filter
+  if (category && category !== '') {
+    filteredLabs = filteredLabs.filter(lab => lab.category === category);
+  }
+  
+  // Apply type filter
+  if (type && type !== '') {
+    filteredLabs = filteredLabs.filter(lab => lab.labType === type);
+  }
+  
+  // Update display
+  if (typeof displayLabs === 'function') {
+    displayLabs(filteredLabs);
+  }
+  
+  // Update counts
+  updateLabStats(filteredLabs.length, allLabs.length);
+  
+  console.log(`Lab filters applied: ${filteredLabs.length} of ${allLabs.length} labs`);
+}
+
+// Clear course filters
+function clearCourseFilters() {
+  const courseSearch = document.getElementById('courseSearch');
+  const categoryFilter = document.getElementById('categoryFilter');
+  const difficultyFilter = document.getElementById('difficultyFilter');
+  
+  if (courseSearch) courseSearch.value = '';
+  if (categoryFilter) categoryFilter.value = '';
+  if (difficultyFilter) difficultyFilter.value = '';
+  
+  applyCourseFilters();
+  
+  if (typeof showNotification === 'function') {
+    showNotification('Course filters cleared', 'success');
+  }
+}
+
+// Clear lab filters
+function clearLabFilters() {
+  const labSearch = document.getElementById('labSearch');
+  const labCategoryFilter = document.getElementById('labCategoryFilter');
+  const labTypeFilter = document.getElementById('labTypeFilter');
+  
+  if (labSearch) labSearch.value = '';
+  if (labCategoryFilter) labCategoryFilter.value = '';
+  if (labTypeFilter) labTypeFilter.value = '';
+  
+  applyLabFilters();
+  
+  if (typeof showNotification === 'function') {
+    showNotification('Lab filters cleared', 'success');
+  }
+}
+
+// Update course statistics
+function updateCourseStats(filtered, total) {
+  const totalElement = document.getElementById('totalCourses');
+  const visibleElement = document.getElementById('filteredCourses');
+  
+  if (totalElement) totalElement.textContent = total;
+  if (visibleElement) visibleElement.textContent = filtered;
+  
+  // Also update the generic elements for backward compatibility
+  const genericTotal = document.getElementById('totalCount');
+  const genericVisible = document.getElementById('visibleCount');
+  if (genericTotal) genericTotal.textContent = total;
+  if (genericVisible) genericVisible.textContent = filtered;
+}
+
+// Update lab statistics
+function updateLabStats(filtered, total) {
+  const totalElement = document.getElementById('totalLabs');
+  const visibleElement = document.getElementById('filteredLabs');
+  
+  if (totalElement) totalElement.textContent = total;
+  if (visibleElement) visibleElement.textContent = filtered;
+}
+
+// Set up real-time search when page loads
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('🔍 Setting up enhanced filters...');
+  
+  // Course search with delay
+  const courseSearchInput = document.getElementById('courseSearch');
+  if (courseSearchInput) {
+    let courseSearchTimeout;
+    courseSearchInput.addEventListener('input', function() {
+      clearTimeout(courseSearchTimeout);
+      courseSearchTimeout = setTimeout(applyCourseFilters, 300);
+    });
+  }
+  
+  // Lab search with delay
+  const labSearchInput = document.getElementById('labSearch');
+  if (labSearchInput) {
+    let labSearchTimeout;
+    labSearchInput.addEventListener('input', function() {
+      clearTimeout(labSearchTimeout);
+      labSearchTimeout = setTimeout(applyLabFilters, 300);
+    });
+  }
+  
+  // Initialize filters
+  if (window.impactMojoAllCourses || window.courses) {
+    applyCourseFilters();
+  }
+  
+  if (window.labs) {
+    applyLabFilters();
+  }
+});
+
+// ===== END: Enhanced Filter Functions =====
