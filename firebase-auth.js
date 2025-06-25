@@ -36,10 +36,15 @@ function showAuthUI() {
   const authButtons = document.getElementById('authButtons');
   const userMenu = document.getElementById('userMenu');
   
-  if (authButtons) authButtons.classList.remove('hidden');
-  if (userMenu) userMenu.classList.add('hidden');
+  if (authButtons) {
+    authButtons.classList.remove('hidden');
+    authButtons.style.display = 'flex';
+  }
+  if (userMenu) {
+    userMenu.classList.add('hidden');
+    userMenu.style.display = 'none';
+  }
 }
-
 // Show user UI (user menu)
 function showUserUI() {
   const authButtons = document.getElementById('authButtons');
@@ -439,3 +444,23 @@ function getCurrentUserData() {
     notes: userNotes
   };
 }
+// TARGETED FIX: Ensure auth buttons show on page load
+document.addEventListener('DOMContentLoaded', function() {
+  // Force show auth buttons if no user is logged in
+  setTimeout(() => {
+    if (!currentUser) {
+      const authButtons = document.getElementById('authButtons');
+      const userMenu = document.getElementById('userMenu');
+      
+      if (authButtons) {
+        authButtons.classList.remove('hidden');
+        authButtons.style.display = 'flex';
+      }
+      
+      if (userMenu) {
+        userMenu.classList.add('hidden');
+        userMenu.style.display = 'none';
+      }
+    }
+  }, 100); // Small delay to ensure Firebase auth state is checked
+});

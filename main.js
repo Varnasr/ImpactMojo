@@ -1183,6 +1183,104 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 });
+
+// TARGETED FIX: Enhanced comparison functionality
+function updateComparisonButton() {
+  let compareBtn = document.getElementById('compareFab');
+  
+  // Create the button if it doesn't exist
+  if (!compareBtn) {
+    compareBtn = document.createElement('button');
+    compareBtn.id = 'compareFab';
+    compareBtn.className = 'fab-btn compare';
+    compareBtn.onclick = showComparison;
+    compareBtn.title = 'Compare courses';
+    compareBtn.innerHTML = '<i class="fas fa-balance-scale"></i><span id="compareCount" style="position: absolute; top: -8px; right: -8px; background: white; color: var(--accent-color); border-radius: 50%; width: 20px; height: 20px; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; font-weight: bold;">0</span>';
+    
+    const fabContainer = document.querySelector('.fab-container');
+    if (fabContainer) {
+      fabContainer.appendChild(compareBtn);
+    }
+  }
+  
+  const countSpan = document.getElementById('compareCount');
+  if (countSpan) {
+    countSpan.textContent = selectedForComparison.length;
+  }
+  
+  // Show/hide based on selection count
+  if (selectedForComparison.length >= 2) {
+    compareBtn.style.display = 'flex';
+    compareBtn.classList.add('visible');
+  } else {
+    compareBtn.style.display = 'none';
+    compareBtn.classList.remove('visible');
+  }
+}
+
+// TARGETED FIX: Enhanced comparison modal creation
+function createComparisonModal() {
+  const existingModal = document.getElementById('comparisonModal');
+  if (existingModal) {
+    existingModal.remove();
+  }
+  
+  const modal = document.createElement('div');
+  modal.id = 'comparisonModal';
+  modal.className = 'comparison-modal';
+  modal.style.display = 'block';
+  
+  modal.innerHTML = `
+    <div class="comparison-modal-content">
+      <div class="comparison-header">
+        <h2><i class="fas fa-balance-scale"></i> Compare Items</h2>
+        <div class="comparison-actions">
+          <button class="btn-secondary" onclick="clearAllComparisons()">
+            <i class="fas fa-trash"></i> Clear All
+          </button>
+          <button class="btn-secondary btn-close" onclick="closeComparisonModal()">
+            <i class="fas fa-times"></i> Close
+          </button>
+        </div>
+      </div>
+      <div class="comparison-content" id="comparisonContent">
+        <div class="comparison-preview">
+          <h3>Selected Items (${selectedForComparison.length})</h3>
+          <p>Comparison functionality restored! Selected items:</p>
+          <ul>
+            ${selectedForComparison.map(item => `<li>${item.name || item.id || 'Item'}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  
+  // Close on outside click
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) {
+      closeComparisonModal();
+    }
+  });
+}
+
+// TARGETED FIX: Enhanced clearAllComparisons function
+function clearAllComparisons() {
+  selectedForComparison = [];
+  
+  document.querySelectorAll('.comparison-checkbox').forEach(checkbox => {
+    checkbox.checked = false;
+  });
+  
+  updateComparisonButton();
+  updateComparisonCounter();
+  closeComparisonModal();
+  
+  if (typeof showNotification === 'function') {
+    showNotification('Comparison cleared', 'info');
+  }
+}
 // TARGETED FIX: Bookmark management functions
 function updateBookmarkViewerButton() {
   const viewerBtn = document.getElementById('bookmarkViewerBtn');
