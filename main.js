@@ -2099,3 +2099,29 @@ if (document.readyState === 'loading') {
 }
 
 // ===== END TARGETED FIXES =====
+// AUTH BUTTONS FUNCTIONS
+function showLoginModal() {
+  console.log('Opening login modal');
+  const modal = document.getElementById('loginModal');
+  if (modal) {
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function showSignupModal() {
+  console.log('Opening signup modal');
+  const modal = document.getElementById('signupModal');
+  if (modal) {
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+  }
+}
