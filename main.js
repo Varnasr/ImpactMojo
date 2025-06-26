@@ -1078,3 +1078,464 @@ window.closeModal = closeModal;
 window.showNotification = showNotification;
 
 console.log('✅ Clean Main JS loaded successfully!');
+// ===== IMPACTMOJO RESTORATION JAVASCRIPT - ADD THIS AT THE END =====
+
+// THEME TOGGLE RESTORATION
+function toggleTheme() {
+  console.log('🎨 Toggling theme...');
+  
+  const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+  const themeIcon = document.getElementById('themeIcon');
+  
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  
+  if (themeIcon) {
+    themeIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+  }
+  
+  showNotification(`Switched to ${newTheme} mode`, 'success');
+}
+
+// INITIALIZE THEME ON LOAD
+function initializeTheme() {
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  const themeIcon = document.getElementById('themeIcon');
+  
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  
+  if (themeIcon) {
+    themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+  }
+}
+
+// COMPARISON FUNCTIONALITY RESTORATION
+window.selectedForComparison = window.selectedForComparison || [];
+window.MAX_COMPARISON_ITEMS = 4;
+
+function showComparison() {
+  if (window.selectedForComparison.length < 2) {
+    showNotification('Please select at least 2 items to compare', 'warning');
+    return;
+  }
+  
+  updateComparisonContent();
+  openModal('comparisonModal');
+}
+
+function toggleComparison(itemId, itemType) {
+  const itemKey = `${itemType}-${itemId}`;
+  const index = window.selectedForComparison.findIndex(item => item.key === itemKey);
+  
+  if (index === -1) {
+    if (window.selectedForComparison.length >= window.MAX_COMPARISON_ITEMS) {
+      showNotification(`You can only compare up to ${window.MAX_COMPARISON_ITEMS} items at once`, 'warning');
+      return false;
+    }
+    
+    window.selectedForComparison.push({
+      key: itemKey,
+      id: itemId,
+      type: itemType
+    });
+    
+    showNotification(`Added to comparison (${window.selectedForComparison.length}/${window.MAX_COMPARISON_ITEMS})`, 'success');
+  } else {
+    window.selectedForComparison.splice(index, 1);
+    showNotification('Removed from comparison', 'info');
+  }
+  
+  updateComparisonUI();
+  return true;
+}
+
+function updateComparisonUI() {
+  const compareFab = document.querySelector('.fab-btn.compare');
+  if (compareFab) {
+    compareFab.style.display = window.selectedForComparison.length > 1 ? 'flex' : 'none';
+  }
+  
+  // Update checkboxes
+  document.querySelectorAll('.comparison-checkbox').forEach(checkbox => {
+    const itemId = checkbox.dataset.itemId;
+    const itemType = checkbox.dataset.itemType;
+    const itemKey = `${itemType}-${itemId}`;
+    checkbox.checked = window.selectedForComparison.some(item => item.key === itemKey);
+  });
+}
+
+function updateComparisonContent() {
+  const content = document.getElementById('comparisonContent');
+  if (!content) return;
+  
+  if (window.selectedForComparison.length < 2) {
+    content.innerHTML = `
+      <div class="comparison-placeholder">
+        <i class="fas fa-balance-scale"></i>
+        <h3>Select items to compare</h3>
+        <p>Use the checkboxes on course and lab cards to select items for comparison. You can compare 2-4 items at once.</p>
+      </div>
+    `;
+    return;
+  }
+  
+  // Get actual course/lab data and generate rich comparison table
+  const items = window.selectedForComparison.map(item => {
+    if (item.type === 'course') {
+      return window.courses?.find(c => c.id === item.id) || 
+      impactMojoAllCourses?.find(c => c.id === item.id);
+    } else if (item.type === 'lab') {
+      return window.labs?.find(l => l.id === item.id);
+    }
+    return null;
+  }).filter(Boolean);
+  
+  if (items.length === 0) {
+    content.innerHTML = '<p>Error loading comparison data.</p>';
+    return;
+  }
+  
+  // Generate rich comparison table
+  const comparisonHTML = generateRichComparisonTable(items);
+  
+  content.innerHTML = `
+    <div class="comparison-header">
+      <div class="comparison-stats">
+        <span><i class="fas fa-balance-scale"></i> Comparing ${items.length} item${items.length > 1 ? 's' : ''}</span>
+        <button class="btn-secondary" onclick="clearComparison()">
+          <i class="fas fa-times"></i> Clear Selection
+        </button>
+      </div>
+    </div>
+    ${comparisonHTML}
+  `;
+}
+
+function generateRichComparisonTable(items) {
+  const headers = ['Feature'].concat(items.map(item => item.title || item.name));
+  
+  const features = [
+    'Type',
+    'Category', 
+    'Difficulty',
+    'Duration',
+    'Description',
+    'Key Topics',
+    'Prerequisites',
+    'Outcomes'
+  ];
+  
+  let tableHTML = `
+    <div class="comparison-table-container">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            ${headers.map(header => `<th>${header}</th>`).join('')}
+          </tr>
+        </thead>
+        <tbody>
+  `;
+  
+  features.forEach(feature => {
+    tableHTML += '<tr>';
+    tableHTML += `<td><strong>${feature}</strong></td>`;
+    
+    items.forEach(item => {
+      let value = '';
+      switch(feature) {
+        case 'Type':
+          value = item.type || (item.hasOwnProperty('interactive') ? 'Lab' : 'Course');
+          break;
+        case 'Category':
+          value = item.category || 'General';
+          break;
+        case 'Difficulty':
+          value = item.difficulty || 'Intermediate';
+          break;
+        case 'Duration':
+          value = item.duration || item.estimatedTime || 'Varies';
+          break;
+        case 'Description':
+          value = item.description || item.overview || '';
+          value = value.length > 150 ? value.substring(0, 150) + '...' : value;
+          break;
+        case 'Key Topics':
+          value = item.topics ? item.topics.join(', ') : 
+          item.keyPoints ? item.keyPoints.slice(0, 3).join(', ') : 'N/A';
+          break;
+        case 'Prerequisites':
+          value = item.prerequisites ? item.prerequisites.join(', ') : 'None';
+          break;
+        case 'Outcomes':
+          value = item.learningOutcomes ? item.learningOutcomes.slice(0, 2).join(', ') : 
+          item.outcomes ? item.outcomes.slice(0, 2).join(', ') : 'N/A';
+          break;
+        default:
+          value = 'N/A';
+      }
+      tableHTML += `<td>${value}</td>`;
+    });
+    
+    tableHTML += '</tr>';
+  });
+  
+  tableHTML += `
+        </tbody>
+      </table>
+    </div>
+  `;
+  
+  return tableHTML;
+}
+
+function clearComparison() {
+  window.selectedForComparison = [];
+  updateComparisonUI();
+  updateComparisonContent();
+  showNotification('Comparison cleared', 'info');
+}
+
+// BOOKMARKING FUNCTIONALITY RESTORATION
+window.impactMojoUserBookmarks = JSON.parse(localStorage.getItem('impactMojoBookmarks')) || [];
+window.impactMojoUserLabBookmarks = JSON.parse(localStorage.getItem('impactMojoLabBookmarks')) || [];
+
+function toggleBookmark(itemId, itemType) {
+  const storageKey = itemType === 'course' ? 'impactMojoBookmarks' : 'impactMojoLabBookmarks';
+  const bookmarks = JSON.parse(localStorage.getItem(storageKey)) || [];
+  
+  const index = bookmarks.indexOf(itemId);
+  if (index === -1) {
+    bookmarks.push(itemId);
+    showNotification(`${itemType} bookmarked!`, 'success');
+  } else {
+    bookmarks.splice(index, 1);
+    showNotification(`${itemType} removed from bookmarks`, 'info');
+  }
+  
+  localStorage.setItem(storageKey, JSON.stringify(bookmarks));
+  
+  if (itemType === 'course') {
+    window.impactMojoUserBookmarks = bookmarks;
+  } else {
+    window.impactMojoUserLabBookmarks = bookmarks;
+  }
+  
+  updateBookmarkUI();
+}
+
+function updateBookmarkUI() {
+  const totalBookmarks = window.impactMojoUserBookmarks.length + window.impactMojoUserLabBookmarks.length;
+  const bookmarkBtn = document.getElementById('bookmarkViewerBtn');
+  const bookmarkCount = document.getElementById('bookmarkCount');
+  
+  if (bookmarkBtn) {
+    bookmarkBtn.style.display = totalBookmarks > 0 ? 'flex' : 'none';
+  }
+  
+  if (bookmarkCount) {
+    bookmarkCount.textContent = totalBookmarks;
+  }
+  
+  // Update bookmark icons on cards
+  document.querySelectorAll('.bookmark-icon').forEach(icon => {
+    const itemId = icon.dataset.itemId;
+    const itemType = icon.dataset.itemType;
+    const bookmarks = itemType === 'course' ? window.impactMojoUserBookmarks : window.impactMojoUserLabBookmarks;
+    
+    if (bookmarks.includes(itemId)) {
+      icon.classList.add('bookmarked');
+      icon.innerHTML = '<i class="fas fa-bookmark"></i>';
+    } else {
+      icon.classList.remove('bookmarked');
+      icon.innerHTML = '<i class="far fa-bookmark"></i>';
+    }
+  });
+}
+
+function showBookmarkModal() {
+  // Generate bookmarked items display
+  const courseBookmarks = window.impactMojoUserBookmarks.map(id => 
+    window.courses?.find(c => c.id === id) || impactMojoAllCourses?.find(c => c.id === id)
+  ).filter(Boolean);
+  
+  const labBookmarks = window.impactMojoUserLabBookmarks.map(id => 
+    window.labs?.find(l => l.id === id)
+  ).filter(Boolean);
+  
+  let content = '<h3>Your Bookmarked Items</h3>';
+  
+  if (courseBookmarks.length === 0 && labBookmarks.length === 0) {
+    content += '<p>No bookmarks yet. Start exploring courses and labs!</p>';
+  } else {
+    if (courseBookmarks.length > 0) {
+      content += '<h4>Courses</h4><div class="bookmark-grid">';
+      courseBookmarks.forEach(course => {
+        content += `
+          <div class="bookmark-item">
+            <h5>${course.title}</h5>
+            <p>${course.description.substring(0, 100)}...</p>
+            <button onclick="window.open('${course.url}', '_blank')" class="launch-btn">Launch Course</button>
+          </div>
+        `;
+      });
+      content += '</div>';
+    }
+    
+    if (labBookmarks.length > 0) {
+      content += '<h4>Labs</h4><div class="bookmark-grid">';
+      labBookmarks.forEach(lab => {
+        content += `
+          <div class="bookmark-item">
+            <h5>${lab.title}</h5>
+            <p>${lab.description.substring(0, 100)}...</p>
+            <button onclick="window.open('${lab.url}', '_blank')" class="launch-btn">Launch Lab</button>
+          </div>
+        `;
+      });
+      content += '</div>';
+    }
+  }
+  
+  const bookmarkModal = document.getElementById('bookmarkModal');
+  if (bookmarkModal) {
+    bookmarkModal.querySelector('#bookmarkContent').innerHTML = content;
+    openModal('bookmarkModal');
+  }
+}
+
+// MODAL FUNCTIONS RESTORATION
+function openModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.style.display = 'flex';
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.style.display = 'none';
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
+}
+
+// SEARCH AND FILTERING RESTORATION
+function applyCourseFilters() {
+  const searchTerm = document.getElementById('courseSearch')?.value.toLowerCase() || '';
+  const categoryFilter = document.getElementById('categoryFilter')?.value || '';
+  const difficultyFilter = document.getElementById('difficultyFilter')?.value || '';
+  
+  // Apply filters to course display
+  // This would integrate with your existing course rendering logic
+  console.log('Applying filters:', { searchTerm, categoryFilter, difficultyFilter });
+}
+
+// NOTIFICATION SYSTEM
+function showNotification(message, type = 'info') {
+  // Remove existing notifications
+  document.querySelectorAll('.notification').forEach(notification => notification.remove());
+  
+  // Create new notification
+  const notification = document.createElement('div');
+  notification.className = `notification ${type}`;
+  notification.innerHTML = `
+    <span>${message}</span>
+    <button onclick="this.parentElement.remove()">&times;</button>
+  `;
+  
+  // Add styles
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    background: ${type === 'success' ? '#10b981' : type === 'warning' ? '#f59e0b' : type === 'error' ? '#ef4444' : '#3b82f6'};
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    max-width: 350px;
+    animation: slideInRight 0.3s ease;
+  `;
+  
+  notification.querySelector('button').style.cssText = `
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+  `;
+  
+  document.body.appendChild(notification);
+  
+  // Auto remove after 5 seconds
+  setTimeout(() => {
+    if (notification.parentElement) {
+      notification.remove();
+    }
+  }, 5000);
+}
+
+// INITIALIZE EVERYTHING ON DOM LOAD
+function initializeRestoredFeatures() {
+  console.log('🚀 Initializing ImpactMojo restored features...');
+  
+  // Initialize theme
+  initializeTheme();
+  
+  // Initialize comparison system
+  updateComparisonUI();
+  
+  // Initialize bookmarks
+  updateBookmarkUI();
+  
+  // Fix FAB buttons
+  setTimeout(() => {
+    const fabBtns = document.querySelectorAll('.fab-btn');
+    fabBtns.forEach(btn => {
+      if (btn.classList.contains('feedback')) {
+        btn.onclick = () => openModal('feedbackModal');
+      }
+      if (btn.classList.contains('suggest')) {
+        btn.onclick = () => openModal('suggestModal');
+      }
+      if (btn.classList.contains('compare')) {
+        btn.onclick = () => showComparison();
+      }
+      if (btn.classList.contains('bookmark')) {
+        btn.onclick = () => showBookmarkModal();
+      }
+    });
+  }, 500);
+  
+  // Ensure auth buttons are visible
+  const authButtons = document.getElementById('authButtons');
+  if (authButtons) {
+    authButtons.style.display = 'flex';
+    authButtons.style.visibility = 'visible';
+    authButtons.style.opacity = '1';
+  }
+  
+  console.log('✅ All features restored and initialized!');
+}
+
+// AUTO-INITIALIZE
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeRestoredFeatures);
+} else {
+  initializeRestoredFeatures();
+}
+
+// ===== END RESTORATION JAVASCRIPT =====
