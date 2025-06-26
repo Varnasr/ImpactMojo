@@ -1539,3 +1539,563 @@ if (document.readyState === 'loading') {
 }
 
 // ===== END RESTORATION JAVASCRIPT =====
+// ===== TARGETED JAVASCRIPT FIXES - ADD TO END OF MAIN.JS =====
+
+// 1. FIX MODAL OPENING FUNCTIONS
+function openModal(modalId) {
+  console.log(`Opening modal: ${modalId}`);
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.style.display = 'flex';
+    modal.style.alignItems = 'center';
+    modal.style.justifyContent = 'center';
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    console.log(`Successfully opened: ${modalId}`);
+  } else {
+    console.error(`Modal not found: ${modalId}`);
+  }
+}
+
+function closeModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.style.display = 'none';
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
+}
+
+// 2. FIX FAB BUTTON FUNCTIONS WITH CORRECT ORDER
+function initializeFABButtons() {
+  console.log('🔧 Fixing FAB buttons...');
+  
+  setTimeout(() => {
+    const fabBtns = document.querySelectorAll('.fab-btn');
+    
+    fabBtns.forEach(btn => {
+      // Button 1: Comments/Suggestions (Blue)
+      if (btn.classList.contains('feedback')) {
+        btn.onclick = () => {
+          console.log('💬 Comments/Suggestions clicked');
+          openModal('feedbackModal');
+        };
+        btn.title = "Share comments and suggestions";
+        btn.innerHTML = '<i class="fas fa-comment"></i>';
+        console.log('✅ Fixed feedback button');
+      }
+      
+      // Button 2: Course/Lab/Resource Requests (Green)
+      if (btn.classList.contains('suggest')) {
+        btn.onclick = () => {
+          console.log('📚 Course/Lab/Resource request clicked');
+          openModal('suggestModal');
+        };
+        btn.title = "Request new course, lab, or resource";
+        btn.innerHTML = '<i class="fas fa-lightbulb"></i>';
+        console.log('✅ Fixed suggest button');
+      }
+      
+      // Button 3: Comparisons (Orange)
+      if (btn.classList.contains('compare')) {
+        btn.onclick = () => {
+          console.log('⚖️ Comparison clicked');
+          if (window.selectedForComparison && window.selectedForComparison.length > 1) {
+            openModal('comparisonModal');
+            updateComparisonContent();
+          } else {
+            showNotification('Select at least 2 items to compare', 'warning');
+          }
+        };
+        btn.title = "Compare selected courses and labs";
+        btn.innerHTML = '<i class="fas fa-balance-scale"></i>';
+        console.log('✅ Fixed compare button');
+      }
+    });
+    
+    console.log('✅ All FAB buttons fixed');
+  }, 500);
+}
+
+// 3. FIX NOTIFICATION SYSTEM
+function showNotification(message, type = 'info') {
+  // Remove existing notifications
+  document.querySelectorAll('.notification').forEach(notification => notification.remove());
+  
+  // Create new notification
+  const notification = document.createElement('div');
+  notification.className = `notification ${type}`;
+  
+  let backgroundColor;
+  switch(type) {
+    case 'success': backgroundColor = '#10b981'; break;
+    case 'warning': backgroundColor = '#f59e0b'; break;
+    case 'error': backgroundColor = '#ef4444'; break;
+    default: backgroundColor = '#3b82f6';
+  }
+  
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    background: ${backgroundColor};
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    max-width: 350px;
+  `;
+  
+  notification.innerHTML = `
+    <span>${message}</span>
+    <button onclick="this.parentElement.remove()" style="
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8rem;
+    ">✕</button>
+  `;
+  
+  document.body.appendChild(notification);
+  
+  // Auto remove after 5 seconds
+  setTimeout(() => {
+    if (notification.parentElement) {
+      notification.remove();
+    }
+  }, 5000);
+}
+
+// 4. FIX BOOKMARKING SYSTEM
+window.impactMojoUserBookmarks = JSON.parse(localStorage.getItem('impactMojoBookmarks')) || [];
+window.impactMojoUserLabBookmarks = JSON.parse(localStorage.getItem('impactMojoLabBookmarks')) || [];
+
+function toggleBookmark(itemId, itemType) {
+  console.log(`Toggling bookmark for ${itemType}: ${itemId}`);
+  
+  const storageKey = itemType === 'course' ? 'impactMojoBookmarks' : 'impactMojoLabBookmarks';
+  const bookmarks = JSON.parse(localStorage.getItem(storageKey)) || [];
+  
+  const index = bookmarks.indexOf(itemId);
+  if (index === -1) {
+    bookmarks.push(itemId);
+    showNotification(`${itemType.charAt(0).toUpperCase() + itemType.slice(1)} bookmarked!`, 'success');
+  } else {
+    bookmarks.splice(index, 1);
+    showNotification(`${itemType.charAt(0).toUpperCase() + itemType.slice(1)} removed from bookmarks`, 'info');
+  }
+  
+  localStorage.setItem(storageKey, JSON.stringify(bookmarks));
+  
+  if (itemType === 'course') {
+    window.impactMojoUserBookmarks = bookmarks;
+  } else {
+    window.impactMojoUserLabBookmarks = bookmarks;
+  }
+  
+  updateBookmarkUI();
+  return true;
+}
+
+function updateBookmarkUI() {
+  const totalBookmarks = window.impactMojoUserBookmarks.length + window.impactMojoUserLabBookmarks.length;
+  const bookmarkBtn = document.getElementById('bookmarkViewerBtn');
+  const bookmarkCount = document.getElementById('bookmarkCount');
+  
+  if (bookmarkBtn) {
+    bookmarkBtn.style.display = totalBookmarks > 0 ? 'flex' : 'none';
+  }
+  
+  if (bookmarkCount) {
+    bookmarkCount.textContent = totalBookmarks;
+  }
+  
+  // Update bookmark icons on cards
+  document.querySelectorAll('.bookmark-icon').forEach(icon => {
+    const itemId = icon.dataset.itemId;
+    const itemType = icon.dataset.itemType;
+    const bookmarks = itemType === 'course' ? window.impactMojoUserBookmarks : window.impactMojoUserLabBookmarks;
+    
+    if (bookmarks.includes(itemId)) {
+      icon.classList.add('bookmarked');
+      icon.innerHTML = '<i class="fas fa-bookmark"></i>';
+      icon.style.color = '#f59e0b';
+    } else {
+      icon.classList.remove('bookmarked');
+      icon.innerHTML = '<i class="far fa-bookmark"></i>';
+      icon.style.color = '#64748b';
+    }
+  });
+}
+
+function showBookmarkModal() {
+  const courseBookmarks = window.impactMojoUserBookmarks.map(id => 
+    window.courses?.find(c => c.id === id) || window.impactMojoAllCourses?.find(c => c.id === id)
+  ).filter(Boolean);
+  
+  const labBookmarks = window.impactMojoUserLabBookmarks.map(id => 
+    window.labs?.find(l => l.id === id)
+  ).filter(Boolean);
+  
+  let content = '<h3 style="margin-bottom: 2rem; color: var(--text-primary);">Your Bookmarked Items</h3>';
+  
+  if (courseBookmarks.length === 0 && labBookmarks.length === 0) {
+    content += `
+      <div style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+        <i class="fas fa-bookmark" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+        <p>No bookmarks yet. Start exploring courses and labs!</p>
+      </div>
+    `;
+  } else {
+    if (courseBookmarks.length > 0) {
+      content += '<h4 style="color: var(--primary-color); margin: 1.5rem 0 1rem 0;">📚 Courses</h4>';
+      content += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin-bottom: 2rem;">';
+      courseBookmarks.forEach(course => {
+        content += `
+          <div style="background: var(--surface); border: 1px solid var(--border-color); border-radius: 0.5rem; padding: 1.5rem;">
+            <h5 style="margin: 0 0 0.5rem 0; color: var(--text-primary);">${course.title}</h5>
+            <p style="margin: 0 0 1rem 0; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.4;">${course.description.substring(0, 120)}...</p>
+            <button onclick="window.open('${course.url}', '_blank')" style="
+              background: var(--primary-color);
+              color: white;
+              border: none;
+              padding: 0.5rem 1rem;
+              border-radius: 0.375rem;
+              cursor: pointer;
+              font-size: 0.85rem;
+              font-weight: 500;
+              transition: all 0.3s ease;
+            " onmouseover="this.style.background='var(--secondary-color)'" onmouseout="this.style.background='var(--primary-color)'">
+              Launch Course <i class="fas fa-external-link-alt"></i>
+            </button>
+          </div>
+        `;
+      });
+      content += '</div>';
+    }
+    
+    if (labBookmarks.length > 0) {
+      content += '<h4 style="color: var(--accent-color); margin: 1.5rem 0 1rem 0;">🧪 Labs</h4>';
+      content += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">';
+      labBookmarks.forEach(lab => {
+        content += `
+          <div style="background: var(--surface); border: 1px solid var(--border-color); border-radius: 0.5rem; padding: 1.5rem;">
+            <h5 style="margin: 0 0 0.5rem 0; color: var(--text-primary);">${lab.title}</h5>
+            <p style="margin: 0 0 1rem 0; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.4;">${lab.description.substring(0, 120)}...</p>
+            <button onclick="window.open('${lab.url}', '_blank')" style="
+              background: var(--accent-color);
+              color: white;
+              border: none;
+              padding: 0.5rem 1rem;
+              border-radius: 0.375rem;
+              cursor: pointer;
+              font-size: 0.85rem;
+              font-weight: 500;
+              transition: all 0.3s ease;
+            " onmouseover="this.style.background='#d97706'" onmouseout="this.style.background='var(--accent-color)'">
+              Launch Lab <i class="fas fa-external-link-alt"></i>
+            </button>
+          </div>
+        `;
+      });
+      content += '</div>';
+    }
+  }
+  
+  const bookmarkModal = document.getElementById('bookmarkModal');
+  if (bookmarkModal) {
+    const contentDiv = bookmarkModal.querySelector('#bookmarkContent') || bookmarkModal.querySelector('.modal-content');
+    if (contentDiv) {
+      contentDiv.innerHTML = content;
+    }
+    openModal('bookmarkModal');
+  }
+}
+
+// 5. FIX COMPARISON SYSTEM
+window.selectedForComparison = window.selectedForComparison || [];
+window.MAX_COMPARISON_ITEMS = 4;
+
+function toggleComparison(itemId, itemType) {
+  const itemKey = `${itemType}-${itemId}`;
+  const index = window.selectedForComparison.findIndex(item => item.key === itemKey);
+  
+  if (index === -1) {
+    if (window.selectedForComparison.length >= window.MAX_COMPARISON_ITEMS) {
+      showNotification(`You can only compare up to ${window.MAX_COMPARISON_ITEMS} items at once`, 'warning');
+      return false;
+    }
+    
+    window.selectedForComparison.push({
+      key: itemKey,
+      id: itemId,
+      type: itemType
+    });
+    
+    showNotification(`Added to comparison (${window.selectedForComparison.length}/${window.MAX_COMPARISON_ITEMS})`, 'success');
+  } else {
+    window.selectedForComparison.splice(index, 1);
+    showNotification('Removed from comparison', 'info');
+  }
+  
+  updateComparisonUI();
+  return true;
+}
+
+function updateComparisonUI() {
+  const compareFab = document.querySelector('.fab-btn.compare');
+  if (compareFab) {
+    compareFab.style.display = window.selectedForComparison.length > 1 ? 'flex' : 'none';
+  }
+  
+  // Update checkboxes
+  document.querySelectorAll('.comparison-checkbox').forEach(checkbox => {
+    const itemId = checkbox.dataset.itemId;
+    const itemType = checkbox.dataset.itemType;
+    if (itemId && itemType) {
+      const itemKey = `${itemType}-${itemId}`;
+      checkbox.checked = window.selectedForComparison.some(item => item.key === itemKey);
+    }
+  });
+}
+
+function updateComparisonContent() {
+  const content = document.getElementById('comparisonContent');
+  if (!content) return;
+  
+  if (window.selectedForComparison.length < 2) {
+    content.innerHTML = `
+      <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
+        <i class="fas fa-balance-scale" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+        <h3 style="margin: 0 0 1rem 0; color: var(--text-primary);">Select items to compare</h3>
+        <p style="margin: 0;">Use the checkboxes on course and lab cards to select items for comparison. You can compare 2-4 items at once.</p>
+      </div>
+    `;
+    return;
+  }
+  
+  // Get actual course/lab data
+  const items = window.selectedForComparison.map(item => {
+    if (item.type === 'course') {
+      return window.courses?.find(c => c.id === item.id) || 
+      window.impactMojoAllCourses?.find(c => c.id === item.id);
+    } else if (item.type === 'lab') {
+      return window.labs?.find(l => l.id === item.id);
+    }
+    return null;
+  }).filter(Boolean);
+  
+  if (items.length === 0) {
+    content.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">Error loading comparison data.</p>';
+    return;
+  }
+  
+  // Generate enhanced comparison table
+  const comparisonHTML = generateEnhancedComparisonTable(items);
+  
+  content.innerHTML = `
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding: 1rem; background: var(--surface); border-radius: 0.5rem; border: 1px solid var(--border-color);">
+      <span style="font-weight: 600; color: var(--text-primary);">
+        <i class="fas fa-balance-scale" style="margin-right: 0.5rem; color: var(--primary-color);"></i>
+        Comparing ${items.length} item${items.length > 1 ? 's' : ''}
+      </span>
+      <button onclick="clearComparison()" style="
+        background: var(--error-color);
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+        cursor: pointer;
+        font-size: 0.85rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      ">
+        <i class="fas fa-times"></i> Clear Selection
+      </button>
+    </div>
+    ${comparisonHTML}
+  `;
+}
+
+function generateEnhancedComparisonTable(items) {
+  const headers = ['Feature'].concat(items.map(item => item.title || item.name));
+  
+  const features = [
+    { key: 'type', label: 'Type' },
+    { key: 'category', label: 'Category' },
+    { key: 'difficulty', label: 'Difficulty' },
+    { key: 'duration', label: 'Duration' },
+    { key: 'description', label: 'Description' },
+    { key: 'topics', label: 'Key Topics' },
+    { key: 'prerequisites', label: 'Prerequisites' },
+    { key: 'outcomes', label: 'Learning Outcomes' }
+  ];
+  
+  let tableHTML = `
+    <div class="comparison-table-container">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            ${headers.map(header => `<th>${header}</th>`).join('')}
+          </tr>
+        </thead>
+        <tbody>
+  `;
+  
+  features.forEach(feature => {
+    tableHTML += '<tr>';
+    tableHTML += `<td><strong>${feature.label}</strong></td>`;
+    
+    items.forEach(item => {
+      let value = '';
+      switch(feature.key) {
+        case 'type':
+          value = item.type || (item.hasOwnProperty('interactive') ? 'Lab' : 'Course');
+          break;
+        case 'category':
+          value = item.category || 'General';
+          break;
+        case 'difficulty':
+          value = item.difficulty || 'Intermediate';
+          break;
+        case 'duration':
+          value = item.duration || item.estimatedTime || 'Varies';
+          break;
+        case 'description':
+          value = item.description || item.overview || '';
+          if (value.length > 200) {
+            value = `<div class="description-preview">${value.substring(0, 200)}... <button onclick="this.style.display='none'; this.nextElementSibling.style.display='block';" style="color: var(--primary-color); background: none; border: none; cursor: pointer; text-decoration: underline;">Read more</button></div><div class="description-full" style="display: none;">${value} <button onclick="this.style.display='none'; this.previousElementSibling.style.display='block';" style="color: var(--primary-color); background: none; border: none; cursor: pointer; text-decoration: underline;">Show less</button></div>`;
+          }
+          break;
+        case 'topics':
+          if (item.topics && Array.isArray(item.topics)) {
+            value = `<ul style="margin: 0; padding-left: 1.2rem;">${item.topics.slice(0, 5).map(topic => `<li>${topic}</li>`).join('')}</ul>`;
+          } else if (item.keyPoints && Array.isArray(item.keyPoints)) {
+            value = `<ul style="margin: 0; padding-left: 1.2rem;">${item.keyPoints.slice(0, 5).map(point => `<li>${point}</li>`).join('')}</ul>`;
+          } else {
+            value = 'N/A';
+          }
+          break;
+        case 'prerequisites':
+          if (item.prerequisites && Array.isArray(item.prerequisites)) {
+            value = item.prerequisites.join(', ');
+          } else {
+            value = 'None specified';
+          }
+          break;
+        case 'outcomes':
+          if (item.learningOutcomes && Array.isArray(item.learningOutcomes)) {
+            value = `<ul style="margin: 0; padding-left: 1.2rem;">${item.learningOutcomes.slice(0, 3).map(outcome => `<li>${outcome}</li>`).join('')}</ul>`;
+          } else if (item.outcomes && Array.isArray(item.outcomes)) {
+            value = `<ul style="margin: 0; padding-left: 1.2rem;">${item.outcomes.slice(0, 3).map(outcome => `<li>${outcome}</li>`).join('')}</ul>`;
+          } else {
+            value = 'N/A';
+          }
+          break;
+        default:
+          value = 'N/A';
+      }
+      tableHTML += `<td class="comparison-text">${value}</td>`;
+    });
+    
+    tableHTML += '</tr>';
+  });
+  
+  tableHTML += `
+        </tbody>
+      </table>
+    </div>
+  `;
+  
+  return tableHTML;
+}
+
+function clearComparison() {
+  window.selectedForComparison = [];
+  updateComparisonUI();
+  updateComparisonContent();
+  showNotification('Comparison cleared', 'info');
+}
+
+// 6. FIX THEME TOGGLE
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+  const themeIcon = document.getElementById('themeIcon');
+  
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  
+  if (themeIcon) {
+    themeIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+  }
+  
+  showNotification(`Switched to ${newTheme} mode`, 'success');
+}
+
+function initializeTheme() {
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  const themeIcon = document.getElementById('themeIcon');
+  
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  
+  if (themeIcon) {
+    themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+  }
+}
+
+// 7. MAIN INITIALIZATION FUNCTION
+function initializeAllFeatures() {
+  console.log('🚀 Initializing all ImpactMojo features...');
+  
+  // Initialize theme
+  initializeTheme();
+  
+  // Initialize FAB buttons
+  initializeFABButtons();
+  
+  // Initialize bookmarks
+  updateBookmarkUI();
+  
+  // Initialize comparison system
+  updateComparisonUI();
+  
+  // Ensure auth buttons are visible
+  const authButtons = document.getElementById('authButtons');
+  if (authButtons) {
+    authButtons.style.display = 'flex';
+    authButtons.style.visibility = 'visible';
+    authButtons.style.opacity = '1';
+  }
+  
+  // Remove duplicate bookmark buttons
+  const bookmarkBtns = document.querySelectorAll('.bookmark-viewer-btn');
+  if (bookmarkBtns.length > 1) {
+    for (let i = 1; i < bookmarkBtns.length; i++) {
+      bookmarkBtns[i].remove();
+    }
+  }
+  
+  console.log('✅ All features initialized successfully!');
+}
+
+// AUTO-INITIALIZE EVERYTHING
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeAllFeatures);
+} else {
+  initializeAllFeatures();
+}
+
+// ===== END TARGETED FIXES =====
