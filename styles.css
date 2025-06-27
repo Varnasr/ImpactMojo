@@ -4078,3 +4078,168 @@ body {
 .modal[style*="flex"] {
   display: flex !important;
 }
+// ===== MODAL CONTENT FIX - ADD TO END OF main.js =====
+// Force modal content to show properly
+
+// Better modal creation with forced visibility
+function createWorkingLoginModal() {
+  // Remove existing modal if any
+  const existing = document.getElementById('loginModal');
+  if (existing) existing.remove();
+  
+  const modal = document.createElement('div');
+  modal.id = 'loginModal';
+  modal.style.cssText = `
+    display: flex !important;
+    position: fixed !important;
+    z-index: 10000 !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: rgba(0,0,0,0.7) !important;
+    align-items: center !important;
+    justify-content: center !important;
+  `;
+  
+  const content = document.createElement('div');
+  content.style.cssText = `
+    background: white !important;
+    padding: 2rem !important;
+    border-radius: 12px !important;
+    width: 400px !important;
+    max-width: 90% !important;
+    position: relative !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4) !important;
+    z-index: 10001 !important;
+    display: block !important;
+  `;
+  
+  content.innerHTML = `
+    <span onclick="closeWorkingModal('loginModal')" style="position: absolute !important; top: 1rem !important; right: 1rem !important; font-size: 1.5rem !important; cursor: pointer !important; color: #666 !important; z-index: 10002 !important;">&times;</span>
+    <h2 style="color: #6366f1 !important; margin-bottom: 1.5rem !important; text-align: center !important;">
+      <i class="fas fa-sign-in-alt"></i> Sign In
+    </h2>
+    <form style="display: flex !important; flex-direction: column !important; gap: 1rem !important;">
+      <input type="email" placeholder="Email" style="padding: 0.75rem !important; border: 2px solid #e2e8f0 !important; border-radius: 8px !important; width: 100% !important; box-sizing: border-box !important;" required>
+      <input type="password" placeholder="Password" style="padding: 0.75rem !important; border: 2px solid #e2e8f0 !important; border-radius: 8px !important; width: 100% !important; box-sizing: border-box !important;" required>
+      <button type="submit" style="padding: 0.75rem !important; background: #6366f1 !important; color: white !important; border: none !important; border-radius: 8px !important; cursor: pointer !important; font-weight: 600 !important;">Sign In</button>
+    </form>
+    <button onclick="signInWithGoogle()" style="width: 100% !important; margin-top: 1rem !important; padding: 0.75rem !important; background: #ea4335 !important; color: white !important; border: none !important; border-radius: 8px !important; cursor: pointer !important;">
+      <i class="fab fa-google"></i> Sign in with Google
+    </button>
+    <p style="text-align: center !important; margin-top: 1rem !important;">
+      Don't have an account? <a href="#" onclick="closeWorkingModal('loginModal'); setTimeout(() => openWorkingSignupModal(), 100);" style="color: #6366f1 !important;">Sign Up</a>
+    </p>
+  `;
+  
+  modal.appendChild(content);
+  document.body.appendChild(modal);
+  document.body.style.overflow = 'hidden';
+  
+  console.log('✅ Working login modal created and displayed');
+}
+
+function createWorkingSignupModal() {
+  // Remove existing modal if any
+  const existing = document.getElementById('signupModal');
+  if (existing) existing.remove();
+  
+  const modal = document.createElement('div');
+  modal.id = 'signupModal';
+  modal.style.cssText = `
+    display: flex !important;
+    position: fixed !important;
+    z-index: 10000 !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: rgba(0,0,0,0.7) !important;
+    align-items: center !important;
+    justify-content: center !important;
+  `;
+  
+  const content = document.createElement('div');
+  content.style.cssText = `
+    background: white !important;
+    padding: 2rem !important;
+    border-radius: 12px !important;
+    width: 400px !important;
+    max-width: 90% !important;
+    position: relative !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4) !important;
+    z-index: 10001 !important;
+    display: block !important;
+  `;
+  
+  content.innerHTML = `
+    <span onclick="closeWorkingModal('signupModal')" style="position: absolute !important; top: 1rem !important; right: 1rem !important; font-size: 1.5rem !important; cursor: pointer !important; color: #666 !important; z-index: 10002 !important;">&times;</span>
+    <h2 style="color: #6366f1 !important; margin-bottom: 1.5rem !important; text-align: center !important;">
+      <i class="fas fa-user-plus"></i> Sign Up
+    </h2>
+    <form style="display: flex !important; flex-direction: column !important; gap: 1rem !important;">
+      <input type="text" placeholder="Full Name" style="padding: 0.75rem !important; border: 2px solid #e2e8f0 !important; border-radius: 8px !important; width: 100% !important; box-sizing: border-box !important;" required>
+      <input type="email" placeholder="Email" style="padding: 0.75rem !important; border: 2px solid #e2e8f0 !important; border-radius: 8px !important; width: 100% !important; box-sizing: border-box !important;" required>
+      <input type="password" placeholder="Password" style="padding: 0.75rem !important; border: 2px solid #e2e8f0 !important; border-radius: 8px !important; width: 100% !important; box-sizing: border-box !important;" required>
+      <button type="submit" style="padding: 0.75rem !important; background: #6366f1 !important; color: white !important; border: none !important; border-radius: 8px !important; cursor: pointer !important; font-weight: 600 !important;">Create Account</button>
+    </form>
+    <button onclick="signInWithGoogle()" style="width: 100% !important; margin-top: 1rem !important; padding: 0.75rem !important; background: #ea4335 !important; color: white !important; border: none !important; border-radius: 8px !important; cursor: pointer !important;">
+      <i class="fab fa-google"></i> Continue with Google
+    </button>
+    <p style="text-align: center !important; margin-top: 1rem !important;">
+      Already have an account? <a href="#" onclick="closeWorkingModal('signupModal'); setTimeout(() => openWorkingLoginModal(), 100);" style="color: #6366f1 !important;">Sign In</a>
+    </p>
+  `;
+  
+  modal.appendChild(content);
+  document.body.appendChild(modal);
+  document.body.style.overflow = 'hidden';
+  
+  console.log('✅ Working signup modal created and displayed');
+}
+
+function closeWorkingModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.remove();
+    document.body.style.overflow = 'auto';
+    console.log(`✅ Closed ${modalId}`);
+  }
+}
+
+function openWorkingLoginModal() {
+  createWorkingLoginModal();
+}
+
+function openWorkingSignupModal() {
+  createWorkingSignupModal();
+}
+
+// Update the auth button connections to use working modals
+function updateAuthButtonsToWorking() {
+  console.log('🔧 Updating auth buttons to use working modals...');
+  
+  const signInBtn = document.querySelector('.auth-btn:not(.signup)');
+  if (signInBtn) {
+    signInBtn.onclick = function() {
+      console.log('🔑 Sign In clicked - opening WORKING modal');
+      createWorkingLoginModal();
+    };
+  }
+  
+  const signUpBtn = document.querySelector('.auth-btn.signup');
+  if (signUpBtn) {
+    signUpBtn.onclick = function() {
+      console.log('📝 Sign Up clicked - opening WORKING modal');
+      createWorkingSignupModal();
+    };
+  }
+  
+  console.log('✅ Auth buttons updated to working modals');
+}
+
+// Run the update
+setTimeout(updateAuthButtonsToWorking, 1500);
+
+console.log('🎯 Working modal system loaded!');
