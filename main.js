@@ -1,3 +1,5 @@
+window.userBookmarks = window.userBookmarks || [];
+window.selectedForComparison = window.selectedForComparison || [];
 // ImpactMojo Main JavaScript - CLEAN VERSION (Upcoming Section Fixed)
 console.log('🚀 Loading ImpactMojo Main JS...');
 
