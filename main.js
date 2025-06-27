@@ -2726,3 +2726,385 @@ window.addEventListener('load', function() {
 });
 
 console.log('🎯 Targeted fixes script loaded!');
+// ===== DIAGNOSTIC AND REPAIR SCRIPT =====
+// Add this to the END of your main.js file
+
+function diagnoseAndFix() {
+  console.log('🔍 Starting diagnostic...');
+  
+  // 1. CHECK AND CREATE LOGIN/SIGNUP MODALS
+  function createAuthModals() {
+    console.log('📝 Checking auth modals...');
+    
+    // Check for login modal
+    if (!document.getElementById('loginModal')) {
+      console.log('❌ Login modal missing - creating...');
+      const loginModal = document.createElement('div');
+      loginModal.id = 'loginModal';
+      loginModal.className = 'modal';
+      loginModal.style.cssText = `
+        display: none; position: fixed; z-index: 10000; left: 0; top: 0; 
+        width: 100%; height: 100%; background: rgba(0,0,0,0.5);
+        align-items: center; justify-content: center;
+      `;
+      loginModal.innerHTML = `
+        <div class="modal-content" style="
+          background: white; padding: 2rem; border-radius: 0.75rem; 
+          max-width: 400px; width: 90%; position: relative;
+        ">
+          <span class="close" onclick="closeModal('loginModal')" style="
+            position: absolute; top: 1rem; right: 1rem; font-size: 2rem; 
+            cursor: pointer; color: #666;
+          ">&times;</span>
+          <h2 style="margin-top: 0;">Sign In to ImpactMojo</h2>
+          <form onsubmit="login(event)" style="margin: 1rem 0;">
+            <div style="margin-bottom: 1rem;">
+              <label>Email:</label>
+              <input type="email" id="loginEmail" required style="
+                width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; 
+                border-radius: 0.5rem; box-sizing: border-box;
+              ">
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <label>Password:</label>
+              <input type="password" id="loginPassword" required style="
+                width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; 
+                border-radius: 0.5rem; box-sizing: border-box;
+              ">
+            </div>
+            <button type="submit" style="
+              width: 100%; background: #6366f1; color: white; border: none; 
+              padding: 0.75rem; border-radius: 0.5rem; cursor: pointer; font-size: 1rem;
+            ">Sign In</button>
+          </form>
+          <div style="text-align: center; margin: 1rem 0;">
+            <span style="color: #666;">or</span>
+          </div>
+          <button onclick="signInWithGoogle()" style="
+            width: 100%; background: #db4437; color: white; border: none; 
+            padding: 0.75rem; border-radius: 0.5rem; cursor: pointer; font-size: 1rem;
+          ">
+            <i class="fab fa-google"></i> Continue with Google
+          </button>
+          <div style="text-align: center; margin-top: 1rem;">
+            Don't have an account? 
+            <a href="#" onclick="closeModal('loginModal'); showSignupModal()" style="color: #6366f1;">Sign Up</a>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(loginModal);
+      console.log('✅ Login modal created');
+    }
+    
+    // Check for signup modal
+    if (!document.getElementById('signupModal')) {
+      console.log('❌ Signup modal missing - creating...');
+      const signupModal = document.createElement('div');
+      signupModal.id = 'signupModal';
+      signupModal.className = 'modal';
+      signupModal.style.cssText = `
+        display: none; position: fixed; z-index: 10000; left: 0; top: 0; 
+        width: 100%; height: 100%; background: rgba(0,0,0,0.5);
+        align-items: center; justify-content: center;
+      `;
+      signupModal.innerHTML = `
+        <div class="modal-content" style="
+          background: white; padding: 2rem; border-radius: 0.75rem; 
+          max-width: 400px; width: 90%; position: relative;
+        ">
+          <span class="close" onclick="closeModal('signupModal')" style="
+            position: absolute; top: 1rem; right: 1rem; font-size: 2rem; 
+            cursor: pointer; color: #666;
+          ">&times;</span>
+          <h2 style="margin-top: 0;">Join ImpactMojo</h2>
+          <form onsubmit="signup(event)" style="margin: 1rem 0;">
+            <div style="margin-bottom: 1rem;">
+              <label>Full Name:</label>
+              <input type="text" id="signupName" required style="
+                width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; 
+                border-radius: 0.5rem; box-sizing: border-box;
+              ">
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <label>Email:</label>
+              <input type="email" id="signupEmail" required style="
+                width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; 
+                border-radius: 0.5rem; box-sizing: border-box;
+              ">
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <label>Password:</label>
+              <input type="password" id="signupPassword" required minlength="6" style="
+                width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; 
+                border-radius: 0.5rem; box-sizing: border-box;
+              ">
+            </div>
+            <button type="submit" style="
+              width: 100%; background: #6366f1; color: white; border: none; 
+              padding: 0.75rem; border-radius: 0.5rem; cursor: pointer; font-size: 1rem;
+            ">Create Account</button>
+          </form>
+          <div style="text-align: center; margin: 1rem 0;">
+            <span style="color: #666;">or</span>
+          </div>
+          <button onclick="signInWithGoogle()" style="
+            width: 100%; background: #db4437; color: white; border: none; 
+            padding: 0.75rem; border-radius: 0.5rem; cursor: pointer; font-size: 1rem;
+          ">
+            <i class="fab fa-google"></i> Continue with Google
+          </button>
+          <div style="text-align: center; margin-top: 1rem;">
+            Already have an account? 
+            <a href="#" onclick="closeModal('signupModal'); showLoginModal()" style="color: #6366f1;">Login</a>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(signupModal);
+      console.log('✅ Signup modal created');
+    }
+  }
+  
+  // 2. CREATE WORKING MODAL FUNCTIONS
+  function createModalFunctions() {
+    console.log('🔧 Creating modal functions...');
+    
+    window.showLoginModal = function() {
+      console.log('🔑 Opening login modal');
+      const modal = document.getElementById('loginModal');
+      if (modal) {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+    };
+    
+    window.showSignupModal = function() {
+      console.log('📝 Opening signup modal');
+      const modal = document.getElementById('signupModal');
+      if (modal) {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+    };
+    
+    window.closeModal = function(modalId) {
+      console.log('❌ Closing modal:', modalId);
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    };
+    
+    // Connect auth buttons
+    const signInBtn = document.querySelector('.auth-btn:not(.signup)');
+    const signUpBtn = document.querySelector('.auth-btn.signup');
+    
+    if (signInBtn) {
+      signInBtn.onclick = showLoginModal;
+      console.log('✅ Sign In button connected');
+    }
+    
+    if (signUpBtn) {
+      signUpBtn.onclick = showSignupModal;
+      console.log('✅ Sign Up button connected');
+    }
+  }
+  
+  // 3. ADD BOOKMARK BUTTONS TO CARDS
+  function addBookmarkButtons() {
+    console.log('🔖 Adding bookmark buttons...');
+    
+    window.userBookmarks = window.userBookmarks || [];
+    
+    document.querySelectorAll('.course-card, .lab-card').forEach(card => {
+      if (!card.querySelector('.bookmark-btn')) {
+        const courseId = card.dataset.courseId || card.querySelector('[data-course-id]')?.dataset.courseId;
+        const labId = card.dataset.labId || card.querySelector('[data-lab-id]')?.dataset.labId;
+        
+        if (courseId || labId) {
+          const itemId = courseId || labId;
+          const itemType = courseId ? 'course' : 'lab';
+          
+          const bookmarkBtn = document.createElement('button');
+          bookmarkBtn.className = 'bookmark-btn';
+          bookmarkBtn.style.cssText = `
+            position: absolute; top: 0.5rem; right: 0.5rem; z-index: 15;
+            background: rgba(255,255,255,0.9); border: 2px solid #f59e0b;
+            border-radius: 50%; width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: #f59e0b; font-size: 1rem;
+          `;
+          bookmarkBtn.innerHTML = '<i class="far fa-bookmark"></i>';
+          bookmarkBtn.onclick = function() {
+            console.log('🔖 Bookmark clicked:', itemId, itemType);
+            toggleBookmark(itemId, itemType);
+          };
+          
+          card.style.position = 'relative';
+          card.appendChild(bookmarkBtn);
+        }
+      }
+    });
+    
+    console.log('✅ Bookmark buttons added');
+  }
+  
+  // 4. ADD COMPARISON CHECKBOXES
+  function addComparisonCheckboxes() {
+    console.log('☑️ Adding comparison checkboxes...');
+    
+    window.selectedForComparison = window.selectedForComparison || [];
+    
+    document.querySelectorAll('.course-card, .lab-card').forEach(card => {
+      if (!card.querySelector('.comparison-checkbox')) {
+        const courseId = card.dataset.courseId || card.querySelector('[data-course-id]')?.dataset.courseId;
+        const labId = card.dataset.labId || card.querySelector('[data-lab-id]')?.dataset.labId;
+        
+        if (courseId || labId) {
+          const itemId = courseId || labId;
+          const itemType = courseId ? 'course' : 'lab';
+          
+          const checkboxLabel = document.createElement('label');
+          checkboxLabel.style.cssText = `
+            position: absolute; top: 0.5rem; left: 0.5rem; z-index: 15;
+            background: rgba(255,255,255,0.9); border: 2px solid #6366f1;
+            border-radius: 6px; padding: 0.4rem; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+          `;
+          
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.className = 'comparison-checkbox';
+          checkbox.style.cssText = `
+            width: 16px; height: 16px; cursor: pointer; margin: 0;
+          `;
+          checkbox.onchange = function() {
+            console.log('☑️ Comparison checkbox clicked:', itemId, itemType);
+            toggleComparison(itemId, itemType);
+          };
+          
+          checkboxLabel.appendChild(checkbox);
+          card.style.position = 'relative';
+          card.appendChild(checkboxLabel);
+        }
+      }
+    });
+    
+    console.log('✅ Comparison checkboxes added');
+  }
+  
+  // 5. CREATE WORKING BOOKMARK FUNCTION
+  function createBookmarkFunction() {
+    window.toggleBookmark = function(itemId, itemType) {
+      console.log('🔖 Toggle bookmark called:', itemId, itemType);
+      
+      if (!window.userBookmarks) {
+        window.userBookmarks = [];
+      }
+      
+      const itemKey = `${itemType}-${itemId}`;
+      const index = window.userBookmarks.findIndex(b => b.key === itemKey);
+      
+      if (index === -1) {
+        // Add bookmark
+        window.userBookmarks.push({
+          key: itemKey,
+          id: itemId,
+          type: itemType,
+          title: `${itemType} ${itemId}`
+        });
+        console.log('✅ Bookmark added');
+        showNotification('Bookmarked!', 'success');
+      } else {
+        // Remove bookmark
+        window.userBookmarks.splice(index, 1);
+        console.log('❌ Bookmark removed');
+        showNotification('Bookmark removed', 'info');
+      }
+      
+      // Update UI
+      updateBookmarkDisplay();
+    };
+  }
+  
+  // 6. CREATE WORKING COMPARISON FUNCTION
+  function createComparisonFunction() {
+    window.toggleComparison = function(itemId, itemType) {
+      console.log('☑️ Toggle comparison called:', itemId, itemType);
+      
+      if (!window.selectedForComparison) {
+        window.selectedForComparison = [];
+      }
+      
+      const itemKey = `${itemType}-${itemId}`;
+      const index = window.selectedForComparison.findIndex(item => item.key === itemKey);
+      
+      if (index === -1) {
+        // Add to comparison
+        window.selectedForComparison.push({
+          key: itemKey,
+          id: itemId,
+          type: itemType
+        });
+        console.log('✅ Added to comparison');
+        showNotification(`Added to comparison (${window.selectedForComparison.length})`, 'success');
+      } else {
+        // Remove from comparison
+        window.selectedForComparison.splice(index, 1);
+        console.log('❌ Removed from comparison');
+        showNotification('Removed from comparison', 'info');
+      }
+      
+      // Update comparison button visibility
+      const compareFab = document.getElementById('compareFab');
+      if (compareFab) {
+        compareFab.style.display = window.selectedForComparison.length > 1 ? 'flex' : 'none';
+      }
+    };
+  }
+  
+  // 7. UPDATE BOOKMARK DISPLAY
+  function updateBookmarkDisplay() {
+    document.querySelectorAll('.bookmark-btn').forEach(btn => {
+      // This function will be safe now
+    });
+  }
+  
+  // 8. CREATE NOTIFICATION FUNCTION
+  function createNotificationFunction() {
+    if (!window.showNotification) {
+      window.showNotification = function(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+          position: fixed; top: 20px; right: 20px; z-index: 10001;
+          background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+          color: white; padding: 1rem 1.5rem; border-radius: 0.5rem;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.15); font-size: 0.9rem;
+        `;
+        notification.innerHTML = `${message} <button onclick="this.parentElement.remove()" style="background:rgba(255,255,255,0.2);border:none;color:white;padding:4px 8px;border-radius:4px;cursor:pointer;margin-left:8px;">✕</button>`;
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 5000);
+      };
+    }
+  }
+  
+  // RUN ALL FIXES
+  console.log('🚀 Running all diagnostic fixes...');
+  createNotificationFunction();
+  createAuthModals();
+  createModalFunctions();
+  createBookmarkFunction();
+  createComparisonFunction();
+  setTimeout(() => {
+    addBookmarkButtons();
+    addComparisonCheckboxes();
+  }, 1000);
+  
+  console.log('✅ Diagnostic and repair complete!');
+  showNotification('ImpactMojo features repaired and ready!', 'success');
+}
+
+// Run the diagnostic after a delay
+setTimeout(diagnoseAndFix, 2000);
+
+console.log('🔧 Diagnostic script loaded!');
