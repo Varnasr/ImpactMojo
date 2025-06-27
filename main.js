@@ -2125,3 +2125,197 @@ function closeModal(modalId) {
     document.body.style.overflow = 'auto';
   }
 }
+// ===== FIREBASE AUTH BUTTONS FIX - ADD TO END OF main.js =====
+// Connect buttons to your existing Firebase auth system
+
+function connectAuthButtons() {
+  console.log('🔧 Connecting auth buttons to Firebase...');
+  
+  // Find and fix Sign In button
+  const signInBtn = document.querySelector('.auth-btn:not(.signup)');
+  if (signInBtn) {
+    // Remove any existing onclick
+    signInBtn.onclick = null;
+    
+    // Connect to your existing Firebase login function
+    signInBtn.onclick = function() {
+      console.log('🔑 Sign In clicked - opening login modal');
+      
+      // Try different possible function names for your Firebase auth
+      if (typeof showLoginModal === 'function') {
+        showLoginModal();
+      } else if (typeof openModal === 'function') {
+        openModal('loginModal');
+      } else if (document.getElementById('loginModal')) {
+        // Direct modal opening
+        const modal = document.getElementById('loginModal');
+        modal.style.display = 'flex';
+        modal.style.alignItems = 'center';
+        modal.style.justifyContent = 'center';
+        document.body.style.overflow = 'hidden';
+      } else {
+        console.log('⚠️ Login modal not found');
+        // Create a simple login modal if none exists
+        createSimpleLoginModal();
+      }
+    };
+    console.log('✅ Sign In button connected');
+  }
+  
+  // Find and fix Sign Up button  
+  const signUpBtn = document.querySelector('.auth-btn.signup');
+  if (signUpBtn) {
+    // Remove any existing onclick
+    signUpBtn.onclick = null;
+    
+    // Connect to your existing Firebase signup function
+    signUpBtn.onclick = function() {
+      console.log('📝 Sign Up clicked - opening signup modal');
+      
+      // Try different possible function names for your Firebase auth
+      if (typeof showSignupModal === 'function') {
+        showSignupModal();
+      } else if (typeof openModal === 'function') {
+        openModal('signupModal');
+      } else if (document.getElementById('signupModal')) {
+        // Direct modal opening
+        const modal = document.getElementById('signupModal');
+        modal.style.display = 'flex';
+        modal.style.alignItems = 'center';
+        modal.style.justifyContent = 'center';
+        document.body.style.overflow = 'hidden';
+      } else {
+        console.log('⚠️ Signup modal not found');
+        // Create a simple signup modal if none exists
+        createSimpleSignupModal();
+      }
+    };
+    console.log('✅ Sign Up button connected');
+  }
+}
+
+// Create simple login modal if it doesn't exist
+function createSimpleLoginModal() {
+  if (document.getElementById('loginModal')) return;
+  
+  const modal = document.createElement('div');
+  modal.id = 'loginModal';
+  modal.style.cssText = `
+    display: flex; position: fixed; z-index: 10000; left: 0; top: 0; 
+    width: 100%; height: 100%; background: rgba(0,0,0,0.7);
+    align-items: center; justify-content: center;
+  `;
+  
+  modal.innerHTML = `
+    <div style="background: white; padding: 2rem; border-radius: 12px; width: 400px; max-width: 90%; position: relative;">
+      <span onclick="closeLoginModal()" style="position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; cursor: pointer; color: #666;">&times;</span>
+      <h2 style="color: #6366f1; margin-bottom: 1.5rem; text-align: center;">
+        <i class="fas fa-sign-in-alt"></i> Sign In
+      </h2>
+      <form style="display: flex; flex-direction: column; gap: 1rem;">
+        <input type="email" placeholder="Email" style="padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px;" required>
+        <input type="password" placeholder="Password" style="padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px;" required>
+        <button type="submit" style="padding: 0.75rem; background: #6366f1; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Sign In</button>
+      </form>
+      <button onclick="signInWithGoogle()" style="width: 100%; margin-top: 1rem; padding: 0.75rem; background: #ea4335; color: white; border: none; border-radius: 8px; cursor: pointer;">
+        <i class="fab fa-google"></i> Sign in with Google
+      </button>
+      <p style="text-align: center; margin-top: 1rem;">
+        Don't have an account? <a href="#" onclick="closeLoginModal(); setTimeout(() => openSignupModal(), 100);" style="color: #6366f1;">Sign Up</a>
+      </p>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+}
+
+// Create simple signup modal if it doesn't exist
+function createSimpleSignupModal() {
+  if (document.getElementById('signupModal')) return;
+  
+  const modal = document.createElement('div');
+  modal.id = 'signupModal';
+  modal.style.cssText = `
+    display: flex; position: fixed; z-index: 10000; left: 0; top: 0; 
+    width: 100%; height: 100%; background: rgba(0,0,0,0.7);
+    align-items: center; justify-content: center;
+  `;
+  
+  modal.innerHTML = `
+    <div style="background: white; padding: 2rem; border-radius: 12px; width: 400px; max-width: 90%; position: relative;">
+      <span onclick="closeSignupModal()" style="position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; cursor: pointer; color: #666;">&times;</span>
+      <h2 style="color: #6366f1; margin-bottom: 1.5rem; text-align: center;">
+        <i class="fas fa-user-plus"></i> Sign Up
+      </h2>
+      <form style="display: flex; flex-direction: column; gap: 1rem;">
+        <input type="text" placeholder="Full Name" style="padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px;" required>
+        <input type="email" placeholder="Email" style="padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px;" required>
+        <input type="password" placeholder="Password" style="padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px;" required>
+        <button type="submit" style="padding: 0.75rem; background: #6366f1; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Create Account</button>
+      </form>
+      <button onclick="signInWithGoogle()" style="width: 100%; margin-top: 1rem; padding: 0.75rem; background: #ea4335; color: white; border: none; border-radius: 8px; cursor: pointer;">
+        <i class="fab fa-google"></i> Continue with Google
+      </button>
+      <p style="text-align: center; margin-top: 1rem;">
+        Already have an account? <a href="#" onclick="closeSignupModal(); setTimeout(() => openLoginModal(), 100);" style="color: #6366f1;">Sign In</a>
+      </p>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+}
+
+// Modal control functions
+function closeLoginModal() {
+  const modal = document.getElementById('loginModal');
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+  }
+}
+
+function closeSignupModal() {
+  const modal = document.getElementById('signupModal');
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+  }
+}
+
+function openLoginModal() {
+  createSimpleLoginModal();
+  const modal = document.getElementById('loginModal');
+  if (modal) {
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function openSignupModal() {
+  createSimpleSignupModal();
+  const modal = document.getElementById('signupModal');
+  if (modal) {
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+// Connect to existing Google sign-in if it exists
+if (typeof signInWithGoogle !== 'function') {
+  window.signInWithGoogle = function() {
+    console.log('🔥 Google sign-in clicked');
+    alert('Google sign-in will be implemented with your Firebase config');
+  };
+}
+
+// Run the connection after page loads
+setTimeout(connectAuthButtons, 1000);
+
+// Also run when DOM changes (in case buttons are added later)
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', connectAuthButtons);
+} else {
+  connectAuthButtons();
+}
+
+console.log('🔥 Firebase auth buttons fix loaded!');
