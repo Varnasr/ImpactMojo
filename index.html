@@ -1125,5 +1125,274 @@
       </div>
       
       </body>
-</body>
+      <!-- ===== ADDITIONAL HTML FOR IMPACTMOJO FIXES =====
+      Add these elements to your index.html if they're missing -->
+      
+      <!-- FAB Container (add before closing body tag if missing) -->
+      <div class="fab-container">
+        <!-- Button 1: Feedback/Comments (Blue) -->
+        <button class="fab-btn feedback" onclick="openModal('feedbackModal')" title="Share feedback and suggestions">
+          <i class="fas fa-comment"></i>
+        </button>
+        
+        <!-- Button 2: Course/Lab Request (Green) -->
+        <button class="fab-btn suggest" onclick="openModal('suggestModal')" title="Request new course, lab, or resource">
+          <i class="fas fa-lightbulb"></i>
+        </button>
+        
+        <!-- Button 3: Comparison (Orange) - Hidden until items selected -->
+        <button class="fab-btn compare" onclick="showComparison()" title="Compare selected courses and labs" style="display: none;" id="compareFab">
+          <i class="fas fa-balance-scale"></i>
+        </button>
+      </div>
+      
+      <!-- Enhanced Feedback Modal -->
+      <div id="feedbackModal" class="modal">
+        <div class="modal-content">
+          <span class="close" onclick="closeModal('feedbackModal')">&times;</span>
+          <h2><i class="fas fa-comment"></i> Share Your Feedback</h2>
+          <form onsubmit="submitFeedback(event)">
+            <div class="form-group">
+              <label for="feedbackType">Feedback Type:</label>
+              <select id="feedbackType" required>
+                <option value="">Select type...</option>
+                <option value="general">General Feedback</option>
+                <option value="bug">Bug Report</option>
+                <option value="improvement">Suggestion for Improvement</option>
+                <option value="content">Content Feedback</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="feedbackMessage">Your Message:</label>
+              <textarea id="feedbackMessage" rows="5" placeholder="Share your thoughts, suggestions, or report any issues..." required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="feedbackEmail">Email (optional):</label>
+              <input type="email" id="feedbackEmail" placeholder="your.email@example.com">
+            </div>
+            <button type="submit" class="modal-btn">Send Feedback</button>
+          </form>
+        </div>
+      </div>
+      
+      <!-- Enhanced Suggestion Modal -->
+      <div id="suggestModal" class="modal">
+        <div class="modal-content">
+          <span class="close" onclick="closeModal('suggestModal')">&times;</span>
+          <h2><i class="fas fa-lightbulb"></i> Request New Content</h2>
+          <form onsubmit="submitSuggestion(event)">
+            <div class="form-group">
+              <label for="suggestionType">Request Type:</label>
+              <select id="suggestionType" required>
+                <option value="">Select type...</option>
+                <option value="course">New Course</option>
+                <option value="lab">New Lab</option>
+                <option value="resource">Resource/Handout</option>
+                <option value="learning-path">Learning Path</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="suggestionTitle">Title/Topic:</label>
+              <input type="text" id="suggestionTitle" placeholder="e.g., Climate Change Policy 101" required>
+            </div>
+            <div class="form-group">
+              <label for="suggestionDescription">Description:</label>
+              <textarea id="suggestionDescription" rows="4" placeholder="Describe what this course/lab/resource should cover and why it's needed..." required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="suggestionPriority">Priority Level:</label>
+              <select id="suggestionPriority">
+                <option value="low">Low - Nice to have</option>
+                <option value="medium" selected>Medium - Would be useful</option>
+                <option value="high">High - Really needed</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="suggestionEmail">Email (optional):</label>
+              <input type="email" id="suggestionEmail" placeholder="your.email@example.com">
+            </div>
+            <button type="submit" class="modal-btn">Submit Request</button>
+          </form>
+        </div>
+      </div>
+      
+      <!-- Enhanced Comparison Modal -->
+      <div id="comparisonModal" class="modal">
+        <div class="modal-content large">
+          <span class="close" onclick="closeModal('comparisonModal')">&times;</span>
+          <h2><i class="fas fa-balance-scale"></i> Course & Lab Comparison</h2>
+          <div id="comparisonContent">
+            <div style="text-align: center; padding: 2rem;">
+              <i class="fas fa-balance-scale" style="font-size: 3rem; color: var(--text-secondary); margin-bottom: 1rem;"></i>
+              <h3>Select items to compare</h3>
+              <p>Use the checkboxes on course and lab cards to select items for comparison.</p>
+            </div>
+          </div>
+          <div style="margin-top: 1rem; text-align: center;">
+            <button onclick="clearComparison()" class="modal-btn" style="background: #ef4444;">Clear Selection</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Enhanced Bookmark Modal -->
+      <div id="bookmarkModal" class="modal">
+        <div class="modal-content large">
+          <span class="close" onclick="closeModal('bookmarkModal')">&times;</span>
+          <h2><i class="fas fa-bookmark"></i> My Bookmarks</h2>
+          <div id="bookmarkContent">
+            <div style="text-align: center; padding: 2rem;">
+              <i class="fas fa-bookmark" style="font-size: 3rem; color: var(--text-secondary); margin-bottom: 1rem;"></i>
+              <h3>No bookmarks yet</h3>
+              <p>Start bookmarking courses and labs to build your personal learning collection!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- JavaScript for Modal Functions -->
+      <script>
+        // Modal control functions
+        function openModal(modalId) {
+          const modal = document.getElementById(modalId);
+          if (modal) {
+            modal.style.display = 'flex';
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+          }
+        }
+        
+        function closeModal(modalId) {
+          const modal = document.getElementById(modalId);
+          if (modal) {
+            modal.style.display = 'none';
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+          }
+        }
+        
+        // Feedback submission
+        function submitFeedback(event) {
+          event.preventDefault();
+          const type = document.getElementById('feedbackType').value;
+          const message = document.getElementById('feedbackMessage').value;
+          const email = document.getElementById('feedbackEmail').value;
+          
+          // Here you would typically send to your backend
+          console.log('Feedback submitted:', { type, message, email });
+          
+          showNotification('Thank you for your feedback! We appreciate your input.', 'success');
+          closeModal('feedbackModal');
+          
+          // Clear form
+          document.getElementById('feedbackType').value = '';
+          document.getElementById('feedbackMessage').value = '';
+          document.getElementById('feedbackEmail').value = '';
+        }
+        
+        // Suggestion submission
+        function submitSuggestion(event) {
+          event.preventDefault();
+          const type = document.getElementById('suggestionType').value;
+          const title = document.getElementById('suggestionTitle').value;
+          const description = document.getElementById('suggestionDescription').value;
+          const priority = document.getElementById('suggestionPriority').value;
+          const email = document.getElementById('suggestionEmail').value;
+          
+          // Here you would typically send to your backend
+          console.log('Suggestion submitted:', { type, title, description, priority, email });
+          
+          showNotification('Request submitted! We\'ll consider it for future development.', 'success');
+          closeModal('suggestModal');
+          
+          // Clear form
+          document.getElementById('suggestionType').value = '';
+          document.getElementById('suggestionTitle').value = '';
+          document.getElementById('suggestionDescription').value = '';
+          document.getElementById('suggestionPriority').value = 'medium';
+          document.getElementById('suggestionEmail').value = '';
+        }
+        
+        // Clear comparison selection
+        function clearComparison() {
+          if (window.selectedForComparison) {
+            window.selectedForComparison = [];
+            updateComparisonUI();
+            showNotification('Comparison selection cleared', 'info');
+            closeModal('comparisonModal');
+          }
+        }
+        
+        // Enhanced notification function
+        function showNotification(message, type = 'info') {
+          // Remove existing notifications
+          document.querySelectorAll('.notification').forEach(notification => notification.remove());
+          
+          // Create new notification
+          const notification = document.createElement('div');
+          notification.className = `notification ${type}`;
+          
+          const colors = {
+            success: '#10b981',
+            error: '#ef4444', 
+            warning: '#f59e0b',
+            info: '#3b82f6'
+          };
+          
+          notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10001;
+    background: ${colors[type] || colors.info};
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    max-width: 350px;
+    animation: slideInRight 0.3s ease;
+  `;
+          
+          notification.innerHTML = `
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+      <span>${message}</span>
+      <button onclick="this.parentElement.parentElement.remove()" style="
+        background: rgba(255,255,255,0.2); border: none;
+        color: white; padding: 4px 8px; 
+        border-radius: 4px; cursor: pointer; margin-left: 8px;
+        font-size: 0.8rem;
+      ">✕</button>
+    </div>
+  `;
+          
+          document.body.appendChild(notification);
+          
+          // Auto-remove after 5 seconds
+          setTimeout(() => {
+            if (notification.parentElement) {
+              notification.remove();
+            }
+          }, 5000);
+        }
+        
+        // Add animation CSS
+        const animationCSS = `
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+`;
+        
+        const style = document.createElement('style');
+        style.textContent = animationCSS;
+        document.head.appendChild(style);
+      </script>
+      </body>
 </html>
