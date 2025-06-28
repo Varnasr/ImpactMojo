@@ -1,3 +1,66 @@
+// ===== CLEAN FIREBASE ERROR HANDLING =====
+// Add this to the very TOP of main.js (before any other code)
+
+console.log('🚀 Loading ImpactMojo Main JS with Firebase...');
+
+// Initialize Firebase state tracking
+window.firebaseAvailable = false;
+window.userAuthenticated = false;
+
+// Check if Firebase is properly loaded
+function initializeFirebase() {
+  try {
+    if (typeof firebase !== 'undefined' && firebase.apps && firebase.auth) {
+      console.log('✅ Firebase available, initializing auth...');
+      window.firebaseAvailable = true;
+      
+      // Your existing Firebase initialization code goes here
+      // firebase.auth().onAuthStateChanged(user => { ... });
+      
+    } else {
+      console.log('⚠️ Firebase not available, running in standalone mode');
+      window.firebaseAvailable = false;
+      // Show auth buttons but disable their functionality
+      showAuthUIFallback();
+    }
+  } catch (error) {
+    console.log('⚠️ Firebase initialization failed, running in standalone mode:', error.message);
+    window.firebaseAvailable = false;
+    showAuthUIFallback();
+  }
+}
+
+// Fallback auth UI for when Firebase isn't available
+function showAuthUIFallback() {
+  console.log('🔧 Setting up fallback auth UI...');
+  
+  // Show auth buttons but make them informational
+  const authButtons = document.querySelectorAll('.auth-btn');
+  authButtons.forEach(btn => {
+    btn.style.opacity = '0.7';
+    btn.onclick = function() {
+      alert('Authentication temporarily unavailable. Core features still work!');
+    };
+  });
+  
+  console.log('✅ Fallback auth UI ready');
+}
+
+// Safe Firebase function wrapper
+function withFirebase(callback, fallback = null) {
+  if (window.firebaseAvailable) {
+    return callback();
+  } else {
+    console.log('🔄 Firebase not available, using fallback');
+    return fallback ? fallback() : null;
+  }
+}
+
+// Initialize Firebase (safely)
+initializeFirebase();
+
+// Continue with your existing main.js code below...
+// Just wrap any Firebase-dependent code with withFirebase()
 // ===== COMPLETE IMPACTMOJO MAIN.JS WITH FIREBASE =====
 // Initialize global variables immediately
 window.userBookmarks = window.userBookmarks || [];
