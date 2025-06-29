@@ -1,354 +1,417 @@
-// Fixed Firebase Auth for ImpactMojo
-// RESOLVES: TypeError: window.onAuthStateChanged is not a function
+// ImpactMojo 101 - Firebase Authentication Module
+// Handles all user authentication and data management
 
-console.log('🔐 Loading ImpactMojo Firebase Auth...');
-
-// ===== WAIT FOR FIREBASE TO BE READY =====
-function waitForFirebase() {
-  return new Promise((resolve, reject) => {
-    let attempts = 0;
-    const maxAttempts = 50;
-    
-    const checkFirebase = () => {
-      attempts++;
-      
-      if (typeof firebase !== 'undefined' && firebase.auth) {
-        console.log('✅ Firebase auth ready');
-        resolve(firebase.auth());
-      } else if (attempts >= maxAttempts) {
-        console.error('❌ Firebase failed to load after', maxAttempts, 'attempts');
-        reject(new Error('Firebase not available'));
-      } else {
-        setTimeout(checkFirebase, 100);
-      }
-    };
-    
-    checkFirebase();
-  });
-}
-
-// ===== GLOBAL VARIABLES =====
 let currentUser = null;
 let userBookmarks = [];
 let userNotes = '';
-let userProgress = {};
 
-// ===== AUTHENTICATION FUNCTIONS =====
+// Initialize auth state listener when page loads
+document.addEventListener('DOMContentLoaded', function() {
+  initializeAuth();
+});
 
-/**
- * Initialize authentication system
- */
-async function initializeAuth() {
-  try {
-    const auth = await waitForFirebase();
-    
-    // Set up auth state listener
-    auth.onAuthStateChanged((user) => {
-      console.log('👤 Auth state changed:', user ? `Signed in as ${user.email}` : 'Signed out');
-      currentUser = user;
-      updateAuthUI(user);
-      
-      if (user) {
-        loadUserData(user.uid);
-      } else {
-        clearUserData();
-      }
-    });
-    
-    console.log('✅ Firebase auth initialized successfully');
-    
-  } catch (error) {
-    console.error('❌ Error initializing auth:', error);
+// Initialize authentication
+function initializeAuth() {
+  // Check if Firebase is loaded
+  if (!window.auth) {
+    console.error('Firebase not loaded');
+    return;
   }
+
+  // Listen for auth state changes
+  window.onAuthStateChanged(window.auth, (user) => {
+    if (user) {
+      currentUser = user;
+      showUserUI();
+      loadUserData();
+    } else {
+      currentUser = null;
+      showAuthUI();
+    }
+  });
 }
 
-/**
- * Update UI based on authentication state
- */
-function updateAuthUI(user) {
+// Show authentication UI (login/signup buttons) - ENHANCED VERSION
+function showAuthUI() {
+  console.log('🔧 showAuthUI called');
   const authButtons = document.getElementById('authButtons');
   const userMenu = document.getElementById('userMenu');
-  const userName = document.getElementById('userName');
-  const userAvatar = document.getElementById('userAvatar');
   
-  if (user) {
-    // User is signed in
-    if (authButtons) authButtons.style.display = 'none';
-    if (userMenu) userMenu.style.display = 'flex';
-    if (userName) userName.textContent = user.displayName || user.email?.split('@')[0] || 'User';
-    if (userAvatar) {
-      userAvatar.src = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || 'User')}&background=6366f1&color=fff`;
-    }
+  if (authButtons) {
+    authButtons.classList.remove('hidden');
+    authButtons.style.display = 'flex';
+    authButtons.style.visibility = 'visible';
+    authButtons.style.opacity = '1';
+    console.log('✅ Auth UI shown');
   } else {
-    // User is signed out
-    if (authButtons) authButtons.style.display = 'flex';
-    if (userMenu) userMenu.style.display = 'none';
-    if (userName) userName.textContent = 'User';
-    if (userAvatar) userAvatar.src = '';
+    console.error('❌ Auth buttons not found in showAuthUI');
+  }
+  
+  if (userMenu) {
+    userMenu.classList.add('hidden');
+    userMenu.style.display = 'none';
   }
 }
 
-/**
- * Sign up with email and password
- */
-async function signUp(email, password, displayName) {
+// Show user UI (user menu)
+function showUserUI() {
+  const authButtons = document.getElementById('authButtons');
+  const userMenu = document.getElementById('userMenu');
+  const userDisplayName = document.getElementById('userDisplayName');
+  
+  if (authButtons) authButtons.classList.add('hidden');
+  if (userMenu) userMenu.classList.remove('hidden');
+  
+  if (userDisplayName && currentUser) {
+    userDisplayName.textContent = currentUser.displayName || currentUser.email.split('@')[0];
+  }
+}
+
+// Show login modal
+function showLoginModal() {
+  const modal = document.getElementById('loginModal');
+  if (modal) {
+    modal.style.display = 'block';
+  }
+}
+
+// Show signup modal
+function showSignupModal() {
+  const modal = document.getElementById('signupModal');
+  if (modal) {
+    modal.style.display = 'block';
+  }
+}
+
+// Close modal
+function closeModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.style.display = 'none';
+  }
+}
+
+// Login with email and password
+async function login(event) {
+  event.preventDefault();
+  
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  
   try {
-    const auth = await waitForFirebase();
-    const { user } = await auth.createUserWithEmailAndPassword(email, password);
+    await window.signInWithEmailAndPassword(window.auth, email, password);
+    closeModal('loginModal');
+    showNotification('Successfully logged in!', 'success');
     
-    // Update display name
-    if (displayName) {
-      await user.updateProfile({ displayName });
-    }
+    // Clear form
+    document.getElementById('loginEmail').value = '';
+    document.getElementById('loginPassword').value = '';
+  } catch (error) {
+    console.error('Login error:', error);
+    showNotification(getErrorMessage(error), 'error');
+  }
+}
+
+// Sign up with email and password
+async function signup(event) {
+  event.preventDefault();
+  
+  const name = document.getElementById('signupName').value;
+  const email = document.getElementById('signupEmail').value;
+  const password = document.getElementById('signupPassword').value;
+  
+  try {
+    const userCredential = await window.createUserWithEmailAndPassword(window.auth, email, password);
+    const user = userCredential.user;
     
-    // Create user document
-    await createUserDocument(user.uid, {
-      email: user.email,
-      displayName: displayName || '',
+    // Create user document in Firestore
+    await window.setDoc(window.doc(window.db, 'users', user.uid), {
+      displayName: name,
+      email: email,
       createdAt: new Date(),
       bookmarks: [],
-      progress: {},
-      notes: ''
+      notes: '',
+      progress: {}
     });
     
+    closeModal('signupModal');
     showNotification('Account created successfully!', 'success');
-    return user;
     
+    // Clear form
+    document.getElementById('signupName').value = '';
+    document.getElementById('signupEmail').value = '';
+    document.getElementById('signupPassword').value = '';
   } catch (error) {
-    console.error('❌ Signup error:', error);
+    console.error('Signup error:', error);
     showNotification(getErrorMessage(error), 'error');
-    throw error;
   }
 }
 
-/**
- * Sign in with email and password
- */
-async function signIn(email, password) {
-  try {
-    const auth = await waitForFirebase();
-    const { user } = await auth.signInWithEmailAndPassword(email, password);
-    
-    showNotification('Successfully logged in!', 'success');
-    return user;
-    
-  } catch (error) {
-    console.error('❌ Signin error:', error);
-    showNotification(getErrorMessage(error), 'error');
-    throw error;
-  }
-}
-
-/**
- * Sign in with Google
- */
+// Sign in with Google
 async function signInWithGoogle() {
   try {
-    const auth = await waitForFirebase();
-    const provider = new firebase.auth.GoogleAuthProvider();
-    const { user } = await auth.signInWithPopup(provider);
+    const result = await window.signInWithPopup(window.auth, window.provider);
+    const user = result.user;
     
-    // Create/update user document
-    await createUserDocument(user.uid, {
-      email: user.email,
-      displayName: user.displayName || '',
-      photoURL: user.photoURL || '',
-      lastSignIn: new Date()
-    });
-    
-    showNotification('Successfully logged in with Google!', 'success');
-    return user;
-    
-  } catch (error) {
-    console.error('❌ Google signin error:', error);
-    showNotification(getErrorMessage(error), 'error');
-    throw error;
-  }
-}
-
-/**
- * Sign out user
- */
-async function signOut() {
-  try {
-    const auth = await waitForFirebase();
-    await auth.signOut();
-    
-    showNotification('Successfully logged out!', 'success');
-    
-  } catch (error) {
-    console.error('❌ Signout error:', error);
-    showNotification('Error signing out', 'error');
-    throw error;
-  }
-}
-
-/**
- * Reset password
- */
-async function resetPassword(email) {
-  try {
-    const auth = await waitForFirebase();
-    await auth.sendPasswordResetEmail(email);
-    
-    showNotification('Password reset email sent!', 'success');
-    
-  } catch (error) {
-    console.error('❌ Password reset error:', error);
-    showNotification(getErrorMessage(error), 'error');
-    throw error;
-  }
-}
-
-// ===== USER DATA FUNCTIONS =====
-
-/**
- * Create or update user document
- */
-async function createUserDocument(uid, userData) {
-  try {
-    if (!firebase.firestore) {
-      console.warn('⚠️ Firestore not available, skipping user document creation');
-      return;
-    }
-    
-    const db = firebase.firestore();
-    const userRef = db.collection('users').doc(uid);
-    
-    // Check if user exists
-    const userDoc = await userRef.get();
-    
-    if (!userDoc.exists) {
-      // Create new user
-      await userRef.set({
-        ...userData,
+    // Check if user document exists, create if not
+    const userDoc = await window.getDoc(window.doc(window.db, 'users', user.uid));
+    if (!userDoc.exists()) {
+      await window.setDoc(window.doc(window.db, 'users', user.uid), {
+        displayName: user.displayName,
+        email: user.email,
         createdAt: new Date(),
         bookmarks: [],
-        progress: {},
-        notes: ''
-      });
-    } else {
-      // Update existing user
-      await userRef.update({
-        ...userData,
-        lastSignIn: new Date()
+        notes: '',
+        progress: {}
       });
     }
     
-    console.log('✅ User document created/updated successfully');
-    
+    closeModal('loginModal');
+    closeModal('signupModal');
+    showNotification('Successfully signed in with Google!', 'success');
   } catch (error) {
-    console.error('❌ Error creating user document:', error);
+    console.error('Google sign-in error:', error);
+    showNotification(getErrorMessage(error), 'error');
   }
 }
 
-/**
- * Load user data from Firestore
- */
-async function loadUserData(uid) {
+// Logout
+async function logout() {
   try {
-    if (!firebase.firestore) {
-      console.warn('⚠️ Firestore not available, using local storage');
-      return;
+    await window.signOut(window.auth);
+    showNotification('Successfully logged out!', 'success');
+    
+    // Reset user data
+    userBookmarks = [];
+    userNotes = '';
+    
+    // Reset any filtered views
+    if (typeof clearAllFilters === 'function') {
+      clearAllFilters();
     }
-    
-    const db = firebase.firestore();
-    const userDoc = await db.collection('users').doc(uid).get();
-    
-    if (userDoc.exists) {
-      const data = userDoc.data();
-      userBookmarks = data.bookmarks || [];
-      userNotes = data.notes || '';
-      userProgress = data.progress || {};
-      
-      console.log('✅ User data loaded successfully');
-    }
-    
   } catch (error) {
-    console.error('❌ Error loading user data:', error);
+    console.error('Logout error:', error);
+    showNotification('Error logging out', 'error');
   }
 }
 
-/**
- * Clear user data on signout
- */
-function clearUserData() {
-  userBookmarks = [];
-  userNotes = '';
-  userProgress = {};
+// Show forgot password modal
+function showForgotPassword() {
+  const email = document.getElementById('loginEmail').value;
+  if (!email) {
+    showNotification('Please enter your email address first', 'error');
+    return;
+  }
+  
+  resetPassword(email);
 }
 
-// ===== BOOKMARK FUNCTIONS =====
+// Reset password
+async function resetPassword(email) {
+  try {
+    await window.sendPasswordResetEmail(window.auth, email);
+    showNotification('Password reset email sent!', 'success');
+    closeModal('loginModal');
+  } catch (error) {
+    console.error('Password reset error:', error);
+    showNotification(getErrorMessage(error), 'error');
+  }
+}
 
-/**
- * Add bookmark
- */
-async function addBookmark(courseId, courseTitle) {
+// Load user data from Firestore
+async function loadUserData() {
+  if (!currentUser) return;
+  
+  try {
+    const userDoc = await window.getDoc(window.doc(window.db, 'users', currentUser.uid));
+    if (userDoc.exists()) {
+      const userData = userDoc.data();
+      userBookmarks = userData.bookmarks || [];
+      userNotes = userData.notes || '';
+      
+      // Update UI to reflect bookmarks
+      updateBookmarkUI();
+    }
+  } catch (error) {
+    console.error('Error loading user data:', error);
+  }
+}
+
+// Update bookmark UI
+function updateBookmarkUI() {
+  const bookmarkButtons = document.querySelectorAll('.bookmark-btn');
+  bookmarkButtons.forEach(btn => {
+    const courseId = btn.dataset.courseId;
+    if (userBookmarks.includes(courseId)) {
+      btn.classList.add('bookmarked');
+      btn.innerHTML = '<i class="fas fa-bookmark"></i>';
+    } else {
+      btn.classList.remove('bookmarked');
+      btn.innerHTML = '<i class="far fa-bookmark"></i>';
+    }
+  });
+}
+
+// Toggle bookmark
+async function toggleBookmark(courseId) {
   if (!currentUser) {
     showNotification('Please log in to bookmark courses', 'error');
+    showLoginModal();
     return;
   }
   
   try {
-    const bookmark = { id: courseId, title: courseTitle, addedAt: new Date() };
-    userBookmarks.push(bookmark);
+    const userRef = window.doc(window.db, 'users', currentUser.uid);
     
-    if (firebase.firestore) {
-      const db = firebase.firestore();
-      await db.collection('users').doc(currentUser.uid).update({
-        bookmarks: userBookmarks
+    if (userBookmarks.includes(courseId)) {
+      // Remove bookmark
+      await window.updateDoc(userRef, {
+        bookmarks: window.arrayRemove(courseId)
       });
+      userBookmarks = userBookmarks.filter(id => id !== courseId);
+      showNotification('Bookmark removed', 'success');
+    } else {
+      // Add bookmark
+      await window.updateDoc(userRef, {
+        bookmarks: window.arrayUnion(courseId)
+      });
+      userBookmarks.push(courseId);
+      showNotification('Course bookmarked!', 'success');
     }
     
-    showNotification('Course bookmarked!', 'success');
-    
+    updateBookmarkUI();
   } catch (error) {
-    console.error('❌ Error adding bookmark:', error);
-    showNotification('Error adding bookmark', 'error');
+    console.error('Bookmark error:', error);
+    showNotification('Error updating bookmark', 'error');
   }
 }
 
-/**
- * Remove bookmark
- */
-async function removeBookmark(courseId) {
+// Toggle user dropdown
+function toggleUserDropdown() {
+  const dropdown = document.getElementById('userDropdown');
+  if (dropdown) {
+    dropdown.classList.toggle('hidden');
+  }
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+  const userMenu = document.getElementById('userMenu');
+  const dropdown = document.getElementById('userDropdown');
+  
+  if (userMenu && dropdown && !userMenu.contains(event.target)) {
+    dropdown.classList.add('hidden');
+  }
+});
+
+// Show dashboard
+function showDashboard() {
+  if (!currentUser) {
+    showNotification('Please log in to view dashboard', 'error');
+    showLoginModal();
+    return;
+  }
+  
+  // Create dashboard functionality
+  showNotification('Dashboard feature coming soon! Track your progress and manage your learning path.', 'info');
+}
+
+// Show bookmarks
+function showBookmarks() {
+  if (!currentUser) {
+    showNotification('Please log in to view bookmarks', 'error');
+    showLoginModal();
+    return;
+  }
+  
+  if (userBookmarks.length === 0) {
+    showNotification('No bookmarks yet. Start exploring courses!', 'info');
+    return;
+  }
+  
+  // Filter courses to show only bookmarked ones
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) {
+    searchInput.value = '';
+  }
+  
+  // Reset other filters
+  document.getElementById('categoryFilter').value = 'all';
+  document.getElementById('difficultyFilter').value = 'all';
+  document.getElementById('durationFilter').value = 'all';
+  
+  // Set bookmark filter and render
+  if (typeof setBookmarkFilter === 'function') {
+    setBookmarkFilter(true);
+  }
+  
+  showNotification(`Showing ${userBookmarks.length} bookmarked courses`, 'success');
+  
+  // Scroll to courses section
+  const coursesSection = document.getElementById('courses');
+  if (coursesSection) {
+    coursesSection.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+// Show profile
+function showProfile() {
+  if (!currentUser) {
+    showNotification('Please log in to view profile', 'error');
+    showLoginModal();
+    return;
+  }
+  
+  // Create profile modal or page
+  const profileInfo = `
+    Name: ${currentUser.displayName || 'Not provided'}
+    Email: ${currentUser.email}
+    Joined: ${currentUser.metadata.creationTime ? new Date(currentUser.metadata.creationTime).toLocaleDateString() : 'Unknown'}
+    Bookmarks: ${userBookmarks.length} courses
+  `;
+  
+  showNotification('Profile: ' + profileInfo, 'info');
+}
+
+// Save user notes
+async function saveUserNotes(notes) {
+  if (!currentUser) {
+    showNotification('Please log in to save notes', 'error');
+    return;
+  }
+  
+  try {
+    const userRef = window.doc(window.db, 'users', currentUser.uid);
+    await window.updateDoc(userRef, {
+      notes: notes
+    });
+    userNotes = notes;
+    showNotification('Notes saved successfully', 'success');
+  } catch (error) {
+    console.error('Error saving notes:', error);
+    showNotification('Error saving notes', 'error');
+  }
+}
+
+// Update user progress
+async function updateUserProgress(courseId, progress) {
   if (!currentUser) return;
   
   try {
-    userBookmarks = userBookmarks.filter(b => b.id !== courseId);
-    
-    if (firebase.firestore) {
-      const db = firebase.firestore();
-      await db.collection('users').doc(currentUser.uid).update({
-        bookmarks: userBookmarks
-      });
-    }
-    
-    showNotification('Bookmark removed!', 'success');
-    
+    const userRef = window.doc(window.db, 'users', currentUser.uid);
+    await window.updateDoc(userRef, {
+      [`progress.${courseId}`]: {
+        completed: progress.completed || false,
+        lastAccessed: new Date(),
+        timeSpent: progress.timeSpent || 0
+      }
+    });
   } catch (error) {
-    console.error('❌ Error removing bookmark:', error);
-    showNotification('Error removing bookmark', 'error');
+    console.error('Error updating progress:', error);
   }
 }
 
-// ===== UTILITY FUNCTIONS =====
-
-/**
- * Show notification (placeholder - implement your notification system)
- */
-function showNotification(message, type = 'info') {
-  console.log(`📢 ${type.toUpperCase()}: ${message}`);
-  
-  // Simple alert fallback - replace with your notification system
-  if (type === 'error') {
-    console.error(message);
-  }
-}
-
-/**
- * Get user-friendly error message
- */
+// Get user-friendly error message
 function getErrorMessage(error) {
   switch (error.code) {
     case 'auth/user-not-found':
@@ -376,64 +439,37 @@ function getErrorMessage(error) {
   }
 }
 
-// ===== MODAL FUNCTIONS (PLACEHOLDERS) =====
-
-/**
- * Show login modal
- */
-function showLoginModal() {
-  console.log('🔐 Login modal requested');
-  
-  // Simple prompt fallback - replace with your modal system
-  const email = prompt('Enter your email:');
-  if (email) {
-    const password = prompt('Enter your password:');
-    if (password) {
-      signIn(email, password);
-    }
-  }
+// Utility function to check if user is authenticated
+function isAuthenticated() {
+  return currentUser !== null;
 }
 
-/**
- * Show signup modal
- */
-function showSignupModal() {
-  console.log('📝 Signup modal requested');
-  
-  // Simple prompt fallback - replace with your modal system
-  const email = prompt('Enter your email:');
-  if (email) {
-    const password = prompt('Create a password (min 6 characters):');
-    if (password) {
-      const displayName = prompt('Enter your display name (optional):');
-      signUp(email, password, displayName);
-    }
-  }
-}
-
-// ===== INITIALIZATION =====
-
-// Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-  console.log('📄 DOM loaded, initializing auth...');
-  initializeAuth();
-});
-
-// Export functions for global use
-if (typeof window !== 'undefined') {
-  window.ImpactMojoAuth = {
-    signUp,
-    signIn,
-    signInWithGoogle,
-    signOut,
-    resetPassword,
-    addBookmark,
-    removeBookmark,
-    showLoginModal,
-    showSignupModal,
-    currentUser: () => currentUser,
-    userBookmarks: () => userBookmarks
+// Get current user data
+function getCurrentUserData() {
+  return {
+    user: currentUser,
+    bookmarks: userBookmarks,
+    notes: userNotes
   };
 }
 
-console.log('✅ Firebase auth module loaded successfully');
+// TARGETED FIX: Ensure auth buttons show on page load
+document.addEventListener('DOMContentLoaded', function() {
+  // Force show auth buttons if no user is logged in
+  setTimeout(() => {
+    if (!currentUser) {
+      const authButtons = document.getElementById('authButtons');
+      const userMenu = document.getElementById('userMenu');
+      
+      if (authButtons) {
+        authButtons.classList.remove('hidden');
+        authButtons.style.display = 'flex';
+      }
+      
+      if (userMenu) {
+        userMenu.classList.add('hidden');
+        userMenu.style.display = 'none';
+      }
+    }
+  }, 100); // Small delay to ensure Firebase auth state is checked
+});
