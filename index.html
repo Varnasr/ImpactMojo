@@ -20,45 +20,6 @@
   <!-- Main Styles -->
   <link rel="stylesheet" href="styles.css">
 
-  <!-- Firebase -->
-  <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-    import { getAuth, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, signInWithPopup, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-    import { getFirestore, doc, setDoc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyDnF0eJsTULzOJUnBskybd44dG5w-f46vE",
-      authDomain: "impactmojo.firebaseapp.com",
-      projectId: "impactmojo",
-      storageBucket: "impactmojo.firebasestorage.app",
-      messagingSenderId: "529198336589",
-      appId: "1:529198336589:web:1664b5344de5bfb31bea04",
-      measurementId: "G-ZHPPXXMRGV"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const provider = new GoogleAuthProvider();
-
-    // Make Firebase available globally
-    window.auth = auth;
-    window.db = db;
-    window.provider = provider;
-    window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
-    window.signInWithEmailAndPassword = signInWithEmailAndPassword;
-    window.signOut = signOut;
-    window.onAuthStateChanged = onAuthStateChanged;
-    window.signInWithPopup = signInWithPopup;
-    window.sendPasswordResetEmail = sendPasswordResetEmail;
-    window.doc = doc;
-    window.setDoc = setDoc;
-    window.getDoc = getDoc;
-    window.updateDoc = updateDoc;
-    window.arrayUnion = arrayUnion;
-    window.arrayRemove = arrayRemove;
-  </script>
-
   <!-- Structured Data -->
   <script type="application/ld+json">
   {
@@ -337,6 +298,30 @@
         </div>
       </div>
     </section>
+
+    <!-- ===== NEW: FEATURED CARD SECTION ===== -->
+    <section class="featured-content section">
+      <div class="container">
+        <div class="featured-card">
+          <div class="featured-icon">
+            <i class="fas fa-chess-king"></i>
+          </div>
+          <div class="featured-content-text">
+            <h3>Master the Real Middle Game</h3>
+            <p>Discover advanced strategies and tactics that separate good players from great ones. 
+               Dive deep into the critical phase where games are won and lost.</p>
+            <a href="https://101.www.impactmojo.in/theREALmiddlegame" 
+               class="featured-btn" 
+               target="_blank" 
+               rel="noopener">
+              <i class="fas fa-play-circle"></i>
+              Start Your Journey
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ===== END NEW SECTION ===== -->
 
     <!-- Latest Additions Section -->
     <section class="section latest-additions-section" id="latest">
@@ -970,11 +955,45 @@
           <i class="fas fa-balance-scale"></i>
         </button>
       </div>
-  <!-- JavaScript Files -->
-  <script src="simple-content-manager.js"></script>
+
+  <!-- ===== FIXED FIREBASE SCRIPT LOADING ORDER ===== -->
+  <!-- Firebase FIRST (these 3 must be first) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <!-- Firebase Configuration -->
+  <script>
+    // Firebase configuration and initialization
+    const firebaseConfig = {
+      apiKey: "AIzaSyDnF0eJsTULzOJUnBskybd44dG5w-f46vE",
+      authDomain: "impactmojo.firebaseapp.com",
+      projectId: "impactmojo",
+      storageBucket: "impactmojo.firebasestorage.app",
+      messagingSenderId: "529198336589",
+      appId: "1:529198336589:web:1664b5344de5bfb31bea04",
+      measurementId: "G-ZHPPXXMRGV"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    
+    // Make Firebase available globally
+    window.auth = firebase.auth();
+    window.db = firebase.firestore();
+    window.provider = new firebase.auth.GoogleAuthProvider();
+    
+    console.log('🔥 Firebase initialized successfully');
+  </script>
+
+  <!-- Your content files SECOND -->
   <script src="course-data.js"></script>
+  <script src="simple-content-manager.js"></script>
+
+  <!-- Your main files LAST -->
   <script src="firebase-auth.js"></script>
   <script src="main.js"></script>
+
       <script>
         // ===== SOCIAL SHARING FUNCTIONS =====
         const shareContent = {
