@@ -1591,3 +1591,120 @@ window.signInWithGoogle = signInWithGoogle;
 window.logout = logout;
 
 console.log('✅ Complete ImpactMojo Main JS with Firebase loaded successfully!');
+// ADD THIS CODE TO THE END OF YOUR EXISTING main.js
+// This ensures courses/labs display even if Firebase fails
+
+console.log('🔧 Adding course/lab display fallback...');
+
+// Force initialize courses and labs after data loads
+function forceInitializeCourses() {
+  console.log('🚀 Force initializing courses and labs...');
+  
+  // Check if data is available
+  if (window.courses && window.courses.length > 0) {
+    console.log(`📚 Found ${window.courses.length} courses, displaying...`);
+    
+    // Display popular courses
+    const popularContainer = document.getElementById('popularCoursesContainer');
+    if (popularContainer) {
+      const popularCourses = window.courses.slice(0, 6); // First 6 courses
+      popularContainer.innerHTML = popularCourses.map(course => createSimpleCourseCard(course)).join('');
+      console.log('✅ Popular courses displayed');
+    }
+    
+    // Display all courses
+    const coursesContainer = document.getElementById('coursesContainer');
+    if (coursesContainer) {
+      coursesContainer.innerHTML = window.courses.map(course => createSimpleCourseCard(course)).join('');
+      console.log('✅ All courses displayed');
+    }
+    
+    // Update stats
+    const totalElement = document.getElementById('totalCourses');
+    const filteredElement = document.getElementById('filteredCourses');
+    if (totalElement) totalElement.textContent = window.courses.length;
+    if (filteredElement) filteredElement.textContent = window.courses.length;
+  }
+  
+  // Display labs
+  if (window.labs && window.labs.length > 0) {
+    console.log(`🧪 Found ${window.labs.length} labs, displaying...`);
+    
+    const labsContainer = document.getElementById('labsContainer');
+    if (labsContainer) {
+      labsContainer.innerHTML = window.labs.map(lab => createSimpleLabCard(lab)).join('');
+      console.log('✅ Labs displayed');
+    }
+  }
+}
+
+// Simple course card creator (backup version)
+function createSimpleCourseCard(course) {
+  if (!course) return '';
+  
+  return `
+    <div class="course-card" style="background: white; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 1rem;">
+      <div style="background: rgba(99, 102, 241, 0.1); color: #6366f1; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.8rem; display: inline-block; margin-bottom: 1rem;">
+        ${course.category || 'Course'}
+      </div>
+      <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem; color: #1f2937; font-weight: 600;">
+        ${course.title || 'Untitled Course'}
+      </h3>
+      <p style="color: #6b7280; margin-bottom: 1rem; line-height: 1.5;">
+        ${course.description || 'No description available'}
+      </p>
+      <div style="display: flex; gap: 1rem; margin-bottom: 1rem; font-size: 0.9rem; color: #6b7280;">
+        <span><i class="fas fa-star"></i> ${course.rating || 4.5}</span>
+        <span><i class="fas fa-clock"></i> ${course.duration || 'Self-paced'}</span>
+        <span><i class="fas fa-signal"></i> ${course.difficulty || 'Beginner'}</span>
+      </div>
+      <button onclick="window.open('${course.url}', '_blank')" style="background: #6366f1; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 0.5rem; cursor: pointer; font-weight: 600;">
+        <i class="fas fa-play"></i> Launch Course
+      </button>
+    </div>
+  `;
+}
+
+// Simple lab card creator (backup version)
+function createSimpleLabCard(lab) {
+  if (!lab) return '';
+  
+  return `
+    <div class="lab-card" style="background: white; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 1rem;">
+      <div style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.8rem; display: inline-block; margin-bottom: 1rem;">
+        ${lab.category || 'Lab'}
+      </div>
+      <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem; color: #1f2937; font-weight: 600;">
+        ${lab.title || 'Untitled Lab'}
+      </h3>
+      <p style="color: #6b7280; margin-bottom: 1rem; line-height: 1.5;">
+        ${lab.description || 'Interactive lab experience'}
+      </p>
+      <div style="display: flex; gap: 1rem; margin-bottom: 1rem; font-size: 0.9rem; color: #6b7280;">
+        <span><i class="fas fa-star"></i> ${lab.rating || 4.5}</span>
+        <span><i class="fas fa-clock"></i> ${lab.duration || '20 min'}</span>
+        <span><i class="fas fa-signal"></i> ${lab.difficulty || 'Beginner'}</span>
+      </div>
+      <button onclick="window.open('${lab.url}', '_blank')" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 0.5rem; cursor: pointer; font-weight: 600;">
+        <i class="fas fa-flask"></i> Launch Lab
+      </button>
+    </div>
+  `;
+}
+
+// Try to initialize immediately
+setTimeout(forceInitializeCourses, 1000);
+
+// Also try when data loads
+window.addEventListener('dataLoaded', forceInitializeCourses);
+
+// Also try when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(forceInitializeCourses, 500);
+  });
+} else {
+  setTimeout(forceInitializeCourses, 500);
+}
+
+console.log('✅ Course/lab display fallback added');
