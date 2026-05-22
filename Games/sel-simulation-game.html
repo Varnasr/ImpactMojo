@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEL Simulation: Four Lenses on Social-Emotional Learning | ImpactMojo</title>
+<meta name="description" content="A four-mode simulation game on Social-Emotional Learning in Indian schools — play as teacher, program designer, evaluator, or student. Choices reveal evidence-based tradeoffs from NEP 2020, CASEL, and Indian SEL research.">
+<meta name="keywords" content="SEL, social emotional learning, simulation, India, NEP 2020, CASEL, teacher decisions, program design, evaluation, ImpactMojo">
+<link rel="canonical" href="https://www.impactmojo.in/Games/sel-simulation-game.html">
+<meta property="og:title" content="SEL Simulation: Four Lenses on Social-Emotional Learning">
+<meta property="og:description" content="A four-mode simulation game on SEL in Indian schools.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.impactmojo.in/Games/sel-simulation-game.html">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta name="twitter:card" content="summary_large_image">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0F172A;--bg2:#1E293B;--bg3:#334155;
+  --text:#F1F5F9;--text2:#CBD5E1;--text3:#94A3B8;
+  --pink:#EC4899;--pink-dim:#DB2777;--pink-glow:rgba(236,72,153,.35);
+  --teal:#2DD4BF;--teal-dim:#14B8A6;--teal-glow:rgba(45,212,191,.35);
+  --indigo:#6366F1;--indigo-glow:rgba(99,102,241,.35);
+  --amber:#F59E0B;--amber-glow:rgba(245,158,11,.3);
+  --green:#10B981;--green-glow:rgba(16,185,129,.3);
+  --red:#EF4444;--red-glow:rgba(239,68,68,.3);
+  --radius:14px;--transition:.3s ease;
+}
+[data-theme="light"]{
+  --bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#E2E8F0;
+  --text:#0F172A;--text2:#475569;--text3:#64748B;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{
+  font-family:'Amaranth','Segoe UI',-apple-system,sans-serif;
+  background:var(--bg);color:var(--text);
+  min-height:100vh;line-height:1.6;
+  background-image:radial-gradient(circle at 20% 30%,var(--pink-glow) 0%,transparent 40%),radial-gradient(circle at 80% 70%,var(--teal-glow) 0%,transparent 40%);
+  background-attachment:fixed;
+}
+button{cursor:pointer;font-family:inherit;border:none;outline:none;font-weight:600}
+a{color:var(--teal);text-decoration:none}
+a:hover{text-decoration:underline}
+h1,h2,h3,h4{font-family:'Inter',sans-serif;line-height:1.3}
+
+.app{max-width:920px;margin:0 auto;padding:20px 16px 60px}
+.screen{display:none;animation:fadeIn .5s ease}
+.screen.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:.85rem;color:var(--text3);margin-bottom:14px}
+.back-link:hover{color:var(--teal)}
+
+.welcome-header{text-align:center;padding:24px 0 8px}
+.welcome-header h1{
+  font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;
+  background:linear-gradient(135deg,var(--pink),var(--teal));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.welcome-header .subtitle{color:var(--text2);font-size:1.05rem;margin-top:8px;max-width:640px;margin-left:auto;margin-right:auto}
+
+.card{background:var(--bg2);border-radius:var(--radius);padding:22px 24px;margin-bottom:18px;border:1px solid var(--bg3);box-shadow:0 4px 18px rgba(0,0,0,.08)}
+.card h2{font-size:1.2rem;margin-bottom:10px;color:var(--text)}
+.card p,.card li{color:var(--text2);font-size:.97rem}
+.card ul{padding-left:20px;margin-top:6px}
+.card li{margin-bottom:5px}
+.h-pink{color:var(--pink);font-weight:700}
+.h-teal{color:var(--teal);font-weight:700}
+.h-indigo{color:var(--indigo);font-weight:700}
+.h-amber{color:var(--amber);font-weight:700}
+.h-green{color:var(--green);font-weight:700}
+.h-red{color:var(--red);font-weight:700}
+
+/* Mode picker */
+.modes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:18px}
+.mode-card{background:var(--bg2);border:2px solid var(--bg3);border-radius:var(--radius);padding:18px;cursor:pointer;transition:var(--transition);text-align:left}
+.mode-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.18)}
+.mode-card.teacher{border-left:5px solid var(--pink)}
+.mode-card.teacher:hover{border-color:var(--pink);box-shadow:0 8px 28px var(--pink-glow)}
+.mode-card.designer{border-left:5px solid var(--indigo)}
+.mode-card.designer:hover{border-color:var(--indigo);box-shadow:0 8px 28px var(--indigo-glow)}
+.mode-card.evaluator{border-left:5px solid var(--teal)}
+.mode-card.evaluator:hover{border-color:var(--teal);box-shadow:0 8px 28px var(--teal-glow)}
+.mode-card.student{border-left:5px solid var(--amber)}
+.mode-card.student:hover{border-color:var(--amber);box-shadow:0 8px 28px var(--amber-glow)}
+.mode-icon{font-size:2.2rem;margin-bottom:8px;display:block}
+.mode-title{font-size:1.1rem;font-weight:700;margin-bottom:6px}
+.mode-subtitle{font-size:.85rem;color:var(--text3);font-style:italic;margin-bottom:8px}
+.mode-desc{font-size:.9rem;color:var(--text2);line-height:1.55}
+.mode-meta{margin-top:10px;font-size:.78rem;color:var(--text3);display:flex;gap:12px;flex-wrap:wrap}
+.mode-meta span{display:inline-flex;align-items:center;gap:4px}
+
+/* Game UI */
+.top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.round-badge{background:var(--bg2);border:1px solid var(--bg3);border-radius:20px;padding:6px 16px;font-weight:700;font-size:.9rem}
+.progress-dots{display:flex;gap:6px;align-items:center}
+.progress-dot{width:10px;height:10px;border-radius:50%;background:var(--bg3);transition:var(--transition)}
+.progress-dot.done{background:var(--teal)}
+.progress-dot.current{background:var(--pink);box-shadow:0 0 10px var(--pink-glow)}
+
+.scores-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.score-card{background:var(--bg2);border-radius:10px;padding:10px 8px;text-align:center;border:1px solid var(--bg3)}
+.score-card .sc-name{font-size:.7rem;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.6px}
+.score-card .sc-score{font-size:1.4rem;font-weight:800;margin-top:3px;font-family:'Inter',sans-serif}
+.score-card.m1 .sc-score{color:var(--pink)}
+.score-card.m2 .sc-score{color:var(--teal)}
+.score-card.m3 .sc-score{color:var(--indigo)}
+.score-card.m4 .sc-score{color:var(--amber)}
+
+.scenario-card{background:var(--bg2);border-radius:var(--radius);padding:24px;margin-bottom:16px;border:1px solid var(--bg3);border-left:5px solid var(--pink)}
+.scenario-card.teacher{border-left-color:var(--pink)}
+.scenario-card.designer{border-left-color:var(--indigo)}
+.scenario-card.evaluator{border-left-color:var(--teal)}
+.scenario-card.student{border-left-color:var(--amber)}
+.scenario-icon{font-size:1.8rem;margin-bottom:8px;display:block}
+.scenario-title{font-size:1.15rem;font-weight:700;color:var(--text);margin-bottom:8px;font-family:'Inter',sans-serif}
+.scenario-context{font-size:.95rem;color:var(--text2);line-height:1.7}
+
+.choice-section{margin:16px 0}
+.choice-prompt{font-size:.95rem;color:var(--text2);margin-bottom:12px;text-align:center;font-weight:600}
+.choice-grid{display:flex;flex-direction:column;gap:10px}
+.btn-choice{
+  width:100%;padding:14px 18px;text-align:left;border-radius:var(--radius);
+  font-size:.92rem;font-weight:500;color:var(--text);background:var(--bg);
+  border:2px solid var(--bg3);transition:var(--transition);line-height:1.5;
+}
+.btn-choice:hover{border-color:var(--pink);background:rgba(236,72,153,.06);transform:translateX(4px)}
+.btn-choice:disabled{opacity:.4;cursor:not-allowed;transform:none!important}
+.btn-choice .ch-label{font-weight:700;color:var(--pink);display:block;margin-bottom:4px;font-size:.95rem}
+.designer .btn-choice:hover{border-color:var(--indigo);background:rgba(99,102,241,.06)}
+.designer .btn-choice .ch-label{color:var(--indigo)}
+.evaluator .btn-choice:hover{border-color:var(--teal);background:rgba(45,212,191,.08)}
+.evaluator .btn-choice .ch-label{color:var(--teal)}
+.student .btn-choice:hover{border-color:var(--amber);background:rgba(245,158,11,.08)}
+.student .btn-choice .ch-label{color:var(--amber)}
+
+.reveal-area{margin:16px 0;min-height:60px}
+.consequence-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.consequence-card{background:var(--bg2);border-radius:10px;padding:10px;text-align:center;border:2px solid var(--bg3);opacity:0;transform:scale(0.85);transition:var(--transition)}
+.consequence-card.shown{opacity:1;transform:scale(1)}
+.consequence-card .cq-name{font-size:.7rem;color:var(--text3);font-weight:600;text-transform:uppercase}
+.consequence-card .cq-change{font-size:1.2rem;font-weight:800;margin:4px 0;font-family:'Inter',sans-serif}
+.consequence-card .cq-change.positive{color:var(--green)}
+.consequence-card .cq-change.negative{color:var(--red)}
+.consequence-card .cq-change.neutral{color:var(--amber)}
+
+.round-insight{background:var(--bg2);border-radius:10px;padding:14px 18px;margin-top:14px;border-left:4px solid var(--teal);font-size:.9rem;color:var(--text2);opacity:0;transition:opacity .5s;line-height:1.65}
+.round-insight.visible{opacity:1}
+.round-insight strong{color:var(--text)}
+.round-insight .evidence-tag{display:inline-block;background:rgba(45,212,191,.15);color:var(--teal);padding:2px 8px;border-radius:6px;font-size:.72rem;font-weight:700;margin-right:6px;text-transform:uppercase;letter-spacing:.5px}
+
+.btn-next{display:block;width:100%;padding:14px;margin-top:16px;font-size:1rem;font-weight:700;color:#fff;border-radius:var(--radius);background:var(--bg3);transition:var(--transition)}
+.btn-next:hover{background:var(--teal)}
+.btn-start{display:block;width:100%;padding:14px;margin-top:18px;font-size:1.05rem;font-weight:700;color:#fff;border-radius:var(--radius);background:linear-gradient(135deg,var(--pink),var(--teal));transition:var(--transition);box-shadow:0 4px 20px var(--pink-glow)}
+.btn-start:hover{transform:translateY(-2px);box-shadow:0 6px 28px var(--pink-glow)}
+
+/* End screen */
+.end-card{background:var(--bg2);border-radius:var(--radius);padding:28px;margin-bottom:18px;border:1px solid var(--bg3);text-align:center}
+.end-card h2{font-size:1.6rem;background:linear-gradient(135deg,var(--pink),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:10px}
+.end-archetype{font-size:1.05rem;color:var(--text);margin:10px 0;padding:12px;background:rgba(45,212,191,.08);border-radius:8px;border-left:3px solid var(--teal)}
+.end-archetype strong{color:var(--teal)}
+
+.bar-chart{display:flex;align-items:flex-end;gap:12px;height:140px;margin:18px 0;padding:0 20px}
+.bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px}
+.bar{width:100%;max-width:60px;border-radius:8px 8px 0 0;transition:height .8s cubic-bezier(.4,0,.2,1);min-height:6px}
+.bar.b1{background:linear-gradient(180deg,var(--pink),var(--pink-dim))}
+.bar.b2{background:linear-gradient(180deg,var(--teal),var(--teal-dim))}
+.bar.b3{background:linear-gradient(180deg,var(--indigo),#4F46E5)}
+.bar.b4{background:linear-gradient(180deg,var(--amber),#D97706)}
+.bar-label{font-size:.75rem;color:var(--text3);font-weight:600;text-align:center}
+.bar-value{font-size:1rem;font-weight:800;color:var(--text);font-family:'Inter',sans-serif}
+
+.action-row{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.action-row .btn-action{flex:1;min-width:140px;padding:12px;background:var(--bg);border:2px solid var(--bg3);color:var(--text);border-radius:10px;transition:var(--transition);font-size:.9rem}
+.action-row .btn-action:hover{border-color:var(--teal);background:rgba(45,212,191,.06)}
+
+.evidence-note{font-size:.78rem;color:var(--text3);font-style:italic;margin-top:8px;padding-top:8px;border-top:1px dashed var(--bg3)}
+
+/* Warli illustration */
+.warli-art{display:flex;justify-content:center;padding:20px 0}
+.warli-art svg{width:100%;max-width:520px;height:auto;filter:drop-shadow(0 4px 18px var(--pink-glow))}
+
+@media (max-width:640px){
+  .scores-row{grid-template-columns:repeat(2,1fr)}
+  .consequence-grid{grid-template-columns:repeat(2,1fr)}
+  .modes-grid{grid-template-columns:1fr}
+  .bar-chart{padding:0 10px;gap:8px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<a href="/Games/" class="back-link">← All Games</a>
+
+<!-- WELCOME -->
+<div class="screen active" id="welcome">
+  <div class="welcome-header">
+    <h1>SEL Simulation: Four Lenses</h1>
+    <p class="subtitle">Step into Social-Emotional Learning from four sides. The same school. Different chairs. Different choices. Different consequences.</p>
+  </div>
+
+  <div class="warli-art">
+    <svg viewBox="0 0 520 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <!-- Warli-inspired figures in a circle representing community/classroom -->
+      <g stroke="#EC4899" stroke-width="2.2" fill="none" stroke-linecap="round">
+        <!-- Sun -->
+        <circle cx="260" cy="40" r="14" stroke="#F59E0B" fill="rgba(245,158,11,0.15)"/>
+        <g stroke="#F59E0B">
+          <line x1="260" y1="14" x2="260" y2="6"/>
+          <line x1="260" y1="74" x2="260" y2="66" stroke-opacity="0"/>
+          <line x1="234" y1="40" x2="226" y2="40"/>
+          <line x1="294" y1="40" x2="286" y2="40"/>
+          <line x1="240" y1="20" x2="234" y2="14"/>
+          <line x1="280" y1="20" x2="286" y2="14"/>
+        </g>
+        <!-- Teacher figure (center, larger) -->
+        <g transform="translate(260,110)">
+          <circle r="9" stroke="#EC4899" fill="rgba(236,72,153,0.15)"/>
+          <line x1="0" y1="9" x2="0" y2="40"/>
+          <line x1="0" y1="18" x2="-14" y2="28"/>
+          <line x1="0" y1="18" x2="14" y2="28"/>
+          <line x1="0" y1="40" x2="-10" y2="62"/>
+          <line x1="0" y1="40" x2="10" y2="62"/>
+        </g>
+        <!-- Student figures (small, surrounding) -->
+        <g stroke="#2DD4BF">
+          <g transform="translate(180,140)"><circle r="6" fill="rgba(45,212,191,0.15)"/><line x1="0" y1="6" x2="0" y2="26"/><line x1="0" y1="12" x2="-8" y2="20"/><line x1="0" y1="12" x2="8" y2="20"/><line x1="0" y1="26" x2="-6" y2="40"/><line x1="0" y1="26" x2="6" y2="40"/></g>
+          <g transform="translate(220,150)"><circle r="6" fill="rgba(45,212,191,0.15)"/><line x1="0" y1="6" x2="0" y2="26"/><line x1="0" y1="12" x2="-8" y2="20"/><line x1="0" y1="12" x2="8" y2="20"/><line x1="0" y1="26" x2="-6" y2="40"/><line x1="0" y1="26" x2="6" y2="40"/></g>
+          <g transform="translate(300,150)"><circle r="6" fill="rgba(45,212,191,0.15)"/><line x1="0" y1="6" x2="0" y2="26"/><line x1="0" y1="12" x2="-8" y2="20"/><line x1="0" y1="12" x2="8" y2="20"/><line x1="0" y1="26" x2="-6" y2="40"/><line x1="0" y1="26" x2="6" y2="40"/></g>
+          <g transform="translate(340,140)"><circle r="6" fill="rgba(45,212,191,0.15)"/><line x1="0" y1="6" x2="0" y2="26"/><line x1="0" y1="12" x2="-8" y2="20"/><line x1="0" y1="12" x2="8" y2="20"/><line x1="0" y1="26" x2="-6" y2="40"/><line x1="0" y1="26" x2="6" y2="40"/></g>
+        </g>
+        <!-- Ground line -->
+        <line x1="60" y1="190" x2="460" y2="190" stroke="#94A3B8" stroke-width="1.5"/>
+        <!-- Sapling -->
+        <g transform="translate(100,170)" stroke="#10B981">
+          <line x1="0" y1="20" x2="0" y2="0"/>
+          <path d="M0,8 Q-10,2 -14,-6" fill="none"/>
+          <path d="M0,8 Q10,2 14,-6" fill="none"/>
+        </g>
+        <g transform="translate(420,170)" stroke="#10B981">
+          <line x1="0" y1="20" x2="0" y2="0"/>
+          <path d="M0,8 Q-10,2 -14,-6" fill="none"/>
+          <path d="M0,8 Q10,2 14,-6" fill="none"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <div class="card">
+    <h2>What is this game?</h2>
+    <p>A simulation built around real evidence from <strong>NEP 2020</strong>, <strong>CASEL's five-competency framework</strong>, India's life-skills tradition, and twenty years of school-based SEL trials (TaRL, Sangati, Dost, Educational Initiatives' work). You'll make decisions across <span class="h-pink">four roles</span> — each reveals what works, what doesn't, and <em>why</em> the field still argues about it.</p>
+    <ul>
+      <li><span class="h-pink">Teacher</span> — a child withdraws. A parent pushes back. You decide.</li>
+      <li><span class="h-indigo">Program Designer</span> — you have ₹40 lakh and one academic year. What do you build?</li>
+      <li><span class="h-teal">Evaluator</span> — the NGO needs an impact study. What design can actually tell you?</li>
+      <li><span class="h-amber">Student</span> — a Class 7 child navigating school, family, and self. What strategies stick?</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>How scoring works</h2>
+    <p>Each mode tracks four outcomes — they trade against each other. There's no perfect score. The point is to feel the tradeoffs the evidence shows, and to leave with a clearer sense of <span class="h-teal">what your priorities are</span>.</p>
+  </div>
+
+  <button class="btn-start" onclick="goToModes()">Choose a Mode →</button>
+</div>
+
+<!-- MODE PICKER -->
+<div class="screen" id="modes">
+  <div class="welcome-header">
+    <h1>Pick a Lens</h1>
+    <p class="subtitle">Each mode takes 6–8 minutes. You can replay any mode to try a different approach.</p>
+  </div>
+
+  <div class="modes-grid">
+    <button class="mode-card teacher" onclick="startMode('teacher')">
+      <span class="mode-icon">🧑‍🏫</span>
+      <div class="mode-title">Teacher: Classroom Decisions</div>
+      <div class="mode-subtitle">Six dilemmas. Real children. Hard tradeoffs.</div>
+      <p class="mode-desc">A Class 6 in a government school. A withdrawn child, a fight between students, a parent who thinks SEL is "soft," a high-stakes exam week. Your choices show what happens to learning, wellbeing, equity, and trust.</p>
+      <div class="mode-meta"><span>🎯 6 rounds</span><span>⏱ ~7 min</span></div>
+    </button>
+
+    <button class="mode-card designer" onclick="startMode('designer')">
+      <span class="mode-icon">🏗️</span>
+      <div class="mode-title">Program Designer: ₹40 Lakh</div>
+      <div class="mode-subtitle">One year. 12 schools. Limited budget.</div>
+      <p class="mode-desc">You're designing an SEL program for a district. Curriculum, teacher training, measurement, parent engagement — every rupee allocated to one is a rupee not spent on another. The post-trial review shows what the evidence base actually predicts.</p>
+      <div class="mode-meta"><span>🎯 6 budget rounds</span><span>⏱ ~8 min</span></div>
+    </button>
+
+    <button class="mode-card evaluator" onclick="startMode('evaluator')">
+      <span class="mode-icon">📐</span>
+      <div class="mode-title">Evaluator: What Can You Know?</div>
+      <div class="mode-subtitle">A small NGO. A big claim. Your job: test it.</div>
+      <p class="mode-desc">The NGO wants to prove SEL improves attendance, learning, and mental health. You pick the design — RCT, quasi-experimental, mixed-methods, developmental. The game shows what each design can and cannot tell you about cause, mechanism, and transfer.</p>
+      <div class="mode-meta"><span>🎯 6 design choices</span><span>⏱ ~7 min</span></div>
+    </button>
+
+    <button class="mode-card student" onclick="startMode('student')">
+      <span class="mode-icon">🌱</span>
+      <div class="mode-title">Student: A Year in Class 7</div>
+      <div class="mode-subtitle">Anika, 12. Migrant family. Hindi-medium school.</div>
+      <p class="mode-desc">You play Anika across a school year — a friendship that breaks, an unfair teacher, an exam panic, a parent who doesn't speak the school's language. Strategies build the five CASEL competencies — or don't. See how childhood SEL is shaped less by curriculum than by daily moments.</p>
+      <div class="mode-meta"><span>🎯 6 episodes</span><span>⏱ ~6 min</span></div>
+    </button>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <h2>Why four modes?</h2>
+    <p>SEL in India has been written about almost entirely from one chair at a time — either teacher voice, or NGO design, or evaluation methods, or child experience. Sitting in all four reveals where they pull together (when a teacher's care matches a child's experience) and where they pull apart (when an evaluator finds "no effect" on a measure a child considers irrelevant).</p>
+    <p class="evidence-note">Built drawing on <strong>NEP 2020</strong>, <strong>CASEL</strong>, <strong>WHO Life Skills (1997 framework, still in use)</strong>, Pratham/ASER teacher studies, Educational Initiatives' Sangati program, Dost Education's audio program, and Indian SEL evaluations published 2015–2024.</p>
+  </div>
+</div>
+
+<!-- GAME SCREEN -->
+<div class="screen" id="game">
+  <a href="#" class="back-link" onclick="goToModes();return false;">← Switch mode</a>
+  <div class="top-bar">
+    <div class="round-badge" id="roundBadge">Round 1 of 6</div>
+    <div class="progress-dots" id="progressDots"></div>
+  </div>
+
+  <div class="scores-row" id="scoresRow"></div>
+
+  <div class="scenario-card" id="scenarioCard">
+    <span class="scenario-icon" id="scenarioIcon"></span>
+    <h2 class="scenario-title" id="scenarioTitle"></h2>
+    <p class="scenario-context" id="scenarioContext"></p>
+  </div>
+
+  <div class="choice-section">
+    <p class="choice-prompt" id="choicePrompt">What do you do?</p>
+    <div class="choice-grid" id="choiceGrid"></div>
+  </div>
+
+  <div class="reveal-area" id="revealArea"></div>
+</div>
+
+<!-- END SCREEN -->
+<div class="screen" id="end">
+  <div class="end-card">
+    <h2 id="endTitle">Year complete</h2>
+    <p id="endSubtitle" style="color:var(--text2);margin-bottom:12px"></p>
+    <div class="bar-chart" id="finalChart"></div>
+    <div class="end-archetype" id="endArchetype"></div>
+    <p id="endReflection" style="color:var(--text2);font-size:.95rem;margin-top:14px;line-height:1.7"></p>
+  </div>
+
+  <div class="card">
+    <h2>What the evidence shows</h2>
+    <div id="endEvidence" style="color:var(--text2);font-size:.93rem;line-height:1.75"></div>
+  </div>
+
+  <div class="action-row">
+    <button class="btn-action" onclick="goToModes()">Try another mode</button>
+    <button class="btn-action" onclick="restartCurrent()">Replay this mode</button>
+    <button class="btn-action" onclick="location.href='/courses/SEL/'">SEL Course →</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────
+// SEL Simulation Game — 4 modes, evidence-grounded scenarios
+// ─────────────────────────────────────────────────────────────
+
+const MODES = {
+  teacher: {
+    label: 'Teacher',
+    scoreLabels: ['Learning','Wellbeing','Equity','Trust'],
+    startScores: [50,50,50,50],
+    rounds: [
+      {
+        icon:'😔', title:'The child who stopped talking',
+        context:'It is week 3. Rohan, 11, used to answer first. For five days he has not spoken once, not even at recess. His marks have not slipped. No teacher has flagged him. You notice during silent reading.',
+        choices:[
+          {label:'A) Call him out gently in class','sub':'Ask him a question warmly to show you see him.','impact':[+2,-4,-1,-3],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Public calling-out often backfires for withdrawn children.</strong> CASEL practice guides and Indian classroom studies (NCERT 2019) consistently find that children in early withdrawal need <em>private acknowledgment</em> first. Public attention can deepen shutdown.'},
+          {label:'B) Speak to him alone after class','sub':'Stay back five minutes; ask how things are at home.','impact':[+1,+6,+2,+5],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Private one-to-one contact is the highest-leverage SEL move available to teachers.</strong> Pratham\'s teacher-mentoring studies and the SCERT Maharashtra well-being module both identify a "trusted adult" as the single strongest protective factor for early adolescent mental health.'},
+          {label:'C) Tell the headmaster, request a counsellor','sub':'Refer up the chain — this needs a professional.','impact':[0,+1,0,-2],
+            insight:'<span class="evidence-tag">Evidence</span><strong>India has one school counsellor per ~3,000 students (NIMHANS, 2022).</strong> Referral is rarely available at scale. The teacher remains the de facto first responder. Referral without parallel engagement signals to the child that adults outsource caring.'},
+          {label:'D) Wait and watch — give him space','sub':'Children go quiet sometimes. Don\'t force it.','impact':[0,-3,-1,0],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Watchful waiting is fine for 2–3 days; not for two weeks.</strong> Adolescent mental-health screening tools (mhGAP, PHQ-A adapted for India) treat >7 days of marked behaviour change as a flag, not a phase.'}
+        ]
+      },
+      {
+        icon:'💢', title:'The fight at lunch',
+        context:'Two boys, both Class 6, both your students. Arman pushed Vikram. Vikram fell. Both are now in your room with the head teacher. Arman is from a Muslim family in a school where 90% of children are Hindu. Vikram\'s family is a major school donor.',
+        choices:[
+          {label:'A) Punish both equally','sub':'Same detention. Stay neutral. Don\'t take sides.','impact':[-2,-4,-6,-3],
+            insight:'<span class="evidence-tag">Evidence</span><strong>"Equal punishment" treats unequal contexts as equivalent — and children read this instantly.</strong> Studies on classroom climate (Banaji & Burman 2019; APU India) find that procedural fairness <em>without</em> attention to power and identity erodes minority children\'s trust faster than overt bias.'},
+          {label:'B) Use restorative dialogue','sub':'Both boys speak. Both listen. Repair is the goal.','impact':[+2,+6,+5,+6],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Restorative practice has the strongest evidence base of any school discipline alternative.</strong> Indian implementations (Riverside School Ahmedabad, Sanjeevini Bangalore) show 50–70% drops in repeat incidents. Time-intensive — but the alternative is repeating the same incident in a year.'},
+          {label:'C) Send Arman home; warn Vikram','sub':'He started it. Hold him accountable.','impact':[-1,-6,-8,-5],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Asymmetric punishment of minority students is the single best-documented mechanism of school disengagement in India.</strong> See: 2017 NCAER analysis of Muslim school dropout, which traces it less to poverty than to perceived teacher unfairness.'},
+          {label:'D) Investigate first; talk to witnesses','sub':'Don\'t act till you know the full picture.','impact':[+1,+1,+2,+3],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Procedural care matters — but speed matters too.</strong> Investigation is the right instinct only if it leads back to restorative action. If it ends in "we couldn\'t determine fault," both children lose.'}
+        ]
+      },
+      {
+        icon:'📞', title:'The parent who thinks SEL is "wasted time"',
+        context:'Rohan\'s father comes to school. "Why is my son drawing feelings instead of doing maths? This soft-skill nonsense — my child needs marks, not therapy." He is angry, polite, and not entirely wrong about the pressure.',
+        choices:[
+          {label:'A) Defend SEL — show him the research','sub':'Pull out the NEP 2020 page. Cite CASEL. Be firm.','impact':[0,-1,-2,-4],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Citing global research to a parent who is worried about board marks rarely lands.</strong> Indian parent-engagement studies (Akanksha Foundation, Teach For India) find that what works is making the SEL → academic connection <em>concrete</em>: "When Rohan can name what he\'s feeling, he loses 30 fewer minutes a week to upset. That\'s 20 extra hours of study a year."'},
+          {label:'B) Acknowledge the pressure; show the link','sub':'"You\'re right that marks matter. Here\'s how this helps."','impact':[+2,+3,+3,+6],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Validation before persuasion is consistently the highest-yield parent-engagement strategy in Indian school research.</strong> The father\'s concern is real. Treating it as ignorance loses him; treating it as legitimate buys you a year of partnership.'},
+          {label:'C) Compromise: less SEL, more drilling','sub':'Adjust the class plan. He\'s the customer.','impact':[-3,-4,-3,+1],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Caving to one parent\'s framing on every issue means abandoning the curriculum.</strong> SEL effect sizes in CASEL meta-analyses (Durlak 2011, updated 2023) require 50–70 hours per year sustained to show academic effects. Drop below that and you lose both — SEL <em>and</em> the academic gains it produces.'},
+          {label:'D) Invite him to observe a class','sub':'"Come watch on Friday. Then we talk."','impact':[+3,+4,+4,+7],
+            insight:'<span class="evidence-tag">Evidence</span><strong>The single best counter to abstract SEL skepticism is a 40-minute live observation.</strong> When parents see SEL in practice — children calming a peer, naming a problem, planning a response — the "wasted time" frame typically collapses without argument.'}
+        ]
+      },
+      {
+        icon:'📚', title:'Exam week — the system bears down',
+        context:'Board prep starts Monday. Headmaster sends a circular: "All co-curricular activities — including SEL period — suspended till exams." Your Class 6 has not done SEL for three weeks already. Two children have been visibly more anxious. You have one period.',
+        choices:[
+          {label:'A) Comply. Use the period for revision.','sub':'Pick your battles. The exam matters most.','impact':[+2,-5,-2,-1],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Exam-season SEL suspension is the most common implementation failure of school SEL programs.</strong> Indian and global evidence (Belfield 2015 economic-of-SEL review): the period before exams is when SEL is most needed and most cut. Anxiety-management skills compound — three weeks off can erase a term of gains.'},
+          {label:'B) Defy quietly — run SEL anyway','sub':'Close the door. Teach what they need.','impact':[+3,+5,+3,-3],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Quiet defiance preserves the children at the cost of institutional trust.</strong> Sometimes the right call, especially with a hostile headmaster — but unsustainable. Without the institution, your class gains die when you leave.'},
+          {label:'C) Negotiate: 15-min anxiety check, then revision','sub':'Compromise that holds the principle.','impact':[+4,+4,+3,+4],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Hybrid micro-SEL integrated into academic time has growing evidence as a sustainable middle path.</strong> Dost Education\'s short audio nudges and Sangati\'s 10-minute "well-being morning meetings" both report effect sizes within 30% of full-period programs at a fifth of the time cost.'},
+          {label:'D) Send a letter up — make it visible','sub':'Document the harm. Build the case institutionally.','impact':[+1,0,+2,+3],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Institutional change requires a paper trail.</strong> Single letters rarely shift policy alone, but they accumulate, and they protect you if the SEL period is ever fully cut. Best paired with options B or C, not used alone.'}
+        ]
+      },
+      {
+        icon:'🎒', title:'The new girl from the migrant family',
+        context:'Mid-term, Anika joins. Father works construction; family moved from rural Bihar. She speaks halting Hindi (her first language is Bhojpuri), no English. Class 6 has already formed friend groups. Three girls have begun mimicking her accent.',
+        choices:[
+          {label:'A) Pair her with the top student as buddy','sub':'Smart kid will catch her up academically.','impact':[+1,-1,-1,0],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Academic buddying without SEL framing tends to entrench social hierarchy.</strong> The "top student" already has high status; the "weak student" is positioned as someone to be helped, not befriended. Indian peer-learning studies (Banerji & Walton 2020) consistently flag this.'},
+          {label:'B) Class restorative on accent-mocking','sub':'Surface it. Talk about language and belonging.','impact':[+2,+5,+7,+5],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Naming exclusion explicitly — without shaming individuals — is one of the most effective classroom-level SEL interventions.</strong> Aligned with CASEL\'s social-awareness competency and well-documented in Indian "circle time" implementations. Best when followed up across multiple sessions, not done once.'},
+          {label:'C) Quiet pairing with a kind, mid-tier child','sub':'Find Anika a friend, not a tutor.','impact':[+1,+4,+3,+3],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Friend-pairing (vs. tutor-pairing) consistently shows better wellbeing outcomes for the new child.</strong> Lower academic boost short-term, but academic gains follow once the child feels safe — and the friendship is more likely to outlast the pairing.'},
+          {label:'D) Speak to the three girls privately','sub':'Address the mocking directly with them.','impact':[+1,+2,+4,+2],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Private intervention with the perpetrators works — but only addresses the symptom.</strong> Without a class-level conversation (option B), the next migrant child faces the same dynamic. Pair the two for highest yield.'}
+        ]
+      },
+      {
+        icon:'🌧️', title:'The school year ends',
+        context:'It is May. Final week. The exam results are mixed — your class did marginally better than last year on board prep, slightly worse than the class next door (which had no SEL period). The headmaster asks: "Was it worth it?"',
+        choices:[
+          {label:'A) Cite the marginal gain — claim the win','sub':'"Yes — see, we did slightly better than last year."','impact':[+1,0,0,+1],
+            insight:'<span class="evidence-tag">Evidence</span><strong>SEL effects on academic performance are real but small in one year and large over 3–5.</strong> Durlak\'s meta-analysis shows ~11 percentile-point gains, but these compound. Year-one claims are usually weaker than the cumulative case. Honest framing here protects credibility later.'},
+          {label:'B) Be honest about year-1 limits','sub':'"Honestly — too early to tell. Ask me in 2027."','impact':[+2,+2,+2,+5],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Honest framing is the highest-trust move — and trust is the resource SEL programs survive on.</strong> The headmaster does not need a sales pitch; he needs to know whether you can be relied on to tell the truth. Long-run, this is what protects the program.'},
+          {label:'C) Show the qualitative shifts','sub':'Rohan talks again. The fight didn\'t repeat. Anika has friends.','impact':[+2,+4,+3,+4],
+            insight:'<span class="evidence-tag">Evidence</span><strong>The most defensible SEL claims are at the individual-trajectory level, not the class-average level.</strong> Cross-classroom comparisons are confounded by everything (teacher, class composition, parent pressure). Individual case-narratives, documented honestly, are how implementing organisations have actually built the field\'s evidence base.'},
+          {label:'D) Quote the research — make the institutional case','sub':'CASEL, NEP 2020, Indian studies.','impact':[+1,0,+2,+2],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Research citations help institutional buy-in, but rarely sway a skeptical headmaster on their own.</strong> Best combined with options B and C — honest limits + concrete child-level evidence + research backing.'}
+        ]
+      }
+    ],
+    archetypes:[
+      {name:'The Trusted Anchor', test:s=>s[3]>=65 && s[1]>=60, text:'You prioritised wellbeing and trust over short-term wins. Children, parents, and the institution all came to rely on you. This is the SEL teaching style with the strongest long-term evidence — and the one most likely to burn out without institutional support.'},
+      {name:'The Honest Reformer', test:s=>s[2]>=60 && s[3]>=55, text:'You named hard things — accent-mocking, asymmetric discipline, fragile coalitions — and bore the cost when needed. This is the rarer SEL practice that actually shifts school cultures, but it requires both nerve and allies.'},
+      {name:'The Compliant Caretaker', test:s=>s[0]>=55 && s[1]<55, text:'You held the line on academics and kept the institution happy. The children moved through your class without major harm — but the SEL gains were modest. The system absorbed your care without changing.'},
+      {name:'The Burnout Risk', test:s=>s[1]<45 || s[3]<45, text:'You took on too much yourself, or compromised too often. Either path leads to the same place: exhausted teachers and inconsistent practice. SEL at scale requires institutional infrastructure, not heroic individuals.'},
+      {name:'The Balanced Practitioner', test:s=>true, text:'You held competing demands in tension — academic, emotional, institutional, equity. This is what most strong SEL teachers actually look like: thoughtful, imperfect, and visibly trying. The research suggests this is what children actually need.'}
+    ],
+    endEvidence:`
+      <p><strong>What the SEL teacher-evidence base actually shows (India, 2015–2024):</strong></p>
+      <ul style="padding-left:20px;margin-top:6px">
+        <li><strong>Sustained 50–70 hour/year SEL programs</strong> show small but real academic gains (Durlak 2011; replicated in Indian Sangati pilots).</li>
+        <li><strong>Restorative practice</strong> shows the largest effect sizes for behavior outcomes — but is the hardest to scale.</li>
+        <li><strong>"Trusted adult" relationships</strong> are the single most replicated protective factor for adolescent mental health in India.</li>
+        <li><strong>Implementation fidelity matters more than program brand</strong> — Sangati, Dost, Nirantar, and government NEP 2020 implementations all show effects when delivered as designed, and none when not.</li>
+        <li><strong>The hardest part is not curriculum — it is sustaining teacher capacity over years.</strong></li>
+      </ul>
+      <p style="margin-top:10px">Continue: <a href="/courses/SEL/">SEL flagship course</a> · <a href="/DeepDives/sel-evaluation-india.html">SEL Evaluation in India deep dive</a></p>
+    `
+  },
+
+  designer: {
+    label: 'Designer',
+    scoreLabels: ['Reach','Quality','Sustainability','Evidence'],
+    startScores: [0,0,0,0],
+    rounds: [
+      {
+        icon:'💰', title:'Year 1 budget: ₹40 lakh, 12 schools',
+        context:'The state government has offered to co-fund SEL in 12 government schools (~3,000 children). You have ₹40 lakh from a foundation and one school year. First call: how to split the budget.',
+        choices:[
+          {label:'A) Heavy on curriculum (₹20L) + light training','sub':'Buy/adapt a known curriculum. Quick teacher orientation.','impact':[+8,+3,-3,+2],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Curriculum-heavy, training-light is the most common SEL implementation pattern — and the one with the weakest evidence.</strong> Durlak\'s SAFE criteria show that without sustained training, implementation fidelity drops to ~30%, and effect sizes collapse. You will reach 3,000 children on paper and ~900 in practice.'},
+          {label:'B) Heavy on teacher training (₹20L) + thin curriculum','sub':'Train teachers deeply. Let them co-create content.','impact':[+3,+8,+6,+5],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Training-heavy is the highest-evidence allocation.</strong> Indian SEL implementations that invest >40% of budget in teacher capability (Sangati, Apni Shala, Dost) consistently outperform curriculum-heavy ones. Tradeoff: lower visibility, slower scale.'},
+          {label:'C) Balanced split — 25/25/25/25','sub':'Curriculum, training, measurement, parents.','impact':[+5,+5,+4,+5],
+            insight:'<span class="evidence-tag">Evidence</span><strong>"Balanced" sounds prudent and often fails.</strong> Programs that try to do everything moderately tend to do everything below the threshold for effect. The Durlak meta-analysis is clear: dosage matters within each component. Better to do two things well than four things half-way.'},
+          {label:'D) Most into M&E (₹15L) — prove it works','sub':'Strong evaluation makes the case for year 2.','impact':[+2,+1,+2,+9],
+            insight:'<span class="evidence-tag">Evidence</span><strong>M&E-heavy designs measure programs that don\'t exist yet.</strong> You will have a beautiful baseline and very little to baseline against. M&E budgets typically follow program budgets, not vice versa. Exception: if the funder requires it for renewal — in which case factor it in honestly.'}
+        ]
+      },
+      {
+        icon:'📘', title:'Build, buy, or adapt curriculum?',
+        context:'Three options on the table: build from scratch (12 months), license CASEL-aligned global curriculum (immediate, ~₹4L), or adapt the SCERT well-being modules already approved by the state (free, lower quality, government-aligned).',
+        choices:[
+          {label:'A) Build from scratch — contextual','sub':'Hire 2 writers. 12 months. Bespoke for your kids.','impact':[-3,+5,-2,+1],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Building from scratch is the single most overconfident decision NGOs make on SEL.</strong> The field has 30 years of curriculum. Reinventing it usually means worse outcomes for the first 3 years. Build only if you have a clear context-specific gap (caste, conflict, displacement) that existing curricula miss.'},
+          {label:'B) License a global curriculum (CASEL-aligned)','sub':'Yale RULER, Second Step India, or similar.','impact':[+6,+4,-2,+3],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Licensed global curricula get you to "good enough" fast — but face context-fit issues.</strong> CASEL-aligned programs translated for India (Apni Shala, Mind Matters) report 60–70% of effects of US implementations. Tradeoff: dependence on the licensor for updates and training quality.'},
+          {label:'C) Adapt SCERT-approved state material','sub':'Already government-aligned; cheaper; lower quality.','impact':[+5,+2,+8,+3],
+            insight:'<span class="evidence-tag">Evidence</span><strong>State-aligned material is the strongest sustainability bet by far.</strong> When the government already owns the curriculum, your program can survive funder changes, leadership turnover, and political shifts. NEP 2020 explicitly references SEL — leverage this. Tradeoff: lower starting quality, requires sustained upgrading.'},
+          {label:'D) Hybrid — buy + adapt + supplement','sub':'License + adapt SCERT + custom modules for gaps.','impact':[+4,+6,+3,+4],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Hybrid is what most strong Indian SEL programs converge on by year 3 — but rarely is the right year-1 starting point.</strong> The complexity is hard to manage with a small team. Start simpler, hybridise as you learn.'}
+        ]
+      },
+      {
+        icon:'👩‍🏫', title:'Who delivers SEL? The teacher question.',
+        context:'Three delivery models being considered: (1) train existing class teachers to deliver SEL during a dedicated period, (2) hire external SEL facilitators who rotate across schools, (3) train one teacher per school as "SEL champion."',
+        choices:[
+          {label:'A) Train ALL class teachers','sub':'Deep training for ~40 teachers across 12 schools.','impact':[+5,+7,+8,+5],
+            insight:'<span class="evidence-tag">Evidence</span><strong>The whole-school model has the strongest sustainability evidence.</strong> When SEL is everyone\'s job, it survives transfers and budget cuts. Tradeoff: massive year-1 training cost, slower visible results. India\'s Happiness Curriculum in Delhi government schools used this model.'},
+          {label:'B) Hire external facilitators','sub':'4 facilitators, each covers 3 schools weekly.','impact':[+7,+6,-4,+5],
+            insight:'<span class="evidence-tag">Evidence</span><strong>External facilitators give the strongest short-term quality and the worst sustainability.</strong> When the NGO leaves, the program leaves. Apni Shala\'s long-running data shows that schools without a teacher-trained backbone lose 80%+ of practice within a year of facilitator withdrawal.'},
+          {label:'C) Train one SEL champion per school','sub':'12 teachers, deep training, lead practice in their school.','impact':[+4,+5,+5,+4],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Champion models are good for budget and bad for scale within a school.</strong> The champion teaches their own class well. Other class teachers continue as before. SEL becomes "Ms. Priya\'s thing," not the school\'s. Works as a bridge to whole-school, not as a destination.'},
+          {label:'D) Self-paced teacher learning (digital + light coaching)','sub':'Lower cost, lower fidelity, scalable.','impact':[+8,+2,+3,+3],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Digital-first teacher training has weak evidence for SEL specifically.</strong> SEL is the area of teacher practice that most depends on modeled behaviour, peer reflection, and live coaching. Digital can supplement but rarely substitute. Note: Dost Education\'s parent-facing audio nudges are different — those work because they target a different practice.'}
+        ]
+      },
+      {
+        icon:'📊', title:'How will you know it worked?',
+        context:'The funder wants evidence of impact at year-end. You have ~₹5L for measurement. Choose your design.',
+        choices:[
+          {label:'A) RCT with control schools','sub':'12 treatment, 12 control. Pre-post measures. Independent evaluator.','impact':[-2,+2,-1,+9],
+            insight:'<span class="evidence-tag">Evidence</span><strong>RCT is methodologically strongest but operationally fragile.</strong> ₹5L is below the floor for credible Indian school RCTs (~₹20–40L for 12 schools). Either underpower it (likely null result) or descope the program to fund evaluation. Both options weaken the case for year 2.'},
+          {label:'B) Quasi-experimental: matched comparison schools','sub':'Find 12 similar non-treated schools. Pre-post. Difference-in-differences.','impact':[+1,+3,+1,+6],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Quasi-experimental is the workhorse design for budget-constrained Indian SEL evaluations.</strong> Less internally valid than RCT but achievable at ~₹5L and gives a defensible counterfactual. Most large Indian SEL evaluations (3ie-funded) use this design.'},
+          {label:'C) Mixed-methods: standardized scales + classroom observation + child interviews','sub':'Lower bar on counterfactual; richer on mechanism.','impact':[+2,+5,+3,+5],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Mixed-methods tells you whether AND why something worked.</strong> Weakest on causal claims, strongest on learning. For year-1 program-improvement evaluation (rather than impact verification), this is usually the right choice. Combine with year-3 quasi-experimental for the full evidence base.'},
+          {label:'D) Developmental evaluation — co-designed with teachers','sub':'Embedded evaluator. Iterate. Refine. Document the journey.','impact':[+3,+7,+4,+3],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Developmental evaluation is best for genuinely novel programs.</strong> Weakest for funder accountability. Strongest for program-team learning. If the program is well-established elsewhere (CASEL-aligned), this is over-investment in learning. If it\'s novel for your context (rural Bihar, conflict-affected, displaced populations), it\'s the right choice.'}
+        ]
+      },
+      {
+        icon:'👨‍👩‍👧', title:'Parent and community engagement?',
+        context:'You have ₹3L left. Parent engagement is recommended by every SEL framework. But Indian parent-engagement in government schools has poor attendance rates and limited evidence base. What do you fund?',
+        choices:[
+          {label:'A) Skip it — focus budget on school','sub':'Parent engagement is hard to do well; redirect funds.','impact':[+2,+1,-2,0],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Skipping parent engagement is defensible — but should be deliberate.</strong> SEL effects without family reinforcement attenuate when children go home. Belfield 2015: SEL programs with parent components have ~40% larger effect sizes. But poorly-executed parent engagement is worse than none.'},
+          {label:'B) Audio nudges (Dost Education model)','sub':'Short voice notes to parents in their language, weekly.','impact':[+5,+3,+5,+4],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Audio nudges to parents are the most replicated effective intervention in low-literacy contexts.</strong> Dost Education\'s evaluations show measurable improvements in parenting behaviour at very low cost. Works because it bypasses literacy and attendance barriers entirely.'},
+          {label:'C) Parent-teacher SEL workshops monthly','sub':'Traditional model: PTA-style sessions.','impact':[+2,+3,+1,+2],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Monthly workshops have poor attendance and weak transfer evidence in government school contexts.</strong> Works in resourced private schools and middle-class settings; struggles in low-income government schools where parents work long hours.'},
+          {label:'D) Train community health workers (ASHAs/Anganwadi) as messengers','sub':'Embed SEL messages into existing frontline-worker visits.','impact':[+6,+3,+7,+3],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Frontline-worker integration has growing evidence — and is politically strong.</strong> ASHAs/Anganwadi workers already visit homes for health and nutrition; adding SEL messaging is a low-incremental-cost extension. Pilot evaluations from Maharashtra and Karnataka show promising results. Tradeoff: requires interdepartmental coordination (Education + Health).'}
+        ]
+      },
+      {
+        icon:'🔭', title:'Year 2 question — what would you scale?',
+        context:'End of year 1. The state government is interested in scaling — but they will only fund what\'s working. Where do you point them?',
+        choices:[
+          {label:'A) Scale the curriculum and program brand','sub':'"Take our model to 200 schools."','impact':[+9,+1,-3,+2],
+            insight:'<span class="evidence-tag">Evidence</span><strong>"Take the brand to scale" is the most common Indian education-NGO ask — and the most often regretted.</strong> Most "scaled" SEL programs do not maintain fidelity. The Brookings India SEL review found that effect sizes typically drop to ~20% of pilot levels at scale.'},
+          {label:'B) Scale the teacher-training architecture','sub':'"Take the way we train teachers to 200 schools."','impact':[+6,+7,+8,+5],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Teacher-training architecture (rather than the program itself) is the strongest scaling unit.</strong> The teacher who learned to facilitate one curriculum well can adapt to others. The school that built a teacher-development culture sustains many curricula. This is what J-PAL South Asia\'s teacher-effectiveness work argues.'},
+          {label:'C) Scale measurement infrastructure','sub':'"Help the state measure SEL itself, not just our program."','impact':[+5,+4,+9,+7],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Building state SEL-measurement capability is the most under-rated scaling move.</strong> If the state can measure SEL well, multiple programs (including yours) can be evaluated at scale, and adoption decisions become data-informed. NCERT and SCERT are increasingly open to this.'},
+          {label:'D) Don\'t scale yet — deepen what you have','sub':'"Stay in 12 schools. Iterate three more years."','impact':[-1,+8,+4,+5],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Slow scaling has the strongest evidence and the weakest political support.</strong> Most successful Indian education programs (Pratham, Akanksha) spent 5–8 years iterating in a small footprint before scaling. Funders and governments rarely tolerate this — so the choice is between deepening or compromising. Honest framing matters.'}
+        ]
+      }
+    ],
+    archetypes:[
+      {name:'The Quality Builder', test:s=>s[1]>=25 && s[2]>=25, text:'You built for quality and sustainability over reach. This is the design philosophy with the strongest long-term evidence — and the one that struggles most with funder pressure for visible scale.'},
+      {name:'The Evidence Architect', test:s=>s[3]>=25, text:'You prioritised knowing what works over building fast. This is what the field needs more of, but it requires patient funders and a tolerance for null results.'},
+      {name:'The Scale Optimist', test:s=>s[0]>=30 && s[2]<20, text:'You went wide and fast. Reach numbers will look impressive on the report. The evidence base suggests that without proportional investment in quality and teacher capacity, the children at school 12 are getting a much weaker intervention than those at school 1.'},
+      {name:'The Pragmatic Hybridist', test:s=>true, text:'You balanced reach, quality, sustainability, and evidence. This is the design pattern of most strong Indian SEL programs — Pratham, Apni Shala, Dost. It rarely wins design awards but tends to survive funding cycles.'}
+    ],
+    endEvidence:`
+      <p><strong>What the SEL program-design evidence base shows:</strong></p>
+      <ul style="padding-left:20px;margin-top:6px">
+        <li><strong>SAFE</strong> (Sequenced, Active, Focused, Explicit) implementation — Durlak\'s consistent finding — matters more than program brand.</li>
+        <li><strong>Teacher-training intensity</strong> is the most replicated predictor of program effect size.</li>
+        <li><strong>Year-1 results in SEL are misleading.</strong> 3-year and 5-year follow-up data is where the credible case is built.</li>
+        <li><strong>State-system integration</strong> beats parallel NGO delivery for sustainability — NEP 2020 makes this more viable now than at any prior point.</li>
+        <li><strong>Parent engagement via existing frontline workers</strong> (ASHA/Anganwadi) is the newest evidence-strong scaling mechanism.</li>
+      </ul>
+      <p style="margin-top:10px">Continue: <a href="/courses/SEL/">SEL flagship course</a> · <a href="/Labs/teacher-evidence-lab.html">Teacher Evidence Explorer</a> · <a href="/courses/livelihoods/">Livelihoods Course</a></p>
+    `
+  },
+
+  evaluator: {
+    label: 'Evaluator',
+    scoreLabels: ['Rigour','Relevance','Feasibility','Insight'],
+    startScores: [0,0,0,0],
+    rounds: [
+      {
+        icon:'❓', title:'The brief: "Prove our SEL program works"',
+        context:'A medium-sized NGO runs an SEL program in 30 government schools across two districts in Karnataka. Three years in. Funder needs evidence for renewal. They have ₹15 lakh and 9 months. First decision: what is the question?',
+        choices:[
+          {label:'A) "Does the program improve learning outcomes?"','sub':'Test scores. Reading. Math. Boards.','impact':[+5,+2,+5,+1],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Asking SEL programs to prove learning gains in 9 months has produced two decades of underpowered null results.</strong> SEL effects on learning are real but small in any single year. CASEL\'s Durlak meta-analysis: ~11 percentile points, cumulative over multiple years. A 9-month learning-outcome study is statistically tilted toward "no effect."'},
+          {label:'B) "Does the program improve SEL competencies?"','sub':'Direct measures of self-awareness, regulation, etc.','impact':[+6,+5,+5,+4],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Measuring the proximal outcome the program targets is methodologically right but harder than it sounds.</strong> Reliable SEL measures for Indian children are still scarce. ACER\'s SEL Skills Assessment, CASEL\'s SECA, and NCERT\'s well-being scales are available but require careful adaptation. Doable with ₹15L; results are interpretable.'},
+          {label:'C) "Under what conditions does the program work?"','sub':'Implementation-focused — not impact verification.','impact':[+4,+8,+5,+8],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Implementation-focused evaluation gives the program more usable insight per rupee than impact evaluation, especially mid-cycle.</strong> Tells you which schools are implementing well, which aren\'t, and why. Funder accountability is weaker (no headline number), but program improvement is far stronger.'},
+          {label:'D) "What do children think it did?"','sub':'Pure qualitative. Child voice. Stories.','impact':[+2,+7,+7,+5],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Pure qualitative is undervalued in SEL evaluation, but rarely sufficient on its own for funder accountability.</strong> Best as part of a mixed-methods design, not as the headline.'}
+        ]
+      },
+      {
+        icon:'🎲', title:'Design: counterfactual question',
+        context:'You\'ve picked your question. Now: what comparison? The program is already running in 30 schools. The challenge of evaluation: what would have happened without it.',
+        choices:[
+          {label:'A) Cluster RCT — randomise schools','sub':'Half schools get program, half wait-listed.','impact':[+9,+4,-4,+5],
+            insight:'<span class="evidence-tag">Evidence</span><strong>RCT design after a program has been running 3 years is operationally fraught.</strong> Existing program schools can\'t be "un-implemented." You\'d need new sites — which means evaluating a different (less mature) program. Common error.'},
+          {label:'B) Matched comparison + difference-in-differences','sub':'Find 30 similar non-program schools. Compare pre-post differences.','impact':[+6,+6,+6,+5],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Quasi-experimental matching is the standard design for evaluating already-running programs.</strong> Validity depends on the quality of the match (school size, baseline scores, community characteristics) and on whether you have credible baseline data. India\'s NIEPA SEL evaluations primarily use this design.'},
+          {label:'C) Regression discontinuity','sub':'Exploit a cutoff (e.g., schools selected by baseline score).','impact':[+8,+5,+3,+5],
+            insight:'<span class="evidence-tag">Evidence</span><strong>RD is elegant when a natural cutoff exists — usually it doesn\'t.</strong> Most SEL programs are selected by funder relationship or district priority, not a sharp threshold. Force-fitting RD where no cutoff exists weakens, not strengthens, the design.'},
+          {label:'D) Within-school comparison (across grades, time periods)','sub':'Compare cohorts within the same school.','impact':[+5,+5,+8,+4],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Within-school comparison is feasibility-friendly and rigor-weak.</strong> Cohort effects, teacher changes, exam policy shifts all confound. Use when no comparison schools exist; recognise the limits when reporting.'}
+        ]
+      },
+      {
+        icon:'📏', title:'What do you measure?',
+        context:'You need instruments. The team is debating: standardized scales (CASEL-aligned, validated), India-adapted scales (ACER, NCERT), program-developed scales (closely matched to curriculum), or behavioral observations.',
+        choices:[
+          {label:'A) Standardized CASEL-aligned scales','sub':'Global validity. Comparability to other studies.','impact':[+7,+3,+4,+4],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Global scales give cross-context comparability and lose local meaning.</strong> SECA, SCQ, etc. translate technically but children may not understand items the way US/UK kids do. Indian validation studies (Tandon et al. 2020) show ~70% of items work cross-culturally; the other 30% need adaptation.'},
+          {label:'B) India-adapted scales (ACER, NCERT)','sub':'Validated for Indian contexts. Lower comparability.','impact':[+7,+7,+5,+5],
+            insight:'<span class="evidence-tag">Evidence</span><strong>India-adapted scales are the right default when available.</strong> NCERT well-being module, ACER Indian SEL skills assessment, and J-PAL South Asia\'s scale battery are now mature enough for primary use. Sacrifices some global comparability for local validity.'},
+          {label:'C) Program-developed scales (curriculum-aligned)','sub':'Maximum content match. Risk: measures what was taught, not what matters.','impact':[+4,+6,+7,+3],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Curriculum-aligned scales have a serious validity risk — they often measure intervention exposure, not underlying competency change.</strong> Useful as a process indicator; treacherous as the headline outcome measure.'},
+          {label:'D) Behavioral observation (classroom + playground)','sub':'Direct behavior counts. High validity. High cost.','impact':[+8,+6,-3,+8],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Behavioral observation is the gold standard validity-wise and consistently breaks evaluation budgets.</strong> Trained observers, inter-rater reliability checks, multiple time points — adds ~₹4–6L to evaluation cost. Best used on a sub-sample paired with scale-based measurement.'}
+        ]
+      },
+      {
+        icon:'👂', title:'Who do you listen to?',
+        context:'The quantitative measurement plan is set. The mixed-methods strand: who do you interview, observe, and listen to?',
+        choices:[
+          {label:'A) Teachers only — they implement','sub':'Focus groups with program teachers across schools.','impact':[+4,+4,+7,+3],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Teacher-only qualitative is the most common mixed-methods design — and the most blind to selection bias.</strong> Teachers tend to tell you the program works; they\'re invested. Useful but insufficient.'},
+          {label:'B) Children primarily','sub':'Age-appropriate methods: drawings, scenarios, peer interviews.','impact':[+5,+8,+5,+7],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Child-voice methods are the most underused source of high-validity qualitative SEL evidence.</strong> Indian methodological work (CCS, Doosra Dashak, Pratham) has matured rapidly here. Children can articulate SEL changes when methods are age-appropriate.'},
+          {label:'C) Parents and community','sub':'Home visits. Community focus groups.','impact':[+5,+7,+3,+6],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Parent and community perspectives are the strongest test of transfer (whether SEL gains generalize beyond school).</strong> Operationally hard — home visits cost. The strongest evaluations include this; budget-constrained ones skip it.'},
+          {label:'D) All four — triangulate','sub':'Children, parents, teachers, observation.','impact':[+8,+7,-2,+9],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Triangulation across stakeholders is gold-standard.</strong> Also impossible at ₹15L. The choice is usually two of four: pick deliberately based on the question. For "does it work for children," include children. For "is it sustainable in this context," include teachers and parents.'}
+        ]
+      },
+      {
+        icon:'⚖️', title:'When the finding is mixed',
+        context:'Your data is back. Quantitative: weak positive on self-awareness (p=0.09); null on regulation; positive trend on peer relationships. Qualitative: rich stories of individual transformation; weaker stories of class-level change. The funder wants a one-page summary.',
+        choices:[
+          {label:'A) Lead with the positive quantitative + the strong stories','sub':'Headline: "Promising effects on social-emotional competencies"','impact':[-3,-1,+5,-3],
+            insight:'<span class="evidence-tag">Evidence</span><strong>This is the most common SEL-evaluation reporting style, and is widely critiqued.</strong> It cherry-picks. The 3ie Indian SEL evidence-gap analysis flags this as a key reason the field\'s evidence base is thinner than the volume of evaluations suggests.'},
+          {label:'B) Lead with the null; treat positives as contingent','sub':'"No conclusive impact on most measures; suggestive on some."','impact':[+7,+4,+4,+5],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Honest framing of mixed results protects credibility long-term.</strong> Funders worth keeping respect this; ones who don\'t will pressure you into option A. The honest framing also creates space for the more interesting question: why did some things work and not others.'},
+          {label:'C) Reframe the question: "What did we learn?"','sub':'Refocus the report from impact to implementation insight.','impact':[+5,+8,+5,+9],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Re-framing from impact-verification to implementation-learning is the highest-value response to mixed findings.</strong> The "did it work" question is closed; the "how did it work, where, when" question is generative. Strong evaluators use mixed findings to deepen, not weaken, the program case.'},
+          {label:'D) Report all findings symmetrically','sub':'Just the data. No interpretation. Let funder decide.','impact':[+5,-2,+6,-1],
+            insight:'<span class="evidence-tag">Evidence</span><strong>"Just the data" abdicates the evaluator\'s job.</strong> Interpretation is what the funder paid for. Refusing to interpret leaves the program at the mercy of whoever interprets next — usually with less context than you have.'}
+        ]
+      },
+      {
+        icon:'🔁', title:'The renewal conversation',
+        context:'Six weeks after submission. The funder calls. "We\'re considering not renewing. Your findings weren\'t strong enough." You know — based on the implementation findings — that with two more years the effects would compound. What do you say?',
+        choices:[
+          {label:'A) Defend the findings — push back','sub':'"You\'re reading them wrong. Here\'s why."','impact':[+3,+1,-2,+1],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Pure defense of findings rarely changes funder decisions.</strong> The funder has already concluded. Defense triggers entrenchment. Better: surface the underlying decision — what would they have needed to see, and is there a way to give them that next time.'},
+          {label:'B) Acknowledge the limits; offer year-3 design','sub':'"You\'re right the year-1 case is thin. Here\'s a year-3 design that would be stronger."','impact':[+4,+5,+5,+5],
+            insight:'<span class="evidence-tag">Evidence</span><strong>The "honest about limits + concrete alternative" stance is the most common ingredient in renewed SEL grants after mixed year-1 findings.</strong> Acknowledges funder concern; redirects toward a better-designed next phase. Requires that you actually have a better design ready.'},
+          {label:'C) Refer them to the broader evidence base','sub':'"Globally, the case for SEL is strong. We need patience."','impact':[+2,+2,+1,+3],
+            insight:'<span class="evidence-tag">Evidence</span><strong>Pointing to the global evidence base is useful but not decisive.</strong> Funders mostly know the global case; the question is about this specific program. Use this as supporting context, not the lead.'},
+          {label:'D) Walk away — accept non-renewal honestly','sub':'"You\'re making the right call given what we showed."','impact':[+5,+3,+4,+6],
+            insight:'<span class="evidence-tag">Evidence</span><strong>The hardest, rarest, and often most-credibility-building response.</strong> Some programs aren\'t working and should not be renewed. The evaluator who can say this — even when it means losing the contract — is the evaluator other funders eventually trust. Long arc, but the reputation effects are real.'}
+        ]
+      }
+    ],
+    archetypes:[
+      {name:'The Rigorous Realist', test:s=>s[0]>=30 && s[2]>=20, text:'You held methodological standards without overreaching beyond feasibility. This is what most strong field evaluators look like — clear-eyed about what each design can and cannot tell you.'},
+      {name:'The Insight Generator', test:s=>s[3]>=30, text:'You prioritised making the evaluation useful over making it tidy. Strong evaluators argue this is what the field needs — but it requires funders willing to pay for learning, not just verdicts.'},
+      {name:'The Pragmatic Designer', test:s=>s[1]>=25 && s[2]>=25, text:'You designed for the question that actually mattered, within the budget that actually existed. Quietly, this is most of evaluation craft.'},
+      {name:'The Overreaching Idealist', test:s=>s[2]<10, text:'You wanted rigor that the budget couldn\'t buy. Strong instinct, weak feasibility. The hard truth of Indian education evaluation is that the perfect design at ₹40L is less useful than the defensible design at ₹15L done well.'},
+      {name:'The Balanced Evaluator', test:s=>true, text:'You navigated competing demands of rigor, relevance, feasibility, and insight. This is what evaluation practice actually looks like — never optimal on any one dimension, often defensible across all.'}
+    ],
+    endEvidence:`
+      <p><strong>What the SEL-evaluation evidence base shows about evaluating SEL:</strong></p>
+      <ul style="padding-left:20px;margin-top:6px">
+        <li><strong>One-year SEL impact evaluations</strong> are systematically underpowered to detect academic effects. Plan multi-year or measure proximal outcomes.</li>
+        <li><strong>Instrument adaptation</strong> is harder than instrument selection. Budget for it.</li>
+        <li><strong>Mixed-methods designs</strong> are now the field consensus default — pure quant misses mechanism; pure qual misses scale.</li>
+        <li><strong>Honest reporting of nulls and mixed findings</strong> is methodologically central — and the most common practice gap.</li>
+        <li><strong>Implementation evaluation</strong> is more useful than impact evaluation in years 1–3 of any program.</li>
+      </ul>
+      <p style="margin-top:10px">Continue: <a href="/DeepDives/sel-evaluation-india.html">SEL Evaluation in India — Deep Dive</a> · <a href="/Labs/mel-design-lab.html">MEL Design Lab</a> · <a href="/Labs/teacher-evidence-lab.html">Teacher Evidence Explorer</a></p>
+    `
+  },
+
+  student: {
+    label: 'Student',
+    scoreLabels: ['Self-Aware','Regulation','Relationships','Decisions'],
+    startScores: [40,40,40,40],
+    rounds: [
+      {
+        icon:'😶', title:'Episode 1 — The first week',
+        context:'You\'re Anika, 12. New school. The girls in your class are speaking faster than you understand. One of them, Priya, repeated something you said in Hindi and the others laughed. You don\'t know if they were laughing at you or with you.',
+        choices:[
+          {label:'A) Smile and laugh along','sub':'Don\'t make a scene. Fit in.','impact':[-3,+1,+1,-2],
+            insight:'<span class="evidence-tag">Reflection</span><strong>Masking — pretending the moment didn\'t hurt — protects belonging short-term but blocks self-awareness long-term.</strong> Child psychology research consistently finds that early-adolescent children who can name what happened to them ("they laughed at me, and it stung") develop self-awareness faster than those who suppress.'},
+          {label:'B) Get quiet for the rest of the day','sub':'Pull back. Watch. Learn the rules.','impact':[+2,+3,-3,+1],
+            insight:'<span class="evidence-tag">Reflection</span><strong>Withdrawal is a common, partially-protective strategy.</strong> Gives space to think, costs relationships. Healthy when temporary; concerning when it becomes default.'},
+          {label:'C) Ask the teacher what happened','sub':'Quietly, after class.','impact':[+5,+4,+3,+5],
+            insight:'<span class="evidence-tag">Reflection</span><strong>Help-seeking is the most under-developed SEL competency in children from working-class and migrant backgrounds.</strong> The instinct that "I can ask an adult to make sense of this" is built early or rarely built. When teachers are warm, this single act compounds across years.'},
+          {label:'D) Ask Priya directly: "What did you mean?"','sub':'Risky, but direct.','impact':[+4,+2,+4,+6],
+            insight:'<span class="evidence-tag">Reflection</span><strong>Direct, calm clarification at 12 is unusually self-regulated.</strong> If it works (Priya wasn\'t mocking), it builds a friendship. If it doesn\'t, it clarifies — both better than the uncertainty of "I don\'t know if they liked me or not."'}
+        ]
+      },
+      {
+        icon:'📝', title:'Episode 2 — The unfair grade',
+        context:'You wrote a story for class. You\'re proud of it. The teacher returned it: 6/10, no comments. Vikram, who copied half his story from a movie scene, got 8/10. You feel something hot in your chest.',
+        choices:[
+          {label:'A) Tell everyone — protest loudly','sub':'The injustice is the point.','impact':[+2,-3,-1,0],
+            insight:'<span class="evidence-tag">Reflection</span><strong>Justified anger expressed without regulation tends to be heard as misbehavior, not as a legitimate claim.</strong> The hot feeling is real and accurate; the path to having it taken seriously runs through self-regulation, not louder expression.'},
+          {label:'B) Show the teacher your story again, calmly','sub':'"Can you tell me what didn\'t work?"','impact':[+5,+6,+3,+5],
+            insight:'<span class="evidence-tag">Reflection</span><strong>This is the highest-skill response to perceived unfairness — and the one that most builds relationship with teachers who themselves are imperfect.</strong> Teaches you that you can advocate for yourself without burning the relationship. Compounds across years.'},
+          {label:'C) Hide the paper. Don\'t tell anyone.','sub':'Carry it alone.','impact':[-2,-2,-3,-2],
+            insight:'<span class="evidence-tag">Reflection</span><strong>Internalising injustice is the most common response — and the most corrosive over time.</strong> Builds neither voice nor regulation. Long-term, children who consistently choose this lose connection to their own judgment.'},
+          {label:'D) Tell your mother','sub':'Ask her what to do.','impact':[+4,+3,+5,+3],
+            insight:'<span class="evidence-tag">Reflection</span><strong>Family processing is the most common Indian child response to school injustice — and a major SEL resource when families have the bandwidth and tools to help.</strong> Mother\'s response will shape whether you learn voice or learn caution.'}
+        ]
+      },
+      {
+        icon:'💔', title:'Episode 3 — The friendship that broke',
+        context:'Reena was your first friend in this school. Today she said in front of three others, "Anika is weird, na?" and they all laughed. After class she came to you and said, "I was joking. Don\'t take it seriously."',
+        choices:[
+          {label:'A) Accept the apology — move on','sub':'Don\'t lose the friendship. It\'s the only one you have.','impact':[+1,+2,+2,-1],
+            insight:'<span class="evidence-tag">Reflection</span><strong>Accepting a non-apology preserves connection short-term and trains tolerance of belittling.</strong> Children who consistently accept "I was joking" as adequate repair learn that their hurt is less important than other people\'s comfort.'},
+          {label:'B) Tell her it hurt — name it','sub':'"What you said hurt. I\'m not okay with that being a joke."','impact':[+6,+5,+5,+6],
+            insight:'<span class="evidence-tag">Reflection</span><strong>Naming hurt clearly, without escalation, is one of the highest-leverage relationship skills in adolescence.</strong> Either Reena hears it and becomes a real friend, or she doesn\'t and the friendship\'s limits are clear. Both outcomes are healthier than ambiguity.'},
+          {label:'C) Cut her off entirely','sub':'You don\'t need a friend who does that.','impact':[+3,-1,-2,+1],
+            insight:'<span class="evidence-tag">Reflection</span><strong>Total cutoff is sometimes right and frequently premature.</strong> If Reena\'s pattern repeats, distance is wise. If it\'s a one-time mistake, cutoff trains all-or-nothing thinking.'},
+          {label:'D) Talk to your mother or another adult','sub':'Process it first. Decide later.','impact':[+5,+4,+3,+4],
+            insight:'<span class="evidence-tag">Reflection</span><strong>Processing relational hurt with a trusted adult before reacting is the most replicated protective factor in adolescent friendship navigation.</strong> Builds capacity to distinguish "this hurts" from "this requires action."'}
+        ]
+      },
+      {
+        icon:'😰', title:'Episode 4 — Exam panic',
+        context:'Maths exam tomorrow. You\'ve studied, but your stomach is in knots. Your hands keep shaking. Your mother says, "You\'re being dramatic. Just sleep." You don\'t know how to sleep when your heart is racing.',
+        choices:[
+          {label:'A) Force yourself to sleep — try to ignore the feeling','sub':'Mother knows best. Just push through.','impact':[-1,-3,-1,0],
+            insight:'<span class="evidence-tag">Reflection</span><strong>Anxiety suppressed becomes anxiety amplified.</strong> Adolescent anxiety that is dismissed by adults tends to entrench. Building a personal toolkit early — even one as simple as "I can sit on the floor and breathe slowly for ten minutes" — is one of the most durable SEL gains.'},
+          {label:'B) Get up and do something physical','sub':'Walk around. Stretch. Reset.','impact':[+3,+5,+1,+3],
+            insight:'<span class="evidence-tag">Reflection</span><strong>Physical regulation is the most universal anxiety-reduction strategy across cultures.</strong> Movement, slow breathing, cold water on face — all interrupt the panic loop biologically before any cognitive strategy can engage.'},
+          {label:'C) Open the textbook again — over-study','sub':'Maybe revision will calm me.','impact':[-2,-2,0,-1],
+            insight:'<span class="evidence-tag">Reflection</span><strong>"More studying" as anxiety relief usually backfires.</strong> Cognitive load at high arousal produces poor encoding. Sleep + light review the next morning consistently outperforms late-night cramming.'},
+          {label:'D) Try a calming routine — breathing, naming the feeling','sub':'"This is panic. It will pass. I have studied enough."','impact':[+6,+7,+2,+5],
+            insight:'<span class="evidence-tag">Reflection</span><strong>Naming the feeling reduces its intensity — this is one of the best-replicated findings in adolescent emotion regulation research (Lieberman et al., 2007; replicated in Indian contexts).</strong> The skill of saying "this is anxiety" rather than being it is the foundation of regulation.'}
+        ]
+      },
+      {
+        icon:'👨‍👩', title:'Episode 5 — The conversation with your father',
+        context:'Your father came home tired. He saw your maths score (62/100) and said, "You\'re wasting our money. Your brother got 80 at your age." You worked harder than your brother. The unfairness sits in your throat.',
+        choices:[
+          {label:'A) Stay quiet — accept the comparison','sub':'Don\'t fight back. He\'s tired.','impact':[-3,-1,0,-2],
+            insight:'<span class="evidence-tag">Reflection</span><strong>Silence in the face of comparison can preserve peace but builds invisibility.</strong> Long-term, children who consistently absorb unfair comparison report higher rates of self-doubt about their own judgment. Sometimes silence is wise; rarely is it a default worth building.'},
+          {label:'B) Tell him: "I worked really hard. The exam was difficult."','sub':'Make the case calmly.','impact':[+5,+5,+3,+5],
+            insight:'<span class="evidence-tag">Reflection</span><strong>Calm self-advocacy with a parent is one of the highest-impact SEL skills.</strong> Either it lands (father reconsiders), or it doesn\'t (and you learn his limits) — both outcomes are healthier than the absorbed silence.'},
+          {label:'C) Cry. Let him see it.','sub':'The hurt is real.','impact':[+2,-3,+2,-1],
+            insight:'<span class="evidence-tag">Reflection</span><strong>Tears are honest expression, not weakness — but as a sole communication strategy they tend to short-circuit dialogue rather than open it.</strong> Best paired with words.'},
+          {label:'D) Ask him what he wants to see','sub':'"What would help? Where do you want me to improve?"','impact':[+6,+6,+5,+7],
+            insight:'<span class="evidence-tag">Reflection</span><strong>Turning toward what the parent actually needs — rather than defending against attack — is sophisticated relational practice.</strong> Often the parent\'s real concern (security, future, social standing) is not the surface complaint. Surfacing it changes the conversation.'}
+        ]
+      },
+      {
+        icon:'🌅', title:'Episode 6 — Year-end',
+        context:'It\'s May. School year ends next week. You sit on the steps of your building. You think about everything that happened. Priya stopped laughing at you somewhere around January. Reena and you are friends, real ones now, after a hard conversation. Your father said "well done" twice this year. You don\'t feel the same as you did in June.',
+        choices:[
+          {label:'A) Write it all down — keep a record','sub':'Process by reflecting on the year.','impact':[+7,+4,+2,+5],
+            insight:'<span class="evidence-tag">Reflection</span><strong>Reflective writing in adolescence is among the most replicated predictors of self-awareness development.</strong> The act of putting feelings into structured language strengthens the neural circuitry of emotion regulation. Especially powerful when started by 12–13.'},
+          {label:'B) Tell your mother everything','sub':'Process by speaking.','impact':[+6,+5,+7,+4],
+            insight:'<span class="evidence-tag">Reflection</span><strong>Co-regulation with a trusted adult is what builds self-regulation, over and over.</strong> The mother who listens — not who fixes — is one of childhood\'s most powerful SEL resources. Most regulation skills are caught from someone who already has them.'},
+          {label:'C) Look forward — what do you want next year?','sub':'Set intentions.','impact':[+5,+3,+3,+8],
+            insight:'<span class="evidence-tag">Reflection</span><strong>Goal-setting in early adolescence builds executive function and self-direction.</strong> The skill of saying "I want to be the kind of person who handles this differently next time" is the foundation of agency.'},
+          {label:'D) Just sit. Let the year settle.','sub':'No words. Just be.','impact':[+4,+6,+1,+2],
+            insight:'<span class="evidence-tag">Reflection</span><strong>Quiet integration without forcing meaning is itself a valuable practice.</strong> Not every experience needs articulating immediately. Children who can sit with not-yet-knowing develop tolerance for ambiguity — a high-order SEL capacity.'}
+        ]
+      }
+    ],
+    archetypes:[
+      {name:'The Reflective Self', test:s=>s[0]>=65, text:'You built strong self-awareness. You can name what\'s happening to you, which is the foundation of all the other SEL competencies. The research is clear: this is the single most replicated childhood SEL trajectory predictor.'},
+      {name:'The Regulator', test:s=>s[1]>=65, text:'You built the capacity to feel things without being run by them. This is the SEL competency adults most often wish they\'d developed earlier — and the one most learnable in childhood.'},
+      {name:'The Connector', test:s=>s[2]>=65, text:'You built relationships through hard moments — with friends, parents, teachers. Relational capacity is the resource children draw on every other time life gets hard.'},
+      {name:'The Decider', test:s=>s[3]>=65, text:'You built decision-making and self-direction — turning toward what you want, asking for it, advocating calmly. This is what enables children to shape their own lives rather than be shaped by them.'},
+      {name:'The Growing Child', test:s=>true, text:'You made some choices that helped and some that didn\'t. This is what childhood SEL development actually looks like. The point is not perfect choices but the developing capacity to make different ones over time.'}
+    ],
+    endEvidence:`
+      <p><strong>What the childhood SEL evidence base shows about development:</strong></p>
+      <ul style="padding-left:20px;margin-top:6px">
+        <li><strong>SEL competencies develop unevenly</strong> — children can be strong in self-awareness and weak in regulation, or vice versa. CASEL\'s 5-competency model is interactive, not sequential.</li>
+        <li><strong>The "trusted adult"</strong> — a teacher, parent, neighbour, relative who listens — is the single most replicated protective factor across Indian and global adolescent research.</li>
+        <li><strong>Naming feelings reduces their intensity</strong> (Lieberman et al. 2007; replicated cross-culturally). The skill is learnable; it\'s rarely taught directly.</li>
+        <li><strong>Reflective writing, co-regulation, and goal-setting</strong> are the three most evidence-strong childhood SEL practices that can be built into routine without specialised curricula.</li>
+        <li><strong>SEL gains from childhood compound into adolescence and adulthood</strong> — Heckman\'s longitudinal work shows the returns continue into the 30s.</li>
+      </ul>
+      <p style="margin-top:10px">Continue: <a href="/courses/SEL/">SEL flagship course</a> · <a href="/DeepDives/sel-evaluation-india.html">SEL Evaluation in India</a> · <a href="/blog/knowing-what-you-want.html">Blog: Knowing What You Want</a></p>
+    `
+  }
+};
+
+let currentMode = null;
+let roundIdx = 0;
+let scores = [];
+
+function goToModes(){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('modes').classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function goToWelcome(){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('welcome').classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function startMode(modeKey){
+  currentMode = modeKey;
+  roundIdx = 0;
+  scores = [...MODES[modeKey].startScores];
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('game').classList.add('active');
+  document.getElementById('scenarioCard').className = 'scenario-card ' + modeKey;
+  document.querySelector('.choice-grid').parentElement.parentElement.querySelector('.choice-section').className = 'choice-section ' + modeKey;
+  renderRound();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function restartCurrent(){startMode(currentMode);}
+
+function renderRound(){
+  const mode = MODES[currentMode];
+  const r = mode.rounds[roundIdx];
+  document.getElementById('roundBadge').textContent = `Round ${roundIdx+1} of ${mode.rounds.length}`;
+
+  // Progress dots
+  const dotsEl = document.getElementById('progressDots');
+  dotsEl.innerHTML = '';
+  for (let i=0;i<mode.rounds.length;i++){
+    const d = document.createElement('div');
+    d.className = 'progress-dot ' + (i<roundIdx?'done':(i===roundIdx?'current':''));
+    dotsEl.appendChild(d);
+  }
+
+  // Scores
+  renderScores();
+
+  // Scenario
+  document.getElementById('scenarioIcon').textContent = r.icon;
+  document.getElementById('scenarioTitle').textContent = r.title;
+  document.getElementById('scenarioContext').textContent = r.context;
+
+  // Choices
+  const grid = document.getElementById('choiceGrid');
+  grid.innerHTML = '';
+  grid.className = 'choice-grid ' + currentMode;
+  r.choices.forEach((c, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'btn-choice';
+    btn.innerHTML = `<span class="ch-label">${c.label}</span><span>${c.sub}</span>`;
+    btn.onclick = () => handleChoice(idx);
+    grid.appendChild(btn);
+  });
+
+  // Clear reveal
+  document.getElementById('revealArea').innerHTML = '';
+}
+
+function renderScores(){
+  const mode = MODES[currentMode];
+  const row = document.getElementById('scoresRow');
+  row.innerHTML = '';
+  mode.scoreLabels.forEach((label, i) => {
+    const card = document.createElement('div');
+    card.className = `score-card m${i+1}`;
+    card.innerHTML = `<div class="sc-name">${label}</div><div class="sc-score">${scores[i]}</div>`;
+    row.appendChild(card);
+  });
+}
+
+function handleChoice(idx){
+  const mode = MODES[currentMode];
+  const r = mode.rounds[roundIdx];
+  const c = r.choices[idx];
+
+  // Disable all buttons
+  document.querySelectorAll('.btn-choice').forEach(b=>b.disabled=true);
+
+  // Apply impact
+  c.impact.forEach((delta, i) => {
+    scores[i] = Math.max(0, Math.min(100, scores[i] + delta));
+  });
+
+  // Render reveal
+  const rev = document.getElementById('revealArea');
+  let html = '<div class="consequence-grid">';
+  c.impact.forEach((delta, i) => {
+    const cls = delta > 0 ? 'positive' : (delta < 0 ? 'negative' : 'neutral');
+    const sym = delta > 0 ? '+' : '';
+    html += `<div class="consequence-card"><div class="cq-name">${mode.scoreLabels[i]}</div><div class="cq-change ${cls}">${sym}${delta}</div></div>`;
+  });
+  html += '</div>';
+  html += `<div class="round-insight">${c.insight}</div>`;
+  const isLast = roundIdx === mode.rounds.length - 1;
+  html += `<button class="btn-next" onclick="${isLast ? 'showEnd()' : 'nextRound()'}">${isLast ? 'See your year →' : 'Next round →'}</button>`;
+  rev.innerHTML = html;
+
+  // Animate consequence cards
+  setTimeout(() => {
+    document.querySelectorAll('.consequence-card').forEach((c,i) => {
+      setTimeout(() => c.classList.add('shown'), i * 100);
+    });
+    setTimeout(() => {
+      document.querySelector('.round-insight').classList.add('visible');
+    }, 500);
+  }, 100);
+
+  // Update scores
+  renderScores();
+}
+
+function nextRound(){
+  roundIdx++;
+  renderRound();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function showEnd(){
+  const mode = MODES[currentMode];
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('end').classList.add('active');
+
+  document.getElementById('endTitle').textContent = mode.label + ' run complete';
+  document.getElementById('endSubtitle').textContent = 'How your year added up:';
+
+  // Bar chart
+  const chart = document.getElementById('finalChart');
+  chart.innerHTML = '';
+  const maxScore = Math.max(...scores, 1);
+  scores.forEach((s, i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'bar-wrap';
+    const heightPct = Math.max(6, (s / Math.max(maxScore, 100)) * 100);
+    wrap.innerHTML = `<div class="bar-value">${s}</div><div class="bar b${i+1}" style="height:0%"></div><div class="bar-label">${mode.scoreLabels[i]}</div>`;
+    chart.appendChild(wrap);
+    setTimeout(() => {
+      wrap.querySelector('.bar').style.height = heightPct + '%';
+    }, 200 + i * 150);
+  });
+
+  // Archetype
+  const arch = mode.archetypes.find(a => a.test(scores));
+  document.getElementById('endArchetype').innerHTML = `<strong>${arch.name}</strong><br>${arch.text}`;
+
+  // Reflection
+  document.getElementById('endReflection').textContent = 'There is no single right way to play. The point is to feel where the tradeoffs were sharpest — and to think about which ones you, in real life, would lean into.';
+
+  // Evidence
+  document.getElementById('endEvidence').innerHTML = mode.endEvidence;
+
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ───── Topbar theme toggle (lightweight) ─────
+(function(){
+  const saved = localStorage.getItem('impactmojo-theme');
+  if (saved && saved !== 'system') document.documentElement.setAttribute('data-theme', saved);
+})();
+</script>
+
+</body>
+</html>

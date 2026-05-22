@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#0F172A">
+<title>Teacher Evidence Lab — What Actually Works for Teacher Effectiveness | ImpactMojo</title>
+<meta name="description" content="Interactive Teacher Evidence Explorer — filter teacher interventions by evidence quality, cost, India relevance, and outcome type. Built from RISE, JPAL, Pratham, ASER, NCERT, and global evaluations 2000–2024.">
+<meta name="keywords" content="teacher effectiveness, evidence-based teaching, India education research, TaRL, teacher training, professional development, pay-for-performance, ImpactMojo">
+<link rel="canonical" href="https://www.impactmojo.in/Labs/teacher-evidence-lab.html">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary-bg:#FFFFFF;--secondary-bg:#F8FAFC;--accent:#0EA5E9;--accent-hover:#0284C7;
+  --secondary-accent:#6366F1;--success:#10B981;--warning:#F59E0B;--danger:#EF4444;
+  --text-primary:#0F172A;--text-secondary:#475569;--text-muted:#64748B;
+  --card-bg:#FFFFFF;--hover-bg:#F1F5F9;--border:#E2E8F0;
+  --gradient:linear-gradient(135deg,#0EA5E9 0%,#6366F1 100%);
+  --font-sans:'Amaranth',sans-serif;--font-heading:'Inter',sans-serif;--font-mono:'JetBrains Mono',monospace;
+}
+@media (prefers-color-scheme: dark){:root{
+  --primary-bg:#0F172A;--secondary-bg:#1E293B;--text-primary:#F1F5F9;--text-secondary:#CBD5E1;--text-muted:#94A3B8;
+  --card-bg:#1E293B;--hover-bg:#334155;--border:#334155;
+}}
+[data-theme="light"]{
+  --primary-bg:#FFFFFF;--secondary-bg:#F8FAFC;--text-primary:#0F172A;--text-secondary:#475569;--text-muted:#64748B;
+  --card-bg:#FFFFFF;--hover-bg:#F1F5F9;--border:#E2E8F0;
+}
+[data-theme="dark"]{
+  --primary-bg:#0F172A;--secondary-bg:#1E293B;--text-primary:#F1F5F9;--text-secondary:#CBD5E1;--text-muted:#94A3B8;
+  --card-bg:#1E293B;--hover-bg:#334155;--border:#334155;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--primary-bg);color:var(--text-primary);line-height:1.65;min-height:100vh}
+.container{max-width:1180px;margin:0 auto;padding:1.5rem}
+.back-link{display:inline-flex;align-items:center;gap:.5rem;color:var(--accent);text-decoration:none;font-size:.88rem;margin-bottom:1.5rem}
+.back-link:hover{color:var(--accent-hover);text-decoration:underline}
+
+.header{margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.header-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.35rem 1rem;background:rgba(14,165,233,.15);color:var(--accent);border-radius:20px;font-size:.78rem;font-weight:700;margin-bottom:1rem;letter-spacing:.5px;text-transform:uppercase}
+.header h1{font-family:var(--font-heading);font-size:clamp(1.7rem,3.5vw,2.4rem);margin-bottom:.6rem;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.header p{color:var(--text-secondary);font-size:1.02rem;max-width:780px}
+
+.intro-card{background:var(--card-bg);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.intro-card h2{font-family:var(--font-heading);font-size:1.05rem;margin-bottom:.6rem}
+.intro-card p{color:var(--text-secondary);font-size:.94rem;line-height:1.7}
+.intro-card p + p{margin-top:.6rem}
+
+/* Filter bar */
+.filter-bar{background:var(--secondary-bg);border:1px solid var(--border);border-radius:12px;padding:1.25rem;margin-bottom:1.5rem;position:sticky;top:.5rem;z-index:10}
+.filter-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:.8rem}
+.filter-group label{display:block;font-size:.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:.35rem;font-family:var(--font-heading)}
+.filter-group select, .filter-group input[type="text"]{width:100%;padding:.55rem .75rem;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;color:var(--text-primary);font-family:var(--font-sans);font-size:.92rem}
+.filter-group select:focus, .filter-group input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(14,165,233,.12)}
+.filter-actions{display:flex;justify-content:space-between;align-items:center;gap:.75rem;flex-wrap:wrap;padding-top:.5rem;border-top:1px dashed var(--border)}
+.result-count{font-size:.85rem;color:var(--text-muted);font-weight:600}
+.btn-reset{padding:.45rem .9rem;background:none;border:1px solid var(--border);border-radius:6px;font-size:.82rem;color:var(--text-secondary);cursor:pointer;font-family:var(--font-sans)}
+.btn-reset:hover{border-color:var(--accent);color:var(--accent)}
+
+/* Cards */
+.evidence-grid{display:grid;grid-template-columns:1fr;gap:1rem}
+.evidence-card{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1.4rem;transition:all .25s ease}
+.evidence-card:hover{border-color:var(--accent);box-shadow:0 6px 24px rgba(14,165,233,.08);transform:translateY(-2px)}
+.card-header-row{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:.75rem;flex-wrap:wrap}
+.card-title{font-family:var(--font-heading);font-size:1.15rem;font-weight:700;color:var(--text-primary);margin-bottom:.2rem}
+.card-subtitle{font-size:.8rem;color:var(--text-muted);font-style:italic}
+.card-badges{display:flex;gap:.4rem;flex-wrap:wrap;align-items:flex-start}
+.badge{display:inline-flex;align-items:center;gap:.3rem;padding:.18rem .55rem;border-radius:5px;font-size:.7rem;font-weight:700;font-family:var(--font-heading);text-transform:uppercase;letter-spacing:.5px}
+.badge-strong{background:rgba(16,185,129,.15);color:#059669}
+.badge-moderate{background:rgba(245,158,11,.15);color:#D97706}
+.badge-emerging{background:rgba(99,102,241,.15);color:#4F46E5}
+.badge-weak{background:rgba(239,68,68,.15);color:#DC2626}
+.badge-cost-low{background:rgba(16,185,129,.12);color:#059669}
+.badge-cost-med{background:rgba(245,158,11,.12);color:#D97706}
+.badge-cost-high{background:rgba(239,68,68,.12);color:#DC2626}
+
+.card-description{color:var(--text-secondary);font-size:.95rem;line-height:1.7;margin-bottom:.85rem}
+.card-meta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.7rem;background:var(--secondary-bg);border-radius:8px;padding:.75rem 1rem;margin-bottom:.85rem}
+.meta-item{display:flex;flex-direction:column;gap:.15rem}
+.meta-label{font-size:.68rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;font-family:var(--font-heading)}
+.meta-value{font-size:.88rem;color:var(--text-primary);font-weight:600}
+
+.card-evidence{background:rgba(14,165,233,.04);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;padding:.65rem .9rem;margin-bottom:.7rem}
+.card-evidence-label{font-size:.72rem;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem}
+.card-evidence p{font-size:.87rem;color:var(--text-secondary);line-height:1.65}
+.card-evidence p + p{margin-top:.4rem}
+
+.card-citations{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem}
+.citation-tag{display:inline-block;padding:.18rem .55rem;background:var(--hover-bg);color:var(--text-secondary);border-radius:5px;font-size:.72rem;font-family:var(--font-mono);border:1px solid var(--border)}
+
+.empty-state{text-align:center;padding:3rem 1rem;background:var(--secondary-bg);border-radius:12px;color:var(--text-muted)}
+.empty-state h3{font-family:var(--font-heading);color:var(--text-primary);margin-bottom:.4rem;font-size:1.1rem}
+
+/* Summary section */
+.summary-section{background:var(--secondary-bg);border-radius:12px;padding:1.5rem;margin-top:2rem}
+.summary-section h2{font-family:var(--font-heading);font-size:1.2rem;margin-bottom:.8rem}
+.summary-section p, .summary-section li{color:var(--text-secondary);font-size:.92rem;line-height:1.7}
+.summary-section ul{padding-left:1.4rem;margin-top:.6rem}
+.summary-section li{margin-bottom:.4rem}
+.summary-section strong{color:var(--text-primary)}
+
+.related{margin-top:2rem;background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1.25rem}
+.related h3{font-family:var(--font-heading);font-size:1rem;margin-bottom:.6rem;color:var(--text-primary)}
+.related ul{list-style:none}
+.related li{padding:.4rem 0;border-bottom:1px solid var(--border)}
+.related li:last-child{border-bottom:none}
+.related a{color:var(--accent);text-decoration:none;font-size:.92rem}
+.related a:hover{text-decoration:underline}
+
+.footer-note{margin-top:2rem;padding:1rem;background:var(--secondary-bg);border-radius:8px;font-size:.82rem;color:var(--text-muted);line-height:1.6;text-align:center}
+
+@media (max-width:768px){
+  .container{padding:1rem}
+  .filter-bar{position:static;padding:1rem}
+  .filter-row{grid-template-columns:1fr 1fr}
+  .card-meta-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<a href="/Labs/" class="back-link">← All Labs</a>
+
+<div class="header">
+  <span class="header-badge">📊 Evidence Lab · Education</span>
+  <h1>Teacher Evidence Explorer</h1>
+  <p>Filter teacher-effectiveness interventions by what the evidence actually says — quality, cost, India relevance, and outcome. Built from rigorous evaluations 2000–2024 across India and comparable contexts.</p>
+</div>
+
+<div class="intro-card">
+  <h2>What this is — and what it isn't</h2>
+  <p>An organised view of <strong>30+ teacher interventions</strong> that have been rigorously studied. Each card includes: what the intervention is, where it has been tested, what the evidence quality is, what it costs (per teacher per year, India context), and what the strongest studies actually found. Use the filters to focus.</p>
+  <p>This is <em>not</em> a ranking. A "Strong evidence + Low cost" intervention is not automatically better than a "Moderate evidence + High cost" one — context, capacity, and goals matter. Use the explorer to find the intervention that fits your problem, not the one with the prettiest badge.</p>
+  <p>Updates and corrections welcome — pitch additions via <a href="/contact.html?topic=TeacherEvidenceLab">/contact</a>.</p>
+</div>
+
+<div class="filter-bar">
+  <div class="filter-row">
+    <div class="filter-group">
+      <label for="filter-search">Search</label>
+      <input type="text" id="filter-search" placeholder="TaRL, mentoring, contract teacher…" oninput="applyFilters()">
+    </div>
+    <div class="filter-group">
+      <label for="filter-quality">Evidence Quality</label>
+      <select id="filter-quality" onchange="applyFilters()">
+        <option value="">All</option>
+        <option value="strong">Strong (multiple RCTs)</option>
+        <option value="moderate">Moderate (one RCT or quasi-exp)</option>
+        <option value="emerging">Emerging (pilots, growing base)</option>
+        <option value="weak">Weak / Mixed / Null</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="filter-cost">Cost per teacher/yr</label>
+      <select id="filter-cost" onchange="applyFilters()">
+        <option value="">All</option>
+        <option value="low">Low (under ₹15,000)</option>
+        <option value="medium">Medium (₹15,000–60,000)</option>
+        <option value="high">High (over ₹60,000)</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="filter-category">Type</label>
+      <select id="filter-category" onchange="applyFilters()">
+        <option value="">All</option>
+        <option value="Pedagogy">Pedagogy / Method</option>
+        <option value="Training">Training / PD</option>
+        <option value="Incentives">Incentives / Accountability</option>
+        <option value="Recruitment">Recruitment / Hiring</option>
+        <option value="Mentoring">Mentoring / Coaching</option>
+        <option value="Technology">Technology / Tools</option>
+        <option value="School-Mgmt">School Management</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="filter-outcome">Outcome targeted</label>
+      <select id="filter-outcome" onchange="applyFilters()">
+        <option value="">All</option>
+        <option value="Learning">Learning outcomes</option>
+        <option value="Attendance">Attendance (teacher/student)</option>
+        <option value="Wellbeing">Teacher/student wellbeing</option>
+        <option value="Retention">Teacher retention</option>
+        <option value="Practice">Classroom practice</option>
+        <option value="Equity">Equity outcomes</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="filter-india">India relevance</label>
+      <select id="filter-india" onchange="applyFilters()">
+        <option value="">All</option>
+        <option value="india-tested">Tested in India</option>
+        <option value="india-scaled">Scaled in India</option>
+        <option value="south-asia">South Asia tested</option>
+        <option value="global">Global, India-adaptable</option>
+      </select>
+    </div>
+  </div>
+  <div class="filter-actions">
+    <span class="result-count" id="resultCount">Showing all 30 interventions</span>
+    <button class="btn-reset" onclick="resetFilters()">Reset filters</button>
+  </div>
+</div>
+
+<div class="evidence-grid" id="evidenceGrid"></div>
+
+<div class="summary-section">
+  <h2>Top-line patterns across this evidence base</h2>
+  <p>If you scroll the full list, a few patterns emerge clearly:</p>
+  <ul>
+    <li><strong>Pedagogy interventions (TaRL, structured pedagogy, scripted lessons) consistently outperform pure incentive interventions</strong> for learning outcomes, at much lower cost.</li>
+    <li><strong>Pure teacher pay-for-performance has the weakest evidence in India</strong> — Muralidharan & Sundararaman (2011) showed effects, but more replications have shown null or mixed results, especially when scaled. Be skeptical of "just pay better teachers more."</li>
+    <li><strong>Cascade teacher training (training the trainer of the trainer) typically loses 60–80% of fidelity</strong> by the time it reaches the classroom. Direct training of teachers + ongoing mentoring outperforms cascade by large margins.</li>
+    <li><strong>Contract teachers (Para-teachers) show positive learning effects</strong> at substantially lower cost than government teachers — but raise serious equity and rights concerns. The evidence here is real and politically uncomfortable; treat it carefully.</li>
+    <li><strong>Mentoring + coaching outperforms one-time workshops</strong> across nearly every well-designed study. The single most under-funded teacher intervention in India.</li>
+    <li><strong>Education technology in classrooms (computer-assisted learning, tablets, adaptive software) shows mixed results</strong> — positive when complementing teaching, often null or negative when substituting for it. Mindspark India had clear effects (Muralidharan, Singh, Ganimian 2019); many tablet rollouts have not.</li>
+    <li><strong>Multi-grade pedagogy training is one of the most overlooked high-evidence interventions</strong> for rural India, where most government primary schools have multi-grade classrooms.</li>
+  </ul>
+  <p style="margin-top:.8rem">For the deeper methodological discussion behind these findings, see the <a href="/DeepDives/sel-evaluation-india.html">SEL Evaluation in India deep dive</a> and the <a href="/courses/mel/">MEL flagship course</a>.</p>
+</div>
+
+<div class="related">
+  <h3>Related on ImpactMojo</h3>
+  <ul>
+    <li><a href="/courses/SEL/">SEL flagship course</a> — Social-emotional learning for development practice</li>
+    <li><a href="/DeepDives/sel-evaluation-india.html">Deep Dive: SEL Evaluation Techniques in India</a></li>
+    <li><a href="/Games/sel-simulation-game.html">SEL Simulation Game — four lenses on social-emotional learning</a></li>
+    <li><a href="/Labs/mel-design-lab.html">MEL Design Lab</a> — design your own evaluation</li>
+    <li><a href="/courses/livelihoods/">Livelihoods Flagship Course</a> — adjacent evidence base</li>
+  </ul>
+</div>
+
+<div class="footer-note">
+  Citations are working bibliography, not exhaustive. Last reviewed: May 2026. Pitch corrections or additions via <a href="/contact.html?topic=TeacherEvidenceLab">contact form</a>.
+</div>
+
+</div>
+
+<script>
+const INTERVENTIONS = [
+  {
+    id:'tarl',
+    title:'Teaching at the Right Level (TaRL)',
+    subtitle:'Group children by learning level, not grade. Targeted instruction. 30–60 days.',
+    category:'Pedagogy',
+    quality:'strong',
+    cost:'low',
+    costDetail:'~₹3,000–8,000 per teacher per year',
+    outcome:['Learning','Practice'],
+    india:'india-scaled',
+    indiaDetail:'Scaled (Bihar, UP, MP — 60+ million children)',
+    studies:'Banerjee et al. 2007, 2017; Duflo et al. 2020',
+    description:'Pratham\'s flagship pedagogy: assess where each child actually is in reading and arithmetic, then group and teach to that level rather than the official grade. Combined with 30–60 days of focused instruction (often during a "learning camp").',
+    evidence:'<p><strong>The single most-replicated learning-gains intervention in India.</strong> Multiple cluster RCTs (Banerjee, Banerji, Duflo et al.) show effect sizes of 0.2–0.7 standard deviations on basic literacy and numeracy — large by any education-research standard. Scaled successfully in Bihar (Mission Gunvatta), UP, and Madhya Pradesh through state partnerships.</p><p>Mechanism is well-understood: most Indian government school children are 2–4 grade levels behind the official curriculum; teaching to grade fails most of them. Teaching to actual level reaches them.</p>',
+    citations:['J-PAL South Asia','Pratham','3ie SR']
+  },
+  {
+    id:'structured-pedagogy',
+    title:'Structured Pedagogy (Scripted Lessons)',
+    subtitle:'Daily lesson plans with sequencing, examples, assessment built in. Teacher follows the script.',
+    category:'Pedagogy',
+    quality:'strong',
+    cost:'medium',
+    costDetail:'~₹15,000–30,000 per teacher per year (materials + training)',
+    outcome:['Learning','Practice'],
+    india:'india-tested',
+    indiaDetail:'Tested India + multiple African countries',
+    studies:'RTI 2018; Piper et al. 2018; Banerji, Pratham 2020',
+    description:'Detailed lesson scripts replacing teacher autonomy with a tightly-sequenced, externally-designed curriculum. Each lesson specifies what to say, when, with what examples, and how to assess.',
+    evidence:'<p><strong>Strong evidence base — particularly for early literacy.</strong> Kenya\'s Tusome program (Piper et al.) showed effect sizes of 0.4+ on reading; replicated in India by Pratham\'s Read India and by state-level reading-intervention designs.</p><p>Controversial. Critics (Bartlett, Pritchett) argue that scripting deprofessionalizes teachers and creates fragile gains that collapse when scripts are withdrawn. Defenders argue that "professional autonomy" without strong training has produced the existing very weak outcomes; scripting is the floor under which the system should not fall.</p>',
+    citations:['RTI International','Pratham','RISE Programme']
+  },
+  {
+    id:'contract-teachers',
+    title:'Contract / Para-Teachers',
+    subtitle:'Locally-recruited teachers on short contracts at 20–30% of regular teacher salaries.',
+    category:'Recruitment',
+    quality:'moderate',
+    cost:'low',
+    costDetail:'~₹6,000–12,000 per teacher per year (vs ₹40,000+ for government)',
+    outcome:['Learning'],
+    india:'india-scaled',
+    indiaDetail:'Widely used (Shiksha Karmi, Vidya Volunteer, others)',
+    studies:'Muralidharan & Sundararaman 2010; Atherton & Kingdon 2010; ASER 2020',
+    description:'Hire community teachers on annual contracts at a fraction of regular government teacher salaries. Typically less formally qualified; locally recruited; accountable to school management.',
+    evidence:'<p><strong>Strong learning-outcome evidence, deep political controversy.</strong> Andhra Pradesh RCT (Muralidharan & Sundararaman 2010) showed contract teachers produced larger learning gains than regular teachers at 1/3 the cost. Multiple replications confirm pattern.</p><p>Equity concerns are serious: contract teachers are often women from marginalised backgrounds, paid below minimum wage with no security. Teacher unions argue the policy entrenches a two-tier teaching profession. Most state implementations have been politically rolled back.</p><p>The "what works" finding here is real. So is the "for whom does it work, and at what cost to whom" question. Both belong in any honest assessment.</p>',
+    citations:['NBER Working Papers','RISE','ASER Centre']
+  },
+  {
+    id:'teacher-pay-perf',
+    title:'Teacher Pay-for-Performance',
+    subtitle:'Bonus pay tied to student learning gains.',
+    category:'Incentives',
+    quality:'weak',
+    cost:'medium',
+    costDetail:'~₹20,000–80,000 per teacher per year (varies by design)',
+    outcome:['Learning'],
+    india:'india-tested',
+    indiaDetail:'Tested AP, Karnataka; weak replication',
+    studies:'Muralidharan & Sundararaman 2011; Glewwe et al. 2010',
+    description:'Performance bonuses paid to teachers based on student test-score gains. Can be individual or group-based; can be for absolute scores or improvements.',
+    evidence:'<p><strong>One landmark positive study; weak replication; many implementation failures.</strong> The Andhra Pradesh teacher incentive RCT (Muralidharan & Sundararaman 2011) showed effect sizes of 0.15–0.27 SD on math and reading. This single study is heavily cited.</p><p>However: replications in Kenya, Tanzania, Chile, and Mexico have shown mixed-to-null results. Mechanism evidence is thin. Gaming and teaching-to-the-test concerns documented. Indian state-level implementations (e.g., Karnataka bonus schemes) have generally not produced replicated learning gains.</p><p>Bottom line: do not budget for this as a high-confidence intervention. The political case for paying good teachers more is reasonable; the evidence that performance bonuses produce learning gains at scale is much weaker than commonly assumed.</p>',
+    citations:['NBER','J-PAL','3ie SR']
+  },
+  {
+    id:'mentoring-coaching',
+    title:'Teacher Mentoring & In-Classroom Coaching',
+    subtitle:'Skilled mentor visits classroom regularly (every 2–4 weeks). Observe, give feedback, model.',
+    category:'Mentoring',
+    quality:'strong',
+    cost:'medium',
+    costDetail:'~₹25,000–50,000 per teacher per year',
+    outcome:['Learning','Practice','Retention'],
+    india:'india-tested',
+    indiaDetail:'Pratham, STIR, Akanksha — extensively tested',
+    studies:'Kraft, Blazar, Hogan 2018 (global meta); STIR Education studies; Pratham mentor-program data',
+    description:'Structured ongoing coaching by a skilled mentor — typically a former teacher or trained educator — embedded in the school. Visits every 2–4 weeks, observes a class, gives specific feedback, sometimes models a lesson.',
+    evidence:'<p><strong>The strongest evidence base of any teacher PD intervention.</strong> Kraft, Blazar, Hogan\'s global meta-analysis (2018): coaching produces effect sizes of 0.49 on teacher practice and 0.18 on student learning — large by PD-research standards.</p><p>Indian programs (STIR Education, Pratham Master Trainer model) consistently report positive teacher-practice changes and improved teacher retention. Tradeoff: requires skilled mentors, which are scarce, and intensive time investment.</p><p>The most cost-effective Indian implementations cluster mentoring (one mentor per 8–12 teachers) rather than universal coverage.</p>',
+    citations:['Kraft et al. 2018','STIR Education','Pratham']
+  },
+  {
+    id:'cascade-training',
+    title:'Cascade Teacher Training (Master Trainer Model)',
+    subtitle:'Train master trainers → train block trainers → train teachers. Standard government model.',
+    category:'Training',
+    quality:'weak',
+    cost:'low',
+    costDetail:'~₹2,000–6,000 per teacher per year',
+    outcome:['Practice'],
+    india:'india-scaled',
+    indiaDetail:'Default government model (SSA, Samagra Shiksha)',
+    studies:'Hayes 2000 (Africa); RTI cross-country; multiple India process evaluations',
+    description:'The standard government model: nationally certified master trainers train state-level resource persons, who train block-level trainers, who train cluster-level resource persons, who finally train teachers.',
+    evidence:'<p><strong>Strong "looks scalable on paper" appeal; consistently weak evidence of classroom impact.</strong> Multiple process evaluations document fidelity loss of 60–80% by the time training reaches the classroom. Each link in the chain loses content, energy, and specificity.</p><p>The model survives because it is the only mechanism that fits within government training budgets and structures. But effect sizes on teacher practice and student learning are consistently near zero.</p><p>Stronger alternatives: direct training of teachers by skilled providers (more expensive per teacher, but actually changes practice), or training-of-trainers limited to two cascade levels not five.</p>',
+    citations:['RTI International','UNESCO','SAQMEC']
+  },
+  {
+    id:'multi-grade-training',
+    title:'Multi-Grade Pedagogy Training',
+    subtitle:'Train teachers specifically to teach multiple grades simultaneously — the actual rural India classroom.',
+    category:'Training',
+    quality:'moderate',
+    cost:'low',
+    costDetail:'~₹8,000–15,000 per teacher per year',
+    outcome:['Learning','Practice'],
+    india:'india-tested',
+    indiaDetail:'Rishi Valley, Pratham, several state pilots',
+    studies:'Berry 2006; NCERT 2018; Pratham multi-grade studies',
+    description:'Recognising that most rural Indian government primary schools have one teacher handling multiple grades simultaneously, train teachers in actual multi-grade pedagogy — peer learning, learning corners, level-appropriate independent work.',
+    evidence:'<p><strong>Moderate evidence base; massively under-resourced relative to the scale of the problem.</strong> Roughly 35% of Indian government primary schools are multi-grade. The standard teacher curriculum trains teachers for single-grade classrooms they will never have.</p><p>Indian programs (Rishi Valley\'s "School in a Box," Pratham\'s multi-grade modules) document substantial learning gains. The intervention is conceptually simple but politically neglected — multi-grade schools are typically in remote, poor, low-status locations.</p>',
+    citations:['Rishi Valley Institute','NCERT','UNICEF']
+  },
+  {
+    id:'reading-intervention',
+    title:'Early Reading Intervention (Read India / Tusome model)',
+    subtitle:'Daily 1-hour focused reading instruction with structured materials.',
+    category:'Pedagogy',
+    quality:'strong',
+    cost:'low',
+    costDetail:'~₹5,000–10,000 per teacher per year',
+    outcome:['Learning'],
+    india:'india-scaled',
+    indiaDetail:'Pratham Read India scaled; state implementations',
+    studies:'Banerjee et al. 2017; Piper et al. 2018; ASER reading data',
+    description:'Daily one-hour intensive reading instruction using structured materials (graded readers, phonics or whole-word approaches, regular assessment). Often paired with TaRL grouping.',
+    evidence:'<p><strong>Among the strongest evidence bases for low-cost learning interventions.</strong> Kenya\'s Tusome and India\'s Read India both document 0.3–0.5 SD improvements in reading fluency for ~₹6,000/teacher/year.</p><p>Mechanism is straightforward: most Indian government school children cannot read fluently by grade 3 (ASER data, every year since 2005). Daily focused instruction with appropriate materials addresses this directly.</p>',
+    citations:['Pratham','RTI International','ASER Centre']
+  },
+  {
+    id:'mindspark',
+    title:'Mindspark (Computer-Assisted Adaptive Learning)',
+    subtitle:'Adaptive software diagnoses learning level, delivers targeted practice. After-school model.',
+    category:'Technology',
+    quality:'strong',
+    cost:'medium',
+    costDetail:'~₹15,000–30,000 per student per year (software + facility)',
+    outcome:['Learning'],
+    india:'india-tested',
+    indiaDetail:'Tested Delhi; expanding selectively',
+    studies:'Muralidharan, Singh, Ganimian 2019',
+    description:'Educational Initiatives\' adaptive learning software. Diagnoses each student\'s precise learning level, delivers targeted practice. Implemented as after-school programs in tutoring centers, not as classroom replacements.',
+    evidence:'<p><strong>One of the cleanest positive ed-tech evaluations in India.</strong> Muralidharan, Singh & Ganimian (2019) randomised access to Mindspark after-school in Delhi: effect sizes of 0.37 SD on math and 0.23 SD on Hindi over 4.5 months. Large effects.</p><p>Key conditions: adaptive (not generic) software, in-person facilitation, after-school setting (not in-class substitution). Naive tablet rollouts that lack these features have generally not replicated.</p><p>Cost is the constraint — at ~₹15K-30K/student/year, this is roughly 10x the cost of TaRL per child for similar learning gains. Useful for specific contexts (urban supplementary, remediation); not a low-cost-at-scale solution.</p>',
+    citations:['NBER','J-PAL South Asia','Educational Initiatives']
+  },
+  {
+    id:'teacher-attendance-monitoring',
+    title:'Teacher Attendance Monitoring (Cameras / Biometric)',
+    subtitle:'Cameras or biometric devices track teacher attendance; salary linked to attendance.',
+    category:'Incentives',
+    quality:'moderate',
+    cost:'low',
+    costDetail:'~₹3,000–6,000 per teacher per year',
+    outcome:['Attendance','Learning'],
+    india:'india-tested',
+    indiaDetail:'Tested Rajasthan, Karnataka; state-level rollouts',
+    studies:'Duflo, Hanna, Ryan 2012 (Rajasthan); Banerjee et al. 2008',
+    description:'Cameras (or later biometric devices) document teacher attendance. Salary or bonuses linked to documented attendance. Used in remote schools where supervision is otherwise weak.',
+    evidence:'<p><strong>Replicated effect on absenteeism in remote schools — but learning effects are smaller than expected.</strong> Rajasthan camera RCT (Duflo, Hanna, Ryan 2012) showed teacher absenteeism dropping from ~40% to ~20%, with measurable learning gains.</p><p>However: more recent state rollouts have shown gaming (cameras in known locations, teachers signing in then leaving) and that getting teachers to school is necessary but not sufficient for them to teach effectively when there.</p><p>Treat as a "table stakes" intervention — fix attendance first, then layer pedagogy on top. Not a learning intervention on its own at scale.</p>',
+    citations:['NBER','J-PAL']
+  },
+  {
+    id:'community-monitoring',
+    title:'Community Monitoring (SMC, School Report Cards)',
+    subtitle:'School Management Committees, public report cards, community oversight mechanisms.',
+    category:'School-Mgmt',
+    quality:'weak',
+    cost:'low',
+    costDetail:'~₹2,000–5,000 per school per year',
+    outcome:['Attendance','Practice'],
+    india:'india-scaled',
+    indiaDetail:'Mandated under RTE Act; widely implemented; effects modest',
+    studies:'Banerjee, Banerji, Duflo, Glennerster, Khemani 2010; ASER',
+    description:'Community oversight of schools through School Management Committees, mandatory under the Right to Education Act 2009. Includes public posting of school information, periodic parent meetings, social audits.',
+    evidence:'<p><strong>Substantial evidence that "information for accountability" interventions work poorly in low-capacity settings.</strong> Banerjee et al. 2010 randomised information and committee-mobilisation interventions in Uttar Pradesh — found minimal effects on teacher attendance, learning, or institutional functioning.</p><p>The mechanism\'s logic — informed parents will demand better schools — depends on parents having social and political capacity to demand. Where they don\'t (low literacy, marginalised caste/class status, ruling-party schools), the mechanism doesn\'t engage.</p><p>This doesn\'t mean SMCs are useless — they can be one element in a broader accountability ecosystem. It does mean "fix the school by activating the SMC" is rarely sufficient.</p>',
+    citations:['J-PAL South Asia','ASER','RTE Forum']
+  },
+  {
+    id:'private-school-vouchers',
+    title:'Private School Vouchers',
+    subtitle:'Government pays for poor children to attend private schools (RTE 25% reservation; AP voucher RCT).',
+    category:'School-Mgmt',
+    quality:'moderate',
+    cost:'high',
+    costDetail:'~₹10,000–25,000 per student per year (state varies)',
+    outcome:['Learning','Equity'],
+    india:'india-scaled',
+    indiaDetail:'RTE 25% reservation; AP voucher RCT',
+    studies:'Muralidharan & Sundararaman 2015; Wadhwa 2014',
+    description:'Government subsidises poor students to attend private schools — either through targeted voucher schemes (AP RCT) or the RTE Act\'s 25% reservation in private schools.',
+    evidence:'<p><strong>Mixed evidence — and contested interpretation.</strong> AP voucher RCT (Muralidharan & Sundararaman 2015) found private school children spent less classroom time on tested subjects but had similar learning outcomes — suggesting private schools achieved equivalent results more efficiently.</p><p>However: RTE 25% reservation implementations have shown disappointing equity outcomes — children placed in private schools often face social marginalisation, drop-out is high, and the bureaucratic reimbursement system has been gamed widely.</p><p>The "vouchers work" claim from the AP RCT does not straightforwardly translate to the RTE reservation as actually implemented. Read both literatures together, not selectively.</p>',
+    citations:['NBER','RISE','Centre for Civil Society']
+  },
+  {
+    id:'principal-leadership',
+    title:'School Principal Training & Leadership Development',
+    subtitle:'Train principals as instructional leaders, not just administrators.',
+    category:'School-Mgmt',
+    quality:'emerging',
+    cost:'medium',
+    costDetail:'~₹40,000–80,000 per principal per year (during training cycles)',
+    outcome:['Learning','Practice','Retention'],
+    india:'india-tested',
+    indiaDetail:'NIEPA, Akanksha, Teach For India principal programs',
+    studies:'Fryer 2017 (US); Romero, Sandefur, Sandholtz 2020 (Liberia); NIEPA principal-effectiveness studies',
+    description:'Train school principals in instructional leadership — observation, feedback, curriculum, teacher development — rather than treating principalship as primarily administrative.',
+    evidence:'<p><strong>Growing evidence base; under-resourced in India.</strong> Liberia partnership-schools study (Romero, Sandefur, Sandholtz 2020) and US studies (Fryer) both identify principal quality as a substantial leverage point.</p><p>Indian evidence is thinner — most Indian government schools have no full-time principal, or the principal is also a teaching teacher with no leadership training. NIEPA principal-development programs are widely available but rarely linked to systematic teacher-improvement outcomes.</p><p>One of the most under-researched levers in Indian education — likely high returns from rigorous evaluation.</p>',
+    citations:['NIEPA','Fryer 2017','RISE']
+  },
+  {
+    id:'one-on-one-tutoring',
+    title:'One-on-One / Small-Group Tutoring',
+    subtitle:'Trained tutors (community members, retired teachers) work with 1–4 children daily.',
+    category:'Pedagogy',
+    quality:'strong',
+    cost:'medium',
+    costDetail:'~₹15,000–35,000 per child per year',
+    outcome:['Learning'],
+    india:'india-tested',
+    indiaDetail:'Pratham Balsakhi; multiple NGO programs',
+    studies:'Banerjee et al. 2007; Cabezas, Cuesta, Gallego 2011 (global meta)',
+    description:'Trained tutors (often community members with high-school education, sometimes retired teachers) work with 1–4 lagging children daily for 1–2 hours, focused on basics.',
+    evidence:'<p><strong>Among the largest effect sizes in education research globally.</strong> Pratham\'s Balsakhi model (Banerjee et al. 2007) and the COVID-era catch-up tutoring evidence have repeatedly shown 0.3–0.5 SD effects.</p><p>Mechanism is clear: lagging students get focused, calibrated attention impossible in large classrooms. Cost is the constraint — even community tutors are not free, and tutor management requires institutional capacity.</p><p>Currently being scaled in some Indian states post-COVID as "learning recovery" programs.</p>',
+    citations:['Pratham','J-PAL','NBER']
+  },
+  {
+    id:'teacher-recruitment-tests',
+    title:'Teacher Recruitment Tests (TET / CTET)',
+    subtitle:'Standardised tests for teacher qualification.',
+    category:'Recruitment',
+    quality:'weak',
+    cost:'low',
+    costDetail:'~₹500–2,000 per candidate (administered nationally)',
+    outcome:['Learning','Practice'],
+    india:'india-scaled',
+    indiaDetail:'Mandated nationally; high failure rates',
+    studies:'Atherton & Kingdon 2010; Béteille 2009; multiple India studies',
+    description:'Mandatory teacher-eligibility tests (TET state-level, CTET central) introduced after RTE Act 2009. Designed to ensure baseline subject and pedagogical competence.',
+    evidence:'<p><strong>Weak evidence that scoring on these tests predicts classroom effectiveness.</strong> TET/CTET pass rates are typically 15–25% — suggesting a real problem with teacher-candidate quality. But correlations between TET scores and student-learning outcomes are weak (Béteille 2009).</p><p>Mechanism issue: the tests measure knowledge and pedagogical theory, not classroom practice — and the gap between knowing what to do and doing it consistently is the main thing teacher PD has to address.</p><p>The political value (signal of quality, justification for rejection) outweighs the empirical predictive value. Don\'t expect "raising the TET pass mark" to improve teaching.</p>',
+    citations:['NCTE','Béteille 2009','RISE']
+  },
+  {
+    id:'teacher-housing',
+    title:'Teacher Housing / Posting Reforms',
+    subtitle:'Provide housing in remote postings; reform transfer politics; reduce absenteeism via posting reform.',
+    category:'Recruitment',
+    quality:'emerging',
+    cost:'high',
+    costDetail:'~₹50,000–1,50,000 per teacher per year (housing capital cost amortised)',
+    outcome:['Attendance','Retention'],
+    india:'india-tested',
+    indiaDetail:'Limited rigorous evaluation; state pilots',
+    studies:'Béteille 2009; World Bank teacher policy reports; Jharkhand evaluation',
+    description:'Address the root cause of remote-school teacher absenteeism: teachers don\'t live near remote schools, transfers are politically driven, and posting is a major source of teacher unhappiness. Provide housing, regularise transfers, reduce political interference.',
+    evidence:'<p><strong>Conceptually high-leverage; rigorously evaluated rarely; in practice politically blocked.</strong> Béteille (2009) and World Bank reports document the depth of the teacher-posting problem in India. Teachers absent because they live 50km away, in cities, with politically-mediated transfers.</p><p>State pilots (Jharkhand, Madhya Pradesh) have tried housing-provision and transfer reform — results have been mixed because the political economy of transfers is structurally hard to reform.</p><p>If you have ten priorities for Indian teacher-effectiveness reform, this is in the top three. It almost never makes it into actual reform agendas because the political costs are high and the constituency for reform is fragmented.</p>',
+    citations:['World Bank','Béteille 2009','RISE']
+  },
+  {
+    id:'female-teachers',
+    title:'Recruiting & Retaining Female Teachers',
+    subtitle:'Active recruitment, safety/transit support, retention measures for female teachers.',
+    category:'Recruitment',
+    quality:'moderate',
+    cost:'medium',
+    costDetail:'~₹15,000–40,000 per teacher per year incremental',
+    outcome:['Learning','Equity','Attendance'],
+    india:'india-tested',
+    indiaDetail:'NPEGEL, Kasturba schools, state programs',
+    studies:'Muralidharan & Sheth 2016; Sundararaman 2010',
+    description:'Active recruitment of female teachers, especially in girls\' schools and remote postings. Includes safety/transit support, separate accommodation, retention incentives.',
+    evidence:'<p><strong>Real positive effects on girls\' attendance and learning; mechanism well-established.</strong> Muralidharan & Sheth (2016) showed female teachers produce learning gains specifically for girl students — effect sizes of 0.2–0.3 SD on mathematics.</p><p>Mechanism: role-modeling, safer reporting environment, more sustained presence. Less well-evaluated: what supports female teachers actually need to stay in remote postings — and whether existing schemes provide enough of the right kind.</p>',
+    citations:['NBER','Pratichi Trust','NPEGEL evaluations']
+  },
+  {
+    id:'whatsapp-pd',
+    title:'WhatsApp-Based Teacher PD',
+    subtitle:'Short video lessons, peer discussion groups via WhatsApp.',
+    category:'Technology',
+    quality:'emerging',
+    cost:'low',
+    costDetail:'~₹500–3,000 per teacher per year',
+    outcome:['Practice'],
+    india:'india-tested',
+    indiaDetail:'Many state and NGO pilots; effects modest',
+    studies:'STIR Education; Akanksha Foundation; Pratham COVID-era studies',
+    description:'Low-bandwidth professional development via WhatsApp: short video lessons (5–10 minutes), peer discussion groups, monthly micro-tasks.',
+    evidence:'<p><strong>Promising at very low cost; effects modest; works best as supplement.</strong> COVID-era expansion produced learning about what works at this format: short content, peer interaction, light institutional structure.</p><p>Effect sizes consistently smaller than in-person mentoring; cost ratio is also dramatically lower. Best used as supplement to in-person PD, not as substitute.</p>',
+    citations:['STIR Education','Akanksha','3ie']
+  },
+  {
+    id:'reduced-class-size',
+    title:'Reduced Class Size (Pupil-Teacher Ratio)',
+    subtitle:'Hire more teachers to reduce average class size.',
+    category:'School-Mgmt',
+    quality:'moderate',
+    cost:'high',
+    costDetail:'~₹40,000–80,000 per additional teacher per year',
+    outcome:['Learning','Practice'],
+    india:'india-tested',
+    indiaDetail:'Tested AP, Bihar, others',
+    studies:'Muralidharan & Sundararaman 2010 (extra-teacher RCT); Banerjee, Banerji, Duflo 2007',
+    description:'Hire more teachers to reduce average class size — typically from 50:1 or higher down to 30:1.',
+    evidence:'<p><strong>Real but modest effects; cost is the dealbreaker.</strong> The Andhra Pradesh extra-teacher RCT showed effect sizes of 0.08–0.16 SD — real, but small relative to TaRL or tutoring at similar cost.</p><p>The smaller-class case is often confused with the contract-teacher case. Smaller classes with the same teachers produce modest learning gains; replacing or supplementing regular teachers with contract teachers produces larger gains. They are different interventions.</p>',
+    citations:['NBER','J-PAL','RISE']
+  },
+  {
+    id:'school-meals',
+    title:'Mid-Day Meal Scheme',
+    subtitle:'Free hot meals at school — primary policy goal is nutrition + enrollment.',
+    category:'School-Mgmt',
+    quality:'strong',
+    cost:'medium',
+    costDetail:'~₹4,000–8,000 per child per year',
+    outcome:['Attendance','Learning'],
+    india:'india-scaled',
+    indiaDetail:'Universal scheme since 2001; 120M+ children',
+    studies:'Drèze & Goyal 2003; Afridi 2010; Singh, Park, Dercon 2014',
+    description:'Free hot mid-day meal at primary school. Originally a Tamil Nadu state scheme; nationalised 2001.',
+    evidence:'<p><strong>Real positive effects on enrollment and attendance; modest learning effects; nutritional case primary.</strong> Drèze & Goyal (2003), Afridi (2010): substantial effects on enrollment (~10pp) and reductions in classroom hunger.</p><p>Learning effects through better cognition operate slowly and modestly. Caste-segregation and food-quality concerns documented in implementation. Strong defence of the program is multi-objective: nutrition + caste-mixing + female employment in cooking + enrollment + small learning gains.</p>',
+    citations:['EPW','J-PAL','NIN']
+  },
+  {
+    id:'language-of-instruction',
+    title:'Mother-Tongue Instruction (Multi-Lingual Education)',
+    subtitle:'Teach in the child\'s home language, especially early grades; transition gradually.',
+    category:'Pedagogy',
+    quality:'strong',
+    cost:'medium',
+    costDetail:'~₹6,000–15,000 per teacher per year (materials + training)',
+    outcome:['Learning','Equity'],
+    india:'india-tested',
+    indiaDetail:'NEP 2020 endorsed; Odisha tribal MLE; AP, Andhra MLE',
+    studies:'Pinnock 2009 (global meta); Mohanty 2012; NCERT MLE evaluations',
+    description:'Teach early grades primarily in the child\'s home language (often a tribal language or regional dialect), introducing the formal-state language as a subject and gradually transitioning. Endorsed by NEP 2020.',
+    evidence:'<p><strong>Strong evidence base globally and in India; consistently under-implemented.</strong> Pinnock\'s global meta-analysis and Odisha\'s tribal MLE program both document substantial learning gains for children whose home language differs from the school language.</p><p>The political economy is the main barrier — middle-class aspiration for English-medium, state-language politics, materials production cost. NEP 2020\'s endorsement may unlock more serious implementation.</p>',
+    citations:['UNESCO','NCERT','Mohanty 2012']
+  },
+  {
+    id:'remedial-camps',
+    title:'Bridge Camps / Learning Camps (Intensive Remediation)',
+    subtitle:'30–60 day intensive remediation outside regular school schedule.',
+    category:'Pedagogy',
+    quality:'strong',
+    cost:'low',
+    costDetail:'~₹3,000–7,000 per child per year',
+    outcome:['Learning'],
+    india:'india-scaled',
+    indiaDetail:'Pratham learning camps; state catch-up programs',
+    studies:'Banerjee et al. 2017; ASER pre/post camp data',
+    description:'Intensive 30–60 day remediation outside regular school schedule, focused on bringing children to baseline literacy and numeracy.',
+    evidence:'<p><strong>Well-evidenced as a learning-recovery mechanism, particularly post-COVID.</strong> Pratham\'s learning-camp model documents 0.3+ SD gains on basic literacy/numeracy in 30 days.</p><p>Best used as a complement to year-round TaRL pedagogy, not as a substitute. Camps without subsequent classroom reform produce gains that erode within a year.</p>',
+    citations:['Pratham','ASER','J-PAL']
+  },
+  {
+    id:'sel-curriculum',
+    title:'SEL Curriculum Implementation (Teacher Training For)',
+    subtitle:'Train teachers to deliver structured social-emotional learning curricula.',
+    category:'Training',
+    quality:'moderate',
+    cost:'medium',
+    costDetail:'~₹20,000–50,000 per teacher per year (training + materials)',
+    outcome:['Wellbeing','Practice'],
+    india:'india-tested',
+    indiaDetail:'Sangati, Apni Shala, Dost; Delhi Happiness Curriculum',
+    studies:'Durlak et al. 2011 (global meta); Indian SEL evaluations 2017–2024',
+    description:'Train teachers to deliver structured SEL programs — CASEL-aligned curricula or India-developed equivalents.',
+    evidence:'<p><strong>Moderate India-specific evidence; strong global evidence base.</strong> Durlak\'s 2011 meta-analysis (213 studies) shows 11 percentile-point academic gains and substantial improvements in social-emotional skills.</p><p>Indian implementations (Sangati, Apni Shala, Delhi Happiness Curriculum) show similar directional effects with smaller effect sizes — fidelity is the main constraint. See <a href="/courses/SEL/">SEL flagship course</a> and the <a href="/Games/sel-simulation-game.html">SEL Simulation Game</a> for deeper treatment.</p>',
+    citations:['Durlak 2011','CASEL','Apni Shala']
+  },
+  {
+    id:'menstrual-hygiene',
+    title:'Menstrual Hygiene + Toilet Provision',
+    subtitle:'Toilets, sanitary pads, menstrual education — primary policy goal is adolescent girl retention.',
+    category:'School-Mgmt',
+    quality:'moderate',
+    cost:'medium',
+    costDetail:'~₹3,000–10,000 per girl per year',
+    outcome:['Attendance','Equity'],
+    india:'india-scaled',
+    indiaDetail:'Swachh Bharat; multiple state programs',
+    studies:'Adukia 2017; Oster & Thornton 2011',
+    description:'Toilet construction and maintenance, free sanitary product provision, menstrual hygiene education — designed primarily to address adolescent girl school dropout.',
+    evidence:'<p><strong>Real effects on girl attendance and retention, especially adolescent.</strong> Adukia (2017) showed substantial enrollment effects from school toilet construction. Sanitary product provision (Oster & Thornton 2011) showed smaller direct attendance effects but documented quality-of-experience improvements.</p><p>The infrastructure case is much stronger when toilets are maintained. Toilet construction without maintenance budgets — the standard government model — undercuts the intervention.</p>',
+    citations:['Adukia 2017','Swachh Bharat','UNICEF']
+  },
+  {
+    id:'in-class-observation',
+    title:'Structured Classroom Observation (Self + Peer)',
+    subtitle:'Video- or peer-based observation tools; teachers reflect on their own practice.',
+    category:'Mentoring',
+    quality:'emerging',
+    cost:'low',
+    costDetail:'~₹3,000–8,000 per teacher per year',
+    outcome:['Practice'],
+    india:'india-tested',
+    indiaDetail:'STIR Education; TESS-India',
+    studies:'Allen et al. 2011; STIR India studies; TESS-India effectiveness data',
+    description:'Provide teachers structured observation tools — short video clips of teaching, structured peer observation protocols — to reflect on and discuss practice.',
+    evidence:'<p><strong>Emerging evidence base; strong fit with Indian institutional realities.</strong> STIR Education and TESS-India both report that giving teachers tools to observe and reflect on their own practice produces measurable changes in teacher behavior over 6–12 months.</p><p>Less rigorous evidence than mentoring (which is more expensive and harder to scale), but more feasible institutionally. Likely complementary rather than substitute.</p>',
+    citations:['STIR Education','TESS-India','J-PAL']
+  },
+  {
+    id:'teacher-collectives',
+    title:'Teacher Peer Collectives / Learning Communities',
+    subtitle:'Structured peer learning groups across schools — monthly meetings.',
+    category:'Mentoring',
+    quality:'emerging',
+    cost:'low',
+    costDetail:'~₹2,000–6,000 per teacher per year',
+    outcome:['Practice','Retention','Wellbeing'],
+    india:'india-tested',
+    indiaDetail:'Several NGO and state initiatives; growing base',
+    studies:'Vescio et al. 2008 (US PLC meta); India: STIR, Akanksha collective studies',
+    description:'Structured monthly meetings of teachers from multiple nearby schools to discuss practice, solve shared problems, learn together. Often facilitated by a coach.',
+    evidence:'<p><strong>Growing positive evidence; particularly strong for teacher retention and wellbeing.</strong> Professional Learning Community evidence from US contexts (Vescio meta 2008) generally positive. India-specific evidence emerging from STIR and Akanksha.</p><p>The wellbeing/retention case is particularly strong — teachers in rural and remote postings report substantial benefit from monthly peer contact. The practice-change effects are smaller and depend on the facilitation quality.</p>',
+    citations:['STIR Education','Vescio 2008','Akanksha']
+  },
+  {
+    id:'private-tuition',
+    title:'Private Tuition (Shadow Education)',
+    subtitle:'Out-of-school paid private tuition — already widespread.',
+    category:'Pedagogy',
+    quality:'weak',
+    cost:'medium',
+    costDetail:'~₹5,000–30,000 per child per year (parental cost)',
+    outcome:['Learning'],
+    india:'india-scaled',
+    indiaDetail:'~25-40% of Indian school children (ASER 2022)',
+    studies:'Bray 2009 (global); ASER data; Aslam & Atherton 2014',
+    description:'Out-of-school paid private tuition — the largest single educational expenditure of Indian households, used by 25-40% of school children (ASER 2022).',
+    evidence:'<p><strong>Weak rigorous evidence; massive scale; major equity implications.</strong> Causal identification is hard — children with private tuition are systematically different (richer, more educated parents). Cross-sectional studies typically show positive correlations; rigorous causal evidence is weak.</p><p>The intervention is "real" in the sense that it shapes the actual learning experience of a large share of Indian children. Treating it as a policy variable is harder — public-policy can\'t straightforwardly subsidise or restrict it.</p>',
+    citations:['ASER','Bray 2009','RISE']
+  },
+  {
+    id:'teacher-eligibility-test-prep',
+    title:'Pre-Service Teacher Training Reform (BEd, DEd, DIET Reform)',
+    subtitle:'Reform the 2-year pre-service teacher education programs.',
+    category:'Training',
+    quality:'weak',
+    cost:'high',
+    costDetail:'~₹50,000–1,50,000 per teacher (one-time)',
+    outcome:['Practice'],
+    india:'india-scaled',
+    indiaDetail:'NEP 2020 mandates 4-year integrated B.Ed; ongoing reform',
+    studies:'Multiple NCTE reviews; Justice Verma Commission 2012; RISE pre-service reviews',
+    description:'Reform pre-service teacher training — the existing BEd and DEd programs are widely critiqued as theoretically detached, of variable quality, and a major source of system weakness.',
+    evidence:'<p><strong>Real problem; effective reform extremely hard to implement.</strong> The Justice Verma Commission (2012) documented systematic failures of Indian pre-service teacher education — fake teacher training colleges, weak pedagogical content, no link to actual classrooms.</p><p>NEP 2020\'s 4-year integrated BEd is a partial response, but implementation is slow. Hard to demonstrate causal evidence at a system level; what we know is that the current system produces TET pass rates of ~20%, which suggests systematic quality failure.</p>',
+    citations:['NCTE','Verma Commission 2012','RISE']
+  },
+  {
+    id:'teacher-mental-health',
+    title:'Teacher Mental Health & Wellbeing Support',
+    subtitle:'Direct mental health support for teachers (counselling, peer support, leave policies).',
+    category:'School-Mgmt',
+    quality:'emerging',
+    cost:'low',
+    costDetail:'~₹3,000–10,000 per teacher per year',
+    outcome:['Wellbeing','Retention'],
+    india:'india-tested',
+    indiaDetail:'Limited rigorous evaluation; growing implementation',
+    studies:'Limited rigorous India evidence; OECD teacher wellbeing reviews',
+    description:'Direct mental health support for teachers — counselling, structured peer support groups, mental-health-aware leave policies. Recognising that teachers are themselves under substantial stress.',
+    evidence:'<p><strong>Under-evaluated; growing recognition; likely high returns.</strong> NCERT and OECD teacher wellbeing reviews flag this as a systemically under-attended issue. Teacher burnout, depression, and absenteeism are correlated; effective wellbeing support may simultaneously address multiple problems.</p><p>The Indian rigorous evidence base is thin — much of the relevant work is happening in NGO pilot mode and has not been rigorously evaluated.</p>',
+    citations:['OECD','NCERT','APU']
+  },
+  {
+    id:'parent-engagement',
+    title:'Parent Engagement Programs',
+    subtitle:'Structured parent-school engagement — SMS, parent-teacher meetings, home visits.',
+    category:'School-Mgmt',
+    quality:'moderate',
+    cost:'low',
+    costDetail:'~₹1,000–4,000 per child per year',
+    outcome:['Learning','Attendance'],
+    india:'india-tested',
+    indiaDetail:'Pratham, Dost, Akanksha programs',
+    studies:'Berlinski et al. 2016 (LMIC); Pratham parent SMS studies',
+    description:'Structured engagement between parents and school — SMS reminders to parents, parent-teacher meetings, home visits, low-literacy-friendly tools.',
+    evidence:'<p><strong>Modest positive effects, especially in low-literacy contexts.</strong> SMS reminders to parents about attendance and homework produce measurable effects (Berlinski 2016, India replications).</p><p>Larger-scale parent-engagement interventions (PTAs, parent training) produce smaller and more inconsistent effects. The simplest interventions (SMS) tend to be the best-evidenced.</p>',
+    citations:['Berlinski 2016','J-PAL','Pratham']
+  }
+];
+
+function badgeForQuality(q){
+  return {strong:'badge-strong',moderate:'badge-moderate',emerging:'badge-emerging',weak:'badge-weak'}[q] || 'badge-emerging';
+}
+function badgeForCost(c){
+  return {low:'badge-cost-low',medium:'badge-cost-med',high:'badge-cost-high'}[c] || 'badge-cost-med';
+}
+function labelForQuality(q){
+  return {strong:'Strong evidence',moderate:'Moderate',emerging:'Emerging',weak:'Weak / null'}[q] || q;
+}
+function labelForCost(c){
+  return {low:'Low cost',medium:'Medium cost',high:'High cost'}[c] || c;
+}
+function labelForIndia(i){
+  return {
+    'india-scaled':'Scaled in India',
+    'india-tested':'India-tested',
+    'south-asia':'South Asia',
+    'global':'Global'
+  }[i] || i;
+}
+
+function renderCards(items){
+  const grid = document.getElementById('evidenceGrid');
+  if (items.length === 0){
+    grid.innerHTML = `<div class="empty-state"><h3>No matches</h3><p>Try widening filters or reset all.</p></div>`;
+    return;
+  }
+  grid.innerHTML = items.map(d => `
+    <article class="evidence-card" id="card-${d.id}">
+      <div class="card-header-row">
+        <div>
+          <h3 class="card-title">${d.title}</h3>
+          <div class="card-subtitle">${d.subtitle}</div>
+        </div>
+        <div class="card-badges">
+          <span class="badge ${badgeForQuality(d.quality)}">${labelForQuality(d.quality)}</span>
+          <span class="badge ${badgeForCost(d.cost)}">${labelForCost(d.cost)}</span>
+        </div>
+      </div>
+      <p class="card-description">${d.description}</p>
+      <div class="card-meta-grid">
+        <div class="meta-item"><span class="meta-label">Type</span><span class="meta-value">${d.category}</span></div>
+        <div class="meta-item"><span class="meta-label">Cost</span><span class="meta-value">${d.costDetail}</span></div>
+        <div class="meta-item"><span class="meta-label">India context</span><span class="meta-value">${d.indiaDetail}</span></div>
+        <div class="meta-item"><span class="meta-label">Outcome</span><span class="meta-value">${d.outcome.join(', ')}</span></div>
+      </div>
+      <div class="card-evidence">
+        <div class="card-evidence-label">What the evidence actually shows</div>
+        ${d.evidence}
+      </div>
+      <div class="card-citations">
+        <span class="meta-label" style="margin-right:.4rem;align-self:center">Key studies:</span>
+        ${d.citations.map(c => `<span class="citation-tag">${c}</span>`).join('')}
+      </div>
+    </article>
+  `).join('');
+}
+
+function applyFilters(){
+  const q = document.getElementById('filter-search').value.toLowerCase().trim();
+  const quality = document.getElementById('filter-quality').value;
+  const cost = document.getElementById('filter-cost').value;
+  const category = document.getElementById('filter-category').value;
+  const outcome = document.getElementById('filter-outcome').value;
+  const india = document.getElementById('filter-india').value;
+
+  const filtered = INTERVENTIONS.filter(d => {
+    if (q && !(d.title + ' ' + d.description + ' ' + d.subtitle + ' ' + d.category).toLowerCase().includes(q)) return false;
+    if (quality && d.quality !== quality) return false;
+    if (cost && d.cost !== cost) return false;
+    if (category && d.category !== category) return false;
+    if (outcome && !d.outcome.includes(outcome)) return false;
+    if (india && d.india !== india) return false;
+    return true;
+  });
+
+  document.getElementById('resultCount').textContent = `Showing ${filtered.length} of ${INTERVENTIONS.length} interventions`;
+  renderCards(filtered);
+}
+
+function resetFilters(){
+  document.getElementById('filter-search').value = '';
+  document.getElementById('filter-quality').value = '';
+  document.getElementById('filter-cost').value = '';
+  document.getElementById('filter-category').value = '';
+  document.getElementById('filter-outcome').value = '';
+  document.getElementById('filter-india').value = '';
+  applyFilters();
+}
+
+// Init
+renderCards(INTERVENTIONS);
+
+// Theme
+(function(){
+  const saved = localStorage.getItem('impactmojo-theme');
+  if (saved && saved !== 'system') document.documentElement.setAttribute('data-theme', saved);
+})();
+</script>
+
+</body>
+</html>
