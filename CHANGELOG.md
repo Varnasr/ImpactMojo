@@ -5,6 +5,36 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.27.0] - 2026-05-23
+
+### Practice Packs v2 — Interactive lab-features + Subject/Method tracks + PP02 Livelihoods Evaluation
+
+Cofounder feedback: (1) the PP roadmap looked all-SEL because PP01 was the only live subject pack — felt narrow; (2) labs and handouts outperform courses because they're interactive — Practice Packs should work like labs, not like static reading. This release addresses both.
+
+**Landing page (`/practice-packs/`) restructured into two tracks**:
+- **Subject Packs** (9 — per-domain evaluation design): SEL ✓, Livelihoods ✓, Gender, Education, Health, Climate, Public Policy, Media, Governance
+- **Method Packs** (9 — cross-cutting toolkit skills): ToR (Next), Survey, Logframe, Costing, FGD, Critiquing Evidence, Stakeholder, Donor Reporting, MEL from Scratch
+- The SEL pack is now visibly one of 9 subject packs, not the lead identity
+
+**PP01 SEL Evaluation — retrofitted with interactive lab-features**:
+- In-browser form-based template editor (textareas + radios) replacing the static copy-to-clipboard `<pre>` blocks
+- localStorage auto-save (no login; data stays in browser; explicit privacy claim)
+- Progress bar shows % complete + per-module completion state
+- 4 self-check MCQs (one per module) with reveal-the-answer + feedback
+- Live capstone builder: click "Build my brief" → pulls all module answers into a compiled markdown brief
+- Export: copy as markdown / print as PDF / contenteditable for in-place refinement
+- Reset button (with confirmation) to clear progress
+
+**PP02 Livelihoods Evaluation Design — new Subject pack, shipped with full interactive features**:
+- Module 1: SLF + outcome dimension choice (income / asset / capability / vulnerability)
+- Module 2: PLFS/NRLM/SECC-aligned instrument selection with India national-data comparability
+- Module 3: Sampling + seasonal calendar + migration coding protocol
+- Module 4: Disaggregated analysis + shock-attribution + the "Krishna question" framing
+- Capstone: 1-page Livelihoods Evaluation Design Brief
+- 4 self-check MCQs; same interactive pattern as PP01
+
+**Cross-references**: search-index (PP01 updated, PP02 added — type `practice-pack`), sitemap (livelihoods URL added).
+
 ## [10.26.2] - 2026-05-23
 
 ### Added — napkin.ai diagrams for the accessibility blog post

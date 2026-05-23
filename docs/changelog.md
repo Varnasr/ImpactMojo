@@ -2,6 +2,15 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.27.0 — May 23, 2026 (Practice Packs v2 — interactive, two-track, PP02 Livelihoods)
+
+### For Learners
+
+- **Practice Packs are now interactive.** Every pack works like a lab: in-browser forms auto-save, the capstone builds itself when you click "Build my brief," export as markdown or print as PDF. Nothing transmitted; data stays in your browser.
+- **PP01 SEL Evaluation retrofitted** with the new interactive pattern (form editor, localStorage, MCQ self-checks, live capstone, progress bar).
+- **New PP02 Livelihoods Evaluation Design (Subject Pack)** — first livelihoods-specific practice pack. SLF-grounded, PLFS/NRLM/SECC-aligned, with seasonal calendar + migration coding.
+- **Landing restructured into two tracks**: Subject Packs (9 — per-domain) + Method Packs (9 — cross-cutting toolkit).
+
 ## v10.26.2 — May 23, 2026 (napkin diagrams for accessibility blog)
 
 The `/blog/making-accessible-websites.html` post was the last using only inline SVG figures. Added 2 napkin.ai diagrams (5-pass trajectory + the 5 root causes of accessibility violations). The 2 remaining inline SVGs (precise contrast-ratio table + checklist) kept intentionally because napkin would lose the precision.
