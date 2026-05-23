@@ -5,6 +5,14 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.25.1] - 2026-05-23
+
+### Added
+
+- **Blog post: How to Write a ToR That Gets You Useful Research** at `/blog/writing-a-tor-for-research.html` — practical guide for development sector clients on writing Terms of Reference / Scope of Work / RFP documents to obtain research from agencies like ImpactMojo. Covers the 9 ingredients of a good ToR, 5 anti-patterns, India 2026 budget benchmarks (₹2L/₹10L/₹40L tiers, day rates by seniority, where the money actually goes), 5 common budgeting mistakes, and a pre-send checklist.
+- 3 inline SVG napkin-style diagrams: (1) anatomy of a good ToR, (2) what ₹2L/₹10L/₹40L buys, (3) ToR-to-research pipeline with failure points. PNG fallback paths at `assets/images/blog/writing-a-tor-for-research/illustration-{1,2,3}.png`.
+- Entries in `data/search-index.json` (BLOG031), `sitemap.xml`, `blog.html` card.
+
 ## [10.25.0] - 2026-05-22
 
 ### Added
