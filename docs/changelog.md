@@ -2,6 +2,15 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.25.2 — May 23, 2026 (ToR post — research-types section + napkin.ai diagrams)
+
+Expansion of the ToR blog post (v10.25.1) addressing a second common failure mode — clients asking for the wrong *type* of research — and upgrading three of the four diagrams to real napkin.ai-generated visuals.
+
+### For Learners
+
+- **New section: "What Kind of Research Do You Actually Need?"** — Covers three dimensions (question type: outcome vs process tracing vs theory-based; evidence type: quant vs qual vs mixed; time dimension: cross-sectional vs pre-post vs longitudinal vs retrospective) with the three common mismatches we see weekly.
+- **Real napkin.ai diagrams** replace the inline SVG placeholders for the Anatomy of a ToR, Budget Tiers, and Pipeline diagrams. The research-types diagram still uses the inline SVG fallback because it shows all 9 sub-options + 3 mismatches, which napkin's summarisation can't preserve.
+
 ## v10.25.1 — May 23, 2026 (ToR-writing blog post)
 
 Adds a single blog post answering one of the most common cofounder/client questions: how to write a Terms of Reference (or SoW, or RFP) that actually gets you useful research from an agency — and how to cost it honestly in India.

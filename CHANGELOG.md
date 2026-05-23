@@ -5,6 +5,22 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.25.2] - 2026-05-23
+
+### Added
+
+- **New section in ToR blog post:** "What Kind of Research Do You Actually Need?" — addresses the second-most-common cause of failed research engagements (asking for the wrong *type* of research). Covers three dimensions:
+  - **Question type**: outcome evaluation vs process tracing vs theory-based evaluation
+  - **Evidence type**: quantitative vs qualitative vs mixed-methods (and why mixed is consistently under-budgeted)
+  - **Time dimension**: cross-sectional vs pre-post vs longitudinal vs retrospective
+- Includes 3 common mismatches we see weekly and a closing callout requiring a one-line statement of the design choice on all three dimensions before finalising the methods section.
+
+### Changed
+
+- **3 of 4 blog diagrams upgraded to real napkin.ai-generated PNGs** (illustration-1 Anatomy of ToR, illustration-2 Budget Tiers, illustration-3 Process Cycle). Inline SVG fallbacks remain via `onerror` handler.
+- **Diagram 4 (research types) deliberately uses the inline SVG** rather than a napkin PNG — napkin's summarisation collapsed the 3 dimensions × 3-4 options + 3 mismatches structure into a 3-pill graphic each time it was re-prompted; the inline SVG preserves the full matrix.
+- Updated blog-card excerpt and search-index description to reflect the expanded scope.
+
 ## [10.25.1] - 2026-05-23
 
 ### Added
