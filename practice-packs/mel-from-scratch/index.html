@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>(function(){try{var k='impactmojo-theme';var s=localStorage.getItem(k);var r=s;if(!s||s==='system'){r=(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';}document.documentElement.setAttribute('data-theme',r);}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#0F172A">
+<title>Building an MEL System from Scratch — Practice Pack | ImpactMojo</title>
+<meta name="description" content="An interactive Practice Pack for building a Monitoring, Evaluation & Learning system from scratch. Walk through 6 months of setup — audit, ToC, data collection, learning loops — and walk out with a 90-day MEL setup plan.">
+<meta name="keywords" content="MEL system, monitoring evaluation learning, theory of change, indicator framework, data collection, adaptive management, India, practice pack, ImpactMojo">
+<link rel="canonical" href="https://www.impactmojo.in/practice-packs/mel-from-scratch/">
+<meta property="og:title" content="Building an MEL System from Scratch — Interactive Practice Pack">
+<meta property="og:description" content="4 modules. Lab-like interactivity. Walk out with a 90-day MEL setup plan.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://www.impactmojo.in/practice-packs/mel-from-scratch/">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta name="twitter:card" content="summary_large_image">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary-bg:#FFFFFF;--secondary-bg:#F8FAFC;
+  --accent:#0EA5E9;--accent-hover:#0284C7;
+  --secondary-accent:#6366F1;--subject:#10B981;
+  --success:#10B981;--warning:#F59E0B;--danger:#EF4444;--violet:#8B5CF6;
+  --text-primary:#0F172A;--text-secondary:#475569;--text-muted:#52627A;--text-faint:#94A3B8;
+  --card-bg:#FFFFFF;--hover-bg:#F1F5F9;--border:#E2E8F0;
+  --gradient-subject:linear-gradient(135deg,#10B981 0%,#0EA5E9 100%);
+  --font-sans:'Amaranth',sans-serif;--font-heading:'Inter',sans-serif;--font-mono:'JetBrains Mono',monospace;
+}
+[data-theme="dark"]{
+  --primary-bg:#0F172A;--secondary-bg:#1E293B;
+  --text-primary:#F1F5F9;--text-secondary:#CBD5E1;--text-muted:#94A3B8;--text-faint:#64748B;
+  --card-bg:#1E293B;--hover-bg:#334155;--border:#334155;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--primary-bg);color:var(--text-primary);line-height:1.7;min-height:100vh}
+h1,h2,h3,h4{font-family:var(--font-heading);line-height:1.3}
+a{color:var(--accent);text-decoration:underline;text-underline-offset:.15em}
+a:hover{color:var(--accent-hover)}
+strong{color:var(--text-primary);font-weight:700}
+
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:.6rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap;font-family:var(--font-heading)}
+[data-theme="dark"] .topbar{background:rgba(15,23,42,.95)}
+.topbar-left{display:flex;align-items:center;gap:.75rem}
+.topbar-home{display:flex;align-items:center;gap:.5rem;color:var(--text-primary);font-weight:700;font-size:.95rem;background:var(--gradient-subject);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none}
+.topbar-home svg{width:20px;height:20px;stroke:var(--subject);flex-shrink:0}
+.topbar-crumb{font-size:.78rem;color:var(--text-muted);text-decoration:none}
+.topbar-crumb:hover{color:var(--subject);text-decoration:none}
+.topbar-right{display:flex;align-items:center;gap:.5rem}
+.topbar-btn{display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .8rem;border-radius:8px;font-size:.8rem;font-weight:600;color:var(--text-secondary);background:var(--secondary-bg);border:1px solid var(--border);text-decoration:none}
+.topbar-btn:hover{transform:translateY(-1px);text-decoration:none}
+.theme-sel{display:flex;gap:2px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:3px}
+.theme-btn{background:transparent;border:none;color:var(--text-secondary);padding:5px;border-radius:5px;cursor:pointer;width:28px;height:28px;display:flex;align-items:center;justify-content:center}
+.theme-btn:hover{background:var(--hover-bg);color:var(--text-primary)}
+.theme-btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2}
+
+body{padding-top:60px}
+.container{max-width:880px;margin:0 auto;padding:1.5rem}
+
+.hero{padding:2.5rem 0 2rem;text-align:center;border-bottom:1px solid var(--border);margin-bottom:1.75rem}
+.hero-eyebrow{display:inline-block;padding:.3rem 1rem;background:rgba(16,185,129,.15);color:var(--subject);border-radius:20px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:1rem;font-family:var(--font-heading)}
+.hero h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;margin-bottom:.7rem;background:var(--gradient-subject);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2}
+.hero-tagline{font-size:1.05rem;color:var(--text-secondary);max-width:700px;margin:0 auto 1.5rem;line-height:1.7}
+.hero-meta{display:flex;justify-content:center;gap:1.25rem;flex-wrap:wrap;font-size:.85rem;color:var(--text-muted)}
+
+.progress-bar{background:var(--secondary-bg);border:1px solid var(--border);border-radius:10px;padding:.85rem 1.15rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.progress-bar-label{font-family:var(--font-heading);font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-muted)}
+.progress-bar-track{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden;min-width:120px}
+.progress-bar-fill{height:100%;background:var(--gradient-subject);border-radius:4px;transition:width .4s ease;width:0}
+.progress-bar-text{font-family:var(--font-heading);font-size:.82rem;font-weight:600;color:var(--text-primary)}
+.progress-bar-clear{padding:.3rem .75rem;border-radius:6px;background:transparent;border:1px solid var(--border);color:var(--text-muted);font-size:.75rem;cursor:pointer;font-family:var(--font-sans)}
+.progress-bar-clear:hover{border-color:var(--danger);color:var(--danger)}
+
+.capstone-card{background:linear-gradient(135deg,rgba(16,185,129,.05),rgba(14,165,233,.05));border:1px solid var(--border);border-left:4px solid var(--subject);border-radius:12px;padding:1.4rem;margin-bottom:1.75rem}
+.capstone-card .eyebrow{font-size:.72rem;color:var(--subject);font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:.4rem;font-family:var(--font-heading)}
+.capstone-card h2{font-size:1.15rem;margin-bottom:.4rem;color:var(--text-primary)}
+.capstone-card p{color:var(--text-secondary);margin-bottom:0;font-size:.93rem;line-height:1.7}
+
+.module-tabs{display:flex;gap:.4rem;margin-bottom:1.5rem;border-bottom:2px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:1px}
+.module-tab{padding:.7rem .9rem;background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;color:var(--text-muted);font-family:var(--font-heading);font-size:.85rem;font-weight:600;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:.4rem;transition:all .2s}
+.module-tab:hover{color:var(--text-secondary)}
+.module-tab.active{color:var(--subject);border-bottom-color:var(--subject)}
+.module-tab.done{color:var(--success)}
+.module-tab .tab-num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--border);font-size:.72rem;font-weight:700;color:var(--text-muted)}
+.module-tab.active .tab-num{background:var(--subject);color:#fff}
+.module-tab.done .tab-num{background:var(--success);color:#fff}
+
+.module-panel{display:none;animation:fadeIn .3s ease}
+.module-panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.module-panel h2{font-size:1.55rem;color:var(--text-primary);margin-bottom:.6rem}
+.module-panel h3{font-size:1.15rem;color:var(--text-primary);margin:1.6rem 0 .5rem;font-weight:700}
+.module-panel p{color:var(--text-secondary);margin-bottom:1rem;line-height:1.85;font-size:1rem}
+.module-panel ul,.module-panel ol{margin:.7rem 0 1.2rem 1.5rem;color:var(--text-secondary);line-height:1.8;font-size:.97rem}
+.module-panel li{margin-bottom:.4rem}
+.module-panel blockquote{border-left:4px solid var(--subject);padding:.7rem 1.2rem;margin:1.3rem 0;background:var(--secondary-bg);border-radius:0 8px 8px 0;font-style:italic;color:var(--text-secondary)}
+.module-eyebrow{font-size:.72rem;color:var(--subject);text-transform:uppercase;letter-spacing:.7px;font-weight:700;margin-bottom:.4rem;font-family:var(--font-heading)}
+
+.example-box{background:var(--secondary-bg);border-radius:10px;border-left:4px solid var(--secondary-accent);padding:1.1rem 1.3rem;margin:1.4rem 0}
+.example-box .e-label{font-size:.7rem;color:var(--secondary-accent);font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:.35rem;font-family:var(--font-heading)}
+.example-box p{margin-bottom:.45rem;font-size:.92rem}
+.example-box p:last-child{margin-bottom:0}
+
+.pp-form-card{background:var(--card-bg);border:2px solid var(--subject);border-radius:12px;padding:1.4rem;margin:1.8rem 0;position:relative}
+.pp-form-card::before{content:'Interactive';position:absolute;top:-10px;left:1.2rem;background:var(--subject);color:#fff;font-size:.65rem;font-weight:700;padding:.15rem .55rem;border-radius:4px;letter-spacing:.4px;font-family:var(--font-heading);text-transform:uppercase}
+.pp-form-card h4{font-size:1.02rem;color:var(--subject);font-family:var(--font-heading);font-weight:700;margin-bottom:.5rem;margin-top:.4rem}
+.pp-form-card .pp-form-desc{font-size:.88rem;color:var(--text-muted);margin-bottom:1rem;font-style:italic}
+.pp-field{margin-bottom:1.1rem}
+.pp-field label{display:block;font-family:var(--font-heading);font-size:.82rem;font-weight:700;color:var(--text-primary);margin-bottom:.35rem;letter-spacing:.2px}
+.pp-field .pp-hint{display:block;font-size:.78rem;color:var(--text-muted);font-style:italic;margin-bottom:.4rem;font-family:var(--font-sans)}
+.pp-field input[type="text"],.pp-field textarea,.pp-field select{width:100%;padding:.6rem .8rem;background:var(--secondary-bg);border:1px solid var(--border);border-radius:8px;color:var(--text-primary);font-family:var(--font-sans);font-size:.93rem;line-height:1.6;transition:border-color .2s}
+.pp-field input[type="text"]:focus,.pp-field textarea:focus,.pp-field select:focus{outline:none;border-color:var(--subject);box-shadow:0 0 0 3px rgba(16,185,129,.12)}
+.pp-field textarea{min-height:80px;resize:vertical}
+.pp-radio-group{display:flex;flex-direction:column;gap:.4rem}
+.pp-radio{display:flex;align-items:flex-start;gap:.55rem;padding:.55rem .75rem;background:var(--secondary-bg);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .2s;font-size:.92rem;color:var(--text-secondary)}
+.pp-radio:hover{border-color:var(--subject);background:var(--hover-bg)}
+.pp-radio input[type="radio"]{margin-top:.25rem;accent-color:var(--subject);flex-shrink:0}
+.pp-radio input[type="radio"]:checked + span{color:var(--text-primary);font-weight:600}
+.pp-radio:has(input:checked){border-color:var(--subject);background:rgba(16,185,129,.05)}
+.pp-saved-indicator{display:inline-flex;align-items:center;gap:.3rem;font-size:.72rem;color:var(--success);font-weight:600;font-family:var(--font-heading);margin-top:.4rem;opacity:0;transition:opacity .3s}
+.pp-saved-indicator.show{opacity:1}
+
+.mcq-card{background:var(--secondary-bg);border:1px solid var(--border);border-left:4px solid var(--warning);border-radius:10px;padding:1.1rem 1.3rem;margin:1.5rem 0}
+.mcq-label{font-size:.7rem;color:var(--warning);font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:.5rem;font-family:var(--font-heading)}
+.mcq-q{font-weight:700;color:var(--text-primary);margin-bottom:.6rem;font-size:.97rem}
+.mcq-opts{display:flex;flex-direction:column;gap:.35rem;margin-bottom:.7rem}
+.mcq-opt{padding:.5rem .75rem;background:var(--card-bg);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:.9rem;color:var(--text-secondary);transition:all .2s}
+.mcq-opt:hover{border-color:var(--warning);background:var(--hover-bg)}
+.mcq-opt.correct{border-color:var(--success);background:rgba(16,185,129,.08);color:var(--text-primary)}
+.mcq-opt.wrong{border-color:var(--danger);background:rgba(239,68,68,.06);color:var(--text-muted)}
+.mcq-opt.disabled{cursor:default;pointer-events:none}
+.mcq-feedback{font-size:.88rem;line-height:1.65;color:var(--text-secondary);padding:.6rem .8rem;background:var(--card-bg);border-radius:6px;border-left:3px solid var(--success);display:none}
+.mcq-feedback.show{display:block}
+
+.module-nav{display:flex;justify-content:space-between;gap:.7rem;margin-top:2.2rem;padding-top:1.4rem;border-top:1px solid var(--border);flex-wrap:wrap}
+.nav-btn{padding:.7rem 1.15rem;background:var(--secondary-bg);border:1px solid var(--border);border-radius:8px;color:var(--text-primary);font-family:var(--font-sans);font-size:.9rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:.4rem;transition:all .2s;text-decoration:none}
+.nav-btn:hover{border-color:var(--subject);background:var(--hover-bg);text-decoration:none}
+.nav-btn.primary{background:var(--subject);color:#fff;border-color:var(--subject)}
+.nav-btn.primary:hover{background:#059669}
+
+.framework-table{width:100%;border-collapse:collapse;margin:1.2rem 0;font-size:.86rem}
+.framework-table th,.framework-table td{padding:.6rem .8rem;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+.framework-table th{background:var(--secondary-bg);font-family:var(--font-heading);font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+
+.capstone-builder{background:linear-gradient(135deg,rgba(16,185,129,.05),rgba(14,165,233,.05));border:2px solid var(--success);border-radius:12px;padding:1.75rem;margin-top:1rem}
+.capstone-builder h3{color:var(--success);font-size:1.25rem;margin-bottom:.6rem;font-family:var(--font-heading)}
+.capstone-builder p{color:var(--text-secondary);font-size:.95rem;line-height:1.7;margin-bottom:1rem}
+.capstone-output{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1.3rem;margin:1.2rem 0;font-family:var(--font-mono);font-size:.83rem;line-height:1.75;white-space:pre-wrap;color:var(--text-primary);max-height:520px;overflow-y:auto}
+.capstone-actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.7rem}
+.capstone-actions button{padding:.6rem 1.1rem;border-radius:8px;font-family:var(--font-sans);font-size:.88rem;font-weight:600;cursor:pointer;border:none;transition:all .2s;display:inline-flex;align-items:center;gap:.4rem}
+.btn-build{background:var(--success);color:#fff}
+.btn-build:hover{background:#059669}
+.btn-copy{background:var(--accent);color:#fff}
+.btn-copy:hover{background:var(--accent-hover)}
+.btn-copy.copied{background:var(--success)}
+.btn-print{background:var(--secondary-bg);color:var(--text-primary);border:1px solid var(--border) !important}
+.btn-print:hover{border-color:var(--accent) !important}
+
+.resources-section{background:var(--secondary-bg);border-radius:12px;padding:1.5rem;margin-top:2.5rem}
+.resources-section h3{font-size:1rem;margin-bottom:.8rem;font-family:var(--font-heading)}
+.resources-section ul{list-style:none;padding:0;margin:0}
+.resources-section li{padding:.45rem 0;border-bottom:1px solid var(--border);font-size:.92rem}
+.resources-section li:last-child{border-bottom:none}
+
+.callout{background:var(--secondary-bg);border-left:4px solid var(--violet);padding:1rem 1.3rem;border-radius:0 8px 8px 0;margin:1.5rem 0}
+.callout .c-label{font-size:.7rem;color:var(--violet);font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:.3rem;font-family:var(--font-heading)}
+.callout p{font-size:.92rem;color:var(--text-secondary);line-height:1.75;margin-bottom:.35rem}
+.callout p:last-child{margin-bottom:0}
+
+.im-footer{background:var(--secondary-bg);border-top:1px solid var(--border);padding:2rem 1rem;margin-top:3rem;font-family:var(--font-heading);color:var(--text-muted);text-align:center;font-size:.85rem}
+.im-footer a{color:var(--accent);text-decoration:none}
+
+@media (max-width:768px){
+  .container{padding:1rem}
+  .topbar-crumb{display:none}
+  .module-tab{padding:.5rem .55rem;font-size:.78rem}
+  .module-tab .tab-text{display:none}
+  .framework-table{font-size:.76rem;display:block;overflow-x:auto}
+}
+@media print{
+  .topbar,.progress-bar,.module-tabs,.module-nav,.capstone-actions,.pp-saved-indicator,.mcq-card,.resources-section,.im-footer{display:none !important}
+  .module-panel{display:block !important;page-break-after:always}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar" role="banner">
+  <div class="topbar-left">
+    <a href="/" class="topbar-home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>ImpactMojo</span>
+    </a>
+    <a href="/practice-packs/" class="topbar-crumb">&#8592; Practice Packs</a>
+  </div>
+  <div class="topbar-right">
+    <a href="/catalog.html" class="topbar-btn">Browse</a>
+    <a href="/premium.html" class="topbar-btn" style="color:var(--accent)">Premium</a>
+    <div class="theme-sel">
+      <button class="theme-btn" data-theme-set="light" aria-label="Light"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/></svg></button>
+      <button class="theme-btn" data-theme-set="dark" aria-label="Dark"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <section class="hero">
+    <span class="hero-eyebrow">Method Pack . M9 . Interactive</span>
+    <h1>Building an MEL System from Scratch</h1>
+    <p class="hero-tagline">A 3-hour interactive Practice Pack. You have joined a programme that has been running for two years with no formal monitoring. Walk through six months of setup and walk out with a 90-day MEL plan you can actually execute.</p>
+    <div class="hero-meta">
+      <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:2px"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>4 modules</span>
+      <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:2px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>~3 hours</span>
+      <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:2px"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Interactive</span>
+      <span>India-context</span>
+    </div>
+  </section>
+
+  <div class="progress-bar">
+    <span class="progress-bar-label">Your progress</span>
+    <div class="progress-bar-track"><div class="progress-bar-fill" id="progressFill"></div></div>
+    <span class="progress-bar-text" id="progressText">0% complete</span>
+    <button class="progress-bar-clear" onclick="clearAllProgress()">Reset</button>
+  </div>
+
+  <div class="capstone-card">
+    <div class="eyebrow">Your Capstone</div>
+    <h2>90-Day MEL Setup Plan</h2>
+    <p>Walk in with an organisation that has no formal MEL. Walk out with a phased 90-day plan covering audit findings, theory of change, indicator framework, data collection tools, and learning-loop design. Built automatically from your module answers.</p>
+  </div>
+
+  <div class="module-tabs" role="tablist">
+    <button class="module-tab active" data-tab="0" role="tab"><span class="tab-num">1</span><span class="tab-text">Audit</span></button>
+    <button class="module-tab" data-tab="1" role="tab"><span class="tab-num">2</span><span class="tab-text">ToC + Indicators</span></button>
+    <button class="module-tab" data-tab="2" role="tab"><span class="tab-num">3</span><span class="tab-text">Data Systems</span></button>
+    <button class="module-tab" data-tab="3" role="tab"><span class="tab-num">4</span><span class="tab-text">Learning Loops</span></button>
+    <button class="module-tab" data-tab="4" role="tab"><span class="tab-num"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2z"/></svg></span><span class="tab-text">Capstone</span></button>
+  </div>
+
+  <!-- MODULE 1: AUDIT -->
+  <div class="module-panel active" id="module-0" role="tabpanel">
+    <div class="module-eyebrow">Module 1 . ~25 min</div>
+    <h2>Month 1: Audit what exists</h2>
+
+    <p>Every organisation already monitors something, even if nobody calls it MEL. The first month is about discovering what already exists, what is being collected informally, and where the gaps actually are. Resist the temptation to design a new system before understanding the old one.</p>
+
+    <h3>The five places data already lives</h3>
+    <ul>
+      <li><strong>MIS / programme database</strong> -- attendance, beneficiary registration, disbursement records. Often in Tally, Excel sheets, or a custom Access database nobody maintains.</li>
+      <li><strong>Reports to funders</strong> -- quarterly narratives, annual reports. These contain implicit indicators. Read the last four quarterly reports before designing anything new.</li>
+      <li><strong>Field staff notebooks</strong> -- the richest qualitative data source nobody digitises. Community mobilisers in NRLM-linked SHG programmes, for instance, maintain meeting registers that are never aggregated.</li>
+      <li><strong>Government data the programme already feeds</strong> -- HMIS, UDISE+, PFMS, Awaas+. If the programme reports to a government scheme, those reporting formats are your first indicator source.</li>
+      <li><strong>WhatsApp groups and photographs</strong> -- Indian programme teams document heavily on WhatsApp. This is unstructured data, but it reveals what they consider worth recording.</li>
+    </ul>
+
+    <h3>The audit conversation</h3>
+    <p>Sit with three people individually: (a) the programme director, (b) a senior field coordinator, and (c) a data-entry person if one exists. Ask each of them:</p>
+    <ol>
+      <li>What information do you collect regularly? (probe: registers, forms, apps)</li>
+      <li>What do you do with it after collecting? (probe: who reads it, what decisions does it feed?)</li>
+      <li>What do you wish you knew but currently do not?</li>
+      <li>What reporting burden do you find pointless?</li>
+    </ol>
+
+    <div class="example-box">
+      <div class="e-label">Worked example</div>
+      <p><strong>Gram Vikas</strong>, an NRLM-linked livelihoods programme in Odisha, had been running for three years with no MEL officer. The audit found: (1) SHG meeting registers with attendance and savings data in paper form across 120 villages. (2) Monthly field reports submitted by area coordinators as Word documents with inconsistent formats. (3) NRLM MIS data entry happening at the block level with a two-month lag. (4) Zero outcome-level data.</p>
+      <p><strong>Key insight</strong>: The SHG registers were the richest dataset -- just never aggregated. The new MEL system started by digitising those, not by creating a new survey instrument.</p>
+    </div>
+
+    <div class="pp-form-card">
+      <h4>Your MEL Audit Sheet</h4>
+      <p class="pp-form-desc">Fill these for your organisation. Your answers save automatically and flow into the final capstone.</p>
+
+      <div class="pp-field">
+        <label for="m9-m1-org">Organisation name and programme context</label>
+        <span class="pp-hint">e.g., "Gram Vikas -- NRLM-linked SHG livelihoods programme, 120 villages, Odisha, 3 years running"</span>
+        <textarea id="m9-m1-org" data-pp-save></textarea>
+      </div>
+
+      <div class="pp-field">
+        <label for="m9-m1-existing-data">What data already exists? (list all sources found)</label>
+        <span class="pp-hint">Registers, MIS, reports, WhatsApp groups, Excel sheets, government reporting</span>
+        <textarea id="m9-m1-existing-data" data-pp-save></textarea>
+      </div>
+
+      <div class="pp-field">
+        <label for="m9-m1-used">Which of these data sources actually get used for decisions?</label>
+        <textarea id="m9-m1-used" data-pp-save></textarea>
+      </div>
+
+      <div class="pp-field">
+        <label for="m9-m1-gaps">Top 3 information gaps (what the team wishes they knew)</label>
+        <textarea id="m9-m1-gaps" data-pp-save></textarea>
+      </div>
+
+      <div class="pp-field">
+        <label for="m9-m1-burden">Reporting burden that is pointless or duplicative</label>
+        <textarea id="m9-m1-burden" data-pp-save></textarea>
+      </div>
+
+      <div class="pp-field">
+        <label for="m9-m1-govdata">Government data systems the programme feeds into</label>
+        <span class="pp-hint">e.g., NRLM MIS, UDISE+, HMIS, PFMS, Awaas+, PM-KISAN</span>
+        <textarea id="m9-m1-govdata" data-pp-save></textarea>
+      </div>
+
+      <div class="pp-saved-indicator" id="ind-m1"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:-1px"><polyline points="20 6 9 17 4 12"/></svg> Saved</div>
+    </div>
+
+    <div class="mcq-card">
+      <div class="mcq-label">Self-check</div>
+      <div class="mcq-q">You join a nutrition programme in Jharkhand that has been running for two years. The team says "we have no data." What is your most productive first step?</div>
+      <div class="mcq-opts" data-mcq="mcq1">
+        <div class="mcq-opt" data-correct="0">Design a new baseline survey</div>
+        <div class="mcq-opt" data-correct="0">Hire a data entry operator</div>
+        <div class="mcq-opt" data-correct="1">Ask to see funder reports, field registers, and the ICDS/Poshan Tracker data they already submit</div>
+        <div class="mcq-opt" data-correct="0">Set up a KoboToolbox account</div>
+      </div>
+      <div class="mcq-feedback" id="mcq1-fb"><strong>Correct.</strong> "We have no data" almost never means zero data exists. It means nobody has aggregated or used it. The audit conversation reveals what already exists before you add new collection burden.</div>
+    </div>
+
+    <div class="module-nav">
+      <span></span>
+      <button class="nav-btn primary" onclick="goTab(1)">Module 2: ToC + Indicators &#8594;</button>
+    </div>
+  </div>
+
+  <!-- MODULE 2: THEORY OF CHANGE + INDICATOR FRAMEWORK -->
+  <div class="module-panel" id="module-1" role="tabpanel">
+    <div class="module-eyebrow">Module 2 . ~30 min</div>
+    <h2>Month 2: Theory of Change + Indicator Framework</h2>
+
+    <p>The theory of change is not a wall poster. It is the backbone of your indicator framework. Every indicator you select must connect to a specific causal link in the ToC. If an indicator does not test a causal assumption, it is a vanity metric.</p>
+
+    <h3>Building the ToC in practice</h3>
+    <p>Run a half-day workshop with the programme team. Use this sequence:</p>
+    <ol>
+      <li><strong>Start from the right</strong> -- what is the long-term change this programme seeks? (e.g., "Women in 120 villages have sustained increase in household income and economic agency.")</li>
+      <li><strong>Work backwards</strong> -- what intermediate outcomes must be true for that to happen? (e.g., "SHG members access formal credit," "Micro-enterprises survive beyond 12 months.")</li>
+      <li><strong>Identify outputs</strong> -- what does the programme directly deliver? (e.g., "SHG formation and training," "Enterprise development support.")</li>
+      <li><strong>Map assumptions</strong> -- what must be true between each link? (e.g., "Banks will lend to SHGs," "Market demand exists for the products.")</li>
+    </ol>
+
+    <h3>From ToC to indicators: the three-tier framework</h3>
+    <table class="framework-table">
+      <thead><tr><th>Tier</th><th>What it measures</th><th>Frequency</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Tier 1: Activity tracking</strong></td><td>Inputs and outputs (training conducted, SHGs formed, loans disbursed)</td><td>Monthly</td><td>MIS, field reports</td></tr>
+        <tr><td><strong>Tier 2: Outcome monitoring</strong></td><td>Intermediate changes (repayment rates, enterprise survival, income change)</td><td>Quarterly</td><td>Structured follow-up, government data</td></tr>
+        <tr><td><strong>Tier 3: Impact signals</strong></td><td>Long-term change (economic agency, food security, asset ownership)</td><td>Annual or evaluation-only</td><td>Surveys, qualitative deep-dives</td></tr>
+      </tbody>
+    </table>
+
+    <h3>The "20 indicator" ceiling</h3>
+    <p>Indian development programmes routinely operate with 60-80 indicators because every funder adds their own. Effective MEL systems cap at 15-20 actively monitored indicators. The rest stay in the logframe but are not part of the routine data collection. If your field team cannot explain what each indicator means and why it matters, cut it.</p>
+
+    <div class="callout">
+      <div class="c-label">Government scheme alignment</div>
+      <p>If your programme operates under NRLM, PMAY-G, Samagra Shiksha, or NHM, the government scheme already has a results framework. Do not duplicate it. Align your Tier 1 indicators to the scheme's reporting requirements and add only the Tier 2-3 indicators that the scheme framework misses.</p>
+    </div>
+
+    <div class="pp-form-card">
+      <h4>Your ToC and Indicator Framework</h4>
+      <p class="pp-form-desc">Build the skeleton. These flow into your capstone.</p>
+
+      <div class="pp-field">
+        <label for="m9-m2-longterm">Long-term change statement (one sentence)</label>
+        <textarea id="m9-m2-longterm" data-pp-save placeholder="e.g., Women in 120 villages have sustained increase in household income and economic agency"></textarea>
+      </div>
+
+      <div class="pp-field">
+        <label for="m9-m2-outcomes">Key intermediate outcomes (2-4 bullets)</label>
+        <textarea id="m9-m2-outcomes" data-pp-save></textarea>
+      </div>
+
+      <div class="pp-field">
+        <label for="m9-m2-assumptions">Critical assumptions between outcomes and impact</label>
+        <span class="pp-hint">What must be true for your ToC to hold? List 2-3 testable assumptions.</span>
+        <textarea id="m9-m2-assumptions" data-pp-save></textarea>
+      </div>
+
+      <div class="pp-field">
+        <label for="m9-m2-tier1">Tier 1 indicators (activity tracking, 4-6 indicators)</label>
+        <textarea id="m9-m2-tier1" data-pp-save placeholder="e.g., # SHGs formed, # members trained, # loans disbursed, repayment rate"></textarea>
+      </div>
+
+      <div class="pp-field">
+        <label for="m9-m2-tier2">Tier 2 indicators (outcome monitoring, 3-5 indicators)</label>
+        <textarea id="m9-m2-tier2" data-pp-save></textarea>
+      </div>
+
+      <div class="pp-field">
+        <label for="m9-m2-tier3">Tier 3 indicators (impact signals, 2-3 indicators)</label>
+        <textarea id="m9-m2-tier3" data-pp-save></textarea>
+      </div>
+
+      <div class="pp-saved-indicator" id="ind-m2"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:-1px"><polyline points="20 6 9 17 4 12"/></svg> Saved</div>
+    </div>
+
+    <div class="mcq-card">
+      <div class="mcq-label">Self-check</div>
+      <div class="mcq-q">Your indicator framework has 52 indicators. The field team can reliably collect 18 per month. What is the best response?</div>
+      <div class="mcq-opts" data-mcq="mcq2">
+        <div class="mcq-opt" data-correct="0">Hire more data collectors</div>
+        <div class="mcq-opt" data-correct="1">Prioritise 15-18 for routine monitoring, move the rest to periodic or evaluation-only collection</div>
+        <div class="mcq-opt" data-correct="0">Automate all 52 using a mobile app</div>
+        <div class="mcq-opt" data-correct="0">Report all 52 but only verify a sample</div>
+      </div>
+      <div class="mcq-feedback" id="mcq2-fb"><strong>Correct.</strong> Data quality collapses when collection burden exceeds capacity. The solution is tiering, not adding staff or technology. Technology helps with the 18 you keep, not with justifying 52 nobody reads.</div>
+    </div>
+
+    <div class="module-nav">
+      <button class="nav-btn" onclick="goTab(0)">&#8592; Module 1</button>
+      <button class="nav-btn primary" onclick="goTab(2)">Module 3: Data Systems &#8594;</button>
+    </div>
+  </div>
+
+  <!-- MODULE 3: DATA COLLECTION SYSTEMS -->
+  <div class="module-panel" id="module-2" role="tabpanel">
+    <div class="module-eyebrow">Module 3 . ~30 min</div>
+    <h2>Month 3: Data Collection Systems + Tools</h2>
+
+    <p>This is where most MEL setup projects stall. The team buys a tool (KoboToolbox, CommCare, ODK, SurveyCTO) before designing the data flow. The tool is the last decision, not the first.</p>
+
+    <h3>Design the data flow first</h3>
+    <ol>
+      <li><strong>Who collects?</strong> Field coordinators? Community volunteers? Beneficiaries themselves? Each has different capacity, literacy, and motivation levels.</li>
+      <li><strong>When?</strong> Real-time (during activity), weekly aggregate, or monthly reporting? Over-frequent collection kills compliance. Under-frequent collection loses the signal.</li>
+      <li><strong>How does it move?</strong> Paper to block office to Excel? Mobile app to cloud? WhatsApp photo to someone who enters it? Map the actual flow, not the aspirational one.</li>
+      <li><strong>Who cleans and verifies?</strong> This is the step that is always under-resourced. Budget 2-3 days per month for a data person to run validation checks.</li>
+      <li><strong>Who reads the dashboard?</strong> If nobody reads the output, the system will die within six months regardless of the technology.</li>
+    </ol>
+
+    <h3>Tool selection matrix</h3>
+    <table class="framework-table">
+      <thead><tr><th>Tool</th><th>Best for</th><th>Limitations</th><th>Cost (2026)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>KoboToolbox</strong></td><td>Survey-style data, offline collection, moderate complexity</td><td>Weak on longitudinal tracking, no built-in case management</td><td>Free (OCHA-hosted)</td></tr>
+        <tr><td><strong>CommCare</strong></td><td>Case management, health/nutrition, repeat visits</td><td>Steeper learning curve, costs at scale</td><td>Free up to 50 users, then $150+/mo</td></tr>
+        <tr><td><strong>Google Sheets + AppSheet</strong></td><td>Tiny teams, rapid prototyping, zero budget</td><td>Breaks above 500 rows, no offline, no validation</td><td>Free</td></tr>
+        <tr><td><strong>DHIS2</strong></td><td>Health system data, government alignment</td><td>Heavy setup, needs technical support</td><td>Free (open source)</td></tr>
+        <tr><td><strong>Custom Excel + paper</strong></td><td>When digital literacy is very low</td><td>Error-prone, no real-time visibility</td><td>Staff time only</td></tr>
+      </tbody>
+    </table>
+
+    <div class="example-box">
+      <div class="e-label">Worked example</div>
+      <p><strong>Gram Vikas (continued)</strong>: After the audit, the MEL officer chose KoboToolbox for monthly SHG data (savings, attendance, loan repayment) collected by area coordinators on Android phones. Paper SHG registers remained as the primary record; KoboToolbox digitised a monthly summary. A Google Sheet dashboard was shared with the programme director every Monday. Total setup cost: Rs 0 (KoboToolbox free tier) + Rs 45,000 for coordinator training (2 days, 15 coordinators).</p>
+    </div>
+
+    <div class="pp-form-card">
+      <h4>Your Data Collection Design</h4>
+      <p class="pp-form-desc">Design the data flow for your programme. These flow into your capstone.</p>
+
+      <div class="pp-field">
+        <label for="m9-m3-who">Who collects the data? (role + number of people)</label>
+        <textarea id="m9-m3-who" data-pp-save placeholder="e.g., 15 area coordinators collect monthly; 1 data officer cleans and aggregates"></textarea>
+      </div>
+
+      <div class="pp-field">
+        <label for="m9-m3-frequency">Collection frequency for each tier</label>
+        <span class="pp-hint">Tier 1 (activities): ___. Tier 2 (outcomes): ___. Tier 3 (impact): ___.</span>
+        <textarea id="m9-m3-frequency" data-pp-save></textarea>
+      </div>
+
+      <div class="pp-field">
+        <label>Primary data collection tool</label>
+        <div class="pp-radio-group">
+          <label class="pp-radio"><input type="radio" name="m9-m3-tool" value="KoboToolbox" data-pp-save><span>KoboToolbox</span></label>
+          <label class="pp-radio"><input type="radio" name="m9-m3-tool" value="CommCare" data-pp-save><span>CommCare</span></label>
+          <label class="pp-radio"><input type="radio" name="m9-m3-tool" value="Google Sheets + AppSheet" data-pp-save><span>Google Sheets + AppSheet</span></label>
+          <label class="pp-radio"><input type="radio" name="m9-m3-tool" value="DHIS2" data-pp-save><span>DHIS2</span></label>
+          <label class="pp-radio"><input type="radio" name="m9-m3-tool" value="Paper + Excel" data-pp-save><span>Paper + Excel</span></label>
+        </div>
+      </div>
+
+      <div class="pp-field">
+        <label for="m9-m3-flow">Data flow: from field to dashboard (describe each step)</label>
+        <textarea id="m9-m3-flow" data-pp-save></textarea>
+      </div>
+
+      <div class="pp-field">
+        <label for="m9-m3-verification">Data verification plan (who checks, how often)</label>
+        <textarea id="m9-m3-verification" data-pp-save></textarea>
+      </div>
+
+      <div class="pp-field">
+        <label for="m9-m3-cost">Setup cost estimate (tools, training, hardware)</label>
+        <textarea id="m9-m3-cost" data-pp-save placeholder="e.g., KoboToolbox (free) + 2-day training for 15 staff (Rs 45,000) + 5 Android phones (Rs 50,000)"></textarea>
+      </div>
+
+      <div class="pp-saved-indicator" id="ind-m3"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:-1px"><polyline points="20 6 9 17 4 12"/></svg> Saved</div>
+    </div>
+
+    <div class="mcq-card">
+      <div class="mcq-label">Self-check</div>
+      <div class="mcq-q">A programme director says: "We need CommCare because it is what NITI Aayog recommends." Your programme is a small education NGO with 8 field staff and no IT person. What is the right response?</div>
+      <div class="mcq-opts" data-mcq="mcq3">
+        <div class="mcq-opt" data-correct="0">Set up CommCare immediately since it has government endorsement</div>
+        <div class="mcq-opt" data-correct="0">Build a custom app instead</div>
+        <div class="mcq-opt" data-correct="1">Start with KoboToolbox or Google Sheets, which match your team's capacity, and migrate later if needed</div>
+        <div class="mcq-opt" data-correct="0">Hire an IT consultant to manage CommCare</div>
+      </div>
+      <div class="mcq-feedback" id="mcq3-fb"><strong>Correct.</strong> Tool choice must match team capacity, not prestige. CommCare is excellent for case management at scale, but an 8-person education programme without IT support will abandon it within three months. Start simple, prove the data flow works, then upgrade.</div>
+    </div>
+
+    <div class="module-nav">
+      <button class="nav-btn" onclick="goTab(1)">&#8592; Module 2</button>
+      <button class="nav-btn primary" onclick="goTab(3)">Module 4: Learning Loops &#8594;</button>
+    </div>
+  </div>
+
+  <!-- MODULE 4: LEARNING LOOPS -->
+  <div class="module-panel" id="module-3" role="tabpanel">
+    <div class="module-eyebrow">Module 4 . ~25 min</div>
+    <h2>Month 6: Learning Loops + Adaptive Management</h2>
+
+    <p>Data collection without learning loops is bureaucracy. The entire point of an MEL system is to feed decisions. If the data is collected, cleaned, and filed without anyone acting on it, the system is already dead.</p>
+
+    <h3>The four learning loops</h3>
+    <ul>
+      <li><strong>Weekly field huddle (15 min)</strong> -- field coordinators share one number and one story from the week. The programme manager asks: "What does this tell us? What should we change next week?" No PowerPoint. No written report. Just a conversation.</li>
+      <li><strong>Monthly data review (2 hours)</strong> -- the MEL officer presents the dashboard. The team discusses: What is on track? What is off track? What do we not understand? Decisions are recorded in a one-page "decision log."</li>
+      <li><strong>Quarterly reflection (half day)</strong> -- step back from the numbers. Invite 2-3 community members or front-line workers. Test assumptions from the ToC. Ask: "Is our theory of change still holding? What have we learned that the ToC did not predict?"</li>
+      <li><strong>Annual learning review (1-2 days)</strong> -- full programme team + funder + external facilitator. Structured around: What worked? What did not? What will we do differently? Feeds into the next year's workplan.</li>
+    </ul>
+
+    <h3>The decision log</h3>
+    <p>The simplest, most powerful tool in adaptive management. A shared Google Doc or register with four columns:</p>
+    <table class="framework-table">
+      <thead><tr><th>Date</th><th>What the data showed</th><th>Decision taken</th><th>Follow-up by when</th></tr></thead>
+      <tbody>
+        <tr><td>15 Mar 2026</td><td>SHG repayment rate dropped from 92% to 78% in Koraput block</td><td>Field visit to 5 lowest-performing SHGs this week; check if linked to crop failure</td><td>22 Mar 2026</td></tr>
+        <tr><td>15 Mar 2026</td><td>Training attendance above 90% in all blocks except Rayagada (62%)</td><td>Reschedule Rayagada trainings to post-harvest; pilot evening sessions</td><td>1 Apr 2026</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <div class="c-label">The funder conversation</div>
+      <p>Most Indian funders say they want adaptive management but reward rigid compliance. The way to build funder trust in learning loops is to share the decision log proactively. When you show a funder "here is what the data told us, here is what we changed, here is what happened," you build more credibility than a clean logframe ever will.</p>
+    </div>
+
+    <div class="pp-form-card">
+      <h4>Your Learning Loop Design</h4>
+      <p class="pp-form-desc">Design the feedback mechanisms. These flow into your capstone.</p>
+
+      <div class="pp-field">
+        <label for="m9-m4-weekly">Weekly huddle design (who, when, format)</label>
+        <textarea id="m9-m4-weekly" data-pp-save placeholder="e.g., Every Monday 10am, field coordinators + programme manager, phone call, 15 min, one number + one story"></textarea>
+      </div>
+
+      <div class="pp-field">
+        <label for="m9-m4-monthly">Monthly data review design</label>
+        <textarea id="m9-m4-monthly" data-pp-save></textarea>
+      </div>
+
+      <div class="pp-field">
+        <label for="m9-m4-quarterly">Quarterly reflection plan (who is invited beyond the team?)</label>
+        <textarea id="m9-m4-quarterly" data-pp-save></textarea>
+      </div>
+
+      <div class="pp-field">
+        <label for="m9-m4-decisionlog">Where will the decision log live? Who maintains it?</label>
+        <textarea id="m9-m4-decisionlog" data-pp-save></textarea>
+      </div>
+
+      <div class="pp-field">
+        <label for="m9-m4-funder">How will you share learning with the funder?</label>
+        <span class="pp-hint">Proactive decision-log sharing? Quarterly narrative? Annual learning report?</span>
+        <textarea id="m9-m4-funder" data-pp-save></textarea>
+      </div>
+
+      <div class="pp-saved-indicator" id="ind-m4"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:-1px"><polyline points="20 6 9 17 4 12"/></svg> Saved</div>
+    </div>
+
+    <div class="mcq-card">
+      <div class="mcq-label">Self-check</div>
+      <div class="mcq-q">Your MEL system has been running for four months. The dashboard is updated monthly. But you notice the programme team never changes anything based on the data. What is the most likely root cause?</div>
+      <div class="mcq-opts" data-mcq="mcq4">
+        <div class="mcq-opt" data-correct="0">The indicators are wrong</div>
+        <div class="mcq-opt" data-correct="0">The data quality is poor</div>
+        <div class="mcq-opt" data-correct="1">There is no structured learning loop -- the data is presented but never discussed in a decision-making forum</div>
+        <div class="mcq-opt" data-correct="0">The dashboard design is not user-friendly</div>
+      </div>
+      <div class="mcq-feedback" id="mcq4-fb"><strong>Correct.</strong> The most common failure mode of MEL systems is not bad data or wrong indicators -- it is the absence of a structured forum where data meets decisions. A dashboard nobody discusses is decoration, not management.</div>
+    </div>
+
+    <div class="module-nav">
+      <button class="nav-btn" onclick="goTab(2)">&#8592; Module 3</button>
+      <button class="nav-btn primary" onclick="goTab(4)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px"><path d="M12 2L15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2z"/></svg> Build Capstone &#8594;</button>
+    </div>
+  </div>
+
+  <!-- CAPSTONE -->
+  <div class="module-panel" id="module-4" role="tabpanel">
+    <div class="module-eyebrow">Capstone</div>
+    <h2>Your 90-Day MEL Setup Plan</h2>
+
+    <p>You have completed the four modules. Click <strong>Build my brief</strong> to compile everything into a single 90-day MEL setup plan. Copy as markdown, print as PDF, or share with your team.</p>
+
+    <div class="capstone-builder">
+      <h3>90-Day MEL Setup Plan</h3>
+      <p>Click "Build my brief" -- your module answers will be pulled into the artefact. Edit or refine afterwards if needed.</p>
+      <div class="capstone-actions">
+        <button class="btn-build" onclick="buildCapstone()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px"><path d="M12 2L15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2z"/></svg> Build my brief</button>
+        <button class="btn-copy" id="copy-capstone" onclick="copyCapstone()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy as markdown</button>
+        <button class="btn-print" onclick="window.print()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Print / Save PDF</button>
+      </div>
+      <div class="capstone-output" id="capstoneOutput" contenteditable="true" spellcheck="false">Your brief will appear here when you click "Build my brief".
+
+It will draw from your answers in Modules 1-4 (which are saved in your browser). Empty fields show as placeholders -- you can either go back and fill them, or edit them here directly after building.</div>
+    </div>
+
+    <div class="resources-section">
+      <h3>Where to go next on ImpactMojo</h3>
+      <ul>
+        <li><a href="/Labs/mel-design-lab.html">MEL Design Lab</a> -- interactive logframe and indicator builder</li>
+        <li><a href="/Labs/theory-of-change-lab.html">Theory of Change Lab</a> -- map your ToC visually</li>
+        <li><a href="/practice-packs/logframe-building/">Practice Pack: Logframe Building</a> -- companion method pack</li>
+        <li><a href="/practice-packs/donor-reporting/">Practice Pack: Donor Reporting</a> -- what to do with your MEL data</li>
+        <li><a href="/courses/MEL/">MEL Flagship Course</a></li>
+        <li><a href="/blog/writing-a-tor-for-research.html">Blog: How to Write a ToR</a></li>
+      </ul>
+    </div>
+
+    <div class="callout" style="margin-top:1.8rem">
+      <div class="c-label">Done?</div>
+      <p>Share this 90-day plan with your programme director before the next team meeting. The plan is only as good as the buy-in you build around it.</p>
+      <p style="margin-top:.6rem">Help us improve this pack: <a href="/contact.html?topic=PracticePack-MELScratch">feedback form</a>.</p>
+    </div>
+
+    <div class="module-nav">
+      <button class="nav-btn" onclick="goTab(3)">&#8592; Module 4</button>
+      <a class="nav-btn" href="/practice-packs/">All Practice Packs &#8594;</a>
+    </div>
+  </div>
+
+</div>
+
+<footer class="im-footer" role="contentinfo">
+  <p>&copy; 2026 ImpactMojo. Free development education for South Asia.</p>
+  <p><a href="/about.html">About</a> . <a href="/practice-packs/">Practice Packs</a> . <a href="/catalog.html">Catalog</a> . <a href="/contact.html">Contact</a></p>
+</footer>
+
+<script>
+const PACK_ID = 'pp-m9-mel-scratch';
+const STORAGE_PREFIX = 'impactmojo-' + PACK_ID + '-';
+const MODULE_FIELDS = {
+  0: ['m9-m1-org','m9-m1-existing-data','m9-m1-used','m9-m1-gaps','m9-m1-burden','m9-m1-govdata'],
+  1: ['m9-m2-longterm','m9-m2-outcomes','m9-m2-assumptions','m9-m2-tier1','m9-m2-tier2','m9-m2-tier3'],
+  2: ['m9-m3-who','m9-m3-frequency','m9-m3-tool','m9-m3-flow','m9-m3-verification','m9-m3-cost'],
+  3: ['m9-m4-weekly','m9-m4-monthly','m9-m4-quarterly','m9-m4-decisionlog','m9-m4-funder']
+};
+
+function getFieldValue(id){
+  const el = document.getElementById(id);
+  if (el && (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT')) return el.value || '';
+  const radio = document.querySelector('input[name="'+id+'"]:checked');
+  if (radio) return radio.value;
+  return '';
+}
+function setFieldValue(id, val){
+  const el = document.getElementById(id);
+  if (el && (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT')) { el.value = val; return; }
+  const radios = document.querySelectorAll('input[name="'+id+'"]');
+  radios.forEach(r => { if (r.value === val) r.checked = true; });
+}
+function saveField(id){
+  const val = getFieldValue(id);
+  try { localStorage.setItem(STORAGE_PREFIX + id, val); } catch(e){}
+  showSavedIndicator(id);
+  updateProgress();
+}
+function loadAll(){
+  Object.values(MODULE_FIELDS).flat().forEach(id => {
+    try { const v = localStorage.getItem(STORAGE_PREFIX + id); if (v !== null && v !== '') setFieldValue(id, v); } catch(e){}
+  });
+  updateProgress();
+}
+function showSavedIndicator(id){
+  for (const [m, fields] of Object.entries(MODULE_FIELDS)) {
+    if (fields.includes(id)) {
+      const ind = document.getElementById('ind-m' + (parseInt(m)+1));
+      if (ind) { ind.classList.add('show'); clearTimeout(ind._t); ind._t = setTimeout(() => ind.classList.remove('show'), 1400); }
+      break;
+    }
+  }
+}
+function moduleProgress(moduleIdx){
+  const fields = MODULE_FIELDS[moduleIdx];
+  const filled = fields.filter(id => getFieldValue(id).trim().length > 0).length;
+  return { filled, total: fields.length };
+}
+function updateProgress(){
+  let totalFields = 0, filledFields = 0;
+  for (const m of Object.keys(MODULE_FIELDS)) {
+    const p = moduleProgress(parseInt(m));
+    totalFields += p.total;
+    filledFields += p.filled;
+    const tab = document.querySelector('.module-tab[data-tab="'+m+'"]');
+    if (tab) { if (p.filled === p.total && p.total > 0) tab.classList.add('done'); else tab.classList.remove('done'); }
+  }
+  const pct = totalFields > 0 ? Math.round((filledFields / totalFields) * 100) : 0;
+  const fill = document.getElementById('progressFill');
+  const text = document.getElementById('progressText');
+  if (fill) fill.style.width = pct + '%';
+  if (text) text.textContent = pct + '% complete . ' + filledFields + '/' + totalFields + ' fields';
+}
+function clearAllProgress(){
+  if (!confirm('Reset all your progress in this pack? This cannot be undone.')) return;
+  Object.values(MODULE_FIELDS).flat().forEach(id => {
+    try { localStorage.removeItem(STORAGE_PREFIX + id); } catch(e){}
+    const el = document.getElementById(id);
+    if (el && (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT')) el.value = '';
+    document.querySelectorAll('input[name="'+id+'"]').forEach(r => r.checked = false);
+  });
+  document.querySelectorAll('.module-tab').forEach(t => t.classList.remove('done'));
+  updateProgress();
+  document.getElementById('capstoneOutput').innerText = 'Reset complete. Fill the modules and click "Build my brief" again.';
+}
+function attachSaveHandlers(){
+  document.querySelectorAll('[data-pp-save]').forEach(el => {
+    const evt = (el.tagName === 'TEXTAREA' || (el.tagName === 'INPUT' && el.type === 'text')) ? 'input' : 'change';
+    el.addEventListener(evt, () => { const id = el.id || el.name; saveField(id); });
+  });
+}
+function goTab(idx){
+  const tabs = document.querySelectorAll('.module-tab');
+  const panels = document.querySelectorAll('.module-panel');
+  tabs.forEach((t, i) => t.classList.toggle('active', i === idx));
+  panels.forEach((p, i) => p.classList.toggle('active', i === idx));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+document.querySelectorAll('.module-tab').forEach((t, i) => t.addEventListener('click', () => goTab(i)));
+document.querySelectorAll('[data-mcq]').forEach(group => {
+  const fbId = group.dataset.mcq + '-fb';
+  group.querySelectorAll('.mcq-opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const correct = opt.dataset.correct === '1';
+      group.querySelectorAll('.mcq-opt').forEach(o => {
+        o.classList.add('disabled');
+        if (o.dataset.correct === '1') o.classList.add('correct');
+        else if (o === opt) o.classList.add('wrong');
+      });
+      const fb = document.getElementById(fbId);
+      if (fb) fb.classList.add('show');
+    });
+  });
+});
+function v(id, fallback){ const x = getFieldValue(id); return (x && x.trim()) ? x.trim() : (fallback || '_____'); }
+function buildCapstone(){
+  const today = new Date().toISOString().slice(0,10);
+  const brief = `# 90-DAY MEL SETUP PLAN
+Date: ${today}
+
+## 1. ORGANISATION & CONTEXT
+${v('m9-m1-org', '_(not filled -- Module 1)_')}
+
+## 2. AUDIT FINDINGS
+**Existing data sources:** ${v('m9-m1-existing-data')}
+
+**Currently used for decisions:** ${v('m9-m1-used')}
+
+**Top information gaps:** ${v('m9-m1-gaps')}
+
+**Pointless reporting burden:** ${v('m9-m1-burden')}
+
+**Government data systems:** ${v('m9-m1-govdata')}
+
+## 3. THEORY OF CHANGE
+**Long-term change:** ${v('m9-m2-longterm')}
+
+**Intermediate outcomes:** ${v('m9-m2-outcomes')}
+
+**Critical assumptions:** ${v('m9-m2-assumptions')}
+
+## 4. INDICATOR FRAMEWORK
+**Tier 1 (Activity tracking -- monthly):**
+${v('m9-m2-tier1')}
+
+**Tier 2 (Outcome monitoring -- quarterly):**
+${v('m9-m2-tier2')}
+
+**Tier 3 (Impact signals -- annual):**
+${v('m9-m2-tier3')}
+
+## 5. DATA COLLECTION SYSTEM
+- **Collectors:** ${v('m9-m3-who')}
+- **Frequency:** ${v('m9-m3-frequency')}
+- **Tool:** ${v('m9-m3-tool')}
+- **Data flow:** ${v('m9-m3-flow')}
+- **Verification:** ${v('m9-m3-verification')}
+- **Setup cost:** ${v('m9-m3-cost')}
+
+## 6. LEARNING LOOPS
+- **Weekly huddle:** ${v('m9-m4-weekly')}
+- **Monthly data review:** ${v('m9-m4-monthly')}
+- **Quarterly reflection:** ${v('m9-m4-quarterly')}
+- **Decision log:** ${v('m9-m4-decisionlog')}
+- **Funder sharing:** ${v('m9-m4-funder')}
+
+## 7. 90-DAY TIMELINE
+Days 1-30: Complete audit, begin ToC workshop, select tool
+Days 31-60: Build indicator framework, set up data collection, train field team
+Days 61-90: First data cycle, first monthly review, establish decision log
+
+---
+*Built with ImpactMojo Practice Pack PP-M9: Building an MEL System from Scratch.*
+*All data stored locally in your browser. Nothing transmitted.*
+`;
+  document.getElementById('capstoneOutput').innerText = brief;
+}
+function copyCapstone(){
+  const text = document.getElementById('capstoneOutput').innerText;
+  const btn = document.getElementById('copy-capstone');
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1800);
+  });
+}
+document.querySelectorAll('.theme-btn').forEach(b => b.addEventListener('click', () => {
+  const t = b.dataset.themeSet;
+  document.documentElement.setAttribute('data-theme', t);
+  try { localStorage.setItem('impactmojo-theme', t); } catch(e){}
+}));
+attachSaveHandlers();
+loadAll();
+</script>
+
+</body>
+</html>
