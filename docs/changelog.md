@@ -2,6 +2,10 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.26.2 — May 23, 2026 (napkin diagrams for accessibility blog)
+
+The `/blog/making-accessible-websites.html` post was the last using only inline SVG figures. Added 2 napkin.ai diagrams (5-pass trajectory + the 5 root causes of accessibility violations). The 2 remaining inline SVGs (precise contrast-ratio table + checklist) kept intentionally because napkin would lose the precision.
+
 ## v10.26.1 — May 23, 2026 (Napkin diagrams for "Knowing What You Want" blog)
 
 The blog post shipped without illustrations. Added two napkin.ai diagrams to match platform convention.
