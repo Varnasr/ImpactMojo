@@ -5,6 +5,33 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.26.0] - 2026-05-23
+
+### Added — Practice Packs series launched
+
+**New content type**: ImpactMojo Practice Packs — short, focused 3-hour sprints that take practitioners from a job-to-be-done to a finished artefact. Sits between blog posts (one-shot read) and flagship courses (multi-week commitment). The format contract:
+
+- 4 modules, ~25 min each
+- ~2 hours reading + 1 hour exercise = ~3 hour total commitment
+- Each module: short read + worked example + exercise + downloadable template
+- Capstone: produce one concrete artefact (a ToR, drafted survey, logframe, eval design, etc.)
+- Take-home pack of all templates
+
+**New section**: `/practice-packs/` — landing page lists all packs (1 live, 9 upcoming).
+
+**First Practice Pack**: `/practice-packs/sel-evaluation/` — "SEL Evaluation: Design & Instruments" (PP01).
+- Module 1: What kind of evaluation do you actually need? (3 dimensions)
+- Module 2: Choosing your measurement approach (CASEL / SEE Learning / WHO Life Skills / NCERT AEP / ACER India / behavioural / direct assessment)
+- Module 3: Designing the data collection (sample sizes, per-unit costs in 2026 ₹, consent architecture)
+- Module 4: Analysis, reporting, and the honest framing
+- Capstone: 1-page SEL Evaluation Design Brief
+- 5 downloadable copy-to-clipboard templates throughout
+
+**Upcoming Practice Packs** (listed on landing page):
+PP02 ToR Writing · PP03 Survey Instrument · PP04 Logframe · PP05 Costing · PP06 FGD · PP07 Critiquing Evidence · PP08 Stakeholder Mapping · PP09 Donor Reporting · PP10 MEL from Scratch
+
+**Cross-references**: `data/search-index.json` (PP-LANDING + PP01, new type `practice-pack`), `sitemap.xml` (2 URLs), `index.html` (nav link with "New" badge).
+
 ## [10.25.5] - 2026-05-23
 
 ### Added — Framework diversity propagated to SEL Course and SEL Eval Deep Dive

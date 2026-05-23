@@ -2,6 +2,20 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.26.0 — May 23, 2026 (Practice Packs series launched)
+
+A new content type on ImpactMojo: **Practice Packs**. Short, focused 3-hour sprints that take a practitioner from a job-to-be-done to a finished artefact. Sits between blog posts (read in 10 min) and flagship courses (multi-week commitment) — designed for the working practitioner with a real project waiting on a defensible artefact.
+
+### For Learners
+
+- **New section**: `/practice-packs/` — landing page listing the series (1 live, 9 upcoming)
+- **First Practice Pack — SEL Evaluation: Design & Instruments** (PP01). 4 modules + capstone. Walk in with an SEL programme; walk out with a drafted evaluation design (research question, instruments, data plan, reporting outline). Includes 5 copy-to-clipboard templates.
+- Nav link added to homepage; "New" badge.
+
+### Roadmap (visible on landing page)
+
+PP02 ToR Writing · PP03 Survey Instrument Design · PP04 Logframe Building · PP05 Activity-Based Costing · PP06 Focus Group Discussion · PP07 Critiquing Evidence Papers · PP08 Stakeholder Mapping · PP09 Donor Reporting · PP10 Building an MEL System from Scratch
+
 ## v10.25.5 — May 23, 2026 (Framework diversity propagated to SEL Course + Deep Dive)
 
 After adding framework plurality to the SEL Simulation Game (v10.25.4), audited the SEL flagship course and the SEL Evaluation Deep Dive. Both had the same gaps. This release closes them.
