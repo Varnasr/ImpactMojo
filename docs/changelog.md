@@ -2,6 +2,10 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.25.3 — May 23, 2026 (ToR post — fix duplicate illustrations, all 4 napkin.ai)
+
+The previous version rendered both the napkin.ai PNG and the inline SVG fallback simultaneously (the SVG's default style was set unconditionally, not only via the `onerror` handler), producing the impression of figures stacked back-to-back with no text between them. Fixed by removing all 4 SVG fallbacks now that real napkin.ai PNGs exist for every figure — including diagram 4 (research types), which previous attempts kept oversimplifying but a fresh prompt produced cleanly.
+
 ## v10.25.2 — May 23, 2026 (ToR post — research-types section + napkin.ai diagrams)
 
 Expansion of the ToR blog post (v10.25.1) addressing a second common failure mode — clients asking for the wrong *type* of research — and upgrading three of the four diagrams to real napkin.ai-generated visuals.

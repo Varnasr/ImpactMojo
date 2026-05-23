@@ -5,6 +5,19 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.25.3] - 2026-05-23
+
+### Fixed
+
+- **ToR blog post: removed duplicate illustrations.** The inline SVG fallbacks were rendering alongside the napkin.ai PNGs (default `display: inline-block` was applied unconditionally, not only via `onerror`), producing the impression of figures back-to-back with no text in between. Removed all 4 inline SVG fallbacks now that real napkin.ai PNGs exist for every figure.
+- **Diagram 4 (research types) is now a real napkin.ai PNG** — generated successfully on the third prompt attempt (clean mismatches list). Previous versions either collapsed the 3×3 matrix to 3 pills or used over-creative metaphors that lost the content.
+- Removed dead `.napkin-figure svg` CSS rule.
+
+### Changed
+
+- Updated alt text on all 4 figures to reflect they are napkin.ai diagrams.
+- Tightened figcaptions on figures 3 and 4 since the diagram now does more of the storytelling.
+
 ## [10.25.2] - 2026-05-23
 
 ### Added
