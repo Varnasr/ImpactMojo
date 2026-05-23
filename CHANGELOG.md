@@ -5,6 +5,27 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.25.0] - 2026-05-22
+
+### Added
+
+- **SEL Simulation Game** at `/Games/sel-simulation-game.html` — four-mode game (teacher, program designer, evaluator, student) on Social-Emotional Learning in Indian schools. Evidence-grounded scenarios drawn from NEP 2020, CASEL, WHO life skills, and India-specific SEL research 2015–2024. ~24 evidence-backed scenarios across the four modes, each with explicit "what the evidence shows" reflection.
+- **Teacher Evidence Lab** at `/Labs/teacher-evidence-lab.html` — filterable evidence base of 30+ teacher-effectiveness interventions (TaRL, contract teachers, mentoring, structured pedagogy, cascade training, multi-grade pedagogy, Mindspark, pay-for-performance, etc.). Filter by evidence quality, cost, type, outcome, and India relevance. Each card includes honest summary including weak/null findings.
+- **SEL Evaluation in India — Deep Dive** at `/DeepDives/sel-evaluation-india.html` — 28-reading working syllabus across 7 sections: foundations, India evidence base, measurement, design choices, operational wisdom, critiques, and an opinionated "what works, what doesn't" summary.
+- **Knowing What You Want — Blog Post** at `/blog/knowing-what-you-want.html` — reflection on the foundational step of knowing what you want before building theory of change. Includes 90-minute 7-question exercise.
+- **Livelihoods in India: Rural, Urban, and Skills — Flagship Course** at `/courses/livelihoods/` — comprehensive 3-module flagship: rural livelihoods (NRLM, SHGs, MGNREGA, agriculture, financial inclusion), urban livelihoods (informal sector, vendors, gig economy, domestic workers, urban policy tools), skills (Skill India evidence, apprenticeships, women's labour force participation puzzle, job matching, returns to training). ~15,000 words. Practitioner-level, India-centred, evidence-driven.
+- Entries in `data/search-index.json` (5), `catalog_data.json` (livelihoods), `data/deep-dives.json` (SEL eval), `sitemap.xml` (5 URLs).
+
+### Changed
+
+- Content counts sitewide:
+  - Games: 16 → 17
+  - Courses: 52 (12 flagship + 40 foundational) → 53 (13 flagship + 40 foundational)
+  - Labs: 11 → 12
+  - Deep Dives: 5 → 6
+
+Updates made to `index.html`, `catalog.html`, `docs/changelog.md`. Other count references in `docs/` files may still show old numbers — to be swept in next housekeeping pass.
+
 ## [10.23.38] - 2026-05-03
 
 ### Fixed

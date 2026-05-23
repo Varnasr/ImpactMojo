@@ -2,6 +2,32 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.25.0 — May 22, 2026 (Five-piece cofounder feature batch)
+
+A five-deliverable release driven by cofounder feature requests — extending coverage of social-emotional learning, teacher evidence, livelihoods, and reflective practice. All evidence-grounded, India-context, practitioner-oriented.
+
+### For Learners
+
+- **SEL Simulation Game (4 modes)** — Step into Social-Emotional Learning from four chairs: teacher facing classroom dilemmas, program designer with a ₹40 lakh budget, evaluator deciding what can actually be known, or student (Anika, 12) navigating a school year. Each mode draws on NEP 2020, CASEL, and India-specific SEL research; scenarios are evidence-grounded with explicit "what the evidence shows" reflections after each choice.
+- **Livelihoods in India: Rural, Urban, and Skills** (flagship course) — Comprehensive treatment across three modules: rural (NRLM/SHGs, MGNREGA, agriculture, financial inclusion); urban (informal sector, gig economy, vendors, domestic workers); skills (Skill India, apprenticeships, women's labour force participation, returns to training). Built for practitioners, evaluators, and policy actors who need both the policy landscape and the methodological rigour to read the field critically.
+- **Teacher Evidence Lab** (interactive lab) — Filter 30+ teacher-effectiveness interventions by evidence quality, cost (per teacher per year), India relevance, type, and outcome. Built from rigorous evaluations 2000–2024: TaRL, contract teachers, pay-for-performance, mentoring, cascade training, multi-grade pedagogy, Mindspark, and more. Each card includes honest summary of what the evidence does and doesn't show.
+- **SEL Evaluation in India** (deep dive) — Working syllabus on the methods that work and don't work for evaluating SEL in Indian school contexts. 28 readings across foundations, India evidence base, measurement, design choices, operational wisdom, and critiques. Includes opinionated "what works, what doesn't" summary.
+- **Knowing What You Want** (blog) — A reflection on the quiet, hardest, most-skipped step in development work — actually knowing what you want, before you build the theory of change for it. Includes a 90-minute, 7-question exercise. Pairs naturally with the SEL course self-awareness material.
+
+### Added
+
+- `/Games/sel-simulation-game.html` (Game 17)
+- `/Labs/teacher-evidence-lab.html` (Lab 12)
+- `/DeepDives/sel-evaluation-india.html` (Deep Dive 6)
+- `/blog/knowing-what-you-want.html` (Blog post)
+- `/courses/livelihoods/` (Flagship 13)
+- Entries added to `data/search-index.json` (5 entries), `catalog_data.json` (livelihoods), `data/deep-dives.json` (SEL eval), `sitemap.xml` (5 URLs)
+- Blog card added to `blog.html`
+
+### Changed
+
+- Content counts updated sitewide: **53 courses (13 flagship + 40 foundational), 12 labs, 17 games, 6 deep dives** — was 52 / 11 / 16 / 5.
+
 ## v10.24.0 — May 20, 2026 (Flagship course chrome normalization)
 
 Reader feedback was that the 12 flagship courses "looked different from each other" — mobile and desktop both. Over a session of audits, ran a line-by-line comparison against `devecon` (canonical) and closed the drift across 9 incremental PRs.
