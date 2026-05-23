@@ -5,6 +5,27 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.25.4] - 2026-05-23
+
+### Added
+
+- **SEL Simulation Game: Parent mode (5th mode).** Replaces "Four Lenses" with "Five Lenses". Six new rounds drawn from Indian parenting + adolescent mental-health evidence:
+  - The withdrawn child at dinner (early-warning response)
+  - The teacher complaint about your son (parent-teacher partnership)
+  - The friend who turned on your daughter (relational coaching)
+  - The day you snapped (rupture-and-repair modelling)
+  - The school SEL programme arrives (NEP-aligned parent engagement)
+  - Boards + a peer self-harming (warm-handoff to professional support)
+- Parent mode tracks 4 dimensions: Trust, Wellbeing, Connection, Modeling. 5 archetypes. End-screen summary including India-specific adolescent mental-health helplines (iCall, Vandrevala, MANAS).
+- Welcome SVG updated with parent figures (violet).
+
+### Changed
+
+- **Framework diversity acknowledged.** Game was CASEL-heavy. Now explicitly references **SEE Learning** (Emory + Dalai Lama Centre, India-translated), **WHO Life Skills** (the framework actually under-girding most Indian state curricula), Delhi's **Happiness Curriculum** + **Entrepreneurship Mindset Curriculum (EMC)**, and Indian indigenous traditions (Tagore, Krishnamurti, Aurobindo, Nai Talim). Updated intro card, "Why X modes?" card, and several scenario insights to reflect this plurality.
+- **NEP 2020 teacher-side provisions** woven into Teacher and Designer endEvidence summaries — NPST (National Professional Standards for Teachers), 50-hour annual CPD mandate, 4-year integrated B.Ed., teacher autonomy. Previous text framed NEP almost entirely from the child-facing side.
+- Score dimensions, scenario card, choice grid all extended to support 5th mode (violet color tokens, m5 score card, b5 bar, scenario-card.parent, parent .btn-choice).
+- Cross-references updated: search-index `GAME017`, index.html courses modal card, catalog.html g17 entry.
+
 ## [10.25.3] - 2026-05-23
 
 ### Fixed

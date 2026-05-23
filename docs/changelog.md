@@ -2,6 +2,15 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.25.4 — May 23, 2026 (SEL Simulation — Parent mode + framework diversity)
+
+Addresses two cofounder feedback items: the game was missing a Parent perspective, and it framed NEP 2020 almost entirely from the child-facing side while leaning heavily on CASEL.
+
+### For Learners
+
+- **New Parent mode (5th lens)** in the SEL Simulation game. Six rounds covering: withdrawn child at dinner, teacher complaint, broken friendship, the day you snapped (modelling regulation), NEP school SEL outreach, and exam pressure + peer self-harm. Tracks Trust, Wellbeing, Connection, Modeling. India-specific adolescent helplines surfaced at end (iCall, Vandrevala, MANAS).
+- **Framework plurality** — game now explicitly draws from CASEL, SEE Learning, WHO Life Skills, Delhi Happiness Curriculum + EMC, Indian indigenous traditions, and NEP 2020 (including its teacher-side provisions). Previous version was CASEL-heavy and child-focused on NEP.
+
 ## v10.25.3 — May 23, 2026 (ToR post — fix duplicate illustrations, all 4 napkin.ai)
 
 The previous version rendered both the napkin.ai PNG and the inline SVG fallback simultaneously (the SVG's default style was set unconditionally, not only via the `onerror` handler), producing the impression of figures stacked back-to-back with no text between them. Fixed by removing all 4 SVG fallbacks now that real napkin.ai PNGs exist for every figure — including diagram 4 (research types), which previous attempts kept oversimplifying but a fresh prompt produced cleanly.
