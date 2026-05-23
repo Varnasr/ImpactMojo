@@ -5,6 +5,16 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.26.1] - 2026-05-23
+
+### Added — napkin.ai diagrams for "Knowing What You Want" blog
+
+The blog post shipped in v10.25.0 had no illustrations (platform convention is 2 per post). This PR fixes that gap.
+
+- **Illustration 1** — Six substitutes for wanting, stacked precariously like a tower. The fragility-of-substitution metaphor.
+- **Illustration 2** — Seven honest questions as stations on a winding path. The 90-minute exercise.
+- Added `.napkin-figure` CSS (was missing).
+
 ## [10.26.0] - 2026-05-23
 
 ### Added — Practice Packs series launched

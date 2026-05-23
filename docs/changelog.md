@@ -2,6 +2,10 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.26.1 — May 23, 2026 (Napkin diagrams for "Knowing What You Want" blog)
+
+The blog post shipped without illustrations. Added two napkin.ai diagrams to match platform convention.
+
 ## v10.26.0 — May 23, 2026 (Practice Packs series launched)
 
 A new content type on ImpactMojo: **Practice Packs**. Short, focused 3-hour sprints that take a practitioner from a job-to-be-done to a finished artefact. Sits between blog posts (read in 10 min) and flagship courses (multi-week commitment) — designed for the working practitioner with a real project waiting on a defensible artefact.
