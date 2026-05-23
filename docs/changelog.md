@@ -2,6 +2,18 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.25.1 — May 23, 2026 (ToR-writing blog post)
+
+Adds a single blog post answering one of the most common cofounder/client questions: how to write a Terms of Reference (or SoW, or RFP) that actually gets you useful research from an agency — and how to cost it honestly in India.
+
+### For Learners
+
+- **How to Write a ToR That Gets You Useful Research** — Practical, opinionated guide covering the nine ingredients of a good ToR, five common anti-patterns, India 2026 budget benchmarks (₹2L / ₹10L / ₹40L tiers with what each actually buys), and a pre-send checklist. Includes three inline diagrams (anatomy of a ToR, budget tiers, pipeline + failure points).
+
+### Notes
+
+- Diagrams are inline SVG in the napkin.ai style. PNG fallback paths exist at `assets/images/blog/writing-a-tor-for-research/illustration-{1,2,3}.png` — drop real napkin.ai exports there to swap.
+
 ## v10.25.0 — May 22, 2026 (Five-piece cofounder feature batch)
 
 A five-deliverable release driven by cofounder feature requests — extending coverage of social-emotional learning, teacher evidence, livelihoods, and reflective practice. All evidence-grounded, India-context, practitioner-oriented.
