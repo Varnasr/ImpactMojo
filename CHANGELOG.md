@@ -5,6 +5,16 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.26.2] - 2026-05-23
+
+### Added — napkin.ai diagrams for the accessibility blog post
+
+`/blog/making-accessible-websites.html` was the last blog post on the site using only inline SVG figures rather than napkin.ai PNG diagrams (cofounder feedback called it out as the holdout). Brought it in line with the rest of the blog.
+
+- **Illustration 1** — replaces the inline SVG bar chart of the 5-pass trajectory (393 → 77 → 21 → 14 → 1 → 0). Same data; cleaner napkin progress-tile design with both percentage reductions and absolute counts shown.
+- **Illustration 2** — new diagram added at "Lesson 2: small number of root causes" section, illustrating the five common root causes (missing alt text, low colour contrast, improper form labels, missing skip links, missing ARIA attributes) that account for ~80% of WCAG violations across most sites.
+- The two remaining inline SVGs (Brand colours vs WCAG comparison table; Six-step starter checklist) intentionally kept as inline SVG — they contain precise data (specific Tailwind colour codes, contrast ratios, numbered step actions) that napkin's summarisation would not preserve faithfully.
+
 ## [10.26.1] - 2026-05-23
 
 ### Added — napkin.ai diagrams for "Knowing What You Want" blog
