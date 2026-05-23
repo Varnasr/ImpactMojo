@@ -2,6 +2,15 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.25.5 — May 23, 2026 (Framework diversity propagated to SEL Course + Deep Dive)
+
+After adding framework plurality to the SEL Simulation Game (v10.25.4), audited the SEL flagship course and the SEL Evaluation Deep Dive. Both had the same gaps. This release closes them.
+
+### For Learners
+
+- **SEL Course** now opens with an explicit "Frameworks We Draw From" section explaining how the course integrates CASEL, SEE Learning, WHO Life Skills, Delhi's Happiness Curriculum + EMC, Indian indigenous traditions (Tagore, Krishnamurti, Aurobindo, Nai Talim), and NEP 2020's full provisions (including teacher-side: NPST, 50-hr CPD, 4-yr B.Ed., teacher autonomy).
+- **SEL Eval Deep Dive** expanded from 28 to 32 readings: added SEE Learning, NCERT AEP, Indian indigenous traditions, Delhi EMC; expanded NEP entry to surface teacher-side provisions.
+
 ## v10.25.4 — May 23, 2026 (SEL Simulation — Parent mode + framework diversity)
 
 Addresses two cofounder feedback items: the game was missing a Parent perspective, and it framed NEP 2020 almost entirely from the child-facing side while leaning heavily on CASEL.

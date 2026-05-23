@@ -5,6 +5,28 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.25.5] - 2026-05-23
+
+### Added — Framework diversity propagated to SEL Course and SEL Eval Deep Dive
+
+After bringing framework plurality to the SEL Simulation Game (#433), audited the SEL Course and SEL Evaluation Deep Dive — both had the same CASEL-heavy, NEP-child-only gaps. This PR fixes both.
+
+**SEL Flagship Course (`/courses/SEL/`)**:
+- Hero subtitle now names CASEL, SEE Learning, WHO Life Skills, Delhi Happiness Curriculum + EMC, Indian indigenous traditions (Tagore, Krishnamurti, Aurobindo, Nai Talim), and NEP 2020 teacher-side provisions (NPST, CPD, B.Ed., teacher autonomy)
+- New static "Frameworks We Draw From" section inserted between hero and Module 1, explicitly mapping each framework's relevance with India-context notes
+- Sidebar nav updated with link to the new section
+- Meta description, keywords, OG description updated for SEO
+- *Note*: Course module content itself is dynamically loaded from Supabase edge function; this PR updates only the static shell. Full integration of framework references into individual module bodies would require database updates outside this repo.
+
+**SEL Evaluation in India Deep Dive (`/DeepDives/sel-evaluation-india.html`)**:
+- Section 01 (Foundations) — added 4 new entries:
+  - SEE Learning (Emory + Dalai Lama Centre)
+  - NCERT Adolescence Education Programme (AEP) — the framework Indian government schools actually run
+  - Indian indigenous educational traditions (Tagore, Krishnamurti, Aurobindo, Nai Talim)
+  - Expanded NEP 2020 entry to explicitly include teacher-side provisions (NPST, 50-hr CPD, 4-yr integrated B.Ed., teacher autonomy)
+- Section 02 (India Evidence Base) — added entry for Delhi's Entrepreneurship Mindset Curriculum (EMC) alongside the existing Happiness Curriculum entry; deepened the Happiness Curriculum annotation
+- Reading count updated 28 → 32 (in HTML, `data/deep-dives.json`, and the homepage Deep Dives card)
+
 ## [10.25.4] - 2026-05-23
 
 ### Added
