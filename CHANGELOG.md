@@ -5,6 +5,41 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.28.0] - 2026-05-23
+
+### Added — Complete Practice Packs series (16 new) + blog rewrite
+
+**16 new interactive Practice Packs** completing the full series (18 total):
+
+Subject Packs (7 new):
+- PP-S3 Gender Impact Assessment Design
+- PP-S4 Education Programme Evaluation
+- PP-S5 Health Intervention Evaluation
+- PP-S6 Climate Adaptation Programme Evaluation
+- PP-S7 Public Policy Evaluation
+- PP-S8 Media Campaign Evaluation
+- PP-S9 Governance Reform Evaluation
+
+Method Packs (9 new):
+- PP-M1 Writing a ToR That Gets You Useful Research
+- PP-M2 Designing a Survey Instrument
+- PP-M3 Building a Logframe That Actually Tracks
+- PP-M4 Costing a Programme from Activities Up
+- PP-M5 Running a Real Focus Group Discussion
+- PP-M6 Reading & Critiquing an Evidence Paper
+- PP-M7 Stakeholder Mapping for Influence
+- PP-M8 Donor Reporting That Funders Read
+- PP-M9 Building an MEL System from Scratch
+
+All follow interactive pattern: localStorage auto-save, progress bar, MCQ self-checks, live capstone builder ("Build my brief" pulls module answers into compiled markdown), copy/print export. No emoji — Sargam SVG icons. India-context throughout. Dark mode support.
+
+Landing page (`/practice-packs/`) updated with all 18 pack cards in Subject + Method tracks. `data/search-index.json` +16 entries (total 562). `sitemap.xml` +16 URLs.
+
+### Fixed
+
+- **Blog "Evidence-Based Pivots" rewritten with real named cases + citations** — reader (Ashwani, M&E practitioner) asked for sources. The three stories were composites. Rewrote with: (1) India's ICDS system (Gragnolati et al. 2005, World Bank); (2) JEEViKA Bihar (Datta 2015, *World Development*); (3) Pratham TaRL pivot (Banerjee et al. 2017, *JEP*). Same arcs, real names, inline source blocks.
+- **All emoji removed from every new page** — replaced with Sargam-style inline SVGs across all 9 files from the session (186 emoji in SEL game alone). Practice Packs landing stripped of "v2 callout" and stub cards.
+
 ## [10.27.0] - 2026-05-23
 
 ### Practice Packs v2 — Interactive lab-features + Subject/Method tracks + PP02 Livelihoods Evaluation
