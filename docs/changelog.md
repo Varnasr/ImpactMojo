@@ -2,6 +2,14 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.28.0 — May 23, 2026 (Complete Practice Packs series + blog rewrite)
+
+### For Learners
+
+- **16 new interactive Practice Packs** — completing the full series of 18. 9 Subject Packs (SEL, Livelihoods, Gender, Education, Health, Climate, Policy, Media, Governance) + 9 Method Packs (ToR Writing, Survey Instrument, Logframe, Costing, FGD, Critiquing Evidence, Stakeholder Mapping, Donor Reporting, MEL from Scratch). All interactive with in-browser auto-save, live capstone builder, MCQ self-checks.
+- **"Evidence-Based Pivots" blog post rewritten** with real named cases (ICDS/Gragnolati, JEEViKA/Datta, Pratham/Banerjee) replacing unsourced composites. Full inline citations added.
+- **All emoji removed** from every new page shipped this session — replaced with Sargam SVG icons per brand guidelines.
+
 ## v10.27.0 — May 23, 2026 (Practice Packs v2 — interactive, two-track, PP02 Livelihoods)
 
 ### For Learners
