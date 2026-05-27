@@ -2157,46 +2157,7 @@ code, pre, .monospace, kbd, samp { font-family: 'JetBrains Mono', monospace !imp
     </div>
 </footer>
 
-<script>
-// Three-way theme system
-(function() {
-    function applyTheme(theme) {
-        if (theme === 'system') {
-            var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-            document.body.classList.toggle('dark-mode', systemDark);
-        } else {
-            document.body.classList.toggle('dark-mode', theme === 'dark');
-        }
-    }
-
-    function updateActiveButton(theme) {
-        document.querySelectorAll('.theme-btn').forEach(function(btn) {
-            btn.classList.toggle('active', btn.dataset.theme === theme);
-        });
-    }
-
-    var saved = localStorage.getItem('theme') || 'system';
-    applyTheme(saved);
-
-    document.addEventListener('DOMContentLoaded', function() {
-        updateActiveButton(saved);
-        document.querySelectorAll('.theme-btn').forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                var theme = btn.dataset.theme;
-                localStorage.setItem('theme', theme);
-                updateActiveButton(theme);
-                applyTheme(theme);
-            });
-        });
-    });
-
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
-        if ((localStorage.getItem('theme') || 'system') === 'system') {
-            applyTheme('system');
-        }
-    });
-})();
-</script>
+<!-- Legacy theme script removed — unified into the IM theme system below -->
 <script>
 // Category filter
 document.addEventListener('DOMContentLoaded', function() {
@@ -2236,6 +2197,24 @@ document.addEventListener('DOMContentLoaded', function() {
         else document.body.classList.add('dark-mode');
     }
     function updateButtons(pref) {
+        // Also wire page-level .theme-btn buttons to same system
+        document.querySelectorAll('.theme-btn[data-theme]').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var t = this.dataset.theme;
+                localStorage.setItem('im-theme', t);
+                applyTheme(t);
+                updateButtons(t);
+                // Sync page-level active state
+                document.querySelectorAll('.theme-btn[data-theme]').forEach(function(b) {
+                    b.classList.toggle('active', b.dataset.theme === t);
+                });
+            });
+        });
+        // Sync page-level buttons on load
+        document.querySelectorAll('.theme-btn[data-theme]').forEach(function(b) {
+            b.classList.toggle('active', b.dataset.theme === saved);
+        });
+        
         document.querySelectorAll('.im-theme-btn').forEach(function(btn) {
             btn.classList.toggle('active', btn.getAttribute('data-imtheme') === pref);
         });
@@ -2246,6 +2225,24 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('DOMContentLoaded', function() {
         applyTheme(saved);
         updateButtons(saved);
+        // Also wire page-level .theme-btn buttons to same system
+        document.querySelectorAll('.theme-btn[data-theme]').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var t = this.dataset.theme;
+                localStorage.setItem('im-theme', t);
+                applyTheme(t);
+                updateButtons(t);
+                // Sync page-level active state
+                document.querySelectorAll('.theme-btn[data-theme]').forEach(function(b) {
+                    b.classList.toggle('active', b.dataset.theme === t);
+                });
+            });
+        });
+        // Sync page-level buttons on load
+        document.querySelectorAll('.theme-btn[data-theme]').forEach(function(b) {
+            b.classList.toggle('active', b.dataset.theme === saved);
+        });
+        
         document.querySelectorAll('.im-theme-btn').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 var t = this.getAttribute('data-imtheme');
