@@ -2,6 +2,21 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.29.0 — May 27, 2026 (10 new Book Companions)
+
+### For Learners
+
+- **Digital Roadmap for a Circular Economy** — EU Commission companion on how IoT, blockchain, and AI can accelerate circular economy transitions, with Indian landscape analysis
+- **Measuring Empowerment** — BMGF methods note companion covering WEAI, DHS modules, results frameworks, and measurement biases in Indian field settings
+- **Field Experiments in Economics** — Favereau & Nagatsu companion on the methodological history of field experiments, lab-extension vs programme-evaluation strands
+- **Learning Policy, Doing Policy** — Mercer, Ayres, Head & Wanna companion on public policy theory-practice interactions with Australian, NZ, and Indian case studies
+- **Learning Statistics with R** — Navarro's open-access textbook companion covering research design, hypothesis testing, regression, ANOVA, and R code
+- **M&E Frameworks** — USAID program cycle companion covering CLA Toolkit, Evaluation Toolkit, Monitoring Toolkit, and MEL Plan guidance
+- **Social Norms & SBC** — USAID Passages/UNICEF/UNFPA companion on norm diagnostics, ego-network analysis, and social & behavior change programming
+- **Paying for Health** — Cylus, Forman et al. (Cambridge 2025) on health financing, UHC frameworks, revenue raising, pooling, and the WHO cube
+- **Public Innovation Playbook** — Johns Hopkins Bloomberg Center playbook for city-level innovation teams, four phases from mission to sustainability
+- **Qualitative Methods Suite** — Hurst, Mortelmans & Hennink-Kaiser three-textbook companion on qualitative research methods, 21 chapters
+
 ## v10.28.0 — May 23, 2026 (Complete Practice Packs series + blog rewrite)
 
 ### For Learners
