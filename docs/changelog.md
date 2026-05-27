@@ -2,7 +2,7 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
-## v10.29.0 — May 27, 2026 (10 new Book Companions)
+## v10.29.0 — May 27, 2026 (14 new Book Companions)
 
 ### For Learners
 
@@ -16,6 +16,10 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 - **Paying for Health** — Cylus, Forman et al. (Cambridge 2025) on health financing, UHC frameworks, revenue raising, pooling, and the WHO cube
 - **Public Innovation Playbook** — Johns Hopkins Bloomberg Center playbook for city-level innovation teams, four phases from mission to sustainability
 - **Qualitative Methods Suite** — Hurst, Mortelmans & Hennink-Kaiser three-textbook companion on qualitative research methods, 21 chapters
+- **Value of RCTs in Developing Contexts** — Sengupta companion on RCT design, ethics, and external validity across 7 Asia-Pacific case studies
+- **Research Design Workflow** — multi-source companion on literature review, formative research, mixed methods, and survey design
+- **Public Speaking for Researchers** — Gallo & Berkun two-book companion on storytelling, presentation skills, and overcoming stage anxiety
+- **Small Sample Size Solutions** — van de Schoot & Miocevic (Routledge 2020) on Bayesian approaches, multilevel modelling, and SEM for small samples
 
 ## v10.28.0 — May 23, 2026 (Complete Practice Packs series + blog rewrite)
 
