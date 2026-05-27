@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#0F172A">
+<title>Policy Analysis Lab — Structured Tools for Policy Reasoning | ImpactMojo</title>
+<meta name="description" content="Interactive Policy Analysis Lab — Bardach 8-step analysis, stakeholder power grid, causal loop builder, decision matrix, and policy brief generator. Free, browser-only, auto-saves your work.">
+<meta name="keywords" content="policy analysis, Bardach, stakeholder mapping, causal loop, decision matrix, policy brief, public policy, ImpactMojo">
+<link rel="canonical" href="https://www.impactmojo.in/Labs/policy-analysis-lab.html">
+<meta property="og:title" content="Policy Analysis Lab | ImpactMojo">
+<meta property="og:description" content="5 structured tools for rigorous policy reasoning — Bardach 8-step, stakeholder grid, causal loops, decision matrix, policy brief generator.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.impactmojo.in/Labs/policy-analysis-lab.html">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+<link rel="icon" href="/assets/images/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary-bg:#FFFFFF;--secondary-bg:#F8FAFC;--accent:#0EA5E9;--accent-hover:#0284C7;
+  --secondary-accent:#6366F1;--success:#10B981;--warning:#F59E0B;--danger:#EF4444;
+  --text-primary:#0F172A;--text-secondary:#475569;--text-muted:#64748B;
+  --card-bg:#FFFFFF;--hover-bg:#F1F5F9;--border:#E2E8F0;
+  --gradient:linear-gradient(135deg,#0EA5E9 0%,#6366F1 100%);
+  --font-sans:'Amaranth',sans-serif;--font-heading:'Inter',sans-serif;--font-mono:'JetBrains Mono',monospace;
+}
+@media(prefers-color-scheme:dark){:root{
+  --primary-bg:#0F172A;--secondary-bg:#1E293B;--text-primary:#F1F5F9;--text-secondary:#CBD5E1;--text-muted:#94A3B8;
+  --card-bg:#1E293B;--hover-bg:#334155;--border:#334155;
+}}
+[data-theme="light"]{--primary-bg:#FFFFFF;--secondary-bg:#F8FAFC;--text-primary:#0F172A;--text-secondary:#475569;--text-muted:#64748B;--card-bg:#FFFFFF;--hover-bg:#F1F5F9;--border:#E2E8F0;}
+[data-theme="dark"]{--primary-bg:#0F172A;--secondary-bg:#1E293B;--text-primary:#F1F5F9;--text-secondary:#CBD5E1;--text-muted:#94A3B8;--card-bg:#1E293B;--hover-bg:#334155;--border:#334155;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--primary-bg);color:var(--text-primary);line-height:1.65;min-height:100vh}
+.container{max-width:1180px;margin:0 auto;padding:1.5rem}
+.back-link{display:inline-flex;align-items:center;gap:.5rem;color:var(--accent);text-decoration:none;font-size:.88rem;margin-bottom:1.5rem}
+.back-link:hover{color:var(--accent-hover);text-decoration:underline}
+.header{margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.header-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.35rem 1rem;background:rgba(14,165,233,.15);color:var(--accent);border-radius:20px;font-size:.78rem;font-weight:700;margin-bottom:1rem;letter-spacing:.5px;text-transform:uppercase}
+.header h1{font-family:var(--font-heading);font-size:clamp(1.7rem,3.5vw,2.4rem);margin-bottom:.6rem;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.header p{color:var(--text-secondary);font-size:1.02rem;max-width:780px}
+.course-links{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem}
+.course-link{display:inline-flex;align-items:center;gap:.4rem;padding:.3rem .8rem;background:var(--hover-bg);border:1px solid var(--border);border-radius:8px;color:var(--secondary-accent);font-size:.78rem;font-weight:600;text-decoration:none;transition:all .2s}
+.course-link:hover{background:rgba(99,102,241,.1);border-color:var(--secondary-accent)}
+
+/* Tool Tabs */
+.tool-tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem;padding:.5rem;background:var(--secondary-bg);border-radius:12px;border:1px solid var(--border)}
+.tool-tab{padding:.6rem 1.1rem;border:none;background:transparent;color:var(--text-secondary);font-family:var(--font-heading);font-size:.82rem;font-weight:600;border-radius:8px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.4rem}
+.tool-tab:hover{background:var(--hover-bg);color:var(--text-primary)}
+.tool-tab.active{background:var(--accent);color:#fff;box-shadow:0 2px 8px rgba(14,165,233,.3)}
+.tool-tab svg{width:16px;height:16px}
+
+/* Tool Panels */
+.tool-panel{display:none;animation:fadeIn .3s ease}
+.tool-panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* Cards & Forms */
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.25rem}
+.card h2{font-family:var(--font-heading);font-size:1.15rem;margin-bottom:.5rem}
+.card h3{font-family:var(--font-heading);font-size:1rem;margin-bottom:.4rem;color:var(--accent)}
+.card p{color:var(--text-secondary);font-size:.92rem;margin-bottom:1rem}
+.form-group{margin-bottom:1rem}
+.form-group label{display:block;font-family:var(--font-heading);font-size:.82rem;font-weight:600;color:var(--text-primary);margin-bottom:.35rem}
+.form-group .hint{font-size:.78rem;color:var(--text-muted);margin-bottom:.35rem}
+textarea,input[type="text"],select{width:100%;padding:.65rem .85rem;border:1px solid var(--border);border-radius:8px;background:var(--primary-bg);color:var(--text-primary);font-family:var(--font-sans);font-size:.9rem;line-height:1.6;resize:vertical;transition:border-color .2s}
+textarea:focus,input[type="text"]:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(14,165,233,.12)}
+textarea{min-height:80px}
+.step-number{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:var(--accent);color:#fff;border-radius:50%;font-family:var(--font-heading);font-size:.78rem;font-weight:700;flex-shrink:0}
+.step-header{display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem}
+
+/* Stakeholder Grid */
+.grid-container{position:relative;width:100%;max-width:600px;aspect-ratio:1;margin:1.5rem auto;background:var(--secondary-bg);border:2px solid var(--border);border-radius:12px;overflow:hidden;cursor:crosshair}
+.grid-label{position:absolute;font-family:var(--font-heading);font-size:.7rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}
+.grid-label.top{top:8px;left:50%;transform:translateX(-50%)}
+.grid-label.bottom{bottom:8px;left:50%;transform:translateX(-50%)}
+.grid-label.left{left:8px;top:50%;transform:translateY(-50%) rotate(-90deg)}
+.grid-label.right{right:8px;top:50%;transform:translateY(-50%) rotate(90deg)}
+.grid-quadrant-label{position:absolute;font-family:var(--font-heading);font-size:.68rem;font-weight:700;color:var(--text-muted);opacity:.5;pointer-events:none}
+.grid-line{position:absolute;background:var(--border)}
+.grid-line.h{left:0;right:0;top:50%;height:1px}
+.grid-line.v{top:0;bottom:0;left:50%;width:1px}
+.stakeholder-dot{position:absolute;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:.7rem;font-weight:700;color:#fff;cursor:grab;transform:translate(-50%,-50%);transition:box-shadow .2s;z-index:2}
+.stakeholder-dot:hover{box-shadow:0 0 0 4px rgba(14,165,233,.3);z-index:3}
+.stakeholder-dot.dragging{cursor:grabbing;box-shadow:0 0 0 6px rgba(14,165,233,.4)}
+.dot-colors{display:flex;gap:.3rem;flex-wrap:wrap;margin:.5rem 0}
+.dot-color{width:24px;height:24px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:border-color .15s}
+.dot-color.selected{border-color:var(--text-primary);box-shadow:0 0 0 2px var(--primary-bg)}
+
+/* Decision Matrix */
+.matrix-table{width:100%;border-collapse:collapse;font-size:.85rem;margin:1rem 0}
+.matrix-table th,.matrix-table td{padding:.6rem .5rem;border:1px solid var(--border);text-align:center;font-family:var(--font-heading)}
+.matrix-table th{background:var(--secondary-bg);font-size:.75rem;font-weight:600;color:var(--text-muted);text-transform:uppercase}
+.matrix-table td input{width:100%;border:none;background:transparent;text-align:center;padding:.3rem;font-family:var(--font-sans);font-size:.85rem;color:var(--text-primary)}
+.matrix-table td input:focus{outline:none;background:rgba(14,165,233,.05)}
+.matrix-table .score-cell{font-weight:700;color:var(--accent)}
+.matrix-table .alt-name{text-align:left;font-weight:600;color:var(--text-primary);min-width:120px}
+
+/* Buttons */
+.btn{padding:.55rem 1.2rem;border:none;border-radius:8px;font-family:var(--font-heading);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:.4rem}
+.btn-primary{background:var(--accent);color:#fff}.btn-primary:hover{background:var(--accent-hover)}
+.btn-secondary{background:var(--hover-bg);color:var(--text-primary);border:1px solid var(--border)}.btn-secondary:hover{background:var(--secondary-bg)}
+.btn-success{background:var(--success);color:#fff}.btn-success:hover{opacity:.9}
+.btn-danger{background:var(--danger);color:#fff;font-size:.78rem;padding:.4rem .8rem}.btn-danger:hover{opacity:.9}
+.btn-group{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem}
+.btn svg{width:16px;height:16px}
+
+/* Progress */
+.progress-bar{height:6px;background:var(--hover-bg);border-radius:3px;overflow:hidden;margin-bottom:1.5rem}
+.progress-fill{height:100%;background:var(--gradient);border-radius:3px;transition:width .4s ease}
+
+/* Save indicator */
+.save-indicator{font-size:.72rem;color:var(--success);display:inline-flex;align-items:center;gap:.3rem;opacity:0;transition:opacity .3s}
+.save-indicator.show{opacity:1}
+
+/* Export modal */
+.export-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}
+.export-overlay.show{display:flex}
+.export-modal{background:var(--card-bg);border-radius:16px;padding:2rem;max-width:700px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.export-modal h2{font-family:var(--font-heading);margin-bottom:1rem}
+.export-content{background:var(--secondary-bg);border:1px solid var(--border);border-radius:8px;padding:1rem;font-family:var(--font-mono);font-size:.8rem;white-space:pre-wrap;max-height:50vh;overflow-y:auto;line-height:1.7;color:var(--text-primary)}
+
+/* Causal loop */
+.loop-canvas{width:100%;min-height:400px;background:var(--secondary-bg);border:2px solid var(--border);border-radius:12px;position:relative;overflow:hidden}
+.loop-node{position:absolute;padding:.5rem 1rem;background:var(--card-bg);border:2px solid var(--accent);border-radius:8px;font-family:var(--font-heading);font-size:.82rem;font-weight:600;cursor:grab;user-select:none;z-index:2;min-width:80px;text-align:center}
+.loop-node:hover{box-shadow:0 2px 12px rgba(14,165,233,.2)}
+.loop-node.dragging{cursor:grabbing;opacity:.9}
+
+/* Responsive */
+@media(max-width:768px){
+  .container{padding:1rem}
+  .tool-tabs{gap:.3rem;padding:.35rem}
+  .tool-tab{padding:.45rem .7rem;font-size:.75rem}
+  .card{padding:1rem}
+  .grid-container{max-width:100%}
+  .matrix-table{font-size:.75rem}
+  .matrix-table td input{font-size:.75rem}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<a href="/" class="back-link">
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+  Back to ImpactMojo
+</a>
+
+<div class="header">
+  <span class="header-badge">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:3px"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    Policy Lab
+  </span>
+  <h1>Policy Analysis Lab</h1>
+  <p>Five structured tools for rigorous policy reasoning. Work through Bardach's 8 steps, map stakeholder power, build causal loops, score alternatives, and draft a policy brief. Everything saves to your browser automatically.</p>
+  <div class="course-links">
+    <a href="/courses/pubpol/" class="course-link">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      Public Policy 101
+    </a>
+    <a href="/courses/pubchoice/" class="course-link">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      Public Choice 101
+    </a>
+    <a href="/BookSummaries/learning-policy-companion.html" class="course-link">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      Learning Policy, Doing Policy
+    </a>
+  </div>
+</div>
+
+<!-- Tool Tabs -->
+<div class="tool-tabs" role="tablist">
+  <button class="tool-tab active" data-tool="bardach" role="tab" aria-selected="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+    Bardach 8-Step
+  </button>
+  <button class="tool-tab" data-tool="stakeholder" role="tab">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+    Stakeholder Grid
+  </button>
+  <button class="tool-tab" data-tool="causal" role="tab">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+    Causal Loops
+  </button>
+  <button class="tool-tab" data-tool="matrix" role="tab">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
+    Decision Matrix
+  </button>
+  <button class="tool-tab" data-tool="brief" role="tab">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    Policy Brief
+  </button>
+</div>
+
+<!-- ========== TOOL 1: BARDACH 8-STEP ========== -->
+<div class="tool-panel active" id="panel-bardach">
+  <div class="card">
+    <h2>Bardach's Eightfold Path to Policy Analysis</h2>
+    <p>Eugene Bardach's structured approach breaks policy analysis into 8 sequential steps. Work through each step below. Your answers auto-save and feed into the Policy Brief generator.
+      <span class="save-indicator" id="save-bardach">Saved</span>
+    </p>
+    <div class="progress-bar"><div class="progress-fill" id="bardach-progress" style="width:0%"></div></div>
+  </div>
+
+  <div class="card" id="bardach-step-1">
+    <div class="step-header"><span class="step-number">1</span><h3>Define the Problem</h3></div>
+    <p class="hint">State the policy problem in concrete, measurable terms. Who is affected? What is the gap between the current situation and the desired one?</p>
+    <div class="form-group">
+      <label>Problem Statement</label>
+      <textarea data-bardach="problem" placeholder="e.g. 40% of rural households in Odisha lack access to piped drinking water, leading to 12,000 annual waterborne disease cases..."></textarea>
+    </div>
+  </div>
+
+  <div class="card" id="bardach-step-2">
+    <div class="step-header"><span class="step-number">2</span><h3>Assemble Some Evidence</h3></div>
+    <p class="hint">What data, studies, or reports support your problem definition? Include quantitative evidence and qualitative context.</p>
+    <div class="form-group">
+      <label>Key Evidence</label>
+      <textarea data-bardach="evidence" placeholder="e.g. NFHS-5 data shows...; NSSO 76th round reports...; District-level HMIS data indicates..."></textarea>
+    </div>
+  </div>
+
+  <div class="card" id="bardach-step-3">
+    <div class="step-header"><span class="step-number">3</span><h3>Construct the Alternatives</h3></div>
+    <p class="hint">List 3-5 distinct policy alternatives, including the status quo. Each should be a genuinely different approach, not a variation of the same idea.</p>
+    <div class="form-group">
+      <label>Alternative 1 (Status Quo)</label>
+      <textarea data-bardach="alt1" rows="2" placeholder="Continue current approach..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>Alternative 2</label>
+      <textarea data-bardach="alt2" rows="2" placeholder=""></textarea>
+    </div>
+    <div class="form-group">
+      <label>Alternative 3</label>
+      <textarea data-bardach="alt3" rows="2" placeholder=""></textarea>
+    </div>
+    <div class="form-group">
+      <label>Alternative 4 (optional)</label>
+      <textarea data-bardach="alt4" rows="2" placeholder=""></textarea>
+    </div>
+  </div>
+
+  <div class="card" id="bardach-step-4">
+    <div class="step-header"><span class="step-number">4</span><h3>Select the Criteria</h3></div>
+    <p class="hint">What criteria will you use to evaluate alternatives? Common criteria: effectiveness, cost, equity, political feasibility, administrative feasibility, legality.</p>
+    <div class="form-group">
+      <label>Evaluation Criteria</label>
+      <textarea data-bardach="criteria" placeholder="1. Effectiveness (% reduction in problem)&#10;2. Cost (total and per-beneficiary)&#10;3. Equity (distributional impact)&#10;4. Political feasibility&#10;5. Administrative feasibility"></textarea>
+    </div>
+  </div>
+
+  <div class="card" id="bardach-step-5">
+    <div class="step-header"><span class="step-number">5</span><h3>Project the Outcomes</h3></div>
+    <p class="hint">For each alternative, project the likely outcomes against your criteria. Be honest about uncertainty and evidence gaps.</p>
+    <div class="form-group">
+      <label>Projected Outcomes</label>
+      <textarea data-bardach="outcomes" rows="6" placeholder="Alternative 1 (Status Quo): ...&#10;Alternative 2: ...&#10;Alternative 3: ..."></textarea>
+    </div>
+  </div>
+
+  <div class="card" id="bardach-step-6">
+    <div class="step-header"><span class="step-number">6</span><h3>Confront the Trade-offs</h3></div>
+    <p class="hint">No alternative dominates on all criteria. What are the key trade-offs? Which criteria matter most given the political and institutional context?</p>
+    <div class="form-group">
+      <label>Trade-off Analysis</label>
+      <textarea data-bardach="tradeoffs" placeholder="The central trade-off is between..."></textarea>
+    </div>
+  </div>
+
+  <div class="card" id="bardach-step-7">
+    <div class="step-header"><span class="step-number">7</span><h3>Decide!</h3></div>
+    <p class="hint">State your recommended alternative and justify the choice. Acknowledge what you are giving up.</p>
+    <div class="form-group">
+      <label>Recommendation</label>
+      <textarea data-bardach="decision" placeholder="I recommend Alternative X because..."></textarea>
+    </div>
+  </div>
+
+  <div class="card" id="bardach-step-8">
+    <div class="step-header"><span class="step-number">8</span><h3>Tell Your Story</h3></div>
+    <p class="hint">Craft a concise narrative that communicates your analysis to a busy decision-maker. Lead with the recommendation, then the reasoning.</p>
+    <div class="form-group">
+      <label>Executive Summary</label>
+      <textarea data-bardach="story" rows="5" placeholder="[Decision-maker name] should adopt [Alternative X] to address [problem]. This will [projected outcome] at a cost of [amount]. The main risk is [trade-off], which can be mitigated by..."></textarea>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <button class="btn btn-primary" onclick="PAL.exportBardach()">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+      Export as Markdown
+    </button>
+    <button class="btn btn-secondary" onclick="PAL.sendToMatrix()">Send Alternatives to Decision Matrix</button>
+    <button class="btn btn-secondary" onclick="PAL.sendToBrief()">Send to Policy Brief</button>
+    <button class="btn btn-danger" onclick="PAL.clearBardach()">Clear All</button>
+  </div>
+</div>
+
+<!-- ========== TOOL 2: STAKEHOLDER GRID ========== -->
+<div class="tool-panel" id="panel-stakeholder">
+  <div class="card">
+    <h2>Stakeholder Power-Interest Grid</h2>
+    <p>Map stakeholders by their power (ability to influence the policy) and interest (how much they care). Click the grid to place a stakeholder, then drag to reposition.
+      <span class="save-indicator" id="save-stakeholder">Saved</span>
+    </p>
+  </div>
+
+  <div class="card">
+    <div style="display:flex;gap:.75rem;align-items:end;flex-wrap:wrap;margin-bottom:1rem">
+      <div class="form-group" style="flex:1;min-width:150px;margin:0">
+        <label>Stakeholder Name</label>
+        <input type="text" id="sh-name" placeholder="e.g. Ministry of Health">
+      </div>
+      <div class="form-group" style="margin:0">
+        <label>Color</label>
+        <div class="dot-colors" id="sh-colors">
+          <span class="dot-color selected" data-color="#0EA5E9" style="background:#0EA5E9"></span>
+          <span class="dot-color" data-color="#EF4444" style="background:#EF4444"></span>
+          <span class="dot-color" data-color="#10B981" style="background:#10B981"></span>
+          <span class="dot-color" data-color="#F59E0B" style="background:#F59E0B"></span>
+          <span class="dot-color" data-color="#8B5CF6" style="background:#8B5CF6"></span>
+          <span class="dot-color" data-color="#EC4899" style="background:#EC4899"></span>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="PAL.addStakeholderFromInput()" style="margin-bottom:0">Add</button>
+    </div>
+
+    <div class="grid-container" id="sh-grid">
+      <div class="grid-line h"></div>
+      <div class="grid-line v"></div>
+      <span class="grid-label top">High Interest</span>
+      <span class="grid-label bottom">Low Interest</span>
+      <span class="grid-label left">Low Power</span>
+      <span class="grid-label right">High Power</span>
+      <span class="grid-quadrant-label" style="top:15%;left:15%">Monitor</span>
+      <span class="grid-quadrant-label" style="top:15%;right:15%">Manage Closely</span>
+      <span class="grid-quadrant-label" style="bottom:15%;left:15%">Minimal Effort</span>
+      <span class="grid-quadrant-label" style="bottom:15%;right:15%">Keep Satisfied</span>
+    </div>
+  </div>
+
+  <div class="card" id="sh-list-card" style="display:none">
+    <h3>Stakeholder List</h3>
+    <div id="sh-list"></div>
+  </div>
+
+  <div class="btn-group">
+    <button class="btn btn-primary" onclick="PAL.exportStakeholders()">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+      Export Grid
+    </button>
+    <button class="btn btn-danger" onclick="PAL.clearStakeholders()">Clear All</button>
+  </div>
+</div>
+
+<!-- ========== TOOL 3: CAUSAL LOOP ========== -->
+<div class="tool-panel" id="panel-causal">
+  <div class="card">
+    <h2>Causal Loop Builder</h2>
+    <p>Build a causal loop diagram to understand feedback dynamics in your policy system. Add variables and link them with reinforcing (+) or balancing (-) relationships.
+      <span class="save-indicator" id="save-causal">Saved</span>
+    </p>
+  </div>
+
+  <div class="card">
+    <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1rem">
+      <div class="form-group" style="flex:1;min-width:180px;margin:0">
+        <label>Variable Name</label>
+        <input type="text" id="cl-var-name" placeholder="e.g. Household income">
+      </div>
+      <button class="btn btn-primary" onclick="PAL.addCausalNode()" style="align-self:end">Add Variable</button>
+    </div>
+
+    <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1rem">
+      <div class="form-group" style="flex:1;min-width:100px;margin:0">
+        <label>From</label>
+        <select id="cl-from"></select>
+      </div>
+      <div class="form-group" style="flex:1;min-width:100px;margin:0">
+        <label>To</label>
+        <select id="cl-to"></select>
+      </div>
+      <div class="form-group" style="width:100px;margin:0">
+        <label>Polarity</label>
+        <select id="cl-polarity">
+          <option value="+">+ (same direction)</option>
+          <option value="-">- (opposite)</option>
+        </select>
+      </div>
+      <button class="btn btn-secondary" onclick="PAL.addCausalLink()" style="align-self:end">Link</button>
+    </div>
+
+    <svg id="cl-canvas" class="loop-canvas" width="100%" height="400"></svg>
+  </div>
+
+  <div class="card" id="cl-links-card" style="display:none">
+    <h3>Relationships</h3>
+    <div id="cl-links-list"></div>
+  </div>
+
+  <div class="btn-group">
+    <button class="btn btn-primary" onclick="PAL.exportCausal()">Export Diagram</button>
+    <button class="btn btn-danger" onclick="PAL.clearCausal()">Clear All</button>
+  </div>
+</div>
+
+<!-- ========== TOOL 4: DECISION MATRIX ========== -->
+<div class="tool-panel" id="panel-matrix">
+  <div class="card">
+    <h2>Decision Matrix</h2>
+    <p>Score each alternative against your criteria (1-5). Assign weights to criteria that matter more. The weighted score ranks your options.
+      <span class="save-indicator" id="save-matrix">Saved</span>
+    </p>
+  </div>
+
+  <div class="card">
+    <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1rem">
+      <div class="form-group" style="flex:1;min-width:150px;margin:0">
+        <label>Add Criterion</label>
+        <input type="text" id="mx-criterion" placeholder="e.g. Cost-effectiveness">
+      </div>
+      <div class="form-group" style="width:80px;margin:0">
+        <label>Weight</label>
+        <input type="text" id="mx-weight" placeholder="1-5" value="3">
+      </div>
+      <button class="btn btn-secondary" onclick="PAL.addCriterion()" style="align-self:end">Add</button>
+    </div>
+    <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1rem">
+      <div class="form-group" style="flex:1;min-width:150px;margin:0">
+        <label>Add Alternative</label>
+        <input type="text" id="mx-alternative" placeholder="e.g. Option A: Direct transfers">
+      </div>
+      <button class="btn btn-secondary" onclick="PAL.addAlternative()" style="align-self:end">Add</button>
+    </div>
+
+    <div style="overflow-x:auto">
+      <table class="matrix-table" id="mx-table">
+        <thead><tr id="mx-header"><th>Alternative</th></tr></thead>
+        <tbody id="mx-body"></tbody>
+        <tfoot><tr id="mx-footer"><th>Weighted Total</th></tr></tfoot>
+      </table>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <button class="btn btn-primary" onclick="PAL.exportMatrix()">Export Matrix</button>
+    <button class="btn btn-danger" onclick="PAL.clearMatrix()">Clear All</button>
+  </div>
+</div>
+
+<!-- ========== TOOL 5: POLICY BRIEF ========== -->
+<div class="tool-panel" id="panel-brief">
+  <div class="card">
+    <h2>Policy Brief Generator</h2>
+    <p>Structure your analysis into a professional policy brief. Fill in the sections or pull from your Bardach analysis. Export as Markdown.
+      <span class="save-indicator" id="save-brief">Saved</span>
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" data-brief="title" placeholder="e.g. Expanding Piped Water Coverage in Rural Odisha">
+    </div>
+    <div class="form-group">
+      <label>Author / Organisation</label>
+      <input type="text" data-brief="author" placeholder="">
+    </div>
+    <div class="form-group">
+      <label>Executive Summary</label>
+      <div class="hint">2-3 sentences. Lead with the recommendation.</div>
+      <textarea data-brief="summary" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Problem Statement</label>
+      <textarea data-brief="problem" rows="4"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Key Evidence</label>
+      <textarea data-brief="evidence" rows="4"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Policy Options Considered</label>
+      <textarea data-brief="options" rows="4"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Recommendation</label>
+      <textarea data-brief="recommendation" rows="4"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Implementation Considerations</label>
+      <textarea data-brief="implementation" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Risks & Mitigation</label>
+      <textarea data-brief="risks" rows="3"></textarea>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <button class="btn btn-primary" onclick="PAL.exportBrief()">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+      Export Policy Brief
+    </button>
+    <button class="btn btn-secondary" onclick="PAL.pullFromBardach()">Pull from Bardach Analysis</button>
+    <button class="btn btn-danger" onclick="PAL.clearBrief()">Clear All</button>
+  </div>
+</div>
+
+<!-- Export Modal -->
+<div class="export-overlay" id="export-overlay" onclick="if(event.target===this)PAL.closeExport()">
+  <div class="export-modal">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+      <h2 id="export-title">Export</h2>
+      <button class="btn btn-secondary" onclick="PAL.closeExport()">Close</button>
+    </div>
+    <div class="export-content" id="export-content"></div>
+    <div class="btn-group" style="margin-top:1rem">
+      <button class="btn btn-primary" onclick="PAL.copyExport()">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        Copy to Clipboard
+      </button>
+    </div>
+  </div>
+</div>
+
+</div><!-- /.container -->
+
+<script>
+const PAL = {
+  KEY: 'imx-policy-lab',
+
+  init() {
+    this.bindTabs();
+    this.bindAutoSave();
+    this.loadAll();
+    this.initStakeholderGrid();
+    this.initCausalCanvas();
+    this.updateBardachProgress();
+  },
+
+  // ===== TABS =====
+  bindTabs() {
+    document.querySelectorAll('.tool-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tool-tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+        document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected','true');
+        document.getElementById('panel-' + tab.dataset.tool).classList.add('active');
+      });
+    });
+  },
+
+  // ===== PERSISTENCE =====
+  save(section, data) {
+    const all = JSON.parse(localStorage.getItem(this.KEY) || '{}');
+    all[section] = data;
+    localStorage.setItem(this.KEY, JSON.stringify(all));
+    this.flashSave(section);
+  },
+  load(section) {
+    const all = JSON.parse(localStorage.getItem(this.KEY) || '{}');
+    return all[section] || null;
+  },
+  flashSave(section) {
+    const el = document.getElementById('save-' + section);
+    if (el) { el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 1500); }
+  },
+
+  bindAutoSave() {
+    let timer;
+    document.querySelectorAll('[data-bardach],[data-brief]').forEach(el => {
+      el.addEventListener('input', () => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          this.saveBardach();
+          this.saveBrief();
+          this.updateBardachProgress();
+        }, 400);
+      });
+    });
+  },
+
+  loadAll() {
+    const b = this.load('bardach');
+    if (b) document.querySelectorAll('[data-bardach]').forEach(el => { if (b[el.dataset.bardach]) el.value = b[el.dataset.bardach]; });
+    const br = this.load('brief');
+    if (br) document.querySelectorAll('[data-brief]').forEach(el => { if (br[el.dataset.brief]) el.value = br[el.dataset.brief]; });
+    const sh = this.load('stakeholders');
+    if (sh) { this._stakeholders = sh; this.renderStakeholders(); }
+    const cl = this.load('causal');
+    if (cl) { this._causalNodes = cl.nodes || []; this._causalLinks = cl.links || []; this.renderCausal(); }
+    const mx = this.load('matrix');
+    if (mx) { this._criteria = mx.criteria || []; this._alternatives = mx.alternatives || []; this._scores = mx.scores || {}; this.renderMatrix(); }
+  },
+
+  // ===== BARDACH =====
+  saveBardach() {
+    const data = {};
+    document.querySelectorAll('[data-bardach]').forEach(el => data[el.dataset.bardach] = el.value);
+    this.save('bardach', data);
+  },
+  updateBardachProgress() {
+    const fields = document.querySelectorAll('[data-bardach]');
+    const filled = Array.from(fields).filter(f => f.value.trim().length > 10).length;
+    const pct = Math.round((filled / fields.length) * 100);
+    document.getElementById('bardach-progress').style.width = pct + '%';
+  },
+  clearBardach() {
+    if (!confirm('Clear all Bardach analysis? This cannot be undone.')) return;
+    document.querySelectorAll('[data-bardach]').forEach(el => el.value = '');
+    this.saveBardach();
+    this.updateBardachProgress();
+  },
+  exportBardach() {
+    const d = {};
+    document.querySelectorAll('[data-bardach]').forEach(el => d[el.dataset.bardach] = el.value);
+    const labels = { problem:'Problem Statement', evidence:'Key Evidence', alt1:'Alternative 1 (Status Quo)', alt2:'Alternative 2', alt3:'Alternative 3', alt4:'Alternative 4', criteria:'Evaluation Criteria', outcomes:'Projected Outcomes', tradeoffs:'Trade-off Analysis', decision:'Recommendation', story:'Executive Summary' };
+    let md = '# Bardach 8-Step Policy Analysis\n\n';
+    const steps = ['problem','evidence','alt1,alt2,alt3,alt4','criteria','outcomes','tradeoffs','decision','story'];
+    const stepNames = ['Step 1: Define the Problem','Step 2: Assemble Evidence','Step 3: Construct Alternatives','Step 4: Select Criteria','Step 5: Project Outcomes','Step 6: Confront Trade-offs','Step 7: Decide','Step 8: Tell Your Story'];
+    steps.forEach((keys, i) => {
+      md += '## ' + stepNames[i] + '\n\n';
+      keys.split(',').forEach(k => {
+        if (d[k] && d[k].trim()) md += (keys.includes(',') ? '**' + labels[k] + ':** ' : '') + d[k].trim() + '\n\n';
+      });
+    });
+    this.showExport('Bardach Analysis — Markdown', md);
+  },
+  sendToMatrix() {
+    const d = {};
+    document.querySelectorAll('[data-bardach]').forEach(el => d[el.dataset.bardach] = el.value);
+    ['alt1','alt2','alt3','alt4'].forEach(k => {
+      if (d[k] && d[k].trim() && !this._alternatives?.includes(d[k].trim().substring(0,60))) {
+        this._alternatives = this._alternatives || [];
+        this._alternatives.push(d[k].trim().substring(0,60));
+      }
+    });
+    if (d.criteria) {
+      d.criteria.split('\n').forEach(line => {
+        const clean = line.replace(/^\d+\.\s*/, '').trim();
+        if (clean && !this._criteria?.find(c => c.name === clean)) {
+          this._criteria = this._criteria || [];
+          this._criteria.push({ name: clean, weight: 3 });
+        }
+      });
+    }
+    this._scores = this._scores || {};
+    this.saveMatrix();
+    this.renderMatrix();
+    document.querySelector('[data-tool="matrix"]').click();
+  },
+  sendToBrief() {
+    const d = {};
+    document.querySelectorAll('[data-bardach]').forEach(el => d[el.dataset.bardach] = el.value);
+    if (d.story) document.querySelector('[data-brief="summary"]').value = d.story;
+    if (d.problem) document.querySelector('[data-brief="problem"]').value = d.problem;
+    if (d.evidence) document.querySelector('[data-brief="evidence"]').value = d.evidence;
+    const opts = [d.alt1, d.alt2, d.alt3, d.alt4].filter(Boolean).join('\n\n');
+    if (opts) document.querySelector('[data-brief="options"]').value = opts;
+    if (d.decision) document.querySelector('[data-brief="recommendation"]').value = d.decision;
+    if (d.tradeoffs) document.querySelector('[data-brief="risks"]').value = d.tradeoffs;
+    this.saveBrief();
+    document.querySelector('[data-tool="brief"]').click();
+  },
+
+  // ===== STAKEHOLDER GRID =====
+  _stakeholders: [],
+  _shDrag: null,
+  initStakeholderGrid() {
+    const grid = document.getElementById('sh-grid');
+    grid.addEventListener('click', (e) => {
+      if (e.target.closest('.stakeholder-dot')) return;
+      const name = document.getElementById('sh-name').value.trim();
+      if (!name) { document.getElementById('sh-name').focus(); return; }
+      const rect = grid.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      const color = document.querySelector('.dot-color.selected')?.dataset.color || '#0EA5E9';
+      this._stakeholders.push({ name, x, y, color });
+      document.getElementById('sh-name').value = '';
+      this.save('stakeholders', this._stakeholders);
+      this.renderStakeholders();
+    });
+    document.querySelectorAll('.dot-color').forEach(dc => {
+      dc.addEventListener('click', () => {
+        document.querySelectorAll('.dot-color').forEach(d => d.classList.remove('selected'));
+        dc.classList.add('selected');
+      });
+    });
+  },
+  addStakeholderFromInput() {
+    const name = document.getElementById('sh-name').value.trim();
+    if (!name) return;
+    const color = document.querySelector('.dot-color.selected')?.dataset.color || '#0EA5E9';
+    this._stakeholders.push({ name, x: 25 + Math.random()*50, y: 25 + Math.random()*50, color });
+    document.getElementById('sh-name').value = '';
+    this.save('stakeholders', this._stakeholders);
+    this.renderStakeholders();
+  },
+  renderStakeholders() {
+    const grid = document.getElementById('sh-grid');
+    grid.querySelectorAll('.stakeholder-dot').forEach(d => d.remove());
+    this._stakeholders.forEach((s, i) => {
+      const dot = document.createElement('div');
+      dot.className = 'stakeholder-dot';
+      dot.style.left = s.x + '%';
+      dot.style.top = s.y + '%';
+      dot.style.background = s.color;
+      dot.textContent = s.name.substring(0, 2).toUpperCase();
+      dot.title = s.name;
+      dot.dataset.idx = i;
+      this.makeDraggable(dot, grid, i);
+      grid.appendChild(dot);
+    });
+    const listCard = document.getElementById('sh-list-card');
+    const listEl = document.getElementById('sh-list');
+    if (this._stakeholders.length) {
+      listCard.style.display = 'block';
+      listEl.innerHTML = this._stakeholders.map((s, i) =>
+        '<div style="display:flex;align-items:center;gap:.5rem;padding:.35rem 0;border-bottom:1px solid var(--border)">' +
+        '<span style="width:18px;height:18px;border-radius:50%;background:' + s.color + ';flex-shrink:0"></span>' +
+        '<span style="flex:1;font-size:.88rem">' + s.name + '</span>' +
+        '<span style="font-size:.72rem;color:var(--text-muted)">' + (s.x > 50 ? 'High' : 'Low') + ' Power, ' + (s.y < 50 ? 'High' : 'Low') + ' Interest</span>' +
+        '<button class="btn btn-danger" onclick="PAL.removeStakeholder(' + i + ')" style="padding:.2rem .5rem;font-size:.7rem">Remove</button></div>'
+      ).join('');
+    } else { listCard.style.display = 'none'; }
+  },
+  makeDraggable(dot, grid, idx) {
+    let startX, startY, startLeft, startTop;
+    const onMove = (e) => {
+      e.preventDefault();
+      const cx = (e.touches ? e.touches[0].clientX : e.clientX);
+      const cy = (e.touches ? e.touches[0].clientY : e.clientY);
+      const rect = grid.getBoundingClientRect();
+      let nx = ((cx - rect.left) / rect.width) * 100;
+      let ny = ((cy - rect.top) / rect.height) * 100;
+      nx = Math.max(3, Math.min(97, nx));
+      ny = Math.max(3, Math.min(97, ny));
+      dot.style.left = nx + '%';
+      dot.style.top = ny + '%';
+      this._stakeholders[idx].x = nx;
+      this._stakeholders[idx].y = ny;
+    };
+    const onEnd = () => {
+      dot.classList.remove('dragging');
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onEnd);
+      document.removeEventListener('touchmove', onMove);
+      document.removeEventListener('touchend', onEnd);
+      this.save('stakeholders', this._stakeholders);
+      this.renderStakeholders();
+    };
+    dot.addEventListener('mousedown', (e) => { e.stopPropagation(); dot.classList.add('dragging'); document.addEventListener('mousemove', onMove); document.addEventListener('mouseup', onEnd); });
+    dot.addEventListener('touchstart', (e) => { e.stopPropagation(); dot.classList.add('dragging'); document.addEventListener('touchmove', onMove, {passive:false}); document.addEventListener('touchend', onEnd); }, {passive:false});
+  },
+  removeStakeholder(i) { this._stakeholders.splice(i, 1); this.save('stakeholders', this._stakeholders); this.renderStakeholders(); },
+  clearStakeholders() { if (!confirm('Clear all stakeholders?')) return; this._stakeholders = []; this.save('stakeholders', this._stakeholders); this.renderStakeholders(); },
+  exportStakeholders() {
+    let md = '# Stakeholder Power-Interest Grid\n\n| Stakeholder | Power | Interest | Strategy |\n|---|---|---|---|\n';
+    this._stakeholders.forEach(s => {
+      const power = s.x > 50 ? 'High' : 'Low';
+      const interest = s.y < 50 ? 'High' : 'Low';
+      const strategy = (power === 'High' && interest === 'High') ? 'Manage Closely' : (power === 'High' && interest === 'Low') ? 'Keep Satisfied' : (power === 'Low' && interest === 'High') ? 'Keep Informed' : 'Monitor';
+      md += '| ' + s.name + ' | ' + power + ' | ' + interest + ' | ' + strategy + ' |\n';
+    });
+    this.showExport('Stakeholder Grid — Markdown', md);
+  },
+
+  // ===== CAUSAL LOOP =====
+  _causalNodes: [],
+  _causalLinks: [],
+  initCausalCanvas() { this.renderCausal(); },
+  addCausalNode() {
+    const name = document.getElementById('cl-var-name').value.trim();
+    if (!name) return;
+    const cx = 50 + (Math.random() - 0.5) * 60;
+    const cy = 50 + (Math.random() - 0.5) * 60;
+    this._causalNodes.push({ name, x: cx, y: cy });
+    document.getElementById('cl-var-name').value = '';
+    this.saveCausal();
+    this.renderCausal();
+  },
+  addCausalLink() {
+    const from = document.getElementById('cl-from').value;
+    const to = document.getElementById('cl-to').value;
+    const pol = document.getElementById('cl-polarity').value;
+    if (!from || !to || from === to) return;
+    this._causalLinks.push({ from, to, polarity: pol });
+    this.saveCausal();
+    this.renderCausal();
+  },
+  saveCausal() { this.save('causal', { nodes: this._causalNodes, links: this._causalLinks }); },
+  renderCausal() {
+    const svg = document.getElementById('cl-canvas');
+    const w = svg.clientWidth || 600;
+    const h = svg.clientHeight || 400;
+    let html = '<defs><marker id="arrowP" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#10B981"/></marker><marker id="arrowN" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#EF4444"/></marker></defs>';
+    // Draw links
+    this._causalLinks.forEach(link => {
+      const fromNode = this._causalNodes.find(n => n.name === link.from);
+      const toNode = this._causalNodes.find(n => n.name === link.to);
+      if (!fromNode || !toNode) return;
+      const x1 = fromNode.x / 100 * w, y1 = fromNode.y / 100 * h;
+      const x2 = toNode.x / 100 * w, y2 = toNode.y / 100 * h;
+      const color = link.polarity === '+' ? '#10B981' : '#EF4444';
+      const marker = link.polarity === '+' ? 'arrowP' : 'arrowN';
+      const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+      html += '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+color+'" stroke-width="2" marker-end="url(#'+marker+')"/>';
+      html += '<text x="'+mx+'" y="'+(my-6)+'" text-anchor="middle" fill="'+color+'" font-size="14" font-weight="bold" font-family="Inter,sans-serif">'+link.polarity+'</text>';
+    });
+    // Draw nodes
+    this._causalNodes.forEach(node => {
+      const cx = node.x / 100 * w, cy = node.y / 100 * h;
+      html += '<rect x="'+(cx-50)+'" y="'+(cy-16)+'" width="100" height="32" rx="6" fill="var(--card-bg)" stroke="var(--accent)" stroke-width="2"/>';
+      html += '<text x="'+cx+'" y="'+(cy+5)+'" text-anchor="middle" fill="var(--text-primary)" font-size="11" font-weight="600" font-family="Inter,sans-serif">'+node.name.substring(0,14)+'</text>';
+    });
+    svg.innerHTML = html;
+    // Update dropdowns
+    const opts = '<option value="">--</option>' + this._causalNodes.map(n => '<option value="'+n.name+'">'+n.name+'</option>').join('');
+    document.getElementById('cl-from').innerHTML = opts;
+    document.getElementById('cl-to').innerHTML = opts;
+    // Links list
+    const linksCard = document.getElementById('cl-links-card');
+    const linksList = document.getElementById('cl-links-list');
+    if (this._causalLinks.length) {
+      linksCard.style.display = 'block';
+      linksList.innerHTML = this._causalLinks.map((l, i) =>
+        '<div style="display:flex;align-items:center;gap:.5rem;padding:.3rem 0;font-size:.85rem">' +
+        '<span>' + l.from + '</span><span style="color:' + (l.polarity === '+' ? 'var(--success)' : 'var(--danger)') + ';font-weight:700"> ' + l.polarity + ' </span><span>' + l.to + '</span>' +
+        '<button class="btn btn-danger" onclick="PAL.removeCausalLink(' + i + ')" style="margin-left:auto;padding:.2rem .5rem;font-size:.7rem">Remove</button></div>'
+      ).join('');
+    } else { linksCard.style.display = 'none'; }
+  },
+  removeCausalLink(i) { this._causalLinks.splice(i, 1); this.saveCausal(); this.renderCausal(); },
+  clearCausal() { if (!confirm('Clear causal diagram?')) return; this._causalNodes = []; this._causalLinks = []; this.saveCausal(); this.renderCausal(); },
+  exportCausal() {
+    let md = '# Causal Loop Diagram\n\n## Variables\n';
+    this._causalNodes.forEach(n => md += '- ' + n.name + '\n');
+    md += '\n## Relationships\n';
+    this._causalLinks.forEach(l => md += '- ' + l.from + ' **' + l.polarity + '** ' + l.to + (l.polarity === '+' ? ' (reinforcing)' : ' (balancing)') + '\n');
+    this.showExport('Causal Loop — Markdown', md);
+  },
+
+  // ===== DECISION MATRIX =====
+  _criteria: [],
+  _alternatives: [],
+  _scores: {},
+  addCriterion() {
+    const name = document.getElementById('mx-criterion').value.trim();
+    const weight = parseInt(document.getElementById('mx-weight').value) || 3;
+    if (!name) return;
+    this._criteria.push({ name, weight: Math.max(1, Math.min(5, weight)) });
+    document.getElementById('mx-criterion').value = '';
+    this.saveMatrix(); this.renderMatrix();
+  },
+  addAlternative() {
+    const name = document.getElementById('mx-alternative').value.trim();
+    if (!name) return;
+    this._alternatives.push(name);
+    document.getElementById('mx-alternative').value = '';
+    this.saveMatrix(); this.renderMatrix();
+  },
+  saveMatrix() {
+    this.save('matrix', { criteria: this._criteria, alternatives: this._alternatives, scores: this._scores });
+  },
+  renderMatrix() {
+    const header = document.getElementById('mx-header');
+    const body = document.getElementById('mx-body');
+    const footer = document.getElementById('mx-footer');
+    header.innerHTML = '<th class="alt-name">Alternative</th>';
+    this._criteria.forEach((c, ci) => {
+      header.innerHTML += '<th>' + c.name + '<br><span style="font-weight:400;font-size:.65rem">weight: ' + c.weight + '</span></th>';
+    });
+    header.innerHTML += '<th>Score</th>';
+    body.innerHTML = '';
+    const totals = {};
+    this._alternatives.forEach((alt, ai) => {
+      let row = '<td class="alt-name">' + alt + '</td>';
+      let total = 0;
+      this._criteria.forEach((c, ci) => {
+        const key = ai + '-' + ci;
+        const val = this._scores[key] || '';
+        row += '<td><input type="text" value="' + val + '" data-score="' + key + '" placeholder="1-5" onchange="PAL.updateScore(this)"></td>';
+        if (val) total += (parseInt(val) || 0) * c.weight;
+      });
+      totals[ai] = total;
+      row += '<td class="score-cell">' + (total || '-') + '</td>';
+      body.innerHTML += '<tr>' + row + '</tr>';
+    });
+    footer.innerHTML = '<th>Weighted Total</th>';
+    this._criteria.forEach(() => footer.innerHTML += '<th></th>');
+    footer.innerHTML += '<th></th>';
+  },
+  updateScore(el) {
+    const key = el.dataset.score;
+    this._scores[key] = el.value;
+    this.saveMatrix();
+    this.renderMatrix();
+  },
+  clearMatrix() { if (!confirm('Clear decision matrix?')) return; this._criteria = []; this._alternatives = []; this._scores = {}; this.saveMatrix(); this.renderMatrix(); },
+  exportMatrix() {
+    let md = '# Decision Matrix\n\n| Alternative |';
+    this._criteria.forEach(c => md += ' ' + c.name + ' (w=' + c.weight + ') |');
+    md += ' **Score** |\n|---|';
+    this._criteria.forEach(() => md += '---|');
+    md += '---|\n';
+    this._alternatives.forEach((alt, ai) => {
+      md += '| ' + alt + ' |';
+      let total = 0;
+      this._criteria.forEach((c, ci) => {
+        const val = this._scores[ai + '-' + ci] || '-';
+        md += ' ' + val + ' |';
+        if (val !== '-') total += (parseInt(val) || 0) * c.weight;
+      });
+      md += ' **' + total + '** |\n';
+    });
+    this.showExport('Decision Matrix — Markdown', md);
+  },
+
+  // ===== POLICY BRIEF =====
+  saveBrief() {
+    const data = {};
+    document.querySelectorAll('[data-brief]').forEach(el => data[el.dataset.brief] = el.value);
+    this.save('brief', data);
+  },
+  pullFromBardach() {
+    const d = this.load('bardach');
+    if (!d) { alert('No Bardach analysis found. Complete the Bardach 8-Step first.'); return; }
+    if (d.story) document.querySelector('[data-brief="summary"]').value = d.story;
+    if (d.problem) document.querySelector('[data-brief="problem"]').value = d.problem;
+    if (d.evidence) document.querySelector('[data-brief="evidence"]').value = d.evidence;
+    const opts = [d.alt1, d.alt2, d.alt3, d.alt4].filter(Boolean).join('\n\n');
+    if (opts) document.querySelector('[data-brief="options"]').value = opts;
+    if (d.decision) document.querySelector('[data-brief="recommendation"]').value = d.decision;
+    if (d.tradeoffs) document.querySelector('[data-brief="risks"]').value = d.tradeoffs;
+    this.saveBrief();
+  },
+  clearBrief() { if (!confirm('Clear policy brief?')) return; document.querySelectorAll('[data-brief]').forEach(el => el.value = ''); this.saveBrief(); },
+  exportBrief() {
+    const d = {};
+    document.querySelectorAll('[data-brief]').forEach(el => d[el.dataset.brief] = el.value);
+    let md = '';
+    if (d.title) md += '# ' + d.title + '\n\n';
+    if (d.author) md += '*' + d.author + '*\n\n';
+    if (d.summary) md += '## Executive Summary\n\n' + d.summary + '\n\n';
+    if (d.problem) md += '## Problem Statement\n\n' + d.problem + '\n\n';
+    if (d.evidence) md += '## Key Evidence\n\n' + d.evidence + '\n\n';
+    if (d.options) md += '## Policy Options Considered\n\n' + d.options + '\n\n';
+    if (d.recommendation) md += '## Recommendation\n\n' + d.recommendation + '\n\n';
+    if (d.implementation) md += '## Implementation Considerations\n\n' + d.implementation + '\n\n';
+    if (d.risks) md += '## Risks & Mitigation\n\n' + d.risks + '\n\n';
+    md += '---\n*Generated with ImpactMojo Policy Analysis Lab*\n';
+    this.showExport('Policy Brief — Markdown', md);
+  },
+
+  // ===== EXPORT =====
+  showExport(title, content) {
+    document.getElementById('export-title').textContent = title;
+    document.getElementById('export-content').textContent = content;
+    document.getElementById('export-overlay').classList.add('show');
+  },
+  closeExport() { document.getElementById('export-overlay').classList.remove('show'); },
+  copyExport() {
+    const text = document.getElementById('export-content').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector('.export-modal .btn-primary');
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy to Clipboard', 2000);
+    });
+  }
+};
+
+document.addEventListener('DOMContentLoaded', () => PAL.init());
+</script>
+</body>
+</html>
