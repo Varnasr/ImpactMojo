@@ -49,7 +49,7 @@ Persistent project context lives in `.claude/memory.md` — carries state, decis
 - **memory.md** — persistent context across sessions (project state, decisions, known issues, session log)
 - **rules/** — modular instructions (code-style, content-management, api-conventions, testing)
 - **commands/** — `/project:review`, `/project:fix-issue`, `/project:deploy-check`, `/project:audit`, `/project:add-game`
-- **skills/** — auto-invoked workflows (add-files, housekeeping, github-ops, netlify-ops, supabase-ops, gamma-ops, gemini-ai, grok-ai, deepseek-ai, sarvam-ai, napkin-ai, threads-writer, blog-writer, dojo-ops, book-summaries, memory, frontend-design, seo, deep-research, debugging)
+- **skills/** — auto-invoked workflows (add-files, housekeeping, github-ops, netlify-ops, supabase-ops, gamma-ops, gemini-ai, grok-ai, deepseek-ai, sarvam-ai, napkin-ai, threads-writer, blog-writer, dojo-ops, book-summaries, memory, frontend-design, seo, deep-research, debugging, tufte-viz)
 - **agents/** — subagent personas (code-reviewer, content-auditor)
 - **hooks/** — session-start (API key bootstrap), pre-tool-use (destructive command guard), stop (memory sync prompt)
 

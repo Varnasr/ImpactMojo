@@ -20,3 +20,12 @@ if [ -f "$KEYS_FILE" ]; then
     set +a
   fi
 fi
+
+# Install shared skills globally so they're available in any repo
+TUFTE_SRC="$SCRIPT_DIR/../skills/tufte-viz"
+TUFTE_DST="$HOME/.claude/skills/tufte-viz"
+if [ -d "$TUFTE_SRC" ] && [ ! -f "$TUFTE_DST/SKILL.md" ]; then
+  mkdir -p "$TUFTE_DST/references"
+  cp "$TUFTE_SRC/SKILL.md" "$TUFTE_DST/SKILL.md"
+  cp "$TUFTE_SRC/references/"*.md "$TUFTE_DST/references/" 2>/dev/null || true
+fi
