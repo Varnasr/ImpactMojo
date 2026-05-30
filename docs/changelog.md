@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.32.0 — May 31, 2026 (Puzzle Library: 117 puzzles + redesigned hub)
+
+### For Learners
+
+- **The Puzzle Library now has 117 puzzles — at least three per course**, so every one of the 39 ImpactMojo courses offers real variety: a word search plus a mix of crosswords, quizzes, matching, fill-in-the-blank, sorting, and sequencing.
+- **Redesigned puzzle hub** — puzzles are now grouped into colour-coded learning tracks (each with its folk-art accent), with a sticky track/format filter bar, at-a-glance stats, per-track progress, and refined cards that show a completion tick once you finish a puzzle.
+
 ## v10.31.0 — May 31, 2026 (Puzzle Library expands to all 39 courses)
 
 ### For Learners
