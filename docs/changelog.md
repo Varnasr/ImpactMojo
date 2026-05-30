@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.31.0 — May 31, 2026 (Puzzle Library expands to all 39 courses)
+
+### For Learners
+
+- **Four new puzzle formats** in the Puzzle Library — **Matching** (pair terms to meanings), **Sequence** (put steps in the right order), **Sort** (drop items into the right category), and **Fill-in-the-blank** — joining crosswords, quizzes, and word searches for seven formats in all.
+- **Every one of the 39 ImpactMojo courses now has at least one puzzle** — 50 puzzles in total, spanning economics, gender, research methods, data & technology, health, climate, and governance. Filter by track or format to find what you want to practise.
+
 ## v10.30.0 — May 30, 2026 (Puzzle Library)
 
 ### For Learners

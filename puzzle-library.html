@@ -244,6 +244,48 @@ section.section { padding: 2.5rem 0; }
 .q-explain b { color: var(--color-primary); }
 .quiz-score { font-family: var(--font-heading); font-weight: 800; font-size: 1.3rem; text-align: center; margin: 1rem 0; }
 
+/* ---------- Matching ---------- */
+.match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 760px; }
+.match-col { display: flex; flex-direction: column; gap: 0.6rem; }
+.match-item { text-align: left; font: inherit; border: 1px solid var(--border); background: var(--color-bg-card); color: var(--color-text); border-radius: 10px; padding: 0.7rem 0.9rem; cursor: pointer; transition: all 0.12s; min-height: 44px; }
+.match-item:hover:not(:disabled) { border-color: var(--color-primary); }
+.match-item.sel { border-color: var(--color-primary); background: rgba(102,126,234,0.14); }
+.match-item.done { border-color: var(--color-success); background: rgba(72,187,120,0.15); color: var(--color-text-muted); cursor: default; }
+.match-item.bad { border-color: var(--color-error); background: rgba(252,129,129,0.18); }
+
+/* ---------- Sequence ---------- */
+.seq-list { list-style: none; margin: 0; padding: 0; max-width: 680px; }
+.seq-item { display: flex; align-items: center; gap: 0.75rem; background: var(--color-bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 0.7rem 0.9rem; margin-bottom: 0.6rem; }
+.seq-num { font-family: var(--font-mono); font-weight: 700; color: var(--color-primary); width: 1.6em; text-align: center; flex-shrink: 0; }
+.seq-text { flex: 1; }
+.seq-btns { display: flex; flex-direction: column; gap: 2px; flex-shrink: 0; }
+.seq-mv { border: 1px solid var(--border); background: var(--color-bg); color: var(--color-text); border-radius: 6px; width: 32px; height: 22px; cursor: pointer; line-height: 1; font-size: 0.7rem; }
+.seq-mv:disabled { opacity: 0.3; cursor: default; }
+.seq-item.correct { border-color: var(--color-success); background: rgba(72,187,120,0.12); }
+.seq-item.wrong { border-color: var(--color-error); background: rgba(252,129,129,0.1); }
+
+/* ---------- Categorize ---------- */
+.cat-tray { display: flex; flex-wrap: wrap; gap: 0.5rem; min-height: 52px; padding: 0.8rem; border: 2px dashed var(--border); border-radius: 12px; margin-bottom: 1.25rem; align-items: flex-start; }
+.cat-empty { color: var(--color-text-muted); font-size: 0.9rem; }
+.cat-buckets { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
+.cat-bucket { border: 1px solid var(--border); border-radius: 12px; background: var(--color-bg-card); padding: 0.8rem; }
+.cat-bucket h4 { margin: 0 0 0.6rem; font-size: 0.95rem; border-bottom: 2px solid var(--border); padding-bottom: 0.4rem; }
+.cat-drop { display: flex; flex-wrap: wrap; gap: 0.4rem; min-height: 60px; align-content: flex-start; }
+.cat-chip { font: inherit; font-size: 0.88rem; border: 1px solid var(--border); background: var(--color-bg); color: var(--color-text); border-radius: 999px; padding: 0.4rem 0.8rem; cursor: pointer; transition: all 0.12s; }
+.cat-chip:hover { border-color: var(--color-primary); }
+.cat-chip.sel { border-color: var(--color-primary); background: rgba(102,126,234,0.16); }
+.cat-chip.correct { border-color: var(--color-success); background: rgba(72,187,120,0.18); }
+.cat-chip.wrong { border-color: var(--color-error); background: rgba(252,129,129,0.18); }
+
+/* ---------- Cloze ---------- */
+.cloze-bank { background: var(--color-bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 0.7rem 0.9rem; margin-bottom: 1rem; font-size: 0.92rem; }
+.bank-word { display: inline-block; font-family: var(--font-mono); font-size: 0.85rem; background: var(--color-bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.1rem 0.5rem; margin: 0.15rem; }
+.cloze-list { list-style: decimal; margin: 0; padding-left: 1.4rem; max-width: 760px; }
+.cloze-item { margin-bottom: 0.9rem; line-height: 2; }
+.cloze-sel { font: inherit; font-family: var(--font-mono); font-size: 0.9rem; border: 1px solid var(--color-primary); border-radius: 6px; padding: 0.2rem 0.4rem; background: var(--color-bg-card); color: var(--color-text); margin: 0 0.2rem; }
+.cloze-sel.correct { border-color: var(--color-success); background: rgba(72,187,120,0.12); }
+.cloze-sel.wrong { border-color: var(--color-error); background: rgba(252,129,129,0.12); }
+
 /* ---------- Paper plane ---------- */
 .paper-plane { position: fixed; bottom: 2rem; right: 2rem; opacity: 0.1; pointer-events: none; z-index: 0; }
 @keyframes float { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-15px) rotate(3deg); } }
@@ -436,10 +478,15 @@ section.section { padding: 2.5rem 0; }
     crossword: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>',
     wordsearch: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>',
     quiz: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.1 9a3 3 0 1 1 4.6 3.3c-.9.6-1.7 1.2-1.7 2.2"/><line x1="12" y1="18" x2="12" y2="18"/></svg>',
+    matching: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6"/><path d="M8 7H6a4 4 0 0 0 0 8h2"/><path d="M16 7h2a4 4 0 0 1 0 8h-2"/></svg>',
+    sequence: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 6h11M10 12h11M10 18h11"/><path d="M4 5h1v4M4 9h2M6 15H4l2 1.8L4 19h2"/></svg>',
+    categorize: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="7" height="16" rx="1"/><rect x="14" y="4" width="7" height="16" rx="1"/></svg>',
+    cloze: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h7M4 17h13"/><path d="M14 11l3 3 4-5"/></svg>',
     check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>',
     done: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg>'
   };
-  var TYPE_LABEL = { crossword: 'Crossword', wordsearch: 'Word Search', quiz: 'Quiz' };
+  var TYPE_LABEL = { crossword: 'Crossword', wordsearch: 'Word Search', quiz: 'Quiz', matching: 'Matching', sequence: 'Sequence', categorize: 'Sort', cloze: 'Fill-in' };
+  var TYPE_ORDER = ['crossword', 'wordsearch', 'quiz', 'matching', 'sequence', 'categorize', 'cloze'];
 
   var DATA = null, TRACKS = {}, PUZZLES = [];
   var activeTrack = 'all', activeType = 'all';
@@ -855,6 +902,159 @@ section.section { padding: 2.5rem 0; }
     area.querySelector('#quizRetry').addEventListener('click', function () { renderQuiz(puzzle, area); });
   }
 
+  /* ---------------- Shared ---------------- */
+  function shuffle(arr) {
+    arr = arr.slice();
+    for (var i = arr.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = arr[i]; arr[i] = arr[j]; arr[j] = t; }
+    return arr;
+  }
+
+  /* ---------------- Matching ---------------- */
+  function renderMatching(puzzle, area) {
+    var pairs = puzzle.pairs;
+    var lefts = pairs.map(function (p, i) { return { txt: p.l, id: i }; });
+    var rights = shuffle(pairs.map(function (p, i) { return { txt: p.r, id: i }; }));
+    var matched = {}, selLeft = null;
+    var html = '<p class="play-intro">' + esc(puzzle.blurb || '') + ' Click a term on the left, then the matching item on the right.</p>';
+    html += '<div class="status-line" id="mStatus"></div>';
+    html += '<div class="banner win" id="mBanner">All matched — well done!</div>';
+    html += '<div class="match-grid"><div class="match-col" id="mLeft"></div><div class="match-col" id="mRight"></div></div>';
+    area.innerHTML = html;
+    var grid = area.querySelector('.match-grid'), left = area.querySelector('#mLeft'), right = area.querySelector('#mRight');
+    left.innerHTML = lefts.map(function (o) { return '<button class="match-item" data-side="L" data-id="' + o.id + '">' + esc(o.txt) + '</button>'; }).join('');
+    right.innerHTML = rights.map(function (o) { return '<button class="match-item" data-side="R" data-id="' + o.id + '">' + esc(o.txt) + '</button>'; }).join('');
+    function status() { area.querySelector('#mStatus').textContent = Object.keys(matched).length + ' / ' + pairs.length + ' matched'; }
+    function clearSel() { var b = left.querySelector('.match-item.sel'); if (b) b.classList.remove('sel'); selLeft = null; }
+    status();
+    grid.addEventListener('click', function (e) {
+      var b = e.target.closest('.match-item'); if (!b || b.classList.contains('done')) return;
+      if (b.dataset.side === 'L') { clearSel(); selLeft = +b.dataset.id; b.classList.add('sel'); return; }
+      if (selLeft === null) return;
+      var rid = +b.dataset.id, lb = left.querySelector('.match-item[data-id="' + selLeft + '"]');
+      if (rid === selLeft) {
+        matched[selLeft] = true;
+        if (lb) { lb.classList.remove('sel'); lb.classList.add('done'); lb.disabled = true; }
+        b.classList.add('done'); b.disabled = true; selLeft = null; status();
+        if (Object.keys(matched).length === pairs.length) { area.querySelector('#mBanner').classList.add('show'); markDone(puzzle.id); }
+      } else {
+        b.classList.add('bad'); if (lb) lb.classList.add('bad');
+        setTimeout(function () { b.classList.remove('bad'); if (lb) lb.classList.remove('bad'); clearSel(); }, 480);
+      }
+    });
+  }
+
+  /* ---------------- Sequence (ordering) ---------------- */
+  function renderSequence(puzzle, area) {
+    var correct = puzzle.items;
+    var order = shuffle(correct.map(function (_, i) { return i; }));
+    if (order.length > 1 && order.every(function (v, i) { return v === i; })) order.push(order.shift());
+    var html = '<p class="play-intro">' + esc(puzzle.blurb || '') + ' ' + esc(puzzle.prompt || 'Put these in the correct order using the arrows.') + '</p>';
+    html += '<div class="toolbar"><button class="btn btn-primary" data-act="check">' + ICONS.check + 'Check order</button><button class="btn" data-act="reveal">Reveal</button></div>';
+    html += '<div class="banner win" id="sBanner">Correct order — nicely done!</div>';
+    html += '<ol class="seq-list" id="seqList"></ol>';
+    area.innerHTML = html;
+    var list = area.querySelector('#seqList');
+    function render() {
+      list.innerHTML = order.map(function (idx, pos) {
+        return '<li class="seq-item" data-pos="' + pos + '"><span class="seq-num">' + (pos + 1) + '</span><span class="seq-text">' + esc(correct[idx]) + '</span>' +
+          '<span class="seq-btns"><button class="seq-mv" data-dir="-1" data-pos="' + pos + '" aria-label="Move up"' + (pos === 0 ? ' disabled' : '') + '>&#9650;</button>' +
+          '<button class="seq-mv" data-dir="1" data-pos="' + pos + '" aria-label="Move down"' + (pos === order.length - 1 ? ' disabled' : '') + '>&#9660;</button></span></li>';
+      }).join('');
+    }
+    render();
+    list.addEventListener('click', function (e) {
+      var b = e.target.closest('.seq-mv'); if (!b) return;
+      var p = +b.dataset.pos, np = p + (+b.dataset.dir);
+      if (np < 0 || np >= order.length) return;
+      var t = order[p]; order[p] = order[np]; order[np] = t; render();
+    });
+    area.querySelector('[data-act="check"]').addEventListener('click', function () {
+      var ok = true;
+      list.querySelectorAll('.seq-item').forEach(function (li, pos) {
+        li.classList.remove('correct', 'wrong');
+        if (order[pos] === pos) li.classList.add('correct'); else { li.classList.add('wrong'); ok = false; }
+      });
+      if (ok) { area.querySelector('#sBanner').classList.add('show'); markDone(puzzle.id); }
+    });
+    area.querySelector('[data-act="reveal"]').addEventListener('click', function () {
+      order = correct.map(function (_, i) { return i; }); render();
+      list.querySelectorAll('.seq-item').forEach(function (li) { li.classList.add('correct'); });
+      area.querySelector('#sBanner').classList.add('show');
+    });
+  }
+
+  /* ---------------- Categorize (sort) ---------------- */
+  function renderCategorize(puzzle, area) {
+    var cats = puzzle.categories;
+    var items = shuffle(puzzle.items.map(function (it, i) { return { t: it.t, c: it.c, id: i, at: null }; }));
+    var sel = null;
+    var html = '<p class="play-intro">' + esc(puzzle.blurb || '') + ' Click an item, then the category it belongs to. Click an item in a bucket to send it back.</p>';
+    html += '<div class="toolbar"><button class="btn btn-primary" data-act="check">' + ICONS.check + 'Check</button></div>';
+    html += '<div class="banner win" id="catBanner">All sorted correctly!</div>';
+    html += '<div id="catRoot"><div class="cat-tray" id="catTray"></div><div class="cat-buckets">' +
+      cats.map(function (c, ci) { return '<div class="cat-bucket" data-cat="' + ci + '"><h4>' + esc(c) + '</h4><div class="cat-drop" data-cat="' + ci + '"></div></div>'; }).join('') +
+      '</div></div>';
+    area.innerHTML = html;
+    var root = area.querySelector('#catRoot'), tray = area.querySelector('#catTray');
+    function find(id) { for (var i = 0; i < items.length; i++) if (items[i].id === id) return items[i]; }
+    function chip(it) { return '<button class="cat-chip' + (sel === it.id ? ' sel' : '') + '" data-id="' + it.id + '">' + esc(it.t) + '</button>'; }
+    function render() {
+      tray.innerHTML = items.filter(function (it) { return it.at === null; }).map(chip).join('') || '<span class="cat-empty">All items placed — press Check.</span>';
+      cats.forEach(function (c, ci) { root.querySelector('.cat-drop[data-cat="' + ci + '"]').innerHTML = items.filter(function (it) { return it.at === ci; }).map(chip).join(''); });
+    }
+    render();
+    root.addEventListener('click', function (e) {
+      var chipEl = e.target.closest('.cat-chip');
+      if (chipEl) {
+        var it = find(+chipEl.dataset.id);
+        if (it.at !== null) { it.at = null; sel = null; render(); return; }
+        sel = (sel === it.id ? null : it.id); render(); return;
+      }
+      var drop = e.target.closest('[data-cat]');
+      if (drop && sel !== null) { find(sel).at = +drop.dataset.cat; sel = null; render(); }
+    });
+    area.querySelector('[data-act="check"]').addEventListener('click', function () {
+      var ok = true;
+      root.querySelectorAll('.cat-chip').forEach(function (el) {
+        var it = find(+el.dataset.id); el.classList.remove('correct', 'wrong');
+        if (it.at === it.c) el.classList.add('correct'); else { el.classList.add('wrong'); ok = false; }
+      });
+      if (items.some(function (it) { return it.at === null; })) ok = false;
+      if (ok) { area.querySelector('#catBanner').classList.add('show'); markDone(puzzle.id); }
+    });
+  }
+
+  /* ---------------- Cloze (fill-in-the-blank) ---------------- */
+  function renderCloze(puzzle, area) {
+    var items = puzzle.items, bank = puzzle.bank || [];
+    var opts = shuffle(bank);
+    var html = '<p class="play-intro">' + esc(puzzle.blurb || '') + ' Choose the right word for each blank from the word bank.</p>';
+    if (bank.length) html += '<div class="cloze-bank"><b>Word bank:</b> ' + opts.map(function (w) { return '<span class="bank-word">' + esc(w) + '</span>'; }).join(' ') + '</div>';
+    html += '<div class="toolbar"><button class="btn btn-primary" data-act="check">' + ICONS.check + 'Check</button><button class="btn" data-act="reveal">Reveal</button></div>';
+    html += '<div class="banner win" id="zBanner">All correct!</div><ol class="cloze-list" id="clozeList"></ol>';
+    area.innerHTML = html;
+    var list = area.querySelector('#clozeList');
+    list.innerHTML = items.map(function (it, i) {
+      var parts = String(it.text).split('{}');
+      var sel = '<select class="cloze-sel" data-i="' + i + '" aria-label="blank ' + (i + 1) + '"><option value="">— choose —</option>' +
+        opts.map(function (w) { return '<option value="' + esc(w) + '">' + esc(w) + '</option>'; }).join('') + '</select>';
+      return '<li class="cloze-item">' + esc(parts[0]) + sel + esc(parts[1] || '') + '</li>';
+    }).join('');
+    area.querySelector('[data-act="check"]').addEventListener('click', function () {
+      var ok = true;
+      items.forEach(function (it, i) {
+        var s = list.querySelector('.cloze-sel[data-i="' + i + '"]'); s.classList.remove('correct', 'wrong');
+        if (s.value && s.value.toUpperCase() === String(it.answer).toUpperCase()) s.classList.add('correct');
+        else { s.classList.add('wrong'); ok = false; }
+      });
+      if (ok) { area.querySelector('#zBanner').classList.add('show'); markDone(puzzle.id); }
+    });
+    area.querySelector('[data-act="reveal"]').addEventListener('click', function () {
+      items.forEach(function (it, i) { var s = list.querySelector('.cloze-sel[data-i="' + i + '"]'); s.value = it.answer; s.classList.remove('wrong'); s.classList.add('correct'); });
+      area.querySelector('#zBanner').classList.add('show');
+    });
+  }
+
   /* ---------------- Library UI ---------------- */
   function renderProgress() {
     var total = PUZZLES.length;
@@ -876,7 +1076,7 @@ section.section { padding: 2.5rem 0; }
     });
     tf.innerHTML = chips;
     var typeChips = '<button class="chip active" data-type="all">All formats</button>';
-    ['crossword', 'wordsearch', 'quiz'].forEach(function (t) { typeChips += '<button class="chip" data-type="' + t + '">' + TYPE_LABEL[t] + '</button>'; });
+    TYPE_ORDER.forEach(function (t) { typeChips += '<button class="chip" data-type="' + t + '">' + TYPE_LABEL[t] + '</button>'; });
     document.getElementById('typeFilters').innerHTML = typeChips;
 
     tf.addEventListener('click', function (e) {
@@ -921,9 +1121,8 @@ section.section { padding: 2.5rem 0; }
     document.getElementById('overlaySub').textContent = puzzle.course + ' · ' + TYPE_LABEL[puzzle.type] + ' · ' + (puzzle.difficulty || '');
     var tag = document.getElementById('overlayTrack'); tag.textContent = tr.name; tag.style.setProperty('--track', tr.color);
     var area = document.getElementById('playArea'); area.innerHTML = '';
-    if (puzzle.type === 'crossword') renderCrossword(puzzle, area);
-    else if (puzzle.type === 'wordsearch') renderWordSearch(puzzle, area);
-    else if (puzzle.type === 'quiz') renderQuiz(puzzle, area);
+    var renderers = { crossword: renderCrossword, wordsearch: renderWordSearch, quiz: renderQuiz, matching: renderMatching, sequence: renderSequence, categorize: renderCategorize, cloze: renderCloze };
+    (renderers[puzzle.type] || function () { area.innerHTML = '<p class="play-intro">Unsupported puzzle type.</p>'; })(puzzle, area);
     document.getElementById('overlay').classList.add('open');
     document.body.style.overflow = 'hidden';
     if (history.replaceState) history.replaceState(null, '', '#' + id);
