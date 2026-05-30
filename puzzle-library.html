@@ -336,17 +336,19 @@ section.section { padding: 1.5rem 0 2.5rem; }
 .footer-bottom { max-width: 1200px; margin: 2rem auto 0; padding-top: 1.5rem; border-top: 1px solid #1e293b; text-align: center; font-size: 0.82rem; color: #64748b; }
 
 @media (max-width: 860px) {
+  html, body { max-width: 100%; overflow-x: hidden; }
   .cw-layout, .ws-layout { grid-template-columns: 1fr; }
   .cw-clues { grid-template-columns: 1fr; }
   /* Crosswords/word searches: shrink the grid to fit the screen width so the
      whole puzzle is visible and usable without horizontal scrolling. */
-  .cw-grid { width: 100% !important; grid-template-columns: repeat(var(--cwn, 12), 1fr) !important; }
-  .cw-cell { width: auto !important; height: auto !important; aspect-ratio: 1; }
-  .cw-cell input { font-size: clamp(0.6rem, 3.2vw, 1.05rem); }
+  .cw-grid { width: 100% !important; max-width: 100% !important; grid-template-columns: repeat(var(--cwn, 12), minmax(0, 1fr)) !important; }
+  .cw-cell { width: auto !important; height: auto !important; aspect-ratio: 1; min-width: 0; overflow: hidden; }
+  .cw-cell input { font-size: clamp(0.6rem, 3.2vw, 1.05rem); min-width: 0; width: 100%; }
   .cw-num { font-size: clamp(0.42rem, 1.7vw, 0.6rem); }
   .cw-cluebar { display: flex; }
-  .ws-grid { width: 100% !important; grid-template-columns: repeat(var(--wsn, 12), 1fr) !important; }
-  .ws-cell { width: auto !important; height: auto !important; aspect-ratio: 1; font-size: clamp(0.55rem, 3vw, 0.92rem); }
+  .ws-grid { width: 100% !important; max-width: 100% !important; grid-template-columns: repeat(var(--wsn, 12), minmax(0, 1fr)) !important; }
+  .ws-cell { width: auto !important; height: auto !important; aspect-ratio: 1; min-width: 0; font-size: clamp(0.55rem, 3vw, 0.92rem); }
+  .grid-scroll { overflow-x: hidden; }
   .play-area { padding-left: 0.85rem; padding-right: 0.85rem; }
   .toolbar { gap: 0.4rem; }
 }
@@ -670,7 +672,7 @@ section.section { padding: 1.5rem 0 2.5rem; }
         if (cm) {
           if (cm.num) { var sp = document.createElement('span'); sp.className = 'cw-num'; sp.textContent = cm.num; div.appendChild(sp); }
           var inp = document.createElement('input');
-          inp.maxLength = 1; inp.dataset.r = r; inp.dataset.c = c; inp.setAttribute('inputmode', 'text'); inp.setAttribute('aria-label', 'cell ' + (r + 1) + ',' + (c + 1));
+          inp.maxLength = 1; inp.size = 1; inp.dataset.r = r; inp.dataset.c = c; inp.setAttribute('inputmode', 'text'); inp.setAttribute('aria-label', 'cell ' + (r + 1) + ',' + (c + 1));
           div.appendChild(inp); inputs[r + ',' + c] = inp;
         }
         grid.appendChild(div);
