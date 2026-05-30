@@ -243,6 +243,10 @@ section.section { padding: 1.5rem 0 2.5rem; }
 .cw-clues li:hover { background: rgba(102,126,234,0.08); }
 .cw-clues li.active { background: rgba(102,126,234,0.16); }
 .cw-clues li b { font-family: var(--font-mono); color: var(--color-primary); min-width: 1.4em; }
+.cw-cluebar { display: none; align-items: center; gap: 0.5rem; background: var(--color-bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 0.45rem 0.55rem; margin-bottom: 1rem; }
+.cw-cluebar-text { flex: 1; font-size: 0.95rem; line-height: 1.35; }
+.cw-nav { flex-shrink: 0; width: 40px; height: 40px; border: 1px solid var(--border); background: var(--color-bg); color: var(--color-text); border-radius: 8px; font-size: 1.4rem; line-height: 1; cursor: pointer; }
+.cw-nav:active { background: var(--color-primary); color: #fff; }
 
 /* ---------- Word search ---------- */
 .ws-layout { display: grid; grid-template-columns: minmax(260px, auto) 1fr; gap: 2rem; align-items: start; }
@@ -334,6 +338,17 @@ section.section { padding: 1.5rem 0 2.5rem; }
 @media (max-width: 860px) {
   .cw-layout, .ws-layout { grid-template-columns: 1fr; }
   .cw-clues { grid-template-columns: 1fr; }
+  /* Crosswords/word searches: shrink the grid to fit the screen width so the
+     whole puzzle is visible and usable without horizontal scrolling. */
+  .cw-grid { width: 100% !important; grid-template-columns: repeat(var(--cwn, 12), 1fr) !important; }
+  .cw-cell { width: auto !important; height: auto !important; aspect-ratio: 1; }
+  .cw-cell input { font-size: clamp(0.6rem, 3.2vw, 1.05rem); }
+  .cw-num { font-size: clamp(0.42rem, 1.7vw, 0.6rem); }
+  .cw-cluebar { display: flex; }
+  .ws-grid { width: 100% !important; grid-template-columns: repeat(var(--wsn, 12), 1fr) !important; }
+  .ws-cell { width: auto !important; height: auto !important; aspect-ratio: 1; font-size: clamp(0.55rem, 3vw, 0.92rem); }
+  .play-area { padding-left: 0.85rem; padding-right: 0.85rem; }
+  .toolbar { gap: 0.4rem; }
 }
 @media (max-width: 768px) {
   .footer-grid { grid-template-columns: repeat(2, 1fr); }
@@ -349,7 +364,8 @@ section.section { padding: 1.5rem 0 2.5rem; }
 @media (max-width: 520px) {
   .footer-grid { grid-template-columns: 1fr; }
   .ws-words { columns: 1; }
-  .match-grid { grid-template-columns: 1fr; }
+  .match-grid { gap: 0.6rem; }
+  .match-item { padding: 0.6rem 0.7rem; font-size: 0.9rem; }
 }
 @media (hover: none) {
   .pgo { opacity: 1; transform: none; }
@@ -639,7 +655,8 @@ section.section { padding: 1.5rem 0 2.5rem; }
       '<button class="btn btn-ghost" data-act="clear">Clear</button>' +
       '</div>';
     html += '<div class="banner win" id="cwBanner">Solved! Every answer is correct. </div>';
-    html += '<div class="cw-layout"><div class="grid-scroll"><div class="cw-grid" id="cwGrid" style="--cw:' + cellSize + 'px; grid-template-columns:repeat(' + model.W + ', ' + cellSize + 'px);"></div></div>';
+    html += '<div class="cw-cluebar"><button class="cw-nav" data-nav="-1" aria-label="Previous clue">‹</button><div class="cw-cluebar-text" id="cwClue">Tap a square or clue to begin.</div><button class="cw-nav" data-nav="1" aria-label="Next clue">›</button></div>';
+    html += '<div class="cw-layout"><div class="grid-scroll"><div class="cw-grid" id="cwGrid" style="--cw:' + cellSize + 'px; --cwn:' + model.W + '; grid-template-columns:repeat(' + model.W + ', ' + cellSize + 'px);"></div></div>';
     html += '<div class="cw-clues"><div><h4>Across</h4><ol id="cwAcross"></ol></div><div><h4>Down</h4><ol id="cwDown"></ol></div></div></div>';
     area.innerHTML = html;
 
@@ -680,6 +697,8 @@ section.section { padding: 1.5rem 0 2.5rem; }
       wordCells(activeWord).forEach(function (key) { if (inputs[key]) inputs[key].parentNode.classList.add('active-word'); });
       var li = area.querySelector('.cw-clues li[data-key="' + activeWord.dir + activeWord.number + '"]');
       if (li) li.classList.add('active');
+      var cb = area.querySelector('#cwClue');
+      if (cb) cb.textContent = (activeWord.dir === 'A' ? 'Across ' : 'Down ') + activeWord.number + '. ' + activeWord.clue;
     }
     function focusCell(r, c) {
       var inp = inputs[r + ',' + c]; if (inp) { inp.focus(); inp.parentNode.classList.add('active-cell'); }
@@ -769,6 +788,14 @@ section.section { padding: 1.5rem 0 2.5rem; }
       area.querySelector('#cwBanner').classList.remove('show');
     });
 
+    area.querySelector('.cw-cluebar').addEventListener('click', function (e) {
+      var b = e.target.closest('.cw-nav'); if (!b) return;
+      var idx = -1, i;
+      if (activeWord) { for (i = 0; i < clues.length; i++) { if (clues[i].dir === activeWord.dir && clues[i].number === activeWord.number) { idx = i; break; } } }
+      idx = (idx + (+b.dataset.nav) + clues.length) % clues.length;
+      var entry = clues[idx]; dir = entry.dir; selectCell(entry.row, entry.col, false);
+    });
+
     if (model.across[0]) { selectCell(model.across[0].row, model.across[0].col, false); }
   }
 
@@ -820,7 +847,7 @@ section.section { padding: 1.5rem 0 2.5rem; }
     html += '<p class="play-intro">' + esc(puzzle.blurb || '') + ' Click and drag (or tap-drag) across letters to select a word. Words run in any of 8 directions.</p>';
     html += '<div class="toolbar"><button class="btn btn-ghost" data-act="reveal">Reveal remaining</button></div>';
     html += '<div class="banner win" id="wsBanner">All words found — nicely done! </div>';
-    html += '<div class="ws-layout"><div><div class="grid-scroll"><div class="ws-grid" id="wsGrid" style="grid-template-columns:repeat(' + model.N + ', ' + cellSize + 'px); --ws:' + cellSize + 'px;"></div></div>' +
+    html += '<div class="ws-layout"><div><div class="grid-scroll"><div class="ws-grid" id="wsGrid" style="grid-template-columns:repeat(' + model.N + ', ' + cellSize + 'px); --ws:' + cellSize + 'px; --wsn:' + model.N + ';"></div></div>' +
       '<div class="status-line" id="wsStatus"></div></div>';
     html += '<div><h4 style="margin-top:0;">Find these (' + puzzle.words.length + ')</h4><ul class="ws-words" id="wsWords"></ul></div></div>';
     area.innerHTML = html;
