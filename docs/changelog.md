@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.30.0 — May 30, 2026 (Puzzle Library)
+
+### For Learners
+
+- **Puzzle Library** — a new free, in-browser puzzle hub: play crosswords, quizzes, and word searches drawn from ImpactMojo courses across development economics, gender, MEAL, public health, and climate. Crosswords lay themselves out automatically, word searches are interactive (drag to select in any of 8 directions), quizzes give instant scoring with explanations, and your progress is saved on your device. Launching with 18 puzzles, expanding over time.
+
 ## v10.29.0 — May 27, 2026 (14 new Book Companions)
 
 ### For Learners
