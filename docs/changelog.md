@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.33.0 — May 31, 2026 (Games & Puzzles navigation)
+
+### For Learners
+
+- **"Games & Puzzles" is now a grouped menu** — the nav groups interactive content into Economics & Markets, Game Theory & Cooperation, and Society & Wellbeing, with the Puzzle Library alongside, so it is easier to find the right activity.
+- **The games overview is now organised into categories** with section headings, and you can jump straight to a category from the menu.
+
 ## v10.32.0 — May 31, 2026 (Puzzle Library: 117 puzzles + redesigned hub)
 
 ### For Learners

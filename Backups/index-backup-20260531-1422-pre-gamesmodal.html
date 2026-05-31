@@ -162,18 +162,6 @@ function closeModal(modalId) {
     var el = document.getElementById(modalId);
     if (el) el.style.display = 'none';
 }
-function openGamesCategory(sectionId) {
-    openModal('gamesModal');
-    if (sectionId) {
-        // Wait for the modal to render, then scroll the category into view
-        setTimeout(function() {
-            var el = document.getElementById(sectionId);
-            var body = document.querySelector('#gamesModal .modal-body');
-            if (el && body) body.scrollTop = el.offsetTop - body.offsetTop - 8;
-            else if (el) el.scrollIntoView({ block: 'start' });
-        }, 80);
-    }
-}
 // Close modal when clicking outside content
 window.addEventListener('click', function(e) {
     if (e.target.classList && e.target.classList.contains('modal')) {
@@ -484,22 +472,11 @@ window.addEventListener('click', function(e) {
 <polyline points="6 9 12 15 18 9"></polyline>
 </svg>
 </a>
-<ul class="dropdown-menu specials-grouped" id="learn-dropdown">
+<ul class="dropdown-menu" id="learn-dropdown">
 <li id="nav-courses"><a href="javascript:void(0)" onclick="openModal('coursesModal')"><span data-i18n="nav.courses">Courses</span></a></li>
 <li id="nav-labs"><a href="javascript:void(0)" onclick="openModal('labsModal')"><span data-i18n="nav.labs">Labs</span></a></li>
-<li class="dropdown-section" id="nav-games-group">
-  <button type="button" class="dropdown-section-toggle" onclick="toggleSpecialsSection(event, this)" aria-expanded="false">
-    <span data-i18n="nav.games">Games &amp; Puzzles</span>
-    <svg class="dropdown-section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-  </button>
-  <ul class="dropdown-section-items">
-    <li id="nav-games-all"><a href="javascript:void(0)" onclick="openGamesCategory('')">All Games</a></li>
-    <li id="nav-games-econ"><a href="javascript:void(0)" onclick="openGamesCategory('gm-economics')">Economics &amp; Markets</a></li>
-    <li id="nav-games-gt"><a href="javascript:void(0)" onclick="openGamesCategory('gm-gametheory')">Game Theory &amp; Cooperation</a></li>
-    <li id="nav-games-soc"><a href="javascript:void(0)" onclick="openGamesCategory('gm-society')">Society &amp; Wellbeing</a></li>
-    <li id="nav-puzzles"><a href="/puzzle-library.html"><span data-i18n="nav.puzzles">Puzzle Library</span> <span style="background:#0EA5E9;color:#fff;font-size:0.55rem;padding:0.1rem 0.35rem;border-radius:4px;margin-left:0.3rem;text-transform:uppercase;letter-spacing:0.5px;vertical-align:middle">New</span></a></li>
-  </ul>
-</li>
+<li id="nav-games"><a href="javascript:void(0)" onclick="openModal('gamesModal')"><span data-i18n="nav.games">Games</span></a></li>
+<li id="nav-puzzles"><a href="/puzzle-library.html"><span data-i18n="nav.puzzles">Puzzles</span> <span style="background:#0EA5E9;color:#fff;font-size:0.55rem;padding:0.1rem 0.35rem;border-radius:4px;margin-left:0.3rem;text-transform:uppercase;letter-spacing:0.5px;vertical-align:middle">New</span></a></li>
 <li id="nav-premium"><a href='/premium'><span data-i18n="nav.premium">Premium</span></a></li>
 <li class="dropdown-divider"></li>
 <li id="nav-resources"><a href='/handouts'><span data-i18n="nav.handouts">Handouts</span></a></li>
@@ -3573,7 +3550,6 @@ window.addEventListener('authStateChanged', function(e) {
 </div>
 <div class="modal-body">
 <div class="modal-grid">
-<h3 class="modal-section-head" id="gm-puzzles">Puzzle Library</h3>
 <div class="modal-item">
 <div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18M9 3v18"></path></svg></div>
 <div class="modal-item-content">
@@ -3589,7 +3565,6 @@ window.addEventListener('authStateChanged', function(e) {
 </a>
 </div>
 </div>
-<h3 class="modal-section-head" id="gm-economics">Economics &amp; Markets</h3>
 <div class="modal-item">
 <div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><rect height="12" rx="2" width="20" x="2" y="6"></rect><circle cx="8" cy="12" r="2"></circle><circle cx="16" cy="10" r="1"></circle></svg></div>
 <div class="modal-item-content">
@@ -3606,6 +3581,28 @@ window.addEventListener('authStateChanged', function(e) {
 </div>
 </div>
 <p class="modal-item-description">Experience the free-rider problem firsthand as players decide whether to contribute to shared resources that benefit everyone. Learn how public goods create collective action dilemmas and explore mechanisms for sustaining cooperation in communities.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><rect height="12" rx="2" width="20" x="2" y="6"></rect><circle cx="8" cy="12" r="2"></circle><circle cx="16" cy="10" r="1"></circle></svg></div>
+<div class="modal-item-content">
+<a href="/Games/prisoners-dilemma-game.html" target="_blank" rel="noopener noreferrer">
+<div class="modal-item-title">
+                        A game exploring the economic idea of Prisoners' Dilemma
+                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.8</span>
+</div>
+</div>
+<p class="modal-item-description">Navigate strategic decision-making where individual rationality leads to collectively suboptimal outcomes through interactive scenarios. Discover how trust, reputation, and repeated interactions can overcome cooperation challenges in development contexts.</p>
 <div class="modal-item-meta">
 <span class="modal-item-link">Open -></span>
 </div>
@@ -3650,6 +3647,28 @@ window.addEventListener('authStateChanged', function(e) {
 </div>
 </div>
 <p class="modal-item-description">Build networks and watch value multiply as more participants join, experiencing how digital platforms and social programs scale. Understand positive feedback loops, critical mass dynamics, and the winner-take-all economics of networked systems.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><rect height="12" rx="2" width="20" x="2" y="6"></rect><circle cx="8" cy="12" r="2"></circle><circle cx="16" cy="10" r="1"></circle></svg></div>
+<div class="modal-item-content">
+<a href="/Games/cooperation-paradox-game.html" target="_blank" rel="noopener noreferrer">
+<div class="modal-item-title">
+                        A game about Cooperation Paradox/Game Theory
+                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.8</span>
+</div>
+</div>
+<p class="modal-item-description">Explore scenarios where cooperation yields better outcomes but individual incentives push toward competition through interactive gameplay. Master concepts like Nash equilibrium, Pareto efficiency, and mechanism design through practical application.</p>
 <div class="modal-item-meta">
 <span class="modal-item-link">Open -></span>
 </div>
@@ -3769,73 +3788,6 @@ window.addEventListener('authStateChanged', function(e) {
 <div class="modal-item">
 <div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><rect height="12" rx="2" width="20" x="2" y="6"></rect><circle cx="8" cy="12" r="2"></circle><circle cx="16" cy="10" r="1"></circle></svg></div>
 <div class="modal-item-content">
-<a href="/Games/real-middle-india.html" target="_blank" rel="noopener noreferrer">
-<div class="modal-item-title">
-                        A game about the real middle class in India
-                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
-<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
-<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
-<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
-<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
-<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
-<span class="imx-star-text">4.8</span>
-</div>
-</div>
-<p class="modal-item-description">Navigate economic choices facing India's middle class, from education investments to consumption decisions amid aspirational pressures. Understand income mobility, class dynamics, and the precarity of middle-class status through realistic scenarios.</p>
-<div class="modal-item-meta">
-<span class="modal-item-link">Open -></span>
-</div>
-</a>
-</div>
-</div>
-<h3 class="modal-section-head" id="gm-gametheory">Game Theory &amp; Cooperation</h3>
-<div class="modal-item">
-<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><rect height="12" rx="2" width="20" x="2" y="6"></rect><circle cx="8" cy="12" r="2"></circle><circle cx="16" cy="10" r="1"></circle></svg></div>
-<div class="modal-item-content">
-<a href="/Games/prisoners-dilemma-game.html" target="_blank" rel="noopener noreferrer">
-<div class="modal-item-title">
-                        A game exploring the economic idea of Prisoners' Dilemma
-                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
-<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
-<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
-<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
-<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
-<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
-<span class="imx-star-text">4.8</span>
-</div>
-</div>
-<p class="modal-item-description">Navigate strategic decision-making where individual rationality leads to collectively suboptimal outcomes through interactive scenarios. Discover how trust, reputation, and repeated interactions can overcome cooperation challenges in development contexts.</p>
-<div class="modal-item-meta">
-<span class="modal-item-link">Open -></span>
-</div>
-</a>
-</div>
-</div>
-<div class="modal-item">
-<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><rect height="12" rx="2" width="20" x="2" y="6"></rect><circle cx="8" cy="12" r="2"></circle><circle cx="16" cy="10" r="1"></circle></svg></div>
-<div class="modal-item-content">
-<a href="/Games/cooperation-paradox-game.html" target="_blank" rel="noopener noreferrer">
-<div class="modal-item-title">
-                        A game about Cooperation Paradox/Game Theory
-                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
-<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
-<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
-<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
-<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
-<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
-<span class="imx-star-text">4.8</span>
-</div>
-</div>
-<p class="modal-item-description">Explore scenarios where cooperation yields better outcomes but individual incentives push toward competition through interactive gameplay. Master concepts like Nash equilibrium, Pareto efficiency, and mechanism design through practical application.</p>
-<div class="modal-item-meta">
-<span class="modal-item-link">Open -></span>
-</div>
-</a>
-</div>
-</div>
-<div class="modal-item">
-<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><rect height="12" rx="2" width="20" x="2" y="6"></rect><circle cx="8" cy="12" r="2"></circle><circle cx="16" cy="10" r="1"></circle></svg></div>
-<div class="modal-item-content">
 <a href="/Games/commons-crisis-game.html" target="_blank" rel="noopener noreferrer">
 <div class="modal-item-title">
                         A game of commons and their stewardship
@@ -3855,7 +3807,28 @@ window.addEventListener('authStateChanged', function(e) {
 </a>
 </div>
 </div>
-<h3 class="modal-section-head" id="gm-society">Society &amp; Wellbeing</h3>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><rect height="12" rx="2" width="20" x="2" y="6"></rect><circle cx="8" cy="12" r="2"></circle><circle cx="16" cy="10" r="1"></circle></svg></div>
+<div class="modal-item-content">
+<a href="/Games/real-middle-india.html" target="_blank" rel="noopener noreferrer">
+<div class="modal-item-title">
+                        A game about the real middle class in India
+                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.8</span>
+</div>
+</div>
+<p class="modal-item-description">Navigate economic choices facing India's middle class, from education investments to consumption decisions amid aspirational pressures. Understand income mobility, class dynamics, and the precarity of middle-class status through realistic scenarios.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
 <div class="modal-item">
 <div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
 <div class="modal-item-content">
@@ -3937,6 +3910,7 @@ window.addEventListener('authStateChanged', function(e) {
 <p class="modal-item-description">Step into Social-Emotional Learning from five sides — teacher facing classroom dilemmas, program designer with ₹40L, evaluator deciding what can be known, student (Anika, 12) across a school year, or parent navigating a withdrawn child and a teacher complaint. 30 evidence-grounded scenarios drawing on CASEL, SEE Learning, WHO Life Skills, Delhi Happiness Curriculum + EMC, Indian indigenous traditions, and NEP 2020 (including NPST, CPD, and teacher-side provisions).</p>
 <div class="modal-item-meta"><span class="modal-item-link">Open -></span></div>
 </a></div></div>
+
 </div>
 </div>
 </div>
