@@ -162,6 +162,18 @@ function closeModal(modalId) {
     var el = document.getElementById(modalId);
     if (el) el.style.display = 'none';
 }
+function openGamesCategory(sectionId) {
+    openModal('gamesModal');
+    if (sectionId) {
+        // Wait for the modal to render, then scroll the category into view
+        setTimeout(function() {
+            var el = document.getElementById(sectionId);
+            var body = document.querySelector('#gamesModal .modal-body');
+            if (el && body) body.scrollTop = el.offsetTop - body.offsetTop - 8;
+            else if (el) el.scrollIntoView({ block: 'start' });
+        }, 80);
+    }
+}
 // Close modal when clicking outside content
 window.addEventListener('click', function(e) {
     if (e.target.classList && e.target.classList.contains('modal')) {
