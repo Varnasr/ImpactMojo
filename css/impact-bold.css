@@ -1,0 +1,113 @@
+/* ==========================================================================
+   ImpactMojo — "Impact Bold" shared design system
+   Version: 1.0.0  ·  2026-06-02
+
+   A portable, WCAG 2.1 AA-safe visual language extracted from the premium.html
+   redesign, used to sharpen the site's main pages with one consistent look.
+
+   HOW TO USE
+   1. Add to <head>:  <link rel="stylesheet" href="/css/impact-bold.css">
+   2. Wrap the page content you want styled in:  <div class="ib"> ... </div>
+      (it scopes all tokens + dark-mode overrides; surfaces follow the page theme
+       via [data-theme] / body.dark-mode, which every page already toggles).
+
+   COMPONENTS
+   .ib-hero (+.ib-eyebrow,.ib-pop,.ib-tagline,.ib-cta-row,.ib-usd)
+   .ib-btn  (.light / .outline-w / .solid / .ghost)
+   .ib-band (.free / .prem)  +  .ib-band-tag
+   .ib-sec (+.grad)  ·  .ib-sub  ·  .ib-wrap
+   .ib-grid  ·  .ib-card (.k1..k4, .ib-chip, .ib-nm, .ib-ds)
+   .ib-steps · .ib-step
+   .ib-feature-grid (alias of .ib-grid for prose sections)
+
+   COLOUR NOTE: bright #0EA5E9 etc. are used only for decorative fills/gradients.
+   All *text* accents use #0369A1 (light) / #7DD3FC (dark) which pass AA.
+   ========================================================================== */
+
+.ib{
+  --ib-ink:#0369A1;            /* AA-safe accent text on light */
+  --ib-grad:linear-gradient(135deg,#0EA5E9,#6366F1);
+  --ib-grad-deep:linear-gradient(135deg,#0369A1,#7C3AED);
+  --ib-hero-grad:linear-gradient(135deg,#0C4A6E 0%,#4338CA 52%,#7C3AED 100%);
+  --ib-card:var(--card-bg,#fff);
+  --ib-text:var(--text-primary,#0F172A);
+  --ib-text2:var(--text-secondary,#475569);
+  --ib-muted:var(--text-muted,#64748B);
+  --ib-border:var(--border-color,#E2E8F0);
+  position:relative;z-index:1;
+}
+[data-theme="dark"] .ib,body.dark-mode .ib{--ib-ink:#7DD3FC;--ib-grad-deep:linear-gradient(135deg,#7DD3FC,#C4B5FD)}
+
+.ib .ib-wrap{max-width:1120px;margin:0 auto;padding:0 1.5rem}
+.ib h2.ib-sec{font-family:'Inter',sans-serif;font-weight:800;font-size:clamp(1.7rem,3.5vw,2.3rem);text-align:center;color:var(--ib-text);margin:0 0 .4rem;letter-spacing:-.02em}
+.ib .ib-sec .grad{background:var(--ib-grad-deep);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.ib p.ib-sub{text-align:center;color:var(--ib-text2);max-width:660px;margin:.2rem auto 2rem;font-size:1.05rem}
+
+/* ---- Hero (full-bleed vivid gradient) ---- */
+.ib .ib-hero{position:relative;overflow:hidden;padding:4.5rem 1.5rem 4rem;text-align:center;color:#fff;background:var(--ib-hero-grad);border-radius:0 0 32px 32px}
+.ib .ib-hero::before{content:"";position:absolute;width:420px;height:420px;top:-160px;right:-80px;background:radial-gradient(circle,rgba(236,72,153,.45),transparent 70%);pointer-events:none}
+.ib .ib-hero::after{content:"";position:absolute;width:380px;height:380px;bottom:-180px;left:-60px;background:radial-gradient(circle,rgba(14,165,233,.5),transparent 70%);pointer-events:none}
+.ib .ib-hero-in{position:relative;z-index:1;max-width:820px;margin:0 auto}
+.ib .ib-eyebrow{display:inline-block;padding:.35rem 1.1rem;background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:20px;font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.7px;margin-bottom:1.1rem;font-family:'Inter',sans-serif}
+.ib .ib-hero h1{font-family:'Inter',sans-serif;font-size:clamp(2.2rem,5.5vw,3.6rem);font-weight:800;line-height:1.08;letter-spacing:-.02em;margin:0 0 1rem;color:#fff}
+.ib .ib-hero h1 .ib-pop{background:linear-gradient(135deg,#FDE68A,#FBCFE8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.ib .ib-hero .ib-tagline{font-size:1.15rem;color:rgba(255,255,255,.92);line-height:1.7;margin:0 auto 1.6rem;max-width:680px}
+.ib .ib-hero .ib-tagline strong{color:#fff}
+.ib .ib-cta-row{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+.ib .ib-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 1.7rem;border-radius:12px;font-family:'Inter',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;border:none;text-decoration:none;transition:transform .18s,box-shadow .18s;white-space:nowrap}
+.ib .ib-btn svg{width:18px;height:18px}
+.ib .ib-btn.light{background:#fff;color:#4338CA;-webkit-text-fill-color:#4338CA;box-shadow:0 10px 28px rgba(0,0,0,.22)}
+.ib .ib-btn.light:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(0,0,0,.28)}
+.ib .ib-btn.outline-w{background:rgba(255,255,255,.08);color:#fff;border:1.5px solid rgba(255,255,255,.6)}
+.ib .ib-btn.outline-w:hover{background:rgba(255,255,255,.18);transform:translateY(-2px)}
+.ib .ib-btn.solid{background:var(--ib-grad);color:#fff;-webkit-text-fill-color:#fff;box-shadow:0 8px 20px rgba(67,56,202,.28)}
+.ib .ib-btn.solid:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(67,56,202,.36)}
+.ib .ib-btn.ghost{background:var(--ib-card);color:var(--ib-text);border:1.5px solid var(--ib-border)}
+.ib .ib-btn.ghost:hover{transform:translateY(-2px);border-color:#0EA5E9}
+.ib .ib-usd{display:flex;align-items:flex-start;gap:.6rem;max-width:760px;margin:1.4rem auto 0;padding:.85rem 1.1rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:12px;color:rgba(255,255,255,.92);font-size:.84rem;line-height:1.55;text-align:left}
+.ib .ib-usd svg{width:18px;height:18px;flex-shrink:0;margin-top:2px;stroke:#fff}
+.ib .ib-usd a{color:#fff;text-decoration:underline;font-weight:600}
+
+/* ---- Coloured section bands ---- */
+.ib .ib-band{padding:3rem 0}
+.ib .ib-band.free{background:linear-gradient(135deg,#ECFDF5 0%,#EFF6FF 100%)}
+.ib .ib-band.prem{background:linear-gradient(135deg,#EEF2FF 0%,#FAF5FF 100%)}
+[data-theme="dark"] .ib .ib-band.free,body.dark-mode .ib .ib-band.free{background:linear-gradient(135deg,#06241c 0%,#0a1c33 100%)}
+[data-theme="dark"] .ib .ib-band.prem,body.dark-mode .ib .ib-band.prem{background:linear-gradient(135deg,#10162e 0%,#1c1430 100%)}
+.ib .ib-band-tag{display:block;text-align:center;font-family:'Inter',sans-serif;font-weight:800;font-size:.78rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:.5rem}
+.ib .ib-band.free .ib-band-tag{color:#047857}
+.ib .ib-band.prem .ib-band-tag{color:#7C3AED}
+[data-theme="dark"] .ib .ib-band.free .ib-band-tag,body.dark-mode .ib .ib-band.free .ib-band-tag{color:#34D399}
+[data-theme="dark"] .ib .ib-band.prem .ib-band-tag,body.dark-mode .ib .ib-band.prem .ib-band-tag{color:#C4B5FD}
+
+/* ---- Cards ---- */
+.ib .ib-grid,.ib .ib-feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.2rem}
+.ib .ib-card{background:var(--ib-card);border:1px solid var(--ib-border);border-radius:16px;padding:1.5rem;display:flex;flex-direction:column;transition:transform .22s,box-shadow .22s;text-decoration:none;color:inherit;box-shadow:0 2px 4px rgba(0,0,0,.04)}
+.ib .ib-card:hover{transform:translateY(-4px);box-shadow:0 14px 32px rgba(67,56,202,.14)}
+.ib .ib-card .ib-chip{display:inline-flex;align-items:center;justify-content:center;align-self:flex-start;min-width:54px;height:38px;padding:0 .7rem;border-radius:11px;font-family:'Inter',sans-serif;font-weight:800;font-size:1.3rem;color:#fff;margin-bottom:.7rem}
+.ib .ib-card.k1 .ib-chip{background:linear-gradient(135deg,#0EA5E9,#2563EB)}
+.ib .ib-card.k2 .ib-chip{background:linear-gradient(135deg,#8B5CF6,#6366F1)}
+.ib .ib-card.k3 .ib-chip{background:linear-gradient(135deg,#10B981,#059669)}
+.ib .ib-card.k4 .ib-chip{background:linear-gradient(135deg,#EC4899,#DB2777)}
+.ib .ib-card .ib-nm{font-family:'Inter',sans-serif;font-weight:700;font-size:1.02rem;color:var(--ib-text);margin-bottom:.3rem}
+.ib .ib-card .ib-ds{font-size:.88rem;color:var(--ib-text2);line-height:1.55}
+.ib .ib-card .ib-ds a{color:var(--ib-ink);font-weight:600}
+/* coloured top-bar accent variant */
+.ib .ib-card.bar{overflow:hidden;position:relative}
+.ib .ib-card.bar::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:var(--ib-grad)}
+.ib .ib-card.bar.k2::before{background:linear-gradient(90deg,#8B5CF6,#6366F1)}
+.ib .ib-card.bar.k3::before{background:linear-gradient(90deg,#10B981,#059669)}
+.ib .ib-card.bar.k4::before{background:linear-gradient(90deg,#F59E0B,#EC4899)}
+
+/* ---- Steps ---- */
+.ib .ib-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}
+.ib .ib-step{padding:1.4rem;background:var(--ib-card);border:1px solid var(--ib-border);border-radius:14px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+.ib .ib-step .ib-sn{width:44px;height:44px;margin:0 auto .7rem;display:flex;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(135deg,#0EA5E9,#7C3AED);color:#fff;font-family:'Inter',sans-serif;font-weight:800;font-size:1.1rem}
+.ib .ib-step h4{font-family:'Inter',sans-serif;font-weight:700;font-size:1rem;color:var(--ib-text);margin-bottom:.3rem}
+.ib .ib-step p{font-size:.86rem;color:var(--ib-muted);line-height:1.5}
+
+@media(max-width:768px){
+  .ib .ib-hero{border-radius:0 0 22px 22px;padding:3rem 1.25rem 3rem}
+  .ib .ib-band{padding:2.2rem 0}
+}
+@media(prefers-reduced-motion:reduce){.ib .ib-card,.ib .ib-btn{transition:none}}
