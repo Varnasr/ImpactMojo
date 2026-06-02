@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.39.0 — June 2, 2026 (Game Library + homepage)
+
+### For Learners
+
+- **Game Library now includes the 17 interactive simulations** alongside the 117 puzzles — filter by Simulation, Crossword, Quiz, Word Search and more, all in one place (134 games total).
+- **All 16 Deep Dives now appear on the homepage** (was showing only 4).
+
 ## v10.38.0 — June 2, 2026 (Blog evidence upgrades)
 
 ### For Learners

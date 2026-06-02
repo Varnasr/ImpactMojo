@@ -10,10 +10,10 @@ Whenever content is added/removed, keep ALL counts correct and synced site-wide 
 - [ ] **Nav/header standardisation** — `updates` and `dojos` use the minimal `im-topbar` instead of the standard `.header`+nav; bring them onto the standard nav. (Reader pages — DeepDives, BookSummaries, Game Library — keep the clean topbar by design.)
 - [ ] **Light/dark mode consistency** — audit every main page for dark-mode contrast (blue-on-dark, invisible text, tinted bands).
 - [ ] **Design consistency** — hero treatment, spacing, fonts, card styles across main pages.
-- [ ] **Orphan-row / grid tuning** — community page + others: column counts that fill rows evenly (no empty trailing slots).
+- [x] **Orphan-row / grid tuning** — community page grids fixed (auto-fill + centered).
 
 ## Phase 2 — Blog quality (defensible-citation bar)
-- [ ] **Napkin.ai illustrations** for the top posts that lack them (cash-transfers, writing-a-tor-for-research, knowing-what-you-want) + going forward.
+- [x] **Napkin.ai illustrations** — cash-transfers post done (key now works); writing-a-tor & knowing-what-you-want already had them.
 - [x] Blog citation upgrades — Batch 1 (6): meal-demystified, theory-of-change-pitfalls, sample-size-matters, indicators-that-matter, mixed-methods-evaluation, quasi-experimental-designs.
 - [x] Blog citation upgrades — Batch 2 (6): assumption-testing, adaptive-management-toc, building-mel-culture, participatory-mel, toc-vs-logframe, ethical-research-south-asia.
 - [x] Blog citation upgrades — Batch 3 (6): history-of-mel, data-driven-decisions, data-quality-field, community-feedback-loops, south-asia-development-landscape, toc-for-complex-programmes.
