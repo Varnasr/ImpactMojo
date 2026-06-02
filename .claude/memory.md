@@ -232,3 +232,9 @@ Persistent context that carries across Claude Code sessions. Updated automatical
 - Fixed empty "Structured credential journeys" (Learning Pathways) section: learning-pathways.js was lazy-loaded after DOMContentLoaded but gated behind it; now runs init if document.readyState!="loading".
 - game-library page: remaining user-visible "puzzles" -> "games" (hero stat now "134 games").
 - Course count clarified: 53 total (13 flagship + 40 foundational); the "39" was puzzle coverage (117 puzzles across 39 courses), reworded. 31 PRs this session (#464-#491).
+
+### Session 2026-06-02 (f) — fixes (#492)
+- dd-shared.css: added missing .im-browse-btn styles (Deep Dive topbar Browse button was gigantic on all DD pages).
+- game-library hero: dropped confusing "courses" stat (now 134 games / formats / tracks).
+- index.html: learning-pathways.js now loads via defer (not idle) so "Structured credential journeys" populates reliably.
+- Daily Spotlight (js/daily-spotlight.js) is live ONLY on testimonials so far; timelines/courses/labs "X of the day" still TODO. 32 PRs this session (#464-#492).
