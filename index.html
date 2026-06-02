@@ -128,7 +128,9 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.dropdown-section-items a[href]').forEach(function (a) {
         a.addEventListener('click', function (e) {
             var href = a.getAttribute('href');
-            if (!href || href === '#' || href.charAt(0) === '#' && href.length === 1) return;
+            // Hash anchors (e.g. #support-us) must fall through to the smooth-scroll
+            // handler below — don't hijack them with a raw window.location jump.
+            if (!href || href.charAt(0) === '#') return;
             // Allow modified clicks (open in new tab) to behave normally.
             if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
             e.preventDefault();
