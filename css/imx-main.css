@@ -5170,8 +5170,11 @@
     right: 8%;
     width: 140px;
     height: 140px;
-    opacity: 0.18;
-    z-index: 0;
+    opacity: 0.3;
+    /* Float over the hero's tinted background, but stay behind the hero text
+       (.v3-hero-content is z-index:2). Was z-index:0, which the hero tint
+       background now painted over. */
+    z-index: 1;
     pointer-events: none;
     animation: v3-fly 25s ease-in-out infinite;
 }
@@ -8429,3 +8432,24 @@ textarea:focus-visible,
 .modal-item-content { min-width: 0; }
 .modal-item-title { flex-wrap: wrap; min-width: 0; }
 .modal-item-description { overflow-wrap: anywhere; }
+
+/* ── Dark mode: rescue inline dark-blue text that vanishes on dark surfaces ──
+   Several elements set color:#075985 / #4338CA inline (chosen for AA on white).
+   On dark backgrounds they're near-invisible; flip to a light variant.
+   (#075985 / #4338CA are only ever used as TEXT colour inline, never as bg.) */
+[data-theme="dark"] [style*="color: #075985"], body.dark-mode [style*="color: #075985"],
+[data-theme="dark"] [style*="color:#075985"],  body.dark-mode [style*="color:#075985"]  { color:#7DD3FC !important; }
+[data-theme="dark"] [style*="color: #4338CA"], body.dark-mode [style*="color: #4338CA"],
+[data-theme="dark"] [style*="color:#4338CA"],  body.dark-mode [style*="color:#4338CA"]  { color:#A5B4FC !important; }
+
+/* "Coming soon" badge for nav items that aren't live yet (e.g. Podcast) */
+.imx-nav-soon {
+    display:inline-block; font-size:0.6rem; font-weight:700; text-transform:uppercase;
+    letter-spacing:0.04em; background:rgba(245,158,11,0.18); color:#92400E;
+    padding:0.05rem 0.4rem; border-radius:10px; margin-left:0.3rem; vertical-align:middle;
+}
+[data-theme="dark"] .imx-nav-soon, body.dark-mode .imx-nav-soon { color:#FCD34D; }
+
+/* Anchor links must clear the fixed ~70px header (otherwise #section jumps land
+   under the header or mis-scroll). Applies to native #hash + scrollIntoView. */
+html { scroll-padding-top: 80px; }
