@@ -516,6 +516,8 @@ main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) 
                 <li>Lower significance level → need more observations (stricter threshold)</li>
             </ul>
 
+            <p>The defaults above—80% power and a 5% significance level—are conventions, not laws of nature. They trace back to Jacob Cohen's argument that, absent a specific reason to choose otherwise, treating a Type I error (false positive) as four times more serious than a Type II error (false negative) implies roughly these values (<a href="https://doi.org/10.4324/9780203771587" target="_blank" rel="noopener">Cohen, 1988</a>). J-PAL's <a href="https://www.povertyactionlab.org/resource/quick-guide-power-calculations" target="_blank" rel="noopener">power guidance</a> likewise notes that most studies aim for power of 80% or higher. If the cost of missing a real effect is unusually high, it can be worth powering above 80%.</p>
+
             <h2>The Basic Formula</h2>
 
             <p>For a simplified two-group comparison, sample size can be calculated as:</p>
@@ -539,21 +541,21 @@ main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) 
             <p>Choosing an appropriate effect size is typically the most challenging part of sample size calculation. There are three approaches:</p>
 
             <ol>
-                <li><strong>Prior evidence:</strong> What have similar interventions achieved? Reviewing evidence from <a href="indicators-that-matter.html">well-chosen indicators</a> in comparable programmes helps. (Caution: publication bias often inflates reported effects)</li>
-                <li><strong>Minimum meaningful effect:</strong> What's the smallest change that would matter given your programme's cost?</li>
-                <li><strong>Standardised conventions:</strong> Cohen's d of 0.2 SD is "small," 0.5 SD is "medium," 0.8 SD is "large." Most social programmes achieve 0.1-0.3 SD effects.</li>
+                <li><strong>Prior evidence:</strong> What have similar interventions achieved? Reviewing evidence from <a href="indicators-that-matter.html">well-chosen indicators</a> in comparable programmes helps. (Caution: publication bias often inflates reported effects.) J-PAL's <a href="https://www.povertyactionlab.org/resource/quick-guide-power-calculations" target="_blank" rel="noopener">quick guide to power calculations</a> describes choosing the minimum detectable effect as "the hardest part," and cautions that there is no universal rule of thumb—the figure should be grounded in prior research and the programme's own cost-benefit logic.</li>
+                <li><strong>Minimum meaningful effect:</strong> What's the smallest change that would matter given your programme's cost? In a widely-shared World Bank <a href="https://blogs.worldbank.org/en/impactevaluations/did-you-do-your-power-calculations-using-standard-deviations-do-them-again" target="_blank" rel="noopener">Development Impact post</a>, David McKenzie argues against stating an MDE purely in standard deviations (e.g. "0.3 SD")—translate it into the real-world units stakeholders care about (test questions, kilograms, rupees) and ask whether a change that size is worth detecting.</li>
+                <li><strong>Standardised conventions:</strong> As a last resort, Cohen's benchmarks treat a standardised effect (Cohen's <em>d</em>) of 0.2 SD as "small," 0.5 SD as "medium," and 0.8 SD as "large" (<a href="https://doi.org/10.4324/9780203771587" target="_blank" rel="noopener">Cohen, <em>Statistical Power Analysis for the Behavioral Sciences</em>, 2nd ed., 1988</a>). Cohen himself stressed these cut-offs were arbitrary and a fallback when domain-specific guidance is absent; in practice many social programmes achieve effects in the 0.1–0.3 SD range.</li>
             </ol>
 
             <div class="warning-box">
                 <div class="warning-title"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.15em" aria-hidden="true"><path d="M12 3L2 21h20L12 3z"/><path d="M12 9v6"/><circle cx="12" cy="18" r="0.5" fill="currentColor"/></svg>️ Warning</div>
-                <div class="warning-text">Don't work backward from your budget ("we can afford 200 surveys, what effect can we detect?"). This often yields implausibly large MDEs that set up the evaluation to fail.</div>
+                <div class="warning-text">Don't work backward from your budget ("we can afford 200 surveys, what effect can we detect?"). This often yields implausibly large MDEs that set up the evaluation to fail. The World Bank's <a href="https://dimewiki.worldbank.org/Minimum_Detectable_Effect" target="_blank" rel="noopener">DIME Wiki</a> frames the MDE as the smallest true effect a design can reliably distinguish from zero—if that threshold sits above any effect your programme could plausibly produce, the study is set up to find "nothing" before it begins.</div>
             </div>
 
             <h2>Cluster Randomisation Complications</h2>
 
-            <p>In many development programmes, you can't randomly assign individuals—you must randomise at the village, school, or clinic level. This creates <strong>intra-cluster correlation</strong> (ICC), which dramatically increases required sample size.</p>
+            <p>In many development programmes, you can't randomly assign individuals—you must randomise at the village, school, or clinic level. This creates <strong>intra-cluster correlation</strong> (ICC), which dramatically increases required sample size. J-PAL's <a href="https://www.povertyactionlab.org/resource/quick-guide-power-calculations" target="_blank" rel="noopener">power guidance</a> notes that designs randomising at more granular levels generally have greater statistical power, and that calculations should explicitly incorporate within- and between-cluster variance.</p>
 
-            <p>The <strong>Design Effect</strong> captures this inflation:</p>
+            <p>The <strong>Design Effect</strong> captures this inflation. In its standard form, <em>DE = 1 + (m − 1) × ICC</em>, where <em>m</em> is the cluster size—a formulation set out in <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1113123/" target="_blank" rel="noopener">Kerry &amp; Bland's 1998 BMJ note on the intracluster correlation coefficient</a> (<em>BMJ</em> 1998;316:1455):</p>
 
             <div class="formula-box">
                 <div class="formula-title">Design Effect</div>
@@ -593,7 +595,7 @@ main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) 
                 </tr>
             </table>
 
-            <p><strong>The message:</strong> Cluster randomisation is expensive. More clusters with fewer observations per cluster is generally more efficient than fewer clusters with more observations each.</p>
+            <p><strong>The message:</strong> Cluster randomisation is expensive. Adding respondents within a cluster yields diminishing returns to power—once the ICC is positive, extra observations in the same cluster carry overlapping information—so adding more clusters usually buys precision more cheaply than enlarging the ones you have. Hemming and colleagues' guide to designing efficient cluster randomised trials works through exactly this trade-off, and recommends choosing the number of clusters and the cluster size together rather than one at a time (<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5508848/" target="_blank" rel="noopener">Hemming et al., <em>BMJ</em>, 2017</a>).</p>
 
             <!-- ILLUSTRATION 2 -->
             <figure class="article-illustration">
@@ -641,9 +643,9 @@ main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) 
 
             <div class="checklist">
                 <h4>Sample Size Sanity Checks</h4>
-                <div class="checklist-item">Small effects (0.2 SD): plan for 400+ per group</div>
-                <div class="checklist-item">Medium effects (0.5 SD): plan for 65+ per group</div>
-                <div class="checklist-item">Cluster RCTs: 20+ clusters per arm minimum</div>
+                <div class="checklist-item">Small effects (0.2 SD): plan for roughly 400 per group — this falls straight out of the formula at the conventional 80% power and 5% significance</div>
+                <div class="checklist-item">Medium effects (0.5 SD): plan for roughly 65 per group at the same conventions</div>
+                <div class="checklist-item">Cluster RCTs: the more clusters the better; treatments of cluster design (e.g. <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5508848/" target="_blank" rel="noopener">Hemming et al., 2017</a>) warn that very few clusters per arm leaves estimates fragile, and trials with a handful of clusters can usually only detect large effects</div>
                 <div class="checklist-item">Always inflate for attrition (typically 10-20%)</div>
                 <div class="checklist-item">If calculated sample is surprisingly small, double-check assumptions</div>
                 <div class="checklist-item">If budget only allows small samples, consider <a href="mixed-methods-evaluation.html">qualitative methods</a> instead</div>
@@ -674,6 +676,8 @@ main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) 
                 <li><strong>PowerUp!</strong> — Excel-based, developed for education studies</li>
                 <li><strong><a href="../Labs/sample-size-lab.html">ImpactMojo Sample Size Lab</a></strong> — Interactive calculator with South Asian context and INR cost estimation</li>
             </ul>
+
+            <p>For a book-length treatment that walks through statistical power for development evaluations, the standard practitioner reference is Rachel Glennerster and Kudzai Takavarasha's <a href="https://press.princeton.edu/books/paperback/9780691159270/running-randomized-evaluations" target="_blank" rel="noopener"><em>Running Randomized Evaluations: A Practical Guide</em></a> (Princeton University Press, 2013), whose power chapter draws directly on J-PAL's field experience. J-PAL's own <a href="https://www.povertyactionlab.org/resource/quick-guide-power-calculations" target="_blank" rel="noopener">power calculations guide</a> and the World Bank's <a href="https://dimewiki.worldbank.org/Power_Calculations" target="_blank" rel="noopener">DIME Wiki page on power calculations</a> are concise, freely available companions.</p>
 
             <p>Getting sample size right is one of the most important decisions in evaluation design. Pair it with good <a href="../Labs/survey-design-lab.html">survey design</a> and attention to <a href="data-quality-field.html">data quality in the field</a>, and you'll have a solid foundation for credible evidence.</p>
 
