@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.36.0 — June 2, 2026 (10 new Deep Dives)
+
+### For Learners
+
+- **Ten new Deep Dives** — curated, fully-cited reading lists on Cash Transfers & the Evidence, India's Female Labour-Force Puzzle, the Politics of Targeting, the RCT debate (Randomista Economics), Climate Adaptation Finance & Loss and Damage, Measuring Empowerment, Informality & Social Protection, the Learning Crisis, Health Systems & UHC in South Asia, and Decolonising Development Knowledge. The library now spans **16 Deep Dives**.
+
 ## v10.35.0 — June 2, 2026 (Bold visual refresh)
 
 ### For Learners
