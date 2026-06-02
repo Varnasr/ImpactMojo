@@ -310,7 +310,7 @@
   }
 
   // ── Init ────────────────────────────────────────────────────────────
-  document.addEventListener('DOMContentLoaded', function () {
+  function imxPathwaysInit() {
     // Enhance track modal with pathway progress
     enhanceTrackModal();
 
@@ -343,7 +343,10 @@
         '</div>';
       card.appendChild(mini);
     });
-  });
+  }
+  // Lazy-loaded after DOMContentLoaded, so run now if the DOM is already ready.
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', imxPathwaysInit);
+  else imxPathwaysInit();
 
   // ── Public API ──────────────────────────────────────────────────────
   window.IMPACTMOJO = window.IMPACTMOJO || {};

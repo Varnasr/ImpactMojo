@@ -222,3 +222,8 @@ Persistent context that carries across Claude Code sessions. Updated automatical
 - **Counts→134**: consolidated premium's "17 Games"+"117 Puzzles" cards into one "Game Library (134)" card; homepage button "View All 17 Simulations"; catalog meta 134; fixed 70→69 book drift. NOTE: docs/README "17 games" = the 17 simulation FILES (accurate, left as-is).
 - Keys provided via chat saved to gitignored `.claude/.env.keys` (ephemeral) — user to ROTATE + add to env secret config for persistence.
 - 29 PRs merged this session total (#464–#489).
+
+### Session 2026-06-02 (d) — Game Library URL rename (#490)
+- puzzle-library.html -> game-library.html (URL /game-library); 301 redirect from /puzzle-library; page copy now "games" not "puzzles".
+- Homepage collapsed to ONE Game Library entry (removed the "17 Simulations" button). 30 PRs merged this session (#464-#490).
+- TODO next: nav "Game Library" dropdown still opens the legacy 17-sim gamesModal; could point it at /game-library for full consistency.
