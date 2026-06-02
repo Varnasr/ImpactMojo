@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.40.0 — June 2, 2026 (Game Library URL + single entry)
+
+### For Learners
+
+- **The Game Library moved to `/game-library`** and now calls everything "games" (the 17 simulations + 117 puzzles, 134 total). Old `/puzzle-library` links redirect automatically. The homepage now shows one Game Library entry instead of a confusing games-vs-simulations split.
+
 ## v10.39.0 — June 2, 2026 (Game Library + homepage)
 
 ### For Learners
