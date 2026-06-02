@@ -439,7 +439,7 @@ const ImpactMojoAuth = {
 
                 var profilePromise = supabaseClient
                     .from('profiles')
-                    .select('id, display_name, full_name, email, avatar_url, subscription_tier, subscription_status, organization, role')
+                    .select('id, display_name, full_name, email, avatar_url, subscription_tier, subscription_status, organization, role, resource_grants')
                     .eq('id', this.user.id)
                     .single();
 
@@ -1082,6 +1082,17 @@ const ImpactMojoAuth = {
         const userTierIndex = tierHierarchy.indexOf(this.profile?.subscription_tier || 'explorer');
         const requiredTierIndex = tierHierarchy.indexOf(requiredTier);
         return userTierIndex >= requiredTierIndex;
+    },
+
+    // Check standalone per-resource access (e.g. a single Practice Pack
+    // bought for a one-time fee). Granted via the profile's resource_grants
+    // column — an array of resource slugs, or an object keyed by slug.
+    hasResourceAccess(slug) {
+        const grants = this.profile?.resource_grants;
+        if (!grants || !slug) return false;
+        if (Array.isArray(grants)) return grants.indexOf(slug) !== -1;
+        if (typeof grants === 'object') return !!grants[slug];
+        return false;
     },
 
     // Get subscription tier display name

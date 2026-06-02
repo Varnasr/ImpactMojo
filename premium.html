@@ -1605,6 +1605,7 @@ body.dark-mode .badge-free, body.dark-mode .badge-status-live, body.dark-mode .s
             <ul class="tier-features">
                 <li><svg class="check" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Everything in Explorer</li>
                 <li><svg class="check" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Research Question Builder Pro & Theory of Change Workbench Pro</li>
+                <li><svg class="check" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>All 18 Practice Packs (interactive job-to-be-done sprints)</li>
                 <li><svg class="check" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Completion certificates (LinkedIn)</li>
                 <li class="highlight"><svg class="check" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>WhatsApp PLC, Discord & Telegram</li>
             </ul>
@@ -1737,6 +1738,10 @@ body.dark-mode .badge-free, body.dark-mode .badge-status-live, body.dark-mode .s
             <div class="detail-item">
                 <h4>Theory of Change Workbench Pro</h4>
                 <p>Build, iterate, and export publication-ready theories of change. Includes assumption mapping, evidence linkage for each causal pathway, and export to PDF/PNG for donor reports and proposals. Goes well beyond the free TOC lab with version history and collaborative features.</p>
+            </div>
+            <div class="detail-item">
+                <h4>All 18 Practice Packs</h4>
+                <p>Short, interactive job-to-be-done sprints — 4 modules, ~3 hours, one finished artefact. Two tracks: Subject Packs (per-domain evaluation design — SEL, livelihoods, gender, education, health, climate, policy, media, governance) and Method Packs (ToR writing, survey design, logframes, costing, focus groups, evidence critique, stakeholder mapping, donor reporting, MEL from scratch). The first two modules of every pack are free to preview; Practitioner unlocks all modules and the auto-built capstone across every pack. <a href="/practice-packs/">Browse Practice Packs &rarr;</a> Single packs are also available standalone for ₹299, with an optional ₹999 expert review of your finished artefact.</p>
             </div>
             <div class="detail-item">
                 <h4>Completion Certificates</h4>
@@ -1919,7 +1924,16 @@ body.dark-mode .badge-free, body.dark-mode .badge-status-live, body.dark-mode .s
                         <option value="Professional - ₹999/month">Professional - ₹999/month</option>
                         <option value="Professional - ₹9,990/year (2 months free)">Professional - ₹9,990/year (Annual)</option>
                         <option value="Team Plan - Custom">Team Plan - Custom Quote</option>
+                        <option value="Practice Pack (single) - ₹299">Practice Pack (single) - ₹299</option>
+                        <option value="Practice Pack + Expert Review - ₹1,298">Practice Pack + Expert Review - ₹1,298</option>
+                        <option value="Practice Pack Expert Review - ₹999">Practice Pack Expert Review (₹999)</option>
                     </select>
+                </div>
+
+                <div class="form-group" id="packField" style="display:none">
+                    <label for="practice_pack">Which Practice Pack?</label>
+                    <input type="text" id="practice_pack" name="practice_pack" placeholder="e.g. Writing a ToR That Gets You Useful Research">
+                    <p class="form-hint">Required for single-pack purchases and reviews — name (or paste the link of) the pack you bought.</p>
                 </div>
                 
                 <div class="form-group">
@@ -2069,6 +2083,18 @@ body.dark-mode .badge-free, body.dark-mode .badge-status-live, body.dark-mode .s
             Yes! Annual plans get 2 months free (pay for 10, get 12). You can select annual billing in the registration form. Annual amounts: Practitioner ₹3,990/year, Professional ₹9,990/year.
         </div>
     </div>
+
+    <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" onclick="toggleFAQ(this)">
+            Can I buy a single Practice Pack without subscribing?
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"/>
+            </svg>
+        </button>
+        <div class="faq-answer">
+            Yes. The first two modules of every <a href="/practice-packs/">Practice Pack</a> are free to preview. To unlock the rest of one specific pack — all modules plus the auto-built capstone — pay ₹299 via UPI and submit the registration form with "Practice Pack (single)" and the pack name. We'll grant access within 24 hours. If you want several packs, a Practitioner subscription (₹399/month) unlocks all 18 and works out cheaper after two packs. You can also add a ₹999 expert review of your finished artefact.
+        </div>
+    </div>
 </section>
 
 <!-- Footer -->
@@ -2205,6 +2231,49 @@ document.addEventListener('DOMContentLoaded', function() {
     const dateInput = document.getElementById('payment_date');
     if (dateInput) {
         dateInput.valueAsDate = new Date();
+    }
+
+    // ── Practice Pack standalone purchase wiring ───────────────────────
+    const planSel = document.getElementById('plan');
+    const packField = document.getElementById('packField');
+    const packInput = document.getElementById('practice_pack');
+    function syncPackField() {
+        if (!planSel || !packField) return;
+        const isPack = /Practice Pack/.test(planSel.value);
+        packField.style.display = isPack ? '' : 'none';
+        if (packInput) packInput.required = isPack;
+    }
+    if (planSel) { planSel.addEventListener('change', syncPackField); syncPackField(); }
+
+    // Deep link: /premium.html?pack=<slug> (from a pack paywall) preselects
+    // the standalone option, prefills the pack name, and jumps to payment.
+    const packSlug = urlParams.get('pack');
+    if (packSlug && planSel) {
+        const PACK_TITLES = {
+            'sel-evaluation':'SEL Evaluation: Design & Instruments',
+            'livelihoods-evaluation':'Livelihoods Evaluation: Design & Instruments',
+            'gender-impact':'Gender Impact Assessment Design',
+            'education-evaluation':'Education Programme Evaluation',
+            'health-evaluation':'Health Intervention Evaluation',
+            'climate-evaluation':'Climate Adaptation Evaluation',
+            'policy-evaluation':'Public Policy Evaluation',
+            'media-evaluation':'Media Campaign Evaluation',
+            'governance-evaluation':'Governance Reform Evaluation',
+            'tor-writing':'Writing a ToR That Gets You Useful Research',
+            'survey-instrument':'Designing a Survey Instrument',
+            'logframe-building':'Building a Logframe That Actually Tracks',
+            'programme-costing':'Costing a Programme from Activities Up',
+            'focus-group-discussion':'Running a Real Focus Group Discussion',
+            'critiquing-evidence':'Reading & Critiquing an Evidence Paper',
+            'stakeholder-mapping':'Stakeholder Mapping for Influence',
+            'donor-reporting':'Donor Reporting That Funders Read',
+            'mel-from-scratch':'Building an MEL System from Scratch'
+        };
+        planSel.value = 'Practice Pack (single) - ₹299';
+        syncPackField();
+        if (packInput) packInput.value = PACK_TITLES[packSlug] || packSlug;
+        const upi = document.getElementById('payment');
+        if (upi && urlParams.get('success') !== 'true') upi.scrollIntoView({ behavior: 'smooth' });
     }
 });
 

@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS public.profiles (
     subscription_status TEXT DEFAULT 'active', -- active, cancelled, expired, trial
     subscription_start DATE,
     subscription_end DATE,
+    resource_grants TEXT[], -- standalone one-time purchases (e.g. Practice Pack slugs) granted outside a subscription tier
     upi_vpa TEXT,  -- user's UPI VPA for payment tracking
     phone TEXT,
     country TEXT DEFAULT 'India',

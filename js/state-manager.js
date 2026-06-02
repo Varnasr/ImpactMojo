@@ -351,6 +351,7 @@
           avatar_url: profile.avatar_url || null,
           subscription_tier: profile.subscription_tier || 'explorer',
           subscription_status: profile.subscription_status || null,
+          resource_grants: profile.resource_grants || null,
           organization: profile.organization || null,
           role: profile.role || null,
           cachedAt: new Date().toISOString()
