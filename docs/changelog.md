@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.35.0 — June 2, 2026 (Bold visual refresh)
+
+### For Learners
+
+- **A fresh, bolder look across the site** — courses, labs, the catalog, your account, the puzzle library and more now open with vivid, colourful hero banners and a cleaner, more consistent feel — so it's easier (and a little more delightful) to find your way around.
+
 ## v10.34.0 — June 2, 2026 (Practice Packs go premium)
 
 ### For Learners
