@@ -15,8 +15,8 @@ Whenever content is added/removed, keep ALL counts correct and synced site-wide 
 ## Phase 2 — Blog quality (defensible-citation bar)
 - [ ] **Napkin.ai illustrations** for the top posts that lack them (cash-transfers, writing-a-tor-for-research, knowing-what-you-want) + going forward.
 - [x] Blog citation upgrades — Batch 1 (6): meal-demystified, theory-of-change-pitfalls, sample-size-matters, indicators-that-matter, mixed-methods-evaluation, quasi-experimental-designs.
-- [ ] Blog citation upgrades — Batch 2 (6): assumption-testing, adaptive-management-toc, building-mel-culture, participatory-mel, toc-vs-logframe, ethical-research-south-asia.
-- [ ] Blog citation upgrades — Batch 3 (6): history-of-mel, data-driven-decisions, data-quality-field, community-feedback-loops, south-asia-development-landscape, toc-for-complex-programmes.
+- [x] Blog citation upgrades — Batch 2 (6): assumption-testing, adaptive-management-toc, building-mel-culture, participatory-mel, toc-vs-logframe, ethical-research-south-asia.
+- [~] Blog citation upgrades — Batch 3 (6): history-of-mel, data-driven-decisions, data-quality-field, community-feedback-loops, south-asia-development-landscape, toc-for-complex-programmes. (running)
 - [ ] Blog citation upgrades — Batch 4 (remaining): open-education-matters, multilingual-learning, learning-by-doing, writing-a-tor-for-research, + judgement-call on the manifesto/story posts (why-impactmojo-exists, knowing-what-you-want, from-learner-to-leader, tools-we-use, whats-coming-in-2026 — cite where claims warrant, don't force).
 
 ## Phase 3 — Content expansion (ADD more + update)
