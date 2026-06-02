@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.38.0 — June 2, 2026 (Blog evidence upgrades)
+
+### For Learners
+
+- **22 blog posts upgraded to a defensible-citation standard** — claims across the Methods, MEAL, Theory-of-Change and education posts are now backed by real, web-verified sources (Banerjee/Duflo, World Bank, J-PAL, UNESCO, OECD-DAC, ICMR and more); a few unsourceable/fabricated statistics were removed or corrected.
+
 ## v10.37.0 — June 2, 2026 (Cash transfers explainer)
 
 ### For Learners
