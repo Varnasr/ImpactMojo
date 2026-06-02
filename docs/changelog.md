@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.37.0 — June 2, 2026 (Cash transfers explainer)
+
+### For Learners
+
+- **New blog post — "What the Evidence Actually Says About Cash Transfers"** — an accessible, fully-cited explainer for practitioners: are cash transfers "wasted", UCT vs CCT, cash vs in-kind, delivery & leakage, and India's DBT. Pairs with the Cash Transfers Deep Dive.
+
 ## v10.36.0 — June 2, 2026 (10 new Deep Dives)
 
 ### For Learners
