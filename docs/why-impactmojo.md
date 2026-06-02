@@ -17,7 +17,7 @@ Development professionals in South Asia face a training gap:
 
 ### 1. Genuinely free, not freemium
 
-52 courses, 16 games, 11 labs, 85 handouts, 270 data tools, 500+ curated papers — all free. No login wall, no trial period, no feature gating. The free tier is the real product.
+53 courses, 17 games, 13 labs, 85 handouts, 270 data tools, 500+ curated papers — all free. No login wall, no trial period, no feature gating. The free tier is the real product.
 
 Premium tools exist for advanced practitioners (qualitative analysis, AI transcription, code conversion) and sustain the platform, but 95% of the content is free forever.
 
@@ -43,7 +43,7 @@ ImpactMojo is the only platform that covers all six pillars of development pract
 ### 4. Learn by doing, not just reading
 
 - **Interactive games** teach behavioral economics, game theory, market failures, climate action, gender equity, public health, and digital ethics through interactive simulations
-- **11 labs** let practitioners build theories of change, design MEL systems, and practice policy advocacy hands-on
+- **13 labs** let practitioners build theories of change, design MEL systems, and practice policy advocacy hands-on
 - **35+ Dojos** are 90-minute practice sessions where skills are drilled, not lectured
 
 ### 5. Workshop-ready

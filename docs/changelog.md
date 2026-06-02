@@ -12,7 +12,7 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 
 ### For Learners
 
-- **Ten new Deep Dives** — curated, fully-cited reading lists on Cash Transfers & the Evidence, India's Female Labour-Force Puzzle, the Politics of Targeting, the RCT debate (Randomista Economics), Climate Adaptation Finance & Loss and Damage, Measuring Empowerment, Informality & Social Protection, the Learning Crisis, Health Systems & UHC in South Asia, and Decolonising Development Knowledge. The library now spans **16 Deep Dives**.
+- **Ten new Deep Dives** — curated, fully-cited reading lists on Cash Transfers & the Evidence, India's Female Labour-Force Puzzle, the Politics of Targeting, the RCT debate (Randomista Economics), Climate Adaptation Finance & Loss and Damage, Measuring Empowerment, Informality & Social Protection, the Learning Crisis, Health Systems & UHC in South Asia, and Decolonising Development Knowledge. The library now spans **116 Deep Dives**.
 
 ## v10.35.0 — June 2, 2026 (Bold visual refresh)
 
@@ -181,15 +181,15 @@ A five-deliverable release driven by cofounder feature requests — extending co
 
 ### Changed
 
-- Content counts updated sitewide: **53 courses (13 flagship + 40 foundational), 12 labs, 17 games, 6 deep dives** — was 52 / 11 / 16 / 5.
+- Content counts updated sitewide: **53 courses (13 flagship + 40 foundational), 13 labs, 17 games, 16 deep dives** — was 52 / 11 / 16 / 5.
 
 ## v10.24.0 — May 20, 2026 (Flagship course chrome normalization)
 
-Reader feedback was that the 12 flagship courses "looked different from each other" — mobile and desktop both. Over a session of audits, ran a line-by-line comparison against `devecon` (canonical) and closed the drift across 9 incremental PRs.
+Reader feedback was that the 13 flagship courses "looked different from each other" — mobile and desktop both. Over a session of audits, ran a line-by-line comparison against `devecon` (canonical) and closed the drift across 9 incremental PRs.
 
 ### For Learners
 
-- **Consistent course experience** — all 12 flagship courses now share the same mobile and desktop chrome, so switching between Public Policy and Gender Studies (and the other 10) no longer feels like switching sites.
+- **Consistent course experience** — all 13 flagship courses now share the same mobile and desktop chrome, so switching between Public Policy and Gender Studies (and the other 10) no longer feels like switching sites.
 - **Mobile hamburger works on every course** — the menu button is in the same place on each course and tapping outside the open drawer closes it.
 - **Accessibility widget present on every course** — the UserWay button is pinned right-middle on all 12, so font size / contrast / readability controls are one tap away regardless of course.
 
@@ -260,7 +260,7 @@ Approximately **1,000+ emoji instances** across 62 print-optimised handout files
 
 ## v10.23.8 — May 1, 2026 (Flagship modules audit)
 
-Audited the 12 flagship courses for module-count drift between the actual `id="module-N"` anchors in each course's `index.html` and the counts claimed in catalog descriptions and homepage flagship cards. 5 drifts (catalog) and 3 drifts (homepage) found and fixed:
+Audited the 13 flagship courses for module-count drift between the actual `id="module-N"` anchors in each course's `index.html` and the counts claimed in catalog descriptions and homepage flagship cards. 5 drifts (catalog) and 3 drifts (homepage) found and fixed:
 
 | Course | Actual | Was-catalog | Was-home | Fix |
 |---|---|---|---|---|
@@ -271,7 +271,7 @@ Audited the 12 flagship courses for module-count drift between the actual `id="m
 | MEL | 14 | 13 ✗ | 13 ✗ | both → 14 |
 | SEL | 13 | 12 ✗ | 13 ✓ | catalog → 13 |
 
-7 of 12 flagships were already accurate (POA, Media, Law, PubPol, PubChoice, Gender, plus the 3 fixed-on-one-side above had a correct second source). Lexicon term counts (claimed 50–83 across courses) cannot be verified from the static HTML — terms are loaded dynamically (Supabase). Trusting existing claims.
+7 of 13 flagships were already accurate (POA, Media, Law, PubPol, PubChoice, Gender, plus the 3 fixed-on-one-side above had a correct second source). Lexicon term counts (claimed 50–83 across courses) cannot be verified from the static HTML — terms are loaded dynamically (Supabase). Trusting existing claims.
 
 ## v10.23.7 — May 1, 2026 (BookSummaries deep-pass)
 
@@ -314,24 +314,24 @@ All 3 tool files in `/premium-tools/` verified clean for viewport, meta descript
 
 ## v10.23.4 — May 1, 2026 (Labs audit)
 
-Audited all 11 labs for metadata, brand, and link consistency.
+Audited all 13 labs for metadata, brand, and link consistency.
 
 - **toc-lab.html**: was missing the Browse link (only lab without one). Injected into the existing `top-controls` div, styled to match its local `premium-link` pattern.
 - **Search-index re-typing**: 2 entries (`/BookCompanionTools/budget-template-generator.html`, `/BookCompanionTools/sample-size-calculator.html`) were mistyped as `type: lab`. They are calculators that complement book summaries, not labs. Re-typed to `tool` with category `Book Companion Tools`. Lab count in search-index now matches the 11 files on disk.
 
-All 11 labs verified clean: viewport meta, title, meta description, OG, GA, Amaranth/Inter fonts, im-topbar with Browse + Premium, no emojis.
+All 13 labs verified clean: viewport meta, title, meta description, OG, GA, Amaranth/Inter fonts, im-topbar with Browse + Premium, no emojis.
 
 ## v10.23.3 — May 1, 2026 (Games audit)
 
 ### Brand alignment
 
-Audited all 16 games for metadata, brand, and link consistency.
+Audited all 17 games for metadata, brand, and link consistency.
 
 - **Emoji removal**: 14 emojis in `climate-action-game.html` (mitigation/adaptation actions + climate events) and 5 in `public-health-game.html` (cards + interventions) replaced with inline Lucide-style stroke SVGs. CSS updated so SVG sizing follows parent `font-size` via `width: 1em; height: 1em`. The platform brand standard is Sargam icons / inline SVGs only — no emojis.
 - **Stale Netlify URLs in catalog**: `https://therealmiddle.netlify.app`, `https://risk-reward-be.netlify.app`, `https://cooperationparadox.netlify.app/` were pointing at external subdomains while the self-hosted versions exist at `/Games/real-middle-india.html`, `/Games/risk-reward-game.html`, `/Games/cooperation-paradox-game.html`. Catalog now points at the self-hosted files.
 - **Missing topbar**: `externality-game.html` had the `.im-topbar` CSS but no rendered nav element. Injected the standard im-topbar with home/Browse/Premium links.
 
-All 16 games verified for: viewport meta, title, meta description, OG tags, GA, Amaranth/Inter fonts, back-link to homepage, im-topbar with Browse + Premium buttons.
+All 17 games verified for: viewport meta, title, meta description, OG tags, GA, Amaranth/Inter fonts, back-link to homepage, im-topbar with Browse + Premium buttons.
 
 ## v10.23.2 — May 1, 2026 (Reference Libraries audit)
 
@@ -377,7 +377,7 @@ ImpactLex (390 terms) and FieldCases (200 cases / 117 countries) verified accura
 
 ### Browse access from inner pages
 
-Inner pages (12 flagship courses, 31 BookSummaries, 5 DeepDives, 4 lexicons, 3 premium tools, climate-trace-india, 76 other utility pages — **132 total**) had only a minimal `im-topbar` with a logo and Premium button. Users on a course page couldn't reach the catalog or any reference library without going home first.
+Inner pages (13 flagship courses, 31 BookSummaries, 5 DeepDives, 4 lexicons, 3 premium tools, climate-trace-india, 76 other utility pages — **132 total**) had only a minimal `im-topbar` with a logo and Premium button. Users on a course page couldn't reach the catalog or any reference library without going home first.
 
 Injected an `Browse` link (4-square grid icon) into the `im-topbar` of every inner page, just left of the Premium button. Points at `/catalog.html`. Inline CSS so each page's topbar look is preserved.
 
@@ -389,7 +389,7 @@ The homepage was deliberately left untouched — it has the full nav with Specia
 
 - New flagship course at [/courses/pubchoice/](/courses/pubchoice/) — *Public Choice: Decisions, Incentives & Institutions*. 13 modules synthesising the Virginia school (rent-seeking), Bloomington school (commons), and New Institutional Economics, with cases from India, Bangladesh, Pakistan, Sri Lanka, and Nepal.
 - 83-term interactive lexicon at [/courses/pubchoice/lexicon.html](/courses/pubchoice/lexicon.html).
-- 13 modules imported to Supabase `course_content` table (matches the convention used by the other 11 flagships: module 1 is preview, 2–13 require auth).
+- 13 modules imported to Supabase `course_content` table (matches the convention used by the other 13 flagships: module 1 is preview, 2–13 require auth).
 - Wired into homepage flagship grid, catalog filter (`Flagship (12)`), JSON-LD ItemList, sitemap, and search-index.
 
 ### Performance — measurable wins shipped
@@ -511,8 +511,8 @@ A new content type: themed annotated reading lists curated by named scholars and
 ### Fixed
 - **Sitemap coverage** — added 87 missing URLs to `sitemap.xml`: 2 flagship courses (gender, pubpol), 35 foundational 101-courses, 23 BookSummaries, 18 blog posts, and 9 public pages (transparency, dataverse, bct-repository, challenges, climate-trace-india, portfolio, live-projects, toc-builder, verify-certificate). Total URLs: 84 → 171.
 - **Stale `101.impactmojo.in` links** — migrated ~100 legacy subdomain links to local paths across `js/faq-bank.js`, `js/bookmarks-compare.js`, `js/learning-tracks.js`, `js/game-agents.js`, and 4 docs files. All course links now point to `/101-courses/*.html`, all lab links to `/Labs/*.html`.
-- **Search index phantom labs** — removed 6 duplicate/phantom lab entries from `data/search-index.json` (survey-design-lab, sampling-lab, logframe-builder, data-cleaning-lab, indicator-design-lab, toc-workbench); added missing entries for design-thinking-lab, mel-design-lab, and community-lab. Lab count: 17 → 13 (11 labs + 2 BookCompanionTools).
-- **Content count drifts** — fixed `docs/content-guide.md` (flagship 9→11, labs 19→11, BookSummaries 27→28), `premium.html` ("47 foundational courses, labs & games" → "48 free courses, 11 labs & 16 games"), `catalog.html` JS comments (COURSES 39→38, LABS 10→11).
+- **Search index phantom labs** — removed 6 duplicate/phantom lab entries from `data/search-index.json` (survey-design-lab, sampling-lab, logframe-builder, data-cleaning-lab, indicator-design-lab, toc-workbench); added missing entries for design-thinking-lab, mel-design-lab, and community-lab. Lab count: 17 → 13 (13 labs + 2 BookCompanionTools).
+- **Content count drifts** — fixed `docs/content-guide.md` (flagship 9→11, labs 19→11, BookSummaries 27→28), `premium.html` ("47 foundational courses, labs & games" → "48 free courses, 13 labs & 17 games"), `catalog.html` JS comments (COURSES 39→38, LABS 10→11).
 - **21 `.DS_Store` files** removed from git tracking (already in `.gitignore`).
 
 ## v10.17.0 — April 12, 2026
@@ -546,7 +546,7 @@ A new content type: themed annotated reading lists curated by named scholars and
 ## v10.15.0 — April 8, 2026
 
 ### Fixed
-- **Content-count drift sitewide** — `about.html`, `catalog.html` (hero + meta + filter chip), `transparency.html`, `org-dashboard.html`, `404.html`, `podcast.html`, Supabase signup/invite email templates, and four `docs/` files all now show the canonical counts: **48 courses (11 flagship + 38 foundational), 11 labs, 16 games**. Previously several of these still read 39 / 10 / 12.
+- **Content-count drift sitewide** — `about.html`, `catalog.html` (hero + meta + filter chip), `transparency.html`, `org-dashboard.html`, `404.html`, `podcast.html`, Supabase signup/invite email templates, and four `docs/` files all now show the canonical counts: **48 courses (13 flagship + 40 foundational), 13 labs, 17 games**. Previously several of these still read 39 / 10 / 12.
 - **`index.html` flagship stat line** — corrected "10 Flagship Courses" → "11 Flagship Courses" in the "What's Included" strip above the flagship course cards.
 - **`catalog.html` missing flagship cards** — added Constitution & Law, Public Policy, and Gender Studies to the catalog JS data (they existed on the homepage but weren't in the catalog's searchable/filterable collection). Flagship filter chip now reflects the real 11.
 
@@ -624,7 +624,7 @@ A new content type: themed annotated reading lists curated by named scholars and
 ### Content Marketing Kit
 - **5 new LinkedIn posts** (LI-11–LI-15): Climate & Sustainability, Gender & Inclusion, AI in Development, Book Companions, MCP Server Launch
 - **Broadened scope** — Renamed "Economics Games" to "Interactive Learning Games" across assets; ImpactMojo covers 6 tracks, not just economics
-- **Corrected counts** throughout (9 courses, 16 games, 270 dataverse tools)
+- **Corrected counts** throughout (9 courses, 17 games, 270 dataverse tools)
 - **Redesigned brochure thumbnails** with content previews
 - Total assets: 25 → 30
 
@@ -654,7 +654,7 @@ A new content type: themed annotated reading lists curated by named scholars and
 - Added Gender Studies Lab to content-catalog.md labs table
 
 ### Sitemap
-- Added 13 missing games to sitemap.xml (was 3, now all 16 games listed)
+- Added 13 missing games to sitemap.xml (was 3, now all 17 games listed)
 
 ### Repository Cleanup
 - Pruned stale remote tracking refs
@@ -728,7 +728,7 @@ A new content type: themed annotated reading lists curated by named scholars and
 - Updated README version to 10.8.1 and date
 - Fixed stale content counts across admin dashboard, analytics, transparency, and catalog pages (courses: 41→48, games: 11→16, labs: 15→19)
 - Updated Dataverse count from 215 to 247 in index.html and transparency page
-- Updated catalog.html header to reflect 11 flagship courses and 19 labs
+- Updated catalog.html header to reflect 13 flagship courses and 19 labs
 - Refreshed sitemap.xml lastmod dates to 2026-03-21
 - Created pre-housekeeping backup of index.html
 
@@ -911,7 +911,7 @@ A new content type: themed annotated reading lists curated by named scholars and
 
 - Premium membership tiers (Explorer, Practitioner, Professional, Organization)
 - User accounts with Google login and magic links
-- 38 foundational courses across 6 learning tracks
+- 40 foundational courses across 6 learning tracks
 - 12 economics simulation games
 - 10 interactive labs
 - ImpactLex dictionary (500+ terms)

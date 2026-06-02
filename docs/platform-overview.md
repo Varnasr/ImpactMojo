@@ -62,7 +62,7 @@ All courses are organized into **6 tracks**, so you can follow a structured lear
 
 ---
 
-## Interactive Games (16 games)
+## Interactive Games (17 games)
 
 These are interactive simulations that put you in the driver's seat of economic decisions. You might be allocating a district health budget, managing a microfinance portfolio, or navigating trade policy — and seeing the consequences of your choices play out in real time.
 
@@ -76,7 +76,7 @@ Each game:
 
 ---
 
-## Interactive Labs (11 labs)
+## Interactive Labs (13 labs)
 
 Labs are browser-based workbenches where you build something. Unlike courses (where you read and reflect), labs are hands-on — you follow a guided workflow and produce a real output.
 
@@ -214,7 +214,7 @@ ImpactMojo has a **Model Context Protocol (MCP) server** that lets any AI assist
 - `lookup_bct` / `search_bcts` / `list_bct_categories` — 203 BCT techniques with South Asian context and case studies
 - `browse_dataverse` / `search_dataverse` — 270 tools, datasets, APIs
 - `list_challenges` / `get_challenge` — Practice exercises with rubrics
-- `list_courses` — 52 courses across 6 learning tracks
+- `list_courses` — 53 courses across 6 learning tracks
 - `get_game_info` — 16 economics simulation games with AI agent personas
 - `query_climate_data` — India GHG emissions from Climate TRACE
 
@@ -262,7 +262,7 @@ Switch languages from the platform interface. This makes ImpactMojo usable for t
 
 ## What's Free vs. Premium?
 
-The vast majority of ImpactMojo is **completely free** — this is a genuine commitment, not a marketing strategy. All 52 courses, 16 games, 11 labs, handouts, ImpactLex, case studies, DevDiscourses, and Dataverse are available at no cost.
+The vast majority of ImpactMojo is **completely free** — this is a genuine commitment, not a marketing strategy. All 53 courses, 17 games, 13 labs, handouts, ImpactLex, case studies, DevDiscourses, and Dataverse are available at no cost.
 
 Premium memberships (starting at ₹399/month) unlock additional tools, PDF/PNG export from labs, certificates, and priority access to coaching and workshops.
 
