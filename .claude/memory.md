@@ -212,3 +212,13 @@ Persistent context that carries across Claude Code sessions. Updated automatical
 - **Backlog tracked in `docs/website-todo.md`** (Phase 0 count consistency = standing req; Phase 1 consistency sweep; Phase 2 blog quality; Phase 3 content expansion incl. Timelines = ADD MORE + update, Dataverse = add sources, Game Library simulations merge; Phase 4 repo program).
 - **In progress:** blog citation Batch 4 (open-education-matters, multilingual-learning, learning-by-doing, writing-a-tor-for-research) running via background agents.
 - **Gotchas:** the long-lived dev branch `claude/practice-packs-premium-b0NbI` diverges from main after each squash-merge → `git merge origin/main` + resolve (usually `--ours` for tracker, or EOF css) before each PR. Header heights VARY across pages (64px vs 70px) → header-offset sweep must be per-page, not uniform. User uploads images via GitHub web (not chat) — chat attachments don't reach this env's filesystem.
+
+### Session 2026-06-02 (c) — continued (PRs #482–#489)
+- Blog citation program COMPLETE (~22 posts, batches 1–4). Cash-transfers post got **real napkin.ai illustrations** (key now in `.claude/.env.keys`, gitignored).
+- **Game Library deep-merge**: 17 simulations folded into `data/puzzles.json` as type `simulation` (link-out to /Games/*.html); puzzle-library.html wires the new type. Library = **134 games** (17 sims + 117 puzzles).
+- Homepage now lists all **16 Deep Dives**; fixed a "116"→"16" count slip; paper plane z-index→3 (floats over hero).
+- **Premium page retains the sincere "letter from the team"** (folded in before the FAQ, INR-reconciled).
+- Blog grid: top-3 cards now show napkin **preview images** (were placeholder icons).
+- **Counts→134**: consolidated premium's "17 Games"+"117 Puzzles" cards into one "Game Library (134)" card; homepage button "View All 17 Simulations"; catalog meta 134; fixed 70→69 book drift. NOTE: docs/README "17 games" = the 17 simulation FILES (accurate, left as-is).
+- Keys provided via chat saved to gitignored `.claude/.env.keys` (ephemeral) — user to ROTATE + add to env secret config for persistence.
+- 29 PRs merged this session total (#464–#489).
