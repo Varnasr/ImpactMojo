@@ -227,3 +227,8 @@ Persistent context that carries across Claude Code sessions. Updated automatical
 - puzzle-library.html -> game-library.html (URL /game-library); 301 redirect from /puzzle-library; page copy now "games" not "puzzles".
 - Homepage collapsed to ONE Game Library entry (removed the "17 Simulations" button). 30 PRs merged this session (#464-#490).
 - TODO next: nav "Game Library" dropdown still opens the legacy 17-sim gamesModal; could point it at /game-library for full consistency.
+
+### Session 2026-06-02 (e) — bug fixes (#491)
+- Fixed empty "Structured credential journeys" (Learning Pathways) section: learning-pathways.js was lazy-loaded after DOMContentLoaded but gated behind it; now runs init if document.readyState!="loading".
+- game-library page: remaining user-visible "puzzles" -> "games" (hero stat now "134 games").
+- Course count clarified: 53 total (13 flagship + 40 foundational); the "39" was puzzle coverage (117 puzzles across 39 courses), reworded. 31 PRs this session (#464-#491).
