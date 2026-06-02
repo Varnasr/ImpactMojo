@@ -2,6 +2,15 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.34.0 — June 2, 2026 (Practice Packs go premium)
+
+### For Learners
+
+- **Practice Packs now have a free preview** — the first two modules of every one of the 18 packs are open to all, no login, so you can try the format before you commit.
+- **Unlock the full pack with Premium** — a Practitioner membership (₹399/month) unlocks all modules and the auto-built capstone across all 18 Practice Packs, alongside Research Question Builder Pro, Theory of Change Workbench Pro, and certificates.
+- **Buy a single pack for ₹299** — if you only need one, you can unlock a single Practice Pack on its own.
+- **Optional expert review (₹999)** — get written feedback on the artefact you build in any pack — your ToR, logframe, evaluation design, and more.
+
 ## v10.33.0 — May 31, 2026 (Games & Puzzles navigation)
 
 ### For Learners

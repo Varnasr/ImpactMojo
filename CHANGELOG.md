@@ -5,6 +5,35 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.34.0] - 2026-06-02
+
+### Added — Practice Packs premium (freemium paywall)
+
+Practice Packs move from fully free to a freemium model: the first two modules
+of every pack remain a free preview; modules 3–4 plus the capstone builder
+require access.
+
+- **`js/practice-pack-gate.js`** (new) — reusable client-side freemium gate.
+  Wraps the shared `goTab(idx)` entry point so every tab and nav button is
+  gated with one drop-in. Themed paywall modal offers three paths: Practitioner
+  subscription (₹399/mo, all 18 packs), standalone single pack (₹299), and an
+  optional expert review (₹999). Config per pack via `window.IM_PACK`.
+- **All 18 packs** wired with the gate (`freeModules: 2`).
+- **Standalone purchase support** — `profiles.resource_grants TEXT[]` column
+  (migration `20260602_add_resource_grants.sql`, GIN-indexed). `auth.js` selects
+  it and exposes `ImpactMojoAuth.hasResourceAccess(slug)`; `state-manager.js`
+  caches it; the gate unlocks a pack if the user's tier qualifies OR the slug is
+  in `resource_grants`. Admin grants the slug after UPI, matching the existing
+  manual registration flow.
+- **`premium.html`** — Practice Packs added to the Practitioner tier card and
+  detail; registration form gains "Practice Pack (single) – ₹299", "Practice
+  Pack + Expert Review – ₹1,298", and "Practice Pack Expert Review – ₹999"
+  options plus a conditional pack-name field; `?pack=<slug>` deep link
+  preselects the standalone option and prefills the pack; new FAQ entry.
+- **`upgrade.html`** — Practice Packs added to the Practitioner offer.
+- **`practice-packs/index.html`** — reframed from "Free" to free-preview +
+  premium; **search-index** landing description updated.
+
 ## [10.28.0] - 2026-05-23
 
 ### Added — Complete Practice Packs series (16 new) + blog rewrite
