@@ -238,3 +238,7 @@ Persistent context that carries across Claude Code sessions. Updated automatical
 - game-library hero: dropped confusing "courses" stat (now 134 games / formats / tracks).
 - index.html: learning-pathways.js now loads via defer (not idle) so "Structured credential journeys" populates reliably.
 - Daily Spotlight (js/daily-spotlight.js) is live ONLY on testimonials so far; timelines/courses/labs "X of the day" still TODO. 32 PRs this session (#464-#492).
+
+### Session 2026-06-02 (g) — Today's Spotlight (#493)
+- Homepage daily-rotating "Today's Spotlight" banner (after hero, before Daily Learning Tip): 12-item pool across courses/labs/deep dives/games/timelines via daily-spotlight.js.
+- Rotate feature now on: testimonials + homepage spotlight. Still TODO: per-section "X of the day" + Updates/Roadmap page (stale content + non-standard im-topbar nav). Timeline files live in /timelines/. 33 PRs (#464-#493).
