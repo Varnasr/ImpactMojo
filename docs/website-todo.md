@@ -22,7 +22,7 @@ Whenever content is added/removed, keep ALL counts correct and synced site-wide 
 ## Phase 3 — Content expansion (ADD more + update)
 - [ ] **Timelines** — expand & refresh: add new timeline pages and update the 5 existing (climate-policy, development-thinking, indian-policy, indian-rights, mel-methods).
 - [ ] **Dataverse** — add more data sources and refresh the catalogue (`data/dataverse.json`).
-- [ ] **Game Library** — merge the 17 simulations into the Game Library with type filters (simulations / crosswords / word search / quizzes); update i18n (bn/hi/mr/ta) + other-page footers for the rename.
+- [x] **Game Library** — 17 simulations merged in as a filterable type (134 games). (i18n + other-page footers still TODO.)
 - [ ] **Updates / Roadmap page** — rewrite stale content (then it also gets the standard nav from Phase 1).
 - [ ] **Press kit** — refresh stats, year, and copy.
 
