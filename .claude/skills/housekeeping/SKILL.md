@@ -352,7 +352,7 @@ Skills knows the canonical pattern from the 84 handouts.
 | 3-button theme toggle | `data-theme="system"` + `"light"` + `"dark"` | `grep -L 'data-theme="system"' *.html` |
 | Language dropdown | `js/translate.js` | `grep -L 'translate\.js' *.html` |
 | Footer landmark | `<footer>` with site-footer / footer / im-footer | `grep -L '<footer\b' *.html` |
-| CC BY-NC-SA | On all handouts | `grep -L 'CC BY-NC-SA' Handouts/**/*.html` |
+| CC BY-NC-ND | On all handouts | `grep -L 'CC BY-NC-ND' Handouts/**/*.html` |
 | Google Analytics | `G-JRCMEB9TBW` | see §6 |
 
 ### 8b. Canonical `localStorage` key for theme
@@ -839,7 +839,7 @@ grep -rL 'name="viewport"' --include="*.html" . | grep -v Backups | head
 
 - [ ] HTML file under `Handouts/<Track>/<topic>/<name>.html`
 - [ ] Must carry the full brand template (see §8a)
-- [ ] CC BY-NC-SA attribution block
+- [ ] CC BY-NC-ND attribution block
 - [ ] `data/search-index.json` + `sitemap.xml` entries
 - [ ] `docs/handouts-guide.md` update if new track
 

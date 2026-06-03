@@ -47,7 +47,7 @@ Every 101 deck follows a consistent structure across approximately 60–100 slid
 - **Fonts**: Inter (body) + Amaranth (headings)
 - **Theme**: Cornflower (consistent across all decks)
 - **Footer**: ImpactMojo branding on every slide
-- **License**: CC BY-NC-SA 4.0 — free to share and adapt for non-commercial use with attribution
+- **License**: CC BY-NC-ND 4.0 — free to share and adapt for non-commercial use with attribution
 
 ---
 
@@ -186,7 +186,7 @@ Play the game first to create an experiential hook, then use the deck to build t
 
 ### Customizing for Local Context
 
-The decks are licensed CC BY-NC-SA 4.0, which means you can:
+The decks are licensed CC BY-NC-ND 4.0, which means you can:
 
 - **Adapt** — Add local case studies, translate key terms, adjust examples for your state or region
 - **Share** — Distribute to participants, post on your organization's LMS
