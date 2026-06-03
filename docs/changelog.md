@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.46.0 — June 3, 2026 (ImpactLex dedupe)
+
+### Fixed
+
+- **ImpactLex no longer lists five terms twice** — Forest Rights Act, Human Development Index, Multidimensional Poverty Index, Purchasing Power Parity and Randomized Controlled Trial each had an acronym-variant that collided on the same id. The snapshot now merges them (390 → 385 unique terms), keeping the richest definition and backfilling missing examples/acronyms. Root cause fixed in `scripts/impactlex-migrate.mjs` (added an id-level dedupe pass) so it cannot recur on regeneration.
+
 ## v10.45.0 — June 3, 2026 (Consistency polish)
 
 ### For Learners
