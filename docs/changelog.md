@@ -11,6 +11,7 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 ### Changed
 
 - The flagship course count is now **14** (Power BI added; the Livelihoods card, previously only in the course modal, is now also shown in the homepage flagship grid). Course counts updated across the homepage, catalog, search, sitemap and docs.
+- **Today's Spotlight now draws from a refreshed, larger pool** (31 items, up from 12) spanning all 7 content types — flagship courses (incl. Power BI), labs, deep dives, games, book companions, timelines and reference libraries — so the homepage feature stays fresh for longer.
 
 ## v10.46.0 — June 3, 2026 (ImpactLex dedupe)
 
