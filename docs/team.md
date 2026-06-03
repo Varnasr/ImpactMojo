@@ -11,7 +11,7 @@ ImpactMojo was built by people who've spent years working inside the development
 Varna is a development economist with a PhD and field experience across South Asia. She leads ImpactMojo's curriculum design, bringing together academic rigour and practitioner reality.
 
 **What she does at ImpactMojo:**
-- Designs all 13 flagship courses, including the interactive lexicons and case studies
+- Designs all 14 flagship courses, including the interactive lexicons and case studies
 - Leads the learning design philosophy — the "Concept → Example → Reflection → Application → Connection" framework that structures every module
 - Provides one-on-one coaching on research design, career counselling, and M&E capacity building
 - Co-hosts *Between the Logframes*, ImpactMojo's podcast on honest development practice

@@ -6,7 +6,7 @@
 
 | प्रकार | संख्या | स्वरूप | प्रवेश |
 |------|-------|--------|--------|
-| Flagship Courses | 11 | बहु-module (प्रत्येकी १२–१३ modules) | मोफत |
+| Flagship Courses | 14 | बहु-module (प्रत्येकी १२–१३ modules) | मोफत |
 | Foundational Courses | 38 | एक-पान किंवा बहु-विभाग | मोफत |
 | Interactive Labs | 11 | HTML/JS workbenches | मोफत |
 | Learning Games | 16 | HTML/JS simulations | मोफत |

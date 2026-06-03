@@ -4,7 +4,7 @@
 
 ---
 
-## Flagship Courses (11)
+## Flagship Courses (14)
 
 प्रत्येकी 12–13 मॉड्यूल्स, परस्परसंवादी लेक्सिकन, दक्षिण आशियाई केस स्टडीज आणि AI अभ्यास सहकाऱ्यांसह सखोल, बहु-मॉड्यूल अभ्यासक्रम.
 
@@ -280,7 +280,7 @@ Specials अंतर्गत परस्परसंवादी पुस्
 
 | श्रेणी | संख्या |
 |----------|-------|
-| Flagship courses | 9 |
+| Flagship courses | 14 |
 | Foundational courses | 39 |
 | Interactive labs | 11 |
 | Learning games | 16 |

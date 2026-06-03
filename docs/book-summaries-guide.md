@@ -97,7 +97,7 @@ Have a development text that would benefit from an interactive companion? We wel
 
 ## Related Resources
 
-- **[Courses](/courses/)** — structured learning paths across 13 flagship and 40 foundational development topics
+- **[Courses](/courses/)** — structured learning paths across 14 flagship and 40 foundational development topics
 - **[Games](/Games/)** — interactive simulations that teach development concepts through play
 - **[Labs](/courses/)** — browser-based coding and data labs for hands-on practice
 - **[Handouts](/Handouts/)** — 400+ quick-reference guides across all development tracks

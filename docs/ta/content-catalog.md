@@ -4,7 +4,7 @@
 
 ---
 
-## Flagship Courses (11)
+## Flagship Courses (14)
 
 தலா 12–13 தொகுதிகள், ஊடாடும் சொல்லகராதிகள், தென்னாசிய வழக்காய்வுகள் மற்றும் AI கற்றல் துணைகள் கொண்ட ஆழமான, பல-தொகுதி பாடநெறிகள்.
 
@@ -280,7 +280,7 @@ Specials-ன் கீழ் உள்ள ஊடாடும் புத்த�
 
 | வகை | எண்ணிக்கை |
 |----------|-------|
-| Flagship courses | 9 |
+| Flagship courses | 14 |
 | Foundational courses | 39 |
 | Interactive labs | 11 |
 | Learning games | 16 |

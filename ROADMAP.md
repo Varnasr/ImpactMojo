@@ -73,7 +73,7 @@ ImpactMojo development priorities for 2026. Items are roughly ordered by priorit
 - [x] **Certificate policy consistency** — reconciled to "free completion + Premium verified" site-wide
 - [x] **Contact-email consolidation** — 11 scattered addresses folded into a single `hello@`
 - [x] **Header-offset + anchor-scroll fixes** — heroes no longer trapped under the fixed header (10 pages); in-page `#section` links land correctly
-- [x] **Count-consistency pass** — canonical counts (53 courses · 13 labs · 69 book companions · 16 Deep Dives · 134 Game Library) propagated across site, README, and press kit
+- [x] **Count-consistency pass** — canonical counts (54 courses · 13 labs · 69 book companions · 16 Deep Dives · 134 Game Library) propagated across site, README, and press kit
 - [ ] **Migrate remaining 35 foundational decks** — Convert all Gamma iframe wrappers to native HTML using Claude Chat + Claude Code workflow
 - [ ] **Vernacular Content** — Full courses in Hindi and Tamil (#29)
 - [ ] **Analytics dashboard v2** — Learner analytics with completion funnels, time-on-task, assessment scores
