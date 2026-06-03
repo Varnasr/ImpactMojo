@@ -7,7 +7,7 @@ Whenever content is added/removed, keep ALL counts correct and synced site-wide 
 
 ## Phase 1 — Consistency & polish (active bugs first)
 - [x] **Header-offset sweep** — 9 trapped pages fixed (catalog/faq/accessibility/live-projects/contact/coaching 70px; transparency/challenges/dataverse 64px). workshops/handouts left (already clear via 60px padding).
-- [ ] **Nav/header standardisation** — `updates` and `dojos` use the minimal `im-topbar` instead of the standard `.header`+nav; bring them onto the standard nav. (Reader pages — DeepDives, BookSummaries, Game Library — keep the clean topbar by design.)
+- [x] **Nav/header standardisation** — updates (#504) and dojos now use the standard ImpactMojo nav (transplanted; reader pages keep the clean topbar by design). VERIFY on preview.
 - [ ] **Light/dark mode consistency** — audit every main page for dark-mode contrast (blue-on-dark, invisible text, tinted bands).
 - [ ] **Design consistency** — hero treatment, spacing, fonts, card styles across main pages.
 - [x] **Orphan-row / grid tuning** — community page grids fixed (auto-fill + centered).
