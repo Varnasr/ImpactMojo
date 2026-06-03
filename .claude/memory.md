@@ -247,3 +247,8 @@ Persistent context that carries across Claude Code sessions. Updated automatical
 - Consolidated 11 site contact emails -> hello@ only (folded coaching/info/workshops/register/care/support/operations/AP). Left auth untouched: impactlex/config.js adminEmails=info@, impactlex/instantdb-permissions.json. grievance@ not on any live page (grievance.html uses hello@ + form).
 - Earlier this session: Today's Spotlight (#493), Learning Pathways defer-load fix + dd-shared .im-browse-btn + game-library stat (#492), game-library URL rename + single Game Library (#490/#491), games count->134 (#489).
 - Now 34 PRs merged (#464-#494). OPEN/TODO: Updates-Roadmap page (stale content + im-topbar nav), per-section "X of the day", repo program (README/docs/ROADMAP/workflows), optional grievance@ on grievance page + backend auth email update. ENV KEYS in .claude/.env.keys are ephemeral - user to rotate + add to env secret config.
+
+### Session 2026-06-03 (a) — Phase 1 header sweep + blog program complete
+- Header-offset sweep (#496): 9 trapped pages fixed (catalog/faq/accessibility/live-projects/contact/coaching=70px; transparency/challenges/dataverse=64px). workshops/handouts left (60px padding already clears).
+- Blog citation Batch 4 (#497): open-education-matters, multilingual-learning, learning-by-doing (removed debunked learning-pyramid  -> ICAP), writing-a-tor (budget figures kept as estimates). => ENTIRE blog citation program (Batches 1-4, ~22 posts) COMPLETE.
+- PRs through #497. OPEN: nav standardisation updates/dojos (deferred - needs imx-main.css+nav JS, best with deploy preview; pairs with Updates-page rewrite which needs roadmap input), light/dark + design audits, Timelines/Dataverse/Press-kit (Phase 3), repo program (Phase 4). ENV keys still ephemeral.
