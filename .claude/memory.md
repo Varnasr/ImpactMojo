@@ -331,3 +331,8 @@ Persistent context that carries across Claude Code sessions. Updated automatical
 - KEPT (deliberately, they're specific/good not AI-flavoured): the many module coach callouts on grain, Applied Steps as methods section, count-map-misleads, cost-it-honestly, etc.
 - Verified: 8 modules / 16 leads intact, epigraph gone, 0 JS page-errors, 0 of the flagged AI phrases remain. NOTE: this is an iterative pass on the highest-signal prose — deeper line-by-line still possible if user wants.
 - **MERGE STILL ON HOLD**: not merging the Power BI course/lexicon to main until user signs off on the copy. (Design re-skins for both pages are done + committed; Excel live; 2 hero placeholders still pending user URLs.)
+
+### Session 2026-06-03 (l) — Power BI shipped complete (#518, #519)
+- #518 (squash 145bd3f): course + lexicon re-skin onto shared flagship template + first copy de-AI pass + NotebookLM AI companion link (id 34a0b42c…, registered as 12th notebook in data/notebooklm-registry.json).
+- #519 (squash d3e64b7): course papers button → Dropbox folder (same folder t0j0qowyvfmd3kijcjh9n as the Excel, different rlkey); hero tagline → var(--secondary-accent) for AA contrast in light mode (devecon's tagline is white = a latent light-mode bug; don't copy it); final copy pass (Power Query/modelling/visualisation/first-five-minutes). Lexicon 68 defs reviewed = already terse/factual, left as-is.
+- ALL placeholders gone. Power BI flagship fully live, matches the other flagships in design + voice. Papers/Excel link to Dropbox (house pattern for copyrighted readings, per devecon); Excel workbook itself is self-hosted.
