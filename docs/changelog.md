@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.49.0 — June 3, 2026 (Livelihoods on the flagship template)
+
+### For Learners
+
+- **The Livelihoods course now uses the same flagship template as every other course** — shared navigation, sidebar, hero, light/dark theming and typography, so all 14 flagships look and feel consistent. The course content (rural NRLM/MGNREGA, urban gig/vendor work, Skill India) is unchanged.
+
 ## v10.48.0 — June 3, 2026 (Power BI flagship redesign)
 
 ### For Learners
