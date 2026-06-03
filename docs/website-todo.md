@@ -7,9 +7,10 @@ Whenever content is added/removed, keep ALL counts correct and synced site-wide 
 
 ## Phase 1 — Consistency & polish (active bugs first)
 - [x] **Header-offset sweep** — 9 trapped pages fixed (catalog/faq/accessibility/live-projects/contact/coaching 70px; transparency/challenges/dataverse 64px). workshops/handouts left (already clear via 60px padding).
-- [x] **Nav/header standardisation** — updates (#504) and dojos now use the standard ImpactMojo nav (transplanted; reader pages keep the clean topbar by design). VERIFY on preview.
-- [ ] **Light/dark mode consistency** — audit every main page for dark-mode contrast (blue-on-dark, invisible text, tinted bands).
-- [ ] **Design consistency** — hero treatment, spacing, fonts, card styles across main pages.
+- [x] **Nav/header standardisation** — updates + dojos now use the standard ImpactMojo nav. VERIFIED (#509): the earlier transplant was incomplete — both had duplicate stacked navbars, 3 conflicting theme scripts, and NO nav CSS (header not actually fixed, mobile menu dead). Fixed: single header, one canonical theme block (sets data-theme attr + body.dark-mode), injected nav CSS, 70px mobile offset.
+- [x] **Light/dark mode consistency (mechanism)** — audited all 48 top-level pages for theme-JS↔CSS mechanism mismatch (#509). Clean — the one genuinely broken page (dojos) fixed above. Key fragmentation (im-theme/theme/impactmojo-theme) is reconciled by `js/cookie-ui.js` (writes all keys + migrates legacy). Per-element COLOUR contrast left to CI axe-core/pa11y (blanket inline-color rescue unsafe: same hex is invisible-on-dark as plain text but correct on inline light badges).
+- [ ] **Known pre-existing contrast fails (CI)** — axe-core flags `.active[href="javascript:void(0)"]` on catalog.html + an `.active` link on index.html (SERIOUS color-contrast). Pre-existing, outside #509's diff. Fix = darken/adjust the active-link colour token.
+- [ ] **Design consistency** — hero treatment, spacing, fonts, card styles across main pages (visual; needs preview / named pages).
 - [x] **Orphan-row / grid tuning** — community page grids fixed (auto-fill + centered).
 
 ## Phase 2 — Blog quality (defensible-citation bar)
@@ -29,7 +30,7 @@ Whenever content is added/removed, keep ALL counts correct and synced site-wide 
 ## Phase 4 — Repo program
 - [x] README.md refreshed to canonical counts (#498).
 - [x] GitHub repo description + 20 topics refreshed (via API).
-- [ ] All-language docs (`i18n/` bn·hi·mr·ta + ~40 `docs/` guides).
+- [~] All-language docs (`i18n/` bn·hi·mr·ta + ~40 `docs/` guides). **UI layer done (#509):** filled the 41 missing curated `data-i18n` keys (Press Kit + nav) × 4 langs → 0 missing site-wide; flagged `_meta.pending_native_review`. **Deferred:** translating the 57 `docs/` guides (needs native reviewers + translation budget; not a headless task).
 - [x] ROADMAP.md refreshed (Q2 2026) (#499). Gantt = optional.
 - [x] CI workflows audited — current; checkout@v4→v6 (#499).
 - [ ] GitHub Issues + Discussions seeding.
