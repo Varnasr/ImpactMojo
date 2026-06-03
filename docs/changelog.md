@@ -6,7 +6,7 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 
 ### For Learners
 
-- **The Power BI course now matches the look and feel of every other flagship** — the same site navigation, sidebar, hero, light/dark theming and typography as Development Economics, so it reads as a polished part of the platform. Every hands-on extra is kept: the interactive licence-cost and measure-vs-column calculators, the recreated Power BI interface panels, hand-drawn diagrams, and per-module self-check quizzes. A broken in-page "Lexicon" link was also fixed.
+- **The Power BI course now matches the look and feel of every other flagship** — the same site navigation, sidebar, hero, light/dark theming and typography as Development Economics, so it reads as a polished part of the platform. Every hands-on extra is kept: the interactive licence-cost and measure-vs-column calculators, the recreated Power BI interface panels, hand-drawn diagrams, and per-module self-check quizzes. The matching lexicon page was rebuilt the same way, the writing was edited throughout for a clearer practitioner voice, and the course now links an **AI Study Companion**, a downloadable **Excel lexicon**, and a **course papers pack**.
 
 ## v10.47.0 — June 3, 2026 (Power BI flagship)
 
