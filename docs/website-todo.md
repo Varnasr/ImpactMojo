@@ -20,18 +20,18 @@ Whenever content is added/removed, keep ALL counts correct and synced site-wide 
 - [x] Blog citation upgrades — Batch 4: open-education-matters, multilingual-learning, learning-by-doing, writing-a-tor (verified citations; learning-pyramid myth removed). Manifesto/story posts left as-is (citations not warranted).
 
 ## Phase 3 — Content expansion (ADD more + update)
-- [ ] **Timelines** — expand & refresh: add new timeline pages and update the 5 existing (climate-policy, development-thinking, indian-policy, indian-rights, mel-methods).
-- [ ] **Dataverse** — add more data sources and refresh the catalogue (`data/dataverse.json`).
+- [x] **Timelines** — all 5 extended to 2026 + node-count fixes (#502/#503).
+- [x] **Dataverse** — +14 verified open-data sources → 296 (#501).
 - [x] **Game Library** — 17 simulations merged in as a filterable type (134 games). (i18n + other-page footers still TODO.)
-- [ ] **Updates / Roadmap page** — rewrite stale content (then it also gets the standard nav from Phase 1).
-- [ ] **Press kit** — refresh stats, year, and copy.
+- [x] **Updates / Roadmap page** — standard nav (#504) + What's New refreshed with the recent major work (Game Library, 16 Deep Dives, Impact Bold, blog citations, Daily Spotlight, Dataverse/Timelines).
+- [x] **Press kit** — refreshed to canonical counts (#498).
 
 ## Phase 4 — Repo program
-- [ ] README.md refresh (stale counts/structure).
-- [ ] GitHub repo description + topics.
+- [x] README.md refreshed to canonical counts (#498).
+- [x] GitHub repo description + 20 topics refreshed (via API).
 - [ ] All-language docs (`i18n/` bn·hi·mr·ta + ~40 `docs/` guides).
-- [ ] ROADMAP.md + project plan / Gantt.
-- [ ] CI workflows audit (ci.yml, accessibility.yml, static.yml, publish-mcp-server.yml) + dependabot/templates.
+- [x] ROADMAP.md refreshed (Q2 2026) (#499). Gantt = optional.
+- [x] CI workflows audited — current; checkout@v4→v6 (#499).
 - [ ] GitHub Issues + Discussions seeding.
 
 ## Done this session (PRs #464–#479)
