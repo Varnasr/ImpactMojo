@@ -65,7 +65,7 @@ Migrating remaining 34 foundational course decks from Gamma iframes to self-host
 - **Full accessibility audit** — axe-core + pa11y-ci CI pipeline, UserWay widget integration
 
 ### v10.15.0 — April 2026
-- **Content count corrections** sitewide — all files now show canonical 53 courses / 13 labs / 17 games
+- **Content count corrections** sitewide — all files now show canonical 54 courses / 13 labs / 17 games
 
 ### v10.14.0 — April 2026
 - **Device-mode default theme** on 70 pages — OS dark/light preference on first paint

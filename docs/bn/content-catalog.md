@@ -4,7 +4,7 @@
 
 ---
 
-## Flagship Courses (11)
+## Flagship Courses (14)
 
 প্রতিটিতে ১২–১৩টি মডিউল, ইন্টারঅ্যাক্টিভ লেক্সিকন, দক্ষিণ এশীয় কেস স্টাডি এবং AI স্টাডি সঙ্গীসহ গভীর, বহু-মডিউল কোর্স।
 
@@ -280,7 +280,7 @@ Specials-এর অধীনে ইন্টারঅ্যাক্টিভ �
 
 | বিভাগ | সংখ্যা |
 |----------|-------|
-| Flagship courses | 9 |
+| Flagship courses | 14 |
 | Foundational courses | 39 |
 | Interactive labs | 11 |
 | Learning games | 16 |

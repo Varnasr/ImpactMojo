@@ -4,7 +4,7 @@ Complete catalog of all ImpactMojo learning resources with direct links. Everyth
 
 ---
 
-## Flagship Courses (11)
+## Flagship Courses (14)
 
 Deep, multi-module courses with 12–13 modules each, interactive lexicons, South Asian case studies, and AI study companions.
 
@@ -19,6 +19,11 @@ Deep, multi-module courses with 12–13 modules each, interactive lexicons, Sout
 | 7 | Media for Development: Communication, Power & Practice | Health & Communication | 12 | 65 terms | [Open](/courses/media/) |
 | 8 | Social-Emotional Learning for Development | Health & Communication | 12 | — | [Open](/courses/sel/) |
 | 9 | Law & Development: Constitution, Rights & Justice | Philosophy & Governance | 12 | — | [Open](/courses/law/) |
+| 10 | Public Policy: Process, Design & Governance | Philosophy & Governance | 16 | — | [Open](/courses/pubpol/) |
+| 11 | Public Choice: Decisions, Incentives & Institutions | Policy & Economics | 13 | — | [Open](/courses/pubchoice/) |
+| 12 | Gender Studies: Feminisms, Power & Social Change | Health & Communication | 16 | — | [Open](/courses/gender/) |
+| 13 | Livelihoods in India: Rural, Urban & Skills | Policy & Economics | 3 | — | [Open](/courses/livelihoods/) |
+| 14 | Power BI for Practitioners | Data & Technology | 8 | 68 terms | [Open](/courses/powerbi/) |
 
 ---
 
@@ -280,7 +285,7 @@ Advanced tools for researchers and practitioners. Requires a paid membership.
 
 | Category | Count |
 |----------|-------|
-| Flagship courses | 9 |
+| Flagship courses | 14 |
 | Foundational courses | 39 |
 | Interactive labs | 11 |
 | Learning games | 16 |

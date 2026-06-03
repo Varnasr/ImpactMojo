@@ -2,6 +2,30 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.47.0 — June 3, 2026 (Power BI flagship)
+
+### For Learners
+
+- **New flagship course: Power BI for Practitioners** — a free, hands-on course that builds honest dashboards from real South Asian survey data across eight lab-driven modules: Power Query, star schemas, DAX, and visualisation ethics, with the free-tier and privacy realities made plain. Includes an interactive lexicon.
+
+### Changed
+
+- The flagship course count is now **14** (Power BI added; the Livelihoods card, previously only in the course modal, is now also shown in the homepage flagship grid). Course counts updated across the homepage, catalog, search, sitemap and docs.
+- **Today's Spotlight now draws from a refreshed, larger pool** (31 items, up from 12) spanning all 7 content types — flagship courses (incl. Power BI), labs, deep dives, games, book companions, timelines and reference libraries — so the homepage feature stays fresh for longer.
+
+## v10.46.0 — June 3, 2026 (ImpactLex dedupe)
+
+### Fixed
+
+- **ImpactLex no longer lists five terms twice** — Forest Rights Act, Human Development Index, Multidimensional Poverty Index, Purchasing Power Parity and Randomized Controlled Trial each had an acronym-variant that collided on the same id. The snapshot now merges them (390 → 385 unique terms), keeping the richest definition and backfilling missing examples/acronyms. Root cause fixed in `scripts/impactlex-migrate.mjs` (added an id-level dedupe pass) so it cannot recur on regeneration.
+
+## v10.45.0 — June 3, 2026 (Consistency polish)
+
+### For Learners
+
+- **Clearer licensing on every page** — each page footer now states that the code is under MIT and the learning content under CC BY-NC-ND 4.0, and all content pages now name the same licence consistently.
+- **The Accessibility Statement page gains the standard System / Light / Dark theme switch**, matching the rest of the site and respecting your device's theme.
+
 ## v10.44.0 — June 3, 2026 (Documentation in 4 languages)
 
 ### For Learners

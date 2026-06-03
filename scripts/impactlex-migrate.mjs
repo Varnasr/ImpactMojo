@@ -153,6 +153,34 @@ function mergeByTerm(rows) {
   return [...map.values()];
 }
 
+/**
+ * Second-pass dedupe by id. mergeByTerm keys on the term string, but the id is
+ * slugify(term) with acronyms stripped — so "Foo" and "Foo (F)" survive as two
+ * rows that collide on one id. Collapse them: union list fields, keep the longest
+ * definition, prefer a filled example/acronym/formula, prefer a 'published'
+ * status and an acronym-bearing display term.
+ */
+function dedupeById(rows) {
+  const map = new Map();
+  for (const r of rows) {
+    const existing = map.get(r.id);
+    if (!existing) { map.set(r.id, { ...r }); continue; }
+    existing.courses = Array.from(new Set([...(existing.courses || []), ...(r.courses || [])]));
+    existing.related = Array.from(new Set([...(existing.related || []), ...(r.related || [])]));
+    existing.sources = Array.from(new Set([...(existing.sources || []), ...(r.sources || [])]));
+    existing.aliases = Array.from(new Set([...(existing.aliases || []), ...(r.aliases || [])]));
+    if ((r.definition || '').length > (existing.definition || '').length) existing.definition = r.definition;
+    if (!existing.example && r.example) existing.example = r.example;
+    if (!existing.acronym && r.acronym) existing.acronym = r.acronym;
+    if (!existing.formula && r.formula) existing.formula = r.formula;
+    if (!existing.caseStudy && r.caseStudy) existing.caseStudy = r.caseStudy;
+    if (existing.status !== 'published' && r.status === 'published') existing.status = 'published';
+    if (!/\(/.test(existing.term || '') && /\(/.test(r.term || '')) existing.term = r.term;
+    existing.updatedAt = new Date().toISOString();
+  }
+  return [...map.values()];
+}
+
 async function loadExternal() {
   let html;
   try {
@@ -248,7 +276,7 @@ async function main() {
     external = await loadExternal();
   }
 
-  const merged = mergeByTerm([...external.terms, ...courseRows]);
+  const merged = dedupeById(mergeByTerm([...external.terms, ...courseRows]));
   merged.sort((a, b) => a.term.localeCompare(b.term));
 
   const snapshot = {

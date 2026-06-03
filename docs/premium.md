@@ -1,6 +1,6 @@
 # Memberships, Workshops & Services
 
-ImpactMojo's core belief is that high-quality development education should be free. All 53 courses, 17 games, 13 labs, 85 handouts, and the entire Dataverse are free to use — no login required, no paywall, no trial period.
+ImpactMojo's core belief is that high-quality development education should be free. All 54 courses, 17 games, 13 labs, 85 handouts, and the entire Dataverse are free to use — no login required, no paywall, no trial period.
 
 Premium memberships and professional services exist to sustain the platform and offer advanced tools for practitioners who need them.
 
@@ -8,7 +8,7 @@ Premium memberships and professional services exist to sustain the platform and 
 
 Everything you need to learn, teach, and facilitate:
 
-- **All courses** — 13 flagship + 40 foundational courses across 6 learning tracks
+- **All courses** — 14 flagship + 40 foundational courses across 6 learning tracks
 - **All games** — 16 economics simulations, perfect for workshops
 - **All labs** — 19 interactive workbenches (Theory of Change builder, research design tools, etc.)
 - **All handouts** — 400+ downloadable reference sheets
