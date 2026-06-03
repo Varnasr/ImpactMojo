@@ -65,6 +65,15 @@ ImpactMojo development priorities for 2026. Items are roughly ordered by priorit
 - [x] **"Coming Soon" course cards** — 10 unbuilt placeholder cards marked with disabled state instead of dead mirror links
 - [x] **Brand identity audit complete** — every content page has correct fonts, paper plane, theme toggle, home link, Premium link, footer landmark, CC BY-NC-SA attribution, language dropdown
 - [x] **FieldCases + DevDiscourses theme toggle** (sister sites on `varnasr.github.io`) — 3-button system/light/dark selector shipped on both
+- [x] **"Impact Bold" visual refresh** — 32-page bold restyle on a shared `impact-bold.css`, plus a full premium-page redesign
+- [x] **Deep Dives library (→16)** — 10 new curated, fully web-cited reading lists (cash transfers, India's FLFP, politics of targeting, the RCT debate, climate adaptation finance, measuring empowerment, informality, the learning crisis, health systems & UHC, decolonising development knowledge)
+- [x] **Game Library** — unified the 17 economics simulations + 117 puzzles into one filterable library (134 games) at `/game-library`, with a 301 from the old `/puzzle-library`
+- [x] **Blog citation program** — ~22 methods/evidence posts upgraded to verified inline citations; corrected the debunked "learning pyramid" retention myth
+- [x] **Daily Spotlight** — date-seeded "of the day" rotation engine (testimonials "featured voice" + homepage Today's Spotlight across courses/labs/deep dives/games/timelines)
+- [x] **Certificate policy consistency** — reconciled to "free completion + Premium verified" site-wide
+- [x] **Contact-email consolidation** — 11 scattered addresses folded into a single `hello@`
+- [x] **Header-offset + anchor-scroll fixes** — heroes no longer trapped under the fixed header (10 pages); in-page `#section` links land correctly
+- [x] **Count-consistency pass** — canonical counts (53 courses · 13 labs · 69 book companions · 16 Deep Dives · 134 Game Library) propagated across site, README, and press kit
 - [ ] **Migrate remaining 35 foundational decks** — Convert all Gamma iframe wrappers to native HTML using Claude Chat + Claude Code workflow
 - [ ] **Vernacular Content** — Full courses in Hindi and Tamil (#29)
 - [ ] **Analytics dashboard v2** — Learner analytics with completion funnels, time-on-task, assessment scores
