@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.41.0 — June 2, 2026 (Today's Spotlight)
+
+### For Learners
+
+- **A daily "Today's Spotlight" on the homepage** — every day it features a different course, lab, deep dive, game or timeline, so there's always something fresh to discover.
+
 ## v10.40.0 — June 2, 2026 (Game Library URL + single entry)
 
 ### For Learners
