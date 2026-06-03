@@ -6,7 +6,7 @@ Tracking the review-driven work. Shipped items pruned as they merge. Priority is
 Whenever content is added/removed, keep ALL counts correct and synced site-wide — Games (17), Deep Dives (16), blog posts, courses (flagship/foundational), Labs, Book companions, Game Library formats — across `index.html`, `catalog.html`, `README.md`, `docs/`, `sitemap.xml`, nav, hero, cards, sidebar, search-index. Run a count audit after every content change.
 
 ## Phase 1 — Consistency & polish (active bugs first)
-- [ ] **Header-offset sweep** — pages with a fixed header but NO body offset trap their hero/nav under the header (the about.html bug, generalised). Affected (verify each renders, avoid double-gap): catalog, faq, contact, workshops, coaching, handouts, transparency, accessibility, live-projects, challenges, dataverse.
+- [x] **Header-offset sweep** — 9 trapped pages fixed (catalog/faq/accessibility/live-projects/contact/coaching 70px; transparency/challenges/dataverse 64px). workshops/handouts left (already clear via 60px padding).
 - [ ] **Nav/header standardisation** — `updates` and `dojos` use the minimal `im-topbar` instead of the standard `.header`+nav; bring them onto the standard nav. (Reader pages — DeepDives, BookSummaries, Game Library — keep the clean topbar by design.)
 - [ ] **Light/dark mode consistency** — audit every main page for dark-mode contrast (blue-on-dark, invisible text, tinted bands).
 - [ ] **Design consistency** — hero treatment, spacing, fonts, card styles across main pages.
