@@ -32,7 +32,7 @@ Comprehensive study decks that cover a specific skill or concept in depth. These
 **What they include:**
 - Comprehensive topic coverage — each one covers its subject thoroughly
 - Self-study format — read at your own pace, no interactive components
-- Native HTML slide decks (4 courses) or Gamma visual presentations (34 courses) with Indian folk art by track
+- Native HTML slide decks or Gamma visual presentations, with Indian folk art by track
 
 **What they don't include (yet):**
 - Interactive features, quizzes, or assessments

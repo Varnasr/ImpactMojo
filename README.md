@@ -43,13 +43,13 @@ We provide accessible, high-quality educational materials grounded in South Asia
 |----------|-------------|
 | **53 Courses** | 13 flagship + 40 foundational courses across 6 learning tracks (4 native HTML slide decks with 100 slides each; remaining 36 Gamma-hosted) |
 | **13 Interactive Labs** | Hands-on workbenches for MEL, policy, partnerships, budgeting, gender analysis, and more |
-| **16 Learning Games** | Interactive simulations with MiroFish AI agents and Indian folk art (Warli, Madhubani, Gond, Kalamkari, Pichwai, Pattachitra) |
+| **134 Game Library** | 17 interactive simulations (MiroFish AI agents, Indian folk art — Warli, Madhubani, Gond, Kalamkari, Pichwai, Pattachitra) + 117 crosswords, quizzes & word searches |
 | **ImpactLex Dictionary** | 390+ development terms with contextual definitions, formulas, and case studies (PWA, hosted on ImpactMojo) |
 | **Dev Case Studies** | 200 evidence-based case studies from 117 countries |
 | **DevDiscourses** | 500+ curated open-access research papers, books, and grey literature |
 | **PolicyDhara** | Curated Indian public policy documents, government schemes, and legislative frameworks |
 | **BCT Repository** | 203 behavior change techniques from BCT Taxonomy v1 with definitions, examples, evidence ratings, 60 WASH/nutrition case studies, fuzzy search, bookmarks, notes, comparison tool, PDF export — dark mode, filters, CSV export |
-| **Dataverse** | 270 curated tools, datasets, APIs, MCP servers, and platforms across 22 categories — dark mode, category filters, responsive cards |
+| **Dataverse** | 296 curated tools, datasets, APIs, MCP servers, and platforms across 22 categories — dark mode, category filters, responsive cards |
 | **69 Book Companions** | Interactive study companions for development economics, statistics, leadership, and productivity texts |
 | **12 AI Study Companions** | NotebookLM-powered study notebooks for all flagship courses |
 | **85 Handouts** | Downloadable resources across 6 learning tracks |
@@ -82,7 +82,7 @@ One-on-one expert guidance from Dr. Varna Sri Raman on career, research design, 
 | **Research Design Consultation** | ₹2,500/session | ₹1,000 – ₹3,000 |
 | **Data Analysis Support** | ₹2,000/session | ₹800 – ₹2,500 |
 
-All sessions are 1 hour, bookable via Google Calendar. Contact: coaching@impactmojo.in
+All sessions are 1 hour, bookable via Google Calendar. Contact: hello@impactmojo.in
 
 #### Dojos
 
@@ -176,7 +176,7 @@ Shorter introductory courses covering the breadth of development practice:
 - **Sample Size Calculator** — Survey sample size for proportion, mean, two-group, and cluster designs
 - **Budget Template Generator** — Project budget builder with smart templates and CSV export
 - **Theory of Change Workbench** — Educational workbench with BCT annotations, worked examples, and sector guidance
-- **Theory of Change Builder** — Drag-and-drop canvas with 229 BCT techniques and PNG export
+- **Theory of Change Builder** — Drag-and-drop canvas with 203 BCT techniques and PNG export
 
 ### Premium Tools (Paid Tiers)
 
@@ -217,7 +217,7 @@ Interactive simulations powered by **MiroFish AI agents** with **Indian folk art
 - [**DevDiscourses**](https://github.com/Varnasr/development-discourses) — 500+ curated open-access research papers, books, and grey literature
 - [**PolicyDhara**](https://github.com/Varnasr/PolicyDhara) — Auto-updating tracker of Indian development policies across 22 sectors
 - **BCT Repository** — 203 behavior change techniques with definitions, examples, and evidence ratings
-- **Dataverse** — 270 curated tools, datasets, APIs, MCP servers, and platforms for social impact research
+- **Dataverse** — 296 curated tools, datasets, APIs, MCP servers, and platforms for social impact research
 - **85 Handouts** — Downloadable HTML resources across 6 learning tracks
 - **Learning Loops Blog** — Articles, tutorials, case studies, platform updates
 - **Between the Logframes Podcast** — Development conversations on MEAL, ToC, and impact work
@@ -256,7 +256,7 @@ Structured credential tracks with milestone progression:
 Comprehensive ToC learning and building toolkit:
 
 - **Educational workbench** (`toc-workbench.html`) — Foundations, worked examples with BCT annotations, indicator development, 8 problem sets, sector guidance (8 sectors), cross-cutting frameworks, measurement design
-- **Interactive builder** (`toc-builder.html`) — Drag-and-drop canvas with 229 BCT techniques, MEL frameworks, cross-cutting lenses, 4 sector templates, connection drawing, PNG export
+- **Interactive builder** (`toc-builder.html`) — Drag-and-drop canvas with 203 BCT techniques, MEL frameworks, cross-cutting lenses, 4 sector templates, connection drawing, PNG export
 - **Coaching/Dojo CTAs** integrated throughout as marketing touchpoints
 
 ---
@@ -395,7 +395,7 @@ ImpactMojo/
 ├── dojos.html              # Practice-based skill sessions
 ├── catalog.html            # Complete learning catalog
 ├── bct-repository.html     # BCT Repository (203 techniques, fuzzy search, bookmarks, comparison, PDF export)
-├── dataverse.html          # Dataverse (270 tools & datasets across 22 categories)
+├── dataverse.html          # Dataverse (296 tools & datasets across 22 categories)
 ├── blog.html               # Learning Loops blog
 ├── podcast.html            # Between the Logframes podcast
 ├── handouts.html           # 85 downloadable resources
@@ -445,7 +445,7 @@ ImpactMojo/
 │
 ├── data/
 │   ├── bct-repository.json # BCT technique data (203 entries)
-│   ├── dataverse.json      # Dataverse catalog data (270 entries, 22 categories)
+│   ├── dataverse.json      # Dataverse catalog data (296 entries, 22 categories)
 │   └── game-agents.json    # MiroFish AI agent personas (30+ agents across 17 games)
 │
 ├── assets/
@@ -618,8 +618,8 @@ We welcome contributions! Whether improving content, fixing bugs, enhancing acce
 | **Feature Requests** | [GitHub Issues](https://github.com/ImpactMojo/ImpactMojo/issues) |
 | **Documentation** | [GitHub Wiki](https://github.com/ImpactMojo/ImpactMojo/wiki) |
 | **General Inquiries** | hello@impactmojo.in |
-| **Workshops & Coaching** | coaching@impactmojo.in |
-| **Registration** | register@impactmojo.in |
+| **Workshops & Coaching** | hello@impactmojo.in |
+| **Registration** | hello@impactmojo.in |
 | **Newsletter** | [Varna's Substack](https://varna.substack.com) |
 | **WhatsApp PLC** | [Professional Learning Community](https://chat.whatsapp.com/EsBjbKaQfupG1HbtajTjHM) |
 | **Discord** | [Tech tinkering & data tools](https://discord.gg/M3ZCmUe7ab) |
