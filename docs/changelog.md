@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.45.0 — June 3, 2026 (Consistency polish)
+
+### For Learners
+
+- **Clearer licensing on every page** — each page footer now states that the code is under MIT and the learning content under CC BY-NC-ND 4.0, and all content pages now name the same licence consistently.
+- **The Accessibility Statement page gains the standard System / Light / Dark theme switch**, matching the rest of the site and respecting your device's theme.
+
 ## v10.44.0 — June 3, 2026 (Documentation in 4 languages)
 
 ### For Learners

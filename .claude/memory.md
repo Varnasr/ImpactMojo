@@ -280,3 +280,12 @@ Persistent context that carries across Claude Code sessions. Updated automatical
 - FIX: spotlight pill bg→#0369A1 (white 5.8:1), type+CTA→#075985 (7.66) + dark override #7DD3FC (added `.imx-today-cta` class); pathway title→`var(--text-primary)` (AA both modes, accent kept on card top-border+icons); catalog active→#075985 + dark override #7DD3FC. Verified locally BEFORE push: axe 5/5 0 serious, pa11y 13/13. PR #513.
 - GOTCHA: pre-commit hook false-positives "merge conflict markers" on CSS `/* ===== */` comment rules in catalog.html → used `--no-verify` (confirmed zero real `<<<<<<<`/`>>>>>>>` first).
 - Artifacts: no changelog/search-index/sitemap change (a11y bug-fix, no new content/URLs). pa11y scope = 13 pages in `.pa11yci`; axe scope = 5 pages in tests/axe-accessibility.js.
+
+### Session 2026-06-03 (f) — full-site audit + 3 judgment-calls (#514, #515)
+- Ran a full content/consistency audit, fixed clear-cut items in #514, then surfaced 3 judgment-calls the user approved (all "Recommended") and shipped them in #515 (squash bfc0f1e).
+- **#515 judgment-calls:**
+  1. accessibility.html: replaced legacy 2-way `.theme-toggle` with the standard System/Light/Dark `.theme-selector`. Adapter drives the page's existing `.light-mode`/`.dark-mode` classes AND `[data-theme]`; reads/writes canonical `im-theme` (legacy `theme` kept for back-compat). Page keeps dark-default palette.
+  2. **Content licence reconciled to CC BY-NC-ND 4.0** (canonical per LICENSE file + README). Repo had drifted: 928 stray `CC BY-NC-SA 4.0` refs across 154 files → `BY-NC-ND` (token unambiguous, blind replace safe). ZERO BY-NC-SA remain outside Backups/. Added footer line "Code under MIT; content under CC BY-NC-ND 4.0." to all 18 top-level pages (anchored on `© 2026 ImpactMojo`; live-projects.html done by hand — its name is wrapped in `<a>`).
+  3. dojos.html + updates.html theme JS now read `im-theme||theme` and WRITE BOTH keys → theme choice propagates site-wide (was writing only legacy `theme`).
+- GOTCHA: `im-theme` is the canonical localStorage key sitewide; pages still vary on whether they also write legacy `theme` — keep dual-write when touching theme JS. `BY-NC-SA` token only ever means the licence here, so SA→ND is a safe global swap.
+- Artifacts: changelog v10.45.0 (For-Learners: licensing clarity + accessibility toggle); no search-index/sitemap change (no new content/URLs). CI all green pre-merge.
