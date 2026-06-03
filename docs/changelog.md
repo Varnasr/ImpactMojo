@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.43.0 — June 3, 2026 (Nav consistency + vernacular UI)
+
+### Changed
+
+- **Updates & Dojos pages now use the standard site navigation** — a single fixed header with a working mobile menu and a unified theme toggle, fixing the duplicate navbars and conflicting theme scripts left behind by an earlier nav transplant.
+- **Press Kit and navigation UI strings are now curated in Hindi, Tamil, Bengali and Marathi** (41 keys × 4 languages), replacing the machine-translation fallback for those strings. Marked pending native-speaker review.
+
 ## v10.42.0 — June 3, 2026 (Dataverse + Timelines)
 
 ### For Learners
