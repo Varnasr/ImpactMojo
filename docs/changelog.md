@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.42.0 — June 3, 2026 (Dataverse + Timelines)
+
+### For Learners
+
+- **14 more open-data sources in the Dataverse** (now 296) — IndiaDataPortal, PRS, Digital Sansad, IPUMS, V-Dem, ACLED, RBI DBIE, SHRUG, Bhuvan and more.
+- **Timelines extended to 2026** — added recent milestones (COP29's $300bn finance goal, the 2023 Women's Reservation Act, and more) across the climate, policy, rights, development-thinking and MEL timelines.
+
 ## v10.41.0 — June 2, 2026 (Today's Spotlight)
 
 ### For Learners

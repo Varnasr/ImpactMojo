@@ -252,3 +252,9 @@ Persistent context that carries across Claude Code sessions. Updated automatical
 - Header-offset sweep (#496): 9 trapped pages fixed (catalog/faq/accessibility/live-projects/contact/coaching=70px; transparency/challenges/dataverse=64px). workshops/handouts left (60px padding already clears).
 - Blog citation Batch 4 (#497): open-education-matters, multilingual-learning, learning-by-doing (removed debunked learning-pyramid  -> ICAP), writing-a-tor (budget figures kept as estimates). => ENTIRE blog citation program (Batches 1-4, ~22 posts) COMPLETE.
 - PRs through #497. OPEN: nav standardisation updates/dojos (deferred - needs imx-main.css+nav JS, best with deploy preview; pairs with Updates-page rewrite which needs roadmap input), light/dark + design audits, Timelines/Dataverse/Press-kit (Phase 3), repo program (Phase 4). ENV keys still ephemeral.
+
+### Session 2026-06-03 (b) — autonomous backlog run
+- #498 press kit + README canonical counts + repo description/topics. #499 ROADMAP Q2 refresh + CI checkout@v4->v6. #501 Dataverse +14 verified sources (296). Blog citation Batch 4 done earlier (#497) => blog program complete.
+- Timelines: extended 5 timelines to 2026 (COP29, Women Reservation Act 2023, etc.) via verified agent.
+- i18n: language files do NOT contain the Game Library rename strings, so no i18n fix needed. NOTE: dataverse.json has 3 pre-existing duplicate IDs (jpal-evaluations, slack-mcp, notion-mcp) to dedupe later.
+- DEFERRED (need deploy-preview review): Updates page content+nav swap, dojos nav (feasible - standard nav is in impact-bold.css which both load; needs header+mobile-menu+JS transplant), light/dark + design audits. i18n full doc translation = big future initiative.
