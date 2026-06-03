@@ -966,10 +966,10 @@ function toggleCard(card) {
   function resolve(t){ return t==='system' ? (window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light') : t; }
   function applyTheme(t){ var r=resolve(t); document.documentElement.setAttribute('data-theme', r); document.body.classList.toggle('dark-mode', r==='dark'); document.body.classList.toggle('light-mode', r==='light'); }
   function updateBtn(t){ document.querySelectorAll('.theme-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.theme===t); }); }
-  var s=localStorage.getItem('theme')||'system'; applyTheme(s);
-  function init(){ updateBtn(s); document.querySelectorAll('.theme-btn').forEach(function(b){ b.addEventListener('click', function(){ var t=b.dataset.theme; localStorage.setItem('theme',t); updateBtn(t); applyTheme(t); }); }); }
+  var s=localStorage.getItem('im-theme')||localStorage.getItem('theme')||'system'; applyTheme(s);
+  function init(){ updateBtn(s); document.querySelectorAll('.theme-btn').forEach(function(b){ b.addEventListener('click', function(){ var t=b.dataset.theme; localStorage.setItem('im-theme',t); localStorage.setItem('theme',t); updateBtn(t); applyTheme(t); }); }); }
   if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded', init);
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(){ if((localStorage.getItem('theme')||'system')==='system') applyTheme('system'); });
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(){ if((localStorage.getItem('im-theme')||localStorage.getItem('theme')||'system')==='system') applyTheme('system'); });
 })();
 function toggleMobileMenu(){ var n=document.getElementById('navLinks'); if(n) n.classList.toggle('active'); }
 </script>
