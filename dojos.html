@@ -1443,7 +1443,29 @@ body.dark-mode .badge-free, body.dark-mode .badge-status-live, body.dark-mode .s
 <style>
 /* Body clears fixed im-topbar (added by site-wide audit fix) */
 body { padding-top: 70px; }
-@media (max-width: 768px) { body { padding-top: 52px; } }
+@media (max-width: 768px) { body { padding-top: 70px; } } /* match standard fixed-header height */
+</style>
+<style>
+/* Standard ImpactMojo nav — CSS to match the transplanted <header class="header"> markup.
+   (HTML was transplanted earlier without these rules; restores fixed header + mobile menu.) */
+.header { background: var(--nav-bg); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-color); position: fixed; left: 0; right: 0; top: 0; z-index: 1000; padding: 1rem 2rem; }
+.nav-container { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+.header .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-primary); }
+.header .logo-icon { width: 40px; height: 40px; background: var(--gradient-primary); background-color: #0369A1; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; color: #fff; }
+.header .logo-text { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1.25rem; }
+.nav-links { display: flex; gap: 2rem; align-items: center; }
+.nav-links a { color: var(--text-secondary); text-decoration: none; font-weight: 500; transition: color 0.2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--accent-color); }
+.nav-buttons { display: flex; gap: 0.5rem; align-items: center; }
+.mobile-menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.mobile-menu-toggle svg { width: 24px; height: 24px; stroke: var(--text-primary); fill: none; stroke-width: 2; }
+@media (max-width: 768px) {
+  .header { padding: 0.75rem 1rem; }
+  .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--nav-bg); flex-direction: column; padding: 1rem; gap: 0; border-bottom: 1px solid var(--border-color); }
+  .nav-links.active { display: flex; }
+  .nav-links a { padding: 0.75rem 1rem; border-radius: 8px; }
+  .mobile-menu-toggle { display: flex; }
+}
 </style>
 </head>
 <body class="ib">
@@ -1503,37 +1525,6 @@ body { padding-top: 70px; }
         <circle cx="45" cy="170" r="1" fill="#10B981" opacity="0.5"/>
     </svg>
 
-    <!-- Header -->
-    <header>
-        <div class="header-content">
-            <a href="/" class="logo-link">
-                <img src="assets/images/ImpactMojo%20Logo.png" alt="ImpactMojo" width="40" height="40">
-                <span class="logo-text">ImpactMojo</span>
-            </a>
-            <button class="mobile-menu-btn" onclick="toggleMobileNav()" aria-label="Menu">
-                <span></span><span></span><span></span>
-            </button>
-            <nav id="mainNav">
-                <a href="/">Home</a>
-                <a href="/catalog">Catalog</a>
-                <a href="/workshops">Workshops</a>
-                <a href="/handouts">Resources</a>
-                <a href="/blog">Blog</a>
-                <a href="/#about">About</a>
-                <div class="theme-selector" aria-label="Theme selection">
-                    <button class="theme-btn" data-theme="system" title="System theme" aria-label="Use system theme">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-                    </button>
-                    <button class="theme-btn" data-theme="light" title="Light theme" aria-label="Use light theme">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                    </button>
-                    <button class="theme-btn" data-theme="dark" title="Dark theme" aria-label="Use dark theme">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                    </button>
-                </div>
-            </nav>
-        </div>
-    </header>
 
     <main>
         <a href="/" class="back-link">
@@ -2053,36 +2044,6 @@ body { padding-top: 70px; }
             });
         });
 
-        // Theme
-        function getPreferredTheme() {
-            return localStorage.getItem('impactmojo-theme') || 'system';
-        }
-        function applyTheme(theme) {
-            var resolved = theme;
-            if (theme === 'system') {
-                resolved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-            }
-            document.documentElement.setAttribute('data-theme', resolved);
-            document.body.classList.toggle('light-mode', resolved === 'light');
-            document.body.classList.toggle('dark-mode', resolved === 'dark');
-            localStorage.setItem('impactmojo-theme', theme);
-            document.querySelectorAll('.theme-btn').forEach(function(btn) {
-                btn.classList.toggle('active', btn.getAttribute('data-theme') === theme);
-            });
-        }
-        applyTheme(getPreferredTheme());
-        document.querySelectorAll('.theme-btn').forEach(function(btn) {
-            btn.addEventListener('click', function() { applyTheme(btn.getAttribute('data-theme')); });
-        });
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
-            if (getPreferredTheme() === 'system') applyTheme('system');
-        });
-
-        // Mobile nav
-        function toggleMobileNav() {
-            document.getElementById('mainNav').classList.toggle('open');
-        }
-
         // Modal
         function openModal() {
             document.getElementById('modalOverlay').classList.add('active');
@@ -2120,54 +2081,25 @@ body { padding-top: 70px; }
 <script defer src="js/translate.js"></script>
 <script src="/js/search.js" defer></script>
 <script defer src="js/auto-refresh.js"></script>
-<!-- ImpactMojo Theme Toggle JS -->
-<script>
-(function() {
-    function getSystemTheme() {
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    function applyTheme(theme) {
-        var resolved = theme === 'system' ? getSystemTheme() : theme;
-        document.documentElement.setAttribute('data-theme', resolved);
-        // Also handle legacy body classes
-        document.body.classList.remove('dark-mode', 'light-mode');
-        if (resolved === 'light') document.body.classList.add('light-mode');
-        else document.body.classList.add('dark-mode');
-    }
-    function updateButtons(pref) {
-        document.querySelectorAll('.im-theme-btn').forEach(function(btn) {
-            btn.classList.toggle('active', btn.getAttribute('data-imtheme') === pref);
-        });
-    }
-    var saved = localStorage.getItem('im-theme') || 'system';
-    // Apply immediately before render
-    applyTheme(saved);
-    document.addEventListener('DOMContentLoaded', function() {
-        applyTheme(saved);
-        updateButtons(saved);
-        document.querySelectorAll('.im-theme-btn').forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                var t = this.getAttribute('data-imtheme');
-                localStorage.setItem('im-theme', t);
-                applyTheme(t);
-                updateButtons(t);
-            });
-        });
-    });
-    // Listen for system theme changes
-    window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function() {
-        if ((localStorage.getItem('im-theme') || 'system') === 'system') {
-            applyTheme('system');
-        }
-    });
-})();
-</script>
 
 <!-- Supabase Auth -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
 <script src="/js/state-manager.js"></script>
 <script src="/js/config.js"></script>
 <script src="/js/auth.js"></script>
-<script>function toggleMobileMenu(){var n=document.getElementById('navLinks');if(n)n.classList.toggle('active');}</script>
+<script>
+// Standard three-way theme + mobile menu (sets data-theme attr AND body class so
+// both paired (impact-bold.css) and standalone [data-theme] rules resolve)
+(function(){
+  function resolve(t){ return t==='system' ? (window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light') : t; }
+  function applyTheme(t){ var r=resolve(t); document.documentElement.setAttribute('data-theme', r); document.body.classList.toggle('dark-mode', r==='dark'); document.body.classList.toggle('light-mode', r==='light'); }
+  function updateBtn(t){ document.querySelectorAll('.theme-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.theme===t); }); }
+  var s=localStorage.getItem('theme')||'system'; applyTheme(s);
+  function init(){ updateBtn(s); document.querySelectorAll('.theme-btn').forEach(function(b){ b.addEventListener('click', function(){ var t=b.dataset.theme; localStorage.setItem('theme',t); updateBtn(t); applyTheme(t); }); }); }
+  if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded', init);
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(){ if((localStorage.getItem('theme')||'system')==='system') applyTheme('system'); });
+})();
+function toggleMobileMenu(){ var n=document.getElementById('navLinks'); if(n) n.classList.toggle('active'); }
+</script>
 </body>
 </html>
