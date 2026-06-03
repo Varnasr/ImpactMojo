@@ -604,7 +604,7 @@ Specials dropdown ही 13 आयटमांची एक सपाट या�
 ### जोडले
 - **70 पानांवर Device-mode default theme** — पाने आता पहिल्या paint वर तुमची OS dark/light प्राधान्य अनुसरतात, आणि तुम्ही स्पष्टपणे निवडल्यास 3-बटण theme toggle अजूनही जिंकते
 - **74 सामग्री पानांवर body परिच्छेदांत Underlined inline links** — WCAG 2.1 AA §1.4.1 (Use of Color) पूर्ण करते
-- **CC BY-NC-SA 4.0 attribution** ते गहाळ असलेल्या 17 handouts मध्ये backfill केले — सर्व 84 handouts आता एकसमान
+- **CC BY-NC-ND 4.0 attribution** ते गहाळ असलेल्या 17 handouts मध्ये backfill केले — सर्व 84 handouts आता एकसमान
 - **Premium topbar दुवा** 11 main-site पानांवर जोडला
 - **Language translation widget** `climate-trace-india` व `transparency` वर
 - **Paper plane decoration** `courses/gender/lexicon` व `courses/pubpol/lexicon` वर; `courses/pubpol/lexicon` वर footer landmark

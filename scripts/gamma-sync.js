@@ -65,7 +65,7 @@ const HEADER_FOOTER = {
   },
   bottomRight: {
     type: "text",
-    value: "CC BY-NC-SA 4.0",
+    value: "CC BY-NC-ND 4.0",
   },
   hideFromFirstCard: false,
   hideFromLastCard: false,
@@ -99,7 +99,7 @@ const ADDITIONAL_INSTRUCTIONS = [
   "  - Subheading: 'Keep exploring. Keep questioning. Keep building.'",
   "  - Contact: hello@impactmojo.in",
   "  - Website: www.impactmojo.in",
-  "  - License: CC BY-NC-SA 4.0",
+  "  - License: CC BY-NC-ND 4.0",
   "  - '🎓 Explore More ImpactMojo 101 Courses:' followed by 2-3 related course suggestions",
   "  - A sepia silhouette image with folk art border as the background",
   "This Thank You slide is REQUIRED. Do not end the deck without it.",

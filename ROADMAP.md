@@ -63,7 +63,7 @@ ImpactMojo development priorities for 2026. Items are roughly ordered by priorit
 - [x] **Duplicate header cleanup** — removed `im-topbar` overlay from 28 pages where it was hiding the legacy main navigation
 - [x] **Emoji → Sargam line icons** — 39 pictographic emoji replaced with `si_*` icons across 10 content pages
 - [x] **"Coming Soon" course cards** — 10 unbuilt placeholder cards marked with disabled state instead of dead mirror links
-- [x] **Brand identity audit complete** — every content page has correct fonts, paper plane, theme toggle, home link, Premium link, footer landmark, CC BY-NC-SA attribution, language dropdown
+- [x] **Brand identity audit complete** — every content page has correct fonts, paper plane, theme toggle, home link, Premium link, footer landmark, CC BY-NC-ND attribution, language dropdown
 - [x] **FieldCases + DevDiscourses theme toggle** (sister sites on `varnasr.github.io`) — 3-button system/light/dark selector shipped on both
 - [x] **"Impact Bold" visual refresh** — 32-page bold restyle on a shared `impact-bold.css`, plus a full premium-page redesign
 - [x] **Deep Dives library (→16)** — 10 new curated, fully web-cited reading lists (cash transfers, India's FLFP, politics of targeting, the RCT debate, climate adaptation finance, measuring empowerment, informality, the learning crisis, health systems & UHC, decolonising development knowledge)

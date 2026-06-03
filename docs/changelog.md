@@ -604,7 +604,7 @@ A new content type: themed annotated reading lists curated by named scholars and
 ### Added
 - **Device-mode default theme** on 70 pages — pages now follow your OS dark/light preference on first paint, and the 3-button theme toggle still wins if you pick explicitly
 - **Underlined inline links** in body paragraphs across 74 content pages — meets WCAG 2.1 AA §1.4.1 (Use of Color)
-- **CC BY-NC-SA 4.0 attribution** backfilled into 17 handouts that were missing it — all 84 handouts are now uniform
+- **CC BY-NC-ND 4.0 attribution** backfilled into 17 handouts that were missing it — all 84 handouts are now uniform
 - **Premium topbar link** added to 11 main-site pages
 - **Language translation widget** on `climate-trace-india` and `transparency`
 - **Paper plane decoration** on `courses/gender/lexicon` and `courses/pubpol/lexicon`; footer landmark on `courses/pubpol/lexicon`

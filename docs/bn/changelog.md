@@ -604,7 +604,7 @@ Specials dropdown ছিল 13টি আইটেমের একটি সম�
 ### যোগ করা হয়েছে
 - **70টি পৃষ্ঠায় Device-mode default theme** — পৃষ্ঠাগুলি এখন প্রথম paint-এ আপনার OS dark/light পছন্দ অনুসরণ করে, এবং আপনি স্পষ্টভাবে বাছাই করলে 3-বোতামের theme toggle এখনও জেতে
 - **74টি কনটেন্ট পৃষ্ঠা জুড়ে body অনুচ্ছেদে Underlined inline link** — WCAG 2.1 AA §1.4.1 (Use of Color) পূরণ করে
-- **CC BY-NC-SA 4.0 attribution** এটি অনুপস্থিত ছিল এমন 17টি handout-এ backfill করা হয়েছে — সব 84টি handout এখন অভিন্ন
+- **CC BY-NC-ND 4.0 attribution** এটি অনুপস্থিত ছিল এমন 17টি handout-এ backfill করা হয়েছে — সব 84টি handout এখন অভিন্ন
 - **Premium topbar লিঙ্ক** 11টি main-site পৃষ্ঠায় যোগ করা হয়েছে
 - **Language translation widget** `climate-trace-india` ও `transparency`-তে
 - **Paper plane decoration** `courses/gender/lexicon` ও `courses/pubpol/lexicon`-এ; `courses/pubpol/lexicon`-এ footer landmark
