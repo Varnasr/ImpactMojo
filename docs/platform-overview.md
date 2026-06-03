@@ -8,7 +8,7 @@ This page walks through everything available on ImpactMojo — what each content
 
 Courses are the backbone of ImpactMojo. There are two types:
 
-### Flagship Courses (11 courses)
+### Flagship Courses (13 courses)
 
 These are comprehensive, deep-dive courses — each with approximately **13 modules** that build on each other. Think of them as the equivalent of a semester-long university course, but written for working professionals.
 
@@ -25,7 +25,7 @@ Each flagship course includes:
 
 **How to use them:** Work through a course at your own pace (one module per week is a comfortable rhythm). Assign modules to your team as pre-reading before a planning session. Use them as the curriculum backbone for a university course or NGO training programme.
 
-### Foundational Courses (38 courses)
+### Foundational Courses (40 courses)
 
 Comprehensive study decks that cover a specific skill or concept in depth. These are self-paced reading materials — thorough in their coverage but simpler in format than flagship courses. **4 courses are now native 100-slide HTML decks** (Dev Econ, MEL, Climate, Inequality) with interactive charts, light/dark theme, and keyboard/touch navigation. The remaining courses are available as visual Gamma presentations. See the [101 Course Decks Guide](101-decks-guide.md) for details.
 
