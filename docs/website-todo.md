@@ -17,7 +17,7 @@ Whenever content is added/removed, keep ALL counts correct and synced site-wide 
 - [x] Blog citation upgrades — Batch 1 (6): meal-demystified, theory-of-change-pitfalls, sample-size-matters, indicators-that-matter, mixed-methods-evaluation, quasi-experimental-designs.
 - [x] Blog citation upgrades — Batch 2 (6): assumption-testing, adaptive-management-toc, building-mel-culture, participatory-mel, toc-vs-logframe, ethical-research-south-asia.
 - [x] Blog citation upgrades — Batch 3 (6): history-of-mel, data-driven-decisions, data-quality-field, community-feedback-loops, south-asia-development-landscape, toc-for-complex-programmes.
-- [ ] Blog citation upgrades — Batch 4 (remaining): open-education-matters, multilingual-learning, learning-by-doing, writing-a-tor-for-research, + judgement-call on the manifesto/story posts (why-impactmojo-exists, knowing-what-you-want, from-learner-to-leader, tools-we-use, whats-coming-in-2026 — cite where claims warrant, don't force).
+- [x] Blog citation upgrades — Batch 4: open-education-matters, multilingual-learning, learning-by-doing, writing-a-tor (verified citations; learning-pyramid myth removed). Manifesto/story posts left as-is (citations not warranted).
 
 ## Phase 3 — Content expansion (ADD more + update)
 - [ ] **Timelines** — expand & refresh: add new timeline pages and update the 5 existing (climate-policy, development-thinking, indian-policy, indian-rights, mel-methods).
