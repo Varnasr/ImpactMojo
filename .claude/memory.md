@@ -242,3 +242,8 @@ Persistent context that carries across Claude Code sessions. Updated automatical
 ### Session 2026-06-02 (g) — Today's Spotlight (#493)
 - Homepage daily-rotating "Today's Spotlight" banner (after hero, before Daily Learning Tip): 12-item pool across courses/labs/deep dives/games/timelines via daily-spotlight.js.
 - Rotate feature now on: testimonials + homepage spotlight. Still TODO: per-section "X of the day" + Updates/Roadmap page (stale content + non-standard im-topbar nav). Timeline files live in /timelines/. 33 PRs (#464-#493).
+
+### Session 2026-06-02 (h) — email consolidation + fixes (#494)
+- Consolidated 11 site contact emails -> hello@ only (folded coaching/info/workshops/register/care/support/operations/AP). Left auth untouched: impactlex/config.js adminEmails=info@, impactlex/instantdb-permissions.json. grievance@ not on any live page (grievance.html uses hello@ + form).
+- Earlier this session: Today's Spotlight (#493), Learning Pathways defer-load fix + dd-shared .im-browse-btn + game-library stat (#492), game-library URL rename + single Game Library (#490/#491), games count->134 (#489).
+- Now 34 PRs merged (#464-#494). OPEN/TODO: Updates-Roadmap page (stale content + im-topbar nav), per-section "X of the day", repo program (README/docs/ROADMAP/workflows), optional grievance@ on grievance page + backend auth email update. ENV KEYS in .claude/.env.keys are ephemeral - user to rotate + add to env secret config.
