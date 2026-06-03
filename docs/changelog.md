@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.44.0 — June 3, 2026 (Documentation in 4 languages)
+
+### For Learners
+
+- **The full documentation is now available in Hindi, Tamil, Bengali and Marathi** — every guide (platform overview, getting started, games/labs/courses, certificates, policies and more) has a curated translation, with a language switcher in the docs viewer. Anything not yet translated falls back gracefully to English.
+
 ## v10.43.0 — June 3, 2026 (Nav consistency + vernacular UI)
 
 ### Changed
