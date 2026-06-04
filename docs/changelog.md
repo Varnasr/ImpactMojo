@@ -2,11 +2,11 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
-## v10.52.0 — June 4, 2026 (New Special: Capacity for Irony — a cartoon essay)
+## v10.52.0 — June 4, 2026 (New Special: Capacity for Irony — Marginalia)
 
 ### For Learners
 
-- **Capacity for Irony — a cartoon essay** — ten hand-drawn cartoons from the development sector, where the language of help meets the people it claims to help. In each, someone in a lanyard says the thing the sector says, and a field worker, ASHA, farmer or beneficiary says the thing the sector tends not to write down. Every punchline is backed by two or three cited, evidence-based paragraphs — from the Grand Bargain's localisation gap and "pilotitis" to Longwe's "patriarchal cooking pot" and Toyama's Law of Amplification — with a full sources list. A companion in spirit to the *Between the Logframes* podcast. Find it under **Specials → Long-form Reading**.
+- **Capacity for Irony — Marginalia** — ten hand-drawn cartoons from the development sector, where the language of help meets the people it claims to help. In each, someone in a lanyard says the thing the sector says, and a field worker, ASHA, farmer or beneficiary says the thing the sector tends not to write down. Every punchline is backed by two or three cited, evidence-based paragraphs — from the Grand Bargain's localisation gap and "pilotitis" to Longwe's "patriarchal cooking pot" and Toyama's Law of Amplification — with a full sources list. A companion in spirit to the *Between the Logframes* podcast. Find it under **Specials → Long-form Reading**.
 
 ## v10.51.0 — June 4, 2026 (New flagship: Causal Inference for Development)
 

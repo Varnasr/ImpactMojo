@@ -7,10 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [10.52.0] - 2026-06-04
 
-### Added — New Special: "Capacity for Irony" cartoon essay
+### Added — New Special: "Capacity for Irony" (Marginalia)
 
-A new content type — **Specials** — debuts with its first entry, a cartoon
-essay at `/specials/capacity-for-irony/`.
+A new content type — **Specials** — debuts with its first entry, a
+**Marginalia** piece (illustrated satire with cited evidence) at
+`/specials/capacity-for-irony/`.
 
 - **`specials/capacity-for-irony/index.html`** (new) — self-contained,
   brand-compliant page (fixed topbar, 3-mode theme toggle, 4-section footer,
