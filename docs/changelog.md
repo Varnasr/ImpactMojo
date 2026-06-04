@@ -2,6 +2,18 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.50.0 — June 4, 2026 (Flagship consistency: themes, coach photos, mobile menu)
+
+### For Learners
+
+- **Three courses no longer look "blacked out" in light mode** — Data Visualization, Media for Development, and The Evidence Question (MEL) now show a light hero and sidebar in light mode (and dark in dark mode), matching the other flagships. This was most noticeable on phones.
+- **Every course now shows a photo of your coach** — the Gender course previously showed initials in its coaching notes; it now uses the same Varna and Vandana coach photos as the rest of the platform, so the guidance feels personal and consistent everywhere.
+- **The mobile menu button is now clearly labelled "☰ Contents"** on every flagship, so it's obvious how to open the course outline on a phone.
+
+### Changed
+
+- Added Course structured data (schema.org JSON-LD) to all 14 flagship course pages for richer search-engine results, and removed a stray 1-hour page auto-refresh that interrupted reading and was an accessibility issue.
+
 ## v10.49.0 — June 3, 2026 (Livelihoods on the flagship template)
 
 ### For Learners
