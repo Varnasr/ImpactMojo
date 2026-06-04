@@ -183,26 +183,46 @@
       'Authorization': 'Bearer ' + (token || cfg.SUPABASE_ANON_KEY),
     };
 
-    fetch(EDGE_FN_URL, {
-      method: 'POST',
-      headers: headers,
-      body: JSON.stringify({ course_id: courseId }),
-    })
-      .then(function (res) {
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        return res.json();
+    // Fetch with a per-attempt timeout and one automatic retry, so a hung
+    // edge-function request can no longer leave the page spinning forever.
+    var MAX_ATTEMPTS = 2;
+    var TIMEOUT_MS = 12000;
+
+    function attempt(n) {
+      var controller = new AbortController();
+      var timer = setTimeout(function () { controller.abort(); }, TIMEOUT_MS);
+
+      fetch(EDGE_FN_URL, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify({ course_id: courseId }),
+        signal: controller.signal,
       })
-      .then(function (data) {
-        if (data.modules && data.modules.length > 0) {
-          injectContent(data.modules);
-        } else {
-          showError();
-        }
-      })
-      .catch(function (err) {
-        console.error('[CourseLoader] Failed to load content:', err);
-        showError();
-      });
+        .then(function (res) {
+          clearTimeout(timer);
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.json();
+        })
+        .then(function (data) {
+          if (data.modules && data.modules.length > 0) {
+            injectContent(data.modules);
+          } else {
+            throw new Error('empty payload');
+          }
+        })
+        .catch(function (err) {
+          clearTimeout(timer);
+          if (n < MAX_ATTEMPTS) {
+            console.warn('[CourseLoader] attempt ' + n + ' failed (' + err.message + '), retrying…');
+            setTimeout(function () { attempt(n + 1); }, 1500 * n);
+          } else {
+            console.error('[CourseLoader] Failed to load content:', err);
+            showError();
+          }
+        });
+    }
+
+    attempt(1);
   }
 
   // ── CSS for spinner animation ───────────────────────────────────

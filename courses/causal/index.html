@@ -3172,6 +3172,14 @@ code, pre, .monospace, kbd, samp { font-family: 'JetBrains Mono', monospace !imp
       "image": "https://www.impactmojo.in/assets/images/causal-og.jpg"
     }
     </script>
+<!-- KaTeX for proper math typesetting (rendered after DB content injects) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+    <style>
+      /* Keep inline math on the text baseline; let display math breathe. */
+      .katex { font-size: 1.04em; }
+      .katex-display { margin: 1.1rem 0; overflow-x: auto; overflow-y: hidden; padding: 0.2rem 0; }
+      .equation-box .katex-display { margin: 0.2rem 0; }
+    </style>
 </head>
 <body>
 <!-- ImpactMojo Top Bar -->
@@ -4049,5 +4057,32 @@ code, pre, .monospace, kbd, samp { font-family: 'JetBrains Mono', monospace !imp
 <script src="/js/pwa.js" defer></script>
 <script src="/js/offline.js" defer></script>
 <script defer src="../../js/auto-refresh.js"></script>
+
+<!-- KaTeX engine + auto-render. Math is typeset after course-loader.js injects DB content. -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+<script>
+(function () {
+    function typeset(root) {
+        if (!window.renderMathInElement) { return setTimeout(function () { typeset(root); }, 150); }
+        window.renderMathInElement(root || document.body, {
+            delimiters: [
+                { left: '\\[', right: '\\]', display: true },
+                { left: '\\(', right: '\\)', display: false }
+            ],
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            throwOnError: false
+        });
+    }
+    // Render once the DB-served modules are injected…
+    document.addEventListener('courseContentLoaded', function () { typeset(document.body); });
+    // …and once on initial load for any inline/preview math already present.
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () { typeset(document.body); });
+    } else {
+        typeset(document.body);
+    }
+})();
+</script>
 </body>
 </html>
