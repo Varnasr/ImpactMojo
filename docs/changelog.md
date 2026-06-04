@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.51.0 — June 4, 2026 (New flagship: Causal Inference for Development)
+
+### For Learners
+
+- **New flagship course: Causal Inference for Development** — a free, design-based course for people who design, read and commission impact evidence. Thirteen modules carry you from the potential-outcomes model through the estimator toolkit — randomised trials, matching, instrumental variables, regression discontinuity, difference-in-differences, synthetic control and causal machine learning — to the practitioner's real job: judging which design a claim can bear. R and Stata throughout, with Indian programme cases, and a **65-term interactive lexicon** plus a downloadable Excel version. The platform now has **15 flagship courses**.
+
 ## v10.50.0 — June 4, 2026 (Flagship consistency: themes, coach photos, mobile menu)
 
 ### For Learners
