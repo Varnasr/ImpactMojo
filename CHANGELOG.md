@@ -5,6 +5,27 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.52.0] - 2026-06-04
+
+### Added — New Special: "Capacity for Irony" cartoon essay
+
+A new content type — **Specials** — debuts with its first entry, a cartoon
+essay at `/specials/capacity-for-irony/`.
+
+- **`specials/capacity-for-irony/index.html`** (new) — self-contained,
+  brand-compliant page (fixed topbar, 3-mode theme toggle, 4-section footer,
+  skip link, GA, paper-plane, Article JSON-LD). Ten cartoons laid out as
+  alternating panels; each pairs the "pitch / reply" exchange with two–three
+  evidence-based paragraphs and inline citations, plus a 17-item numbered
+  Notes & Sources list. Notebook-paper palette with a blue-ink accent echoing
+  the artwork.
+- **`assets/images/capacity-for-irony/`** (new) — 10 cartoons optimised from
+  ~24 MB PNG to ~2.5 MB progressive JPEG (1000px wide), lazy-loaded with full
+  alt text.
+- **Cross-references** — added to the homepage Specials → Long-form Reading
+  menu (`index.html`), `data/search-index.json` (type `special`),
+  `sitemap.xml`, and both changelogs.
+
 ## [10.34.0] - 2026-06-02
 
 ### Added — Practice Packs premium (freemium paywall)
