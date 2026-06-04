@@ -5,6 +5,28 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.53.0] - 2026-06-04
+
+### Added — Marginalia series hub + second essay "The Fine Print"
+
+- **`specials/the-fine-print/index.html`** (new) — second Marginalia cartoon
+  essay, 10 panels with the "pitch / reply" device and two–three cited
+  paragraphs each, plus a 19-item Notes & Sources list. Themes: co-creation/
+  tokenism (Arnstein), ownership vs budget (participatory budgeting), disability
+  access (RPwD Act 2016 / CRPD), youth tokenism (Hart), unpaid "volunteer"
+  labour (WHO), lifestyle drift / commercial determinants (WHO), evidence vs
+  budget (Cairney), dashboard vs service (Jal Jeevan Mission, Goodhart),
+  maintenance vs innovation (Vinsel & Russell), resilience vs root causes
+  (*At Risk*).
+- **`specials/marginalia/index.html`** (new) — series landing hub with cards
+  for both essays; BreadcrumbList + CollectionPage JSON-LD.
+- **`assets/images/the-fine-print/`** — 10 cartoons optimised to progressive
+  JPEG (~2.8 MB); **`assets/images/marginalia-cover.jpg`** series cover.
+- **Cross-refs** — homepage Specials section now shows both essays and links
+  to the hub; nav "Marginalia" repointed to `/specials/marginalia/`;
+  `search-index.json` (+2), `catalog.html`/`catalog_data.json` (Specials → 2),
+  `sitemap.xml`, and the podcast companion callout updated to the series.
+
 ## [10.52.0] - 2026-06-04
 
 ### Added — New Special: "Capacity for Irony" (Marginalia)

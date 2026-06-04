@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.53.0 — June 4, 2026 (Marginalia series + second essay: The Fine Print)
+
+### For Learners
+
+- **The Fine Print — a new Marginalia cartoon essay** — ten more hand-drawn cartoons on the gap between the headline claim and the buried condition: inclusion announced from the top of a staircase, "community ownership" without the budget, an evidence-based brief that never reaches the allocation, a glowing dashboard above an empty clinic, disruptive innovation where a handpump just needed repair, and resilience that never reduces the shock. Each is backed by two or three cited, evidence-based paragraphs — from Arnstein's and Hart's ladders of participation and India's RPwD Act to the WHO's commercial determinants of health and the *At Risk* vulnerability framework.
+- **Marginalia now has its own home** — the cartoon-essay series lives at a single landing page gathering both essays (*Capacity for Irony* and *The Fine Print*), reachable from the **Specials → Marginalia** menu.
+
 ## v10.52.0 — June 4, 2026 (New Special: Capacity for Irony — Marginalia)
 
 ### For Learners
