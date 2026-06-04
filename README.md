@@ -41,7 +41,7 @@ We provide accessible, high-quality educational materials grounded in South Asia
 
 | Category | Description |
 |----------|-------------|
-| **54 Courses** | 14 flagship + 40 foundational courses across 6 learning tracks (4 native HTML slide decks with 100 slides each; remaining 36 Gamma-hosted) |
+| **54 Courses** | 15 flagship + 40 foundational courses across 6 learning tracks (4 native HTML slide decks with 100 slides each; remaining 36 Gamma-hosted) |
 | **13 Interactive Labs** | Hands-on workbenches for MEL, policy, partnerships, budgeting, gender analysis, and more |
 | **134 Game Library** | 17 interactive simulations (MiroFish AI agents, Indian folk art — Warli, Madhubani, Gond, Kalamkari, Pichwai, Pattachitra) + 117 crosswords, quizzes & word searches |
 | **ImpactLex Dictionary** | 390+ development terms with contextual definitions, formulas, and case studies (PWA, hosted on ImpactMojo) |
@@ -269,7 +269,7 @@ Comprehensive ToC learning and building toolkit:
 - **Reading Lists** — Curated resource collections
 - **Course Comparison** — Compare courses side-by-side
 - **Interactive Assessments** — MCQ, multi-select, and T/F quizzes for MEL, DataViz, and DevAI courses with scoring, feedback, and localStorage persistence
-- **Offline PWA Support** — Service worker caches all 14 flagship courses for offline access with automatic background updates
+- **Offline PWA Support** — Service worker caches all 15 flagship courses for offline access with automatic background updates
 - **Certificate Generation** — Auto-issued on course completion with public verification and Open Badges 3.0 metadata
 - **Badge Wallet** — View, download, and share W3C verifiable credential badges
 - **Portfolio Builder** — Premium feature: curate certificates, projects & case studies with PDF export

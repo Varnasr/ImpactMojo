@@ -12,7 +12,7 @@ Four principles guide everything we build:
 
 1. **Practical over theoretical.** Every concept connects to something you can use in your work — a framework, a method, a tool.
 2. **Applied in context.** Examples, data, and case studies come from South Asian development programs, not textbook abstractions.
-3. **Free and open.** All 14 flagship courses, 40 foundational courses, 17 games, 13 labs, and 85 handouts are free. No paywall on learning.
+3. **Free and open.** All 15 flagship courses, 40 foundational courses, 17 games, 13 labs, and 85 handouts are free. No paywall on learning.
 4. **Built for real conditions.** Works on mobile, works offline, works on slow connections. No login required to start learning.
 
 ## How Courses Are Designed
