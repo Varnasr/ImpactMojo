@@ -5,6 +5,40 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.57.0] - 2026-06-05
+
+### Added — 101 Series native migration: Gender & Social cluster (6 decks)
+
+Six more 100-slide native decks (16 of 26 Gamma courses now migrated).
+
+### For Learners
+
+- **Data Feminism 101** — power and data through D'Ignazio & Klein's seven
+  principles: examining and challenging power, rethinking who gets counted,
+  intersectionality, and South Asia's gender data gaps. 100 slides.
+- **Care Economy 101** — the unpaid and paid care that holds up every economy:
+  the SNA boundary, time-use data, the gendered care burden, the 5 Rs, and
+  care policy. 100 slides.
+- **SEL Basics 101** — social and emotional learning: CASEL's five
+  competencies, the evidence base, classroom implementation, and SEL in the
+  Indian context (NEP 2020). 100 slides.
+- **Sexual Health 101** — a rights-based, medically accurate primer on sexual
+  and reproductive health and rights: contraception, maternal health, safe
+  abortion law (MTP 2021), STIs/HIV, consent, and comprehensive sexuality
+  education. 100 slides.
+- **Community Development 101** — participation (Arnstein's ladder), asset-based
+  development, organising, participatory tools, self-help groups and the
+  commons, and panchayati raj. 100 slides.
+- **Education and Pedagogy 101** — how learning works (Piaget, Vygotsky,
+  Bloom, Freire), assessment, foundational literacy & numeracy and Teaching at
+  the Right Level, inclusive pedagogy, and India's learning crisis. 100 slides.
+
+### Changed
+
+- **`101-courses/index.html`** — six cards re-badged Native HTML · 100 slides;
+  counts updated (Native HTML 17 → 23, Slide Deck 16 → 10). Adds
+  `scripts/deck-builder/rebadge.py` to keep card badges and counts in sync.
+
 ## [10.56.0] - 2026-06-05
 
 ### Added — 101 Series native migration: Data & Methods cluster complete (5 decks)
