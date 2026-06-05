@@ -5,6 +5,40 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.59.0] - 2026-06-05
+
+### Added — 101 Series native migration COMPLETE: Governance & Economy (4 decks)
+
+The final cluster lands. **All 26 ImpactMojo 101 courses that were embedded
+Gamma decks are now self-hosted native 100-slide HTML decks** — joining the 7
+pre-existing native decks for **33 native decks, 0 Gamma embeds**.
+
+### For Learners
+
+- **Indian Constitution 101** — the making of the Constitution, the Preamble,
+  Fundamental Rights and Duties, Directive Principles, the union and federal
+  structure, the judiciary and the basic-structure doctrine, local
+  self-government, and constitutionalism in practice. 100 slides.
+- **Global Development Governance 101** — the aid architecture: Bretton Woods,
+  the UN system and IFIs, ODA and the 0.7% target, the SDGs, financing for
+  development, new actors, aid effectiveness and localisation, and India's
+  shift from recipient to emerging donor. 100 slides.
+- **Public Health 101** — population health and prevention: social determinants,
+  epidemiology, measuring health, communicable disease and immunisation, NCDs,
+  maternal and child health, the WHO building blocks and Universal Health
+  Coverage, and India's health system. 100 slides.
+- **Fundraising Basics 101** — resource mobilisation for nonprofits: the funding
+  landscape, donor relationships, proposal writing and budgets, CSR (Companies
+  Act s.135) and compliance (FCRA, 12A/80G), diversification, and the ethics of
+  fundraising. 100 slides.
+
+### Changed
+
+- **`101-courses/index.html`** — the last four cards re-badged Native HTML;
+  counts now Native HTML 33, Slide Deck 0.
+- **`data/search-index.json`** — `course` entries added for all 26 migrated
+  decks so they surface in site search.
+
 ## [10.58.0] - 2026-06-05
 
 ### Added — 101 Series native migration: Critical & Digital cluster (5 decks)
