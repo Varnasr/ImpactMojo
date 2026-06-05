@@ -14,14 +14,18 @@
     mr: { label: "मराठी", native: "मराठी", font: "Noto Sans Devanagari", url: "Noto+Sans+Devanagari:wght@400;500;600;700" }
   };
   var SKIP = { SCRIPT: 1, STYLE: 1, NOSCRIPT: 1, SVG: 1, CODE: 1, PRE: 1, KBD: 1, SAMP: 1, CANVAS: 1, TEXTAREA: 1, OPTION: 1 };
+  // Brand / proper nouns that must never be translated
+  var KEEP = { "ImpactMojo": 1, "ImpactLex": 1, "VaniScribe": 1, "Mojini": 1, "PinPoint Ventures": 1, "DevDiscourses": 1, "Dataverse": 1, "Bulbul": 1, "Mayura": 1, "Saaras": 1 };
   var KEY_LS = "im-lang";
   var originals = [];      // [{node, text}]
-  var collected = false;
+  var seen = (typeof WeakSet !== "undefined") ? new WeakSet() : null;
   var busy = false;
+  var curLang = "en";
 
   function isTranslatable(s) {
     s = s.trim();
     if (s.length < 2) return false;
+    if (KEEP[s]) return false;                            // brand / proper nouns
     if (!/[A-Za-z]/.test(s)) return false;               // needs letters
     if (/^(https?:\/\/|www\.|\S+@\S+)/.test(s)) return false; // urls/emails
     return true;
@@ -38,17 +42,18 @@
     return false;
   }
   function collect() {
-    if (collected) return;
+    // Additive + idempotent: only adds new, untranslated text nodes. Safe to
+    // re-run to catch content injected by deferred scripts.
     var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
       acceptNode: function (n) {
+        if (seen && seen.has(n)) return NodeFilter.FILTER_REJECT;
         if (!isTranslatable(n.nodeValue)) return NodeFilter.FILTER_REJECT;
         if (skipEl(n.parentNode)) return NodeFilter.FILTER_REJECT;
         return NodeFilter.FILTER_ACCEPT;
       }
     });
     var n;
-    while ((n = walker.nextNode())) originals.push({ node: n, text: n.nodeValue });
-    collected = true;
+    while ((n = walker.nextNode())) { if (seen) seen.add(n); originals.push({ node: n, text: n.nodeValue }); }
   }
 
   function loadFont(lang) {
@@ -92,8 +97,9 @@
     document.documentElement.setAttribute("lang", "en");
   }
 
-  async function translateTo(lang) {
+  async function translateTo(lang, isRepass) {
     if (busy) return;
+    curLang = lang;
     if (lang === "en") { restoreEnglish(); save(lang); markActive(lang); return; }
     busy = true; markBusy(true);
     collect(); loadFont(lang);
@@ -117,6 +123,8 @@
       }
     }
     save(lang); markActive(lang); busy = false; markBusy(false);
+    // one delayed pass to catch content added by deferred scripts (auth bar, etc.)
+    if (!isRepass) setTimeout(function () { if (curLang === lang) translateTo(lang, true); }, 3000);
   }
 
   function save(lang) { try { localStorage.setItem(KEY_LS, lang); } catch (e) {} }
@@ -149,8 +157,22 @@
     document.body.appendChild(bar);
   }
 
+  // Translate content injected later (flagship Supabase module bodies, auth bar,
+  // search results...) whenever a non-English language is active. Observing only
+  // childList means our own nodeValue edits don't retrigger it (no loop).
+  function startObserver() {
+    if (!window.MutationObserver) return;
+    var t;
+    new MutationObserver(function () {
+      if (curLang === "en" || busy) return;
+      clearTimeout(t);
+      t = setTimeout(function () { if (curLang !== "en" && !busy) translateTo(curLang, true); }, 800);
+    }).observe(document.body, { childList: true, subtree: true });
+  }
+
   function init() {
     buildUI();
+    startObserver();
     var saved = null; try { saved = localStorage.getItem(KEY_LS); } catch (e) {}
     if (saved && saved !== "en" && LANGS[saved]) translateTo(saved); else markActive("en");
   }
