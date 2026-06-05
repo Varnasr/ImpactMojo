@@ -5,6 +5,33 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.62.0] - 2026-06-05
+
+### Fixed — Mobile rendering
+
+### For Learners
+
+- **101 course decks now display correctly on phones** — slides previously
+  collapsed to a tiny portrait sliver on mobile; they now fill the screen width.
+
+### Fixed
+
+- **All 45 native 101 decks + the `build.py` donor** — `.slide-viewport` was a
+  `flex-shrink:1` child of the `display:flex` `#deck`, so on any screen narrower
+  than 1280px it shrank its width while height stayed fixed, collapsing the 16:9
+  stage into a scaled-down portrait sliver. Added `flex-shrink:0`. Verified in
+  headless Chromium (viewport 412px: stage width 412→1280, slide aspect
+  0.57→1.78).
+- **`faq.html`** — mobile breakpoint hid `.nav-links` but not the `.nav-buttons`
+  theme/auth cluster, causing a 73px horizontal overflow; hidden on mobile +
+  `overflow-x:hidden` safety net.
+
+### Added
+
+- **`scripts/mobile/audit.py`** — headless-Chromium harness that flags
+  horizontal overflow across key pages (exit 1 = CI-gateable). Audit: 24/25 key
+  pages already pass at 390px.
+
 ## [10.61.0] - 2026-06-05
 
 ### Added — 101 Series: 5 more native decks; ZERO Gamma embeds remain
