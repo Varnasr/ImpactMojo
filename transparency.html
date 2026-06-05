@@ -1437,47 +1437,7 @@ window.addEventListener('resize', function() {
 })();
 </script>
 <!-- ImpactMojo Theme Toggle JS -->
-<script>
-(function() {
-    function getSystemTheme() {
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    function applyTheme(theme) {
-        var resolved = theme === 'system' ? getSystemTheme() : theme;
-        document.documentElement.setAttribute('data-theme', resolved);
-        // Also handle legacy body classes
-        document.body.classList.remove('dark-mode', 'light-mode');
-        if (resolved === 'light') document.body.classList.add('light-mode');
-        else document.body.classList.add('dark-mode');
-    }
-    function updateButtons(pref) {
-        document.querySelectorAll('.im-theme-btn').forEach(function(btn) {
-            btn.classList.toggle('active', btn.getAttribute('data-imtheme') === pref);
-        });
-    }
-    var saved = localStorage.getItem('im-theme') || 'system';
-    // Apply immediately before render
-    applyTheme(saved);
-    document.addEventListener('DOMContentLoaded', function() {
-        applyTheme(saved);
-        updateButtons(saved);
-        document.querySelectorAll('.im-theme-btn').forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                var t = this.getAttribute('data-imtheme');
-                localStorage.setItem('im-theme', t);
-                applyTheme(t);
-                updateButtons(t);
-            });
-        });
-    });
-    // Listen for system theme changes
-    window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function() {
-        if ((localStorage.getItem('im-theme') || 'system') === 'system') {
-            applyTheme('system');
-        }
-    });
-})();
-</script>
+<script src="/js/theme.js"></script>
 <!-- ImpactMojo Paper Plane -->
 <svg class="im-paper-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
