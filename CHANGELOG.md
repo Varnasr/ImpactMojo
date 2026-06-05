@@ -5,6 +5,39 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.56.0] - 2026-06-05
+
+### Added — 101 Series native migration: Data & Methods cluster complete (5 decks)
+
+Five more 100-slide native decks finish the Data & Methods cluster (10 of the
+26 Gamma courses now migrated).
+
+### For Learners
+
+- **Econometrics 101** — measuring causal effects, not just correlations:
+  the counterfactual, OLS and omitted-variable bias, RCTs, instrumental
+  variables, difference-in-differences, regression discontinuity, and panel
+  fixed effects — with the assumptions each one rests on. 100 slides, 7 charts.
+- **Multivariate Analysis 101** — multiple regression and beyond: partial
+  effects, model fit and diagnostics, multicollinearity, interactions,
+  logistic regression and odds ratios, and PCA/factor analysis (the wealth
+  index). 100 slides, 8 charts.
+- **Item Response Theory 101** — modern measurement: latent traits, item
+  characteristic curves, difficulty and discrimination, the 1PL/2PL/3PL
+  family, test information, and differential item functioning, applied to
+  learning and empowerment scales. 100 slides, 12 charts.
+- **Cost Effectiveness 101** — doing the most good per rupee: CEA/CBA/CUA,
+  costing, the ICER, DALYs and QALYs, discounting, league tables and
+  sensitivity analysis — and what cost-effectiveness leaves out. 100 slides.
+- **Observation to Insight 101** — turning field observation into evidence:
+  observation types, Spradley's framework, field notes, structured tools,
+  sensemaking, triangulation, rigour and the ethics of watching. 100 slides.
+
+### Changed
+
+- **`101-courses/index.html`** — five cards re-badged Native HTML · 100 slides;
+  counts updated (Native HTML 12 → 17, Slide Deck 21 → 16).
+
 ## [10.55.0] - 2026-06-05
 
 ### Added — 101 Series native migration: Data & Methods batch (4 decks)
