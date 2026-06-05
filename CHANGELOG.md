@@ -5,6 +5,41 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.58.0] - 2026-06-05
+
+### Added — 101 Series native migration: Critical & Digital cluster (5 decks)
+
+Five more 100-slide native decks (plus English for Development, shipped
+separately); 22 of 26 Gamma courses now migrated.
+
+### For Learners
+
+- **Decolonial Development 101** — the colonial roots of "development" and how to
+  decolonise it: Said, Escobar, Quijano and the dependency/coloniality
+  critiques, epistemic injustice, decolonising aid and research, and
+  post-development alternatives. 100 slides.
+- **Digital Ethics 101** — data privacy and the DPDP Act 2023, algorithmic bias,
+  AI in development, digital ID (Aadhaar) inclusion and exclusion, surveillance,
+  the digital divide, data colonialism, and responsible design. 100 slides.
+- **Environmental Justice 101** — the unequal distribution of environmental harm:
+  distributive/procedural/recognition justice, climate justice, the Forest
+  Rights Act, pollution and health, just transition, and India's environmental
+  movements. 100 slides.
+- **Post-Truth Politics 101** — mis/dis/mal-information, how falsehoods spread,
+  filter bubbles, cognitive biases, propaganda, the attention economy,
+  deepfakes, polarisation, and building resilience. 100 slides.
+- **Visual Ethnography 101** — studying culture through images: photo-elicitation,
+  photovoice, video methods, visual analysis, the ethics of the image and the
+  gaze, and dignity in representation. 100 slides.
+- **English for Development 101** — clear professional communication for the
+  sector: plain language, de-jargoning, writing for different audiences,
+  reports and briefs, and ethical storytelling. 100 slides.
+
+### Changed
+
+- **`101-courses/index.html`** — six more cards re-badged Native HTML · 100
+  slides; counts updated (Slide Deck down to 4, Native HTML up to 29).
+
 ## [10.57.0] - 2026-06-05
 
 ### Added — 101 Series native migration: Gender & Social cluster (6 decks)
