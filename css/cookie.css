@@ -1,0 +1,198 @@
+/* ============================================================================
+   ImpactMojo — Cookie Consent (shared component)
+   Single source of truth for the minimal cookie-icon consent widget.
+   Behaviour lives in js/cookie-ui.js. Link this on every page that renders
+   <div class="cookie-consent" id="cookieConsent"> … and load cookie-ui.js.
+
+   Previously each page (index / about / faq / forgot-password) carried its own
+   divergent inline copy — including one that stretched the round toggle into a
+   full-width ellipse on mobile. Keep all cookie styling HERE, not inline.
+
+   Bottom-left corner stacking (mobile): the learning-tools speed-dial sits at
+   the very corner; the cookie stacks ABOVE it via --cookie-bottom-mobile.
+   ============================================================================ */
+
+:root {
+  --cookie-cookie-color: #c0853f; /* warm tan — self-consistent on any bg */
+  --cookie-chip-color: #5a3a1e;   /* cocoa chips — NOT the page background */
+  --cookie-bottom-mobile: 5.5rem; /* clears the bottom-left tools speed-dial */
+}
+
+.cookie-consent {
+  position: fixed;
+  bottom: 2rem;
+  left: 20px;
+  z-index: 9998;
+  font-family: 'Amaranth', sans-serif;
+  display: block;
+}
+
+.cookie-consent.hidden {
+  display: none;
+}
+
+/* Round toggle */
+.cookie-icon-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.cookie-icon-btn:hover {
+  transform: scale(1.1);
+  border-color: var(--accent-color);
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.3);
+}
+
+.cookie-icon-btn svg {
+  width: 26px;
+  height: 26px;
+  fill: var(--cookie-cookie-color);
+}
+
+/* Chocolate chips: fixed cocoa brown, NOT the page background (which rendered
+   as mismatched blobs when the button floated over content). */
+.cookie-icon-btn svg circle[fill] {
+  fill: var(--cookie-chip-color) !important;
+}
+
+/* Expanded panel */
+.cookie-expanded {
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  width: 320px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px) scale(0.95);
+  transition: all 0.3s ease;
+}
+
+.cookie-consent.expanded .cookie-expanded {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.cookie-expanded-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.cookie-expanded-header svg {
+  width: 20px;
+  height: 20px;
+  fill: var(--cookie-cookie-color);
+}
+
+.cookie-expanded-header svg circle[fill] {
+  fill: var(--cookie-chip-color) !important;
+}
+
+.cookie-expanded-header span {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.cookie-expanded p {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin: 0 0 1rem 0;
+}
+
+.cookie-expanded-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.cookie-btn-accept {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cookie-btn-accept:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+}
+
+.cookie-btn-settings {
+  padding: 0.5rem 0.75rem;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cookie-btn-settings:hover {
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
+}
+
+/* --- Mobile: hug the icon, stack above the speed-dial --- */
+@media (max-width: 768px) {
+  /* The container must HUG its 48px round toggle (no full-width banner / no
+     padding), otherwise the icon is pushed inward and the round button gets
+     stretched into an ellipse. The expanded panel sizes itself separately. */
+  .cookie-consent,
+  #cookieConsent {
+    left: 1rem !important;
+    right: auto !important;
+    bottom: var(--cookie-bottom-mobile) !important;
+    width: auto !important;
+    max-width: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .cookie-consent p,
+  #cookieConsent p {
+    font-size: 0.85rem !important;
+    text-align: center !important;
+    margin: 0 !important;
+  }
+
+  /* Stretch only the action buttons in the expanded panel — NOT the round
+     .cookie-icon-btn toggle (which must stay a 48px circle). */
+  .cookie-expanded-buttons button,
+  #cookieConsent .cookie-expanded-buttons button {
+    width: 100% !important;
+    padding: 0.75rem !important;
+    font-size: 0.9rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .cookie-expanded {
+    width: calc(100vw - 40px);
+    max-width: 300px;
+  }
+}
