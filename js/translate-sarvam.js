@@ -76,19 +76,27 @@
   function cacheGet(lang, s) { try { return localStorage.getItem("xlate:" + lang + ":" + s); } catch (e) { return null; } }
   function cacheSet(lang, s, t) { try { localStorage.setItem("xlate:" + lang + ":" + s, t); } catch (e) {} }
 
-  async function apiTranslate(lang, misses) {
-    var out = {};
-    for (var i = 0; i < misses.length; i += 60) {
-      var batch = misses.slice(i, i + 60);
-      try {
-        var r = await fetch("/api/translate", {
-          method: "POST", headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ lang: lang, q: batch })
-        });
-        if (r.ok) { var d = await r.json(); Object.assign(out, d.t || {}); }
-      } catch (e) { /* network — leave untranslated */ }
+  async function apiBatch(lang, batch) {
+    try {
+      var r = await fetch("/api/translate", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lang: lang, q: batch })
+      });
+      if (r.ok) { var d = await r.json(); return d.t || {}; }
+    } catch (e) { /* network — leave untranslated */ }
+    return {};
+  }
+
+  // Apply whatever translations are known so far (idempotent). Lets us render
+  // progressively, batch by batch, instead of all-or-nothing at the end.
+  function applyTranslations(uniq) {
+    for (var j = 0; j < originals.length; j++) {
+      var o = originals[j], t = uniq[o.text.trim()];
+      if (t && o.node.nodeValue === o.text) {
+        var lead = o.text.match(/^\s*/)[0], trail = o.text.match(/\s*$/)[0];
+        o.node.nodeValue = lead + t.trim() + trail;
+      }
     }
-    return out;
   }
 
   function restoreEnglish() {
@@ -111,16 +119,16 @@
       var s = originals[i].text.trim();
       if (!(s in uniq)) { uniq[s] = cacheGet(lang, s); if (uniq[s] == null) order.push(s); }
     }
-    if (order.length) {
-      var fetched = await apiTranslate(lang, order);
-      for (var k in fetched) { uniq[k] = fetched[k]; cacheSet(lang, k, fetched[k]); }
-    }
-    for (var j = 0; j < originals.length; j++) {
-      var t = uniq[originals[j].text.trim()];
-      if (t) {
-        var raw = originals[j].node.nodeValue, lead = raw.match(/^\s*/)[0], trail = raw.match(/\s*$/)[0];
-        originals[j].node.nodeValue = lead + t + trail;
+    applyTranslations(uniq);                 // apply cached strings instantly
+    // fetch + apply each batch progressively (don't wait for the whole page)
+    for (var i = 0; i < order.length; i += 12) {
+      if (curLang !== lang) break;           // user switched away — stop
+      var fetched = await apiBatch(lang, order.slice(i, i + 12));
+      // accept only real translations (skip the function's failure fallback)
+      for (var k in fetched) {
+        if (fetched[k] && fetched[k] !== k) { uniq[k] = fetched[k]; cacheSet(lang, k, fetched[k]); }
       }
+      applyTranslations(uniq);
     }
     save(lang); markActive(lang); busy = false; markBusy(false);
     // one delayed pass to catch content added by deferred scripts (auth bar, etc.)
