@@ -5,6 +5,39 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.54.0] - 2026-06-05
+
+### Added — 101 Series native migration: Data Literacy 101 + deck builder
+
+Begins migrating the ImpactMojo 101 Series from embedded Gamma slide decks to
+self-hosted, native HTML decks. First deck shipped: **Data Literacy 101**.
+
+### For Learners
+
+- **Data Literacy 101** — a 99-slide native course on reading, questioning,
+  visualising and using data responsibly: India's data ecosystem (Census,
+  NFHS, PLFS/NSS), turning concepts into indicators, describing and visualising
+  data, correlation vs causation, sampling and surveys, data cleaning, reading
+  statistics critically, and data ethics, privacy & equity. Charts, tables and
+  diagrams throughout; light/dark themes, keyboard & swipe navigation, free
+  forever.
+
+### Added
+
+- **`101-courses/data-lit.html`** — native gold-standard deck (replaces the
+  Gamma embed), 99 slides, 7 charts. Self-contained: inline theme switcher,
+  viewport scaling, lazy chart init, deep-linking and auto-fit.
+- **`scripts/deck-builder/`** — a reusable deck generator. Authors write a
+  compact Python spec (`specs/<slug>.py`); the builder slices the proven shell
+  (CSS + runtime JS) out of `dev-economics.html` and injects the generated
+  slides, slide-IDs and chart code, so every deck inherits identical styling
+  and behaviour. Includes `build.py`, `_schema.md` and the Data Literacy spec.
+
+### Changed
+
+- **`101-courses/index.html`** — Data Literacy card re-badged Native HTML ·
+  99 slides; counts updated (Native HTML 7 → 8, Slide Deck 26 → 25).
+
 ## [10.53.0] - 2026-06-04
 
 ### Added — Marginalia series hub + second essay "The Fine Print"
