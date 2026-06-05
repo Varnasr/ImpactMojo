@@ -38,6 +38,28 @@
             --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
             --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
             --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+
+            /* === Z-INDEX SCALE — single source of truth for stacking order ===
+               Migrated from scattered literals (Phase 4). Values are preserved
+               exactly so this change is rendering-neutral; the NAMES document the
+               intended bottom-to-top ladder. New floating/overlay UI should pick a
+               token from this ladder instead of inventing a fresh magic number —
+               that is what prevents corner-stack bugs (e.g. the cookie banner
+               overlapping the chat widget). Rationalising these into a clean,
+               compact scale (and dropping the load-bearing !important) requires the
+               CSS @layer migration, which is tracked separately. */
+            --z-rail: 900;            /* theme-toggle side rail */
+            --z-overlay-low: 999;     /* low overlays (surprise-me); UserWay widget */
+            --z-fixed: 1000;          /* fixed header, nav dropdowns, speed-dial FABs */
+            --z-backdrop: 1999;       /* mobile-nav backdrop */
+            --z-modal: 2000;          /* modals, chat panel, mobile nav menu */
+            --z-toast: 3000;          /* toast notifications */
+            --z-cookie-overlay: 9998; /* cookie-consent dim layer */
+            --z-widget: 9999;         /* MOJINI/chat widget, hamburger, AI tooltip */
+            --z-overlay-top: 10000;   /* mobile nav panel; tour spotlight base */
+            --z-overlay-top-2: 10001; /* mobile-nav toggle; tour card */
+            --z-tour-arrow: 10003;    /* intro.js tour arrow connector */
+            --z-menu-btn-max: 99999;  /* mobile menu button (force above all) */
         }
 
         /* Inline SVG Icon Styles */
@@ -132,7 +154,7 @@
             top: 0;
             background: var(--nav-bg);
             backdrop-filter: blur(20px);
-            z-index: 1000;
+            z-index: var(--z-fixed);
             border-bottom: 1px solid var(--border-color);
             box-shadow: var(--shadow-sm);
         }
@@ -376,7 +398,7 @@
             visibility: hidden;
             transition: all 0.3s ease;
             box-shadow: var(--shadow-lg);
-            z-index: 1000;
+            z-index: var(--z-fixed);
             margin-top: 0.5rem;
         }
 
@@ -667,7 +689,7 @@
             position: relative;
             flex-direction: column;
             gap: 5px;
-            z-index: 9999;
+            z-index: var(--z-widget);
             touch-action: manipulation;
             -webkit-tap-highlight-color: rgba(0,0,0,0.1);
             user-select: none;
@@ -725,7 +747,7 @@
             left: 20px !important;
             right: auto !important;
             bottom: auto !important;
-            z-index: 999 !important;
+            z-index: var(--z-overlay-low) !important;
         }
         
         /* Mobile positioning for UserWay */
@@ -1154,7 +1176,7 @@
         .modal {
             display: none;
             position: fixed;
-            z-index: 2000;
+            z-index: var(--z-modal);
             left: 0;
             top: 0;
             width: 100%;
@@ -2541,7 +2563,7 @@
             background: var(--card-bg);
             border-radius: 16px;
             box-shadow: var(--shadow-xl);
-            z-index: 2000;
+            z-index: var(--z-modal);
             flex-direction: column;
             animation: slideUpChat 0.3s ease;
             border: 1px solid var(--border-color);
@@ -2869,7 +2891,7 @@
                 height: 48px;
                 min-width: 48px;
                 min-height: 48px;
-                z-index: 9999;
+                z-index: var(--z-widget);
                 position: relative;
                 flex-shrink: 0;
                 margin-left: auto;
@@ -2895,7 +2917,7 @@
                 border-top: 1px solid var(--border-color);
                 box-shadow: var(--shadow-lg);
                 gap: 0;
-                z-index: 2000;
+                z-index: var(--z-modal);
                 max-height: calc(100vh - 80px);
                 overflow-y: auto;
                 overscroll-behavior: contain;
@@ -2969,7 +2991,7 @@
                 right: 0;
                 bottom: 0;
                 background: rgba(0, 0, 0, 0.5);
-                z-index: 1999;
+                z-index: var(--z-backdrop);
                 opacity: 0;
                 transition: opacity 0.3s ease;
             }
@@ -3005,7 +3027,7 @@
                 bottom: 1.25rem !important;
                 right: 3rem !important;
                 left: auto !important;
-                z-index: 1000;
+                z-index: var(--z-fixed);
             }
             
             .imx-speed-dial-toggle {
@@ -3627,7 +3649,7 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
-    z-index: 900;
+    z-index: var(--z-rail);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
@@ -3685,7 +3707,7 @@
     position: fixed;
     bottom: 2rem;
     right: 5rem;
-    z-index: 1000;
+    z-index: var(--z-fixed);
 }
 
 .imx-speed-dial-toggle {
@@ -4297,7 +4319,7 @@
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
-    z-index: 999;
+    z-index: var(--z-overlay-low);
 }
 
 .imx-speed-dial.open ~ .imx-speed-dial-backdrop {
@@ -4360,7 +4382,7 @@
     height: 100%;
     background: rgba(0,0,0,0.7);
     backdrop-filter: blur(4px);
-    z-index: 2000;
+    z-index: var(--z-modal);
     align-items: center;
     justify-content: center;
     padding: 1rem;
@@ -4754,7 +4776,7 @@
     border-radius: 12px;
     border: 1px solid var(--border-color);
     box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-    z-index: 3000;
+    z-index: var(--z-toast);
     animation: imxToastIn 0.3s ease;
 }
 
@@ -4930,7 +4952,7 @@
         opacity: 1 !important;
         pointer-events: auto !important;
         position: relative !important;
-        z-index: 99999 !important;
+        z-index: var(--z-menu-btn-max) !important;
         width: 48px !important;
         height: 48px !important;
         min-width: 48px !important;
@@ -4991,7 +5013,7 @@
         right: 16px !important;
         left: auto !important;
         top: auto !important;
-        z-index: 1000 !important;
+        z-index: var(--z-fixed) !important;
     }
     
     div.imx-speed-dial button.imx-speed-dial-toggle {
@@ -6030,7 +6052,7 @@ footer::before {
     border-radius: 12px;
     border: 1px solid rgba(99, 102, 241, 0.3);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-    z-index: 9999;
+    z-index: var(--z-widget);
     pointer-events: none;
     opacity: 0;
     visibility: hidden;
@@ -6178,7 +6200,7 @@ footer::before {
         border: 1px solid var(--border-color, #334155) !important;
         border-radius: 10px !important;
         cursor: pointer !important;
-        z-index: 10001 !important;
+        z-index: var(--z-overlay-top-2) !important;
         position: relative !important;
         touch-action: manipulation !important;
         margin-left: auto !important;
@@ -6227,7 +6249,7 @@ footer::before {
         padding: 1rem !important;
         overflow-y: auto !important;
         -webkit-overflow-scrolling: touch !important;
-        z-index: 10000 !important;
+        z-index: var(--z-overlay-top) !important;
         gap: 0 !important;
     }
     
@@ -6306,7 +6328,7 @@ footer::before {
         visibility: hidden !important;
         pointer-events: none !important;
         transition: opacity 0.3s ease, visibility 0.3s ease !important;
-        z-index: 9998 !important;
+        z-index: var(--z-cookie-overlay) !important;
     }
     
     .mobile-menu-overlay.active {
@@ -6526,7 +6548,7 @@ footer::before {
         display: block !important;
         bottom: 1rem !important;
         right: 1rem !important;
-        z-index: 9999 !important;
+        z-index: var(--z-widget) !important;
     }
     
     .chat-toggle-btn {
@@ -7534,7 +7556,7 @@ body.dark-mode .v3-dot {
     right: 0;
     bottom: 0;
     background: transparent;
-    z-index: 10000;
+    z-index: var(--z-overlay-top);
     opacity: 0;
     transition: opacity 0.3s ease;
     pointer-events: none;
@@ -7572,7 +7594,7 @@ body.introjs-active-tour .nav-links > li.has-dropdown:not(.tour-dropdown-open):h
 /* Arrow connector from tooltip to spotlight */
 .imx-tour-arrow {
     position: absolute;
-    z-index: 10003;
+    z-index: var(--z-tour-arrow);
     pointer-events: none;
 }
 .imx-tour-arrow svg {
@@ -7603,7 +7625,7 @@ body.introjs-active-tour .nav-links > li.has-dropdown:not(.tour-dropdown-open):h
     max-height: calc(100vh - 40px);
     overflow-y: auto;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    z-index: 10001;
+    z-index: var(--z-overlay-top-2);
     animation: imxTourPop 0.3s ease;
 }
 @keyframes imxTourPop {
@@ -7766,7 +7788,7 @@ body.introjs-active-tour .nav-links > li.has-dropdown:not(.tour-dropdown-open):h
     max-width: 440px;
     text-align: center;
     box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
-    z-index: 10001;
+    z-index: var(--z-overlay-top-2);
     animation: imxTourPop 0.4s ease;
 }
 .imx-tour-welcome-icon {
