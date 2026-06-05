@@ -16,8 +16,8 @@
 const SARVAM_URL = "https://api.sarvam.ai/translate";
 const KEY = process.env.SARVAM_API_KEY;
 const LANG = { hi: "hi-IN", ta: "ta-IN", bn: "bn-IN", mr: "mr-IN" };
-const MAX_BATCH = 60;     // strings per request
-const CONCURRENCY = 4;    // parallel Sarvam calls
+const MAX_BATCH = 12;     // strings per request (keep cold calls under Netlify ~10s fn timeout)
+const CONCURRENCY = 6;    // parallel Sarvam calls
 const MAX_LEN = 900;      // Mayura input guard
 
 const json = (obj, status = 200) => new Response(JSON.stringify(obj), {

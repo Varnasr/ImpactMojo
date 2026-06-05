@@ -78,8 +78,8 @@
 
   async function apiTranslate(lang, misses) {
     var out = {};
-    for (var i = 0; i < misses.length; i += 60) {
-      var batch = misses.slice(i, i + 60);
+    for (var i = 0; i < misses.length; i += 12) {
+      var batch = misses.slice(i, i + 12);
       try {
         var r = await fetch("/api/translate", {
           method: "POST", headers: { "Content-Type": "application/json" },
