@@ -4032,47 +4032,7 @@ code, pre, .monospace, kbd, samp { font-family: 'JetBrains Mono', monospace !imp
     </script>
 
 <!-- ImpactMojo Theme Toggle JS -->
-<script>
-(function() {
-    function getSystemTheme() {
-        return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-    }
-    function applyTheme(theme) {
-        var resolved = theme === 'system' ? getSystemTheme() : theme;
-        document.documentElement.setAttribute('data-theme', resolved);
-        // Also handle legacy body classes
-        document.body.classList.remove('dark-mode', 'light-mode');
-        if (resolved === 'light') document.body.classList.add('light-mode');
-        else document.body.classList.add('dark-mode');
-    }
-    function updateButtons(pref) {
-        document.querySelectorAll('.im-theme-btn').forEach(function(btn) {
-            btn.classList.toggle('active', btn.getAttribute('data-imtheme') === pref);
-        });
-    }
-    var saved = localStorage.getItem('impactmojo-theme') || 'system';
-    // Apply immediately before render
-    applyTheme(saved);
-    document.addEventListener('DOMContentLoaded', function() {
-        applyTheme(saved);
-        updateButtons(saved);
-        document.querySelectorAll('.im-theme-btn').forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                var t = this.getAttribute('data-imtheme');
-                localStorage.setItem('impactmojo-theme', t);
-                applyTheme(t);
-                updateButtons(t);
-            });
-        });
-    });
-    // Listen for system theme changes
-    window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function() {
-        if ((localStorage.getItem('impactmojo-theme') || 'system') === 'system') {
-            applyTheme('system');
-        }
-    });
-})();
-</script>
+<script src="/js/theme.js"></script>
 
 <!-- Supabase + Auth (must load sync before deferred scripts) -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
