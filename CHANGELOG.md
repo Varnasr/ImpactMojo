@@ -5,7 +5,7 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [10.60.0] - 2026-06-05
+## [10.61.0] - 2026-06-05
 
 ### Added — 101 Series: 5 more native decks; ZERO Gamma embeds remain
 
@@ -39,7 +39,7 @@ native, 0 Gamma anywhere in the series).
   hero stat "3,700 Slides of Learning".
 - **`data/search-index.json`** — `course` entries for the 5 additional decks.
 
-## [10.59.0] - 2026-06-05
+## [10.60.0] - 2026-06-05
 
 ### Added — 101 Series native migration COMPLETE: Governance & Economy (4 decks)
 
@@ -73,7 +73,7 @@ pre-existing native decks for **33 native decks, 0 Gamma embeds**.
 - **`data/search-index.json`** — `course` entries added for all 26 migrated
   decks so they surface in site search.
 
-## [10.58.0] - 2026-06-05
+## [10.59.0] - 2026-06-05
 
 ### Added — 101 Series native migration: Critical & Digital cluster (5 decks)
 
@@ -108,7 +108,7 @@ separately); 22 of 26 Gamma courses now migrated.
 - **`101-courses/index.html`** — six more cards re-badged Native HTML · 100
   slides; counts updated (Slide Deck down to 4, Native HTML up to 29).
 
-## [10.57.0] - 2026-06-05
+## [10.58.0] - 2026-06-05
 
 ### Added — 101 Series native migration: Gender & Social cluster (6 decks)
 
@@ -142,7 +142,7 @@ Six more 100-slide native decks (16 of 26 Gamma courses now migrated).
   counts updated (Native HTML 17 → 23, Slide Deck 16 → 10). Adds
   `scripts/deck-builder/rebadge.py` to keep card badges and counts in sync.
 
-## [10.56.0] - 2026-06-05
+## [10.57.0] - 2026-06-05
 
 ### Added — 101 Series native migration: Data & Methods cluster complete (5 decks)
 
@@ -175,7 +175,7 @@ Five more 100-slide native decks finish the Data & Methods cluster (10 of the
 - **`101-courses/index.html`** — five cards re-badged Native HTML · 100 slides;
   counts updated (Native HTML 12 → 17, Slide Deck 21 → 16).
 
-## [10.55.0] - 2026-06-05
+## [10.56.0] - 2026-06-05
 
 ### Added — 101 Series native migration: Data & Methods batch (4 decks)
 
@@ -206,7 +206,7 @@ built with the `scripts/deck-builder` pipeline.
 - Every deck is now hard-enforced at exactly 100 slides, with TOC section
   ranges auto-computed by the builder.
 
-## [10.54.0] - 2026-06-05
+## [10.55.0] - 2026-06-05
 
 ### Added — 101 Series native migration: Data Literacy 101 + deck builder
 
@@ -238,6 +238,23 @@ self-hosted, native HTML decks. First deck shipped: **Data Literacy 101**.
 
 - **`101-courses/index.html`** — Data Literacy card re-badged Native HTML ·
   99 slides; counts updated (Native HTML 7 → 8, Slide Deck 26 → 25).
+## [10.54.0] - 2026-06-04
+
+### Changed — Causal Inference flagship: gold-standard content rewrite (all 13 modules)
+
+- Rewrote every module's `content_html` and deployed it to the production
+  `course_content` table (course_id `causal`). Each module now has KaTeX math,
+  an inline DAG/plot, a worked Indian-programme example with a results table,
+  R + Stata code, a common-pitfalls callout, a problem set with collapsible
+  solutions, and current references. Per-module content roughly doubled in
+  depth (≈6 KB → 9–16 KB).
+- `courses/causal/index.html`: KaTeX wired (earlier) + new styled components
+  (`worked-example`, `problem-set`, `dag-figure`, `assumption-list`).
+- `js/course-loader.js` (earlier): fetch timeout + retry so modules no longer
+  hang on a slow edge-function response.
+- Content pipeline: `supabase/seed-content/causal/` per-module source files;
+  `scripts/build-causal-seed.py` rebuilds the seed migration; `scripts/
+  deploy-causal.py` deploys to prod via the Supabase Management API.
 
 ## [10.53.0] - 2026-06-04
 

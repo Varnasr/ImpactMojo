@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.54.0 — June 4, 2026 (Causal Inference flagship — gold-standard rewrite)
+
+### For Learners
+
+- **The Causal Inference for Development course is rebuilt to a gold standard.** All thirteen modules — from the counterfactual and potential outcomes through matching, instrumental variables, regression discontinuity, difference-in-differences, synthetic control and causal machine learning, to reading evaluations, theory-based methods when there is no counterfactual, and a capstone — now carry **properly typeset equations**, **causal-graph diagrams**, a **worked example from a real Indian programme with a results table**, **runnable R and Stata code**, a **common-pitfalls box**, and a **practice problem set with worked solutions** in every module. The writing was rebuilt for rigour and clarity throughout, with current references (Imbens & Rubin, Angrist & Pischke, Cunningham, Cattaneo, Callaway & Sant'Anna, Chernozhukov, and more).
+- **Course content now loads reliably.** Lessons that could previously hang on a slow connection now time out and retry automatically, and the maths renders cleanly on phones as well as desktops.
+
 ## v10.53.0 — June 4, 2026 (Marginalia series + second essay: The Fine Print)
 
 ### For Learners
