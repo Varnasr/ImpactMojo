@@ -41,7 +41,7 @@ We provide accessible, high-quality educational materials grounded in South Asia
 
 | Category | Description |
 |----------|-------------|
-| **52 Courses** | 15 flagship + 37 foundational courses across 6 learning tracks (4 native HTML slide decks with 100 slides each; remaining 36 Gamma-hosted) |
+| **59 Courses** | 15 flagship + 44 foundational courses across 6 learning tracks (4 native HTML slide decks with 100 slides each; remaining 36 Gamma-hosted) |
 | **13 Interactive Labs** | Hands-on workbenches for MEL, policy, partnerships, budgeting, gender analysis, and more |
 | **134 Game Library** | 17 interactive simulations (MiroFish AI agents, Indian folk art — Warli, Madhubani, Gond, Kalamkari, Pichwai, Pattachitra) + 117 crosswords, quizzes & word searches |
 | **ImpactLex Dictionary** | 390+ development terms with contextual definitions, formulas, and case studies (PWA, hosted on ImpactMojo) |
@@ -144,7 +144,7 @@ Deep, comprehensive learning tracks — free for all users:
 | **Gender Studies: Feminisms, Power & Social Change** | Feminist theory, gender analysis, and development |
 | **Public Choice: Decisions, Incentives & Institutions** | Mechanics of choice — voting paradoxes, rent-seeking, bureaucracy, federalism |
 
-### Foundational Courses (37)
+### Foundational Courses (44)
 
 Shorter introductory courses covering the breadth of development practice:
 

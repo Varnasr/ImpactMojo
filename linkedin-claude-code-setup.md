@@ -174,4 +174,4 @@ The `~/.claude/` directory is the most underleveraged feature of Claude Code. It
 
 ---
 
-*I'm building ImpactMojo — a free development education platform for South Asia with 52 courses, 84 handouts, 16 interactive games, and 13 labs. The entire platform is a static HTML/CSS/JS site with a Supabase backend, deployed on Netlify. Claude Code with this global setup is how a solo developer ships at this scale.*
+*I'm building ImpactMojo — a free development education platform for South Asia with 59 courses, 84 handouts, 16 interactive games, and 13 labs. The entire platform is a static HTML/CSS/JS site with a Supabase backend, deployed on Netlify. Claude Code with this global setup is how a solo developer ships at this scale.*

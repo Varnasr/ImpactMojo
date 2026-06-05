@@ -43,7 +43,7 @@ Interactive book companions under Specials — deep, chapter-by-chapter explorat
 
 ---
 
-## Foundational Courses (37)
+## Foundational Courses (44)
 
 Single-page courses covering essential development topics. All free, no login required.
 

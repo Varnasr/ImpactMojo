@@ -13,7 +13,7 @@ Professional translations of courses in Hindi, Tamil, Bengali, and Marathi. ([#2
 Growing from 28 to 40+ interactive book companions across development economics, statistics, leadership, and productivity. ([#272](https://github.com/ImpactMojo/ImpactMojo/issues/272))
 
 ### Native 101 Deck Migration
-Migrating remaining 37 foundational course decks from Gamma iframes to self-hosted HTML with 100 slides each, interactive charts, and keyboard/touch navigation.
+Migrating remaining 44 foundational course decks from Gamma iframes to self-hosted HTML with 100 slides each, interactive charts, and keyboard/touch navigation.
 
 ## Planned — Q2 2026 (April–June)
 
@@ -65,7 +65,7 @@ Migrating remaining 37 foundational course decks from Gamma iframes to self-host
 - **Full accessibility audit** — axe-core + pa11y-ci CI pipeline, UserWay widget integration
 
 ### v10.15.0 — April 2026
-- **Content count corrections** sitewide — all files now show canonical 52 courses / 13 labs / 134 games
+- **Content count corrections** sitewide — all files now show canonical 59 courses / 13 labs / 134 games
 
 ### v10.14.0 — April 2026
 - **Device-mode default theme** on 70 pages — OS dark/light preference on first paint
