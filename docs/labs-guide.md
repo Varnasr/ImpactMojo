@@ -8,7 +8,7 @@ All labs are **free, browser-based, and require no login**.
 
 ---
 
-## The 11 Labs
+## The 13 Labs
 
 ### MEL & Research Labs
 
