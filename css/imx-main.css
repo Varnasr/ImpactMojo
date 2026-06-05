@@ -743,21 +743,15 @@
         }
 
         .cookie-icon-btn svg {
-            width: 28px;
-            height: 28px;
-            fill: var(--warning-color);
+            width: 26px;
+            height: 26px;
+            fill: #c0853f; /* warm cookie tan — self-consistent on any background */
         }
 
-        /* Bite mark effect */
-        .cookie-icon-btn::after {
-            content: '';
-            position: absolute;
-            top: -2px;
-            right: -2px;
-            width: 16px;
-            height: 16px;
-            background: var(--primary-bg);
-            border-radius: 50%;
+        /* Chocolate chips: fixed cocoa brown, NOT the page background (which
+           rendered as mismatched blobs when the button floated over content). */
+        .cookie-icon-btn svg circle[fill] {
+            fill: #5a3a1e !important;
         }
 
         .cookie-expanded {
@@ -792,7 +786,10 @@
         .cookie-expanded-header svg {
             width: 20px;
             height: 20px;
-            fill: var(--warning-color);
+            fill: #c0853f;
+        }
+        .cookie-expanded-header svg circle[fill] {
+            fill: #5a3a1e !important;
         }
 
         .cookie-expanded-header span {
@@ -854,8 +851,8 @@
         /* Mobile adjustment */
         @media (max-width: 480px) {
             .cookie-consent {
-                left: 10px;
-                bottom: 1.5rem;
+                left: 1rem;
+                bottom: 5.5rem; /* clear the bottom-left tools speed-dial */
             }
             .cookie-expanded {
                 width: calc(100vw - 40px);
@@ -6669,18 +6666,19 @@ footer::before {
         height: 44px !important;
     }
     
-    /* === COOKIE CONSENT - SIMPLE === */
+    /* === COOKIE CONSENT — minimal icon, bottom-left ===
+       The container must HUG its 48px round toggle (no full-width banner / no
+       padding), otherwise the icon is pushed inward and the round button gets
+       stretched into an ellipse. The expanded panel sizes itself separately. */
     .cookie-consent,
     #cookieConsent {
         left: 1rem !important;
-        right: 1rem !important;
-        bottom: 1rem !important;
+        right: auto !important;
+        bottom: 5.5rem !important; /* stack ABOVE the bottom-left tools speed-dial */
         width: auto !important;
         max-width: none !important;
-        padding: 1rem !important;
-        border-radius: 12px !important;
-        flex-direction: column !important;
-        gap: 0.75rem !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
     }
     
     .cookie-consent p,
@@ -6690,8 +6688,11 @@ footer::before {
         margin: 0 !important;
     }
     
-    .cookie-consent button,
-    #cookieConsent button {
+    /* Stretch only the action buttons in the expanded panel — NOT the round
+       .cookie-icon-btn toggle (which must stay a 48px circle, not a full-width
+       ellipse). */
+    .cookie-expanded-buttons button,
+    #cookieConsent .cookie-expanded-buttons button {
         width: 100% !important;
         padding: 0.75rem !important;
         font-size: 0.9rem !important;
