@@ -5,6 +5,32 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.63.0] - 2026-06-05
+
+### Added — Marginalia essay 3 + 101 hub completion + count reconciliation
+
+### For Learners
+
+- **The Indicator Ate the Village** — the third Marginalia cartoon essay: ten
+  drawings on monitoring & evaluation (the baseline that learns nothing, the
+  dashboard at 87% beside an empty clinic, real-time-data-for-whom, the endline
+  that never saw the year after exit, accountability that only points up), each
+  with cited, evidence-based paragraphs.
+  `/specials/the-indicator-ate-the-village/`
+- **Climate Essentials 101** and **Inequality Basics 101** now appear in the
+  101 Series hub (they were native decks sitting outside the grid).
+
+### Changed
+
+- **101 hub** now lists **45 native course decks** — added Climate Essentials +
+  Inequality Basics and removed the duplicate "Economics for Policy
+  Practitioners" card (it pointed at the Development Economics deck), so the hub
+  matches the Deck Library gallery exactly.
+- **Site-wide counts reconciled** to 15 flagship · 45 foundational · 60 total ·
+  134 games · 13 labs · 49 book summaries · 17 deep dives · 84 handouts ·
+  18 practice packs — across English pages, the Supabase signup/invite emails,
+  the GitHub profile README, and the bn/mr/hi/ta documentation.
+
 ## [10.62.0] - 2026-06-05
 
 ### Fixed — Mobile rendering
