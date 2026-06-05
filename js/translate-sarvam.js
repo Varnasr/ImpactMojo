@@ -138,7 +138,12 @@
       b.style.color = b.dataset.l === lang ? "#fff" : "rgba(120,120,120,0.95)";
     });
   }
-  function markBusy(on) { if (bar) bar.style.opacity = on ? "0.6" : "1"; }
+  function markBusy(on) {
+    if (!bar) return;
+    bar.style.opacity = on ? "0.85" : "1";
+    var s = document.getElementById("im-xlate-status");
+    if (s) { s.style.display = on ? "inline-block" : "none"; }
+  }
   function buildUI() {
     bar = document.createElement("div");
     bar.id = "im-lang-switch"; bar.setAttribute("data-no-translate", "");
@@ -154,6 +159,13 @@
       b.addEventListener("click", function () { translateTo(code); });
       bar.appendChild(b);
     });
+    var status = document.createElement("span");
+    status.id = "im-xlate-status"; status.textContent = "translating…";
+    status.style.cssText = "display:none;align-self:center;font-size:11px;font-weight:600;color:#1D4ED8;padding:0 8px 0 4px;animation:imXlatePulse 1s ease-in-out infinite";
+    bar.appendChild(status);
+    var kf = document.createElement("style");
+    kf.textContent = "@keyframes imXlatePulse{0%,100%{opacity:.45}50%{opacity:1}}";
+    document.head.appendChild(kf);
     document.body.appendChild(bar);
   }
 
