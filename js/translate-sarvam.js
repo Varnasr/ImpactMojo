@@ -135,7 +135,7 @@
     if (!bar) return;
     [].forEach.call(bar.querySelectorAll("button"), function (b) {
       b.style.background = b.dataset.l === lang ? "rgba(29,78,216,0.9)" : "transparent";
-      b.style.color = b.dataset.l === lang ? "#fff" : "rgba(120,120,120,0.95)";
+      b.style.color = b.dataset.l === lang ? "#fff" : "#475569";
     });
   }
   function markBusy(on) {
@@ -149,13 +149,13 @@
     bar.id = "im-lang-switch"; bar.setAttribute("data-no-translate", "");
     bar.setAttribute("aria-label", "Language");
     bar.style.cssText = "position:fixed;bottom:14px;left:14px;z-index:99998;display:flex;gap:2px;" +
-      "background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);border:1px solid rgba(0,0,0,0.1);" +
+      "background:#ffffff;backdrop-filter:blur(8px);border:1px solid rgba(0,0,0,0.1);" +
       "border-radius:999px;padding:3px;box-shadow:0 4px 14px rgba(0,0,0,0.15);font-family:system-ui,sans-serif";
     Object.keys(LANGS).forEach(function (code) {
       var b = document.createElement("button");
       b.textContent = LANGS[code].label; b.dataset.l = code;
       b.title = LANGS[code].native;
-      b.style.cssText = "border:none;cursor:pointer;font-size:12px;font-weight:600;padding:5px 9px;border-radius:999px;background:transparent;color:rgba(120,120,120,0.95)";
+      b.style.cssText = "border:none;cursor:pointer;font-size:12px;font-weight:600;padding:5px 9px;border-radius:999px;background:transparent;color:#475569";
       b.addEventListener("click", function () { translateTo(code); });
       bar.appendChild(b);
     });
