@@ -61,8 +61,8 @@
 
   // "" "" "" Helpers "" "" "" 
   const norm = s => String(s||"").toLowerCase();
-  const listCourses = () => COURSES.map(c=>`"¢ ${c.t} "" ${c.o}\n  ${c.u}`).join("\n");
-  const listLabs = () => LABS.map(l=>`"¢ ${l.t}\n  ${l.u}`).join("\n");
+  const listCourses = () => COURSES.map(c=>`• ${c.t} — ${c.o}\n  ${c.u}`).join("\n");
+  const listLabs = () => LABS.map(l=>`• ${l.t}\n  ${l.u}`).join("\n");
   const byTitle = (arr, text) => {
     const s = norm(text);
     return arr.find(x => s.includes(norm(x.t)) || norm(x.t).includes(s));
@@ -104,60 +104,60 @@
     { re: /(objective|about|overview|syllabus).+development economics|dev(\s|-)?econ/i,
       a: () => {
         const c = byTitle(COURSES, "Development Economics 101");
-        return c ? `${c.t} "" ${c.o}\n${c.u}` : "Development Economics 101 covers poverty, inequality and growth; see the course page for details.";
+        return c ? `${c.t} — ${c.o}\n${c.u}` : "Development Economics 101 covers poverty, inequality and growth; see the course page for details.";
       }},
     { re: /(objective|about|overview|syllabus).+law/i,
-      a: () => { const c = byTitle(COURSES,"Law and Constitution 101"); return `${c.t} "" ${c.o}\n${c.u}`; } },
+      a: () => { const c = byTitle(COURSES,"Law and Constitution 101"); return `${c.t} — ${c.o}\n${c.u}`; } },
     { re: /(objective|about|overview|syllabus).+climate/i,
-      a: () => { const c = byTitle(COURSES,"Climate Science 101"); return `${c.t} "" ${c.o}\n${c.u}`; } },
+      a: () => { const c = byTitle(COURSES,"Climate Science 101"); return `${c.t} — ${c.o}\n${c.u}`; } },
     { re: /(objective|about|overview|syllabus).+(pedagogy|education)/i,
-      a: () => { const c = byTitle(COURSES,"Pedagogy and Education 101"); return `${c.t} "" ${c.o}\n${c.u}`; } },
+      a: () => { const c = byTitle(COURSES,"Pedagogy and Education 101"); return `${c.t} — ${c.o}\n${c.u}`; } },
     { re: /(objective|about|overview|syllabus).+(public health|health)/i,
-      a: () => { const c = byTitle(COURSES,"Public Health 101"); return `${c.t} "" ${c.o}\n${c.u}`; } },
+      a: () => { const c = byTitle(COURSES,"Public Health 101"); return `${c.t} — ${c.o}\n${c.u}`; } },
     { re: /(objective|about|overview|syllabus).+livelihood/i,
-      a: () => { const c = byTitle(COURSES,"Livelihoods 101"); return `${c.t} "" ${c.o}\n${c.u}`; } },
+      a: () => { const c = byTitle(COURSES,"Livelihoods 101"); return `${c.t} — ${c.o}\n${c.u}`; } },
     { re: /(objective|about|overview|syllabus).+gender/i,
-      a: () => { const c = byTitle(COURSES,"Gender Studies 101"); return `${c.t} "" ${c.o}\n${c.u}`; } },
+      a: () => { const c = byTitle(COURSES,"Gender Studies 101"); return `${c.t} — ${c.o}\n${c.u}`; } },
     { re: /(objective|about|overview|syllabus).+(WEE|women)/i,
-      a: () => { const c = byTitle(COURSES,"Womens' Economic Empowerment 101"); return `${c.t} "" ${c.o}\n${c.u}`; } },
+      a: () => { const c = byTitle(COURSES,"Womens' Economic Empowerment 101"); return `${c.t} — ${c.o}\n${c.u}`; } },
     { re: /(objective|about|overview|syllabus).+(ethics|research ethics)/i,
-      a: () => { const c = byTitle(COURSES,"Research Ethics 101"); return `${c.t} "" ${c.o}\n${c.u}`; } },
+      a: () => { const c = byTitle(COURSES,"Research Ethics 101"); return `${c.t} — ${c.o}\n${c.u}`; } },
     { re: /(objective|about|overview|syllabus).+(bcc|behaviour|behavior)/i,
-      a: () => { const c = byTitle(COURSES,"Behaviour Change Communication Programming 101"); return `${c.t} "" ${c.o}\n${c.u}`; } },
+      a: () => { const c = byTitle(COURSES,"Behaviour Change Communication Programming 101"); return `${c.t} — ${c.o}\n${c.u}`; } },
     { re: /(objective|about|overview|syllabus).+advocacy/i,
-      a: () => { const c = byTitle(COURSES,"Advocacy and Communications 101"); return `${c.t} "" ${c.o}\n${c.u}`; } },
+      a: () => { const c = byTitle(COURSES,"Advocacy and Communications 101"); return `${c.t} — ${c.o}\n${c.u}`; } },
     { re: /(objective|about|overview|syllabus).+(monitoring|evaluation|meal)\b/i,
-      a: () => { const c = byTitle(COURSES,"Monitoring, Evaluation, Accountability and Learning 101"); return `${c.t} "" ${c.o}\n${c.u}`; } },
+      a: () => { const c = byTitle(COURSES,"Monitoring, Evaluation, Accountability and Learning 101"); return `${c.t} — ${c.o}\n${c.u}`; } },
     { re: /(objective|about|overview|syllabus).+ethnograph/i,
-      a: () => { const c = byTitle(COURSES,"Visual Ethnography 101"); return `${c.t} "" ${c.o}\n${c.u}`; } },
+      a: () => { const c = byTitle(COURSES,"Visual Ethnography 101"); return `${c.t} — ${c.o}\n${c.u}`; } },
     { re: /(objective|about|overview|syllabus).+(political economy|pol.?econ)/i,
-      a: () => { const c = byTitle(COURSES,"Political Economy 101"); return `${c.t} "" ${c.o}\n${c.u}`; } },
+      a: () => { const c = byTitle(COURSES,"Political Economy 101"); return `${c.t} — ${c.o}\n${c.u}`; } },
     { re: /(objective|about|overview|syllabus).+(poverty|inequality)/i,
-      a: () => { const c = byTitle(COURSES,"Poverty and Inequality 101"); return `${c.t} "" ${c.o}\n${c.u}`; } },
+      a: () => { const c = byTitle(COURSES,"Poverty and Inequality 101"); return `${c.t} — ${c.o}\n${c.u}`; } },
     { re: /(objective|about|overview|syllabus).+(data vis|datavis|visuali[sz]ation)/i,
-      a: () => { const c = byTitle(COURSES,"Data Visualisation 101"); return `${c.t} "" ${c.o}\n${c.u}`; } },
+      a: () => { const c = byTitle(COURSES,"Data Visualisation 101"); return `${c.t} — ${c.o}\n${c.u}`; } },
     { re: /(objective|about|overview|syllabus).+(mixed methods|mmr)/i,
-      a: () => { const c = byTitle(COURSES,"Mixed Methods Research 101"); return `${c.t} "" ${c.o}\n${c.u}`; } },
+      a: () => { const c = byTitle(COURSES,"Mixed Methods Research 101"); return `${c.t} — ${c.o}\n${c.u}`; } },
     { re: /(objective|about|overview|syllabus).+(impact eval|evaluation design)/i,
-      a: () => { const c = byTitle(COURSES,"Impact Evaluation Design 101"); return `${c.t} "" ${c.o}\n${c.u}`; } },
+      a: () => { const c = byTitle(COURSES,"Impact Evaluation Design 101"); return `${c.t} — ${c.o}\n${c.u}`; } },
     { re: /(objective|about|overview|syllabus).+fundraising/i,
-      a: () => { const c = byTitle(COURSES,"Fundraising 101"); return `${c.t} "" ${c.o}\n${c.u}`; } },
+      a: () => { const c = byTitle(COURSES,"Fundraising 101"); return `${c.t} — ${c.o}\n${c.u}`; } },
     { re: /(objective|about|overview|syllabus).+programme design/i,
-      a: () => { const c = byTitle(COURSES,"Programme Design Principles 101"); return `${c.t} "" ${c.o}\n${c.u}`; } },
+      a: () => { const c = byTitle(COURSES,"Programme Design Principles 101"); return `${c.t} — ${c.o}\n${c.u}`; } },
     { re: /(objective|about|overview|syllabus).+(environmental justice|env\.?justice)/i,
-      a: () => { const c = byTitle(COURSES,"Environmental Justice 101"); return `${c.t} "" ${c.o}\n${c.u}`; } },
+      a: () => { const c = byTitle(COURSES,"Environmental Justice 101"); return `${c.t} — ${c.o}\n${c.u}`; } },
     { re: /(objective|about|overview|syllabus).+(digital gov|governance)/i,
-      a: () => { const c = byTitle(COURSES,"Digital Governance 101"); return `${c.t} "" ${c.o}\n${c.u}`; } },
+      a: () => { const c = byTitle(COURSES,"Digital Governance 101"); return `${c.t} — ${c.o}\n${c.u}`; } },
     { re: /(objective|about|overview|syllabus).+(nutrition|food)/i,
-      a: () => { const c = byTitle(COURSES,"Nutrition, Food Systems & Culture 101"); return `${c.t} "" ${c.o}\n${c.u}`; } },
+      a: () => { const c = byTitle(COURSES,"Nutrition, Food Systems & Culture 101"); return `${c.t} — ${c.o}\n${c.u}`; } },
     { re: /(objective|about|overview|syllabus).+(social research ethics|consent)/i,
-      a: () => { const c = byTitle(COURSES,"Social Research Ethics & Consent 101"); return `${c.t} "" ${c.o}\n${c.u}`; } },
+      a: () => { const c = byTitle(COURSES,"Social Research Ethics & Consent 101"); return `${c.t} — ${c.o}\n${c.u}`; } },
     { re: /(objective|about|overview|syllabus).+(language|history of languages)/i,
-      a: () => { const c = byTitle(COURSES,"Language & History of Languages 101"); return `${c.t} "" ${c.o}\n${c.u}`; } },
+      a: () => { const c = byTitle(COURSES,"Language & History of Languages 101"); return `${c.t} — ${c.o}\n${c.u}`; } },
     { re: /(objective|about|overview|syllabus).+caste/i,
-      a: () => { const c = byTitle(COURSES,"Caste 101"); return `${c.t} "" ${c.o}\n${c.u}`; } },
+      a: () => { const c = byTitle(COURSES,"Caste 101"); return `${c.t} — ${c.o}\n${c.u}`; } },
     { re: /(objective|about|overview|syllabus).+(humanitarian|development work)/i,
-      a: () => { const c = byTitle(COURSES,"Humanitarian vs Development Work 101"); return `${c.t} "" ${c.o}\n${c.u}`; } },
+      a: () => { const c = byTitle(COURSES,"Humanitarian vs Development Work 101"); return `${c.t} — ${c.o}\n${c.u}`; } },
 
     { re: /(beginner|new to this|where to start)/i,
       a: "Start with any **101** course. They're beginner-friendly and focus on practical understanding." },
@@ -188,7 +188,7 @@
     { re: /(testimonial|review|what people say)/i,
       a: "Testimonials are showcased on-site when available. You can also leave feedback here and we may feature excerpts." },
     { re: /rating(s)?|stars?/i,
-      a: "Ratings vary by context. Where available, they appear with the relevant course or lab"" Mojini avoids quoting numbers out of context." },
+      a: "Ratings vary by context. Where available, they appear with the relevant course or lab — Mojini avoids quoting numbers out of context." },
     { re: /founder|who.*(behind|lead)/i,
       a: "ImpactMojo is led by **Dr. Varna Sri Raman**. (Additional leadership may be featured on the site.)" },
 
@@ -277,7 +277,7 @@
       title.split(/\s+/).forEach(tok => { if (tok && s.includes(tok)) score++; });
       if (score > bestScore) { bestScore = score; best = c; }
     });
-    if (best && bestScore >= 2) return `${best.t} "" ${best.o}\n${best.u}`;
+    if (best && bestScore >= 2) return `${best.t} — ${best.o}\n${best.u}`;
     return null;
   }
 
