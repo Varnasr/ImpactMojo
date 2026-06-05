@@ -38,6 +38,9 @@ OUT_DIR = ROOT / "101-courses"
 VIEWPORT_OPEN = '<div class="slide-viewport" id="viewport">'
 VIEWPORT_CLOSE = '</div><!-- /slide-viewport -->'
 
+# Every 101 deck must be EXACTLY this many navigable slides.
+REQUIRED_SLIDES = 100
+
 LOGO_SVG = ('<svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">'
             '<path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" '
             'stroke-linecap="round" stroke-linejoin="round"/>'
@@ -173,7 +176,7 @@ def render_slide(s, num, total, deck_title):
         for i, it in enumerate(s["items"]):
             items += (f'<div class="toc-item"><div class="toc-num">{i + 1:02d}</div>'
                       f'<div class="toc-name">{it["name"]}</div>'
-                      f'<div class="toc-slides">{it["slides"]}</div></div>')
+                      f'<div class="toc-slides">{it.get("slides", "")}</div></div>')
         content = (f'<div class="slide-content"><div class="section-label">{s.get("label", "Agenda")}</div>'
                    f'<div class="slide-title md" style="margin-bottom:8px">{s.get("title", "What We Cover")}</div>'
                    f'<div class="toc-grid">{items}</div></div>')
@@ -258,6 +261,48 @@ def build_echarts_body():
 # ----------------------------------------------------------------------------
 # Assembly
 # ----------------------------------------------------------------------------
+def compute_toc_ranges(slides):
+    """Derive each section's slide range from divider positions, so the TOC
+    never drifts out of sync with the actual deck. A section spans from its
+    `divider` slide through the slide before the next divider (the last section
+    runs up to the slide before the `end` slide, if any)."""
+    n = len(slides)
+    end_idx = None
+    div_idxs = []
+    for i, s in enumerate(slides, start=1):
+        if s.get("type") == "divider":
+            div_idxs.append(i)
+        if s.get("type") == "end" and end_idx is None:
+            end_idx = i
+    last = (end_idx - 1) if end_idx else n
+    ranges = []
+    for k, di in enumerate(div_idxs):
+        start = di
+        end = (div_idxs[k + 1] - 1) if k + 1 < len(div_idxs) else last
+        ranges.append((start, end))
+    return ranges
+
+
+def _range_str(a, b):
+    return f"Slides {a}&ndash;{b}" if a != b else f"Slide {a}"
+
+
+def apply_auto_toc(slides):
+    """Fill each TOC item's `slides` label from the computed section ranges,
+    matching TOC items to dividers in order."""
+    ranges = compute_toc_ranges(slides)
+    for s in slides:
+        if s.get("type") == "toc":
+            items = s.get("items", [])
+            if len(items) == len(ranges):
+                for item, (a, b) in zip(items, ranges):
+                    item["slides"] = _range_str(a, b)
+            else:
+                print(f"  [warn] TOC has {len(items)} items but deck has "
+                      f"{len(ranges)} sections — leaving TOC labels as authored.")
+    return slides
+
+
 def load_spec(name):
     path = SPECS_DIR / f"{name}.py"
     spec = importlib.util.spec_from_file_location(f"deckspec_{name}", path)
@@ -273,7 +318,7 @@ def build(name):
     head, rest = donor.split(VIEWPORT_OPEN, 1)
     _slides_region, tail = rest.split(VIEWPORT_CLOSE, 1)
 
-    slides = deck["slides"]
+    slides = apply_auto_toc(deck["slides"])
     total = len(slides)
     title = deck["title"]
 
@@ -327,15 +372,25 @@ def main():
         sys.exit(1)
     name = sys.argv[1]
     check = "--check" in sys.argv
+    force = "--force" in sys.argv
     out, total = build(name)
     deck = load_spec(name)
     target = OUT_DIR / f"{deck['slug']}.html"
+    n_charts = sum(len(v) for v in _CHARTS.values())
+
+    ok = (total == REQUIRED_SLIDES)
+    status = "PASS" if ok else f"FAIL (need exactly {REQUIRED_SLIDES})"
     if check:
-        print(f"[check] {name}: {total} slides, {sum(len(v) for v in _CHARTS.values())} charts -> {target}")
-        return
+        print(f"[check] {name}: {total} slides [{status}], {n_charts} charts -> {target}")
+        sys.exit(0 if ok else 1)
+
+    if not ok and not force:
+        print(f"[refused] {deck['slug']}: {total} slides — every 101 deck must be "
+              f"EXACTLY {REQUIRED_SLIDES} slides. Adjust the spec (or pass --force).")
+        sys.exit(1)
     target.write_text(out, encoding="utf-8")
-    print(f"[built] {deck['slug']}.html — {total} slides, "
-          f"{sum(len(v) for v in _CHARTS.values())} charts, {len(out)//1024}KB")
+    print(f"[built] {deck['slug']}.html — {total} slides [{status}], "
+          f"{n_charts} charts, {len(out)//1024}KB")
 
 
 if __name__ == "__main__":

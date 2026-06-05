@@ -5,6 +5,37 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.55.0] - 2026-06-05
+
+### Added — 101 Series native migration: Data & Methods batch (4 decks)
+
+Four more 101 Series courses move from Gamma embeds to native 100-slide decks,
+built with the `scripts/deck-builder` pipeline.
+
+### For Learners
+
+- **Bivariate Analysis 101** — relationships between two variables: cross-tabs,
+  scatterplots, correlation (Pearson & Spearman), comparing groups, chi-square,
+  simple regression, and the classic pitfalls (confounding, ecological fallacy,
+  Anscombe, Simpson's paradox). 100 slides, 8 charts.
+- **Exploratory Data Analysis 101** — making sense of household survey data
+  (NSS/PLFS, NFHS, CMIE): the EDA workflow, distributions, missingness and
+  outliers, survey weights and design effects, and honest visual exploration.
+  100 slides, 10 charts.
+- **Qualitative Methods 101** — interviews, focus groups, observation and
+  ethnography, participatory & visual methods, coding and thematic analysis
+  (Braun & Clarke), and trustworthiness (Lincoln & Guba). 100 slides.
+- **Research Ethics 101** — from Nuremberg, Helsinki and Belmont to India's
+  ICMR 2017 guidelines and the DPDP Act 2023: consent, vulnerable populations,
+  privacy, risk–benefit, ethics review, and giving findings back. 100 slides.
+
+### Changed
+
+- **`101-courses/index.html`** — the four cards re-badged Native HTML · 100
+  slides; counts updated (Native HTML 8 → 12, Slide Deck 25 → 21).
+- Every deck is now hard-enforced at exactly 100 slides, with TOC section
+  ranges auto-computed by the builder.
+
 ## [10.54.0] - 2026-06-05
 
 ### Added — 101 Series native migration: Data Literacy 101 + deck builder

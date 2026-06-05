@@ -19,7 +19,7 @@ DECK = {
          "main": "Data<br>Literacy<br>101",
          "sub": "Reading, Questioning &amp; Using Data Responsibly &mdash; a Foundational "
                 "Course for Development Practitioners in South Asia",
-         "tags": ["Research-Backed", "South Asia Focus", "~90 Slides", "Free Access"]},
+         "tags": ["Research-Backed", "South Asia Focus", "100 Slides", "Free Access"]},
 
         # ===================== S2 TOC =====================
         {"type": "toc", "label": "Agenda", "title": "What We Cover",
@@ -694,6 +694,17 @@ DECK = {
               "in size and baseline."},
              {"t": "hbox", "color": "red", "html": "Always disaggregate before concluding. The "
               "aggregate can point the opposite way to the truth."},
+         ]},
+
+        {"type": "content", "label": "Regression to the Mean", "title": "Extreme results drift back to average",
+         "blocks": [
+             {"t": "body", "html": "When you pick the <em>worst-performing</em> districts and "
+              "re-measure them later, they usually look better &mdash; even with no intervention. "
+              "Extreme values contain extra luck that does not repeat. This is "
+              "<strong>regression to the mean</strong>."},
+             {"t": "hbox", "color": "amber", "html": "It is a notorious trap in evaluation: target "
+              "the bottom 10% of schools, see them improve, and credit your programme &mdash; when "
+              "much of the gain would have happened anyway. A comparison group is the cure."},
          ]},
 
         # ===================== SECTION 07 =====================

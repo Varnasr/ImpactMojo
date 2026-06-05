@@ -63,7 +63,15 @@ plus a `{t:"raw", html:'<div class="chart-canvas" id="id"></div>'}` block.
 
 ## Authoring guidance (quality bar)
 
-- Aim for ~90–100 slides across ~10–12 sections, each opened by a `divider`.
+- **EXACTLY 100 slides.** This is enforced: `build.py` refuses to write (and
+  `--check` exits non-zero) unless the deck has exactly 100 navigable slides,
+  counting the title, TOC, every `divider`, every content slide and the `end`
+  slide. Tune section depth until the total is 100.
+- Structure: `title` (s1), `toc` (s2), then ~10–12 sections each opened by a
+  `divider`, then an `end` slide.
+- **Do not write the TOC `slides` labels by hand** — the builder computes each
+  section's "Slides X–Y" range from the divider positions and fills them in.
+  Just give each TOC item a `name` (in the same order as the dividers).
 - Lead with South Asian data, examples and sources; cite real datasets
   (Census, NFHS, PLFS/NSS, World Bank) and label approximations "Illustrative".
 - Keep each slide to one idea; the runtime auto-fit shrinks overflow but slides
