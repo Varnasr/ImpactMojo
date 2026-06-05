@@ -5,6 +5,24 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.54.0] - 2026-06-04
+
+### Changed — Causal Inference flagship: gold-standard content rewrite (all 13 modules)
+
+- Rewrote every module's `content_html` and deployed it to the production
+  `course_content` table (course_id `causal`). Each module now has KaTeX math,
+  an inline DAG/plot, a worked Indian-programme example with a results table,
+  R + Stata code, a common-pitfalls callout, a problem set with collapsible
+  solutions, and current references. Per-module content roughly doubled in
+  depth (≈6 KB → 9–16 KB).
+- `courses/causal/index.html`: KaTeX wired (earlier) + new styled components
+  (`worked-example`, `problem-set`, `dag-figure`, `assumption-list`).
+- `js/course-loader.js` (earlier): fetch timeout + retry so modules no longer
+  hang on a slow edge-function response.
+- Content pipeline: `supabase/seed-content/causal/` per-module source files;
+  `scripts/build-causal-seed.py` rebuilds the seed migration; `scripts/
+  deploy-causal.py` deploys to prod via the Supabase Management API.
+
 ## [10.53.0] - 2026-06-04
 
 ### Added — Marginalia series hub + second essay "The Fine Print"
