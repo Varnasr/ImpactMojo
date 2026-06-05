@@ -2772,29 +2772,7 @@ code, pre, .monospace, kbd, samp { font-family: 'JetBrains Mono', monospace !imp
 <!-- JavaScript -->
 <script>
 // Theme Management
-function getPreferredTheme() {
-    return localStorage.getItem('impactmojo-theme') || 'system';
-}
-function applyTheme(theme) {
-    var resolved = theme;
-    if (theme === 'system') {
-        resolved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-    }
-    document.documentElement.setAttribute('data-theme', resolved);
-    document.body.classList.toggle('light-mode', resolved === 'light');
-    document.body.classList.toggle('dark-mode', resolved === 'dark');
-    localStorage.setItem('impactmojo-theme', theme);
-    document.querySelectorAll('.theme-btn').forEach(function(btn) {
-        btn.classList.toggle('active', btn.getAttribute('data-theme') === theme);
-    });
-}
-applyTheme(getPreferredTheme());
-document.querySelectorAll('.theme-btn').forEach(function(btn) {
-    btn.addEventListener('click', function() { applyTheme(btn.getAttribute('data-theme')); });
-});
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
-    if (getPreferredTheme() === 'system') applyTheme('system');
-});
+
 
 // Chatbot
 function openChatbot() {
@@ -2970,9 +2948,7 @@ function filterPosts() {
 })();
 
 // Initialization
-document.addEventListener('DOMContentLoaded', function() {
-    applyTheme(getPreferredTheme());
-});
+
 
 // Close dropdowns when clicking outside
 document.addEventListener('click', function(e) {

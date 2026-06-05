@@ -1352,41 +1352,7 @@ function renderFeatureTable() {
 // ============================================================
 // THEME (3-button: system / light / dark)
 // ============================================================
-function getPreferredTheme() {
-    return localStorage.getItem('impactmojo-theme') || 'system';
-}
 
-function applyTheme(theme) {
-    var resolved = theme;
-    if (theme === 'system') {
-        resolved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-    }
-    document.documentElement.setAttribute('data-theme', resolved);
-    localStorage.setItem('impactmojo-theme', theme);
-    document.querySelectorAll('.theme-btn').forEach(function(btn) {
-        btn.classList.toggle('active', btn.getAttribute('data-theme') === theme);
-    });
-    // Redraw charts on theme change
-    if (window._chartsRendered) {
-        setTimeout(function() {
-            drawLineChart('courseChart', LEGACY.courseUsers, 'accent');
-            drawLineChart('gameChart', LEGACY.gameUsers, 'green');
-            drawLineChart('toolChart', LEGACY.toolUsers, 'purple');
-        }, 50);
-    }
-}
-
-applyTheme(getPreferredTheme());
-
-document.querySelectorAll('.theme-btn').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-        applyTheme(btn.getAttribute('data-theme'));
-    });
-});
-
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
-    if (getPreferredTheme() === 'system') applyTheme('system');
-});
 
 // ============================================================
 // MOBILE MENU
