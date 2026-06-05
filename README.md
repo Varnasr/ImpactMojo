@@ -41,7 +41,7 @@ We provide accessible, high-quality educational materials grounded in South Asia
 
 | Category | Description |
 |----------|-------------|
-| **54 Courses** | 15 flagship + 40 foundational courses across 6 learning tracks (4 native HTML slide decks with 100 slides each; remaining 36 Gamma-hosted) |
+| **59 Courses** | 15 flagship + 44 foundational courses across 6 learning tracks (4 native HTML slide decks with 100 slides each; remaining 36 Gamma-hosted) |
 | **13 Interactive Labs** | Hands-on workbenches for MEL, policy, partnerships, budgeting, gender analysis, and more |
 | **134 Game Library** | 17 interactive simulations (MiroFish AI agents, Indian folk art — Warli, Madhubani, Gond, Kalamkari, Pichwai, Pattachitra) + 117 crosswords, quizzes & word searches |
 | **ImpactLex Dictionary** | 390+ development terms with contextual definitions, formulas, and case studies (PWA, hosted on ImpactMojo) |
@@ -50,9 +50,9 @@ We provide accessible, high-quality educational materials grounded in South Asia
 | **PolicyDhara** | Curated Indian public policy documents, government schemes, and legislative frameworks |
 | **BCT Repository** | 203 behavior change techniques from BCT Taxonomy v1 with definitions, examples, evidence ratings, 60 WASH/nutrition case studies, fuzzy search, bookmarks, notes, comparison tool, PDF export — dark mode, filters, CSV export |
 | **Dataverse** | 296 curated tools, datasets, APIs, MCP servers, and platforms across 22 categories — dark mode, category filters, responsive cards |
-| **69 Book Companions** | Interactive study companions for development economics, statistics, leadership, and productivity texts |
+| **49 Book Companions** | Interactive study companions for development economics, statistics, leadership, and productivity texts |
 | **12 AI Study Companions** | NotebookLM-powered study notebooks for all flagship courses |
-| **85 Handouts** | Downloadable resources across 6 learning tracks |
+| **84 Handouts** | Downloadable resources across 6 learning tracks |
 | **28 Blog Posts** | Learning Loops Blog — articles, tutorials, and case studies on development practice |
 | **Between the Logframes** | Development podcast — honest conversations on MEAL and impact work |
 | **MCP Server** | Model Context Protocol server — connect any AI assistant to search all ImpactMojo content, BCTs, Dataverse, climate data, and more ([Setup guide](mcp-server/README.md)) |
@@ -125,7 +125,7 @@ Available to Practitioner and Professional tier subscribers:
 
 ## Content Inventory
 
-### Flagship Courses (13)
+### Flagship Courses (15)
 
 Deep, comprehensive learning tracks — free for all users:
 
@@ -144,7 +144,7 @@ Deep, comprehensive learning tracks — free for all users:
 | **Gender Studies: Feminisms, Power & Social Change** | Feminist theory, gender analysis, and development |
 | **Public Choice: Decisions, Incentives & Institutions** | Mechanics of choice — voting paradoxes, rent-seeking, bureaucracy, federalism |
 
-### Foundational Courses (40)
+### Foundational Courses (44)
 
 Shorter introductory courses covering the breadth of development practice:
 
@@ -186,7 +186,7 @@ Shorter introductory courses covering the breadth of development practice:
 - **Code Convert Pro** — Script translation between Stata, R, Python, SPSS (Professional)
 - **VaniScribe** — AI transcription for 10+ South Asian languages (Professional)
 
-### Game Library (134 — 17 simulations + 117 puzzles)
+### Game Library (134 — 17 simulations + 134 puzzles)
 
 Interactive simulations powered by **MiroFish AI agents** with **Indian folk art story illustrations** in 6 traditional styles. Each game features AI opponents with distinct South Asian personas, backed by Groq/Gemini/DeepSeek LLMs with automatic fallback:
 
@@ -218,7 +218,7 @@ Interactive simulations powered by **MiroFish AI agents** with **Indian folk art
 - [**PolicyDhara**](https://github.com/Varnasr/PolicyDhara) — Auto-updating tracker of Indian development policies across 22 sectors
 - **BCT Repository** — 203 behavior change techniques with definitions, examples, and evidence ratings
 - **Dataverse** — 296 curated tools, datasets, APIs, MCP servers, and platforms for social impact research
-- **85 Handouts** — Downloadable HTML resources across 6 learning tracks
+- **84 Handouts** — Downloadable HTML resources across 6 learning tracks
 - **Learning Loops Blog** — Articles, tutorials, case studies, platform updates
 - **Between the Logframes Podcast** — Development conversations on MEAL, ToC, and impact work
 
@@ -446,7 +446,7 @@ ImpactMojo/
 ├── data/
 │   ├── bct-repository.json # BCT technique data (203 entries)
 │   ├── dataverse.json      # Dataverse catalog data (296 entries, 22 categories)
-│   └── game-agents.json    # MiroFish AI agent personas (30+ agents across 17 games)
+│   └── game-agents.json    # MiroFish AI agent personas (30+ agents across 134 games)
 │
 ├── assets/
 │   ├── images/             # Logos, icons, illustrations

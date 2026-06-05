@@ -37,6 +37,10 @@ DECKS = [
     ("pub_health_basics", "pub-health-basics"), ("fundraising_basics", "fundraising-basics"),
     ("toc_workbench", "toc-workbench"), ("advocacy_basics", "advocacy-basics"),
     ("bcc_comms", "bcc-comms"), ("pol_economy", "pol-economy"), ("wee_studies", "wee-studies"),
+    ("child_development","child-development"), ("feminist_research","feminist-research"),
+    ("gender_mainstreaming","gender-mainstreaming"), ("impact_eval","impact-eval"),
+    ("maternal_health","maternal-health"), ("mixed_methods","mixed-methods"),
+    ("survey_design","survey-design"),
 ]
 
 STOP = {"and", "the", "for", "of", "to", "in", "a", "an", "101", "amp"}
