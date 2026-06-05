@@ -113,7 +113,13 @@
     }
     if (order.length) {
       var fetched = await apiTranslate(lang, order);
-      for (var k in fetched) { uniq[k] = fetched[k]; cacheSet(lang, k, fetched[k]); }
+      // Only accept/cache real translations. If a value equals its original
+      // (the function's Sarvam-failure fallback), skip it so a transient
+      // rate-limit/outage doesn't permanently cache the page in English — it
+      // just retries on the next toggle/visit.
+      for (var k in fetched) {
+        if (fetched[k] && fetched[k] !== k) { uniq[k] = fetched[k]; cacheSet(lang, k, fetched[k]); }
+      }
     }
     for (var j = 0; j < originals.length; j++) {
       var t = uniq[originals[j].text.trim()];
