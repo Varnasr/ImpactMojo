@@ -1370,7 +1370,8 @@ IMX.Streak = {
             longestStreak: 0,
             totalDays: 0,
             lastVisit: null,
-            visitDates: []
+            visitDates: [],
+            celebratedMilestone: 0
         };
     },
     
@@ -1417,6 +1418,7 @@ IMX.Streak = {
         } else {
             // Streak broken, start new
             data.currentStreak = 1;
+            data.celebratedMilestone = 0; // allow milestones to celebrate again on the new streak
         }
         
         // Update records
@@ -1433,14 +1435,21 @@ IMX.Streak = {
         this.checkMilestone(data.currentStreak);
     },
     
-    // Check if we hit a milestone
+    // Emoji for each milestone icon keyword (the toast is plain text)
+    milestoneEmoji: { sprout: '🌱', flame: '🔥', star: '⭐', trophy: '🏆', diamond: '💎' },
+
+    // Celebrate a milestone at most once per streak (no repeat on revisits or re-syncs)
     checkMilestone: function(streak) {
         var milestone = this.milestones.find(function(m) { return m.days === streak; });
-        if (milestone) {
-            setTimeout(function() {
-                IMX.showToast(milestone.icon + ' ' + milestone.label + ' streak! Keep it up!');
-            }, 1000);
-        }
+        if (!milestone) return;
+        var data = this.getData();
+        if ((data.celebratedMilestone || 0) >= milestone.days) return; // already celebrated this milestone
+        data.celebratedMilestone = milestone.days;
+        this.saveData(data);
+        var emoji = this.milestoneEmoji[milestone.icon] || '🎉';
+        setTimeout(function() {
+            IMX.showToast(emoji + ' ' + milestone.label + ' streak! Keep it up!');
+        }, 1000);
     },
     
     // Update badge on speed dial
