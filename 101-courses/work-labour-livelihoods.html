@@ -3005,7 +3005,7 @@ body.dark #fs-hint{background:rgba(255,255,255,0.14)}
    <div class="dark-card" style="border-top:3px solid var(--red)"><div class="dark-card-label" style="color:var(--red)">101 Series</div><div class="dark-card-title">Inequality Basics 101</div><div class="dark-card-body">Wage shares, capital vs labour, top-end concentration; the inequality numbers behind the Indian labour story.</div></div>
    <div class="dark-card"><div class="dark-card-label">101 Series</div><div class="dark-card-title">Public Health Basics 101</div><div class="dark-card-body">Worker health, occupational hazards, ESIC scheme, the public health side of decent work.</div></div>
   </div>
-  <div class="hbox indigo" style="margin-top:14px"><div class="hbox-text">Full ImpactMojo course catalogue: <strong>www.impactmojo.in</strong>. The 101 Series hub: <strong>101.impactmojo.in</strong>. All decks are CC BY-NC-ND 4.0; share with anyone who would benefit. The 101 Series is being expanded through 2026 across roughly 35 topics.</div></div>
+  <div class="hbox indigo" style="margin-top:14px"><div class="hbox-text">Full ImpactMojo course catalogue: <strong>www.impactmojo.in</strong>. The 101 Series hub: <strong>impactmojo.in/101-courses</strong>. All decks are CC BY-NC-ND 4.0; share with anyone who would benefit. The 101 Series is being expanded through 2026 across roughly 35 topics.</div></div>
  </div>
  <div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">100</span><span class="footer-right">www.impactmojo.in</span></div>
 </div>
@@ -3148,14 +3148,22 @@ document.addEventListener('fullscreenchange', () => {
   document.getElementById('fs-hint').textContent = document.fullscreenElement ? 'exit fullscreen' : 'fullscreen';
 });
 
-// Viewport scaling
+// Viewport scaling — fit the 1280x720 stage to any screen. Re-runs on load,
+// orientation change and visual-viewport resize so mobile (where innerHeight
+// can be ~0 during parse) settles to the correct full-width fit instead of a
+// shrunken sliver.
 function scaleViewport() {
   const vp = document.getElementById('viewport');
+  if (!vp) return;
   const s = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
-  vp.style.transform = 'scale(' + s + ')';
+  if (s > 0) vp.style.transform = 'scale(' + s + ')';
 }
 window.addEventListener('resize', scaleViewport);
+window.addEventListener('orientationchange', function(){ setTimeout(scaleViewport, 150); });
+window.addEventListener('load', scaleViewport);
+if (window.visualViewport) window.visualViewport.addEventListener('resize', scaleViewport);
 scaleViewport();
+[50, 200, 500, 1000].forEach(function(t){ setTimeout(scaleViewport, t); });
 
 // Charts
 const CHART_DEFAULTS = {
