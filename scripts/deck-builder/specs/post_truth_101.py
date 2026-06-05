@@ -288,14 +288,21 @@ DECK = {
               "seeing it' is mistaken for 'it must be confirmed'."},
          ]},
 
-        {"type": "content", "label": "Network Structure", "title": "The shape of the network does the work",
+        {"type": "content", "label": "Network Structure", "title": "Each hop multiplies the reach",
          "blocks": [
-             {"t": "body", "html": "Spread is not just about content &mdash; it is about wiring. A "
-              "few highly connected <strong>hubs</strong> (influencers, large groups, "
-              "broadcasters) can launch a cascade that no single ordinary user could."},
-             {"t": "hbox", "color": "amber", "html": "In South Asia, encrypted group chats add a "
-              "twist: messages forwarded by a trusted uncle carry the credibility of the "
-              "relationship, not the source."},
+             {"t": "chart", "canvas": "rumourReachChart",
+              "title": "People reached as a rumour is re-forwarded, hop by hop (illustrative)",
+              "source": "Illustrative; assumes each person forwards to several others",
+              "type": "bar",
+              "data": {"labels": ["Seed", "Hop 1", "Hop 2", "Hop 3", "Hop 4", "Hop 5"],
+                       "datasets": [{"label": "People reached",
+                                     "data": [1, 8, 64, 512, 4096, 32768],
+                                     "backgroundColor": "#EF4444"}]},
+              "options": {"__js__": "{ plugins:{legend:{display:false}}, scales:{ y:{ type:'logarithmic', title:{display:true,text:'People reached (log scale)'} } } }"}},
+             {"t": "hbox", "color": "amber", "html": "A few highly connected <strong>hubs</strong> "
+              "&mdash; influencers, large groups &mdash; turbo-charge this. In South Asia, a "
+              "forward from a trusted relative carries the credibility of the relationship, not "
+              "the source."},
          ]},
 
         {"type": "content", "label": "The Closed-Loop Problem", "title": "Encrypted chats: trusted, untraceable",
