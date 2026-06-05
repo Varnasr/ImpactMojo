@@ -2,7 +2,7 @@
 
 ## What Are the 101 Course Decks?
 
-ImpactMojo's **44 foundational courses** are available as visual presentation decks — 60-slide interactive decks generated via [Gamma](https://gamma.app) with Indian folk art illustrations, consistent branding, and South Asian context throughout.
+ImpactMojo's **45 foundational courses** are available as visual presentation decks — 60-slide interactive decks generated via [Gamma](https://gamma.app) with Indian folk art illustrations, consistent branding, and South Asian context throughout.
 
 These aren't typical slide decks. Each one is a structured learning journey designed for self-study or facilitated workshops, with case studies drawn from development practice in India and South Asia. They are free to view, share, and use in educational settings.
 

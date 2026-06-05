@@ -26,6 +26,7 @@ DEFAULT = [
  '101-courses/index.html','101-courses/decks.html',
  'courses/causal/index.html','courses/mel/index.html','courses/gender/index.html',
  'BookSummaries/index.html','specials/marginalia/index.html',
+ 'specials/the-indicator-ate-the-village/index.html',
 ]
 VIEWPORT={'width':390,'height':844}
 PORT=8137
@@ -40,8 +41,11 @@ def audit(pages):
             if not os.path.exists(rel): continue
             pg=b.new_page(viewport=VIEWPORT, device_scale_factor=2)
             try:
-                pg.goto(BASE+rel, wait_until='networkidle', timeout=20000)
-                pg.wait_for_timeout(700)
+                try:
+                    pg.goto(BASE+rel, wait_until='load', timeout=15000)
+                except Exception:
+                    pg.goto(BASE+rel, wait_until='domcontentloaded', timeout=15000)
+                pg.wait_for_timeout(1200)
                 d=pg.evaluate("""()=>{const iw=innerWidth,dw=document.documentElement.scrollWidth,o=[];
                   if(dw>iw+2){document.querySelectorAll('body *').forEach(el=>{const r=el.getBoundingClientRect();
                     if(r.right>iw+2&&r.width>40){const c=getComputedStyle(el);if(c.display==='none')return;

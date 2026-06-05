@@ -136,7 +136,7 @@ Deep Dives ही निवडक भाष्ययुक्त वाचन �
 4. `/sitemap.xml` मध्ये एक `<url>` नोंद जोडा.
 5. `catalog.html` च्या `allContent` array मध्ये एक card जोडा (`type: 'deep-dive'`, एक track निवडा).
 6. (पर्यायी) flagship-दर्जाचे असल्यास `/index.html` मधील Deep Dives विभाग संपादित करून मुख्यपृष्ठावर वैशिष्ट्यीकृत करा.
-7. सर्वत्र count मजकूर अद्ययावत करा — `(5 Deep Dives|5 readings)` साठी grep करा आणि संख्या वाढवा.
+7. सर्वत्र count मजकूर अद्ययावत करा — `(17 Deep Dives|5 readings)` साठी grep करा आणि संख्या वाढवा.
 
 ### संपादकीय मार्गदर्शक तत्त्वे
 
