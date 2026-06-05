@@ -5,6 +5,34 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.64.0] - 2026-06-05
+
+### Added — Site-wide multilingual support (Hindi, Tamil, Bengali, Marathi)
+
+### For Learners
+
+- **Every page is now available in हिन्दी, தமிழ், বাংলা and मराठी** — a language
+  switcher on all 377 pages translates the whole site (courses, 101 decks,
+  blogs, deep dives, book summaries, essays) on demand, with the proper Indian
+  script fonts. Switch back to English instantly. Powered by Sarvam (Mayura).
+
+### Added
+
+- **`netlify/functions/translate.mjs`** (`/api/translate`) — Sarvam translation
+  proxy with a Netlify Blobs cache (each unique string translated once per
+  language, then served from cache; API key server-side only).
+- **`js/translate-sarvam.js`** — the client switcher: progressive batch-by-batch
+  DOM translation with per-user `localStorage` cache, Noto script fonts, a
+  MutationObserver for dynamically-loaded content (flagship modules), a
+  brand-name keep-list, and a "translating…" indicator.
+- **`scripts/translate/`** — the translation pipeline + a paced cache pre-warm
+  tool.
+
+### Fixed
+
+- Translation reliability on heavy/cold pages — small batches (fit the Netlify
+  function timeout) + progressive apply (render as you go, not all-at-once).
+
 ## [10.63.0] - 2026-06-05
 
 ### Added — Marginalia essay 3 + 101 hub completion + count reconciliation
