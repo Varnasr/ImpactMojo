@@ -1,51 +1,85 @@
-/* ImpactMojo — canonical theme controller (shared).
-   Single source of truth for the System/Light/Dark selector. Replaces the
-   per-page inline copy that was duplicated across hundreds of pages.
+/* ImpactMojo — canonical theme controller (shared, superset).
+   Single source of truth for the System / Light / Dark selector, replacing the
+   ~18 inline variants that were duplicated across the site.
 
-   Markup contract (unchanged):
-     <div class="im-theme-selector">
-       <button class="im-theme-btn" data-imtheme="system">…</button>
-       <button class="im-theme-btn" data-imtheme="light">…</button>
-       <button class="im-theme-btn" data-imtheme="dark">…</button>
-     </div>
-   Canonical localStorage key: 'im-theme' (values: system | light | dark).
-   Applies <html data-theme="light|dark"> + body.light-mode / body.dark-mode. */
+   Supports every markup/convention the inline copies used, so it is a safe
+   drop-in for all of them:
+     • Buttons:  .im-theme-btn[data-imtheme]  AND  .theme-btn[data-theme]
+     • CSS hooks (applies ALL — the design system defines them consistently):
+         <html data-theme="light|dark">, <html class="dark">,
+         <body class="light-mode|dark-mode">
+     • Storage: canonical 'im-theme' (values: system|light|dark) with one-shot
+       migration from legacy keys, and mirror-writes for back-compat with any
+       page still reading a legacy key during the migration.  */
 (function () {
+    var CANON = 'im-theme';
+    var LEGACY = ['impactmojo-theme', 'theme', 'imx_theme'];
+
     function getSystemTheme() {
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
     }
-    function applyTheme(theme) {
-        var resolved = theme === 'system' ? getSystemTheme() : theme;
-        document.documentElement.setAttribute('data-theme', resolved);
-        // Also handle legacy body classes
-        document.body.classList.remove('dark-mode', 'light-mode');
-        if (resolved === 'light') document.body.classList.add('light-mode');
-        else document.body.classList.add('dark-mode');
+    function readPref() {
+        try {
+            var t = localStorage.getItem(CANON);
+            if (t) return t;
+            for (var i = 0; i < LEGACY.length; i++) {
+                var v = localStorage.getItem(LEGACY[i]);
+                if (v) { try { localStorage.setItem(CANON, v); } catch (e) {} return v; }
+            }
+        } catch (e) {}
+        return 'system';
+    }
+    function writePref(pref) {
+        try {
+            localStorage.setItem(CANON, pref);
+            // mirror to legacy keys so not-yet-migrated pages stay in sync
+            for (var i = 0; i < LEGACY.length; i++) localStorage.setItem(LEGACY[i], pref);
+        } catch (e) {}
+    }
+    function applyTheme(pref) {
+        var resolved = pref === 'system' ? getSystemTheme() : pref;
+        var dark = resolved === 'dark';
+        var root = document.documentElement;
+        root.setAttribute('data-theme', resolved);
+        root.classList.toggle('dark', dark);
+        if (document.body) {
+            document.body.classList.remove('dark-mode', 'light-mode');
+            document.body.classList.add(dark ? 'dark-mode' : 'light-mode');
+        }
     }
     function updateButtons(pref) {
         document.querySelectorAll('.im-theme-btn').forEach(function (btn) {
             btn.classList.toggle('active', btn.getAttribute('data-imtheme') === pref);
         });
+        document.querySelectorAll('.theme-btn').forEach(function (btn) {
+            btn.classList.toggle('active', btn.getAttribute('data-theme') === pref);
+        });
     }
-    var saved = localStorage.getItem('im-theme') || 'system';
-    // Apply immediately before render
-    applyTheme(saved);
-    document.addEventListener('DOMContentLoaded', function () {
+    function pick(btn) {
+        return btn.getAttribute('data-imtheme') || btn.getAttribute('data-theme');
+    }
+    function wire() {
         applyTheme(saved);
         updateButtons(saved);
-        document.querySelectorAll('.im-theme-btn').forEach(function (btn) {
+        document.querySelectorAll('.im-theme-btn, .theme-btn').forEach(function (btn) {
             btn.addEventListener('click', function () {
-                var t = this.getAttribute('data-imtheme');
-                localStorage.setItem('im-theme', t);
+                var t = pick(this);
+                if (!t) return;
+                writePref(t);
                 applyTheme(t);
                 updateButtons(t);
             });
         });
-    });
-    // Listen for system theme changes
-    window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function () {
-        if ((localStorage.getItem('im-theme') || 'system') === 'system') {
-            applyTheme('system');
-        }
+    }
+
+    var saved = readPref();
+    applyTheme(saved); // apply ASAP (before paint where possible)
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', wire);
+    } else {
+        wire();
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () {
+        if (readPref() === 'system') applyTheme('system');
     });
 })();

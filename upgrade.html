@@ -790,42 +790,7 @@ body { padding-top: 56px; }
 <script defer src="/js/translate.js"></script>
 
 <!-- Theme toggle -->
-<script>
-(function() {
-    function getSystemTheme() {
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    function applyTheme(theme) {
-        var resolved = theme === 'system' ? getSystemTheme() : theme;
-        document.documentElement.setAttribute('data-theme', resolved);
-        document.body.classList.remove('dark-mode', 'light-mode');
-        if (resolved === 'light') document.body.classList.add('light-mode');
-        else document.body.classList.add('dark-mode');
-    }
-    function updateButtons(pref) {
-        document.querySelectorAll('.im-theme-btn').forEach(function(btn) {
-            btn.classList.toggle('active', btn.getAttribute('data-imtheme') === pref);
-        });
-    }
-    var saved = localStorage.getItem('im-theme') || 'system';
-    applyTheme(saved);
-    document.addEventListener('DOMContentLoaded', function() {
-        applyTheme(saved);
-        updateButtons(saved);
-        document.querySelectorAll('.im-theme-btn').forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                var t = this.getAttribute('data-imtheme');
-                localStorage.setItem('im-theme', t);
-                applyTheme(t);
-                updateButtons(t);
-            });
-        });
-    });
-    window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function() {
-        if ((localStorage.getItem('im-theme') || 'system') === 'system') applyTheme('system');
-    });
-})();
-</script>
+<script src="/js/theme.js"></script>
 
 <!-- Personalize with URL params -->
 <script>
