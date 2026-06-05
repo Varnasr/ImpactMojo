@@ -1,0 +1,29 @@
+# Mobile-first guard — fails the build if any key page has horizontal overflow
+# at a 390px phone viewport. Renders real pages in headless Chromium.
+name: Mobile
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  mobile-overflow:
+    name: Mobile overflow audit (390px)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Playwright + Chromium
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Run mobile overflow audit
+        run: python3 scripts/mobile/audit.py

@@ -8,8 +8,15 @@ Usage:
   python3 scripts/mobile/audit.py [glob ...]        # default: key pages
 Exit code 1 if any page overflows — suitable as a CI gate.
 """
-import sys, os, glob
+import sys, os, glob, threading, functools, http.server, socketserver
 from playwright.sync_api import sync_playwright
+
+def _serve(port):
+    class Q(http.server.SimpleHTTPRequestHandler):
+        def log_message(self,*a):pass
+    h=Q
+    httpd=socketserver.TCPServer(('127.0.0.1',port),h); httpd.daemon_threads=True
+    threading.Thread(target=httpd.serve_forever,daemon=True).start(); return httpd
 
 DEFAULT = [
  'index.html','catalog.html','premium.html','about.html','blog.html','dojos.html',
@@ -21,16 +28,19 @@ DEFAULT = [
  'BookSummaries/index.html','specials/marginalia/index.html',
 ]
 VIEWPORT={'width':390,'height':844}
+PORT=8137
+BASE='http://127.0.0.1:%d/'%PORT
 
 def audit(pages):
     bad=[]
+    httpd=_serve(PORT)
     with sync_playwright() as p:
         b=p.chromium.launch()
         for rel in pages:
             if not os.path.exists(rel): continue
             pg=b.new_page(viewport=VIEWPORT, device_scale_factor=2)
             try:
-                pg.goto('file://'+os.path.abspath(rel), wait_until='domcontentloaded')
+                pg.goto(BASE+rel, wait_until='networkidle', timeout=20000)
                 pg.wait_for_timeout(700)
                 d=pg.evaluate("""()=>{const iw=innerWidth,dw=document.documentElement.scrollWidth,o=[];
                   if(dw>iw+2){document.querySelectorAll('body *').forEach(el=>{const r=el.getBoundingClientRect();
