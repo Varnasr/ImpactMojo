@@ -5,6 +5,239 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.61.0] - 2026-06-05
+
+### Added — 101 Series: 5 more native decks; ZERO Gamma embeds remain
+
+Migrates the last 5 Gamma-embedded 101 decks to native 100-slide HTML and
+surfaces 4 catalog-only courses in the 101 hub (40 → 44 listed courses; 37
+native, 0 Gamma anywhere in the series).
+
+### For Learners
+
+- **Theory of Change 101** — causal maps from activities to impact: ToC vs
+  logframe, the results chain, backwards mapping, assumptions, indicators, and
+  common pitfalls. 100 slides. (Fixes a card that was labelled native but was
+  still a Gamma embed.)
+- **Advocacy Basics 101** — influencing policy and power: types of advocacy,
+  power analysis, stakeholder mapping, policy windows, tactics, and ethics.
+  100 slides.
+- **Behaviour Change Communication 101** — moving from awareness to action:
+  behaviour-change theory, audience segmentation, formative research, message
+  design, channels, and campaigns. 100 slides.
+- **Political Economy 101** — how politics and economics interact: institutions,
+  collective action, rent-seeking, the developmental state, and political-economy
+  analysis for reform. 100 slides.
+- **Women's Economic Empowerment 101** — resources, agency and achievements: the
+  care economy, labour-force participation, assets and finance, social norms,
+  legal rights, and what works. 100 slides.
+
+### Changed
+
+- **`101-courses/index.html`** — 4 new hub cards (Advocacy, BCC, Political
+  Economy, WEE); counts now Native 37 / Slide Deck 0; series total 40 → 44;
+  hero stat "3,700 Slides of Learning".
+- **`data/search-index.json`** — `course` entries for the 5 additional decks.
+
+## [10.60.0] - 2026-06-05
+
+### Added — 101 Series native migration COMPLETE: Governance & Economy (4 decks)
+
+The final cluster lands. **All 26 ImpactMojo 101 courses that were embedded
+Gamma decks are now self-hosted native 100-slide HTML decks** — joining the 7
+pre-existing native decks for **33 native decks, 0 Gamma embeds**.
+
+### For Learners
+
+- **Indian Constitution 101** — the making of the Constitution, the Preamble,
+  Fundamental Rights and Duties, Directive Principles, the union and federal
+  structure, the judiciary and the basic-structure doctrine, local
+  self-government, and constitutionalism in practice. 100 slides.
+- **Global Development Governance 101** — the aid architecture: Bretton Woods,
+  the UN system and IFIs, ODA and the 0.7% target, the SDGs, financing for
+  development, new actors, aid effectiveness and localisation, and India's
+  shift from recipient to emerging donor. 100 slides.
+- **Public Health 101** — population health and prevention: social determinants,
+  epidemiology, measuring health, communicable disease and immunisation, NCDs,
+  maternal and child health, the WHO building blocks and Universal Health
+  Coverage, and India's health system. 100 slides.
+- **Fundraising Basics 101** — resource mobilisation for nonprofits: the funding
+  landscape, donor relationships, proposal writing and budgets, CSR (Companies
+  Act s.135) and compliance (FCRA, 12A/80G), diversification, and the ethics of
+  fundraising. 100 slides.
+
+### Changed
+
+- **`101-courses/index.html`** — the last four cards re-badged Native HTML;
+  counts now Native HTML 33, Slide Deck 0.
+- **`data/search-index.json`** — `course` entries added for all 26 migrated
+  decks so they surface in site search.
+
+## [10.59.0] - 2026-06-05
+
+### Added — 101 Series native migration: Critical & Digital cluster (5 decks)
+
+Five more 100-slide native decks (plus English for Development, shipped
+separately); 22 of 26 Gamma courses now migrated.
+
+### For Learners
+
+- **Decolonial Development 101** — the colonial roots of "development" and how to
+  decolonise it: Said, Escobar, Quijano and the dependency/coloniality
+  critiques, epistemic injustice, decolonising aid and research, and
+  post-development alternatives. 100 slides.
+- **Digital Ethics 101** — data privacy and the DPDP Act 2023, algorithmic bias,
+  AI in development, digital ID (Aadhaar) inclusion and exclusion, surveillance,
+  the digital divide, data colonialism, and responsible design. 100 slides.
+- **Environmental Justice 101** — the unequal distribution of environmental harm:
+  distributive/procedural/recognition justice, climate justice, the Forest
+  Rights Act, pollution and health, just transition, and India's environmental
+  movements. 100 slides.
+- **Post-Truth Politics 101** — mis/dis/mal-information, how falsehoods spread,
+  filter bubbles, cognitive biases, propaganda, the attention economy,
+  deepfakes, polarisation, and building resilience. 100 slides.
+- **Visual Ethnography 101** — studying culture through images: photo-elicitation,
+  photovoice, video methods, visual analysis, the ethics of the image and the
+  gaze, and dignity in representation. 100 slides.
+- **English for Development 101** — clear professional communication for the
+  sector: plain language, de-jargoning, writing for different audiences,
+  reports and briefs, and ethical storytelling. 100 slides.
+
+### Changed
+
+- **`101-courses/index.html`** — six more cards re-badged Native HTML · 100
+  slides; counts updated (Slide Deck down to 4, Native HTML up to 29).
+
+## [10.58.0] - 2026-06-05
+
+### Added — 101 Series native migration: Gender & Social cluster (6 decks)
+
+Six more 100-slide native decks (16 of 26 Gamma courses now migrated).
+
+### For Learners
+
+- **Data Feminism 101** — power and data through D'Ignazio & Klein's seven
+  principles: examining and challenging power, rethinking who gets counted,
+  intersectionality, and South Asia's gender data gaps. 100 slides.
+- **Care Economy 101** — the unpaid and paid care that holds up every economy:
+  the SNA boundary, time-use data, the gendered care burden, the 5 Rs, and
+  care policy. 100 slides.
+- **SEL Basics 101** — social and emotional learning: CASEL's five
+  competencies, the evidence base, classroom implementation, and SEL in the
+  Indian context (NEP 2020). 100 slides.
+- **Sexual Health 101** — a rights-based, medically accurate primer on sexual
+  and reproductive health and rights: contraception, maternal health, safe
+  abortion law (MTP 2021), STIs/HIV, consent, and comprehensive sexuality
+  education. 100 slides.
+- **Community Development 101** — participation (Arnstein's ladder), asset-based
+  development, organising, participatory tools, self-help groups and the
+  commons, and panchayati raj. 100 slides.
+- **Education and Pedagogy 101** — how learning works (Piaget, Vygotsky,
+  Bloom, Freire), assessment, foundational literacy & numeracy and Teaching at
+  the Right Level, inclusive pedagogy, and India's learning crisis. 100 slides.
+
+### Changed
+
+- **`101-courses/index.html`** — six cards re-badged Native HTML · 100 slides;
+  counts updated (Native HTML 17 → 23, Slide Deck 16 → 10). Adds
+  `scripts/deck-builder/rebadge.py` to keep card badges and counts in sync.
+
+## [10.57.0] - 2026-06-05
+
+### Added — 101 Series native migration: Data & Methods cluster complete (5 decks)
+
+Five more 100-slide native decks finish the Data & Methods cluster (10 of the
+26 Gamma courses now migrated).
+
+### For Learners
+
+- **Econometrics 101** — measuring causal effects, not just correlations:
+  the counterfactual, OLS and omitted-variable bias, RCTs, instrumental
+  variables, difference-in-differences, regression discontinuity, and panel
+  fixed effects — with the assumptions each one rests on. 100 slides, 7 charts.
+- **Multivariate Analysis 101** — multiple regression and beyond: partial
+  effects, model fit and diagnostics, multicollinearity, interactions,
+  logistic regression and odds ratios, and PCA/factor analysis (the wealth
+  index). 100 slides, 8 charts.
+- **Item Response Theory 101** — modern measurement: latent traits, item
+  characteristic curves, difficulty and discrimination, the 1PL/2PL/3PL
+  family, test information, and differential item functioning, applied to
+  learning and empowerment scales. 100 slides, 12 charts.
+- **Cost Effectiveness 101** — doing the most good per rupee: CEA/CBA/CUA,
+  costing, the ICER, DALYs and QALYs, discounting, league tables and
+  sensitivity analysis — and what cost-effectiveness leaves out. 100 slides.
+- **Observation to Insight 101** — turning field observation into evidence:
+  observation types, Spradley's framework, field notes, structured tools,
+  sensemaking, triangulation, rigour and the ethics of watching. 100 slides.
+
+### Changed
+
+- **`101-courses/index.html`** — five cards re-badged Native HTML · 100 slides;
+  counts updated (Native HTML 12 → 17, Slide Deck 21 → 16).
+
+## [10.56.0] - 2026-06-05
+
+### Added — 101 Series native migration: Data & Methods batch (4 decks)
+
+Four more 101 Series courses move from Gamma embeds to native 100-slide decks,
+built with the `scripts/deck-builder` pipeline.
+
+### For Learners
+
+- **Bivariate Analysis 101** — relationships between two variables: cross-tabs,
+  scatterplots, correlation (Pearson & Spearman), comparing groups, chi-square,
+  simple regression, and the classic pitfalls (confounding, ecological fallacy,
+  Anscombe, Simpson's paradox). 100 slides, 8 charts.
+- **Exploratory Data Analysis 101** — making sense of household survey data
+  (NSS/PLFS, NFHS, CMIE): the EDA workflow, distributions, missingness and
+  outliers, survey weights and design effects, and honest visual exploration.
+  100 slides, 10 charts.
+- **Qualitative Methods 101** — interviews, focus groups, observation and
+  ethnography, participatory & visual methods, coding and thematic analysis
+  (Braun & Clarke), and trustworthiness (Lincoln & Guba). 100 slides.
+- **Research Ethics 101** — from Nuremberg, Helsinki and Belmont to India's
+  ICMR 2017 guidelines and the DPDP Act 2023: consent, vulnerable populations,
+  privacy, risk–benefit, ethics review, and giving findings back. 100 slides.
+
+### Changed
+
+- **`101-courses/index.html`** — the four cards re-badged Native HTML · 100
+  slides; counts updated (Native HTML 8 → 12, Slide Deck 25 → 21).
+- Every deck is now hard-enforced at exactly 100 slides, with TOC section
+  ranges auto-computed by the builder.
+
+## [10.55.0] - 2026-06-05
+
+### Added — 101 Series native migration: Data Literacy 101 + deck builder
+
+Begins migrating the ImpactMojo 101 Series from embedded Gamma slide decks to
+self-hosted, native HTML decks. First deck shipped: **Data Literacy 101**.
+
+### For Learners
+
+- **Data Literacy 101** — a 99-slide native course on reading, questioning,
+  visualising and using data responsibly: India's data ecosystem (Census,
+  NFHS, PLFS/NSS), turning concepts into indicators, describing and visualising
+  data, correlation vs causation, sampling and surveys, data cleaning, reading
+  statistics critically, and data ethics, privacy & equity. Charts, tables and
+  diagrams throughout; light/dark themes, keyboard & swipe navigation, free
+  forever.
+
+### Added
+
+- **`101-courses/data-lit.html`** — native gold-standard deck (replaces the
+  Gamma embed), 99 slides, 7 charts. Self-contained: inline theme switcher,
+  viewport scaling, lazy chart init, deep-linking and auto-fit.
+- **`scripts/deck-builder/`** — a reusable deck generator. Authors write a
+  compact Python spec (`specs/<slug>.py`); the builder slices the proven shell
+  (CSS + runtime JS) out of `dev-economics.html` and injects the generated
+  slides, slide-IDs and chart code, so every deck inherits identical styling
+  and behaviour. Includes `build.py`, `_schema.md` and the Data Literacy spec.
+
+### Changed
+
+- **`101-courses/index.html`** — Data Literacy card re-badged Native HTML ·
+  99 slides; counts updated (Native HTML 7 → 8, Slide Deck 26 → 25).
 ## [10.54.0] - 2026-06-04
 
 ### Changed — Causal Inference flagship: gold-standard content rewrite (all 13 modules)
