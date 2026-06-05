@@ -3238,6 +3238,10 @@ function scaleViewport(){
   const s=Math.min(window.innerWidth/1280,window.innerHeight/720);
   vp.style.transform='scale('+s+')'; } window.addEventListener('resize',scaleViewport);
 scaleViewport();
+window.addEventListener('orientationchange', function(){ setTimeout(scaleViewport, 150); });
+window.addEventListener('load', scaleViewport);
+if (window.visualViewport) window.visualViewport.addEventListener('resize', scaleViewport);
+[50, 200, 500, 1000].forEach(function(t){ setTimeout(scaleViewport, t); });
 
 function toggleFS(){
   if(!document.fullscreenElement)document.documentElement.requestFullscreen();
