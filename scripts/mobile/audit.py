@@ -26,6 +26,7 @@ DEFAULT = [
  '101-courses/index.html','101-courses/decks.html',
  'courses/causal/index.html','courses/mel/index.html','courses/gender/index.html',
  'BookSummaries/index.html','specials/marginalia/index.html',
+ 'specials/the-indicator-ate-the-village/index.html',
 ]
 VIEWPORT={'width':390,'height':844}
 PORT=8137
