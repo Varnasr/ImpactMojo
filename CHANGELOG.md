@@ -5,6 +5,40 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.60.0] - 2026-06-05
+
+### Added — 101 Series: 5 more native decks; ZERO Gamma embeds remain
+
+Migrates the last 5 Gamma-embedded 101 decks to native 100-slide HTML and
+surfaces 4 catalog-only courses in the 101 hub (40 → 44 listed courses; 37
+native, 0 Gamma anywhere in the series).
+
+### For Learners
+
+- **Theory of Change 101** — causal maps from activities to impact: ToC vs
+  logframe, the results chain, backwards mapping, assumptions, indicators, and
+  common pitfalls. 100 slides. (Fixes a card that was labelled native but was
+  still a Gamma embed.)
+- **Advocacy Basics 101** — influencing policy and power: types of advocacy,
+  power analysis, stakeholder mapping, policy windows, tactics, and ethics.
+  100 slides.
+- **Behaviour Change Communication 101** — moving from awareness to action:
+  behaviour-change theory, audience segmentation, formative research, message
+  design, channels, and campaigns. 100 slides.
+- **Political Economy 101** — how politics and economics interact: institutions,
+  collective action, rent-seeking, the developmental state, and political-economy
+  analysis for reform. 100 slides.
+- **Women's Economic Empowerment 101** — resources, agency and achievements: the
+  care economy, labour-force participation, assets and finance, social norms,
+  legal rights, and what works. 100 slides.
+
+### Changed
+
+- **`101-courses/index.html`** — 4 new hub cards (Advocacy, BCC, Political
+  Economy, WEE); counts now Native 37 / Slide Deck 0; series total 40 → 44;
+  hero stat "3,700 Slides of Learning".
+- **`data/search-index.json`** — `course` entries for the 5 additional decks.
+
 ## [10.59.0] - 2026-06-05
 
 ### Added — 101 Series native migration COMPLETE: Governance & Economy (4 decks)
