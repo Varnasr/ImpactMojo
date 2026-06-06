@@ -185,29 +185,30 @@ window.LV = (function() {
   /* ---------- Beeswarm (distribution, one dot per item) ---------- */
   function beeswarm(id, data, o) {
     var svg = frame(id); if (!svg) return;
-    var mL = 26, mR = 22, mB = 46, baseY = H - mB, vMax = o.vMax, r = 3.6, step = r * 2.15;
+    var vh = 162; svg.setAttribute('viewBox', '0 0 ' + W + ' ' + vh);
+    var mL = 26, mR = 22, axisY = vh - 32, vMax = o.vMax, r = 4.5, step = r * 2.1;
     function X(v){ return mL + (v / vMax) * (W - mL - mR); }
-    svg.appendChild(mk('line', { x1: mL, y1: baseY, x2: W - mR, y2: baseY, stroke: ink(), 'stroke-width': 1.2 }));
-    (o.ticks || []).forEach(function(t){ if (X(t) <= W - mR) { svg.appendChild(mk('line', { x1: X(t), y1: baseY, x2: X(t), y2: baseY + 5, stroke: ink(), 'stroke-width': 1 })); tick(svg, X(t), baseY + 17, t); } });
+    svg.appendChild(mk('line', { x1: mL, y1: axisY, x2: W - mR, y2: axisY, stroke: ink(), 'stroke-width': 1 }));
+    (o.ticks || []).forEach(function(t){ if (X(t) <= W - mR) { svg.appendChild(mk('line', { x1: X(t), y1: axisY, x2: X(t), y2: axisY + 5, stroke: ink(), 'stroke-width': 1 })); tick(svg, X(t), axisY + 16, t); } });
     if (o.ref) {
-      svg.appendChild(mk('line', { x1: X(o.ref.v), y1: baseY, x2: X(o.ref.v), y2: 66, stroke: ink(), 'stroke-width': 1, 'stroke-dasharray': '5,4', opacity: 0.6 }));
-      svg.appendChild(mk('text', { x: X(o.ref.v) + 4, y: 62, 'font-size': 9.5, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, o.ref.label));
+      svg.appendChild(mk('line', { x1: X(o.ref.v), y1: 34, x2: X(o.ref.v), y2: axisY, stroke: ink(), 'stroke-width': 1, 'stroke-dasharray': '5,4', opacity: 0.5 }));
+      svg.appendChild(mk('text', { x: X(o.ref.v) + 4, y: 31, 'font-size': 9.5, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, o.ref.label));
     }
     var placed = [];
     data.slice().sort(function(a, b){ return a.v - b.v; }).forEach(function(d){
-      var cx = X(d.v), cy = baseY - r - 1, k = 0;
-      while (placed.some(function(p){ return Math.abs(p.x - cx) < step && Math.abs(p.y - cy) < step; })) { k++; cy = baseY - r - 1 - k * step; }
+      var cx = X(d.v), cy = axisY - r - 2, k = 0;
+      while (placed.some(function(p){ return Math.abs(p.x - cx) < step && Math.abs(p.y - cy) < step; })) { k++; cy = axisY - r - 2 - k * step; }
       placed.push({ x: cx, y: cy, d: d });
     });
     placed.forEach(function(p){ var d = p.d; svg.appendChild(mk('circle', { cx: p.x, cy: p.y, r: d.hl ? 6.5 : r, fill: d.hl ? o.hlColor : o.dotColor, 'fill-opacity': d.hl ? 1 : 0.8, stroke: d.hl ? '#fff' : 'none', 'stroke-width': d.hl ? 1.6 : 0 })); });
-    placed.forEach(function(p){
-      if (!p.d.label) return;
-      var ly = p.y - (p.d.hl ? 17 : 14);
-      svg.appendChild(mk('line', { x1: p.x, y1: p.y - (p.d.hl ? 9 : 6), x2: p.x, y2: ly + 3, stroke: p.d.hl ? o.hlColor : ink(), 'stroke-width': 1, opacity: 0.55 }));
-      svg.appendChild(mk('text', { x: p.x, y: ly, 'text-anchor': 'middle', 'font-size': p.d.hl ? 12 : 10, 'font-weight': p.d.hl ? 800 : 700, fill: p.d.hl ? o.hlColor : ink(), 'font-family': 'Inter, sans-serif' }, p.d.hl ? (p.d.label + ' ' + p.d.v + 't') : p.d.label));
-    });
-    svg.appendChild(mk('text', { x: (mL + W - mR) / 2, y: H - 6, 'text-anchor': 'middle', 'font-size': 9.5, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, o.axisLabel));
-    if (o.callout) callout(svg, o.callout.x, o.callout.y, o.callout.anchor, o.callout.lines);
+    // isolated outliers labelled inline (e.g. Qatar); the highlighted dot gets a key, so its label never sits on the cluster
+    placed.forEach(function(p){ if (p.d.label && !p.d.hl) svg.appendChild(mk('text', { x: p.x, y: p.y - 11, 'text-anchor': 'middle', 'font-size': 10.5, 'font-weight': 700, fill: ink(), 'font-family': 'Inter, sans-serif' }, p.d.label)); });
+    var hl = data.filter(function(d){ return d.hl; })[0];
+    if (hl) {
+      svg.appendChild(mk('circle', { cx: mL + 5, cy: 14, r: 6, fill: o.hlColor }));
+      svg.appendChild(mk('text', { x: mL + 16, y: 18, 'font-size': 11, 'font-weight': 800, fill: o.hlColor, 'font-family': 'Inter, sans-serif' }, hl.label + ' — ' + hl.v + ' t' ));
+    }
+    svg.appendChild(mk('text', { x: (mL + W - mR) / 2, y: vh - 6, 'text-anchor': 'middle', 'font-size': 9.5, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, o.axisLabel));
   }
 
   /* ---------- Funnel (a narrowing pipeline) ---------- */
