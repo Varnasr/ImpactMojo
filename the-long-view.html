@@ -266,7 +266,7 @@ a { color: var(--color-primary); }
   <div class="wrap">
     <div class="section-head">
       <span class="kicker">The Data Wing</span>
-      <h2>Five charts, built from real evidence</h2>
+      <h2>Six charts, built from real evidence</h2>
       <p>Each is drawn from scratch in your browser from a named, public dataset. Hover a source line to see exactly where every number came from — because a chart you can't trace is just decoration.</p>
     </div>
 
@@ -292,8 +292,8 @@ a { color: var(--color-primary); }
         <span class="tag">Caste &amp; Equity</span>
         <h3>Poverty is not caste-blind</h3>
         <div class="chart-holder"><svg id="c-caste" role="img" aria-label="Bar chart: multidimensional poverty headcount in India by social group — Scheduled Tribes 44.4%, Scheduled Castes 29.2%, OBC 24.5%, Others 14.9%."></svg></div>
-        <p class="insight">A Scheduled Tribe household is about <strong>three times</strong> as likely to be multidimensionally poor as an "Other" household. The national average hides who carries the weight.</p>
-        <p class="source">Source: NFHS-4 (2015–16); multidimensional poverty headcount by social group. National MPI ≈ 24.8%.</p>
+        <p class="insight">A Scheduled Tribe household is about <strong>three times</strong> as likely to be multidimensionally poor as an "Other" household. Nationally, poverty has since fallen — from <strong>24.8% to 15.0%</strong> by NFHS-5 — but the gap between groups persists.</p>
+        <p class="source">Source: NITI Aayog National MPI. By social group: NFHS-4 (2015–16). National headcount fell from 24.85% to 14.96% by NFHS-5 (2019–21).</p>
       </article>
 
       <article class="card" data-card>
@@ -302,6 +302,14 @@ a { color: var(--color-primary); }
         <div class="chart-holder"><svg id="c-co2" role="img" aria-label="Bar chart: CO2 emissions per capita in 2022 — India 1.9 tonnes, world average 4.8, China 7.4, United States 15.3."></svg></div>
         <p class="insight">The climate-justice argument in one frame: the average American emits in roughly <strong>six weeks</strong> what the average Indian emits in a whole year.</p>
         <p class="source">Source: Global Carbon Project, via Our World in Data (2022). Tonnes CO₂ per capita.</p>
+      </article>
+
+      <article class="card" data-card>
+        <span class="tag">Climate</span>
+        <h3>India is heating up</h3>
+        <div class="chart-holder"><svg id="c-climate" role="img" aria-label="India's 2024 annual mean temperature was +0.65°C above the 1991–2020 average — the warmest year since 1901 — shown over a blue-to-red warming gradient."></svg></div>
+        <p class="insight">2024 was India's <strong>warmest year since 1901</strong>, and ten of the fifteen warmest years on record have all arrived since 2010. How large the number looks depends on the baseline you measure from.</p>
+        <p class="source">Source: India Meteorological Department high-resolution gridded data (1901–2024), via Data for India. The warming band is schematic of the documented trend, not per-year values.</p>
       </article>
 
       <article class="card" data-card>
@@ -475,6 +483,7 @@ a { color: var(--color-primary); }
       <li><b>India's children</b>UN IGME / World Bank Open Data, indicator SH.DYN.MORT — under-five mortality per 1,000 live births, 1990–2022.</li>
       <li><b>Poverty is not caste-blind</b>NFHS-4 (2015–16) multidimensional poverty headcount by social group; national MPI ≈ 24.8%.</li>
       <li><b>Whose carbon?</b>Global Carbon Project, via Our World in Data — territorial CO₂ emissions per capita, 2022.</li>
+      <li><b>India is heating up</b>India Meteorological Department high-resolution gridded data (1901–2024), via Data for India — annual mean temperature anomaly.</li>
       <li><b>Women re-enter the workforce</b>Periodic Labour Force Survey (PLFS), MoSPI — female LFPR, usual status, age 15+, 2017-18 and 2022-23.</li>
     </ul>
 
@@ -710,6 +719,29 @@ a { color: var(--color-primary); }
     svg.appendChild(mk('text', { x: W/2, y: 16, 'text-anchor': 'middle', 'font-size': 11, fill: ink(), 'font-family': 'Amaranth, sans-serif' }, 'Same three numbers: 52, 55, 58'));
   }
 
+  /* ---------- India warming (verified IMD anomalies + schematic stripe) ---------- */
+  function climateChart(id) {
+    var svg = frame(id); if (!svg) return;
+    var defs = mk('defs', {});
+    var lg = mk('linearGradient', { id: 'warmgrad', x1: '0', y1: '0', x2: '1', y2: '0' });
+    [['0','#08306b'],['0.45','#f2f2f2'],['0.7','#fdae61'],['1','#a50026']].forEach(function(s){ lg.appendChild(mk('stop', { offset: s[0], 'stop-color': s[1] })); });
+    defs.appendChild(lg); svg.appendChild(defs);
+    var bandY = 26, bandH = 44;
+    svg.appendChild(mk('rect', { x: 20, y: bandY, width: W - 40, height: bandH, rx: 6, fill: 'url(#warmgrad)' }));
+    svg.appendChild(mk('text', { x: 22, y: bandY - 7, 'font-size': 10, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, '1901'));
+    svg.appendChild(mk('text', { x: W - 22, y: bandY - 7, 'text-anchor': 'end', 'font-size': 10, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, '2024'));
+    svg.appendChild(mk('text', { x: W/2, y: bandY + bandH + 15, 'text-anchor': 'middle', 'font-size': 9.5, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, 'warming trend — schematic (cool → hot)'));
+    svg.appendChild(mk('text', { x: W/2, y: 150, 'text-anchor': 'middle', 'font-size': 44, 'font-weight': 800, fill: COL.red, 'font-family': 'Inter, sans-serif' }, '+0.65°C'));
+    svg.appendChild(mk('text', { x: W/2, y: 171, 'text-anchor': 'middle', 'font-size': 12, fill: ink(), 'font-family': 'Amaranth, sans-serif' }, '2024 vs 1991–2020 — warmest year since 1901'));
+    var items = [['vs 1981–2010', '+0.78°C'], ['vs 1951–80', '+0.98°C']], cw = (W - 40) / 2;
+    items.forEach(function(it, i){
+      var cx = 20 + cw * i + cw / 2;
+      svg.appendChild(mk('text', { x: cx, y: 212, 'text-anchor': 'middle', 'font-size': 19, 'font-weight': 800, fill: COL.amber, 'font-family': 'Inter, sans-serif' }, it[1]));
+      svg.appendChild(mk('text', { x: cx, y: 230, 'text-anchor': 'middle', 'font-size': 10, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, it[0]));
+    });
+    svg.appendChild(mk('text', { x: W/2, y: 266, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 700, fill: ink(), 'font-family': 'Inter, sans-serif' }, '10 of the 15 warmest years have come since 2010'));
+  }
+
   /* ---------- Framework: Arnstein's ladder ---------- */
   function ladder(id) {
     var svg = frame(id); if (!svg) return;
@@ -880,6 +912,7 @@ a { color: var(--color-primary); }
       {label:'2017–18',y:23.3}, {label:'2022–23',y:37.0},
       { yMax: 45, color: COL.purple, valfmt: function(v){return v.toFixed(1)+'%';} });
 
+    climateChart('c-climate');
     ethicChart('c-ethic');
 
     ladder('f-ladder');
