@@ -449,24 +449,17 @@ window.LV = (function() {
   /* ---------- Framework: systems iceberg ---------- */
   function iceberg(id) {
     var svg = frame(id); if (!svg) return;
-    var waterY = 92, cx = 230;
-    // sea tint below the waterline
+    var waterY = 100, cx = 230;
     svg.appendChild(mk('rect', { x: 0, y: waterY, width: W, height: H - waterY, fill: '#4361ee', 'fill-opacity': 0.06 }));
-    // iceberg — small tip above water, broad mass below, centred
-    var berg = mk('path', { d: 'M230,30 L266,92 L300,150 L286,205 L250,248 L210,248 L174,205 L160,150 L194,92 Z', fill: '#cfe3f5', stroke: '#7da9d8', 'stroke-width': 1.5 });
+    var berg = mk('path', { d: 'M230,36 L272,100 L308,160 L288,212 L250,252 L210,252 L172,212 L152,160 L188,100 Z', fill: '#cfe3f5', stroke: '#7da9d8', 'stroke-width': 1.5 });
     svg.appendChild(berg); fadeIn(berg, 0);
-    // waterline across the top
     svg.appendChild(mk('line', { x1: 0, y1: waterY, x2: W, y2: waterY, stroke: '#4361ee', 'stroke-width': 1.4, 'stroke-dasharray': '6,4', opacity: 0.7 }));
-    svg.appendChild(mk('text', { x: W - 8, y: waterY - 6, 'text-anchor': 'end', 'font-size': 9.5, fill: '#4361ee', 'font-family': 'JetBrains Mono, monospace' }, 'waterline' ));
-    // above-water label on the tip
-    svg.appendChild(mk('text', { x: cx, y: 74, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 800, fill: '#1d4ed8', 'font-family': 'Inter, sans-serif' }, 'EVENTS'));
-    svg.appendChild(mk('text', { x: cx, y: 86, 'text-anchor': 'middle', 'font-size': 9, fill: '#1d4ed8', 'font-family': 'JetBrains Mono, monospace' }, 'what we see'));
-    // below-water layers, navy text on the light berg
-    [['Patterns of behaviour', 126], ['Structures & systems', 168], ['Mental models', 210]].forEach(function(l){
-      svg.appendChild(mk('text', { x: cx, y: l[1], 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 700, fill: '#13335f', 'font-family': 'Inter, sans-serif' }, l[0]));
+    svg.appendChild(mk('text', { x: 8, y: waterY - 7, 'font-size': 9.5, fill: '#4361ee', 'font-family': 'JetBrains Mono, monospace' }, 'sea level'));
+    svg.appendChild(mk('text', { x: cx, y: 66, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 800, fill: '#1d4ed8', 'font-family': 'Inter, sans-serif' }, 'EVENTS'));
+    svg.appendChild(mk('text', { x: cx, y: 82, 'text-anchor': 'middle', 'font-size': 9.5, fill: '#1d4ed8', 'font-family': 'JetBrains Mono, monospace' }, 'what we see'));
+    [['Patterns', 146], ['Structures', 184], ['Mental models', 218]].forEach(function(l){
+      svg.appendChild(mk('text', { x: cx, y: l[1], 'text-anchor': 'middle', 'font-size': 12.5, 'font-weight': 700, fill: '#13335f', 'font-family': 'Inter, sans-serif' }, l[0]));
     });
-    // contrast note
-    svg.appendChild(mk('text', { x: 12, y: H - 10, 'font-size': 9.5, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, 'below the surface: where lasting change happens' ));
   }
 
   /* ---------- Framework: make your own (closing) ---------- */
