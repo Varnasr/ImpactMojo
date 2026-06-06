@@ -338,7 +338,7 @@ window.LV = (function() {
 
   /* ---------- Small multiples (a grid of mini line charts) ---------- */
   function smallMultiples(id, o) {
-    var svg = frame(id); var vw = 460, vh = 250; svg.setAttribute('viewBox', '0 0 ' + vw + ' ' + vh);
+    var svg = frame(id); if (!svg) return; var vw = 460, vh = 250; svg.setAttribute('viewBox', '0 0 ' + vw + ' ' + vh);
     var s = o.series, cols = o.cols || 4, rows = Math.ceil(s.length / cols);
     var gx = 8, gyTop = 8, padR = 8, padB = 18;
     var pw = (vw - gx - padR) / cols, ph = (vh - gyTop - padB) / rows, yMax = o.yMax;
@@ -365,7 +365,7 @@ window.LV = (function() {
 
   /* ---------- Connected scatterplot (a path through two variables over time) ---------- */
   function connectedScatter(id, o) {
-    var svg = frame(id); var vh = 300; svg.setAttribute('viewBox', '0 0 ' + W + ' ' + vh);
+    var svg = frame(id); if (!svg) return; var vh = 300; svg.setAttribute('viewBox', '0 0 ' + W + ' ' + vh);
     var mL = 38, mR = 16, mT = 18, mB = 46;
     function X(f){ return mL + (f / o.xMax) * (W - mL - mR); }
     function Y(l){ return (vh - mB) - (l - o.yMin) / (o.yMax - o.yMin) * (vh - mB - mT); }
@@ -385,7 +385,7 @@ window.LV = (function() {
 
   /* ---------- Chord diagram (flows between categories) ---------- */
   function chord(id, o) {
-    var svg = frame(id); var vw = 460, vh = 320; svg.setAttribute('viewBox', '0 0 ' + vw + ' ' + vh);
+    var svg = frame(id); if (!svg) return; var vw = 460, vh = 320; svg.setAttribute('viewBox', '0 0 ' + vw + ' ' + vh);
     var cx = vw / 2, cy = vh / 2 + 4, R = 110, rib = R - 14;
     var names = o.names, cols = o.colors, M = o.matrix, n = names.length;
     function P(ang, r){ return [cx + r * Math.cos(ang), cy + r * Math.sin(ang)]; }
@@ -420,7 +420,7 @@ window.LV = (function() {
 
   /* ---------- Sankey (flows source -> target) ---------- */
   function sankey(id, o) {
-    var svg = frame(id); var vw = 460, vh = 300; svg.setAttribute('viewBox', '0 0 ' + vw + ' ' + vh);
+    var svg = frame(id); if (!svg) return; var vw = 460, vh = 300; svg.setAttribute('viewBox', '0 0 ' + vw + ' ' + vh);
     var L = o.left, Rg = o.right, F = o.flows; // F[i][j] left i -> right j
     var mT = 16, mB = 16, colW = 14, lx = 96, rx = vw - 96 - colW, H2 = vh - mT - mB;
     var ltot = L.map(function(_, i){ return Rg.reduce(function(s, _2, j){ return s + F[i][j]; }, 0); });
