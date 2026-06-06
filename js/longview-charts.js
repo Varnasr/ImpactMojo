@@ -336,6 +336,53 @@ window.LV = (function() {
     });
   }
 
+  /* ---------- Small multiples (a grid of mini line charts) ---------- */
+  function smallMultiples(id, o) {
+    var svg = frame(id); var vw = 460, vh = 250; svg.setAttribute('viewBox', '0 0 ' + vw + ' ' + vh);
+    var s = o.series, cols = o.cols || 4, rows = Math.ceil(s.length / cols);
+    var gx = 8, gyTop = 8, padR = 8, padB = 18;
+    var pw = (vw - gx - padR) / cols, ph = (vh - gyTop - padB) / rows, yMax = o.yMax;
+    s.forEach(function(ser, i){
+      var c = i % cols, r = Math.floor(i / cols), ox = gx + c * pw, oy = gyTop + r * ph;
+      var plotX = ox + 6, plotY = oy + 20, plotW = pw - 16, plotH = ph - 34;
+      var xs = ser.pts.map(function(p){ return p[0]; }), xmin = Math.min.apply(null, xs), xmax = Math.max.apply(null, xs);
+      function X(x){ return plotX + (x - xmin) / (xmax - xmin) * plotW; }
+      function Y(v){ return plotY + plotH - (v / yMax) * plotH; }
+      var col = ser.hl ? o.hlColor : (o.color || '#4f46e5');
+      svg.appendChild(mk('line', { x1: plotX, y1: plotY + plotH, x2: plotX + plotW, y2: plotY + plotH, stroke: gridc(), 'stroke-width': 1 }));
+      var fill = vGrad(svg, id + '-g' + i, col, 0.22, 0.02);
+      var d = ser.pts.map(function(p, j){ return (j ? 'L' : 'M') + X(p[0]).toFixed(1) + ',' + Y(p[1]).toFixed(1); }).join(' ');
+      svg.appendChild(mk('path', { d: d + ' L' + X(xmax).toFixed(1) + ',' + (plotY + plotH) + ' L' + X(xmin).toFixed(1) + ',' + (plotY + plotH) + ' Z', fill: fill }));
+      svg.appendChild(mk('path', { d: d, fill: 'none', stroke: col, 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));
+      var last = ser.pts[ser.pts.length - 1], first = ser.pts[0];
+      svg.appendChild(mk('circle', { cx: X(last[0]), cy: Y(last[1]), r: 2.6, fill: col }));
+      svg.appendChild(mk('text', { x: ox + 6, y: oy + 12, 'font-size': 10.5, 'font-weight': ser.hl ? 800 : 700, fill: ser.hl ? o.hlColor : ink(), 'font-family': 'Inter, sans-serif' }, ser.name));
+      svg.appendChild(mk('text', { x: X(first[0]), y: Y(first[1]) - 4, 'font-size': 8.5, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, Math.round(first[1])));
+      svg.appendChild(mk('text', { x: X(last[0]), y: Y(last[1]) - 5, 'text-anchor': 'end', 'font-size': 9, 'font-weight': 700, fill: col, 'font-family': 'JetBrains Mono, monospace' }, Math.round(last[1])));
+    });
+    svg.appendChild(mk('text', { x: vw - padR, y: vh - 5, 'text-anchor': 'end', 'font-size': 9, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, o.axisLabel || '1990 → 2022' ));
+  }
+
+  /* ---------- Connected scatterplot (a path through two variables over time) ---------- */
+  function connectedScatter(id, o) {
+    var svg = frame(id); var vh = 300; svg.setAttribute('viewBox', '0 0 ' + W + ' ' + vh);
+    var mL = 38, mR = 16, mT = 18, mB = 46;
+    function X(f){ return mL + (f / o.xMax) * (W - mL - mR); }
+    function Y(l){ return (vh - mB) - (l - o.yMin) / (o.yMax - o.yMin) * (vh - mB - mT); }
+    (o.xTicks || []).forEach(function(t){ svg.appendChild(mk('line', { x1: X(t), y1: mT, x2: X(t), y2: vh - mB, stroke: gridc(), 'stroke-width': 1 })); tick(svg, X(t), vh - mB + 15, t); });
+    (o.yTicks || []).forEach(function(t){ svg.appendChild(mk('line', { x1: mL, y1: Y(t), x2: W - mR, y2: Y(t), stroke: gridc(), 'stroke-width': 1 })); svg.appendChild(mk('text', { x: mL - 6, y: Y(t) + 3, 'text-anchor': 'end', 'font-size': 9, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, t)); });
+    svg.appendChild(mk('text', { x: (mL + W - mR) / 2, y: vh - 6, 'text-anchor': 'middle', 'font-size': 9.5, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, o.xLabel));
+    svg.appendChild(mk('text', { x: 12, y: mT + 4, 'font-size': 9.5, fill: ink(), 'font-family': 'JetBrains Mono, monospace', transform: 'rotate(-90 12 ' + (mT + 4) + ')' }, o.yLabel));
+    o.series.forEach(function(ser){
+      var d = ser.pts.map(function(p, j){ return (j ? 'L' : 'M') + X(p[0]).toFixed(1) + ',' + Y(p[1]).toFixed(1); }).join(' ');
+      var path = mk('path', { d: d, fill: 'none', stroke: ser.color, 'stroke-width': 2.4, 'stroke-linejoin': 'round', 'stroke-linecap': 'round', opacity: 0.9 });
+      svg.appendChild(path); animPath(path);
+      ser.pts.forEach(function(p, j){ var isEnd = j === ser.pts.length - 1; svg.appendChild(mk('circle', { cx: X(p[0]), cy: Y(p[1]), r: isEnd ? 4 : 2.2, fill: isEnd ? ser.color : '#fff', stroke: ser.color, 'stroke-width': 1.4 })); });
+      var last = ser.pts[ser.pts.length - 1];
+      svg.appendChild(mk('text', { x: X(last[0]) + 6, y: Y(last[1]) + 3, 'font-size': 10.5, 'font-weight': 800, fill: ser.color, 'font-family': 'Inter, sans-serif' }, ser.name));
+    });
+  }
+
   /* ---------- Framework: Arnstein's ladder ---------- */
   function ladder(id) {
     var svg = frame(id); if (!svg) return;
@@ -537,6 +584,31 @@ window.LV = (function() {
         xfmt: function(x){var a=Math.floor(x); return "'"+String(a).slice(2)+"–"+String(a+1).slice(2);} });
 
     climateChart('c-climate');
+
+    smallMultiples('c-decline',
+      { yMax: 215, cols: 4, color: '#64748b', hlColor: '#0d9488', axisLabel: 'under-5 deaths per 1,000 · 1990 → 2022',
+        series: [
+          { name:'Nigeria', pts:[[1990,207.6],[2000,177.3],[2010,126.3],[2022,117.5]] },
+          { name:'Ethiopia', pts:[[1990,202],[2000,140.1],[2010,82.7],[2022,68.1]] },
+          { name:'Rwanda', pts:[[1990,150.7],[2000,184.2],[2010,63.3],[2022,39.7]] },
+          { name:'Bangladesh', pts:[[1990,146.5],[2000,85.5],[2010,48.7],[2022,30.7]] },
+          { name:'India', hl:true, pts:[[1990,127],[2000,91.8],[2010,58.1],[2022,29.5]] },
+          { name:'Indonesia', pts:[[1990,83.2],[2000,51.4],[2010,32.6],[2022,19.1]] },
+          { name:'Brazil', pts:[[1990,62.8],[2000,34.4],[2010,18.6],[2022,14.6]] },
+          { name:'China', pts:[[1990,53.6],[2000,36.6],[2010,15.7],[2022,6.6]] }
+        ] });
+
+    connectedScatter('c-transition',
+      { xMax: 7.2, yMin: 30, yMax: 86, xTicks: [1,2,3,4,5,6,7], yTicks: [40,50,60,70,80],
+        xLabel: 'babies per woman →', yLabel: 'life expectancy →',
+        series: [
+          { name:'Nigeria', color:'#f59e0b', pts:[[6.36,37.2],[6.85,46],[6.12,47.1],[4.55,54.1]] },
+          { name:'India', color:'#4f46e5', pts:[[5.92,45.6],[4.78,53.6],[3.35,62.7],[1.99,71.7]] },
+          { name:'Bangladesh', color:'#0d9488', pts:[[6.74,44],[6.33,52.3],[3.28,62],[2.18,74.3]] },
+          { name:'China', color:'#e11d48', pts:[[4.45,33.4],[2.74,64.2],[1.63,72.3],[1.03,78.2]] },
+          { name:'S. Korea', color:'#7c3aed', pts:[[5.99,53.8],[2.82,66],[1.48,75.9],[0.78,82.7]] }
+        ] });
+
     ethicChart('c-ethic');
 
     ladder('f-ladder');
@@ -740,8 +812,20 @@ window.LV = (function() {
 
   function drawMasters(){ drawRose(); drawMinard(); drawSnow(); drawDuBois(); }
 
-  var ORDER = ['c-gender','c-caste','c-co2','c-energy','c-nfhs','c-forest','c-poverty','c-u5mr','c-flfp','c-pipeline','c-climate'];
+  var ORDER = ['c-gender','c-caste','c-co2','c-energy','c-nfhs','c-forest','c-decline','c-transition','c-poverty','c-u5mr','c-flfp','c-pipeline','c-climate'];
   var DETAILS = {
+    'c-decline': { tag:'Child Survival', title:'The great decline',
+      takeaway:"Across very different countries, under-five deaths fell sharply over thirty years — even Rwanda, after its 1994 spike.",
+      source:"UN Inter-agency Group for Child Mortality Estimation / World Bank (SH.DYN.MORT), 1990–2022.",
+      why:"Small multiples — the same little chart repeated for each country, on a shared scale — let you compare many trajectories at once without one busy, tangled chart. Tufte's preferred way to show 'the same thing, everywhere'.",
+      how:"One mini line per country, all on the same 0–215 axis, pulled directly from the World Bank API. The 1990 and 2022 values are printed on each.",
+      look:"Almost every line falls. Rwanda's rises first (the genocide) then drops fastest; Nigeria starts highest and falls least." },
+    'c-transition': { tag:'Population', title:'Everyone walks the same road',
+      takeaway:"Countries move from many children and short lives toward few children and long lives — the demographic transition — just at different times.",
+      source:"World Bank — total fertility rate (SP.DYN.TFRT.IN) and life expectancy (SP.DYN.LE00.IN), 1960–2022.",
+      why:"A connected scatterplot traces each country's path through two variables over time, so you see the shape of change, not just two separate trends. The convergence toward the top-left is the story.",
+      how:"Each country is a line through its (fertility, life expectancy) points for 1960, 1980, 2000 and 2022, with the latest year marked.",
+      look:"Every path heads up and to the left. Korea and China raced; Nigeria is still early on the same road." },
     'c-gender': { tag:'Gender', title:'The same gap, four ways',
       takeaway:"Women have caught up with men in college enrolment, and slightly passed them. In paid work and Parliament, they're still far behind.",
       source:"NFHS-5 (literacy), AISHE 2021–22 (college GER), PLFS 2023–24 (labour force), Lok Sabha 2024 (seats).",
