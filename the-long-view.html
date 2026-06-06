@@ -266,7 +266,7 @@ a { color: var(--color-primary); }
   <div class="wrap">
     <div class="section-head">
       <span class="kicker">The Data Wing</span>
-      <h2>Six charts, built from real evidence</h2>
+      <h2>Eight charts, built from real evidence</h2>
       <p>Each is drawn from scratch in your browser from a named, public dataset. Hover a source line to see exactly where every number came from — because a chart you can't trace is just decoration.</p>
     </div>
 
@@ -299,9 +299,9 @@ a { color: var(--color-primary); }
       <article class="card" data-card>
         <span class="tag">Climate Justice</span>
         <h3>Whose carbon?</h3>
-        <div class="chart-holder"><svg id="c-co2" role="img" aria-label="Bar chart: CO2 emissions per capita in 2022 — India 1.9 tonnes, world average 4.8, China 7.4, United States 15.3."></svg></div>
-        <p class="insight">The climate-justice argument in one frame: the average American emits in roughly <strong>six weeks</strong> what the average Indian emits in a whole year.</p>
-        <p class="source">Source: Global Carbon Project, via Our World in Data (2022). Tonnes CO₂ per capita.</p>
+        <div class="chart-holder"><svg id="c-co2" role="img" aria-label="A beeswarm of CO2 emissions per capita by country in 2023: most countries cluster at low values with India near the bottom, while Qatar, the Gulf states and the US sit far to the right."></svg></div>
+        <p class="insight">Every dot is a country. Most of humanity emits very little — India sits near the bottom of the pack — while a single <strong>Qatari</strong> emits over <strong>20×</strong> as much CO₂ as the average Indian.</p>
+        <p class="source">Source: EDGAR (European Commission / JRC) — territorial CO₂ emissions per capita, 2023.</p>
       </article>
 
       <article class="card" data-card>
@@ -318,6 +318,14 @@ a { color: var(--color-primary); }
         <div class="chart-holder"><svg id="c-flfp" role="img" aria-label="Slope chart: India's female labour force participation rate rose from 23.3% in 2017-18 to 37.0% in 2022-23."></svg></div>
         <p class="insight">After decades of decline, women's recorded participation in India's workforce has turned <strong>sharply upward</strong> — though much of the rise is unpaid family and self-employment, not salaried jobs.</p>
         <p class="source">Source: Periodic Labour Force Survey (PLFS), MoSPI. Female LFPR, usual status, age 15+.</p>
+      </article>
+
+      <article class="card" data-card>
+        <span class="tag">Education</span>
+        <h3>The leaky pipeline</h3>
+        <div class="chart-holder"><svg id="c-pipeline" role="img" aria-label="A funnel of female gross enrolment in India narrowing from 104.8% in primary school to 28.5% in higher education."></svg></div>
+        <p class="insight">India has all but closed the gender gap in school — girls' enrolment even tops 100% in primary. But the pipeline leaks at every stage: barely <strong>1 in 4</strong> young women reaches higher education.</p>
+        <p class="source">Source: UDISE+ 2021–22 (school) and AISHE 2021–22 (higher education). Female gross enrolment ratio (GER) by level.</p>
       </article>
 
       <article class="card" data-card>
@@ -482,7 +490,8 @@ a { color: var(--color-primary); }
       <li><b>The great escape</b>World Bank Poverty &amp; Inequality Platform (PIP), via Our World in Data — extreme poverty at $2.15/day (2017 PPP), 1990–2019.</li>
       <li><b>India's children</b>UN IGME / World Bank Open Data, indicator SH.DYN.MORT — under-five mortality per 1,000 live births, 1990–2022.</li>
       <li><b>Poverty is not caste-blind</b>NFHS-4 (2015–16) multidimensional poverty headcount by social group; national MPI ≈ 24.8%.</li>
-      <li><b>Whose carbon?</b>Global Carbon Project, via Our World in Data — territorial CO₂ emissions per capita, 2022.</li>
+      <li><b>Whose carbon?</b>EDGAR (European Commission / JRC) — territorial CO₂ emissions per capita by country, 2023.</li>
+      <li><b>The leaky pipeline</b>UDISE+ 2021–22 (school) and AISHE 2021–22 (higher education) — female gross enrolment ratio by level.</li>
       <li><b>India is heating up</b>India Meteorological Department high-resolution gridded data (1901–2024), via Data for India — annual mean temperature anomaly.</li>
       <li><b>Women re-enter the workforce</b>Periodic Labour Force Survey (PLFS), MoSPI — female LFPR, usual status, age 15+, 2017-18 and 2022-23.</li>
     </ul>
@@ -762,27 +771,50 @@ a { color: var(--color-primary); }
     svg.appendChild(mk('text', { x: W/2, y: 266, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 700, fill: ink(), 'font-family': 'Inter, sans-serif' }, '10 of the 15 warmest years have come since 2010'));
   }
 
-  /* ---------- India warming (verified IMD anomalies + schematic stripe) ---------- */
-  function climateChart(id) {
+  /* ---------- Beeswarm (distribution, one dot per item) ---------- */
+  function beeswarm(id, data, o) {
     var svg = frame(id); if (!svg) return;
-    var defs = mk('defs', {});
-    var lg = mk('linearGradient', { id: 'warmgrad', x1: '0', y1: '0', x2: '1', y2: '0' });
-    [['0','#08306b'],['0.45','#f2f2f2'],['0.7','#fdae61'],['1','#a50026']].forEach(function(s){ lg.appendChild(mk('stop', { offset: s[0], 'stop-color': s[1] })); });
-    defs.appendChild(lg); svg.appendChild(defs);
-    var bandY = 26, bandH = 44;
-    svg.appendChild(mk('rect', { x: 20, y: bandY, width: W - 40, height: bandH, rx: 6, fill: 'url(#warmgrad)' }));
-    svg.appendChild(mk('text', { x: 22, y: bandY - 7, 'font-size': 10, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, '1901'));
-    svg.appendChild(mk('text', { x: W - 22, y: bandY - 7, 'text-anchor': 'end', 'font-size': 10, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, '2024'));
-    svg.appendChild(mk('text', { x: W/2, y: bandY + bandH + 15, 'text-anchor': 'middle', 'font-size': 9.5, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, 'warming trend — schematic (cool → hot)'));
-    svg.appendChild(mk('text', { x: W/2, y: 150, 'text-anchor': 'middle', 'font-size': 44, 'font-weight': 800, fill: COL.red, 'font-family': 'Inter, sans-serif' }, '+0.65°C'));
-    svg.appendChild(mk('text', { x: W/2, y: 171, 'text-anchor': 'middle', 'font-size': 12, fill: ink(), 'font-family': 'Amaranth, sans-serif' }, '2024 vs 1991–2020 — warmest year since 1901'));
-    var items = [['vs 1981–2010', '+0.78°C'], ['vs 1951–80', '+0.98°C']], cw = (W - 40) / 2;
-    items.forEach(function(it, i){
-      var cx = 20 + cw * i + cw / 2;
-      svg.appendChild(mk('text', { x: cx, y: 212, 'text-anchor': 'middle', 'font-size': 19, 'font-weight': 800, fill: COL.amber, 'font-family': 'Inter, sans-serif' }, it[1]));
-      svg.appendChild(mk('text', { x: cx, y: 230, 'text-anchor': 'middle', 'font-size': 10, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, it[0]));
+    var mL = 22, mR = 18, mT = 44, mB = 42, y0 = (mT + (H - mB)) / 2, vMax = o.vMax, r = 4;
+    function X(v){ return mL + (v / vMax) * (W - mL - mR); }
+    svg.appendChild(mk('line', { x1: mL, y1: y0, x2: W - mR, y2: y0, stroke: gridc(), 'stroke-width': 1 }));
+    (o.ticks || []).forEach(function(t){ if (X(t) <= W - mR) { svg.appendChild(mk('line', { x1: X(t), y1: y0 - 4, x2: X(t), y2: y0 + 4, stroke: ink(), 'stroke-width': 1 })); tick(svg, X(t), y0 + 18, t); } });
+    if (o.ref) {
+      svg.appendChild(mk('line', { x1: X(o.ref.v), y1: mT - 8, x2: X(o.ref.v), y2: H - mB + 8, stroke: ink(), 'stroke-width': 1, 'stroke-dasharray': '5,4', opacity: 0.65 }));
+      svg.appendChild(mk('text', { x: X(o.ref.v) + 4, y: mT, 'font-size': 9.5, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, o.ref.label));
+    }
+    var placed = [];
+    data.slice().sort(function(a, b){ return a.v - b.v; }).forEach(function(d){
+      var cx = X(d.v), cy = y0, k = 0, lim = (y0 - mT - r);
+      while (placed.some(function(p){ return Math.abs(p.x - cx) < r * 2 && Math.abs(p.y - cy) < r * 2; })) {
+        k++; cy = y0 + (k % 2 ? 1 : -1) * Math.ceil(k / 2) * (r * 1.8);
+        if (Math.ceil(k / 2) * (r * 1.8) > lim) break;
+      }
+      placed.push({ x: cx, y: cy, d: d });
     });
-    svg.appendChild(mk('text', { x: W/2, y: 266, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 700, fill: ink(), 'font-family': 'Inter, sans-serif' }, '10 of the 15 warmest years have come since 2010'));
+    placed.forEach(function(p){ var d = p.d; svg.appendChild(mk('circle', { cx: p.x, cy: p.y, r: d.hl ? 7 : 4, fill: d.hl ? o.hlColor : o.dotColor, 'fill-opacity': d.hl ? 1 : 0.78, stroke: d.hl ? '#fff' : 'none', 'stroke-width': d.hl ? 1.5 : 0 })); });
+    placed.forEach(function(p){ if (p.d.label) svg.appendChild(mk('text', { x: p.x, y: p.y - (p.d.hl ? 13 : 10), 'text-anchor': 'middle', 'font-size': p.d.hl ? 12 : 9.5, 'font-weight': p.d.hl ? 800 : 700, fill: p.d.hl ? o.hlColor : ink(), 'font-family': 'Inter, sans-serif' }, p.d.label)); });
+    svg.appendChild(mk('text', { x: (mL + W - mR) / 2, y: H - 8, 'text-anchor': 'middle', 'font-size': 10, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, o.axisLabel));
+    if (o.callout) callout(svg, o.callout.x, o.callout.y, o.callout.anchor, o.callout.lines);
+  }
+
+  /* ---------- Funnel (a narrowing pipeline) ---------- */
+  function funnel(id, data, o) {
+    var svg = frame(id); if (!svg) return;
+    var mT = 22, mB = 18, cx = W / 2 + 18, n = data.length, gap = 9, maxW = W - 200;
+    var bh = (H - mT - mB - gap * (n - 1)) / n;
+    function bw(v){ return (v / o.vMax) * maxW; }
+    data.forEach(function(d, i){
+      var y = mT + i * (bh + gap), w = bw(d.v);
+      if (i < n - 1) {
+        var w2 = bw(data[i+1].v), y2 = y + bh + gap;
+        svg.appendChild(mk('path', { d: 'M' + (cx - w/2) + ',' + (y + bh) + ' L' + (cx + w/2) + ',' + (y + bh) + ' L' + (cx + w2/2) + ',' + y2 + ' L' + (cx - w2/2) + ',' + y2 + ' Z', fill: o.colors[i], opacity: 0.13 }));
+      }
+      var fill = vGrad(svg, id + '-f' + i, o.colors[i], 0.95, 0.68);
+      var rect = mk('rect', { x: cx - w/2, y: y, width: w, height: bh, rx: 5, fill: fill });
+      svg.appendChild(rect); fadeIn(rect, i * 0.1);
+      svg.appendChild(mk('text', { x: 16, y: y + bh/2 + 4, 'font-size': 11, fill: ink(), 'font-family': 'Amaranth, sans-serif' }, d.label));
+      svg.appendChild(mk('text', { x: cx + w/2 - 9, y: y + bh/2 + 4.5, 'text-anchor': 'end', 'font-size': 13, 'font-weight': 800, fill: '#fff', 'font-family': 'Inter, sans-serif' }, d.v + '%'));
+    });
   }
 
   /* ---------- Framework: Arnstein's ladder ---------- */
@@ -804,11 +836,10 @@ a { color: var(--color-primary); }
       svg.appendChild(mk('text', { x: x + 12, y: y + rh/2 + 4, 'font-size': 12, 'font-weight': 700, fill: '#fff', 'font-family': 'Inter, sans-serif' }, (idx + 1) + '. ' + rungs[idx][0]));
     });
     bands.forEach(function(b){
-      var topRung = n - 1 - b[3] + 1, botRung = n - 1 - b[2];
       var yTop = mT + (n - 1 - (b[3] - 1)) * (rh + 6);
       var yBot = mT + (n - 1 - b[2]) * (rh + 6) + rh;
-      svg.appendChild(mk('line', { x1: x - 12, y1: yTop, x2: x - 12, y2: yBot, stroke: b[1], 'stroke-width': 3 }));
-      svg.appendChild(mk('text', { x: x - 20, y: (yTop + yBot)/2, 'text-anchor': 'end', 'font-size': 11, 'font-weight': 700, fill: b[1], 'font-family': 'Inter, sans-serif', transform: 'rotate(-90 ' + (x - 20) + ' ' + ((yTop + yBot)/2) + ')' }, b[0]));
+      svg.appendChild(mk('line', { x1: x - 10, y1: yTop + 2, x2: x - 10, y2: yBot - 2, stroke: b[1], 'stroke-width': 3 }));
+      svg.appendChild(mk('text', { x: x - 18, y: (yTop + yBot)/2 + 4, 'text-anchor': 'end', 'font-size': 11, 'font-weight': 700, fill: b[1], 'font-family': 'Inter, sans-serif' }, b[0]));
     });
     // upward arrow
     svg.appendChild(mk('path', { d: 'M' + (x + rw + 18) + ',' + (H - mB) + ' L' + (x + rw + 18) + ',' + (mT + 10), stroke: ink(), 'stroke-width': 1.5, 'marker-end': 'url(#arrUp)' }));
@@ -848,50 +879,53 @@ a { color: var(--color-primary); }
   /* ---------- Framework: poverty trap loop ---------- */
   function trapLoop(id) {
     var svg = frame(id); if (!svg) return;
-    var cx = W/2, cy = H/2 + 4, r = 92;
-    var nodes = [['Low\\nincome', COL.red], ['Low\\nsavings', COL.amber], ['Low\\ninvestment', COL.purple], ['Low\\nproductivity', COL.blue]];
-    var pts = nodes.map(function(_, i){ var a = (i/nodes.length)*2*Math.PI - Math.PI/2; return [cx + r*Math.cos(a), cy + r*Math.sin(a)]; });
-    // curved arrows between consecutive nodes
+    var cx = W/2, cy = H/2 + 2, r = 86, nr = 33;
+    var nodes = [['Low', 'income', COL.red], ['Low', 'savings', COL.amber], ['Low', 'investment', COL.purple], ['Low', 'productivity', COL.blue]];
+    var pts = nodes.map(function(_, i){ var a = (i / nodes.length) * 2 * Math.PI - Math.PI/2; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; });
+    var defs = mk('defs', {});
+    var marker = mk('marker', { id: id + '-arr', markerWidth: 10, markerHeight: 10, refX: 7, refY: 5, orient: 'auto' });
+    marker.appendChild(mk('path', { d: 'M0,0 L10,5 L0,10 Z', fill: '#e11d48' }));
+    defs.appendChild(marker); svg.appendChild(defs);
     for (var i = 0; i < pts.length; i++) {
-      var p = pts[i], q = pts[(i+1)%pts.length];
-      var mx = (p[0]+q[0])/2, my = (p[1]+q[1])/2;
-      var dx = q[0]-p[0], dy = q[1]-p[1];
-      var nx = -dy, ny = dx, nl = Math.hypot(nx, ny);
-      var cxp = mx + (nx/nl)*22, cyp = my + (ny/nl)*22;
-      var path = mk('path', { d: 'M' + p[0].toFixed(1) + ',' + p[1].toFixed(1) + ' Q' + cxp.toFixed(1) + ',' + cyp.toFixed(1) + ' ' + q[0].toFixed(1) + ',' + q[1].toFixed(1), fill: 'none', stroke: ink(), 'stroke-width': 1.6, 'marker-end': 'url(#arrL)', opacity: 0.7 });
+      var p = pts[i], q = pts[(i+1) % pts.length];
+      var a0 = Math.atan2(p[1]-cy, p[0]-cx), a1 = Math.atan2(q[1]-cy, q[0]-cx);
+      // start/end on the node rims, arc bowed outward
+      var sx = p[0] + Math.cos(a0 + 0.7) * 0, sy = p[1];
+      var s = [cx + (r) * Math.cos(a0 + 0.42), cy + (r) * Math.sin(a0 + 0.42)];
+      var e = [cx + (r) * Math.cos(a1 - 0.42), cy + (r) * Math.sin(a1 - 0.42)];
+      var mcx = (s[0]+e[0])/2, mcy = (s[1]+e[1])/2, ol = Math.hypot(mcx-cx, mcy-cy);
+      var ctrl = [mcx + (mcx-cx)/ol * 26, mcy + (mcy-cy)/ol * 26];
+      var path = mk('path', { d: 'M' + s[0].toFixed(1) + ',' + s[1].toFixed(1) + ' Q' + ctrl[0].toFixed(1) + ',' + ctrl[1].toFixed(1) + ' ' + e[0].toFixed(1) + ',' + e[1].toFixed(1), fill: 'none', stroke: '#e11d48', 'stroke-width': 2.6, 'stroke-linecap': 'round', 'marker-end': 'url(#' + id + '-arr)' });
       svg.appendChild(path); animPath(path);
     }
-    var defs = mk('defs', {});
-    var marker = mk('marker', { id: 'arrL', markerWidth: 9, markerHeight: 9, refX: 6, refY: 4.5, orient: 'auto' });
-    marker.appendChild(mk('path', { d: 'M0,0 L9,4.5 L0,9', fill: ink() }));
-    defs.appendChild(marker); svg.appendChild(defs);
     pts.forEach(function(p, i){
       var g = mk('g', {}); fadeIn(g, i * 0.12);
-      g.appendChild(mk('circle', { cx: p[0], cy: p[1], r: 34, fill: nodes[i][1], opacity: 0.92 }));
-      var lines = nodes[i][0].split('\\n');
-      lines.forEach(function(ln, j){
-        g.appendChild(mk('text', { x: p[0], y: p[1] + (j - (lines.length-1)/2) * 12 + 4, 'text-anchor': 'middle', 'font-size': 10.5, 'font-weight': 700, fill: '#fff', 'font-family': 'Inter, sans-serif' }, ln));
-      });
+      g.appendChild(mk('circle', { cx: p[0], cy: p[1], r: nr, fill: nodes[i][2] }));
+      g.appendChild(mk('text', { x: p[0], y: p[1] - 2, 'text-anchor': 'middle', 'font-size': 10.5, 'font-weight': 600, fill: '#fff', 'font-family': 'Inter, sans-serif' }, nodes[i][0]));
+      g.appendChild(mk('text', { x: p[0], y: p[1] + 11, 'text-anchor': 'middle', 'font-size': 10.5, 'font-weight': 800, fill: '#fff', 'font-family': 'Inter, sans-serif' }, nodes[i][1]));
       svg.appendChild(g);
     });
-    svg.appendChild(mk('text', { x: cx, y: cy + 3, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 800, fill: ink(), 'font-family': 'Inter, sans-serif' }, 'self-reinforcing'));
+    svg.appendChild(mk('text', { x: cx, y: cy - 2, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 700, fill: '#e11d48', 'font-family': 'Inter, sans-serif' }, 'self-' ));
+    svg.appendChild(mk('text', { x: cx, y: cy + 11, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 700, fill: '#e11d48', 'font-family': 'Inter, sans-serif' }, 'reinforcing'));
   }
 
   /* ---------- Framework: intersectionality venn ---------- */
   function venn(id) {
     var svg = frame(id); if (!svg) return;
-    var cx = W/2, cy = H/2 - 4, r = 70, off = 40;
-    var circles = [['Gender', COL.red, cx, cy - off], ['Caste', COL.blue, cx - off, cy + off*0.7], ['Class', COL.amber, cx + off, cy + off*0.7]];
+    var r = 62;
+    var circles = [['Gender', COL.red, 230, 106], ['Caste', '#2563eb', 192, 168], ['Class', COL.amber, 268, 168]];
     circles.forEach(function(c, i){
-      var circ = mk('circle', { cx: c[2], cy: c[3], r: r, fill: c[1], 'fill-opacity': 0.32, stroke: c[1], 'stroke-width': 2 });
+      var circ = mk('circle', { cx: c[2], cy: c[3], r: r, fill: c[1], 'fill-opacity': 0.18, stroke: c[1], 'stroke-width': 2.5 });
       svg.appendChild(circ); fadeIn(circ, i * 0.12);
     });
-    svg.appendChild(mk('text', { x: cx, y: cy - off - r + 22, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 800, fill: COL.red, 'font-family': 'Inter, sans-serif' }, 'Gender'));
-    svg.appendChild(mk('text', { x: cx - off - r + 30, y: cy + off*0.7 + r - 14, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 800, fill: COL.blue, 'font-family': 'Inter, sans-serif' }, 'Caste'));
-    svg.appendChild(mk('text', { x: cx + off + r - 30, y: cy + off*0.7 + r - 14, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 800, fill: COL.amber, 'font-family': 'Inter, sans-serif' }, 'Class'));
-    svg.appendChild(mk('circle', { cx: cx, cy: cy + 6, r: 4, fill: ink() }));
-    svg.appendChild(mk('text', { x: cx, y: cy + 28, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 700, fill: ink(), 'font-family': 'Inter, sans-serif' }, 'compounded'));
-    svg.appendChild(mk('text', { x: cx, y: cy + 42, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 700, fill: ink(), 'font-family': 'Inter, sans-serif' }, 'disadvantage'));
+    svg.appendChild(mk('text', { x: 230, y: 36, 'text-anchor': 'middle', 'font-size': 15, 'font-weight': 800, fill: COL.red, 'font-family': 'Inter, sans-serif' }, 'Gender'));
+    svg.appendChild(mk('text', { x: 138, y: 250, 'text-anchor': 'middle', 'font-size': 15, 'font-weight': 800, fill: '#2563eb', 'font-family': 'Inter, sans-serif' }, 'Caste'));
+    svg.appendChild(mk('text', { x: 322, y: 250, 'text-anchor': 'middle', 'font-size': 15, 'font-weight': 800, fill: COL.amber, 'font-family': 'Inter, sans-serif' }, 'Class'));
+    // central intersection — a clear, readable highlight
+    var ccx = 230, ccy = 149;
+    svg.appendChild(mk('rect', { x: ccx - 44, y: ccy - 15, width: 88, height: 31, rx: 9, fill: '#ffffff', stroke: '#1f2937', 'stroke-width': 1.3 }));
+    svg.appendChild(mk('text', { x: ccx, y: ccy - 1, 'text-anchor': 'middle', 'font-size': 10, 'font-weight': 800, fill: '#1f2937', 'font-family': 'Inter, sans-serif' }, 'compounded'));
+    svg.appendChild(mk('text', { x: ccx, y: ccy + 11, 'text-anchor': 'middle', 'font-size': 10, 'font-weight': 800, fill: '#1f2937', 'font-family': 'Inter, sans-serif' }, 'disadvantage'));
   }
 
   /* ---------- Framework: systems iceberg ---------- */
@@ -955,12 +989,22 @@ a { color: var(--color-primary); }
       [{label:'Sched. Tribes',y:44.4,color:'#7d0d23'},{label:'Sched. Castes',y:29.2,color:'#b81d36'},{label:'OBC',y:24.5,color:'#e0566a'},{label:'Others',y:14.9,color:'#f3a6b0'}],
       { xMax: 50, valfmt: function(v){return v+'%';}, refLine: { value: 24.85, label: 'national 24.8%' } });
 
-    barChart('c-co2',
-      [{label:'India',y:1.9,color:'#0d9488',highlight:true},{label:'World',y:4.8,color:'#94a3b8'},{label:'China',y:7.4,color:'#94a3b8'},{label:'USA',y:15.3,color:'#e11d48'}],
-      { yMax: 17, valfmt: function(v){return v+'t';}, refLine: { value: 4.8, label: 'world avg 4.8t' },
-        callout: { x: 20, y: 50, anchor: 'start', lines: [
-          { t: 'India: ⅛ of a', s: 13, w: 800, c: '#0d9488' },
-          { t: 'US footprint', s: 13, w: 800, c: '#0d9488', gap: 17 } ] } });
+    beeswarm('c-co2',
+      [{n:'Qatar',v:43.55,label:'Qatar'},{n:'Kuwait',v:24.90},{n:'UAE',v:20.22},{n:'Saudi',v:17.15},
+       {n:'Canada',v:14.91},{n:'Russia',v:14.45},{n:'Australia',v:14.21},{n:'USA',v:13.83,label:'USA'},
+       {n:'S Korea',v:11.04},{n:'China',v:9.24},{n:'Iran',v:9.10},{n:'Poland',v:7.63},
+       {n:'Japan',v:7.54},{n:'Germany',v:7.06},{n:'S Africa',v:6.56},{n:'UK',v:4.42},{n:'France',v:4.25},
+       {n:'Indonesia',v:2.41},{n:'Brazil',v:2.20},{n:'India',v:2.07,hl:true,label:'India'},
+       {n:'Pakistan',v:0.91},{n:'Bangladesh',v:0.71},{n:'Nigeria',v:0.58},{n:'Ethiopia',v:0.14},{n:'DR Congo',v:0.04}],
+      { vMax: 46, ticks: [0,10,20,30,40], dotColor: '#94a3b8', hlColor: '#0d9488',
+        ref: { v: 4.7, label: 'world avg' }, axisLabel: 'tonnes CO₂ per person, per year (2023)',
+        callout: { x: W-18, y: 50, anchor: 'end', lines: [
+          { t: '20×', s: 24, w: 800, c: '#e11d48' },
+          { t: 'a Qatari vs an Indian', s: 11, c: ink(), gap: 18 } ] } });
+
+    funnel('c-pipeline',
+      [{label:'Primary (1–5)',v:104.8},{label:'Upper primary',v:94.9},{label:'Secondary',v:79.4},{label:'Higher secondary',v:57.6},{label:'Higher education',v:28.5}],
+      { vMax: 104.8, colors: ['#0d9488','#22a06b','#eab308','#f97316','#e11d48'] });
 
     lineChart('c-flfp',
       [{x:2017.5,y:23.3},{x:2021.5,y:32.8},{x:2022.5,y:37.0},{x:2023.5,y:41.7}],
