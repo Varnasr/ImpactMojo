@@ -2,11 +2,11 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
-## v10.55.0 — June 6, 2026 (Datachitra — the gallery of great data visualizations)
+## v10.55.0 — June 6, 2026 (The Long View — an original data-visualization studio)
 
 ### For Learners
 
-- **Datachitra — The Gallery of Great Data Visualizations** — a new showcase celebrating the world's finest data visualizations on the questions we teach: poverty, gender, caste, public health, climate and migration. Four timeless classics are **rebuilt from scratch in your browser** — Florence Nightingale's rose of mortality, Minard's map of Napoleon's march, John Snow's cholera map, and a data portrait in the style of W. E. B. Du Bois — alongside a filterable, curated wing of modern masterworks from Gapminder, Our World in Data, The Pudding, ProPublica, the People's Archive of Rural India and more. Inspired by VizChitra, India's data-visualization community. Find it under **Showcase → Datachitra**.
+- **The Long View — an ImpactMojo original data-visualization studio** — a new showcase of visualizations built entirely by us. A **Data Wing** of five original charts, each drawn from scratch in your browser from a named, public dataset: the global fall in extreme poverty (World Bank), India's plunging under-five mortality (UN IGME), multidimensional poverty by caste (NFHS-4), CO₂ per capita and the climate-justice gap (Global Carbon Project), and the recent rise in women's workforce participation (PLFS). A **Frameworks Wing** of five original diagrams of the models we teach — Arnstein's ladder of participation, the results chain and the attribution gap, the poverty trap, intersectionality, and the systems iceberg. Every number is traceable to its source. Find it under **Showcase → The Long View**.
 
 ## v10.54.0 — June 4, 2026 (Causal Inference flagship — gold-standard rewrite)
 
