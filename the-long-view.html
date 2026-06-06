@@ -266,7 +266,7 @@ a { color: var(--color-primary); }
   <div class="wrap">
     <div class="section-head">
       <span class="kicker">The Data Wing</span>
-      <h2>Eleven charts, built from real evidence</h2>
+      <h2>Twelve charts, built from real evidence</h2>
       <p>Each is drawn from scratch in your browser from a named, public dataset. Hover a source line to see exactly where every number came from — because a chart you can't trace is just decoration.</p>
     </div>
 
@@ -350,6 +350,14 @@ a { color: var(--color-primary); }
         <div class="chart-holder"><svg id="c-nfhs" role="img" aria-label="A heatmap of India's progress across three NFHS rounds on five indicators: institutional births, immunisation, women's bank accounts, child not stunted, and women not anaemic. Most improve and turn green over time, but the anaemia row stays pale and even worsens."></svg></div>
         <p class="insight">Across three national surveys, India's services raced ahead — institutional births, immunisation and women's bank accounts all turned deep green. But the bottom row barely moves: <strong>anaemia among women has actually worsened</strong>.</p>
         <p class="source">Source: National Family Health Survey rounds 3 (2005–06), 4 (2015–16) and 5 (2019–21). Each cell is the share with the positive outcome.</p>
+      </article>
+
+      <article class="card" data-card>
+        <span class="tag">Climate · Evidence</span>
+        <h3>How hot, by 2100? It's a choice</h3>
+        <div class="chart-holder"><svg id="c-forest" role="img" aria-label="A forest plot of projected global warming by 2100 under five emissions scenarios: net zero ~2050 gives 1.4°C (very likely 1.0–1.8), rising to 4.4°C (3.3–5.7) under very high emissions; only the lowest scenarios stay near the 1.5°C and 2°C Paris limits."></svg></div>
+        <p class="insight">Each bar is a possible future: the dot is the best estimate, the whisker the IPCC's "very likely" range. Even deep, immediate cuts only just hold the line near <strong>1.5°C</strong> — and a high-emissions path blows past every Paris guardrail.</p>
+        <p class="source">Source: IPCC Sixth Assessment Report (AR6, WG1, 2021) — projected global surface warming by 2081–2100 vs 1850–1900, best estimate and very likely range, by scenario.</p>
       </article>
 
       <article class="card" data-card>
@@ -519,6 +527,7 @@ a { color: var(--color-primary); }
       <li><b>How India keeps the lights on</b>Ember / Central Electricity Authority — share of electricity generation, 2024.</li>
       <li><b>The same gap, four ways</b>NFHS-5, AISHE 2021–22, PLFS 2023–24, and Lok Sabha 2024 — by sex.</li>
       <li><b>Two decades of progress</b>National Family Health Survey rounds 3, 4 and 5 — national indicators.</li>
+      <li><b>How hot, by 2100?</b>IPCC Sixth Assessment Report (AR6, WG1, 2021) — projected warming by scenario, best estimate and very likely range.</li>
       <li><b>India is heating up</b>India Meteorological Department high-resolution gridded data (1901–2024), via Data for India — annual mean temperature anomaly.</li>
       <li><b>Women re-enter the workforce</b>Periodic Labour Force Survey (PLFS), MoSPI — female LFPR, usual status, age 15+, 2017-18 and 2022-23.</li>
     </ul>
@@ -927,6 +936,30 @@ a { color: var(--color-primary); }
     });
   }
 
+  /* ---------- Forest plot (estimate + uncertainty range) ---------- */
+  function forest(id, data, o) {
+    var svg = frame(id); if (!svg) return;
+    var mL = 128, mR = 40, mT = 32, mB = 34, n = data.length, rowH = (H - mT - mB) / n;
+    function X(v){ return mL + (v / o.vMax) * (W - mL - mR); }
+    (o.ticks || []).forEach(function(t){
+      svg.appendChild(mk('line', { x1: X(t), y1: mT - 6, x2: X(t), y2: H - mB, stroke: gridc(), 'stroke-width': 1 }));
+      tick(svg, X(t), H - mB + 15, t + '°');
+    });
+    (o.refs || []).forEach(function(rf){
+      svg.appendChild(mk('line', { x1: X(rf.v), y1: mT - 7, x2: X(rf.v), y2: H - mB + 2, stroke: rf.color, 'stroke-width': 1.2, 'stroke-dasharray': '4,3' }));
+      svg.appendChild(mk('text', { x: X(rf.v) + (rf.side === 'end' ? -3 : 3), y: mT - 10, 'text-anchor': rf.side || 'middle', 'font-size': 9.5, 'font-weight': 700, fill: rf.color, 'font-family': 'JetBrains Mono, monospace' }, rf.label));
+    });
+    data.forEach(function(d, i){
+      var y = mT + i * rowH + rowH / 2;
+      svg.appendChild(mk('text', { x: mL - 12, y: y + 4, 'text-anchor': 'end', 'font-size': 11, fill: ink(), 'font-family': 'Amaranth, sans-serif' }, d.label));
+      var wk = mk('line', { x1: X(d.lo), y1: y, x2: X(d.hi), y2: y, stroke: d.color, 'stroke-width': 2.4, 'stroke-linecap': 'round' });
+      svg.appendChild(wk); fadeIn(wk, i * 0.08);
+      [d.lo, d.hi].forEach(function(v){ svg.appendChild(mk('line', { x1: X(v), y1: y - 4, x2: X(v), y2: y + 4, stroke: d.color, 'stroke-width': 2 })); });
+      svg.appendChild(mk('circle', { cx: X(d.est), cy: y, r: 5, fill: d.color, stroke: '#fff', 'stroke-width': 1.4 }));
+      svg.appendChild(mk('text', { x: X(d.hi) + 8, y: y + 4, 'font-size': 11.5, 'font-weight': 800, fill: d.color, 'font-family': 'Inter, sans-serif' }, d.est + '°'));
+    });
+  }
+
   /* ---------- Framework: Arnstein's ladder ---------- */
   function ladder(id) {
     var svg = frame(id); if (!svg) return;
@@ -1131,6 +1164,14 @@ a { color: var(--color-primary); }
         rows: ['Institutional births', 'Full immunisation', 'Woman uses a bank a/c', 'Child not stunted', 'Woman not anaemic'],
         values: [[39,79,89],[44,62,76],[null,53,79],[52,62,64],[45,47,43]] },
       { min: 38, max: 90 });
+
+    forest('c-forest',
+      [{label:'Net zero ~2050', est:1.4, lo:1.0, hi:1.8, color:'#16a34a'},
+       {label:'Strong cuts', est:1.8, lo:1.3, hi:2.4, color:'#0d9488'},
+       {label:'Middle of the road', est:2.7, lo:2.1, hi:3.5, color:'#eab308'},
+       {label:'High emissions', est:3.6, lo:2.8, hi:4.6, color:'#f97316'},
+       {label:'Very high emissions', est:4.4, lo:3.3, hi:5.7, color:'#e11d48'}],
+      { vMax: 6, ticks: [0,2,4,6], refs: [{v:1.5, label:'1.5°', color:'#16a34a', side:'end'}, {v:2.0, label:'2° Paris', color:'#e11d48', side:'start'}] });
 
     lineChart('c-flfp',
       [{x:2017.5,y:23.3},{x:2021.5,y:32.8},{x:2022.5,y:37.0},{x:2023.5,y:41.7}],
