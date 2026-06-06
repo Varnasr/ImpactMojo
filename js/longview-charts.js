@@ -383,6 +383,72 @@ window.LV = (function() {
     });
   }
 
+  /* ---------- Chord diagram (flows between categories) ---------- */
+  function chord(id, o) {
+    var svg = frame(id); var vw = 460, vh = 320; svg.setAttribute('viewBox', '0 0 ' + vw + ' ' + vh);
+    var cx = vw / 2, cy = vh / 2 + 4, R = 110, rib = R - 14;
+    var names = o.names, cols = o.colors, M = o.matrix, n = names.length;
+    function P(ang, r){ return [cx + r * Math.cos(ang), cy + r * Math.sin(ang)]; }
+    function pair(i, j){ return M[i][j] + M[j][i]; }
+    var tot = names.map(function(_, i){ var s = 0; for (var j = 0; j < n; j++) if (j !== i) s += pair(i, j); return s; });
+    var grand = tot.reduce(function(a, b){ return a + b; }, 0);
+    var gap = 0.045, avail = 2 * Math.PI - n * gap, ang = -Math.PI / 2, arcs = [];
+    for (var i = 0; i < n; i++) { var a0 = ang, a1 = a0 + avail * tot[i] / grand; arcs.push([a0, a1]); ang = a1 + gap; }
+    var seg = {};
+    for (i = 0; i < n; i++) { var p = arcs[i][0]; for (var j = 0; j < n; j++) { if (j === i) continue; var w = (arcs[i][1] - arcs[i][0]) * (tot[i] ? pair(i, j) / tot[i] : 0); seg[i + '-' + j] = [p, p + w]; p += w; } }
+    // ribbons (one per unordered pair)
+    for (i = 0; i < n; i++) for (j = i + 1; j < n; j++) {
+      if (pair(i, j) <= 0) continue;
+      var si = seg[i + '-' + j], sj = seg[j + '-' + i];
+      var a = P(si[0], rib), b = P(si[1], rib), c = P(sj[0], rib), e = P(sj[1], rib);
+      var d = 'M' + a[0].toFixed(1) + ',' + a[1].toFixed(1) +
+        ' A' + rib + ',' + rib + ' 0 0 1 ' + b[0].toFixed(1) + ',' + b[1].toFixed(1) +
+        ' Q' + cx + ',' + cy + ' ' + c[0].toFixed(1) + ',' + c[1].toFixed(1) +
+        ' A' + rib + ',' + rib + ' 0 0 1 ' + e[0].toFixed(1) + ',' + e[1].toFixed(1) +
+        ' Q' + cx + ',' + cy + ' ' + a[0].toFixed(1) + ',' + a[1].toFixed(1) + ' Z';
+      var rp = mk('path', { d: d, fill: cols[tot[i] >= tot[j] ? i : j], 'fill-opacity': 0.42, stroke: 'none' });
+      svg.appendChild(rp); fadeIn(rp, (i + j) * 0.05);
+    }
+    // arcs + labels
+    for (i = 0; i < n; i++) {
+      var a0 = arcs[i][0], a1 = arcs[i][1], o1 = P(a0, R), o2 = P(a1, R), i2 = P(a1, rib), i1 = P(a0, rib);
+      svg.appendChild(mk('path', { d: 'M' + o1[0].toFixed(1) + ',' + o1[1].toFixed(1) + ' A' + R + ',' + R + ' 0 0 1 ' + o2[0].toFixed(1) + ',' + o2[1].toFixed(1) + ' L' + i2[0].toFixed(1) + ',' + i2[1].toFixed(1) + ' A' + rib + ',' + rib + ' 0 0 0 ' + i1[0].toFixed(1) + ',' + i1[1].toFixed(1) + ' Z', fill: cols[i] }));
+      var mid = (a0 + a1) / 2, lp = P(mid, R + 12), anchor = Math.cos(mid) < -0.1 ? 'end' : (Math.cos(mid) > 0.1 ? 'start' : 'middle');
+      svg.appendChild(mk('text', { x: lp[0].toFixed(1), y: lp[1].toFixed(1) + 3, 'text-anchor': anchor, 'font-size': 10.5, 'font-weight': 700, fill: cols[i], 'font-family': 'Inter, sans-serif' }, names[i]));
+    }
+  }
+
+  /* ---------- Sankey (flows source -> target) ---------- */
+  function sankey(id, o) {
+    var svg = frame(id); var vw = 460, vh = 300; svg.setAttribute('viewBox', '0 0 ' + vw + ' ' + vh);
+    var L = o.left, Rg = o.right, F = o.flows; // F[i][j] left i -> right j
+    var mT = 16, mB = 16, colW = 14, lx = 96, rx = vw - 96 - colW, H2 = vh - mT - mB;
+    var ltot = L.map(function(_, i){ return Rg.reduce(function(s, _2, j){ return s + F[i][j]; }, 0); });
+    var rtot = Rg.map(function(_, j){ return L.reduce(function(s, _2, i){ return s + F[i][j]; }, 0); });
+    var grand = ltot.reduce(function(a, b){ return a + b; }, 0);
+    var gap = 8;
+    function heights(tot){ var avail = H2 - gap * (tot.length - 1); return tot.map(function(t){ return avail * t / grand; }); }
+    var lh = heights(ltot), rh = heights(rtot);
+    var ly = [], ry = [], y = mT; L.forEach(function(_, i){ ly.push(y); y += lh[i] + gap; }); y = mT; Rg.forEach(function(_, j){ ry.push(y); y += rh[j] + gap; });
+    var loff = ly.slice(), roff = ry.slice();
+    // ribbons
+    for (var i = 0; i < L.length; i++) for (var j = 0; j < Rg.length; j++) {
+      var f = F[i][j]; if (f <= 0) continue;
+      var t = (H2 - gap * (L.length - 1)) * f / grand;
+      var y0a = loff[i], y0b = y0a + t, y1a = roff[j], y1b = y1a + t;
+      loff[i] = y0b; roff[j] = y1b;
+      var x0 = lx + colW, x1 = rx, xm = (x0 + x1) / 2;
+      var d = 'M' + x0 + ',' + y0a.toFixed(1) + ' C' + xm + ',' + y0a.toFixed(1) + ' ' + xm + ',' + y1a.toFixed(1) + ' ' + x1 + ',' + y1a.toFixed(1) +
+        ' L' + x1 + ',' + y1b.toFixed(1) + ' C' + xm + ',' + y1b.toFixed(1) + ' ' + xm + ',' + y0b.toFixed(1) + ' ' + x0 + ',' + y0b.toFixed(1) + ' Z';
+      var rp = mk('path', { d: d, fill: o.lcolors[i], 'fill-opacity': 0.38 }); svg.appendChild(rp); fadeIn(rp, (i + j) * 0.04);
+    }
+    // nodes + labels
+    L.forEach(function(nm, i){ svg.appendChild(mk('rect', { x: lx, y: ly[i], width: colW, height: Math.max(2, lh[i]), rx: 2, fill: o.lcolors[i] }));
+      svg.appendChild(mk('text', { x: lx - 8, y: ly[i] + lh[i] / 2 + 4, 'text-anchor': 'end', 'font-size': 10.5, 'font-weight': 700, fill: ink(), 'font-family': 'Inter, sans-serif' }, nm)); });
+    Rg.forEach(function(nm, j){ svg.appendChild(mk('rect', { x: rx, y: ry[j], width: colW, height: Math.max(2, rh[j]), rx: 2, fill: o.rcolor || '#64748b' }));
+      svg.appendChild(mk('text', { x: rx + colW + 8, y: ry[j] + rh[j] / 2 + 4, 'font-size': 10.5, 'font-weight': 700, fill: ink(), 'font-family': 'Inter, sans-serif' }, nm)); });
+  }
+
   /* ---------- Framework: Arnstein's ladder ---------- */
   function ladder(id) {
     var svg = frame(id); if (!svg) return;
@@ -609,6 +675,31 @@ window.LV = (function() {
           { name:'S. Korea', color:'#7c3aed', pts:[[5.99,53.8],[2.82,66],[1.48,75.9],[0.78,82.7]] }
         ] });
 
+    chord('c-migration',
+      { names: ['Africa','Asia','Europe','Lat. America','N. America','Oceania'],
+        colors: ['#f59e0b','#e11d48','#4f46e5','#0d9488','#7c3aed','#64748b'],
+        matrix: [
+          [0, 5, 11, 0.5, 3, 0.5],
+          [4, 0, 23, 0.5, 16, 3],
+          [1, 7, 0, 1.5, 6, 1.5],
+          [0.2, 0.5, 5, 0, 26, 0.3],
+          [0.2, 0.6, 1, 1.5, 0, 0.2],
+          [0.1, 0.4, 0.7, 0.1, 0.3, 0]
+        ] });
+
+    sankey('c-where',
+      { left: ['Asia','Africa','Europe','Lat. America','N. America','Oceania'],
+        right: ['Low income','Lower-middle','Upper-middle','High income'],
+        lcolors: ['#e11d48','#f59e0b','#4f46e5','#0d9488','#7c3aed','#64748b'],
+        flows: [
+          [0.5, 2.3, 1.55, 0.43],
+          [0.55, 0.75, 0.13, 0.03],
+          [0, 0.02, 0.20, 0.52],
+          [0, 0.14, 0.46, 0.06],
+          [0, 0, 0, 0.38],
+          [0, 0.014, 0, 0.032]
+        ] });
+
     ethicChart('c-ethic');
 
     ladder('f-ladder');
@@ -812,8 +903,20 @@ window.LV = (function() {
 
   function drawMasters(){ drawRose(); drawMinard(); drawSnow(); drawDuBois(); }
 
-  var ORDER = ['c-gender','c-caste','c-co2','c-energy','c-nfhs','c-forest','c-decline','c-transition','c-poverty','c-u5mr','c-flfp','c-pipeline','c-climate'];
+  var ORDER = ['c-gender','c-caste','c-co2','c-energy','c-nfhs','c-forest','c-decline','c-transition','c-migration','c-where','c-poverty','c-u5mr','c-flfp','c-pipeline','c-climate'];
   var DETAILS = {
+    'c-migration': { tag:'Migration', title:'Migration is a web',
+      takeaway:"People move in every direction between world regions — not just South to North. The biggest single cross-region pull is into Northern America.",
+      source:"UN DESA, International Migrant Stock 2020 — between-region flows, regional aggregates (approximate, millions). Within-region migration (most of the total) is left out for clarity.",
+      why:"A chord diagram is built for flows between a set of places: each region is an arc, each ribbon a flow, sized by how many people moved. It shows the whole web at once, in both directions.",
+      how:"Region arcs sized by total cross-region movement, ribbons sized by each pair's flow. Drawn in SVG from the UN DESA regional matrix; figures are rounded aggregates.",
+      look:"How thick each ribbon is, and that most regions both send and receive — migration runs both ways." },
+    'c-where': { tag:'Population & Income', title:'Where the world lives',
+      takeaway:"Most of humanity is in Asia and in the lower- and upper-middle income bands; high income is a small slice, concentrated in a few regions.",
+      source:"World Bank — population by region and by income classification, 2023 (cross-tab approximate; marginals from World Bank).",
+      why:"A Sankey shows how one split maps onto another — here, region to income band — with band thickness as the number of people. It carries two breakdowns and their overlap in one picture.",
+      how:"Left nodes are regions, right nodes income bands; each ribbon's thickness is that region-and-band's population. Region totals and income totals are from the World Bank; the cell split is estimated to fit them.",
+      look:"How much of the world flows into 'lower-middle', and how thin the 'high income' band is." },
     'c-decline': { tag:'Child Survival', title:'The great decline',
       takeaway:"Across very different countries, under-five deaths fell sharply over thirty years — even Rwanda, after its 1994 spike.",
       source:"UN Inter-agency Group for Child Mortality Estimation / World Bank (SH.DYN.MORT), 1990–2022.",
