@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="An ImpactMojo original chart, explained: the data and source, why this chart type, how it's built, and what to look for.">
+<title>Chart — The Long View | ImpactMojo</title>
+<link href="/assets/images/favicon.png" rel="icon" type="image/png">
+<meta name="theme-color" content="#667eea">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&amp;family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+:root{--font-body:'Amaranth',Arial,sans-serif;--font-heading:'Inter',Helvetica,sans-serif;--font-mono:'JetBrains Mono',monospace;--color-primary:#667eea;--color-text:#2d3748;--color-text-muted:#718096;--color-bg:#f7fafc;--color-bg-card:#fff;--color-border:#e2e8f0;--chart-ink:#475569;--chart-grid:#e8edf4;}
+[data-theme="dark"]{--color-text:#e2e8f0;--color-text-muted:#a0aec0;--color-bg:#141a26;--color-bg-card:#1f2735;--color-border:#33415a;--chart-ink:#aab6cc;--chart-grid:#2c374a;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:var(--font-body);color:var(--color-text);background:var(--color-bg);line-height:1.65;padding-top:44px;-webkit-font-smoothing:antialiased;}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important;}}
+h1,h2,h3{font-family:var(--font-heading);font-weight:800;line-height:1.2;}
+a{color:var(--color-primary);}
+.skip-link{position:absolute;left:-999px;top:0;z-index:10000;background:var(--color-primary);color:#fff;padding:10px 16px;border-radius:0 0 8px 0;}
+.skip-link:focus{left:0;}
+.im-topbar{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(16,21,34,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.08);padding:.5rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:.75rem;}
+.im-topbar-home{display:flex;align-items:center;gap:.5rem;color:#fff;text-decoration:none;font-family:var(--font-heading);font-weight:700;}
+.im-theme-selector{display:flex;gap:2px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:2px;}
+.im-theme-btn{background:transparent;border:none;color:#9aa6c8;padding:6px;border-radius:5px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;width:30px;height:30px;}
+.im-theme-btn:hover{background:rgba(255,255,255,.1);color:#fff;}
+.im-theme-btn.active{background:var(--color-primary);color:#fff;}
+.im-theme-btn svg{width:16px;height:16px;}
+.wrap{max-width:840px;margin:0 auto;padding:2rem 1.5rem 3rem;}
+.crumb{font-family:var(--font-mono);font-size:.8rem;color:var(--color-text-muted);text-decoration:none;}
+.crumb:hover{color:var(--color-primary);}
+.tag{display:inline-block;font-family:var(--font-mono);font-size:.7rem;letter-spacing:1.4px;text-transform:uppercase;color:var(--color-primary);background:rgba(102,126,234,.12);padding:.25rem .6rem;border-radius:6px;margin:1.4rem 0 .6rem;}
+h1{font-size:clamp(1.8rem,4vw,2.6rem);margin:0 0 .6rem;}
+.takeaway{font-size:1.2rem;color:var(--color-text);font-family:var(--font-heading);font-weight:600;margin:0 0 1.6rem;}
+.chart-stage{background:var(--color-bg-card);border:1px solid var(--color-border);border-radius:18px;padding:1.6rem;box-shadow:0 10px 30px rgba(15,23,42,.06);}
+.chart-stage svg{width:100%;height:auto;display:block;}
+.detail-grid{display:grid;grid-template-columns:1fr;gap:1.4rem;margin-top:2rem;}
+@media(min-width:640px){.detail-grid{grid-template-columns:1fr 1fr;}}
+.block{background:var(--color-bg-card);border:1px solid var(--color-border);border-radius:14px;padding:1.2rem 1.3rem;}
+.block h3{font-size:.78rem;font-family:var(--font-mono);letter-spacing:1.5px;text-transform:uppercase;color:var(--color-text-muted);margin:0 0 .5rem;}
+.block p{margin:0;font-size:.97rem;color:var(--color-text);}
+.block.source{grid-column:1/-1;}
+.block.source p{font-family:var(--font-mono);font-size:.86rem;color:var(--color-text-muted);}
+.pager{display:flex;justify-content:space-between;gap:1rem;margin-top:2.4rem;border-top:1px solid var(--color-border);padding-top:1.4rem;}
+.pager a{text-decoration:none;color:var(--color-text);max-width:46%;}
+.pager a span{display:block;font-family:var(--font-mono);font-size:.72rem;color:var(--color-text-muted);}
+.pager a strong{font-family:var(--font-heading);font-weight:700;font-size:.95rem;color:var(--color-primary);}
+.pager a.next{text-align:right;}
+.site-footer{background:#101522;color:#9aa6c8;text-align:center;padding:2rem 1.5rem;font-size:.85rem;}
+.site-footer a{color:#cdd5f2;}
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+<div class="im-topbar">
+  <a href="/index.html" class="im-topbar-home"><img src="/assets/images/ImpactMojo%20Logo.png" alt="ImpactMojo" width="28" height="28" style="border-radius:6px;"><span>ImpactMojo</span></a>
+  <div class="im-theme-selector" aria-label="Theme selection">
+    <button class="im-theme-btn" data-imtheme="system" title="System theme" aria-label="Use system theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
+    <button class="im-theme-btn" data-imtheme="light" title="Light theme" aria-label="Use light theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
+    <button class="im-theme-btn" data-imtheme="dark" title="Dark theme" aria-label="Use dark theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+  </div>
+</div>
+
+<main id="main" class="wrap">
+  <a href="/the-long-view.html" class="crumb">← The Long View</a>
+  <span class="tag" id="d-tag">Chart</span>
+  <h1 id="d-title">Loading…</h1>
+  <p class="takeaway" id="d-takeaway"></p>
+  <div class="chart-stage"><div id="chart-holder"></div></div>
+  <div class="detail-grid">
+    <div class="block"><h3>Why this chart</h3><p id="d-why"></p></div>
+    <div class="block"><h3>How it's built</h3><p id="d-how"></p></div>
+    <div class="block"><h3>What to look for</h3><p id="d-look"></p></div>
+    <div class="block source"><h3>The data</h3><p id="d-source"></p></div>
+  </div>
+  <nav class="pager">
+    <a class="prev" id="d-prev" href="#"><span>Previous</span><strong></strong></a>
+    <a class="next" id="d-next" href="#"><span>Next</span><strong></strong></a>
+  </nav>
+</main>
+
+<footer class="site-footer"><p>© 2026 ImpactMojo · <a href="/the-long-view.html">Back to The Long View</a> · <a href="/index.html">Home</a></p></footer>
+
+<script>
+(function(){
+  function getSys(){return window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}
+  function apply(t){var r=t==='system'?getSys():t;document.documentElement.setAttribute('data-theme',r);}
+  function upd(p){document.querySelectorAll('.im-theme-btn').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-imtheme')===p);});}
+  var saved=localStorage.getItem('im-theme')||'system';apply(saved);
+  document.addEventListener('DOMContentLoaded',function(){upd(saved);document.querySelectorAll('.im-theme-btn').forEach(function(b){b.addEventListener('click',function(){var t=this.getAttribute('data-imtheme');localStorage.setItem('im-theme',t);apply(t);upd(t);});});});
+  window.matchMedia('(prefers-color-scheme: light)').addEventListener('change',function(){if((localStorage.getItem('im-theme')||'system')==='system')apply('system');});
+})();
+</script>
+<script src="/js/longview-charts.js"></script>
+<script>
+(function(){
+  function init(){
+    var id=new URLSearchParams(location.search).get('c');
+    var d=LV.DETAILS&&LV.DETAILS[id];
+    if(!d){location.replace('/the-long-view.html');return;}
+    document.title=d.title+' — The Long View | ImpactMojo';
+    document.getElementById('d-tag').textContent=d.tag;
+    document.getElementById('d-title').textContent=d.title;
+    document.getElementById('d-takeaway').textContent=d.takeaway;
+    document.getElementById('d-why').textContent=d.why;
+    document.getElementById('d-how').textContent=d.how;
+    document.getElementById('d-look').textContent=d.look;
+    document.getElementById('d-source').textContent=d.source;
+    var holder=document.getElementById('chart-holder');
+    holder.innerHTML='<svg id="'+id+'" role="img" aria-label="'+d.title+'"></svg>';
+    LV.renderAll();
+    var order=LV.ORDER,i=order.indexOf(id),n=order.length;
+    var pv=order[(i-1+n)%n],nx=order[(i+1)%n];
+    var pe=document.getElementById('d-prev'),ne=document.getElementById('d-next');
+    pe.href='/the-long-view/chart.html?c='+pv; pe.querySelector('strong').textContent=LV.DETAILS[pv].title;
+    ne.href='/the-long-view/chart.html?c='+nx; ne.querySelector('strong').textContent=LV.DETAILS[nx].title;
+    new MutationObserver(function(ms){ms.forEach(function(m){if(m.attributeName==='data-theme')LV.renderAll();});}).observe(document.documentElement,{attributes:true});
+  }
+  if(document.readyState!=='loading')init();else document.addEventListener('DOMContentLoaded',init);
+})();
+</script>
+</body>
+</html>
