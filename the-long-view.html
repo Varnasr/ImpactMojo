@@ -774,26 +774,28 @@ a { color: var(--color-primary); }
   /* ---------- Beeswarm (distribution, one dot per item) ---------- */
   function beeswarm(id, data, o) {
     var svg = frame(id); if (!svg) return;
-    var mL = 22, mR = 18, mT = 44, mB = 42, y0 = (mT + (H - mB)) / 2, vMax = o.vMax, r = 4;
+    var mL = 26, mR = 22, mB = 46, baseY = H - mB, vMax = o.vMax, r = 3.6, step = r * 2.15;
     function X(v){ return mL + (v / vMax) * (W - mL - mR); }
-    svg.appendChild(mk('line', { x1: mL, y1: y0, x2: W - mR, y2: y0, stroke: gridc(), 'stroke-width': 1 }));
-    (o.ticks || []).forEach(function(t){ if (X(t) <= W - mR) { svg.appendChild(mk('line', { x1: X(t), y1: y0 - 4, x2: X(t), y2: y0 + 4, stroke: ink(), 'stroke-width': 1 })); tick(svg, X(t), y0 + 18, t); } });
+    svg.appendChild(mk('line', { x1: mL, y1: baseY, x2: W - mR, y2: baseY, stroke: ink(), 'stroke-width': 1.2 }));
+    (o.ticks || []).forEach(function(t){ if (X(t) <= W - mR) { svg.appendChild(mk('line', { x1: X(t), y1: baseY, x2: X(t), y2: baseY + 5, stroke: ink(), 'stroke-width': 1 })); tick(svg, X(t), baseY + 17, t); } });
     if (o.ref) {
-      svg.appendChild(mk('line', { x1: X(o.ref.v), y1: mT - 8, x2: X(o.ref.v), y2: H - mB + 8, stroke: ink(), 'stroke-width': 1, 'stroke-dasharray': '5,4', opacity: 0.65 }));
-      svg.appendChild(mk('text', { x: X(o.ref.v) + 4, y: mT, 'font-size': 9.5, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, o.ref.label));
+      svg.appendChild(mk('line', { x1: X(o.ref.v), y1: baseY, x2: X(o.ref.v), y2: 66, stroke: ink(), 'stroke-width': 1, 'stroke-dasharray': '5,4', opacity: 0.6 }));
+      svg.appendChild(mk('text', { x: X(o.ref.v) + 4, y: 62, 'font-size': 9.5, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, o.ref.label));
     }
     var placed = [];
     data.slice().sort(function(a, b){ return a.v - b.v; }).forEach(function(d){
-      var cx = X(d.v), cy = y0, k = 0, lim = (y0 - mT - r);
-      while (placed.some(function(p){ return Math.abs(p.x - cx) < r * 2 && Math.abs(p.y - cy) < r * 2; })) {
-        k++; cy = y0 + (k % 2 ? 1 : -1) * Math.ceil(k / 2) * (r * 1.8);
-        if (Math.ceil(k / 2) * (r * 1.8) > lim) break;
-      }
+      var cx = X(d.v), cy = baseY - r - 1, k = 0;
+      while (placed.some(function(p){ return Math.abs(p.x - cx) < step && Math.abs(p.y - cy) < step; })) { k++; cy = baseY - r - 1 - k * step; }
       placed.push({ x: cx, y: cy, d: d });
     });
-    placed.forEach(function(p){ var d = p.d; svg.appendChild(mk('circle', { cx: p.x, cy: p.y, r: d.hl ? 7 : 4, fill: d.hl ? o.hlColor : o.dotColor, 'fill-opacity': d.hl ? 1 : 0.78, stroke: d.hl ? '#fff' : 'none', 'stroke-width': d.hl ? 1.5 : 0 })); });
-    placed.forEach(function(p){ if (p.d.label) svg.appendChild(mk('text', { x: p.x, y: p.y - (p.d.hl ? 13 : 10), 'text-anchor': 'middle', 'font-size': p.d.hl ? 12 : 9.5, 'font-weight': p.d.hl ? 800 : 700, fill: p.d.hl ? o.hlColor : ink(), 'font-family': 'Inter, sans-serif' }, p.d.label)); });
-    svg.appendChild(mk('text', { x: (mL + W - mR) / 2, y: H - 8, 'text-anchor': 'middle', 'font-size': 10, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, o.axisLabel));
+    placed.forEach(function(p){ var d = p.d; svg.appendChild(mk('circle', { cx: p.x, cy: p.y, r: d.hl ? 6.5 : r, fill: d.hl ? o.hlColor : o.dotColor, 'fill-opacity': d.hl ? 1 : 0.8, stroke: d.hl ? '#fff' : 'none', 'stroke-width': d.hl ? 1.6 : 0 })); });
+    placed.forEach(function(p){
+      if (!p.d.label) return;
+      var ly = p.y - (p.d.hl ? 17 : 14);
+      svg.appendChild(mk('line', { x1: p.x, y1: p.y - (p.d.hl ? 9 : 6), x2: p.x, y2: ly + 3, stroke: p.d.hl ? o.hlColor : ink(), 'stroke-width': 1, opacity: 0.55 }));
+      svg.appendChild(mk('text', { x: p.x, y: ly, 'text-anchor': 'middle', 'font-size': p.d.hl ? 12 : 10, 'font-weight': p.d.hl ? 800 : 700, fill: p.d.hl ? o.hlColor : ink(), 'font-family': 'Inter, sans-serif' }, p.d.hl ? (p.d.label + ' ' + p.d.v + 't') : p.d.label));
+    });
+    svg.appendChild(mk('text', { x: (mL + W - mR) / 2, y: H - 6, 'text-anchor': 'middle', 'font-size': 9.5, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, o.axisLabel));
     if (o.callout) callout(svg, o.callout.x, o.callout.y, o.callout.anchor, o.callout.lines);
   }
 
@@ -931,24 +933,24 @@ a { color: var(--color-primary); }
   /* ---------- Framework: systems iceberg ---------- */
   function iceberg(id) {
     var svg = frame(id); if (!svg) return;
-    var waterY = 96;
-    svg.appendChild(mk('rect', { x: 0, y: waterY, width: W, height: H - waterY, fill: COL.blue, 'fill-opacity': 0.12 }));
-    svg.appendChild(mk('line', { x1: 0, y1: waterY, x2: W, y2: waterY, stroke: COL.blue, 'stroke-width': 1.5, 'stroke-dasharray': '5,4' }));
-    svg.appendChild(mk('text', { x: W - 8, y: waterY - 6, 'text-anchor': 'end', 'font-size': 9.5, fill: COL.blue, 'font-family': 'JetBrains Mono, monospace' }, 'waterline'));
-    // iceberg shape
-    var berg = mk('path', { d: 'M230,24 L300,96 L286,150 L250,210 L210,260 L170,210 L150,150 L160,96 Z', fill: '#cfe3f5', stroke: COL.blue, 'stroke-width': 1.5, opacity: 0.95 });
+    var waterY = 92, cx = 230;
+    // sea tint below the waterline
+    svg.appendChild(mk('rect', { x: 0, y: waterY, width: W, height: H - waterY, fill: '#4361ee', 'fill-opacity': 0.06 }));
+    // iceberg — small tip above water, broad mass below, centred
+    var berg = mk('path', { d: 'M230,30 L266,92 L300,150 L286,205 L250,248 L210,248 L174,205 L160,150 L194,92 Z', fill: '#cfe3f5', stroke: '#7da9d8', 'stroke-width': 1.5 });
     svg.appendChild(berg); fadeIn(berg, 0);
-    var layers = [
-      ['Events — what we see', waterY - 40, '#1d4ed8'],
-      ['Patterns of behaviour', waterY + 36, ink()],
-      ['Structures & systems', waterY + 96, ink()],
-      ['Mental models', waterY + 150, ink()]
-    ];
-    layers.forEach(function(l, i){
-      svg.appendChild(mk('text', { x: 24, y: l[1], 'font-size': 12, 'font-weight': i===0?800:700, fill: l[2], 'font-family': 'Inter, sans-serif' }, l[0]));
+    // waterline across the top
+    svg.appendChild(mk('line', { x1: 0, y1: waterY, x2: W, y2: waterY, stroke: '#4361ee', 'stroke-width': 1.4, 'stroke-dasharray': '6,4', opacity: 0.7 }));
+    svg.appendChild(mk('text', { x: W - 8, y: waterY - 6, 'text-anchor': 'end', 'font-size': 9.5, fill: '#4361ee', 'font-family': 'JetBrains Mono, monospace' }, 'waterline' ));
+    // above-water label on the tip
+    svg.appendChild(mk('text', { x: cx, y: 74, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 800, fill: '#1d4ed8', 'font-family': 'Inter, sans-serif' }, 'EVENTS'));
+    svg.appendChild(mk('text', { x: cx, y: 86, 'text-anchor': 'middle', 'font-size': 9, fill: '#1d4ed8', 'font-family': 'JetBrains Mono, monospace' }, 'what we see'));
+    // below-water layers, navy text on the light berg
+    [['Patterns of behaviour', 126], ['Structures & systems', 168], ['Mental models', 210]].forEach(function(l){
+      svg.appendChild(mk('text', { x: cx, y: l[1], 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 700, fill: '#13335f', 'font-family': 'Inter, sans-serif' }, l[0]));
     });
-    svg.appendChild(mk('text', { x: 24, y: 22, 'font-size': 10, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, 'above: reactive'));
-    svg.appendChild(mk('text', { x: 24, y: H - 10, 'font-size': 10, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, 'below: where change lasts'));
+    // contrast note
+    svg.appendChild(mk('text', { x: 12, y: H - 10, 'font-size': 9.5, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, 'below the surface: where lasting change happens' ));
   }
 
   /* ---------- Framework: make your own (closing) ---------- */
@@ -991,7 +993,7 @@ a { color: var(--color-primary); }
 
     beeswarm('c-co2',
       [{n:'Qatar',v:43.55,label:'Qatar'},{n:'Kuwait',v:24.90},{n:'UAE',v:20.22},{n:'Saudi',v:17.15},
-       {n:'Canada',v:14.91},{n:'Russia',v:14.45},{n:'Australia',v:14.21},{n:'USA',v:13.83,label:'USA'},
+       {n:'Canada',v:14.91},{n:'Russia',v:14.45},{n:'Australia',v:14.21},{n:'USA',v:13.83},
        {n:'S Korea',v:11.04},{n:'China',v:9.24},{n:'Iran',v:9.10},{n:'Poland',v:7.63},
        {n:'Japan',v:7.54},{n:'Germany',v:7.06},{n:'S Africa',v:6.56},{n:'UK',v:4.42},{n:'France',v:4.25},
        {n:'Indonesia',v:2.41},{n:'Brazil',v:2.20},{n:'India',v:2.07,hl:true,label:'India'},
