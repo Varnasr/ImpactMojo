@@ -489,6 +489,34 @@ window.LV = (function() {
     years.forEach(function(y, t){ if (t === 0 || t === n - 1 || y === 1990) tick(svg, X(t), vh - 8, y); });
   }
 
+  /* ---------- Population pyramid (two years, later filled + earlier outline) ---------- */
+  function pyramid(id, o) {
+    var svg = frame(id); if (!svg) return; var vw = 460, vh = 300; svg.setAttribute('viewBox', '0 0 ' + vw + ' ' + vh);
+    var ages = o.ages, A = o.a, B = o.b, n = ages.length, cx = vw / 2, mT = 36, mB = 22, gapc = 30, gap = 2;
+    var totA = 0, totB = 0; for (var i = 0; i < n; i++) { totA += A.m[i] + A.f[i]; totB += B.m[i] + B.f[i]; }
+    var bh = (vh - mT - mB) / n, half = cx - gapc - 24, maxPct = 0;
+    for (i = 0; i < n; i++) maxPct = Math.max(maxPct, A.m[i] / totA * 100, A.f[i] / totA * 100, B.m[i] / totB * 100, B.f[i] / totB * 100);
+    function Wd(p){ return p / maxPct * half; }
+    function Yt(i){ return (vh - mB) - (i + 1) * bh; }
+    for (i = 0; i < n; i++) {
+      var y = Yt(i) + gap / 2, h = bh - gap;
+      var wm = Wd(B.m[i] / totB * 100), wf = Wd(B.f[i] / totB * 100);
+      var rm = mk('rect', { x: cx - gapc - wm, y: y, width: wm, height: h, fill: B.mcolor, 'fill-opacity': 0.85 }); svg.appendChild(rm); fadeIn(rm, i * 0.02);
+      var rf = mk('rect', { x: cx + gapc, y: y, width: wf, height: h, fill: B.fcolor, 'fill-opacity': 0.85 }); svg.appendChild(rf); fadeIn(rf, i * 0.02);
+      if (i % 2 === 0 || i === n - 1) svg.appendChild(mk('text', { x: cx, y: y + h / 2 + 3, 'text-anchor': 'middle', 'font-size': 7.5, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, ages[i]));
+    }
+    function outline(arr, tot, side){ var pts = []; for (var k = 0; k < n; k++) { var y0 = Yt(k) + gap / 2, y1 = y0 + bh - gap, x = cx + side * gapc + side * Wd(arr[k] / tot * 100); pts.push([x, y0]); pts.push([x, y1]); } return 'M' + pts.map(function(p){ return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' L'); }
+    svg.appendChild(mk('path', { d: outline(A.m, totA, -1), fill: 'none', stroke: A.color, 'stroke-width': 1.6, 'stroke-dasharray': '3,2' }));
+    svg.appendChild(mk('path', { d: outline(A.f, totA, 1), fill: 'none', stroke: A.color, 'stroke-width': 1.6, 'stroke-dasharray': '3,2' }));
+    svg.appendChild(mk('text', { x: cx - gapc - half / 2, y: 18, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 700, fill: B.mcolor, 'font-family': 'Inter, sans-serif' }, 'Men'));
+    svg.appendChild(mk('text', { x: cx + gapc + half / 2, y: 18, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 700, fill: B.fcolor, 'font-family': 'Inter, sans-serif' }, 'Women'));
+    // legend
+    svg.appendChild(mk('rect', { x: 14, y: vh - 13, width: 12, height: 8, rx: 1, fill: B.mcolor, 'fill-opacity': 0.85 }));
+    svg.appendChild(mk('text', { x: 30, y: vh - 6, 'font-size': 9, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, B.name));
+    svg.appendChild(mk('line', { x1: 100, y1: vh - 9, x2: 116, y2: vh - 9, stroke: A.color, 'stroke-width': 1.6, 'stroke-dasharray': '3,2' }));
+    svg.appendChild(mk('text', { x: 120, y: vh - 6, 'font-size': 9, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, A.name + ' (outline)'));
+  }
+
   /* ---------- Framework: Arnstein's ladder ---------- */
   function ladder(id) {
     var svg = frame(id); if (!svg) return;
@@ -762,6 +790,11 @@ window.LV = (function() {
           { name:'N. America', color:'#64748b', vals:[199,226,252,277,313,343,377] }
         ] });
 
+    pyramid('c-pyramid',
+      { ages: ['0-4','5-9','10-14','15-19','20-24','25-29','30-34','35-39','40-44','45-49','50-54','55-59','60-64','65-69','70-74','75-79','80+'],
+        a: { name:'1990', color:'#94a3b8', m:[64,58,51,45,40,36,32,28,21,17,15,13,10,7,5,3,1], f:[60,53,47,42,37,33,29,25,19,16,15,12,10,7,5,3,3] },
+        b: { name:'2050', mcolor:'#4361ee', fcolor:'#d6336c', m:[49,51,53,55,56,57,59,62,64,65,62,56,50,42,31,22,23], f:[47,48,51,52,53,53,55,57,58,60,57,54,49,42,33,25,30] } });
+
     ethicChart('c-ethic');
 
     ladder('f-ladder');
@@ -965,7 +998,7 @@ window.LV = (function() {
 
   function drawMasters(){ drawRose(); drawMinard(); drawSnow(); drawDuBois(); }
 
-  var ORDER = ['c-gender','c-caste','c-co2','c-energy','c-nfhs','c-forest','c-decline','c-transition','c-migration','c-where','c-waffle','c-stream','c-poverty','c-u5mr','c-flfp','c-pipeline','c-climate'];
+  var ORDER = ['c-gender','c-caste','c-co2','c-energy','c-nfhs','c-forest','c-decline','c-transition','c-migration','c-where','c-waffle','c-stream','c-pyramid','c-poverty','c-u5mr','c-flfp','c-pipeline','c-climate'];
   var DETAILS = {
     'c-migration': { tag:'Migration', title:'Migration is a web',
       takeaway:"People move in every direction between world regions — not just South to North. The biggest single cross-region pull is into Northern America.",
@@ -997,6 +1030,12 @@ window.LV = (function() {
       why:"Small multiples — the same little chart repeated for each country, on a shared scale — let you compare many trajectories at once without one busy, tangled chart. Tufte's preferred way to show 'the same thing, everywhere'.",
       how:"One mini line per country, all on the same 0–215 axis, pulled directly from the World Bank API. The 1990 and 2022 values are printed on each.",
       look:"Almost every line falls. Rwanda's rises first (the genocide) then drops fastest; Nigeria starts highest and falls least." },
+    'c-pyramid': { tag:'Population', title:'From pyramid to barrel',
+      takeaway:"In 1990 India was a young country with a wide base of children. By 2050 the bulge moves up: far fewer kids, many more older adults.",
+      source:"UN World Population Prospects 2024, via PopulationPyramid.net — India by 5-year age band and sex, 1990 and 2050.",
+      why:"A population pyramid shows age and sex at once. Overlaying two years — 2050 filled, 1990 as a dashed outline — makes the shift in shape the story, not two charts you have to compare.",
+      how:"Bars are each band's share of that year's population (so the two years are comparable despite different totals); men left, women right; the 1990 outline sits over the 2050 bars.",
+      look:"The base narrows and the middle and top swell — a society growing older." },
     'c-transition': { tag:'Population', title:'Everyone walks the same road',
       takeaway:"Countries move from many children and short lives toward few children and long lives — the demographic transition — just at different times.",
       source:"World Bank — total fertility rate (SP.DYN.TFRT.IN) and life expectancy (SP.DYN.LE00.IN), 1960–2022.",
