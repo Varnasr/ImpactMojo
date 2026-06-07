@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.61.0 — June 7, 2026 (AI and Development — a new Deep Dive)
+
+### For Learners
+
+- **AI and Development** — a new curated Deep Dive that separates what artificial intelligence has genuinely achieved for anti-poverty work from what is merely being sold. Thirteen annotated readings hold two stories together: the breakthroughs (predicting poverty from satellites and phone data, AI against the SDGs) and the critique (decolonial AI, data colonialism, the politics of training data, Crawford's *Atlas of AI*), before turning to digital public infrastructure, the large-language-model moment, and what an equitable AI agenda would require in the Global South. Find it under **Deep Dives**.
+
 ## v10.60.0 — June 7, 2026 (Climate Migration in South Asia — a new Deep Dive)
 
 ### For Learners
