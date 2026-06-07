@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.58.0 — June 7, 2026 (The Stunting Puzzle — a new Deep Dive)
+
+### For Learners
+
+- **The Stunting Puzzle** — a new curated Deep Dive reading list on why South Asia's children are among the most stunted in the world despite rising incomes. Thirteen annotated readings move from the puzzle itself (the "Asian Enigma") through how stunting is measured and what it costs over a lifetime, into the contested causes — maternal nutrition and women's status, sanitation and the first 1,000 days — and out to the evidence on what works, from Bangladesh's surprising decline to India's POSHAN Abhiyaan. Find it under **Deep Dives**.
+
 ## v10.57.0 — June 7, 2026 (Logframe 101 — the logical framework, built from the results chain up)
 
 ### For Learners
