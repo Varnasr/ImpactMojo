@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.59.0 — June 7, 2026 (The Care Economy — a new Deep Dive)
+
+### For Learners
+
+- **The Care Economy** — a new curated Deep Dive on the unpaid work that holds every economy up, and that the national accounts still refuse to count. Fourteen annotated readings run from the feminist economics that exposed the gap (Marilyn Waring, Nancy Folbre, Shahra Razavi's "care diamond") through the time-use data that finally measured it (India's 2019 survey, the ILO's global estimates, Oxfam's *Time to Care*) to Diane Elson's Recognize–Reduce–Redistribute agenda now written into the SDGs — with a close look at why the care burden falls so heavily on women in South Asia. Find it under **Deep Dives**.
+
 ## v10.58.0 — June 7, 2026 (The Stunting Puzzle — a new Deep Dive)
 
 ### For Learners
