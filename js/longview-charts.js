@@ -449,6 +449,46 @@ window.LV = (function() {
       svg.appendChild(mk('text', { x: rx + colW + 8, y: ry[j] + rh[j] / 2 + 4, 'font-size': 10.5, 'font-weight': 700, fill: ink(), 'font-family': 'Inter, sans-serif' }, nm)); });
   }
 
+  /* ---------- Waffle (small multiples of 10x10 grids) ---------- */
+  function waffle(id, o) {
+    var svg = frame(id); if (!svg) return; var vw = 460, vh = 268; svg.setAttribute('viewBox', '0 0 ' + vw + ' ' + vh);
+    var items = o.items, cols = o.cols || 3, rows = Math.ceil(items.length / cols);
+    var cw = vw / cols, ch = vh / rows, sq = 6.2, g = 1.7, grid = 10;
+    items.forEach(function(it, i){
+      var c = i % cols, r = Math.floor(i / cols), ox = c * cw + 16, oy = r * ch + 10;
+      var gx0 = ox, gy0 = oy + 20, filled = Math.round(it.pct);
+      svg.appendChild(mk('text', { x: gx0, y: oy + 12, 'font-size': 11, 'font-weight': 700, fill: ink(), 'font-family': 'Inter, sans-serif' }, it.label));
+      for (var k = 0; k < 100; k++) {
+        var rr = Math.floor(k / grid), cc = k % grid, fromBottom = (grid - 1 - rr) * grid + cc, on = fromBottom < filled;
+        svg.appendChild(mk('rect', { x: gx0 + cc * (sq + g), y: gy0 + rr * (sq + g), width: sq, height: sq, rx: 1.2, fill: on ? it.color : gridc() }));
+      }
+      var gw = grid * (sq + g);
+      svg.appendChild(mk('text', { x: gx0 + gw + 6, y: gy0 + gw / 2 + 2, 'font-size': 20, 'font-weight': 800, fill: it.color, 'font-family': 'Inter, sans-serif' }, it.pct));
+      svg.appendChild(mk('text', { x: gx0 + gw + 6, y: gy0 + gw / 2 + 16, 'font-size': 9, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, 'in 100'));
+    });
+  }
+
+  /* ---------- Stream graph (centred stacked area over time) ---------- */
+  function streamGraph(id, o) {
+    var svg = frame(id); if (!svg) return; var vw = 460, vh = 300; svg.setAttribute('viewBox', '0 0 ' + vw + ' ' + vh);
+    var mL = 10, mR = 96, mT = 14, mB = 26, years = o.years, S = o.series, n = years.length;
+    var totals = years.map(function(_, t){ return S.reduce(function(s, ser){ return s + ser.vals[t]; }, 0); });
+    var maxTot = Math.max.apply(null, totals), Hh = vh - mT - mB, cyc = mT + Hh / 2;
+    function X(t){ return mL + t / (n - 1) * (vw - mL - mR); }
+    function sY(v){ return v / maxTot * Hh; }
+    var tops = [];
+    for (var t = 0; t < n; t++) { var off = cyc - sY(totals[t]) / 2; tops.push([]); for (var i = 0; i < S.length; i++) { tops[t][i] = off; off += sY(S[i].vals[t]); } }
+    S.forEach(function(ser, i){
+      var top = [], bot = [];
+      for (var t = 0; t < n; t++) { top.push([X(t), tops[t][i]]); bot.push([X(t), tops[t][i] + sY(ser.vals[t])]); }
+      var d = 'M' + top.map(function(p){ return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' L') + ' L' + bot.reverse().map(function(p){ return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' L') + ' Z';
+      var rp = mk('path', { d: d, fill: ser.color, 'fill-opacity': 0.88 }); svg.appendChild(rp); fadeIn(rp, i * 0.06);
+      var ly = tops[n-1][i] + sY(ser.vals[n-1]) / 2;
+      svg.appendChild(mk('text', { x: vw - mR + 6, y: ly + 3, 'font-size': 9.5, 'font-weight': 700, fill: ser.color, 'font-family': 'Inter, sans-serif' }, ser.name));
+    });
+    years.forEach(function(y, t){ if (t === 0 || t === n - 1 || y === 1990) tick(svg, X(t), vh - 8, y); });
+  }
+
   /* ---------- Framework: Arnstein's ladder ---------- */
   function ladder(id) {
     var svg = frame(id); if (!svg) return;
@@ -700,6 +740,28 @@ window.LV = (function() {
           [0, 0.014, 0, 0.032]
         ] });
 
+    waffle('c-waffle',
+      { items: [
+        { label:'Electricity', pct:97, color:'#f59e0b' },
+        { label:'A toilet', pct:70, color:'#0d9488' },
+        { label:'Clean fuel', pct:59, color:'#e11d48' },
+        { label:'A bank a/c', pct:78, color:'#4f46e5' },
+        { label:'The internet', pct:46, color:'#7c3aed' },
+        { label:'Health cover', pct:41, color:'#2563eb' }
+      ] });
+
+    streamGraph('c-stream',
+      { years: [1960,1970,1980,1990,2000,2010,2023],
+        series: [
+          { name:'East Asia', color:'#e11d48', vals:[1043,1289,1555,1818,2050,2215,2384] },
+          { name:'South Asia', color:'#4f46e5', vals:[508,640,806,1013,1237,1445,1663] },
+          { name:'Africa', color:'#f59e0b', vals:[228,294,390,521,681,895,1260] },
+          { name:'MENA+', color:'#0d9488', vals:[158,208,279,383,495,625,798] },
+          { name:'Europe', color:'#7c3aed', vals:[668,739,795,845,865,891,925] },
+          { name:'Lat. America', color:'#0ea5a4', vals:[219,285,360,441,520,588,658] },
+          { name:'N. America', color:'#64748b', vals:[199,226,252,277,313,343,377] }
+        ] });
+
     ethicChart('c-ethic');
 
     ladder('f-ladder');
@@ -903,7 +965,7 @@ window.LV = (function() {
 
   function drawMasters(){ drawRose(); drawMinard(); drawSnow(); drawDuBois(); }
 
-  var ORDER = ['c-gender','c-caste','c-co2','c-energy','c-nfhs','c-forest','c-decline','c-transition','c-migration','c-where','c-poverty','c-u5mr','c-flfp','c-pipeline','c-climate'];
+  var ORDER = ['c-gender','c-caste','c-co2','c-energy','c-nfhs','c-forest','c-decline','c-transition','c-migration','c-where','c-waffle','c-stream','c-poverty','c-u5mr','c-flfp','c-pipeline','c-climate'];
   var DETAILS = {
     'c-migration': { tag:'Migration', title:'Migration is a web',
       takeaway:"People move in every direction between world regions — not just South to North. The biggest single cross-region pull is into Northern America.",
@@ -917,6 +979,18 @@ window.LV = (function() {
       why:"A Sankey shows how one split maps onto another — here, region to income band — with band thickness as the number of people. It carries two breakdowns and their overlap in one picture.",
       how:"Left nodes are regions, right nodes income bands; each ribbon's thickness is that region-and-band's population. Region totals and income totals are from the World Bank; the cell split is estimated to fit them.",
       look:"How much of the world flows into 'lower-middle', and how thin the 'high income' band is." },
+    'c-waffle': { tag:'Access', title:'If India were 100 people',
+      takeaway:"Almost everyone has electricity, but far fewer have clean cooking fuel, the internet, or health cover.",
+      source:"NFHS-5 (2019–21) for household amenities; Global Findex 2021 for bank accounts.",
+      why:"A waffle turns a percentage into a hundred squares, so 'X in 100' is something you can count, not just read. A grid of them compares several access gaps at once.",
+      how:"Each block is a 10×10 grid; coloured squares fill from the bottom up to the share who have that thing.",
+      look:"How full each grid is — electricity nearly complete, health cover barely two-fifths." },
+    'c-stream': { tag:'Population', title:'The world’s shifting weight',
+      takeaway:"Asia is still most populous, but Africa is the fastest-growing band — the world's centre of gravity is moving.",
+      source:"World Bank — population by region (SP.POP.TOTL), 1960–2023, via the World Bank API.",
+      why:"A stream graph stacks each region's population into a flowing band, so you see the total swelling and each region's changing share at once.",
+      how:"Bands stacked around a centred baseline, sized by population each year, from the World Bank regional series.",
+      look:"How the Africa band widens fastest while Europe and North America stay nearly flat." },
     'c-decline': { tag:'Child Survival', title:'The great decline',
       takeaway:"Across very different countries, under-five deaths fell sharply over thirty years — even Rwanda, after its 1994 spike.",
       source:"UN Inter-agency Group for Child Mortality Estimation / World Bank (SH.DYN.MORT), 1990–2022.",
