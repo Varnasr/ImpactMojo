@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.60.0 — June 7, 2026 (Climate Migration in South Asia — a new Deep Dive)
+
+### For Learners
+
+- **Climate Migration in South Asia** — a new curated Deep Dive on how a warming climate is reshaping where people in the region can live and work. Thirteen annotated readings move from the science and the headline projections (the IPCC's AR6, the World Bank's *Groundswell*) through the framing that reshaped the field — migration as adaptation, and the "trapped populations" too poor to move — into South Asia's specific deltas, coasts, and drylands, and out to the hard questions of protection, Loss and Damage, and who pays. A clear-eyed guide past the "climate refugee" headlines. Find it under **Deep Dives**.
+
 ## v10.59.0 — June 7, 2026 (The Care Economy — a new Deep Dive)
 
 ### For Learners
