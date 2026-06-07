@@ -440,12 +440,12 @@ window.LV = (function() {
       var x0 = lx + colW, x1 = rx, xm = (x0 + x1) / 2;
       var d = 'M' + x0 + ',' + y0a.toFixed(1) + ' C' + xm + ',' + y0a.toFixed(1) + ' ' + xm + ',' + y1a.toFixed(1) + ' ' + x1 + ',' + y1a.toFixed(1) +
         ' L' + x1 + ',' + y1b.toFixed(1) + ' C' + xm + ',' + y1b.toFixed(1) + ' ' + xm + ',' + y0b.toFixed(1) + ' ' + x0 + ',' + y0b.toFixed(1) + ' Z';
-      var rp = mk('path', { d: d, fill: o.lcolors[i], 'fill-opacity': 0.38 }); svg.appendChild(rp); fadeIn(rp, (i + j) * 0.04);
+      var rp = mk('path', { d: d, fill: o.lcolors[i], 'fill-opacity': 0.5 }); svg.appendChild(rp); fadeIn(rp, (i + j) * 0.04);
     }
     // nodes + labels
     L.forEach(function(nm, i){ svg.appendChild(mk('rect', { x: lx, y: ly[i], width: colW, height: Math.max(2, lh[i]), rx: 2, fill: o.lcolors[i] }));
       svg.appendChild(mk('text', { x: lx - 8, y: ly[i] + lh[i] / 2 + 4, 'text-anchor': 'end', 'font-size': 10.5, 'font-weight': 700, fill: ink(), 'font-family': 'Inter, sans-serif' }, nm)); });
-    Rg.forEach(function(nm, j){ svg.appendChild(mk('rect', { x: rx, y: ry[j], width: colW, height: Math.max(2, rh[j]), rx: 2, fill: o.rcolor || '#64748b' }));
+    Rg.forEach(function(nm, j){ svg.appendChild(mk('rect', { x: rx, y: ry[j], width: colW, height: Math.max(2, rh[j]), rx: 2, fill: (o.rcolors && o.rcolors[j]) || o.rcolor || '#64748b' }));
       svg.appendChild(mk('text', { x: rx + colW + 8, y: ry[j] + rh[j] / 2 + 4, 'font-size': 10.5, 'font-weight': 700, fill: ink(), 'font-family': 'Inter, sans-serif' }, nm)); });
   }
 
@@ -796,6 +796,18 @@ window.LV = (function() {
           [0, 0.014, 0, 0.032]
         ] });
 
+    sankey('c-ghg',
+      { left: ['Energy','Agriculture','Industry','Waste'],
+        right: ['CO₂','Methane','Nitrous oxide','F-gases'],
+        lcolors: ['#64748b','#16a34a','#7c3aed','#f59e0b'],
+        rcolors: ['#64748b','#ea580c','#9333ea','#0891b2'],
+        flows: [
+          [2160, 50, 34, 0],
+          [0, 290, 116, 0],
+          [200, 0, 0, 39],
+          [0, 60, 11, 0]
+        ] });
+
     waffle('c-waffle',
       { items: [
         { label:'Electricity', pct:97, color:'#f59e0b' },
@@ -1037,7 +1049,7 @@ window.LV = (function() {
 
   function drawMasters(){ drawRose(); drawMinard(); drawSnow(); drawDuBois(); }
 
-  var ORDER = ['c-gender','c-caste','c-co2','c-energy','c-nfhs','c-forest','c-decline','c-transition','c-migration','c-where','c-waffle','c-stream','c-pyramid','c-states','c-poverty','c-u5mr','c-flfp','c-pipeline','c-climate'];
+  var ORDER = ['c-gender','c-caste','c-co2','c-energy','c-nfhs','c-forest','c-decline','c-transition','c-migration','c-where','c-ghg','c-waffle','c-stream','c-pyramid','c-states','c-poverty','c-u5mr','c-flfp','c-pipeline','c-climate'];
   var DETAILS = {
     'c-migration': { tag:'Migration', title:'Migration is a web',
       takeaway:"People move in every direction between world regions — not just South to North. The biggest single cross-region pull is into Northern America.",
@@ -1045,6 +1057,12 @@ window.LV = (function() {
       why:"A chord diagram is built for flows between a set of places: each region is an arc, each ribbon a flow, sized by how many people moved. It shows the whole web at once, in both directions.",
       how:"Region arcs sized by total cross-region movement, ribbons sized by each pair's flow. Drawn in SVG from the UN DESA regional matrix; figures are rounded aggregates.",
       look:"How thick each ribbon is, and that most regions both send and receive — migration runs both ways." },
+    'c-ghg': { tag:'Climate', title:'India’s greenhouse gases',
+      takeaway:"Energy dominates India's emissions and is almost all CO₂; agriculture is the big source of methane and nitrous oxide.",
+      source:"India's Fourth Biennial Update Report to the UNFCCC (BUR4, 2020), excluding land use. Sector-by-gas split approximate.",
+      why:"A Sankey is built for tracing where something goes — here, emissions flowing from the sector that produces them to the gas they're made of. You see both breakdowns, and how they connect, in one picture.",
+      how:"Left nodes are emitting sectors, right nodes are gases; each ribbon's thickness is that sector's emissions of that gas, in MtCO₂e. Drawn from India's BUR4 totals.",
+      look:"How Energy pours almost entirely into CO₂, while Agriculture splits into methane and nitrous oxide." },
     'c-where': { tag:'Population & Income', title:'Where the world lives',
       takeaway:"Most of humanity is in Asia and in the lower- and upper-middle income bands; high income is a small slice, concentrated in a few regions.",
       source:"World Bank — population by region and by income classification, 2023 (cross-tab approximate; marginals from World Bank).",
