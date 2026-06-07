@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.62.0 — June 7, 2026 (Two new data-literacy pages for The Long View)
+
+### For Learners
+
+- **Numbers in the News** — a reader's field guide to the statistics that pass for facts. Eight ways numbers mislead — the missing denominator, percent vs percentage points, base rates and false positives, the truncated axis, the cherry-picked baseline, margin of error, correlation vs causation, and survivorship bias — each with a small interactive example you can poke at, plus a pocket checklist of questions to ask any number. Find it under **The Long View**.
+- **The Evidence Map** — an interactive guide to evidence gap maps: how to read what works in development, how strong the evidence is, and where the gaps are. Includes a clickable illustrative map for the education sector and links straight to the authoritative, continuously-updated maps from 3ie, Cochrane, the Campbell Collaboration and J-PAL. Find it under **The Long View**.
+
 ## v10.61.0 — June 7, 2026 (AI and Development — a new Deep Dive)
 
 ### For Learners
