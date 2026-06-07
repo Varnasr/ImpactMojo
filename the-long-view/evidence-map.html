@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+<meta name="description" content="What is an evidence gap map, and how do you read one? An interactive, illustrative evidence map of what works in education for development — with links to the authoritative maps from 3ie, Cochrane, Campbell and J-PAL. A companion to ImpactMojo's The Long View.">
+<title>The Evidence Map — what works, and what we don't know | The Long View</title>
+<link href="/assets/images/favicon.png" rel="icon" type="image/png">
+<meta name="theme-color" content="#667eea">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.impactmojo.in/the-long-view/evidence-map.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Evidence Map — what works, and what we don't know">
+<meta property="og:description" content="An interactive guide to evidence gap maps — what works in development, how strong the evidence is, and where the gaps are. With links to the real maps from 3ie, Cochrane and J-PAL.">
+<meta property="og:url" content="https://www.impactmojo.in/the-long-view/evidence-map.html">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta name="twitter:card" content="summary_large_image">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&amp;family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/longview.css">
+<style>
+/* Evidence Map — page-specific */
+.em-note { background: var(--color-bg-card); border: 1px solid var(--color-border); border-left: 3px solid var(--color-accent-pink); border-radius: 0 12px 12px 0; padding: 1.1rem 1.4rem; margin: 1.5rem 0; font-size: .95rem; color: var(--color-text); }
+.em-note b { color: var(--color-accent-pink); }
+.em-legend { display: flex; flex-wrap: wrap; gap: 1.4rem; align-items: center; margin: 1.5rem 0; font-family: var(--font-mono); font-size: .78rem; color: var(--color-text-muted); }
+.em-legend .grp { display: flex; align-items: center; gap: .5rem; }
+.em-dot { display: inline-block; border-radius: 50%; }
+.em-c-high { background: #1A9E6B; } .em-c-med { background: #E8A33D; } .em-c-low { background: #C95D6B; } .em-c-none { background: transparent; border: 1.5px dashed var(--color-border); }
+.em-scroll { overflow-x: auto; border: 1px solid var(--color-border); border-radius: 16px; background: var(--color-bg-card); }
+.em-grid { border-collapse: collapse; min-width: 640px; width: 100%; font-family: var(--font-body); }
+.em-grid th { font-family: var(--font-mono); font-size: .76rem; font-weight: 600; color: var(--color-text-muted); padding: .9rem .6rem; text-align: center; vertical-align: bottom; border-bottom: 1px solid var(--color-border); line-height: 1.25; }
+.em-grid th.em-rowhead { text-align: left; min-width: 180px; position: sticky; left: 0; background: var(--color-bg-card); z-index: 2; }
+.em-grid td.em-rowhead { font-family: var(--font-heading); font-weight: 600; font-size: .92rem; padding: .7rem .8rem; text-align: left; min-width: 180px; border-bottom: 1px solid var(--color-border); position: sticky; left: 0; background: var(--color-bg-card); z-index: 1; }
+.em-grid td.em-cell { text-align: center; border-bottom: 1px solid var(--color-border); padding: .4rem; }
+.em-bub { display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; cursor: pointer; transition: transform .15s, box-shadow .15s; color: #fff; font-family: var(--font-mono); font-weight: 700; font-size: .72rem; border: none; }
+.em-bub:hover { transform: scale(1.12); box-shadow: 0 0 0 3px rgba(102,126,234,.3); }
+.em-bub:focus-visible { outline: 3px solid var(--color-primary); outline-offset: 2px; }
+.em-gap { display: inline-block; width: 12px; height: 12px; border-radius: 50%; border: 1.5px dashed var(--color-border); opacity: .6; }
+.em-panel { background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 16px; padding: 1.6rem; margin-top: 1.5rem; min-height: 120px; }
+.em-panel .em-ph { color: var(--color-text-muted); font-style: italic; }
+.em-panel h3 { font-family: var(--font-heading); font-size: 1.25rem; margin: 0 0 .2rem; }
+.em-panel .em-pair { font-family: var(--font-mono); font-size: .78rem; color: var(--color-text-muted); margin-bottom: .8rem; }
+.em-conf { display: inline-block; font-family: var(--font-mono); font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: .2rem .6rem; border-radius: 5px; color: #fff; margin-bottom: .8rem; }
+.em-panel p { font-size: 1rem; line-height: 1.6; margin: 0 0 .8rem; }
+.em-sources a { font-family: var(--font-mono); font-size: .8rem; color: var(--color-primary); text-decoration: none; border-bottom: 1px solid transparent; }
+.em-sources a:hover { border-bottom-color: var(--color-primary); }
+.em-steps { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); margin-top: 1rem; }
+.em-step { background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 14px; padding: 1.2rem; }
+.em-step .n { font-family: var(--font-mono); color: var(--color-accent-pink); font-weight: 700; font-size: .8rem; }
+.em-step h4 { font-family: var(--font-heading); font-size: 1.05rem; margin: .3rem 0 .4rem; }
+.em-step p { font-size: .9rem; color: var(--color-text-muted); margin: 0; line-height: 1.5; }
+.em-real { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); margin-top: 1rem; }
+.em-real a { display: block; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem 1.1rem; text-decoration: none; color: var(--color-text); transition: border-color .15s; }
+.em-real a:hover { border-color: var(--color-primary); }
+.em-real h4 { font-family: var(--font-heading); font-size: 1rem; margin: 0 0 .25rem; color: var(--color-primary); }
+.em-real span { font-size: .85rem; color: var(--color-text-muted); }
+.em-related { margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: .6rem; }
+.em-related a { font-family: var(--font-mono); font-size: .8rem; padding: .5rem .9rem; border-radius: 8px; border: 1px solid var(--color-border); background: var(--color-bg-card); color: var(--color-text); text-decoration: none; transition: all .15s; }
+.em-related a:hover { border-color: var(--color-primary); color: var(--color-primary); }
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to content</a>
+<div class="im-topbar" id="imTopbar">
+  <div class="im-topbar-left">
+    <a href="/index.html" class="im-topbar-home"><img src="/assets/images/ImpactMojo%20Logo.png" alt="ImpactMojo" width="28" height="28" style="border-radius:6px;"><span>ImpactMojo</span></a>
+  </div>
+  <div class="im-topbar-right">
+    <a href="/the-long-view.html" class="im-premium-btn" style="background:rgba(255,255,255,0.08);">← The Long View</a>
+    <div class="im-theme-selector" aria-label="Theme selection">
+      <button class="im-theme-btn" data-imtheme="system" title="System theme" aria-label="Use system theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
+      <button class="im-theme-btn" data-imtheme="light" title="Light theme" aria-label="Use light theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
+      <button class="im-theme-btn" data-imtheme="dark" title="Dark theme" aria-label="Use dark theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<header class="hero" style="padding:4.5rem 1.5rem 3.5rem;">
+  <div class="hero-inner">
+    <span class="eyebrow">A companion to The Long View</span>
+    <h1 style="font-size:clamp(2.2rem,6vw,3.6rem);">The Evidence <span class="accent">Map</span></h1>
+    <p class="sub">Development is full of confident claims about "what works." An evidence gap map asks a harder question: how strong is the evidence, and where is it missing? Here's how to read one — and an interactive map you can click through.</p>
+  </div>
+</header>
+
+<main id="main-content">
+<section class="section">
+  <div class="wrap" style="max-width:920px;">
+    <div class="section-head" style="text-align:left;">
+      <span class="kicker">What it is</span>
+      <h2 style="text-align:left;">A map of what we know — and what we don't</h2>
+      <p style="margin-left:0;text-align:left;">An <b>evidence gap map</b> (EGM) is a grid. Down the side: the things you could <em>do</em> — interventions. Across the top: the things you might <em>change</em> — outcomes. In each cell, a bubble shows how much rigorous evidence exists for that pairing, and how confident we can be in it. Big confident bubbles mean "well studied, works." Empty cells — the <em>gaps</em> — mean "nobody really knows yet." The empty cells are often the most important thing on the map.</p>
+    </div>
+
+    <div class="em-note">
+      <b>Read this first.</b> The map below is an <b>illustrative teaching example</b> for the education-and-development sector. The pattern of confidence reflects the broad direction of well-known evidence syntheses, but the bubble sizes are simplified for clarity — they are not exact study counts. For the real, continuously-updated maps, use the authoritative sources linked at the bottom (3ie, Cochrane, the Campbell Collaboration, J-PAL).
+    </div>
+
+    <div class="em-legend">
+      <span class="grp"><b style="color:var(--color-text)">Colour = confidence:</b></span>
+      <span class="grp"><span class="em-dot em-c-high" style="width:14px;height:14px;"></span> High</span>
+      <span class="grp"><span class="em-dot em-c-med" style="width:14px;height:14px;"></span> Mixed / moderate</span>
+      <span class="grp"><span class="em-dot em-c-low" style="width:14px;height:14px;"></span> Weak / contested</span>
+      <span class="grp"><span class="em-dot em-c-none" style="width:14px;height:14px;"></span> Evidence gap</span>
+      <span class="grp" style="margin-left:auto;"><b style="color:var(--color-text)">Size = volume of evidence.</b> Click a bubble.</span>
+    </div>
+
+    <div class="em-scroll">
+      <table class="em-grid" id="emGrid" aria-label="Illustrative evidence gap map: interventions by outcomes in education for development"></table>
+    </div>
+
+    <div class="em-panel" id="emPanel" aria-live="polite">
+      <p class="em-ph">Click any bubble in the map above to see what the evidence says about that intervention–outcome pairing, how confident we can be, and where to read more.</p>
+    </div>
+
+    <div class="section-head" style="text-align:left;margin-top:3rem;">
+      <span class="kicker">How to read it</span>
+      <h2 style="text-align:left;">Four moves of a careful reader</h2>
+    </div>
+    <div class="em-steps">
+      <div class="em-step"><div class="n">01</div><h4>Find the big green bubbles</h4><p>Well-studied pairings with consistent effects. This is where "what works" is on solid ground — act here with confidence.</p></div>
+      <div class="em-step"><div class="n">02</div><h4>Distrust a single study</h4><p>A small bubble is one or two trials. One striking result is a hypothesis, not a finding. Confidence comes from replication.</p></div>
+      <div class="em-step"><div class="n">03</div><h4>Hunt for the empty cells</h4><p>The gaps are where confident claims outrun the evidence. "Everyone knows X works" over an empty cell is a research agenda, not a fact.</p></div>
+      <div class="em-step"><div class="n">04</div><h4>Mind the context</h4><p>Evidence travels imperfectly. What worked in one country, scale, or population may not transfer. The map narrows uncertainty; it never removes it.</p></div>
+    </div>
+
+    <div class="section-head" style="text-align:left;margin-top:3rem;">
+      <span class="kicker">The real thing</span>
+      <h2 style="text-align:left;">Authoritative, continuously-updated maps</h2>
+      <p style="margin-left:0;text-align:left;">This page teaches the idea. For live evidence on a real decision, go to the source — these institutions build and maintain rigorous evidence gap maps and systematic reviews.</p>
+    </div>
+    <div class="em-real">
+      <a href="https://developmentevidence.3ieimpact.org/" target="_blank" rel="noopener"><h4>3ie Development Evidence Portal →</h4><span>The largest collection of evidence gap maps and impact evaluations for international development.</span></a>
+      <a href="https://www.cochranelibrary.com/" target="_blank" rel="noopener"><h4>Cochrane Library →</h4><span>The gold standard for systematic reviews in health and beyond.</span></a>
+      <a href="https://www.campbellcollaboration.org/" target="_blank" rel="noopener"><h4>Campbell Collaboration →</h4><span>Systematic reviews in education, social welfare, crime and justice.</span></a>
+      <a href="https://www.povertyactionlab.org/policy-insights" target="_blank" rel="noopener"><h4>J-PAL Policy Insights →</h4><span>What randomised evaluations tell us, summarised for decision-makers.</span></a>
+    </div>
+
+    <div class="em-related">
+      <a href="/the-long-view.html">← The Long View: our charts</a>
+      <a href="/the-long-view/numbers-in-the-news.html">Numbers in the News</a>
+      <a href="/101-courses/impact-eval.html">Impact Evaluation 101</a>
+      <a href="/101-courses/mel-basics.html">MEL Basics 101</a>
+      <a href="/DeepDives/the-learning-crisis.html">Deep Dive: The Learning Crisis</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-col"><h4>The Long View</h4><a href="/the-long-view.html">Our original charts</a><a href="/the-long-view/gallery.html">The classics &amp; greats</a><a href="/the-long-view/evidence-map.html">The Evidence Map</a></div>
+    <div class="footer-col"><h4>ImpactMojo</h4><a href="/about.html">About</a><a href="/dataverse.html">Dataverse</a><a href="/blog.html">Blog</a></div>
+    <div class="footer-col"><h4>Legal</h4><a href="/privacy-policy.html">Privacy</a><a href="/terms-of-service.html">Terms</a></div>
+    <div class="footer-col"><h4>More</h4><a href="/catalog.html">Courses</a><a href="https://github.com/ImpactMojo/ImpactMojo">GitHub</a></div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 ImpactMojo. The illustrative map is a teaching aid; for real evidence use the linked sources. Free forever, CC BY-NC-ND.</p></div>
+</footer>
+
+<script>
+/* theme (shared pattern) */
+(function(){function gs(){return window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}function ap(t){document.documentElement.setAttribute('data-theme',t==='system'?gs():t);document.body.classList.remove('dark-mode','light-mode');document.body.classList.add((t==='system'?gs():t)==='light'?'light-mode':'dark-mode');}function ub(p){document.querySelectorAll('.im-theme-btn').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-imtheme')===p);});}var sv=localStorage.getItem('im-theme')||'system';ap(sv);document.addEventListener('DOMContentLoaded',function(){ub(sv);document.querySelectorAll('.im-theme-btn').forEach(function(b){b.addEventListener('click',function(){var t=this.getAttribute('data-imtheme');localStorage.setItem('im-theme',t);ap(t);ub(t);});});});window.matchMedia('(prefers-color-scheme: light)').addEventListener('change',function(){if((localStorage.getItem('im-theme')||'system')==='system')ap('system');});})();
+</script>
+<script>
+/* ===== Illustrative Evidence Gap Map — education for development =====
+   confidence: high | med | low | null(gap). volume: 0-3 (bubble size). */
+var EM_OUTCOMES = ["Enrolment &amp; attendance","Learning (test scores)","Completion / dropout","Equity (girls &amp; poorest)"];
+var EM_ROWS = [
+  {name:"Conditional cash transfers", cells:[
+    {c:"high",v:3,note:"One of the most-studied interventions in development. Cash tied to school attendance reliably raises enrolment and attendance across many countries."},
+    {c:"low",v:2,note:"Strong on getting children <em>into</em> school, but effects on actual learning are small and inconsistent — attendance is not the same as learning."},
+    {c:"med",v:2,note:"Reduces dropout and raises grade completion in many settings, though effects fade without complementary quality improvements."},
+    {c:"high",v:2,note:"Often targeted at girls and poor households, with clear gains in their enrolment — a frequent equity success story."}
+  ]},
+  {name:"Structured pedagogy / TaRL", cells:[
+    {c:"med",v:1,note:"Designed to improve learning rather than access, so enrolment effects are modest and indirect."},
+    {c:"high",v:3,note:"Teaching at the Right Level and structured-pedagogy programmes are among the best-evidenced ways to raise foundational learning, validated across multiple randomised trials in South Asia and Africa."},
+    {c:"med",v:1,note:"Better learning can reduce dropout over time, but this is less directly measured than the test-score gains."},
+    {c:"med",v:2,note:"Grouping by ability helps the children furthest behind most — promising for equity, with growing evidence."}
+  ]},
+  {name:"School meals", cells:[
+    {c:"high",v:2,note:"Free school meals are a consistent draw, raising enrolment and especially attendance — a well-established finding, including India's mid-day meal scheme."},
+    {c:"med",v:2,note:"Effects on learning are real but modest, working mainly through attendance and, where children are undernourished, nutrition and concentration."},
+    {c:"med",v:1,note:"Some evidence of reduced dropout, particularly for poorer children for whom the meal is a meaningful transfer."},
+    {c:"high",v:1,note:"Disproportionately benefits poor and food-insecure households — a strong equity rationale."}
+  ]},
+  {name:"Smaller classes / more teachers", cells:[
+    {c:"low",v:1,note:"Little direct effect on enrolment — this is a quality input, not an access one."},
+    {c:"low",v:2,note:"The evidence is famously mixed: simply adding teachers or cutting class size, without changing how teaching happens, often yields disappointing learning gains."},
+    {c:null,v:0,note:"Surprisingly thin direct evidence on completion — an evidence gap."},
+    {c:"med",v:1,note:"Can help disadvantaged students when paired with accountability, but effects depend heavily on implementation."}
+  ]},
+  {name:"Computers &amp; hardware", cells:[
+    {c:"low",v:1,note:"Providing devices rarely changes whether children attend school."},
+    {c:"low",v:2,note:"Hardware alone (one-laptop-per-child style) has a weak and inconsistent record on learning; software and pedagogy matter far more than the device."},
+    {c:null,v:0,note:"Very little rigorous evidence on completion effects — a clear gap."},
+    {c:"low",v:1,note:"Risk of widening gaps if access and support are uneven; equity effects are uncertain."}
+  ]},
+  {name:"Information to parents", cells:[
+    {c:"med",v:1,note:"Telling parents about the returns to schooling, or their child's results, can nudge enrolment and attendance at very low cost in some settings."},
+    {c:"med",v:1,note:"Modest learning effects in several trials — cheap, but not transformative on its own."},
+    {c:"low",v:1,note:"Limited and mixed evidence on dropout."},
+    {c:null,v:0,note:"Equity effects under-studied — an evidence gap worth filling."}
+  ]},
+  {name:"Merit scholarships", cells:[
+    {c:"med",v:1,note:"Can raise attendance and effort among students within reach of the award."},
+    {c:"med",v:1,note:"Some positive effects on test scores via increased effort, though gains can concentrate among already-stronger students."},
+    {c:"low",v:1,note:"Thin evidence on completion."},
+    {c:"low",v:1,note:"Equity is a concern: merit awards can favour the already-advantaged rather than the poorest."}
+  ]},
+  {name:"Deworming &amp; child health", cells:[
+    {c:"med",v:2,note:"In high-infection settings, treating intestinal worms has been linked to better attendance — though the size and generalisability of the effect is one of development economics' most public debates."},
+    {c:"low",v:2,note:"Direct effects on test scores are contested; the most-discussed long-run benefits run through health and later earnings rather than immediate learning."},
+    {c:null,v:0,note:"Limited direct evidence on school completion — a gap."},
+    {c:"med",v:1,note:"Cheap and broad, so often pro-poor where worm burden is high, but context-dependent."}
+  ]}
+];
+var EM_CONF = {high:{c:"#1A9E6B",l:"High confidence"}, med:{c:"#E8A33D",l:"Mixed / moderate"}, low:{c:"#C95D6B",l:"Weak / contested"}};
+var EM_SIZE = {0:0, 1:24, 2:34, 3:46};
+
+function emBuild(){
+  var t=document.getElementById('emGrid');
+  var head='<thead><tr><th class="em-rowhead">Intervention &darr; / Outcome &rarr;</th>';
+  EM_OUTCOMES.forEach(function(o){head+='<th>'+o+'</th>';});
+  head+='</tr></thead>';
+  var body='<tbody>';
+  EM_ROWS.forEach(function(row,ri){
+    body+='<tr><td class="em-rowhead">'+row.name+'</td>';
+    row.cells.forEach(function(cell,ci){
+      if(!cell.c || cell.v===0){
+        body+='<td class="em-cell"><span class="em-gap" title="Evidence gap — little or no rigorous evidence"></span></td>';
+      } else {
+        var sz=EM_SIZE[cell.v];
+        body+='<td class="em-cell"><button class="em-bub" style="width:'+sz+'px;height:'+sz+'px;background:'+EM_CONF[cell.c].c+'" '+
+          'data-r="'+ri+'" data-c="'+ci+'" aria-label="'+row.name+', '+EM_OUTCOMES[ci].replace(/&amp;/g,'and')+', '+EM_CONF[cell.c].l+'" '+
+          'onclick="emShow('+ri+','+ci+')">'+cell.v+'</button></td>';
+      }
+    });
+    body+='</tr>';
+  });
+  body+='</tbody>';
+  t.innerHTML=head+body;
+}
+function emShow(ri,ci){
+  var row=EM_ROWS[ri], cell=row.cells[ci], out=EM_OUTCOMES[ci];
+  var p=document.getElementById('emPanel');
+  if(!cell.c){ p.innerHTML='<h3>'+row.name+' &times; '+out+'</h3><span class="em-conf" style="background:var(--color-text-muted)">Evidence gap</span><p>Little or no rigorous evidence exists for this pairing yet. On the map, that is not a verdict of "doesn\'t work" — it is a research agenda.</p>'; return; }
+  var cf=EM_CONF[cell.c];
+  var vol=["","one or two studies (treat as preliminary)","a moderate body of studies","a large, well-replicated body of studies"][cell.v];
+  p.innerHTML='<h3>'+row.name+' &times; '+out+'</h3>'+
+    '<div class="em-pair">Evidence volume: '+vol+'</div>'+
+    '<span class="em-conf" style="background:'+cf.c+'">'+cf.l+'</span>'+
+    '<p>'+cell.note+'</p>'+
+    '<div class="em-sources"><a href="https://developmentevidence.3ieimpact.org/" target="_blank" rel="noopener">See the real evidence on 3ie →</a></div>';
+}
+document.addEventListener('DOMContentLoaded',function(){emBuild();});
+</script>
+</body>
+</html>
