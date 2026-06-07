@@ -517,6 +517,34 @@ window.LV = (function() {
     svg.appendChild(mk('text', { x: 120, y: vh - 6, 'font-size': 9, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, A.name + ' (outline)'));
   }
 
+  /* ---------- Hex cartogram (tile map) ---------- */
+  function hexCartogram(id, o) {
+    var svg = frame(id); if (!svg) return; var vw = 460, vh = 340; svg.setAttribute('viewBox', '0 0 ' + vw + ' ' + vh);
+    var cells = o.cells, s = 22;
+    function raw(c){ return [c.col * 1.5 * s, c.row * Math.sqrt(3) * s + (c.col % 2) * Math.sqrt(3) * s / 2]; }
+    var xs = cells.map(function(c){ return raw(c)[0]; }), ys = cells.map(function(c){ return raw(c)[1]; });
+    var minX = Math.min.apply(null, xs), maxX = Math.max.apply(null, xs), minY = Math.min.apply(null, ys), maxY = Math.max.apply(null, ys);
+    var ox = (vw - (maxX - minX)) / 2 - minX, oy = (vh - 30 - (maxY - minY)) / 2 - minY + 8;
+    function shade(v){ var t = Math.max(0, Math.min(1, (v - o.min) / (o.max - o.min))); var r = Math.round(237 + (22 - 237) * t), g = Math.round(247 + (163 - 247) * t), b = Math.round(233 + (90 - 233) * t); return 'rgb(' + r + ',' + g + ',' + b + ')'; }
+    cells.forEach(function(c, i){
+      var p = raw(c), cx = p[0] + ox, cy = p[1] + oy, pts = [];
+      for (var k = 0; k < 6; k++) { var a = Math.PI / 180 * (60 * k); pts.push((cx + s * 0.92 * Math.cos(a)).toFixed(1) + ',' + (cy + s * 0.92 * Math.sin(a)).toFixed(1)); }
+      var t = (c.v - o.min) / (o.max - o.min);
+      var hx = mk('polygon', { points: pts.join(' '), fill: shade(c.v), stroke: '#fff', 'stroke-width': 1.4 });
+      svg.appendChild(hx); fadeIn(hx, i * 0.015);
+      svg.appendChild(mk('text', { x: cx, y: cy + 3.5, 'text-anchor': 'middle', 'font-size': 9.5, 'font-weight': 700, fill: t > 0.55 ? '#fff' : '#14532d', 'font-family': 'Inter, sans-serif' }, c.code));
+    });
+    // legend
+    var lx = 16, ly = vh - 14;
+    var defs = mk('defs', {}); var lg = mk('linearGradient', { id: id + '-lg', x1: '0', y1: '0', x2: '1', y2: '0' });
+    lg.appendChild(mk('stop', { offset: '0', 'stop-color': shade(o.min) })); lg.appendChild(mk('stop', { offset: '1', 'stop-color': shade(o.max) }));
+    defs.appendChild(lg); svg.appendChild(defs);
+    svg.appendChild(mk('rect', { x: lx, y: ly, width: 90, height: 9, rx: 2, fill: 'url(#' + id + '-lg)' }));
+    svg.appendChild(mk('text', { x: lx, y: ly - 4, 'font-size': 9, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, o.min + '%' ));
+    svg.appendChild(mk('text', { x: lx + 90, y: ly - 4, 'text-anchor': 'end', 'font-size': 9, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, o.max + '%' ));
+    svg.appendChild(mk('text', { x: lx + 100, y: ly + 8, 'font-size': 9.5, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, o.legend ));
+  }
+
   /* ---------- Framework: Arnstein's ladder ---------- */
   function ladder(id) {
     var svg = frame(id); if (!svg) return;
@@ -795,6 +823,17 @@ window.LV = (function() {
         a: { name:'1990', color:'#94a3b8', m:[64,58,51,45,40,36,32,28,21,17,15,13,10,7,5,3,1], f:[60,53,47,42,37,33,29,25,19,16,15,12,10,7,5,3,3] },
         b: { name:'2050', mcolor:'#4361ee', fcolor:'#d6336c', m:[49,51,53,55,56,57,59,62,64,65,62,56,50,42,31,22,23], f:[47,48,51,52,53,53,55,57,58,60,57,54,49,42,33,25,30] } });
 
+    hexCartogram('c-states',
+      { min: 50, max: 92, legend: 'female literacy ↑', cells: [
+        {code:'JK',col:2,row:0,v:67},{code:'LA',col:3,row:0,v:77},
+        {code:'PB',col:2,row:1,v:71},{code:'HP',col:3,row:1,v:76},{code:'UK',col:4,row:1,v:70},{code:'SK',col:6,row:1,v:76},{code:'AR',col:8,row:1,v:59},
+        {code:'HR',col:2,row:2,v:66},{code:'DL',col:3,row:2,v:81},{code:'UP',col:4,row:2,v:59},{code:'BR',col:5,row:2,v:53},{code:'ML',col:6,row:2,v:73},{code:'AS',col:7,row:2,v:67},{code:'NL',col:8,row:2,v:76},
+        {code:'RJ',col:1,row:3,v:52},{code:'MP',col:3,row:3,v:60},{code:'CG',col:4,row:3,v:60},{code:'JH',col:5,row:3,v:56},{code:'WB',col:6,row:3,v:71},{code:'TR',col:7,row:3,v:83},{code:'MN',col:8,row:3,v:73},{code:'MZ',col:9,row:3,v:89},
+        {code:'GJ',col:0,row:4,v:70},{code:'MH',col:2,row:4,v:75},{code:'TS',col:4,row:4,v:58},{code:'OD',col:5,row:4,v:64},
+        {code:'GA',col:1,row:5,v:82},{code:'KA',col:2,row:5,v:68},{code:'AP',col:4,row:5,v:60},
+        {code:'KL',col:2,row:6,v:92},{code:'TN',col:3,row:6,v:73}
+      ] });
+
     ethicChart('c-ethic');
 
     ladder('f-ladder');
@@ -998,7 +1037,7 @@ window.LV = (function() {
 
   function drawMasters(){ drawRose(); drawMinard(); drawSnow(); drawDuBois(); }
 
-  var ORDER = ['c-gender','c-caste','c-co2','c-energy','c-nfhs','c-forest','c-decline','c-transition','c-migration','c-where','c-waffle','c-stream','c-pyramid','c-poverty','c-u5mr','c-flfp','c-pipeline','c-climate'];
+  var ORDER = ['c-gender','c-caste','c-co2','c-energy','c-nfhs','c-forest','c-decline','c-transition','c-migration','c-where','c-waffle','c-stream','c-pyramid','c-states','c-poverty','c-u5mr','c-flfp','c-pipeline','c-climate'];
   var DETAILS = {
     'c-migration': { tag:'Migration', title:'Migration is a web',
       takeaway:"People move in every direction between world regions — not just South to North. The biggest single cross-region pull is into Northern America.",
@@ -1030,6 +1069,12 @@ window.LV = (function() {
       why:"Small multiples — the same little chart repeated for each country, on a shared scale — let you compare many trajectories at once without one busy, tangled chart. Tufte's preferred way to show 'the same thing, everywhere'.",
       how:"One mini line per country, all on the same 0–215 axis, pulled directly from the World Bank API. The 1990 and 2022 values are printed on each.",
       look:"Almost every line falls. Rwanda's rises first (the genocide) then drops fastest; Nigeria starts highest and falls least." },
+    'c-states': { tag:'Caste & Equity', title:'The geography of a gap',
+      takeaway:"Female literacy is highest in the south and the north-east, lowest across the northern 'BIMARU' belt — Kerala 92%, Rajasthan and Bihar barely half.",
+      source:"Census of India 2011 — female literacy rate by state.",
+      why:"A hex cartogram gives every state the same-sized tile, so big-but-empty states don't shout and small states aren't lost — you read the pattern, not the area. It keeps rough geography without the distortion of a real map.",
+      how:"One hexagon per state, placed on a grid that approximates India's layout, shaded by female literacy on a single green scale.",
+      look:"The green south and north-east against the paler northern belt." },
     'c-pyramid': { tag:'Population', title:'From pyramid to barrel',
       takeaway:"In 1990 India was a young country with a wide base of children. By 2050 the bulge moves up: far fewer kids, many more older adults.",
       source:"UN World Population Prospects 2024, via PopulationPyramid.net — India by 5-year age band and sex, 1990 and 2050.",
