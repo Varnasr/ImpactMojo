@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.56.0 — June 7, 2026 (Data Visualization 101 — the companion course to The Long View)
+
+### For Learners
+
+- **Data Visualization 101** — a new free, 100-slide course on turning numbers into honest, clear charts, and the natural companion to *The Long View*. It works through what a chart is actually for, the grammar of marks and channels (why position beats colour), how to choose a chart from your question, and a full section on the ways charts mislead — truncated axes, dual axes, cherry-picked windows, radius-vs-area, correlation drawn as causation, and Simpson's paradox. Further sections cover colour (sequential, diverging, qualitative, and colour-blind-safe palettes), writing titles and annotations, designing readable tables, showing spread and uncertainty, mapping data honestly (rates not counts, cartograms, classification), audience and accessibility, and a practical workflow with tools and reading. Find it under **101 Courses**.
+
 ## v10.55.0 — June 6, 2026 (The Long View — an original data-visualization studio)
 
 ### For Learners
