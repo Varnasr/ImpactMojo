@@ -29,16 +29,31 @@
 .em-legend .grp { display: flex; align-items: center; gap: .5rem; }
 .em-dot { display: inline-block; border-radius: 50%; }
 .em-c-high { background: #1A9E6B; } .em-c-med { background: #E8A33D; } .em-c-low { background: #C95D6B; } .em-c-none { background: transparent; border: 1.5px dashed var(--color-border); }
+/* summary stat strip */
+.em-stats { display:flex; flex-wrap:wrap; gap:.8rem; margin:1.4rem 0; }
+.em-stat { flex:1; min-width:130px; background:var(--color-bg-card); border:1px solid var(--color-border); border-radius:14px; padding:1rem 1.1rem; }
+.em-stat .num { font-family:var(--font-heading); font-weight:800; font-size:1.7rem; line-height:1; }
+.em-stat .lbl { font-family:var(--font-mono); font-size:.72rem; color:var(--color-text-muted); margin-top:.35rem; text-transform:uppercase; letter-spacing:.06em; }
+.em-stat.s-high .num{color:#1A9E6B;} .em-stat.s-med .num{color:#E8A33D;} .em-stat.s-low .num{color:#C95D6B;} .em-stat.s-gap .num{color:var(--color-text-muted);}
+/* gap-highlight toggle */
+.em-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:.6rem; margin:.4rem 0 1.1rem; }
+.em-toggle { font-family:var(--font-mono); font-size:.78rem; font-weight:600; padding:.5rem .95rem; border-radius:999px; border:1px solid var(--color-border); background:var(--color-bg-card); color:var(--color-text); cursor:pointer; transition:all .15s; }
+.em-toggle:hover { border-color:var(--color-primary); }
+.em-toggle.active { background:linear-gradient(135deg,var(--color-primary),var(--color-primary-2)); color:#fff; border-color:transparent; }
+
 .em-scroll { overflow-x: auto; border: 1px solid var(--color-border); border-radius: 16px; background: var(--color-bg-card); }
 .em-grid { border-collapse: collapse; min-width: 640px; width: 100%; font-family: var(--font-body); }
 .em-grid th { font-family: var(--font-mono); font-size: .76rem; font-weight: 600; color: var(--color-text-muted); padding: .9rem .6rem; text-align: center; vertical-align: bottom; border-bottom: 1px solid var(--color-border); line-height: 1.25; }
 .em-grid th.em-rowhead { text-align: left; min-width: 180px; position: sticky; left: 0; background: var(--color-bg-card); z-index: 2; }
 .em-grid td.em-rowhead { font-family: var(--font-heading); font-weight: 600; font-size: .92rem; padding: .7rem .8rem; text-align: left; min-width: 180px; border-bottom: 1px solid var(--color-border); position: sticky; left: 0; background: var(--color-bg-card); z-index: 1; }
-.em-grid td.em-cell { text-align: center; border-bottom: 1px solid var(--color-border); padding: .4rem; }
-.em-bub { display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; cursor: pointer; transition: transform .15s, box-shadow .15s; color: #fff; font-family: var(--font-mono); font-weight: 700; font-size: .72rem; border: none; }
-.em-bub:hover { transform: scale(1.12); box-shadow: 0 0 0 3px rgba(102,126,234,.3); }
+.em-grid td.em-cell { text-align: center; border-bottom: 1px solid var(--color-border); padding: .4rem; transition: background .2s; }
+.em-bub { position:relative; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; cursor: pointer; transition: transform .15s, box-shadow .15s, opacity .2s; border: 2px solid rgba(255,255,255,.55); box-shadow: 0 3px 8px rgba(15,23,42,.18); }
+.em-bub::after { content:""; position:absolute; inset:0; margin:auto; width:32%; height:32%; border-radius:50%; background:rgba(255,255,255,.85); }
+.em-bub:hover { transform: scale(1.15); box-shadow: 0 0 0 4px rgba(102,126,234,.28); }
 .em-bub:focus-visible { outline: 3px solid var(--color-primary); outline-offset: 2px; }
-.em-gap { display: inline-block; width: 12px; height: 12px; border-radius: 50%; border: 1.5px dashed var(--color-border); opacity: .6; }
+.em-bub.dim { opacity:.18; }
+.em-gap { display: inline-block; width: 13px; height: 13px; border-radius: 50%; border: 1.5px dashed var(--color-text-muted); opacity: .55; transition:all .2s; }
+.em-cell.gaphi .em-gap { opacity:1; border-color:var(--color-accent-pink); background:rgba(240,147,251,.18); transform:scale(1.25); }
 .em-panel { background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 16px; padding: 1.6rem; margin-top: 1.5rem; min-height: 120px; }
 .em-panel .em-ph { color: var(--color-text-muted); font-style: italic; }
 .em-panel h3 { font-family: var(--font-heading); font-size: 1.25rem; margin: 0 0 .2rem; }
@@ -99,6 +114,8 @@
       <b>Read this first.</b> The map below is an <b>illustrative teaching example</b> for the education-and-development sector. The pattern of confidence reflects the broad direction of well-known evidence syntheses, but the bubble sizes are simplified for clarity — they are not exact study counts. For the real, continuously-updated maps, use the authoritative sources linked at the bottom (3ie, Cochrane, the Campbell Collaboration, J-PAL).
     </div>
 
+    <div class="em-stats" id="emStats"></div>
+
     <div class="em-legend">
       <span class="grp"><b style="color:var(--color-text)">Colour = confidence:</b></span>
       <span class="grp"><span class="em-dot em-c-high" style="width:14px;height:14px;"></span> High</span>
@@ -106,6 +123,11 @@
       <span class="grp"><span class="em-dot em-c-low" style="width:14px;height:14px;"></span> Weak / contested</span>
       <span class="grp"><span class="em-dot em-c-none" style="width:14px;height:14px;"></span> Evidence gap</span>
       <span class="grp" style="margin-left:auto;"><b style="color:var(--color-text)">Size = volume of evidence.</b> Click a bubble.</span>
+    </div>
+
+    <div class="em-toolbar">
+      <button class="em-toggle" id="emGapBtn" onclick="emToggleGaps(this)" aria-pressed="false">⌖ Highlight the gaps</button>
+      <span class="em-note" style="margin:0;border:none;border-left:none;padding:.2rem 0;background:none;font-family:var(--font-mono);font-size:.76rem;color:var(--color-text-muted);">Tip: the empty cells are often the most important thing on the map.</span>
     </div>
 
     <div class="em-scroll">
@@ -221,6 +243,20 @@ var EM_ROWS = [
 var EM_CONF = {high:{c:"#1A9E6B",l:"High confidence"}, med:{c:"#E8A33D",l:"Mixed / moderate"}, low:{c:"#C95D6B",l:"Weak / contested"}};
 var EM_SIZE = {0:0, 1:24, 2:34, 3:46};
 
+function emStats(){
+  var n={high:0,med:0,low:0,gap:0,total:0};
+  EM_ROWS.forEach(function(r){r.cells.forEach(function(c){n.total++; if(!c.c||c.v===0)n.gap++; else n[c.c]++;});});
+  var cards=[
+    ['s-high',n.high,'High confidence'],
+    ['s-med',n.med,'Mixed / moderate'],
+    ['s-low',n.low,'Weak / contested'],
+    ['s-gap',n.gap,'Evidence gaps']
+  ];
+  document.getElementById('emStats').innerHTML=
+    '<div class="em-stat"><div class="num">'+n.total+'</div><div class="lbl">Pairings mapped</div></div>'+
+    cards.map(function(c){return '<div class="em-stat '+c[0]+'"><div class="num">'+c[1]+'</div><div class="lbl">'+c[2]+'</div></div>';}).join('');
+}
+
 function emBuild(){
   var t=document.getElementById('emGrid');
   var head='<thead><tr><th class="em-rowhead">Intervention &darr; / Outcome &rarr;</th>';
@@ -231,18 +267,27 @@ function emBuild(){
     body+='<tr><td class="em-rowhead">'+row.name+'</td>';
     row.cells.forEach(function(cell,ci){
       if(!cell.c || cell.v===0){
-        body+='<td class="em-cell"><span class="em-gap" title="Evidence gap — little or no rigorous evidence"></span></td>';
+        body+='<td class="em-cell em-isgap"><span class="em-gap" title="Evidence gap — little or no rigorous evidence"></span></td>';
       } else {
         var sz=EM_SIZE[cell.v];
         body+='<td class="em-cell"><button class="em-bub" style="width:'+sz+'px;height:'+sz+'px;background:'+EM_CONF[cell.c].c+'" '+
-          'data-r="'+ri+'" data-c="'+ci+'" aria-label="'+row.name+', '+EM_OUTCOMES[ci].replace(/&amp;/g,'and')+', '+EM_CONF[cell.c].l+'" '+
-          'onclick="emShow('+ri+','+ci+')">'+cell.v+'</button></td>';
+          'data-r="'+ri+'" data-c="'+ci+'" title="'+EM_CONF[cell.c].l+' · click for detail" aria-label="'+row.name+', '+EM_OUTCOMES[ci].replace(/&amp;/g,'and')+', '+EM_CONF[cell.c].l+', click for detail" '+
+          'onclick="emShow('+ri+','+ci+')"></button></td>';
       }
     });
     body+='</tr>';
   });
   body+='</tbody>';
   t.innerHTML=head+body;
+}
+
+function emToggleGaps(btn){
+  var on=btn.classList.toggle('active');
+  btn.setAttribute('aria-pressed',on?'true':'false');
+  document.querySelectorAll('#emGrid .em-cell').forEach(function(td){
+    td.classList.toggle('gaphi', on && td.classList.contains('em-isgap'));
+  });
+  document.querySelectorAll('#emGrid .em-bub').forEach(function(b){ b.classList.toggle('dim', on); });
 }
 function emShow(ri,ci){
   var row=EM_ROWS[ri], cell=row.cells[ci], out=EM_OUTCOMES[ci];
@@ -256,7 +301,7 @@ function emShow(ri,ci){
     '<p>'+cell.note+'</p>'+
     '<div class="em-sources"><a href="https://developmentevidence.3ieimpact.org/" target="_blank" rel="noopener">See the real evidence on 3ie →</a></div>';
 }
-document.addEventListener('DOMContentLoaded',function(){emBuild();});
+document.addEventListener('DOMContentLoaded',function(){emStats();emBuild();});
 </script>
 </body>
 </html>
