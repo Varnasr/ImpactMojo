@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.57.0 — June 7, 2026 (Logframe 101 — the logical framework, built from the results chain up)
+
+### For Learners
+
+- **Logframe 101** — a new free, 100-slide course on the logical framework, the matrix nearly every funder asks for. It builds the tool from the results chain up: inputs, activities and outputs (what you control) through outcomes (what you influence) to impact (what you contribute to), with the output-to-outcome gap and attribution made plain. Then it works through the four columns — results, indicators (SMART, with baselines and disaggregation), means of verification, and the assumptions and risk that keep the matrix honest — before showing how to build it, test it vertically and horizontally, and weigh its real critiques and alternatives (outcome mapping, adaptive management). Practical throughout, with donor formats and worked examples. Find it under **101 Courses**.
+
 ## v10.56.0 — June 7, 2026 (Data Visualization 101 — the companion course to The Long View)
 
 ### For Learners
