@@ -449,6 +449,45 @@ window.LV = (function() {
       svg.appendChild(mk('text', { x: rx + colW + 8, y: ry[j] + rh[j] / 2 + 4, 'font-size': 10.5, 'font-weight': 700, fill: ink(), 'font-family': 'Inter, sans-serif' }, nm)); });
   }
 
+  /* ---------- 3-stage Sankey (sector -> sub-sector -> gas) ---------- */
+  function sankey3(id, o) {
+    var svg = frame(id); if (!svg) return; var vw = 460, vh = 360; svg.setAttribute('viewBox', '0 0 ' + vw + ' ' + vh);
+    var SE = o.sectors, GA = o.gases, subs = o.subs; // subs: [{name, si, g:[...]}]
+    var nSe = SE.names.length, nG = GA.names.length, nSub = subs.length;
+    function sTot(s){ return s.g.reduce(function(a, b){ return a + b; }, 0); }
+    var grand = subs.reduce(function(a, s){ return a + sTot(s); }, 0);
+    var mT = 14, mB = 14, colW = 12, gap = 6, Hh = vh - mT - mB;
+    var maxN = Math.max(nSe, nG, nSub), ppu = (Hh - gap * (maxN - 1)) / grand;
+    var x0 = 92, x1 = vw / 2 - colW / 2, x2 = vw - 92 - colW;
+    function colY(heights){ var ch = heights.reduce(function(a, b){ return a + b; }, 0) + gap * (heights.length - 1); var sy = mT + (Hh - ch) / 2, ys = []; heights.forEach(function(h){ ys.push(sy); sy += h + gap; }); return ys; }
+    // sector totals
+    var seTot = SE.names.map(function(_, i){ return subs.filter(function(s){ return s.si === i; }).reduce(function(a, s){ return a + sTot(s); }, 0); });
+    var gaTot = GA.names.map(function(_, j){ return subs.reduce(function(a, s){ return a + s.g[j]; }, 0); });
+    var seY = colY(seTot.map(function(v){ return v * ppu; }));
+    var subH = subs.map(function(s){ return sTot(s) * ppu; }), subY = colY(subH);
+    var gaY = colY(gaTot.map(function(v){ return v * ppu; }));
+    function ribbon(xa, ya0, ya1, xb, yb0, yb1, col){ var xm = (xa + xb) / 2;
+      var d = 'M' + xa + ',' + ya0.toFixed(1) + ' C' + xm + ',' + ya0.toFixed(1) + ' ' + xm + ',' + yb0.toFixed(1) + ' ' + xb + ',' + yb0.toFixed(1) +
+        ' L' + xb + ',' + yb1.toFixed(1) + ' C' + xm + ',' + yb1.toFixed(1) + ' ' + xm + ',' + ya1.toFixed(1) + ' ' + xa + ',' + ya1.toFixed(1) + ' Z';
+      var p = mk('path', { d: d, fill: col, 'fill-opacity': 0.5 }); svg.appendChild(p); return p; }
+    // stage 0 -> 1
+    var seOff = seY.slice();
+    subs.forEach(function(s, k){ var col = SE.colors[s.si], h = subH[k];
+      ribbon(x0 + colW, seOff[s.si], seOff[s.si] + h, x1, subY[k], subY[k] + h, col); seOff[s.si] += h; });
+    // stage 1 -> 2
+    var subOff = subY.slice(), gaOff = gaY.slice();
+    subs.forEach(function(s, k){ var col = SE.colors[s.si];
+      for (var j = 0; j < nG; j++) { var v = s.g[j]; if (v <= 0) continue; var t = v * ppu;
+        ribbon(x1 + colW, subOff[k], subOff[k] + t, x2, gaOff[j], gaOff[j] + t, col); subOff[k] += t; gaOff[j] += t; } });
+    // nodes + labels
+    SE.names.forEach(function(nm, i){ svg.appendChild(mk('rect', { x: x0, y: seY[i], width: colW, height: Math.max(2, seTot[i] * ppu), rx: 2, fill: SE.colors[i] }));
+      svg.appendChild(mk('text', { x: x0 - 6, y: seY[i] + seTot[i] * ppu / 2 + 3, 'text-anchor': 'end', 'font-size': 10, 'font-weight': 700, fill: ink(), 'font-family': 'Inter, sans-serif' }, nm)); });
+    subs.forEach(function(s, k){ svg.appendChild(mk('rect', { x: x1, y: subY[k], width: colW, height: Math.max(2, subH[k]), rx: 2, fill: SE.colors[s.si] }));
+      svg.appendChild(mk('text', { x: x1 + colW + 4, y: subY[k] + subH[k] / 2 + 3, 'font-size': 8, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, s.name)); });
+    GA.names.forEach(function(nm, j){ svg.appendChild(mk('rect', { x: x2, y: gaY[j], width: colW, height: Math.max(2, gaTot[j] * ppu), rx: 2, fill: GA.colors[j] }));
+      svg.appendChild(mk('text', { x: x2 + colW + 5, y: gaY[j] + gaTot[j] * ppu / 2 + 3, 'font-size': 10, 'font-weight': 700, fill: GA.colors[j], 'font-family': 'Inter, sans-serif' }, nm)); });
+  }
+
   /* ---------- Waffle (small multiples of 10x10 grids) ---------- */
   function waffle(id, o) {
     var svg = frame(id); if (!svg) return; var vw = 460, vh = 268; svg.setAttribute('viewBox', '0 0 ' + vw + ' ' + vh);
@@ -808,6 +847,22 @@ window.LV = (function() {
           [0, 60, 11, 0]
         ] });
 
+    sankey3('c-ghg3',
+      { sectors: { names: ['Energy','Agriculture','Industry','Waste'], colors: ['#64748b','#16a34a','#7c3aed','#f59e0b'] },
+        gases: { names: ['CO₂','Methane','N₂O','F-gases'], colors: ['#64748b','#ea580c','#9333ea','#0891b2'] },
+        subs: [
+          { name:'Power', si:0, g:[1125,0,5,0] },
+          { name:'Industry (fuel)', si:0, g:[558,0,2,0] },
+          { name:'Transport', si:0, g:[288,0,2,0] },
+          { name:'Buildings', si:0, g:[148,0,2,0] },
+          { name:'Fugitive', si:0, g:[14,100,0,0] },
+          { name:'Livestock', si:1, g:[0,230,0,0] },
+          { name:'Rice', si:1, g:[0,70,0,0] },
+          { name:'Soils', si:1, g:[0,0,106,0] },
+          { name:'Processes', si:2, g:[200,0,0,39] },
+          { name:'Landfill', si:3, g:[0,60,11,0] }
+        ] });
+
     waffle('c-waffle',
       { items: [
         { label:'Electricity', pct:97, color:'#f59e0b' },
@@ -1049,7 +1104,7 @@ window.LV = (function() {
 
   function drawMasters(){ drawRose(); drawMinard(); drawSnow(); drawDuBois(); }
 
-  var ORDER = ['c-gender','c-caste','c-co2','c-energy','c-nfhs','c-forest','c-decline','c-transition','c-migration','c-where','c-ghg','c-waffle','c-stream','c-pyramid','c-states','c-poverty','c-u5mr','c-flfp','c-pipeline','c-climate'];
+  var ORDER = ['c-gender','c-caste','c-co2','c-energy','c-nfhs','c-forest','c-decline','c-transition','c-migration','c-where','c-ghg','c-ghg3','c-waffle','c-stream','c-pyramid','c-states','c-poverty','c-u5mr','c-flfp','c-pipeline','c-climate'];
   var DETAILS = {
     'c-migration': { tag:'Migration', title:'Migration is a web',
       takeaway:"People move in every direction between world regions — not just South to North. The biggest single cross-region pull is into Northern America.",
@@ -1057,6 +1112,12 @@ window.LV = (function() {
       why:"A chord diagram is built for flows between a set of places: each region is an arc, each ribbon a flow, sized by how many people moved. It shows the whole web at once, in both directions.",
       how:"Region arcs sized by total cross-region movement, ribbons sized by each pair's flow. Drawn in SVG from the UN DESA regional matrix; figures are rounded aggregates.",
       look:"How thick each ribbon is, and that most regions both send and receive — migration runs both ways." },
+    'c-ghg3': { tag:'Climate', title:'India’s emissions, in full',
+      takeaway:"Trace each sector to its sub-sectors to the gas: power and industry are the CO₂ engine; livestock and rice make most of the methane; soils make the nitrous oxide.",
+      source:"India's Fourth Biennial Update Report to the UNFCCC (BUR4, 2020), excl. land use. Sub-sector and gas split approximate (MtCO₂e).",
+      why:"A three-stage Sankey follows emissions across two breakdowns at once — sector, then sub-sector, then gas — so you can see, say, that 'Energy' is really mostly 'Power', and that 'Power' is almost pure CO₂.",
+      how:"Three columns of nodes sized by emissions; ribbons keep their thickness end to end, coloured by their origin sector. Built from India's BUR4 totals.",
+      look:"Follow the grey Energy band: it fans into Power, Industry, Transport and Buildings, and almost all of it lands in CO₂." },
     'c-ghg': { tag:'Climate', title:'India’s greenhouse gases',
       takeaway:"Energy dominates India's emissions and is almost all CO₂; agriculture is the big source of methane and nitrous oxide.",
       source:"India's Fourth Biennial Update Report to the UNFCCC (BUR4, 2020), excluding land use. Sector-by-gas split approximate.",
