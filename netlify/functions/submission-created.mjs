@@ -34,6 +34,18 @@ const FILES = {
   "Commissioning Research — Workbook": "ImpactMojo-Commissioning-Workbook.docx",
   "Introduction to MEL — Trainer Deck": "ImpactMojo-Intro-to-MEL-Deck.pptx",
   "Theory of Change — Trainer Deck": "ImpactMojo-Theory-of-Change-Trainer-Deck.pptx",
+  "MEL from Scratch — 90-Day Workbook": "ImpactMojo-MEL-from-Scratch-Workbook.docx",
+  "Theory of Change — Workshop Workbook": "ImpactMojo-Theory-of-Change-Workshop-Workbook.docx",
+  "Survey Design Workbook": "ImpactMojo-Survey-Design-Workbook.docx",
+  "Sampling & Sample Size — Refresher": "ImpactMojo-Refresher-Sampling.pdf",
+  "Causal Designs — Refresher": "ImpactMojo-Refresher-Causal-Designs.pdf",
+  "OECD-DAC Criteria — Refresher": "ImpactMojo-Refresher-OECD-DAC.pdf",
+  "Quant vs Qual vs Mixed — Refresher": "ImpactMojo-Refresher-Quant-Qual-Mixed.pdf",
+  "MEL & Statistics Formulae Poster": "ImpactMojo-Poster-MEL-Statistics-Formulae.pdf",
+  "Econometrics Formulae Poster": "ImpactMojo-Poster-Econometrics-Formulae.pdf",
+  "Field Data-Collection Readiness Checklist": "ImpactMojo-Checklist-Field-Readiness.pdf",
+  "Ethics & DPDP Consent Checklist": "ImpactMojo-Checklist-Ethics-DPDP.pdf",
+  "Proposal Review Checklist": "ImpactMojo-Checklist-Proposal-Review.pdf",
   "Evaluation Essentials Kit": "ImpactMojo-Evaluation-Essentials-Kit.zip",
 };
 

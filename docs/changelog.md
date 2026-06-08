@@ -2,6 +2,16 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.73.0 — June 8, 2026 (12 new downloadable products)
+
+### For Learners
+
+- **More to buy on the Products page:** 3 new fill-in **workbooks** (MEL from Scratch 90-day, Theory of Change workshop, Survey design — ₹499), 4 one-page **concept refresher sheets** (sampling, causal designs, OECD-DAC, quant/qual/mixed — ₹99), 2 A3 **formulae posters** (MEL & statistics, econometrics — ₹149), and 3 practical **checklists** (field readiness, ethics & DPDP consent, proposal review — ₹99). Editable items stay Word/Excel; references are branded print-ready PDFs.
+
+### Added
+
+- 12 product landing pages under `/products/`, branded full files (workbooks .docx; refreshers/posters/checklists .pdf) in the private Supabase bucket, per-price UPI QRs, and the one-click fulfilment map extended to cover them. Added to the products page and sitemap.
+
 ## v10.72.0 — June 8, 2026
 
 ### Changed
