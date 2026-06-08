@@ -2,6 +2,20 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.69.0 — June 8, 2026 (The full gated product store)
+
+### For Learners
+
+- **15 practitioner products, each with its own page** — ToR, Logframe, Budget & Costing, MEL Plan, Proposal Scoring Rubric, Survey Instrument, FGD Guide, Donor Report, Stakeholder Map, Theory of Change Canvas, Results Framework, Data & Consent pack (₹199 each), the Commissioning Workbook and two Trainer Decks (₹499), and the **Evaluation Essentials Kit** bundle (₹1,999). Every product page has a value diagram, free watermarked sample pages, and a UPI / WhatsApp checkout; the editable file is emailed within 24 hours of payment.
+
+### Added
+
+- `/products/<slug>/` landing pages for all 15 products + the bundle, sharing `/css/product.css`; deep-watermarked samples + per-product UPI QR codes; `netlify/functions/mint-download.mjs` (admin) to issue signed download links from the private store.
+
+### Changed / Security
+
+- Products page rebuilt around the gated pages (no free direct downloads). The full files now live in a **private Supabase Storage bucket** (+ a Google Drive master), never the public site; the previously public `/downloads/` master files were removed from the repo.
+
 ## v10.68.0 — June 8, 2026 (Gated product pages — ToR Template pilot)
 
 ### For Learners
