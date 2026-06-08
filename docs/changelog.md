@@ -2,6 +2,22 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.64.0 — June 8, 2026 (Status monitoring: real uptime + auto-alerts)
+
+### For Learners
+
+- **Real 90-day uptime on the Status page** — the status page now shows true availability measured across all visitors (not just your own browser), backed by a server-side health check that runs every 15 minutes. A "System Status" link now appears in the site footer across the platform.
+
+### Added
+
+- Server-side status monitoring: `netlify/functions/status-probe.mjs` (scheduled every 15 min) probes all 11 components, stores a 90-day history in Netlify Blobs, and is flap-resistant (an outage is only declared after 2 consecutive failed checks). `netlify/functions/status-history.mjs` serves that history at `/api/status-history` for the page to render.
+- Automated incident alerts: on a confirmed outage the probe auto-opens a GitHub issue (auto-closed on recovery) and sends an email via a new self-contained `supabase/functions/status-alert` function (Resend). Light auto-remediation fires a Supabase keepalive when the backend looks down (the common free-tier auto-pause). Both alert paths degrade gracefully when their credentials are absent.
+- "System Status" footer link added across 33 top-level pages.
+
+### Fixed
+
+- Status page no longer reports the Supabase backend as "down": the probe now sends the public anon key to `/auth/v1/health` (which 401s without it) and treats any non-5xx response as reachable.
+
 ## v10.63.0 — June 8, 2026 (System Status page)
 
 ### For Learners
