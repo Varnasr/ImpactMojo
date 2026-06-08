@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.66.2 — June 8, 2026
+
+### Changed
+
+- Discoverability: **Products & Kits** added to the Learn nav dropdown (all 14 nav pages incl. the homepage) and to the site footer; **System Status** + **Products & Kits** now both sit in the footer across the top-level pages. The ToR Builder remains discoverable via the catalog (Labs) and the ToR Practice Pack / blog cross-links.
+
 ## v10.66.1 — June 8, 2026
 
 ### Fixed
