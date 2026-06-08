@@ -2,6 +2,16 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.63.0 — June 8, 2026 (System Status page)
+
+### For Learners
+
+- **System Status** — a live status page at [/status.html](https://www.impactmojo.in/status.html) that checks every part of ImpactMojo in real time — the website, course catalog, game library, resource library, blog, docs, search, accounts, translation, and hosting. Each component is probed live from your browser and refreshes automatically every 60 seconds, with a colour-coded "All Systems Operational" banner and a rolling 90-day uptime view.
+
+### Added
+
+- New `status.html` with client-side health probes for 11 components across two groups (Website & Pages, Data & APIs); auto-refresh every 60s, 10s timeout, >2s = degraded; 90-day uptime strip from `localStorage`. Added to `sitemap.xml` and footer Resources links.
+
 ## v10.62.0 — June 7, 2026 (Two new data-literacy pages for The Long View)
 
 ### For Learners
