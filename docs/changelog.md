@@ -2,6 +2,18 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.65.0 — June 8, 2026 (ToR Builder + Products & Kits hub)
+
+### For Learners
+
+- **ToR Builder** — a free interactive tool that turns structured prompts into a complete, professional Terms of Reference plus a costing sheet, exportable as Markdown or PDF. It encodes the ImpactMojo ToR framework (the three dimensions of enquiry, with method suggestions), autosaves as you type, and ships with a worked example. Find it in the catalog under Labs, or alongside the ToR Practice Pack and the "How to Write a ToR" guide.
+- **Products & Kits** — a single page that gathers everything you can buy on ImpactMojo (memberships, all 18 Practice Packs, premium tools, coaching and workshops) and links straight to each, while making clear that the bulk of the platform stays free.
+
+### Added
+
+- `/BookCompanionTools/tor-generator.html` (ToR Builder) wired into the catalog (Labs), `search-index.json`, `sitemap.xml`, and cross-linked from the ToR Practice Pack and ToR blog post.
+- `/products.html` curation hub linking existing paid resources (no duplicated content); added to `sitemap.xml` and footer links.
+
 ## v10.64.0 — June 8, 2026 (Status monitoring: real uptime + auto-alerts)
 
 ### For Learners
