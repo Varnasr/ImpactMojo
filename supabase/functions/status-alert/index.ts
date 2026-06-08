@@ -19,7 +19,7 @@
 
 import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
 
-const FROM = Deno.env.get("STATUS_ALERT_FROM") || "ImpactMojo Status <status@impactmojo.in>";
+const FROM = Deno.env.get("STATUS_ALERT_FROM") || "ImpactMojo Status <notifications@impactmojo.in>";
 const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
 
 const corsHeaders = {

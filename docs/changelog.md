@@ -2,6 +2,16 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.66.1 — June 8, 2026
+
+### Fixed
+
+- The Long View companion pages (gallery, evidence map, numbers in the news): the "← The Long View" topbar back-link wrapped onto multiple lines and collided with the logo on narrow phones — it now stays on one line, with a tighter mobile topbar layout.
+
+### Changed
+
+- Status alert emails now send from the verified `notifications@impactmojo.in` address (status monitoring is now wired to GitHub-issue + email alerts).
+
 ## v10.66.0 — June 8, 2026 (New visualisation in the gallery)
 
 ### For Learners
