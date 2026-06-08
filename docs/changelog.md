@@ -2,6 +2,20 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.67.0 — June 8, 2026 (Real downloadable products)
+
+### For Learners
+
+- **Templates, Workbooks & Decks** — the Products page now leads with real, editable files you download and own: a **ToR** template, **Logframe**, **Activity Budget & costing** (with live formulas), **MEL Plan**, **Proposal Scoring Rubric**, a **Commissioning Research workbook**, and an **Introduction to MEL trainer deck** with facilitator notes — plus a one-click **Evaluation Essentials Kit** bundle. Free to use and adapt under CC BY-NC-ND 4.0.
+
+### Changed
+
+- `/products.html` restructured to be product-first: downloadable templates/workbooks/decks at the top, then Practice Packs and premium tools, with memberships and services moved into a compact "Plans & Services" strip at the bottom.
+
+### Added
+
+- `downloads/` — 7 generated Office files (.docx/.xlsx/.pptx) + a bundled .zip. Evaluation Essentials Kit added to `search-index.json`.
+
 ## v10.66.2 — June 8, 2026
 
 ### Changed
