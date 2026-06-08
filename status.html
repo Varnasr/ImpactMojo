@@ -427,7 +427,7 @@ main .nav-links a, main .footer a, main a.refresh-btn { text-decoration: none; }
 
         <!-- 90-day overall uptime -->
         <div class="group">
-            <h3>90-Day Uptime (this browser)</h3>
+            <h3 id="uptimeHeading">90-Day Uptime</h3>
             <div class="component-list">
                 <div class="uptime-block">
                     <div class="uptime-head">
@@ -656,6 +656,24 @@ function loadHistory() {
     try { return JSON.parse(localStorage.getItem(HISTORY_KEY)) || {}; }
     catch (e) { return {}; }
 }
+/* Cross-visitor history written server-side by status-probe.mjs (every 15min).
+   Falls back to per-browser localStorage if the endpoint isn't live yet. */
+let usingServerHistory = false;
+async function loadServerHistory() {
+    try {
+        const res = await fetch('/api/status-history', { cache: 'no-store' });
+        if (!res.ok) return null;
+        const data = await res.json();
+        const days = data && data.days ? Object.keys(data.days) : [];
+        if (!days.length) return null;
+        const norm = {};
+        for (const d of days) {
+            const v = data.days[d];
+            norm[d] = (v && typeof v === 'object') ? (v.overall || 0) : (v || 0);
+        }
+        return { hist: norm, updatedAt: data.updatedAt };
+    } catch (e) { return null; }
+}
 function recordHistory(overallLevel) {
     const hist = loadHistory();
     const d = today();
@@ -702,8 +720,19 @@ async function runAllChecks() {
 
     paintBanner(results);
     const worst = RANK_REV[Math.max(...results.map(r => RANK[r.level]))];
-    const hist = recordHistory(worst);
-    renderUptime(hist);
+    const localHist = recordHistory(worst); // always keep a local fallback
+
+    // Prefer the cross-visitor server history; fall back to this browser's.
+    const server = await loadServerHistory();
+    const heading = document.getElementById('uptimeHeading');
+    if (server) {
+        usingServerHistory = true;
+        renderUptime(server.hist);
+        heading.textContent = '90-Day Uptime (all visitors)';
+    } else {
+        renderUptime(localHist);
+        heading.textContent = '90-Day Uptime (this browser)';
+    }
 
     document.getElementById('lastChecked').textContent =
         'Last checked: ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
