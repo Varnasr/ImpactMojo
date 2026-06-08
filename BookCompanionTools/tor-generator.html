@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ToR Builder — Terms of Reference Generator | ImpactMojo</title>
+<meta name="description" content="Free interactive Terms of Reference (ToR) generator for commissioning development research and evaluations. Build a complete ToR plus a costing sheet and export as Markdown or PDF.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="ToR Builder — Terms of Reference Generator | ImpactMojo">
+<meta property="og:description" content="Build a complete, well-structured Terms of Reference (plus a costing sheet) for commissioning research or evaluation — and export it in one click.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.impactmojo.in/BookCompanionTools/tor-generator.html">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ToR Builder — Terms of Reference Generator | ImpactMojo">
+<meta name="twitter:description" content="Build a complete Terms of Reference plus a costing sheet and export in one click.">
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JRCMEB9TBW');
+</script>
+
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&amp;family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0EA5E9">
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+    --primary-bg:#F8FAFC; --secondary-bg:#FFFFFF; --accent-color:#0284C7; --accent-hover:#0369A1;
+    --secondary-accent:#6366F1; --success-color:#16A34A; --warning-color:#D97706; --danger-color:#DC2626;
+    --text-primary:#0F172A; --text-secondary:#475569; --text-muted:#64748B;
+    --card-bg:#FFFFFF; --hover-bg:#F1F5F9; --border-color:#E2E8F0; --nav-bg:rgba(248,250,252,0.95);
+    --shadow-sm:0 1px 2px rgba(0,0,0,.04); --shadow-md:0 4px 6px rgba(0,0,0,.06); --shadow-lg:0 10px 25px rgba(0,0,0,.08);
+    --gradient-primary:linear-gradient(135deg,#0369A1 0%,#4338CA 100%);
+}
+@media (prefers-color-scheme: dark){:root{
+    --primary-bg:#0F172A; --secondary-bg:#1E293B; --accent-color:#0EA5E9; --accent-hover:#0284C7;
+    --success-color:#10B981; --warning-color:#F59E0B; --danger-color:#EF4444;
+    --text-primary:#F1F5F9; --text-secondary:#CBD5E1; --text-muted:#94A3B8;
+    --card-bg:#1E293B; --hover-bg:#334155; --border-color:#334155; --nav-bg:rgba(15,23,42,0.95);
+    --shadow-sm:0 1px 2px rgba(0,0,0,.1); --shadow-md:0 4px 6px rgba(0,0,0,.2); --shadow-lg:0 10px 25px rgba(0,0,0,.3);
+}}
+body.light-mode{
+    --primary-bg:#F8FAFC; --secondary-bg:#FFFFFF; --accent-color:#0284C7; --accent-hover:#0369A1;
+    --success-color:#16A34A; --warning-color:#D97706; --danger-color:#DC2626;
+    --text-primary:#0F172A; --text-secondary:#475569; --text-muted:#64748B;
+    --card-bg:#FFFFFF; --hover-bg:#F1F5F9; --border-color:#E2E8F0; --nav-bg:rgba(248,250,252,0.95);
+}
+body.dark-mode{
+    --primary-bg:#0F172A; --secondary-bg:#1E293B; --accent-color:#0EA5E9; --accent-hover:#0284C7;
+    --success-color:#10B981; --warning-color:#F59E0B; --danger-color:#EF4444;
+    --text-primary:#F1F5F9; --text-secondary:#CBD5E1; --text-muted:#94A3B8;
+    --card-bg:#1E293B; --hover-bg:#334155; --border-color:#334155; --nav-bg:rgba(15,23,42,0.95);
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Amaranth',Arial,sans-serif; background:var(--primary-bg); color:var(--text-primary); line-height:1.6; padding-top:56px; min-height:100vh;}
+h1,h2,h3,h4{font-family:'Inter',Helvetica,sans-serif; line-height:1.3;}
+a{color:var(--accent-color); text-decoration:none;}
+a:hover{color:var(--accent-hover);}
+code,.mono{font-family:'JetBrains Mono',monospace;}
+
+.skip-link{position:absolute;left:-999px;top:0;z-index:10000;background:var(--accent-color);color:#fff;padding:.6rem 1rem;border-radius:0 0 8px 0;}
+.skip-link:focus{left:0;}
+
+/* Topbar */
+.im-topbar{position:fixed;top:0;left:0;right:0;z-index:9999;background:var(--nav-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border-color);padding:.5rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:.75rem;}
+.im-topbar a{text-decoration:none;}
+.im-topbar-home{display:flex;align-items:center;gap:.5rem;color:var(--text-primary);font-family:'Inter',sans-serif;font-weight:700;}
+.im-topbar-home svg{width:22px;height:22px;stroke:var(--accent-color);fill:none;stroke-width:2;}
+.im-topbar-right{display:flex;align-items:center;gap:.5rem;}
+.im-browse-btn,.im-premium-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.4rem .8rem;border-radius:8px;font-family:'Inter',sans-serif;font-weight:600;font-size:.82rem;border:1px solid var(--border-color);color:var(--text-primary);}
+.im-premium-btn{background:var(--gradient-primary);color:#fff;-webkit-text-fill-color:#fff;border:none;}
+.im-browse-btn svg,.im-premium-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;}
+.im-browse-btn:hover{border-color:var(--accent-color);color:var(--accent-color);}
+.im-theme-selector{display:flex;gap:2px;background:var(--card-bg);border:1px solid var(--border-color);border-radius:8px;padding:2px;}
+.im-theme-btn{background:transparent;border:none;color:var(--text-muted);padding:6px;border-radius:5px;cursor:pointer;display:flex;align-items:center;justify-content:center;width:30px;height:30px;}
+.im-theme-btn:hover{background:var(--hover-bg);color:var(--text-primary);}
+.im-theme-btn.active{background:var(--accent-color);color:#fff;}
+.im-theme-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;}
+@media(max-width:768px){body{padding-top:52px;} .im-topbar-home span{display:none;} .im-browse-btn span,.im-premium-btn{display:none;}}
+
+/* Paper plane */
+.paper-plane{position:fixed;bottom:2rem;right:2rem;width:110px;height:110px;opacity:.12;pointer-events:none;z-index:0;animation:float 7s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-14px) rotate(4deg)}}
+@media(prefers-reduced-motion:reduce){.paper-plane{animation:none;}}
+
+/* Layout */
+.wrap{max-width:1280px;margin:0 auto;padding:1.5rem 1.25rem 2rem;position:relative;z-index:1;}
+.hero{text-align:center;padding:1rem 0 1.75rem;}
+.hero .badge{display:inline-flex;align-items:center;gap:.45rem;background:var(--hover-bg);color:var(--accent-color);border:1px solid var(--border-color);padding:.3rem .8rem;border-radius:999px;font-family:'Inter',sans-serif;font-weight:600;font-size:.78rem;margin-bottom:.85rem;}
+.hero h1{font-size:2.1rem;background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.5rem;}
+.hero p{color:var(--text-secondary);max-width:680px;margin:0 auto;}
+.hero .links{margin-top:.9rem;font-size:.9rem;color:var(--text-muted);}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start;}
+@media(max-width:920px){.grid{grid-template-columns:1fr;}}
+
+.section{background:var(--card-bg);border:1px solid var(--border-color);border-radius:14px;padding:1.1rem 1.2rem;margin-bottom:1.1rem;box-shadow:var(--shadow-sm);}
+.section h2{font-size:1.02rem;display:flex;align-items:center;gap:.5rem;margin-bottom:.85rem;}
+.section h2 .n{width:24px;height:24px;flex-shrink:0;border-radius:7px;background:var(--gradient-primary);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;font-family:'Inter',sans-serif;}
+.fg{margin-bottom:.85rem;}
+.fg:last-child{margin-bottom:0;}
+.fg label{display:block;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;margin-bottom:.3rem;}
+.fg .hint{font-size:.78rem;color:var(--text-muted);margin-bottom:.4rem;}
+input[type=text],input[type=number],input[type=date],textarea,select{
+    width:100%;padding:.6rem .7rem;background:var(--primary-bg);border:1px solid var(--border-color);border-radius:9px;
+    color:var(--text-primary);font-family:'Amaranth',sans-serif;font-size:.92rem;outline:none;transition:border-color .15s;}
+input:focus,textarea:focus,select:focus{border-color:var(--accent-color);}
+textarea{resize:vertical;min-height:70px;line-height:1.5;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;}
+@media(max-width:480px){.row2{grid-template-columns:1fr;}}
+
+.chips{display:flex;flex-wrap:wrap;gap:.45rem;}
+.chip{display:inline-flex;align-items:center;gap:.35rem;padding:.35rem .7rem;border:1px solid var(--border-color);border-radius:999px;font-size:.82rem;cursor:pointer;user-select:none;transition:all .15s;}
+.chip input{display:none;}
+.chip.on{background:var(--accent-color);color:#fff;border-color:var(--accent-color);}
+
+.dynlist .item{display:flex;gap:.5rem;margin-bottom:.5rem;align-items:flex-start;}
+.dynlist .item input,.dynlist .item textarea{flex:1;}
+.icon-btn{flex-shrink:0;width:38px;height:38px;border:1px solid var(--border-color);background:var(--card-bg);border-radius:9px;color:var(--text-muted);cursor:pointer;font-size:1.1rem;line-height:1;display:flex;align-items:center;justify-content:center;}
+.icon-btn:hover{border-color:var(--danger-color);color:var(--danger-color);}
+.add-btn{margin-top:.2rem;display:inline-flex;align-items:center;gap:.4rem;background:none;border:1px dashed var(--border-color);color:var(--accent-color);padding:.45rem .8rem;border-radius:9px;font-family:'Inter',sans-serif;font-weight:600;font-size:.82rem;cursor:pointer;}
+.add-btn:hover{border-color:var(--accent-color);background:var(--hover-bg);}
+
+/* costing table */
+table.cost{width:100%;border-collapse:collapse;font-size:.85rem;}
+table.cost th,table.cost td{padding:.4rem .45rem;border-bottom:1px solid var(--border-color);text-align:left;}
+table.cost th{font-family:'Inter',sans-serif;font-size:.74rem;text-transform:uppercase;letter-spacing:.4px;color:var(--text-muted);}
+table.cost td input{padding:.4rem .45rem;font-size:.85rem;}
+table.cost .num{text-align:right;font-family:'JetBrains Mono',monospace;}
+.cost-total{display:flex;justify-content:space-between;align-items:center;margin-top:.7rem;font-family:'Inter',sans-serif;font-weight:700;}
+.cost-total .amt{font-family:'JetBrains Mono',monospace;color:var(--accent-color);font-size:1.05rem;}
+
+/* preview */
+.preview-wrap{position:sticky;top:72px;}
+.preview-actions{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.8rem;}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem .95rem;border-radius:9px;font-family:'Inter',sans-serif;font-weight:600;font-size:.84rem;cursor:pointer;border:1px solid var(--border-color);background:var(--card-bg);color:var(--text-primary);transition:all .15s;}
+.btn:hover{border-color:var(--accent-color);color:var(--accent-color);}
+.btn.primary{background:var(--gradient-primary);color:#fff;-webkit-text-fill-color:#fff;border:none;}
+.btn.primary:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(14,165,233,.3);color:#fff;}
+.btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;}
+.preview{background:var(--card-bg);border:1px solid var(--border-color);border-radius:14px;padding:1.5rem;box-shadow:var(--shadow-md);max-height:calc(100vh - 180px);overflow:auto;}
+.preview h1{font-size:1.3rem;-webkit-text-fill-color:initial;background:none;color:var(--text-primary);margin-bottom:.2rem;}
+.preview h2{font-size:.95rem;color:var(--accent-color);margin:1.1rem 0 .3rem;border-bottom:1px solid var(--border-color);padding-bottom:.2rem;}
+.preview p,.preview li{font-size:.9rem;color:var(--text-secondary);}
+.preview ul,.preview ol{margin:.2rem 0 .2rem 1.1rem;}
+.preview .meta{color:var(--text-muted);font-size:.82rem;}
+.preview table{width:100%;border-collapse:collapse;font-size:.82rem;margin:.4rem 0;}
+.preview table th,.preview table td{border:1px solid var(--border-color);padding:.3rem .45rem;text-align:left;}
+.preview .empty{color:var(--text-muted);font-style:italic;}
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text-primary);color:var(--primary-bg);padding:.7rem 1.2rem;border-radius:10px;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;opacity:0;pointer-events:none;transition:all .25s;z-index:10000;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+.cta{background:linear-gradient(135deg,rgba(99,102,241,.1),rgba(14,165,233,.08));border:1px solid var(--border-color);border-radius:14px;padding:1.1rem 1.2rem;margin-top:1.1rem;}
+.cta h3{font-size:.98rem;margin-bottom:.35rem;}
+.cta p{font-size:.86rem;color:var(--text-secondary);margin-bottom:.6rem;}
+
+/* footer */
+.im-footer{background:var(--secondary-bg);border-top:1px solid var(--border-color);padding:2.5rem 1.25rem 1.5rem;margin-top:2rem;position:relative;z-index:1;}
+.im-footer-content{max-width:1200px;margin:0 auto;}
+.im-footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1.5rem;margin:1rem 0;}
+.im-footer-section h4{font-size:.85rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.7rem;}
+.im-footer-section ul{list-style:none;}
+.im-footer-section li{margin-bottom:.4rem;}
+.im-footer-section a{color:var(--text-secondary);font-size:.88rem;}
+.im-footer-section a:hover{color:var(--accent-color);}
+.im-footer-bottom{border-top:1px solid var(--border-color);padding-top:1rem;text-align:center;color:var(--text-muted);font-size:.82rem;}
+.im-footer-made{text-align:center;color:var(--text-muted);font-size:.85rem;margin-bottom:.5rem;}
+
+@media print{.im-topbar,.paper-plane,.im-footer,.preview-actions,.grid > div:first-child,.hero .links,.cta,.skip-link{display:none !important;}
+.preview{border:none;box-shadow:none;max-height:none;overflow:visible;padding:0;}
+.grid{grid-template-columns:1fr;} body{padding-top:0;}}
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<svg class="paper-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M80,130 L150,50" stroke="#10B981" stroke-width="2" stroke-dasharray="4,4"/>
+    <circle cx="150" cy="50" r="4" fill="#6366F1"/>
+</svg>
+
+<!-- Topbar -->
+<div class="im-topbar" id="imTopbar">
+    <div class="im-topbar-left">
+        <a href="/index.html" class="im-topbar-home">
+            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>ImpactMojo</span>
+        </a>
+    </div>
+    <div class="im-topbar-right">
+        <a href="/catalog.html" class="im-browse-btn" title="Browse all content"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span>Browse</span></a>
+        <a href="/premium.html" class="im-premium-btn"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Premium</a>
+        <div class="im-theme-selector" aria-label="Theme selection">
+            <button class="im-theme-btn" data-imtheme="system" title="System theme" aria-label="Use system theme"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
+            <button class="im-theme-btn" data-imtheme="light" title="Light theme" aria-label="Use light theme"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
+            <button class="im-theme-btn" data-imtheme="dark" title="Dark theme" aria-label="Use dark theme"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+        </div>
+    </div>
+</div>
+
+<main class="wrap" id="main">
+    <div class="hero">
+        <span class="badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg> Free Interactive Tool</span>
+        <h1>ToR Builder</h1>
+        <p>Write a <strong>Terms of Reference</strong> that gets you useful research. Fill in the structured prompts on the left, watch a complete, professional ToR — plus a costing sheet — assemble on the right, then export it.</p>
+        <p class="links">Pairs with the <a href="/practice-packs/tor-writing/">ToR Practice Pack</a> &middot; and the guide <a href="/blog/writing-a-tor-for-research.html">How to Write a ToR</a></p>
+    </div>
+
+    <div class="grid">
+        <!-- ============ FORM ============ -->
+        <div>
+            <div class="section">
+                <h2><span class="n">1</span> The Basics</h2>
+                <div class="fg"><label for="title">Assignment title</label><input type="text" id="title" placeholder="e.g., Midline Evaluation of the Rural Livelihoods Programme"></div>
+                <div class="row2">
+                    <div class="fg"><label for="org">Commissioning organisation</label><input type="text" id="org" placeholder="e.g., ImpactMojo Foundation"></div>
+                    <div class="fg"><label for="date">Date</label><input type="date" id="date"></div>
+                </div>
+                <div class="fg"><label for="engagement">Type of engagement</label>
+                    <select id="engagement">
+                        <option>Evaluation (midline/endline)</option>
+                        <option>Baseline study</option>
+                        <option>Research study</option>
+                        <option>Needs / situation assessment</option>
+                        <option>Feasibility / scoping study</option>
+                        <option>Process / implementation review</option>
+                        <option>Impact evaluation</option>
+                        <option>Consultancy / technical assistance</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><span class="n">2</span> Background &amp; Rationale</h2>
+                <div class="fg"><div class="hint">What is the programme/problem, who funds it, and why are you commissioning this work now? 2–4 sentences.</div>
+                    <textarea id="background" placeholder="The Rural Livelihoods Programme has worked with 12,000 households since 2022… We are commissioning a midline evaluation to…"></textarea></div>
+            </div>
+
+            <div class="section">
+                <h2><span class="n">3</span> Purpose &amp; Objectives</h2>
+                <div class="fg"><label for="purpose">Overall purpose</label><div class="hint">One sentence: what decision will this evidence inform?</div>
+                    <textarea id="purpose" placeholder="To assess progress against intended outcomes and inform mid-course adjustments for the second phase."></textarea></div>
+                <div class="fg"><label>Specific objectives</label><div class="hint">The 3–5 things this assignment must achieve.</div>
+                    <div class="dynlist" id="objectives"></div>
+                    <button class="add-btn" onclick="addItem('objectives','objective')" type="button">+ Add objective</button>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><span class="n">4</span> Type of Enquiry</h2>
+                <div class="hint" style="margin-bottom:.7rem">Three choices that shape your whole design — and auto-suggest methods below. (From the ImpactMojo ToR framework.)</div>
+                <div class="fg"><label>What kind of question is it?</label>
+                    <div class="chips" id="dim-purpose">
+                        <label class="chip"><input type="radio" name="qpurpose" value="outcome"> Outcome — did it work?</label>
+                        <label class="chip"><input type="radio" name="qpurpose" value="process"> Process — how/why?</label>
+                        <label class="chip"><input type="radio" name="qpurpose" value="theory"> Theory-based — for whom &amp; under what conditions?</label>
+                    </div>
+                </div>
+                <div class="fg"><label>What kind of data?</label>
+                    <div class="chips" id="dim-data">
+                        <label class="chip"><input type="radio" name="qdata" value="quant"> Quantitative</label>
+                        <label class="chip"><input type="radio" name="qdata" value="qual"> Qualitative</label>
+                        <label class="chip"><input type="radio" name="qdata" value="mixed"> Mixed methods</label>
+                    </div>
+                </div>
+                <div class="fg"><label>What time structure?</label>
+                    <div class="chips" id="dim-time">
+                        <label class="chip"><input type="radio" name="qtime" value="cross"> Cross-sectional (snapshot)</label>
+                        <label class="chip"><input type="radio" name="qtime" value="long"> Longitudinal (over time)</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><span class="n">5</span> Key Questions</h2>
+                <div class="fg"><div class="hint">The specific questions the work must answer. Keep them few and answerable.</div>
+                    <div class="dynlist" id="questions"></div>
+                    <button class="add-btn" onclick="addItem('questions','question')" type="button">+ Add question</button>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><span class="n">6</span> Scope</h2>
+                <div class="row2">
+                    <div class="fg"><label for="geography">Geography / sites</label><input type="text" id="geography" placeholder="e.g., 4 districts in Bihar"></div>
+                    <div class="fg"><label for="population">Population / participants</label><input type="text" id="population" placeholder="e.g., SHG members, programme staff, non-participants"></div>
+                </div>
+                <div class="fg"><label for="period">Period under review</label><input type="text" id="period" placeholder="e.g., Jan 2022 – Dec 2025"></div>
+            </div>
+
+            <div class="section">
+                <h2><span class="n">7</span> Methodology</h2>
+                <div class="fg"><label>Suggested methods <span id="methodHint" class="hint" style="display:inline"></span></label>
+                    <div class="chips" id="methods"></div>
+                </div>
+                <div class="fg"><label for="methodNotes">Notes / constraints on methodology</label>
+                    <textarea id="methodNotes" placeholder="e.g., must include disaggregation by gender and caste; ethics approval required; data must be anonymised."></textarea></div>
+            </div>
+
+            <div class="section">
+                <h2><span class="n">8</span> Deliverables &amp; Timeline</h2>
+                <div class="fg"><label>Deliverables</label>
+                    <div class="dynlist" id="deliverables"></div>
+                    <button class="add-btn" onclick="addItem('deliverables','deliverable')" type="button">+ Add deliverable</button>
+                </div>
+                <div class="row2">
+                    <div class="fg"><label for="start">Start</label><input type="text" id="start" placeholder="e.g., 1 Aug 2026"></div>
+                    <div class="fg"><label for="end">Final report due</label><input type="text" id="end" placeholder="e.g., 30 Oct 2026"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><span class="n">9</span> Team &amp; Qualifications</h2>
+                <div class="fg"><div class="hint">Skills, experience, and any sectoral/linguistic requirements.</div>
+                    <textarea id="team" placeholder="Lead with 7+ yrs in livelihoods evaluation; mixed-methods expertise; Hindi fluency; experience with SHG programmes; female enumerators for women respondents."></textarea></div>
+            </div>
+
+            <div class="section">
+                <h2><span class="n">10</span> Costing Sheet</h2>
+                <div class="hint" style="margin-bottom:.6rem">Build an indicative budget by phase or role. Currency: <input type="text" id="currency" value="₹" style="width:60px;display:inline-block;padding:.2rem .4rem"></div>
+                <table class="cost"><thead><tr><th>Item / phase</th><th style="width:70px">Days</th><th style="width:110px">Day rate</th><th style="width:90px" class="num">Cost</th><th style="width:34px"></th></tr></thead>
+                    <tbody id="costRows"></tbody></table>
+                <button class="add-btn" onclick="addCostRow()" type="button">+ Add line</button>
+                <div class="fg" style="margin-top:.7rem"><label for="contingency">Contingency %</label><input type="number" id="contingency" value="10" min="0" max="50" style="width:90px"></div>
+                <div class="cost-total"><span>Estimated total</span><span class="amt" id="costTotal">—</span></div>
+            </div>
+
+            <div class="section">
+                <h2><span class="n">11</span> How to Apply</h2>
+                <div class="row2">
+                    <div class="fg"><label for="deadline">Submission deadline</label><input type="text" id="deadline" placeholder="e.g., 15 Jul 2026, 17:00 IST"></div>
+                    <div class="fg"><label for="contact">Contact</label><input type="text" id="contact" placeholder="e.g., research@yourorg.org"></div>
+                </div>
+                <div class="fg"><label for="apply">What to submit</label>
+                    <textarea id="apply" placeholder="A technical proposal (max 8 pages), CVs of the core team, a financial proposal, and two references for similar work."></textarea></div>
+            </div>
+        </div>
+
+        <!-- ============ PREVIEW ============ -->
+        <div>
+            <div class="preview-wrap">
+                <div class="preview-actions">
+                    <button class="btn primary" onclick="copyMarkdown()"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy Markdown</button>
+                    <button class="btn" onclick="downloadMarkdown()"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download .md</button>
+                    <button class="btn" onclick="window.print()"><svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Print / PDF</button>
+                    <button class="btn" onclick="loadExample()"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Load example</button>
+                    <button class="btn" onclick="resetAll()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Reset</button>
+                </div>
+                <div class="preview" id="preview"></div>
+                <div class="cta">
+                    <h3>Want to go deeper?</h3>
+                    <p>The <strong>ToR Practice Pack</strong> walks you through commissioning research end-to-end — research types, scoping, costing, and reviewing proposals — and produces a polished ToR + costing sheet. First two modules free.</p>
+                    <a class="btn primary" href="/practice-packs/tor-writing/">Open the ToR Practice Pack →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="im-footer" role="contentinfo">
+<div class="im-footer-content">
+<p class="im-footer-made">Free, open educational tooling from ImpactMojo</p>
+<div class="im-footer-grid">
+<div class="im-footer-section"><h4>About</h4><ul>
+<li><a href="/about.html">About Us</a></li><li><a href="/contact.html">Contact</a></li><li><a href="/transparency.html">Transparency</a></li><li><a href="/status.html">System Status</a></li></ul></div>
+<div class="im-footer-section"><h4>Legal</h4><ul>
+<li><a href="/privacy-policy.html">Privacy Policy</a></li><li><a href="/terms-of-service.html">Terms of Service</a></li><li><a href="/disclaimer.html">Disclaimer</a></li></ul></div>
+<div class="im-footer-section"><h4>Quick Links</h4><ul>
+<li><a href="/catalog.html">Catalog</a></li><li><a href="/premium.html">Premium</a></li><li><a href="/practice-packs/tor-writing/">ToR Practice Pack</a></li></ul></div>
+<div class="im-footer-section"><h4>Resources</h4><ul>
+<li><a href="/handouts.html">Handouts</a></li><li><a href="/blog.html">Blog</a></li><li><a href="/faq.html">FAQ</a></li><li><a href="/sitemap.html">Sitemap</a></li></ul></div>
+</div>
+<div class="im-footer-bottom"><p>&copy; 2026 ImpactMojo. Code under MIT; content under CC BY-NC-ND 4.0.</p></div>
+</div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<!-- Theme toggle -->
+<script>
+(function(){
+    function sys(){return window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}
+    function apply(t){var r=t==='system'?sys():t;document.documentElement.setAttribute('data-theme',r);document.body.classList.remove('dark-mode','light-mode');document.body.classList.add(r==='light'?'light-mode':'dark-mode');}
+    function upd(p){document.querySelectorAll('.im-theme-btn').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-imtheme')===p);});}
+    var saved=localStorage.getItem('im-theme')||'system';apply(saved);
+    document.addEventListener('DOMContentLoaded',function(){upd(saved);document.querySelectorAll('.im-theme-btn').forEach(function(b){b.addEventListener('click',function(){var t=this.getAttribute('data-imtheme');localStorage.setItem('im-theme',t);apply(t);upd(t);});});});
+    window.matchMedia('(prefers-color-scheme: light)').addEventListener('change',function(){if((localStorage.getItem('im-theme')||'system')==='system')apply('system');});
+})();
+</script>
+
+<!-- ToR Builder logic -->
+<script>
+const SKEY = 'imx-tor-builder-v1';
+const $ = id => document.getElementById(id);
+const esc = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+const METHOD_LIBRARY = {
+    quant: ['Household survey','Structured questionnaire','Quasi-experimental comparison','Administrative / MIS data analysis','Difference-in-differences'],
+    qual: ['Key informant interviews','Focus group discussions','Case studies','Most Significant Change','Observation'],
+    mixed: ['Household survey','Key informant interviews','Focus group discussions','Document review','Case studies'],
+    outcome: ['Comparison against baseline','Contribution analysis'],
+    process: ['Process tracing','Implementation fidelity review'],
+    theory: ['Theory-based / contribution analysis','Realist evaluation (what works for whom)'],
+    long: ['Panel / repeat measurement','Cohort tracking'],
+    cross: ['One-time data collection']
+};
+
+/* dynamic lists */
+function addItem(listId, kind, value){
+    const list = $(listId);
+    const div = document.createElement('div');
+    div.className = 'item';
+    const multiline = kind === 'objective' || kind === 'deliverable';
+    div.innerHTML = (multiline
+        ? `<input type="text" placeholder="Add a ${kind}…">`
+        : `<input type="text" placeholder="Add a ${kind}…">`) +
+        `<button class="icon-btn" title="Remove" type="button" onclick="this.parentElement.remove();render();save();">&times;</button>`;
+    if(value) div.querySelector('input').value = value;
+    div.querySelector('input').addEventListener('input', ()=>{render();save();});
+    list.appendChild(div);
+}
+function listValues(listId){return [...$(listId).querySelectorAll('input')].map(i=>i.value.trim()).filter(Boolean);}
+
+/* costing */
+function addCostRow(item,days,rate){
+    const tb = $('costRows');
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td><input type="text" class="ci-item" placeholder="e.g., Inception & design"></td>
+        <td><input type="number" class="ci-days" min="0" value="0"></td>
+        <td><input type="number" class="ci-rate" min="0" value="0"></td>
+        <td class="num ci-cost">0</td>
+        <td><button class="icon-btn" type="button" title="Remove" onclick="this.closest('tr').remove();calcCost();render();save();">&times;</button></td>`;
+    if(item) tr.querySelector('.ci-item').value = item;
+    if(days!=null) tr.querySelector('.ci-days').value = days;
+    if(rate!=null) tr.querySelector('.ci-rate').value = rate;
+    tr.querySelectorAll('input').forEach(i=>i.addEventListener('input',()=>{calcCost();render();save();}));
+    tb.appendChild(tr);
+}
+function fmt(n){return (Math.round(n)).toLocaleString('en-IN');}
+function calcCost(){
+    const cur = $('currency').value || '';
+    let sub = 0;
+    [...$('costRows').querySelectorAll('tr')].forEach(tr=>{
+        const d = parseFloat(tr.querySelector('.ci-days').value)||0;
+        const r = parseFloat(tr.querySelector('.ci-rate').value)||0;
+        const c = d*r; tr.querySelector('.ci-cost').textContent = fmt(c);
+        sub += c;
+    });
+    const cont = (parseFloat($('contingency').value)||0)/100;
+    const total = sub*(1+cont);
+    $('costTotal').textContent = total>0 ? cur+fmt(total) : '—';
+    return {cur, sub, cont, total, rows:[...$('costRows').querySelectorAll('tr')].map(tr=>({
+        item:tr.querySelector('.ci-item').value.trim(),
+        days:parseFloat(tr.querySelector('.ci-days').value)||0,
+        rate:parseFloat(tr.querySelector('.ci-rate').value)||0,
+        cost:(parseFloat(tr.querySelector('.ci-days').value)||0)*(parseFloat(tr.querySelector('.ci-rate').value)||0)
+    }))};
+}
+
+/* methods auto-suggest from the three dimensions */
+function refreshMethods(){
+    const get = n => (document.querySelector(`input[name="${n}"]:checked`)||{}).value;
+    const sel = new Set([...$('methods').querySelectorAll('input:checked')].map(i=>i.value));
+    const suggested = new Set();
+    [get('qdata'),get('qpurpose'),get('qtime')].forEach(k=>{(METHOD_LIBRARY[k]||[]).forEach(m=>suggested.add(m));});
+    const all = [...suggested];
+    $('methodHint').textContent = all.length ? '· suggested from your choices above' : '';
+    $('methods').innerHTML = all.map(m=>{
+        const on = sel.has(m);
+        return `<label class="chip${on?' on':''}"><input type="checkbox" value="${esc(m)}" ${on?'checked':''}>${esc(m)}</label>`;
+    }).join('') || '<span class="hint">Pick the enquiry type above to see suggested methods.</span>';
+    $('methods').querySelectorAll('.chip').forEach(c=>{
+        const cb=c.querySelector('input');
+        cb.addEventListener('change',()=>{c.classList.toggle('on',cb.checked);render();save();});
+    });
+}
+
+/* chip visual state for radios */
+function wireChips(){
+    document.querySelectorAll('#dim-purpose .chip, #dim-data .chip, #dim-time .chip').forEach(c=>{
+        const r=c.querySelector('input');
+        r.addEventListener('change',()=>{
+            c.parentElement.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));
+            c.classList.add('on'); refreshMethods(); render(); save();
+        });
+    });
+}
+
+/* build the document model */
+function model(){
+    const get = n => (document.querySelector(`input[name="${n}"]:checked`)||{}).value;
+    const enquiry = [];
+    const P={outcome:'Outcome (did it work?)',process:'Process (how & why?)',theory:'Theory-based (for whom & under what conditions?)'};
+    const D={quant:'Quantitative',qual:'Qualitative',mixed:'Mixed methods'};
+    const T={cross:'Cross-sectional (snapshot)',long:'Longitudinal (over time)'};
+    if(get('qpurpose')) enquiry.push(P[get('qpurpose')]);
+    if(get('qdata')) enquiry.push(D[get('qdata')]);
+    if(get('qtime')) enquiry.push(T[get('qtime')]);
+    return {
+        title:$('title').value.trim(), org:$('org').value.trim(), date:$('date').value,
+        engagement:$('engagement').value, background:$('background').value.trim(),
+        purpose:$('purpose').value.trim(), objectives:listValues('objectives'),
+        enquiry, questions:listValues('questions'),
+        geography:$('geography').value.trim(), population:$('population').value.trim(), period:$('period').value.trim(),
+        methods:[...$('methods').querySelectorAll('input:checked')].map(i=>i.value),
+        methodNotes:$('methodNotes').value.trim(), deliverables:listValues('deliverables'),
+        start:$('start').value.trim(), end:$('end').value.trim(), team:$('team').value.trim(),
+        cost:calcCost(), deadline:$('deadline').value.trim(), contact:$('contact').value.trim(), apply:$('apply').value.trim()
+    };
+}
+
+/* ---- render preview ---- */
+function render(){
+    const m = model();
+    const ol = a => a.length ? '<ol>'+a.map(x=>`<li>${esc(x)}</li>`).join('')+'</ol>' : '<p class="empty">—</p>';
+    const ul = a => a.length ? '<ul>'+a.map(x=>`<li>${esc(x)}</li>`).join('')+'</ul>' : '<p class="empty">—</p>';
+    let costTable = '<p class="empty">—</p>';
+    const rows = m.cost.rows.filter(r=>r.item||r.cost);
+    if(rows.length){
+        costTable = '<table><tr><th>Item</th><th>Days</th><th>Rate</th><th>Cost</th></tr>'+
+            rows.map(r=>`<tr><td>${esc(r.item)}</td><td>${r.days}</td><td>${m.cost.cur}${fmt(r.rate)}</td><td>${m.cost.cur}${fmt(r.cost)}</td></tr>`).join('')+
+            `<tr><td colspan="3"><strong>Subtotal</strong></td><td><strong>${m.cost.cur}${fmt(m.cost.sub)}</strong></td></tr>`+
+            (m.cost.cont? `<tr><td colspan="3">Contingency (${Math.round(m.cost.cont*100)}%)</td><td>${m.cost.cur}${fmt(m.cost.sub*m.cost.cont)}</td></tr>`:'')+
+            `<tr><td colspan="3"><strong>Total</strong></td><td><strong>${m.cost.cur}${fmt(m.cost.total)}</strong></td></tr></table>`;
+    }
+    $('preview').innerHTML = `
+        <h1>${esc(m.title)||'Terms of Reference'}</h1>
+        <p class="meta">${esc(m.engagement)}${m.org?' &middot; '+esc(m.org):''}${m.date?' &middot; '+esc(m.date):''}</p>
+        <h2>1. Background &amp; Rationale</h2>${m.background?`<p>${esc(m.background)}</p>`:'<p class="empty">—</p>'}
+        <h2>2. Purpose</h2>${m.purpose?`<p>${esc(m.purpose)}</p>`:'<p class="empty">—</p>'}
+        <h2>3. Objectives</h2>${ol(m.objectives)}
+        ${m.enquiry.length?`<h2>4. Type of Enquiry</h2>${ul(m.enquiry)}`:''}
+        <h2>5. Key Questions</h2>${ol(m.questions)}
+        <h2>6. Scope</h2><ul>
+            ${m.geography?`<li><strong>Geography:</strong> ${esc(m.geography)}</li>`:''}
+            ${m.population?`<li><strong>Participants:</strong> ${esc(m.population)}</li>`:''}
+            ${m.period?`<li><strong>Period under review:</strong> ${esc(m.period)}</li>`:''}
+            ${!(m.geography||m.population||m.period)?'<li class="empty">—</li>':''}</ul>
+        <h2>7. Methodology</h2>${ul(m.methods)}${m.methodNotes?`<p>${esc(m.methodNotes)}</p>`:''}
+        <h2>8. Deliverables &amp; Timeline</h2>${ul(m.deliverables)}
+            ${(m.start||m.end)?`<p class="meta">${m.start?'Start: '+esc(m.start):''}${m.start&&m.end?' &middot; ':''}${m.end?'Final report: '+esc(m.end):''}</p>`:''}
+        <h2>9. Team &amp; Qualifications</h2>${m.team?`<p>${esc(m.team)}</p>`:'<p class="empty">—</p>'}
+        <h2>10. Indicative Budget</h2>${costTable}
+        <h2>11. How to Apply</h2>
+            ${m.apply?`<p>${esc(m.apply)}</p>`:''}
+            <ul>${m.deadline?`<li><strong>Deadline:</strong> ${esc(m.deadline)}</li>`:''}${m.contact?`<li><strong>Contact:</strong> ${esc(m.contact)}</li>`:''}${!(m.deadline||m.contact||m.apply)?'<li class="empty">—</li>':''}</ul>
+    `;
+}
+
+/* ---- markdown export ---- */
+function toMarkdown(){
+    const m = model();
+    const L=[];
+    L.push(`# Terms of Reference — ${m.title||'[Title]'}`,'');
+    const meta=[m.engagement,m.org,m.date].filter(Boolean).join(' · ');
+    if(meta) L.push(`*${meta}*`,'');
+    const sec=(h,b)=>{L.push(`## ${h}`); L.push(b&&b.length?b:'_To be completed._',''); };
+    const num=a=>a.length?a.map((x,i)=>`${i+1}. ${x}`).join('\n'):'';
+    const bul=a=>a.length?a.map(x=>`- ${x}`).join('\n'):'';
+    sec('1. Background & Rationale', m.background);
+    sec('2. Purpose', m.purpose);
+    sec('3. Objectives', num(m.objectives));
+    if(m.enquiry.length) sec('4. Type of Enquiry', bul(m.enquiry));
+    sec('5. Key Questions', num(m.questions));
+    sec('6. Scope', bul([m.geography&&`**Geography:** ${m.geography}`, m.population&&`**Participants:** ${m.population}`, m.period&&`**Period under review:** ${m.period}`].filter(Boolean)));
+    sec('7. Methodology', [bul(m.methods), m.methodNotes].filter(Boolean).join('\n\n'));
+    sec('8. Deliverables & Timeline', [bul(m.deliverables), [m.start&&`Start: ${m.start}`, m.end&&`Final report: ${m.end}`].filter(Boolean).join(' · ')].filter(Boolean).join('\n\n'));
+    sec('9. Team & Qualifications', m.team);
+    // budget table
+    const rows=m.cost.rows.filter(r=>r.item||r.cost);
+    let bud='';
+    if(rows.length){
+        bud='| Item | Days | Rate | Cost |\n|---|---:|---:|---:|\n'+
+            rows.map(r=>`| ${r.item} | ${r.days} | ${m.cost.cur}${fmt(r.rate)} | ${m.cost.cur}${fmt(r.cost)} |`).join('\n')+
+            `\n| **Subtotal** | | | **${m.cost.cur}${fmt(m.cost.sub)}** |`+
+            (m.cost.cont?`\n| Contingency (${Math.round(m.cost.cont*100)}%) | | | ${m.cost.cur}${fmt(m.cost.sub*m.cost.cont)} |`:'')+
+            `\n| **Total** | | | **${m.cost.cur}${fmt(m.cost.total)}** |`;
+    }
+    sec('10. Indicative Budget', bud);
+    sec('11. How to Apply', [m.apply, m.deadline&&`**Deadline:** ${m.deadline}`, m.contact&&`**Contact:** ${m.contact}`].filter(Boolean).join('\n\n'));
+    L.push('---','_Drafted with the ImpactMojo ToR Builder · impactmojo.in_');
+    return L.join('\n');
+}
+function copyMarkdown(){navigator.clipboard.writeText(toMarkdown()).then(()=>toast('ToR copied as Markdown')).catch(()=>toast('Copy failed — select & copy manually'));}
+function downloadMarkdown(){
+    const m=model();
+    const name=(m.title||'Terms-of-Reference').replace(/[^a-z0-9]+/gi,'_').replace(/^_+|_+$/g,'').slice(0,60)||'ToR';
+    const blob=new Blob([toMarkdown()],{type:'text/markdown'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name+'.md';a.click();
+    setTimeout(()=>URL.revokeObjectURL(a.href),1000); toast('Downloaded '+name+'.md');
+}
+
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+
+/* ---- persistence ---- */
+function save(){
+    try{localStorage.setItem(SKEY, JSON.stringify(serialize()));}catch(e){}
+}
+function serialize(){
+    const get=n=>(document.querySelector(`input[name="${n}"]:checked`)||{}).value||'';
+    return {
+        f:{title:$('title').value,org:$('org').value,date:$('date').value,engagement:$('engagement').value,
+            background:$('background').value,purpose:$('purpose').value,geography:$('geography').value,
+            population:$('population').value,period:$('period').value,methodNotes:$('methodNotes').value,
+            start:$('start').value,end:$('end').value,team:$('team').value,currency:$('currency').value,
+            contingency:$('contingency').value,deadline:$('deadline').value,contact:$('contact').value,apply:$('apply').value},
+        dims:{qpurpose:get('qpurpose'),qdata:get('qdata'),qtime:get('qtime')},
+        objectives:listValues('objectives'), questions:listValues('questions'), deliverables:listValues('deliverables'),
+        methods:[...$('methods').querySelectorAll('input:checked')].map(i=>i.value),
+        cost:[...$('costRows').querySelectorAll('tr')].map(tr=>({item:tr.querySelector('.ci-item').value,days:tr.querySelector('.ci-days').value,rate:tr.querySelector('.ci-rate').value}))
+    };
+}
+function restore(d){
+    if(!d) return false;
+    Object.entries(d.f||{}).forEach(([k,v])=>{if($(k)!=null)$(k).value=v;});
+    ['objectives','questions','deliverables'].forEach(id=>$(id).innerHTML='');
+    (d.objectives||[]).forEach(v=>addItem('objectives','objective',v));
+    (d.questions||[]).forEach(v=>addItem('questions','question',v));
+    (d.deliverables||[]).forEach(v=>addItem('deliverables','deliverable',v));
+    Object.entries(d.dims||{}).forEach(([k,v])=>{if(v){const el=document.querySelector(`input[name="${k}"][value="${v}"]`);if(el){el.checked=true;el.closest('.chip').classList.add('on');}}});
+    refreshMethods();
+    (d.methods||[]).forEach(v=>{const cb=document.querySelector(`#methods input[value="${CSS.escape(v)}"]`);if(cb){cb.checked=true;cb.closest('.chip').classList.add('on');}});
+    $('costRows').innerHTML='';
+    (d.cost||[]).forEach(r=>addCostRow(r.item,r.days,r.rate));
+    return true;
+}
+
+/* ---- example ---- */
+function loadExample(){
+    resetAll(true);
+    $('title').value='Midline Evaluation of the Rural Livelihoods Programme';
+    $('org').value='ImpactMojo Foundation'; $('date').value=new Date().toISOString().slice(0,10);
+    $('engagement').value='Evaluation (midline/endline)';
+    $('background').value='Since 2022 the Rural Livelihoods Programme has supported 12,000 women in self-help groups across four districts of Bihar with savings, credit, and enterprise training. With the programme at its midpoint, we are commissioning a midline evaluation to test progress and inform the design of Phase II.';
+    $('purpose').value='To assess progress against intended outcomes and surface the changes most worth making before Phase II.';
+    ['Assess changes in household income and women’s economic agency since baseline','Identify which programme components are working, for whom, and why','Recommend concrete adjustments for Phase II'].forEach(v=>addItem('objectives','objective',v));
+    document.querySelector('input[name="qpurpose"][value="theory"]').checked=true;document.querySelector('#dim-purpose .chip input[value="theory"]').closest('.chip').classList.add('on');
+    document.querySelector('input[name="qdata"][value="mixed"]').checked=true;document.querySelector('#dim-data .chip input[value="mixed"]').closest('.chip').classList.add('on');
+    document.querySelector('input[name="qtime"][value="long"]').checked=true;document.querySelector('#dim-time .chip input[value="long"]').closest('.chip').classList.add('on');
+    refreshMethods();
+    ['Has household income changed since baseline, and for which groups?','What explains differences between high- and low-performing SHGs?','Which components should Phase II keep, drop, or redesign?'].forEach(v=>addItem('questions','question',v));
+    $('geography').value='4 districts in Bihar'; $('population').value='SHG members, programme staff, and a comparison group of non-members';
+    $('period').value='Jan 2022 – Jun 2026';
+    setTimeout(()=>{ // methods exist after refresh
+        ['Household survey','Key informant interviews','Focus group discussions'].forEach(v=>{const cb=document.querySelector(`#methods input[value="${CSS.escape(v)}"]`);if(cb){cb.checked=true;cb.closest('.chip').classList.add('on');}});
+        render();save();
+    },0);
+    $('methodNotes').value='Disaggregate all findings by caste and age. Ethics approval and informed consent required. Female enumerators for women respondents.';
+    ['Inception report with evaluation matrix','Cleaned, anonymised datasets','Draft report','Final report (max 30 pp) + 2-page brief','Validation workshop'].forEach(v=>addItem('deliverables','deliverable',v));
+    $('start').value='1 Aug 2026'; $('end').value='30 Oct 2026';
+    $('team').value='Team lead with 7+ years in livelihoods evaluation and mixed-methods design; Hindi fluency; prior SHG experience; female field researchers.';
+    $('costRows').innerHTML='';
+    addCostRow('Inception & design',6,12000);addCostRow('Tool development & training',5,12000);addCostRow('Fieldwork & data collection',20,9000);addCostRow('Analysis & reporting',12,12000);
+    $('contingency').value='10';
+    $('deadline').value='15 Jul 2026, 17:00 IST'; $('contact').value='research@impactmojo.in';
+    $('apply').value='A technical proposal (max 8 pages), CVs of the core team, a financial proposal in the currency above, and two references for comparable assignments.';
+    calcCost();render();save();toast('Loaded a worked example');
+}
+
+function resetAll(silent){
+    if(!silent && !confirm('Clear the whole form?')) return;
+    ['title','org','date','background','purpose','geography','population','period','methodNotes','start','end','team','deadline','contact','apply'].forEach(id=>$(id).value='');
+    $('engagement').selectedIndex=0; $('currency').value='₹'; $('contingency').value='10';
+    ['objectives','questions','deliverables','costRows','methods'].forEach(id=>$(id).innerHTML='');
+    document.querySelectorAll('#dim-purpose .chip,#dim-data .chip,#dim-time .chip').forEach(c=>{c.classList.remove('on');const r=c.querySelector('input');if(r)r.checked=false;});
+    if(!silent){
+        addItem('objectives','objective');addItem('questions','question');
+        ['Inception report','Draft report','Final report'].forEach(v=>addItem('deliverables','deliverable',v));
+        addCostRow();refreshMethods();calcCost();render();save();toast('Form cleared');
+    }
+}
+
+/* ---- init ---- */
+(function init(){
+    // live updates on all native inputs
+    document.addEventListener('input', e=>{
+        if(e.target.closest('.section')){calcCost();render();save();}
+    });
+    let loaded=false;
+    try{loaded=restore(JSON.parse(localStorage.getItem(SKEY)));}catch(e){}
+    if(!loaded){
+        addItem('objectives','objective');addItem('questions','question');
+        ['Inception report','Draft report','Final report (max 30 pp)'].forEach(v=>addItem('deliverables','deliverable',v));
+        addCostRow('Inception & design');addCostRow('Fieldwork');addCostRow('Analysis & reporting');
+    }
+    wireChips();refreshMethods();calcCost();render();
+})();
+</script>
+
+<!-- Supabase Auth + i18n -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="/js/state-manager.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/translate-sarvam.js" defer></script>
+</body>
+</html>
