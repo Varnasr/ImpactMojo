@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+<title>Pay your subscription | ImpactMojo</title>
+<link rel="icon" type="image/png" href="/assets/images/favicon.png"><meta name="theme-color" content="#0EA5E9">
+<link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&amp;family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/product.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+<div class="tb"><a class="home" href="/index.html"><img src="/assets/images/ImpactMojo%20Logo.png" alt="ImpactMojo">ImpactMojo</a>
+<div class="r"><a class="bk" href="/premium.html">← Premium</a>
+<button class="theme" onclick="tg()" aria-label="Toggle theme"><svg class="sn" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.2" y1="4.2" x2="5.6" y2="5.6"/><line x1="18.4" y1="18.4" x2="19.8" y2="19.8"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.2" y1="19.8" x2="5.6" y2="18.4"/><line x1="18.4" y1="5.6" x2="19.8" y2="4.2"/></svg><svg class="mn" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div>
+<main class="wrap" id="main" style="max-width:620px">
+  <span class="eyebrow">Subscription payment</span>
+  <h1 class="title" id="planTitle">Your ImpactMojo subscription</h1>
+  <p class="lede" id="periodLine">Scan to pay this cycle's subscription by UPI.</p>
+
+  <div class="card" style="text-align:center">
+    <div id="amountBig" style="font-family:'Inter';font-weight:800;font-size:2rem;margin-bottom:.4rem">₹—</div>
+    <canvas id="qr" width="220" height="220" style="border:1px solid var(--bd);border-radius:12px;background:#fff;padding:8px"></canvas>
+    <p class="note" style="margin:.7rem 0 .3rem">Scan with any UPI app, or pay to:</p>
+    <div class="upi-id" style="justify-content:center;max-width:320px;margin:0 auto"><span id="upi">impactmojo@ibl</span><button onclick="copyUPI()">Copy</button></div>
+    <p style="margin-top:.6rem;font-size:.92rem">Add this reference in the payment note:</p>
+    <div class="mono" id="refBox" style="font-weight:700;font-size:1.05rem;color:var(--acc);background:var(--hov);border:1px dashed var(--acc);border-radius:8px;padding:.4rem .7rem;display:inline-block;margin-top:.2rem">—</div>
+    <p style="margin-top:1rem"><a class="btn buy" id="upiBtn" href="#">Open UPI app to pay</a></p>
+    <p style="margin-top:.5rem"><button class="btn ghost" onclick="waOrder()" style="font-size:.85rem">Send the payment screenshot on WhatsApp</button></p>
+  </div>
+
+  <div class="card" style="margin-top:1.2rem">
+    <h3 style="font-size:1.05rem;margin-bottom:.2rem">Confirm your payment</h3>
+    <p class="note">Once you've paid, tell us — we'll activate/renew within 24 hours.</p>
+    <form name="subscription-payment" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="return submitPay(event)">
+      <input type="hidden" name="form-name" value="subscription-payment">
+      <input type="hidden" name="reference" id="fRef" value="">
+      <input type="hidden" name="plan" id="fPlan" value="">
+      <p style="display:none"><label>Don't fill: <input name="bot-field"></label></p>
+      <div class="field"><label for="em">Email on your subscription</label><input id="em" type="email" name="email" required></div>
+      <div class="field"><label for="txn">UPI transaction / reference no.</label><input id="txn" name="upi_ref" required></div>
+      <button class="btn buy" type="submit" style="width:100%;justify-content:center">I've paid</button>
+      <div class="ok-msg" id="okMsg">✓ Thank you. We'll confirm and keep your subscription active within 24 hours.</div>
+    </form>
+  </div>
+  <p class="note" style="text-align:center;margin-top:1rem">Questions? <a href="/contact.html">Contact us</a> · <a href="/refund-policy.html">Refund policy</a></p>
+</main>
+<div class="toast" id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script>
+function tg(){document.body.classList.toggle('light-mode');localStorage.setItem('theme',document.body.classList.contains('light-mode')?'light':'dark');}
+(function(){var s=localStorage.getItem('theme'),pd=matchMedia('(prefers-color-scheme: dark)').matches;if(s==='light'||(!s&&!pd))document.body.classList.add('light-mode');})();
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2000);}
+function copyUPI(){navigator.clipboard.writeText('impactmojo@ibl').then(function(){toast('UPI ID copied');});}
+var WA="919871777110";
+var q=new URLSearchParams(location.search);
+var amt=parseInt(q.get('amt')||'399',10);
+var ref=(q.get('ref')||'IMX-SUB').replace(/[^A-Za-z0-9-]/g,'');
+var plan=q.get('plan')||'Practitioner';
+var period=q.get('period')||'';
+var upiStr="upi://pay?pa=impactmojo@ibl&pn=ImpactMojo&am="+amt+"&cu=INR&tn="+encodeURIComponent(ref);
+document.getElementById('amountBig').textContent="₹"+amt.toLocaleString('en-IN');
+document.getElementById('planTitle').textContent=plan+" — subscription";
+document.getElementById('periodLine').textContent=period?("Payment for "+period+". Scan to pay by UPI."):"Scan to pay this cycle's subscription by UPI.";
+document.getElementById('refBox').textContent=ref;
+document.getElementById('fRef').value=ref;
+document.getElementById('fPlan').value=plan;
+document.getElementById('upiBtn').href=upiStr;
+QRCode.toCanvas(document.getElementById('qr'), upiStr, {width:220,margin:1}, function(e){ if(e){ document.getElementById('qr').replaceWith(Object.assign(document.createElement('p'),{className:'note',textContent:'Could not draw QR — use the UPI ID above.'})); }});
+function waOrder(){location.href="https://wa.me/"+WA+"?text="+encodeURIComponent("Hi ImpactMojo — paying my "+plan+" subscription (₹"+amt+"), reference "+ref+". Screenshot attached.");}
+function submitPay(e){e.preventDefault();var f=e.target,data=new URLSearchParams(new FormData(f)).toString();
+fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:data}).then(function(){f.querySelector('button[type=submit]').style.display='none';document.getElementById('okMsg').style.display='block';toast('Recorded — thank you');}).catch(function(){toast('Error — please WhatsApp us');});return false;}
+</script>
+</body>
+</html>

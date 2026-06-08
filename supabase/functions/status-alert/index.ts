@@ -57,7 +57,7 @@ serve(async (req) => {
     <h2 style="font-size:18px;margin:0 0 12px">${subject}</h2>
     <div style="font-size:15px;line-height:1.6;color:#334155">${html}</div>
     <hr style="border:none;border-top:1px solid #E2E8F0;margin:20px 0">
-    <p style="font-size:12px;color:#94A3B8">Automated message from the ImpactMojo status monitor.</p>
+    <p style="font-size:12px;color:#94A3B8">Automated message from ImpactMojo · impactmojo.in</p>
   </div>`;
 
   try {

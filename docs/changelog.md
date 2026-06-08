@@ -2,6 +2,16 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.70.0 — June 8, 2026 (UPI subscriptions — no gateway, no fees)
+
+### For Learners
+
+- **Subscribe to Premium by UPI** at [/subscribe/](https://www.impactmojo.in/subscribe/) — pick Practitioner or Organisation (monthly or annual), pay by UPI, and you're activated within 24 hours. No card and no auto-debit: for monthly plans we email a fresh UPI QR each cycle, and you renew only if you want to.
+
+### Added
+
+- `subscriptions` + `subscription_payments` tables in Supabase; `/api/subscribe` (creates the subscription + first invoice + emails a UPI pay link), `subscription-billing` (monthly scheduled function that raises each due invoice with a fresh QR/reference and emails it), `/api/sub-admin` (admin reconciliation), and a client-side QR pay page at `/subscribe/pay/`. Linked from Premium and the Products page.
+
 ## v10.69.0 — June 8, 2026 (The full gated product store)
 
 ### For Learners
