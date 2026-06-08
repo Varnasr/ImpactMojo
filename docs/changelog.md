@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.72.0 — June 8, 2026
+
+### Changed
+
+- **ToR Builder is now ToR Builder Pro**, a standalone premium tool alongside the other Pro tools: moved to **`/premium-tools/tor-builder.html`** (old paths 301-redirect), listed in the Premium Tools lineup on the Products page and catalog, and now **mentioned in the body of the "How to Write a ToR" blog post** (in the three-dimensions section) as well as the further-reading list.
+- **Products page trimmed of services** — Coaching and Workshops removed; only a single tiny "Subscribe by UPI" line remains. It's a products page now, not a services page.
+
 ## v10.71.0 — June 8, 2026
 
 ### Changed
