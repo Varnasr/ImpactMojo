@@ -522,6 +522,10 @@ function toggleTheme() {
    read; the translation function is judged healthy on any non-5xx response.
    ========================================================================= */
 const SUPABASE_URL = 'https://ddyszmfffyedolkcugld.supabase.co';
+// Public anonymous key — already shipped to the browser in /js/config.js.
+// Supabase's /auth/v1/health endpoint returns 401 ("No API key found") without it,
+// so it must be sent or the backend reads as "down" when it is actually healthy.
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkeXN6bWZmZnllZG9sa2N1Z2xkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MzMxMzEsImV4cCI6MjA4MDMwOTEzMX0.vPLlFkC3pqOBtofZ8B6_FBLbRfOKwlyv3DzLvJBS16w';
 const TIMEOUT_MS = 10000;   // hard timeout -> down
 const SLOW_MS = 2000;       // slower than this -> degraded
 
@@ -543,7 +547,7 @@ const GROUPS = [
             { id: 'search',    name: 'Search Index',        desc: 'Site-wide search data',         url: '/data/search-index.json', type: 'json' },
             { id: 'deploy',    name: 'Hosting & CDN',       desc: 'Netlify edge delivery',         url: '/version.json',           type: 'json' },
             { id: 'translate', name: 'Translation Service', desc: 'Hindi · Tamil · Bengali · Marathi', url: '/.netlify/functions/translate', type: 'fn' },
-            { id: 'supabase',  name: 'Accounts & Backend',  desc: 'Supabase auth & database',      url: SUPABASE_URL + '/auth/v1/health', type: 'cors' },
+            { id: 'supabase',  name: 'Accounts & Backend',  desc: 'Supabase auth & database',      url: SUPABASE_URL + '/auth/v1/health', type: 'fn', headers: { apikey: SUPABASE_ANON } },
             { id: 'github',    name: 'Source & Content',    desc: 'GitHub repository',             url: 'https://api.github.com/repos/ImpactMojo/ImpactMojo', type: 'fn' }
         ]
     }
@@ -580,20 +584,22 @@ async function probe(check) {
     const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
     const start = performance.now();
     const bust = (check.url.includes('?') ? '&' : '?') + '_=' + Date.now();
+    const headers = check.headers || {};
     try {
         let res, level;
         if (check.type === 'origin') {
-            res = await fetch(check.url + bust, { method: 'HEAD', cache: 'no-store', signal: ctrl.signal });
+            res = await fetch(check.url + bust, { method: 'HEAD', cache: 'no-store', headers, signal: ctrl.signal });
             level = res.ok ? 'up' : 'down';
         } else if (check.type === 'json') {
-            res = await fetch(check.url + bust, { method: 'GET', cache: 'no-store', signal: ctrl.signal });
+            res = await fetch(check.url + bust, { method: 'GET', cache: 'no-store', headers, signal: ctrl.signal });
             if (res.ok) { await res.json(); level = 'up'; } else { level = 'down'; }
         } else if (check.type === 'fn') {
-            // Scheduled/HTTP function: any non-5xx response means the platform is serving it.
-            res = await fetch(check.url + bust, { method: 'GET', cache: 'no-store', signal: ctrl.signal });
+            // Function / health endpoint: any non-5xx response means the service is reachable
+            // and serving (e.g. a 401/403/405 still proves the platform is up).
+            res = await fetch(check.url + bust, { method: 'GET', cache: 'no-store', headers, signal: ctrl.signal });
             level = res.status >= 500 ? 'down' : 'up';
         } else { // cors
-            res = await fetch(check.url, { method: 'GET', cache: 'no-store', signal: ctrl.signal });
+            res = await fetch(check.url, { method: 'GET', cache: 'no-store', headers, signal: ctrl.signal });
             level = res.ok ? 'up' : 'down';
         }
         const ms = Math.round(performance.now() - start);
