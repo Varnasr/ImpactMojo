@@ -2,6 +2,18 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.68.0 — June 8, 2026 (Gated product pages — ToR Template pilot)
+
+### For Learners
+
+- **ToR Template — full product page** at [/products/tor-template/](https://www.impactmojo.in/products/tor-template/): a long-form landing page with a value diagram, watermarked sample pages, a ₹199 UPI checkout (QR + ID) and a simple order form. The editable file is emailed within 24 hours of payment. This is the pilot for a 15-product, gated store.
+
+### Added
+
+- `products/tor-template/index.html` (gated landing page), a deep-watermarked sample (`downloads/samples/`), and a UPI QR (`assets/images/upi/`). The Products page ToR card now links to this page (₹199) instead of a free download. Added to sitemap.
+
+
+
 ## v10.67.0 — June 8, 2026 (Real downloadable products)
 
 ### For Learners
