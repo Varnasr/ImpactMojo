@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.71.0 — June 8, 2026
+
+### Changed
+
+- Moved the **ToR Builder** from `/BookCompanionTools/tor-generator.html` to **`/tools/tor-builder.html`** — it's a practitioner tool, not a book companion. The old URL 301-redirects to the new one, and all references (catalog, search index, sitemap, the ToR Practice Pack, the ToR blog, the ToR product page) were updated.
+
 ## v10.70.1 — June 8, 2026 (One-click order fulfilment)
 
 ### Added
