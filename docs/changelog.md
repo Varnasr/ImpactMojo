@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.70.1 — June 8, 2026 (One-click order fulfilment)
+
+### Added
+
+- Every UPI "I've paid" submission (products and subscriptions) now auto-emails the admin a single **Confirm & deliver** button (`netlify/functions/submission-created.mjs`). Clicking it (`/api/confirm`, HMAC-signed) emails the buyer a 7-day signed download link, or marks the subscription paid and active — no manual commands. UPI can't be auto-verified, so this keeps the one human glance ("did the money arrive?") and automates everything else.
+
 ## v10.70.0 — June 8, 2026 (UPI subscriptions — no gateway, no fees)
 
 ### For Learners
