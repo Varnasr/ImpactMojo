@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.66.0 — June 8, 2026 (New visualisation in the gallery)
+
+### For Learners
+
+- **"Which Jobs Are Most Exposed to AI"** added to the visualisation gallery (The Long View → The classics & the greats) — the Washington Post's bubble field of US occupations plotting AI exposure against adaptability, sized by workforce. Added under a new **Work & Technology** topic filter.
+
 ## v10.65.0 — June 8, 2026 (ToR Builder + Products & Kits hub)
 
 ### For Learners
