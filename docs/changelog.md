@@ -2,6 +2,19 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.75.0 — June 9, 2026 (Premium Calculators)
+
+### For Learners
+
+- **Two new premium Excel calculators** join the Products & Kits store — each an editable spreadsheet plus a Word companion guide:
+  - **Evaluation & Research Costing Calculator** (₹12,000) — cost any study from the ground up: turn a sample size into enumerator-days, then a funder-ready budget with phase splits, three scenarios and India 2026 benchmarks. [View](/products/evaluation-costing-calculator/)
+  - **Programme Unit Economics & Pricing Calculator** (₹15,000) — price a product or training line and test whether the model works: unit economics, LTV vs CAC, market sizing, and a five-year path to break-even. [View](/products/unit-economics-calculator/)
+- **Refreshed product samples** — the free watermarked previews across the store now reflect the rewritten v2.0 templates, with fuller worked sections.
+
+### Added
+
+- New "Premium Calculators" category on `products.html` (`#calculators`) and two product landing pages under `/products/`. Search-index, sitemap, UPI QR codes, and the order→file delivery map all wired up; the two calculator masters (XLSX + guide, zipped) added to the private fulfilment bucket.
+
 ## v10.74.0 — June 9, 2026 (Advisory Board Pro)
 
 ### For Learners
