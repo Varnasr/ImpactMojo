@@ -20,6 +20,7 @@
     // Practitioner tier
     'rq-builder':         '/premium-tools/rq-builder.html',
     // Professional tier
+    'advisory-board-pro': '/premium-tools/advisory-board-pro.html',
     'vaniscribe':         'https://vaniscribe.netlify.app/',
     'devdata-practice':   'https://impactmojo-devdata-pro.netlify.app/',
     'viz-cookbook':        'https://impactmojo-devdata-pro.netlify.app/charts.html',
