@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.73.1 — June 9, 2026 (Language switcher fix)
+
+### Fixed
+
+- **Language switching no longer hangs on an endless spinner.** Pages were loading two competing translation systems at once — the legacy Google Translate widget and the newer Sarvam-backed switcher — and they fought each other in a DOM-mutation loop that kept the globe spinner running forever. Removed the legacy Google Translate widget (`js/translate.js`) from every page and standardised on the single Sarvam switcher; the 37 pages that only had the old widget now carry the new one too. (Note: live translations also require the Sarvam account to have credits available.)
+
 ## v10.73.0 — June 8, 2026 (12 new downloadable products)
 
 ### For Learners

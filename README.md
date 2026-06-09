@@ -364,7 +364,7 @@ ImpactMojo/
 │   ├── resource-launch.js  # JWT-based premium resource launcher
 │   ├── token-gate.js       # Client-side token verification
 │   ├── premium.js          # Premium tier UI logic
-│   ├── translate.js        # Two-tier i18n: curated translations + Google Translate fallback
+│   ├── translate-sarvam.js # Site-wide language switcher (Sarvam-backed, /api/translate)
 │   ├── open-badges.js      # W3C Open Badges 3.0 credential system
 │   ├── learning-pathways.js # Structured credential tracks with milestones
 │   ├── learning-tracks.js  # Track data, modal handler, progress tracking
