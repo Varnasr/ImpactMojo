@@ -1,9 +1,10 @@
 /* ImpactMojo — site-wide language switcher.
    Static-first: applies hard-wired, pre-translated strings shipped at
-   /i18n/<lang>.json (built once by scripts/build-i18n.py). No API call, instant,
-   offline-capable; untranslated strings stay English until added to the dict.
-   An optional live fallback (/api/translate → Sarvam Mayura) is OFF by default
-   and only runs if window.IMX_LIVE_TRANSLATE === true.
+   /i18n/<lang>.json (built once by scripts/build-i18n.py) instantly, then a live
+   fallback (/api/translate → Sarvam Mayura, server-cached) fills in any
+   remaining strings progressively and caches them. The static dictionary is the
+   high-quality source of truth and always wins; the fallback only covers the
+   long tail. Disable the fallback with window.IMX_LIVE_TRANSLATE = false.
    Per-user localStorage cache + in-memory originals so switching back to
    English is instant.
    Add to any page:  <script src="/js/translate-sarvam.js" defer></script>
@@ -146,12 +147,14 @@
       if (hit == null) order.push(s);        // not yet translated anywhere
     }
     applyTranslations(uniq);                  // apply everything we know, instantly
-    // Optional live fallback for strings missing from the static dictionary.
-    // OFF by default — no API dependency, no credits, no spinner-forever. The
-    // hard-wired dictionary is the source of truth; untranslated strings simply
-    // stay English until added to i18n/. Enable by setting
-    // window.IMX_LIVE_TRANSLATE = true before this script loads.
-    if (window.IMX_LIVE_TRANSLATE && order.length) {
+    // Live fallback for strings missing from the static dictionary: machine-
+    // translate via /api/translate (Sarvam Mayura, server-cached) and cache the
+    // result per-user. The static dictionary is still the source of truth and is
+    // applied FIRST (above), so the shell renders instantly; this only fills in
+    // the long-tail body content progressively, batch by batch. It cannot hang
+    // the page (bounded batches, busy-guard, no Google-mutation loop). Disable by
+    // setting window.IMX_LIVE_TRANSLATE = false before this script loads.
+    if (window.IMX_LIVE_TRANSLATE !== false && order.length) {
       for (var j = 0; j < order.length; j += 12) {
         if (curLang !== lang) break;          // user switched away — stop
         var fetched = await apiBatch(lang, order.slice(j, j + 12));
