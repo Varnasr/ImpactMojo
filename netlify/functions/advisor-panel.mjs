@@ -9,9 +9,12 @@
  * under Netlify's ~10s function budget) and the panel reveals progressively.
  *
  * Why multi-provider: each persona is voiced by a different model so the
- * "advisors" genuinely sound distinct, e.g. the Development Economist runs on
- * DeepSeek while the Behavioural Scientist runs on Grok. Provider keys live
- * ONLY in the Netlify environment.
+ * "advisors" genuinely sound distinct. They currently run on Groq (fast,
+ * OpenAI-compatible), each seat assigned a different Groq-hosted model
+ * (Llama 3.3 70B, Llama 4 Scout, Llama 3.1 8B, GPT-OSS 120B). The provider
+ * layer still supports DeepSeek and Gemini, so a seat can be re-pointed at
+ * those by changing its { provider, model } once those accounts have credit.
+ * Provider keys live ONLY in the Netlify environment.
  *
  * GATING (Professional tier):
  *   This is a paid tool with real per-call LLM cost. A client-side AuthGate
@@ -54,41 +57,48 @@ const MAX_TRANSCRIPT = 40; // entries (≈ 8 rounds of a 5-seat panel)
 const MAX_TURNS_PER_DAY = 150; // per user — ≈ 6–7 full discussions/day
 
 // ---- The panel ----------------------------------------------------------
-// provider ∈ deepseek | gemini | grok. Models kept here so they're easy to
-// retune without touching the call logic below.
+// Each seat: { provider, model }. provider ∈ groq | deepseek | gemini.
+// Distinct models give the advisors genuinely different voices. Kept here so
+// they're easy to retune (or re-point at another provider) without touching
+// the call logic below.
 const PANEL = {
   moderator: {
     name: "Moderator",
     lens: "Framing & synthesis",
-    provider: "gemini",
+    provider: "groq",
+    model: "llama-3.3-70b-versatile",
     persona:
       "You are the Moderator of a panel of development-sector experts. You are even-handed and never take a side. You frame questions sharply and, when asked to synthesise, you fairly summarise where the panel agreed, where it disagreed, and what a practitioner should weigh.",
   },
   economist: {
     name: "Development Economist",
     lens: "Cost-effectiveness & evidence",
-    provider: "deepseek",
+    provider: "groq",
+    model: "openai/gpt-oss-120b",
     persona:
       "You are a Development Economist. You reason from incentives, cost-effectiveness, the strength of the evidence base (RCTs, quasi-experimental work), and whether an intervention can scale affordably. You are rigorous and a little sceptical of claims that lack evidence, but you respect that evidence is incomplete.",
   },
   practitioner: {
     name: "Field Practitioner",
     lens: "Implementation reality",
-    provider: "gemini",
+    provider: "groq",
+    model: "meta-llama/llama-4-scout-17b-16e-instruct",
     persona:
       "You are a Field Practitioner who has implemented programmes on the ground in South Asia. You speak to operational reality — staffing, last-mile delivery, community trust, what actually happens versus what the design assumes. You respect evidence but insist it survive contact with the field.",
   },
   behavioral: {
     name: "Behavioural Scientist",
     lens: "Take-up & behaviour",
-    provider: "grok",
+    provider: "groq",
+    model: "llama-3.1-8b-instant",
     persona:
       "You are a Behavioural Scientist. You focus on why people do or don't take up an intervention — friction, defaults, salience, social norms, trust — and how design choices change behaviour. You bring concrete behavioural mechanisms, not just 'add a nudge'.",
   },
   critic: {
     name: "Critic / Equity Lens",
     lens: "Power, equity, unintended consequences",
-    provider: "deepseek",
+    provider: "groq",
+    model: "openai/gpt-oss-120b",
     persona:
       "You are the panel's Critic, arguing from a power and equity lens. You ask who is excluded, who bears the cost, whose voice is missing, and what could go wrong. You challenge the other advisors' assumptions directly but in good faith — you are a sharp critic, not a cynic.",
   },
@@ -98,6 +108,13 @@ const SHARED_RULES =
   "This is a panel discussion for a development-education audience. Stay strictly on the development-sector topic at hand. Keep your contribution to 2–4 sentences: make ONE substantive point, and where natural, explicitly build on or push back against a specific advisor by name. Do not repeat what others already said. No headings, no bullet lists, no preamble like 'As the X...' — just speak. If the topic is off-topic, harmful, or not a genuine development question, briefly decline and steer back.";
 
 // ---- Providers (server-side keys only) ----------------------------------
+// Some open models leak chain-of-thought as <think>…</think> inside content;
+// strip it so only the spoken contribution reaches the panel.
+function clean(text) {
+  if (!text) return text;
+  return text.replace(/<think>[\s\S]*?<\/think>/gi, "").replace(/^[\s\S]*?<\/think>/i, "").trim();
+}
+
 async function callOpenAICompat({ baseURL, key, model, system, user }) {
   for (let attempt = 0; attempt < 4; attempt++) {
     try {
@@ -111,13 +128,13 @@ async function callOpenAICompat({ baseURL, key, model, system, user }) {
             { role: "user", content: user },
           ],
           temperature: 0.8,
-          max_tokens: 320,
+          max_tokens: 500,
         }),
       });
       if (r.status === 429 || r.status >= 500) { await sleep(500 * (attempt + 1)); continue; }
       if (!r.ok) return null;
       const d = await r.json();
-      return d?.choices?.[0]?.message?.content?.trim() ?? null;
+      return clean(d?.choices?.[0]?.message?.content?.trim() ?? null);
     } catch { await sleep(500 * (attempt + 1)); }
   }
   return null;
@@ -145,32 +162,32 @@ async function callGemini({ key, model, system, user }) {
   return null;
 }
 
-function runProvider(provider, system, user) {
+function runProvider(provider, model, system, user) {
   switch (provider) {
+    case "groq":
+      if (!process.env.GROQ_API_KEY) return Promise.resolve({ text: null, model });
+      return callOpenAICompat({
+        baseURL: "https://api.groq.com/openai/v1",
+        key: process.env.GROQ_API_KEY,
+        model: model || "llama-3.3-70b-versatile",
+        system, user,
+      }).then((t) => ({ text: t, model: model || "llama-3.3-70b-versatile" }));
     case "deepseek":
       if (!process.env.DEEPSEEK_API_KEY) return Promise.resolve({ text: null, model: "deepseek" });
       return callOpenAICompat({
         baseURL: "https://api.deepseek.com/v1",
         key: process.env.DEEPSEEK_API_KEY,
-        model: "deepseek-chat",
+        model: model || "deepseek-chat",
         system, user,
-      }).then((t) => ({ text: t, model: "deepseek-chat" }));
-    case "grok":
-      if (!process.env.GROK_API_KEY) return Promise.resolve({ text: null, model: "grok" });
-      return callOpenAICompat({
-        baseURL: "https://api.x.ai/v1",
-        key: process.env.GROK_API_KEY,
-        model: "grok-3-mini",
-        system, user,
-      }).then((t) => ({ text: t, model: "grok-3-mini" }));
+      }).then((t) => ({ text: t, model: model || "deepseek-chat" }));
     case "gemini":
     default:
       if (!process.env.GEMINI_API_KEY) return Promise.resolve({ text: null, model: "gemini" });
       return callGemini({
         key: process.env.GEMINI_API_KEY,
-        model: "gemini-2.0-flash",
+        model: model || "gemini-2.0-flash",
         system, user,
-      }).then((t) => ({ text: t, model: "gemini-2.0-flash" }));
+      }).then((t) => ({ text: t, model: model || "gemini-2.0-flash" }));
   }
 }
 
@@ -284,7 +301,7 @@ export default async (req) => {
   const system = `${advisor.persona}\n\n${SHARED_RULES}`;
   const user = `TOPIC FOR THE PANEL:\n${topic.trim()}\n\nDISCUSSION SO FAR:\n${history}${steerLine}\n\n${task}`;
 
-  const { text, model } = await runProvider(advisor.provider, system, user);
+  const { text, model } = await runProvider(advisor.provider, advisor.model, system, user);
   if (!text) return json({ error: "advisor unavailable — try again" }, 502);
 
   return json({ name: advisor.name, lens: advisor.lens, text, model });
