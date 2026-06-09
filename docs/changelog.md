@@ -2,6 +2,16 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.74.0 — June 9, 2026 (Advisory Board Pro)
+
+### For Learners
+
+- **Advisory Board Pro** — a new Professional-tier tool where you pose a real development-sector dilemma and a panel of AI advisors (a development economist, a field practitioner, a behavioural scientist, and a critic) debate it from every angle before the moderator synthesises. Add your own discussion points to steer the debate, and export the full transcript. A free read-only preview shows a worked example. [Launch](/premium-tools/advisory-board-pro.html)
+
+### Added
+
+- `premium-tools/advisory-board-pro.html` + `/api/advisor-panel` orchestrator. Each seat is voiced by a different model (Groq-hosted Llama 3.3 70B, Llama 4 Scout, Llama 3.1 8B, and GPT-OSS 120B) so the advisors sound genuinely distinct; the browser requests one turn at a time to keep every call short. Gated to the Professional tier two ways: the page hides the live tool client-side via `ImpactMojoAuth`, and the function independently verifies the Supabase session + `subscription_tier` before spending on any LLM call. Per-user daily quota as defence in depth. Brings the premium-tools lineup to 10.
+
 ## v10.73.4 — June 9, 2026 (Fix: flagship course content not loading)
 
 ### Fixed
