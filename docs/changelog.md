@@ -2,6 +2,16 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.73.2 — June 9, 2026 (More translations + live fill-in)
+
+### For Learners
+
+- **Much more of the site now reads in your language.** Added a second batch of hand-checked Hindi, Tamil, Bengali, and Marathi translations covering course titles, section headings, buttons, and the purchase flow (357 common strings in all). On top of the instant built-in translations, the rest of a page's text now fills in automatically as you read it — so whole pages, not just the menus, switch language.
+
+### Changed
+
+- Re-enabled the live `/api/translate` fallback (Sarvam Mayura, server-cached) now that the account has credits. It runs *after* the static dictionary is applied, so the shell still renders instantly and only the long-tail body content is fetched and cached. Disable per-page with `window.IMX_LIVE_TRANSLATE = false`.
+
 ## v10.73.1 — June 9, 2026 (Language switcher fix + hard-wired translations)
 
 ### For Learners
