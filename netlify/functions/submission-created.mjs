@@ -46,6 +46,8 @@ const FILES = {
   "Field Data-Collection Readiness Checklist": "ImpactMojo-Checklist-Field-Readiness.pdf",
   "Ethics & DPDP Consent Checklist": "ImpactMojo-Checklist-Ethics-DPDP.pdf",
   "Proposal Review Checklist": "ImpactMojo-Checklist-Proposal-Review.pdf",
+  "Evaluation & Research Costing Calculator": "ImpactMojo-Calculator-Evaluation-Costing.zip",
+  "Programme Unit Economics & Pricing Calculator": "ImpactMojo-Calculator-Unit-Economics-Pricing.zip",
   "Evaluation Essentials Kit": "ImpactMojo-Evaluation-Essentials-Kit.zip",
 };
 
