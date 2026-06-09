@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.73.3 — June 9, 2026 (Homepage navigation translated)
+
+### For Learners
+
+- **The full site navigation, homepage hero, and trust bar now read in your language instantly** — Hindi, Tamil, Bengali, and Marathi. Since the menu appears on every page, this lifts the translated experience across the whole site (409 hand-checked strings now built in).
+
 ## v10.73.2 — June 9, 2026 (More translations + live fill-in)
 
 ### For Learners
