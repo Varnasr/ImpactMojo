@@ -1,25 +1,27 @@
 /**
- * Netlify Function — Advisor Panel orchestrator.
+ * Netlify Function — Advisory Board Pro orchestrator.
  *
- * Powers the Advisor Panel Lab (/Labs/advisor-panel-lab.html). The browser
- * asks for ONE advisor's contribution at a time, passing the topic and the
- * discussion-so-far; this function routes that persona's turn to its assigned
- * LLM provider and returns the contribution. The browser appends it to the
- * transcript and requests the next turn — so every call stays short (well
+ * Powers the Advisory Board Pro tool (/premium-tools/advisory-board-pro.html).
+ * The browser asks for ONE advisor's contribution at a time, passing the topic
+ * and the discussion-so-far; this function routes that persona's turn to its
+ * assigned LLM provider and returns the contribution. The browser appends it to
+ * the transcript and requests the next turn — so every call stays short (well
  * under Netlify's ~10s function budget) and the panel reveals progressively.
  *
  * Why multi-provider: each persona is voiced by a different model so the
- * "advisors" genuinely sound distinct (the DISCA differentiator), e.g. the
- * Development Economist runs on DeepSeek while the Behavioural Scientist runs
- * on Grok. Provider keys live ONLY in the Netlify environment.
+ * "advisors" genuinely sound distinct, e.g. the Development Economist runs on
+ * DeepSeek while the Behavioural Scientist runs on Grok. Provider keys live
+ * ONLY in the Netlify environment.
  *
- * Abuse guard (all free):
- *   - Hard caps: topic length, transcript size, round count.
- *   - Per-IP daily turn quota via Netlify Blobs (same free store translate.mjs
- *     uses) — bounds paid-API spend without any login.
- *   - Cloudflare Turnstile (optional): if TURNSTILE_SECRET is set, the opening
- *     call must carry a valid token. If it is NOT set, verification is skipped
- *     so the tool works immediately and tightens the moment keys are added.
+ * GATING (Professional tier):
+ *   This is a paid tool with real per-call LLM cost. A client-side AuthGate
+ *   hides the page, but THIS function is the authoritative guard: every request
+ *   must carry the caller's Supabase access token (Authorization: Bearer …).
+ *   We validate it against Supabase Auth, look up the user's profile, and only
+ *   proceed if their subscription_tier is professional/organization (or they
+ *   hold an explicit resource grant). A per-user daily quota bounds spend as
+ *   defence in depth. Uses the SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY env
+ *   vars the other functions already rely on — no new credentials needed.
  *
  * Request:  POST {
  *             topic: string,
@@ -27,11 +29,16 @@
  *             advisorId: string,
  *             isOpening?: bool,        // first turn of the discussion
  *             isSynthesis?: bool,      // closing synthesis turn
- *             steer?: string,          // user-injected discussion point
- *             turnstileToken?: string  // Cloudflare Turnstile response
+ *             steer?: string           // user-injected discussion point
  *           }
+ *           Header: Authorization: Bearer <supabase access_token>
  * Response: { name, lens, text, model }
  */
+
+const SUPABASE_URL = (process.env.SUPABASE_URL || "https://ddyszmfffyedolkcugld.supabase.co").replace(/\/$/, "");
+const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const RESOURCE_ID = "advisory-board-pro";
+const ALLOWED_TIERS = ["professional", "organization"];
 
 const json = (obj, status = 200) =>
   new Response(JSON.stringify(obj), {
@@ -44,7 +51,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const MAX_TOPIC = 600; // chars
 const MAX_STEER = 300; // chars
 const MAX_TRANSCRIPT = 40; // entries (≈ 8 rounds of a 5-seat panel)
-const MAX_TURNS_PER_DAY = 150; // per IP — ≈ 6–7 full discussions/day
+const MAX_TURNS_PER_DAY = 150; // per user — ≈ 6–7 full discussions/day
 
 // ---- The panel ----------------------------------------------------------
 // provider ∈ deepseek | gemini | grok. Models kept here so they're easy to
@@ -167,35 +174,62 @@ function runProvider(provider, system, user) {
   }
 }
 
-// ---- Turnstile (optional, free) -----------------------------------------
-async function verifyTurnstile(token, ip) {
-  const secret = process.env.TURNSTILE_SECRET;
-  if (!secret) return true; // not configured yet → skip
-  if (!token) return false;
+// ---- Supabase: verify session + Professional entitlement ----------------
+async function authorize(req) {
+  if (!SERVICE_KEY) return { ok: false, status: 503, error: "auth unavailable" };
+  const authz = req.headers.get("authorization") || "";
+  const token = authz.toLowerCase().startsWith("bearer ") ? authz.slice(7).trim() : "";
+  if (!token) return { ok: false, status: 401, error: "sign in to use Advisory Board Pro" };
+
+  // 1) Validate the access token → user id
+  let uid;
   try {
-    const r = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({ secret, response: token, remoteip: ip || "" }),
+    const r = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+      headers: { Authorization: `Bearer ${token}`, apikey: SERVICE_KEY },
     });
-    const d = await r.json();
-    return d?.success === true;
+    if (!r.ok) return { ok: false, status: 401, error: "session expired — sign in again" };
+    const u = await r.json();
+    uid = u?.id;
+    if (!uid) return { ok: false, status: 401, error: "invalid session" };
   } catch {
-    return false; // fail closed when a secret is configured
+    return { ok: false, status: 502, error: "auth check failed — try again" };
+  }
+
+  // 2) Look up tier / status / grants
+  try {
+    const r = await fetch(
+      `${SUPABASE_URL}/rest/v1/profiles?id=eq.${uid}&select=subscription_tier,subscription_status,resource_grants`,
+      { headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}` } }
+    );
+    const rows = r.ok ? await r.json() : [];
+    const p = Array.isArray(rows) ? rows[0] : null;
+    const tier = (p?.subscription_tier || "explorer").toLowerCase();
+    const status = (p?.subscription_status || "").toLowerCase();
+    const grants = Array.isArray(p?.resource_grants) ? p.resource_grants : [];
+    const inactive = ["canceled", "cancelled", "expired", "inactive", "past_due"].includes(status);
+
+    const tierOk = ALLOWED_TIERS.includes(tier) && !inactive;
+    const grantOk = grants.includes(RESOURCE_ID);
+    if (!tierOk && !grantOk) {
+      return { ok: false, status: 403, error: "Advisory Board Pro requires a Professional subscription" };
+    }
+    return { ok: true, uid };
+  } catch {
+    return { ok: false, status: 502, error: "entitlement check failed — try again" };
   }
 }
 
-// ---- Per-IP daily quota via Netlify Blobs -------------------------------
-async function checkQuota(ip) {
+// ---- Per-user daily quota via Netlify Blobs -----------------------------
+async function checkQuota(uid) {
   let store;
   try {
     const { getStore } = await import("@netlify/blobs");
-    store = getStore("advisor-panel-quota");
+    store = getStore("advisory-board-quota");
   } catch {
     return { ok: true }; // Blobs unavailable → don't block
   }
   const day = new Date().toISOString().slice(0, 10);
-  const key = `${day}:${ip}`;
+  const key = `${day}:${uid}`;
   try {
     const used = parseInt((await store.get(key)) || "0", 10);
     if (used >= MAX_TURNS_PER_DAY) return { ok: false };
@@ -210,10 +244,14 @@ async function checkQuota(ip) {
 export default async (req) => {
   if (req.method !== "POST") return json({ error: "POST only" }, 405);
 
+  // Gate FIRST — never touch a paid LLM for an unauthorised caller.
+  const auth = await authorize(req);
+  if (!auth.ok) return json({ error: auth.error }, auth.status);
+
   let body;
   try { body = await req.json(); } catch { return json({ error: "bad json" }, 400); }
 
-  const { topic, transcript, advisorId, isOpening, isSynthesis, steer, turnstileToken } = body || {};
+  const { topic, transcript, advisorId, isOpening, isSynthesis, steer } = body || {};
   const advisor = PANEL[advisorId];
   if (!advisor) return json({ error: "unknown advisor" }, 400);
   if (typeof topic !== "string" || !topic.trim()) return json({ error: "topic required" }, 400);
@@ -222,18 +260,7 @@ export default async (req) => {
   if (transcript.length > MAX_TRANSCRIPT) return json({ error: "discussion limit reached" }, 429);
   if (steer && steer.length > MAX_STEER) return json({ error: "steer too long" }, 400);
 
-  const ip =
-    req.headers.get("x-nf-client-connection-ip") ||
-    (req.headers.get("x-forwarded-for") || "").split(",")[0].trim() ||
-    "unknown";
-
-  // Turnstile only on the opening call (token is single-use; later turns
-  // belong to the same already-verified session).
-  if (isOpening && !(await verifyTurnstile(turnstileToken, ip))) {
-    return json({ error: "verification failed — please retry the challenge" }, 403);
-  }
-
-  const quota = await checkQuota(ip);
+  const quota = await checkQuota(auth.uid);
   if (!quota.ok) return json({ error: "daily limit reached — please come back tomorrow" }, 429);
 
   // Build the discussion context for this persona's turn.
