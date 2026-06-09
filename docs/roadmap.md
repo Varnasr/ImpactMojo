@@ -65,7 +65,7 @@ Migrating remaining 45 foundational course decks from Gamma iframes to self-host
 - **Full accessibility audit** — axe-core + pa11y-ci CI pipeline, UserWay widget integration
 
 ### v10.15.0 — April 2026
-- **Content count corrections** sitewide — all files now show canonical 60 courses / 13 labs / 134 games
+- **Content count corrections** sitewide — all files now show canonical 60 courses / 14 labs / 134 games
 
 ### v10.14.0 — April 2026
 - **Device-mode default theme** on 70 pages — OS dark/light preference on first paint
@@ -104,7 +104,7 @@ Migrating remaining 45 foundational course decks from Gamma iframes to self-host
 - Offline PWA support
 - ImpactMojo Dataverse (215+ tools and datasets)
 - BCT Repository (203 behaviour change techniques)
-- 134 learning games, 13 interactive labs
+- 134 learning games, 14 interactive labs
 - Dark mode and high-contrast theme
 - Multilingual support (6 languages)
 

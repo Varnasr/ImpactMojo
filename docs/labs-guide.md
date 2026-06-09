@@ -2,13 +2,13 @@
 
 ## What Are the ImpactMojo Labs?
 
-ImpactMojo offers **13 interactive labs** — hands-on workbenches where you build, design, and practice real development skills. Unlike courses (which teach concepts) or games (which simulate dynamics), labs produce **tangible outputs** — a Theory of Change diagram, a MEL plan, a policy brief — that you can export and use in your actual work.
+ImpactMojo offers **14 interactive labs** — hands-on workbenches where you build, design, and practice real development skills. Unlike courses (which teach concepts) or games (which simulate dynamics), labs produce **tangible outputs** — a Theory of Change diagram, a MEL plan, a policy brief — that you can export and use in your actual work.
 
 All labs are **free, browser-based, and require no login**.
 
 ---
 
-## The 13 Labs
+## The 14 Labs
 
 ### MEL & Research Labs
 
@@ -29,6 +29,7 @@ All labs are **free, browser-based, and require no login**.
 |-----|---------------|------|
 | **Storytelling Lab** | A structured impact story with narrative arc and evidence integration | [Open](/Labs/storytelling-lab.html) |
 | **Policy & Advocacy Lab** | A policy brief and advocacy strategy with stakeholder mapping | [Open](/Labs/policy-advocacy-lab.html) |
+| **Advisor Panel** | A multi-perspective debate on your dilemma — economist, practitioner, behavioural scientist, and critic — with an exportable synthesis | [Open](/Labs/advisor-panel-lab.html) |
 
 ---
 

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0F172A">
+    <title>Advisor Panel | ImpactMojo</title>
+    <meta name="description" content="Pose a development-sector dilemma and watch a panel of AI advisors — an economist, a field practitioner, a behavioural scientist, and a critic — debate it from every angle, then synthesise.">
+    <meta name="keywords" content="advisor panel, development sector, policy debate, multi-perspective, decision tool, AI discussion, program design, ImpactMojo">
+    <link rel="canonical" href="https://www.impactmojo.in/Labs/advisor-panel-lab.html">
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JRCMEB9TBW');
+</script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-bg: #FFFFFF; --secondary-bg: #F8FAFC; --accent-color: #0EA5E9; --accent-hover: #0284C7;
+            --secondary-accent: #6366F1; --success-color: #10B981; --warning-color: #F59E0B; --danger-color: #EF4444;
+            --text-primary: #0F172A; --text-secondary: #475569; --text-muted: #52627A;
+            --card-bg: #FFFFFF; --hover-bg: #F1F5F9; --border-color: #E2E8F0;
+            --gradient-primary: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+            --font-sans: 'Amaranth', sans-serif; --font-heading: 'Inter', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+        }
+        @media (prefers-color-scheme: dark) { :root {
+            --primary-bg: #0F172A; --secondary-bg: #1E293B; --text-primary: #F1F5F9; --text-secondary: #CBD5E1;
+            --text-muted: #94A3B8; --card-bg: #1E293B; --hover-bg: #334155; --border-color: #334155;
+        } }
+        body.light-mode, [data-theme="light"] {
+            --primary-bg: #FFFFFF; --secondary-bg: #F8FAFC; --text-primary: #0F172A; --text-secondary: #475569;
+            --text-muted: #52627A; --card-bg: #FFFFFF; --hover-bg: #F1F5F9; --border-color: #E2E8F0;
+        }
+        body.dark-mode, [data-theme="dark"] {
+            --primary-bg: #0F172A; --secondary-bg: #1E293B; --text-primary: #F1F5F9; --text-secondary: #CBD5E1;
+            --text-muted: #94A3B8; --card-bg: #1E293B; --hover-bg: #334155; --border-color: #334155;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-sans); background: var(--primary-bg); color: var(--text-primary); line-height: 1.6; min-height: 100vh; }
+        .container { max-width: 920px; margin: 0 auto; padding: 2rem; }
+        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--accent-color); text-decoration: none; font-size: 0.9rem; margin-bottom: 2rem; }
+        .back-link:hover { color: var(--accent-hover); }
+        .header { text-align: center; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); }
+        .header-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 1rem; background: rgba(14, 165, 233, 0.15); color: var(--accent-color); border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-bottom: 1rem; }
+        .header h1 { font-family: var(--font-heading); font-size: clamp(1.8rem, 4vw, 2.4rem); margin-bottom: 0.5rem; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .header p { color: var(--text-secondary); font-size: 1.02rem; max-width: 640px; margin: 0 auto; }
+
+        .panel-roster { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin: 1.25rem 0 0; }
+        .roster-chip { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.3rem 0.7rem; border-radius: 20px; font-size: 0.78rem; font-weight: 600; border: 1px solid var(--border-color); background: var(--secondary-bg); }
+        .roster-chip .dot { width: 9px; height: 9px; border-radius: 50%; }
+
+        .field { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+        .field label { font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); font-family: var(--font-heading); }
+        textarea, input[type="text"] { width: 100%; padding: 0.8rem 0.95rem; background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-primary); font-size: 0.98rem; font-family: var(--font-sans); transition: border-color 0.2s; }
+        textarea:focus, input:focus { outline: none; border-color: var(--accent-color); box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15); }
+        textarea { resize: vertical; min-height: 90px; }
+        .char-count { font-size: 0.72rem; color: var(--text-muted); text-align: right; }
+
+        .btn { padding: 0.7rem 1.3rem; border-radius: 10px; border: 1px solid var(--border-color); background: var(--secondary-bg); color: var(--text-primary); font-size: 0.9rem; font-family: var(--font-sans); cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.45rem; }
+        .btn:hover:not(:disabled) { border-color: var(--accent-color); background: var(--hover-bg); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-primary { background: var(--accent-color); border-color: var(--accent-color); color: #fff; font-weight: 700; }
+        .btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
+        .controls { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
+
+        .transcript { margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem; }
+        .advisor-card { background: var(--card-bg); border: 1px solid var(--border-color); border-left-width: 4px; border-radius: 12px; padding: 1.1rem 1.25rem; animation: fadeIn 0.35s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .advisor-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
+        .advisor-name { font-family: var(--font-heading); font-weight: 700; font-size: 0.98rem; }
+        .advisor-lens { font-size: 0.74rem; color: var(--text-muted); background: var(--secondary-bg); padding: 0.12rem 0.55rem; border-radius: 12px; }
+        .advisor-model { font-family: var(--font-mono); font-size: 0.66rem; color: var(--text-muted); margin-left: auto; }
+        .advisor-text { color: var(--text-primary); font-size: 0.98rem; }
+        .steer-card { background: rgba(99, 102, 241, 0.08); border: 1px dashed var(--secondary-accent); border-radius: 12px; padding: 0.8rem 1.1rem; font-size: 0.92rem; color: var(--text-secondary); }
+        .steer-card strong { color: var(--secondary-accent); }
+        .synthesis-card { border-left-color: var(--success-color) !important; background: rgba(16, 185, 129, 0.06); }
+
+        .typing { display: inline-flex; gap: 4px; align-items: center; }
+        .typing span { width: 7px; height: 7px; border-radius: 50%; background: var(--text-muted); animation: blink 1.2s infinite; }
+        .typing span:nth-child(2){ animation-delay: 0.2s; } .typing span:nth-child(3){ animation-delay: 0.4s; }
+        @keyframes blink { 0%,80%,100%{ opacity: 0.25; } 40%{ opacity: 1; } }
+
+        .round-label { text-align: center; font-family: var(--font-heading); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin: 0.5rem 0; }
+        .steer-row { display: flex; gap: 0.5rem; margin-top: 1rem; }
+        .steer-row input { flex: 1; }
+        .err { color: var(--danger-color); font-size: 0.85rem; margin-top: 0.5rem; }
+        .post-controls { margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; }
+        .hint { font-size: 0.8rem; color: var(--text-muted); text-align: center; margin-top: 1rem; }
+        #turnstile { margin: 1rem 0; display: flex; justify-content: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/index.html#labs" class="back-link">← Back to ImpactMojo</a>
+
+        <div class="header">
+            <span class="header-badge">Interactive Lab</span>
+            <h1>Advisor Panel</h1>
+            <p>Pose a real development-sector dilemma. A panel of AI advisors debates it from four different lenses — then the moderator synthesises. Steer the discussion any time.</p>
+            <div class="panel-roster" id="roster"></div>
+        </div>
+
+        <div id="setup">
+            <div class="field">
+                <label for="topic">Your dilemma or question</label>
+                <textarea id="topic" maxlength="600" placeholder="e.g. Should our livelihoods programme pay a stipend for training attendance, or will that crowd out intrinsic motivation and create dependency?"></textarea>
+                <div class="char-count"><span id="cc">0</span>/600</div>
+            </div>
+            <div id="turnstile"></div>
+            <div class="controls">
+                <button class="btn btn-primary" id="convene">Convene the panel</button>
+            </div>
+            <div class="err" id="setupErr" style="display:none"></div>
+            <p class="hint">A free educational tool. Advisors are AI personas voiced by different models — informative perspectives, not professional advice.</p>
+        </div>
+
+        <div class="transcript" id="transcript"></div>
+
+        <div class="post-controls" id="postControls" style="display:none">
+            <button class="btn" id="nextRound">Continue the debate</button>
+            <button class="btn btn-primary" id="synthesize">Ask for synthesis</button>
+            <button class="btn" id="exportBtn">Export transcript</button>
+            <button class="btn" id="resetBtn">New panel</button>
+        </div>
+
+        <div class="steer-row" id="steerRow" style="display:none">
+            <input type="text" id="steer" maxlength="300" placeholder="Add a point to steer the next round… (optional)">
+        </div>
+    </div>
+
+    <script>
+    // ---- If you set up Cloudflare Turnstile, paste the SITE KEY here. -----
+    // Leave empty to run without it (server skips verification until the
+    // matching TURNSTILE_SECRET env var is added in Netlify).
+    const TURNSTILE_SITE_KEY = "";
+
+    const API = "/api/advisor-panel";
+    const MAX_ROUNDS = 4;
+    // Display metadata (server is source of truth for the actual personas).
+    const ADVISORS = {
+        moderator:    { name: "Moderator",              lens: "Framing & synthesis",                 color: "#0EA5E9" },
+        economist:    { name: "Development Economist",  lens: "Cost-effectiveness & evidence",       color: "#6366F1" },
+        practitioner: { name: "Field Practitioner",     lens: "Implementation reality",              color: "#10B981" },
+        behavioral:   { name: "Behavioural Scientist",  lens: "Take-up & behaviour",                 color: "#F59E0B" },
+        critic:       { name: "Critic / Equity Lens",   lens: "Power, equity, consequences",         color: "#EF4444" },
+    };
+    const ROUND_ORDER = ["economist", "practitioner", "behavioral", "critic"];
+
+    let transcript = [];   // [{ id, name, lens, text }]
+    let round = 0;
+    let pendingSteer = "";
+    let turnstileToken = "";
+    let busy = false;
+
+    const $ = (id) => document.getElementById(id);
+    const esc = (s) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+
+    // Roster chips
+    $("roster").innerHTML = Object.values(ADVISORS).map((a) =>
+        `<span class="roster-chip"><span class="dot" style="background:${a.color}"></span>${a.name}</span>`).join("");
+
+    $("topic").addEventListener("input", (e) => { $("cc").textContent = e.target.value.length; });
+
+    // Turnstile (only if configured)
+    if (TURNSTILE_SITE_KEY) {
+        window.onTurnstile = (t) => { turnstileToken = t; };
+        const s = document.createElement("script");
+        s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+        s.async = true; s.defer = true;
+        document.head.appendChild(s);
+        $("turnstile").innerHTML =
+            `<div class="cf-turnstile" data-sitekey="${TURNSTILE_SITE_KEY}" data-callback="onTurnstile"></div>`;
+    }
+
+    function roundLabel(text) {
+        const d = document.createElement("div");
+        d.className = "round-label";
+        d.textContent = text;
+        $("transcript").appendChild(d);
+    }
+
+    function renderCard(id, entry, isSynthesis) {
+        const a = ADVISORS[id];
+        const card = document.createElement("div");
+        card.className = "advisor-card" + (isSynthesis ? " synthesis-card" : "");
+        card.style.borderLeftColor = a.color;
+        card.innerHTML =
+            `<div class="advisor-head">
+                <span class="advisor-name">${esc(entry.name)}</span>
+                <span class="advisor-lens">${esc(entry.lens)}</span>
+                <span class="advisor-model">${esc(entry.model || "")}</span>
+             </div>
+             <div class="advisor-text">${esc(entry.text)}</div>`;
+        $("transcript").appendChild(card);
+        card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function showTyping(id) {
+        const a = ADVISORS[id];
+        const card = document.createElement("div");
+        card.className = "advisor-card"; card.style.borderLeftColor = a.color; card.id = "typing-card";
+        card.innerHTML =
+            `<div class="advisor-head"><span class="advisor-name">${esc(a.name)}</span>
+             <span class="advisor-lens">${esc(a.lens)}</span></div>
+             <div class="typing"><span></span><span></span><span></span></div>`;
+        $("transcript").appendChild(card);
+        card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+    function clearTyping() { const t = $("typing-card"); if (t) t.remove(); }
+
+    async function callAdvisor(id, opts = {}) {
+        showTyping(id);
+        try {
+            const res = await fetch(API, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    topic: $("topic").value.trim(),
+                    transcript: transcript.map(({ name, lens, text }) => ({ name, lens, text })),
+                    advisorId: id,
+                    isOpening: !!opts.isOpening,
+                    isSynthesis: !!opts.isSynthesis,
+                    steer: opts.steer || "",
+                    turnstileToken: opts.isOpening ? turnstileToken : "",
+                }),
+            });
+            const data = await res.json();
+            clearTyping();
+            if (!res.ok) throw new Error(data.error || "request failed");
+            const entry = { id, name: data.name, lens: data.lens, text: data.text, model: data.model };
+            transcript.push(entry);
+            renderCard(id, entry, opts.isSynthesis);
+            return true;
+        } catch (e) {
+            clearTyping();
+            const err = document.createElement("div");
+            err.className = "err"; err.textContent = "⚠ " + e.message;
+            $("transcript").appendChild(err);
+            return false;
+        }
+    }
+
+    function consumeSteer() {
+        if (!pendingSteer) return "";
+        const s = pendingSteer;
+        const card = document.createElement("div");
+        card.className = "steer-card";
+        card.innerHTML = `<strong>You steered:</strong> ${esc(s)}`;
+        $("transcript").appendChild(card);
+        pendingSteer = "";
+        $("steer").value = "";
+        return s;
+    }
+
+    async function runRound() {
+        if (busy) return;
+        busy = true; setBusy(true);
+        round++;
+        roundLabel("Round " + round);
+        const steer = consumeSteer();
+        for (let i = 0; i < ROUND_ORDER.length; i++) {
+            const ok = await callAdvisor(ROUND_ORDER[i], { steer: i === 0 ? steer : "" });
+            if (!ok) break;
+        }
+        busy = false; setBusy(false);
+        if (round >= MAX_ROUNDS) $("nextRound").disabled = true;
+    }
+
+    function setBusy(b) {
+        ["convene", "nextRound", "synthesize", "resetBtn"].forEach((id) => { if ($(id)) $(id).disabled = b; });
+        if (!b && round >= MAX_ROUNDS) $("nextRound").disabled = true;
+    }
+
+    $("convene").addEventListener("click", async () => {
+        const topic = $("topic").value.trim();
+        if (topic.length < 12) { $("setupErr").style.display = "block"; $("setupErr").textContent = "Please describe your dilemma in a sentence or two."; return; }
+        if (TURNSTILE_SITE_KEY && !turnstileToken) { $("setupErr").style.display = "block"; $("setupErr").textContent = "Please complete the verification first."; return; }
+        $("setupErr").style.display = "none";
+        $("setup").style.display = "none";
+        busy = true;
+        roundLabel("Opening");
+        const ok = await callAdvisor("moderator", { isOpening: true });
+        busy = false;
+        if (!ok) { $("setup").style.display = "block"; return; }
+        await runRound();
+        $("postControls").style.display = "flex";
+        $("steerRow").style.display = "flex";
+    });
+
+    $("steer").addEventListener("input", (e) => { pendingSteer = e.target.value.trim(); });
+    $("nextRound").addEventListener("click", runRound);
+
+    $("synthesize").addEventListener("click", async () => {
+        if (busy) return;
+        busy = true; setBusy(true);
+        roundLabel("Synthesis");
+        await callAdvisor("moderator", { isSynthesis: true });
+        busy = false; setBusy(false);
+        $("synthesize").disabled = true;
+        $("nextRound").disabled = true;
+    });
+
+    $("exportBtn").addEventListener("click", () => {
+        let md = `# Advisor Panel — ImpactMojo\n\n**Topic:** ${$("topic").value.trim()}\n\n`;
+        transcript.forEach((t) => { md += `### ${t.name} _(${t.lens})_\n${t.text}\n\n`; });
+        md += `\n---\nGenerated at impactmojo.in/Labs/advisor-panel-lab.html\n`;
+        const blob = new Blob([md], { type: "text/markdown" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url; a.download = "advisor-panel-transcript.md"; a.click();
+        URL.revokeObjectURL(url);
+    });
+
+    $("resetBtn").addEventListener("click", () => {
+        transcript = []; round = 0; pendingSteer = ""; busy = false;
+        $("transcript").innerHTML = "";
+        $("postControls").style.display = "none";
+        $("steerRow").style.display = "none";
+        $("setup").style.display = "block";
+        $("nextRound").disabled = false; $("synthesize").disabled = false;
+        $("topic").value = ""; $("cc").textContent = "0"; $("steer").value = "";
+        if (TURNSTILE_SITE_KEY && window.turnstile) { try { window.turnstile.reset(); turnstileToken = ""; } catch (e) {} }
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    </script>
+</body>
+</html>

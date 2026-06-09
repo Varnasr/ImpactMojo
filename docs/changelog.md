@@ -2,6 +2,16 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.74.0 — June 9, 2026 (Advisor Panel Lab)
+
+### For Learners
+
+- **Advisor Panel** — a new interactive lab where you pose a real development-sector dilemma and a panel of AI advisors (a development economist, a field practitioner, a behavioural scientist, and a critic) debate it from every angle before the moderator synthesises. Add your own discussion points to steer the debate, and export the full transcript. Free, no login. [Open](/Labs/advisor-panel-lab.html)
+
+### Added
+
+- `Labs/advisor-panel-lab.html` + `/api/advisor-panel` orchestrator. Each persona is voiced by a different model (DeepSeek, Gemini, Grok) so the advisors sound genuinely distinct; the browser requests one turn at a time to keep every call short. Guarded by hard caps and a per-IP daily quota, with optional Cloudflare Turnstile (enabled automatically when `TURNSTILE_SECRET` is set). Brings the lab count to 14.
+
 ## v10.73.0 — June 8, 2026 (12 new downloadable products)
 
 ### For Learners
