@@ -2,6 +2,20 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.73.1 — June 9, 2026 (Language switcher fix + hard-wired translations)
+
+### For Learners
+
+- **The site now switches language instantly — no spinner, no waiting.** Hindi, Tamil, Bengali, and Marathi translations of the navigation, footer, and common labels are now built into the site itself, so picking a language is immediate and works even offline. We're expanding the translated text page by page.
+
+### Fixed
+
+- **Language switching no longer hangs on an endless spinner.** Pages were loading two competing translation systems at once — the legacy Google Translate widget and the newer Sarvam-backed switcher — and they fought each other in a DOM-mutation loop that kept the globe spinner running forever. Removed the legacy Google Translate widget (`js/translate.js`) from every page and standardised on the single switcher.
+
+### Changed
+
+- **Translations are now static-first.** The switcher (`js/translate-sarvam.js`) loads a hard-wired dictionary shipped at `/i18n/<lang>.json` (built once by `scripts/build-i18n.py` from a human-reviewed `i18n/overrides/` layer) and applies it synchronously — no API call, no credits, no spinner. The live Sarvam fallback is now opt-in only (`window.IMX_LIVE_TRANSLATE`), so the page can never hang on the network again. Batch 1 covers the 121 most-repeated site-wide shell strings.
+
 ## v10.73.0 — June 8, 2026 (12 new downloadable products)
 
 ### For Learners

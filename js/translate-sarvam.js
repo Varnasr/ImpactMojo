@@ -1,7 +1,11 @@
-/* ImpactMojo — site-wide Sarvam-backed language switcher.
-   Translates the current page's visible text on demand via /api/translate
-   (Netlify function → Sarvam Mayura, server-cached). Per-user localStorage
-   cache + in-memory originals so switching back to English is instant.
+/* ImpactMojo — site-wide language switcher.
+   Static-first: applies hard-wired, pre-translated strings shipped at
+   /i18n/<lang>.json (built once by scripts/build-i18n.py). No API call, instant,
+   offline-capable; untranslated strings stay English until added to the dict.
+   An optional live fallback (/api/translate → Sarvam Mayura) is OFF by default
+   and only runs if window.IMX_LIVE_TRANSLATE === true.
+   Per-user localStorage cache + in-memory originals so switching back to
+   English is instant.
    Add to any page:  <script src="/js/translate-sarvam.js" defer></script>
    Opt a subtree out of translation with  data-no-translate. */
 (function () {
@@ -76,6 +80,22 @@
   function cacheGet(lang, s) { try { return localStorage.getItem("xlate:" + lang + ":" + s); } catch (e) { return null; } }
   function cacheSet(lang, s, t) { try { localStorage.setItem("xlate:" + lang + ":" + s, t); } catch (e) {} }
 
+  // ---- Static dictionary (the hard-wired, pre-translated strings) -----------
+  // Each language ships a flat { "English source": "translation" } map at
+  // /i18n/<lang>.json, built once (scripts/build-i18n.py) and cached forever by
+  // the CDN/browser. This is the primary source of truth: no API call, instant,
+  // works offline, and any phrase can be corrected permanently in the JSON.
+  var staticDict = {};   // { lang: {src: translation} }
+  var staticTried = {};  // { lang: true } — don't refetch a 404
+  function loadStaticDict(lang) {
+    if (staticDict[lang] || staticTried[lang]) return Promise.resolve();
+    staticTried[lang] = true;
+    return fetch("/i18n/" + lang + ".json", { cache: "force-cache" })
+      .then(function (r) { return r.ok ? r.json() : {}; })
+      .then(function (d) { staticDict[lang] = d || {}; })
+      .catch(function () { staticDict[lang] = {}; });
+  }
+
   async function apiBatch(lang, batch) {
     try {
       var r = await fetch("/api/translate", {
@@ -111,24 +131,35 @@
     if (lang === "en") { restoreEnglish(); save(lang); markActive(lang); return; }
     busy = true; markBusy(true);
     collect(); loadFont(lang);
+    await loadStaticDict(lang);
     document.documentElement.setAttribute("data-imlang", lang);
     document.documentElement.setAttribute("lang", lang);
-    // unique source strings
+    var dict = staticDict[lang] || {};
+    // Resolve each unique source string: localStorage cache -> static dictionary.
     var uniq = {}, order = [];
     for (var i = 0; i < originals.length; i++) {
       var s = originals[i].text.trim();
-      if (!(s in uniq)) { uniq[s] = cacheGet(lang, s); if (uniq[s] == null) order.push(s); }
+      if (s in uniq) continue;
+      var hit = cacheGet(lang, s);
+      if (hit == null && dict[s] != null) hit = dict[s];
+      uniq[s] = hit;
+      if (hit == null) order.push(s);        // not yet translated anywhere
     }
-    applyTranslations(uniq);                 // apply cached strings instantly
-    // fetch + apply each batch progressively (don't wait for the whole page)
-    for (var i = 0; i < order.length; i += 12) {
-      if (curLang !== lang) break;           // user switched away — stop
-      var fetched = await apiBatch(lang, order.slice(i, i + 12));
-      // accept only real translations (skip the function's failure fallback)
-      for (var k in fetched) {
-        if (fetched[k] && fetched[k] !== k) { uniq[k] = fetched[k]; cacheSet(lang, k, fetched[k]); }
+    applyTranslations(uniq);                  // apply everything we know, instantly
+    // Optional live fallback for strings missing from the static dictionary.
+    // OFF by default — no API dependency, no credits, no spinner-forever. The
+    // hard-wired dictionary is the source of truth; untranslated strings simply
+    // stay English until added to i18n/. Enable by setting
+    // window.IMX_LIVE_TRANSLATE = true before this script loads.
+    if (window.IMX_LIVE_TRANSLATE && order.length) {
+      for (var j = 0; j < order.length; j += 12) {
+        if (curLang !== lang) break;          // user switched away — stop
+        var fetched = await apiBatch(lang, order.slice(j, j + 12));
+        for (var k in fetched) {
+          if (fetched[k] && fetched[k] !== k) { uniq[k] = fetched[k]; cacheSet(lang, k, fetched[k]); }
+        }
+        applyTranslations(uniq);
       }
-      applyTranslations(uniq);
     }
     save(lang); markActive(lang); busy = false; markBusy(false);
     // one delayed pass to catch content added by deferred scripts (auth bar, etc.)
