@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.73.4 — June 9, 2026 (Fix: flagship course content not loading)
+
+### Fixed
+
+- **Flagship course modules now load again for returning users.** If your saved login session had gone stale, the course-content service rejected the whole request, so *no* modules appeared (just "Unable to load course content"). The loader now retries anonymously on that error, so the public module always loads — and signing in again restores the gated modules.
+
 ## v10.73.3 — June 9, 2026 (Homepage navigation translated)
 
 ### For Learners
