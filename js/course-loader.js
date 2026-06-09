@@ -183,27 +183,46 @@
       'Authorization': 'Bearer ' + (token || cfg.SUPABASE_ANON_KEY),
     };
 
+    // Headers that drop the (possibly stale) user token and use the anon key.
+    // The edge function rejects an expired/invalid JWT with a 401 for the WHOLE
+    // request — it does NOT fall back to serving public content — so without
+    // this a returning user with a stale session would see no content at all.
+    var anonHeaders = {
+      'Content-Type': 'application/json',
+      'apikey': cfg.SUPABASE_ANON_KEY,
+      'Authorization': 'Bearer ' + cfg.SUPABASE_ANON_KEY,
+    };
+
     // Fetch with a per-attempt timeout and one automatic retry, so a hung
     // edge-function request can no longer leave the page spinning forever.
     var MAX_ATTEMPTS = 2;
     var TIMEOUT_MS = 12000;
 
-    function attempt(n) {
+    function attempt(n, anonOnly) {
       var controller = new AbortController();
       var timer = setTimeout(function () { controller.abort(); }, TIMEOUT_MS);
 
       fetch(EDGE_FN_URL, {
         method: 'POST',
-        headers: headers,
+        headers: anonOnly ? anonHeaders : headers,
         body: JSON.stringify({ course_id: courseId }),
         signal: controller.signal,
       })
         .then(function (res) {
           clearTimeout(timer);
+          // A stale/expired user token makes the function 401 the entire
+          // request. Retry once as anonymous so public modules still load
+          // (re-logging in restores access to the gated modules).
+          if (res.status === 401 && !anonOnly && token) {
+            console.warn('[CourseLoader] 401 with user token — retrying anonymously');
+            attempt(n, true);
+            return null;
+          }
           if (!res.ok) throw new Error('HTTP ' + res.status);
           return res.json();
         })
         .then(function (data) {
+          if (!data) return; // handed off to the anonymous retry above
           if (data.modules && data.modules.length > 0) {
             injectContent(data.modules);
           } else {
@@ -214,7 +233,7 @@
           clearTimeout(timer);
           if (n < MAX_ATTEMPTS) {
             console.warn('[CourseLoader] attempt ' + n + ' failed (' + err.message + '), retrying…');
-            setTimeout(function () { attempt(n + 1); }, 1500 * n);
+            setTimeout(function () { attempt(n + 1, anonOnly); }, 1500 * n);
           } else {
             console.error('[CourseLoader] Failed to load content:', err);
             showError();
@@ -222,7 +241,7 @@
         });
     }
 
-    attempt(1);
+    attempt(1, false);
   }
 
   // ── CSS for spinner animation ───────────────────────────────────

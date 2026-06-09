@@ -10,7 +10,43 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 
 ### Added
 
-- `premium-tools/advisory-board-pro.html` + `/api/advisor-panel` orchestrator. Each persona is voiced by a different model (DeepSeek, Gemini, Grok) so the advisors sound genuinely distinct; the browser requests one turn at a time to keep every call short. Gated to the Professional tier two ways: `AuthGate` hides the live tool client-side, and the function independently verifies the Supabase session + `subscription_tier` before spending on any LLM call. Per-user daily quota as defence in depth. Brings the premium-tools lineup to 10.
+- `premium-tools/advisory-board-pro.html` + `/api/advisor-panel` orchestrator. Each seat is voiced by a different model (Groq-hosted Llama 3.3 70B, Llama 4 Scout, Llama 3.1 8B, and GPT-OSS 120B) so the advisors sound genuinely distinct; the browser requests one turn at a time to keep every call short. Gated to the Professional tier two ways: the page hides the live tool client-side via `ImpactMojoAuth`, and the function independently verifies the Supabase session + `subscription_tier` before spending on any LLM call. Per-user daily quota as defence in depth. Brings the premium-tools lineup to 10.
+
+## v10.73.4 — June 9, 2026 (Fix: flagship course content not loading)
+
+### Fixed
+
+- **Flagship course modules now load again for returning users.** If your saved login session had gone stale, the course-content service rejected the whole request, so *no* modules appeared (just "Unable to load course content"). The loader now retries anonymously on that error, so the public module always loads — and signing in again restores the gated modules.
+
+## v10.73.3 — June 9, 2026 (Homepage navigation translated)
+
+### For Learners
+
+- **The full site navigation, homepage hero, and trust bar now read in your language instantly** — Hindi, Tamil, Bengali, and Marathi. Since the menu appears on every page, this lifts the translated experience across the whole site (409 hand-checked strings now built in).
+
+## v10.73.2 — June 9, 2026 (More translations + live fill-in)
+
+### For Learners
+
+- **Much more of the site now reads in your language.** Added a second batch of hand-checked Hindi, Tamil, Bengali, and Marathi translations covering course titles, section headings, buttons, and the purchase flow (357 common strings in all). On top of the instant built-in translations, the rest of a page's text now fills in automatically as you read it — so whole pages, not just the menus, switch language.
+
+### Changed
+
+- Re-enabled the live `/api/translate` fallback (Sarvam Mayura, server-cached) now that the account has credits. It runs *after* the static dictionary is applied, so the shell still renders instantly and only the long-tail body content is fetched and cached. Disable per-page with `window.IMX_LIVE_TRANSLATE = false`.
+
+## v10.73.1 — June 9, 2026 (Language switcher fix + hard-wired translations)
+
+### For Learners
+
+- **The site now switches language instantly — no spinner, no waiting.** Hindi, Tamil, Bengali, and Marathi translations of the navigation, footer, and common labels are now built into the site itself, so picking a language is immediate and works even offline. We're expanding the translated text page by page.
+
+### Fixed
+
+- **Language switching no longer hangs on an endless spinner.** Pages were loading two competing translation systems at once — the legacy Google Translate widget and the newer Sarvam-backed switcher — and they fought each other in a DOM-mutation loop that kept the globe spinner running forever. Removed the legacy Google Translate widget (`js/translate.js`) from every page and standardised on the single switcher.
+
+### Changed
+
+- **Translations are now static-first.** The switcher (`js/translate-sarvam.js`) loads a hard-wired dictionary shipped at `/i18n/<lang>.json` (built once by `scripts/build-i18n.py` from a human-reviewed `i18n/overrides/` layer) and applies it synchronously — no API call, no credits, no spinner. The live Sarvam fallback is now opt-in only (`window.IMX_LIVE_TRANSLATE`), so the page can never hang on the network again. Batch 1 covers the 121 most-repeated site-wide shell strings.
 
 ## v10.73.0 — June 8, 2026 (12 new downloadable products)
 
