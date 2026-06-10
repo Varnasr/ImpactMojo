@@ -2,6 +2,16 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.76.1 — June 10, 2026 (Homepage + all courses translated & stored)
+
+### For Learners
+
+- **The homepage and all 15 flagship courses are now fully translated into Hindi, Tamil, Bengali, and Marathi — and stored with the site**, so they load instantly in your language with nothing to fetch. ~3,650 phrases per language are now built in. Other pages keep filling in automatically as you read.
+
+### Changed
+
+- Translations now load as a shared common dictionary (`i18n/<lang>.json`) plus per-page files (`i18n/pages/<lang>/<page>.json`), so each page only downloads its own strings. Generated once via `scripts/bulk-translate.py` through the Sarvam endpoint and frozen into the repo; the live fallback stays on as a safety net for anything not yet stored.
+
 ## v10.76.0 — June 10, 2026 (Evaluation Essentials Kit — now all 27 products)
 
 ### For Learners

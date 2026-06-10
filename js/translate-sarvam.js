@@ -86,7 +86,7 @@
   // /i18n/<lang>.json, built once (scripts/build-i18n.py) and cached forever by
   // the CDN/browser. This is the primary source of truth: no API call, instant,
   // works offline, and any phrase can be corrected permanently in the JSON.
-  var staticDict = {};   // { lang: {src: translation} }
+  var staticDict = {};   // { lang: {src: translation} }  — shared/common strings
   var staticTried = {};  // { lang: true } — don't refetch a 404
   function loadStaticDict(lang) {
     if (staticDict[lang] || staticTried[lang]) return Promise.resolve();
@@ -95,6 +95,28 @@
       .then(function (r) { return r.ok ? r.json() : {}; })
       .then(function (d) { staticDict[lang] = d || {}; })
       .catch(function () { staticDict[lang] = {}; });
+  }
+
+  // ---- Per-page dictionary -------------------------------------------------
+  // The common dict above holds strings that recur across the site. Everything
+  // else lives in a per-page file at /i18n/pages/<lang>/<pageKey>.json so each
+  // page downloads only its own strings (not one giant site-wide dictionary).
+  // pageKey is derived from the URL path; the build script uses the same rule.
+  var pageDict = {};     // { lang: {src: translation} }
+  var pageTried = {};    // { "lang:key": true }
+  function pageKey() {
+    var p = location.pathname.replace(/\/+$/, "").replace(/\/index\.html?$/i, "").replace(/\.html?$/i, "").replace(/^\/+/, "");
+    if (!p) p = "index";
+    return p.replace(/[^A-Za-z0-9._-]+/g, "__");
+  }
+  function loadPageDict(lang) {
+    var key = lang + ":" + pageKey();
+    if (pageDict[lang] || pageTried[key]) return Promise.resolve();
+    pageTried[key] = true;
+    return fetch("/i18n/pages/" + lang + "/" + pageKey() + ".json", { cache: "force-cache" })
+      .then(function (r) { return r.ok ? r.json() : {}; })
+      .then(function (d) { pageDict[lang] = d || {}; })
+      .catch(function () { pageDict[lang] = {}; });
   }
 
   async function apiBatch(lang, batch) {
@@ -132,17 +154,19 @@
     if (lang === "en") { restoreEnglish(); save(lang); markActive(lang); return; }
     busy = true; markBusy(true);
     collect(); loadFont(lang);
-    await loadStaticDict(lang);
+    await Promise.all([loadStaticDict(lang), loadPageDict(lang)]);
     document.documentElement.setAttribute("data-imlang", lang);
     document.documentElement.setAttribute("lang", lang);
-    var dict = staticDict[lang] || {};
-    // Resolve each unique source string: localStorage cache -> static dictionary.
+    var common = staticDict[lang] || {}, page = pageDict[lang] || {};
+    // Resolve each unique source string: localStorage cache -> page dict ->
+    // common dict (page-specific wins, then the shared dictionary).
     var uniq = {}, order = [];
     for (var i = 0; i < originals.length; i++) {
       var s = originals[i].text.trim();
       if (s in uniq) continue;
       var hit = cacheGet(lang, s);
-      if (hit == null && dict[s] != null) hit = dict[s];
+      if (hit == null && page[s] != null) hit = page[s];
+      if (hit == null && common[s] != null) hit = common[s];
       uniq[s] = hit;
       if (hit == null) order.push(s);        // not yet translated anywhere
     }
