@@ -10,15 +10,15 @@ Last updated: 2026-06-08.
 
 | Type | Where | Price | Delivery |
 |------|-------|-------|----------|
-| 15 one-time products (templates, workbook, decks) | `/products/<slug>/` | ₹199 / ₹499 | Signed download link emailed after payment |
-| Bundle — Evaluation Essentials Kit | `/products/evaluation-essentials-kit/` | ₹1,999 | Same |
+| 27 one-time products (templates, workbooks, decks, refreshers, posters, checklists) | `/products/<slug>/` | ₹99 / ₹149 / ₹199 / ₹499 | Signed download link emailed after payment |
+| Bundle — Evaluation Essentials Kit (all 27) | `/products/evaluation-essentials-kit/` | ₹2,499 | Same |
 | Premium subscriptions (Practitioner / Organisation) | `/subscribe/` | ₹399–₹9,990 | Activation + monthly UPI QR |
 
 **Payments:** UPI to `impactmojo@ibl` · **WhatsApp:** +91 9871777110. No payment gateway (by choice — no fees).
 
 ## Where the files live (never on the public site)
 
-- **Delivery source:** private Supabase Storage bucket **`products`** (all 15 + bundle). Links are 7-day signed URLs.
+- **Delivery source:** private Supabase Storage bucket **`products`** (all 27 + bundle + 2 calculators). Links are 7-day signed URLs.
 - **Your master copies:** Google Drive → **"ImpactMojo — Product Masters"**.
 - **Public site only holds:** watermarked samples (`/downloads/samples/`), UPI QR images (`/assets/images/upi/`), and the landing pages.
 - The full files are git-ignored from the repo, so they can't leak via the website.

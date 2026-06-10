@@ -2,6 +2,16 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.76.0 — June 10, 2026 (Evaluation Essentials Kit — now all 27 products)
+
+### For Learners
+
+- **The Evaluation Essentials Kit now includes every product** — all 12 templates, all four workbooks, both trainer decks, plus the four refreshers, two formulae posters and three field checklists. That's 27 products (worth ₹6,373 bought separately) in one download for **₹2,499** — over 60% off. [Get the kit](/products/evaluation-essentials-kit/)
+
+### Changed
+
+- Re-scoped the Evaluation Essentials Kit from 15 → all 27 products and repriced ₹1,999 → ₹2,499. Rebuilt the kit zip (32 files — the 27 products, with the five Excel templates flattened to XLSX + Word companion guide) and re-uploaded it to the private fulfilment bucket. Updated the kit landing page (contents, price, lede, delivery steps, form, UPI amount), the new amount-encoded UPI QR (`upi-evaluation-essentials-kit-2499.png`, old ₹1,999 QR removed), the `products.html` bundle card, the kit cross-sell box on all 15 member product pages, and the money-flow runbook.
+
 ## v10.75.0 — June 9, 2026 (Premium Calculators)
 
 ### For Learners
