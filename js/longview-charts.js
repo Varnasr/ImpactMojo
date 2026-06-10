@@ -727,6 +727,58 @@ window.LV = (function() {
     svg.appendChild(mk('text', { x: W/2, y: H - 20, 'text-anchor': 'middle', 'font-size': 14, 'font-weight': 800, fill: ink(), 'font-family': 'Inter, sans-serif' }, 'your data, your frame, your turn' ));
   }
 
+  /* ---------- Population-vs-wealth split flow (who owns what) ---------- */
+  /* Two bars on one scale — one split by people, one by a resource (wealth/income) —
+     with ribbons linking each group across the two, so the disparity becomes a shape. */
+  function splitFlow(id, o) {
+    var svg = frame(id); if (!svg) return;
+    var groups = o.groups, topKey = o.topKey || 'pop', botKey = o.botKey || 'wealth';
+    var padL = 56, padR = 14, fullW = W - padL - padR;
+    var topY = 50, botY = 178, barH = 32, ribA = topY + barH, ribB = botY, my = (ribA + ribB) / 2;
+
+    function segs(key) { var out = [], acc = 0; groups.forEach(function (g) { var w = g[key] / 100 * fullW; out.push([padL + acc, w]); acc += w; }); return out; }
+    var A = segs(topKey), B = segs(botKey);
+
+    // ribbons (behind the bars)
+    groups.forEach(function (g, i) {
+      var a = A[i], b = B[i];
+      var d = 'M' + a[0].toFixed(1) + ',' + ribA + ' C' + a[0].toFixed(1) + ',' + my + ' ' + b[0].toFixed(1) + ',' + my + ' ' + b[0].toFixed(1) + ',' + ribB +
+        ' L' + (b[0] + b[1]).toFixed(1) + ',' + ribB + ' C' + (b[0] + b[1]).toFixed(1) + ',' + my + ' ' + (a[0] + a[1]).toFixed(1) + ',' + my + ' ' + (a[0] + a[1]).toFixed(1) + ',' + ribA + ' Z';
+      var rib = mk('path', { d: d, fill: g.color, 'fill-opacity': (g.hl ? 0.5 : 0.26) });
+      svg.appendChild(rib); fadeIn(rib, 0.15 + i * 0.07);
+    });
+
+    // bars + percentage labels
+    function bar(xs, key, y) {
+      groups.forEach(function (g, i) {
+        var s = xs[i];
+        var r = mk('rect', { x: s[0].toFixed(1), y: y, width: Math.max(s[1], 0.6).toFixed(1), height: barH, fill: g.color, rx: 1.5 });
+        svg.appendChild(r); fadeIn(r, 0.05 + i * 0.05);
+        var lbl = (Math.round(g[key] * 10) / 10) + '%', cx = s[0] + s[1] / 2;
+        if (s[1] >= 28) {
+          svg.appendChild(mk('text', { x: cx.toFixed(1), y: y + barH / 2 + 3.5, 'text-anchor': 'middle', 'font-size': 10.5, 'font-weight': 700, fill: '#fff', 'font-family': 'Inter, sans-serif' }, lbl));
+        } else {
+          var above = (y === topY), ly = above ? y - 6 : y + barH + 12, ty1 = above ? y - 4 : y + barH, ty2 = above ? y - 1 : y + barH + 3;
+          svg.appendChild(mk('line', { x1: cx.toFixed(1), x2: cx.toFixed(1), y1: ty1, y2: ty2, stroke: g.color, 'stroke-width': 1 }));
+          svg.appendChild(mk('text', { x: cx.toFixed(1), y: ly, 'text-anchor': 'middle', 'font-size': 10, 'font-weight': 700, fill: g.color, 'font-family': 'Inter, sans-serif' }, lbl));
+        }
+      });
+    }
+    bar(A, topKey, topY); bar(B, botKey, botY);
+
+    // row labels in the left gutter
+    svg.appendChild(mk('text', { x: padL - 8, y: topY + barH / 2 + 3.5, 'text-anchor': 'end', 'font-size': 11, 'font-weight': 700, fill: ink(), 'font-family': 'Inter, sans-serif' }, o.topLabel || 'People'));
+    svg.appendChild(mk('text', { x: padL - 8, y: botY + barH / 2 + 3.5, 'text-anchor': 'end', 'font-size': 11, 'font-weight': 700, fill: ink(), 'font-family': 'Inter, sans-serif' }, o.botLabel || 'Wealth'));
+
+    // legend (group names) along the bottom
+    var ly = H - 14, lx = padL;
+    groups.forEach(function (g) {
+      svg.appendChild(mk('rect', { x: lx, y: ly - 8, width: 10, height: 10, rx: 2, fill: g.color }));
+      svg.appendChild(mk('text', { x: lx + 14, y: ly + 1, 'font-size': 10.5, 'font-weight': g.hl ? 700 : 500, fill: ink(), 'font-family': 'Inter, sans-serif' }, g.label));
+      lx += 14 + g.label.length * 5.7 + 16;
+    });
+  }
+
   /* ---------- Render everything ---------- */
   function renderAll() {
     lineChart('c-poverty',
@@ -736,6 +788,15 @@ window.LV = (function() {
     lineChart('c-u5mr',
       [{x:1990,y:127},{x:1995,y:109.7},{x:2000,y:91.8},{x:2005,y:74.3},{x:2010,y:58.1},{x:2015,y:43.7},{x:2020,y:33},{x:2022,y:29.5}],
       { yMax: 138, color: '#4f46e5', area: true, valfmt: function(v){return Math.round(v);}, labelEvery: 2, xfmt: function(x){return "'"+String(x).slice(2);} });
+
+    splitFlow('c-wealth',
+      { topLabel:'People', botLabel:'Wealth',
+        groups:[
+          {label:'Bottom 50%', pop:50, wealth:6.4,  color:'#f3a6b0'},
+          {label:'Middle 40%', pop:40, wealth:28.6, color:'#e0566a'},
+          {label:'Next 9%',    pop:9,  wealth:24.9, color:'#b81d36'},
+          {label:'Top 1%',     pop:1,  wealth:40.1, color:'#7d0d23', hl:true}
+        ]});
 
     hbarChart('c-caste',
       [{label:'Sched. Tribes',y:44.4,color:'#7d0d23'},{label:'Sched. Castes',y:29.2,color:'#b81d36'},{label:'OBC',y:24.5,color:'#e0566a'},{label:'Others',y:14.9,color:'#f3a6b0'}],
@@ -1046,7 +1107,8 @@ window.LV = (function() {
     { theme:'climate', tag:'Climate', title:'2°C: Beyond the Limit', who:'The Washington Post', year:'2019', g:['#e53e3e','#ed8936'], desc:'A Pulitzer-winning series mapping the places already past 2°C of warming. Global abstraction made local and undeniable.', url:'https://www.washingtonpost.com/graphics/2019/national/climate-environment/climate-change-world/' },
     { theme:'poverty', tag:'Poverty & Inequality', title:'Information is Beautiful', who:'David McCandless', year:'2009–', g:['#667eea','#4facfe'], desc:'The studio that made data visualization mainstream — endlessly studied for how colour, scale and wit turn numbers into something you actually feel.', url:'https://informationisbeautiful.net/' },
     { theme:'india', tag:'India & South Asia', title:'Reuters Graphics', who:'Reuters', year:'ongoing', g:['#dd6b20','#e53e3e'], desc:'Award-winning visual investigations, often on South Asia — migrant labour, heat, elections. A reference standard for newsroom dataviz craft.', url:'https://www.reuters.com/graphics/' },
-    { theme:'work', tag:'Work & Technology', title:'Which Jobs Are Most Exposed to AI', who:'The Washington Post · GovAI & Brookings', year:'2026', g:['#0EA5E9','#ed8936'], desc:'Every US occupation as a bubble — AI exposure across, adaptability up, sized by workforce. Search your own job to see whether AI threatens it, and whether you could pivot if it did. The quiet finding: many of the most exposed are also the best placed to move.', url:'https://www.washingtonpost.com/technology/interactive/2026/jobs-most-affected-ai-automation/' }
+    { theme:'work', tag:'Work & Technology', title:'Which Jobs Are Most Exposed to AI', who:'The Washington Post · GovAI & Brookings', year:'2026', g:['#0EA5E9','#ed8936'], desc:'Every US occupation as a bubble — AI exposure across, adaptability up, sized by workforce. Search your own job to see whether AI threatens it, and whether you could pivot if it did. The quiet finding: many of the most exposed are also the best placed to move.', url:'https://www.washingtonpost.com/technology/interactive/2026/jobs-most-affected-ai-automation/' },
+    { theme:'poverty', tag:'Poverty & Inequality', title:'American Wealth Inequality', who:'PerThirtySix', year:'2025', g:['#e11d48','#f59e0b'], desc:'Horizontal space encodes wealth, stick figures encode people — so the bottom 50% become a dense crowd holding almost nothing while the top 0.1% occupy a vast near-empty hall. The clearest single picture of who owns America, built from Federal Reserve data. The model for our own “Who owns India”.', url:'https://perthirtysix.com/tool/american-wealth-inequality' }
   ];
 
   function buildCards() {
@@ -1105,7 +1167,7 @@ window.LV = (function() {
 
   function drawMasters(){ drawRose(); drawMinard(); drawSnow(); drawDuBois(); }
 
-  var ORDER = ['c-gender','c-caste','c-co2','c-energy','c-nfhs','c-forest','c-decline','c-transition','c-migration','c-where','c-ghg','c-ghg3','c-waffle','c-stream','c-pyramid','c-states','c-poverty','c-u5mr','c-flfp','c-pipeline','c-climate'];
+  var ORDER = ['c-gender','c-wealth','c-caste','c-co2','c-energy','c-nfhs','c-forest','c-decline','c-transition','c-migration','c-where','c-ghg','c-ghg3','c-waffle','c-stream','c-pyramid','c-states','c-poverty','c-u5mr','c-flfp','c-pipeline','c-climate'];
   var DETAILS = {
     'c-migration': { tag:'Migration', title:'Migration is a web',
       takeaway:"People move in every direction between world regions — not just South to North. The biggest single cross-region pull is into Northern America.",
@@ -1173,6 +1235,12 @@ window.LV = (function() {
       why:"A dumbbell chart puts two values on one line so the gap between them is the first thing you read. Stacking four indicators lets you compare gaps at a glance — and spot the one place the gap reverses.",
       how:"Drawn in plain SVG: a faint connecting line per row, a dot for each sex, values at the ends. No charting library — just the figures and a little geometry.",
       look:"The length of each grey line is the gap. Look at college, where the women's dot sits to the right of the men's." },
+    'c-wealth': { tag:'Wealth & Inequality', title:'Who owns India',
+      takeaway:"The richest 1% of Indians own about 40% of the country's wealth — the most concentrated on record. The bottom half own roughly 6%. That same 1% also take 22.6% of all income.",
+      source:"World Inequality Lab — Bharti, Chancel, Piketty & Somanchi, 'Income and Wealth Inequality in India, 1922–2023' (2024). Personal wealth shares, 2022–23.",
+      why:"Two bars on one scale — the population split by size, total wealth split among the same groups — turn a statistic into a shape. Ribbons link each group across the two, so you watch the bottom half's wide band of people pinch to a sliver of wealth, and the top 1% do the opposite.",
+      how:"The top bar divides the population into four groups; the bottom bar divides total personal wealth among the same four. Segment widths are the exact shares, and each ribbon connects one group across the two bars.",
+      look:"How the Top 1% block barely registers in 'People' yet dominates 'Wealth' — and how thin the bottom half's wealth band is." },
     'c-caste': { tag:'Caste & Equity', title:'Poverty is not caste-blind',
       takeaway:"A Scheduled Tribe household is about three times as likely to be poor as an 'Other' household.",
       source:"NFHS-4 (2015–16), multidimensional poverty headcount by social group. National headcount has since fallen to about 15% (NFHS-5).",

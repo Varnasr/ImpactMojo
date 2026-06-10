@@ -2,6 +2,17 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.77.0 — June 10, 2026 (The Long View — "Who owns India")
+
+### For Learners
+
+- **"Who owns India" — a new chart in The Long View** showing India's wealth concentration: two bars on one scale (the population, then total wealth, split among the same groups) with ribbons linking each. The bottom half of Indians hold about 6% of the wealth; the top 1% hold 40%. Built from the World Inequality Lab's *Income and Wealth Inequality in India, 1922–2023*. [See it](/the-long-view.html)
+- **A new "great" in the gallery** — PerThirtySix's *American Wealth Inequality*, the visualization that inspired the India chart, added to The Classics & Greats.
+
+### Added
+
+- New `splitFlow` renderer in `js/longview-charts.js` (population-vs-resource bars with linking ribbons) and a `c-wealth` original on `the-long-view.html`, wired into `ORDER`/`DETAILS` so the standalone `chart.html?c=c-wealth` and prev/next navigation work. Added the PerThirtySix card to the gallery's masterworks list.
+
 ## v10.76.1 — June 10, 2026 (Homepage + all courses translated & stored)
 
 ### For Learners
