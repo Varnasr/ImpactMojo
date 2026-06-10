@@ -11,9 +11,12 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
   - **Programme Unit Economics & Pricing Calculator** (₹15,000) — price a product or training line and test whether the model works: unit economics, LTV vs CAC, market sizing, and a five-year path to break-even. [View](/products/unit-economics-calculator/)
 - **Refreshed product samples** — the free watermarked previews across the store now reflect the rewritten v2.0 templates, with fuller worked sections.
 
+- **Every Excel template now comes with a Word companion guide** (Logframe, Activity Budget & Costing, Proposal Scoring, Stakeholder Map, Results Framework) — delivered together as a zip.
+
 ### Added
 
 - New "Premium Calculators" category on `products.html` (`#calculators`) and two product landing pages under `/products/`. Search-index, sitemap, UPI QR codes, and the order→file delivery map all wired up; the two calculator masters (XLSX + guide, zipped) added to the private fulfilment bucket.
+- **Refreshed the entire fulfilment bucket** from the rewritten v2.0 masters — all 27 product files re-uploaded, the 5 Excel templates re-zipped with their new Word guides (delivery map updated `.xlsx`→`.zip`), and the Evaluation Essentials Kit bundle rebuilt.
 
 ## v10.74.0 — June 9, 2026 (Advisory Board Pro)
 
