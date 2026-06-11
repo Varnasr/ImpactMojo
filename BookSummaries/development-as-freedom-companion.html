@@ -1,0 +1,781 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Development as Freedom — ImpactMojo Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+/* === ImpactMojo Design System === */
+:root {
+    --im-gradient: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+    --im-accent: #0EA5E9;
+    --im-nav-bg: rgba(15, 23, 42, 0.95);
+    --im-border: #334155;
+    --im-text-primary: #F1F5F9;
+    --im-text-secondary: #94A3B8;
+    --im-text-muted: #64748B;
+    --im-card-bg: #1E293B;
+    --im-hover-bg: #334155;
+    --im-secondary-bg: #1E293B;
+}
+body { padding-top: 56px !important; }
+.im-topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    background: var(--im-nav-bg);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--im-border);
+    padding: 0.5rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.75rem; flex-wrap: wrap;
+    font-family: 'Inter', 'Amaranth', sans-serif;
+}
+.im-topbar a { text-decoration: none; }
+.im-topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+.im-topbar-home {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-weight: 700; font-size: 1rem;
+    background: var(--im-gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.im-topbar-home svg { width: 24px; height: 24px; flex-shrink: 0; stroke: #0EA5E9; }
+.im-topbar-right { display: flex; align-items: center; gap: 0.5rem; }
+.im-premium-btn {
+    background: var(--im-gradient);
+    color: #fff !important; -webkit-text-fill-color: #fff;
+    padding: 0.35rem 0.85rem; border-radius: 6px;
+    font-size: 0.8rem; font-weight: 600;
+    display: flex; align-items: center; gap: 0.35rem;
+    transition: opacity 0.2s; border: none; cursor: pointer;
+}
+.im-browse-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--im-text, #1C1917); background: var(--im-surface, #FFFFFF); border: 1.5px solid var(--im-border, #E2E8F0); padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; transition: background 0.18s ease, border-color 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease; }
+.im-browse-btn:hover { background: var(--im-accent, #0EA5E9); color: #FFFFFF; border-color: var(--im-accent, #0EA5E9); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25); }
+.im-browse-btn svg { width: 14px; height: 14px; }
+@media (prefers-color-scheme: dark) { .im-browse-btn { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.18); } .im-browse-btn:hover { background: var(--im-accent, #0EA5E9); border-color: var(--im-accent, #0EA5E9); color: #FFFFFF; } }
+.im-premium-btn:hover { opacity: 0.9; }
+.im-premium-btn svg { width: 14px; height: 14px; }
+.im-theme-selector {
+    display: flex; gap: 2px;
+    background: var(--im-card-bg);
+    border: 1px solid var(--im-border);
+    border-radius: 8px; padding: 2px;
+}
+.im-theme-btn {
+    background: transparent; border: none;
+    color: var(--im-text-secondary);
+    padding: 6px; border-radius: 5px; cursor: pointer;
+    transition: all 0.2s; display: flex; align-items: center;
+    justify-content: center; width: 30px; height: 30px;
+}
+.im-theme-btn:hover { background: var(--im-hover-bg); color: var(--im-text-primary); }
+.im-theme-btn.active { background: var(--im-accent); color: #fff; }
+.im-theme-btn svg { width: 16px; height: 16px; }
+.im-footer {
+    background: var(--im-secondary-bg);
+    border-top: 1px solid var(--im-border);
+    padding: 2rem 1rem; margin-top: auto;
+    font-family: 'Inter', 'Amaranth', sans-serif;
+    color: var(--im-text-secondary);
+}
+.im-footer-content { max-width: 1100px; margin: 0 auto; }
+.im-footer-made {
+    text-align: center; margin-bottom: 1.5rem;
+    font-size: 0.9rem; color: var(--im-text-muted);
+}
+.im-footer-made a { color: var(--im-accent); text-decoration: none; }
+.im-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem; margin-bottom: 1.5rem;
+}
+.im-footer-section h4 {
+    font-family: 'Inter', 'Amaranth', sans-serif;
+    color: var(--im-text-primary);
+    font-size: 0.9rem; margin-bottom: 0.75rem; font-weight: 600;
+}
+.im-footer-section ul { list-style: none; padding: 0; margin: 0; }
+.im-footer-section li { margin-bottom: 0.4rem; }
+.im-footer-section a {
+    color: var(--im-text-secondary);
+    text-decoration: none; font-size: 0.85rem; transition: color 0.2s;
+}
+.im-footer-section a:hover { color: var(--im-accent); }
+.im-footer-bottom {
+    text-align: center; padding-top: 1rem;
+    border-top: 1px solid var(--im-border);
+    font-size: 0.8rem; color: var(--im-text-muted);
+}
+.im-footer-bottom p { margin: 0.25rem 0; }
+.im-footer-bottom a { color: var(--im-accent); text-decoration: none; }
+@media (max-width: 640px) {
+    .im-topbar { padding: 0.4rem 0.75rem; gap: 0.5rem; }
+    .im-topbar-home { font-size: 0.85rem; }
+    .im-topbar-home svg { width: 20px; height: 20px; }
+    .im-topbar-home span { display: none; }
+    .im-premium-btn { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
+    .im-theme-btn { width: 26px; height: 26px; padding: 4px; }
+    .im-theme-btn svg { width: 14px; height: 14px; }
+    .im-footer-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+}
+@media (max-width: 400px) {
+    .im-footer-grid { grid-template-columns: 1fr; }
+}
+/* === End ImpactMojo Design System === */
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F8F5F0;--card:#fff;--border:#E8E0D5;--text:#1C1C1C;--muted:#6B6560;
+  --accent:#1A3C34;--accent-light:#EBF5F2;--teal:#1A6B5A;--teal-light:#EBF5F2;
+  --radius:8px;
+}
+body{background:var(--bg);font-family:'Amaranth','Inter',system-ui,sans-serif;color:var(--text);padding-top:52px}
+.app{min-height:100vh;display:flex;flex-direction:column}
+nav{background:#1C1C1C;display:flex;align-items:center;gap:20px;padding:0 20px;min-height:52px;flex-wrap:wrap;position:sticky;top:52px;z-index:99}
+.brand{display:flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.brand-name{font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:#fff;letter-spacing:.05em;text-transform:uppercase}
+.tabs{display:flex;gap:2px;flex-wrap:wrap}
+.tab-btn{background:none;border:none;padding:6px 13px;font-family:Inter,sans-serif;font-size:11px;font-weight:600;color:rgba(255,255,255,.5);cursor:pointer;border-radius:4px;text-transform:uppercase;letter-spacing:.04em;transition:all .15s}
+.tab-btn:hover{color:rgba(255,255,255,.85)}
+.tab-btn.active{color:#fff;background:var(--accent)}
+main{flex:1;padding:32px 20px;max-width:860px;margin:44px auto 0;width:100%}
+.h1{font-family:Inter,sans-serif;font-size:22px;font-weight:700;margin-bottom:8px}
+.sub{color:var(--muted);font-size:15px;margin-bottom:24px;font-family:Inter,sans-serif;line-height:1.5}
+.panel{display:none}.panel.active{display:block}
+
+/* HERO */
+.hero{background:#1C1C1C;color:#fff;border-radius:12px;padding:32px;margin-bottom:20px}
+.day-badge{display:inline-block;background:var(--accent);font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 10px;border-radius:4px;margin-bottom:14px}
+.hero h1{font-size:34px;font-weight:700;margin-bottom:4px}
+.hero .auth{font-family:Inter,sans-serif;font-size:13px;color:rgba(255,255,255,.5);margin-bottom:14px}
+.hero .tagline{font-size:15px;color:rgba(255,255,255,.8);line-height:1.6;max-width:620px;margin-bottom:18px}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-family:Inter,sans-serif;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.8)}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:18px 14px;text-align:center}
+.stat-n{font-size:30px;font-weight:700;color:var(--accent);font-family:Inter,sans-serif}
+.stat-l{font-family:Inter,sans-serif;font-size:12px;color:var(--muted);margin-top:4px}
+.arg{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:22px;margin-bottom:24px}
+.arg p{font-size:15px;line-height:1.75}
+.arg p+p{margin-top:1rem}
+.nav-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.nav-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:left;cursor:pointer;transition:all .15s}
+.nav-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.nav-card-label{font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
+.nav-card-desc{font-family:Inter,sans-serif;font-size:12px;color:var(--muted)}
+
+/* PATHWAYS */
+.pw-tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.pw-btn{font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:6px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s}
+.pw-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.pw-desc{font-family:Inter,sans-serif;font-size:14px;color:var(--muted);padding:12px 14px;background:var(--accent-light);border-radius:6px;margin-bottom:20px;line-height:1.5}
+.pw-steps{display:flex;flex-direction:column;gap:10px}
+.pw-step{display:flex;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px}
+.step-n{width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-family:Inter,sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-title{font-family:Inter,sans-serif;font-size:14px;font-weight:700;margin-bottom:3px}
+.step-focus{font-family:Inter,sans-serif;font-size:13px;color:var(--muted);line-height:1.5}
+
+/* SECTIONS */
+.sec-card{background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.sec-header{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;cursor:pointer;background:none;border:none;text-align:left;width:100%}
+.sec-num{font-family:Inter,sans-serif;font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;min-width:24px;padding-top:2px}
+.sec-title{font-family:Inter,sans-serif;font-size:15px;font-weight:700;margin-bottom:2px}
+.sec-sub{font-family:Inter,sans-serif;font-size:12px;color:var(--muted)}
+.sec-chev{font-size:16px;color:var(--muted);padding-top:2px;margin-left:auto}
+.sec-body{padding:0 18px 18px 56px;border-top:1px solid var(--border)}
+.sec-summary{font-size:15px;line-height:1.75;padding-top:14px;margin-bottom:18px}
+.ideas-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
+.idea-item{display:flex;gap:8px;margin-bottom:7px;font-family:Inter,sans-serif;font-size:13px;line-height:1.55}
+.idea-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:6px}
+blockquote{font-style:italic;font-size:14px;color:var(--muted);border-left:3px solid var(--accent);padding-left:12px;margin-bottom:8px;line-height:1.6}
+.dev-toggle{font-family:Inter,sans-serif;font-size:12px;font-weight:600;color:var(--teal);background:var(--teal-light);border:none;padding:7px 12px;border-radius:4px;cursor:pointer;margin-top:10px}
+.dev-text{margin-top:10px;font-family:Inter,sans-serif;font-size:13px;line-height:1.65;background:var(--teal-light);padding:12px;border-radius:6px}
+
+/* CONCEPTS */
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+.concept-card:hover,.concept-card.open{border-color:var(--accent)}
+.concept-term{font-family:Inter,sans-serif;font-size:15px;font-weight:700}
+.concept-def{font-family:Inter,sans-serif;font-size:14px;line-height:1.7;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.prac-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-top:10px;margin-bottom:4px}
+.prac-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65;color:var(--muted)}
+
+/* TOOLKIT */
+.tool-tabs{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+.tool-btn{font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:6px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s}
+.tool-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tool-panel{display:none;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:22px}
+.tool-panel.active{display:block}
+.tool-intro{font-family:Inter,sans-serif;font-size:14px;color:var(--muted);margin-bottom:20px;line-height:1.5}
+.fld-label{font-family:Inter,sans-serif;font-size:13px;font-weight:600;margin-bottom:5px;display:block}
+.fld{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;outline:none;background:var(--bg);margin-bottom:12px}
+.fld:focus{border-color:var(--accent)}
+.output-box{background:var(--accent-light);padding:14px;border-radius:6px;margin-top:16px;font-family:Inter,sans-serif;font-size:14px;line-height:1.65}
+.output-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:8px}
+
+/* CONTEXT */
+.conn-card{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:16px 18px;margin-bottom:10px}
+.conn-book{font-family:Inter,sans-serif;font-size:14px;font-weight:700;margin-bottom:5px}
+.conn-text{font-family:Inter,sans-serif;font-size:13px;color:var(--muted);line-height:1.65}
+.crit-item{display:flex;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:8px}
+.crit-n{width:24px;height:24px;border-radius:50%;background:#FFF8E6;color:#C8910A;font-family:Inter,sans-serif;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.crit-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65}
+.context-h{font-family:Inter,sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;margin-top:6px}
+
+/* ASK */
+.ask-setup{}
+.setup-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+.setup-step{display:flex;gap:12px;font-family:Inter,sans-serif;font-size:14px;line-height:1.5}
+.setup-num{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.setup-step a{color:var(--accent)}
+.key-row{display:flex;gap:10px}
+.key-input{flex:1;max-width:400px;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;outline:none}
+.key-btn{padding:9px 22px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:Inter,sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.key-btn:disabled{opacity:.4;cursor:not-allowed}
+.ask-ui{display:flex;flex-direction:column;height:calc(100vh - 180px)}
+.ask-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.ask-hdr-title{font-family:Inter,sans-serif;font-size:18px;font-weight:700}
+.ask-reset{background:none;border:1px solid var(--border);border-radius:4px;padding:4px 10px;font-family:Inter,sans-serif;font-size:12px;color:var(--muted);cursor:pointer}
+.msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px;margin-bottom:10px}
+.suggested-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px}
+.sug-btn{display:block;width:100%;text-align:left;padding:9px 12px;background:var(--card);border:1px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;cursor:pointer;margin-bottom:6px;transition:all .15s}
+.sug-btn:hover{border-color:var(--accent);background:var(--accent-light)}
+.msg{max-width:85%}
+.msg.user{align-self:flex-end}
+.msg.assistant{align-self:flex-start}
+.msg-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65;padding:10px 14px;border-radius:8px;white-space:pre-wrap}
+.msg.user .msg-text{background:var(--accent);color:#fff}
+.msg.assistant .msg-text{background:var(--card);border:1px solid var(--border)}
+.typing{display:flex;gap:4px;padding:12px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px}
+.typing span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:bounce 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.ask-input-row{display:flex;gap:8px;border-top:1px solid var(--border);padding-top:10px}
+.ask-input{flex:1;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;resize:none;outline:none;background:var(--bg)}
+.ask-input:focus{border-color:var(--accent)}
+.ask-send{padding:9px 18px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:Inter,sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.ask-send:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:640px){.stat-grid{grid-template-columns:repeat(2,1fr)}.nav-grid{grid-template-columns:1fr 1fr}.sec-body{padding-left:18px}}
+
+/* WCAG 2.1 AA (1.4.1 Use of Color): inline anchors in content paragraphs must be distinguishable without relying on color alone. Scoped to <main> so nav/footer button-links are unaffected. */
+main p a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]),
+main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
+/* === Dark Mode === */
+html.dark body { background: #0f172a; color: #e2e8f0; }
+html.dark #root,
+html.dark main,
+html.dark .app,
+html.dark [id^="p-"],
+html.dark .panel { filter: invert(0.88) hue-rotate(180deg); }
+html.dark #root img,
+html.dark #root svg:not([class*="im-"]),
+html.dark main img,
+html.dark main svg:not([class*="im-"]) { filter: invert(1) hue-rotate(180deg); }
+html.dark .im-topbar, html.dark .im-footer { filter: none; }
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+<!-- SEO meta (autogenerated) -->
+<meta name="description" content="Development as Freedom by Amartya Sen — ImpactMojo Companion. Interactive reading companion on the capability approach, the five instrumental freedoms, famines and democracy, and women's agency, for development practitioners and researchers.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.impactmojo.in/BookSummaries/development-as-freedom-companion.html">
+<meta property="og:title" content="Development as Freedom — ImpactMojo Companion">
+<meta property="og:description" content="Amartya Sen's Development as Freedom — ImpactMojo Companion. Interactive reading companion for development practitioners and researchers.">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:url" content="https://www.impactmojo.in/BookSummaries/development-as-freedom-companion.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ImpactMojo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Development as Freedom — ImpactMojo Companion">
+<meta name="twitter:description" content="Amartya Sen's Development as Freedom — ImpactMojo Companion. Interactive reading companion for development practitioners and researchers.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<!-- Favicons -->
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<!-- Translate -->
+<style>
+/* Skip link (WCAG 2.4.1) */
+.im-skip-link { position:absolute; top:-40px; left:0; background:#0EA5E9; color:#fff; padding:8px 16px; z-index:10000; text-decoration:none; font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600; }
+.im-skip-link:focus { top:0; }
+/* Floating paper plane */
+.im-paper-plane { position:fixed; bottom:2rem; right:2rem; width:60px; height:60px; opacity:0.14; pointer-events:none; z-index:0; animation: imFloat 6s ease-in-out infinite; }
+@keyframes imFloat { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-15px) rotate(3deg);} }
+html.dark .im-paper-plane { opacity:0.22; }
+/* Interactive companion CTA */
+.im-interactive-cta { display:inline-flex; align-items:center; gap:0.5rem; background:var(--im-gradient); color:#fff !important; -webkit-text-fill-color:#fff; padding:0.5rem 1rem; border-radius:6px; font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600; text-decoration:none; margin-top:14px; transition:opacity 0.2s; }
+.im-interactive-cta:hover { opacity:0.9; }
+
+/* === ImpactMojo Brand Override (fonts + dark mode) — v10.21 === */
+html body, html body .app, html body main, html body .panel,
+html body p, html body li, html body blockquote, html body .sec-summary, html body .arg p,
+html body .sub, html body .tagline, html body .hero, html body .hero h1 {
+  font-family: 'Amaranth', Arial, sans-serif !important;
+}
+html body h1, html body h2, html body h3, html body h4, html body h5, html body h6,
+html body .h1, html body .brand-name, html body .day-badge, html body .pill,
+html body .stat-n, html body .stat-l, html body .sec-title, html body .sec-sub, html body .sec-num,
+html body .concept-term, html body .step-title, html body .step-focus, html body .conn-book,
+html body .book-title, html body .tab-btn, html body .pw-btn, html body .tool-btn,
+html body .im-topbar, html body .im-topbar *, html body .im-footer, html body .im-footer * {
+  font-family: 'Inter', 'Amaranth', Helvetica, sans-serif !important;
+}
+html body code, html body pre, html body .mono, html body kbd, html body samp {
+  font-family: 'JetBrains Mono', ui-monospace, monospace !important;
+}
+
+/* Replace filter-invert dark mode with proper token-based dark mode */
+html.dark body { background: #0F172A !important; color: #E2E8F0 !important; }
+html.dark #root, html.dark main, html.dark .app, html.dark [id^="p-"], html.dark .panel,
+html.dark .arg, html.dark .hero, html.dark .stat, html.dark .nav-card, html.dark .pw-step,
+html.dark .sec-card, html.dark .sec-body, html.dark .concept-card, html.dark .tool-panel,
+html.dark .conn-card, html.dark .crit-item, html.dark .msg.assistant .msg-text,
+html.dark .output-box, html.dark .typing, html.dark .ask-input, html.dark .key-input,
+html.dark .fld, html.dark .tool-btn, html.dark .pw-btn, html.dark .sug-btn, html.dark .pw-desc {
+  filter: none !important;
+}
+html.dark { color-scheme: dark; }
+html.dark body,
+html.dark body .app,
+html.dark body main { background: #0F172A !important; color: #E2E8F0 !important; }
+html.dark .hero { background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%) !important; color: #F1F5F9 !important; border: 1px solid #334155; }
+html.dark .hero .auth, html.dark .hero .tagline { color: #CBD5E1 !important; }
+html.dark .stat, html.dark .arg, html.dark .nav-card, html.dark .sec-card, html.dark .pw-step,
+html.dark .concept-card, html.dark .tool-panel, html.dark .conn-card, html.dark .crit-item,
+html.dark .msg.assistant .msg-text { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .sec-header, html.dark .sec-body { background: transparent !important; color: #E2E8F0 !important; }
+html.dark .sec-body { border-top-color: #334155 !important; }
+html.dark .stat-n { color: #38BDF8 !important; }
+html.dark .stat-l, html.dark .sec-sub, html.dark .sub, html.dark .nav-card-desc,
+html.dark .step-focus, html.dark .pw-desc, html.dark .prac-text, html.dark .conn-text,
+html.dark .ideas-label, html.dark .prac-label, html.dark .output-label, html.dark .suggested-label,
+html.dark .dev-text, html.dark .fld-label { color: #94A3B8 !important; }
+html.dark .h1, html.dark .sec-title, html.dark .concept-term, html.dark .step-title,
+html.dark .nav-card-label, html.dark .conn-book, html.dark .context-h, html.dark .ask-hdr-title { color: #F1F5F9 !important; }
+html.dark blockquote { color: #CBD5E1 !important; border-left-color: #38BDF8 !important; }
+html.dark .pill { background: rgba(56, 189, 248, 0.15) !important; color: #7DD3FC !important; }
+html.dark .day-badge { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .tab-btn { color: rgba(226, 232, 240, 0.6) !important; }
+html.dark .tab-btn.active { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .tab-btn:hover { color: #F1F5F9 !important; }
+html.dark nav { background: #0F172A !important; border-bottom: 1px solid #334155; }
+html.dark .pw-btn, html.dark .tool-btn { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .pw-btn.active, html.dark .tool-btn.active { background: #0EA5E9 !important; border-color: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .pw-desc { background: rgba(14, 165, 233, 0.1) !important; color: #CBD5E1 !important; }
+html.dark .output-box { background: rgba(14, 165, 233, 0.1) !important; color: #E2E8F0 !important; }
+html.dark .step-n, html.dark .setup-num { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .sec-num { color: #38BDF8 !important; }
+html.dark .ideas-label, html.dark .prac-label, html.dark .output-label { color: #38BDF8 !important; }
+html.dark .dev-toggle { background: rgba(56, 189, 248, 0.1) !important; color: #7DD3FC !important; }
+html.dark .dev-text { background: rgba(56, 189, 248, 0.08) !important; color: #CBD5E1 !important; }
+html.dark .fld, html.dark .key-input, html.dark .ask-input { background: #0F172A !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .msg.user .msg-text { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .sug-btn { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .sug-btn:hover { background: rgba(14, 165, 233, 0.15) !important; border-color: #0EA5E9 !important; }
+html.dark .crit-n { background: rgba(251, 191, 36, 0.15) !important; color: #FCD34D !important; }
+html.dark #root img, html.dark #root svg:not([class*="im-"]),
+html.dark main img, html.dark main svg:not([class*="im-"]) { filter: none !important; }
+html.dark .im-topbar, html.dark .im-footer { filter: none !important; }
+/* === End ImpactMojo Brand Override === */
+
+/* Ethics disclaimer heading — readable in both modes */
+.im-ethics-disclaimer .im-ethics-heading { color: #0F172A !important; }
+html.dark .im-ethics-disclaimer .im-ethics-heading, body.dark-mode .im-ethics-disclaimer .im-ethics-heading { color: #F1F5F9 !important; }
+html.dark .im-ethics-disclaimer, body.dark-mode .im-ethics-disclaimer { background: rgba(56,189,248,0.08) !important; border-left-color: #38BDF8 !important; color: #CBD5E1 !important; }
+</style>
+<link rel="stylesheet" href="/assets/css/booksummary-dark.css">
+</head>
+<body>
+<a href="#main-content" class="im-skip-link">Skip to content</a>
+<header class="im-topbar" role="banner">
+  <div class="im-topbar-left">
+    <a class="im-topbar-home" href="/" aria-label="ImpactMojo home">
+      <img src="/assets/images/ImpactMojo%20Logo.png" alt="ImpactMojo" width="24" height="24" style="border-radius:4px;">
+      <span>ImpactMojo</span>
+    </a>  </div>
+  <div class="im-topbar-right">
+    <a href="/catalog.html" class="im-browse-btn" title="Browse all content"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Browse</a>
+
+    <a class="im-premium-btn" href="/premium.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Premium
+    </a>
+    <div class="im-theme-selector" role="group" aria-label="Theme">
+      <button class="im-theme-btn" data-imtheme="system" title="System theme" aria-label="System theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </button>
+      <button class="im-theme-btn" data-imtheme="light" title="Light theme" aria-label="Light theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <button class="im-theme-btn" data-imtheme="dark" title="Dark theme" aria-label="Dark theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="app">
+<nav>
+  <div class="brand"><div class="dot"></div><span class="brand-name">ImpactMojo</span></div>
+  <div class="tabs" id="tabbar"></div>
+</nav>
+<main id="main-content">
+  <div class="panel active" id="p-overview"></div>
+  <div class="panel" id="p-pathways"></div>
+  <div class="panel" id="p-sections"></div>
+  <div class="panel" id="p-concepts"></div>
+  <div class="panel" id="p-toolkit"></div>
+  <div class="panel" id="p-context"></div>
+  <div class="panel" id="p-ask"></div>
+</main>
+</div>
+
+<!-- Sargam Icon Sprites -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+<symbol id="si_Direction_alt" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m3 3 18 7.92-7.987 2.093L10.92 21z"/></symbol>
+<symbol id="si_Flare" viewBox="0 0 24 24" fill="none"><g clip-path="url(#clip_si_Flare)"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M7 12H1m22 0h-6m-5 5v6m3.536-7.464 1.414 1.414m-9.9-9.9 1.414 1.414m7.072 0L16.95 7.05m-9.9 9.9 1.414-1.414M12 1v6m2 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0"/></g><defs><clipPath id="clip_si_Flare"><path fill="#fff" d="M0 0h24v24H0z"/></clipPath></defs></symbol>
+<symbol id="si_Info" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 8h.008M12 16v-5m10 1c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10"/></symbol>
+<symbol id="si_Lock" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M8 10V7c0-2.21 1.79-4 4-4s4 1.79 4 4v3m-4 5a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 0v3m-5.4-8h10.8c.88 0 1.6.72 1.6 1.6v7c0 1.32-1.08 2.4-2.4 2.4H7.4C6.08 21 5 19.92 5 18.6v-7c0-.88.72-1.6 1.6-1.6"/></symbol>
+<symbol id="si_Lightning" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m12.667 10.5 1.25-7.5L6 13h5l-1.25 7.5 7.917-10z" clip-rule="evenodd"/></symbol>
+<symbol id="si_Library_books" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M10 11h8m-8 3h4m-4-6h8m2 14H8.4C5.42 22 3 19.58 3 16.6V5m5.4-2h11.2A2.4 2.4 0 0 1 22 5.4v11.2a2.4 2.4 0 0 1-2.4 2.4H8.4A2.4 2.4 0 0 1 6 16.6V5.4A2.4 2.4 0 0 1 8.4 3"/></symbol>
+<symbol id="si_Book" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 7.333C12 5.5 10.5 4 8.667 4H2v12h6.708C12 16 12 19.334 12 19.334m0-12C12 5.5 13.5 4 15.333 4H22v12h-6.667C12 16 12 19.334 12 19.334m0-12v12m1.875 1.124A2.58 2.58 0 0 1 16.167 19H21m-10.875 1.458A2.54 2.54 0 0 0 7.833 19H3"/></symbol>
+<symbol id="si_Article" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M8 12h8m-8 3h4M8 9h8M4.4 4h15.2A2.4 2.4 0 0 1 22 6.4v11.2a2.4 2.4 0 0 1-2.4 2.4H4.4A2.4 2.4 0 0 1 2 17.6V6.4A2.4 2.4 0 0 1 4.4 4"/></symbol>
+<symbol id="si_Mail" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m5 7.06 6.87 5.89c.07.06.19.06.26 0L19 7.06M3.2 4h17.6c.66 0 1.2.54 1.2 1.2v12.4c0 1.32-1.08 2.4-2.4 2.4H4.4C3.08 20 2 18.92 2 17.6V5.2C2 4.54 2.54 4 3.2 4"/></symbol>
+<symbol id="si_Help" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M11.83 14v-.621a2.33 2.33 0 0 1 1.164-2.02c1.126-.66 1.514-2.057.854-3.183s-2.057-1.514-3.183-.854C9.965 7.75 9.5 8.487 9.5 9.341M12 17h-.008M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12s4.477 10 10 10 10-4.477 10-10"/></symbol>
+<symbol id="si_Heart" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.696 3C14.652 3 12.887 4.197 12 5.943 11.113 4.197 9.348 3 7.304 3 4.374 3 2 5.457 2 8.481s1.817 5.796 4.165 8.073S12 21 12 21s3.374-2.133 5.835-4.446C20.46 14.088 22 11.514 22 8.481S19.626 3 16.696 3"/></symbol>
+<symbol id="si_Globe_detailed" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M22 12c0 5.523-4.477 10-10 10m10-10c0-5.523-4.477-10-10-10m10 10H2m10 10C6.477 22 2 17.523 2 12m10 10 .66-.31c2.1-2.71 3.34-6.14 3.34-9.78s-1.22-7-3.27-9.69L12 2m0 20-.73-.31A15.94 15.94 0 0 1 8 12c0-3.64 1.24-7.07 3.34-9.78L12 2M2 12C2 6.477 6.477 2 12 2m7.14 17c-1.82-1.85-4.34-3-7.14-3s-5.33 1.15-7.14 3M19.14 5C17.33 6.85 14.8 8 12 8S6.68 6.85 4.86 5"/></symbol>
+</svg>
+
+
+<div id="root"></div>
+<script>
+const DATA = {"title": "Development as Freedom", "dayBadge": "Development Studies", "author": "Amartya Sen · Alfred A. Knopf / Oxford University Press, 1999", "tagline": "An interactive companion to Amartya Sen's argument that development is the expansion of substantive human freedoms — not merely growth in income, output, or industrialisation.", "pills": ["Capability Approach", "Five Instrumental Freedoms", "Famines & Democracy", "Women's Agency", "South Asia"], "stats": [{"n": "12", "l": "Themes"}, {"n": "5", "l": "Instrumental freedoms"}, {"n": "14", "l": "Key concepts"}, {"n": "1999", "l": "Published"}], "argument": ["Amartya Sen argues that development should be understood as a process of expanding the real freedoms that people enjoy. On this view, the growth of GNP, rising personal incomes, industrialisation, technological advance, or social modernisation are valuable not in themselves but as means — their importance lies in what they let people actually do and be. Freedom is therefore both the primary <em>end</em> of development (its goal) and the principal <em>means</em> of development (its main engine).", "From this starting point Sen builds the <strong>capability approach</strong>: the right space for judging a person's advantage is neither income (a mere means) nor utility/happiness (which adapts to deprivation), but the <em>capabilities</em> a person has — the substantive freedom to achieve the kinds of lives they have reason to value. Poverty becomes capability deprivation, not just low income; women's empowerment becomes a matter of agency, not only welfare; and democracy, a free press, and open public reasoning become constitutive parts of development, not luxuries to be afforded only after growth.", "This companion is an interpretive study guide for practitioners and researchers. It distils Sen's arguments theme by theme, defines his concepts in plain language, and draws out a practitioner takeaway for each — always attributing the ideas to Amartya Sen. It is a companion to the book, not a replacement for reading it."], "accent": "#0EA5E9", "accent_light": "#E0F2FE", "pathways": [{"label": "Measurement & MEL", "desc": "For those who design indicators, baselines, and evaluations: how Sen's capability lens reshapes what we count as 'progress'.", "steps": [{"section": "The Perspective of Freedom", "focus": "Why income and utility are the wrong informational base; what 'capability' adds to a results framework."}, {"section": "Poverty as Capability Deprivation", "focus": "Measuring deprivation directly (mortality, literacy, nutrition) rather than only by an income poverty line; the logic behind the HDI."}, {"section": "Social Choice and Individual Behaviour", "focus": "Why no single index is value-free; public reasoning as a method for choosing and weighting indicators."}, {"section": "Famines and Other Crises", "focus": "Entitlement mapping and information flows — early-warning indicators that track access, not just aggregate food output."}]}, {"label": "Programme Design", "desc": "For programme managers and field teams: turning the capability approach and the five instrumental freedoms into design choices.", "steps": [{"section": "The Ends and Means of Development", "focus": "The five instrumental freedoms as an interconnected design checklist; how each freedom reinforces the others."}, {"section": "Markets, State and Social Opportunity", "focus": "Combining markets, public services, and the state — not choosing between them."}, {"section": "Women's Agency and Social Change", "focus": "Designing for women as agents of change, not only as beneficiaries of welfare."}, {"section": "Individual Freedom as a Social Commitment", "focus": "Participation and deliberation as both means and ends in project governance."}]}, {"label": "Policy & Advocacy", "desc": "For those who shape and contest policy narratives: Sen's arguments against the trade-off between freedom and development.", "steps": [{"section": "The Importance of Democracy", "focus": "The instrumental, protective, and constructive roles of democracy; rebutting the 'Lee thesis'."}, {"section": "Culture and Human Rights", "focus": "The critique of cultural relativism and 'Asian values'; freedom as a universal, not Western, value."}, {"section": "Population, Food and Freedom", "focus": "Why coercion is the wrong answer to population growth — and women's agency the right one."}, {"section": "Freedom and the Foundations of Justice", "focus": "Equality of what? Building advocacy on the capability metric of justice."}]}], "sections": [{"title": "The Perspective of Freedom", "subtitle": "Theme 1 · Framing", "summary": "Sen opens by reorienting the whole question of development. Instead of asking how fast incomes or output are growing, he asks: are people becoming freer to lead lives they have reason to value? Freedom, he argues, is the proper informational focus for evaluating development — both because expanding freedom is the goal worth pursuing (the <em>evaluative</em> reason) and because free people are the agents who bring development about (the <em>effectiveness</em> reason).", "ideas": ["Development = the process of expanding substantive freedoms; income, wealth, and GNP are means, valuable only for what they enable people to do and be.", "Freedom is both the primary END of development (the thing we are trying to enlarge) and the principal MEANS (the engine that drives it forward).", "'Substantive freedoms' include elementary capabilities — avoiding starvation, premature mortality, illiteracy — as well as political participation and free expression.", "The 'evaluative' reason: assess progress by whether freedoms have expanded. The 'effectiveness' reason: free agency is itself a major engine of development.", "Sen contrasts his view with narrower ones that identify development with GNP growth, industrialisation, technological progress, or social modernisation alone."], "quotes": ["Development can be seen, it is argued here, as a process of expanding the real freedoms that people enjoy. (Amartya Sen)"], "devEcon": "<strong>Practitioner takeaway:</strong> Before designing a logframe, ask what freedoms a programme is meant to expand. An intervention that raises household income but leaves people unable to convert it into health, schooling, or voice has, on Sen's account, under-delivered on development. Treat income gains as intermediate outcomes, never as the final goal."}, {"title": "The Ends and Means of Development", "subtitle": "Theme 2 · The Five Instrumental Freedoms", "summary": "Here Sen lays out the operational core of the book: five distinct types of <em>instrumental</em> freedom that advance the general capability of people to live more freely — and which powerfully reinforce one another. They are instrumental in that they are means to development, but they are also constitutive parts of the freedom that development seeks to enlarge.", "ideas": ["1. Political freedoms — civil rights, free elections, free press, the ability to scrutinise and criticise authorities and choose who governs.", "2. Economic facilities — the opportunities to use economic resources for consumption, production, or exchange, including access to finance and a fair share of growth.", "3. Social opportunities — arrangements for education, health care, and other services that enable people to live better and participate more effectively.", "4. Transparency guarantees — the freedom to deal with one another under guarantees of disclosure and clarity; trust, openness, and the prevention of corruption.", "5. Protective security — social safety nets (unemployment benefits, famine relief, income supplements) that prevent the vulnerable from being pushed into abject misery.", "These freedoms interconnect: political freedoms help promote economic security; social opportunities (education, health) facilitate economic participation; economic facilities can generate resources for social services. The whole is greater than the parts."], "quotes": ["Freedoms are not only the primary ends of development, they are also among its principal means. (Amartya Sen)"], "devEcon": "<strong>Practitioner takeaway:</strong> Use the five instrumental freedoms as a portfolio diagnostic. A skills programme (economic facility) without literacy and health (social opportunity), grievance redress (transparency), or a safety net (protective security) is fragile. Map an intervention against all five and look for the missing leg — that is usually where the design fails."}, {"title": "Freedom and the Foundations of Justice", "subtitle": "Theme 3 · Equality of What?", "summary": "Sen connects his framework to theories of justice by asking the question he made famous: 'Equality of what?' Theories of justice differ less in whether they want equality than in the <em>space</em> in which they demand it — income, primary goods, utility, or capability. Sen argues for equality in the space of capabilities, because that is where human diversity (in needs, abilities, and circumstances) is taken seriously.", "ideas": ["The key distinction: FUNCTIONINGS are the various things a person manages to do or be (being well-nourished, being literate, taking part in community life); a CAPABILITY is the set of functioning combinations a person is free to achieve.", "Capability vs commodity: two people with the same income (commodity) can have very different capabilities — a person with a disability, or pregnant, or living where food is dear, needs more resources to reach the same functioning.", "Capability vs utility: utility (pleasure, desire-fulfilment) is an unreliable guide because the persistently deprived often adapt their desires downward — the 'contented' poor.", "Sen engages Rawls (primary goods) and utilitarianism, arguing both miss the conversion problem: the rate at which a person turns resources into actual freedoms varies enormously."], "quotes": ["The need for an adequate conception of individual advantage... cannot but make a difference to the assessment of justice. (Amartya Sen)"], "devEcon": "<strong>Practitioner takeaway:</strong> Equity targeting should account for conversion factors. The same cash transfer buys very different real freedom for a landless widow, a disabled worker, and a young man with assets. Designing for capability — not just disbursing equal resources — means budgeting for the differing means people need to reach the same outcomes."}, {"title": "Poverty as Capability Deprivation", "subtitle": "Theme 4 · Reframing Poverty", "summary": "Sen reframes poverty itself. Low income matters, but it is instrumentally important; the real deprivation is in basic capabilities — the freedom to be adequately nourished, healthy, sheltered, literate, and able to participate in community life. Income is one influence on capability, but the relationship is contingent and varies by person, place, and time.", "ideas": ["Poverty is best seen as the deprivation of basic capabilities, not merely as lowness of income.", "Income is instrumental to capability, but the link is variable: age, gender, disability, location, and social roles all change how much capability a given income yields.", "'Coupling' of disadvantages: a disability or illness both lowers earning power (earnings handicap) and raises the resources needed to achieve the same functioning (conversion handicap) — income figures alone understate real deprivation.", "This reframing explains why some high-income groups can still suffer capability deprivation, and why some low-income regions (Kerala) achieve high functioning in health and literacy.", "Unemployment is impoverishing well beyond lost income — it damages skills, health, motivation, and social relations."], "quotes": ["Poverty must be seen as the deprivation of basic capabilities rather than merely as lowness of incomes. (Amartya Sen)"], "devEcon": "<strong>Practitioner takeaway:</strong> Measurement should look past the income poverty line to direct capability indicators — under-five mortality, stunting, school completion, morbidity, social exclusion. This is the logic behind the Human Development Index and later the Multidimensional Poverty Index: capture deprivation in the space where it is actually lived, not only in rupees per day."}, {"title": "Markets, State and Social Opportunity", "subtitle": "Theme 5 · Markets and Their Limits", "summary": "Sen offers a balanced account of markets. The freedom to transact is itself a part of the freedoms people have reason to value — so denying market access (as in bonded labour or barred occupations) is a direct loss of freedom, quite apart from any efficiency argument. Yet markets have real limits: they undersupply public goods, can leave the assetless behind, and need to be complemented by public provision of social opportunity.", "ideas": ["Markets are valuable for freedom, not only efficiency: the right to exchange, to choose work, to transact is a basic liberty — the historic case against bonded labour was a case about freedom.", "But markets have limits: they fail to provide public goods, can produce gross inequality, and do not on their own deliver the education and health that underpin capability.", "Social opportunity — publicly supported schooling and health care — raises both equity and the productivity of market activity; the two are complements, not rivals.", "Sen rejects the false choice between 'pro-market' and 'pro-state'; the question is the appropriate combination, and the design of institutions that make each work.", "The Japanese and East Asian record shows early, broad public investment in basic education and health preceding and enabling rapid market-led growth."], "quotes": ["The freedom to exchange words, or goods, or gifts does not need defensive justification in terms of their favorable but distant effects; they are part of the way human beings in society live. (Amartya Sen)"], "devEcon": "<strong>Practitioner takeaway:</strong> Avoid framing programmes as market-versus-state. The high-leverage design usually pairs market access (finance, value chains, jobs) with public social opportunity (schooling, primary health) so that people can actually seize the market openings. Removing barriers to participation is itself a freedom gain worth pursuing."}, {"title": "The Importance of Democracy", "subtitle": "Theme 6 · Political Freedom", "summary": "Sen mounts a strong defence of democracy as a universal value with development payoffs. Democracy plays three roles: an <em>intrinsic</em> role (political participation is a part of a good life), an <em>instrumental</em> role (it gives people a voice to claim attention and resources), and a <em>constructive</em> role (public discussion shapes what a society comes to understand as its needs and values).", "ideas": ["Democracy has intrinsic value (participation is itself a freedom), instrumental value (it gives the vulnerable political voice), and constructive value (public debate forms values and priorities).", "Sen rejects the 'Lee thesis' — named after Lee Kuan Yew — that authoritarian rule delivers faster growth. The cross-country evidence does not support a systematic growth advantage for authoritarianism.", "Poor people do not stop valuing political freedom because they are poor; the claim that they would trade liberty for food is rarely tested by actually asking them in a free vote.", "Democracy's protective power is sharpest in crises: a free press and competitive elections force governments to respond to looming disasters.", "Needs and priorities are not fixed before debate — public reasoning helps a society work out what it values, including the value of, say, lower fertility or environmental protection."], "quotes": ["A country does not have to be deemed fit for democracy; rather, it has to become fit through democracy. (Amartya Sen)"], "devEcon": "<strong>Practitioner takeaway:</strong> Build voice and accountability into programmes deliberately — social audits, public hearings, grievance mechanisms, transparent beneficiary lists. These are not 'soft' add-ons; in Sen's account they are part of the protective machinery that makes services actually reach people and that lets citizens correct misallocation."}, {"title": "Famines and Other Crises", "subtitle": "Theme 7 · Entitlements & Public Action", "summary": "This is Sen's signature empirical argument. Famines, he shows, are rarely caused by an absolute shortage of food (a decline in food availability); they are caused by the collapse of some groups' <em>entitlements</em> — their ability to command food through what they own, earn, produce, or trade. And famines are eminently preventable through public action and political accountability.", "ideas": ["Entitlement approach: a person commands food via endowments (what they own, including labour) and exchange entitlements (wages, prices, employment). Famine strikes when these collapse — even if aggregate food supply has not fallen much.", "The Bengal famine of 1943 (in which Sen, as a child, witnessed mass death) killed roughly two to three million people during a period of relatively buoyant overall food availability; wartime inflation and the collapse of rural labourers' purchasing power destroyed their entitlements.", "The headline finding: no substantial famine has ever occurred in a functioning democracy with a free press and regular elections — governments facing voters and scrutiny act to prevent mass starvation.", "A free press performs two jobs in famine prevention: an informational one (transmitting early warning) and an adversarial one (forcing government response).", "Famine relief works best by restoring entitlements — e.g. cash-for-work employment that rebuilds purchasing power — not merely by shipping food."], "quotes": ["No famine has ever taken place in the history of the world in a functioning democracy. (Amartya Sen)", "Starvation is the characteristic of some people not having enough food to eat. It is not the characteristic of there being not enough food to eat. (Amartya Sen)"], "devEcon": "<strong>Practitioner takeaway:</strong> In food-security and disaster work, monitor access and purchasing power, not only harvest totals. Employment-guarantee and cash-for-work schemes (echoed later in India's NREGA) protect entitlements directly. And treat a free flow of information and local accountability as core parts of early-warning systems."}, {"title": "Women's Agency and Social Change", "subtitle": "Theme 8 · Agency vs Welfare", "summary": "Sen argues that women's freedom is not only a matter of women's well-being but of their <em>agency</em> — their role as active participants who reshape the lives of all. He draws a sharp distinction between treating women as passive recipients of welfare and recognising them as agents whose empowerment transforms families, economies, and demographic outcomes.", "ideas": ["Agency vs welfare: welfare focuses on a woman's own well-being; agency recognises her as an active decision-maker who advances goals she has reason to value — the two can diverge, and development requires both.", "'Missing women': Sen's calculation that, given expected sex ratios under equal care, tens of millions of women are 'missing' across Asia and North Africa — the demographic trace of unequal nutrition, health care, and survival, with India and China prominent.", "Women's agency — raised through literacy, earnings, and property rights — is empirically linked to lower child mortality, lower fertility, and better child nutrition and schooling.", "Female literacy and employment turn out to be among the most powerful predictors of falling fertility — stronger than income growth alone.", "Treating women only as beneficiaries misses the largest lever: their agency changes outcomes for children and communities, not just for themselves."], "quotes": ["Nothing, arguably, is as important today in the political economy of development as an adequate recognition of political, economic and social participation and leadership of women. (Amartya Sen)"], "devEcon": "<strong>Practitioner takeaway:</strong> Design for agency, not just delivery. Channelling resources to women, securing property and inheritance rights, supporting earning and literacy, and putting women in decision-making roles produces compounding gains across child survival, nutrition, and schooling. 'Women as beneficiaries' is a weaker design than 'women as agents'."}, {"title": "Population, Food and Freedom", "subtitle": "Theme 9 · Malthus Revisited", "summary": "Sen revisits the Malthusian fear that population growth will outrun food. He argues that the alarmist case is both empirically weak (food output per head has risen, not fallen) and that the cure proposed — coercion — is the wrong one. The humane and more effective route to lower fertility runs through expanding freedom, especially women's education and agency.", "ideas": ["The Malthusian prediction of food per head falling has not materialised globally; the deeper issue is distribution and entitlements, not aggregate scarcity.", "Sen contrasts the 'collaborative' (or 'reasoned agency') route to lower fertility — through education, women's empowerment, and public discussion — with the 'override' (coercive) route, such as forced sterilisation or one-child enforcement.", "The override route violates freedom and tends to have harmful side effects; the collaborative route respects agency and has strong evidence behind it.", "Kerala's experience is central: high female literacy and women's agency, with voluntary methods and no coercion, produced fertility decline faster and lower than China achieved under coercive policy.", "Lower fertility, on this account, is best seen as a consequence of expanded freedoms — not a precondition to be imposed before freedom is granted."], "quotes": ["The solution of the population problem... calls for more freedom, not less. (Amartya Sen)"], "devEcon": "<strong>Practitioner takeaway:</strong> Population programmes should invest in girls' schooling, women's earning and reproductive choice, and open public discussion — not targets and coercion. The Kerala comparison is the practitioner's evidence base: agency-led fertility decline is both freer and more effective than the coercive alternative."}, {"title": "Culture and Human Rights", "subtitle": "Theme 10 · Against Relativism", "summary": "Sen takes on the argument that freedom and human rights are 'Western' values inappropriate for Asian or other societies — the so-called 'Asian values' thesis. He shows that the historical record is far more mixed than the thesis assumes, that 'Asia' is too vast and plural to have a single set of values, and that tolerance and liberty have deep non-Western roots.", "ideas": ["The 'Asian values' argument — that order, discipline, and loyalty trump liberty in Asian cultures — is used to justify authoritarian rule; Sen argues it rests on selective and ahistorical readings.", "Asia is not culturally monolithic: it holds enormous diversity, and many of its traditions emphasise tolerance, public reasoning, and freedom (Sen cites the Emperor Ashoka and the Mughal Emperor Akbar's embrace of tolerance).", "Western traditions are themselves mixed — they contain authoritarian as well as liberal strands — so a clean East/West contrast is false.", "Freedom and reasoned scrutiny are treated by Sen as universal values open to all cultures, not the property of any one civilisation.", "Cultural relativism, used to deny rights, often serves the powerful within a society at the expense of the vulnerable — frequently women and minorities."], "quotes": ["The valuing of freedom is not confined to one culture only, and the Western traditions are not the only ones that prepare us for a freedom-based approach to social understanding. (Amartya Sen)"], "devEcon": "<strong>Practitioner takeaway:</strong> Be wary when 'culture' or 'local values' is invoked to justify excluding women, minorities, or dissent from a programme. Sen's argument equips advocates to defend universal rights without the charge of cultural imperialism — by pointing to the plural, freedom-friendly strands within every tradition, including South Asia's own."}, {"title": "Social Choice and Individual Behaviour", "subtitle": "Theme 11 · Public Reasoning", "summary": "Drawing on his Nobel-recognised work in social choice theory, Sen examines how a society can move from diverse individual values to coherent collective judgements. Arrow's impossibility theorem warned that no perfect aggregation rule exists; Sen's response is that enriching the informational base — and relying on open public reasoning — lets societies make reasoned, if not perfect, social choices.", "ideas": ["Arrow's impossibility theorem shows that no aggregation rule can satisfy a set of reasonable conditions simultaneously when information is restricted to individual orderings alone.", "Sen's constructive move: widen the informational base (allow interpersonal comparisons, capability information, and not just utility rankings) and the impossibility softens.", "Public reasoning — open, informed, plural debate — is how societies actually form and revise their values and priorities; it is central to both democracy and justice.", "Individual behaviour is not reducible to narrow self-interest: commitment, sympathy, and social norms shape choices, which matters for how we model development.", "Valuation of capabilities is itself a social, deliberative exercise — there is no escape from value judgements into a purely technical metric."], "quotes": ["The reach and effectiveness of open public reasoning... are quite central to the practice of democracy. (Amartya Sen)"], "devEcon": "<strong>Practitioner takeaway:</strong> When you weight indicators in a composite index or set programme priorities, you are making value choices that cannot be hidden behind technique. Make them through transparent, participatory deliberation. Community scorecards and participatory planning are practical embodiments of Sen's public reasoning."}, {"title": "Individual Freedom as a Social Commitment", "subtitle": "Theme 12 · Synthesis", "summary": "Sen closes by tying the threads together. Individual freedom, he argues, is quintessentially a <em>social product</em>: it depends on social arrangements — schooling, health systems, functioning markets, the rule of law, democratic institutions. There is a two-way relation between individual freedoms and the social arrangements that secure them, and recognising this makes the expansion of freedom a shared social commitment, not merely a private affair.", "ideas": ["Individual freedom is socially produced: it rests on collective arrangements (education, health care, legal order, democratic institutions, safety nets).", "Two-way relationship: social arrangements expand individual freedoms, and free individuals (acting and reasoning together) build and improve those arrangements.", "People are agents, not patients: development works best when it treats people as active participants in shaping their own lives rather than as passive recipients of benefits.", "The five instrumental freedoms, capability, agency, and public reasoning come together as one integrated view of development as freedom.", "Responsibility requires freedom: holding people responsible for their lives presupposes that they have the substantive freedom (the capability) to exercise that responsibility — so expanding capability is a precondition for responsible agency."], "quotes": ["Greater freedom enhances the ability of people to help themselves and also to influence the world, and these matters are central to the process of development. (Amartya Sen)"], "devEcon": "<strong>Practitioner takeaway:</strong> The integrating lesson for practice is to treat participants as agents and to build the social scaffolding (services, rights, voice) that turns nominal freedom into substantive capability. A programme that delivers a benefit but bypasses people's agency may improve a statistic while leaving the deeper development objective — expanded freedom — untouched."}], "concepts": [{"term": "Substantive Freedoms", "definition": "The real opportunities a person has to lead the kind of life they have reason to value — ranging from elementary capabilities (escaping starvation, premature mortality, illiteracy) to political liberties and participation. Sen treats these, not income, as the proper measure of development.", "practitionerNote": "Ask of any intervention: which substantive freedom does this expand, and for whom? Income gains count only insofar as they convert into freedoms people actually value."}, {"term": "Capability", "definition": "The set of alternative combinations of functionings a person is able to achieve — i.e. the substantive freedom to choose among different ways of living. Capability is about the opportunity, not just the chosen outcome.", "practitionerNote": "Two people may have the same achieved outcome but very different freedom. Designing for capability means widening the real options people can choose from, not just dictating a single result."}, {"term": "Functionings", "definition": "The various things a person actually manages to do or be — being adequately nourished, being healthy, being literate, being able to take part in community life. Functionings are the 'beings and doings' that make up a life.", "practitionerNote": "Functionings are directly observable and measurable — stunting, literacy, morbidity — which makes them the natural raw material for capability-oriented monitoring."}, {"term": "Capability vs Commodity vs Utility", "definition": "Sen's argument that advantage should be judged in the space of capability, not commodities (income/goods, which are mere means) or utility (pleasure/desire, which adapts to deprivation). Equal commodities yield unequal capabilities because people differ in how they convert resources.", "practitionerNote": "Income (commodity) and self-reported satisfaction (utility) both mislead: the persistently deprived may report contentment, and equal cash buys unequal freedom. Capability is the corrective lens."}, {"term": "The Five Instrumental Freedoms", "definition": "Political freedoms, economic facilities, social opportunities, transparency guarantees, and protective security — five distinct types of freedom that both advance overall capability and reinforce one another.", "practitionerNote": "Use as a five-point design and diagnostic checklist. Programmes typically fail at the missing leg — e.g. economic facilities provided without social opportunity or protective security."}, {"term": "Entitlements", "definition": "The set of commodity bundles a person can command in a society — through what they own (endowment) and what they can acquire through production, trade, or work (exchange entitlement). Famine is the collapse of entitlements, not necessarily a fall in food supply.", "practitionerNote": "In food-security work, track people's ability to command food (wages, prices, employment), not just aggregate availability. Cash-for-work restores entitlements directly."}, {"term": "Agency vs Well-being", "definition": "Well-being concerns a person's own state; agency concerns their role as a doer and judge of goals they have reason to pursue — which may extend beyond their own welfare. Sen insists development attend to both, especially for women.", "practitionerNote": "Treating women (or any group) only as welfare recipients ignores their agency — the larger lever. Design to enable people to act, decide, and lead, not only to receive."}, {"term": "Missing Women", "definition": "Sen's concept and estimate of the tens of millions of women 'missing' from populations in parts of Asia and North Africa, relative to the numbers expected under equal nutrition, health care, and survival — a demographic measure of gender bias in care.", "practitionerNote": "A stark, quantifiable indicator of structural discrimination. Sex ratios at birth and in childhood are practical signals of bias in household resource allocation."}, {"term": "The 'Lee Thesis'", "definition": "The claim — associated with Lee Kuan Yew — that authoritarian governance and the suppression of political rights deliver faster economic growth. Sen argues the cross-country evidence does not support a systematic growth advantage for authoritarianism.", "practitionerNote": "Equips advocates to resist the argument that democracy and rights must be deferred until a country is 'rich enough' — a claim Sen shows is empirically unfounded."}, {"term": "Human Capital vs Human Capability", "definition": "Human capital views people's skills and health as inputs that raise production. Human capability is broader: it values people's freedom to live lives they value, of which higher productivity is only one instrumental benefit.", "practitionerNote": "Justify education and health not only by their return on output (human capital) but by the freedoms they directly create (human capability) — the wider and, Sen argues, more fundamental case."}, {"term": "Adaptive Preferences", "definition": "The tendency of people in long-standing deprivation to scale down their desires and expectations, so they report contentment despite severe disadvantage — which is why utility/satisfaction is an unreliable basis for evaluating well-being.", "practitionerNote": "Beware satisfaction surveys among the chronically deprived: low complaints can mask high deprivation. Objective capability indicators guard against this bias."}, {"term": "Transparency Guarantees", "definition": "One of the five instrumental freedoms: the freedom to interact under conditions of openness and disclosure — the trust, candour, and clarity that prevent corruption and financial irresponsibility.", "practitionerNote": "Operationalise as open beneficiary lists, published budgets, social audits, and procurement disclosure — the institutional plumbing that keeps resources flowing to intended recipients."}, {"term": "Protective Security", "definition": "One of the five instrumental freedoms: the social safety net — unemployment benefits, statutory income support, famine relief, emergency public employment — that prevents vulnerable people from being driven into misery, starvation, or death.", "practitionerNote": "Build a protective floor into programme portfolios. Shock-responsive transfers and public employment guarantees are the practical instruments Sen's argument points toward."}, {"term": "Public Reasoning", "definition": "Open, informed, plural deliberation through which a society forms and revises its values, priorities, and judgements. Sen treats it as central to democracy, to the valuation of capabilities, and to social choice.", "practitionerNote": "Community scorecards, participatory budgeting, and public hearings are field embodiments of public reasoning — and the legitimate way to make the value choices buried inside any index or priority list."}], "tools": [{"label": "Reflection Journal", "intro": "Use these prompts to connect Amartya Sen's argument to your own practice. The questions are framed around the capability approach and the five instrumental freedoms.", "html": "<label class=\"fld-label\">Which substantive freedom is your current programme most trying to expand — and how would you know if it succeeded?</label>\n<textarea class=\"fld\" id=\"r1\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<label class=\"fld-label\">Map your work against Sen's five instrumental freedoms (political, economic, social opportunity, transparency, protective security). Which leg is missing?</label>\n<textarea class=\"fld\" id=\"r2\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<label class=\"fld-label\">Where are you treating people (especially women) as welfare recipients when you could be designing for their agency?</label>\n<textarea class=\"fld\" id=\"r3\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<div style=\"margin-top:12px;font-family:Inter,sans-serif;font-size:13px;color:var(--muted)\">Reflections stay in your browser only and are not sent anywhere.</div>"}, {"label": "Five Freedoms Audit", "intro": "Sen's five instrumental freedoms reinforce one another. Note, for a programme you know, what it does on each — and where the gaps reinforce one another.", "html": "<label class=\"fld-label\">Political freedoms — voice, participation, accountability, free information:</label>\n<textarea class=\"fld\" id=\"a1\" rows=\"2\" placeholder=\"e.g. social audits, grievance redress, beneficiary consultation...\"></textarea>\n<label class=\"fld-label\">Economic facilities — access to finance, markets, jobs, a fair share of resources:</label>\n<textarea class=\"fld\" id=\"a2\" rows=\"2\" placeholder=\"e.g. credit access, market linkage, asset transfer...\"></textarea>\n<label class=\"fld-label\">Social opportunities — education, health, basic services:</label>\n<textarea class=\"fld\" id=\"a3\" rows=\"2\" placeholder=\"e.g. schooling, primary health, nutrition...\"></textarea>\n<label class=\"fld-label\">Transparency guarantees — disclosure, openness, anti-corruption:</label>\n<textarea class=\"fld\" id=\"a4\" rows=\"2\" placeholder=\"e.g. published budgets, open beneficiary lists...\"></textarea>\n<label class=\"fld-label\">Protective security — safety nets for the vulnerable:</label>\n<textarea class=\"fld\" id=\"a5\" rows=\"2\" placeholder=\"e.g. cash transfers, public employment, famine relief...\"></textarea>\n<div style=\"margin-top:12px;font-family:Inter,sans-serif;font-size:13px;color:var(--muted)\">A weakness in one freedom usually undermines the others. Reflections stay in your browser only.</div>"}], "connections": [{"book": "Poverty and Famines (Amartya Sen, 1981)", "text": "Sen's earlier, technical statement of the entitlement approach to famines, with detailed case studies including the Bengal famine of 1943. Development as Freedom carries the argument into a broader theory of development."}, {"book": "The Idea of Justice (Amartya Sen, 2009)", "text": "Sen's later, fuller treatment of justice, public reasoning, and the capability approach — extending the social-choice and deliberation themes of Development as Freedom."}, {"book": "Creating Capabilities (Martha Nussbaum, 2011)", "text": "Nussbaum develops the capability approach in a distinct direction, proposing a specific list of central human capabilities — a contrast with Sen's deliberate refusal to fix a single canonical list."}, {"book": "Hunger and Public Action (Drèze & Sen, 1989)", "text": "Drèze and Sen's joint work applying entitlement and public-action analysis to hunger, with extensive India–China and Kerala comparisons that recur in Development as Freedom."}], "southAsia": [], "critiques": ["The capability approach is deliberately under-specified: Sen declines to fix a single canonical list of capabilities or their weights, which is philosophically principled (he leaves it to public reasoning) but leaves practitioners without a ready-made measurement instrument. Compare Nussbaum's fixed list as one response.", "Operationalising capability is data-hungry. Direct measurement of functionings across many dimensions demands more and better data than a single income line — a real constraint in low-capacity settings, even as tools like the Multidimensional Poverty Index have since narrowed the gap.", "The book is a work of synthesis and persuasion rather than new econometrics; some of its empirical claims (e.g. the famine–democracy link) rest on a relatively small set of historical cases, and critics have probed the edge conditions (e.g. quasi-famines and chronic hunger within democracies).", "Sen's optimism about public reasoning assumes reasonably functional deliberative institutions; where media are captured or civic space is closed, the constructive and protective roles he assigns to democracy are weaker than the argument implies.", "This page is an interpretive companion, not a substitute for the book. The phrasing of the arguments is a paraphrase for practitioners; all ideas are Amartya Sen's, and serious users should read the original text."], "suggested": ["What does Sen mean by 'development as freedom', and how does it differ from defining development as GNP growth?", "Explain the capability approach — functionings, capability, and why income and utility are inadequate measures.", "What are the five instrumental freedoms, and how do they reinforce one another?", "Why does Sen argue that no famine has occurred in a functioning democracy? What role does the entitlement approach play?", "How does Sen connect women's agency to fertility decline and child survival, using the Kerala and India–China comparisons?", "Summarise Sen's critique of the 'Lee thesis' and the 'Asian values' argument."], "systemPrompt": "You are an expert reading companion for 'Development as Freedom' (1999) by Amartya Sen. Your audience is development practitioners, programme managers, researchers, and ImpactMojo users in South Asia. Explain Sen's arguments accurately and always attribute ideas to Amartya Sen. Cover: development as the expansion of substantive freedoms (freedom as both end and means); the capability approach (functionings, capabilities, capability vs commodity vs utility, adaptive preferences); the five instrumental freedoms (political freedoms, economic facilities, social opportunities, transparency guarantees, protective security) and how they interconnect; the entitlement approach to famines and the claim that no famine occurs in a functioning democracy (Bengal 1943, the role of a free press); women's agency vs welfare and 'missing women'; the critiques of the 'Lee thesis' and 'Asian values'; markets as freedom and their limits; population, food and Malthus (the Kerala vs China comparison; collaborative vs coercive routes to lower fertility); social choice and public reasoning; and human capital vs human capability. Use accurate South Asian context (Bengal famine, Kerala's capability achievements, the India-China comparison on health and literacy). Be clear that you are a study companion, not a replacement for reading Sen's text. Do not fabricate quotations or statistics; if unsure, say so."};
+
+// Tab management
+const TABS = [
+  {id:"overview",label:"Overview"},
+  {id:"pathways",label:"Pathways"},
+  {id:"sections",label:"Sections"},
+  {id:"concepts",label:"Concepts"},
+  {id:"toolkit",label:"Toolkit"},
+  {id:"context",label:"Context"},
+  {id:"ask",label:"Ask"},
+];
+
+const tabbar = document.getElementById("tabbar");
+TABS.forEach(t => {
+  const btn = document.createElement("button");
+  btn.className = "tab-btn" + (t.id === "overview" ? " active" : "");
+  btn.textContent = t.label;
+  btn.onclick = () => switchTab(t.id);
+  tabbar.appendChild(btn);
+});
+
+function switchTab(id) {
+  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById("p-" + id).classList.add("active");
+  tabbar.querySelectorAll(".tab-btn")[TABS.findIndex(t=>t.id===id)].classList.add("active");
+}
+
+// OVERVIEW
+(function() {
+  const el = document.getElementById("p-overview");
+  el.innerHTML = `
+    <div class="hero">
+      <div class="day-badge">${DATA.dayBadge}</div>
+      <h1>${DATA.title}</h1>
+      <div class="auth">${DATA.author}</div>
+      <div class="tagline">${DATA.tagline}</div>
+      <div class="pills">${DATA.pills.map(p=>`<span class="pill">${p}</span>`).join("")}</div>
+    </div>
+    <div class="stat-grid">
+      ${DATA.stats.map(s=>`<div class="stat"><div class="stat-n">${s.n}</div><div class="stat-l">${s.l}</div></div>`).join("")}
+    </div>
+    <div class="arg">
+      <div class="h1">The central argument</div>
+      ${DATA.argument.map(p=>`<p>${p}</p>`).join("")}
+    </div>
+    <div class="h1" style="margin-top:24px">What's in this companion</div>
+    <div class="nav-grid">
+      ${[["pathways","Learning Pathways","Structured reading routes by role"],["sections","Theme by Theme","Full analysis with practitioner takeaways"],["concepts","Concepts & Frameworks","Key terms with practitioner notes"],["toolkit","Practitioner Toolkit","Interactive tools"],["context","Book in Context","Connections and assessment"],["ask","Ask the Book","Gemini-powered Q&A"]].map(([id,label,desc])=>`<button class="nav-card" onclick="switchTab('${id}')" ><div class="nav-card-label">${label}</div><div class="nav-card-desc">${desc}</div></button>`).join("")}
+    </div>
+    <div class="h1" style="margin-top:24px">Explore related ImpactMojo content</div>
+    <div class="nav-grid">
+      ${[["/courses/devecon/","Development Economics","Flagship course on growth, poverty & policy"],["/courses/gender/","Gender & Development","Women's agency and empowerment in practice"],["/courses/mel/","Monitoring, Evaluation & Learning","Capability-oriented measurement and indicators"],["/DeepDives/indian-political-economy.html","Indian Political Economy","Deep dive into India's development trajectory"]].map(([url,label,desc])=>`<a class="nav-card" href="${url}" style="display:block;text-decoration:none"><div class="nav-card-label">${label}</div><div class="nav-card-desc">${desc}</div></a>`).join("")}
+    </div>
+  `;
+})();
+
+// PATHWAYS
+(function() {
+  const el = document.getElementById("p-pathways");
+  let active = 0;
+  function render() {
+    const pw = DATA.pathways[active];
+    el.innerHTML = `
+      <div class="h1">Learning Pathways</div>
+      <div class="sub">Three structured routes through the book based on your role.</div>
+      <div class="pw-tabs">
+        ${DATA.pathways.map((p,i)=>`<button class="pw-btn ${i===active?"active":""}" onclick="__pw(${i})">${p.label}</button>`).join("")}
+      </div>
+      <div class="pw-desc">${pw.desc}</div>
+      <div class="pw-steps">
+        ${pw.steps.map((s,i)=>`<div class="pw-step"><div class="step-n">${i+1}</div><div><div class="step-title">${s.section}</div><div class="step-focus">${s.focus}</div></div></div>`).join("")}
+      </div>
+    `;
+  }
+  window.__pw = (i) => { active = i; render(); };
+  render();
+})();
+
+// SECTIONS
+(function() {
+  const el = document.getElementById("p-sections");
+  let openId = null;
+  let showDev = {};
+  function render() {
+    el.innerHTML = `
+      <div class="h1">Theme by Theme</div>
+      <div class="sub">All themes with full analysis and a practitioner takeaway for each.</div>
+      ${DATA.sections.map((s,i)=>`
+        <div class="sec-card">
+          <button class="sec-header" onclick="__sec(${i})">
+            <div class="sec-num">§${i+1}</div>
+            <div class="sec-title-block"><div class="sec-title">${s.title}</div><div class="sec-sub">${s.subtitle}</div></div>
+            <div class="sec-chev">${openId===i?"−":"+"}</div>
+          </button>
+          ${openId===i?`<div class="sec-body">
+            <div class="sec-summary">${s.summary}</div>
+            <div class="ideas-label">Key ideas</div>
+            ${s.ideas.map(idea=>`<div class="idea-item"><span class="idea-dot"></span><span>${idea}</span></div>`).join("")}
+            <div class="ideas-label" style="margin-top:14px">Key quotes</div>
+            ${s.quotes.map(q=>`<blockquote>${q}</blockquote>`).join("")}
+            <button class="dev-toggle" onclick="__dev(${i})">${showDev[i]?"Hide":"Show"} practitioner takeaway</button>
+            ${showDev[i]?`<div class="dev-text">${s.devEcon}</div>`:""}
+          </div>`:""}
+        </div>
+      `).join("")}
+    `;
+  }
+  window.__sec = (i) => { openId = openId===i?null:i; render(); };
+  window.__dev = (i) => { showDev[i]=!showDev[i]; render(); };
+  render();
+})();
+
+// CONCEPTS
+(function() {
+  const el = document.getElementById("p-concepts");
+  let open = null;
+  function render() {
+    el.innerHTML = `
+      <div class="h1">Concepts & Frameworks</div>
+      <div class="sub">Key terms with definitions and practitioner notes. Click to expand.</div>
+      ${DATA.concepts.map((c,i)=>`
+        <div class="concept-card ${open===i?"open":""}" onclick="__con(${i})">
+          <div class="concept-term">${c.term}</div>
+          ${open===i?`<div class="concept-def">${c.definition}</div><div class="prac-label">Practitioner note</div><div class="prac-text">${c.practitionerNote}</div>`:""}
+        </div>
+      `).join("")}
+    `;
+  }
+  window.__con = (i) => { open = open===i?null:i; render(); };
+  render();
+})();
+
+// TOOLKIT
+(function() {
+  const el = document.getElementById("p-toolkit");
+  el.innerHTML = `
+    <div class="h1">Practitioner Toolkit</div>
+    <div class="sub">Interactive tools derived from the book. Use for personal practice or programme design.</div>
+    <div class="tool-tabs">
+      ${DATA.tools.map((t,i)=>`<button class="tool-btn ${i===0?"active":""}" onclick="__tool(${i})">${t.label}</button>`).join("")}
+    </div>
+    ${DATA.tools.map((t,i)=>`
+      <div class="tool-panel ${i===0?"active":""}" id="toolp-${i}">
+        <div class="tool-intro">${t.intro}</div>
+        ${t.html}
+      </div>
+    `).join("")}
+  `;
+  window.__tool = (i) => {
+    document.querySelectorAll(".tool-btn").forEach((b,j)=>b.classList.toggle("active",i===j));
+    document.querySelectorAll(".tool-panel").forEach((p,j)=>p.classList.toggle("active",i===j));
+  };
+})();
+
+// CONTEXT
+(function() {
+  const el = document.getElementById("p-context");
+  el.innerHTML = `
+    <div class="h1">Book in Context</div>
+    <div class="sub">How this book fits within the broader literature, and an honest assessment of its limits.</div>
+    <div class="context-h">Connected works</div>
+    ${DATA.connections.map(c=>`<div class="conn-card"><div class="conn-book">${c.book}</div><div class="conn-text">${c.text}</div></div>`).join("")}
+    <div class="context-h" style="margin-top:24px">Honest assessment</div>
+    <div class="sub">Limits and qualifications for the ImpactMojo context:</div>
+    ${DATA.critiques.map((c,i)=>`<div class="crit-item"><div class="crit-n">${i+1}</div><div class="crit-text">${c}</div></div>`).join("")}
+  `;
+})();
+
+// ASK
+(function() {
+  const el = document.getElementById("p-ask");
+  let apiKey = "", msgs = [], loading = false;
+
+  function renderSetup() {
+    el.innerHTML = `
+      <div class="ask-setup">
+        <div class="h1">Ask the Book</div>
+        <div class="sub">AI-powered Q&A using Gemini 2.0 Flash (free). Requires a Google AI Studio API key.</div>
+        <div class="setup-steps">
+          <div class="setup-step"><span class="setup-num">1</span><span>Go to <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com/app/apikey</a> and create a free API key.</span></div>
+          <div class="setup-step"><span class="setup-num">2</span><span>Paste it below. The key stays in your browser only and is never stored.</span></div>
+        </div>
+        <div class="key-row">
+          <input class="key-input" type="password" id="key-in" placeholder="AIza..." oninput="document.getElementById('key-submit').disabled=!this.value.trim()"/>
+          <button class="key-btn" id="key-submit" disabled onclick="__setKey()">Connect</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderChat() {
+    el.innerHTML = `
+      <div class="ask-ui">
+        <div class="ask-hdr"><span class="ask-hdr-title">Ask the Book</span><button class="ask-reset" onclick="__resetKey()">Change key</button></div>
+        <div class="msgs" id="msgs-box">
+          ${msgs.length===0?`<div><div class="suggested-label">Suggested questions</div>${DATA.suggested.map(q=>`<button class="sug-btn" onclick="__ask('${q.replace(/'/g,"\'")}')">${q}</button>`).join("")}</div>`:""}
+          ${msgs.map(m=>`<div class="msg ${m.role}"><div class="msg-text">${m.content}</div></div>`).join("")}
+          ${loading?`<div class="msg assistant"><div class="typing"><span></span><span></span><span></span></div></div>`:""}
+        </div>
+        <div class="ask-input-row">
+          <textarea class="ask-input" id="ask-in" rows="2" placeholder="Ask about the book..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();__sendAsk()}"></textarea>
+          <button class="ask-send" id="ask-send" onclick="__sendAsk()">Send</button>
+        </div>
+      </div>
+    `;
+    const box = document.getElementById("msgs-box");
+    if(box) box.scrollTop = box.scrollHeight;
+  }
+
+  window.__setKey = () => {
+    const v = document.getElementById("key-in").value.trim();
+    if(v) { apiKey = v; renderChat(); }
+  };
+  window.__resetKey = () => { apiKey=""; msgs=[]; renderSetup(); };
+  window.__ask = (q) => {
+    document.getElementById("ask-in").value = q;
+    __sendAsk();
+  };
+  window.__sendAsk = async () => {
+    const inp = document.getElementById("ask-in");
+    if(!inp) return;
+    const q = inp.value.trim();
+    if(!q || loading) return;
+    inp.value = "";
+    msgs.push({role:"user",content:q});
+    loading = true; renderChat();
+    try {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,{
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({
+          system_instruction:{parts:[{text:DATA.systemPrompt}]},
+          contents: msgs.map(m=>{return{role:m.role==="assistant"?"model":"user",parts:[{text:m.content}]}}).slice(0,-1).concat([{role:"user",parts:[{text:q}]}]),
+          generationConfig:{maxOutputTokens:1200,temperature:0.3}
+        })
+      });
+      const data = await res.json();
+      if(!res.ok) throw new Error(data.error?.message||"API error");
+      const reply = data?.candidates?.[0]?.content?.parts?.map(p=>p.text).join("")||"No response.";
+      msgs.push({role:"assistant",content:reply});
+    } catch(e) {
+      msgs.push({role:"assistant",content:"Error: "+e.message});
+    }
+    loading = false; renderChat();
+  };
+
+  renderSetup();
+})();
+</script>
+
+<!-- ImpactMojo Footer -->
+<!-- Ethics & Copyright Disclaimer -->
+<section class="im-ethics-disclaimer" style="max-width:1100px;margin:2rem auto 1rem;padding:1.25rem 1.5rem;background:rgba(14,165,233,0.06);border-left:4px solid #0EA5E9;border-radius:8px;font-family:'Inter','Amaranth',sans-serif;font-size:0.85rem;line-height:1.65;color:var(--im-text-secondary,#64748B);">
+  <p class="im-ethics-heading" style="margin:0 0 0.5rem;font-weight:600;">A note on books, authors, and intellectual labour</p>
+  <p style="margin:0;">All books companioned on ImpactMojo have been duly purchased with real money and form part of a personal collection. None of the source texts have been obtained by any illegal means — we deeply respect the intellectual labour of authors, editors, and publishers. These reading companions are offered free of charge as educational aids; ImpactMojo does not sell book companions as a paid service and therefore does not violate any commercial licensing agreement or copyright. Nothing here reproduces the full text of any book — each companion is an interpretive study guide.</p>
+</section>
+
+<footer class="im-footer" role="contentinfo">
+<div class="im-footer-content">
+<p class="im-footer-made">Made with <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;color:#EF4444;"><use href="#si_Heart"/></svg> by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+<div class="im-footer-grid">
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Info"/></svg> About ImpactMojo</h4>
+<ul>
+<li><a href="../about.html">About Us</a></li>
+<li><a href="../contact.html">Contact</a></li>
+<li><a href="https://github.com/ImpactMojo/ImpactMojo" rel="noopener noreferrer" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Globe_detailed"/></svg> GitHub</a></li>
+<li><a href="../transparency.html">Transparency</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Lock"/></svg> Legal</h4>
+<ul>
+<li><a href="../privacy-policy.html">Privacy Policy</a></li>
+<li><a href="../terms-of-service.html">Terms of Service</a></li>
+<li><a href="../disclaimer.html">Disclaimer</a></li>
+<li><a href="../data-protection.html">Data Protection</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Lightning"/></svg> Quick Links</h4>
+<ul>
+<li><a href="../catalog.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Library_books"/></svg> All Courses</a></li>
+<li><a href="../premium.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Flare"/></svg> Premium Content</a></li>
+<li><a href="../coaching.html">Coaching</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Book"/></svg> Resources</h4>
+<ul>
+<li><a href="../handouts.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Article"/></svg> Handouts</a></li>
+<li><a href="../blog.html">Blog</a></li>
+<li><a href="../faq.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Help"/></svg> FAQ</a></li>
+<li><a href="../sitemap.html">Sitemap</a></li>
+<li><a href="/docs/" rel="noopener noreferrer" target="_blank">Documentation</a></li>
+</ul>
+</div>
+</div>
+<div class="im-footer-bottom">
+<p>&copy; 2026 ImpactMojo. All content for educational purposes only.</p>
+<p>Released under <strong>MIT License</strong> | Supported by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+</div>
+</div>
+</footer>
+
+<script src="/js/theme.js"></script>
+
+
+<!-- Supabase Auth -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="/js/state-manager.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+
+<!-- Floating paper plane (ImpactMojo decorative element) -->
+<svg class="im-paper-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M80,130 L150,50" stroke="#10B981" stroke-width="2" stroke-dasharray="4,4"/>
+  <circle cx="150" cy="50" r="4" fill="#6366F1"/>
+  <circle cx="40" cy="155" r="2" fill="#0EA5E9" opacity="0.6"/>
+  <circle cx="35" cy="165" r="1.5" fill="#6366F1" opacity="0.4"/>
+  <circle cx="45" cy="170" r="1" fill="#10B981" opacity="0.5"/>
+</svg>
+<script src="/js/translate-sarvam.js" defer></script>
+</body>
+</html>

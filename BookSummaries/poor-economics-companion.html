@@ -1,0 +1,970 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Poor Economics — ImpactMojo Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+/* === ImpactMojo Design System === */
+:root {
+    --im-gradient: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+    --im-accent: #0EA5E9;
+    --im-nav-bg: rgba(15, 23, 42, 0.95);
+    --im-border: #334155;
+    --im-text-primary: #F1F5F9;
+    --im-text-secondary: #94A3B8;
+    --im-text-muted: #64748B;
+    --im-card-bg: #1E293B;
+    --im-hover-bg: #334155;
+    --im-secondary-bg: #1E293B;
+}
+body { padding-top: 56px !important; }
+.im-topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    background: var(--im-nav-bg);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--im-border);
+    padding: 0.5rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.75rem; flex-wrap: wrap;
+    font-family: 'Inter', 'Amaranth', sans-serif;
+}
+.im-topbar a { text-decoration: none; }
+.im-topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+.im-topbar-home {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-weight: 700; font-size: 1rem;
+    background: var(--im-gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.im-topbar-home svg { width: 24px; height: 24px; flex-shrink: 0; stroke: #0EA5E9; }
+.im-topbar-right { display: flex; align-items: center; gap: 0.5rem; }
+.im-premium-btn {
+    background: var(--im-gradient);
+    color: #fff !important; -webkit-text-fill-color: #fff;
+    padding: 0.35rem 0.85rem; border-radius: 6px;
+    font-size: 0.8rem; font-weight: 600;
+    display: flex; align-items: center; gap: 0.35rem;
+    transition: opacity 0.2s; border: none; cursor: pointer;
+}
+.im-browse-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--im-text, #1C1917); background: var(--im-surface, #FFFFFF); border: 1.5px solid var(--im-border, #E2E8F0); padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; transition: background 0.18s ease, border-color 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease; }
+.im-browse-btn:hover { background: var(--im-accent, #0EA5E9); color: #FFFFFF; border-color: var(--im-accent, #0EA5E9); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25); }
+.im-browse-btn svg { width: 14px; height: 14px; }
+@media (prefers-color-scheme: dark) { .im-browse-btn { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.18); } .im-browse-btn:hover { background: var(--im-accent, #0EA5E9); border-color: var(--im-accent, #0EA5E9); color: #FFFFFF; } }
+.im-premium-btn:hover { opacity: 0.9; }
+.im-premium-btn svg { width: 14px; height: 14px; }
+.im-theme-selector {
+    display: flex; gap: 2px;
+    background: var(--im-card-bg);
+    border: 1px solid var(--im-border);
+    border-radius: 8px; padding: 2px;
+}
+.im-theme-btn {
+    background: transparent; border: none;
+    color: var(--im-text-secondary);
+    padding: 6px; border-radius: 5px; cursor: pointer;
+    transition: all 0.2s; display: flex; align-items: center;
+    justify-content: center; width: 30px; height: 30px;
+}
+.im-theme-btn:hover { background: var(--im-hover-bg); color: var(--im-text-primary); }
+.im-theme-btn.active { background: var(--im-accent); color: #fff; }
+.im-theme-btn svg { width: 16px; height: 16px; }
+.im-footer {
+    background: var(--im-secondary-bg);
+    border-top: 1px solid var(--im-border);
+    padding: 2rem 1rem; margin-top: auto;
+    font-family: 'Inter', 'Amaranth', sans-serif;
+    color: var(--im-text-secondary);
+}
+.im-footer-content { max-width: 1100px; margin: 0 auto; }
+.im-footer-made {
+    text-align: center; margin-bottom: 1.5rem;
+    font-size: 0.9rem; color: var(--im-text-muted);
+}
+.im-footer-made a { color: var(--im-accent); text-decoration: none; }
+.im-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem; margin-bottom: 1.5rem;
+}
+.im-footer-section h4 {
+    font-family: 'Inter', 'Amaranth', sans-serif;
+    color: var(--im-text-primary);
+    font-size: 0.9rem; margin-bottom: 0.75rem; font-weight: 600;
+}
+.im-footer-section ul { list-style: none; padding: 0; margin: 0; }
+.im-footer-section li { margin-bottom: 0.4rem; }
+.im-footer-section a {
+    color: var(--im-text-secondary);
+    text-decoration: none; font-size: 0.85rem; transition: color 0.2s;
+}
+.im-footer-section a:hover { color: var(--im-accent); }
+.im-footer-bottom {
+    text-align: center; padding-top: 1rem;
+    border-top: 1px solid var(--im-border);
+    font-size: 0.8rem; color: var(--im-text-muted);
+}
+.im-footer-bottom p { margin: 0.25rem 0; }
+.im-footer-bottom a { color: var(--im-accent); text-decoration: none; }
+@media (max-width: 640px) {
+    .im-topbar { padding: 0.4rem 0.75rem; gap: 0.5rem; }
+    .im-topbar-home { font-size: 0.85rem; }
+    .im-topbar-home svg { width: 20px; height: 20px; }
+    .im-topbar-home span { display: none; }
+    .im-premium-btn { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
+    .im-theme-btn { width: 26px; height: 26px; padding: 4px; }
+    .im-theme-btn svg { width: 14px; height: 14px; }
+    .im-footer-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+}
+@media (max-width: 400px) {
+    .im-footer-grid { grid-template-columns: 1fr; }
+}
+/* === End ImpactMojo Design System === */
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F8F5F0;--card:#fff;--border:#E8E0D5;--text:#1C1C1C;--muted:#6B6560;
+  --accent:#1A3C34;--accent-light:#EBF5F2;--teal:#1A6B5A;--teal-light:#EBF5F2;
+  --radius:8px;
+}
+body{background:var(--bg);font-family:'Amaranth','Inter',system-ui,sans-serif;color:var(--text);padding-top:52px}
+.app{min-height:100vh;display:flex;flex-direction:column}
+nav{background:#1C1C1C;display:flex;align-items:center;gap:20px;padding:0 20px;min-height:52px;flex-wrap:wrap;position:sticky;top:52px;z-index:99}
+.brand{display:flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.brand-name{font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:#fff;letter-spacing:.05em;text-transform:uppercase}
+.tabs{display:flex;gap:2px;flex-wrap:wrap}
+.tab-btn{background:none;border:none;padding:6px 13px;font-family:Inter,sans-serif;font-size:11px;font-weight:600;color:rgba(255,255,255,.5);cursor:pointer;border-radius:4px;text-transform:uppercase;letter-spacing:.04em;transition:all .15s}
+.tab-btn:hover{color:rgba(255,255,255,.85)}
+.tab-btn.active{color:#fff;background:var(--accent)}
+main{flex:1;padding:32px 20px;max-width:860px;margin:44px auto 0;width:100%}
+.h1{font-family:Inter,sans-serif;font-size:22px;font-weight:700;margin-bottom:8px}
+.sub{color:var(--muted);font-size:15px;margin-bottom:24px;font-family:Inter,sans-serif;line-height:1.5}
+.panel{display:none}.panel.active{display:block}
+
+/* HERO */
+.hero{background:#1C1C1C;color:#fff;border-radius:12px;padding:32px;margin-bottom:20px}
+.day-badge{display:inline-block;background:var(--accent);font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 10px;border-radius:4px;margin-bottom:14px}
+.hero h1{font-size:34px;font-weight:700;margin-bottom:4px}
+.hero .auth{font-family:Inter,sans-serif;font-size:13px;color:rgba(255,255,255,.5);margin-bottom:14px}
+.hero .tagline{font-size:15px;color:rgba(255,255,255,.8);line-height:1.6;max-width:620px;margin-bottom:18px}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-family:Inter,sans-serif;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.8)}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:18px 14px;text-align:center}
+.stat-n{font-size:30px;font-weight:700;color:var(--accent);font-family:Inter,sans-serif}
+.stat-l{font-family:Inter,sans-serif;font-size:12px;color:var(--muted);margin-top:4px}
+.arg{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:22px;margin-bottom:24px}
+.arg p{font-size:15px;line-height:1.75}
+.arg p+p{margin-top:1rem}
+.nav-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.nav-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:left;cursor:pointer;transition:all .15s}
+.nav-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.nav-card-label{font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
+.nav-card-desc{font-family:Inter,sans-serif;font-size:12px;color:var(--muted)}
+
+/* PATHWAYS */
+.pw-tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.pw-btn{font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:6px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s}
+.pw-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.pw-desc{font-family:Inter,sans-serif;font-size:14px;color:var(--muted);padding:12px 14px;background:var(--accent-light);border-radius:6px;margin-bottom:20px;line-height:1.5}
+.pw-steps{display:flex;flex-direction:column;gap:10px}
+.pw-step{display:flex;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px}
+.step-n{width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-family:Inter,sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-title{font-family:Inter,sans-serif;font-size:14px;font-weight:700;margin-bottom:3px}
+.step-focus{font-family:Inter,sans-serif;font-size:13px;color:var(--muted);line-height:1.5}
+
+/* SECTIONS */
+.sec-card{background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.sec-header{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;cursor:pointer;background:none;border:none;text-align:left;width:100%}
+.sec-num{font-family:Inter,sans-serif;font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;min-width:24px;padding-top:2px}
+.sec-title{font-family:Inter,sans-serif;font-size:15px;font-weight:700;margin-bottom:2px}
+.sec-sub{font-family:Inter,sans-serif;font-size:12px;color:var(--muted)}
+.sec-chev{font-size:16px;color:var(--muted);padding-top:2px;margin-left:auto}
+.sec-body{padding:0 18px 18px 56px;border-top:1px solid var(--border)}
+.sec-summary{font-size:15px;line-height:1.75;padding-top:14px;margin-bottom:18px}
+.ideas-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
+.idea-item{display:flex;gap:8px;margin-bottom:7px;font-family:Inter,sans-serif;font-size:13px;line-height:1.55}
+.idea-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:6px}
+blockquote{font-style:italic;font-size:14px;color:var(--muted);border-left:3px solid var(--accent);padding-left:12px;margin-bottom:8px;line-height:1.6}
+.dev-toggle{font-family:Inter,sans-serif;font-size:12px;font-weight:600;color:var(--teal);background:var(--teal-light);border:none;padding:7px 12px;border-radius:4px;cursor:pointer;margin-top:10px}
+.dev-text{margin-top:10px;font-family:Inter,sans-serif;font-size:13px;line-height:1.65;background:var(--teal-light);padding:12px;border-radius:6px}
+
+/* CONCEPTS */
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+.concept-card:hover,.concept-card.open{border-color:var(--accent)}
+.concept-term{font-family:Inter,sans-serif;font-size:15px;font-weight:700}
+.concept-def{font-family:Inter,sans-serif;font-size:14px;line-height:1.7;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.prac-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-top:10px;margin-bottom:4px}
+.prac-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65;color:var(--muted)}
+
+/* TOOLKIT */
+.tool-tabs{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+.tool-btn{font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:6px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s}
+.tool-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tool-panel{display:none;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:22px}
+.tool-panel.active{display:block}
+.tool-intro{font-family:Inter,sans-serif;font-size:14px;color:var(--muted);margin-bottom:20px;line-height:1.5}
+.fld-label{font-family:Inter,sans-serif;font-size:13px;font-weight:600;margin-bottom:5px;display:block}
+.fld{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;outline:none;background:var(--bg);margin-bottom:12px}
+.fld:focus{border-color:var(--accent)}
+.output-box{background:var(--accent-light);padding:14px;border-radius:6px;margin-top:16px;font-family:Inter,sans-serif;font-size:14px;line-height:1.65}
+.output-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:8px}
+
+/* CONTEXT */
+.conn-card{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:16px 18px;margin-bottom:10px}
+.conn-book{font-family:Inter,sans-serif;font-size:14px;font-weight:700;margin-bottom:5px}
+.conn-text{font-family:Inter,sans-serif;font-size:13px;color:var(--muted);line-height:1.65}
+.crit-item{display:flex;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:8px}
+.crit-n{width:24px;height:24px;border-radius:50%;background:#FFF8E6;color:#C8910A;font-family:Inter,sans-serif;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.crit-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65}
+.context-h{font-family:Inter,sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;margin-top:6px}
+
+/* ASK */
+.ask-setup{}
+.setup-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+.setup-step{display:flex;gap:12px;font-family:Inter,sans-serif;font-size:14px;line-height:1.5}
+.setup-num{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.setup-step a{color:var(--accent)}
+.key-row{display:flex;gap:10px}
+.key-input{flex:1;max-width:400px;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;outline:none}
+.key-btn{padding:9px 22px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:Inter,sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.key-btn:disabled{opacity:.4;cursor:not-allowed}
+.ask-ui{display:flex;flex-direction:column;height:calc(100vh - 180px)}
+.ask-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.ask-hdr-title{font-family:Inter,sans-serif;font-size:18px;font-weight:700}
+.ask-reset{background:none;border:1px solid var(--border);border-radius:4px;padding:4px 10px;font-family:Inter,sans-serif;font-size:12px;color:var(--muted);cursor:pointer}
+.msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px;margin-bottom:10px}
+.suggested-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px}
+.sug-btn{display:block;width:100%;text-align:left;padding:9px 12px;background:var(--card);border:1px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;cursor:pointer;margin-bottom:6px;transition:all .15s}
+.sug-btn:hover{border-color:var(--accent);background:var(--accent-light)}
+.msg{max-width:85%}
+.msg.user{align-self:flex-end}
+.msg.assistant{align-self:flex-start}
+.msg-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65;padding:10px 14px;border-radius:8px;white-space:pre-wrap}
+.msg.user .msg-text{background:var(--accent);color:#fff}
+.msg.assistant .msg-text{background:var(--card);border:1px solid var(--border)}
+.typing{display:flex;gap:4px;padding:12px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px}
+.typing span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:bounce 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.ask-input-row{display:flex;gap:8px;border-top:1px solid var(--border);padding-top:10px}
+.ask-input{flex:1;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;resize:none;outline:none;background:var(--bg)}
+.ask-input:focus{border-color:var(--accent)}
+.ask-send{padding:9px 18px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:Inter,sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.ask-send:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:640px){.stat-grid{grid-template-columns:repeat(2,1fr)}.nav-grid{grid-template-columns:1fr 1fr}.sec-body{padding-left:18px}}
+
+/* WCAG 2.1 AA (1.4.1 Use of Color): inline anchors in content paragraphs must be distinguishable without relying on color alone. Scoped to <main> so nav/footer button-links are unaffected. */
+main p a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]),
+main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
+/* === Dark Mode === */
+html.dark body { background: #0f172a; color: #e2e8f0; }
+html.dark #root,
+html.dark main,
+html.dark .app,
+html.dark [id^="p-"],
+html.dark .panel { filter: invert(0.88) hue-rotate(180deg); }
+html.dark #root img,
+html.dark #root svg:not([class*="im-"]),
+html.dark main img,
+html.dark main svg:not([class*="im-"]) { filter: invert(1) hue-rotate(180deg); }
+html.dark .im-topbar, html.dark .im-footer { filter: none; }
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+<!-- SEO meta (autogenerated) -->
+<meta name="description" content="Poor Economics by Abhijit Banerjee & Esther Duflo — ImpactMojo Companion. Interactive reading companion for development practitioners and researchers.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.impactmojo.in/BookSummaries/poor-economics-companion.html">
+<meta property="og:title" content="Poor Economics — ImpactMojo Companion">
+<meta property="og:description" content="Poor Economics by Abhijit Banerjee & Esther Duflo — ImpactMojo Companion. Interactive reading companion for development practitioners and researchers.">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:url" content="https://www.impactmojo.in/BookSummaries/poor-economics-companion.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ImpactMojo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Poor Economics — ImpactMojo Companion">
+<meta name="twitter:description" content="Poor Economics by Abhijit Banerjee & Esther Duflo — ImpactMojo Companion. Interactive reading companion for development practitioners and researchers.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<!-- Favicons -->
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<!-- Translate -->
+<style>
+/* Skip link (WCAG 2.4.1) */
+.im-skip-link { position:absolute; top:-40px; left:0; background:#0EA5E9; color:#fff; padding:8px 16px; z-index:10000; text-decoration:none; font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600; }
+.im-skip-link:focus { top:0; }
+/* Floating paper plane */
+.im-paper-plane { position:fixed; bottom:2rem; right:2rem; width:60px; height:60px; opacity:0.14; pointer-events:none; z-index:0; animation: imFloat 6s ease-in-out infinite; }
+@keyframes imFloat { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-15px) rotate(3deg);} }
+html.dark .im-paper-plane { opacity:0.22; }
+/* Interactive companion CTA */
+.im-interactive-cta { display:inline-flex; align-items:center; gap:0.5rem; background:var(--im-gradient); color:#fff !important; -webkit-text-fill-color:#fff; padding:0.5rem 1rem; border-radius:6px; font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600; text-decoration:none; margin-top:14px; transition:opacity 0.2s; }
+.im-interactive-cta:hover { opacity:0.9; }
+
+/* === ImpactMojo Brand Override (fonts + dark mode) — v10.21 === */
+html body, html body .app, html body main, html body .panel,
+html body p, html body li, html body blockquote, html body .sec-summary, html body .arg p,
+html body .sub, html body .tagline, html body .hero, html body .hero h1 {
+  font-family: 'Amaranth', Arial, sans-serif !important;
+}
+html body h1, html body h2, html body h3, html body h4, html body h5, html body h6,
+html body .h1, html body .brand-name, html body .day-badge, html body .pill,
+html body .stat-n, html body .stat-l, html body .sec-title, html body .sec-sub, html body .sec-num,
+html body .concept-term, html body .step-title, html body .step-focus, html body .conn-book,
+html body .book-title, html body .tab-btn, html body .pw-btn, html body .tool-btn,
+html body .im-topbar, html body .im-topbar *, html body .im-footer, html body .im-footer * {
+  font-family: 'Inter', 'Amaranth', Helvetica, sans-serif !important;
+}
+html body code, html body pre, html body .mono, html body kbd, html body samp {
+  font-family: 'JetBrains Mono', ui-monospace, monospace !important;
+}
+
+/* Replace filter-invert dark mode with proper token-based dark mode */
+html.dark body { background: #0F172A !important; color: #E2E8F0 !important; }
+html.dark #root, html.dark main, html.dark .app, html.dark [id^="p-"], html.dark .panel,
+html.dark .arg, html.dark .hero, html.dark .stat, html.dark .nav-card, html.dark .pw-step,
+html.dark .sec-card, html.dark .sec-body, html.dark .concept-card, html.dark .tool-panel,
+html.dark .conn-card, html.dark .crit-item, html.dark .msg.assistant .msg-text,
+html.dark .output-box, html.dark .typing, html.dark .ask-input, html.dark .key-input,
+html.dark .fld, html.dark .tool-btn, html.dark .pw-btn, html.dark .sug-btn, html.dark .pw-desc {
+  filter: none !important;
+}
+html.dark { color-scheme: dark; }
+html.dark body,
+html.dark body .app,
+html.dark body main { background: #0F172A !important; color: #E2E8F0 !important; }
+html.dark .hero { background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%) !important; color: #F1F5F9 !important; border: 1px solid #334155; }
+html.dark .hero .auth, html.dark .hero .tagline { color: #CBD5E1 !important; }
+html.dark .stat, html.dark .arg, html.dark .nav-card, html.dark .sec-card, html.dark .pw-step,
+html.dark .concept-card, html.dark .tool-panel, html.dark .conn-card, html.dark .crit-item,
+html.dark .msg.assistant .msg-text { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .sec-header, html.dark .sec-body { background: transparent !important; color: #E2E8F0 !important; }
+html.dark .sec-body { border-top-color: #334155 !important; }
+html.dark .stat-n { color: #38BDF8 !important; }
+html.dark .stat-l, html.dark .sec-sub, html.dark .sub, html.dark .nav-card-desc,
+html.dark .step-focus, html.dark .pw-desc, html.dark .prac-text, html.dark .conn-text,
+html.dark .ideas-label, html.dark .prac-label, html.dark .output-label, html.dark .suggested-label,
+html.dark .dev-text, html.dark .fld-label { color: #94A3B8 !important; }
+html.dark .h1, html.dark .sec-title, html.dark .concept-term, html.dark .step-title,
+html.dark .nav-card-label, html.dark .conn-book, html.dark .context-h, html.dark .ask-hdr-title { color: #F1F5F9 !important; }
+html.dark blockquote { color: #CBD5E1 !important; border-left-color: #38BDF8 !important; }
+html.dark .pill { background: rgba(56, 189, 248, 0.15) !important; color: #7DD3FC !important; }
+html.dark .day-badge { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .tab-btn { color: rgba(226, 232, 240, 0.6) !important; }
+html.dark .tab-btn.active { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .tab-btn:hover { color: #F1F5F9 !important; }
+html.dark nav { background: #0F172A !important; border-bottom: 1px solid #334155; }
+html.dark .pw-btn, html.dark .tool-btn { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .pw-btn.active, html.dark .tool-btn.active { background: #0EA5E9 !important; border-color: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .pw-desc { background: rgba(14, 165, 233, 0.1) !important; color: #CBD5E1 !important; }
+html.dark .output-box { background: rgba(14, 165, 233, 0.1) !important; color: #E2E8F0 !important; }
+html.dark .step-n, html.dark .setup-num { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .sec-num { color: #38BDF8 !important; }
+html.dark .ideas-label, html.dark .prac-label, html.dark .output-label { color: #38BDF8 !important; }
+html.dark .dev-toggle { background: rgba(56, 189, 248, 0.1) !important; color: #7DD3FC !important; }
+html.dark .dev-text { background: rgba(56, 189, 248, 0.08) !important; color: #CBD5E1 !important; }
+html.dark .fld, html.dark .key-input, html.dark .ask-input { background: #0F172A !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .msg.user .msg-text { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .sug-btn { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .sug-btn:hover { background: rgba(14, 165, 233, 0.15) !important; border-color: #0EA5E9 !important; }
+html.dark .crit-n { background: rgba(251, 191, 36, 0.15) !important; color: #FCD34D !important; }
+html.dark #root img, html.dark #root svg:not([class*="im-"]),
+html.dark main img, html.dark main svg:not([class*="im-"]) { filter: none !important; }
+html.dark .im-topbar, html.dark .im-footer { filter: none !important; }
+/* === End ImpactMojo Brand Override === */
+
+/* Ethics disclaimer heading — readable in both modes */
+.im-ethics-disclaimer .im-ethics-heading { color: #0F172A !important; }
+html.dark .im-ethics-disclaimer .im-ethics-heading, body.dark-mode .im-ethics-disclaimer .im-ethics-heading { color: #F1F5F9 !important; }
+html.dark .im-ethics-disclaimer, body.dark-mode .im-ethics-disclaimer { background: rgba(56,189,248,0.08) !important; border-left-color: #38BDF8 !important; color: #CBD5E1 !important; }
+</style>
+<link rel="stylesheet" href="/assets/css/booksummary-dark.css">
+</head>
+<body>
+<a href="#main-content" class="im-skip-link">Skip to content</a>
+<header class="im-topbar" role="banner">
+  <div class="im-topbar-left">
+    <a class="im-topbar-home" href="/" aria-label="ImpactMojo home">
+      <img src="/assets/images/ImpactMojo%20Logo.png" alt="ImpactMojo" width="24" height="24" style="border-radius:4px;">
+      <span>ImpactMojo</span>
+    </a>  </div>
+  <div class="im-topbar-right">
+    <a href="/catalog.html" class="im-browse-btn" title="Browse all content"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Browse</a>
+
+    <a class="im-premium-btn" href="/premium.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Premium
+    </a>
+    <div class="im-theme-selector" role="group" aria-label="Theme">
+      <button class="im-theme-btn" data-imtheme="system" title="System theme" aria-label="System theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </button>
+      <button class="im-theme-btn" data-imtheme="light" title="Light theme" aria-label="Light theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <button class="im-theme-btn" data-imtheme="dark" title="Dark theme" aria-label="Dark theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="app">
+<nav>
+  <div class="brand"><div class="dot"></div><span class="brand-name">ImpactMojo</span></div>
+  <div class="tabs" id="tabbar"></div>
+</nav>
+<main id="main-content">
+  <div class="panel active" id="p-overview"></div>
+  <div class="panel" id="p-pathways"></div>
+  <div class="panel" id="p-sections"></div>
+  <div class="panel" id="p-concepts"></div>
+  <div class="panel" id="p-toolkit"></div>
+  <div class="panel" id="p-context"></div>
+  <div class="panel" id="p-ask"></div>
+</main>
+</div>
+
+<!-- Sargam Icon Sprites -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+<symbol id="si_Direction_alt" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m3 3 18 7.92-7.987 2.093L10.92 21z"/></symbol>
+<symbol id="si_Flare" viewBox="0 0 24 24" fill="none"><g clip-path="url(#clip_si_Flare)"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M7 12H1m22 0h-6m-5 5v6m3.536-7.464 1.414 1.414m-9.9-9.9 1.414 1.414m7.072 0L16.95 7.05m-9.9 9.9 1.414-1.414M12 1v6m2 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0"/></g><defs><clipPath id="clip_si_Flare"><path fill="#fff" d="M0 0h24v24H0z"/></clipPath></defs></symbol>
+<symbol id="si_Info" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 8h.008M12 16v-5m10 1c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10"/></symbol>
+<symbol id="si_Lock" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M8 10V7c0-2.21 1.79-4 4-4s4 1.79 4 4v3m-4 5a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 0v3m-5.4-8h10.8c.88 0 1.6.72 1.6 1.6v7c0 1.32-1.08 2.4-2.4 2.4H7.4C6.08 21 5 19.92 5 18.6v-7c0-.88.72-1.6 1.6-1.6"/></symbol>
+<symbol id="si_Lightning" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m12.667 10.5 1.25-7.5L6 13h5l-1.25 7.5 7.917-10z" clip-rule="evenodd"/></symbol>
+<symbol id="si_Library_books" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M10 11h8m-8 3h4m-4-6h8m2 14H8.4C5.42 22 3 19.58 3 16.6V5m5.4-2h11.2A2.4 2.4 0 0 1 22 5.4v11.2a2.4 2.4 0 0 1-2.4 2.4H8.4A2.4 2.4 0 0 1 6 16.6V5.4A2.4 2.4 0 0 1 8.4 3"/></symbol>
+<symbol id="si_Book" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 7.333C12 5.5 10.5 4 8.667 4H2v12h6.708C12 16 12 19.334 12 19.334m0-12C12 5.5 13.5 4 15.333 4H22v12h-6.667C12 16 12 19.334 12 19.334m0-12v12m1.875 1.124A2.58 2.58 0 0 1 16.167 19H21m-10.875 1.458A2.54 2.54 0 0 0 7.833 19H3"/></symbol>
+<symbol id="si_Article" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M8 12h8m-8 3h4M8 9h8M4.4 4h15.2A2.4 2.4 0 0 1 22 6.4v11.2a2.4 2.4 0 0 1-2.4 2.4H4.4A2.4 2.4 0 0 1 2 17.6V6.4A2.4 2.4 0 0 1 4.4 4"/></symbol>
+<symbol id="si_Mail" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m5 7.06 6.87 5.89c.07.06.19.06.26 0L19 7.06M3.2 4h17.6c.66 0 1.2.54 1.2 1.2v12.4c0 1.32-1.08 2.4-2.4 2.4H4.4C3.08 20 2 18.92 2 17.6V5.2C2 4.54 2.54 4 3.2 4"/></symbol>
+<symbol id="si_Help" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M11.83 14v-.621a2.33 2.33 0 0 1 1.164-2.02c1.126-.66 1.514-2.057.854-3.183s-2.057-1.514-3.183-.854C9.965 7.75 9.5 8.487 9.5 9.341M12 17h-.008M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12s4.477 10 10 10 10-4.477 10-10"/></symbol>
+<symbol id="si_Heart" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.696 3C14.652 3 12.887 4.197 12 5.943 11.113 4.197 9.348 3 7.304 3 4.374 3 2 5.457 2 8.481s1.817 5.796 4.165 8.073S12 21 12 21s3.374-2.133 5.835-4.446C20.46 14.088 22 11.514 22 8.481S19.626 3 16.696 3"/></symbol>
+<symbol id="si_Globe_detailed" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M22 12c0 5.523-4.477 10-10 10m10-10c0-5.523-4.477-10-10-10m10 10H2m10 10C6.477 22 2 17.523 2 12m10 10 .66-.31c2.1-2.71 3.34-6.14 3.34-9.78s-1.22-7-3.27-9.69L12 2m0 20-.73-.31A15.94 15.94 0 0 1 8 12c0-3.64 1.24-7.07 3.34-9.78L12 2M2 12C2 6.477 6.477 2 12 2m7.14 17c-1.82-1.85-4.34-3-7.14-3s-5.33 1.15-7.14 3M19.14 5C17.33 6.85 14.8 8 12 8S6.68 6.85 4.86 5"/></symbol>
+</svg>
+
+
+<div id="root"></div>
+<script>
+const DATA = {
+"title": "Poor Economics",
+"dayBadge": "Development Economics",
+"author": "Abhijit V. Banerjee & Esther Duflo · PublicAffairs, 2011 · Nobel Prize 2019",
+"tagline": "A practitioner's companion to Banerjee and Duflo's case for replacing grand theories of poverty with patient, evidence-led, problem-by-problem inquiry — and what their findings mean for South Asian development work.",
+"pills": ["Poverty", "RCTs / J-PAL", "Behavioural Economics", "Health & Education", "Microfinance", "South Asia"],
+"stats": [{"n": "10", "l": "Chapters"}, {"n": "16", "l": "Key concepts"}, {"n": "2", "l": "Parts"}, {"n": "2019", "l": "Nobel Prize"}],
+"argument": [
+"Banerjee and Duflo argue that the long-running war between two camps — those who say aid and intervention are the answer (the \"supply-wallahs\" or planners, associated with Jeffrey Sachs) and those who say markets and incentives will sort it out if we get out of the way (the \"demand-wallahs\" or sceptics, associated with William Easterly) — is largely a distraction. Both camps reason from grand theories about whether the poor are trapped or free, when the real answers vary problem by problem and can only be discovered by looking closely at how poor people actually live and decide.",
+"Their method is to break the giant question \"why are people poor?\" into many small, answerable questions — Do bednets get used if they are free? Do parents under-invest in a second year of deworming? Does a tiny incentive shift immunisation rates? — and to test the answers with randomized controlled trials (RCTs), the engine of the Abdul Latif Jameel Poverty Action Lab (J-PAL) they co-founded at MIT. Much of the evidence comes from India: the Udaipur health survey in rural Rajasthan, the Hyderabad microfinance study, school remediation across Indian cities.",
+"The recurring finding is that the poor are neither helpless victims nor flawless rational optimisers. They face the same psychology everyone does — present-bias, the pull of small temptations, the exhaustion of having to decide everything for themselves — but without the invisible scaffolding (piped chlorinated water, automatic pension deductions, default-enrolled health insurance) that quietly makes good decisions the easy choice for the well-off. Small, well-designed nudges and the removal of frictions at the \"last mile\" often achieve far more than either sweeping ideology predicts.",
+"For practitioners the takeaway is humbling and liberating at once: stop arguing about whether \"aid works\" in the abstract, and start asking which specific intervention, delivered which specific way, moves which specific outcome — then measure it. Banerjee and Duflo call the three obstacles to good policy the three I's: ideology, ignorance, and inertia. Marginal, tested, well-implemented changes — not radical revolutions — are what actually lift outcomes for the poor."
+],
+"accent": "#0EA5E9",
+"accent_light": "#E0F2FE",
+"pathways": [
+{"label": "Programme Manager", "desc": "If you design or run service-delivery programmes (health, education, livelihoods), read for the implementation and \"last mile\" lessons.", "steps": [
+{"section": "Introduction — Think Again, Again", "focus": "Internalise why grand theories fail and why the unit of analysis is the specific intervention, not 'aid' in general."},
+{"section": "Ch 3 — Low-Hanging Fruit for Better (Global) Health", "focus": "The preventive-health under-investment puzzle and the power of nudges, defaults, and small incentives."},
+{"section": "Ch 4 — Top of the Class", "focus": "Curriculum mismatch and why more schooling does not equal more learning; Pratham/Balsakhi remediation."},
+{"section": "Ch 9 — Reluctant Entrepreneurs", "focus": "Why microenterprises are survival, not growth — manage expectations for livelihoods programmes."}
+]},
+{"label": "Researcher / M&E", "desc": "If you do monitoring, evaluation, or impact research, read for the evidentiary logic and its limits.", "steps": [
+{"section": "Introduction — Think Again, Again", "focus": "RCTs as a tool for answering small, well-posed questions; what randomisation buys you."},
+{"section": "Ch 2 — A Billion Hungry People?", "focus": "How careful data (Udaipur, the calorie-income debate) overturns intuitive nutrition-trap stories."},
+{"section": "Ch 7 — The Men from Kabul and the Eunuchs of India", "focus": "Why risk, not just income, drives the choices of the poor; testing risk-coping mechanisms."},
+{"section": "Ch 8 — Saving Brick by Brick", "focus": "Behavioural savings constraints and how to evaluate commitment-device interventions."}
+]},
+{"label": "Policy / Funder", "desc": "If you set strategy or allocate funds, read for the meta-argument about how to know what to fund.", "steps": [
+{"section": "Introduction — Think Again, Again", "focus": "The Sachs–Easterly debate and why it is the wrong frame for funding decisions."},
+{"section": "Ch 1 — Think Again, Again (poverty traps)", "focus": "S-shaped curves vs. no-trap: how the shape of the relationship determines whether a one-off push works."},
+{"section": "Ch 6 — Barefoot Hedge-Fund Managers", "focus": "What microfinance can and cannot do — the modest, real Hyderabad results."},
+{"section": "Ch 10 — Policies, Politics", "focus": "The three I's (ideology, ignorance, inertia) and the case for marginal change over revolution."}
+]}
+],
+"sections": [
+{"title": "Introduction — Think Again, Again", "subtitle": "Framing · The two camps and the third way", "summary": "Banerjee and Duflo open by refusing the two dominant narratives about global poverty. On one side, Jeffrey Sachs and the \"big push\" planners argue the poor are caught in traps (disease, hunger, lack of capital) that only large coordinated aid can break. On the other, William Easterly and the sceptics argue that aid breeds dependency and corruption, and that markets and freedom, not planners, lift people out. The authors argue both sides answer in sweeping generalities a question that has no single answer. Whether a trap exists, and whether a one-time intervention can break it, depends entirely on the specific problem — and can be discovered, not deduced. Their tool for discovery is the randomized controlled trial.", "ideas": [
+"The \"supply-side\" vs \"demand-side\" framing recurs throughout: do you give people a thing (a bednet, a textbook, a clinic) and trust they'll value it, or do they need a reason (demand) to use it? The answer varies by problem.",
+"Sachs's planners vs Easterly's searchers is, the authors say, a debate about ideology that data can largely dissolve.",
+"The randomized controlled trial (RCT): randomly assign some people/villages to receive an intervention (treatment) and others not (control), so the only systematic difference is the intervention — letting you attribute the difference in outcomes to it.",
+"J-PAL (the Abdul Latif Jameel Poverty Action Lab, MIT, founded by Banerjee, Duflo and Sendhil Mullainathan) industrialised this method across hundreds of field experiments, many in India.",
+"The poor are the subject, not an abstraction: the book is built from listening to how poor households in Udaipur, Hyderabad and elsewhere actually reason about food, health, school and money."
+], "quotes": [
+"\"There is no such thing as an average poor person... the poor are not a homogeneous group, and a single policy will not work everywhere.\"",
+"\"Talking about problems in the abstract... makes it easy to lose sight of the human beings whose lives are at stake.\""
+], "devEcon": "South Asian lens: India is the book's living laboratory. The Sachs–Easterly debate maps directly onto Indian policy arguments — the case for large entitlement schemes (NREGA, PDS, mid-day meals) versus the case for cash, vouchers and 'getting government out of the way'. Banerjee and Duflo's stance — that the answer is empirical and intervention-specific — is the intellectual foundation of the randomized-evaluation movement that has shaped Indian programme design. Practitioner takeaway: before adopting any 'theory of change', ask what a credible experiment has actually shown about this specific intervention in a context like yours."},
+{"title": "Ch 1 — Think Again, Again: Poverty Traps", "subtitle": "Part I framing · S-curves vs no-trap", "summary": "The chapter formalises the disagreement using a simple diagram: plot income (or wellbeing) today against income tomorrow. If the relationship is S-shaped, there is a poverty trap — below a threshold, you slide down to a low-level equilibrium; a one-off push above the threshold lets you climb to a high one, which justifies the 'big push'. If the curve has no such S-shape (always above the 45-degree line, just curving), there is no trap — the poor are slowly getting richer on their own, and a one-off transfer gives a one-off boost but no escape. Banerjee and Duflo's point is that whether a trap exists is an empirical question that differs by domain: there may be a nutritional trap for the truly destitute but not for most of the poor; a trap in some health behaviours but not others. Policy should follow the shape of the actual curve, not a prior belief.", "ideas": [
+"Poverty trap: a self-reinforcing mechanism whereby being poor causes you to stay poor (e.g. too poor to eat enough to work, so you earn too little to eat enough).",
+"The S-shaped curve is the geometric signature of a trap: it implies a tipping point below which people converge downward and above which they converge upward.",
+"If the curve is concave but never dips below the 45-degree line, there is no trap — implying gradual self-improvement and a different policy (steady support, not one big push).",
+"The same domain can hold a trap for some and not others, so blanket statements ('the poor are trapped' / 'the poor are fine') are both wrong.",
+"This diagram is the organising device for the whole book: each later chapter asks, for a specific domain, 'is the curve S-shaped here?'"
+], "quotes": [
+"\"The poor, like the rest of us, can be the authors of their own destiny — but the question is whether the world lets them be.\""
+], "devEcon": "South Asian lens: The trap-or-not question underlies India's debate over whether the chronically poor need a transformative asset transfer (the 'graduation' / BRAC ultra-poor model, tested across South Asia) or simply better, steadier services. Practitioner takeaway: diagnose the shape of the curve in your domain before choosing between a one-off 'big push' (asset transfer, lump-sum) and continuous support — the wrong choice wastes money. ImpactMojo's Development Economics course covers poverty-trap theory in depth."},
+{"title": "Ch 2 — A Billion Hungry People?", "subtitle": "Part I: Private Lives · Nutrition", "summary": "This chapter examines the most intuitive poverty trap: the nutrition-based trap, where people are too poor to eat enough to be productive enough to earn enough to eat. Banerjee and Duflo find the story is mostly wrong for the contemporary poor. Drawing on the Udaipur survey and Indian consumption data, they show that when poor people's incomes rise, they do not spend most of the extra money on more calories — they buy tastier food, festivals, televisions and weddings. Even people living on under a dollar a day typically could afford more calories than they choose to consume. The binding nutrition problems are not raw calories for most adults but micronutrients (iron, iodine) and, crucially, nutrition in the first 1,000 days of life — in the womb and early childhood — which has large, lasting effects on adult productivity. So the trap is real but narrow: it bites for the unborn and the very young, not the average hungry adult.", "ideas": [
+"The classic nutrition-poverty trap (efficiency-wage logic): below a calorie threshold you cannot do productive work, so you stay too poor to afford the calories.",
+"Empirically, the poor do not maximise calories per rupee: given more money or cheaper grain, they diversify into tastier and more interesting food, not more energy.",
+"Micronutrient deficiency (iron, iodine) and early-life undernutrition matter far more for long-run outcomes than adult calorie counts — fortification and the first 1,000 days are high-return.",
+"Why under-invest in nutrition? Boredom and the desire for a pleasant life matter; the poor spend on things that make a hard life bearable.",
+"Cheap, scalable fixes (iodised salt, iron-fortified flour, deworming) often beat broad food subsidies on a cost-per-outcome basis."
+], "quotes": [
+"\"The poor seem to have many choices, and they don't necessarily want to eat as much as they can.\"",
+"\"For children and pregnant mothers, the long-term effects of better nutrition can be quite dramatic.\""
+], "devEcon": "South Asian lens: India's persistent child stunting despite falling poverty is exactly the puzzle this chapter predicts — the problem is early-life nutrition and micronutrients, not adult calorie scarcity, which is why the Public Distribution System's grain focus does not by itself fix stunting. Programmes like ICDS, mid-day meals and salt iodisation target the right window. Practitioner takeaway: shift nutrition spending toward the first 1,000 days, micronutrient fortification and behaviour change, not just calorie subsidies."},
+{"title": "Ch 3 — Low-Hanging Fruit for Better (Global) Health?", "subtitle": "Part I: Private Lives · Health", "summary": "Here Banerjee and Duflo confront a paradox: cheap, proven preventive health measures (bednets, chlorine for water, immunisation, oral rehydration salts) could save millions of lives at trivial cost, yet the poor under-use them — while spending heavily on expensive, often useless or harmful curative care (unnecessary injections, antibiotics, unqualified 'doctors'). Why under-invest in cheap prevention? Part of the answer is behavioural: prevention's benefits are invisible and in the future, while its small costs (a clinic trip, a slightly worse-tasting water) are immediate — the same present-bias that keeps the rich from going to the gym, but without the structural supports (piped chlorinated water, mandatory school immunisation) that make prevention automatic for the well-off. The famous Udaipur immunisation experiment showed that adding a small incentive — a kilo of dal (lentils) per shot plus reliable camps — more than tripled full-immunisation rates, even though the dal was worth less than people's own stated value of immunisation. Tiny nudges overcome the 'time-inconsistency' that defeats good intentions.", "ideas": [
+"The poor under-invest in cheap, high-return preventive health and over-invest in low-value curative care from often-unqualified providers.",
+"Time-inconsistency / present bias (hyperbolic discounting): we sharply over-weight immediate costs and benefits relative to future ones, so small present hassles block large future gains — preventive health is the classic victim.",
+"The Udaipur immunisation RCT (Banerjee, Duflo, Glennerster, Kothari): regular camps plus a small lentil incentive raised full immunisation from about 6% to roughly 38% — and lowered cost per immunised child because nurses' fixed time was used efficiently.",
+"A small incentive can be cheaper per outcome than persuasion, because it tips people over the 'today vs tomorrow' hump — not because they don't value the outcome.",
+"The 'last mile' problem: the technology exists and is nearly free; the failure is in the final step of delivery and uptake. That is where design effort should go."
+], "quotes": [
+"\"Time inconsistency... we are all heavily biased toward the present.\"",
+"\"A small but well-targeted nudge... can have a much larger effect than its cost would suggest.\""
+], "devEcon": "South Asian lens: This is among the most-cited results in Indian health policy. India's incentive-based schemes (conditional cash for institutional delivery under JSY, immunisation drives like Mission Indradhanush) draw on exactly this logic — make the right action the easy, slightly-rewarded action. Practitioner takeaway: when uptake of a proven, cheap intervention is low, suspect a 'last mile' friction or present-bias problem before concluding people don't want it; a modest incentive or default may beat an education campaign. See the ImpactMojo deep dive on cash-transfer evidence for the broader debate."},
+{"title": "Ch 4 — Top of the Class", "subtitle": "Part I: Private Lives · Education", "summary": "Education repeats the supply vs demand debate. The supply view says: build schools, hire teachers, and learning follows. The demand view says: parents will pay for schooling if and only if it pays off, so make returns visible. Banerjee and Duflo show both miss the dominant problem: children are in school but not learning, because of a curriculum-and-expectations mismatch. Curricula and teachers are oriented toward an elite minority who will pass exams and reach white-collar jobs; the children who are behind are written off, and parents (and teachers) hold an S-shaped belief that education only pays at high levels (a diploma), so investing a little is seen as pointless. This belief becomes self-fulfilling. The fix is not more schooling per se but targeted teaching to the child's actual level. The Pratham 'Balsakhi' remediation programme — a young local tutor pulling the weakest children out for focused basic literacy/numeracy — produced large, cheap learning gains in Indian cities and is the model for 'Teaching at the Right Level' (TaRL).", "ideas": [
+"Quantity vs quality: getting children into school (quantity) does not deliver learning (quality); enrolment can be high while learning is shockingly low.",
+"Curriculum mismatch: schooling aimed at a high-achieving few leaves the majority behind and demoralised; teachers focus on the top of the class.",
+"The S-shaped returns belief: parents and teachers act as if only completing high levels of education pays, so they neglect the marginal child — a self-fulfilling expectations trap (echoing Ch 1).",
+"The Balsakhi / Pratham remediation RCT showed large gains from teaching children at their actual level with a modestly-trained local tutor — cheap and scalable.",
+"'Teaching at the Right Level' reframes the goal from covering the syllabus to closing the gap for the child in front of you."
+], "quotes": [
+"\"The biggest problem... may be that expectations about what education is supposed to deliver are often wildly unrealistic.\"",
+"\"Children who are written off by the school system... can learn, given the right kind of attention.\""
+], "devEcon": "South Asian lens: Pratham is an Indian organisation, and its ASER surveys document the learning crisis the chapter describes — children in Grade 5 unable to read Grade 2 text. TaRL has since scaled across Indian states and into Africa. Practitioner takeaway: in education programmes, measure learning levels (not just enrolment or attendance), group children by level rather than grade, and resist the assumption that the weakest children cannot catch up. ImpactMojo's MEL course covers measuring learning outcomes."},
+{"title": "Ch 5 — Pak Sudarno's Big Family", "subtitle": "Part I: Private Lives · Fertility & Family", "summary": "This chapter asks whether the poor have 'too many' children and whether family-planning supply is the bottleneck. Banerjee and Duflo argue that fertility is largely a demand-driven decision shaped by the household economy, especially the need for old-age security in the absence of pensions and reliable savings — children are an investment as well as a joy and a risk. They scrutinise the idea that contraceptive access alone drives fertility (the disappointing Matlab, Bangladesh contraceptive-access results suggest access is not the whole story) and emphasise the role of women's bargaining power within the household: who decides matters as much as what is available. They also reject the simple Malthusian 'population bomb' panic, noting children are not undifferentiated burdens but the product of decisions responding to incentives — including the expectation that some children will support parents in old age, which interacts with son-preference and the decision to keep having children until a son arrives.", "ideas": [
+"Fertility as a decision: family size responds to economic incentives, not just to contraceptive supply.",
+"Old-age security motive: where there are no pensions or trustworthy savings, children are the main insurance for old age, raising desired family size.",
+"Intra-household bargaining: fertility outcomes depend on the relative decision-making power of women and men, not just stated preferences.",
+"Contraceptive access alone has limited effects where demand for children is high (the Matlab evidence is more muted than hoped) — though access still matters for spacing and women's autonomy.",
+"Son preference and the 'keep trying for a son' dynamic shape family size and sex ratios in South Asia specifically."
+], "quotes": [
+"\"Decisions about how many children to have... are decisions, shaped by the circumstances families find themselves in.\"",
+"\"If we want smaller families, we need to give people reasons to want them — not just the means.\""
+], "devEcon": "South Asian lens: India's and Bangladesh's fertility declines track rising women's education, falling child mortality and social security expectations more than contraceptive supply alone — and the skewed sex ratio reflects the son-preference dynamic the chapter names. Pension and women's-empowerment policy is thus also population policy. Practitioner takeaway: family-planning programmes work best paired with old-age security, girls' education and women's bargaining power — supply of contraceptives is necessary but rarely sufficient."},
+{"title": "Ch 6 — Barefoot Hedge-Fund Managers", "subtitle": "Part II: Institutions · Risk & Insurance", "summary": "Part II turns from private decisions to the institutions surrounding the poor, starting with risk. The poor live in a world of extreme, uninsured risk — crop failure, illness, death, job loss — and the chapter's title captures the irony that managing this risk demands hedge-fund-level sophistication from people with none of the tools. Lacking formal insurance, the poor self-insure through costly second-best mechanisms: diversifying into many low-return activities, holding back on profitable but risky investments, leaning on social networks, and temporary migration. These coping strategies are rational but expensive — they sacrifice average income to reduce variance. Why is there almost no insurance for the poor? Moral hazard (insured people take more risk or claim falsely), adverse selection (the sickest buy health insurance), and the difficulty of verifying claims make private insurance markets fail; this is a textbook case for a public or subsidised role. Yet take-up of even subsidised health insurance is often startlingly low — another behavioural and trust puzzle.", "ideas": [
+"The poor face severe, mostly uninsured risk, and risk itself — not just low average income — keeps them poor by deterring profitable-but-risky investment.",
+"Self-insurance is costly: spreading effort thinly across many activities, under-investing in the best opportunity, and relying on fragile informal networks reduces both risk and average return.",
+"Insurance markets fail for the poor due to moral hazard, adverse selection and costly claim verification — the classic case for public provision or subsidy.",
+"Even heavily subsidised health insurance often sees very low voluntary take-up, reflecting present-bias, distrust, and the abstractness of a future, probabilistic benefit.",
+"Reducing risk (e.g. through guaranteed employment or weather-indexed insurance) can unlock investment and entrepreneurship the poor otherwise avoid."
+], "quotes": [
+"\"The lives of the poor... are full of risk, and that risk shapes everything they do.\"",
+"\"To be poor is, almost by definition, to be exposed.\""
+], "devEcon": "South Asian lens: India's experiments with weather-indexed crop insurance, RSBY/PM-JAY health insurance, and NREGA-as-risk-insurance all respond to exactly the uninsured-risk problem this chapter diagnoses. NREGA's deepest value may be as insurance — a guaranteed fallback — as much as income. Practitioner takeaway: design livelihoods programmes recognising that reducing downside risk can do more to unlock investment than raising average returns; and budget for the low take-up that voluntary insurance schemes reliably show."},
+{"title": "Ch 7 — The Men from Kabul and the Eunuchs of India: Credit", "subtitle": "Part II: Institutions · Credit & Microfinance", "summary": "The chapter's striking title refers to the moneylenders (the 'men from Kabul', the Pathan lenders) and the exotic enforcement mechanisms (such as eunuch debt-collectors in some Indian contexts) that populate the informal credit world. Banerjee and Duflo explain why the poor pay astonishing interest rates: lending to the poor is genuinely expensive because of the cost of acquiring information about borrowers and enforcing repayment — small loans carry high fixed costs per rupee, and default risk is real. This is the gap microfinance was built to fill. They give microfinance credit for a genuine institutional innovation — group lending / joint liability, regular small repayments, and lending to women — that made tiny loans viable at scale. But their own Hyderabad RCT (the first randomized evaluation of microcredit, with Spandana) found the effects modest: access to microcredit modestly raised business investment and let some households start or expand a tiny enterprise, but it did not transform incomes, health, education or women's empowerment in the dramatic way advocates had claimed. Microfinance is useful and real — but oversold.", "ideas": [
+"High informal interest rates reflect real costs — information and enforcement — not pure exploitation; the lender must know and monitor each borrower.",
+"Microfinance's innovation: joint-liability group lending, frequent repayment, and a focus on women reduced the lender's information/enforcement costs enough to make tiny loans sustainable.",
+"The Hyderabad microcredit RCT (Banerjee, Duflo, Glennerster, Kinnan with Spandana) found modest, real effects — some new businesses and durable-goods purchases — but no transformation of health, education or empowerment.",
+"The rigid discipline that makes microcredit work (frequent, fixed repayments) also makes it unsuitable for risky, lumpy, potentially high-return investment.",
+"Microfinance is a useful financial tool for smoothing and small investment, not a silver bullet for ending poverty — expectations should be recalibrated."
+], "quotes": [
+"\"Microcredit has earned its place as one of the most important anti-poverty tools, but... it is not the miracle that was sometimes claimed.\"",
+"\"The very rules that make microcredit work also limit what it can do.\""
+], "devEcon": "South Asian lens: The Hyderabad study is set in Andhra Pradesh, whose 2010 microfinance crisis (over-lending, coercive collection, borrower suicides) vividly confirmed both microfinance's reach and the danger of overselling it. The episode reshaped Indian microfinance regulation. Practitioner takeaway: treat microcredit as a modest, useful instrument for consumption-smoothing and micro-investment — not as a transformational engine; pair it with savings and insurance, and beware repayment discipline that pushes borrowers into distress."},
+{"title": "Ch 8 — Saving Brick by Brick", "subtitle": "Part II: Institutions · Savings", "summary": "If credit is constrained, can the poor instead save their way up? Banerjee and Duflo show the poor do want to save and do save — but face both external constraints (no safe, convenient place to keep money; banks that don't want tiny accounts) and internal, psychological ones (the constant temptation to spend, made harder by the sheer cognitive load of resisting many small temptations every day). They document ingenious self-control devices: the 'brick by brick' strategy of buying one brick at a time to build a house (an illiquid, un-spendable form of saving), deposit collectors who charge you to hold your own money, and rotating savings groups (ROSCAs / chit funds) whose social pressure enforces the discipline. The deep point is psychological: saving is hard not because the poor are imprudent but because every rupee saved must survive a gauntlet of temptations and demands from relatives that the rich are spared (their savings are auto-deducted and locked away). The same poverty that makes saving essential also makes it psychologically exhausting — a feedback that resembles a trap.", "ideas": [
+"The poor save, but lack safe, convenient, low-cost formal savings vehicles — a supply gap banks find unprofitable to fill.",
+"Self-control problems: resisting many small daily temptations consumes willpower; saving fails not from imprudence but from depletion and the demands of kin.",
+"Commitment devices work: illiquid savings (bricks, livestock), deposit collectors, and ROSCAs/chit funds let people tie their own hands against future temptation.",
+"Defaults and automation matter: the rich save effortlessly because saving is the default (pension deductions, direct debit); the poor must actively choose to save against temptation every day.",
+"Psychological scarcity: being poor imposes a 'bandwidth tax' (a theme developed with Mullainathan) that makes every financial decision costlier — linking back to the poverty-trap logic."
+], "quotes": [
+"\"The poor... have to be much more in control of their psychology than the rich.\"",
+"\"For the poor, every day is a fresh struggle against temptation.\""
+], "devEcon": "South Asian lens: India's chit funds, self-help-group (SHG) savings, and the Jan Dhan Yojana drive for no-frills bank accounts all address the savings-supply gap directly; SHGs combine the social-discipline function of ROSCAs with formal linkage. Practitioner takeaway: livelihoods and financial-inclusion programmes should offer commitment-friendly savings products (locked accounts, goal-based deposits, default contributions), not assume that the absence of savings reflects an absence of the will to save."},
+{"title": "Ch 9 — Reluctant Entrepreneurs", "subtitle": "Part II: Institutions · Enterprise", "summary": "Microfinance and the celebration of the 'entrepreneurial poor' rest on the idea that the poor are natural businesspeople held back only by capital. Banerjee and Duflo gently puncture this. Yes, the poor run an astonishing number of tiny businesses — a stall, a few goats, a phone-charging service — but these are mostly survival activities, not embryonic growth firms. The marginal return to the first bit of capital is high (a fruit-seller freed from the daily moneylender keeps far more), but returns diminish fast: a second cart or third goat adds little, because these businesses operate at a scale with no room to grow and the owner lacks the specialised skills, market and risk-appetite to scale up. Most poor 'entrepreneurs' would, given the choice, prefer a steady job — the security of a wage is what they actually crave, and what they most want for their children. The chapter reframes the poor not as frustrated CEOs but as people running businesses because no good job exists, and it cautions against livelihoods programmes that assume scalable enterprise where there is really just self-employment of last resort.", "ideas": [
+"The poor run many micro-businesses, but these are overwhelmingly survival self-employment, not scalable enterprises with growth potential.",
+"High returns to the very first unit of capital but sharply diminishing returns thereafter — so a tiny loan helps a little, but more capital does not build a growing firm.",
+"Most poor entrepreneurs would prefer a stable wage job; entrepreneurship is a response to the absence of jobs, not a vocation.",
+"A 'good job' (stable, predictable income) is what the poor most aspire to for themselves and especially their children — security enables planning and investment in the next generation.",
+"Implication: job creation and stable employment may do more for the poor than pushing everyone toward entrepreneurship."
+], "quotes": [
+"\"The dream of most of the poor... is not to start a business but to get a job — a steady, secure job.\"",
+"\"These businesses are not the seeds of a future industrial revolution.\""
+], "devEcon": "South Asian lens: India's vast informal self-employment sector — and the near-universal aspiration for a salaried 'government job' — exactly fits this chapter. It cautions against assuming that skilling and microcredit will turn the informal poor into growth entrepreneurs; the deeper need is for stable wage employment. Practitioner takeaway: be honest about whether a livelihoods programme is creating viable businesses or simply subsidising survival self-employment; where possible, prioritise pathways to stable jobs, which the poor themselves rank highest."},
+{"title": "Ch 10 — Policies, Politics", "subtitle": "Part II: Institutions · Governance & the way forward", "summary": "The closing chapter steps back to institutions and politics. A school of thought (associated with Acemoglu and Robinson) holds that nothing much improves until 'big' institutions — democracy, property rights, freedom from extractive elites — are fixed, and that these change only through upheaval. Banerjee and Duflo offer a more hopeful, incrementalist counter: even within bad institutions, well-designed changes at the margin can substantially improve poor people's lives. Local accountability reforms, the political reservation of village-council (panchayat) seats for women and lower castes, simple transparency tools, biometric attendance for absentee teachers and nurses, and process tweaks can shift outcomes without waiting for revolution. They name the real, fixable obstacles to good policy as the three I's: ideology (acting on belief rather than evidence), ignorance (not knowing what works because we never measured), and inertia (the default of doing things the way they've always been done). The book ends as it began: against grand promises and for patient, evidence-led, marginal improvement — many small revolutions rather than one big one.", "ideas": [
+"Against institutional determinism: you need not fix 'big' institutions before anything improves — well-designed marginal reforms work even inside flawed systems.",
+"Local political reform matters: India's panchayat reservations for women and disadvantaged castes (studied by Duflo and co-authors) changed public-goods provision and shifted perceptions of female leaders.",
+"The three I's — ideology, ignorance, inertia — are the diagnosable, addressable causes of bad policy, far more tractable than 'corruption' in the abstract.",
+"Marginal changes vs radical revolutions: a thousand tested, well-implemented small fixes can add up to transformation, with less risk than betting on upheaval.",
+"Evidence dissolves ideology and cures ignorance; good institutional design defeats inertia by changing the default."
+], "quotes": [
+"\"It is not easy to escape from poverty, but a sense of possibility... can make all the difference.\"",
+"\"We have to abandon the habit of reducing the poor to cartoon characters and take the time to really understand their lives.\""
+], "devEcon": "South Asian lens: The panchayat-reservation evidence is drawn from India and is among development economics' most influential findings on representation and public goods. India's later transparency and accountability tools (social audits of NREGA, biometric attendance, beneficiary databases) are practical expressions of the 'three I's' agenda. Practitioner takeaway: do not wait for perfect institutions — identify which of ideology, ignorance or inertia is blocking a given outcome, then attack that specific obstacle with evidence and better default design. ImpactMojo's Development Economics and MEL courses build directly on this incrementalist, evidence-first stance."}
+],
+"concepts": [
+{"term": "Poverty Trap (S-shaped curve)", "definition": "A self-reinforcing mechanism that keeps the poor poor — e.g. too poor to eat enough to work, so unable to earn enough to eat. Geometrically it appears as an S-shaped relationship between income today and income tomorrow: below a threshold people slide down to a low equilibrium, above it they climb to a high one. Banerjee and Duflo stress that whether a trap exists is an empirical question that varies by domain.", "practitionerNote": "If the curve is S-shaped, a one-time 'big push' above the threshold can permanently change a household's path (justifying asset transfers / graduation models). If there is no trap, the same money gives only a temporary bump. Diagnose the curve's shape before choosing one-off vs. continuous support."},
+{"term": "Randomized Controlled Trial (RCT)", "definition": "An impact-evaluation method in which units (people, households, villages, schools) are randomly assigned to receive an intervention (treatment) or not (control). Because assignment is random, the groups are statistically identical at baseline, so any later difference in outcomes can be attributed to the intervention itself. The core tool of J-PAL.", "practitionerNote": "Use an RCT to answer a narrow, well-posed question ('does this specific intervention move this specific outcome?'). It tells you what works here; it does not by itself tell you why, or whether it will scale. Pair with qualitative work and replication."},
+{"term": "The Three I's: Ideology, Ignorance, Inertia", "definition": "Banerjee and Duflo's diagnosis of why good policy fails. Ideology: acting from belief rather than evidence. Ignorance: not knowing what works because no one measured. Inertia: doing things the way they've always been done, out of habit or default. These three, they argue, are more tractable than abstract 'corruption'.", "practitionerNote": "When a programme underperforms, ask which of the three I's is the binding constraint, then target it: evidence cures ignorance and undercuts ideology; redesigning the default defeats inertia."},
+{"term": "Supply-side vs Demand-side (Supply-wallahs vs Demand-wallahs)", "definition": "Two stances on social services. The supply view: provide the thing (free bednets, schools, clinics) and people will use it. The demand view: people use a thing only if they have a reason (visible returns), so create demand, not just supply. Banerjee and Duflo argue the right answer differs by problem and must be tested, not assumed.", "practitionerNote": "Before launching a programme, ask whether your problem is a supply gap (no clinic) or a demand gap (clinic exists, unused) — interventions that fix the wrong one fail."},
+{"term": "Last Mile Problem", "definition": "When a cheap, proven technology exists (a vaccine, chlorine, a bednet) but fails to reach or be used by the people who need it because of frictions in the final step of delivery and uptake — distance, queues, mistrust, present-bias.", "practitionerNote": "If uptake of a near-free, high-value intervention is low, focus design energy on the last mile (convenience, reliability, small incentives, defaults) rather than on the technology or on persuasion."},
+{"term": "Time-inconsistency / Hyperbolic Discounting", "definition": "A behavioural tendency to over-weight the present relative to the future, so that small immediate costs (a clinic trip today) block large future benefits (avoided disease) — and we plan to do the right thing 'tomorrow' but, when tomorrow arrives, postpone again. Affects everyone; the poor lack the structural supports that automate good choices for the rich.", "practitionerNote": "Counter present-bias with small immediate incentives, commitment devices, defaults and automation — these tip people over the 'today vs tomorrow' hump more cheaply than information campaigns."},
+{"term": "Nutrition-based Poverty Trap", "definition": "The hypothesis that people are too poor to eat enough to be productive enough to earn enough to eat — an efficiency-wage trap. Banerjee and Duflo find it largely does NOT bind for the average poor adult (who could afford more calories but chooses variety and pleasure), but DOES bind in early life (the first 1,000 days) and for micronutrients.", "practitionerNote": "Target nutrition spending at pregnancy and early childhood and at micronutrients (iron, iodine), not just at adult calorie subsidies — that is where the real, lasting returns are."},
+{"term": "Curriculum Mismatch / Teaching at the Right Level (TaRL)", "definition": "The finding that children can be in school yet not learning because the curriculum is pitched at a high-achieving minority, leaving most children behind and demoralised. TaRL, derived from the Pratham/Balsakhi experiments, groups and teaches children by their actual learning level rather than by grade.", "practitionerNote": "Measure learning levels (not just enrolment); regroup and teach to the child's real level; reject the assumption that the weakest children cannot catch up."},
+{"term": "Quantity vs Quality (in education)", "definition": "The distinction between getting children into school (quantity / enrolment) and ensuring they actually learn (quality / outcomes). High enrolment can coexist with shockingly low learning.", "practitionerNote": "Never report enrolment or attendance as if it were learning — always pair access metrics with a direct learning-outcome measure."},
+{"term": "Self-fulfilling Expectations (S-shaped returns belief)", "definition": "When parents and teachers believe education only pays at high levels (a completed diploma), they under-invest in children who are behind, which makes those children fail — confirming the belief. An expectations-driven version of the poverty trap.", "practitionerNote": "Make the real, gradual returns to basic skills visible to parents and teachers, and demonstrate that lagging children can improve, to break the self-fulfilling neglect."},
+{"term": "Old-age Security Motive (fertility)", "definition": "Where pensions and trustworthy savings are absent, children serve as the main insurance for old age, raising the number of children families want — a key driver of fertility independent of contraceptive supply.", "practitionerNote": "Pair family-planning programmes with old-age security, women's education and bargaining power; contraceptive supply alone rarely reduces desired family size."},
+{"term": "Uninsured Risk & Self-insurance", "definition": "The poor face severe risk (illness, crop failure, death) with almost no formal insurance, so they self-insure through costly second-best means — diversifying into many low-return activities, under-investing in risky-but-profitable opportunities, and relying on fragile social networks. Risk itself, not just low average income, keeps them poor.", "practitionerNote": "Reducing downside risk (guaranteed work, indexed insurance) can unlock investment more effectively than raising average returns. Expect very low voluntary take-up of subsidised insurance."},
+{"term": "Moral Hazard & Adverse Selection", "definition": "Two information failures that make insurance and credit markets for the poor break down. Moral hazard: once insured, people take more risk or make false claims (hidden action). Adverse selection: the people most likely to claim (the sickest) are keenest to buy insurance (hidden type). Both raise costs and can collapse the market.", "practitionerNote": "These failures justify public provision or subsidy of insurance for the poor — but design for verification difficulty, and do not expect a purely private market to serve this group."},
+{"term": "Group Lending / Joint Liability", "definition": "The microfinance innovation in which borrowers form small groups that are collectively responsible for each loan, so peer screening and peer pressure substitute for the lender's costly information-gathering and enforcement — making tiny loans viable. Frequent fixed repayments and lending to women are companion features.", "practitionerNote": "The same repayment discipline that makes microcredit work makes it unsuitable for risky, lumpy, high-return investment — match the instrument to consumption-smoothing and small, steady micro-investment."},
+{"term": "Reluctant Entrepreneur", "definition": "Banerjee and Duflo's term for the poor person who runs a tiny survival business not by vocation but because no stable job exists. Returns to the first bit of capital are high but diminish fast; most would prefer, and most want for their children, a secure wage job.", "practitionerNote": "Be honest about whether a livelihoods programme builds viable businesses or merely subsidises survival self-employment; where possible, prioritise stable-job pathways, which the poor themselves rank highest."},
+{"term": "Commitment Device", "definition": "A self-imposed arrangement that ties your own hands against future temptation — buying bricks one at a time (illiquid savings), using a deposit collector, or joining a rotating savings group (ROSCA / chit fund). Helps the poor save despite the daily 'bandwidth tax' of resisting small temptations.", "practitionerNote": "Offer commitment-friendly savings products (locked or goal-based accounts, default contributions); the absence of savings usually reflects missing structure, not missing willpower."}
+],
+"tools": [{"label": "Reflection Journal", "intro": "Use these prompts to connect Banerjee and Duflo's evidence-first approach to your own practice. Always attribute the ideas to the authors — this companion is a study aid, not a replacement for the book.", "html": "<label class=\"fld-label\">Pick one programme you run. Is the problem you're solving a supply gap, a demand gap, or a 'last mile' friction — and how do you know?</label>\n<textarea class=\"fld\" id=\"r1\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<label class=\"fld-label\">Which of the three I's — ideology, ignorance, or inertia — is most blocking better outcomes in your work right now, and what is one evidence-led step to attack it?</label>\n<textarea class=\"fld\" id=\"r2\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<label class=\"fld-label\">Where might a small incentive, default, or commitment device achieve more cheaply than a bigger education or persuasion campaign?</label>\n<textarea class=\"fld\" id=\"r3\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<div style=\"margin-top:12px;font-family:Inter,sans-serif;font-size:13px;color:var(--muted)\">Reflections stay in your browser only and are not sent anywhere.</div>"}],
+"connections": [
+{"book": "The Elusive Quest for Growth / The White Man's Burden — William Easterly", "text": "The sceptic's case that planners and aid fail, and that markets and 'searchers' work better. Banerjee and Duflo borrow Easterly's scepticism about grand plans but reject his blanket conclusion, insisting the answer is intervention-specific and testable."},
+{"book": "The End of Poverty — Jeffrey Sachs", "text": "The 'big push' case that the poor are trapped and only large coordinated aid can break the traps. Poor Economics treats Sachs as the foil to Easterly and argues both reason from theory where evidence is needed."},
+{"book": "Why Nations Fail — Daron Acemoglu & James Robinson", "text": "The institutional-determinist view that prosperity requires fixing 'big' institutions first. Chapter 10 offers the incrementalist counter: marginal, well-designed reforms improve lives even inside flawed institutions."},
+{"book": "Scarcity — Sendhil Mullainathan & Eldar Shafir", "text": "Develops the 'bandwidth tax' idea behind Chapter 8 — that poverty itself consumes mental resources, making good decisions harder. Mullainathan co-founded J-PAL with the authors."},
+{"book": "Good Economics for Hard Times — Banerjee & Duflo (2019)", "text": "The authors' follow-up, extending the evidence-first method from poverty to migration, trade, inequality and climate in both rich and poor countries — useful for seeing where the Poor Economics agenda went next."}
+],
+"southAsia": [],
+"critiques": [
+"The external-validity question: an RCT shows what worked in this place at this time. The Udaipur or Hyderabad result may not transfer to a different state, culture or scale — Banerjee and Duflo acknowledge this, but enthusiastic adopters sometimes forget it. Replication and theory are needed to generalise.",
+"RCTs answer small, randomisable questions well but are ill-suited to big, non-randomisable ones (macroeconomic policy, institutional change, growth). Critics (e.g. Angus Deaton) warn against letting the method dictate which questions get asked — see the ImpactMojo deep dive on 'randomista' economics.",
+"The marginal, incrementalist stance can understate the role of structural power, politics and history. A focus on 'what works' at the project level can sidestep questions of who holds power and why the poor are poor in the first place.",
+"Microfinance's modest verdict (Ch 7) is itself contested — some argue the Hyderabad-style RCTs measured too short a horizon or the wrong outcomes to capture longer-run or non-income effects.",
+"As a companion caution: this guide compresses and interprets a rich, carefully-hedged book. Banerjee and Duflo are far more tentative and qualified than any summary can convey — read the original for the nuance, the stories, and the honest acknowledgement of uncertainty."
+],
+"suggested": [
+"What is the difference between a supply-side and a demand-side view of social services, and why do Banerjee and Duflo say both can be wrong?",
+"Explain the S-shaped poverty-trap curve and how its shape should change policy.",
+"Why do the poor under-invest in cheap preventive health, and what did the Udaipur immunisation experiment show?",
+"What did the Hyderabad RCT reveal about the real effects of microfinance?",
+"What are the three I's, and how can a practitioner use them to diagnose a failing programme?"
+],
+"systemPrompt": "You are an expert reading companion for 'Poor Economics: A Radical Rethinking of the Way to Fight Global Poverty' by Abhijit V. Banerjee and Esther Duflo (PublicAffairs, 2011; the authors won the 2019 Nobel Prize in Economics). Your audience is development practitioners, programme managers, M&E specialists, and ImpactMojo users, with a particular focus on the South Asian and Indian development context. Always attribute ideas to Banerjee and Duflo; make clear you are a study companion, not a replacement for the book, and never reproduce long passages of the original text. Explain jargon (RCT, poverty trap, present-bias, moral hazard, the three I's) in plain language. Cover accurately: the critique of grand theories and the Sachs vs Easterly debate; supply-side vs demand-side views; poverty traps and S-shaped curves; randomized controlled trials and J-PAL; behavioural economics of the poor (time-inconsistency, hyperbolic discounting, the bandwidth tax); the last-mile problem; under-investment in preventive health (Udaipur immunisation); the nutrition-trap debate; education curriculum-mismatch and Teaching at the Right Level (Pratham/Balsakhi); fertility and old-age security; uninsured risk; microfinance's modest real effects (Hyderabad/Spandana); savings constraints and commitment devices; reluctant entrepreneurs; and the three I's (ideology, ignorance, inertia) with marginal change over revolution. Be honest about the limits and critiques of the RCT approach (external validity, the Deaton critique)."
+};
+
+// Tab management
+const TABS = [
+  {id:"overview",label:"Overview"},
+  {id:"pathways",label:"Pathways"},
+  {id:"sections",label:"Sections"},
+  {id:"concepts",label:"Concepts"},
+  {id:"toolkit",label:"Toolkit"},
+  {id:"context",label:"Context"},
+  {id:"ask",label:"Ask"},
+];
+
+const tabbar = document.getElementById("tabbar");
+TABS.forEach(t => {
+  const btn = document.createElement("button");
+  btn.className = "tab-btn" + (t.id === "overview" ? " active" : "");
+  btn.textContent = t.label;
+  btn.onclick = () => switchTab(t.id);
+  tabbar.appendChild(btn);
+});
+
+function switchTab(id) {
+  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById("p-" + id).classList.add("active");
+  tabbar.querySelectorAll(".tab-btn")[TABS.findIndex(t=>t.id===id)].classList.add("active");
+}
+
+// OVERVIEW
+(function() {
+  const el = document.getElementById("p-overview");
+  el.innerHTML = `
+    <div class="hero">
+      <div class="day-badge">${DATA.dayBadge}</div>
+      <h1>${DATA.title}</h1>
+      <div class="auth">${DATA.author}</div>
+      <div class="tagline">${DATA.tagline}</div>
+      <div class="pills">${DATA.pills.map(p=>`<span class="pill">${p}</span>`).join("")}</div>
+    </div>
+    <div class="stat-grid">
+      ${DATA.stats.map(s=>`<div class="stat"><div class="stat-n">${s.n}</div><div class="stat-l">${s.l}</div></div>`).join("")}
+    </div>
+    <div class="arg">
+      <div class="h1">The central argument</div>
+      ${DATA.argument.map(p=>`<p>${p}</p>`).join("")}
+    </div>
+    <div class="h1" style="margin-top:24px">What's in this companion</div>
+    <div class="nav-grid">
+      ${[["pathways","Learning Pathways","Structured reading routes by role"],["sections","Section by Section","Full analysis with development connections"],["concepts","Concepts & Frameworks","Key terms with practitioner notes"],["toolkit","Practitioner Toolkit","Interactive tools"],["context","Book in Context","Connections and assessment"],["ask","Ask the Book","Gemini-powered Q&A"]].map(([id,label,desc])=>`<button class="nav-card" onclick="switchTab('${id}')" ><div class="nav-card-label">${label}</div><div class="nav-card-desc">${desc}</div></button>`).join("")}
+    </div>
+  `;
+})();
+
+// PATHWAYS
+(function() {
+  const el = document.getElementById("p-pathways");
+  let active = 0;
+  function render() {
+    const pw = DATA.pathways[active];
+    el.innerHTML = `
+      <div class="h1">Learning Pathways</div>
+      <div class="sub">Three structured routes through the book based on your role.</div>
+      <div class="pw-tabs">
+        ${DATA.pathways.map((p,i)=>`<button class="pw-btn ${i===active?"active":""}" onclick="__pw(${i})">${p.label}</button>`).join("")}
+      </div>
+      <div class="pw-desc">${pw.desc}</div>
+      <div class="pw-steps">
+        ${pw.steps.map((s,i)=>`<div class="pw-step"><div class="step-n">${i+1}</div><div><div class="step-title">${s.section}</div><div class="step-focus">${s.focus}</div></div></div>`).join("")}
+      </div>
+    `;
+  }
+  window.__pw = (i) => { active = i; render(); };
+  render();
+})();
+
+// SECTIONS
+(function() {
+  const el = document.getElementById("p-sections");
+  let openId = null;
+  let showDev = {};
+  function render() {
+    el.innerHTML = `
+      <div class="h1">Section by Section</div>
+      <div class="sub">All chapters with full analysis and South Asian development connections.</div>
+      ${DATA.sections.map((s,i)=>`
+        <div class="sec-card">
+          <button class="sec-header" onclick="__sec(${i})">
+            <div class="sec-num">§${i+1}</div>
+            <div class="sec-title-block"><div class="sec-title">${s.title}</div><div class="sec-sub">${s.subtitle}</div></div>
+            <div class="sec-chev">${openId===i?"−":"+"}</div>
+          </button>
+          ${openId===i?`<div class="sec-body">
+            <div class="sec-summary">${s.summary}</div>
+            <div class="ideas-label">Key ideas</div>
+            ${s.ideas.map(idea=>`<div class="idea-item"><span class="idea-dot"></span><span>${idea}</span></div>`).join("")}
+            <div class="ideas-label" style="margin-top:14px">Key quotes</div>
+            ${s.quotes.map(q=>`<blockquote>${q}</blockquote>`).join("")}
+            <button class="dev-toggle" onclick="__dev(${i})">${showDev[i]?"Hide":"Show"} South Asian lens & practitioner takeaway</button>
+            ${showDev[i]?`<div class="dev-text">${s.devEcon}</div>`:""}
+          </div>`:""}
+        </div>
+      `).join("")}
+    `;
+  }
+  window.__sec = (i) => { openId = openId===i?null:i; render(); };
+  window.__dev = (i) => { showDev[i]=!showDev[i]; render(); };
+  render();
+})();
+
+// CONCEPTS
+(function() {
+  const el = document.getElementById("p-concepts");
+  let open = null;
+  function render() {
+    el.innerHTML = `
+      <div class="h1">Concepts & Frameworks</div>
+      <div class="sub">Key terms with definitions and practitioner notes. Click to expand.</div>
+      ${DATA.concepts.map((c,i)=>`
+        <div class="concept-card ${open===i?"open":""}" onclick="__con(${i})">
+          <div class="concept-term">${c.term}</div>
+          ${open===i?`<div class="concept-def">${c.definition}</div><div class="prac-label">Practitioner note</div><div class="prac-text">${c.practitionerNote}</div>`:""}
+        </div>
+      `).join("")}
+    `;
+  }
+  window.__con = (i) => { open = open===i?null:i; render(); };
+  render();
+})();
+
+// TOOLKIT
+(function() {
+  const el = document.getElementById("p-toolkit");
+  el.innerHTML = `
+    <div class="h1">Practitioner Toolkit</div>
+    <div class="sub">Interactive tools derived from the book. Use for personal practice or programme design.</div>
+    <div class="tool-tabs">
+      ${DATA.tools.map((t,i)=>`<button class="tool-btn ${i===0?"active":""}" onclick="__tool(${i})">${t.label}</button>`).join("")}
+    </div>
+    ${DATA.tools.map((t,i)=>`
+      <div class="tool-panel ${i===0?"active":""}" id="toolp-${i}">
+        <div class="tool-intro">${t.intro}</div>
+        ${t.html}
+      </div>
+    `).join("")}
+  `;
+  window.__tool = (i) => {
+    document.querySelectorAll(".tool-btn").forEach((b,j)=>b.classList.toggle("active",i===j));
+    document.querySelectorAll(".tool-panel").forEach((p,j)=>p.classList.toggle("active",i===j));
+  };
+})();
+
+// CONTEXT
+(function() {
+  const el = document.getElementById("p-context");
+  el.innerHTML = `
+    <div class="h1">Book in Context</div>
+    <div class="sub">How this book fits within the broader literature, and an honest assessment of its limits.</div>
+    <div class="context-h">Connected works</div>
+    ${DATA.connections.map(c=>`<div class="conn-card"><div class="conn-book">${c.book}</div><div class="conn-text">${c.text}</div></div>`).join("")}
+    <div class="context-h" style="margin-top:24px">Quick reference: cross-links on ImpactMojo</div>
+    <div class="conn-card"><div class="conn-book">Development Economics (course)</div><div class="conn-text">Poverty traps, nutrition and efficiency wages, credit and insurance markets — the formal theory behind Poor Economics. <a href="/courses/devecon/">Open the Development Economics course</a>.</div></div>
+    <div class="conn-card"><div class="conn-book">Monitoring, Evaluation & Learning (course)</div><div class="conn-text">How to measure outcomes credibly — the RCT logic at the heart of J-PAL, plus its limits. <a href="/courses/mel/">Open the MEL course</a>.</div></div>
+    <div class="conn-card"><div class="conn-book">Deep Dive: Cash Transfers — the Evidence</div><div class="conn-text">Extends Chapter 3's incentive and 'last mile' findings to the cash-vs-in-kind debate. <a href="/DeepDives/cash-transfers-evidence.html">Read the deep dive</a>.</div></div>
+    <div class="conn-card"><div class="conn-book">Deep Dive: Randomista Economics</div><div class="conn-text">A critical look at the RCT movement Banerjee and Duflo lead — promise and pushback (the Deaton critique). <a href="/DeepDives/randomista-economics.html">Read the deep dive</a>.</div></div>
+    <div class="context-h" style="margin-top:24px">Honest assessment</div>
+    <div class="sub">Limits and qualifications for the ImpactMojo context:</div>
+    ${DATA.critiques.map((c,i)=>`<div class="crit-item"><div class="crit-n">${i+1}</div><div class="crit-text">${c}</div></div>`).join("")}
+  `;
+})();
+
+// ASK
+(function() {
+  const el = document.getElementById("p-ask");
+  let apiKey = "", msgs = [], loading = false;
+
+  function renderSetup() {
+    el.innerHTML = `
+      <div class="ask-setup">
+        <div class="h1">Ask the Book</div>
+        <div class="sub">AI-powered Q&A using Gemini 2.0 Flash (free). Requires a Google AI Studio API key.</div>
+        <div class="setup-steps">
+          <div class="setup-step"><span class="setup-num">1</span><span>Go to <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com/app/apikey</a> and create a free API key.</span></div>
+          <div class="setup-step"><span class="setup-num">2</span><span>Paste it below. The key stays in your browser only and is never stored.</span></div>
+        </div>
+        <div class="key-row">
+          <input class="key-input" type="password" id="key-in" placeholder="AIza..." oninput="document.getElementById('key-submit').disabled=!this.value.trim()"/>
+          <button class="key-btn" id="key-submit" disabled onclick="__setKey()">Connect</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderChat() {
+    el.innerHTML = `
+      <div class="ask-ui">
+        <div class="ask-hdr"><span class="ask-hdr-title">Ask the Book</span><button class="ask-reset" onclick="__resetKey()">Change key</button></div>
+        <div class="msgs" id="msgs-box">
+          ${msgs.length===0?`<div><div class="suggested-label">Suggested questions</div>${DATA.suggested.map(q=>`<button class="sug-btn" onclick="__ask('${q.replace(/'/g,"\'")}')">${q}</button>`).join("")}</div>`:""}
+          ${msgs.map(m=>`<div class="msg ${m.role}"><div class="msg-text">${m.content}</div></div>`).join("")}
+          ${loading?`<div class="msg assistant"><div class="typing"><span></span><span></span><span></span></div></div>`:""}
+        </div>
+        <div class="ask-input-row">
+          <textarea class="ask-input" id="ask-in" rows="2" placeholder="Ask about the book..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();__sendAsk()}"></textarea>
+          <button class="ask-send" id="ask-send" onclick="__sendAsk()">Send</button>
+        </div>
+      </div>
+    `;
+    const box = document.getElementById("msgs-box");
+    if(box) box.scrollTop = box.scrollHeight;
+  }
+
+  window.__setKey = () => {
+    const v = document.getElementById("key-in").value.trim();
+    if(v) { apiKey = v; renderChat(); }
+  };
+  window.__resetKey = () => { apiKey=""; msgs=[]; renderSetup(); };
+  window.__ask = (q) => {
+    document.getElementById("ask-in").value = q;
+    __sendAsk();
+  };
+  window.__sendAsk = async () => {
+    const inp = document.getElementById("ask-in");
+    if(!inp) return;
+    const q = inp.value.trim();
+    if(!q || loading) return;
+    inp.value = "";
+    msgs.push({role:"user",content:q});
+    loading = true; renderChat();
+    try {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,{
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({
+          system_instruction:{parts:[{text:DATA.systemPrompt}]},
+          contents: msgs.map(m=>{return{role:m.role==="assistant"?"model":"user",parts:[{text:m.content}]}}).slice(0,-1).concat([{role:"user",parts:[{text:q}]}]),
+          generationConfig:{maxOutputTokens:1200,temperature:0.3}
+        })
+      });
+      const data = await res.json();
+      if(!res.ok) throw new Error(data.error?.message||"API error");
+      const reply = data?.candidates?.[0]?.content?.parts?.map(p=>p.text).join("")||"No response.";
+      msgs.push({role:"assistant",content:reply});
+    } catch(e) {
+      msgs.push({role:"assistant",content:"Error: "+e.message});
+    }
+    loading = false; renderChat();
+  };
+
+  renderSetup();
+})();
+</script>
+
+<!-- ImpactMojo Footer -->
+<!-- Ethics & Copyright Disclaimer -->
+<section class="im-ethics-disclaimer" style="max-width:1100px;margin:2rem auto 1rem;padding:1.25rem 1.5rem;background:rgba(14,165,233,0.06);border-left:4px solid #0EA5E9;border-radius:8px;font-family:'Inter','Amaranth',sans-serif;font-size:0.85rem;line-height:1.65;color:var(--im-text-secondary,#64748B);">
+  <p class="im-ethics-heading" style="margin:0 0 0.5rem;font-weight:600;">A note on books, authors, and intellectual labour</p>
+  <p style="margin:0;">All books companioned on ImpactMojo have been duly purchased with real money and form part of a personal collection. None of the source texts have been obtained by any illegal means — we deeply respect the intellectual labour of authors, editors, and publishers. These reading companions are offered free of charge as educational aids; ImpactMojo does not sell book companions as a paid service and therefore does not violate any commercial licensing agreement or copyright. Nothing here reproduces the full text of any book — each companion is an interpretive study guide.</p>
+</section>
+
+<footer class="im-footer" role="contentinfo">
+<div class="im-footer-content">
+<p class="im-footer-made">Made with <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;color:#EF4444;"><use href="#si_Heart"/></svg> by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+<div class="im-footer-grid">
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Info"/></svg> About ImpactMojo</h4>
+<ul>
+<li><a href="../about.html">About Us</a></li>
+<li><a href="../contact.html">Contact</a></li>
+<li><a href="https://github.com/ImpactMojo/ImpactMojo" rel="noopener noreferrer" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Globe_detailed"/></svg> GitHub</a></li>
+<li><a href="../transparency.html">Transparency</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Lock"/></svg> Legal</h4>
+<ul>
+<li><a href="../privacy-policy.html">Privacy Policy</a></li>
+<li><a href="../terms-of-service.html">Terms of Service</a></li>
+<li><a href="../disclaimer.html">Disclaimer</a></li>
+<li><a href="../data-protection.html">Data Protection</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Lightning"/></svg> Quick Links</h4>
+<ul>
+<li><a href="../catalog.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Library_books"/></svg> All Courses</a></li>
+<li><a href="../premium.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Flare"/></svg> Premium Content</a></li>
+<li><a href="../coaching.html">Coaching</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Book"/></svg> Resources</h4>
+<ul>
+<li><a href="../handouts.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Article"/></svg> Handouts</a></li>
+<li><a href="../blog.html">Blog</a></li>
+<li><a href="../faq.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Help"/></svg> FAQ</a></li>
+<li><a href="../sitemap.html">Sitemap</a></li>
+<li><a href="/docs/" rel="noopener noreferrer" target="_blank">Documentation</a></li>
+</ul>
+</div>
+</div>
+<div class="im-footer-bottom">
+<p>&copy; 2026 ImpactMojo. All content for educational purposes only.</p>
+<p>Released under <strong>MIT License</strong> | Supported by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+</div>
+</div>
+</footer>
+
+<script src="/js/theme.js"></script>
+
+
+<!-- Supabase Auth -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="/js/state-manager.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+
+<!-- Floating paper plane (ImpactMojo decorative element) -->
+<svg class="im-paper-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M80,130 L150,50" stroke="#10B981" stroke-width="2" stroke-dasharray="4,4"/>
+  <circle cx="150" cy="50" r="4" fill="#6366F1"/>
+  <circle cx="40" cy="155" r="2" fill="#0EA5E9" opacity="0.6"/>
+  <circle cx="35" cy="165" r="1.5" fill="#6366F1" opacity="0.4"/>
+  <circle cx="45" cy="170" r="1" fill="#10B981" opacity="0.5"/>
+</svg>
+<script src="/js/translate-sarvam.js" defer></script>
+</body>
+</html>
