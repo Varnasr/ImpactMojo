@@ -5,6 +5,12 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.79.0] - 2026-06-11
+
+### Added
+
+- **Case packets for all 9 Live Case Challenges** — each challenge in `data/challenges.json` now points at real downloadable resources under `/challenges/<id>/` instead of `#` placeholders. 24 new brand-styled, `noindex`, print-friendly HTML documents plus 6 datasets (CSV), built to be internally consistent with each challenge's case context (e.g. the flawed logframe contains its 5 documented flaws; the AI-targeting dataset exhibits the four described biases; the two nutrition interventions' cost breakdowns reconcile to their per-child figures). The `challenges.js` renderer already shows a real link when a resource URL is present, and the placeholder "coming soon" rendering remains as the fallback.
+
 ## [10.78.0] - 2026-06-11
 
 ### Added

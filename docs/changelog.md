@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.0 — June 11, 2026 (Live Case Challenges — real case packets)
+
+### For Learners
+
+- **Every Live Case Challenge now comes with downloadable case materials.** All 9 challenges have a full case packet — realistic documents and datasets to actually work the problem: a flawed logframe to redesign, a deliberately-bad nutrition dashboard plus a sample CSV, an anonymised AI-targeting dataset with built-in bias to audit, two costed nutrition interventions to compare, a GESI programme + mid-term review, Gandhi's writings and a satyagraha framework, an RTI Act primer + PMGSY guide + application template, an adolescent-nutrition KAP survey + BCC template, and a field-team profile + SEL competency framework. [Browse the challenges](/challenges.html)
+
 ## v10.78.0 — June 11, 2026 (Five canonical companions + a link & gating sweep)
 
 ### For Learners
