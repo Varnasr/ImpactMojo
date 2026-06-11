@@ -217,8 +217,14 @@
             return '<tr><td>' + escapeHTML(r.criterion) + '</td><td class="ch-rubric-weight">' + r.weight + '%</td></tr>';
         }).join('');
 
+        var resourceIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>';
         var resourceItems = (ch.resources || []).map(function (r) {
-            return '<li><a href="' + escapeHTML(r.url) + '" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg> ' + escapeHTML(r.label) + '</a></li>';
+            var hasLink = r.url && r.url !== '#';
+            if (hasLink) {
+                return '<li><a href="' + escapeHTML(r.url) + '" target="_blank" rel="noopener noreferrer">' + resourceIcon + ' ' + escapeHTML(r.label) + '</a></li>';
+            }
+            // Placeholder resource — render as non-clickable so users aren't sent to a dead link.
+            return '<li><span class="ch-resource-pending">' + resourceIcon + ' ' + escapeHTML(r.label) + ' <em>(coming soon)</em></span></li>';
         }).join('');
 
         var outcomeItems = ch.learningOutcomes.map(function (o) {
