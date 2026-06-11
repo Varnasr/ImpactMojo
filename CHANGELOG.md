@@ -5,6 +5,22 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.78.0] - 2026-06-11
+
+### Added
+
+- **Five new interactive book companions** — Poor Economics (Banerjee & Duflo), Why Nations Fail (Acemoglu & Robinson), Development as Freedom (Sen), Capital in the Twenty-First Century (Piketty), and India After Gandhi (Guha). Each mirrors the data-driven `debraj-ray-companion.html` template (chapter accordions, concept cards, practitioner takeaways, South Asia lens, Gemini Q&A). Cross-referenced into `BookSummaries/index.html`, `data/search-index.json` (BS46–BS50), `sitemap.xml`, `catalog.html` (bs46–bs50), and the docs.
+
+### Changed
+
+- **Theory of Change Workbench relabelled free** — the self-hosted `/toc-workbench.html` was mislabelled "Premium"/"TOC Workbench Pro" in `catalog.html`, `catalog_data.json`, and `data/search-index.json` despite being fully open. The genuine paid Pro tool is the external workshop-pro app; the catalog premium card now points there.
+- **Book-companion counts corrected** to 54 across `premium.html`, `README.md`, `upgrade.html`, `content-marketing-kit.html`; catalog filter to 50; BookSummaries index category chips corrected to true card counts (pre-existing drift).
+
+### Fixed
+
+- **Gated four ungated Pro tools** — `rq-builder` and `tor-builder` (→ Practitioner), `qual-insights-lab` and `code-converter-pro` (→ Professional) were fully usable signed-out via direct URL while only the homepage cards were locked. Added the `advisory-board-pro.html` gate pattern (`#lockGate`/`#liveTool` + `hasTierAccess`).
+- **~20 broken internal links** — challenge resources and Dataverse skill items no longer render dead `#` links; capitalized `/Labs` & `/Games` directory links now redirect; corrected wrong BookSummary filenames (gog/dt/info-we-trust/storytelling-with-data), course-link case mismatches (`/courses/Gender`, `/courses/MEL`), the `course-catalog.html` back-link, five dead practice-pack flagship-course links, a missing ToC lab path, and a wrong-case SEL redirect target.
+
 ## [10.64.0] - 2026-06-05
 
 ### Added — Site-wide multilingual support (Hindi, Tamil, Bengali, Marathi)
