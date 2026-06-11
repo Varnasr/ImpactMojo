@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feature Importance Rankings — Vulnerability Targeting Model | Government of Jharkhand | ImpactMojo Challenge</title>
+<meta name="description" content="Case packet: ranked feature importance weights for the Jharkhand social-protection vulnerability-scoring model, used in the ImpactMojo 'Audit an AI Model for Bias in Beneficiary Targeting' challenge.">
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://www.impactmojo.in/challenges/devai-bias-audit/feature-importance.html">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0F172A;--card:#1E293B;--text:#F1F5F9;--muted:#94A3B8;--border:#334155;--accent:#0EA5E9;--accent2:#6366F1;--ok:#10B981;--warn:#F59E0B;}
+@media (prefers-color-scheme: light){:root{--bg:#F8FAFC;--card:#FFFFFF;--text:#0F172A;--muted:#52627A;--border:#E2E8F0;}}
+[data-theme="light"]{--bg:#F8FAFC;--card:#FFFFFF;--text:#0F172A;--muted:#52627A;--border:#E2E8F0;}
+[data-theme="dark"]{--bg:#0F172A;--card:#1E293B;--text:#F1F5F9;--muted:#94A3B8;--border:#334155;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Amaranth',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;padding:0 0 4rem}
+h1,h2,h3{font-family:'Inter',sans-serif}
+.wrap{max-width:880px;margin:0 auto;padding:0 1.25rem}
+.topbar{border-bottom:1px solid var(--border);padding:0.9rem 1.25rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;background:var(--card)}
+.topbar a{color:var(--accent);text-decoration:none;font-family:'Inter',sans-serif;font-weight:600;font-size:0.9rem}
+.doc-tag{font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border);border-radius:6px;padding:0.2rem 0.55rem}
+header.hero{padding:2.4rem 0 1.4rem;border-bottom:1px solid var(--border);margin-bottom:1.6rem}
+.eyebrow{font-family:'Inter',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:0.6rem}
+h1{font-size:1.8rem;font-weight:800;margin-bottom:0.5rem}
+.sub{color:var(--muted);font-size:0.95rem}
+h2{font-size:1.15rem;font-weight:700;margin:2rem 0 0.7rem;padding-bottom:0.35rem;border-bottom:2px solid var(--border)}
+p{margin:0.6rem 0}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.86rem}
+th,td{border:1px solid var(--border);padding:0.45rem 0.6rem;text-align:left;vertical-align:middle}
+td.num{text-align:right;font-family:'JetBrains Mono',monospace}
+thead th{background:var(--accent2);color:#fff;font-family:'Inter',sans-serif;font-weight:600;font-size:0.78rem}
+.bar{display:inline-block;height:0.7rem;border-radius:3px;background:var(--accent);vertical-align:middle;margin-right:0.4rem}
+.tag{font-family:'JetBrains Mono',monospace;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.05em;padding:0.12rem 0.4rem;border-radius:4px;border:1px solid var(--border)}
+.tag.high{color:var(--warn);border-color:var(--warn)}
+.tag.med{color:var(--accent);border-color:var(--accent)}
+.tag.low{color:var(--muted)}
+.dl{display:inline-flex;align-items:center;gap:0.5rem;background:var(--accent);color:#fff;text-decoration:none;font-family:'Inter',sans-serif;font-weight:600;font-size:0.9rem;padding:0.55rem 1.1rem;border-radius:8px;margin:0.6rem 0}
+.dl:hover{opacity:0.9}
+.note{font-size:0.85rem;color:var(--muted)}
+.callout{background:rgba(14,165,233,0.07);border:1px solid rgba(14,165,233,0.25);border-radius:10px;padding:1rem 1.2rem;margin:1.4rem 0;font-size:0.92rem}
+.callout strong{color:var(--accent)}
+ul{margin:0.6rem 0 0.6rem 1.4rem}li{margin:0.3rem 0}
+code{font-family:'JetBrains Mono',monospace;background:var(--border);padding:0.1rem 0.35rem;border-radius:4px;font-size:0.85em}
+footer{margin-top:2.2rem;padding-top:1.2rem;border-top:1px solid var(--border);color:var(--muted);font-size:0.82rem}
+@media print{.topbar,.noprint{display:none}body{background:#fff;color:#000}}
+</style>
+</head>
+<body class="ib">
+<div class="topbar">
+  <a href="/challenges.html">&larr; Back to Live Case Challenges</a>
+  <span class="doc-tag">Case Packet &middot; Document 3 of 3</span>
+</div>
+<div class="wrap">
+<header class="hero">
+  <div class="eyebrow">Government of Jharkhand &middot; Feature Importance Rankings</div>
+  <h1>What Drives the Vulnerability Score</h1>
+  <p class="sub">Vulnerability Targeting Model v2.1 &middot; gradient-boosted tree ensemble &middot; trained 2018</p>
+</header>
+
+<div class="callout noprint">
+  <strong>How to use this document.</strong> This is the third of three case files for the challenge
+  <em>&ldquo;Audit an AI Model for Bias in Beneficiary Targeting&rdquo;</em>. Use it with the
+  <a href="model-outputs.html">anonymized model outputs</a> (Document 1) and the
+  <a href="demographic-breakdown.html">demographic breakdown report</a> (Document 2) to trace each disparity
+  back to the features that plausibly produce it.
+</div>
+
+<a class="dl" href="feature-importance.csv" download>&#8615; Download rankings (CSV)</a>
+
+<h2>Model card (summary)</h2>
+<ul>
+  <li><strong>Architecture</strong> &mdash; gradient-boosted decision-tree ensemble (regression head, 0&ndash;100 output).</li>
+  <li><strong>Training data</strong> &mdash; assembled in 2018 from SECC 2018, PDS / ration-card records, and 2017&ndash;18 satellite composites. <em>Not retrained since.</em></li>
+  <li><strong>Label</strong> &mdash; a 2018 expert-assigned vulnerability rating used as the supervised target.</li>
+  <li><strong>Inputs</strong> &mdash; 11 features (below). Missing fields are imputed with district-level medians before scoring.</li>
+  <li><strong>Importance metric</strong> &mdash; normalised split-gain, averaged across the ensemble; weights sum to 1.00.</li>
+</ul>
+
+<h2>Ranked feature importance</h2>
+<div style="overflow-x:auto">
+<table>
+  <thead>
+    <tr><th>#</th><th>Feature</th><th>Importance</th><th style="text-align:right">Weight</th><th>Source</th><th>Proxy risk</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td><code>distance_to_data_centre_km</code><br><span class="note">Road distance to nearest survey / data-collection centre</span></td><td><span class="bar" style="width:91px"></span></td><td class="num">0.182</td><td>Derived (GIS)</td><td><span class="tag high">High</span></td></tr>
+    <tr><td>2</td><td><code>asset_index</code><br><span class="note">Composite durable-asset index</span></td><td><span class="bar" style="width:86px"></span></td><td class="num">0.171</td><td>SECC 2018</td><td><span class="tag med">Medium</span></td></tr>
+    <tr><td>3</td><td><code>satellite_nightlights_radiance</code><br><span class="note">Mean night-time light radiance over the habitation cell</span></td><td><span class="bar" style="width:75px"></span></td><td class="num">0.149</td><td>Satellite (VIIRS)</td><td><span class="tag high">High</span></td></tr>
+    <tr><td>4</td><td><code>data_completeness_score</code><br><span class="note">Share of input fields populated vs imputed</span></td><td><span class="bar" style="width:61px"></span></td><td class="num">0.121</td><td>Derived</td><td><span class="tag high">High</span></td></tr>
+    <tr><td>5</td><td><code>roof_and_wall_material</code><br><span class="note">Coded dwelling construction quality</span></td><td><span class="bar" style="width:47px"></span></td><td class="num">0.094</td><td>SECC 2018</td><td><span class="tag med">Medium</span></td></tr>
+    <tr><td>6</td><td><code>ration_card_type</code><br><span class="note">AAY / PHH / non-PDS category</span></td><td><span class="bar" style="width:42px"></span></td><td class="num">0.083</td><td>PDS records</td><td><span class="tag low">Low</span></td></tr>
+    <tr><td>7</td><td><code>landholding_category</code><br><span class="note">Operational landholding size band</span></td><td><span class="bar" style="width:36px"></span></td><td class="num">0.071</td><td>SECC 2018</td><td><span class="tag med">Medium</span></td></tr>
+    <tr><td>8</td><td><code>household_size</code><br><span class="note">Number of resident members</span></td><td><span class="bar" style="width:23px"></span></td><td class="num">0.046</td><td>SECC 2018</td><td><span class="tag low">Low</span></td></tr>
+    <tr><td>9</td><td><code>distance_to_paved_road_km</code><br><span class="note">Distance to nearest all-weather road</span></td><td><span class="bar" style="width:20px"></span></td><td class="num">0.039</td><td>Derived (GIS)</td><td><span class="tag med">Medium</span></td></tr>
+    <tr><td>10</td><td><code>electrification_status</code><br><span class="note">Grid-connection / metered-supply flag</span></td><td><span class="bar" style="width:14px"></span></td><td class="num">0.028</td><td>Satellite + utility</td><td><span class="tag med">Medium</span></td></tr>
+    <tr><td>11</td><td><code>primary_occupation_code</code><br><span class="note">Coded principal household occupation</span></td><td><span class="bar" style="width:8px"></span></td><td class="num">0.016</td><td>SECC 2018</td><td><span class="tag low">Low</span></td></tr>
+  </tbody>
+</table>
+</div>
+<p class="note">
+  <strong>Proxy risk</strong> is the model team&rsquo;s own flag for features that may stand in for protected
+  or location attributes rather than for need itself. Note that neither <code>social_group</code> nor
+  <code>female_headed</code> is a model input &mdash; the model is &ldquo;blind&rdquo; to them by design.
+</p>
+
+<h2>Notes from the model documentation</h2>
+<ul>
+  <li><strong>Night-lights &amp; distance-to-centre.</strong> The two GIS/satellite features were added in v2.0 to improve coverage where survey data was thin. They are the single largest and third-largest drivers of the score.</li>
+  <li><strong>Imputation.</strong> When a field is missing it is filled with the district median; the model also receives <code>data_completeness_score</code> directly as a feature.</li>
+  <li><strong>Target vintage.</strong> The 2018 expert labels predate the pandemic; informal-sector and migrant-return distress that emerged from 2020 onward is not represented in the training signal.</li>
+  <li><strong>Geographic correlates.</strong> Forest-fringe Fifth Schedule habitations are, on average, farther from data centres and paved roads and register lower night-light radiance than district headquarters.</li>
+</ul>
+
+<footer>
+  <p>Case packet for the ImpactMojo Live Case Challenge <em>&ldquo;Audit an AI Model for Bias in Beneficiary Targeting&rdquo;</em>.
+  The Government of Jharkhand targeting model is a composite teaching case; figures are realistic but illustrative
+  and do not represent a specific deployment, agency, or individual. &copy; 2026 ImpactMojo &middot; content under CC BY-NC-ND 4.0.</p>
+</footer>
+</div>
+<script>(function(){try{var t=localStorage.getItem('im-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+</body>
+</html>
