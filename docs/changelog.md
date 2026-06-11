@@ -2,6 +2,22 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.78.0 — June 11, 2026 (Five canonical companions + a link & gating sweep)
+
+### For Learners
+
+- **Poor Economics** (Banerjee & Duflo) — an interactive companion to the Nobel-winning case for fighting poverty through rigorously-tested interventions. [Read it](/BookSummaries/poor-economics-companion.html)
+- **Why Nations Fail** (Acemoglu & Robinson) — a companion to the Nobel-winning theory of inclusive versus extractive institutions. [Read it](/BookSummaries/why-nations-fail-companion.html)
+- **Development as Freedom** (Amartya Sen) — a companion to Sen's reframing of development as the expansion of human freedoms and the capability approach. [Read it](/BookSummaries/development-as-freedom-companion.html)
+- **Capital in the Twenty-First Century** (Piketty) — a companion to the landmark study of wealth and inequality. [Read it](/BookSummaries/capital-in-the-21st-century-companion.html)
+- **India After Gandhi** (Ramachandra Guha) — a companion to the definitive history of the world's largest democracy. [Read it](/BookSummaries/india-after-gandhi-companion.html)
+
+### Fixed
+
+- Repaired broken/dead links across the site: Live Case Challenge resources and Dataverse skill items no longer render dead links; capitalized `/Labs` and `/Games` directory links now resolve; corrected several wrong BookSummary filenames, course-link case mismatches, and dead "next steps" links in practice packs.
+- The Theory of Change Workbench is now consistently labelled free (it was mislabelled "Premium" in the catalog and search index despite being open to everyone).
+- The four Pro tools (Research Question Builder, ToR Builder, Qualitative Insights Lab, Statistical Code Converter) are now properly gated to their subscription tiers instead of being fully usable while only the homepage cards were locked.
+
 ## v10.77.0 — June 10, 2026 (The Long View — "Who owns India")
 
 ### For Learners

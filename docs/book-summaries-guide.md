@@ -29,6 +29,11 @@ All book summaries are **free, browser-based, and require no login**. They are s
 | **Econometrics by Example** | Damodar N. Gujarati, Palgrave Macmillan | 20 | Econometrics | `/BookSummaries/econometrics-by-example-companion.html` |
 | **Principles for Navigating Big Debt Crises** | Ray Dalio, 2018 | 3 Parts | Development Economics | `/BookSummaries/dalio-big-debt-crises-companion.html` |
 | **Storytelling to Accelerate Climate Solutions** | Emily Coren & Hua Wang (Eds.), Springer 2024 | 20 | Communication | `/BookSummaries/storytelling-climate-solutions-companion.html` |
+| **Poor Economics** | Abhijit Banerjee & Esther Duflo, PublicAffairs 2011 | 10 | Development Economics | `/BookSummaries/poor-economics-companion.html` |
+| **Why Nations Fail** | Daron Acemoglu & James Robinson, Crown Business 2012 | 12 | Development Economics | `/BookSummaries/why-nations-fail-companion.html` |
+| **Development as Freedom** | Amartya Sen, Knopf / OUP 1999 | 12 | Development Economics | `/BookSummaries/development-as-freedom-companion.html` |
+| **Capital in the Twenty-First Century** | Thomas Piketty, Harvard / Belknap 2014 | 4 Parts | Development Economics | `/BookSummaries/capital-in-the-21st-century-companion.html` |
+| **India After Gandhi** | Ramachandra Guha, Picador / HarperCollins 2007 | 13 | History & Politics | `/BookSummaries/india-after-gandhi-companion.html` |
 
 ---
 

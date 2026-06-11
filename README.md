@@ -50,7 +50,7 @@ We provide accessible, high-quality educational materials grounded in South Asia
 | **PolicyDhara** | Curated Indian public policy documents, government schemes, and legislative frameworks |
 | **BCT Repository** | 203 behavior change techniques from BCT Taxonomy v1 with definitions, examples, evidence ratings, 60 WASH/nutrition case studies, fuzzy search, bookmarks, notes, comparison tool, PDF export — dark mode, filters, CSV export |
 | **Dataverse** | 296 curated tools, datasets, APIs, MCP servers, and platforms across 22 categories — dark mode, category filters, responsive cards |
-| **49 Book Companions** | Interactive study companions for development economics, statistics, leadership, and productivity texts |
+| **54 Book Companions** | Interactive study companions for development economics, statistics, leadership, and productivity texts |
 | **12 AI Study Companions** | NotebookLM-powered study notebooks for all flagship courses |
 | **84 Handouts** | Downloadable resources across 6 learning tracks |
 | **28 Blog Posts** | Learning Loops Blog — articles, tutorials, and case studies on development practice |
