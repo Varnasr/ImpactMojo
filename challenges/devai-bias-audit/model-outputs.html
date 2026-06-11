@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anonymized Model Outputs — Vulnerability Targeting Model | Government of Jharkhand | ImpactMojo Challenge</title>
+<meta name="description" content="Case packet: anonymized household-level outputs from the Jharkhand social-protection vulnerability-scoring model, used in the ImpactMojo 'Audit an AI Model for Bias in Beneficiary Targeting' challenge.">
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://www.impactmojo.in/challenges/devai-bias-audit/model-outputs.html">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0F172A;--card:#1E293B;--text:#F1F5F9;--muted:#94A3B8;--border:#334155;--accent:#0EA5E9;--accent2:#6366F1;--ok:#10B981;--warn:#F59E0B;}
+@media (prefers-color-scheme: light){:root{--bg:#F8FAFC;--card:#FFFFFF;--text:#0F172A;--muted:#52627A;--border:#E2E8F0;}}
+[data-theme="light"]{--bg:#F8FAFC;--card:#FFFFFF;--text:#0F172A;--muted:#52627A;--border:#E2E8F0;}
+[data-theme="dark"]{--bg:#0F172A;--card:#1E293B;--text:#F1F5F9;--muted:#94A3B8;--border:#334155;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Amaranth',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;padding:0 0 4rem}
+h1,h2,h3{font-family:'Inter',sans-serif}
+.wrap{max-width:880px;margin:0 auto;padding:0 1.25rem}
+.topbar{border-bottom:1px solid var(--border);padding:0.9rem 1.25rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;background:var(--card)}
+.topbar a{color:var(--accent);text-decoration:none;font-family:'Inter',sans-serif;font-weight:600;font-size:0.9rem}
+.doc-tag{font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border);border-radius:6px;padding:0.2rem 0.55rem}
+header.hero{padding:2.4rem 0 1.4rem;border-bottom:1px solid var(--border);margin-bottom:1.6rem}
+.eyebrow{font-family:'Inter',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:0.6rem}
+h1{font-size:1.8rem;font-weight:800;margin-bottom:0.5rem}
+.sub{color:var(--muted);font-size:0.95rem}
+h2{font-size:1.15rem;font-weight:700;margin:2rem 0 0.7rem;padding-bottom:0.35rem;border-bottom:2px solid var(--border)}
+p{margin:0.6rem 0}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.85rem}
+th,td{border:1px solid var(--border);padding:0.45rem 0.6rem;text-align:right;vertical-align:top}
+th:first-child,td:first-child,th:nth-child(2),td:nth-child(2),th:nth-child(3),td:nth-child(3),th:nth-child(5),td:nth-child(5){text-align:left}
+thead th{background:var(--accent2);color:#fff;font-family:'Inter',sans-serif;font-weight:600;font-size:0.78rem}
+.dl{display:inline-flex;align-items:center;gap:0.5rem;background:var(--accent);color:#fff;text-decoration:none;font-family:'Inter',sans-serif;font-weight:600;font-size:0.9rem;padding:0.55rem 1.1rem;border-radius:8px;margin:0.6rem 0}
+.dl:hover{opacity:0.9}
+.note{font-size:0.85rem;color:var(--muted)}
+.callout{background:rgba(14,165,233,0.07);border:1px solid rgba(14,165,233,0.25);border-radius:10px;padding:1rem 1.2rem;margin:1.4rem 0;font-size:0.92rem}
+.callout strong{color:var(--accent)}
+ul{margin:0.6rem 0 0.6rem 1.4rem}li{margin:0.3rem 0}
+code{font-family:'JetBrains Mono',monospace;background:var(--border);padding:0.1rem 0.35rem;border-radius:4px;font-size:0.85em}
+footer{margin-top:2.2rem;padding-top:1.2rem;border-top:1px solid var(--border);color:var(--muted);font-size:0.82rem}
+@media print{.topbar,.noprint{display:none}body{background:#fff;color:#000}}
+</style>
+</head>
+<body class="ib">
+<div class="topbar">
+  <a href="/challenges.html">&larr; Back to Live Case Challenges</a>
+  <span class="doc-tag">Case Packet &middot; Document 1 of 3</span>
+</div>
+<div class="wrap">
+<header class="hero">
+  <div class="eyebrow">Government of Jharkhand &middot; Anonymized Model Outputs</div>
+  <h1>Household Vulnerability Scores &mdash; Targeting Model v2.1</h1>
+  <p class="sub">Social-protection beneficiary prioritisation &middot; 10 districts, Jharkhand &middot; scoring run: Q3 2024</p>
+</header>
+
+<div class="callout noprint">
+  <strong>How to use this document.</strong> This is one of three case files for the challenge
+  <em>&ldquo;Audit an AI Model for Bias in Beneficiary Targeting&rdquo;</em>. Read it alongside the
+  <a href="demographic-breakdown.html">demographic breakdown report</a> and the
+  <a href="feature-importance.html">feature importance rankings</a>, then conduct your fairness audit
+  and recommend safeguards.
+</div>
+
+<a class="dl" href="model-outputs.csv" download>&#8615; Download raw data (CSV)</a>
+
+<h2>About this extract</h2>
+<p>
+  The Jharkhand Department of Social Welfare deployed a machine-learning model to score households for
+  eligibility in a new direct-benefit social-protection scheme. The model ingests Socio-Economic Caste Census
+  records, ration-card data, and satellite imagery to predict a <strong>vulnerability score</strong> on a
+  0&ndash;100 scale; households scoring <strong>55 or above</strong> are flagged eligible for the priority list.
+</p>
+<p>
+  The table below is a de-identified sample of <strong>47 households</strong> drawn from the full scoring run.
+  Direct identifiers have been removed; <code>household_id</code> values are synthetic. Each row carries the
+  model's predicted score, the binary eligibility flag, and the contextual attributes available to the audit
+  team. The <code>data_completeness_pct</code> column reports the share of model input fields that were
+  populated (versus imputed) for that household at scoring time.
+</p>
+
+<h2>Column definitions</h2>
+<ul>
+  <li><strong>household_id</strong> &mdash; synthetic anonymised identifier.</li>
+  <li><strong>district</strong> &mdash; district of residence (10 districts in this extract).</li>
+  <li><strong>social_group</strong> &mdash; SC (Scheduled Caste), ST (Scheduled Tribe), OBC (Other Backward Class), or General.</li>
+  <li><strong>female_headed</strong> &mdash; Y if the household is headed by a woman, else N.</li>
+  <li><strong>area_type</strong> &mdash; urban, rural, or forest (forest-fringe / Fifth Schedule habitation).</li>
+  <li><strong>data_completeness_pct</strong> &mdash; percentage of input fields populated from source records (the remainder imputed).</li>
+  <li><strong>predicted_vulnerability_score</strong> &mdash; model output, 0 (least vulnerable) to 100 (most vulnerable).</li>
+  <li><strong>eligibility_flag</strong> &mdash; Y if score &ge; 55 (priority list), else N.</li>
+</ul>
+
+<h2>Anonymized household outputs (n = 47)</h2>
+<div style="overflow-x:auto">
+<table>
+  <thead>
+    <tr>
+      <th>household_id</th>
+      <th>district</th>
+      <th>social_group</th>
+      <th>female_headed</th>
+      <th>area_type</th>
+      <th>data_completeness_pct</th>
+      <th>predicted_score</th>
+      <th>eligibility_flag</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>JH-1001</td><td>Khunti</td><td>ST</td><td>N</td><td>forest</td><td>64.4</td><td>51.4</td><td style="font-weight:600;color:var(--warn)">N</td></tr>
+    <tr><td>JH-1002</td><td>Khunti</td><td>ST</td><td>Y</td><td>forest</td><td>64.9</td><td>53.5</td><td style="font-weight:600;color:var(--warn)">N</td></tr>
+    <tr><td>JH-1003</td><td>Gumla</td><td>ST</td><td>N</td><td>forest</td><td>63.6</td><td>56.5</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1004</td><td>Gumla</td><td>ST</td><td>Y</td><td>forest</td><td>68.1</td><td>58.7</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1005</td><td>Simdega</td><td>ST</td><td>N</td><td>forest</td><td>67.0</td><td>59.1</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1006</td><td>Simdega</td><td>ST</td><td>Y</td><td>forest</td><td>68.2</td><td>47.4</td><td style="font-weight:600;color:var(--warn)">N</td></tr>
+    <tr><td>JH-1007</td><td>West Singhbhum</td><td>ST</td><td>N</td><td>forest</td><td>65.0</td><td>56.3</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1008</td><td>West Singhbhum</td><td>ST</td><td>Y</td><td>forest</td><td>63.2</td><td>38.4</td><td style="font-weight:600;color:var(--warn)">N</td></tr>
+    <tr><td>JH-1009</td><td>Latehar</td><td>ST</td><td>N</td><td>forest</td><td>63.8</td><td>65.4</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1010</td><td>Latehar</td><td>ST</td><td>Y</td><td>forest</td><td>73.0</td><td>52.1</td><td style="font-weight:600;color:var(--warn)">N</td></tr>
+    <tr><td>JH-1011</td><td>Lohardaga</td><td>ST</td><td>N</td><td>forest</td><td>52.4</td><td>47.3</td><td style="font-weight:600;color:var(--warn)">N</td></tr>
+    <tr><td>JH-1012</td><td>Lohardaga</td><td>ST</td><td>Y</td><td>forest</td><td>57.8</td><td>47.6</td><td style="font-weight:600;color:var(--warn)">N</td></tr>
+    <tr><td>JH-1013</td><td>Khunti</td><td>ST</td><td>N</td><td>forest</td><td>55.0</td><td>62.9</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1014</td><td>Gumla</td><td>ST</td><td>Y</td><td>forest</td><td>65.2</td><td>40.4</td><td style="font-weight:600;color:var(--warn)">N</td></tr>
+    <tr><td>JH-1015</td><td>Simdega</td><td>ST</td><td>N</td><td>forest</td><td>73.4</td><td>59.5</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1016</td><td>Latehar</td><td>ST</td><td>N</td><td>rural</td><td>86.5</td><td>69.6</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1017</td><td>Gumla</td><td>ST</td><td>Y</td><td>rural</td><td>77.0</td><td>50.7</td><td style="font-weight:600;color:var(--warn)">N</td></tr>
+    <tr><td>JH-1018</td><td>West Singhbhum</td><td>ST</td><td>N</td><td>rural</td><td>80.2</td><td>77.4</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1019</td><td>Hazaribagh</td><td>SC</td><td>N</td><td>rural</td><td>74.3</td><td>60.0</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1020</td><td>Ranchi</td><td>SC</td><td>Y</td><td>rural</td><td>85.5</td><td>84.7</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1021</td><td>Bokaro</td><td>SC</td><td>N</td><td>rural</td><td>81.3</td><td>79.7</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1022</td><td>Dhanbad</td><td>SC</td><td>Y</td><td>rural</td><td>88.7</td><td>55.6</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1023</td><td>Hazaribagh</td><td>OBC</td><td>N</td><td>rural</td><td>83.8</td><td>63.0</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1024</td><td>Latehar</td><td>OBC</td><td>Y</td><td>rural</td><td>86.1</td><td>79.0</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1025</td><td>Ranchi</td><td>OBC</td><td>N</td><td>urban</td><td>91.6</td><td>78.7</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1026</td><td>Dhanbad</td><td>OBC</td><td>Y</td><td>urban</td><td>97.8</td><td>61.9</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1027</td><td>Ranchi</td><td>General</td><td>N</td><td>urban</td><td>97.0</td><td>71.0</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1028</td><td>Dhanbad</td><td>General</td><td>N</td><td>urban</td><td>86.6</td><td>64.6</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1029</td><td>Bokaro</td><td>General</td><td>Y</td><td>urban</td><td>95.7</td><td>71.3</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1030</td><td>Hazaribagh</td><td>General</td><td>N</td><td>urban</td><td>95.0</td><td>74.8</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1031</td><td>Ranchi</td><td>General</td><td>N</td><td>urban</td><td>97.6</td><td>89.0</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1032</td><td>Dhanbad</td><td>General</td><td>Y</td><td>urban</td><td>97.6</td><td>63.8</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1033</td><td>Bokaro</td><td>OBC</td><td>N</td><td>urban</td><td>93.9</td><td>96.6</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1034</td><td>Ranchi</td><td>SC</td><td>N</td><td>urban</td><td>100</td><td>76.6</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1035</td><td>Bokaro</td><td>General</td><td>N</td><td>urban</td><td>89.5</td><td>66.3</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1036</td><td>Ranchi</td><td>OBC</td><td>N</td><td>urban</td><td>97.3</td><td>94.6</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1037</td><td>Dhanbad</td><td>General</td><td>N</td><td>urban</td><td>96.8</td><td>48.4</td><td style="font-weight:600;color:var(--warn)">N</td></tr>
+    <tr><td>JH-1038</td><td>Gumla</td><td>OBC</td><td>N</td><td>rural</td><td>77.6</td><td>55.9</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1039</td><td>Hazaribagh</td><td>General</td><td>N</td><td>rural</td><td>74.6</td><td>80.8</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1040</td><td>Simdega</td><td>OBC</td><td>Y</td><td>rural</td><td>78.9</td><td>73.4</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1041</td><td>Latehar</td><td>SC</td><td>N</td><td>rural</td><td>73.3</td><td>68.6</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1042</td><td>Ranchi</td><td>General</td><td>Y</td><td>rural</td><td>88.2</td><td>49.8</td><td style="font-weight:600;color:var(--warn)">N</td></tr>
+    <tr><td>JH-1043</td><td>Khunti</td><td>ST</td><td>Y</td><td>forest</td><td>68.5</td><td>70.7</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1044</td><td>West Singhbhum</td><td>ST</td><td>N</td><td>forest</td><td>64.9</td><td>39.3</td><td style="font-weight:600;color:var(--warn)">N</td></tr>
+    <tr><td>JH-1045</td><td>Latehar</td><td>ST</td><td>Y</td><td>forest</td><td>50.9</td><td>65.3</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1046</td><td>Lohardaga</td><td>ST</td><td>N</td><td>forest</td><td>79.8</td><td>66.9</td><td style="font-weight:600;color:var(--ok)">Y</td></tr>
+    <tr><td>JH-1047</td><td>Simdega</td><td>ST</td><td>Y</td><td>forest</td><td>61.3</td><td>46.9</td><td style="font-weight:600;color:var(--warn)">N</td></tr>
+  </tbody>
+</table>
+</div>
+<p class="note">
+  Color coding (eligibility): <span style="color:var(--ok);font-weight:600">Y = on priority list</span>,
+  <span style="color:var(--warn);font-weight:600">N = excluded</span>. This extract is a teaching sample;
+  the full production run covered all 24 districts. Cross-tabulated summaries are in
+  <a href="demographic-breakdown.html">Document 2</a>.
+</p>
+
+<h2>Field-team annotations</h2>
+<ul>
+  <li>Field officers in the southern forest belt (Khunti, Gumla, Simdega, West Singhbhum) flagged that several households they considered among the poorest were returned with sub-threshold scores.</li>
+  <li>Data-collection centres are concentrated in district headquarters; remote habitations are surveyed less frequently, which the welfare department notes affects record freshness and completeness.</li>
+  <li>The model was last retrained on inputs assembled in 2018; no retraining has occurred since the pandemic.</li>
+</ul>
+
+<footer>
+  <p>Case packet for the ImpactMojo Live Case Challenge <em>&ldquo;Audit an AI Model for Bias in Beneficiary Targeting&rdquo;</em>.
+  The Government of Jharkhand targeting model is a composite teaching case; figures are realistic but illustrative
+  and do not represent a specific deployment, agency, or individual. &copy; 2026 ImpactMojo &middot; content under CC BY-NC-ND 4.0.</p>
+</footer>
+</div>
+<script>(function(){try{var t=localStorage.getItem('im-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+</body>
+</html>
