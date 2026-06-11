@@ -137,6 +137,17 @@ select { cursor: pointer; appearance: none; background-image: url("data:image/sv
 
 /* Kalamkari decorative element */
 .kalamkari-border { height: 4px; background: repeating-linear-gradient(90deg, #0EA5E9 0 8px, transparent 8px 12px, #6366F1 12px 20px, transparent 20px 24px, #10B981 24px 32px, transparent 32px 36px); border-radius: 2px; margin-bottom: 1.5rem; }
+
+/* Lock / upgrade gate */
+.btn-premium { background: #F59E0B; border: none; color: #fff; font-weight: 700; }
+.btn-premium:hover { opacity: 0.9; }
+.gate-card { text-align: center; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem 1.75rem; margin-bottom: 1.5rem; }
+.gate-card .lock { width: 48px; height: 48px; margin: 0 auto 1rem; color: #F59E0B; }
+.gate-card h2 { font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 0.5rem; }
+.gate-card p { color: var(--text-secondary); max-width: 520px; margin: 0 auto 1.5rem; }
+.gate-cta { display: inline-flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; }
+.gate-price { font-family: var(--font-heading); font-weight: 700; color: #F59E0B; margin-top: 1rem; font-size: 0.9rem; }
+#gateLoading { text-align: center; color: var(--text-muted); padding: 2rem; }
 </style>
 <style>
 /* ===== ImpactMojo Design System ===== */
@@ -400,6 +411,24 @@ main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) 
     <p>Move from a vague idea to a testable, fundable research question using PICO and SPIDER frameworks.</p>
   </div>
 
+  <!-- Subscription gate -->
+  <div id="gateLoading" style="text-align:center;color:var(--text-muted);padding:2rem">Checking your subscription…</div>
+
+  <!-- Shown to non-subscribers -->
+  <div class="gate-card" id="lockGate" style="display:none">
+    <svg class="lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+    <h2>Build your research question</h2>
+    <p>Research Question Builder Pro is part of the <strong>Practitioner</strong> plan. Move from a vague idea to a testable, fundable question using the PICO and SPIDER frameworks — with a quality checklist and method suggestions. Subscribe to build and export your own.</p>
+    <div class="gate-cta">
+      <a href="/premium.html#detail-practitioner" class="btn btn-premium">See Practitioner plan</a>
+      <a href="/login.html" class="btn btn-outline" id="signinBtn">Sign in</a>
+    </div>
+    <div class="gate-price">₹399/month · or ₹3,990/year (2 months free)</div>
+  </div>
+
+  <!-- Shown to Practitioner subscribers -->
+  <div id="liveTool" style="display:none">
+
   <!-- Progress Steps -->
   <div class="steps" id="progressSteps">
     <div class="step-pill active" data-step="1"><span class="step-num">1</span> Topic</div>
@@ -593,6 +622,7 @@ main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) 
       </button>
     </div>
   </div>
+  </div><!-- /#liveTool -->
 </main>
 
 <script>
@@ -874,6 +904,25 @@ function copyOutput() {
 <script src="/js/state-manager.js"></script>
 <script src="/js/config.js"></script>
 <script src="/js/auth.js"></script>
+<script>
+// ---- Gate: reveal the live tool only for Practitioner subscribers ----
+async function initGate() {
+  try { if (window.ImpactMojoAuth) await window.ImpactMojoAuth.waitForAuthReady(); } catch (e) {}
+  var auth = window.ImpactMojoAuth;
+  var ok = !!(auth && typeof auth.hasTierAccess === "function" && auth.hasTierAccess("practitioner"));
+  var loading = document.getElementById("gateLoading");
+  if (loading) loading.style.display = "none";
+  if (ok) {
+    document.getElementById("liveTool").style.display = "block";
+  } else {
+    document.getElementById("lockGate").style.display = "block";
+    // If already signed in (just not Practitioner), hide the Sign in button.
+    if (auth && auth.user) { var b = document.getElementById("signinBtn"); if (b) b.style.display = "none"; }
+  }
+}
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initGate);
+else initGate();
+</script>
 <script src="/js/translate-sarvam.js" defer></script>
 </body>
 </html>

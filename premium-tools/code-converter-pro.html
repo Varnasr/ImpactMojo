@@ -195,6 +195,19 @@ body { font-family: var(--font-main); background: var(--bg-primary); color: var(
   padding: 6px 16px; background: #0d0d1a; font-size: 0.75rem; color: var(--text-secondary);
 }
 
+/* Lock / upgrade gate */
+.gate-card { text-align: center; background: var(--bg-secondary); border: 1px solid var(--border-soft); border-radius: 16px; padding: 2.5rem 1.75rem; max-width: 620px; margin: 2rem auto; }
+.gate-card .lock { width: 48px; height: 48px; margin: 0 auto 1rem; color: var(--premium-color, #F59E0B); }
+.gate-card h2 { font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 0.5rem; color: var(--text-primary); }
+.gate-card p { color: var(--text-secondary); max-width: 520px; margin: 0 auto 1.5rem; }
+.gate-cta { display: inline-flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; }
+.gate-cta .btn { padding: 0.7rem 1.3rem; border-radius: 10px; border: 1px solid var(--border-soft); background: var(--bg-panel); color: var(--text-primary); font-size: 0.9rem; font-family: var(--font-main); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 0.45rem; transition: all 0.2s; }
+.gate-cta .btn:hover { border-color: var(--accent-gold); }
+.gate-cta .btn-premium { background: var(--premium-color, #F59E0B); border: none; color: #fff; font-weight: 700; }
+.gate-cta .btn-premium:hover { opacity: 0.9; }
+.gate-price { font-family: var(--font-heading); font-weight: 700; color: var(--premium-color, #F59E0B); margin-top: 1rem; font-size: 0.9rem; }
+#gateLoading { text-align: center; color: var(--text-muted); padding: 2rem; }
+
 /* Mobile */
 @media (max-width: 768px) {
   .editor-container { grid-template-columns: 1fr; }
@@ -456,6 +469,23 @@ body { padding-top: 56px; }
   <span class="badge">PREMIUM TOOL</span>
 </div>
 
+<!-- Subscription gate (Professional tier) -->
+<div id="gateLoading" style="text-align:center;color:var(--text-muted);padding:2rem">Checking your subscription…</div>
+
+<!-- Shown to non-subscribers -->
+<div class="gate-card" id="lockGate" style="display:none">
+  <svg class="lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+  <h2>Unlock the Statistical Code Converter</h2>
+  <p>The Statistical Code Converter Pro translates analysis code between R, Stata, Python and SPSS — regressions, t-tests, crosstabs and more. It is part of the <strong>Professional</strong> plan, alongside the Qualitative Insights Lab, Advisory Board Pro, VaniScribe and DevData. Subscribe to convert your own code.</p>
+  <div class="gate-cta">
+    <a href="/premium.html#detail-professional" class="btn btn-premium">See Professional plan</a>
+    <a href="/login.html" class="btn" id="signinBtn">Sign in</a>
+  </div>
+  <div class="gate-price">₹999/month · or ₹9,990/year (2 months free)</div>
+</div>
+
+<!-- Shown to Professional subscribers -->
+<div id="liveTool" style="display:none">
 <div class="selector-row">
   <label for="srcLang">Source:</label>
   <select id="srcLang">
@@ -521,6 +551,7 @@ body { padding-top: 56px; }
     <tbody id="refBody"></tbody>
   </table>
 </div>
+</div><!-- /#liveTool -->
 
 <div class="madhubani-dots"></div>
 <div class="footer">
@@ -945,5 +976,25 @@ function loadSnippet(idx) {
 <script src="/js/config.js"></script>
 <script src="/js/auth.js"></script>
 <script src="/js/translate-sarvam.js" defer></script>
+
+<!-- Subscription gate: reveal the live tool only for Professional subscribers -->
+<script>
+async function initGate() {
+  try { if (window.ImpactMojoAuth) await window.ImpactMojoAuth.waitForAuthReady(); } catch (e) {}
+  var auth = window.ImpactMojoAuth;
+  var isPro = !!(auth && typeof auth.hasTierAccess === "function" && auth.hasTierAccess("professional"));
+  var loading = document.getElementById("gateLoading");
+  if (loading) loading.style.display = "none";
+  if (isPro) {
+    document.getElementById("liveTool").style.display = "block";
+  } else {
+    document.getElementById("lockGate").style.display = "block";
+    // If already signed in (just not Professional), hide the Sign in button.
+    if (auth && auth.user) { var b = document.getElementById("signinBtn"); if (b) b.style.display = "none"; }
+  }
+}
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initGate);
+else initGate();
+</script>
 </body>
 </html>
