@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.2 — June 16, 2026 (Translation quality — deep audit, three review rounds)
+
+### Fixed
+
+- Completed a full multilingual audit of the Hindi, Tamil, Bengali, and Marathi course pages — **~870 strings corrected across three native-review rounds**. Beyond the first pass, the deeper rounds fixed: translated brand names (ImpactMojo, Tableau, Flourish, Econometrica), author surnames turned into common words ("North"→direction, "Black"→colour, "King"→monarch), mangled numbers ("700 million"→"700 crore", "8M+"→"8 minutes"), garbled acronyms (MEAL→"food", M&E→"graph", EPW→"death penalty"), reversed meanings ("decolonial"→"colonialist", "reforestation"→"deforestation", "Latest data"→"data not yet available"), wrong-sense terms ("Cases"→patients, "Causal"→"trickery", "stakes"→"claims", "agency"→"power"), and stray "text:" placeholder artifacts that had dropped real content. Added a protected-terms glossary (`data/i18n-glossary.json`) so brands, acronyms, author names, and numbers stay intact in any future translation. Legitimate technical terms were deliberately preserved.
+
 ## v10.79.1 — June 16, 2026 (Translation quality fixes — Hindi, Tamil, Bengali, Marathi)
 
 ### Fixed
