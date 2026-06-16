@@ -7,6 +7,9 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  schedule:
+    # Daily at 06:17 UTC — catches any i18n/encoding regression even with no push.
+    - cron: '17 6 * * *'
 
 jobs:
   encoding:
@@ -17,6 +20,15 @@ jobs:
 
       - name: Check for mojibake / encoding corruption
         run: python3 scripts/check-mojibake.py
+
+  i18n-quality:
+    name: i18n translation-quality guard
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Check for translation corruption (cross-script, brand, artifacts, char-runs)
+        run: python3 scripts/check-i18n-quality.py
 
   broken-links:
     name: Check broken links
