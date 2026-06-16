@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.1 — June 16, 2026 (Translation quality fixes — Hindi, Tamil, Bengali, Marathi)
+
+### Fixed
+
+- Corrected context-blind machine-translation errors in the Hindi, Tamil, Bengali, and Marathi course pages (200 strings across all four languages). The bulk machine pass had rendered "development practitioner" as "doctor/physician", "Marginalia" as "edges/shores", "Understanding Development" as ungrammatical word-salad, "Field Companions" as "village residents"/"female friends", "Course Papers" as "exam papers", "Evidence-Based Practice" as "medical treatment", "Sixty-eight terms" as "eighty-six", and the brand name "ImpactMojo" as "Impact: Mojo" — all now read naturally and correctly. Legitimate technical terms (e.g. "biomedical sciences", causal-inference "treatment") were deliberately left untouched. The core UI strings were already hand-reviewed and unaffected.
+
 ## v10.79.0 — June 11, 2026 (Live Case Challenges — real case packets)
 
 ### For Learners
