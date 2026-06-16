@@ -24,8 +24,9 @@ def variants(en):
 
 
 def main():
-    corr = json.load(open(os.path.join(ROOT, "scripts", "i18n-corrections.json"),
-                           encoding="utf-8"))
+    import sys
+    fname = sys.argv[1] if len(sys.argv) > 1 else "i18n-corrections.json"
+    corr = json.load(open(os.path.join(ROOT, "scripts", fname), encoding="utf-8"))
     for lang, items in corr.items():
         files = sorted(glob.glob(os.path.join(ROOT, "i18n", "pages", lang, "*.json")))
         dicts = {f: json.load(open(f, encoding="utf-8")) for f in files}
