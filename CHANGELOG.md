@@ -5,6 +5,16 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.79.3] - 2026-06-19
+
+### Fixed
+
+- **Climate Action Challenge game now has a real light theme** — it was the last dark-only page, relying on a global filter-invert fallback that turned its warm Warli earth-tones cold and muddy in light mode. Replaced with a designer-authored light palette (warm sand surfaces, espresso-brown folk-art ink) wired to the existing 3-button system/light/dark toggle. The folk-art SVG line illustrations (hard-coded cream `#F5F0EB` ink) now flip to brown on the sand background, the literal-dark gauge track lightens, and the page no longer loads `light-mode-fallback.css`. All games now have a genuine light theme.
+
+### For Learners
+
+- **The Climate Action game looks right in light mode** — warm, readable sand-and-brown colours that match the rest of the site, instead of the previous washed-out inverted look.
+
 ## [10.79.0] - 2026-06-11
 
 ### Added

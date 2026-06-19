@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.3 — June 19, 2026 (Climate Action game light theme)
+
+### For Learners
+
+- **The Climate Action Challenge game now has a proper light mode** — warm, readable sand-and-brown colours that match the rest of the site, instead of the previous washed-out inverted look. Use the system/light/dark toggle in the top bar. It was the last game without a hand-designed light theme.
+
 ## v10.79.2 — June 16, 2026 (Translation quality — deep audit, three review rounds)
 
 ### Fixed

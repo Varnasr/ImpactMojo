@@ -73,12 +73,12 @@ ImpactMojo development priorities for 2026. Items are roughly ordered by priorit
 - [x] **Certificate policy consistency** — reconciled to "free completion + Premium verified" site-wide
 - [x] **Contact-email consolidation** — 11 scattered addresses folded into a single `hello@`
 - [x] **Header-offset + anchor-scroll fixes** — heroes no longer trapped under the fixed header (10 pages); in-page `#section` links land correctly
-- [x] **Count-consistency pass** — canonical counts (60 courses · 13 labs · 49 book companions · 17 Deep Dives · 134 Game Library) propagated across site, README, and press kit
+- [x] **Count-consistency pass** — canonical counts (60 courses · 13 labs · 54 book companions · 17 Deep Dives · 134 Game Library) propagated across site, README, and press kit
 - [ ] **Migrate remaining 45 foundational decks** — Convert all Gamma iframe wrappers to native HTML using Claude Chat + Claude Code workflow
 - [ ] **Vernacular Content** — Full courses in Hindi and Tamil (#29)
 - [ ] **Analytics dashboard v2** — Learner analytics with completion funnels, time-on-task, assessment scores
 - [ ] **Mobile app (PWA)** — Enhanced PWA with push notifications and background sync
-- [ ] **Games/climate-action-game.html device-mode** — single remaining dark-only page; needs designer-authored light tokens for earth-tone palette (`#F5F0EB`)
+- [x] **Games/climate-action-game.html device-mode** — designer-authored light earth-tone palette (warm sand surfaces + espresso-brown folk-art ink), replacing the cold filter-invert fallback. All games now support the 3-button system/light/dark toggle.
 
 ## Q3 2026 (Jul-Sep) — Planned
 
