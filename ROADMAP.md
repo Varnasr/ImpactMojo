@@ -11,7 +11,7 @@ ImpactMojo development priorities for 2026. Items are roughly ordered by priorit
 - [x] Interactive assessments for flagship courses
 - [x] Team training packages for organizations
 - [x] Full-text search (Ctrl+K) via Fuse.js
-- [x] Offline PWA support for flagship courses
+- [x] Offline PWA support for flagship courses — _later retired: the caching service worker was removed (`service-worker.js` + `js/pwa.js` now unregister any SW) to stop stale-file serving. The site stays installable via `manifest.json`, but offline course caching is currently disabled._
 - [x] Unified dashboard architecture (account, org, admin, analytics)
 - [x] Canvas line charts on admin & transparency dashboards
 - [x] Font standardization (Amaranth + Inter + JetBrains Mono)
@@ -73,9 +73,9 @@ ImpactMojo development priorities for 2026. Items are roughly ordered by priorit
 - [x] **Certificate policy consistency** — reconciled to "free completion + Premium verified" site-wide
 - [x] **Contact-email consolidation** — 11 scattered addresses folded into a single `hello@`
 - [x] **Header-offset + anchor-scroll fixes** — heroes no longer trapped under the fixed header (10 pages); in-page `#section` links land correctly
-- [x] **Count-consistency pass** — canonical counts (60 courses · 13 labs · 54 book companions · 17 Deep Dives · 134 Game Library) propagated across site, README, and press kit
+- [x] **Count-consistency pass** — canonical counts (60 courses · 13 labs · 54 book companions · 20 Deep Dives · 134 Game Library) propagated across site, README, and press kit
 - [x] **Migrate all 47 foundational decks to native HTML** — every `/101-courses/*` deck is now a self-hosted ~100-slide native HTML deck (Chart.js, light/dark, keyboard/touch nav). Zero Gamma iframes remain across the 101 series; verified live on impactmojo.in.
-- [ ] **Vernacular Content** — Full courses in Hindi and Tamil (#29)
+- [ ] **Vernacular Content** — Full courses in Hindi and Tamil (#29). _Partially live: machine-translated + quality-audited per-page course content ships for hi/ta/bn/mr (30 page-dictionaries each, Sarvam) with a protected-terms glossary. The open part is professional, human-reviewed full-course localization (not machine translation)._
 - [ ] **Analytics dashboard v2** — Learner analytics with completion funnels, time-on-task, assessment scores
 - [ ] **Mobile app (PWA)** — Enhanced PWA with push notifications and background sync
 - [x] **Games/climate-action-game.html device-mode** — designer-authored light earth-tone palette (warm sand surfaces + espresso-brown folk-art ink), replacing the cold filter-invert fallback. All games now support the 3-button system/light/dark toggle.
