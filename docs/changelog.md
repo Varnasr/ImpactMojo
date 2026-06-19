@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.4 — June 19, 2026 (Offline support restored)
+
+### For Learners
+
+- **The site works offline again** — install ImpactMojo to your home screen and downloaded flagship courses stay readable without a connection. Pages always load the latest version when you're online (no more stale content), and your course progress now syncs automatically once you're back on the network.
+
 ## v10.79.3 — June 19, 2026 (Climate Action game light theme)
 
 ### For Learners

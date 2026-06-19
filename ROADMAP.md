@@ -11,7 +11,7 @@ ImpactMojo development priorities for 2026. Items are roughly ordered by priorit
 - [x] Interactive assessments for flagship courses
 - [x] Team training packages for organizations
 - [x] Full-text search (Ctrl+K) via Fuse.js
-- [x] Offline PWA support for flagship courses — _later retired: the caching service worker was removed (`service-worker.js` + `js/pwa.js` now unregister any SW) to stop stale-file serving. The site stays installable via `manifest.json`, but offline course caching is currently disabled._
+- [x] Offline PWA support for flagship courses — _rebuilt 2026-06-19: a network-first (HTML) + stale-while-revalidate (assets) service worker that purges non-current caches on activate, so offline works without the stale-file bug that retired the previous SW. Backs the course-download + offline-status UI in `js/offline.js`._
 - [x] Unified dashboard architecture (account, org, admin, analytics)
 - [x] Canvas line charts on admin & transparency dashboards
 - [x] Font standardization (Amaranth + Inter + JetBrains Mono)
@@ -77,7 +77,7 @@ ImpactMojo development priorities for 2026. Items are roughly ordered by priorit
 - [x] **Migrate all 47 foundational decks to native HTML** — every `/101-courses/*` deck is now a self-hosted ~100-slide native HTML deck (Chart.js, light/dark, keyboard/touch nav). Zero Gamma iframes remain across the 101 series; verified live on impactmojo.in.
 - [ ] **Vernacular Content** — Full courses in Hindi and Tamil (#29). _Partially live: machine-translated + quality-audited per-page course content ships for hi/ta/bn/mr (30 page-dictionaries each, Sarvam) with a protected-terms glossary. The open part is professional, human-reviewed full-course localization (not machine translation)._
 - [ ] **Analytics dashboard v2** — Learner analytics with completion funnels, time-on-task, assessment scores
-- [ ] **Mobile app (PWA)** — Enhanced PWA with push notifications and background sync
+- [ ] **Mobile app (PWA)** — Enhanced PWA. Background sync of learner progress is live (queued in IndexedDB when offline, replayed by the service worker's `sync-progress` handler); **push notifications** remain the open piece.
 - [x] **Games/climate-action-game.html device-mode** — designer-authored light earth-tone palette (warm sand surfaces + espresso-brown folk-art ink), replacing the cold filter-invert fallback. All games now support the 3-button system/light/dark toggle.
 
 ## Q3 2026 (Jul-Sep) — Planned

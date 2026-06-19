@@ -5,6 +5,16 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.79.4] - 2026-06-19
+
+### Added
+
+- **Rebuilt service worker — offline support without stale files.** The previous SW had been reduced to a self-unregistering stub (`js/pwa.js` actively cleared registrations) after a stale-cache bug. The new `service-worker.js` is **network-first for HTML/navigations** (always fresh online, cached fallback or `/offline.html` only when the network fails) and **stale-while-revalidate for static assets** (CSS/JS/images/fonts/JSON), with versioned caches purged on `activate` so a deploy can never serve stale files. It also wires up the previously-dead `js/offline.js` features: on-demand course download (`CACHE_COURSE`) and **background sync** of queued learner progress (`sync-progress`). User-downloaded course caches persist across SW versions. `js/pwa.js` now registers the SW (with prompt-free skip-waiting on update) instead of unregistering it.
+
+### Fixed
+
+- **Deep Dives count corrected to 20** on `premium.html` (3 places said "17") — matches `data/deep-dives.json` and the homepage. (Site-wide audit: courses 60, labs 13, games 134, book companions 54, handouts 84 all consistent.)
+
 ## [10.79.3] - 2026-06-19
 
 ### Fixed
