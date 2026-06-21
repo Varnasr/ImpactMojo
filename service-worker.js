@@ -175,6 +175,38 @@ function cacheCourse(courseId) {
   });
 }
 
+// ── Web push: show a notification, and focus/open on click. ──
+self.addEventListener('push', (event) => {
+  let data = {};
+  try { data = event.data ? event.data.json() : {}; }
+  catch (e) { data = { title: 'ImpactMojo', body: event.data ? event.data.text() : '' }; }
+
+  const title = data.title || 'ImpactMojo';
+  const options = {
+    body: data.body || '',
+    icon: '/assets/images/android-chrome-192x192.png',
+    badge: '/assets/images/favicon-32x32.png',
+    data: { link: data.link || '/' },
+    tag: data.tag || undefined,
+    renotify: !!data.tag
+  };
+  event.waitUntil(self.registration.showNotification(title, options));
+});
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const link = (event.notification.data && event.notification.data.link) || '/';
+  const target = new URL(link, self.location.origin).href;
+  event.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clients) => {
+      for (const client of clients) {
+        if (client.url === target && 'focus' in client) return client.focus();
+      }
+      return self.clients.openWindow ? self.clients.openWindow(target) : undefined;
+    })
+  );
+});
+
 // ── Background sync: replay progress POSTs queued by js/offline.js. ──
 self.addEventListener('sync', (event) => {
   if (event.tag === 'sync-progress') {

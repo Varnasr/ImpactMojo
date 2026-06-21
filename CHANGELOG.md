@@ -5,6 +5,12 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.79.5] - 2026-06-19
+
+### Added
+
+- **Web push notifications.** Learners can opt in (per device) on the account page to receive browser push notifications for streak and cohort-deadline reminders, extending the existing email + in-app notification system (#145). New pieces: a `push_subscriptions` table + `notification_preferences.push_enabled` column (migration `20260621_push_subscriptions.sql`); a `send-push` Supabase Edge Function (save/delete subscription + VAPID-signed delivery via `web-push`, dead-subscription pruning); `push`/`notificationclick` handlers in the service worker; a `js/push-notifications.js` opt-in module (VAPID public key, permission + subscribe flow); and a toggle in the account-page Notifications card. The `send-notification` function now also fires a best-effort push (wrapped so it never blocks email/in-app) on streak and cohort events. Backend (table, VAPID secrets, both functions) is deployed and smoke-tested on Supabase; the front-end opt-in goes live on the next `main` deploy.
+
 ## [10.79.4] - 2026-06-19
 
 ### Added

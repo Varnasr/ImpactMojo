@@ -2666,6 +2666,16 @@ h1, h2, h3, h4, h5, h6 {
                         </div>
                         <div id="notifPrefsSaved" style="display:none; font-size:0.78rem; color:var(--success-color); margin-top:0.5rem;">Preferences saved</div>
                     </div>
+
+                    <!-- Browser Push -->
+                    <div id="pushPrefsSection" style="border-top:1px solid var(--border-color); padding-top:1rem; margin-top:1rem; display:none;">
+                        <h3 style="font-size:0.9rem; font-weight:600; margin-bottom:0.5rem; color:var(--text-secondary);">Browser Notifications</h3>
+                        <label style="display:flex; align-items:center; gap:0.6rem; font-size:0.85rem; cursor:pointer;">
+                            <input type="checkbox" id="prefPushEnabled" onchange="togglePush()">
+                            Push notifications on this device (streak &amp; cohort reminders)
+                        </label>
+                        <p id="pushHint" style="font-size:0.78rem; color:var(--text-muted); margin-top:0.4rem;"></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2726,6 +2736,55 @@ h1, h2, h3, h4, h5, h6 {
             setTimeout(function() { saved.style.display = 'none'; }, 2000);
         } catch (e) {
             console.error('Save notification prefs error:', e);
+        }
+    };
+
+    // Browser push toggle
+    window.initPushToggle = async function() {
+        var section = document.getElementById('pushPrefsSection');
+        var checkbox = document.getElementById('prefPushEnabled');
+        var hint = document.getElementById('pushHint');
+        if (!section || !window.ImpactMojoPush) return;
+        if (!ImpactMojoPush.isSupported()) {
+            section.style.display = 'block';
+            checkbox.disabled = true;
+            hint.textContent = 'This browser does not support push notifications.';
+            return;
+        }
+        section.style.display = 'block';
+        try {
+            var status = await ImpactMojoPush.getStatus();
+            checkbox.checked = (status === 'subscribed');
+            if (status === 'denied') {
+                checkbox.disabled = true;
+                hint.textContent = 'Notifications are blocked in your browser settings. Allow them there to enable push.';
+            } else {
+                hint.textContent = '';
+            }
+        } catch (e) { /* leave default */ }
+    };
+
+    window.togglePush = async function() {
+        var checkbox = document.getElementById('prefPushEnabled');
+        var hint = document.getElementById('pushHint');
+        if (!window.ImpactMojoPush) return;
+        checkbox.disabled = true;
+        try {
+            if (checkbox.checked) {
+                var ok = await ImpactMojoPush.enable();
+                checkbox.checked = ok;
+                hint.textContent = ok ? 'Push notifications enabled on this device.'
+                                      : 'Permission was not granted.';
+            } else {
+                await ImpactMojoPush.disable();
+                hint.textContent = 'Push notifications disabled on this device.';
+            }
+        } catch (e) {
+            checkbox.checked = false;
+            hint.textContent = 'Could not update push notifications. Please sign in and try again.';
+        } finally {
+            checkbox.disabled = false;
+            setTimeout(function() { hint.textContent = ''; }, 4000);
         }
     };
 
@@ -2807,6 +2866,7 @@ h1, h2, h3, h4, h5, h6 {
         if (origOnReady) origOnReady(user, profile);
         window.loadNotifPrefs();
         window.loadRecentNotifications();
+        window.initPushToggle();
     };
 
     // Fallback: load after delay if auth callback already fired
@@ -2814,6 +2874,7 @@ h1, h2, h3, h4, h5, h6 {
         if (window.ImpactMojoAuth && ImpactMojoAuth.getUser()) {
             window.loadNotifPrefs();
             window.loadRecentNotifications();
+            window.initPushToggle();
         }
     }, 2000);
 })();
@@ -2934,6 +2995,8 @@ h1, h2, h3, h4, h5, h6 {
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
 <script src="js/config.js"></script>
 <script src="js/auth.js"></script>
+<script src="/js/pwa.js"></script>
+<script src="/js/push-notifications.js"></script>
 <script src="js/auth-gate.js"></script>
 <script src="js/dashboard-tabs.js"></script>
 

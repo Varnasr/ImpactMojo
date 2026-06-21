@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.5 — June 19, 2026 (Push notifications)
+
+### For Learners
+
+- **Get reminders even when the tab is closed** — turn on browser push notifications from your account page (Notifications section) to get a nudge when your learning streak is about to lapse or a cohort deadline is near. It's per-device and fully optional — flip it off any time.
+
 ## v10.79.4 — June 19, 2026 (Offline support restored)
 
 ### For Learners

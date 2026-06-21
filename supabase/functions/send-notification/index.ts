@@ -69,6 +69,29 @@ async function sendEmail(
   }
 }
 
+// ── Web push (best-effort; delegates to send-push, never blocks email/in-app) ──
+async function firePush(
+  supabaseUrl: string,
+  serviceRoleKey: string,
+  userId: string,
+  title: string,
+  body: string,
+  link: string
+): Promise<void> {
+  try {
+    await fetch(`${supabaseUrl}/functions/v1/send-push/send`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${serviceRoleKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ user_id: userId, title, body, link }),
+    });
+  } catch (err) {
+    console.error("firePush failed (non-fatal):", err);
+  }
+}
+
 // ── Email templates ──────────────────────────────────────────────────
 function wrapEmail(title: string, body: string, link?: string): string {
   const cta = link
@@ -205,6 +228,11 @@ serve(async (req: Request) => {
             p_body: `You have a ${user.streak_days}-day streak. Log in today to keep it going!`,
             p_link: "/account.html",
           });
+          // Best-effort web push (send-push enforces the per-user opt-in).
+          await firePush(supabaseUrl, serviceRoleKey, user.id,
+            "Keep your streak alive!",
+            `You have a ${user.streak_days}-day streak. Log in today to keep it going!`,
+            "/account.html");
         }
 
         // Email
@@ -284,6 +312,11 @@ serve(async (req: Request) => {
               p_body: `Your progress: ${member.progress_percentage}%. Complete remaining modules before the deadline.`,
               p_link: "/org-dashboard.html",
             });
+            // Best-effort web push (send-push enforces the per-user opt-in).
+            await firePush(supabaseUrl, serviceRoleKey, member.user_id,
+              `${cohort.name} ends in ${daysLeft} day${daysLeft === 1 ? "" : "s"}`,
+              `Your progress: ${member.progress_percentage}%. Complete remaining modules before the deadline.`,
+              "/org-dashboard.html");
           }
 
           // Email

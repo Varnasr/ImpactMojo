@@ -56,13 +56,15 @@ function makeRequest(url, { mode = 'no-cors', accept = '', method = 'GET' } = {}
 function loadSW({ fetchImpl }) {
   const listeners = {};
   const clientsList = [];
+  const shown = [];
   const self = {
     addEventListener: (type, fn) => { (listeners[type] ||= []).push(fn); },
     skipWaiting: () => {},
-    clients: { claim: async () => {}, matchAll: async () => clientsList },
-    registration: { unregister: () => {} },
+    clients: { claim: async () => {}, matchAll: async () => clientsList, openWindow: async () => ({}) },
+    registration: { unregister: () => {}, showNotification: (title, opts) => { shown.push({ title, opts }); } },
     location: { origin: 'https://www.impactmojo.in' }
   };
+  self._shown = shown;
   const sandbox = {
     self, caches: makeCaches(), fetch: fetchImpl, URL, console,
     Promise, setTimeout, indexedDB: { open: () => ({}) }
@@ -156,6 +158,21 @@ console.log('service-worker.js');
   ok(cached && cached.body === 'COURSE', 'CACHE_COURSE stores the course entry page offline');
 }
 
+// ── Test 7: push event shows a notification with the payload ──
+{
+  const { listeners, self } = loadSW({ fetchImpl: async () => makeResponse({}) });
+  let waited;
+  const event = {
+    data: { json: () => ({ title: 'Streak!', body: 'Keep it up', link: '/account.html' }) },
+    waitUntil: (p) => { waited = p; }
+  };
+  for (const fn of (listeners.push || [])) fn(event);
+  await waited;
+  ok(self._shown.length === 1, 'push event shows exactly one notification');
+  ok(self._shown[0] && self._shown[0].title === 'Streak!', 'notification uses the payload title');
+  ok(self._shown[0].opts && self._shown[0].opts.data.link === '/account.html', 'notification carries the click-through link');
+}
+
 console.log('');
-if (failures === 0) { console.log('PASS — service worker behaves correctly (6 groups).'); process.exit(0); }
+if (failures === 0) { console.log('PASS — service worker behaves correctly (7 groups).'); process.exit(0); }
 else { console.log(`FAIL — ${failures} assertion(s) failed.`); process.exit(1); }
