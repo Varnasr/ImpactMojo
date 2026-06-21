@@ -30,6 +30,19 @@ jobs:
       - name: Check for translation corruption (cross-script, brand, artifacts, char-runs)
         run: python3 scripts/check-i18n-quality.py
 
+  service-worker:
+    name: Service worker behaviour test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 20
+
+      - name: Test service worker routing & lifecycle
+        run: node scripts/test-service-worker.mjs
+
   broken-links:
     name: Check broken links
     runs-on: ubuntu-latest
