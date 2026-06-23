@@ -508,3 +508,11 @@ Persistent context that carries across Claude Code sessions. Updated automatical
 - CHANGELOG v10.79.13. Verified live (62/47 on homepage, catalog, press kit).
 - **FLAGGED, NOT FIXED**: flagship-count is inconsistent site-wide — grep found `10/11/12/13/14 flagship` in many files (e.g. 13 flagship ×36, 12 ×36, 11 ×29) alongside the correct `15 flagship` (×49+). Too risky to blanket-replace (mix of stale platform claims, course-page content, historical blog posts). Needs a careful dedicated per-occurrence pass if wanted. Only fixed the clear homepage one this session.
 - GOTCHA: catalog 'course' filter chip counts ENTRIES (incl comingSoon for other types); foundational decks dir = 47 (excl index.html, decks.html).
+
+### Session 2026-06-23 (e) — page consistency (BookSummaries header) + nav/footer/tour audit + Dataverse count (commits through 53e607a, LIVE)
+- BookSummaries INDEX used old `<header class="header">` (logo+Back-to-Home+auth) → swapped to standard `im-topbar` (Browse+Premium+3-btn theme via data-imtheme), added missing `.im-browse-btn` CSS. Companion pages were already im-topbar. Also added skip-link + paper-plane to the BookSummaries index earlier this session.
+- Homepage Free Resources grid: added **Marginalia** card (user noticed only RtA was added) → grid now 9 cards = clean 3×3.
+- **Nav/footer**: healthy, RtA present in both. **Tour (js/tours.js)**: stale '39 courses'→62; element selectors use `.theme-selector` (homepage) — fine.
+- **DATAVERSE count = 296** (data/dataverse.json meta.totalItems=296, 22 categories, runtime flatten=296; dataverse.html already 296). Homepage card said 272, tour said 239+ → both fixed to 296.
+- Resource-count scan: NudgeKit 203 techniques/26 cats = matches search-index (203 bct entries) ✅. ImpactLex 390+ (InstantDB, can't verify local), FieldCases 200/DevDiscourses 500+ (external sister sites) — left as soft/external claims.
+- Pattern: when reconciling a 'resource' count, the source of truth is the data file's meta/length, not the marketing card.
