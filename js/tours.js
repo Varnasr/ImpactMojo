@@ -120,7 +120,7 @@
       { element: '#nav-courses', intro: '<strong>Courses</strong><br>62 free courses (15 flagship + 47 foundational) covering econometrics, gender studies, MEL frameworks, and more.' },
       { element: '#nav-labs', intro: '<strong>Labs</strong><br>Hands-on interactive tools — build a Theory of Change, design MEL frameworks, and more.' },
       { element: '#nav-games', intro: '<strong>Games</strong><br>Learn behavioral economics, game theory, and policy concepts through play.' },
-      { element: '#nav-specials', intro: '<strong>Explore</strong><br>Find the Dataverse, Dojos, and catalog here.' },
+      { element: '#nav-specials', intro: '<strong>Explore</strong><br>The Game Library, reference tools (Dataverse, ImpactLex), Book Companions, Deep Dives, the Research to Action poster series, Dojos, and more.' },
       { element: '#nav-dataverse', intro: '<strong>Dataverse</strong><br>296 curated data tools, APIs, and datasets for development research.' },
       { element: '.theme-selector', intro: '<strong>Theme</strong><br>Switch between light, dark, and system themes.' },
       { element: '#premium', intro: '<strong>Premium Tools</strong><br>Professional-grade tools like VaniScribe AI, Code Convert Pro, and Qual Insights Lab.' }
