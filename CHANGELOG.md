@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - **Homepage resources grid no longer shows empty slots.** The fixed 3-column grid left blank cells on the last row (7 cards); it's now `auto-fit`, so a partial last row stretches to fill.
+- **Catalogue brought up to date with the site.** Corrected stale filter-chip counts (Labs, Games, Deep Dives, Premium) and added the entries that were missing from the catalogue: the **Policy Analysis Lab** (labs 12 → 13) and four book companions — **Health Economics (Kobelt)**, **Unlimited Memory**, **Public Health Equity and Ethics**, and **Using Python for Introductory Econometrics** (book companions 50 → 54). The catalogue now matches the canonical counts.
 
 ## [10.79.11] - 2026-06-23
 
