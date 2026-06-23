@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- **Foundational course count corrected to 47 (total 62).** The advertised figure had been 45 foundational / 60 total, but `/101-courses/` actually has **47 built decks**. Updated foundational/total counts to **47 / 62** across the homepage, README, press kit, catalogue, transparency page, premium pages, content-marketing kit, signup/invite emails, docs, and CLAUDE.md. Also fixed a stale "12 Flagship Courses" → "15" on the homepage.
+- **Foundational course count corrected to 47 (total 62).** The advertised figure had been 45 foundational / 60 total, but `/101-courses/` actually has **47 built decks**. Updated foundational/total counts to **47 / 62** across the homepage, README, press kit, catalogue, transparency page, premium pages, content-marketing kit, signup/invite emails, status/products pages, upgrade page, docs, and CLAUDE.md. Also cleaned up stale **flagship** counts on live pages — homepage "12 Flagship Courses" → 15, and the press-kit ("53 Courses / 13 Flagship") and premium ("13 Flagship / 40 Foundational") stat blocks → 62 / 15 / 47. (Historical changelog and internal-log mentions of older counts were left intact as accurate records.)
 
 ### Added
 
