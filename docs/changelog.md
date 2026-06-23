@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.8 — June 23, 2026 (Research to Action — Series 3)
+
+### For Learners
+
+- **New poster set — "Evaluation in Practice" (Series 3)** on the [Research to Action](https://www.impactmojo.in/research-to-action/) page: ten posters on doing evaluation well — theory of change, evaluation questions, process and outcome evaluation, contribution analysis, equity-focused and realist evaluation, implementation failure, rapid evaluation, and reporting that gets used. Switch series at the top of the album.
+
 ## v10.79.7 — June 23, 2026 (Research to Action — Series 2)
 
 ### For Learners

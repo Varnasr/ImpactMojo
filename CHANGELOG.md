@@ -5,6 +5,16 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.79.8] - 2026-06-23
+
+### Added
+
+- **Research to Action — Series 3: "Evaluation in Practice"** (10 posters). Added to the multi-series album via a third `SERIES` entry and `posters/series-3/` (PNGs re-encoded to ~1.6 MB of optimized JPEGs + thumbnails). Topics: theory of change, evaluation questions, process evaluation, outcome evaluation, contribution analysis, equity-focused evaluation, realist evaluation, implementation failure, rapid evaluation, and evaluation reporting that gets used. Deep-links `#3-<n>`; search index gains `RTA003`.
+
+### For Learners
+
+- **New poster set — "Evaluation in Practice" (Series 3)** on the Research to Action page: ten posters on doing evaluation well — from theory of change and asking the right evaluation questions to process/outcome evaluation, contribution analysis, equity and realist evaluation, diagnosing implementation failure, rapid evaluation, and reporting people actually use.
+
 ## [10.79.7] - 2026-06-23
 
 ### Added
