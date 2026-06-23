@@ -5,6 +5,20 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.79.10] - 2026-06-23
+
+### Added
+
+- **Research to Action — Series 5, 6, and 7** (30 posters). Three more series added to the multi-series album via new `SERIES` entries + `posters/series-5|6|7/` (PNGs re-encoded to ~1.5 MB each in optimized JPEGs + thumbnails):
+  - **Series 5 — Climate, Health & Resilience:** climate as a health issue, heat action plans, WASH, food & nutrition, vector-borne disease, resilient health systems, early warning, gender & equity, urban heat/air pollution, adaptation to resilience.
+  - **Series 6 — Home Truths** (development-sector realities): capacity building, the last mile, dashboards vs decisions, pilots vs scale, real participation, innovation vs improvement, reporting vs learning, frontline workers, evidence theatre, systems change.
+  - **Series 7 — Policy & Programme Design:** problem definition, policy levers, targeting, implementation systems, frontline delivery, incentives, cost-effectiveness, accountability, political economy, public value.
+  - Deep-links `#5-<n>`, `#6-<n>`, `#7-<n>`; search index gains `RTA005`–`RTA007`. The album now hosts 7 series / 70 posters.
+
+### For Learners
+
+- **Three new poster sets on Research to Action** — *Climate, Health & Resilience* (Series 5), *Home Truths* on how development work really plays out (Series 6), and *Policy & Programme Design* (Series 7). Switch between all seven series at the top of the album.
+
 ## [10.79.9] - 2026-06-23
 
 ### Added

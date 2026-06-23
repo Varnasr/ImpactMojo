@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.10 — June 23, 2026 (Research to Action — Series 5, 6 & 7)
+
+### For Learners
+
+- **Three new poster sets on the [Research to Action](https://www.impactmojo.in/research-to-action/) page** — *Climate, Health & Resilience* (Series 5), *Home Truths* on how development work really plays out (Series 6), and *Policy & Programme Design* (Series 7). That's 30 more posters, bringing the album to seven series. Switch between them at the top of the album.
+
 ## v10.79.9 — June 23, 2026 (Research to Action — Series 4)
 
 ### For Learners
