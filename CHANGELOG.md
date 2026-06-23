@@ -5,6 +5,16 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.79.9] - 2026-06-23
+
+### Added
+
+- **Research to Action — Series 4: "Research Methods Without Panic"** (10 posters). Fourth series in the multi-series album (new `SERIES` entry + `posters/series-4/`, ~2 MB optimized JPEGs + thumbnails). Topics: sampling, sample size, survey design, validity, reliability, qualitative interviews, focus groups, coding qualitative data, mixed methods, and research ethics. Deep-links `#4-<n>`; search index gains `RTA004`.
+
+### For Learners
+
+- **New poster set — "Research Methods Without Panic" (Series 4)** on the Research to Action page: ten posters demystifying core methods — sampling and sample size, survey design, validity and reliability, qualitative interviews, focus groups, coding, mixed methods, and research ethics.
+
 ## [10.79.8] - 2026-06-23
 
 ### Added

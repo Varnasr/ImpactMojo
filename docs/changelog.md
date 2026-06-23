@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.9 — June 23, 2026 (Research to Action — Series 4)
+
+### For Learners
+
+- **New poster set — "Research Methods Without Panic" (Series 4)** on the [Research to Action](https://www.impactmojo.in/research-to-action/) page: ten posters that demystify core research methods — sampling, sample size, survey design, validity, reliability, qualitative interviews, focus groups, coding qualitative data, mixed methods, and research ethics. Switch series at the top of the album.
+
 ## v10.79.8 — June 23, 2026 (Research to Action — Series 3)
 
 ### For Learners
