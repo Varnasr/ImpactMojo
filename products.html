@@ -181,6 +181,11 @@ h1,h2,h3,h4{font-family:'Inter',Helvetica,sans-serif;font-weight:700;line-height
 @media(max-width:480px){.footer-grid{grid-template-columns:1fr;}.page-hero h1{font-size:1.55rem;}}
 main p a[href], main li a[href]{text-decoration:underline;text-underline-offset:.15em;}
 main .nav-links a, main .footer a, main a.go, main a.pl, main .free-banner a{text-decoration:none;}
+.im-theme-selector{display:inline-flex;gap:2px;background:var(--card-bg);border:1px solid var(--border-color);border-radius:8px;padding:2px;}
+.im-theme-btn{background:transparent;border:none;color:var(--text-muted);padding:5px;border-radius:6px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;transition:all .2s;}
+.im-theme-btn:hover{background:var(--hover-bg);color:var(--text-primary);}
+.im-theme-btn.active{background:var(--accent-color);color:#fff;}
+.im-theme-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;}
 </style>
 </head>
 <body>
@@ -209,10 +214,11 @@ main .nav-links a, main .footer a, main a.go, main a.pl, main .free-banner a{tex
             <li><a href="/contact.html">Contact</a></li>
         </ul>
         <div class="nav-buttons">
-            <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark/Light Mode" aria-label="Toggle dark or light mode">
-                <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-            </button>
+            <div class="im-theme-selector" role="group" aria-label="Theme">
+              <button class="im-theme-btn" data-imtheme="system" title="System theme" aria-label="System theme"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
+              <button class="im-theme-btn" data-imtheme="light" title="Light theme" aria-label="Light theme"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
+              <button class="im-theme-btn" data-imtheme="dark" title="Dark theme" aria-label="Dark theme"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+            </div>
         </div>
     </nav>
 </header>
@@ -383,8 +389,6 @@ main .nav-links a, main .footer a, main a.go, main a.pl, main .free-banner a{tex
 </footer>
 
 <script>
-function toggleTheme(){document.body.classList.toggle('light-mode');localStorage.setItem('theme',document.body.classList.contains('light-mode')?'light':'dark');}
-(function(){const s=localStorage.getItem('theme');const pd=window.matchMedia('(prefers-color-scheme: dark)').matches;if(s==='light'||(!s&&!pd))document.body.classList.add('light-mode');})();
 
 /* Practice Packs — collected from the live pack pages (links only, no duplicated content) */
 const METHOD = [
@@ -426,5 +430,6 @@ renderPacks('subjectPacks', SUBJECT);
 <script src="/js/state-manager.js"></script>
 <script src="/js/config.js"></script>
 <script src="/js/auth.js"></script>
+<script src="/js/theme.js"></script>
 </body>
 </html>
