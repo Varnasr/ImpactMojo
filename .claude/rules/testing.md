@@ -15,6 +15,27 @@ Before considering any change complete:
 7. **Encoding / mojibake**: Run `python3 scripts/check-mojibake.py` — must print `PASS`. Catches the encoding-corruption signatures that have historically broken scripts (e.g. `js/faq-bank.js`): classic UTF-8/CP1252 byte corruption, smart-punctuation collapse, the U+FFFD replacement char, and C1 control characters. Enforced in CI via the `encoding` job in `ci.yml`; it has zero false positives on legitimate Unicode (em-dash, ellipsis, rupee, copyright, section, middot, plus-minus, smart quotes, Indic i18n).
 8. **Translation quality (i18n)**: After any change to `i18n/<lang>.json` or `i18n/pages/<lang>/*.json`, run `python3 scripts/check-i18n-quality.py` — must print `PASS`. Deterministic, zero-false-positive guard for the four machine-translation corruption classes the 2026-06 audit eliminated: cross-script leakage (foreign Indic letters in a value, e.g. Odia inside Bengali — shared danda `।` excluded), the "text:" placeholder artifact (पाठ: / मजकूर: / টেক্সট: / உரை:), the brand name "ImpactMojo" rendered in native script, and character-run corruption (same char repeated 6+ times). Enforced in CI via the `i18n-quality` job in `ci.yml` (every push/PR **and** a daily schedule). The companion `scripts/check-i18n-glossary.py` is an advisory (noisier) detector for protected-term drops; `data/i18n-glossary.json` is the protected-terms reference.
 
+## Manual browser QA — push & offline (PWA)
+
+These need a real browser (no headless Chromium in the agent sandbox). Run after any service-worker / push change, on the deployed site or a local `npx http-server`:
+
+**Offline (service worker):**
+1. Load a flagship course online (e.g. `/courses/mel/`). DevTools → Application → Service Workers shows the SW *activated*.
+2. Go offline (DevTools → Network → Offline). Reload the same page → it still renders (network-first fell back to cache).
+3. Navigate to a page you have NOT visited → shows `/offline.html` (not a browser error).
+4. Back online, in `js/offline.js`-enabled pages, click "download course" → reload offline → the course opens.
+5. Deploy check: after a deploy, a normal reload shows fresh content (network-first), and DevTools → Application → Cache Storage shows only the current `im-runtime-*` cache (old versions purged).
+
+**Push notifications:**
+1. Sign in → `/account.html` → Notifications card → **Browser Notifications** toggle.
+2. Flip it on → browser permission prompt appears → Allow. The toggle stays on; `push_subscriptions` gets a row (check via Supabase).
+3. Trigger a test push (service role): `POST {SUPABASE_URL}/functions/v1/send-push/send` with `{ "user_id": "<your id>", "title": "Test", "body": "hello", "link": "/account.html" }` → a notification banner appears; clicking it focuses/opens the link.
+4. Flip the toggle off → the subscription is removed and no further pushes arrive.
+
+## Visual regression — CSS @layer migration (#563)
+
+The `tests/visual/` Playwright harness gates issue #563. It can't run in the agent sandbox (no browser); run it locally/CI: `cd tests/visual && npm install && npx playwright install chromium`, baseline on `main` with `npm run baseline`, then `npm test` after the refactor — any layout/colour shift fails as a snapshot diff. See `tests/visual/README.md`.
+
 ## Useful grep commands
 
 ```bash
