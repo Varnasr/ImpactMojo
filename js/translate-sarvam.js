@@ -246,7 +246,9 @@
     wrap.className = inNav ? "im-lang-innav" : "im-lang-floating";
     wrap.style.cssText = inNav
       ? "position:relative;display:inline-flex;align-items:center;z-index:9990;font-family:system-ui,-apple-system,sans-serif"
-      : "position:fixed;right:16px;bottom:24px;z-index:9990;font-family:system-ui,-apple-system,sans-serif";
+      // Floating fallback (mainly the homepage on mobile, where the nav buttons
+      // collapse): sit above the speed-dial FAB so the two don't overlap.
+      : "position:fixed;right:16px;bottom:5.5rem;z-index:9990;font-family:system-ui,-apple-system,sans-serif";
 
     // popover menu — drops DOWN when in the nav, UP when floating
     menu = document.createElement("div");
@@ -286,7 +288,7 @@
     kf.textContent = "@keyframes imXlateSpin{to{transform:rotate(360deg)}}" +
       "#im-lang-switch .im-fab:active{transform:scale(.93)}" +
       "#im-lang-switch [role=menuitem]:hover{background:rgba(0,0,0,0.05)!important}" +
-      "@media(max-width:480px){#im-lang-switch.im-lang-floating{right:14px!important;bottom:20px!important}}";
+      "@media(max-width:480px){#im-lang-switch.im-lang-floating{right:14px!important;bottom:5.5rem!important}}";
     document.head.appendChild(kf);
 
     // collapse on outside tap / Escape
