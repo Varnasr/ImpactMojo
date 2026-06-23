@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.7 — June 23, 2026 (Research to Action — Series 2)
+
+### For Learners
+
+- **New poster set — "Data to Decisions" (Series 2)** on the [Research to Action](https://www.impactmojo.in/research-to-action/) page: ten posters on turning data into good decisions — data quality, triangulation, monitoring, dashboards, administrative data, ethics, inclusive evidence, learning loops, qualitative data, and storytelling. Use the switcher at the top of the album to move between Series 1 and Series 2.
+
 ## v10.79.6 — June 23, 2026 (Research to Action poster series)
 
 ### For Learners

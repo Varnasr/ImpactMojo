@@ -5,6 +5,16 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.79.7] - 2026-06-23
+
+### Added
+
+- **Research to Action — Series 2: "Data to Decisions"** (10 posters). The `/research-to-action/` album now hosts multiple series with a series switcher above the spotlight; the filmstrip, counter, deep-links, and download adapt to the active series. Series 2 covers data quality, triangulation, monitoring, dashboards, administrative data, data ethics, inclusive evidence, learning loops, qualitative data, and data storytelling. Posters are namespaced into `posters/series-1/` and `posters/series-2/` (Series 1 files moved accordingly; source PNGs re-encoded to ~1.5 MB of optimized JPEGs + thumbnails). Deep-links are now `#<series>-<poster>` (e.g. `#2-3`), with bare `#n` kept for Series 1. Search index gains `RTA002`.
+
+### For Learners
+
+- **New poster set — "Data to Decisions" (Series 2)** on the Research to Action page: ten posters on turning data into good decisions — quality, triangulation, monitoring, dashboards, ethics, inclusion, learning loops, qualitative insight, and storytelling. Switch between series at the top of the album.
+
 ## [10.79.6] - 2026-06-23
 
 ### Added
