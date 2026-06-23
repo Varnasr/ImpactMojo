@@ -5,6 +5,12 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.79.11] - 2026-06-23
+
+### Fixed
+
+- **Research to Action posters were cropped on mobile.** The spotlight image used `object-fit: cover`, which cut off the left/right edges of the (square) posters on narrow screens — only the middle column showed. Switched to `width:100%; height:auto` so the full poster always renders.
+
 ## [10.79.10] - 2026-06-23
 
 ### Added
