@@ -5,6 +5,20 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.79.12] - 2026-06-23
+
+### Changed
+
+- **Language switcher moved into the top navigation.** It was a floating globe at the bottom-right (near the learning-tools dial). `translate-sarvam.js` now mounts the globe inline in the topbar (`.im-topbar-right`, or `.nav-buttons` on the homepage) — but only when that target is visible, so it falls back to the floating globe where the nav cluster is hidden (e.g. the homepage on mobile) and is never lost. The menu drops down in-nav. Applies across all ~380 pages from the one shared script.
+
+### Added
+
+- **Research to Action surfaced across the site:** a card in the homepage "Free Resources" grid, a **Poster Series** type in the catalogue (`catalog.html`, 7 entries + filter chip), the top-nav Specials dropdown, and the shared translation layer so it switches languages like every other page.
+
+### Fixed
+
+- **Homepage resources grid no longer shows empty slots.** The fixed 3-column grid left blank cells on the last row (7 cards); it's now `auto-fit`, so a partial last row stretches to fill.
+
 ## [10.79.11] - 2026-06-23
 
 ### Fixed
