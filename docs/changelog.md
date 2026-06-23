@@ -6,7 +6,7 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 
 ### For Learners
 
-- **The [101 course gallery](https://www.impactmojo.in/101-courses/) now shows what's actually inside each course** — the real slide count plus whether it includes a quiz, glossary, interactive charts, and further reading. You can filter the gallery by those features, and the slide counts are now accurate per deck (86–123 slides; 4,500+ in total).
+- **The [101 course gallery](https://www.impactmojo.in/101-courses/) now shows what's actually inside each course** — the real slide count plus whether it includes a quiz, glossary, interactive charts, and further reading. You can filter the gallery by those features, and the slide counts are now accurate per deck (100+ slides each; 4,700+ in total).
 - **Measuring Empowerment book companion rebuilt** — the [companion to the BMGF "What Gets Measured Matters" methods note](https://www.impactmojo.in/BookSummaries/measuring-empowerment-companion.html) now has the same reading experience as the rest of the library: light/dark theme, in-page translation, section navigation, and an Ask-the-book Q&A.
 - **Mobile tidy-up on the homepage** — the accessibility button no longer covers the headline, and the language switcher sits clear of the other on-screen buttons.
 
