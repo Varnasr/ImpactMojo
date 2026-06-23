@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - **Homepage resources grid no longer shows empty slots.** The fixed 3-column grid left blank cells on the last row (7 cards); it's now `auto-fit`, so a partial last row stretches to fill.
+- **Count reconciliation across surfaces.** Press kit corrected from a stale "48+ Courses · 15 Flagship · 38 Short" to "60 Courses · 15 Flagship · 45 Short"; catalogue handout count corrected 85 → 84 (actual). Homepage, README, press kit, and catalogue now agree on the canonical figures (60 courses · 13 labs · 134 games · 20 deep dives · 54 book companions · 84 handouts).
 - **Catalogue brought up to date with the site.** Corrected stale filter-chip counts (Labs, Games, Deep Dives, Premium) and added the entries that were missing from the catalogue: the **Policy Analysis Lab** (labs 12 → 13) and four book companions — **Health Economics (Kobelt)**, **Unlimited Memory**, **Public Health Equity and Ethics**, and **Using Python for Introductory Econometrics** (book companions 50 → 54). The catalogue now matches the canonical counts.
 
 ## [10.79.11] - 2026-06-23
