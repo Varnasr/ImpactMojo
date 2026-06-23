@@ -73,7 +73,7 @@ ImpactMojo development priorities for 2026. Items are roughly ordered by priorit
 - [x] **Certificate policy consistency** — reconciled to "free completion + Premium verified" site-wide
 - [x] **Contact-email consolidation** — 11 scattered addresses folded into a single `hello@`
 - [x] **Header-offset + anchor-scroll fixes** — heroes no longer trapped under the fixed header (10 pages); in-page `#section` links land correctly
-- [x] **Count-consistency pass** — canonical counts (60 courses · 13 labs · 54 book companions · 20 Deep Dives · 134 Game Library) propagated across site, README, and press kit
+- [x] **Count-consistency pass** — canonical counts (62 courses · 13 labs · 54 book companions · 20 Deep Dives · 134 Game Library) propagated across site, README, and press kit
 - [x] **Migrate all 47 foundational decks to native HTML** — every `/101-courses/*` deck is now a self-hosted ~100-slide native HTML deck (Chart.js, light/dark, keyboard/touch nav). Zero Gamma iframes remain across the 101 series; verified live on impactmojo.in.
 - [ ] **Vernacular Content** — Full courses in Hindi and Tamil (#29). _Partially live: machine-translated + quality-audited per-page course content ships for hi/ta/bn/mr (30 page-dictionaries each, Sarvam) with a protected-terms glossary. The open part is professional, human-reviewed full-course localization (not machine translation)._
 - [ ] **Analytics dashboard v2** — Learner analytics with completion funnels, time-on-task, assessment scores

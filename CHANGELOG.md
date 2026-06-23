@@ -5,6 +5,16 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.79.13] - 2026-06-23
+
+### Changed
+
+- **Foundational course count corrected to 47 (total 62).** The advertised figure had been 45 foundational / 60 total, but `/101-courses/` actually has **47 built decks**. Updated foundational/total counts to **47 / 62** across the homepage, README, press kit, catalogue, transparency page, premium pages, content-marketing kit, signup/invite emails, docs, and CLAUDE.md. Also fixed a stale "12 Flagship Courses" → "15" on the homepage.
+
+### Added
+
+- **Catalogue now lists all 47 foundational courses** (was 40, of which several were stale). Converted 7 "Coming Soon" placeholders that are in fact built (Survey Design, Gender Mainstreaming, Mixed Methods, Impact Evaluation, Maternal Health, Child Development, Feminist Research), removed a duplicate Development Economics entry (repurposed to Political Economy 101), and added 7 absent decks (Advocacy Basics, Behaviour Change Communication, Climate Essentials, Data Visualization, Inequality Basics, Logframe, Women's Economic Empowerment). Filter chip 40 → 47.
+
 ## [10.79.12] - 2026-06-23
 
 ### Changed
