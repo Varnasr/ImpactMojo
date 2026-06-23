@@ -121,7 +121,7 @@
       { element: '#nav-labs', intro: '<strong>Labs</strong><br>Hands-on interactive tools — build a Theory of Change, design MEL frameworks, and more.' },
       { element: '#nav-games', intro: '<strong>Games</strong><br>Learn behavioral economics, game theory, and policy concepts through play.' },
       { element: '#nav-specials', intro: '<strong>Explore</strong><br>Find the Dataverse, Dojos, and catalog here.' },
-      { element: '#nav-dataverse', intro: '<strong>Dataverse</strong><br>239+ curated data tools, APIs, and datasets for development research.' },
+      { element: '#nav-dataverse', intro: '<strong>Dataverse</strong><br>296 curated data tools, APIs, and datasets for development research.' },
       { element: '.theme-selector', intro: '<strong>Theme</strong><br>Switch between light, dark, and system themes.' },
       { element: '#premium', intro: '<strong>Premium Tools</strong><br>Professional-grade tools like VaniScribe AI, Code Convert Pro, and Qual Insights Lab.' }
     ],
@@ -135,7 +135,7 @@
     ],
 
     dataverse: [
-      { intro: '<strong>ImpactMojo Dataverse</strong><br>A curated collection of 239+ data tools, APIs, datasets, and MCP servers for development work.' },
+      { intro: '<strong>ImpactMojo Dataverse</strong><br>A curated collection of 296 data tools, APIs, datasets, and MCP servers for development work.' },
       { element: '#searchInput', intro: '<strong>Search</strong><br>Search across all resources by name, description, or tag.' },
       { element: '#typeFilters', intro: '<strong>Filter by Type</strong><br>Show only APIs, datasets, tools, or MCP servers.' },
       { element: '#categoryFilters', intro: '<strong>Browse Categories</strong><br>Explore resources by domain — government data, health, climate, legal, and more.' },
