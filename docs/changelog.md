@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.6 — June 23, 2026 (Research to Action poster series)
+
+### For Learners
+
+- **New "Research to Action" poster series** — a visual walk through turning research into decisions and impact: asking the right question, choosing a design, sample size, indicators, bias, correlation vs causation, reading findings, and communicating so people actually use the evidence. Browse the spotlight album, open any poster full-size, or download them for your own workshops and classrooms. **Series 1 — 10 posters.**
+
 ## v10.79.5 — June 19, 2026 (Push notifications)
 
 ### For Learners

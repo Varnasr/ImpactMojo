@@ -5,6 +5,16 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.79.6] - 2026-06-23
+
+### Added
+
+- **Research to Action — poster series** (`/research-to-action/`). A new visual section with a wide central spotlight/lightbox album: a large featured poster, prev/next + keyboard navigation, a thumbnail filmstrip, click-to-zoom fullscreen lightbox, per-poster download, and `#n` deep-links. **Series 1** ships with 10 posters — What is Research to Action?, Start with the Right Question, Choosing the Right Research Design, Sample Size, Indicators That Measure What Matters, Five Common Biases, Correlation/Causation/Credibility, How to Read Findings Without Being Misled, From Findings to Decisions, and Communicating Research So People Use It. Source PNGs (~21 MB) were re-encoded to optimized JPEGs + thumbnails (~2 MB total). Brand shell (topbar, theme toggle, footer), search index (`RTA001`), sitemap, and homepage footer link added.
+
+### For Learners
+
+- **New "Research to Action" poster series** — a visual walk through turning research into decisions and impact, from asking the right question to communicating findings people actually use. Browse the spotlight album, open any poster full-size, or download them for your own workshops and classrooms.
+
 ## [10.79.5] - 2026-06-19
 
 ### Added
