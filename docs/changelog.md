@@ -2,6 +2,14 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.11 — June 23, 2026 (101 deck gallery + companion rebuild + mobile fixes)
+
+### For Learners
+
+- **The [101 course gallery](https://www.impactmojo.in/101-courses/) now shows what's actually inside each course** — the real slide count plus whether it includes a quiz, glossary, interactive charts, and further reading. You can filter the gallery by those features, and the slide counts are now accurate per deck (86–123 slides; 4,500+ in total).
+- **Measuring Empowerment book companion rebuilt** — the [companion to the BMGF "What Gets Measured Matters" methods note](https://www.impactmojo.in/BookSummaries/measuring-empowerment-companion.html) now has the same reading experience as the rest of the library: light/dark theme, in-page translation, section navigation, and an Ask-the-book Q&A.
+- **Mobile tidy-up on the homepage** — the accessibility button no longer covers the headline, and the language switcher sits clear of the other on-screen buttons.
+
 ## v10.79.10 — June 23, 2026 (Research to Action — Series 5, 6 & 7)
 
 ### For Learners
