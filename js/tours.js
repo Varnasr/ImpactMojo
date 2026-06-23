@@ -116,8 +116,8 @@
     index: [
       { intro: '<strong>Welcome to ImpactMojo!</strong><br>A free learning platform for MEAL, development economics, and impact research. Let us show you around.' },
       { element: '#navLinks', intro: '<strong>Navigation Bar</strong><br>Everything is organized under these menus — courses, labs, games, data tools, and more.' },
-      { element: '#nav-learn', intro: '<strong>Learn</strong><br>Open this menu for 39+ free Courses, hands-on Labs, and learning Games.' },
-      { element: '#nav-courses', intro: '<strong>Courses</strong><br>39 free courses covering econometrics, gender studies, MEL frameworks, and more.' },
+      { element: '#nav-learn', intro: '<strong>Learn</strong><br>Open this menu for 62 free Courses, hands-on Labs, and learning Games.' },
+      { element: '#nav-courses', intro: '<strong>Courses</strong><br>62 free courses (15 flagship + 47 foundational) covering econometrics, gender studies, MEL frameworks, and more.' },
       { element: '#nav-labs', intro: '<strong>Labs</strong><br>Hands-on interactive tools — build a Theory of Change, design MEL frameworks, and more.' },
       { element: '#nav-games', intro: '<strong>Games</strong><br>Learn behavioral economics, game theory, and policy concepts through play.' },
       { element: '#nav-specials', intro: '<strong>Explore</strong><br>Find the Dataverse, Dojos, and catalog here.' },
