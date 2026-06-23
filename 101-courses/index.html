@@ -37,9 +37,8 @@
   --font-body:'Amaranth',Georgia,serif;
   --font-mono:'JetBrains Mono',monospace;
 }
-@media(prefers-color-scheme:dark){
-  :root{--paper:#0F172A;--paper-mid:#1E293B;--paper-soft:#1E293B;--ink:#F1F5F9;--ink-mid:#CBD5E1;--ink-light:#94A3B8;--border:#334155}
-}
+html.dark{--paper:#0F172A;--paper-mid:#1E293B;--paper-soft:#1E293B;--ink:#F1F5F9;--ink-mid:#CBD5E1;--ink-light:#94A3B8;--border:#334155}
+@media(prefers-color-scheme:dark){html:not([data-theme]){--paper:#0F172A;--paper-mid:#1E293B;--paper-soft:#1E293B;--ink:#F1F5F9;--ink-mid:#CBD5E1;--ink-light:#94A3B8;--border:#334155}}
 html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);line-height:1.55;-webkit-font-smoothing:antialiased}
 
 /* Topbar */
@@ -54,7 +53,7 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
 .im-premium-btn:hover{background:linear-gradient(135deg,#EAB308,#F87171);color:white;border-color:transparent}
 
 /* Hero */
-.hero{position:relative;padding:80px 28px 60px;background:linear-gradient(135deg,var(--ink) 0%,var(--ink-mid) 100%);color:white;overflow:hidden}
+.hero{position:relative;padding:80px 28px 60px;background:linear-gradient(135deg,#0F172A 0%,#1E293B 100%);color:white;overflow:hidden}
 .hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 25% 30%,rgba(14,165,233,0.15) 1px,transparent 1px),radial-gradient(circle at 75% 70%,rgba(99,102,241,0.12) 1px,transparent 1px);background-size:80px 80px;opacity:0.5}
 .hero-inner{position:relative;z-index:2;max-width:1100px;margin:0 auto}
 .hero-eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#0EA5E9;margin-bottom:16px;font-weight:600}
@@ -96,11 +95,28 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
 .card-title{font-family:var(--font-head);font-size:17px;font-weight:700;line-height:1.25;margin-bottom:8px;color:var(--ink);letter-spacing:-0.3px}
 .card-desc{font-family:var(--font-body);font-size:14px;line-height:1.5;color:var(--ink-mid);flex:1;margin-bottom:14px}
 .card-cta{font-family:var(--font-head);font-size:12px;font-weight:700;color:var(--cyan);letter-spacing:0.3px}
-.card-feats{list-style:none;margin:2px 0 12px;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:5px 12px}
-.card-feats li{font-family:var(--font-body);font-size:12px;color:var(--ink-mid);display:flex;align-items:center;gap:6px;line-height:1.3}
+/* --- marketing feature list --- */
+.card-feats{list-style:none;margin:2px 0 14px;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px 14px}
+.card-feats li{font-family:var(--font-body);font-size:13px;color:var(--ink-mid);display:flex;align-items:center;gap:7px;line-height:1.35}
 .card-feats .ck{color:#10B981;font-weight:800;flex-shrink:0}
-.card-meta{font-family:var(--font-mono);font-size:9px;letter-spacing:0.7px;text-transform:uppercase;color:var(--ink-light);margin-bottom:12px}
-@media(max-width:380px){.card-feats{grid-template-columns:1fr}}
+.card-meta{font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.7px;text-transform:uppercase;color:var(--ink-light);margin-bottom:14px}
+@media(max-width:420px){.card-feats{grid-template-columns:1fr}}
+/* --- bigger, nicer cards (override base) --- */
+.course-grid{grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:22px}
+.course-card{padding:26px 24px 22px;min-height:215px;border-radius:16px;background:var(--paper-soft)}
+.course-card::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;border-radius:16px 16px 0 0;background:linear-gradient(90deg,#0EA5E9,#6366F1);opacity:0;transition:opacity .15s}
+.course-card:hover{transform:translateY(-4px);box-shadow:0 16px 36px rgba(15,23,42,.13);border-color:var(--cyan)}
+.course-card:hover::before{opacity:1}
+.card-badge{font-size:9.5px;margin-bottom:14px}
+.card-title{font-size:19px;margin-bottom:9px;letter-spacing:-0.4px}
+.card-desc{font-size:14px;margin-bottom:16px}
+.card-cta{font-size:13px;font-weight:700;color:var(--cyan);display:inline-flex;align-items:center;gap:6px;margin-top:auto}
+/* --- 3-button theme selector in the nav --- */
+.im-theme-selector{display:inline-flex;gap:2px;background:var(--paper-mid);border:1px solid var(--border);border-radius:9px;padding:3px;margin-left:4px}
+.im-theme-btn{background:transparent;border:none;color:var(--ink-light);width:32px;height:32px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,color .15s}
+.im-theme-btn:hover{background:var(--paper-soft);color:var(--ink)}
+.im-theme-btn.active{background:linear-gradient(135deg,#0EA5E9,#6366F1);color:#fff}
+.im-theme-btn svg{width:16px;height:16px}
 
 /* Footer */
 .foot{padding:50px 28px 32px;border-top:1px solid var(--border);text-align:center;background:var(--paper-soft)}
@@ -137,6 +153,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
     <a class="im-nav-btn" href="https://www.impactmojo.in/catalog.html">Catalog</a>
     <a class="im-nav-btn" href="https://www.impactmojo.in/#flagship-courses">Flagships</a>
     <a class="im-nav-btn im-premium-btn" href="https://www.impactmojo.in/premium.html">Premium</a>
+    <div class="im-theme-selector" role="group" aria-label="Theme">
+      <button class="im-theme-btn" data-imtheme="system" title="System theme" aria-label="System theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
+      <button class="im-theme-btn" data-imtheme="light" title="Light theme" aria-label="Light theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
+      <button class="im-theme-btn" data-imtheme="dark" title="Dark theme" aria-label="Dark theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    </div>
   </nav>
 </header>
 
@@ -151,7 +172,7 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
         <div class="hero-stat-lbl">Native Course Decks</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-num">4,500+</div>
+        <div class="hero-stat-num">4,700+</div>
         <div class="hero-stat-lbl">Slides of Learning</div>
       </div>
       <div class="hero-stat">
@@ -175,11 +196,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="section-title">All 101 Courses</div>
   <div class="course-grid" id="courseGrid">
 <a class="course-card" href="/101-courses/bi-analysis.html" data-quiz="0" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 91 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Bivariate Analysis 101</div>
   <div class="card-desc">Master techniques for examining relationships between two variables.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>91 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Further reading</li>
@@ -188,11 +209,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/care-economy-101.html" data-quiz="0" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 97 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Care Economy 101</div>
   <div class="card-desc">Understand the economic value of unpaid care work and explore supportive policies.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>97 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
   </ul>
@@ -200,11 +221,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/community-dev.html" data-quiz="1" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 95 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Community Development 101</div>
   <div class="card-desc">Master participatory approaches to community mobilization and asset-based development.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>95 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Quiz &amp; assessment</li>
@@ -214,11 +235,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/cost-effectiveness.html" data-quiz="0" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 95 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Cost Effectiveness 101</div>
   <div class="card-desc">Master economic evaluation techniques for comparing development interventions.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>95 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
   </ul>
@@ -226,11 +247,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/data-feminism.html" data-quiz="0" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 97 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Data Feminism 101</div>
   <div class="card-desc">Explore how power dynamics shape data collection through an intersectional feminist framework.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>97 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
   </ul>
@@ -238,11 +259,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/data-lit.html" data-quiz="0" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 92 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Data Literacy 101</div>
   <div class="card-desc">Read, question, visualise and use data responsibly — from India's data ecosystem to sampling, distributions, correlation, data quality and ethics.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>92 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Further reading</li>
@@ -264,11 +285,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/decolonize-dev.html" data-quiz="0" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 95 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Decolonial Development 101</div>
   <div class="card-desc">Challenge dominant development paradigms through postcolonial frameworks.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>95 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Further reading</li>
@@ -292,11 +313,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/digital-ethics.html" data-quiz="0" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 99 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Digital Ethics 101</div>
   <div class="card-desc">Navigate ethical challenges in digital development and responsible innovation.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>99 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Further reading</li>
@@ -305,11 +326,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/econometrics-101.html" data-quiz="0" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 93 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Econometrics 101</div>
   <div class="card-desc">Master statistical techniques for causal inference in development economics.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>93 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Further reading</li>
@@ -350,11 +371,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/edu-pedagogy.html" data-quiz="1" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 97 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Education and Pedagogy 101</div>
   <div class="card-desc">Discover evidence-based teaching methodologies and learning theories.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>97 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Quiz &amp; assessment</li>
@@ -390,11 +411,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/eda-hhs.html" data-quiz="0" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 96 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Exploratory Data Analysis 101</div>
   <div class="card-desc">Develop skills for cleaning, exploring, and visualizing household survey data.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>96 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
   </ul>
@@ -402,11 +423,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/fundraising-basics.html" data-quiz="0" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 99 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Fundraising Basics 101</div>
   <div class="card-desc">Develop essential skills for resource mobilization in the development sector.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>99 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Further reading</li>
@@ -415,11 +436,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/dev-architecture.html" data-quiz="0" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 95 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Global Development Governance 101</div>
   <div class="card-desc">Navigate the complex ecosystem of development institutions.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>95 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Further reading</li>
@@ -428,11 +449,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/ind-constitution.html" data-quiz="0" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 90 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Indian Constitution 101</div>
   <div class="card-desc">Examine the constitutional framework that guides Indias democracy.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>90 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Further reading</li>
@@ -441,11 +462,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/irt-basics.html" data-quiz="1" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 94 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Item Response Theory 101</div>
   <div class="card-desc">Learn advanced psychometric techniques for developing measurement instruments.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>94 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Quiz &amp; assessment</li>
@@ -483,11 +504,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/multivariate-basics.html" data-quiz="0" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 89 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Multivariate Analysis 101</div>
   <div class="card-desc">Master advanced statistical techniques for analyzing complex relationships.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>89 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Further reading</li>
@@ -496,11 +517,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/obs2insight.html" data-quiz="1" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 90 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Observation to Insight 101</div>
   <div class="card-desc">Transform raw field observations into actionable insights.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>90 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Quiz &amp; assessment</li>
@@ -510,11 +531,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/post-truth-101.html" data-quiz="0" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 96 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Post Truth Politics 101</div>
   <div class="card-desc">Analyze how misinformation and polarization shape development outcomes.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>96 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Further reading</li>
@@ -539,11 +560,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/pub-health-basics.html" data-quiz="1" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 86 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Public Health 101</div>
   <div class="card-desc">Explore epidemiology, health systems, and disease prevention strategies.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>86 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Quiz &amp; assessment</li>
@@ -553,11 +574,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/qual-methods.html" data-quiz="0" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 93 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Qualitative Methods 101</div>
   <div class="card-desc">Master qualitative research techniques including interviews, focus groups, and ethnography.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>93 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
   </ul>
@@ -565,11 +586,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/research-ethics.html" data-quiz="1" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 96 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Research Ethics 101</div>
   <div class="card-desc">Navigate ethical considerations in development research and protect vulnerable populations.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>96 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Quiz &amp; assessment</li>
@@ -578,11 +599,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/sel-basics.html" data-quiz="0" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 99 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">SEL Basics 101</div>
   <div class="card-desc">Understand Social and Emotional Learning frameworks for education programs.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>99 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Further reading</li>
@@ -591,11 +612,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/SRHR-basics.html" data-quiz="0" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 94 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Sexual Health 101</div>
   <div class="card-desc">Navigate sensitive topics in sexual and reproductive health programming.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>94 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Further reading</li>
@@ -620,11 +641,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/toc-workbench.html" data-quiz="1" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 87 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Theory of Change 101</div>
   <div class="card-desc">Learn to design robust theories of change that articulate impact pathways.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>87 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Quiz &amp; assessment</li>
@@ -634,11 +655,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/visual-eth.html" data-quiz="0" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 98 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Visual Ethnography 101</div>
   <div class="card-desc">Learn to document and analyze social phenomena through photography and video.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>98 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Further reading</li>
@@ -663,11 +684,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/advocacy-basics.html" data-quiz="0" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 92 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Advocacy Basics 101</div>
   <div class="card-desc">Influence policy, practice and power &mdash; power analysis, the advocacy cycle, stakeholder mapping, policy windows, tactics, and ethics.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>92 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
   </ul>
@@ -675,11 +696,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/bcc-comms.html" data-quiz="0" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 96 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Behaviour Change Communication 101</div>
   <div class="card-desc">Move from awareness to action &mdash; behaviour-change theory, audience segmentation, formative research, message design, channels and campaigns.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>96 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Further reading</li>
@@ -688,11 +709,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/pol-economy.html" data-quiz="0" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 93 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Political Economy 101</div>
   <div class="card-desc">How politics and economics interact &mdash; institutions, collective action, rent-seeking, the developmental state, and political-economy analysis.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>93 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Further reading</li>
@@ -701,11 +722,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/wee-studies.html" data-quiz="0" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 93 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Women&rsquo;s Economic Empowerment 101</div>
   <div class="card-desc">Resources, agency and achievements &mdash; the care economy, labour-force participation, assets and finance, social norms, rights, and what works.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>93 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
   </ul>
@@ -713,11 +734,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/child-development.html" data-quiz="1" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 97 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Child Development 101</div>
   <div class="card-desc">Early childhood development and the first 1,000 days — nutrition, nurturing care, and India&rsquo;s ECD ecosystem.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>97 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Quiz &amp; assessment</li>
@@ -726,11 +747,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/feminist-research.html" data-quiz="0" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 92 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Feminist Research 101</div>
   <div class="card-desc">Power, reflexivity and voice in knowledge production — standpoint theory, situated knowledge, intersectionality.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>92 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Further reading</li>
@@ -739,11 +760,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/gender-mainstreaming.html" data-quiz="1" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 91 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Gender Mainstreaming 101</div>
   <div class="card-desc">Integrating gender across the programme cycle — analysis frameworks, gender-responsive budgeting, the twin-track approach.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>91 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Quiz &amp; assessment</li>
@@ -753,11 +774,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/impact-eval.html" data-quiz="1" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 94 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Impact Evaluation 101</div>
   <div class="card-desc">Attribution and the counterfactual — RCTs, difference-in-differences, regression discontinuity, power, and using evidence.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>94 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Quiz &amp; assessment</li>
@@ -767,11 +788,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/maternal-health.html" data-quiz="0" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 92 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Maternal Health 101</div>
   <div class="card-desc">Safe pregnancy and birth — the continuum of care, the three delays, and India&rsquo;s maternal health programmes.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>92 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
     <li><span class="ck" aria-hidden="true">✓</span>Further reading</li>
@@ -780,11 +801,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/mixed-methods.html" data-quiz="0" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 92 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Mixed Methods 101</div>
   <div class="card-desc">Combining quantitative and qualitative research — core designs, integration, and quality.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>92 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
   </ul>
@@ -792,11 +813,11 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
   <div class="card-cta">Open Course &rarr;</div>
 </a>
 <a class="course-card" href="/101-courses/survey-design.html" data-quiz="0" data-charts="0" data-glossary="0">
-  <span class="card-badge card-badge-native">Native HTML &middot; 90 slides</span>
+  <span class="card-badge card-badge-native">Native HTML &middot; 100 slides</span>
   <div class="card-title">Survey Design 101</div>
   <div class="card-desc">Questionnaires, sampling, modes and fieldwork quality — designing surveys that measure what you mean.</div>
   <ul class="card-feats">
-    <li><span class="ck" aria-hidden="true">✓</span>90 slides</li>
+    <li><span class="ck" aria-hidden="true">✓</span>100 slides</li>
     <li><span class="ck" aria-hidden="true">✓</span>Self-paced</li>
     <li><span class="ck" aria-hidden="true">✓</span>South Asian context</li>
   </ul>
@@ -856,6 +877,7 @@ html,body{font-family:var(--font-body);color:var(--ink);background:var(--paper);
 })();
 </script>
 
+<script src="/js/theme.js"></script>
 <script src="/js/translate-sarvam.js" defer></script>
 </body>
 </html>
