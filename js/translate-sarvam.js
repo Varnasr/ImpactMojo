@@ -233,18 +233,27 @@
     if (fab) fab.setAttribute("aria-expanded", isOpen ? "true" : "false");
   }
   function buildUI() {
+    // Prefer mounting inline in the top navigation. The content-page topbar
+    // (.im-topbar-right) is visible at every breakpoint; the homepage's
+    // .nav-buttons is display:none on mobile, so only mount inline when the
+    // target is actually visible — otherwise fall back to the floating globe
+    // so the switcher is never hidden.
+    var navTarget = document.querySelector(".im-topbar-right") || document.querySelector(".nav-buttons");
+    var inNav = !!navTarget && navTarget.offsetParent !== null;
+
     var wrap = document.createElement("div");
     wrap.id = "im-lang-switch"; wrap.setAttribute("data-no-translate", "");
-    // Bottom-RIGHT corner: the bottom-left is owned by the learning-tools
-    // speed-dial + cookie, so we keep clear of them entirely.
-    wrap.style.cssText = "position:fixed;right:16px;bottom:24px;z-index:9990;font-family:system-ui,-apple-system,sans-serif";
+    wrap.className = inNav ? "im-lang-innav" : "im-lang-floating";
+    wrap.style.cssText = inNav
+      ? "position:relative;display:inline-flex;align-items:center;z-index:9990;font-family:system-ui,-apple-system,sans-serif"
+      : "position:fixed;right:16px;bottom:24px;z-index:9990;font-family:system-ui,-apple-system,sans-serif";
 
-    // upward popover menu, anchored to the right edge
+    // popover menu — drops DOWN when in the nav, UP when floating
     menu = document.createElement("div");
     menu.setAttribute("role", "menu"); menu.setAttribute("aria-label", "Choose language");
-    menu.style.cssText = "position:absolute;bottom:54px;right:0;left:auto;display:flex;flex-direction:column;gap:3px;" +
+    menu.style.cssText = "position:absolute;" + (inNav ? "top:46px;" : "bottom:54px;") + "right:0;left:auto;display:flex;flex-direction:column;gap:3px;" +
       "background:#fff;border:1px solid rgba(0,0,0,0.12);border-radius:14px;padding:5px;" +
-      "box-shadow:0 8px 28px rgba(0,0,0,0.18);min-width:130px;" +
+      "box-shadow:0 8px 28px rgba(0,0,0,0.18);min-width:130px;z-index:10000;" +
       "opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .18s ease,transform .18s ease,visibility .18s";
     Object.keys(LANGS).forEach(function (code) {
       var b = document.createElement("button");
@@ -257,16 +266,17 @@
     });
     wrap.appendChild(menu);
 
-    // round globe button
+    // round globe button (slightly smaller, no drop-shadow when sitting in the nav)
+    var sz = inNav ? 38 : 44;
     fab = document.createElement("button");
     fab.type = "button"; fab.className = "im-fab";
     fab.setAttribute("aria-label", "Choose language");
     fab.setAttribute("aria-haspopup", "true"); fab.setAttribute("aria-expanded", "false");
-    fab.style.cssText = "width:44px;height:44px;border-radius:50%;background:#fff;padding:0;" +
-      "border:2px solid rgba(0,0,0,0.12);box-shadow:0 4px 15px rgba(0,0,0,0.2);cursor:pointer;" +
+    fab.style.cssText = "width:" + sz + "px;height:" + sz + "px;border-radius:50%;background:#fff;padding:0;" +
+      "border:2px solid rgba(0,0,0,0.12);" + (inNav ? "box-shadow:none;" : "box-shadow:0 4px 15px rgba(0,0,0,0.2);") + "cursor:pointer;" +
       "display:flex;align-items:center;justify-content:center;position:relative;transition:transform .2s ease";
     fab.innerHTML =
-      '<svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18z"></path></svg>' +
+      '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18z"></path></svg>' +
       '<span class="im-fab-lbl" style="display:none;position:absolute;bottom:-4px;right:-4px;background:#1D4ED8;color:#fff;font-size:9px;font-weight:700;line-height:1;padding:2px 4px;border-radius:8px;min-width:8px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.3)"></span>' +
       '<span class="im-fab-spin" style="display:none;position:absolute;inset:-3px;border-radius:50%;border:2px solid transparent;border-top-color:#1D4ED8;animation:imXlateSpin .8s linear infinite"></span>';
     fab.addEventListener("click", function (e) { e.stopPropagation(); toggleMenu(); });
@@ -276,14 +286,15 @@
     kf.textContent = "@keyframes imXlateSpin{to{transform:rotate(360deg)}}" +
       "#im-lang-switch .im-fab:active{transform:scale(.93)}" +
       "#im-lang-switch [role=menuitem]:hover{background:rgba(0,0,0,0.05)!important}" +
-      "@media(max-width:480px){#im-lang-switch{right:14px!important;bottom:20px!important}}";
+      "@media(max-width:480px){#im-lang-switch.im-lang-floating{right:14px!important;bottom:20px!important}}";
     document.head.appendChild(kf);
 
     // collapse on outside tap / Escape
     document.addEventListener("click", function () { if (isOpen) toggleMenu(false); });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape" && isOpen) toggleMenu(false); });
 
-    document.body.appendChild(wrap);
+    if (inNav) navTarget.insertBefore(wrap, navTarget.firstChild);
+    else document.body.appendChild(wrap);
   }
 
   // Translate content injected later (flagship Supabase module bodies, auth bar,
