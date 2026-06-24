@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.12 — June 24, 2026 (Marginalia essay 4 + 101 practice workbooks)
+
+### For Learners
+
+- **New Marginalia cartoon essay — [The Beneficiary Is Not a Job Title](https://www.impactmojo.in/specials/the-beneficiary-is-not-a-job-title/)** — ten drawings where the development sector's vocabulary (sensitised, hard-to-reach, vulnerable, captured, amplified, people-centred) is answered by the person it's used about, each footnoted with real evidence (Freire, Chambers, Arnstein, Spivak, Kabeer, Longwe, Oxfam, and more).
+- **Practice Workbooks for the 101 courses** — many [101 course decks](https://www.impactmojo.in/101-courses/) now have a companion practice workbook that turns each section into a concrete "Apply it" task and a reflection prompt, with notes saved in your browser. Live for MEL, Theory of Change, Impact Evaluation, Survey Design, Econometrics, Gender, and more — rolling out across all 47.
+
 ## v10.79.11 — June 23, 2026 (101 deck gallery + companion rebuild + mobile fixes)
 
 ### For Learners
