@@ -9,6 +9,7 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 - **The premium tools are now live and correctly access-controlled** — VaniScribe, DevData Practice, the Visualization Cookbook and the DevEconomics Toolkit are no longer "coming soon"; they open for subscribers and are now genuinely members-only (signed-out or non-subscriber visitors can't reach them, even with a direct link).
 - **The [Flagship Courses gallery](https://www.impactmojo.in/courses/) now shows all 15 courses** — Power BI for Practitioners was missing and has been added.
 - **One Theory of Change Workbench** — the duplicate standalone page now redirects to the canonical lab, so there's a single ToC builder.
+- **The [Catalog](https://www.impactmojo.in/catalog.html) is now a true master index** — it now also lists the free Tools & Features (Game Library, Peer Review, certificate verification, Partner API), interactive Timelines, Practice Packs and Dojos, with matching filters. Hero counts corrected to 62 courses · 13 labs · 134 games · 11 premium.
 
 ## v10.79.15 — June 24, 2026 (Roadmap build-out: peer review, certificate verification, partner API + nav/sitemap fixes)
 
