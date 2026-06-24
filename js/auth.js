@@ -1175,7 +1175,19 @@ const ImpactMojoAuth = {
             style.textContent =
                 '.auth-logged-in { display: none !important; }' +
                 'body.user-authenticated .auth-logged-in { display: inline-flex !important; }' +
-                'body.user-authenticated .auth-logged-out { display: none !important; }';
+                'body.user-authenticated .auth-logged-out { display: none !important; }' +
+                // Mobile de-clutter: the injected auth chip + language globe + Browse +
+                // Premium + theme selector all share .im-topbar-right and overflow on
+                // phones. Tighten and trim on small screens (content-page topbars only).
+                '@media (max-width:600px){' +
+                '.im-topbar{gap:.4rem;row-gap:.4rem}' +
+                '.im-topbar-right{gap:.4rem;row-gap:.4rem;flex-wrap:wrap}' +
+                '.im-browse-btn{font-size:0 !important;padding:.4rem !important;gap:0 !important}' +
+                '.im-browse-btn svg{width:16px;height:16px}' +
+                '.im-premium-btn{font-size:.72rem !important;padding:.3rem .6rem !important}' +
+                'a.auth-logged-in.topbar-auth-injected[href="#"]{display:none !important}' +
+                '#im-lang-switch.im-lang-innav .im-fab{width:32px !important;height:32px !important}' +
+                '}';
             document.head.appendChild(style);
         }
 
