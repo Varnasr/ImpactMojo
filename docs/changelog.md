@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.13 — June 24, 2026 (Course-outline posters for every 101 deck)
+
+### For Learners
+
+- **Every [101 course deck](https://www.impactmojo.in/101-courses/) now has a course-outline poster** — a shareable one-page summary showing the full module breakdown, slide and module counts, and what's inside, before you open the 100-slide deck. Reach it from the new "Outline" link on any deck card.
+
 ## v10.79.12 — June 24, 2026 (Marginalia essay 4 + 101 practice workbooks)
 
 ### For Learners
