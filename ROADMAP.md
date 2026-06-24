@@ -76,21 +76,21 @@ ImpactMojo development priorities for 2026. Items are roughly ordered by priorit
 - [x] **Count-consistency pass** — canonical counts (62 courses · 13 labs · 54 book companions · 20 Deep Dives · 134 Game Library) propagated across site, README, and press kit
 - [x] **Migrate all 47 foundational decks to native HTML** — every `/101-courses/*` deck is now a self-hosted ~100-slide native HTML deck (Chart.js, light/dark, keyboard/touch nav). Zero Gamma iframes remain across the 101 series; verified live on impactmojo.in.
 - [ ] **Vernacular Content** — Full courses in Hindi and Tamil (#29). _Partially live: machine-translated + quality-audited per-page course content ships for hi/ta/bn/mr (30 page-dictionaries each, Sarvam) with a protected-terms glossary. The open part is professional, human-reviewed full-course localization (not machine translation)._
-- [ ] **Analytics dashboard v2** — Learner analytics with completion funnels, time-on-task, assessment scores
+- [x] **Analytics dashboard v2** — Learner analytics with completion funnels, time-on-task, and assessment scores (`admin/learner-analytics.html`)
 - [x] **Mobile app (PWA)** — Enhanced PWA: offline support + background sync of learner progress (service worker), and **web push notifications** (VAPID, per-device opt-in on the account page; streak & cohort reminders delivered via the `send-push` Edge Function). Backend is live on Supabase (table, secrets, functions deployed + smoke-tested); the front-end opt-in ships on the next deploy to `main`.
 - [x] **Games/climate-action-game.html device-mode** — designer-authored light earth-tone palette (warm sand surfaces + espresso-brown folk-art ink), replacing the cold filter-invert fallback. All games now support the 3-button system/light/dark toggle.
 
-## Q3 2026 (Jul-Sep) — Planned
+## Q3 2026 (Jul-Sep) — Shipped early
 
-- [ ] **Peer review system** — Learners review each other's assignments and case analyses
-- [ ] **Certificate marketplace** — Employer-facing verification portal
-- [ ] **API for partners** — REST API for organizations to integrate ImpactMojo content
+- [x] **Peer review system** — Learners review each other's submissions; Supabase-backed (`peer-review.html`, `peer_reviews` + `challenge_submissions` tables with RLS)
+- [x] **Certificate marketplace** — Employer-facing verification portal (`verify.html`)
+- [x] **API for partners** — REST API for organizations to integrate ImpactMojo content (`api-docs.html` + `netlify/functions/partner-api.mjs`)
 
-## Q4 2026 (Oct-Dec) — Exploratory
+## Q4 2026 (Oct-Dec) — Shipped early
 
-- [ ] **Community-contributed courses** — Allow verified practitioners to publish courses
-- [ ] **Live workshops integration** — Calendar-based booking with Zoom/Meet integration
-- [ ] **Impact measurement dashboard** — Track real-world outcomes from learners' projects
+- [x] **Community-contributed courses** — Verified practitioners can submit courses ("Teach with Us", `contribute.html`, Netlify Forms)
+- [x] **Live workshops integration** — Webinar listings + registration with `.ics` calendar export (`events.html`, `data/events.json`). _Operational follow-up: replace placeholder `join_url`s with real Zoom/Meet links._
+- [x] **Impact measurement dashboard** — Public community outcomes view + login-gated outcome logging (`impact-dashboard.html`, `impact_outcomes` table with RLS)
 
 ---
 
