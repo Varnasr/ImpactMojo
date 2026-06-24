@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.14 — June 24, 2026 (All 16 book companions rebuilt + accessibility fix)
+
+### For Learners
+
+- **Every [book companion](https://www.impactmojo.in/BookSummaries/) now has the same clean reading experience** — light/dark theme, in-page translation, section navigation, key concepts, a practitioner toolkit with reflection prompts, and an Ask-the-book Q&A. The last 13 companions have been rebuilt to match, covering field experiments in economics, learning policy, health financing (*Paying for Health*), public-health equity & ethics, statistics with R, Python econometrics, small-sample-size methods, research design workflow, social norms & behaviour change, the circular economy, public innovation, public speaking, and memory technique.
+- **Catalog deck cards are easier to read** — the course-detail line on each card now meets accessibility contrast standards.
+
 ## v10.79.13 — June 24, 2026 (Course-outline posters for every 101 deck)
 
 ### For Learners
