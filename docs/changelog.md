@@ -2,6 +2,15 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.15 — June 24, 2026 (Roadmap build-out: peer review, certificate verification, partner API + nav/sitemap fixes)
+
+### For Learners
+
+- **The [101 course gallery](https://www.impactmojo.in/101-courses/) is now in the main menu** — "Courses" in the Learn menu goes straight to the 47-deck gallery, and a new "Flagship Courses" entry jumps to the flagship line-up. (Previously the gallery wasn't linked anywhere in navigation.)
+- **[Peer Review](https://www.impactmojo.in/peer-review.html)** — review other learners' assignments and case analyses with a simple clarity/rigour/usefulness rubric, and see the feedback others leave on your own submissions.
+- **[Verify a certificate](https://www.impactmojo.in/verify.html)** — a fast, public portal where employers and recruiters can confirm an ImpactMojo certificate (or its Open Badge) by ID or link, no account needed.
+- **[Partner API](https://www.impactmojo.in/api-docs.html)** — a free, read-only API and docs page so organisations can pull the ImpactMojo course, game and content catalogue into their own systems.
+
 ## v10.79.14 — June 24, 2026 (All 16 book companions rebuilt + accessibility fix)
 
 ### For Learners
