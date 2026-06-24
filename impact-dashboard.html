@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Impact Dashboard | ImpactMojo</title>
+<meta name="description" content="See the real-world outcomes ImpactMojo learners create — policies changed, programs improved, funding secured, people reached — and log your own impact.">
+
+<!-- Google tag (gtag.js) - G-JRCMEB9TBW -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JRCMEB9TBW');
+</script>
+
+<!-- Favicons -->
+<link href="assets/images/favicon.png" rel="icon" type="image/png">
+<link href="assets/images/apple-touch-icon.png" rel="apple-touch-icon">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Supabase -->
+<link href="https://cdn.jsdelivr.net" rel="preconnect">
+<link href="https://ddyszmfffyedolkcugld.supabase.co" rel="preconnect">
+
+<!-- SEO meta -->
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.impactmojo.in/impact-dashboard.html">
+<meta property="og:title" content="Impact Dashboard">
+<meta property="og:description" content="The real-world outcomes ImpactMojo learners create — policies changed, programs improved, funding secured, people reached. Log your own impact too.">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:url" content="https://www.impactmojo.in/impact-dashboard.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ImpactMojo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Impact Dashboard">
+<meta name="twitter:description" content="The real-world outcomes ImpactMojo learners create — policies changed, programs improved, funding secured, people reached. Log your own impact too.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+.loading-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(15, 23, 42, 0.9);
+    display: flex; align-items: center; justify-content: center; z-index: 10000;
+}
+.loading-spinner-large {
+    width: 48px; height: 48px;
+    border: 4px solid var(--border-color, #E2E8F0); border-radius: 50%;
+    border-top-color: var(--accent-color, #F59E0B); animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+:root {
+    --primary-bg: #FFFFFF;
+    --secondary-bg: #F8FAFC;
+    --accent-color: #F59E0B;
+    --accent-hover: #D97706;
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #52627A;
+    --card-bg: #FFFFFF;
+    --hover-bg: #F1F5F9;
+    --border-color: #E2E8F0;
+    --success-color: #10B981;
+    --warning-color: #F59E0B;
+    --danger-color: #EF4444;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+}
+
+body.dark-mode {
+    --primary-bg: #0F172A;
+    --secondary-bg: #1E293B;
+    --text-primary: #F1F5F9;
+    --text-secondary: #CBD5E1;
+    --text-muted: #94A3B8;
+    --card-bg: #1E293B;
+    --hover-bg: #334155;
+    --border-color: #334155;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]):not(.light-mode) {
+        --primary-bg: #0F172A;
+        --secondary-bg: #1E293B;
+        --text-primary: #F1F5F9;
+        --text-secondary: #CBD5E1;
+        --text-muted: #94A3B8;
+        --card-bg: #1E293B;
+        --hover-bg: #334155;
+        --border-color: #334155;
+    }
+}
+
+[data-theme="light"], body.light-mode {
+    --primary-bg: #F8FAFC;
+    --secondary-bg: #FFFFFF;
+    --accent-color: #0284C7;
+    --accent-hover: #0369A1;
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #64748B;
+    --card-bg: #FFFFFF;
+    --hover-bg: #F1F5F9;
+    --border-color: #E2E8F0;
+}
+
+body {
+    font-family: 'Amaranth', sans-serif;
+    background: var(--primary-bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    padding-top: 44px;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+}
+
+.btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.875rem;
+    font-weight: 500; text-decoration: none; transition: all 0.2s ease;
+    cursor: pointer; border: none; font-family: inherit;
+}
+.btn-outline { background: transparent; color: var(--text-primary); border: 1px solid var(--border-color); }
+.btn-outline:hover { border-color: var(--accent-color); color: var(--accent-color); }
+.btn-primary { background: var(--accent-color); color: white; }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-danger { background: transparent; color: var(--danger-color); border: 1px solid var(--border-color); }
+.btn-danger:hover { border-color: var(--danger-color); }
+.btn-sm { padding: 0.4rem 0.75rem; font-size: 0.8rem; }
+
+.page-title { text-align: center; padding: 2.5rem 2rem 1rem; position: relative; z-index: 1; }
+.page-title h1 { font-family: 'Inter', sans-serif; font-size: 2rem; margin-bottom: 0.5rem; }
+.page-title p { color: var(--text-secondary); max-width: 640px; margin: 0 auto; }
+
+.tab-nav {
+    max-width: 1100px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1;
+    display: flex; gap: 0; border-bottom: 2px solid var(--border-color);
+}
+.tab-btn {
+    background: none; border: none; padding: 0.75rem 1.25rem; cursor: pointer;
+    color: var(--text-muted); font-weight: 600; font-family: 'Inter', sans-serif;
+    border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s; font-size: 0.9rem;
+}
+.tab-btn:hover { color: var(--text-primary); }
+.tab-btn.active { color: var(--accent-color); border-bottom-color: var(--accent-color); }
+
+.tab-content { max-width: 1100px; margin: 0 auto; padding: 2rem; display: none; position: relative; z-index: 1; }
+.tab-content.active { display: block; }
+
+/* Summary stat cards */
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+.stat-card {
+    background: var(--card-bg); border: 1px solid var(--border-color);
+    border-radius: 12px; padding: 1.25rem; text-align: center;
+}
+.stat-card .stat-value { font-family: 'Inter', sans-serif; font-size: 2rem; font-weight: 800; color: var(--accent-color); line-height: 1.1; }
+.stat-card .stat-label { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.35rem; }
+
+/* Chart */
+.chart-wrap {
+    background: var(--card-bg); border: 1px solid var(--border-color);
+    border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem;
+}
+.chart-wrap h3 { font-family: 'Inter', sans-serif; font-size: 1rem; margin-bottom: 0.75rem; }
+.chart-box { position: relative; height: 280px; }
+.chart-empty { display: none; align-items: center; justify-content: center; height: 280px; color: var(--text-muted); text-align: center; }
+
+.outcome-card {
+    background: var(--card-bg); border: 1px solid var(--border-color);
+    border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem;
+}
+.outcome-card-head {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 1rem; flex-wrap: wrap; margin-bottom: 0.5rem;
+}
+.outcome-title { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1rem; color: var(--text-primary); }
+.outcome-date { font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; }
+.outcome-meta { display: flex; gap: 0.75rem; flex-wrap: wrap; margin: 0.4rem 0 0.6rem; }
+.tag {
+    font-family: 'Inter', sans-serif; font-size: 0.7rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.04em;
+    padding: 0.2rem 0.55rem; border-radius: 999px;
+    background: rgba(245,158,11,0.12); color: var(--accent-color);
+}
+.tag.muted { background: var(--hover-bg); color: var(--text-secondary); }
+.tag.verified { background: rgba(16,185,129,0.14); color: var(--success-color); }
+.tag.private { background: rgba(239,68,68,0.12); color: var(--danger-color); }
+.outcome-desc {
+    font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.25rem;
+    white-space: pre-wrap; word-break: break-word;
+}
+
+/* Form */
+.outcome-form {
+    background: var(--card-bg); border: 1px solid var(--border-color);
+    border-radius: 12px; padding: 1.5rem; max-width: 640px;
+}
+.outcome-form label {
+    display: block; font-size: 0.78rem; font-weight: 600; margin: 0.9rem 0 0.25rem;
+    color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em;
+    font-family: 'Inter', sans-serif;
+}
+.outcome-form label:first-of-type { margin-top: 0; }
+.outcome-form input[type="text"],
+.outcome-form input[type="number"],
+.outcome-form input[type="date"],
+.outcome-form select,
+.outcome-form textarea {
+    width: 100%; padding: 0.55rem 0.75rem; border: 1px solid var(--border-color);
+    border-radius: 8px; background: var(--primary-bg); color: var(--text-primary);
+    font-size: 0.9rem; font-family: inherit;
+}
+.outcome-form textarea { min-height: 110px; resize: vertical; }
+.checkbox-row { display: flex; align-items: center; gap: 0.5rem; margin-top: 1rem; }
+.checkbox-row input { width: auto; }
+.checkbox-row label { margin: 0; text-transform: none; letter-spacing: 0; font-size: 0.85rem; color: var(--text-secondary); }
+.form-actions { display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1.25rem; }
+.form-msg { font-size: 0.85rem; margin-top: 0.75rem; }
+.form-msg.error { color: var(--danger-color); }
+.form-msg.success { color: var(--success-color); }
+
+.empty-state { text-align: center; padding: 3rem 2rem; color: var(--text-muted); }
+.empty-state svg { width: 48px; height: 48px; margin-bottom: 1rem; opacity: 0.4; }
+.empty-state p { margin-top: 0.5rem; }
+
+.notice {
+    background: rgba(245,158,11,0.1); border: 1px solid var(--accent-color);
+    border-radius: 8px; padding: 0.75rem 1rem; color: var(--text-secondary);
+    font-size: 0.85rem; margin-bottom: 1rem;
+}
+
+/* Sign-in prompt (gate) */
+.signin-prompt {
+    text-align: center; padding: 3rem 2rem; max-width: 480px; margin: 0 auto;
+    background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px;
+}
+.signin-prompt svg { width: 48px; height: 48px; margin-bottom: 1rem; opacity: 0.4; stroke: var(--accent-color); }
+.signin-prompt h3 { font-family: 'Inter', sans-serif; margin-bottom: 0.5rem; }
+.signin-prompt p { color: var(--text-muted); margin-bottom: 1.25rem; }
+
+/* Decoration */
+.v3-decoration-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.v3-blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.15; }
+.v3-blob-1 { top: 10%; right: 10%; width: 400px; height: 400px; background: var(--accent-color); }
+.v3-blob-2 { bottom: 20%; left: 5%; width: 300px; height: 300px; background: #6366F1; }
+
+/* Footer */
+.footer { background: var(--secondary-bg); border-top: 1px solid var(--border-color); padding: 3rem 2rem 1.5rem; position: relative; z-index: 1; margin-top: auto; }
+.footer-content { max-width: 1100px; margin: 0 auto; }
+.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
+.footer-section h4 { color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 600; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.5px; }
+.footer-section ul { list-style: none; }
+.footer-section li { margin-bottom: 0.5rem; }
+.footer-section a { color: var(--text-secondary); font-size: 0.9rem; text-decoration: none; transition: color 0.2s ease; }
+.footer-section a:hover { color: var(--accent-color); }
+.footer-bottom { padding-top: 1.5rem; border-top: 1px solid var(--border-color); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; }
+.footer-copyright { color: var(--text-muted); font-size: 0.85rem; }
+.footer-social { display: flex; gap: 1rem; }
+.footer-social a { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-secondary); transition: all 0.2s ease; }
+.footer-social a:hover { background: var(--accent-color); border-color: var(--accent-color); color: white; }
+.footer-social svg { width: 18px; height: 18px; fill: currentColor; }
+@media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; } .footer-bottom { flex-direction: column; text-align: center; } .tab-nav { overflow-x: auto; } }
+@media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; } }
+
+/* Top Bar */
+.im-topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    background: var(--secondary-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-color); padding: 0.5rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.75rem; flex-wrap: wrap; font-family: 'Inter', sans-serif;
+}
+.im-topbar a { text-decoration: none; }
+.im-topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+.im-topbar-home {
+    display: flex; align-items: center; gap: 0.5rem; color: var(--text-primary);
+    font-weight: 700; font-size: 1rem;
+    background: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.im-topbar-home svg { width: 24px; height: 24px; flex-shrink: 0; -webkit-text-fill-color: initial; stroke: #0EA5E9; }
+.im-topbar-right { display: flex; align-items: center; gap: 0.5rem; }
+.im-premium-btn {
+    background: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%); color: #fff !important;
+    padding: 0.35rem 0.85rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600;
+    display: flex; align-items: center; gap: 0.35rem; transition: opacity 0.2s; -webkit-text-fill-color: #fff;
+}
+.im-premium-btn:hover { opacity: 0.9; }
+.im-premium-btn svg { width: 14px; height: 14px; }
+.im-browse-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-primary); background: var(--card-bg); border: 1.5px solid var(--border-color); padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; transition: all 0.18s ease; }
+.im-browse-btn:hover { background: var(--accent-color); color: #FFFFFF; border-color: var(--accent-color); }
+.im-browse-btn svg { width: 14px; height: 14px; }
+.im-theme-selector { display: flex; gap: 2px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 2px; }
+.im-theme-btn { background: transparent; border: none; color: var(--text-secondary); padding: 6px; border-radius: 5px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; }
+.im-theme-btn:hover { background: var(--hover-bg); color: var(--text-primary); }
+.im-theme-btn.active { background: var(--accent-color); color: #fff; }
+.im-theme-btn svg { width: 16px; height: 16px; }
+.im-skip-link { position: absolute; left: -9999px; top: 0; background: #0EA5E9; color: #fff; padding: 8px 16px; z-index: 100000; border-radius: 0 0 6px 0; font: 600 .85rem/1.2 Inter, system-ui, sans-serif; text-decoration: none; }
+.im-skip-link:focus { left: 0; }
+@media (max-width: 768px) {
+    .im-topbar { padding: 0.4rem 0.75rem; gap: 0.5rem; }
+    .im-topbar-home span { font-size: 0.85rem; }
+}
+@media (max-width: 480px) { .im-topbar-home span { display: none; } }
+</style>
+</head>
+<body>
+<a href="#pageContent" class="im-skip-link">Skip to content</a>
+
+<!-- ImpactMojo Top Bar -->
+<div class="im-topbar" id="imTopbar">
+    <div class="im-topbar-left">
+        <a href="/index.html" class="im-topbar-home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>ImpactMojo</span>
+        </a>
+    </div>
+    <div class="im-topbar-right">
+        <a href="/index.html" class="im-topbar-link" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;margin-right:0.75rem;">Home</a>
+        <a href="/account.html" class="im-topbar-link" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;margin-right:0.75rem;">My Account</a>
+        <a href="/catalog.html" class="im-browse-btn" title="Browse all content"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Browse</a>
+        <a href="/premium.html" class="im-premium-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Premium
+        </a>
+        <div class="im-theme-selector" aria-label="Theme selection">
+            <button class="im-theme-btn theme-btn" data-theme="system" data-imtheme="system" title="System theme" aria-label="Use system theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </button>
+            <button class="im-theme-btn theme-btn" data-theme="light" data-imtheme="light" title="Light theme" aria-label="Use light theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </button>
+            <button class="im-theme-btn theme-btn" data-theme="dark" data-imtheme="dark" title="Dark theme" aria-label="Use dark theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Decorative Elements -->
+<div class="v3-decoration-container">
+    <div class="v3-blob v3-blob-1"></div>
+    <div class="v3-blob v3-blob-2"></div>
+</div>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner-large"></div>
+</div>
+
+<main id="pageContent">
+    <div class="page-title">
+        <h1>Impact Dashboard</h1>
+        <p>Real-world outcomes from ImpactMojo learners' projects — policies changed, programs improved, funding secured, people reached. See the community's collective impact, and log your own.</p>
+    </div>
+
+    <div class="tab-nav" role="tablist">
+        <button class="tab-btn active" data-tab="community" role="tab">Community impact</button>
+        <button class="tab-btn" data-tab="log" role="tab">Log an outcome</button>
+        <button class="tab-btn" data-tab="mine" role="tab">My outcomes</button>
+    </div>
+
+    <!-- TAB 1: Community impact (public, no login required) -->
+    <section class="tab-content active" id="tab-community" role="tabpanel">
+        <div class="notice">A public view of impact learners chose to share. Add yours under "Log an outcome".</div>
+
+        <div class="stat-grid" id="statGrid">
+            <div class="stat-card"><div class="stat-value" id="statOutcomes">—</div><div class="stat-label">Outcomes logged</div></div>
+            <div class="stat-card"><div class="stat-value" id="statPeople">—</div><div class="stat-label">People reached</div></div>
+            <div class="stat-card"><div class="stat-value" id="statContributors">—</div><div class="stat-label">Contributors</div></div>
+        </div>
+
+        <div class="chart-wrap">
+            <h3>Outcomes by type</h3>
+            <div class="chart-box"><canvas id="typeChart"></canvas></div>
+            <div class="chart-empty" id="typeChartEmpty">No public outcomes to chart yet.</div>
+        </div>
+
+        <h3 style="font-family:'Inter',sans-serif;font-size:1rem;margin:0 0 0.75rem;">Recent public outcomes</h3>
+        <div id="publicList"><div class="empty-state"><p>Loading impact…</p></div></div>
+    </section>
+
+    <!-- TAB 2: Log an outcome (requires login) -->
+    <section class="tab-content" id="tab-log" role="tabpanel">
+        <div id="logGate"></div>
+    </section>
+
+    <!-- TAB 3: My outcomes (requires login) -->
+    <section class="tab-content" id="tab-mine" role="tabpanel">
+        <div id="mineGate"></div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-grid">
+            <div class="footer-section">
+                <h4>About</h4>
+                <ul>
+                    <li><a href="about.html">About ImpactMojo</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="community/">Community</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal &amp; IT Act</h4>
+                <ul>
+                    <li><a href="terms-of-service.html">Terms of Service</a></li>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="refund-policy.html">Refund Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="catalog.html">Course Catalog</a></li>
+                    <li><a href="premium.html">Premium Access</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="/docs/" rel="noopener noreferrer" target="_blank">Documentation</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="/status.html">System Status</a></li>
+                    <li><a href="/products.html">Products &amp; Kits</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="handouts.html">Handouts</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-copyright">&copy; 2026 ImpactMojo. All rights reserved. Made with &lt;3 in India.</p>
+            <div class="footer-social">
+                <a href="https://www.linkedin.com/company/impactmojo" target="_blank" rel="noopener" title="LinkedIn">
+                    <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                </a>
+                <a href="https://www.instagram.com/impactmojo" target="_blank" rel="noopener" title="Instagram">
+                    <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                </a>
+                <a href="https://twitter.com/impactmojo" target="_blank" rel="noopener" title="X (Twitter)">
+                    <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+// Three-way theme (matches org-dashboard)
+(function() {
+    function applyTheme(t) {
+        if (t === 'system') {
+            document.body.classList.toggle('dark-mode', window.matchMedia('(prefers-color-scheme: dark)').matches);
+        } else {
+            document.body.classList.toggle('dark-mode', t === 'dark');
+        }
+    }
+    function updateBtn(t) {
+        document.querySelectorAll('.theme-btn').forEach(function(b) { b.classList.toggle('active', b.dataset.theme === t); });
+    }
+    var s = localStorage.getItem('theme') || 'system';
+    applyTheme(s);
+    document.addEventListener('DOMContentLoaded', function() {
+        updateBtn(s);
+        document.querySelectorAll('.theme-btn').forEach(function(b) {
+            b.addEventListener('click', function() {
+                var t = b.dataset.theme; localStorage.setItem('theme', t); updateBtn(t); applyTheme(t);
+            });
+        });
+    });
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+        if ((localStorage.getItem('theme') || 'system') === 'system') applyTheme('system');
+    });
+})();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/auth-gate.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+<script>
+// ===== Impact Dashboard page logic =====
+(function() {
+    var currentUser = null;     // set once auth resolves (may stay null = anonymous)
+    var sb = null;              // window.supabaseClient
+    var charts = {};            // guard Chart.js re-renders
+    var loaded = { community: false, log: false, mine: false };
+
+    var TYPE_LABELS = {
+        policy_change: 'Policy change',
+        program_improved: 'Program improved',
+        funding_secured: 'Funding secured',
+        people_reached: 'People reached',
+        other: 'Other'
+    };
+    var TYPE_ORDER = ['policy_change', 'program_improved', 'funding_secured', 'people_reached', 'other'];
+
+    // ---------- helpers ----------
+    function esc(s) {
+        return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
+            return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c];
+        });
+    }
+    function fmtDate(d) {
+        if (!d) return '';
+        try { return new Date(d).toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' }); }
+        catch (e) { return String(d); }
+    }
+    function fmtNum(n) {
+        n = parseInt(n, 10) || 0;
+        return n.toLocaleString();
+    }
+    function typeLabel(t) { return TYPE_LABELS[t] || (t ? String(t) : 'Other'); }
+    function emptyState(msg, sub) {
+        return '<div class="empty-state">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 9l-5 5-2-2-4 4"/></svg>' +
+            '<p><strong>' + esc(msg) + '</strong></p>' +
+            (sub ? '<p>' + esc(sub) + '</p>' : '') +
+            '</div>';
+    }
+    function renderChart(id, config) {
+        if (charts[id]) { charts[id].destroy(); delete charts[id]; }
+        var canvas = document.getElementById(id);
+        if (!canvas) return;
+        charts[id] = new Chart(canvas.getContext('2d'), config);
+    }
+
+    function outcomeCard(o, opts) {
+        opts = opts || {};
+        var tags = '<span class="tag">' + esc(typeLabel(o.outcome_type)) + '</span>';
+        if (o.location) tags += '<span class="tag muted">' + esc(o.location) + '</span>';
+        if (o.people_reached != null && o.people_reached !== '') {
+            tags += '<span class="tag muted">' + esc(fmtNum(o.people_reached)) + ' reached</span>';
+        }
+        if (o.status === 'verified') tags += '<span class="tag verified">Verified</span>';
+        if (opts.showVisibility && o.is_public === false) tags += '<span class="tag private">Private</span>';
+        if (o.course_id) tags += '<span class="tag muted">' + esc(o.course_id) + '</span>';
+
+        var actions = '';
+        if (opts.deletable) {
+            actions = '<div style="margin-top:0.75rem;text-align:right;">' +
+                '<button class="btn btn-danger btn-sm" data-delete="' + esc(o.id) + '">Delete</button>' +
+                '</div>';
+        }
+        return '<div class="outcome-card" data-outcome="' + esc(o.id) + '">' +
+            '<div class="outcome-card-head">' +
+                '<span class="outcome-title">' + esc(o.title) + '</span>' +
+                '<span class="outcome-date">' + esc(o.occurred_on ? fmtDate(o.occurred_on) : fmtDate(o.created_at)) + '</span>' +
+            '</div>' +
+            '<div class="outcome-meta">' + tags + '</div>' +
+            '<div class="outcome-desc">' + esc(o.description) + '</div>' +
+            actions +
+        '</div>';
+    }
+
+    // ---------- TAB 1: Community impact (public) ----------
+    async function loadCommunity() {
+        var listEl = document.getElementById('publicList');
+        try {
+            // Public outcomes — RLS lets anyone (incl. anon) read is_public = true rows.
+            var res = await sb.from('impact_outcomes')
+                .select('id, title, course_id, outcome_type, description, people_reached, location, occurred_on, status, is_public, created_at, user_id')
+                .eq('is_public', true)
+                .order('occurred_on', { ascending: false, nullsFirst: false })
+                .order('created_at', { ascending: false })
+                .limit(300);
+            if (res.error) throw res.error;
+            var rows = res.data || [];
+
+            // Summary stats
+            var totalPeople = 0, contributors = {};
+            var byType = {};
+            rows.forEach(function(o) {
+                totalPeople += (parseInt(o.people_reached, 10) || 0);
+                if (o.user_id) contributors[o.user_id] = true;
+                var k = o.outcome_type || 'other';
+                byType[k] = (byType[k] || 0) + 1;
+            });
+            document.getElementById('statOutcomes').textContent = fmtNum(rows.length);
+            document.getElementById('statPeople').textContent = fmtNum(totalPeople);
+            document.getElementById('statContributors').textContent = fmtNum(Object.keys(contributors).length);
+
+            // Chart breakdown by outcome_type
+            var labels = [], data = [];
+            TYPE_ORDER.forEach(function(k) { if (byType[k]) { labels.push(typeLabel(k)); data.push(byType[k]); } });
+            // include any types not in our known order
+            Object.keys(byType).forEach(function(k) {
+                if (TYPE_ORDER.indexOf(k) === -1) { labels.push(typeLabel(k)); data.push(byType[k]); }
+            });
+            var chartBox = document.querySelector('#tab-community .chart-box');
+            var chartEmpty = document.getElementById('typeChartEmpty');
+            if (!data.length) {
+                if (charts.typeChart) { charts.typeChart.destroy(); delete charts.typeChart; }
+                if (chartBox) chartBox.style.display = 'none';
+                if (chartEmpty) chartEmpty.style.display = 'flex';
+            } else {
+                if (chartBox) chartBox.style.display = 'block';
+                if (chartEmpty) chartEmpty.style.display = 'none';
+                renderChart('typeChart', {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: ['#F59E0B', '#6366F1', '#10B981', '#0EA5E9', '#94A3B8', '#EF4444'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 12 } } } }
+                    }
+                });
+            }
+
+            // Recent public outcomes list
+            if (!rows.length) {
+                listEl.innerHTML = emptyState('No impact logged yet — be the first',
+                    'Sign in and share an outcome from a project you worked on.');
+                return;
+            }
+            listEl.innerHTML = rows.slice(0, 50).map(function(o) { return outcomeCard(o); }).join('');
+        } catch (e) {
+            listEl.innerHTML = emptyState('Couldn\'t load community impact right now', 'Please try again shortly.');
+        }
+    }
+
+    // ---------- TAB 2: Log an outcome (gated) ----------
+    function signinPrompt(message) {
+        return '<div class="signin-prompt">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>' +
+            '<h3>' + esc(message || 'Sign in to log your impact') + '</h3>' +
+            '<p>The community impact view above is open to everyone. To add your own outcomes, sign in to your free ImpactMojo account.</p>' +
+            '<a class="btn btn-primary" href="/login.html">Sign in</a>' +
+        '</div>';
+    }
+
+    function renderLogForm() {
+        var typeOpts = TYPE_ORDER.map(function(k) {
+            return '<option value="' + esc(k) + '">' + esc(typeLabel(k)) + '</option>';
+        }).join('');
+        return '<form class="outcome-form" id="outcomeForm" novalidate>' +
+            '<label for="of_title">Title</label>' +
+            '<input type="text" id="of_title" maxlength="200" placeholder="e.g. District adopted our menstrual-health guidelines" required>' +
+            '<label for="of_type">Outcome type</label>' +
+            '<select id="of_type">' + typeOpts + '</select>' +
+            '<label for="of_course">Course or skill it came from (optional)</label>' +
+            '<input type="text" id="of_course" maxlength="120" placeholder="e.g. Monitoring &amp; Evaluation">' +
+            '<label for="of_desc">What happened?</label>' +
+            '<textarea id="of_desc" placeholder="Describe the real-world change, who was involved, and how your learning contributed." required></textarea>' +
+            '<label for="of_people">People reached (optional)</label>' +
+            '<input type="number" id="of_people" min="0" step="1" placeholder="e.g. 1200">' +
+            '<label for="of_location">Location (optional)</label>' +
+            '<input type="text" id="of_location" maxlength="120" placeholder="e.g. Bihar, India">' +
+            '<label for="of_date">When did it happen? (optional)</label>' +
+            '<input type="date" id="of_date">' +
+            '<div class="checkbox-row">' +
+                '<input type="checkbox" id="of_public" checked>' +
+                '<label for="of_public">Show this in the public community impact view</label>' +
+            '</div>' +
+            '<div class="form-actions">' +
+                '<button type="submit" class="btn btn-primary" id="of_submit">Log outcome</button>' +
+            '</div>' +
+            '<div class="form-msg" id="of_msg"></div>' +
+        '</form>';
+    }
+
+    function loadLog() {
+        var el = document.getElementById('logGate');
+        if (!currentUser) { el.innerHTML = signinPrompt(); return; }
+        el.innerHTML = renderLogForm();
+        var form = document.getElementById('outcomeForm');
+        if (form) form.addEventListener('submit', submitOutcome);
+    }
+
+    async function submitOutcome(ev) {
+        ev.preventDefault();
+        var msg = document.getElementById('of_msg');
+        var btn = document.getElementById('of_submit');
+        function setMsg(t, cls) { if (msg) { msg.textContent = t; msg.className = 'form-msg ' + (cls || ''); } }
+
+        var title = document.getElementById('of_title').value.trim();
+        var type = document.getElementById('of_type').value;
+        var course = document.getElementById('of_course').value.trim();
+        var desc = document.getElementById('of_desc').value.trim();
+        var peopleRaw = document.getElementById('of_people').value.trim();
+        var location = document.getElementById('of_location').value.trim();
+        var occurred = document.getElementById('of_date').value;
+        var isPublic = document.getElementById('of_public').checked;
+
+        if (!title) { setMsg('Please add a title.', 'error'); return; }
+        if (!desc) { setMsg('Please describe what happened.', 'error'); return; }
+        var people = null;
+        if (peopleRaw !== '') {
+            people = parseInt(peopleRaw, 10);
+            if (isNaN(people) || people < 0) { setMsg('People reached must be zero or a positive number.', 'error'); return; }
+        }
+
+        var row = {
+            user_id: currentUser.id,
+            title: title,
+            outcome_type: type || 'other',
+            description: desc,
+            course_id: course || null,
+            people_reached: people,
+            location: location || null,
+            occurred_on: occurred || null,
+            is_public: isPublic
+        };
+
+        btn.disabled = true; setMsg('Saving…', '');
+        try {
+            var res = await sb.from('impact_outcomes').insert(row);
+            if (res.error) throw res.error;
+            setMsg('Outcome logged — thank you for sharing your impact!', 'success');
+            document.getElementById('outcomeForm').reset();
+            document.getElementById('of_public').checked = true;
+            btn.disabled = false;
+            // Refresh dependent views so the new row shows up next visit.
+            loaded.mine = false;
+            if (isPublic) loaded.community = false;
+        } catch (e) {
+            btn.disabled = false;
+            setMsg('Couldn\'t save your outcome. Please try again.', 'error');
+        }
+    }
+
+    // ---------- TAB 3: My outcomes (gated) ----------
+    async function loadMine() {
+        var el = document.getElementById('mineGate');
+        if (!currentUser) { el.innerHTML = signinPrompt('Sign in to see your outcomes'); return; }
+        el.innerHTML = '<div id="mineList"><div class="empty-state"><p>Loading…</p></div></div>';
+        var listEl = document.getElementById('mineList');
+        try {
+            var res = await sb.from('impact_outcomes')
+                .select('id, title, course_id, outcome_type, description, people_reached, location, occurred_on, status, is_public, created_at')
+                .eq('user_id', currentUser.id)
+                .order('created_at', { ascending: false });
+            if (res.error) throw res.error;
+            var rows = res.data || [];
+            if (!rows.length) {
+                listEl.innerHTML = emptyState('You haven\'t logged any outcomes yet',
+                    'Head to "Log an outcome" to share the impact of a project you worked on.');
+                return;
+            }
+            listEl.innerHTML = rows.map(function(o) { return outcomeCard(o, { deletable: true, showVisibility: true }); }).join('');
+            listEl.querySelectorAll('[data-delete]').forEach(function(b) {
+                b.addEventListener('click', function() { deleteOutcome(b.getAttribute('data-delete'), b); });
+            });
+        } catch (e) {
+            listEl.innerHTML = emptyState('Couldn\'t load your outcomes right now', 'Please try again shortly.');
+        }
+    }
+
+    async function deleteOutcome(id, btn) {
+        if (!window.confirm('Delete this outcome? This cannot be undone.')) return;
+        btn.disabled = true; btn.textContent = 'Deleting…';
+        try {
+            var res = await sb.from('impact_outcomes').delete().eq('id', id);
+            if (res.error) throw res.error;
+            var card = document.querySelector('.outcome-card[data-outcome="' + (window.CSS && CSS.escape ? CSS.escape(id) : id) + '"]');
+            if (card) card.remove();
+            loaded.community = false; // public totals may have changed
+            var listEl = document.getElementById('mineList');
+            if (listEl && !listEl.querySelector('.outcome-card')) {
+                listEl.innerHTML = emptyState('You haven\'t logged any outcomes yet',
+                    'Head to "Log an outcome" to share the impact of a project you worked on.');
+            }
+        } catch (e) {
+            btn.disabled = false; btn.textContent = 'Delete';
+            window.alert('Couldn\'t delete that outcome. Please try again.');
+        }
+    }
+
+    // ---------- tabs ----------
+    function load(tab) {
+        if (loaded[tab]) return;
+        loaded[tab] = true;
+        if (tab === 'community') loadCommunity();
+        else if (tab === 'log') loadLog();
+        else if (tab === 'mine') loadMine();
+    }
+    function initTabs() {
+        document.querySelectorAll('.tab-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var tab = btn.getAttribute('data-tab');
+                document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+                document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
+                btn.classList.add('active');
+                var panel = document.getElementById('tab-' + tab);
+                if (panel) panel.classList.add('active');
+                load(tab);
+            });
+        });
+        load('community'); // default tab — works logged-out
+    }
+
+    // ---------- init ----------
+    // NOTE: we do NOT use AuthGate.protect() — that hard-redirects anonymous
+    // visitors, but the community impact view must render for everyone.
+    // Instead we wait for auth to resolve, then gate only the log / my-outcomes
+    // tabs on currentUser.
+    function start() {
+        sb = window.supabaseClient;
+        var overlay = document.getElementById('loadingOverlay');
+        function ready() {
+            currentUser = (window.ImpactMojoAuth && window.ImpactMojoAuth.getUser()) || null;
+            if (overlay) overlay.style.display = 'none';
+            initTabs();
+        }
+        if (window.ImpactMojoAuth && window.ImpactMojoAuth.waitForAuthReady) {
+            window.ImpactMojoAuth.waitForAuthReady().then(ready).catch(ready);
+            // Safety net in case auth never resolves — still show the public view.
+            setTimeout(function() { if (overlay && overlay.style.display !== 'none') ready(); }, 5000);
+        } else {
+            ready();
+        }
+        // Keep gated tabs in sync if auth state changes after load (e.g. token refresh).
+        window.addEventListener('authStateChanged', function(e) {
+            var u = (e && e.detail && e.detail.user) || null;
+            var was = !!currentUser;
+            currentUser = u;
+            if (was !== !!u) { loaded.log = false; loaded.mine = false;
+                var active = document.querySelector('.tab-content.active');
+                if (active && active.id === 'tab-log') { loaded.log = true; loadLog(); }
+                if (active && active.id === 'tab-mine') { loaded.mine = true; loadMine(); }
+            }
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', start);
+    } else {
+        start();
+    }
+})();
+</script>
+
+<script src="/js/theme.js"></script>
+<script src="/js/translate-sarvam.js" defer></script>
+</body>
+</html>

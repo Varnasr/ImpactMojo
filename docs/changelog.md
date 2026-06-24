@@ -2,6 +2,14 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.17 — June 24, 2026 (Impact Dashboard, on-brand Research-to-Action, unified nav)
+
+### For Learners
+
+- **New [Impact Dashboard](https://www.impactmojo.in/impact-dashboard.html)** — log the real-world outcomes of applying what you learned (policy changes, programmes improved, people reached) and see the aggregate community impact. The community view is open to everyone; logging your own outcomes needs a free sign-in.
+- **The [Research to Action](https://www.impactmojo.in/research-to-action/) page now matches the rest of the site** — ImpactMojo display fonts, a gradient hero and floating paper-plane decorations.
+- **Cleaner, more consistent icons and navigation** — fixed broken icons across ~30 pages and brought the last few pages onto the standard top bar.
+
 ## v10.79.16 — June 24, 2026 (Premium tools live & properly gated; flagship gallery complete)
 
 ### For Learners
