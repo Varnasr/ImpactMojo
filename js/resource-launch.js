@@ -1,21 +1,34 @@
 /**
  * ImpactMojo Premium Resource Launcher
- * Version: 2.1.0
+ * Version: 3.0.0
  *
- * Opens premium resources directly for authenticated users.
- * No JWT minting — resource sites are access-gated at the platform level
- * (via premium.js tier checks), not at the resource site level.
+ * Opens premium resources through the server-side access gate.
  *
- * Usage:
- *   <button onclick="ImpactMojoResource.launch('vaniscribe')">Open VaniScribe</button>
+ * FLOW (secure):
+ *   1. User clicks a premium tool.
+ *   2. We POST the user's Supabase access token to the `mint-resource-token`
+ *      Edge Function, which verifies the session, checks the subscription
+ *      tier/status server-side (service role), and — only if allowed — mints
+ *      a short-lived (5 min) HS256 JWT scoped to that resource.
+ *   3. We open the resource URL with `?token=<jwt>`.
+ *   4. The resource site's Netlify Edge Function (`auth-gate.ts`) verifies the
+ *      JWT against the shared RESOURCE_TOKEN_SECRET and sets a 24h session
+ *      cookie. No valid token → it redirects to /login.
  *
- * Depends on: js/auth.js (provides `ImpactMojoAuth`)
+ * This means non-logged-in and non-premium users CANNOT open the tools even
+ * if they know the URL — the gate rejects them server-side. The token mint is
+ * also tier-checked server-side, so the UI lock is defence-in-depth, not the
+ * only guard.
+ *
+ * Depends on: js/config.js (ImpactMojoConfig), js/auth.js (ImpactMojoAuth,
+ *             window.supabaseClient).
  */
 
 (function () {
   'use strict';
 
   // ── Map resource IDs to their deployment URLs ─────────────────────
+  // Knowing these URLs grants no access: each site is gated by auth-gate.ts.
   var RESOURCE_URLS = {
     // Practitioner tier
     'rq-builder':         '/premium-tools/rq-builder.html',
@@ -38,81 +51,107 @@
     'ai-canvas-pro':      'https://impactmojo-workshop-pro.netlify.app/ai-canvas-pro.html',
   };
 
-  // Check if there is a Supabase session in localStorage (fallback for
-  // transient SIGNED_OUT states during token refresh)
-  function hasSupabaseSession() {
+  // Resources served from this same origin (/premium-tools/*) are gated by
+  // the platform auth layer, not the token gate — no minting needed.
+  function isLocalResource(url) {
+    return url.charAt(0) === '/';
+  }
+
+  function mintEndpoint() {
+    var base = (window.ImpactMojoConfig && window.ImpactMojoConfig.SUPABASE_URL) || '';
+    return base.replace(/\/$/, '') + '/functions/v1/mint-resource-token';
+  }
+
+  function anonKey() {
+    return (window.ImpactMojoConfig && window.ImpactMojoConfig.SUPABASE_ANON_KEY) || '';
+  }
+
+  // Resolve the current Supabase access token, if any.
+  function getAccessToken() {
     try {
-      var keys = Object.keys(localStorage);
-      for (var i = 0; i < keys.length; i++) {
-        if (keys[i].indexOf('impactmojo-auth') !== -1 ||
-            keys[i].indexOf('supabase.auth.token') !== -1 ||
-            (keys[i].indexOf('sb-') !== -1 && keys[i].indexOf('-auth-token') !== -1)) {
-          var val = JSON.parse(localStorage.getItem(keys[i]));
-          if (val && (val.access_token || (val.currentSession && val.currentSession.access_token))) {
-            return true;
-          }
-        }
+      if (window.supabaseClient && window.supabaseClient.auth) {
+        return window.supabaseClient.auth.getSession().then(function (res) {
+          return (res && res.data && res.data.session && res.data.session.access_token) || null;
+        }).catch(function () { return null; });
       }
     } catch (e) { /* ignore */ }
-    return false;
+    return Promise.resolve(null);
+  }
+
+  function appendToken(url, token) {
+    var sep = url.indexOf('?') === -1 ? '?' : '&';
+    return url + sep + 'token=' + encodeURIComponent(token);
+  }
+
+  function goPremium(reason) {
+    window.location.href = '/premium.html' + (reason ? ('?reason=' + reason) : '');
   }
 
   /**
-   * Launch a premium resource.
-   * Waits for auth to initialise before checking login state.
-   * Falls back to Supabase session check to prevent redirect loops
-   * caused by transient auth states during token refresh.
-   * @param {string} resourceId  — one of the keys in RESOURCE_URLS
+   * Launch a premium resource through the gate.
+   * @param {string} resourceId — one of the keys in RESOURCE_URLS
    */
   function launch(resourceId) {
-    // 1. Resolve the resource URL
     var baseUrl = RESOURCE_URLS[resourceId];
     if (!baseUrl) {
       console.error('Unknown resource:', resourceId);
       return;
     }
 
-    // 2. Auth may still be initialising — wait for it
-    if (typeof ImpactMojoAuth === 'undefined') {
-      // Fallback: if Supabase has a session, open the resource directly
-      if (hasSupabaseSession()) {
-        window.open(baseUrl, '_blank');
-        return;
-      }
-      // No session at all — send to premium page (not login) so user
-      // understands this is a premium feature, not just an auth issue
-      window.location.href = '/premium.html';
+    // Same-origin premium tools: platform auth-gate handles these; open directly
+    // (they live behind /premium-tools/ and are covered by the site's own gating).
+    if (isLocalResource(baseUrl)) {
+      window.open(baseUrl, '_blank');
       return;
     }
 
-    // Open a blank tab synchronously (must be in the click handler
-    // or browsers will block the popup)
+    // Open a blank tab synchronously so the browser doesn't block the popup,
+    // then navigate it once we have a token (or close it on failure).
     var newTab = window.open('about:blank', '_blank');
 
-    ImpactMojoAuth.waitForAuthReady().then(function () {
-      if (!ImpactMojoAuth.isLoggedIn()) {
-        // Double-check: Supabase may still have a valid session even if
-        // ImpactMojoAuth missed it during a token refresh race
-        if (hasSupabaseSession()) {
-          if (newTab) {
-            newTab.location.href = baseUrl;
-          } else {
-            window.open(baseUrl, '_blank');
-          }
-          return;
-        }
-        // Not logged in — send to premium page instead of login to avoid
-        // redirect loops and to communicate this is a premium feature
+    getAccessToken().then(function (accessToken) {
+      if (!accessToken) {
+        // Not logged in — the gate would reject anyway. Send to premium page.
         if (newTab) newTab.close();
-        window.location.href = '/premium.html';
+        goPremium('login');
         return;
       }
-      // 3. Navigate the already-open tab to the resource
-      if (newTab) {
-        newTab.location.href = baseUrl;
-      } else {
-        window.open(baseUrl, '_blank');
-      }
+
+      return fetch(mintEndpoint(), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + accessToken,
+          'apikey': anonKey(),
+        },
+        body: JSON.stringify({ resource: resourceId }),
+      }).then(function (resp) {
+        return resp.json().then(function (data) { return { status: resp.status, data: data }; });
+      }).then(function (r) {
+        if (r.status === 200 && r.data && r.data.token) {
+          var dest = appendToken(baseUrl, r.data.token);
+          if (newTab) { newTab.location.href = dest; }
+          else { window.open(dest, '_blank'); }
+          return;
+        }
+        // Denied or error — close the tab and route the user appropriately.
+        if (newTab) newTab.close();
+        if (r.status === 401) {
+          goPremium('login');                 // session invalid/expired
+        } else if (r.status === 403) {
+          // Tier not allowed or subscription inactive
+          goPremium(r.data && r.data.code === 'INACTIVE' ? 'inactive' : 'tier');
+        } else if (r.status === 429) {
+          alert('Too many requests — please wait a moment and try again.');
+        } else {
+          console.error('mint-resource-token failed:', r.status, r.data);
+          goPremium();
+        }
+      });
+    }).catch(function (err) {
+      console.error('Resource launch error:', err);
+      if (newTab) newTab.close();
+      goPremium();
     });
   }
 
@@ -120,38 +159,25 @@
   window.ImpactMojoResource = {
     launch: launch,
     RESOURCE_URLS: RESOURCE_URLS,
-    version: '2.1.0',
+    version: '3.0.0',
   };
 
-  // ── Auto-intercept clicks on links with data-resource-id ─────────
+  // ── Auto-intercept clicks on links with data-resource-id ──────────
   document.addEventListener('click', function (e) {
     var link = e.target.closest('a[data-resource-id]');
     if (!link) return;
 
-    // If premium.js has locked the parent card, let it handle the click
+    // If premium.js has locked the parent card, let it handle the click.
     var card = link.closest('[data-locked-tier]');
     if (card) return;
 
-    // If the parent requires a premium tier but premium.js hasn't finished
-    // initializing yet (no data-locked-tier set), defer the click to avoid
-    // a race condition that redirects unauthenticated users to login
+    // If the parent gates on a tier but premium.js hasn't initialised yet,
+    // defer (avoids a race that could open before the lock is applied).
     var gatedCard = link.closest('[data-required-tier]');
     if (gatedCard && !gatedCard.classList.contains('premium-unlocked')) return;
 
     e.preventDefault();
     e.stopPropagation();
-
-    // If premium.js has already verified the user's tier and unlocked the
-    // card, open the resource directly — no need for a second auth check
-    // which can fail due to auth timing issues and redirect to login
-    if (gatedCard && gatedCard.classList.contains('premium-unlocked')) {
-      var directUrl = RESOURCE_URLS[link.dataset.resourceId];
-      if (directUrl) {
-        window.open(directUrl, '_blank');
-        return;
-      }
-    }
-
     launch(link.dataset.resourceId);
   });
 })();
