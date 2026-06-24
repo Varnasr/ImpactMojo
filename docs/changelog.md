@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.18 — June 24, 2026 (Live Workshops & community course contributions)
+
+### For Learners
+
+- **New [Live Workshops & Events](https://www.impactmojo.in/events.html)** — free live online sessions you can register for, add straight to your calendar, and join on the day (Theory of Change clinics, sample size, gender-responsive MEL and more).
+- **[Teach with ImpactMojo](https://www.impactmojo.in/contribute.html)** — practitioners and researchers can now propose a course to publish free under CC BY-NC-ND, with full author credit and editorial support.
+
 ## v10.79.17 — June 24, 2026 (Impact Dashboard, on-brand Research-to-Action, unified nav)
 
 ### For Learners
