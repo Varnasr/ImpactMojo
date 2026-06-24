@@ -2,6 +2,14 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.16 — June 24, 2026 (Premium tools live & properly gated; flagship gallery complete)
+
+### For Learners
+
+- **The premium tools are now live and correctly access-controlled** — VaniScribe, DevData Practice, the Visualization Cookbook and the DevEconomics Toolkit are no longer "coming soon"; they open for subscribers and are now genuinely members-only (signed-out or non-subscriber visitors can't reach them, even with a direct link).
+- **The [Flagship Courses gallery](https://www.impactmojo.in/courses/) now shows all 15 courses** — Power BI for Practitioners was missing and has been added.
+- **One Theory of Change Workbench** — the duplicate standalone page now redirects to the canonical lab, so there's a single ToC builder.
+
 ## v10.79.15 — June 24, 2026 (Roadmap build-out: peer review, certificate verification, partner API + nav/sitemap fixes)
 
 ### For Learners
