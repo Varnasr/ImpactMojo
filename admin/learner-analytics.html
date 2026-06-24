@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learner Analytics (v2) | ImpactMojo</title>
+<meta name="description" content="Learner analytics dashboard — completion funnels, time-on-task proxy, and assessment scores for ImpactMojo administrators.">
+<meta name="robots" content="noindex, nofollow">
+
+<!-- Google tag (gtag.js) - G-JRCMEB9TBW -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+
+<!-- Favicons -->
+<link href="/assets/images/favicon.png" rel="icon" type="image/png">
+<link href="/assets/images/apple-touch-icon.png" rel="apple-touch-icon">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- Supabase -->
+<link href="https://cdn.jsdelivr.net" rel="preconnect">
+<link href="https://ddyszmfffyedolkcugld.supabase.co" rel="preconnect">
+
+<!-- SEO / social -->
+<link rel="canonical" href="https://www.impactmojo.in/admin/learner-analytics.html">
+<meta property="og:title" content="Learner Analytics (v2)">
+<meta property="og:description" content="Learner analytics dashboard — completion funnels, time-on-task proxy, and assessment scores for ImpactMojo administrators.">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:url" content="https://www.impactmojo.in/admin/learner-analytics.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ImpactMojo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Learner Analytics (v2)">
+<meta name="twitter:description" content="Learner analytics dashboard — completion funnels, time-on-task proxy, and assessment scores for ImpactMojo administrators.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+.loading-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(15, 23, 42, 0.9);
+    display: flex; align-items: center; justify-content: center; z-index: 10000;
+}
+.loading-spinner-large {
+    width: 48px; height: 48px;
+    border: 4px solid var(--border-color, #E2E8F0);
+    border-radius: 50%; border-top-color: var(--accent-color, #F59E0B);
+    animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+:root {
+    --primary-bg: #FFFFFF;
+    --secondary-bg: #F8FAFC;
+    --accent-color: #F59E0B;
+    --accent-hover: #D97706;
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #52627A;
+    --card-bg: #FFFFFF;
+    --hover-bg: #F1F5F9;
+    --border-color: #E2E8F0;
+    --success-color: #10B981;
+    --warning-color: #F59E0B;
+    --danger-color: #EF4444;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]):not(.light-mode) {
+        --primary-bg: #0F172A;
+        --secondary-bg: #1E293B;
+        --text-primary: #F1F5F9;
+        --text-secondary: #CBD5E1;
+        --text-muted: #94A3B8;
+        --card-bg: #1E293B;
+        --hover-bg: #334155;
+        --border-color: #334155;
+    }
+}
+body.dark-mode, [data-theme="dark"] {
+    --primary-bg: #0F172A;
+    --secondary-bg: #1E293B;
+    --text-primary: #F1F5F9;
+    --text-secondary: #CBD5E1;
+    --text-muted: #94A3B8;
+    --card-bg: #1E293B;
+    --hover-bg: #334155;
+    --border-color: #334155;
+}
+[data-theme="light"], body.light-mode {
+    --primary-bg: #F8FAFC;
+    --secondary-bg: #FFFFFF;
+    --accent-color: #0284C7;
+    --accent-hover: #0369A1;
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #64748B;
+    --card-bg: #FFFFFF;
+    --hover-bg: #F1F5F9;
+    --border-color: #E2E8F0;
+}
+
+body {
+    font-family: 'Amaranth', sans-serif;
+    background: var(--primary-bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    padding-top: 52px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Topbar (im-) tokens */
+:root {
+    --im-primary-bg: #0F172A;
+    --im-secondary-bg: #1E293B;
+    --im-accent: #0EA5E9;
+    --im-text-primary: #F1F5F9;
+    --im-text-secondary: #94A3B8;
+    --im-text-muted: #64748B;
+    --im-card-bg: #1E293B;
+    --im-hover-bg: #334155;
+    --im-border: #334155;
+    --im-nav-bg: rgba(15, 23, 42, 0.95);
+    --im-gradient: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+}
+[data-theme="light"], body.light-mode {
+    --im-primary-bg: #F8FAFC;
+    --im-secondary-bg: #FFFFFF;
+    --im-accent: #0284C7;
+    --im-text-primary: #0F172A;
+    --im-text-secondary: #475569;
+    --im-text-muted: #64748B;
+    --im-card-bg: #FFFFFF;
+    --im-hover-bg: #F1F5F9;
+    --im-border: #E2E8F0;
+    --im-nav-bg: rgba(248, 250, 252, 0.95);
+}
+.im-topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    background: var(--im-nav-bg, rgba(15, 23, 42, 0.95));
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--im-border, #334155);
+    padding: 0.5rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.75rem; flex-wrap: wrap;
+    font-family: 'Inter', sans-serif;
+}
+.im-topbar a { text-decoration: none; }
+.im-topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+.im-topbar-home {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-weight: 700; font-size: 1rem;
+    background: var(--im-gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.im-topbar-home svg { width: 24px; height: 24px; flex-shrink: 0; }
+.im-topbar-right { display: flex; align-items: center; gap: 0.5rem; }
+.im-topbar-link { color: var(--im-text-secondary, #94a3b8); font-size: 0.85rem; }
+.im-browse-btn {
+    display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Inter', sans-serif;
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+    color: var(--im-text-primary, #1C1917); background: var(--im-card-bg, #FFFFFF);
+    border: 1.5px solid var(--im-border, #E2E8F0); padding: 0.5rem 1rem; border-radius: 0.5rem;
+    transition: all 0.18s ease;
+}
+.im-browse-btn:hover { background: var(--im-accent, #0EA5E9); color: #FFFFFF; border-color: var(--im-accent, #0EA5E9); }
+.im-browse-btn svg { width: 14px; height: 14px; }
+.im-theme-selector {
+    display: flex; gap: 2px; background: var(--im-card-bg, #1E293B);
+    border: 1px solid var(--im-border, #334155); border-radius: 8px; padding: 2px;
+}
+.im-theme-btn {
+    background: transparent; border: none; color: var(--im-text-secondary, #94A3B8);
+    padding: 6px; border-radius: 5px; cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; width: 30px; height: 30px;
+}
+.im-theme-btn:hover { background: var(--im-hover-bg, #334155); color: var(--im-text-primary, #F1F5F9); }
+.im-theme-btn.active { background: var(--im-accent, #0EA5E9); color: #fff; }
+.im-theme-btn svg { width: 16px; height: 16px; }
+
+/* Skip link */
+.im-skip-link { position:absolute; left:-9999px; top:0; background:#0EA5E9; color:#fff; padding:8px 16px; z-index:100000; border-radius:0 0 6px 0; font:600 .85rem/1.2 Inter,system-ui,sans-serif; text-decoration:none; }
+.im-skip-link:focus { left:0; }
+
+.btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.875rem;
+    font-weight: 500; text-decoration: none; transition: all 0.2s ease; cursor: pointer; border: none;
+}
+.btn-primary { background: var(--accent-color); color: white; }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-outline { background: transparent; color: var(--text-primary); border: 1px solid var(--border-color); }
+.btn-outline:hover { border-color: var(--accent-color); color: var(--accent-color); }
+
+/* Page title */
+.page-title { text-align: center; padding: 2.5rem 2rem 1rem; }
+.page-title h1 { font-family: 'Inter', sans-serif; font-size: 2rem; margin-bottom: 0.5rem; }
+.page-title p { color: var(--text-secondary); max-width: 640px; margin: 0 auto; }
+.admin-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(239,68,68,0.12); color: var(--danger-color); border-radius: 20px;
+    padding: 0.35rem 1rem; font-size: 0.8rem; font-weight: 600; margin-bottom: 1rem;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Stats grid */
+.stats-grid {
+    max-width: 1200px; margin: 1.5rem auto 2rem; padding: 0 2rem;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;
+}
+.stat-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; text-align: center; }
+.stat-value { font-size: 2rem; font-weight: 700; color: var(--accent-color); font-family: 'Inter', sans-serif; }
+.stat-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem; }
+
+/* Chart sections */
+.section { max-width: 1200px; margin: 0 auto 2rem; padding: 0 2rem; }
+.section-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 1.5rem; }
+.card {
+    background: var(--card-bg); border: 1px solid var(--border-color);
+    border-radius: 14px; padding: 1.5rem;
+}
+.card h2 { font-family: 'Inter', sans-serif; font-size: 1.1rem; margin-bottom: 0.35rem; }
+.card .card-note { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem; }
+.chart-wrap { position: relative; height: 320px; }
+.chart-empty {
+    display: flex; align-items: center; justify-content: center; height: 320px;
+    text-align: center; color: var(--text-muted); font-size: 0.9rem; padding: 1rem;
+}
+
+/* Table */
+.data-table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.85rem; }
+.data-table th, .data-table td { padding: 0.6rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+.data-table th { background: var(--secondary-bg); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-family: 'Inter', sans-serif; }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--hover-bg); }
+.status-badge { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 12px; font-size: 0.72rem; font-weight: 600; }
+.status-pending { background: rgba(245,158,11,0.15); color: #D97706; }
+.status-approved { background: rgba(16,185,129,0.15); color: #059669; }
+.status-rejected { background: rgba(239,68,68,0.15); color: #DC2626; }
+.status-reviewed { background: rgba(99,102,241,0.15); color: #6366F1; }
+.status-other { background: var(--hover-bg); color: var(--text-secondary); }
+
+/* Access denied */
+.access-denied { max-width: 540px; margin: 4rem auto; text-align: center; padding: 2rem; }
+.access-denied svg { width: 56px; height: 56px; opacity: 0.4; margin-bottom: 1rem; }
+.access-denied h2 { font-family: 'Inter', sans-serif; margin-bottom: 0.5rem; }
+.access-denied p { color: var(--text-secondary); margin-bottom: 1.5rem; }
+
+/* Footer */
+.im-footer {
+    background: var(--secondary-bg); border-top: 1px solid var(--border-color);
+    padding: 2rem 1rem; margin-top: auto; font-family: 'Inter', sans-serif;
+    color: var(--text-secondary); text-align: center; font-size: 0.85rem;
+}
+.im-footer a { color: var(--accent-color); text-decoration: none; }
+
+@media (max-width: 768px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .section-grid { grid-template-columns: 1fr; }
+    .im-theme-selector { display: none; }
+    .data-table th:nth-child(3), .data-table td:nth-child(3) { display: none; }
+}
+</style>
+</head>
+<body>
+<a href="#analyticsContent" class="im-skip-link">Skip to content</a>
+
+<!-- ImpactMojo Top Bar -->
+<div class="im-topbar" id="imTopbar">
+    <div class="im-topbar-left">
+        <a href="/index.html" class="im-topbar-home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>ImpactMojo</span>
+        </a>
+    </div>
+    <div class="im-topbar-right">
+        <a href="/admin/" class="im-topbar-link" style="margin-right:0.75rem;">Admin</a>
+        <a href="/account.html" class="im-topbar-link" style="margin-right:0.75rem;">My Account</a>
+        <a href="/catalog.html" class="im-browse-btn" title="Browse all content"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Browse</a>
+        <div class="im-theme-selector" aria-label="Theme selection">
+            <button class="im-theme-btn" data-imtheme="system" title="System theme" aria-label="Use system theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
+            <button class="im-theme-btn" data-imtheme="light" title="Light theme" aria-label="Use light theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
+            <button class="im-theme-btn" data-imtheme="dark" title="Dark theme" aria-label="Use dark theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+        </div>
+    </div>
+</div>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner-large"></div>
+</div>
+
+<!-- Access denied (admins only) -->
+<div id="accessDenied" class="access-denied" style="display:none;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    <h2>Admins only</h2>
+    <p>The Learner Analytics dashboard is restricted to ImpactMojo administrators. If you believe you should have access, contact the site admin.</p>
+    <a href="/account.html" class="btn btn-primary">Back to my account</a>
+</div>
+
+<!-- Analytics content (shown to admins) -->
+<div id="analyticsContent" style="display:none;">
+
+    <div class="page-title">
+        <div class="admin-badge">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+            Admin · Analytics v2
+        </div>
+        <h1>Learner Analytics</h1>
+        <p>Completion funnels, engagement over time, and assessment outcomes across all ImpactMojo learners. All figures are computed live from the platform database.</p>
+    </div>
+
+    <!-- 1. Summary cards -->
+    <div class="stats-grid">
+        <div class="stat-card"><div class="stat-value" id="statLearners">—</div><div class="stat-label">Total Learners</div></div>
+        <div class="stat-card"><div class="stat-value" id="statEnrollments">—</div><div class="stat-label">Course Enrollments</div></div>
+        <div class="stat-card"><div class="stat-value" id="statCompletions">—</div><div class="stat-label">Completions (100%)</div></div>
+        <div class="stat-card"><div class="stat-value" id="statRate">—</div><div class="stat-label">Completion Rate</div></div>
+    </div>
+
+    <!-- 2 + 3. Funnel + by course -->
+    <div class="section">
+        <div class="section-grid">
+            <div class="card">
+                <h2>Completion Funnel</h2>
+                <p class="card-note">Enrollments bucketed by progress. The drop-off between buckets is the funnel.</p>
+                <div class="chart-wrap"><canvas id="funnelChart"></canvas></div>
+                <div class="chart-empty" id="funnelEmpty" style="display:none;"></div>
+            </div>
+            <div class="card">
+                <h2>Completion by Course</h2>
+                <p class="card-note">Average progress per course (top 15 by enrollment). Bar length = avg % complete.</p>
+                <div class="chart-wrap"><canvas id="courseChart"></canvas></div>
+                <div class="chart-empty" id="courseEmpty" style="display:none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. Engagement over time -->
+    <div class="section">
+        <div class="card">
+            <h2>Active Learners per Week</h2>
+            <p class="card-note">Distinct learners who made progress each week, by <code>user_progress.updated_at</code>. <strong>Note:</strong> this is an engagement proxy, not literal time-on-task — the platform does not record session duration, so this approximates time-on-task with weekly active-learner counts.</p>
+            <div class="chart-wrap"><canvas id="engagementChart"></canvas></div>
+            <div class="chart-empty" id="engagementEmpty" style="display:none;"></div>
+        </div>
+    </div>
+
+    <!-- 4. Assessments -->
+    <div class="section">
+        <div class="section-grid">
+            <div class="card">
+                <h2>Assessment Submissions by Status</h2>
+                <p class="card-note">Challenge submissions grouped by review status.</p>
+                <div class="chart-wrap"><canvas id="assessChart"></canvas></div>
+                <div class="chart-empty" id="assessEmpty" style="display:none;"></div>
+            </div>
+            <div class="card">
+                <h2>Recent Submissions</h2>
+                <p class="card-note">Most recent challenge submissions.</p>
+                <table class="data-table">
+                    <thead><tr><th>Challenge</th><th>Status</th><th>Submitted</th></tr></thead>
+                    <tbody id="submissionsTableBody"><tr><td colspan="3" style="color:var(--text-muted);">Loading…</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<footer class="im-footer">
+    <p>ImpactMojo — free development education for South Asia. <a href="/index.html">Home</a> · <a href="/admin/">Admin panel</a></p>
+    <p style="margin-top:0.4rem; color:var(--text-muted); font-size:0.78rem;">Internal analytics. Figures reflect live database state and may change as learners progress.</p>
+</footer>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/auth-gate.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+<script>
+(function () {
+  'use strict';
+
+  var charts = {};
+
+  function isAdmin(profile) {
+    if (!profile) return false;
+    if (profile.subscription_tier === 'admin') return true;
+    if (profile.role === 'admin') return true;
+    if (profile.is_admin === true) return true;
+    return false;
+  }
+
+  function escHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function fmtNum(n) {
+    if (n == null || isNaN(n)) return '—';
+    return Number(n).toLocaleString('en-IN');
+  }
+
+  function showAccessDenied() {
+    var ov = document.getElementById('loadingOverlay');
+    if (ov) ov.style.display = 'none';
+    document.getElementById('analyticsContent').style.display = 'none';
+    document.getElementById('accessDenied').style.display = 'block';
+  }
+
+  function showContent() {
+    document.getElementById('analyticsContent').style.display = 'block';
+  }
+
+  function isDark() {
+    return document.documentElement.getAttribute('data-theme') === 'dark' ||
+           document.body.classList.contains('dark-mode') ||
+           (!document.documentElement.getAttribute('data-theme') &&
+            window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  }
+  function gridColor() { return isDark() ? 'rgba(148,163,184,0.15)' : 'rgba(15,23,42,0.08)'; }
+  function tickColor() { return isDark() ? '#94A3B8' : '#475569'; }
+
+  var PALETTE = ['#0EA5E9', '#6366F1', '#10B981', '#F59E0B', '#EF4444', '#EC4899', '#14B8A6', '#8B5CF6'];
+
+  // Destroy an existing chart before re-rendering to avoid duplicates.
+  function renderChart(id, config) {
+    if (charts[id]) { charts[id].destroy(); delete charts[id]; }
+    var canvas = document.getElementById(id);
+    if (!canvas) return;
+    charts[id] = new Chart(canvas.getContext('2d'), config);
+  }
+
+  // Mark a chart slot as empty with a friendly message.
+  function setChartEmpty(canvasId, emptyId, msg) {
+    var c = document.getElementById(canvasId);
+    var e = document.getElementById(emptyId);
+    if (charts[canvasId]) { charts[canvasId].destroy(); delete charts[canvasId]; }
+    if (c) c.style.display = 'none';
+    if (e) { e.style.display = 'flex'; e.textContent = msg || 'No data available.'; }
+  }
+
+  var sb = function () { return window.supabaseClient; };
+
+  // ---------- 1. Summary cards + 2. funnel ----------
+  async function loadProgressAnalytics() {
+    var rows;
+    try {
+      var res = await sb()
+        .from('user_progress')
+        .select('user_id, course_id, progress_percentage, updated_at');
+      if (res.error) throw res.error;
+      rows = res.data || [];
+    } catch (e) {
+      console.error('user_progress load failed:', e);
+      document.getElementById('statEnrollments').textContent = '—';
+      document.getElementById('statCompletions').textContent = '—';
+      document.getElementById('statRate').textContent = '—';
+      setChartEmpty('funnelChart', 'funnelEmpty', 'No data — or insufficient permissions to read progress.');
+      setChartEmpty('courseChart', 'courseEmpty', 'No data — or insufficient permissions to read progress.');
+      setChartEmpty('engagementChart', 'engagementEmpty', 'No data — or insufficient permissions to read progress.');
+      return;
+    }
+
+    var enrollments = rows.length;
+    var completions = rows.filter(function (r) { return Number(r.progress_percentage) >= 100; }).length;
+    document.getElementById('statEnrollments').textContent = fmtNum(enrollments);
+    document.getElementById('statCompletions').textContent = fmtNum(completions);
+    document.getElementById('statRate').textContent =
+      enrollments ? (Math.round((completions / enrollments) * 1000) / 10) + '%' : '0%';
+
+    // --- Funnel buckets ---
+    if (!enrollments) {
+      setChartEmpty('funnelChart', 'funnelEmpty', 'No enrollments yet.');
+    } else {
+      var buckets = { '0%': 0, '1–25%': 0, '26–50%': 0, '51–75%': 0, '76–99%': 0, '100%': 0 };
+      rows.forEach(function (r) {
+        var p = Number(r.progress_percentage) || 0;
+        if (p <= 0) buckets['0%']++;
+        else if (p <= 25) buckets['1–25%']++;
+        else if (p <= 50) buckets['26–50%']++;
+        else if (p <= 75) buckets['51–75%']++;
+        else if (p < 100) buckets['76–99%']++;
+        else buckets['100%']++;
+      });
+      var labels = Object.keys(buckets);
+      renderChart('funnelChart', {
+        type: 'bar',
+        data: { labels: labels, datasets: [{ label: 'Enrollments', data: labels.map(function (k) { return buckets[k]; }), backgroundColor: '#0EA5E9', borderRadius: 6 }] },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { display: false }, ticks: { color: tickColor() } },
+            y: { beginAtZero: true, grid: { color: gridColor() }, ticks: { color: tickColor(), precision: 0 } }
+          }
+        }
+      });
+    }
+
+    // --- 3. Completion by course ---
+    if (!enrollments) {
+      setChartEmpty('courseChart', 'courseEmpty', 'No enrollments yet.');
+    } else {
+      var byCourse = {};
+      rows.forEach(function (r) {
+        var id = r.course_id || 'unknown';
+        if (!byCourse[id]) byCourse[id] = { sum: 0, n: 0, complete: 0 };
+        byCourse[id].sum += Number(r.progress_percentage) || 0;
+        byCourse[id].n += 1;
+        if (Number(r.progress_percentage) >= 100) byCourse[id].complete += 1;
+      });
+      var courseArr = Object.keys(byCourse).map(function (id) {
+        return { id: id, avg: byCourse[id].sum / byCourse[id].n, n: byCourse[id].n, complete: byCourse[id].complete };
+      }).sort(function (a, b) { return b.n - a.n; }).slice(0, 15);
+
+      renderChart('courseChart', {
+        type: 'bar',
+        data: {
+          labels: courseArr.map(function (c) { return c.id; }),
+          datasets: [{
+            label: 'Avg progress %',
+            data: courseArr.map(function (c) { return Math.round(c.avg * 10) / 10; }),
+            backgroundColor: courseArr.map(function (_, i) { return PALETTE[i % PALETTE.length]; }),
+            borderRadius: 5
+          }]
+        },
+        options: {
+          indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { afterLabel: function (ctx) { var c = courseArr[ctx.dataIndex]; return c.n + ' enrolled · ' + c.complete + ' completed'; } } }
+          },
+          scales: {
+            x: { beginAtZero: true, max: 100, grid: { color: gridColor() }, ticks: { color: tickColor() } },
+            y: { grid: { display: false }, ticks: { color: tickColor() } }
+          }
+        }
+      });
+    }
+
+    // --- 5. Engagement over time (active learners per week proxy) ---
+    var weekRows = rows.filter(function (r) { return r.updated_at; });
+    if (!weekRows.length) {
+      setChartEmpty('engagementChart', 'engagementEmpty', 'No timestamped progress yet.');
+    } else {
+      var weeks = {};
+      weekRows.forEach(function (r) {
+        var d = new Date(r.updated_at);
+        if (isNaN(d)) return;
+        // Monday-anchored ISO-ish week key (UTC).
+        var day = (d.getUTCDay() + 6) % 7;
+        var monday = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() - day));
+        var key = monday.toISOString().slice(0, 10);
+        if (!weeks[key]) weeks[key] = {};
+        if (r.user_id) weeks[key][r.user_id] = true;
+      });
+      var weekKeys = Object.keys(weeks).sort();
+      if (!weekKeys.length) {
+        setChartEmpty('engagementChart', 'engagementEmpty', 'No timestamped progress yet.');
+      } else {
+        renderChart('engagementChart', {
+          type: 'line',
+          data: {
+            labels: weekKeys,
+            datasets: [{
+              label: 'Active learners per week (by last progress update)',
+              data: weekKeys.map(function (k) { return Object.keys(weeks[k]).length; }),
+              borderColor: '#10B981', backgroundColor: 'rgba(16,185,129,0.12)',
+              fill: true, tension: 0.3, pointRadius: 3
+            }]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { labels: { color: tickColor() } } },
+            scales: {
+              x: { grid: { display: false }, ticks: { color: tickColor(), maxRotation: 60, autoSkip: true, maxTicksLimit: 12 } },
+              y: { beginAtZero: true, grid: { color: gridColor() }, ticks: { color: tickColor(), precision: 0 } }
+            }
+          }
+        });
+      }
+    }
+  }
+
+  // ---------- Summary card: total learners ----------
+  async function loadLearnerCount() {
+    try {
+      var res = await sb().from('profiles').select('id', { count: 'exact', head: true });
+      if (res.error) throw res.error;
+      document.getElementById('statLearners').textContent = fmtNum(res.count || 0);
+    } catch (e) {
+      console.error('profiles count failed:', e);
+      document.getElementById('statLearners').textContent = '—';
+    }
+  }
+
+  // ---------- 4. Assessments ----------
+  async function loadAssessments() {
+    var rows;
+    try {
+      var res = await sb()
+        .from('challenge_submissions')
+        .select('challenge_id, submission_status, submitted_at')
+        .order('submitted_at', { ascending: false });
+      if (res.error) throw res.error;
+      rows = res.data || [];
+    } catch (e) {
+      console.error('challenge_submissions load failed:', e);
+      setChartEmpty('assessChart', 'assessEmpty', 'No data — or insufficient permissions to read submissions.');
+      document.getElementById('submissionsTableBody').innerHTML =
+        '<tr><td colspan="3" style="color:var(--text-muted);">No data or insufficient permissions.</td></tr>';
+      return;
+    }
+
+    // Doughnut by status
+    if (!rows.length) {
+      setChartEmpty('assessChart', 'assessEmpty', 'No submissions yet.');
+    } else {
+      var byStatus = {};
+      rows.forEach(function (r) {
+        var s = r.submission_status || 'unknown';
+        byStatus[s] = (byStatus[s] || 0) + 1;
+      });
+      var sLabels = Object.keys(byStatus);
+      var statusColors = { pending: '#F59E0B', approved: '#10B981', rejected: '#EF4444', reviewed: '#6366F1' };
+      renderChart('assessChart', {
+        type: 'doughnut',
+        data: {
+          labels: sLabels,
+          datasets: [{
+            data: sLabels.map(function (k) { return byStatus[k]; }),
+            backgroundColor: sLabels.map(function (k, i) { return statusColors[k] || PALETTE[i % PALETTE.length]; }),
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false, cutout: '60%',
+          plugins: { legend: { position: 'bottom', labels: { color: tickColor() } } }
+        }
+      });
+    }
+
+    // Recent submissions table
+    var body = document.getElementById('submissionsTableBody');
+    if (!rows.length) {
+      body.innerHTML = '<tr><td colspan="3" style="color:var(--text-muted);">No submissions yet.</td></tr>';
+    } else {
+      var statusClass = { pending: 'status-pending', approved: 'status-approved', rejected: 'status-rejected', reviewed: 'status-reviewed' };
+      body.innerHTML = rows.slice(0, 12).map(function (r) {
+        var st = r.submission_status || 'unknown';
+        var cls = statusClass[st] || 'status-other';
+        var when = r.submitted_at ? new Date(r.submitted_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—';
+        return '<tr><td>' + escHtml(r.challenge_id || '—') + '</td>' +
+               '<td><span class="status-badge ' + cls + '">' + escHtml(st) + '</span></td>' +
+               '<td>' + escHtml(when) + '</td></tr>';
+      }).join('');
+    }
+  }
+
+  async function loadAnalytics() {
+    showContent();
+    // Run independent queries in parallel; each guards its own errors.
+    await Promise.all([
+      loadLearnerCount(),
+      loadProgressAnalytics(),
+      loadAssessments()
+    ]);
+  }
+
+  // ---------- Auth gate ----------
+  AuthGate.protect({
+    loadingEl: document.getElementById('loadingOverlay'),
+    redirectUrl: '/login.html',
+    requiredTier: null,
+    timeoutMs: 8000,
+    onReady: function (user, profile) {
+      if (!isAdmin(profile)) {
+        showAccessDenied();
+        return;
+      }
+      loadAnalytics();
+    },
+    onDenied: function () { showAccessDenied(); }
+  });
+})();
+</script>
+
+<script src="/js/theme.js"></script>
+<script src="/js/translate-sarvam.js" defer></script>
+</body>
+</html>

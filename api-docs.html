@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Partner API | ImpactMojo</title>
+<meta name="description" content="Free, read-only REST API for organizations to integrate ImpactMojo's open development-education catalog — courses, games, labs, and book companions. No API key required.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.impactmojo.in/api-docs.html">
+
+<!-- Google tag (gtag.js) - G-JRCMEB9TBW -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+
+<!-- Open Graph -->
+<meta property="og:title" content="Partner API | ImpactMojo">
+<meta property="og:description" content="Free, read-only REST API for organizations to integrate ImpactMojo's open development-education catalog. No API key required.">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:url" content="https://www.impactmojo.in/api-docs.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ImpactMojo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Partner API | ImpactMojo">
+<meta name="twitter:description" content="Free, read-only REST API for organizations to integrate ImpactMojo's open development-education catalog.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+
+<!-- Favicons -->
+<link href="assets/images/favicon.png" rel="icon" type="image/png">
+<link href="assets/images/apple-touch-icon.png" rel="apple-touch-icon">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --primary-bg: #FFFFFF;
+    --secondary-bg: #F8FAFC;
+    --accent-color: #F59E0B;
+    --accent-hover: #D97706;
+    --accent-blue: #0EA5E9;
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #52627A;
+    --card-bg: #FFFFFF;
+    --hover-bg: #F1F5F9;
+    --code-bg: #0F172A;
+    --code-text: #E2E8F0;
+    --border-color: #E2E8F0;
+    --success-color: #10B981;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]):not(.light-mode) {
+        --primary-bg: #0F172A;
+        --secondary-bg: #1E293B;
+        --text-primary: #F1F5F9;
+        --text-secondary: #CBD5E1;
+        --text-muted: #94A3B8;
+        --card-bg: #1E293B;
+        --hover-bg: #334155;
+        --code-bg: #020617;
+        --border-color: #334155;
+    }
+}
+[data-theme="dark"], body.dark-mode {
+    --primary-bg: #0F172A;
+    --secondary-bg: #1E293B;
+    --text-primary: #F1F5F9;
+    --text-secondary: #CBD5E1;
+    --text-muted: #94A3B8;
+    --card-bg: #1E293B;
+    --hover-bg: #334155;
+    --code-bg: #020617;
+    --border-color: #334155;
+}
+
+body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--primary-bg);
+    color: var(--text-primary);
+    line-height: 1.65;
+    padding-top: 44px;
+}
+
+h1, h2, h3, .brand { font-family: 'Amaranth', sans-serif; }
+
+/* Topbar */
+.im-topbar {
+    position: fixed; top: 0; left: 0; right: 0; height: 44px;
+    background: var(--card-bg); border-bottom: 1px solid var(--border-color);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 1rem; z-index: 9000;
+}
+.im-topbar-home { display: flex; align-items: center; gap: 0.5rem; color: var(--text-primary); text-decoration: none; font-family: 'Amaranth', sans-serif; font-weight: 700; }
+.im-topbar-home svg { width: 20px; height: 20px; }
+.im-topbar-right { display: flex; align-items: center; gap: 1rem; }
+.im-topbar-link { color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; }
+.im-topbar-link:hover { color: var(--accent-color); }
+
+.im-skip-link { position:absolute; left:-9999px; top:0; background:#0EA5E9; color:#fff; padding:8px 16px; z-index:100000; border-radius:0 0 6px 0; font:600 .85rem/1.2 Inter,system-ui,sans-serif; text-decoration:none; }
+.im-skip-link:focus { left:0; }
+
+/* Hero */
+.hero {
+    background: var(--secondary-bg);
+    border-bottom: 1px solid var(--border-color);
+    padding: 3.5rem 1.5rem 3rem;
+    text-align: center;
+}
+.hero h1 { font-size: 2.4rem; margin-bottom: 0.75rem; }
+.hero p { color: var(--text-secondary); max-width: 640px; margin: 0 auto 1.25rem; font-size: 1.05rem; }
+.badges { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; }
+.badge {
+    display: inline-block; padding: 0.3rem 0.8rem; border-radius: 999px;
+    font-size: 0.8rem; font-weight: 600; background: var(--hover-bg);
+    color: var(--text-secondary); border: 1px solid var(--border-color);
+}
+.badge.green { background: rgba(16,185,129,0.12); color: var(--success-color); border-color: transparent; }
+
+/* Layout */
+.container { max-width: 880px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+.section { margin-bottom: 2.75rem; }
+.section h2 { font-size: 1.6rem; margin-bottom: 0.5rem; }
+.section > p { color: var(--text-secondary); margin-bottom: 1rem; }
+
+.note {
+    background: var(--secondary-bg); border: 1px solid var(--border-color);
+    border-left: 3px solid var(--accent-color); border-radius: 8px;
+    padding: 1rem 1.25rem; margin: 1.25rem 0; color: var(--text-secondary);
+}
+.note strong { color: var(--text-primary); }
+
+.baseurl {
+    font-family: 'JetBrains Mono', monospace; background: var(--code-bg); color: var(--code-text);
+    padding: 0.6rem 0.9rem; border-radius: 8px; display: inline-block; font-size: 0.95rem;
+}
+
+/* Endpoint cards */
+.endpoint {
+    border: 1px solid var(--border-color); border-radius: 12px;
+    background: var(--card-bg); box-shadow: var(--shadow-sm);
+    margin-bottom: 1.75rem; overflow: hidden;
+}
+.endpoint-head { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border-color); }
+.endpoint-head .method {
+    display: inline-block; font-family: 'JetBrains Mono', monospace; font-weight: 700;
+    font-size: 0.75rem; background: var(--success-color); color: #fff;
+    padding: 0.2rem 0.55rem; border-radius: 6px; margin-right: 0.6rem; vertical-align: middle;
+}
+.endpoint-head .path { font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; color: var(--text-primary); word-break: break-all; }
+.endpoint-body { padding: 1rem 1.25rem; }
+.endpoint-body p { color: var(--text-secondary); margin-bottom: 0.75rem; }
+
+table.params { width: 100%; border-collapse: collapse; margin: 0.5rem 0 1rem; font-size: 0.9rem; }
+table.params th, table.params td { text-align: left; padding: 0.45rem 0.6rem; border-bottom: 1px solid var(--border-color); vertical-align: top; }
+table.params th { color: var(--text-muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.03em; }
+table.params code { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--accent-hover); }
+
+.example-label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.03em; margin: 0.75rem 0 0.4rem; display: flex; align-items: center; justify-content: space-between; }
+.copy-btn {
+    font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 600;
+    background: var(--hover-bg); color: var(--text-secondary); border: 1px solid var(--border-color);
+    border-radius: 6px; padding: 0.2rem 0.55rem; cursor: pointer; text-transform: none; letter-spacing: 0;
+}
+.copy-btn:hover { background: var(--accent-color); color: #fff; border-color: transparent; }
+
+pre {
+    background: var(--code-bg); border-radius: 8px; padding: 1rem 1.1rem;
+    overflow-x: auto; margin: 0;
+}
+pre code { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: var(--code-text); line-height: 1.55; white-space: pre; }
+
+/* Footer */
+.footer { background: var(--secondary-bg); border-top: 1px solid var(--border-color); padding: 2.5rem 1.5rem; }
+.footer-content { max-width: 880px; margin: 0 auto; }
+.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem; }
+.footer-section h4 { font-size: 0.95rem; margin-bottom: 0.6rem; }
+.footer-section ul { list-style: none; }
+.footer-section li { margin-bottom: 0.35rem; }
+.footer-section a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; }
+.footer-section a:hover { color: var(--accent-color); }
+.footer-bottom { border-top: 1px solid var(--border-color); padding-top: 1.25rem; text-align: center; }
+.footer-copyright { color: var(--text-muted); font-size: 0.85rem; }
+.footer-social { display: flex; gap: 1rem; justify-content: center; margin-top: 0.75rem; }
+.footer-social svg { width: 20px; height: 20px; fill: var(--text-muted); }
+.footer-social a:hover svg { fill: var(--accent-color); }
+</style>
+</head>
+<body>
+<a href="#main" class="im-skip-link">Skip to content</a>
+
+<!-- ImpactMojo Top Bar -->
+<div class="im-topbar" id="imTopbar">
+    <div class="im-topbar-left">
+        <a href="/index.html" class="im-topbar-home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>ImpactMojo</span>
+        </a>
+    </div>
+    <div class="im-topbar-right">
+        <a href="/index.html" class="im-topbar-link">Home</a>
+        <a href="/catalog.html" class="im-topbar-link">Catalog</a>
+        <a href="/docs/" class="im-topbar-link">Docs</a>
+    </div>
+</div>
+
+<header class="hero">
+    <h1>Partner API</h1>
+    <p>A free, read-only REST API for organizations to integrate ImpactMojo's open development-education catalog &mdash; courses, games, labs, and interactive book companions.</p>
+    <div class="badges">
+        <span class="badge green">No API key required</span>
+        <span class="badge">Read-only (GET)</span>
+        <span class="badge">JSON</span>
+        <span class="badge">CORS enabled</span>
+        <span class="badge">CC BY-NC-ND 4.0</span>
+    </div>
+</header>
+
+<main class="container" id="main">
+
+    <section class="section">
+        <h2>Base URL</h2>
+        <p><span class="baseurl">https://www.impactmojo.in/api/v1</span></p>
+        <div class="note">
+            <strong>No key, read-only, please cache.</strong> Every endpoint is a public <code>GET</code> that returns JSON with <code>Cache-Control: public, max-age=300</code> and permissive CORS (<code>Access-Control-Allow-Origin: *</code>). Please respect the cache headers and keep request rates modest (roughly &le;60 requests/minute). <strong>Contact <a href="mailto:hello@impactmojo.in">hello@impactmojo.in</a> for higher-volume access.</strong>
+        </div>
+        <div class="note">
+            <strong>License &amp; attribution.</strong> All content is licensed <strong>CC BY-NC-ND 4.0</strong>. You may link to and surface ImpactMojo content provided you give attribution to <strong>ImpactMojo (impactmojo.in)</strong>. Non-commercial use only; no derivatives of the content itself. This API exposes catalog metadata (titles, descriptions, URLs, tags) to help you link learners to the original material.
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>Endpoints</h2>
+
+        <!-- API index -->
+        <div class="endpoint">
+            <div class="endpoint-head">
+                <span class="method">GET</span><span class="path">/api/v1</span>
+            </div>
+            <div class="endpoint-body">
+                <p>API index &mdash; name, version, the list of available endpoints, the license/attribution note, and the rate-limit note.</p>
+                <div class="example-label">Example response <button class="copy-btn" data-copy>Copy</button></div>
+                <pre><code>{
+  "name": "ImpactMojo Partner API",
+  "version": "1.0",
+  "base_url": "https://www.impactmojo.in/api/v1",
+  "endpoints": [
+    { "method": "GET", "path": "/api/v1", "description": "This index." },
+    { "method": "GET", "path": "/api/v1/catalog", "description": "Full content catalog..." },
+    { "method": "GET", "path": "/api/v1/courses", "description": "Courses only..." },
+    { "method": "GET", "path": "/api/v1/courses/{slug}", "description": "Single course detail..." },
+    { "method": "GET", "path": "/api/v1/stats", "description": "Content counts by type." }
+  ],
+  "license": "CC BY-NC-ND 4.0 — attribution to ImpactMojo (impactmojo.in) required; ...",
+  "rate_limit": "No API key required. Read-only. Please cache responses ...",
+  "contact": "hello@impactmojo.in"
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Catalog -->
+        <div class="endpoint">
+            <div class="endpoint-head">
+                <span class="method">GET</span><span class="path">/api/v1/catalog</span>
+            </div>
+            <div class="endpoint-body">
+                <p>The full content catalog &mdash; courses, games, labs, and book companions &mdash; derived from the site's search index.</p>
+                <table class="params">
+                    <thead><tr><th>Query param</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>type</code></td><td>Filter by content type. One of <code>course</code>, <code>game</code>, <code>lab</code>, <code>book</code>, <code>handout</code>. Omit for all types.</td></tr>
+                        <tr><td><code>q</code></td><td>Case-insensitive substring match against title and description.</td></tr>
+                        <tr><td><code>limit</code></td><td>Maximum items to return. Default <code>100</code>, maximum <code>500</code>.</td></tr>
+                    </tbody>
+                </table>
+                <div class="example-label">Example request</div>
+                <pre><code>GET https://www.impactmojo.in/api/v1/catalog?type=game&amp;q=auction&amp;limit=50</code></pre>
+                <div class="example-label">Example response <button class="copy-btn" data-copy>Copy</button></div>
+                <pre><code>{
+  "count": 1,
+  "total": 1,
+  "limit": 50,
+  "filters": { "type": "game", "q": "auction" },
+  "items": [
+    {
+      "id": "GAME001",
+      "title": "Bidding Wars",
+      "description": "Strategic auction and bidding simulation exploring market competition",
+      "type": "game",
+      "category": "Economics",
+      "url": "https://www.impactmojo.in/Games/bidding-wars-game.html",
+      "tags": ["auction", "market", "competition", "bidding"]
+    }
+  ],
+  "license": "CC BY-NC-ND 4.0 — attribution to ImpactMojo (impactmojo.in) required; ...",
+  "attribution": "Content © ImpactMojo, CC BY-NC-ND 4.0 — https://impactmojo.in"
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Courses -->
+        <div class="endpoint">
+            <div class="endpoint-head">
+                <span class="method">GET</span><span class="path">/api/v1/courses</span>
+            </div>
+            <div class="endpoint-body">
+                <p>Courses only &mdash; both 101 foundational decks and flagship courses &mdash; enriched with slide counts, level, format, license, sections, and feature flags where available.</p>
+                <div class="example-label">Example response <button class="copy-btn" data-copy>Copy</button></div>
+                <pre><code>{
+  "count": 106,
+  "courses": [
+    {
+      "slug": "dev-economics",
+      "id": "101-dev-economics",
+      "title": "Development Economics 101",
+      "description": "100-slide foundational deck covering poverty, growth, ...",
+      "url": "https://www.impactmojo.in/101-courses/dev-economics.html",
+      "track": "101 Foundational Courses",
+      "level": "Foundational",
+      "format": "Native HTML",
+      "tier": "101",
+      "slides": 100,
+      "license": "CC BY-NC-ND 4.0",
+      "features": { "quiz": false, "glossary": false, "selfPaced": true, "free": true },
+      "sections": ["What Development Economics Is", "Poverty &amp; Growth", "..."],
+      "tags": ["development economics", "poverty", "growth", "101"]
+    }
+  ],
+  "license": "CC BY-NC-ND 4.0 — attribution to ImpactMojo (impactmojo.in) required; ..."
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Course detail -->
+        <div class="endpoint">
+            <div class="endpoint-head">
+                <span class="method">GET</span><span class="path">/api/v1/courses/{slug}</span>
+            </div>
+            <div class="endpoint-body">
+                <p>A single course's detail, looked up by its <code>slug</code> (the value returned in the <code>courses</code> list, e.g. <code>mel</code>, <code>gandhi</code>, <code>dev-economics</code>). Returns <code>404</code> with a JSON error body if no course matches.</p>
+                <div class="example-label">Example request</div>
+                <pre><code>GET https://www.impactmojo.in/api/v1/courses/gandhi</code></pre>
+                <div class="example-label">Example response <button class="copy-btn" data-copy>Copy</button></div>
+                <pre><code>{
+  "course": {
+    "slug": "gandhi",
+    "id": "gandhi",
+    "title": "Gandhi's Political Thought: Philosophy for Praxis",
+    "description": "Comprehensive exploration of Gandhian political philosophy ...",
+    "url": "https://www.impactmojo.in/courses/gandhi/",
+    "track": "Philosophy, Law &amp; Governance",
+    "level": "Advanced",
+    "format": "Flagship course",
+    "tier": "flagship",
+    "slides": null,
+    "license": "CC BY-NC-ND 4.0",
+    "tags": ["philosophy", "politics", "gandhi", "swaraj"]
+  },
+  "license": "CC BY-NC-ND 4.0 — attribution to ImpactMojo (impactmojo.in) required; ..."
+}</code></pre>
+                <div class="example-label">404 response</div>
+                <pre><code>{ "error": "No course found with slug \"does-not-exist\"." }</code></pre>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="endpoint">
+            <div class="endpoint-head">
+                <span class="method">GET</span><span class="path">/api/v1/stats</span>
+            </div>
+            <div class="endpoint-body">
+                <p>Aggregate content counts by type, plus a flagship / 101-foundational course breakdown.</p>
+                <div class="example-label">Example response <button class="copy-btn" data-copy>Copy</button></div>
+                <pre><code>{
+  "total_items": 709,
+  "by_type": {
+    "course": 106,
+    "game": 17,
+    "lab": 13,
+    "book-summary": 51,
+    "bct": 203,
+    "dataverse": 215
+  },
+  "courses": { "total": 106, "flagship": 13, "foundational_101": 93 },
+  "license": "CC BY-NC-ND 4.0 — attribution to ImpactMojo (impactmojo.in) required; ..."
+}</code></pre>
+            </div>
+        </div>
+
+    </section>
+
+    <section class="section">
+        <h2>Errors</h2>
+        <p>Errors return a JSON body of the form <code>{ "error": "message" }</code> with an appropriate HTTP status: <code>400</code> (invalid query parameter), <code>404</code> (unknown endpoint or course slug), <code>405</code> (non-GET method), and <code>502</code> (upstream catalog data temporarily unavailable). An <code>OPTIONS</code> preflight returns <code>204</code> with CORS headers.</p>
+    </section>
+
+    <section class="section">
+        <h2>Need more?</h2>
+        <p>This API is intentionally simple and read-only. If your organization needs higher request volumes, bulk exports, or a deeper integration, write to <a href="mailto:hello@impactmojo.in">hello@impactmojo.in</a> and we'll help.</p>
+    </section>
+
+</main>
+
+<footer class="footer" role="contentinfo">
+    <div class="footer-content">
+        <div class="footer-grid">
+            <div class="footer-section">
+                <h4>About</h4>
+                <ul>
+                    <li><a href="about.html">About ImpactMojo</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="community/">Community</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="/terms-of-service">Terms of Service</a></li>
+                    <li><a href="/privacy-policy">Privacy Policy</a></li>
+                    <li><a href="/refund-policy">Refund Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="catalog.html">Course Catalog</a></li>
+                    <li><a href="premium.html">Premium Access</a></li>
+                    <li><a href="/docs/" rel="noopener noreferrer" target="_blank">Documentation</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="/status.html">System Status</a></li>
+                    <li><a href="/products.html">Products &amp; Kits</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="handouts.html">Handouts</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-copyright">© 2026 ImpactMojo. All rights reserved. Made with <img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Heart.svg" alt="" style="width:1em;height:1em;vertical-align:-0.15em;display:inline-block;" aria-hidden="true"> in India. Code under MIT; content under CC BY-NC-ND 4.0.</p>
+            <div class="footer-social">
+                <a href="https://www.linkedin.com/company/impactmojo" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                </a>
+                <a href="https://www.instagram.com/impactmojo" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+document.querySelectorAll('[data-copy]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+        var pre = btn.closest('.endpoint-body').querySelector('pre code');
+        if (!pre) return;
+        navigator.clipboard.writeText(pre.innerText).then(function(){
+            var t = btn.textContent;
+            btn.textContent = 'Copied';
+            setTimeout(function(){ btn.textContent = t; }, 1400);
+        });
+    });
+});
+</script>
+</body>
+</html>

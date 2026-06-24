@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peer Review | ImpactMojo</title>
+<meta name="description" content="Review fellow learners' assignments and case analyses, and see the feedback you've received on your own work — on ImpactMojo.">
+
+<!-- Google tag (gtag.js) - G-JRCMEB9TBW -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JRCMEB9TBW');
+</script>
+
+<!-- Favicons -->
+<link href="assets/images/favicon.png" rel="icon" type="image/png">
+<link href="assets/images/apple-touch-icon.png" rel="apple-touch-icon">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Supabase -->
+<link href="https://cdn.jsdelivr.net" rel="preconnect">
+<link href="https://ddyszmfffyedolkcugld.supabase.co" rel="preconnect">
+
+<!-- SEO meta -->
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.impactmojo.in/peer-review.html">
+<meta property="og:title" content="Peer Review">
+<meta property="og:description" content="Review fellow learners' assignments and case analyses, and see feedback on your own work — free development education from ImpactMojo.">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:url" content="https://www.impactmojo.in/peer-review.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ImpactMojo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Peer Review">
+<meta name="twitter:description" content="Review fellow learners' assignments and case analyses, and see feedback on your own work — free development education from ImpactMojo.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+.loading-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(15, 23, 42, 0.9);
+    display: flex; align-items: center; justify-content: center; z-index: 10000;
+}
+.loading-spinner-large {
+    width: 48px; height: 48px;
+    border: 4px solid var(--border-color, #E2E8F0); border-radius: 50%;
+    border-top-color: var(--accent-color, #F59E0B); animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+:root {
+    --primary-bg: #FFFFFF;
+    --secondary-bg: #F8FAFC;
+    --accent-color: #F59E0B;
+    --accent-hover: #D97706;
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #52627A;
+    --card-bg: #FFFFFF;
+    --hover-bg: #F1F5F9;
+    --border-color: #E2E8F0;
+    --success-color: #10B981;
+    --warning-color: #F59E0B;
+    --danger-color: #EF4444;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+}
+
+body.dark-mode {
+    --primary-bg: #0F172A;
+    --secondary-bg: #1E293B;
+    --text-primary: #F1F5F9;
+    --text-secondary: #CBD5E1;
+    --text-muted: #94A3B8;
+    --card-bg: #1E293B;
+    --hover-bg: #334155;
+    --border-color: #334155;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]):not(.light-mode) {
+        --primary-bg: #0F172A;
+        --secondary-bg: #1E293B;
+        --text-primary: #F1F5F9;
+        --text-secondary: #CBD5E1;
+        --text-muted: #94A3B8;
+        --card-bg: #1E293B;
+        --hover-bg: #334155;
+        --border-color: #334155;
+    }
+}
+
+[data-theme="light"], body.light-mode {
+    --primary-bg: #F8FAFC;
+    --secondary-bg: #FFFFFF;
+    --accent-color: #0284C7;
+    --accent-hover: #0369A1;
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #64748B;
+    --card-bg: #FFFFFF;
+    --hover-bg: #F1F5F9;
+    --border-color: #E2E8F0;
+}
+
+body {
+    font-family: 'Amaranth', sans-serif;
+    background: var(--primary-bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    padding-top: 44px;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+}
+
+.btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.875rem;
+    font-weight: 500; text-decoration: none; transition: all 0.2s ease;
+    cursor: pointer; border: none; font-family: inherit;
+}
+.btn-outline { background: transparent; color: var(--text-primary); border: 1px solid var(--border-color); }
+.btn-outline:hover { border-color: var(--accent-color); color: var(--accent-color); }
+.btn-primary { background: var(--accent-color); color: white; }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-sm { padding: 0.4rem 0.75rem; font-size: 0.8rem; }
+
+.page-title { text-align: center; padding: 2.5rem 2rem 1rem; position: relative; z-index: 1; }
+.page-title h1 { font-family: 'Inter', sans-serif; font-size: 2rem; margin-bottom: 0.5rem; }
+.page-title p { color: var(--text-secondary); max-width: 640px; margin: 0 auto; }
+
+.tab-nav {
+    max-width: 1100px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1;
+    display: flex; gap: 0; border-bottom: 2px solid var(--border-color);
+}
+.tab-btn {
+    background: none; border: none; padding: 0.75rem 1.25rem; cursor: pointer;
+    color: var(--text-muted); font-weight: 600; font-family: 'Inter', sans-serif;
+    border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s; font-size: 0.9rem;
+}
+.tab-btn:hover { color: var(--text-primary); }
+.tab-btn.active { color: var(--accent-color); border-bottom-color: var(--accent-color); }
+
+.tab-content { max-width: 1100px; margin: 0 auto; padding: 2rem; display: none; position: relative; z-index: 1; }
+.tab-content.active { display: block; }
+
+.review-card {
+    background: var(--card-bg); border: 1px solid var(--border-color);
+    border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem;
+}
+.review-card-head {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 1rem; flex-wrap: wrap; margin-bottom: 0.5rem;
+}
+.review-chal { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--accent-color); font-weight: 600; }
+.review-date { font-size: 0.75rem; color: var(--text-muted); }
+.review-excerpt {
+    font-size: 0.9rem; color: var(--text-secondary); margin: 0.5rem 0 0.75rem;
+    white-space: pre-wrap; word-break: break-word;
+}
+.review-text-body {
+    font-size: 0.9rem; color: var(--text-primary); margin-top: 0.5rem;
+    white-space: pre-wrap; word-break: break-word;
+    background: var(--secondary-bg); border: 1px solid var(--border-color);
+    border-radius: 8px; padding: 0.75rem;
+}
+
+.ratings-row { display: flex; gap: 1.25rem; flex-wrap: wrap; margin: 0.5rem 0; }
+.rating-item { font-size: 0.82rem; color: var(--text-secondary); }
+.rating-item strong { color: var(--text-primary); }
+.rating-stars { color: var(--accent-color); letter-spacing: 1px; }
+
+.review-form {
+    margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px dashed var(--border-color);
+    display: none;
+}
+.review-form.open { display: block; }
+.review-form label {
+    display: block; font-size: 0.78rem; font-weight: 600; margin: 0.6rem 0 0.25rem;
+    color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em;
+    font-family: 'Inter', sans-serif;
+}
+.review-form select, .review-form textarea {
+    width: 100%; padding: 0.55rem 0.75rem; border: 1px solid var(--border-color);
+    border-radius: 8px; background: var(--primary-bg); color: var(--text-primary);
+    font-size: 0.85rem; font-family: inherit;
+}
+.review-form textarea { min-height: 90px; resize: vertical; }
+.review-form .form-actions { display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 0.75rem; }
+.form-msg { font-size: 0.82rem; margin-top: 0.5rem; }
+.form-msg.error { color: var(--danger-color); }
+.form-msg.success { color: var(--success-color); }
+
+.avg-summary {
+    display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 0.5rem;
+    font-size: 0.82rem; color: var(--text-muted);
+}
+.avg-summary strong { color: var(--accent-color); font-size: 1rem; }
+
+.empty-state { text-align: center; padding: 3rem 2rem; color: var(--text-muted); }
+.empty-state svg { width: 48px; height: 48px; margin-bottom: 1rem; opacity: 0.4; }
+.empty-state p { margin-top: 0.5rem; }
+
+.notice {
+    background: rgba(245,158,11,0.1); border: 1px solid var(--accent-color);
+    border-radius: 8px; padding: 0.75rem 1rem; color: var(--text-secondary);
+    font-size: 0.85rem; margin-bottom: 1rem;
+}
+
+/* Decoration */
+.v3-decoration-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.v3-blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.15; }
+.v3-blob-1 { top: 10%; right: 10%; width: 400px; height: 400px; background: var(--accent-color); }
+.v3-blob-2 { bottom: 20%; left: 5%; width: 300px; height: 300px; background: #6366F1; }
+
+/* Footer */
+.footer { background: var(--secondary-bg); border-top: 1px solid var(--border-color); padding: 3rem 2rem 1.5rem; position: relative; z-index: 1; margin-top: auto; }
+.footer-content { max-width: 1100px; margin: 0 auto; }
+.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
+.footer-section h4 { color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 600; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.5px; }
+.footer-section ul { list-style: none; }
+.footer-section li { margin-bottom: 0.5rem; }
+.footer-section a { color: var(--text-secondary); font-size: 0.9rem; text-decoration: none; transition: color 0.2s ease; }
+.footer-section a:hover { color: var(--accent-color); }
+.footer-bottom { padding-top: 1.5rem; border-top: 1px solid var(--border-color); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; }
+.footer-copyright { color: var(--text-muted); font-size: 0.85rem; }
+.footer-social { display: flex; gap: 1rem; }
+.footer-social a { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-secondary); transition: all 0.2s ease; }
+.footer-social a:hover { background: var(--accent-color); border-color: var(--accent-color); color: white; }
+.footer-social svg { width: 18px; height: 18px; fill: currentColor; }
+@media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; } .footer-bottom { flex-direction: column; text-align: center; } .tab-nav { overflow-x: auto; } }
+@media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; } }
+
+/* Top Bar */
+.im-topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    background: var(--secondary-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-color); padding: 0.5rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.75rem; flex-wrap: wrap; font-family: 'Inter', sans-serif;
+}
+.im-topbar a { text-decoration: none; }
+.im-topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+.im-topbar-home {
+    display: flex; align-items: center; gap: 0.5rem; color: var(--text-primary);
+    font-weight: 700; font-size: 1rem;
+    background: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.im-topbar-home svg { width: 24px; height: 24px; flex-shrink: 0; -webkit-text-fill-color: initial; stroke: #0EA5E9; }
+.im-topbar-right { display: flex; align-items: center; gap: 0.5rem; }
+.im-premium-btn {
+    background: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%); color: #fff !important;
+    padding: 0.35rem 0.85rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600;
+    display: flex; align-items: center; gap: 0.35rem; transition: opacity 0.2s; -webkit-text-fill-color: #fff;
+}
+.im-premium-btn:hover { opacity: 0.9; }
+.im-premium-btn svg { width: 14px; height: 14px; }
+.im-browse-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-primary); background: var(--card-bg); border: 1.5px solid var(--border-color); padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; transition: all 0.18s ease; }
+.im-browse-btn:hover { background: var(--accent-color); color: #FFFFFF; border-color: var(--accent-color); }
+.im-browse-btn svg { width: 14px; height: 14px; }
+.im-theme-selector { display: flex; gap: 2px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 2px; }
+.im-theme-btn { background: transparent; border: none; color: var(--text-secondary); padding: 6px; border-radius: 5px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; }
+.im-theme-btn:hover { background: var(--hover-bg); color: var(--text-primary); }
+.im-theme-btn.active { background: var(--accent-color); color: #fff; }
+.im-theme-btn svg { width: 16px; height: 16px; }
+.im-skip-link { position: absolute; left: -9999px; top: 0; background: #0EA5E9; color: #fff; padding: 8px 16px; z-index: 100000; border-radius: 0 0 6px 0; font: 600 .85rem/1.2 Inter, system-ui, sans-serif; text-decoration: none; }
+.im-skip-link:focus { left: 0; }
+@media (max-width: 768px) {
+    .im-topbar { padding: 0.4rem 0.75rem; gap: 0.5rem; }
+    .im-topbar-home span { font-size: 0.85rem; }
+}
+@media (max-width: 480px) { .im-topbar-home span { display: none; } }
+</style>
+</head>
+<body>
+<a href="#pageContent" class="im-skip-link">Skip to content</a>
+
+<!-- ImpactMojo Top Bar -->
+<div class="im-topbar" id="imTopbar">
+    <div class="im-topbar-left">
+        <a href="/index.html" class="im-topbar-home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>ImpactMojo</span>
+        </a>
+    </div>
+    <div class="im-topbar-right">
+        <a href="/index.html" class="im-topbar-link" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;margin-right:0.75rem;">Home</a>
+        <a href="/account.html" class="im-topbar-link" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;margin-right:0.75rem;">My Account</a>
+        <a href="/catalog.html" class="im-browse-btn" title="Browse all content"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Browse</a>
+        <a href="/premium.html" class="im-premium-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Premium
+        </a>
+        <div class="im-theme-selector" aria-label="Theme selection">
+            <button class="im-theme-btn theme-btn" data-theme="system" data-imtheme="system" title="System theme" aria-label="Use system theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </button>
+            <button class="im-theme-btn theme-btn" data-theme="light" data-imtheme="light" title="Light theme" aria-label="Use light theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </button>
+            <button class="im-theme-btn theme-btn" data-theme="dark" data-imtheme="dark" title="Dark theme" aria-label="Use dark theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Decorative Elements -->
+<div class="v3-decoration-container">
+    <div class="v3-blob v3-blob-1"></div>
+    <div class="v3-blob v3-blob-2"></div>
+</div>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner-large"></div>
+</div>
+
+<main id="pageContent">
+    <div class="page-title">
+        <h1>Peer Review</h1>
+        <p>Read fellow learners' assignments and case analyses, give structured feedback, and see what peers thought of your own work. Reviewing others sharpens your own analysis.</p>
+    </div>
+
+    <div class="tab-nav" role="tablist">
+        <button class="tab-btn active" data-tab="queue" role="tab">Review queue</button>
+        <button class="tab-btn" data-tab="given" role="tab">Reviews I've given</button>
+        <button class="tab-btn" data-tab="received" role="tab">Feedback on my work</button>
+    </div>
+
+    <!-- TAB 1: Review queue -->
+    <section class="tab-content active" id="tab-queue" role="tabpanel">
+        <div class="notice">You're reviewing other learners' submissions. You can't review your own work, and you can review each submission once.</div>
+        <div id="queueList"><div class="empty-state"><p>Loading submissions…</p></div></div>
+    </section>
+
+    <!-- TAB 2: Reviews I've given -->
+    <section class="tab-content" id="tab-given" role="tabpanel">
+        <div id="givenList"><div class="empty-state"><p>Loading…</p></div></div>
+    </section>
+
+    <!-- TAB 3: Feedback on my work -->
+    <section class="tab-content" id="tab-received" role="tabpanel">
+        <div id="receivedList"><div class="empty-state"><p>Loading…</p></div></div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-grid">
+            <div class="footer-section">
+                <h4>About</h4>
+                <ul>
+                    <li><a href="about.html">About ImpactMojo</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="community/">Community</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal &amp; IT Act</h4>
+                <ul>
+                    <li><a href="terms-of-service.html">Terms of Service</a></li>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="refund-policy.html">Refund Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="catalog.html">Course Catalog</a></li>
+                    <li><a href="premium.html">Premium Access</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="/docs/" rel="noopener noreferrer" target="_blank">Documentation</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="/status.html">System Status</a></li>
+                    <li><a href="/products.html">Products &amp; Kits</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="handouts.html">Handouts</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-copyright">&copy; 2026 ImpactMojo. All rights reserved. Made with &lt;3 in India.</p>
+            <div class="footer-social">
+                <a href="https://www.linkedin.com/company/impactmojo" target="_blank" rel="noopener" title="LinkedIn">
+                    <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                </a>
+                <a href="https://www.instagram.com/impactmojo" target="_blank" rel="noopener" title="Instagram">
+                    <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                </a>
+                <a href="https://twitter.com/impactmojo" target="_blank" rel="noopener" title="X (Twitter)">
+                    <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+// Three-way theme (matches org-dashboard)
+(function() {
+    function applyTheme(t) {
+        if (t === 'system') {
+            document.body.classList.toggle('dark-mode', window.matchMedia('(prefers-color-scheme: dark)').matches);
+        } else {
+            document.body.classList.toggle('dark-mode', t === 'dark');
+        }
+    }
+    function updateBtn(t) {
+        document.querySelectorAll('.theme-btn').forEach(function(b) { b.classList.toggle('active', b.dataset.theme === t); });
+    }
+    var s = localStorage.getItem('theme') || 'system';
+    applyTheme(s);
+    document.addEventListener('DOMContentLoaded', function() {
+        updateBtn(s);
+        document.querySelectorAll('.theme-btn').forEach(function(b) {
+            b.addEventListener('click', function() {
+                var t = b.dataset.theme; localStorage.setItem('theme', t); updateBtn(t); applyTheme(t);
+            });
+        });
+    });
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+        if ((localStorage.getItem('theme') || 'system') === 'system') applyTheme('system');
+    });
+})();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/auth-gate.js"></script>
+
+<script>
+// ===== Peer Review page logic =====
+(function() {
+    var currentUser = null;
+    var sb = null;
+
+    // ---------- helpers ----------
+    function esc(s) {
+        return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
+            return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c];
+        });
+    }
+    function fmtDate(d) {
+        if (!d) return '';
+        try { return new Date(d).toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' }); }
+        catch (e) { return String(d); }
+    }
+    function excerpt(t, n) {
+        t = String(t || '');
+        if (t.length <= n) return t;
+        return t.slice(0, n).trim() + '…';
+    }
+    function stars(n) {
+        n = Math.max(0, Math.min(5, parseInt(n, 10) || 0));
+        return '★★★★★'.slice(0, n) + '☆☆☆☆☆'.slice(0, 5 - n);
+    }
+    function emptyState(msg, sub) {
+        return '<div class="empty-state">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>' +
+            '<p><strong>' + esc(msg) + '</strong></p>' +
+            (sub ? '<p>' + esc(sub) + '</p>' : '') +
+            '</div>';
+    }
+    function ratingSelect(name) {
+        var o = '<option value="">—</option>';
+        for (var i = 1; i <= 5; i++) o += '<option value="' + i + '">' + i + ' ' + '★'.repeat(i) + '</option>';
+        return '<select data-field="' + name + '">' + o + '</select>';
+    }
+
+    // ---------- TAB 1: Review queue ----------
+    async function loadQueue() {
+        var el = document.getElementById('queueList');
+        try {
+            // Submissions by OTHER learners (RLS also enforces user_id != me).
+            var subsRes = await sb.from('challenge_submissions')
+                .select('id, challenge_id, submission_text, submitted_at, user_id')
+                .neq('user_id', currentUser.id)
+                .order('submitted_at', { ascending: false })
+                .limit(100);
+            if (subsRes.error) throw subsRes.error;
+            var subs = subsRes.data || [];
+
+            // Which of these have I already reviewed?
+            var myReviews = await sb.from('peer_reviews')
+                .select('submission_id')
+                .eq('reviewer_id', currentUser.id);
+            if (myReviews.error) throw myReviews.error;
+            var reviewed = {};
+            (myReviews.data || []).forEach(function(r) { reviewed[r.submission_id] = true; });
+
+            var pending = subs.filter(function(s) { return !reviewed[s.id]; });
+
+            if (!pending.length) {
+                el.innerHTML = emptyState('No submissions awaiting your review yet',
+                    'Check back once other learners have submitted case analyses.');
+                return;
+            }
+
+            el.innerHTML = pending.map(function(s) {
+                return '<div class="review-card" data-sub="' + esc(s.id) + '">' +
+                    '<div class="review-card-head">' +
+                        '<span class="review-chal">' + esc(s.challenge_id || 'Submission') + '</span>' +
+                        '<span class="review-date">Submitted ' + esc(fmtDate(s.submitted_at)) + '</span>' +
+                    '</div>' +
+                    '<div class="review-excerpt">' + esc(excerpt(s.submission_text, 320)) + '</div>' +
+                    '<button class="btn btn-outline btn-sm" data-toggle="' + esc(s.id) + '">Write a review</button>' +
+                    '<div class="review-form" id="form-' + esc(s.id) + '">' +
+                        '<label>Clarity (1–5)</label>' + ratingSelect('rating_clarity') +
+                        '<label>Rigor (1–5)</label>' + ratingSelect('rating_rigor') +
+                        '<label>Usefulness (1–5)</label>' + ratingSelect('rating_usefulness') +
+                        '<label>Feedback</label>' +
+                        '<textarea data-field="review_text" placeholder="What worked, what could be stronger, and why."></textarea>' +
+                        '<div class="form-actions">' +
+                            '<button class="btn btn-primary btn-sm" data-submit="' + esc(s.id) + '">Submit review</button>' +
+                        '</div>' +
+                        '<div class="form-msg" data-msg></div>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+
+            // wire up toggles + submits
+            el.querySelectorAll('[data-toggle]').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var f = document.getElementById('form-' + btn.getAttribute('data-toggle'));
+                    if (f) f.classList.toggle('open');
+                });
+            });
+            el.querySelectorAll('[data-submit]').forEach(function(btn) {
+                btn.addEventListener('click', function() { submitReview(btn.getAttribute('data-submit'), btn); });
+            });
+        } catch (e) {
+            el.innerHTML = emptyState('Couldn\'t load the review queue right now',
+                'Please try again shortly. If this keeps happening, you may not have access yet.');
+        }
+    }
+
+    async function submitReview(subId, btn) {
+        var card = document.querySelector('.review-card[data-sub="' + (window.CSS && CSS.escape ? CSS.escape(subId) : subId) + '"]');
+        var form = document.getElementById('form-' + subId);
+        var msg = form ? form.querySelector('[data-msg]') : null;
+        function setMsg(text, cls) { if (msg) { msg.textContent = text; msg.className = 'form-msg ' + cls; } }
+
+        var clarity = form.querySelector('[data-field="rating_clarity"]').value;
+        var rigor = form.querySelector('[data-field="rating_rigor"]').value;
+        var useful = form.querySelector('[data-field="rating_usefulness"]').value;
+        var text = form.querySelector('[data-field="review_text"]').value.trim();
+
+        if (!clarity || !rigor || !useful) { setMsg('Please give all three ratings (1–5).', 'error'); return; }
+        if (!text) { setMsg('Please add written feedback.', 'error'); return; }
+
+        btn.disabled = true; setMsg('Submitting…', '');
+        try {
+            var res = await sb.from('peer_reviews').insert({
+                submission_id: subId,
+                reviewer_id: currentUser.id,
+                rating_clarity: parseInt(clarity, 10),
+                rating_rigor: parseInt(rigor, 10),
+                rating_usefulness: parseInt(useful, 10),
+                review_text: text
+            });
+            if (res.error) throw res.error;
+            setMsg('Review submitted — thank you!', 'success');
+            if (card) setTimeout(function() { card.remove(); checkQueueEmpty(); }, 900);
+        } catch (e) {
+            btn.disabled = false;
+            var m = (e && e.message) || '';
+            if (/own submission/i.test(m)) setMsg('You can\'t review your own submission.', 'error');
+            else if (/duplicate|unique/i.test(m)) setMsg('You\'ve already reviewed this submission.', 'error');
+            else setMsg('Couldn\'t save your review. Please try again.', 'error');
+        }
+    }
+    function checkQueueEmpty() {
+        var el = document.getElementById('queueList');
+        if (el && !el.querySelector('.review-card')) {
+            el.innerHTML = emptyState('No submissions awaiting your review yet',
+                'Check back once other learners have submitted case analyses.');
+        }
+    }
+
+    // ---------- TAB 2: Reviews I've given ----------
+    async function loadGiven() {
+        var el = document.getElementById('givenList');
+        try {
+            var res = await sb.from('peer_reviews')
+                .select('id, submission_id, rating_clarity, rating_rigor, rating_usefulness, review_text, created_at')
+                .eq('reviewer_id', currentUser.id)
+                .order('created_at', { ascending: false });
+            if (res.error) throw res.error;
+            var rows = res.data || [];
+            if (!rows.length) {
+                el.innerHTML = emptyState('You haven\'t reviewed anything yet',
+                    'Head to the Review queue to give a peer some feedback.');
+                return;
+            }
+            el.innerHTML = rows.map(function(r) {
+                return '<div class="review-card">' +
+                    '<div class="review-card-head">' +
+                        '<span class="review-chal">Submission ' + esc(String(r.submission_id).slice(0, 8)) + '…</span>' +
+                        '<span class="review-date">' + esc(fmtDate(r.created_at)) + '</span>' +
+                    '</div>' +
+                    ratingsRow(r) +
+                    '<div class="review-text-body">' + esc(r.review_text) + '</div>' +
+                '</div>';
+            }).join('');
+        } catch (e) {
+            el.innerHTML = emptyState('Couldn\'t load your reviews right now', 'Please try again shortly.');
+        }
+    }
+
+    function ratingsRow(r) {
+        return '<div class="ratings-row">' +
+            '<span class="rating-item"><strong>Clarity</strong> <span class="rating-stars">' + stars(r.rating_clarity) + '</span></span>' +
+            '<span class="rating-item"><strong>Rigor</strong> <span class="rating-stars">' + stars(r.rating_rigor) + '</span></span>' +
+            '<span class="rating-item"><strong>Usefulness</strong> <span class="rating-stars">' + stars(r.rating_usefulness) + '</span></span>' +
+            '</div>';
+    }
+
+    // ---------- TAB 3: Feedback on my work ----------
+    async function loadReceived() {
+        var el = document.getElementById('receivedList');
+        try {
+            var subsRes = await sb.from('challenge_submissions')
+                .select('id, challenge_id, submitted_at')
+                .eq('user_id', currentUser.id)
+                .order('submitted_at', { ascending: false });
+            if (subsRes.error) throw subsRes.error;
+            var subs = subsRes.data || [];
+            if (!subs.length) {
+                el.innerHTML = emptyState('You haven\'t submitted any work yet',
+                    'Once you submit a case analysis, peers can review it here.');
+                return;
+            }
+
+            var ids = subs.map(function(s) { return s.id; });
+            var revRes = await sb.from('peer_reviews')
+                .select('id, submission_id, rating_clarity, rating_rigor, rating_usefulness, review_text, created_at')
+                .in('submission_id', ids)
+                .order('created_at', { ascending: false });
+            if (revRes.error) throw revRes.error;
+            var bySub = {};
+            (revRes.data || []).forEach(function(r) {
+                (bySub[r.submission_id] = bySub[r.submission_id] || []).push(r);
+            });
+
+            el.innerHTML = subs.map(function(s) {
+                var revs = bySub[s.id] || [];
+                var head = '<div class="review-card-head">' +
+                        '<span class="review-chal">' + esc(s.challenge_id || 'Submission') + '</span>' +
+                        '<span class="review-date">Submitted ' + esc(fmtDate(s.submitted_at)) + '</span>' +
+                    '</div>';
+                if (!revs.length) {
+                    return '<div class="review-card">' + head +
+                        '<p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem;">No peer reviews yet on this submission.</p>' +
+                    '</div>';
+                }
+                var avg = avgRatings(revs);
+                var body = '<div class="avg-summary">' +
+                        '<span>Avg clarity <strong>' + avg.c + '</strong></span>' +
+                        '<span>Avg rigor <strong>' + avg.r + '</strong></span>' +
+                        '<span>Avg usefulness <strong>' + avg.u + '</strong></span>' +
+                        '<span>' + revs.length + ' review' + (revs.length === 1 ? '' : 's') + '</span>' +
+                    '</div>';
+                body += revs.map(function(r) {
+                    return '<div style="margin-top:0.75rem;">' + ratingsRow(r) +
+                        '<div class="review-text-body">' + esc(r.review_text) + '</div></div>';
+                }).join('');
+                return '<div class="review-card">' + head + body + '</div>';
+            }).join('');
+        } catch (e) {
+            el.innerHTML = emptyState('Couldn\'t load feedback right now', 'Please try again shortly.');
+        }
+    }
+
+    function avgRatings(revs) {
+        function avg(key) {
+            var sum = revs.reduce(function(a, r) { return a + (parseInt(r[key], 10) || 0); }, 0);
+            return (sum / revs.length).toFixed(1);
+        }
+        return { c: avg('rating_clarity'), r: avg('rating_rigor'), u: avg('rating_usefulness') };
+    }
+
+    // ---------- tabs ----------
+    function initTabs() {
+        var loaded = { queue: false, given: false, received: false };
+        function load(tab) {
+            if (loaded[tab]) return;
+            loaded[tab] = true;
+            if (tab === 'queue') loadQueue();
+            else if (tab === 'given') loadGiven();
+            else if (tab === 'received') loadReceived();
+        }
+        document.querySelectorAll('.tab-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var tab = btn.getAttribute('data-tab');
+                document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+                document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
+                btn.classList.add('active');
+                var panel = document.getElementById('tab-' + tab);
+                if (panel) panel.classList.add('active');
+                load(tab);
+            });
+        });
+        load('queue'); // default tab
+    }
+
+    // ---------- init ----------
+    AuthGate.protect({
+        loadingEl: document.getElementById('loadingOverlay'),
+        redirectUrl: '/login.html',
+        onReady: function(user, profile) {
+            currentUser = user;
+            sb = window.supabaseClient;
+            initTabs();
+        }
+    });
+})();
+</script>
+
+<script src="/js/theme.js"></script>
+<script src="/js/translate-sarvam.js" defer></script>
+</body>
+</html>
