@@ -7,10 +7,17 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 ### For Learners
 
 - **New [Flagship Courses gallery](https://www.impactmojo.in/courses/)** — one beautiful landing page for all 14 in-depth flagship courses (190 modules in total), with filters by theme and an expandable outline for every course, mirroring the 101-deck gallery.
+- **New [Interactive Labs gallery](https://www.impactmojo.in/Labs/)** — a single browsable landing for all 13 hands-on labs (Theory of Change, MEL design, policy analysis, storytelling and more), with theme filters.
 - **The [101 course gallery](https://www.impactmojo.in/101-courses/) is now in the main menu** — "Courses" in the Learn menu goes straight to the 47-deck gallery, and a new "Flagship Courses" entry opens the new flagship gallery. (Previously neither gallery was linked in navigation; "Courses" opened a pop-up that has now been retired in favour of the two galleries and the catalog.)
 - **[Peer Review](https://www.impactmojo.in/peer-review.html)** — review other learners' assignments and case analyses with a simple clarity/rigour/usefulness rubric, and see the feedback others leave on your own submissions.
 - **[Verify a certificate](https://www.impactmojo.in/verify.html)** — a fast, public portal where employers and recruiters can confirm an ImpactMojo certificate (or its Open Badge) by ID or link, no account needed.
 - **[Partner API](https://www.impactmojo.in/api-docs.html)** — a free, read-only API and docs page so organisations can pull the ImpactMojo course, game and content catalogue into their own systems.
+
+### Fixed
+
+- **Mobile menu no longer cuts off** — the slide-out navigation now sizes to the visible screen (dynamic viewport height), so the theme toggle and every item are reachable on phones.
+- **Power BI flagship link** now resolves to the live course instead of a dead URL.
+- Retired the Courses, Labs and Games pop-ups in the menu and footer in favour of the new galleries (`/courses/`, `/Labs/`, `/game-library`).
 
 ## v10.79.14 — June 24, 2026 (All 16 book companions rebuilt + accessibility fix)
 

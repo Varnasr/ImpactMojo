@@ -164,6 +164,18 @@ function closeModal(modalId) {
     var el = document.getElementById(modalId);
     if (el) el.style.display = 'none';
 }
+function openGamesCategory(sectionId) {
+    openModal('gamesModal');
+    if (sectionId) {
+        // Wait for the modal to render, then scroll the category into view
+        setTimeout(function() {
+            var el = document.getElementById(sectionId);
+            var body = document.querySelector('#gamesModal .modal-body');
+            if (el && body) body.scrollTop = el.offsetTop - body.offsetTop - 8;
+            else if (el) el.scrollIntoView({ block: 'start' });
+        }, 80);
+    }
+}
 // Close modal when clicking outside content
 window.addEventListener('click', function(e) {
     if (e.target.classList && e.target.classList.contains('modal')) {
@@ -478,7 +490,7 @@ window.addEventListener('click', function(e) {
 <ul class="dropdown-menu specials-grouped" id="learn-dropdown">
 <li id="nav-courses"><a href="/101-courses/"><span data-i18n="nav.courses">101 Course Decks</span></a></li>
 <li id="nav-flagships"><a href="/courses/"><span data-i18n="nav.flagships">Flagship Courses</span></a></li>
-<li id="nav-labs"><a href="/Labs/"><span data-i18n="nav.labs">Labs</span></a></li>
+<li id="nav-labs"><a href="javascript:void(0)" onclick="openModal('labsModal')"><span data-i18n="nav.labs">Labs</span></a></li>
 <li id="nav-peer-review"><a href="/peer-review.html"><span data-i18n="nav.peerreview">Peer Review</span></a></li>
 <li id="nav-premium"><a href='/premium'><span data-i18n="nav.premium">Premium</span></a></li>
 <li class="dropdown-divider"></li>
@@ -502,10 +514,10 @@ window.addEventListener('click', function(e) {
     <svg class="dropdown-section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
   </button>
   <ul class="dropdown-section-items">
-    <li id="nav-games-all"><a href="/game-library.html">All Games</a></li>
-    <li id="nav-games-econ"><a href="/game-library.html">Economics &amp; Markets</a></li>
-    <li id="nav-games-gt"><a href="/game-library.html">Game Theory &amp; Cooperation</a></li>
-    <li id="nav-games-soc"><a href="/game-library.html">Society &amp; Wellbeing</a></li>
+    <li id="nav-games-all"><a href="javascript:void(0)" onclick="openGamesCategory('')">All Games</a></li>
+    <li id="nav-games-econ"><a href="javascript:void(0)" onclick="openGamesCategory('gm-economics')">Economics &amp; Markets</a></li>
+    <li id="nav-games-gt"><a href="javascript:void(0)" onclick="openGamesCategory('gm-gametheory')">Game Theory &amp; Cooperation</a></li>
+    <li id="nav-games-soc"><a href="javascript:void(0)" onclick="openGamesCategory('gm-society')">Society &amp; Wellbeing</a></li>
     <li id="nav-puzzles"><a href="/game-library.html"><span data-i18n="nav.puzzles">Crosswords &amp; Quizzes</span> <span style="background:#0EA5E9;color:#fff;font-size:0.55rem;padding:0.1rem 0.35rem;border-radius:4px;margin-left:0.3rem;text-transform:uppercase;letter-spacing:0.5px;vertical-align:middle">New</span></a></li>
   </ul>
 </li>
@@ -2461,7 +2473,7 @@ window.addEventListener('authStateChanged', function(e) {
 </div>
 </div>
 <div class="action-buttons">
-<button class="btn btn-primary" onclick="location.href='/Labs/'">
+<button class="btn btn-primary" onclick="openModal('labsModal')">
 <svg class="icon-sm" viewBox="0 0 24 24" fill="none"><use href="#si_Library_books"/></svg>
                     View All Labs
                 </button>
@@ -3732,9 +3744,646 @@ window.addEventListener('authStateChanged', function(e) {
 </div>
 </div>
 <!-- Labs Modal -->
+<div class="modal" id="labsModal">
+<div class="modal-content">
+<div class="modal-header">
+<h2>
+<svg class="icon" style="stroke: white;" viewbox="0 0 24 24">
+<circle cx="12" cy="5" r="2"></circle>
+<circle cx="12" cy="12" r="2"></circle>
+<circle cx="12" cy="19" r="2"></circle>
+</svg>
+                        All Labs <span id="labsCount">(12)</span>
+                    </h2>
+<span class="close" onclick="closeModal('labsModal')">×</span>
+</div>
+<div class="modal-body">
+<div class="modal-grid">
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg></div>
+<div class="modal-item-content">
+<a href="Labs/risk-mitigation-lab.html">
+<div class="modal-item-title">
+                        Risk and Mitigation Lab
+                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.8</span>
+</div>
+</div>
+<p class="modal-item-description">Identify, assess, and develop mitigation strategies for risks across development projects through scenario planning and risk matrix tools. Practice real-world risk management using case studies from humanitarian, infrastructure, and governance programs.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg></div>
+<div class="modal-item-content">
+<a href="Labs/policy-advocacy-lab.html">
+<div class="modal-item-title">
+                        Policy &amp; Advocacy Lab
+                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.8</span>
+</div>
+</div>
+<p class="modal-item-description">Design and test policy advocacy campaigns through hands-on exercises in stakeholder analysis, message testing, and strategic communication. Work with real policy briefs and practice pitching recommendations to simulated decision-makers and media.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg></div>
+<div class="modal-item-content">
+<a href="Labs/resource-sustainability-lab.html">
+<div class="modal-item-title">
+                        Resource and Sustainability Lab
+                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.8</span>
+</div>
+</div>
+<p class="modal-item-description">Analyze resource flows, develop sustainability plans, and create fundraising strategies through practical exercises with real organizational data. Learn to balance financial sustainability with mission alignment while navigating donor requirements and local ownership.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg></div>
+<div class="modal-item-content">
+<a href="Labs/impact-partnerships-lab.html">
+<div class="modal-item-title">
+                        Impact and Partnerships Labs
+                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.8</span>
+</div>
+</div>
+<p class="modal-item-description">Map partnership ecosystems, design collaboration frameworks, and measure collective impact through interactive exercises and negotiation simulations. Practice building equitable partnerships that leverage complementary strengths for systems-level change.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg></div>
+<div class="modal-item-content">
+<a href="Labs/mel-design-lab.html">
+<div class="modal-item-title">
+                        MLE Design Lab
+                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.8</span>
+</div>
+</div>
+<p class="modal-item-description">Create comprehensive Monitoring, Learning, and Evaluation systems from scratch, including results frameworks, data collection tools, and learning agendas. Work through real program scenarios to design adaptive management systems that balance accountability with learning.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg></div>
+<div class="modal-item-content">
+<a href="Labs/mel-plan-lab.html">
+<div class="modal-item-title">
+                        MEL Plan Lab
+                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.8</span>
+</div>
+</div>
+<p class="modal-item-description">Develop detailed MEL plans with indicators, targets, and data management systems through guided exercises using actual program documents. Practice creating user-friendly dashboards and feedback loops that drive evidence-based decision-making.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg></div>
+<div class="modal-item-content">
+<a href="Labs/design-thinking-lab.html">
+<div class="modal-item-title">
+                        Design Thinking Lab
+                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.8</span>
+</div>
+</div>
+<p class="modal-item-description">Apply human-centered design methodologies to development challenges through rapid prototyping, user journey mapping, and ideation exercises. Learn to facilitate design sprints that generate innovative solutions grounded in community needs and aspirations.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg></div>
+<div class="modal-item-content">
+<a href="Labs/toc-lab.html">
+<div class="modal-item-title">
+                        Theory of Change Lab
+                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.8</span>
+</div>
+</div>
+<p class="modal-item-description">Construct robust theories of change that articulate pathways from activities to impact through assumption mapping and evidence review exercises. Practice backwards mapping, identifying critical assumptions, and creating theories that guide strategic decision-making.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg></div>
+<div class="modal-item-content">
+<a href="Labs/storytelling-lab.html">
+<div class="modal-item-title">
+                        Storytelling Lab
+                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.8</span>
+</div>
+</div>
+<p class="modal-item-description">Transform data and field experiences into compelling narratives through exercises in story structure, character development, and multimedia production. Learn ethical storytelling practices that center community voices while engaging diverse audiences for social change.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg></div>
+<div class="modal-item-content">
+<a href="Labs/community-lab.html">
+<div class="modal-item-title">
+                        Community Development and Engagement Lab
+                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.8</span>
+</div>
+</div>
+<p class="modal-item-description">Practice participatory facilitation techniques, community mapping, and consensus-building through role-playing exercises and simulation games. Develop skills for navigating power dynamics and facilitating inclusive decision-making processes in diverse community settings.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+<div class="modal-item-content">
+<a href="/Labs/teacher-evidence-lab.html" target="_blank" rel="noopener noreferrer">
+<div class="modal-item-title">Teacher Evidence Explorer
+<span style="background: #0EA5E9; color: white; font-size: 0.6rem; padding: 0.15rem 0.5rem; border-radius: 4px; margin-left: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">New</span>
+</div>
+<p class="modal-item-description">Filter 30+ teacher-effectiveness interventions by evidence quality, cost (₹/teacher/year), type, outcome, and India relevance. TaRL, contract teachers, mentoring, Mindspark, pay-for-performance, and more. Honest summaries including null and weak findings.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
 </div>
 
 <!-- Games Modal -->
+<div class="modal" id="gamesModal">
+<div class="modal-content">
+<div class="modal-header">
+<h2>
+<svg class="icon" style="stroke: white;" viewbox="0 0 24 24">
+<rect height="14" rx="2" ry="2" width="20" x="2" y="7"></rect>
+<path d="M16 7V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v3"></path>
+</svg>
+                        The Game Library
+                    </h2>
+<span class="close" onclick="closeModal('gamesModal')">×</span>
+</div>
+<div class="modal-body">
+<div class="modal-grid">
+<h3 class="modal-section-head" id="gm-puzzles">Game Library</h3>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18M9 3v18"></path></svg></div>
+<div class="modal-item-content">
+<a href="/game-library.html">
+<div class="modal-item-title">
+                        Game Library
+                        <span style="background:#0EA5E9;color:#fff;font-size:0.55rem;padding:0.1rem 0.35rem;border-radius:4px;margin-left:0.5rem;text-transform:uppercase;letter-spacing:0.5px;vertical-align:middle">New</span>
+</div>
+<p class="modal-item-description">134 games — 17 interactive simulations plus 134 puzzles in seven formats (crosswords, quizzes, word searches, matching, sequencing, sorting and fill-in-the-blank) — with puzzles spanning the ImpactMojo curriculum. Free, mobile-friendly, progress saved on your device.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
+<h3 class="modal-section-head" id="gm-economics">Economics &amp; Markets</h3>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><rect height="12" rx="2" width="20" x="2" y="6"></rect><circle cx="8" cy="12" r="2"></circle><circle cx="16" cy="10" r="1"></circle></svg></div>
+<div class="modal-item-content">
+<a href="/Games/public-good-game.html" target="_blank" rel="noopener noreferrer">
+<div class="modal-item-title">
+                        A game exploring the economic idea of a public good
+                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.8</span>
+</div>
+</div>
+<p class="modal-item-description">Experience the free-rider problem firsthand as players decide whether to contribute to shared resources that benefit everyone. Learn how public goods create collective action dilemmas and explore mechanisms for sustaining cooperation in communities.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><rect height="12" rx="2" width="20" x="2" y="6"></rect><circle cx="8" cy="12" r="2"></circle><circle cx="16" cy="10" r="1"></circle></svg></div>
+<div class="modal-item-content">
+<a href="/Games/opportunity-cost-game.html" target="_blank" rel="noopener noreferrer">
+<div class="modal-item-title">
+                        A game exploring the economic idea of Opportunity Cost
+                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.8</span>
+</div>
+</div>
+<p class="modal-item-description">Make resource allocation decisions under constraints and experience the tradeoffs inherent in every economic choice. Learn to evaluate alternatives and understand how opportunity costs shape individual and policy decisions in resource-scarce environments.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><rect height="12" rx="2" width="20" x="2" y="6"></rect><circle cx="8" cy="12" r="2"></circle><circle cx="16" cy="10" r="1"></circle></svg></div>
+<div class="modal-item-content">
+<a href="/Games/network-effects-game.html" target="_blank" rel="noopener noreferrer">
+<div class="modal-item-title">
+                        A game exploring the economic idea of network effects
+                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.8</span>
+</div>
+</div>
+<p class="modal-item-description">Build networks and watch value multiply as more participants join, experiencing how digital platforms and social programs scale. Understand positive feedback loops, critical mass dynamics, and the winner-take-all economics of networked systems.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><rect height="12" rx="2" width="20" x="2" y="6"></rect><circle cx="8" cy="12" r="2"></circle><circle cx="16" cy="10" r="1"></circle></svg></div>
+<div class="modal-item-content">
+<a href="/Games/risk-reward-game.html" target="_blank" rel="noopener noreferrer">
+<div class="modal-item-title">
+                        A game about Risk and Rewards in Econ Theory
+                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.8</span>
+</div>
+</div>
+<p class="modal-item-description">Balance risk-taking with potential returns through investment decisions that mirror real-world uncertainty and information asymmetry. Learn about risk preferences, expected utility theory, and portfolio diversification through simulated market environments.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><rect height="12" rx="2" width="20" x="2" y="6"></rect><circle cx="8" cy="12" r="2"></circle><circle cx="16" cy="10" r="1"></circle></svg></div>
+<div class="modal-item-content">
+<a href="/Games/bidding-wars-game.html" target="_blank" rel="noopener noreferrer">
+<div class="modal-item-title">
+                        A game about the Econ concepts of Bidding
+                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.8</span>
+</div>
+</div>
+<p class="modal-item-description">Participate in various auction formats to understand price discovery, winner's curse, and strategic bidding behavior. Experience how different auction designs affect efficiency and revenue in contexts from spectrum allocation to procurement.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><rect height="12" rx="2" width="20" x="2" y="6"></rect><circle cx="8" cy="12" r="2"></circle><circle cx="16" cy="10" r="1"></circle></svg></div>
+<div class="modal-item-content">
+<a href="/Games/info-asymmetry-game.html" target="_blank" rel="noopener noreferrer">
+<div class="modal-item-title">
+                        A game about Information Asymmetry
+                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.8</span>
+</div>
+</div>
+<p class="modal-item-description">Navigate markets where buyers and sellers have different information, experiencing adverse selection and moral hazard firsthand. Learn how signaling, screening, and reputation mechanisms can overcome information problems in development programs.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><rect height="12" rx="2" width="20" x="2" y="6"></rect><circle cx="8" cy="12" r="2"></circle><circle cx="16" cy="10" r="1"></circle></svg></div>
+<div class="modal-item-content">
+<a href="/Games/econ-concepts-game.html" target="_blank" rel="noopener noreferrer">
+<div class="modal-item-title">
+                        Econ Concepts Game in Puzzle Form
+                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.8</span>
+</div>
+</div>
+<p class="modal-item-description">Solve economic puzzles that teach concepts from supply and demand to game theory through engaging brain-teasers and scenarios. Master economic reasoning through pattern recognition and logical deduction in bite-sized challenges.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><rect height="12" rx="2" width="20" x="2" y="6"></rect><circle cx="8" cy="12" r="2"></circle><circle cx="16" cy="10" r="1"></circle></svg></div>
+<div class="modal-item-content">
+<a href="/Games/externality-game.html" target="_blank" rel="noopener noreferrer">
+<div class="modal-item-title">
+                        A game about externalities and hidden costs
+                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.8</span>
+</div>
+</div>
+<p class="modal-item-description">Make production and consumption decisions while discovering the hidden social costs and benefits of your choices. Understand market failures, Pigouvian taxes, and the challenge of internalizing externalities through interactive scenarios.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><rect height="12" rx="2" width="20" x="2" y="6"></rect><circle cx="8" cy="12" r="2"></circle><circle cx="16" cy="10" r="1"></circle></svg></div>
+<div class="modal-item-content">
+<a href="/Games/real-middle-india.html" target="_blank" rel="noopener noreferrer">
+<div class="modal-item-title">
+                        A game about the real middle class in India
+                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.8</span>
+</div>
+</div>
+<p class="modal-item-description">Navigate economic choices facing India's middle class, from education investments to consumption decisions amid aspirational pressures. Understand income mobility, class dynamics, and the precarity of middle-class status through realistic scenarios.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
+<h3 class="modal-section-head" id="gm-gametheory">Game Theory &amp; Cooperation</h3>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><rect height="12" rx="2" width="20" x="2" y="6"></rect><circle cx="8" cy="12" r="2"></circle><circle cx="16" cy="10" r="1"></circle></svg></div>
+<div class="modal-item-content">
+<a href="/Games/prisoners-dilemma-game.html" target="_blank" rel="noopener noreferrer">
+<div class="modal-item-title">
+                        A game exploring the economic idea of Prisoners' Dilemma
+                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.8</span>
+</div>
+</div>
+<p class="modal-item-description">Navigate strategic decision-making where individual rationality leads to collectively suboptimal outcomes through interactive scenarios. Discover how trust, reputation, and repeated interactions can overcome cooperation challenges in development contexts.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><rect height="12" rx="2" width="20" x="2" y="6"></rect><circle cx="8" cy="12" r="2"></circle><circle cx="16" cy="10" r="1"></circle></svg></div>
+<div class="modal-item-content">
+<a href="/Games/cooperation-paradox-game.html" target="_blank" rel="noopener noreferrer">
+<div class="modal-item-title">
+                        A game about Cooperation Paradox/Game Theory
+                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.8</span>
+</div>
+</div>
+<p class="modal-item-description">Explore scenarios where cooperation yields better outcomes but individual incentives push toward competition through interactive gameplay. Master concepts like Nash equilibrium, Pareto efficiency, and mechanism design through practical application.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><rect height="12" rx="2" width="20" x="2" y="6"></rect><circle cx="8" cy="12" r="2"></circle><circle cx="16" cy="10" r="1"></circle></svg></div>
+<div class="modal-item-content">
+<a href="/Games/commons-crisis-game.html" target="_blank" rel="noopener noreferrer">
+<div class="modal-item-title">
+                        A game of commons and their stewardship
+                        <div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.8</span>
+</div>
+</div>
+<p class="modal-item-description">Manage shared resources while avoiding the tragedy of the commons through collective decision-making and institution building. Experience how communication, monitoring, and sanctions can sustain common-pool resources across generations.</p>
+<div class="modal-item-meta">
+<span class="modal-item-link">Open -></span>
+</div>
+</a>
+</div>
+</div>
+<h3 class="modal-section-head" id="gm-society">Society &amp; Wellbeing</h3>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+<div class="modal-item-content">
+<a href="/Games/climate-action-game.html" target="_blank" rel="noopener noreferrer">
+<div class="modal-item-title">Climate Action Challenge
+<div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.7</span>
+</div></div>
+<p class="modal-item-description">Allocate resources between climate mitigation and adaptation across decades. Balance solar energy, reforestation, and carbon capture against flood barriers and cooling infrastructure. The lesson: both strategies are essential.</p>
+<div class="modal-item-meta"><span class="modal-item-link">Open -></span></div>
+</a></div></div>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+<div class="modal-item-content">
+<a href="/Games/gender-equity-game.html" target="_blank" rel="noopener noreferrer">
+<div class="modal-item-title">The Care Economy Challenge
+<div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.8</span>
+</div></div>
+<p class="modal-item-description">Experience the invisible burden of unpaid care work. Allocate time across paid work, childcare, eldercare, and self-care while navigating policy events that shape gender equity outcomes.</p>
+<div class="modal-item-meta"><span class="modal-item-link">Open -></span></div>
+</a></div></div>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+<div class="modal-item-content">
+<a href="/Games/public-health-game.html" target="_blank" rel="noopener noreferrer">
+<div class="modal-item-title">Epidemic Response Challenge
+<div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.7</span>
+</div></div>
+<p class="modal-item-description">Manage a disease outbreak as a district health officer. Allocate budget across surveillance, treatment, prevention, and community health workers while handling supply shortages and misinformation.</p>
+<div class="modal-item-meta"><span class="modal-item-link">Open -></span></div>
+</a></div></div>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/></svg></div>
+<div class="modal-item-content">
+<a href="/Games/digital-ethics-game.html" target="_blank" rel="noopener noreferrer">
+<div class="modal-item-title">The Algorithm's Dilemma
+<div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">4.9</span>
+</div></div>
+<p class="modal-item-description">Design AI systems across 8 real-world scenarios — facial recognition, credit scoring, predictive policing, and hiring algorithms. Navigate tradeoffs between efficiency, fairness, privacy, and public trust.</p>
+<div class="modal-item-meta"><span class="modal-item-link">Open -></span></div>
+</a></div></div>
+<div class="modal-item">
+<div class="modal-item-icon"><svg fill="none" stroke="white" stroke-width="2" viewbox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/><circle cx="12" cy="12" r="3"/><path d="M2 12h4M18 12h4M12 2v4M12 18v4"/></svg></div>
+<div class="modal-item-content">
+<a href="/Games/sel-simulation-game.html" target="_blank" rel="noopener noreferrer">
+<div class="modal-item-title">SEL Simulation: Five Lenses
+<span style="background: #EC4899; color: white; font-size: 0.6rem; padding: 0.15rem 0.5rem; border-radius: 4px; margin-left: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">New</span>
+<div class="stars" style="display: inline-flex; margin-left: 0.5rem;">
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<svg class="star-icon" style="opacity:.6" viewBox="0 0 24 24"><use href="#imx-star"/></svg>
+<span class="imx-star-text">New</span>
+</div></div>
+<p class="modal-item-description">Step into Social-Emotional Learning from five sides — teacher facing classroom dilemmas, program designer with ₹40L, evaluator deciding what can be known, student (Anika, 12) across a school year, or parent navigating a withdrawn child and a teacher complaint. 30 evidence-grounded scenarios drawing on CASEL, SEE Learning, WHO Life Skills, Delhi Happiness Curriculum + EMC, Indian indigenous traditions, and NEP 2020 (including NPST, CPD, and teacher-side provisions).</p>
+<div class="modal-item-meta"><span class="modal-item-link">Open -></span></div>
+</a></div></div>
+</div>
+</div>
+</div>
+</div>
+
 <!-- Premium Modal -->
 
 <!-- Track Quiz Modal -->
@@ -4531,8 +5180,8 @@ window.addEventListener('authStateChanged', function(e) {
 <ul>
 <li><a href="/courses/">Flagship Courses</a></li>
 <li><a href="/101-courses/">101 Course Decks</a></li>
-<li><a href="/Labs/">All Labs</a></li>
-<li><a href="/game-library.html">All Games</a></li>
+<li><a href="javascript:void(0)" onclick="openModal('labsModal')">All Labs</a></li>
+<li><a href="javascript:void(0)" onclick="openModal('gamesModal')">All Games</a></li>
 <li><a href="/BookSummaries/">Book Companions</a></li>
 <li><a href="/DeepDives/">Deep Dives</a></li>
 <li><a href='/premium'>Premium Content</a></li>
@@ -5523,9 +6172,9 @@ footer li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]
     'use strict';
     var menuOpen = false;
 
-    var MENU_OPEN_STYLE = 'display:flex;position:fixed;top:60px;left:0;right:0;' +
-        'width:100%;height:calc(100vh - 60px);height:calc(100dvh - 60px);max-height:calc(100dvh - 60px);background:var(--primary-bg,#0F172A);' +
-        'flex-direction:column;padding:1rem 1rem 3rem;overflow-y:auto;-webkit-overflow-scrolling:touch;' +
+    var MENU_OPEN_STYLE = 'display:flex;position:fixed;top:60px;left:0;right:0;bottom:0;' +
+        'width:100%;height:calc(100vh - 60px);background:var(--primary-bg,#0F172A);' +
+        'flex-direction:column;padding:1rem;overflow-y:auto;-webkit-overflow-scrolling:touch;' +
         'z-index:100000;gap:0;list-style:none;margin:0;';
     var MENU_CLOSED_STYLE = 'display:none;';
     var OVERLAY_OPEN_STYLE = 'display:block;position:fixed;top:0;left:0;width:100%;height:100%;' +
