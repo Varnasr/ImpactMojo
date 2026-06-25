@@ -24,7 +24,7 @@ check-i18n-glossary.py.
 import json, os, glob, re, sys, unicodedata
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-LANGS = ["hi", "ta", "bn", "mr"]
+LANGS = ["hi", "ta", "bn", "mr", "te"]
 
 # Unicode block (lo, hi) per script
 DEVANAGARI = (0x900, 0x97F)
@@ -35,7 +35,8 @@ OTHER_INDIC = {
     "Oriya": (0xB00, 0xB7F), "Telugu": (0xC00, 0xC7F),
     "Kannada": (0xC80, 0xCFF), "Malayalam": (0xD00, 0xD7F),
 }
-OWN = {"hi": DEVANAGARI, "mr": DEVANAGARI, "bn": BENGALI, "ta": TAMIL}
+TELUGU = (0xC00, 0xC7F)
+OWN = {"hi": DEVANAGARI, "mr": DEVANAGARI, "bn": BENGALI, "ta": TAMIL, "te": TELUGU}
 
 # Shared Indic punctuation that lives in the Devanagari block but is used by
 # every Indic script (danda ।, double danda ॥, abbreviation sign ॰). Excluded
@@ -52,14 +53,16 @@ ARTIFACT = {
     "hi": re.compile(r"^\s*पाठ\s*[:ः]"),
     "mr": re.compile(r"^\s*मजकूर\s*[:ःं]"),
     "bn": re.compile(r"^\s*টেক্সট\s*[:ঃ]"),
-    "ta": re.compile(r"^\s*உரை(?:நিলை)?\s*[:：]"),
+    "ta": re.compile(r"^\s*உரை(?:நிலை)?\s*[:：]"),
+    "te": re.compile(r"^\s*(?:టెక్స్ట్|వచనం|పాఠ్యం)\s*[:：]"),
 }
 # native-script ImpactMojo renderings (brand must stay Latin). Specific enough
 # that no legitimate word matches (e.g. Marathi मोजमाप 'measure' is NOT matched).
 BRAND = re.compile(
     r"इम्पैक्ट|इम्पॅक्ट|इम्पाक्ट|प्रभाव[ःक]?मोज|"          # Devanagari
     r"ইম্প্যাক্টমোজ|ইমপ্যাক্ট\s*মোজ|প্রভাবমোজ|প্রভাবমোজ|"  # Bengali
-    r"இம்பேக்ட்மோஜ|இம்பாக்ஸ்ட்மோஜ|தாக்கமோஜோ"               # Tamil
+    r"இம்பேக்ட்மோஜ|இம்பாக்ஸ்ட்மோஜ|தாக்கமோஜோ|"             # Tamil
+    r"ఇంపాక్ట్\s*మోజ|ఇంపాక్ట్‌మోజ|ప్రభావ[ంమ]?\s*మోజ"        # Telugu
 )
 RUN = re.compile(r"([^\d\s.\-—–_])\1{5,}")  # same non-trivial char 6+ times
 

@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.19 — June 25, 2026 (Telugu translation added)
+
+### For Learners
+
+- **The site now reads in Telugu (తెలుగు)** — pick Telugu from the language switcher to translate the interface and the 101 course pages, joining Hindi, Tamil, Bengali and Marathi. Brand names, tools and key terms are kept intact.
+
 ## v10.79.18 — June 24, 2026 (Live Workshops & community course contributions)
 
 ### For Learners

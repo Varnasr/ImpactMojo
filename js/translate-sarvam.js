@@ -16,7 +16,8 @@
     hi: { label: "हिन्दी", native: "हिन्दी", font: "Noto Sans Devanagari", url: "Noto+Sans+Devanagari:wght@400;500;600;700" },
     ta: { label: "தமிழ்", native: "தமிழ்", font: "Noto Sans Tamil", url: "Noto+Sans+Tamil:wght@400;500;600;700" },
     bn: { label: "বাংলা", native: "বাংলা", font: "Noto Sans Bengali", url: "Noto+Sans+Bengali:wght@400;500;600;700" },
-    mr: { label: "मराठी", native: "मराठी", font: "Noto Sans Devanagari", url: "Noto+Sans+Devanagari:wght@400;500;600;700" }
+    mr: { label: "मराठी", native: "मराठी", font: "Noto Sans Devanagari", url: "Noto+Sans+Devanagari:wght@400;500;600;700" },
+    te: { label: "తెలుగు", native: "తెలుగు", font: "Noto Sans Telugu", url: "Noto+Sans+Telugu:wght@400;500;600;700" }
   };
   var SKIP = { SCRIPT: 1, STYLE: 1, NOSCRIPT: 1, SVG: 1, CODE: 1, PRE: 1, KBD: 1, SAMP: 1, CANVAS: 1, TEXTAREA: 1, OPTION: 1 };
   // Brand / proper nouns that must never be translated
@@ -73,6 +74,7 @@
       st.textContent = 'html[data-imlang="hi"] body *:not(svg):not([class*="icon"]):not(.material-icons),' +
         'html[data-imlang="mr"] body *:not(svg):not([class*="icon"]):not(.material-icons){font-family:"Noto Sans Devanagari",sans-serif!important}' +
         'html[data-imlang="ta"] body *:not(svg):not([class*="icon"]):not(.material-icons){font-family:"Noto Sans Tamil",sans-serif!important}' +
+        'html[data-imlang="te"] body *:not(svg):not([class*="icon"]):not(.material-icons){font-family:"Noto Sans Telugu",sans-serif!important}' +
         'html[data-imlang="bn"] body *:not(svg):not([class*="icon"]):not(.material-icons){font-family:"Noto Sans Bengali",sans-serif!important}';
       document.head.appendChild(st);
     }

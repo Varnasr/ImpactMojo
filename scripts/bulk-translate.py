@@ -22,7 +22,7 @@ from html.parser import HTMLParser
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 API = "https://www.impactmojo.in/api/translate"
-LANGS = ["hi", "ta", "bn", "mr"]
+LANGS = ["hi", "ta", "bn", "mr", "te"]
 BATCH = 12
 WORKERS = 3        # keep total Sarvam concurrency modest to avoid rate limits
 PASSES = 3         # re-attempt strings that came back untranslated (rate-limited)

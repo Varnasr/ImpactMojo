@@ -18,7 +18,7 @@ import json, os, sys, glob, re
 from html.parser import HTMLParser
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-LANGS = ["hi", "ta", "bn", "mr"]
+LANGS = ["hi", "ta", "bn", "mr", "te"]
 
 
 def load(path):
