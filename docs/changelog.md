@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.33 — July 1, 2026 (R & Python live-code course — early access)
+
+### Added
+
+- **[R & Python for Development](https://www.impactmojo.in/labs/r-python-dev.html)** — a new interactive course that teaches R and Python from absolute zero for development data work, with real code running live in the browser via WebR and Pyodide (no installation). Early access: Module 1 is live; Modules 2–7 (real NFHS/ASER/PLFS/Budget data, wrangling, visualisation, impact evaluation) are in progress. (Not yet announced in the learner newsletter until the full course ships.)
+
 ## v10.79.32 — July 1, 2026 (Eleven new Interactive Labs)
 
 The Interactive Labs collection grows from 16 to 27, with three new tracks — Research & Methods, Governance & Digital, and Climate & Environment.
