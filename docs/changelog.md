@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.22 — July 1, 2026 (Sampling Design Studio — ICC library + two-level precision)
+
+### For Learners
+
+- **The [Sampling Design Studio](https://www.impactmojo.in/Labs/sampling-design-lab.html) now guesses less and defends more** — a built-in **ICC reference library** lets you pick a defensible intra-cluster-correlation by outcome (learning, immunisation, nutrition, WASH, income, empowerment and more) with the published range shown, instead of inventing the number that most affects a clustered sample size. The precision step is now split into two clear layers — **statistical rigor** (the sample you'd need in a perfect world) and **field reality** (clustering and non-response) — and every result shows both, so you can see exactly how much the field inflates your ideal sample.
+
 ## v10.79.21 — July 1, 2026 (Sampling Design Studio)
 
 ### For Learners

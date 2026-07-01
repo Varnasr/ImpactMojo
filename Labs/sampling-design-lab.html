@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
 <meta name="theme-color" content="#0F172A">
 <title>Sampling Design Studio | ImpactMojo</title>
-<meta name="description" content="A free, guided sampling design studio for MEL practitioners in South Asia. Walk from evaluation question to a defensible sampling strategy — SRS, stratified, cluster or multistage — sized with a rigorous engine and explained as you go. Export a printable sampling plan.">
+<meta name="description" content="A free, guided sampling design studio for MEL practitioners in South Asia. Walk from evaluation question to a defensible sampling strategy — SRS, stratified, cluster or multistage — sized with a rigorous engine, a built-in ICC reference library, and a two-level rigor-vs-reality precision model. Explained as you go, with a printable sampling plan.">
 <meta name="keywords" content="sampling, sample size, MEL, monitoring evaluation learning, cluster sampling, stratified sampling, multistage sampling, design effect, margin of error, power, MDE, South Asia, ImpactMojo">
 <link rel="canonical" href="https://www.impactmojo.in/Labs/sampling-design-lab.html">
 
@@ -101,6 +101,10 @@ a{color:var(--accent)}
 .panel .lede{color:var(--muted);margin-bottom:1.4rem}
 
 .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.25rem 1.35rem;margin-bottom:1rem}
+.level-head{display:flex;align-items:center;gap:0.55rem;font-family:var(--font-head);font-weight:800;font-size:1.05rem;margin-bottom:1rem;padding-bottom:0.6rem;border-bottom:1px solid var(--border)}
+.level-head small{font-weight:500;color:var(--faint);font-size:0.8rem;font-family:var(--font-sans)}
+.level-head .lvl{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--grad);color:#fff;font-size:0.85rem;flex-shrink:0}
+.icc-note{color:var(--accent2)!important;font-style:italic}
 .grid{display:grid;gap:0.85rem}
 @media(min-width:640px){.grid.cols-2{grid-template-columns:1fr 1fr}.grid.cols-3{grid-template-columns:1fr 1fr 1fr}}
 
@@ -333,9 +337,10 @@ body.facil-on .facil{display:block}
   <!-- STEP 4: PRECISION -->
   <section class="panel" id="panel-4" role="tabpanel" aria-label="Precision">
     <h2>How precise must the answer be?</h2>
-    <p class="lede">Tighter precision costs sample. These defaults are sensible for social-sector work — nudge them to your context.</p>
+    <p class="lede">Precision has two layers. First set the <b>statistical rigor</b> you want in a perfect world; then tell us the <b>field reality</b> — clustering and non-response — that inflates it. We show both, so you can see the gap.</p>
 
     <div class="card">
+      <div class="level-head"><span class="lvl">1</span> Statistical rigor <small>the precision you'd get in a perfect world</small></div>
       <label class="fld">
         <span class="lab">Confidence level <small>how sure you want to be</small></span>
         <select id="conf">
@@ -382,6 +387,11 @@ body.facil-on .facil{display:block}
         </label>
       </div>
 
+      </div>
+
+      <div class="card">
+        <div class="level-head"><span class="lvl">2</span> Field reality <small>what the field does to that ideal</small></div>
+
       <details class="learn"><summary>Do I need clustering? (design effect)</summary>
         <p>If you sample whole villages/schools and then survey people inside them, the people in one cluster resemble each other, so you learn less per person. We inflate the sample by a <b>design effect</b>.</p>
       </details>
@@ -394,6 +404,11 @@ body.facil-on .facil{display:block}
         </select>
       </label>
       <div id="clusterFields" style="display:none">
+        <label class="fld">
+          <span class="lab">Pick a typical ICC by outcome <small>defensible starting values from published studies</small></span>
+          <select id="iccDomain"><option value="">— choose an outcome domain (optional) —</option></select>
+          <p class="icc-note" id="iccNote"></p>
+        </label>
         <div class="grid cols-2">
           <label class="fld">
             <span class="lab">People measured per cluster (m)</span>
@@ -525,6 +540,25 @@ body.facil-on .facil{display:block}
     {id:'adolescents',nm:'Adolescents / youth', unitHint:'student'},
     {id:'community', nm:'Community members (general)', unitHint:'beneficiary'}
   ];
+  // ICC reference library — indicative intra-cluster correlations by outcome
+  // domain, drawn from published education & health cluster-trial literature
+  // (e.g. Hedges & Hedberg on school ICCs; DHS/health ICC compendia). These are
+  // typical mid-range values with the usual published spread; always prefer an
+  // ICC from a pilot or a comparable local study when you have one.
+  var ICC_LIB = [
+    {v:0.20, label:'Learning outcomes / test scores', note:'school-based education trials typically 0.10–0.30'},
+    {v:0.15, label:'School enrolment / attendance', note:'commonly 0.10–0.20'},
+    {v:0.05, label:'Immunisation / vaccination coverage', note:'commonly 0.02–0.07'},
+    {v:0.04, label:'Child anthropometry (stunting / wasting)', note:'commonly 0.02–0.06'},
+    {v:0.10, label:'IYCF / nutrition practices', note:'commonly 0.05–0.15'},
+    {v:0.10, label:'WASH behaviours', note:'commonly 0.05–0.15'},
+    {v:0.05, label:'Contraceptive use / family planning', note:'commonly 0.02–0.08'},
+    {v:0.06, label:'Maternal health (ANC visits, institutional delivery)', note:'commonly 0.02–0.10'},
+    {v:0.10, label:'Household income / consumption', note:'commonly 0.05–0.15'},
+    {v:0.12, label:"Women's empowerment / attitudes", note:'commonly 0.05–0.20'},
+    {v:0.12, label:'Agricultural practices / yield', note:'commonly 0.05–0.20'},
+    {v:0.01, label:'Mortality (rare events)', note:'commonly 0.001–0.02'}
+  ];
 
   // ---- State -------------------------------------------------------------
   var S = {
@@ -636,6 +670,9 @@ body.facil-on .facil{display:block}
       nFpc = n0 / (1 + (n0-1)/N);
       if(nFpc < n0 - 0.5) out.rows.push(['After finite-population correction (N='+fmt(N)+')', fmt(Math.ceil(nFpc))]);
     }
+    // The "statistical ideal" — what pure rigor asks for, before field reality
+    // (clustering + non-response) is layered on.
+    out.ideal = Math.ceil(nFpc);
     // design effect
     var nDeff = nFpc;
     if(S.useCluster==='yes' && !out.ruleOfThumb){
@@ -727,9 +764,11 @@ body.facil-on .facil{display:block}
       var r = computeForGroup(N);
       totalFinal += r.final; if(r.clusters) totalClusters += r.clusters;
       html += '<div class="grpcard"><h4>'+g.nm+' <span class="badge">frame ≈ '+fmt(N)+'</span></h4>';
-      html += '<div class="bignum"><div class="stat"><b>'+fmt(r.final)+'</b><span>'+(S.design==='impact'?'total to enrol':'to approach / survey')+'</span></div>';
-      if(r.twoArm) html += '<div class="stat"><b>'+fmt(r.twoArm)+'</b><span>per arm (T & C)</span></div>';
-      if(r.clusters) html += '<div class="stat"><b>'+fmt(r.clusters)+'</b><span>clusters × '+S.mSize+'</span></div>';
+      html += '<div class="bignum">';
+      if(r.ideal && r.final > r.ideal) html += '<div class="stat"><b style="color:var(--faint)">'+fmt(r.ideal)+'</b><span>statistical ideal</span></div>';
+      html += '<div class="stat"><b>'+fmt(r.final)+'</b><span>'+(S.design==='impact'?'total to enrol':'field target — to approach')+'</span></div>';
+      if(r.twoArm) html += '<div class="stat"><b>'+fmt(r.twoArm)+'</b><span>per arm (T &amp; C)</span></div>';
+      if(r.clusters) html += '<div class="stat"><b>'+fmt(r.clusters)+'</b><span>clusters &times; '+S.mSize+'</span></div>';
       html += '</div>';
       html += '<table class="work">'+r.rows.map(function(row){return '<tr><td>'+row[0]+'</td><td>'+row[1]+'</td></tr>';}).join('')+'</table>';
       // per-group warnings
@@ -782,7 +821,7 @@ body.facil-on .facil{display:block}
       var g = GROUPS.filter(function(x){return x.id===gid;})[0];
       var N = S.groupPop[gid] != null ? S.groupPop[gid] : defaultPop(g.unitHint);
       var r = computeForGroup(N);
-      L.push('- **'+g.nm+'** — frame ≈ '+fmt(N)+' → approach '+fmt(r.final)+(r.clusters?(' across '+r.clusters+' clusters'):'')+(r.twoArm?(' ('+fmt(r.twoArm)+' per arm)'):''));
+      L.push('- **'+g.nm+'** — frame ≈ '+fmt(N)+' → statistical ideal '+fmt(r.ideal)+', field target '+fmt(r.final)+(r.clusters?(' across '+r.clusters+' clusters'):'')+(r.twoArm?(' ('+fmt(r.twoArm)+' per arm)'):''));
     });
     if(groupIds.length>1) L.push('- **Total** ≈ '+fmt(totalFinal)+' respondents'+(totalClusters?(' / '+fmt(totalClusters)+' cluster-visits'):''));
     L.push('');
@@ -819,6 +858,16 @@ body.facil-on .facil{display:block}
     $('power').value = S.power; $('useCluster').value = S.useCluster;
     $('mSize').value = S.mSize; $('icc').value = S.icc; $('nr').value = S.nr;
     $('unit').value = S.unit; $('stratify').value = S.stratify;
+    // ICC reference-library picker
+    $('iccDomain').innerHTML = '<option value="">— choose an outcome domain (optional) —</option>' +
+      ICC_LIB.map(function(d,i){ return '<option value="'+i+'">'+d.label+' (ρ≈'+d.v+')</option>'; }).join('');
+    $('iccDomain').addEventListener('change', function(){
+      var d = ICC_LIB[parseInt(this.value,10)];
+      if(d){ S.icc = d.v; $('icc').value = d.v; $('iccNote').textContent = 'Using ρ = '+d.v+' — '+d.note+'. Override the box if you have a local estimate.'; save(); }
+      else { $('iccNote').textContent = ''; }
+    });
+    // typing a manual ICC clears the domain preset (they diverged)
+    $('icc').addEventListener('input', function(){ $('iccDomain').value = ''; $('iccNote').textContent = ''; });
     syncOutputs();
 
     document.querySelectorAll('#designChoices [data-design]').forEach(function(b){
