@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.21 — July 1, 2026 (Sampling Design Studio)
+
+### For Learners
+
+- **New [Sampling Design Studio](https://www.impactmojo.in/Labs/sampling-design-lab.html)** — a free, guided lab that walks you from your evaluation question to a defensible sampling strategy (simple random, stratified, cluster or multistage), sizes each stakeholder group with the maths done properly (design effect, finite-population correction, power and minimum detectable effect, non-response buffers), explains the statistics as you go, and hands you a printable sampling plan. Includes a facilitator mode for trainers. The 14th ImpactMojo Lab.
+
 ## v10.79.20 — July 1, 2026 (Game Library menu fix)
 
 ### Fixed

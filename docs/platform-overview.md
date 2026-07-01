@@ -76,7 +76,7 @@ Each game:
 
 ---
 
-## Interactive Labs (13 labs)
+## Interactive Labs (14 labs)
 
 Labs are browser-based workbenches where you build something. Unlike courses (where you read and reflect), labs are hands-on — you follow a guided workflow and produce a real output.
 
@@ -262,7 +262,7 @@ Switch languages from the platform interface. This makes ImpactMojo usable for t
 
 ## What's Free vs. Premium?
 
-The vast majority of ImpactMojo is **completely free** — this is a genuine commitment, not a marketing strategy. All 60 courses, 134 games, 13 labs, handouts, ImpactLex, case studies, DevDiscourses, and Dataverse are available at no cost.
+The vast majority of ImpactMojo is **completely free** — this is a genuine commitment, not a marketing strategy. All 60 courses, 134 games, 14 labs, handouts, ImpactLex, case studies, DevDiscourses, and Dataverse are available at no cost.
 
 Premium memberships (starting at ₹399/month) unlock additional tools, PDF/PNG export from labs, certificates, and priority access to coaching and workshops.
 

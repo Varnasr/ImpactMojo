@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#0F172A">
+<title>Sampling Design Studio | ImpactMojo</title>
+<meta name="description" content="A free, guided sampling design studio for MEL practitioners in South Asia. Walk from evaluation question to a defensible sampling strategy — SRS, stratified, cluster or multistage — sized with a rigorous engine and explained as you go. Export a printable sampling plan.">
+<meta name="keywords" content="sampling, sample size, MEL, monitoring evaluation learning, cluster sampling, stratified sampling, multistage sampling, design effect, margin of error, power, MDE, South Asia, ImpactMojo">
+<link rel="canonical" href="https://www.impactmojo.in/Labs/sampling-design-lab.html">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sampling Design Studio — ImpactMojo">
+<meta property="og:description" content="From evaluation question to a defensible sampling strategy, sized and explained. Free and in-browser.">
+<meta property="og:url" content="https://www.impactmojo.in/Labs/sampling-design-lab.html">
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JRCMEB9TBW');
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --primary-bg:#FFFFFF; --secondary-bg:#F8FAFC; --accent:#0EA5E9; --accent-hover:#0284C7;
+  --accent2:#6366F1; --success:#10B981; --warning:#F59E0B; --danger:#EF4444;
+  --ink:#0F172A; --muted:#475569; --faint:#52627A;
+  --card:#FFFFFF; --hover:#F1F5F9; --border:#E2E8F0;
+  --grad:linear-gradient(135deg,#0EA5E9 0%,#6366F1 100%);
+  --font-sans:'Amaranth',sans-serif; --font-head:'Inter',sans-serif; --font-mono:'JetBrains Mono',monospace;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme]){
+  --primary-bg:#0F172A; --secondary-bg:#1E293B; --ink:#F1F5F9; --muted:#CBD5E1; --faint:#94A3B8;
+  --card:#1E293B; --hover:#334155; --border:#334155;
+} }
+html.dark, [data-theme="dark"], body.dark-mode {
+  --primary-bg:#0F172A; --secondary-bg:#1E293B; --ink:#F1F5F9; --muted:#CBD5E1; --faint:#94A3B8;
+  --card:#1E293B; --hover:#334155; --border:#334155;
+}
+[data-theme="light"], body.light-mode {
+  --primary-bg:#FFFFFF; --secondary-bg:#F8FAFC; --ink:#0F172A; --muted:#475569; --faint:#52627A;
+  --card:#FFFFFF; --hover:#F1F5F9; --border:#E2E8F0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--primary-bg);color:var(--ink);line-height:1.6;min-height:100vh}
+.container{max-width:1080px;margin:0 auto;padding:2rem 1.25rem 4rem}
+a{color:var(--accent)}
+
+/* Topbar */
+.im-topbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.55rem 1.25rem;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+.im-topbar a{text-decoration:none}
+.im-topbar-left{display:flex;align-items:center}
+.im-topbar-home{display:flex;align-items:center;gap:0.5rem;color:var(--ink);font-family:var(--font-head);font-weight:800}
+.im-topbar-home svg{width:24px;height:24px}
+.im-topbar-right{display:flex;align-items:center;gap:0.6rem}
+.im-browse-btn,.im-premium-btn{display:inline-flex;align-items:center;gap:0.35rem;font-size:0.85rem;font-weight:600;color:var(--muted);padding:0.35rem 0.6rem;border-radius:8px}
+.im-browse-btn svg,.im-premium-btn svg{width:16px;height:16px}
+.im-premium-btn{color:var(--warning)}
+.im-browse-btn:hover,.im-premium-btn:hover{background:var(--hover)}
+.im-theme-selector{display:inline-flex;gap:2px;background:var(--secondary-bg);border:1px solid var(--border);border-radius:9px;padding:3px}
+.im-theme-btn{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;padding:6px;border:none;background:transparent;color:var(--faint);border-radius:6px;cursor:pointer}
+.im-theme-btn:hover{background:var(--hover);color:var(--ink)}
+.im-theme-btn.active{background:var(--accent);color:#fff}
+.im-theme-btn svg{width:16px;height:16px}
+
+.back-link{display:inline-flex;align-items:center;gap:0.5rem;color:var(--accent);text-decoration:none;font-size:0.9rem;margin-bottom:1.5rem}
+.back-link svg{width:18px;height:18px}
+
+/* Header */
+.header{text-align:center;margin-bottom:2rem;padding-bottom:1.75rem;border-bottom:1px solid var(--border);position:relative}
+.header-badge{display:inline-flex;align-items:center;gap:0.5rem;padding:0.35rem 1rem;background:rgba(14,165,233,0.14);color:var(--accent);border-radius:20px;font-size:0.8rem;font-weight:700;margin-bottom:1rem;font-family:var(--font-head)}
+.header h1{font-family:var(--font-head);font-weight:800;font-size:2.15rem;line-height:1.15;letter-spacing:-0.02em}
+.header .tagline{color:var(--muted);max-width:640px;margin:0.75rem auto 0;font-size:1.02rem}
+.header .credit{color:var(--faint);font-size:0.82rem;margin-top:0.85rem}
+
+/* Stepper */
+.stepper{display:flex;gap:0.4rem;margin:1.75rem 0 1.25rem;flex-wrap:wrap;justify-content:center}
+.step-pill{display:flex;align-items:center;gap:0.45rem;padding:0.45rem 0.85rem;border-radius:999px;border:1px solid var(--border);background:var(--card);color:var(--faint);font-size:0.85rem;font-weight:600;font-family:var(--font-head);cursor:pointer;transition:all .15s}
+.step-pill .num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--secondary-bg);color:var(--faint);font-size:0.78rem;font-weight:700}
+.step-pill:hover{border-color:var(--accent)}
+.step-pill.active{background:var(--grad);color:#fff;border-color:transparent}
+.step-pill.active .num{background:rgba(255,255,255,0.25);color:#fff}
+.step-pill.done .num{background:var(--success);color:#fff}
+.progressbar{height:6px;background:var(--secondary-bg);border-radius:999px;overflow:hidden;margin-bottom:1.75rem}
+.progressbar > i{display:block;height:100%;background:var(--grad);width:20%;transition:width .3s}
+
+/* Panels */
+.panel{display:none;animation:fade .25s ease}
+.panel.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.panel h2{font-family:var(--font-head);font-weight:800;font-size:1.4rem;margin-bottom:0.35rem}
+.panel .lede{color:var(--muted);margin-bottom:1.4rem}
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.25rem 1.35rem;margin-bottom:1rem}
+.grid{display:grid;gap:0.85rem}
+@media(min-width:640px){.grid.cols-2{grid-template-columns:1fr 1fr}.grid.cols-3{grid-template-columns:1fr 1fr 1fr}}
+
+/* Choice cards */
+.choice{display:block;width:100%;text-align:left;background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:1rem 1.1rem;cursor:pointer;transition:all .15s;color:var(--ink);font-family:inherit}
+.choice:hover{border-color:var(--accent);background:var(--hover)}
+.choice.sel{border-color:var(--accent);box-shadow:0 0 0 3px rgba(14,165,233,0.15)}
+.choice .ct{font-family:var(--font-head);font-weight:700;font-size:1rem;display:flex;align-items:center;gap:0.5rem}
+.choice .cd{color:var(--muted);font-size:0.88rem;margin-top:0.25rem}
+.choice .tag{font-size:0.72rem;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:0.04em}
+
+/* Inputs */
+label.fld{display:block;margin-bottom:1rem}
+label.fld .lab{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--font-head);font-weight:600;font-size:0.9rem;margin-bottom:0.35rem}
+label.fld .lab small{color:var(--faint);font-weight:500}
+input[type=number],input[type=text],select{width:100%;padding:0.6rem 0.7rem;border:1.5px solid var(--border);border-radius:9px;background:var(--primary-bg);color:var(--ink);font-family:var(--font-mono);font-size:0.95rem}
+input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(14,165,233,0.15)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.rangewrap{display:flex;align-items:center;gap:0.75rem}
+.rangewrap output{font-family:var(--font-mono);font-weight:600;min-width:64px;text-align:right;color:var(--accent)}
+.hint{font-size:0.82rem;color:var(--faint);margin-top:0.3rem}
+.help{font-size:0.82rem;color:var(--accent);cursor:help;border-bottom:1px dotted var(--accent)}
+
+/* Stakeholder rows */
+.grp-row{display:grid;grid-template-columns:auto 1fr auto;gap:0.75rem;align-items:center;padding:0.6rem 0;border-bottom:1px solid var(--border)}
+.grp-row:last-child{border-bottom:none}
+.grp-row input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent)}
+.grp-row .nm{font-weight:600}
+.grp-row .pop{width:130px}
+
+/* Buttons */
+.btnrow{display:flex;justify-content:space-between;gap:0.75rem;margin-top:1.5rem;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.7rem 1.3rem;border-radius:10px;border:none;font-family:var(--font-head);font-weight:700;font-size:0.95rem;cursor:pointer;transition:all .15s}
+.btn svg{width:16px;height:16px}
+.btn-primary{background:var(--grad);color:#fff}
+.btn-primary:hover{filter:brightness(1.08)}
+.btn-ghost{background:var(--card);color:var(--ink);border:1.5px solid var(--border)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn:disabled{opacity:0.4;cursor:not-allowed}
+
+/* Results */
+.result-hero{background:var(--grad);color:#fff;border-radius:16px;padding:1.5rem 1.5rem;margin-bottom:1.25rem}
+.result-hero .strat{font-family:var(--font-head);font-weight:800;font-size:1.6rem;line-height:1.2}
+.result-hero .why{opacity:0.95;margin-top:0.5rem}
+.bignum{display:flex;flex-wrap:wrap;gap:1rem;margin:1.1rem 0}
+.bignum .stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:0.9rem 1.1rem;flex:1;min-width:140px}
+.bignum .stat b{display:block;font-family:var(--font-mono);font-size:1.7rem;font-weight:600;color:var(--accent);line-height:1}
+.bignum .stat span{font-size:0.82rem;color:var(--faint)}
+table.work{width:100%;border-collapse:collapse;font-size:0.9rem;margin-top:0.5rem}
+table.work td{padding:0.4rem 0.5rem;border-bottom:1px solid var(--border)}
+table.work td:last-child{text-align:right;font-family:var(--font-mono);font-weight:600}
+.tip{display:flex;gap:0.6rem;padding:0.7rem 0.85rem;border-radius:10px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.35);font-size:0.88rem;margin-top:0.7rem}
+.tip.ok{background:rgba(16,185,129,0.12);border-color:rgba(16,185,129,0.35)}
+.tip.info{background:rgba(14,165,233,0.1);border-color:rgba(14,165,233,0.3)}
+.tip .ic{font-weight:800;flex-shrink:0}
+
+details.learn{border:1px solid var(--border);border-radius:10px;padding:0.4rem 0.9rem;margin:0.6rem 0;background:var(--secondary-bg)}
+details.learn summary{cursor:pointer;font-family:var(--font-head);font-weight:700;font-size:0.9rem;color:var(--accent2);padding:0.4rem 0}
+details.learn p{font-size:0.9rem;color:var(--muted);margin:0.4rem 0}
+details.learn .formula{font-family:var(--font-mono);background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.6rem;margin:0.5rem 0;font-size:0.85rem;overflow-x:auto}
+
+.grpcard{border:1px solid var(--border);border-radius:12px;padding:1rem 1.15rem;margin-bottom:0.85rem;background:var(--card)}
+.grpcard h4{font-family:var(--font-head);font-weight:800;font-size:1.05rem;display:flex;justify-content:space-between;align-items:center}
+.grpcard .badge{font-size:0.72rem;font-weight:700;background:var(--secondary-bg);color:var(--muted);border-radius:999px;padding:0.15rem 0.6rem}
+.steps-ol{margin:0.5rem 0 0 1.1rem;font-size:0.9rem;color:var(--muted)}
+.steps-ol li{margin-bottom:0.25rem}
+
+/* Facilitator */
+.facil{display:none;border-left:3px solid var(--accent2);background:rgba(99,102,241,0.08);border-radius:0 10px 10px 0;padding:0.75rem 1rem;margin-top:0.85rem;font-size:0.9rem}
+body.facil-on .facil{display:block}
+.facil b{font-family:var(--font-head);color:var(--accent2)}
+.toggle-row{display:flex;align-items:center;gap:0.6rem;justify-content:center;margin:0.5rem 0 1.5rem;font-size:0.9rem;color:var(--muted)}
+.switch{position:relative;width:44px;height:24px}
+.switch input{opacity:0;width:0;height:0}
+.slider-sw{position:absolute;inset:0;background:var(--border);border-radius:999px;cursor:pointer;transition:.2s}
+.slider-sw::before{content:"";position:absolute;height:18px;width:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
+.switch input:checked + .slider-sw{background:var(--accent2)}
+.switch input:checked + .slider-sw::before{transform:translateX(20px)}
+
+.disclaimer{font-size:0.82rem;color:var(--faint);border:1px dashed var(--border);border-radius:10px;padding:0.75rem 1rem;margin-top:1.5rem}
+
+/* Footer */
+.im-footer{background:var(--secondary-bg);border-top:1px solid var(--border);margin-top:3rem;padding:2rem 1.25rem 1.25rem}
+.im-footer-grid{max-width:1080px;margin:0 auto;display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.im-footer h4{font-family:var(--font-head);font-size:0.95rem;margin-bottom:0.6rem}
+.im-footer ul{list-style:none}
+.im-footer li{margin-bottom:0.35rem}
+.im-footer a{color:var(--muted);text-decoration:none;font-size:0.88rem}
+.im-footer a:hover{color:var(--accent)}
+.im-footer-bottom{max-width:1080px;margin:1.5rem auto 0;padding-top:1rem;border-top:1px solid var(--border);text-align:center;color:var(--faint);font-size:0.82rem}
+
+.skip-link{position:absolute;left:-9999px;top:0;padding:0.5rem;background:var(--accent);color:#fff;z-index:100}
+.skip-link:focus{left:0}
+
+@media print{
+  .im-topbar,.back-link,.stepper,.progressbar,.btnrow,.toggle-row,.im-footer,.im-premium-btn,.im-browse-btn,.im-theme-selector{display:none!important}
+  .panel{display:none!important}
+  #panel-5.active{display:block!important}
+  body{background:#fff;color:#000}
+  .result-hero{background:#eee;color:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<!-- ImpactMojo Top Bar -->
+<div class="im-topbar" id="imTopbar">
+  <div class="im-topbar-left">
+    <a href="../index.html" class="im-topbar-home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>ImpactMojo</span>
+    </a>
+  </div>
+  <div class="im-topbar-right">
+    <a href="/catalog.html" class="im-browse-btn" title="Browse all content"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Browse</a>
+    <a href="../premium.html" class="im-premium-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Premium</a>
+    <div class="im-theme-selector" aria-label="Theme selection">
+      <button class="im-theme-btn" data-imtheme="system" title="System theme" aria-label="Use system theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
+      <button class="im-theme-btn" data-imtheme="light" title="Light theme" aria-label="Use light theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
+      <button class="im-theme-btn" data-imtheme="dark" title="Dark theme" aria-label="Use dark theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<a href="#main" class="skip-link">Skip to content</a>
+<div class="container" id="main">
+  <a href="../index.html" class="back-link">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+    Back to ImpactMojo
+  </a>
+
+  <div class="header">
+    <div class="header-badge">◇ Interactive Lab</div>
+    <h1>Sampling Design Studio</h1>
+    <p class="tagline">Walk from your evaluation question to a defensible sampling strategy — and learn the statistics as you go. Built for MEL practitioners, emerging evaluators and NGO teams across South Asia.</p>
+    <p class="credit">Free · in-browser · nothing leaves your device · not a substitute for a qualified statistician</p>
+  </div>
+
+  <div class="toggle-row">
+    <span>Facilitator mode</span>
+    <label class="switch"><input type="checkbox" id="facilToggle" aria-label="Toggle facilitator prompts"><span class="slider-sw"></span></label>
+    <span style="color:var(--faint)">show discussion prompts for training</span>
+  </div>
+
+  <!-- Stepper -->
+  <div class="stepper" id="stepper" role="tablist">
+    <button class="step-pill active" data-step="1"><span class="num">01</span> Question</button>
+    <button class="step-pill" data-step="2"><span class="num">02</span> Scale</button>
+    <button class="step-pill" data-step="3"><span class="num">03</span> Who</button>
+    <button class="step-pill" data-step="4"><span class="num">04</span> Precision</button>
+    <button class="step-pill" data-step="5"><span class="num">05</span> Strategy</button>
+  </div>
+  <div class="progressbar"><i id="pbar"></i></div>
+
+  <!-- STEP 1: QUESTION -->
+  <section class="panel active" id="panel-1" role="tabpanel" aria-label="Question">
+    <h2>What do you need to measure?</h2>
+    <p class="lede">Your question decides the maths. Pick the closest match — you can change it later.</p>
+    <div class="grid cols-2" id="designChoices">
+      <button class="choice" data-design="proportion">
+        <div class="ct">📊 Estimate a proportion</div>
+        <div class="cd">A prevalence or coverage figure: “what % of children can read a Grade-2 text”, “what share of women attended the SHG meeting”.</div>
+      </button>
+      <button class="choice" data-design="mean">
+        <div class="ct">📏 Estimate an average</div>
+        <div class="cd">A mean value: average test score, mean household income, average number of antenatal visits.</div>
+      </button>
+      <button class="choice" data-design="impact">
+        <div class="ct">⚖️ Compare two groups (impact)</div>
+        <div class="cd">Detect a difference between treatment and comparison — an RCT or quasi-experiment. Sized on the minimum effect you must detect (MDE) and power.</div>
+      </button>
+      <button class="choice" data-design="monitoring">
+        <div class="ct">🧭 Routine monitoring / light-touch</div>
+        <div class="cd">Spot-checks, monitoring visits, qualitative depth. Precision is secondary; we’ll use pragmatic rules of thumb.</div>
+      </button>
+    </div>
+    <div class="facil"><b>Discuss:</b> Why does “how many should we survey?” have no answer until you fix the question? Ask the group to phrase one real, named question their programme must answer this quarter.</div>
+    <div class="btnrow">
+      <span></span>
+      <button class="btn btn-primary" data-next="2">Next: Scale →</button>
+    </div>
+  </section>
+
+  <!-- STEP 2: SCALE -->
+  <section class="panel" id="panel-2" role="tabpanel" aria-label="Scale">
+    <h2>How far does your programme reach?</h2>
+    <p class="lede">Scale drives your strategy. The wider and more scattered your population, the more you’ll lean on clusters rather than a simple random sample — because a clean list of every individual rarely exists.</p>
+    <div class="grid cols-3" id="scaleChoices"></div>
+    <div class="card" style="margin-top:1.1rem">
+      <label class="fld">
+        <span class="lab">Unit of analysis <small>the “thing” each row of data represents</small></span>
+        <select id="unit">
+          <option value="student">Students / children</option>
+          <option value="household">Households</option>
+          <option value="woman">Women / SHG members</option>
+          <option value="teacher">Teachers</option>
+          <option value="farmer">Farmers</option>
+          <option value="patient">Patients / caregivers</option>
+          <option value="beneficiary">Beneficiaries (generic)</option>
+        </select>
+      </label>
+      <p class="hint">We use the scale + unit to suggest a realistic population size in the next step. You can always overwrite it with your own frame.</p>
+    </div>
+    <div class="facil"><b>Discuss:</b> Do you actually have a list (a sampling frame) of every individual? If not, which clusters — villages, schools, SHGs — <i>can</i> you list? That list is what you’ll sample from.</div>
+    <div class="btnrow">
+      <button class="btn btn-ghost" data-next="1">← Back</button>
+      <button class="btn btn-primary" data-next="3">Next: Who →</button>
+    </div>
+  </section>
+
+  <!-- STEP 3: WHO -->
+  <section class="panel" id="panel-3" role="tabpanel" aria-label="Who">
+    <h2>Whose responses will you measure?</h2>
+    <p class="lede">Tick each group you must report on. Every ticked group gets its own sample — and if you must report them <i>separately</i>, that pushes you toward stratified sampling.</p>
+    <div class="card" id="groupList"></div>
+    <label class="fld card" style="margin-top:1rem;display:block">
+      <span class="lab">Must you report results <i>separately</i> for sub-groups?<small>e.g. by gender, grade, or district</small></span>
+      <select id="stratify">
+        <option value="no">No — one overall estimate is enough</option>
+        <option value="yes">Yes — I need a reliable figure for each sub-group</option>
+      </select>
+      <p class="hint">“Yes” means each sub-group needs enough sample on its own, which increases the total — and makes stratified sampling the right call.</p>
+    </label>
+    <div class="facil"><b>Discuss:</b> Teams often forget that reporting “by district” or “by gender” multiplies the sample. Which breakdowns does your donor actually require — and which are nice-to-have?</div>
+    <div class="btnrow">
+      <button class="btn btn-ghost" data-next="2">← Back</button>
+      <button class="btn btn-primary" data-next="4">Next: Precision →</button>
+    </div>
+  </section>
+
+  <!-- STEP 4: PRECISION -->
+  <section class="panel" id="panel-4" role="tabpanel" aria-label="Precision">
+    <h2>How precise must the answer be?</h2>
+    <p class="lede">Tighter precision costs sample. These defaults are sensible for social-sector work — nudge them to your context.</p>
+
+    <div class="card">
+      <label class="fld">
+        <span class="lab">Confidence level <small>how sure you want to be</small></span>
+        <select id="conf">
+          <option value="1.645">90% — exploratory / internal</option>
+          <option value="1.96" selected>95% — standard for reports</option>
+          <option value="2.576">99% — high-stakes decisions</option>
+        </select>
+      </label>
+
+      <div id="descFields">
+        <label class="fld">
+          <span class="lab">Margin of error (± percentage points) <small id="moeCtx">for a proportion</small></span>
+          <div class="rangewrap"><input type="range" id="moe" min="1" max="15" step="0.5" value="5"><output id="moeOut">±5.0</output></div>
+          <p class="hint">±5 points is the common default. ±3 is tight (large sample); ±10 is rough (small sample).</p>
+        </label>
+        <label class="fld" id="propWrap">
+          <span class="lab">Expected value of the proportion <small>use 50% if unsure — it’s the safest</small></span>
+          <div class="rangewrap"><input type="range" id="prop" min="5" max="95" step="1" value="50"><output id="propOut">50%</output></div>
+        </label>
+        <label class="fld" id="sdWrap" style="display:none">
+          <span class="lab">Expected standard deviation <small>and the margin of error in the same units</small></span>
+          <input type="number" id="sd" value="10" min="0.1" step="0.1">
+          <p class="hint">For a mean, the margin of error above is read in your outcome’s units, not percentage points.</p>
+        </label>
+      </div>
+
+      <div id="impactFields" style="display:none">
+        <label class="fld">
+          <span class="lab">Minimum detectable effect (MDE) <small>smallest difference worth detecting, in outcome units</small></span>
+          <input type="number" id="mde" value="0.2" min="0.001" step="0.01">
+        </label>
+        <label class="fld">
+          <span class="lab">Standard deviation of the outcome</span>
+          <input type="number" id="sdImp" value="1" min="0.001" step="0.01">
+          <p class="hint">MDE ÷ SD is the standardised effect (Cohen’s d). 0.2 = small, 0.5 = medium.</p>
+        </label>
+        <label class="fld">
+          <span class="lab">Statistical power <small>chance of catching a real effect</small></span>
+          <select id="power">
+            <option value="0.84">80% — standard</option>
+            <option value="1.036">85%</option>
+            <option value="1.282">90% — for confirmatory trials</option>
+          </select>
+        </label>
+      </div>
+
+      <details class="learn"><summary>Do I need clustering? (design effect)</summary>
+        <p>If you sample whole villages/schools and then survey people inside them, the people in one cluster resemble each other, so you learn less per person. We inflate the sample by a <b>design effect</b>.</p>
+      </details>
+
+      <label class="fld">
+        <span class="lab">Do you sample in clusters? <small>villages, schools, SHGs</small></span>
+        <select id="useCluster">
+          <option value="no">No — I can reach individuals directly (SRS/stratified)</option>
+          <option value="yes">Yes — I sample clusters, then individuals within them</option>
+        </select>
+      </label>
+      <div id="clusterFields" style="display:none">
+        <div class="grid cols-2">
+          <label class="fld">
+            <span class="lab">People measured per cluster (m)</span>
+            <input type="number" id="mSize" value="15" min="2" step="1">
+          </label>
+          <label class="fld">
+            <span class="lab">Intra-cluster correlation (ICC / ρ)</span>
+            <input type="number" id="icc" value="0.05" min="0" max="0.9" step="0.01">
+            <p class="hint">Education outcomes often 0.1–0.3; health 0.01–0.1. When unsure, 0.05–0.10.</p>
+          </label>
+        </div>
+      </div>
+
+      <label class="fld">
+        <span class="lab">Expected non-response / attrition buffer <small>replace those you can’t reach or who drop out</small></span>
+        <div class="rangewrap"><input type="range" id="nr" min="0" max="50" step="1" value="10"><output id="nrOut">10%</output></div>
+      </label>
+    </div>
+
+    <div class="facil"><b>Discuss:</b> Ask the group to justify their margin of error to an imaginary board. Is ±5 points good enough to decide whether to scale the programme? What would ±10 hide?</div>
+    <div class="btnrow">
+      <button class="btn btn-ghost" data-next="3">← Back</button>
+      <button class="btn btn-primary" data-next="5">See the strategy →</button>
+    </div>
+  </section>
+
+  <!-- STEP 5: STRATEGY -->
+  <section class="panel" id="panel-5" role="tabpanel" aria-label="Strategy">
+    <h2>Your sampling strategy</h2>
+    <p class="lede">A defensible plan you can drop into a proposal or protocol — with the working shown, so a reviewer can check it.</p>
+    <div id="strategyOut"></div>
+
+    <details class="learn"><summary>Show the statistics behind these numbers</summary>
+      <p><b>Proportion:</b> the sample for a target margin of error <i>e</i> at confidence <i>z</i> is</p>
+      <div class="formula">n₀ = z² · p(1−p) / e²</div>
+      <p><b>Mean:</b> replace p(1−p) with the variance σ²:</p>
+      <div class="formula">n₀ = z² · σ² / e²</div>
+      <p><b>Two-group comparison (impact):</b> per arm,</p>
+      <div class="formula">n_arm = 2 · (z_α + z_β)² · σ² / MDE²</div>
+      <p><b>Finite population correction</b> (when your population N is small):</p>
+      <div class="formula">n = n₀ / (1 + (n₀ − 1)/N)</div>
+      <p><b>Design effect</b> for clustering, with m per cluster and ICC ρ:</p>
+      <div class="formula">DEFF = 1 + (m − 1) · ρ ,  n_cluster = n · DEFF</div>
+      <p>Finally we divide by (1 − non-response) to get the number you must approach.</p>
+    </details>
+
+    <div class="btnrow">
+      <button class="btn btn-ghost" data-next="4">← Adjust precision</button>
+      <div style="display:flex;gap:0.6rem;flex-wrap:wrap">
+        <button class="btn btn-ghost" id="copyBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy plan</button>
+        <button class="btn btn-ghost" id="dlBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download .md</button>
+        <button class="btn btn-primary" id="printBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Print</button>
+      </div>
+    </div>
+
+    <div class="disclaimer">⚠️ <b>A studio, not an oracle.</b> These figures assume simple random sampling within your strata and reasonable inputs. Real designs have to reckon with weighting, multiple outcomes, sub-group power and messy frames. Treat this as a defensible first draft, then have a statistician pressure-test it before you field it. ImpactMojo offers <a href="../coaching.html">coaching</a> and runs <a href="../dojos">practitioner dojos</a> where you can bring your plan for feedback.</div>
+  </section>
+
+  <div style="text-align:center;margin-top:2rem">
+    <button class="btn btn-ghost" id="resetBtn" style="font-size:0.85rem">↺ Start over</button>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="im-footer">
+  <div class="im-footer-grid">
+    <div><h4>Learn</h4><ul>
+      <li><a href="../courses/">Flagship Courses</a></li>
+      <li><a href="../101-courses/">101 Course Decks</a></li>
+      <li><a href="/labs/">All Labs</a></li>
+      <li><a href="/game-library.html">Game Library</a></li>
+    </ul></div>
+    <div><h4>Sampling &amp; MEL</h4><ul>
+      <li><a href="/BookCompanionTools/sample-size-calculator.html">Sample Size Calculator</a></li>
+      <li><a href="/labs/mel-design-lab.html">MEL Design Lab</a></li>
+      <li><a href="/labs/mel-plan-lab.html">MEL Plan Lab</a></li>
+      <li><a href="../courses/mel/">MEL flagship course</a></li>
+    </ul></div>
+    <div><h4>Support</h4><ul>
+      <li><a href="../coaching.html">Coaching</a></li>
+      <li><a href="../dojos">Dojos</a></li>
+      <li><a href="../faq.html">FAQ</a></li>
+    </ul></div>
+    <div><h4>Resources</h4><ul>
+      <li><a href="../handouts.html">Handouts</a></li>
+      <li><a href="../blog.html">Blog</a></li>
+      <li><a href="../sitemap.html">Sitemap</a></li>
+    </ul></div>
+  </div>
+  <div class="im-footer-bottom">
+    <p>&copy; 2026 ImpactMojo. All content for educational purposes only.</p>
+    <p>Released under <strong>MIT License</strong> | Supported by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var LS = 'im-sampling-studio-v1';
+
+  // ---- Reference data ----------------------------------------------------
+  // Typical, EDITABLE frame sizes for a South-Asian context. These are order-of-
+  // magnitude anchors to get people started, never authoritative counts.
+  var SCALES = [
+    {id:'site',    name:'Single site',       sub:'one school / centre / SHG', dispersion:0, icon:'🏫'},
+    {id:'cluster', name:'A few clusters',    sub:'a cluster of villages/schools', dispersion:1, icon:'🏘️'},
+    {id:'block',   name:'Block / mandal',    sub:'sub-district', dispersion:2, icon:'🗺️'},
+    {id:'district',name:'District',          sub:'a full district', dispersion:3, icon:'📍'},
+    {id:'state',   name:'State',             sub:'state-wide programme', dispersion:4, icon:'🏛️'},
+    {id:'nation',  name:'National',          sub:'multi-state / country', dispersion:5, icon:'🇮🇳'}
+  ];
+  // rough population of the chosen UNIT at each SCALE (editable defaults)
+  var POP = {
+    student:   {site:300, cluster:2500, block:40000, district:400000, state:9000000, nation:250000000},
+    household: {site:200, cluster:1500, block:25000, district:250000, state:6000000, nation:180000000},
+    woman:     {site:120, cluster:1200, block:18000, district:180000, state:4000000, nation:120000000},
+    teacher:   {site:15,  cluster:120,  block:2000,  district:20000,  state:400000,  nation:9000000},
+    farmer:    {site:150, cluster:1400, block:22000, district:220000, state:5000000, nation:120000000},
+    patient:   {site:250, cluster:2000, block:30000, district:300000, state:7000000, nation:150000000},
+    beneficiary:{site:200,cluster:1500, block:25000, district:250000, state:6000000, nation:150000000}
+  };
+  var GROUPS = [
+    {id:'children',  nm:'Children / students', unitHint:'student'},
+    {id:'women',     nm:'Women / SHG members', unitHint:'woman'},
+    {id:'parents',   nm:'Parents / caregivers', unitHint:'household'},
+    {id:'teachers',  nm:'Teachers / facilitators', unitHint:'teacher'},
+    {id:'frontline', nm:'Frontline workers (ASHA/AWW)', unitHint:'patient'},
+    {id:'farmers',   nm:'Farmers / producers', unitHint:'farmer'},
+    {id:'adolescents',nm:'Adolescents / youth', unitHint:'student'},
+    {id:'community', nm:'Community members (general)', unitHint:'beneficiary'}
+  ];
+
+  // ---- State -------------------------------------------------------------
+  var S = {
+    step:1, design:null, scale:'district', unit:'student',
+    groups:{}, groupPop:{}, stratify:'no',
+    conf:1.96, moe:5, prop:50, sd:10,
+    mde:0.2, sdImp:1, power:0.84,
+    useCluster:'no', mSize:15, icc:0.05, nr:10, facil:false
+  };
+  try { var saved = JSON.parse(localStorage.getItem(LS)||'null'); if(saved) S = Object.assign(S, saved); } catch(e){}
+
+  function save(){ try{ localStorage.setItem(LS, JSON.stringify(S)); }catch(e){} }
+  function $(id){ return document.getElementById(id); }
+
+  // ---- Build dynamic choice lists ---------------------------------------
+  function buildScales(){
+    $('scaleChoices').innerHTML = SCALES.map(function(sc){
+      return '<button class="choice'+(S.scale===sc.id?' sel':'')+'" data-scale="'+sc.id+'">'+
+        '<div class="ct">'+sc.icon+' '+sc.name+'</div><div class="cd">'+sc.sub+'</div></button>';
+    }).join('');
+    $('scaleChoices').querySelectorAll('[data-scale]').forEach(function(b){
+      b.addEventListener('click', function(){ S.scale=b.dataset.scale; buildScales(); save(); });
+    });
+  }
+  function buildGroups(){
+    $('groupList').innerHTML = GROUPS.map(function(g){
+      var on = !!S.groups[g.id];
+      var pop = S.groupPop[g.id] != null ? S.groupPop[g.id] : defaultPop(g.unitHint);
+      return '<div class="grp-row">'+
+        '<input type="checkbox" data-grp="'+g.id+'" '+(on?'checked':'')+' aria-label="'+g.nm+'">'+
+        '<span class="nm">'+g.nm+'</span>'+
+        '<input class="pop" type="number" min="1" step="1" data-pop="'+g.id+'" value="'+pop+'" title="Population (frame size) for this group" '+(on?'':'disabled')+'>'+
+        '</div>';
+    }).join('');
+    $('groupList').querySelectorAll('[data-grp]').forEach(function(cb){
+      cb.addEventListener('change', function(){
+        if(cb.checked){ S.groups[cb.dataset.grp]=true; } else { delete S.groups[cb.dataset.grp]; }
+        buildGroups(); save();
+      });
+    });
+    $('groupList').querySelectorAll('[data-pop]').forEach(function(inp){
+      inp.addEventListener('input', function(){ S.groupPop[inp.dataset.pop]=Math.max(1, parseInt(inp.value||'0',10)||1); save(); });
+    });
+  }
+  function defaultPop(unitHint){
+    var table = POP[unitHint] || POP.beneficiary;
+    return table[S.scale] || 250000;
+  }
+
+  // ---- Design choice -----------------------------------------------------
+  function paintDesign(){
+    document.querySelectorAll('#designChoices [data-design]').forEach(function(b){
+      b.classList.toggle('sel', b.dataset.design===S.design);
+    });
+    var impact = S.design==='impact';
+    $('impactFields').style.display = impact ? 'block' : 'none';
+    $('descFields').style.display = impact ? 'none' : 'block';
+    var mean = S.design==='mean';
+    $('propWrap').style.display = mean ? 'none' : 'block';
+    $('sdWrap').style.display = mean ? 'block' : 'none';
+    $('moeCtx').textContent = mean ? 'in your outcome’s units' : 'for a proportion';
+  }
+
+  // ---- Bind precision inputs --------------------------------------------
+  function bindVal(id, key, isFloat){
+    var el = $(id); if(!el) return;
+    if(el.value!=null && S[key]!=null) el.value = S[key];
+    el.addEventListener('input', function(){
+      S[key] = isFloat ? parseFloat(el.value) : (el.type==='number'? parseFloat(el.value) : el.value);
+      if(el.type!=='number' && el.tagName!=='SELECT') S[key]=parseFloat(el.value);
+      syncOutputs(); save();
+    });
+  }
+  function syncOutputs(){
+    $('moeOut').textContent = '±'+Number(S.moe).toFixed(1);
+    $('propOut').textContent = Math.round(S.prop)+'%';
+    $('nrOut').textContent = Math.round(S.nr)+'%';
+    $('clusterFields').style.display = S.useCluster==='yes' ? 'block' : 'none';
+  }
+
+  // ---- The engine (mirrors the Sample Size Calculator) -------------------
+  function fmt(n){ return (Math.round(n)).toLocaleString('en-IN'); }
+  function computeForGroup(N){
+    var z = S.conf, nr = Math.min(0.95, S.nr/100), out = {N:N, rows:[]};
+    var n0, deff = 1;
+    if(S.design==='impact'){
+      var za = z, zb = S.power, d = S.mde, sd = S.sdImp;
+      var perArm = 2*Math.pow(za+zb,2)*Math.pow(sd,2)/Math.pow(d,2);
+      out.rows.push(['Standardised effect (d = MDE/SD)', (d/sd).toFixed(2)]);
+      out.rows.push(['Per arm (before adjustments)', fmt(Math.ceil(perArm))]);
+      n0 = perArm*2; // total across both arms
+      out.twoArm = Math.ceil(perArm);
+    } else if(S.design==='mean'){
+      var e = S.moe, s = S.sd;
+      n0 = Math.pow(z,2)*Math.pow(s,2)/Math.pow(e,2);
+    } else if(S.design==='monitoring'){
+      // pragmatic rule of thumb
+      n0 = Math.min(Math.max(30, Math.round(N*0.1)), 120);
+      out.ruleOfThumb = true;
+    } else { // proportion
+      var p = S.prop/100, ee = S.moe/100;
+      n0 = Math.pow(z,2)*p*(1-p)/Math.pow(ee,2);
+    }
+    out.rows.push([S.design==='impact'?'Total across both arms':'Base sample (n₀)', fmt(Math.ceil(n0))]);
+
+    // finite population correction (skip for monitoring rule of thumb)
+    var nFpc = n0;
+    if(!out.ruleOfThumb && N>0){
+      nFpc = n0 / (1 + (n0-1)/N);
+      if(nFpc < n0 - 0.5) out.rows.push(['After finite-population correction (N='+fmt(N)+')', fmt(Math.ceil(nFpc))]);
+    }
+    // design effect
+    var nDeff = nFpc;
+    if(S.useCluster==='yes' && !out.ruleOfThumb){
+      deff = 1 + (S.mSize-1)*S.icc;
+      nDeff = nFpc*deff;
+      out.rows.push(['Design effect (DEFF, m='+S.mSize+', ρ='+S.icc+')', deff.toFixed(2)]);
+      out.rows.push(['After design effect', fmt(Math.ceil(nDeff))]);
+    }
+    // non-response buffer
+    var nFinal = Math.ceil(nDeff/(1-nr));
+    if(nr>0) out.rows.push(['After '+Math.round(nr*100)+'% non-response buffer', fmt(nFinal)]);
+    out.final = nFinal;
+    out.deff = deff;
+    if(S.useCluster==='yes' && !out.ruleOfThumb){
+      out.clusters = Math.ceil(nFinal/S.mSize);
+    }
+    return out;
+  }
+
+  // ---- Strategy recommendation ------------------------------------------
+  function recommendStrategy(nGroups){
+    var disp = (SCALES.filter(function(s){return s.id===S.scale;})[0]||{dispersion:3}).dispersion;
+    var strat, why=[], howTitle;
+    var stratified = (S.stratify==='yes') || nGroups>1;
+
+    if(disp<=1){
+      // single site / few clusters — can often list individuals
+      if(stratified){ strat='Stratified random sampling'; }
+      else { strat='Simple random sampling (SRS)'; }
+      why.push('Your programme is geographically concentrated, so a list of individuals is realistic — you can sample people directly rather than whole clusters.');
+      howTitle = 'How to draw it';
+    } else if(disp>=4){
+      strat = stratified ? 'Stratified multistage sampling' : 'Multistage cluster sampling';
+      why.push('At state/national scale there is no clean list of every individual, so you select in stages: administrative units → villages/schools → individuals.');
+      why.push('Because you interview several people per cluster, we applied a design effect so your precision holds.');
+      howTitle = 'How to draw it (stages)';
+    } else {
+      // block / district
+      strat = stratified ? 'Stratified cluster sampling' : 'Cluster sampling';
+      why.push('Across a block or district you can list clusters (villages, schools, SHGs) far more easily than every individual — so you sample clusters first, then people within them.');
+      howTitle = 'How to draw it';
+    }
+    if(stratified){
+      why.push(S.stratify==='yes'
+        ? 'You need reliable figures for sub-groups, so you must sample <b>within each stratum</b> — this both guarantees coverage and improves precision.'
+        : 'You are measuring more than one stakeholder group, so treat each as its own stratum with its own target sample.');
+    }
+    if(S.useCluster==='no' && disp>=2){
+      why.push('<span style="color:var(--warning)">You told us you can reach individuals directly. If in reality you can only list clusters, switch “sample in clusters” to <b>Yes</b> in the precision step — it will raise the sample to protect your margin of error.</span>');
+    }
+    return {strat:strat, why:why, howTitle:howTitle, stratified:stratified, disp:disp};
+  }
+
+  function howSteps(rec){
+    var unit = $('unit').value;
+    if(rec.disp<=1){
+      return rec.stratified
+        ? ['List everyone in each group/stratum.','Randomly draw the target number from each list independently (random-number or systematic every k-th).','Keep the strata separate through analysis; weight back if strata sampled at different rates.']
+        : ['Obtain or build a single list of all '+unit+'s.','Assign a random number to each and sort, or take every k-th (systematic).','Draw down to the target sample; log replacements from a reserve list.'];
+    }
+    if(rec.disp>=4){
+      return ['Stratify by state/region'+(rec.stratified?' and by the sub-groups you must report':'')+'.','Stage 1 — randomly select districts (probability proportional to size).','Stage 2 — within each, select blocks, then villages/schools.','Stage 3 — list '+unit+'s in each selected cluster and randomly pick the per-cluster target (m).','Track cluster IDs so you can compute the real design effect afterwards.'];
+    }
+    return ['List all clusters (villages/schools/SHGs) in the area'+(rec.stratified?', grouped into strata':'')+'.','Randomly select clusters (probability proportional to size is ideal).','In each selected cluster, list '+unit+'s and randomly pick the per-cluster target (m).','Interview replacements from within the same cluster to hold m.'];
+  }
+
+  // ---- Render strategy step ---------------------------------------------
+  function renderStrategy(){
+    var groupIds = Object.keys(S.groups);
+    if(!S.design){ $('strategyOut').innerHTML = '<div class="tip"><span class="ic">!</span> Go back to <b>Step 1</b> and choose what you need to measure.</div>'; return; }
+    if(!groupIds.length){ $('strategyOut').innerHTML = '<div class="tip"><span class="ic">!</span> Go back to <b>Step 3</b> and tick at least one group to measure.</div>'; return; }
+
+    var rec = recommendStrategy(groupIds.length);
+    var steps = howSteps(rec);
+    var html = '';
+    html += '<div class="result-hero"><div class="strat">'+rec.strat+'</div>';
+    html += '<div class="why">'+rec.why[0]+'</div></div>';
+
+    // rationale
+    html += '<div class="card"><h4 style="font-family:var(--font-head);margin-bottom:0.5rem">Why this strategy</h4><ul style="margin-left:1.1rem;color:var(--muted);font-size:0.92rem">';
+    rec.why.forEach(function(w){ html += '<li style="margin-bottom:0.3rem">'+w+'</li>'; });
+    html += '</ul></div>';
+
+    // per-group sizing
+    var totalFinal = 0, totalClusters = 0;
+    groupIds.forEach(function(gid){
+      var g = GROUPS.filter(function(x){return x.id===gid;})[0];
+      var N = S.groupPop[gid] != null ? S.groupPop[gid] : defaultPop(g.unitHint);
+      var r = computeForGroup(N);
+      totalFinal += r.final; if(r.clusters) totalClusters += r.clusters;
+      html += '<div class="grpcard"><h4>'+g.nm+' <span class="badge">frame ≈ '+fmt(N)+'</span></h4>';
+      html += '<div class="bignum"><div class="stat"><b>'+fmt(r.final)+'</b><span>'+(S.design==='impact'?'total to enrol':'to approach / survey')+'</span></div>';
+      if(r.twoArm) html += '<div class="stat"><b>'+fmt(r.twoArm)+'</b><span>per arm (T & C)</span></div>';
+      if(r.clusters) html += '<div class="stat"><b>'+fmt(r.clusters)+'</b><span>clusters × '+S.mSize+'</span></div>';
+      html += '</div>';
+      html += '<table class="work">'+r.rows.map(function(row){return '<tr><td>'+row[0]+'</td><td>'+row[1]+'</td></tr>';}).join('')+'</table>';
+      // per-group warnings
+      if(r.deff>3) html += '<div class="tip"><span class="ic">!</span>Design effect '+r.deff.toFixed(2)+' is high (>3). Fewer people per cluster and more clusters buys back precision.</div>';
+      if(r.clusters && r.clusters<15) html += '<div class="tip"><span class="ic">!</span>Only '+r.clusters+' clusters — under ~15–20, cluster-level estimates get unstable. Add clusters even if it means fewer per cluster.</div>';
+      if(r.ruleOfThumb) html += '<div class="tip info"><span class="ic">i</span>Monitoring mode: this is a pragmatic 10%-capped rule of thumb, not a precision calculation.</div>';
+      html += '<b style="font-size:0.85rem;display:block;margin-top:0.7rem">'+rec.howTitle+'</b><ol class="steps-ol">'+steps.map(function(s){return '<li>'+s+'</li>';}).join('')+'</ol>';
+      html += '<div class="facil"><b>Facilitator:</b> Ask trainees to name the real frame for '+g.nm.toLowerCase()+'. Who holds that list, and how current is it?</div>';
+      html += '</div>';
+    });
+
+    if(groupIds.length>1){
+      html += '<div class="tip ok"><span class="ic">Σ</span><div>Across all '+groupIds.length+' groups you need about <b>'+fmt(totalFinal)+'</b> respondents'+(totalClusters?' spanning <b>'+fmt(totalClusters)+'</b> cluster-visits':'')+'. Budget enumerator days and travel against that total, not the largest single group.</div></div>';
+    }
+    $('strategyOut').innerHTML = html;
+    S._lastPlan = buildPlanText(rec, groupIds, totalFinal, totalClusters);
+  }
+
+  // ---- Plan export -------------------------------------------------------
+  function buildPlanText(rec, groupIds, totalFinal, totalClusters){
+    var designLabel = {proportion:'Estimate a proportion',mean:'Estimate a mean',impact:'Two-group impact comparison',monitoring:'Routine monitoring'}[S.design];
+    var scaleName = (SCALES.filter(function(s){return s.id===S.scale;})[0]||{}).name;
+    var L = [];
+    L.push('# Sampling Plan — ImpactMojo Sampling Design Studio');
+    L.push('');
+    L.push('## 1. Purpose & design');
+    L.push('- Evaluation question type: '+designLabel);
+    L.push('- Programme scale: '+scaleName);
+    L.push('- Unit of analysis: '+$('unit').value);
+    L.push('- Recommended strategy: **'+rec.strat+'**');
+    L.push('');
+    L.push('## 2. Why this strategy');
+    rec.why.forEach(function(w){ L.push('- '+w.replace(/<[^>]+>/g,'')); });
+    L.push('');
+    L.push('## 3. Precision assumptions');
+    L.push('- Confidence: '+({1.645:'90%',1.96:'95%',2.576:'99%'}[S.conf]||S.conf));
+    if(S.design==='impact'){
+      L.push('- Minimum detectable effect: '+S.mde+' (SD '+S.sdImp+', d='+(S.mde/S.sdImp).toFixed(2)+')');
+      L.push('- Power: '+({0.84:'80%',1.036:'85%',1.282:'90%'}[S.power]||S.power));
+    } else if(S.design==='mean'){
+      L.push('- Margin of error: ±'+S.moe+' units (SD '+S.sd+')');
+    } else if(S.design==='proportion'){
+      L.push('- Margin of error: ±'+S.moe+' points (expected proportion '+S.prop+'%)');
+    }
+    if(S.useCluster==='yes') L.push('- Clustering: '+S.mSize+' per cluster, ICC '+S.icc+' (DEFF '+(1+(S.mSize-1)*S.icc).toFixed(2)+')');
+    L.push('- Non-response/attrition buffer: '+S.nr+'%');
+    L.push('');
+    L.push('## 4. Sample per group');
+    groupIds.forEach(function(gid){
+      var g = GROUPS.filter(function(x){return x.id===gid;})[0];
+      var N = S.groupPop[gid] != null ? S.groupPop[gid] : defaultPop(g.unitHint);
+      var r = computeForGroup(N);
+      L.push('- **'+g.nm+'** — frame ≈ '+fmt(N)+' → approach '+fmt(r.final)+(r.clusters?(' across '+r.clusters+' clusters'):'')+(r.twoArm?(' ('+fmt(r.twoArm)+' per arm)'):''));
+    });
+    if(groupIds.length>1) L.push('- **Total** ≈ '+fmt(totalFinal)+' respondents'+(totalClusters?(' / '+fmt(totalClusters)+' cluster-visits'):''));
+    L.push('');
+    L.push('## 5. How to draw the sample');
+    howSteps(rec).forEach(function(s,i){ L.push((i+1)+'. '+s); });
+    L.push('');
+    L.push('---');
+    L.push('_Generated with the ImpactMojo Sampling Design Studio (impactmojo.in). A defensible first draft — have a statistician review before fielding._');
+    return L.join('\n');
+  }
+
+  // ---- Navigation --------------------------------------------------------
+  function go(step){
+    step = parseInt(step,10);
+    if(step===5) renderStrategy();
+    S.step = step; save();
+    document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+    $('panel-'+step).classList.add('active');
+    document.querySelectorAll('.step-pill').forEach(function(pill){
+      var n = parseInt(pill.dataset.step,10);
+      pill.classList.toggle('active', n===step);
+      pill.classList.toggle('done', n<step);
+    });
+    $('pbar').style.width = (step*20)+'%';
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  // ---- Wire up -----------------------------------------------------------
+  function init(){
+    buildScales(); buildGroups(); paintDesign();
+    // restore design/precision widget values
+    $('conf').value = S.conf; $('moe').value = S.moe; $('prop').value = S.prop;
+    $('sd').value = S.sd; $('mde').value = S.mde; $('sdImp').value = S.sdImp;
+    $('power').value = S.power; $('useCluster').value = S.useCluster;
+    $('mSize').value = S.mSize; $('icc').value = S.icc; $('nr').value = S.nr;
+    $('unit').value = S.unit; $('stratify').value = S.stratify;
+    syncOutputs();
+
+    document.querySelectorAll('#designChoices [data-design]').forEach(function(b){
+      b.addEventListener('click', function(){ S.design=b.dataset.design; paintDesign(); save(); });
+    });
+    bindVal('conf','conf'); bindVal('moe','moe',true); bindVal('prop','prop',true);
+    bindVal('sd','sd',true); bindVal('mde','mde',true); bindVal('sdImp','sdImp',true);
+    bindVal('power','power'); bindVal('nr','nr',true); bindVal('mSize','mSize',true); bindVal('icc','icc',true);
+    $('conf').addEventListener('change',function(){S.conf=parseFloat(this.value);save();});
+    $('power').addEventListener('change',function(){S.power=parseFloat(this.value);save();});
+    $('useCluster').addEventListener('change',function(){S.useCluster=this.value;syncOutputs();save();});
+    $('unit').addEventListener('change',function(){S.unit=this.value;save();});
+    $('stratify').addEventListener('change',function(){S.stratify=this.value;save();});
+
+    document.querySelectorAll('[data-next]').forEach(function(b){
+      b.addEventListener('click', function(){ go(b.dataset.next); });
+    });
+    document.querySelectorAll('.step-pill').forEach(function(p){
+      p.addEventListener('click', function(){ go(p.dataset.step); });
+    });
+
+    // facilitator
+    $('facilToggle').checked = S.facil;
+    document.body.classList.toggle('facil-on', S.facil);
+    $('facilToggle').addEventListener('change', function(){
+      S.facil=this.checked; document.body.classList.toggle('facil-on', this.checked); save();
+    });
+
+    // exports
+    $('printBtn').addEventListener('click', function(){ window.print(); });
+    $('copyBtn').addEventListener('click', function(){
+      if(!S._lastPlan) renderStrategy();
+      var orig = $('copyBtn').innerHTML;
+      navigator.clipboard.writeText(S._lastPlan||'').then(function(){
+        $('copyBtn').textContent = '✓ Copied'; setTimeout(function(){ $('copyBtn').innerHTML = orig; }, 1600);
+      }).catch(function(){ alert('Copy failed — use Download instead.'); });
+    });
+    $('dlBtn').addEventListener('click', function(){
+      if(!S._lastPlan) renderStrategy();
+      var blob = new Blob([S._lastPlan||''], {type:'text/markdown'});
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob); a.download = 'sampling-plan.md';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    });
+    $('resetBtn').addEventListener('click', function(){
+      if(confirm('Clear all your inputs and start over?')){ try{localStorage.removeItem(LS);}catch(e){} location.reload(); }
+    });
+
+    go(S.step||1);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>
+
+<!-- Supabase Auth -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="/js/state-manager.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/theme.js"></script>
+<script src="/js/translate-sarvam.js" defer></script>
+</body>
+</html>

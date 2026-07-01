@@ -42,7 +42,7 @@ We provide accessible, high-quality educational materials grounded in South Asia
 | Category | Description |
 |----------|-------------|
 | **62 Courses** | 15 flagship + 47 foundational courses across 6 learning tracks (4 native HTML slide decks with 100 slides each; remaining 36 Gamma-hosted) |
-| **13 Interactive Labs** | Hands-on workbenches for MEL, policy, partnerships, budgeting, gender analysis, and more |
+| **14 Interactive Labs** | Hands-on workbenches for MEL, policy, partnerships, budgeting, gender analysis, and more |
 | **134 Game Library** | 17 interactive simulations (MiroFish AI agents, Indian folk art — Warli, Madhubani, Gond, Kalamkari, Pichwai, Pattachitra) + 117 crosswords, quizzes & word searches |
 | **ImpactLex Dictionary** | 390+ development terms with contextual definitions, formulas, and case studies (PWA, hosted on ImpactMojo) |
 | **Dev Case Studies** | 200 evidence-based case studies from 117 countries |
@@ -157,7 +157,7 @@ Shorter introductory courses covering the breadth of development practice:
 | **Health & Wellbeing** | Public Health 101, Climate Essentials, Social Emotional Learning, **Work, Labour & Livelihoods 101** (replaces Decent Work + Livelihoods Fundamentals) |
 | **Communication & Data** | English for Development, Visual Ethnography, Data Literacy for Development, BCC and Communications, Advocacy Fundamentals, Digital Development Ethics, Education and Pedagogy |
 
-### Interactive Labs (13)
+### Interactive Labs (14)
 
 - **Theory of Change Lab** — Guided ToC builder with real-time flowchart diagram and PNG export
 - **MEL Design Lab** — Monitoring, evaluation, and learning framework builder

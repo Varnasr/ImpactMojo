@@ -2,13 +2,13 @@
 
 ## What Are the ImpactMojo Labs?
 
-ImpactMojo offers **13 interactive labs** — hands-on workbenches where you build, design, and practice real development skills. Unlike courses (which teach concepts) or games (which simulate dynamics), labs produce **tangible outputs** — a Theory of Change diagram, a MEL plan, a policy brief — that you can export and use in your actual work.
+ImpactMojo offers **14 interactive labs** — hands-on workbenches where you build, design, and practice real development skills. Unlike courses (which teach concepts) or games (which simulate dynamics), labs produce **tangible outputs** — a Theory of Change diagram, a MEL plan, a policy brief — that you can export and use in your actual work.
 
 All labs are **free, browser-based, and require no login**.
 
 ---
 
-## The 13 Labs
+## The 14 Labs
 
 ### MEL & Research Labs
 
@@ -17,6 +17,7 @@ All labs are **free, browser-based, and require no login**.
 | **Theory of Change Lab** | A structured ToC with assumptions, indicators, and causal pathways | [Open](/Labs/toc-lab.html) |
 | **MLE Design Lab** | A monitoring, learning, and evaluation framework for your programme | [Open](/Labs/mel-design-lab.html) |
 | **MEL Plan Lab** | A complete MEL plan with data collection schedule, tools, and responsibilities | [Open](/Labs/mel-plan-lab.html) |
+| **Sampling Design Studio** | A defensible sampling strategy (SRS, stratified, cluster or multistage) with sample sizes, design effect, and a printable plan | [Open](/Labs/sampling-design-lab.html) |
 | **Design Thinking Lab** | A human-centred design process from empathy mapping to prototyping | [Open](/Labs/design-thinking-lab.html) |
 | **Community Development Lab** | A participatory community assessment and action plan | [Open](/Labs/community-lab.html) |
 | **Risk and Mitigation Lab** | A risk register with likelihood, impact, and mitigation strategies | [Open](/Labs/risk-mitigation-lab.html) |
