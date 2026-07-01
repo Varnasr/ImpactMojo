@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0F172A">
+    <title>R &amp; Python for Development — a South Asia 101 | ImpactMojo</title>
+    <meta name="description" content="Learn R and Python from absolute zero for development-sector data work in South Asia — run real code live in your browser, no installation. Read data, wrangle, visualise, and evaluate impact.">
+    <meta name="keywords" content="R, Python, learn to code, development sector, data analysis, WebR, Pyodide, impact evaluation, South Asia, NFHS, ASER, PLFS, ImpactMojo">
+    <link rel="canonical" href="https://www.impactmojo.in/Labs/r-python-dev.html">
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JRCMEB9TBW');
+</script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-bg: #FFFFFF; --secondary-bg: #F8FAFC; --accent-color: #0EA5E9; --accent-hover: #0284C7;
+            --secondary-accent: #6366F1; --success-color: #10B981; --warning-color: #F59E0B; --danger-color: #EF4444;
+            --text-primary: #0F172A; --text-secondary: #475569; --text-muted: #52627A;
+            --card-bg: #FFFFFF; --hover-bg: #F1F5F9; --border-color: #E2E8F0;
+            --code-bg: #F1F5F9; --code-out-bg: #0F172A; --code-out-text: #E2E8F0;
+            --gradient-primary: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+            --font-sans: 'Amaranth', sans-serif; --font-heading: 'Inter', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+        }
+@media (prefers-color-scheme: dark) { :root {
+            --primary-bg: #0F172A; --secondary-bg: #1E293B; --accent-color: #0EA5E9; --accent-hover: #0284C7;
+            --secondary-accent: #6366F1; --success-color: #10B981; --warning-color: #F59E0B; --danger-color: #EF4444;
+            --text-primary: #F1F5F9; --text-secondary: #CBD5E1; --text-muted: #94A3B8;
+            --card-bg: #1E293B; --hover-bg: #334155; --border-color: #334155;
+            --code-bg: #0B1220; --code-out-bg: #020617; --code-out-text: #E2E8F0;
+            --gradient-primary: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+        } }
+[data-theme="light"] {
+            --primary-bg: #FFFFFF; --secondary-bg: #F8FAFC; --accent-color: #0EA5E9; --accent-hover: #0284C7;
+            --text-primary: #0F172A; --text-secondary: #475569; --text-muted: #52627A;
+            --card-bg: #FFFFFF; --hover-bg: #F1F5F9; --border-color: #E2E8F0;
+            --code-bg: #F1F5F9; --code-out-bg: #0F172A; --code-out-text: #E2E8F0;
+        }
+[data-theme="dark"] {
+            --primary-bg: #0F172A; --secondary-bg: #1E293B; --accent-color: #0EA5E9; --accent-hover: #0284C7;
+            --text-primary: #F1F5F9; --text-secondary: #CBD5E1; --text-muted: #94A3B8;
+            --card-bg: #1E293B; --hover-bg: #334155; --border-color: #334155;
+            --code-bg: #0B1220; --code-out-bg: #020617; --code-out-text: #E2E8F0;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-sans); background: var(--primary-bg); color: var(--text-primary); line-height: 1.6; min-height: 100vh; }
+        .container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--accent-color); text-decoration: none; font-size: 0.9rem; margin-bottom: 2rem; }
+        .back-link:hover { color: var(--accent-hover); }
+        .back-link svg { width: 18px; height: 18px; }
+        .header { text-align: center; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); }
+        .header-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 1rem; background: rgba(14, 165, 233, 0.15); color: var(--accent-color); border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-bottom: 1rem; font-family: var(--font-heading); }
+        .header h1 { font-family: var(--font-heading); font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 0.5rem; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .header p { color: var(--text-secondary); font-size: 1.05rem; max-width: 700px; margin: 0 auto; }
+        .top-controls { display: flex; justify-content: flex-end; gap: 0.5rem; margin-bottom: 1.5rem; }
+        .theme-selector { display: flex; gap: 4px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 4px; }
+        .lesson { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 1.75rem; margin-bottom: 1.5rem; }
+        .lesson h2 { font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 0.75rem; color: var(--text-primary); }
+        .lesson h3 { font-family: var(--font-heading); font-size: 1.1rem; margin: 1.5rem 0 0.6rem; color: var(--text-primary); }
+        .lesson p { color: var(--text-secondary); font-size: 0.97rem; margin-bottom: 0.85rem; }
+        .lesson strong { color: var(--text-primary); }
+        .eyebrow { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent-color); font-weight: 600; margin-bottom: 0.4rem; }
+        .info-box { background: rgba(14,165,233,0.08); border-left: 4px solid var(--accent-color); padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin: 1rem 0; font-size: 0.92rem; color: var(--text-secondary); }
+        .info-box.warning { background: rgba(245,158,11,0.10); border-left-color: var(--warning-color); }
+        .info-box strong { color: var(--text-primary); }
+        code.inline { font-family: var(--font-mono); font-size: 0.86em; background: var(--code-bg); padding: 0.1em 0.4em; border-radius: 5px; color: var(--text-primary); }
+
+        /* Live code cell */
+        .code-cell { border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; margin: 1.25rem 0; background: var(--secondary-bg); }
+        .cell-tabs { display: flex; gap: 2px; padding: 8px 8px 0; background: var(--secondary-bg); }
+        .cell-tab { font-family: var(--font-heading); font-size: 0.82rem; font-weight: 600; padding: 7px 16px; border: 1px solid var(--border-color); border-bottom: none; border-radius: 8px 8px 0 0; background: transparent; color: var(--text-muted); cursor: pointer; }
+        .cell-tab.active { background: var(--code-bg); color: var(--accent-color); }
+        .cell-lang-note { margin-left: auto; align-self: center; font-family: var(--font-mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); padding-right: 6px; }
+        .code-input { width: 100%; min-height: 92px; resize: vertical; border: none; border-top: 1px solid var(--border-color); background: var(--code-bg); color: var(--text-primary); font-family: var(--font-mono); font-size: 0.9rem; line-height: 1.5; padding: 14px 16px; tab-size: 2; }
+        .code-input:focus { outline: none; box-shadow: inset 0 0 0 2px rgba(14,165,233,0.35); }
+        .cell-actions { display: flex; align-items: center; gap: 0.75rem; padding: 10px 12px; background: var(--secondary-bg); border-top: 1px solid var(--border-color); flex-wrap: wrap; }
+        .run-btn { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--accent-color); color: #fff; border: none; border-radius: 8px; font-family: var(--font-heading); font-weight: 600; font-size: 0.85rem; padding: 0.5rem 1.1rem; cursor: pointer; transition: background 0.2s; }
+        .run-btn:hover { background: var(--accent-hover); }
+        .run-btn:disabled { opacity: 0.6; cursor: progress; }
+        .reset-btn { background: transparent; border: 1px solid var(--border-color); color: var(--text-secondary); border-radius: 8px; font-family: var(--font-heading); font-size: 0.8rem; padding: 0.45rem 0.8rem; cursor: pointer; }
+        .reset-btn:hover { border-color: var(--accent-color); color: var(--text-primary); }
+        .run-status { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); }
+        .run-status.err { color: var(--danger-color); }
+        .code-output { display: none; margin: 0; background: var(--code-out-bg); color: var(--code-out-text); font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.5; padding: 14px 16px; white-space: pre-wrap; word-break: break-word; border-top: 1px solid var(--border-color); max-height: 360px; overflow: auto; }
+        .code-output.show { display: block; }
+        .code-output .out-label { color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 6px; }
+
+        /* Roadmap */
+        .roadmap { display: grid; gap: 0.6rem; margin: 1rem 0; }
+        .road-item { display: flex; gap: 0.85rem; align-items: flex-start; padding: 0.85rem 1rem; border: 1px solid var(--border-color); border-radius: 10px; background: var(--secondary-bg); }
+        .road-num { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--gradient-primary); color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; }
+        .road-item.now { border-color: var(--accent-color); box-shadow: 0 0 0 2px rgba(14,165,233,0.15); }
+        .road-item h4 { font-family: var(--font-heading); font-size: 0.95rem; color: var(--text-primary); margin-bottom: 0.15rem; }
+        .road-item p { font-size: 0.83rem; color: var(--text-muted); margin: 0; }
+        .pill { display: inline-block; font-family: var(--font-mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; padding: 2px 7px; border-radius: 5px; margin-left: 6px; vertical-align: middle; }
+        .pill.now { background: rgba(16,185,129,0.15); color: var(--success-color); border: 1px solid rgba(16,185,129,0.3); }
+        .pill.soon { background: rgba(148,163,184,0.15); color: var(--text-muted); border: 1px solid var(--border-color); }
+        .tag { display: inline-block; padding: 4px 12px; background: rgba(14,165,233,0.12); color: var(--accent-color); border-radius: 12px; font-size: 0.78rem; font-family: var(--font-heading); font-weight: 600; margin: 4px 4px 4px 0; }
+        .v3-inline-icon { width: 16px; height: 16px; vertical-align: middle; display: inline-block; }
+
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            .code-input { font-size: 0.82rem; }
+            .code-output { font-size: 0.78rem; }
+        }
+    </style>
+<style>
+/* ===== ImpactMojo Design System (topbar / footer) ===== */
+:root {
+    --im-primary-bg: #0F172A; --im-secondary-bg: #1E293B; --im-accent: #0EA5E9; --im-accent-hover: #0284C7;
+    --im-secondary-accent: #6366F1; --im-success: #10B981; --im-text-primary: #F1F5F9; --im-text-secondary: #94A3B8;
+    --im-text-muted: #64748B; --im-card-bg: #1E293B; --im-hover-bg: #334155; --im-border: #334155;
+    --im-nav-bg: rgba(15, 23, 42, 0.95); --im-gradient: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+}
+[data-theme="light"] {
+    --im-primary-bg: #F8FAFC; --im-secondary-bg: #FFFFFF; --im-accent: #0284C7; --im-accent-hover: #0369A1;
+    --im-text-primary: #0F172A; --im-text-secondary: #475569; --im-text-muted: #64748B; --im-card-bg: #FFFFFF;
+    --im-hover-bg: #F1F5F9; --im-border: #E2E8F0; --im-nav-bg: rgba(248, 250, 252, 0.95);
+}
+.im-topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 9999; background: var(--im-nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--im-border); padding: 0.5rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; font-family: 'Inter', sans-serif; }
+.im-topbar a { text-decoration: none; }
+.im-topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+.im-topbar-home { display: flex; align-items: center; gap: 0.5rem; color: var(--im-text-primary); font-weight: 700; font-size: 1rem; background: var(--im-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.im-topbar-home svg { width: 24px; height: 24px; flex-shrink: 0; }
+.im-topbar-right { display: flex; align-items: center; gap: 0.5rem; }
+.im-premium-btn { background: var(--im-gradient); color: #fff !important; padding: 0.35rem 0.85rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 0.35rem; -webkit-text-fill-color: #fff; }
+.im-premium-btn:hover { opacity: 0.9; }
+.im-premium-btn svg { width: 14px; height: 14px; }
+.im-browse-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--im-text-primary); background: var(--im-card-bg); border: 1.5px solid var(--im-border); padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; transition: all 0.18s ease; }
+.im-browse-btn:hover { background: var(--im-accent); color: #FFFFFF; border-color: var(--im-accent); transform: translateY(-1px); }
+.im-browse-btn svg { width: 14px; height: 14px; }
+.im-theme-selector { display: flex; gap: 2px; background: var(--im-card-bg); border: 1px solid var(--im-border); border-radius: 8px; padding: 2px; }
+.im-theme-btn { background: transparent; border: none; color: var(--im-text-secondary); padding: 6px; border-radius: 5px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; }
+.im-theme-btn:hover { background: var(--im-hover-bg); color: var(--im-text-primary); }
+.im-theme-btn.active { background: var(--im-accent); color: #fff; }
+.im-theme-btn svg { width: 16px; height: 16px; }
+.im-footer { background: var(--im-secondary-bg); border-top: 1px solid var(--im-border); padding: 2rem 1rem; margin-top: 3rem; font-family: 'Inter', sans-serif; color: var(--im-text-secondary); }
+.im-footer-content { max-width: 1100px; margin: 0 auto; }
+.im-footer-made { text-align: center; margin-bottom: 1.5rem; font-size: 0.9rem; color: var(--im-text-muted); }
+.im-footer-made a { color: var(--im-accent); }
+.im-footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem; }
+.im-footer-section h4 { color: var(--im-text-primary); font-size: 0.9rem; margin-bottom: 0.75rem; font-weight: 600; }
+.im-footer-section ul { list-style: none; padding: 0; margin: 0; }
+.im-footer-section li { margin-bottom: 0.4rem; }
+.im-footer-section a { color: var(--im-text-secondary); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+.im-footer-section a:hover { color: var(--im-accent); }
+.im-footer-bottom { text-align: center; padding-top: 1rem; border-top: 1px solid var(--im-border); font-size: 0.8rem; color: var(--im-text-muted); }
+.im-footer-bottom p { margin: 0.25rem 0; }
+.im-footer-bottom a { color: var(--im-accent); text-decoration: none; }
+@media (max-width: 480px) { .im-footer-grid { grid-template-columns: 1fr; } .im-topbar-home span { display: none; } }
+body { font-family: 'Amaranth', sans-serif; padding-top: 56px; }
+h1, h2, h3, h4, h5, h6 { font-family: 'Inter', sans-serif; }
+code, pre, .monospace, kbd, samp { font-family: 'JetBrains Mono', monospace; }
+@media (max-width: 768px) { body { padding-top: 52px; } }
+</style>
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="R & Python for Development — a South Asia 101">
+<meta property="og:description" content="Learn R and Python from zero for development data work — run real code live in your browser, no installation. Built for South Asia.">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:url" content="https://www.impactmojo.in/Labs/r-python-dev.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ImpactMojo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="R & Python for Development — a South Asia 101">
+<meta name="twitter:description" content="Learn R and Python from zero for development data work — run real code live in your browser, no install.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+</head>
+<body>
+<!-- ImpactMojo Top Bar -->
+<div class="im-topbar" id="imTopbar">
+    <div class="im-topbar-left">
+        <a href="../index.html" class="im-topbar-home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>ImpactMojo</span>
+        </a>
+    </div>
+    <div class="im-topbar-right">
+        <a href="/catalog.html" class="im-browse-btn" title="Browse all content"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Browse</a>
+        <a href="../premium.html" class="im-premium-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Premium
+        </a>
+        <div class="im-theme-selector" aria-label="Theme selection">
+            <button class="im-theme-btn" data-theme="system" title="System theme" aria-label="Use system theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </button>
+            <button class="im-theme-btn" data-theme="light" title="Light theme" aria-label="Use light theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </button>
+            <button class="im-theme-btn" data-theme="dark" title="Dark theme" aria-label="Use dark theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="container" id="main">
+    <a href="../Labs/index.html" class="back-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+        Back to Labs
+    </a>
+
+    <div class="header">
+        <div class="header-badge"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Code.svg" alt="" class="v3-inline-icon" loading="lazy" style="filter:brightness(0) saturate(100%) invert(56%) sepia(72%) saturate(2840%) hue-rotate(177deg) brightness(97%) contrast(93%)"> Interactive Course · Live code</div>
+        <h1>R &amp; Python for Development</h1>
+        <p>A South Asia 101 — learn to code from absolute zero, with real R and Python running live in your browser. No installation, no account, works on a modest laptop.</p>
+    </div>
+
+    <div class="top-controls">
+        <div class="theme-selector" aria-label="Theme selection">
+            <button class="im-theme-btn" data-theme="light" title="Light" aria-label="Light theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg></button>
+            <button class="im-theme-btn" data-theme="dark" title="Dark" aria-label="Dark theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+        </div>
+    </div>
+
+    <!-- Intro -->
+    <div class="lesson">
+        <div class="eyebrow">Module 1 of 7 · Pilot</div>
+        <h2>Your first line of code</h2>
+        <p>Two languages run almost everything in development-sector data work: <strong>R</strong> (loved by statisticians and evaluators) and <strong>Python</strong> (loved by data scientists and engineers). You do not have to choose — this course teaches <strong>both, side by side</strong>, so you can read either one and pick what your team uses.</p>
+        <p>Everything here runs <strong>inside this page</strong>. Click <strong>Run</strong> and the code executes in your browser — nothing is installed and nothing is sent to a server.</p>
+        <div class="info-box warning">
+            <strong>First run downloads the engine.</strong> The very first time you Run R or Python, your browser fetches the language runtime once (R ≈ 7&nbsp;MB, Python ≈ 10&nbsp;MB). Give it 10–30 seconds on the first click; after that it is instant. Best on Wi-Fi for the first run.
+        </div>
+    </div>
+
+    <!-- Lesson: print -->
+    <div class="lesson">
+        <h3>1 · Make the computer say something</h3>
+        <p>The most basic thing code does is <strong>print</strong> — show a value on screen. In both languages the command is <code class="inline">print(...)</code>. Text goes inside quotes. Press <strong>Run</strong>, then switch the tab from R to Python and Run again.</p>
+
+        <div class="code-cell"
+             data-r='print("Hello from R")'
+             data-py='print("Hello from Python")'>
+            <div class="cell-tabs">
+                <button class="cell-tab active" data-lang="r">R</button>
+                <button class="cell-tab" data-lang="py">Python</button>
+                <span class="cell-lang-note">editable — change it and re-run</span>
+            </div>
+            <textarea class="code-input" spellcheck="false" aria-label="Code editor">print("Hello from R")</textarea>
+            <div class="cell-actions">
+                <button class="run-btn">▶ Run</button>
+                <button class="reset-btn">Reset</button>
+                <span class="run-status"></span>
+            </div>
+            <pre class="code-output"></pre>
+        </div>
+
+        <p>Notice how similar they are. That similarity is the whole reason we can teach them together — the <em>ideas</em> are the same; only small details of spelling differ.</p>
+    </div>
+
+    <!-- Lesson: a tiny calculation -->
+    <div class="lesson">
+        <h3>2 · A tiny piece of real analysis</h3>
+        <p>Say you surveyed five people and recorded their ages. Let's store those numbers and compute the <strong>average (mean)</strong> — the workhorse of any baseline report.</p>
+        <p>In R a list of numbers is made with <code class="inline">c(...)</code> (for "combine") and the average is <code class="inline">mean(...)</code>. In Python we use a list <code class="inline">[...]</code> and compute <code class="inline">sum(...) / len(...)</code>. Run both.</p>
+
+        <div class="code-cell"
+             data-r='ages <- c(19, 22, 25, 31, 45)&#10;mean(ages)'
+             data-py='ages = [19, 22, 25, 31, 45]&#10;sum(ages) / len(ages)'>
+            <div class="cell-tabs">
+                <button class="cell-tab active" data-lang="r">R</button>
+                <button class="cell-tab" data-lang="py">Python</button>
+                <span class="cell-lang-note">editable — change it and re-run</span>
+            </div>
+            <textarea class="code-input" spellcheck="false" aria-label="Code editor">ages <- c(19, 22, 25, 31, 45)
+mean(ages)</textarea>
+            <div class="cell-actions">
+                <button class="run-btn">▶ Run</button>
+                <button class="reset-btn">Reset</button>
+                <span class="run-status"></span>
+            </div>
+            <pre class="code-output"></pre>
+        </div>
+
+        <div class="info-box">
+            <strong>What just happened:</strong> you created a variable (<code class="inline">ages</code>), put five numbers in it, and ran a function over it. That is 80% of data analysis — data goes into a variable, a function does something to it, you read the result.
+        </div>
+    </div>
+
+    <!-- Your turn -->
+    <div class="lesson">
+        <h3>3 · Your turn</h3>
+        <p>Change the numbers below to a small dataset of your own — maybe household sizes, or the number of children in five families — then Run. Try it in both R and Python.</p>
+
+        <div class="code-cell"
+             data-r='household_size <- c(4, 6, 3, 5, 7, 2)&#10;mean(household_size)'
+             data-py='household_size = [4, 6, 3, 5, 7, 2]&#10;sum(household_size) / len(household_size)'>
+            <div class="cell-tabs">
+                <button class="cell-tab active" data-lang="r">R</button>
+                <button class="cell-tab" data-lang="py">Python</button>
+                <span class="cell-lang-note">this one is all yours</span>
+            </div>
+            <textarea class="code-input" spellcheck="false" aria-label="Code editor">household_size <- c(4, 6, 3, 5, 7, 2)
+mean(household_size)</textarea>
+            <div class="cell-actions">
+                <button class="run-btn">▶ Run</button>
+                <button class="reset-btn">Reset</button>
+                <span class="run-status"></span>
+            </div>
+            <pre class="code-output"></pre>
+        </div>
+    </div>
+
+    <!-- Roadmap -->
+    <div class="lesson">
+        <h2>Where this course goes</h2>
+        <p>This is the pilot lesson. The full 101 continues with real South Asian datasets — NFHS, ASER, PLFS, Census, Union Budget — building from "hello" to running an actual impact evaluation.</p>
+        <div class="roadmap">
+            <div class="road-item now"><div class="road-num">1</div><div><h4>Your first line of code <span class="pill now">You are here</span></h4><p>print, variables, a first calculation — in R and Python.</p></div></div>
+            <div class="road-item"><div class="road-num">2</div><div><h4>Data in, data out <span class="pill soon">Coming</span></h4><p>Read a real NFHS / ASER / PLFS file; look at rows and columns.</p></div></div>
+            <div class="road-item"><div class="road-num">3</div><div><h4>Wrangling <span class="pill soon">Coming</span></h4><p>Filter, select, group — tidyverse in R, pandas in Python.</p></div></div>
+            <div class="road-item"><div class="road-num">4</div><div><h4>Summaries &amp; disaggregation <span class="pill soon">Coming</span></h4><p>Means and rates split by gender, caste, geography (ties to the Data Feminism lab).</p></div></div>
+            <div class="road-item"><div class="road-num">5</div><div><h4>Visualisation <span class="pill soon">Coming</span></h4><p>Your first chart — ggplot in R, matplotlib in Python.</p></div></div>
+            <div class="road-item"><div class="road-num">6</div><div><h4>Regression &amp; impact evaluation <span class="pill soon">Coming</span></h4><p>Difference-in-differences, matching, IV — using open impact-evaluation datasets.</p></div></div>
+            <div class="road-item"><div class="road-num">7</div><div><h4>Reproducibility &amp; sharing <span class="pill soon">Coming</span></h4><p>Scripts, comments, and sharing your analysis so others can rerun it.</p></div></div>
+        </div>
+        <div style="margin-top:1rem;">
+            <span class="tag">R</span><span class="tag">Python</span><span class="tag">WebR + Pyodide</span><span class="tag">No install</span><span class="tag">South Asia</span>
+        </div>
+        <div class="info-box" style="margin-top:1.25rem;">
+            Prefer to translate between languages? Try the <a href="../code-converter-pro.html" style="color:var(--accent-color);">Code Convert Pro</a> tool — paste R and get Python (and Stata, SPSS), or the reverse.
+        </div>
+    </div>
+</div>
+
+<!-- ImpactMojo Footer -->
+<footer class="im-footer" role="contentinfo">
+<div class="im-footer-content">
+<p class="im-footer-made">Made with &#10084; by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+<div class="im-footer-grid">
+<div class="im-footer-section"><h4>Learn</h4><ul>
+<li><a href="../courses.html">Courses</a></li>
+<li><a href="index.html">Interactive Labs</a></li>
+<li><a href="../101-courses/index.html">101 Series</a></li>
+<li><a href="../catalog.html">Full Catalog</a></li>
+</ul></div>
+<div class="im-footer-section"><h4>Explore</h4><ul>
+<li><a href="../index.html">Home</a></li>
+<li><a href="../blog.html">Blog</a></li>
+<li><a href="../code-converter-pro.html">Code Convert Pro</a></li>
+<li><a href="../premium.html">Premium</a></li>
+</ul></div>
+<div class="im-footer-section"><h4>About</h4><ul>
+<li><a href="../about.html">About ImpactMojo</a></li>
+<li><a href="../contact.html">Contact</a></li>
+</ul></div>
+<div class="im-footer-section"><h4>Connect</h4><ul>
+<li><a href="https://www.impactmojo.in">impactmojo.in</a></li>
+</ul></div>
+</div>
+<div class="im-footer-bottom">
+<p>&copy; 2026 ImpactMojo. Free development education for South Asia.</p>
+<p>R runs via <a href="https://webr.r-wasm.org" rel="noopener" target="_blank">WebR</a> · Python via <a href="https://pyodide.org" rel="noopener" target="_blank">Pyodide</a> — both open source, running in your browser.</p>
+</div>
+</div>
+</footer>
+
+<script>
+/* THEME (system / light / dark) */
+(function initTheme() {
+    var saved = localStorage.getItem('impactmojo-theme') || 'system';
+    applyTheme(saved);
+    document.querySelectorAll('.im-theme-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var theme = btn.dataset.theme;
+            localStorage.setItem('impactmojo-theme', theme);
+            applyTheme(theme);
+        });
+    });
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+        if ((localStorage.getItem('impactmojo-theme') || 'system') === 'system') applyTheme('system');
+    });
+})();
+function applyTheme(theme) {
+    var root = document.documentElement;
+    if (theme === 'light') { root.setAttribute('data-theme', 'light'); }
+    else if (theme === 'dark') { root.setAttribute('data-theme', 'dark'); }
+    else { root.removeAttribute('data-theme'); }
+    document.querySelectorAll('.im-theme-btn').forEach(function(b) { b.classList.toggle('active', b.dataset.theme === theme); });
+}
+
+/* ===== Live code engines (lazy-loaded) ===== */
+var WEBR_VERSION = 'latest';
+var PYODIDE_VERSION = 'v0.26.4';
+var webrPromise = null, pyodidePromise = null;
+
+function setAllStatus(msg) {
+    document.querySelectorAll('.run-status').forEach(function(s){ if(s.dataset.loading==='1'){ s.textContent = msg; } });
+}
+
+function getWebR() {
+    if (!webrPromise) {
+        webrPromise = (async function () {
+            var mod = await import('https://webr.r-wasm.org/' + WEBR_VERSION + '/webr.mjs');
+            var webR = new mod.WebR();
+            await webR.init();
+            return webR;
+        })();
+    }
+    return webrPromise;
+}
+
+function loadScript(src) {
+    return new Promise(function (resolve, reject) {
+        var s = document.createElement('script');
+        s.src = src; s.onload = resolve; s.onerror = function(){ reject(new Error('Failed to load ' + src)); };
+        document.head.appendChild(s);
+    });
+}
+
+function getPyodide() {
+    if (!pyodidePromise) {
+        pyodidePromise = (async function () {
+            await loadScript('https://cdn.jsdelivr.net/pyodide/' + PYODIDE_VERSION + '/full/pyodide.js');
+            return await loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/' + PYODIDE_VERSION + '/full/' });
+        })();
+    }
+    return pyodidePromise;
+}
+
+async function runR(code) {
+    var webR = await getWebR();
+    var shelter = await new webR.Shelter();
+    try {
+        var cap = await shelter.captureR(code, { withAutoprint: true, captureStreams: true, captureConditions: false });
+        var lines = cap.output.filter(function (o) { return o.type === 'stdout' || o.type === 'stderr'; }).map(function (o) { return o.data; });
+        return lines.join('\n');
+    } finally { shelter.purge(); }
+}
+
+async function runPython(code) {
+    var py = await getPyodide();
+    var buf = '';
+    py.setStdout({ batched: function (s) { buf += s + '\n'; } });
+    py.setStderr({ batched: function (s) { buf += s + '\n'; } });
+    var result = await py.runPythonAsync(code);
+    if ((buf === '' || buf === '\n') && result !== undefined && result !== null) {
+        buf = String(result);
+    }
+    return buf.replace(/\n+$/, '');
+}
+
+/* Wire up each code cell */
+document.querySelectorAll('.code-cell').forEach(function (cell) {
+    var tabs = cell.querySelectorAll('.cell-tab');
+    var input = cell.querySelector('.code-input');
+    var runBtn = cell.querySelector('.run-btn');
+    var resetBtn = cell.querySelector('.reset-btn');
+    var status = cell.querySelector('.run-status');
+    var output = cell.querySelector('.code-output');
+    var lang = 'r';
+
+    function snippet(l) { return (l === 'py' ? cell.dataset.py : cell.dataset.r) || ''; }
+
+    tabs.forEach(function (t) {
+        t.addEventListener('click', function () {
+            var newLang = t.dataset.lang;
+            // only overwrite the editor if it still matches the other language's default (don't clobber edits)
+            if (input.value === snippet(lang)) { input.value = snippet(newLang); }
+            lang = newLang;
+            tabs.forEach(function (x) { x.classList.toggle('active', x === t); });
+        });
+    });
+
+    resetBtn.addEventListener('click', function () {
+        input.value = snippet(lang);
+        output.classList.remove('show'); status.textContent = ''; status.classList.remove('err');
+    });
+
+    runBtn.addEventListener('click', async function () {
+        var code = input.value;
+        runBtn.disabled = true;
+        status.classList.remove('err');
+        status.dataset.loading = '1';
+        status.textContent = (lang === 'r' ? 'Loading R…' : 'Loading Python…');
+        try {
+            var out = (lang === 'r') ? await runR(code) : await runPython(code);
+            status.dataset.loading = '0';
+            output.textContent = '';
+            var lbl = document.createElement('span'); lbl.className = 'out-label'; lbl.textContent = (lang === 'r' ? 'R output' : 'Python output');
+            output.appendChild(lbl);
+            output.appendChild(document.createTextNode(out === '' ? '(ran with no printed output)' : out));
+            output.classList.add('show');
+            status.textContent = '✓ done';
+        } catch (e) {
+            status.dataset.loading = '0';
+            status.classList.add('err');
+            status.textContent = 'error';
+            output.textContent = '';
+            var lbl2 = document.createElement('span'); lbl2.className = 'out-label'; lbl2.textContent = 'Error';
+            output.appendChild(lbl2);
+            var msg = (e && e.message) ? e.message : String(e);
+            if (/Failed to (fetch|load)/i.test(msg) || /import/i.test(msg)) {
+                msg += '\n\n(Could not download the ' + (lang === 'r' ? 'R (WebR)' : 'Python (Pyodide)') + ' engine. Check your internet connection and try again — the first run needs to fetch it once.)';
+            }
+            output.appendChild(document.createTextNode(msg));
+            output.classList.add('show');
+        } finally {
+            runBtn.disabled = false;
+        }
+    });
+});
+</script>
+</body>
+</html>
