@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0F172A">
+    <title>Digital Public Infrastructure Lab | ImpactMojo</title>
+    <meta name="description" content="Interactive Digital Public Infrastructure Lab — understand India's DPI stack from Aadhaar and UPI to DigiLocker, ABHA, ONDC and the DPDP Act 2023, and learn to design DPI-enabled development programmes responsibly.">
+    <meta name="keywords" content="digital public infrastructure, DPI, India Stack, Aadhaar, UPI, DigiLocker, ABHA, ONDC, Account Aggregator, DBT, DPDP Act, data protection, digital governance, South Asia, ImpactMojo">
+    <link rel="canonical" href="https://www.impactmojo.in/Labs/dpi-lab.html">
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JRCMEB9TBW');
+</script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-bg: #FFFFFF; --secondary-bg: #F8FAFC; --accent-color: #0EA5E9; --accent-hover: #0284C7;
+            --secondary-accent: #6366F1; --success-color: #10B981; --warning-color: #F59E0B; --danger-color: #EF4444;
+            --text-primary: #0F172A; --text-secondary: #475569; --text-muted: #52627A;
+            --card-bg: #FFFFFF; --hover-bg: #F1F5F9; --border-color: #E2E8F0;
+            --gradient-primary: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+            --font-sans: 'Amaranth', sans-serif; --font-heading: 'Inter', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+        }
+@media (prefers-color-scheme: dark) { :root {
+            --primary-bg: #0F172A; --secondary-bg: #1E293B; --accent-color: #0EA5E9; --accent-hover: #0284C7;
+            --secondary-accent: #6366F1; --success-color: #10B981; --warning-color: #F59E0B; --danger-color: #EF4444;
+            --text-primary: #F1F5F9; --text-secondary: #CBD5E1; --text-muted: #94A3B8;
+            --card-bg: #1E293B; --hover-bg: #334155; --border-color: #334155;
+            --gradient-primary: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+            --font-sans: 'Amaranth', sans-serif; --font-heading: 'Inter', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+        } }
+body.light-mode, [data-theme="light"] {
+            --primary-bg: #FFFFFF; --secondary-bg: #F8FAFC; --accent-color: #0EA5E9; --accent-hover: #0284C7;
+            --secondary-accent: #6366F1; --success-color: #10B981; --warning-color: #F59E0B; --danger-color: #EF4444;
+            --text-primary: #0F172A; --text-secondary: #475569; --text-muted: #52627A;
+            --card-bg: #FFFFFF; --hover-bg: #F1F5F9; --border-color: #E2E8F0;
+            --gradient-primary: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+            --font-sans: 'Amaranth', sans-serif; --font-heading: 'Inter', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+        }
+body.dark-mode, [data-theme="dark"] {
+            --primary-bg: #0F172A; --secondary-bg: #1E293B; --accent-color: #0EA5E9; --accent-hover: #0284C7;
+            --secondary-accent: #6366F1; --success-color: #10B981; --warning-color: #F59E0B; --danger-color: #EF4444;
+            --text-primary: #F1F5F9; --text-secondary: #CBD5E1; --text-muted: #94A3B8;
+            --card-bg: #1E293B; --hover-bg: #334155; --border-color: #334155;
+            --gradient-primary: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+            --font-sans: 'Amaranth', sans-serif; --font-heading: 'Inter', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-sans); background: var(--primary-bg); color: var(--text-primary); line-height: 1.6; min-height: 100vh; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 2rem; position: relative; z-index: 1; }
+        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--accent-color); text-decoration: none; font-size: 0.9rem; margin-bottom: 2rem; }
+        .back-link:hover { color: var(--accent-hover); }
+        .back-link svg { width: 18px; height: 18px; }
+        .header { text-align: center; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); }
+        .header-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 1rem; background: rgba(14, 165, 233, 0.15); color: var(--accent-color); border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-bottom: 1rem; font-family: var(--font-heading); }
+        .header h1 { font-family: var(--font-heading); font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 0.5rem; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .header p { color: var(--text-secondary); font-size: 1.05rem; max-width: 720px; margin: 0 auto; }
+        .top-controls { display: flex; justify-content: flex-end; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+        .ctrl-btn { padding: 0.6rem 0.9rem; background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-sans); transition: all 0.2s; }
+        .ctrl-btn:hover { border-color: var(--accent-color); background: var(--hover-bg); }
+        .theme-selector { display: flex; gap: 4px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 4px; }
+        .theme-btn { background: transparent; border: none; color: var(--text-secondary); padding: 8px; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; }
+        .theme-btn:hover { background: var(--hover-bg); color: var(--text-primary); }
+        .theme-btn.active { background: var(--accent-color); color: white; }
+        .theme-btn svg { width: 18px; height: 18px; }
+        .progress-bar { width: 100%; height: 6px; background: var(--border-color); border-radius: 3px; margin-bottom: 2rem; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: var(--gradient-primary); border-radius: 3px; transition: width 0.4s; width: 14%; }
+        .tabs { display: flex; gap: 0; margin-bottom: 2rem; border-bottom: 2px solid var(--border-color); overflow-x: auto; }
+        .tab-btn { padding: 0.85rem 1.1rem; background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -2px; color: var(--text-muted); font-size: 0.9rem; font-family: var(--font-sans); cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 0.4rem; transition: all 0.2s; }
+        .tab-btn:hover { color: var(--text-secondary); }
+        .tab-btn.active { color: var(--accent-color); border-bottom-color: var(--accent-color); }
+        .tab-btn .tab-num { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: var(--border-color); font-size: 0.7rem; font-weight: 700; font-family: var(--font-heading); }
+        .tab-btn.active .tab-num { background: var(--accent-color); color: #fff; }
+        .tab-btn.completed .tab-num { background: var(--success-color); color: #fff; }
+        .tab-panel { display: none; animation: fadeIn 0.3s ease; }
+        .tab-panel.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .section-title { font-family: var(--font-heading); font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary); }
+        .section-desc { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem; }
+        h3.block-title { font-family: var(--font-heading); font-size: 1.1rem; margin: 1.75rem 0 0.75rem; color: var(--text-primary); }
+        p.body-text { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 0.75rem; }
+
+        /* Info boxes */
+        .info-box { background: rgba(14,165,233,0.08); border-left: 4px solid var(--accent-color); padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin: 1rem 0; font-size: 0.92rem; color: var(--text-secondary); }
+        .info-box strong { color: var(--text-primary); }
+        .info-box.warning { background: rgba(245,158,11,0.10); border-left-color: var(--warning-color); }
+        .info-box.success { background: rgba(16,185,129,0.10); border-left-color: var(--success-color); }
+        .illustrative-tag { display: inline-block; font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.5px; text-transform: uppercase; font-weight: 600; padding: 2px 8px; border-radius: 5px; background: rgba(245,158,11,0.15); color: var(--warning-color); border: 1px solid rgba(245,158,11,0.35); margin-left: 6px; vertical-align: middle; }
+
+        /* Tables */
+        .budget-table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: 0.92rem; }
+        .budget-table th, .budget-table td { padding: 0.7rem 0.85rem; text-align: left; border-bottom: 1px solid var(--border-color); color: var(--text-secondary); }
+        .budget-table th { background: var(--secondary-bg); font-family: var(--font-heading); font-weight: 600; color: var(--accent-color); }
+        .budget-table td strong { color: var(--text-primary); }
+        .budget-table tr:hover td { background: var(--hover-bg); }
+        .budget-table .total-row td { font-weight: 700; background: var(--secondary-bg); color: var(--text-primary); }
+        .budget-table .highlight { color: var(--danger-color); font-weight: 700; }
+        .budget-table .up { color: var(--success-color); font-weight: 700; }
+        .table-scroll { overflow-x: auto; }
+
+        /* Sliders */
+        .slider-container { margin: 1.25rem 0; }
+        .slider-container label { display: block; font-family: var(--font-heading); font-size: 0.88rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-secondary); }
+        input[type="range"] { width: 100%; height: 8px; border-radius: 4px; background: var(--border-color); outline: none; -webkit-appearance: none; appearance: none; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--accent-color); cursor: pointer; border: 3px solid var(--card-bg); box-shadow: 0 2px 6px rgba(0,0,0,0.25); }
+        input[type="range"]::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: var(--accent-color); cursor: pointer; border: 3px solid var(--card-bg); }
+        .slider-value { font-family: var(--font-mono); font-size: 1.1rem; color: var(--accent-color); font-weight: 700; margin-top: 0.5rem; }
+
+        /* Result / chart box */
+        .result-box { background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem 1.5rem; margin: 1.25rem 0; }
+        .result-box h4 { font-family: var(--font-heading); font-size: 1rem; margin-bottom: 0.75rem; color: var(--text-primary); }
+        .result-box p { color: var(--text-secondary); font-size: 0.92rem; margin-bottom: 0.35rem; }
+        .result-box strong { color: var(--text-primary); }
+        .big-figure { font-size: 2rem; font-weight: 700; font-family: var(--font-heading); color: var(--accent-color); }
+
+        /* Exercise / quiz */
+        .exercise { background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; margin: 1.5rem 0; }
+        .exercise-question { font-family: var(--font-heading); font-size: 1rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary); }
+        .option { display: block; padding: 0.8rem 1rem; margin: 0.5rem 0; background: var(--card-bg); border: 2px solid var(--border-color); border-radius: 8px; cursor: pointer; transition: all 0.2s; color: var(--text-secondary); font-size: 0.92rem; }
+        .option:hover { border-color: var(--accent-color); }
+        .option.correct { border-color: var(--success-color); background: rgba(16,185,129,0.12); color: var(--text-primary); }
+        .option.incorrect { border-color: var(--danger-color); background: rgba(239,68,68,0.10); color: var(--text-primary); }
+        .feedback { margin-top: 0.75rem; padding: 0.85rem 1rem; border-radius: 8px; display: none; font-size: 0.9rem; }
+        .feedback.show { display: block; }
+        .feedback.correct { background: rgba(16,185,129,0.12); color: var(--text-primary); border-left: 3px solid var(--success-color); }
+        .feedback.incorrect { background: rgba(239,68,68,0.10); color: var(--text-primary); border-left: 3px solid var(--danger-color); }
+
+        /* Reveal cards */
+        .scheme-card { border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; margin: 0.75rem 0; background: var(--card-bg); cursor: pointer; transition: all 0.2s; }
+        .scheme-card:hover { border-color: var(--accent-color); box-shadow: 0 4px 14px rgba(15,23,42,0.08); }
+        .scheme-card.selected { border-color: var(--accent-color); background: rgba(14,165,233,0.06); }
+        .scheme-card h4 { font-family: var(--font-heading); color: var(--accent-color); margin-bottom: 0.4rem; font-size: 1rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+        .scheme-card p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.35rem; }
+        .scheme-card .meta { font-size: 0.82rem; color: var(--text-muted); }
+        .scheme-card .reveal-hint { font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
+
+        /* DPI stat chips (inside reveal cards) */
+        .stat-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.6rem; }
+        .stat-chip { background: var(--secondary-bg); border: 1px solid var(--border-color); padding: 5px 11px; border-radius: 7px; font-size: 0.8rem; font-family: var(--font-mono); color: var(--text-secondary); }
+        .stat-chip strong { color: var(--accent-color); }
+
+        /* Layer diagram (stacked DPI layers, tinted ImpactMojo vars) */
+        .layer-diagram { display: flex; flex-direction: column; gap: 1.35rem; margin: 1.75rem 0 1.25rem; padding: 1.25rem; background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 12px; }
+        .layer { padding: 0.95rem 1.1rem; border-radius: 10px; text-align: center; font-family: var(--font-heading); font-size: 0.9rem; position: relative; border: 1px solid var(--border-color); color: var(--text-primary); }
+        .layer small { display: block; font-family: var(--font-sans); font-weight: 400; font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.25rem; }
+        .layer::after { content: '\2193'; position: absolute; bottom: -1.15rem; left: 50%; transform: translateX(-50%); color: var(--text-muted); font-size: 1.15rem; }
+        .layer:last-child::after { display: none; }
+        .layer-id       { background: rgba(14,165,233,0.14);  border-color: rgba(14,165,233,0.40); }
+        .layer-payments { background: rgba(16,185,129,0.14);  border-color: rgba(16,185,129,0.40); }
+        .layer-data     { background: rgba(245,158,11,0.14);  border-color: rgba(245,158,11,0.40); }
+        .layer-consent  { background: rgba(99,102,241,0.14);  border-color: rgba(99,102,241,0.40); }
+        .layer-apps     { background: rgba(2,132,199,0.14);   border-color: rgba(2,132,199,0.40); }
+        .layer strong { color: var(--text-primary); }
+
+        /* Checklists */
+        .checklist { list-style: none; margin: 0.75rem 0; }
+        .checklist li { padding: 0.55rem 0 0.55rem 2rem; position: relative; cursor: pointer; color: var(--text-secondary); font-size: 0.92rem; border-radius: 6px; transition: background 0.15s; }
+        .checklist li:hover { background: var(--hover-bg); }
+        .checklist li::before { content: '\2610'; position: absolute; left: 0.4rem; top: 0.45rem; font-size: 1.2rem; color: var(--text-muted); line-height: 1; }
+        .checklist li.checked::before { content: '\2611'; color: var(--success-color); }
+        .checklist li.checked { color: var(--text-muted); text-decoration: line-through; }
+
+        /* Scenario boxes (reuse result-box family) */
+        .scenario-box { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem 1.5rem; margin: 1rem 0; }
+        .scenario-box h4 { font-family: var(--font-heading); color: var(--accent-color); margin-bottom: 0.6rem; font-size: 1rem; }
+        .scenario-box ul { margin: 0.4rem 0 0.4rem 1.35rem; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.8; }
+        .scenario-box strong { color: var(--text-primary); }
+
+        /* Tags */
+        .tag { display: inline-block; padding: 4px 12px; background: rgba(14,165,233,0.12); color: var(--accent-color); border-radius: 12px; font-size: 0.78rem; font-family: var(--font-heading); font-weight: 600; margin: 4px 4px 4px 0; }
+
+        /* Completion */
+        .completion-badge { text-align: center; padding: 2.5rem 1.5rem; background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 16px; margin: 1rem 0; }
+        .completion-badge .tick { width: 72px; height: 72px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; }
+        .completion-badge .tick svg { width: 38px; height: 38px; stroke: #fff; }
+        .completion-badge h2 { font-family: var(--font-heading); color: var(--text-primary); font-size: 1.6rem; margin-bottom: 0.75rem; }
+        .completion-badge p { color: var(--text-secondary); max-width: 560px; margin: 0 auto; }
+        .takeaway-list { text-align: left; max-width: 560px; margin: 1.25rem auto; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.9; padding-left: 1.25rem; }
+        .next-steps { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
+
+        /* Buttons + nav */
+        .btn { padding: 0.7rem 1.5rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--secondary-bg); color: var(--text-primary); font-size: 0.9rem; font-family: var(--font-sans); cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.4rem; text-decoration: none; }
+        .btn:hover { border-color: var(--accent-color); background: var(--hover-bg); }
+        .btn-primary { background: var(--accent-color); border-color: var(--accent-color); color: #fff; font-weight: 600; }
+        .btn-primary:hover { background: var(--accent-hover); color: #fff; }
+        .nav-row { display: flex; justify-content: space-between; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); gap: 1rem; }
+        ul.body-list { margin: 0.5rem 0 0.75rem 1.5rem; color: var(--text-secondary); font-size: 0.92rem; line-height: 1.8; }
+
+        .v3-inline-icon { width: 16px; height: 16px; vertical-align: middle; display: inline-block; }
+        .v3-paper-plane { position: fixed; top: 15%; right: 6%; width: 130px; height: 130px; opacity: 0.18; z-index: 0; pointer-events: none; animation: v3-float-plane 25s ease-in-out infinite; }
+        @keyframes v3-float-plane { 0% { transform: translate(0,0) rotate(0deg);} 20% { transform: translate(-50px,40px) rotate(10deg);} 40% { transform: translate(100px,30px) rotate(-8deg);} 60% { transform: translate(40px,60px) rotate(15deg);} 80% { transform: translate(-30px,-40px) rotate(-12deg);} 100% { transform: translate(0,0) rotate(0deg);} }
+        @media (prefers-reduced-motion: reduce) { .v3-paper-plane { animation: none !important; } .tab-panel { animation: none; } }
+
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            .v3-paper-plane { width: 90px; height: 90px; opacity: 0.12; }
+            .budget-table { font-size: 0.82rem; }
+            .budget-table th, .budget-table td { padding: 0.5rem 0.55rem; }
+        }
+        @media print {
+            body { background: #fff; color: #000; }
+            .top-controls, .back-link, .tabs, .nav-row, .btn, .im-topbar, .v3-paper-plane { display: none !important; }
+            .tab-panel { display: block !important; page-break-inside: avoid; margin-bottom: 2rem; }
+        }
+    </style>
+<style>
+/* ===== ImpactMojo Design System (topbar / footer) ===== */
+:root {
+    --im-primary-bg: #0F172A; --im-secondary-bg: #1E293B; --im-accent: #0EA5E9; --im-accent-hover: #0284C7;
+    --im-secondary-accent: #6366F1; --im-success: #10B981; --im-text-primary: #F1F5F9; --im-text-secondary: #94A3B8;
+    --im-text-muted: #64748B; --im-card-bg: #1E293B; --im-hover-bg: #334155; --im-border: #334155;
+    --im-nav-bg: rgba(15, 23, 42, 0.95); --im-gradient: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+}
+[data-theme="light"] {
+    --im-primary-bg: #F8FAFC; --im-secondary-bg: #FFFFFF; --im-accent: #0284C7; --im-accent-hover: #0369A1;
+    --im-text-primary: #0F172A; --im-text-secondary: #475569; --im-text-muted: #64748B; --im-card-bg: #FFFFFF;
+    --im-hover-bg: #F1F5F9; --im-border: #E2E8F0; --im-nav-bg: rgba(248, 250, 252, 0.95);
+}
+.im-topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 9999; background: var(--im-nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--im-border); padding: 0.5rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; font-family: 'Inter', sans-serif; }
+.im-topbar a { text-decoration: none; }
+.im-topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+.im-topbar-home { display: flex; align-items: center; gap: 0.5rem; color: var(--im-text-primary); font-weight: 700; font-size: 1rem; background: var(--im-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.im-topbar-home svg { width: 24px; height: 24px; flex-shrink: 0; }
+.im-topbar-right { display: flex; align-items: center; gap: 0.5rem; }
+.im-premium-btn { background: var(--im-gradient); color: #fff !important; padding: 0.35rem 0.85rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 0.35rem; transition: opacity 0.2s; -webkit-text-fill-color: #fff; }
+.im-premium-btn:hover { opacity: 0.9; }
+.im-premium-btn svg { width: 14px; height: 14px; }
+.im-browse-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--im-text-primary); background: var(--im-card-bg); border: 1.5px solid var(--im-border); padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; transition: all 0.18s ease; }
+.im-browse-btn:hover { background: var(--im-accent); color: #FFFFFF; border-color: var(--im-accent); transform: translateY(-1px); }
+.im-browse-btn svg { width: 14px; height: 14px; }
+.im-theme-selector { display: flex; gap: 2px; background: var(--im-card-bg); border: 1px solid var(--im-border); border-radius: 8px; padding: 2px; }
+.im-theme-btn { background: transparent; border: none; color: var(--im-text-secondary); padding: 6px; border-radius: 5px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; }
+.im-theme-btn:hover { background: var(--im-hover-bg); color: var(--im-text-primary); }
+.im-theme-btn.active { background: var(--im-accent); color: #fff; }
+.im-theme-btn svg { width: 16px; height: 16px; }
+.im-footer { background: var(--im-secondary-bg); border-top: 1px solid var(--im-border); padding: 2rem 1rem; margin-top: 3rem; font-family: 'Inter', sans-serif; color: var(--im-text-secondary); }
+.im-footer-content { max-width: 1100px; margin: 0 auto; }
+.im-footer-made { text-align: center; margin-bottom: 1.5rem; font-size: 0.9rem; color: var(--im-text-muted); }
+.im-footer-made a { color: var(--im-accent); }
+.im-footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem; }
+.im-footer-section h4 { color: var(--im-text-primary); font-size: 0.9rem; margin-bottom: 0.75rem; font-weight: 600; }
+.im-footer-section ul { list-style: none; padding: 0; margin: 0; }
+.im-footer-section li { margin-bottom: 0.4rem; }
+.im-footer-section a { color: var(--im-text-secondary); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+.im-footer-section a:hover { color: var(--im-accent); }
+.im-footer-bottom { text-align: center; padding-top: 1rem; border-top: 1px solid var(--im-border); font-size: 0.8rem; color: var(--im-text-muted); }
+.im-footer-bottom p { margin: 0.25rem 0; }
+.im-footer-bottom a { color: var(--im-accent); text-decoration: none; }
+@media (max-width: 768px) {
+    .im-topbar { padding: 0.4rem 0.75rem; gap: 0.5rem; }
+    .im-topbar-home span { display: inline; font-size: 0.85rem; }
+    .im-footer-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+}
+@media (max-width: 480px) { .im-footer-grid { grid-template-columns: 1fr; } .im-topbar-home span { display: none; } }
+body { font-family: 'Amaranth', sans-serif; }
+h1, h2, h3, h4, h5, h6 { font-family: 'Inter', sans-serif; }
+code, pre, .monospace, kbd, samp { font-family: 'JetBrains Mono', monospace; }
+/* Body clears fixed im-topbar */
+body { padding-top: 56px; }
+@media (max-width: 768px) { body { padding-top: 52px; } }
+</style>
+<!-- SEO / social -->
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Digital Public Infrastructure Lab">
+<meta property="og:description" content="Understand India's Digital Public Infrastructure stack — Aadhaar, UPI, DigiLocker, ABHA, ONDC, Account Aggregators and the DPDP Act 2023 — and design DPI-enabled development programmes responsibly. A hands-on ImpactMojo lab.">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:url" content="https://www.impactmojo.in/Labs/dpi-lab.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ImpactMojo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Digital Public Infrastructure Lab">
+<meta name="twitter:description" content="Hands-on ImpactMojo lab: navigate India's DPI stack — Aadhaar, UPI, DigiLocker, ABHA, ONDC — and the DPDP Act 2023 for responsible programme design.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+</head>
+<body>
+<!-- ImpactMojo Top Bar -->
+<div class="im-topbar" id="imTopbar">
+    <div class="im-topbar-left">
+        <a href="../index.html" class="im-topbar-home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>ImpactMojo</span>
+        </a>
+    </div>
+    <div class="im-topbar-right">
+        <a href="/catalog.html" class="im-browse-btn" title="Browse all content"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Browse</a>
+        <a href="../premium.html" class="im-premium-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Premium
+        </a>
+        <div class="im-theme-selector" aria-label="Theme selection">
+            <button class="im-theme-btn" data-theme="system" title="System theme" aria-label="Use system theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </button>
+            <button class="im-theme-btn" data-theme="light" title="Light theme" aria-label="Use light theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </button>
+            <button class="im-theme-btn" data-theme="dark" title="Dark theme" aria-label="Use dark theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<a href="#main" class="back-link" style="position:absolute;left:-9999px;top:0;">Skip to content</a>
+<div class="container" id="main">
+    <svg class="v3-paper-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M80,130 L150,50" stroke="#10B981" stroke-width="2" stroke-dasharray="4,4"/>
+        <circle cx="150" cy="50" r="4" fill="#6366F1"/>
+    </svg>
+
+    <a href="../index.html" class="back-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+        Back to ImpactMojo
+    </a>
+
+    <div class="header">
+        <div class="header-badge"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Globe.svg" alt="" class="v3-inline-icon" loading="lazy" style="filter:brightness(0) saturate(100%) invert(56%) sepia(72%) saturate(2840%) hue-rotate(177deg) brightness(97%) contrast(93%)"> Interactive Lab</div>
+        <h1>Digital Public Infrastructure Lab</h1>
+        <p>Understand India's Digital Public Infrastructure stack — from Aadhaar and UPI to ONDC and beyond. Built for development practitioners navigating digital governance across South Asia.</p>
+    </div>
+
+    <div class="top-controls">
+        <button class="ctrl-btn" onclick="exportNotes()">Export notes</button>
+        <button class="ctrl-btn" onclick="window.print()">Print</button>
+    </div>
+
+    <div class="progress-bar"><div class="progress-bar-fill" id="progressFill"></div></div>
+
+    <div class="tabs" id="tabs">
+        <button class="tab-btn active" onclick="switchTab(0)"><span class="tab-num">1</span> What is DPI?</button>
+        <button class="tab-btn" onclick="switchTab(1)"><span class="tab-num">2</span> India's DPI Stack</button>
+        <button class="tab-btn" onclick="switchTab(2)"><span class="tab-num">3</span> Aadhaar Deep Dive</button>
+        <button class="tab-btn" onclick="switchTab(3)"><span class="tab-num">4</span> UPI &amp; Payments</button>
+        <button class="tab-btn" onclick="switchTab(4)"><span class="tab-num">5</span> Governance &amp; Risks</button>
+        <button class="tab-btn" onclick="switchTab(5)"><span class="tab-num">6</span> DPI for Development</button>
+        <button class="tab-btn" onclick="switchTab(6)"><span class="tab-num">7</span> Done</button>
+    </div>
+
+    <!-- ===== TAB 1: What is DPI? ===== -->
+    <div class="tab-panel active" data-panel="0">
+        <h2 class="section-title">What is Digital Public Infrastructure?</h2>
+        <p class="section-desc">DPI is the set of digital building blocks — identity, payments, data exchange, consent — that governments provide as public goods, enabling private innovation and public service delivery at scale.</p>
+
+        <div class="info-box">
+            <strong>Definition:</strong> Digital Public Infrastructure (DPI) refers to shared, interoperable digital rails — like identity, payments and consent-based data exchange — offered as public goods. Private apps and government services are built <em>on top</em> of these rails rather than each rebuilding them.
+        </div>
+
+        <h3 class="block-title">DPI vs. a regular digital service</h3>
+        <div class="table-scroll">
+        <table class="budget-table">
+            <tr><th>Feature</th><th>Private platform (e.g. Amazon, Google Pay)</th><th>Digital Public Infrastructure</th></tr>
+            <tr><td><strong>Ownership</strong></td><td>Private company</td><td>Government body or public trust</td></tr>
+            <tr><td><strong>Access</strong></td><td>Requires accepting terms; can exclude users</td><td>Aims for universal, rights-based access</td></tr>
+            <tr><td><strong>Data</strong></td><td>Held by the platform, often used for profit</td><td>Ideally citizen-controlled, consent-based</td></tr>
+            <tr><td><strong>Interoperability</strong></td><td>Walled gardens, proprietary</td><td>Open standards, interoperable</td></tr>
+            <tr><td><strong>Business model</strong></td><td>Profit-driven</td><td>Public good — free or subsidised</td></tr>
+            <tr><td><strong>Example</strong></td><td>Amazon Pay, PhonePe (private layer)</td><td>UPI (public rail), Aadhaar (public ID)</td></tr>
+        </table>
+        </div>
+
+        <div class="info-box success">
+            <strong>Why DPI matters for development:</strong> By reusing common rails, India has extended digital identity and payments to hundreds of millions of people at low marginal cost, and routed welfare through Direct Benefit Transfer (DBT). A 2025 government-cited assessment (BlueKraft) estimated cumulative DBT savings of about <strong>₹3.48 lakh crore</strong> between 2009 and 2024 from plugging leakages — food subsidies alone accounting for roughly ₹1.85 lakh crore.
+        </div>
+
+        <h3 class="block-title">The layered model of DPI</h3>
+        <p class="body-text">One common way to read a DPI stack is as layers — each layer depends on the one below it. Read from the foundation (identity) upward to the applications people actually touch.</p>
+        <div class="layer-diagram">
+            <div class="layer layer-apps">
+                <strong>Application layer</strong>
+                <small>Private apps, government portals, NGO tools — built on top of DPI</small>
+            </div>
+            <div class="layer layer-consent">
+                <strong>Governance &amp; consent layer</strong>
+                <small>Consent managers, data fiduciaries, privacy frameworks (DPDP Act)</small>
+            </div>
+            <div class="layer layer-data">
+                <strong>Data-exchange layer</strong>
+                <small>Account Aggregators, health records (ABDM), ONDC, DigiLocker</small>
+            </div>
+            <div class="layer layer-payments">
+                <strong>Payments layer</strong>
+                <small>UPI, IMPS, FASTag, BBPS — the payment rails</small>
+            </div>
+            <div class="layer layer-id">
+                <strong>Identity layer</strong>
+                <small>Aadhaar, e-KYC, digital signatures — the foundation</small>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-question">A state government wants to build a scholarship disbursement system. Which DPI layers would it use?</div>
+            <div class="option" onclick="selectOption(this, false, 'q1')">Only the application layer — build a custom app from scratch</div>
+            <div class="option" onclick="selectOption(this, true, 'q1')">Identity (Aadhaar e-KYC), payments (DBT/UPI), data exchange (DigiLocker for certificates), and an application-layer portal</div>
+            <div class="option" onclick="selectOption(this, false, 'q1')">Only the payments layer — UPI for transfers</div>
+            <div class="option" onclick="selectOption(this, false, 'q1')">Only the identity layer — Aadhaar verification</div>
+            <div class="feedback" id="fb-q1"></div>
+        </div>
+
+        <div class="nav-row">
+            <span></span>
+            <button class="btn btn-primary" onclick="switchTab(1)">Next: India's DPI Stack &rarr;</button>
+        </div>
+    </div>
+
+    <!-- ===== TAB 2: India's DPI Stack ===== -->
+    <div class="tab-panel" data-panel="1">
+        <h2 class="section-title">India's DPI Stack in Detail</h2>
+        <p class="section-desc">The "India Stack" is now studied and adapted worldwide, often with support from bodies like UNDP and the World Bank. Tap each block to select it and note the current scale.</p>
+
+        <div class="info-box">
+            <strong>How to read the figures:</strong> DPI numbers move fast and vary by source. The scale figures below are approximate, drawn from official and press reporting current to mid-2026 — always re-check against UIDAI, NPCI, MeitY, NHA and RBI dashboards before quoting.
+        </div>
+
+        <h3 class="block-title">The building blocks</h3>
+
+        <div class="scheme-card" onclick="toggleCard(this)">
+            <h4>Aadhaar &mdash; identity layer</h4>
+            <p>A 12-digit biometric-backed identity number. Enables e-KYC and yes/no authentication across services.</p>
+            <div class="stat-chips">
+                <span class="stat-chip"><strong>~1.42B</strong> numbers issued</span>
+                <span class="stat-chip"><strong>~99%</strong> of adults enrolled</span>
+                <span class="stat-chip"><strong>UIDAI</strong> authority</span>
+            </div>
+            <div class="meta">Launched 2009 &middot; Aadhaar Act 2016</div>
+        </div>
+
+        <div class="scheme-card" onclick="toggleCard(this)">
+            <h4>UPI &mdash; payments layer</h4>
+            <p>Unified Payments Interface: real-time interbank transfers via a mobile number, UPI ID or QR code. Operated by NPCI.</p>
+            <div class="stat-chips">
+                <span class="stat-chip"><strong>~23B</strong> transactions/month</span>
+                <span class="stat-chip"><strong>~₹29 lakh cr</strong> monthly value</span>
+                <span class="stat-chip"><strong>NPCI</strong> operator</span>
+            </div>
+            <div class="meta">Launched 2016 &middot; May 2026: ~23.2B transactions worth ~₹29.9 lakh crore (NPCI)</div>
+        </div>
+
+        <div class="scheme-card" onclick="toggleCard(this)">
+            <h4>DigiLocker &mdash; document layer</h4>
+            <p>A cloud document wallet where citizens store and share government-issued documents (marksheets, licences, certificates).</p>
+            <div class="stat-chips">
+                <span class="stat-chip"><strong>~67&ndash;70 cr</strong> users</span>
+                <span class="stat-chip"><strong>~850&ndash;950 cr</strong> documents issued</span>
+                <span class="stat-chip"><strong>125+</strong> issuers</span>
+            </div>
+            <div class="meta">Launched 2015 &middot; Ministry of Electronics &amp; IT (MeitY)</div>
+        </div>
+
+        <div class="scheme-card" onclick="toggleCard(this)">
+            <h4>ABHA / ABDM &mdash; health layer</h4>
+            <p>Ayushman Bharat Health Account: a 14-digit health ID under the Ayushman Bharat Digital Mission, linking health records with consent-based sharing.</p>
+            <div class="stat-chips">
+                <span class="stat-chip"><strong>~90 cr</strong> ABHA numbers</span>
+                <span class="stat-chip"><strong>ABDM</strong> framework</span>
+                <span class="stat-chip"><strong>NHA</strong> authority</span>
+            </div>
+            <div class="meta">ABDM launched 2021 &middot; ~90 cr ABHAs crossed in 2026 (NHA)</div>
+        </div>
+
+        <div class="scheme-card" onclick="toggleCard(this)">
+            <h4>ONDC &mdash; commerce layer</h4>
+            <p>Open Network for Digital Commerce: an open protocol for e-commerce, letting small retailers reach buyers across competing apps.</p>
+            <div class="stat-chips">
+                <span class="stat-chip"><strong>~7 lakh+</strong> sellers</span>
+                <span class="stat-chip"><strong>1,200+</strong> cities/towns</span>
+                <span class="stat-chip"><strong>Open</strong> protocol</span>
+            </div>
+            <div class="meta">Launched 2022 &middot; ONDC (Section 8 non-profit)</div>
+        </div>
+
+        <div class="scheme-card" onclick="toggleCard(this)">
+            <h4>Account Aggregator &mdash; consent layer</h4>
+            <p>Consent-based financial data sharing. Citizens control who can access which financial data, and for how long ("data empowerment").</p>
+            <div class="stat-chips">
+                <span class="stat-chip"><strong>~28 cr</strong> accounts linked by users</span>
+                <span class="stat-chip"><strong>~2.9B</strong> accounts enabled</span>
+                <span class="stat-chip"><strong>RBI</strong> regulated</span>
+            </div>
+            <div class="meta">Framework since 2016 &middot; ecosystem live from 2021 &middot; Regulator: RBI</div>
+        </div>
+
+        <h3 class="block-title">International comparisons <span class="illustrative-tag">Indicative</span></h3>
+        <div class="table-scroll">
+        <table class="budget-table">
+            <tr><th>Country</th><th>Identity</th><th>Payments</th><th>Data exchange</th><th>Character</th></tr>
+            <tr><td><strong>India</strong></td><td>Aadhaar</td><td>UPI</td><td>AA, ONDC, DigiLocker, ABDM</td><td>Broad, population-scale</td></tr>
+            <tr><td>Estonia</td><td>e-ID / e-Residency</td><td>SEPA</td><td>X-Road</td><td>Advanced, small population</td></tr>
+            <tr><td>Singapore</td><td>Singpass</td><td>PayNow</td><td>MyInfo, HealthHub</td><td>High quality, city-state</td></tr>
+            <tr><td>Kenya</td><td>Maisha Namba / Huduma</td><td>M-Pesa</td><td>Emerging</td><td>Mobile-money first</td></tr>
+            <tr><td>Brazil</td><td>CPF / Gov.br</td><td>Pix</td><td>Open Finance</td><td>Fast follower</td></tr>
+        </table>
+        </div>
+
+        <div class="nav-row">
+            <button class="btn" onclick="switchTab(0)">&larr; Back</button>
+            <button class="btn btn-primary" onclick="switchTab(2)">Next: Aadhaar Deep Dive &rarr;</button>
+        </div>
+    </div>
+
+    <!-- ===== TAB 3: Aadhaar Deep Dive ===== -->
+    <div class="tab-panel" data-panel="2">
+        <h2 class="section-title">Aadhaar &mdash; Promise, Peril, and Practice</h2>
+        <p class="section-desc">Aadhaar is the world's largest biometric ID system and the foundation of India's DPI. For practitioners it is impossible to ignore — and it carries real ethical and operational trade-offs.</p>
+
+        <div class="info-box">
+            <strong>Context:</strong> Around 1.42 billion Aadhaar numbers have been issued, covering roughly 99% of adults. Authentication returns a yes/no match — "is this person who they claim to be?" — rather than retrieving a full profile.
+        </div>
+
+        <h3 class="block-title">How Aadhaar works</h3>
+        <div class="layer-diagram">
+            <div class="layer layer-id">
+                <strong>1. Enrolment</strong>
+                <small>Biometrics (fingerprints, iris, photo) + demographics (name, address, DOB, gender)</small>
+            </div>
+            <div class="layer layer-payments">
+                <strong>2. De-duplication</strong>
+                <small>The system checks biometrics against existing records to keep each number unique</small>
+            </div>
+            <div class="layer layer-data">
+                <strong>3. Authentication</strong>
+                <small>A yes/no match at the point of service — not a full identity lookup</small>
+            </div>
+            <div class="layer layer-apps">
+                <strong>4. Usage</strong>
+                <small>DBT, e-KYC, ration portability, bank accounts, SIM, and more</small>
+            </div>
+        </div>
+
+        <h3 class="block-title">The development case for Aadhaar</h3>
+        <div class="scenario-box">
+            <h4>What Aadhaar has enabled <span class="illustrative-tag">Tap items to check</span></h4>
+            <ul class="checklist">
+                <li onclick="this.classList.toggle('checked')">De-duplication helped weed out fake and duplicate beneficiaries across schemes; government-cited estimates put cumulative DBT savings at ~₹3.48 lakh crore (2009&ndash;2024), food subsidies contributing ~₹1.85 lakh crore</li>
+                <li onclick="this.classList.toggle('checked')">Direct Benefit Transfer (DBT) routes payments to bank accounts, reducing layers of intermediaries</li>
+                <li onclick="this.classList.toggle('checked')">Aadhaar-linked accounts sped up MGNREGA wage payments and improved on-time transfer rates</li>
+                <li onclick="this.classList.toggle('checked')">"One Nation One Ration Card" lets migrants draw PDS rations away from home</li>
+                <li onclick="this.classList.toggle('checked')">Provided a verifiable identity to many people who previously lacked any government ID</li>
+            </ul>
+        </div>
+
+        <h3 class="block-title">The concerns</h3>
+        <div class="scenario-box">
+            <h4>What practitioners must watch <span class="illustrative-tag">Tap items to check</span></h4>
+            <ul class="checklist">
+                <li onclick="this.classList.toggle('checked')">Exclusion errors: fingerprint authentication can fail for manual labourers and the elderly (worn prints), risking denial of benefits</li>
+                <li onclick="this.classList.toggle('checked')">Privacy &amp; surveillance risk: a single ID linked across databases raises profiling and data-security concerns</li>
+                <li onclick="this.classList.toggle('checked')">Coercion in practice: services sometimes demand Aadhaar even where it is not legally required</li>
+                <li onclick="this.classList.toggle('checked')">Digital divide: elderly, disabled and remote populations struggle with biometric authentication</li>
+                <li onclick="this.classList.toggle('checked')">Seeding errors: a wrong Aadhaar-to-account link can misdirect a benefit to the wrong person</li>
+            </ul>
+        </div>
+
+        <div class="info-box warning">
+            <strong>On the "2018 breach" claim &mdash; get this right.</strong> In January 2018, <em>The Tribune</em> reported that, for ₹500 paid to anonymous sellers on WhatsApp, a reporter obtained login credentials to a portal that could return demographic details tied to Aadhaar numbers. This was <strong>unauthorised access to a search facility</strong> (credential misuse via rogue operators), not a verified dump of "1.1 billion records" from the central biometric database. UIDAI publicly <strong>denied any breach of its core biometric data</strong> and controversially filed an FIR against the journalist. The accurate framing: a serious access-control and credential-misuse lapse was exposed; a mass exfiltration of biometrics was not established.
+        </div>
+
+        <div class="info-box">
+            <strong>Supreme Court &mdash; Puttaswamy / Aadhaar judgment (26 Sept 2018):</strong> A five-judge bench upheld the Aadhaar Act by 4:1. It <strong>upheld Section 7</strong> (Aadhaar may be required for subsidies, benefits and services funded from the Consolidated Fund), but <strong>struck down</strong> mandatory Aadhaar&ndash;bank and Aadhaar&ndash;SIM linking, and read down <strong>Section 57</strong> so private companies cannot demand Aadhaar without a law. This built on the 2017 nine-judge ruling that privacy is a fundamental right. Practical takeaway: don't force Aadhaar where the law doesn't require it, and always offer an alternative.
+        </div>
+
+        <h3 class="block-title">Exercise: Aadhaar in your programme</h3>
+        <div class="exercise">
+            <div class="exercise-question">You are designing a cash-transfer programme for elderly widows in rural Rajasthan. A meaningful share of beneficiaries fail fingerprint authentication due to worn prints. What should you do? <span class="illustrative-tag">Illustrative</span></div>
+            <div class="option" onclick="selectOption(this, false, 'q2')">Disqualify them — Aadhaar is mandatory and they can re-enrol later</div>
+            <div class="option" onclick="selectOption(this, true, 'q2')">Use alternative authentication (OTP, face auth, manual override), and record exclusion errors in your M&amp;E</div>
+            <div class="option" onclick="selectOption(this, false, 'q2')">Abandon digital transfer and switch everyone back to physical cash</div>
+            <div class="option" onclick="selectOption(this, false, 'q2')">Wait for UIDAI to fix biometrics before launching</div>
+            <div class="feedback" id="fb-q2"></div>
+        </div>
+
+        <div class="nav-row">
+            <button class="btn" onclick="switchTab(1)">&larr; Back</button>
+            <button class="btn btn-primary" onclick="switchTab(3)">Next: UPI &amp; Payments &rarr;</button>
+        </div>
+    </div>
+
+    <!-- ===== TAB 4: UPI & Payments ===== -->
+    <div class="tab-panel" data-panel="3">
+        <h2 class="section-title">UPI and the Payments Revolution</h2>
+        <p class="section-desc">UPI is the payments rail that most visibly changed everyday transactions in India — and the backbone of many DBT-based schemes.</p>
+
+        <div class="info-box">
+            <strong>Scale:</strong> By 2026, UPI was processing roughly <strong>23 billion transactions a month</strong> (about ₹29 lakh crore in value), from a standing start in 2016 — among the world's largest real-time payment systems by volume.
+        </div>
+
+        <h3 class="block-title">How UPI works (simplified)</h3>
+        <div class="layer-diagram">
+            <div class="layer layer-apps">
+                <strong>1. You scan a QR / enter a UPI ID</strong>
+                <small>Any UPI app — PhonePe, Google Pay, Paytm, or a bank app</small>
+            </div>
+            <div class="layer layer-data">
+                <strong>2. NPCI's UPI switch routes the request</strong>
+                <small>It reaches your bank and the recipient's bank in real time</small>
+            </div>
+            <div class="layer layer-payments">
+                <strong>3. Banks settle</strong>
+                <small>Actual money movement is settled between banks in the background</small>
+            </div>
+            <div class="layer layer-id">
+                <strong>4. Both parties notified</strong>
+                <small>The transaction typically completes within seconds</small>
+            </div>
+        </div>
+
+        <h3 class="block-title">UPI &amp; DBT for development</h3>
+        <div class="table-scroll">
+        <table class="budget-table">
+            <tr><th>Use case</th><th>Before</th><th>After UPI / DBT</th><th>Effect</th></tr>
+            <tr><td>PM-KISAN (farmer support)</td><td>Cheques / cash via intermediaries, delays</td><td>Direct bank transfer, often same-day</td><td>~₹6,000/yr to ~9.7 cr farmers; fewer intermediaries</td></tr>
+            <tr><td>MGNREGA wages</td><td>Transfers via block office, long delays</td><td>Aadhaar-linked DBT with time-bound release</td><td>Higher on-time payment rates</td></tr>
+            <tr><td>Scholarships</td><td>Manual disbursement, institutional capture</td><td>Direct to student's account, Aadhaar-seeded</td><td>Faster, more traceable</td></tr>
+            <tr><td>PM-SVANidhi (vendor loans)</td><td>Branch visits, paperwork, collateral</td><td>Digital application, digital disbursement</td><td>Reaches many first-time borrowers</td></tr>
+            <tr><td>NGO field expenses</td><td>Cash handling, reimbursement lag</td><td>UPI to field staff, instant reconciliation</td><td>Lower cash risk, better audit trail</td></tr>
+        </table>
+        </div>
+
+        <div class="info-box warning">
+            <strong>The digital divide is real:</strong> UPI generally needs a smartphone and connectivity. Feature-phone options (USSD *99#) exist but are clunky, and connectivity is patchy in many areas. Always design a non-digital fallback for the least-connected part of your target population.
+        </div>
+
+        <h3 class="block-title">Interactive: DBT leakage-savings model <span class="illustrative-tag">Illustrative model</span></h3>
+        <p class="body-text">Move the sliders to build intuition about how much leakage DBT + Aadhaar + UPI <em>could</em> prevent. These are teaching assumptions, not a claim about any specific scheme — real leakage varies enormously by programme and context.</p>
+
+        <div class="slider-container">
+            <label>Total scheme budget (₹ crore)</label>
+            <input type="range" id="dbtBudget" min="100" max="10000" value="1000" oninput="updateDBT()">
+            <div class="slider-value" id="dbtBudgetVal">₹1,000 cr</div>
+        </div>
+        <div class="slider-container">
+            <label>Assumed leakage in the old cash/manual system (%)</label>
+            <input type="range" id="leakageRate" min="0" max="60" value="35" oninput="updateDBT()">
+            <div class="slider-value" id="leakageVal">35%</div>
+        </div>
+        <div class="slider-container">
+            <label>Reduction in leakage from DBT + Aadhaar (%)</label>
+            <input type="range" id="dbtReduction" min="0" max="100" value="60" oninput="updateDBT()">
+            <div class="slider-value" id="reductionVal">60%</div>
+        </div>
+
+        <div class="result-box" id="dbtResult">
+            <h4>Modelled result</h4>
+            <p>Original leakage: <strong id="origLeak">₹350 cr</strong></p>
+            <p>After DBT + Aadhaar: <strong id="newLeak">₹140 cr</strong></p>
+            <p style="margin-top:0.5rem;">Estimated recovery: <span class="big-figure" id="savings">₹210 cr</span></p>
+            <p style="color:var(--text-muted);">That is <strong id="savingsPercent">21%</strong> of the total budget recovered (in this illustrative model)</p>
+        </div>
+
+        <div class="nav-row">
+            <button class="btn" onclick="switchTab(2)">&larr; Back</button>
+            <button class="btn btn-primary" onclick="switchTab(4)">Next: Governance &amp; Risks &rarr;</button>
+        </div>
+    </div>
+
+    <!-- ===== TAB 5: Governance & Risks ===== -->
+    <div class="tab-panel" data-panel="4">
+        <h2 class="section-title">Governance, Privacy, and the DPDP Act</h2>
+        <p class="section-desc">India's Digital Personal Data Protection (DPDP) Act, 2023 is its first comprehensive data-protection law. It governs how organisations — public and private — collect and process personal data. Tap each provision to select it.</p>
+
+        <div class="info-box">
+            <strong>Legal framework:</strong> The DPDP Act 2023 was passed in 2023; the accompanying DPDP Rules were finalised in 2025, with most substantive compliance obligations phasing in over roughly 18 months (into 2027). Penalties for serious breaches can run up to ₹250 crore.
+        </div>
+
+        <h3 class="block-title">Key provisions of the DPDP Act 2023</h3>
+        <div class="scheme-card" onclick="toggleCard(this)">
+            <h4>1. Consent is required</h4>
+            <p>Personal data must generally be processed on <strong>free, specific, informed, unconditional and unambiguous</strong> consent given by clear affirmative action, with a plain-language notice. Consent can be withdrawn.</p>
+            <div class="meta"><strong>For practitioners:</strong> Build a clear consent step and privacy notice into your data-collection forms, and let people withdraw consent.</div>
+        </div>
+
+        <div class="scheme-card" onclick="toggleCard(this)">
+            <h4>2. Data fiduciaries</h4>
+            <p>Any entity that decides the purpose and means of processing personal data is a "Data Fiduciary" with legal obligations for security, purpose limitation and deletion once the purpose is served.</p>
+            <div class="meta"><strong>For practitioners:</strong> If your NGO collects beneficiary data, you are likely a Data Fiduciary — you need security measures, a grievance route, and a breach response.</div>
+        </div>
+
+        <div class="scheme-card" onclick="toggleCard(this)">
+            <h4>3. Children's data</h4>
+            <p>Processing a child's data (<strong>under 18</strong>) requires <strong>verifiable parental/guardian consent</strong>. Behavioural monitoring and targeted advertising directed at children are prohibited. Certain bodies (e.g. schools, healthcare) may get calibrated relief under the Rules.</p>
+            <div class="meta"><strong>For practitioners:</strong> Working with minors means obtaining verifiable parental consent for photos, surveys and any data collection.</div>
+        </div>
+
+        <div class="scheme-card" onclick="toggleCard(this)">
+            <h4>4. Government exemptions</h4>
+            <p>The central government may exempt its agencies from provisions on grounds such as security of the state and public order. Civil-society groups have flagged this as a significant carve-out.</p>
+            <div class="meta"><strong>For practitioners:</strong> Government programmes may collect more data than a private body could — advocate for data minimisation even where an exemption technically applies.</div>
+        </div>
+
+        <div class="scheme-card" onclick="toggleCard(this)">
+            <h4>5. Rights of data principals</h4>
+            <p>Individuals ("Data Principals") have rights to access information about processing, seek correction and erasure, grievance redressal, and nominate someone to exercise rights on their behalf.</p>
+            <div class="meta"><strong>For practitioners:</strong> Beneficiaries can ask what data you hold and request corrections — have a simple process ready.</div>
+        </div>
+
+        <h3 class="block-title">DPI risk-assessment framework</h3>
+        <p class="body-text">Before implementing any DPI-dependent programme, work through these questions.</p>
+        <div class="table-scroll">
+        <table class="budget-table">
+            <tr><th>Risk</th><th>Questions to ask</th><th>Mitigation</th></tr>
+            <tr><td><strong>Exclusion</strong></td><td>Who lacks Aadhaar / a smartphone / connectivity? What share of your target group?</td><td>Alternative authentication, offline fallback, assisted enrolment</td></tr>
+            <tr><td><strong>Privacy</strong></td><td>What data are you collecting? Is it necessary? Who can access it?</td><td>Data minimisation, encryption, access controls, DPDP compliance</td></tr>
+            <tr><td><strong>Surveillance</strong></td><td>Could this data be used to track, profile or discriminate?</td><td>Purpose limitation, aggregation, anonymisation where possible</td></tr>
+            <tr><td><strong>Vendor lock-in</strong></td><td>Are you dependent on a single platform or provider?</td><td>Open standards, interoperability, data portability</td></tr>
+            <tr><td><strong>Digital literacy</strong></td><td>Can beneficiaries understand and control their digital footprint?</td><td>Literacy support, simple interfaces, helplines</td></tr>
+            <tr><td><strong>System failure</strong></td><td>What happens when servers are down or biometrics fail?</td><td>Offline modes, manual override, contingency budget</td></tr>
+        </table>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-question">Your NGO wants to use Aadhaar e-KYC to verify beneficiaries for a nutrition programme. A village elder refuses, saying "the government already knows too much." What is the right response? <span class="illustrative-tag">Illustrative</span></div>
+            <div class="option" onclick="selectOption(this, false, 'q3')">Insist — Aadhaar is mandatory for government schemes, so refusal means exclusion</div>
+            <div class="option" onclick="selectOption(this, true, 'q3')">Offer alternative verification (ration card, voter ID, community verification) and document the consent/refusal</div>
+            <div class="option" onclick="selectOption(this, false, 'q3')">Exclude them — if they don't trust the system, they don't get benefits</div>
+            <div class="option" onclick="selectOption(this, false, 'q3')">Report them to the district administration for non-cooperation</div>
+            <div class="feedback" id="fb-q3"></div>
+        </div>
+
+        <div class="nav-row">
+            <button class="btn" onclick="switchTab(3)">&larr; Back</button>
+            <button class="btn btn-primary" onclick="switchTab(5)">Next: DPI for Development &rarr;</button>
+        </div>
+    </div>
+
+    <!-- ===== TAB 6: DPI for Development ===== -->
+    <div class="tab-panel" data-panel="5">
+        <h2 class="section-title">Designing DPI-Enabled Development Programmes</h2>
+        <p class="section-desc">This module brings everything together: how to design a programme that harnesses DPI's benefits while managing its risks — always with a fallback for the excluded.</p>
+
+        <div class="info-box"><strong>Case study:</strong> A state wants to digitise its post-matric scholarship for SC/ST students. Here is how a DPI-aware practitioner would design it, layer by layer, with a fallback at every step. <span class="illustrative-tag">Illustrative scenario</span></div>
+
+        <div class="scenario-box">
+            <h4>Step 1 &mdash; Identity &amp; eligibility</h4>
+            <p><strong>DPI layers:</strong> Aadhaar + DigiLocker</p>
+            <ul>
+                <li>Student's Aadhaar &rarr; e-KYC verifies identity</li>
+                <li>Caste and income certificates pulled from DigiLocker auto-verify eligibility</li>
+                <li><strong>Fallback:</strong> assisted manual verification for students without Aadhaar/DigiLocker</li>
+            </ul>
+        </div>
+
+        <div class="scenario-box">
+            <h4>Step 2 &mdash; Application &amp; processing</h4>
+            <p><strong>DPI layers:</strong> DigiLocker + state portal</p>
+            <ul>
+                <li>Single-window portal — no repeated document submission</li>
+                <li>DigiLocker integration pulls documents automatically</li>
+                <li>Real-time application tracking for students</li>
+                <li><strong>Fallback:</strong> Common Service Centres (CSCs) for students without internet</li>
+            </ul>
+        </div>
+
+        <div class="scenario-box">
+            <h4>Step 3 &mdash; Disbursement</h4>
+            <p><strong>DPI layers:</strong> DBT + UPI + Aadhaar-linked account</p>
+            <ul>
+                <li>Scholarship credited to the student's Aadhaar-seeded bank account</li>
+                <li>Instant notification to the student's mobile</li>
+                <li>Reconciliation via the Public Financial Management System (PFMS)</li>
+                <li><strong>Fallback:</strong> alternative payout for students without a bank account</li>
+            </ul>
+        </div>
+
+        <div class="scenario-box">
+            <h4>Step 4 &mdash; Monitoring &amp; grievance</h4>
+            <p><strong>DPI layers:</strong> dashboard + grievance portal</p>
+            <ul>
+                <li>Live dashboard: applied / processed / disbursed / pending</li>
+                <li>Auto-alerts when a case breaches its service-level deadline</li>
+                <li>Grievance portal with ticket tracking</li>
+                <li><strong>Fallback:</strong> toll-free helpline and district help desks</li>
+            </ul>
+        </div>
+
+        <h3 class="block-title">Your design exercise <span class="illustrative-tag">Illustrative</span></h3>
+        <p class="body-text">Design a digital maternal-health programme for pregnant women in rural Bihar offering: a ₹5,000 conditional cash transfer for antenatal care (in instalments), transport to hospital for delivery, and post-natal home visits by an ASHA worker. Map it to the DPI stack, then reveal a model answer.</p>
+
+        <div class="scheme-card" onclick="toggleCard(this)">
+            <h4>Reveal a model answer <span class="reveal-hint">tap to reveal</span></h4>
+            <p><strong>Identity:</strong> Aadhaar + ABHA for linking health records with consent</p>
+            <p><strong>Eligibility:</strong> integrate with a maternity-benefit scheme (e.g. PMMVY) and pregnancy registration by the ANM</p>
+            <p><strong>Payments:</strong> DBT to an Aadhaar-linked account via PFMS, with a mobile notification</p>
+            <p><strong>Transport:</strong> integrate the 102/108 ambulance service</p>
+            <p><strong>Monitoring:</strong> ABHA-linked records + an ASHA app to log visits</p>
+            <p><strong>Fallbacks:</strong> CSC-assisted enrolment; alternative payout for women without accounts; community verification where Aadhaar auth fails</p>
+            <p><strong>Privacy:</strong> encrypt health data, limit access to ANM/ASHA/medical officer, and take consent for each data share</p>
+        </div>
+
+        <div class="nav-row">
+            <button class="btn" onclick="switchTab(4)">&larr; Back</button>
+            <button class="btn btn-primary" onclick="switchTab(6)">Finish Lab &rarr;</button>
+        </div>
+    </div>
+
+    <!-- ===== TAB 7: Done ===== -->
+    <div class="tab-panel" data-panel="6">
+        <div class="completion-badge">
+            <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <h2>Lab complete</h2>
+            <p>You now understand India's Digital Public Infrastructure stack and can design programmes that use it responsibly, with fallbacks for those it might exclude.</p>
+            <ul class="takeaway-list">
+                <li>Explain DPI layers and how they build on one another</li>
+                <li>Map India's DPI stack (Aadhaar, UPI, DigiLocker, ABHA, ONDC, Account Aggregator)</li>
+                <li>Weigh Aadhaar's benefits and risks — and cite the 2018 events and Puttaswamy judgment accurately</li>
+                <li>Use UPI and DBT for faster, more traceable transfers</li>
+                <li>Apply the DPDP Act 2023 to your organisation's data practices</li>
+                <li>Design DPI-enabled programmes with ethical, non-digital fallbacks</li>
+            </ul>
+            <div>
+                <span class="tag">Digital Public Infrastructure</span>
+                <span class="tag">Aadhaar</span>
+                <span class="tag">UPI</span>
+                <span class="tag">Data Privacy</span>
+                <span class="tag">DPDP Act</span>
+                <span class="tag">South Asia</span>
+            </div>
+        </div>
+
+        <h3 class="block-title" style="text-align:center;">Recommended next steps</h3>
+        <div class="next-steps">
+            <a href="budget-fiscal-lab.html" class="btn btn-primary">Try the Budget &amp; Fiscal Analysis Lab &rarr;</a>
+            <a href="../index.html" class="btn">Explore more on ImpactMojo</a>
+        </div>
+
+        <div class="nav-row">
+            <button class="btn" onclick="switchTab(5)">&larr; Review</button>
+            <button class="btn" onclick="window.print()">Print / save as PDF</button>
+        </div>
+    </div>
+</div>
+
+<!-- ImpactMojo Footer -->
+<footer class="im-footer" role="contentinfo">
+<div class="im-footer-content">
+<p class="im-footer-made">Made with &#10084; by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+<div class="im-footer-grid">
+<div class="im-footer-section">
+<h4>Learn</h4>
+<ul>
+<li><a href="../courses.html">Courses</a></li>
+<li><a href="index.html">Interactive Labs</a></li>
+<li><a href="../Games/">Games</a></li>
+<li><a href="../catalog.html">Full Catalog</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4>Explore</h4>
+<ul>
+<li><a href="../index.html">Home</a></li>
+<li><a href="../blog.html">Blog</a></li>
+<li><a href="../BookSummaries/">Book Summaries</a></li>
+<li><a href="../premium.html">Premium</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4>About</h4>
+<ul>
+<li><a href="../about.html">About ImpactMojo</a></li>
+<li><a href="../contact.html">Contact</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4>Connect</h4>
+<ul>
+<li><a href="https://www.impactmojo.in">impactmojo.in</a></li>
+</ul>
+</div>
+</div>
+<div class="im-footer-bottom">
+<p>&copy; 2026 ImpactMojo. Free development education for South Asia.</p>
+<p><a href="../index.html">Home</a> &middot; <a href="index.html">Labs</a> &middot; <a href="../catalog.html">Catalog</a></p>
+</div>
+</div>
+</footer>
+
+<script>
+/* THEME (3-button: system / light / dark) */
+(function initTheme() {
+    var saved = localStorage.getItem('impactmojo-theme') || 'system';
+    applyTheme(saved);
+    document.querySelectorAll('.im-theme-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var theme = btn.dataset.theme;
+            localStorage.setItem('impactmojo-theme', theme);
+            applyTheme(theme);
+        });
+    });
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+        if ((localStorage.getItem('impactmojo-theme') || 'system') === 'system') applyTheme('system');
+    });
+})();
+function applyTheme(theme) {
+    var root = document.documentElement;
+    if (theme === 'light') { root.setAttribute('data-theme', 'light'); }
+    else if (theme === 'dark') { root.removeAttribute('data-theme'); }
+    else { if (window.matchMedia('(prefers-color-scheme: light)').matches) root.setAttribute('data-theme', 'light'); else root.removeAttribute('data-theme'); }
+    document.querySelectorAll('.im-theme-btn').forEach(function(b) { b.classList.toggle('active', b.dataset.theme === theme); });
+}
+
+/* TABS */
+var TOTAL_TABS = 7;
+var visited = { 0: true };
+function switchTab(idx) {
+    visited[idx] = true;
+    document.querySelectorAll('.tab-btn').forEach(function(b, i) {
+        b.classList.toggle('active', i === idx);
+        b.classList.toggle('completed', i < idx || (visited[i] && i !== idx));
+    });
+    document.querySelectorAll('.tab-panel').forEach(function(p, i) { p.classList.toggle('active', i === idx); });
+    document.getElementById('progressFill').style.width = ((idx + 1) / TOTAL_TABS * 100) + '%';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* QUIZ */
+function selectOption(el, isCorrect, group) {
+    var parent = el.closest('.exercise');
+    parent.querySelectorAll('.option').forEach(function(o) {
+        o.classList.remove('correct', 'incorrect');
+        o.style.pointerEvents = 'none';
+    });
+    el.classList.add(isCorrect ? 'correct' : 'incorrect');
+    var fb = parent.querySelector('.feedback');
+    fb.classList.add('show');
+    fb.classList.remove('correct', 'incorrect');
+    fb.classList.add(isCorrect ? 'correct' : 'incorrect');
+    fb.innerHTML = (isCorrect ? '✅ Correct. ' : '❌ Not quite. ') + explain(group);
+}
+function explain(group) {
+    if (group === 'q1') return 'A scholarship system needs identity (Aadhaar e-KYC), payment rails (DBT/UPI), document sharing (DigiLocker) and an application-layer portal. Composing public building blocks — rather than rebuilding each from scratch — is the whole point of DPI.';
+    if (group === 'q2') return 'Fingerprint failure is a known exclusion risk for manual labourers and the elderly. The lawful, ethical route is to offer alternative authentication (OTP, face auth, manual override) and record exclusion errors in your M&E. Following the Puttaswamy judgment, Aadhaar cannot be the sole gate to welfare.';
+    if (group === 'q3') return 'Consent is central under the DPDP Act 2023, and forcing Aadhaar where it is not legally mandated runs against both privacy rights and the Puttaswamy judgment. Offer an alternative and document the choice without penalising the person.';
+    return '';
+}
+
+/* REVEAL CARDS */
+function toggleCard(el) { el.classList.toggle('selected'); }
+
+/* DBT LEAKAGE-SAVINGS MODEL */
+function updateDBT() {
+    var budget = parseInt(document.getElementById('dbtBudget').value, 10);
+    var leakage = parseInt(document.getElementById('leakageRate').value, 10);
+    var reduction = parseInt(document.getElementById('dbtReduction').value, 10);
+    document.getElementById('dbtBudgetVal').textContent = '₹' + budget.toLocaleString('en-IN') + ' cr';
+    document.getElementById('leakageVal').textContent = leakage + '%';
+    document.getElementById('reductionVal').textContent = reduction + '%';
+    var origLeak = Math.round(budget * leakage / 100);
+    var newLeak = Math.round(origLeak * (100 - reduction) / 100);
+    var savings = origLeak - newLeak;
+    var savingsPercent = budget ? (savings / budget * 100).toFixed(1) : '0';
+    document.getElementById('origLeak').textContent = '₹' + origLeak.toLocaleString('en-IN') + ' cr';
+    document.getElementById('newLeak').textContent = '₹' + newLeak.toLocaleString('en-IN') + ' cr';
+    document.getElementById('savings').textContent = '₹' + savings.toLocaleString('en-IN') + ' cr';
+    document.getElementById('savingsPercent').textContent = savingsPercent + '%';
+}
+
+/* EXPORT NOTES */
+function exportNotes() {
+    var lines = [
+        'ImpactMojo — Digital Public Infrastructure Lab',
+        '================================================',
+        '',
+        'Key ideas:',
+        '- DPI = shared public rails (identity, payments, data exchange, consent)',
+        '- India stack: Aadhaar, UPI, DigiLocker, ABHA/ABDM, ONDC, Account Aggregator',
+        '- DBT + Aadhaar + UPI can reduce leakage; govt-cited cumulative DBT savings ~Rs 3.48 lakh crore (2009-2024)',
+        '- Aadhaar: real benefits AND real exclusion/privacy risks; always offer a fallback',
+        '- 2018 Tribune report = unauthorised portal/credential access, NOT a verified 1.1B-record biometric dump; UIDAI denied a breach',
+        '- Puttaswamy/Aadhaar judgment (26 Sep 2018): upheld Sec 7 (welfare); struck down mandatory bank/SIM linking and private-sector mandate (Sec 57)',
+        '- DPDP Act 2023: consent, data fiduciaries, children (<18, parental consent), govt exemptions, data-principal rights',
+        '',
+        'Reminder: figures marked "Illustrative" are teaching examples, not official data.',
+        'Re-verify DPI scale numbers against UIDAI, NPCI, MeitY, NHA and RBI dashboards.'
+    ].join('\n');
+    var blob = new Blob([lines], { type: 'text/plain' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'dpi-lab-notes.txt';
+    a.click();
+    URL.revokeObjectURL(a.href);
+}
+
+/* INIT */
+updateDBT();
+</script>
+</body>
+</html>
