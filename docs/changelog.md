@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.26 — July 1, 2026 (Research Question Builder now free to use)
+
+### For Learners
+
+- **The [Research Question Builder](https://www.impactmojo.in/premium-tools/rq-builder.html) is now free for everyone.** Move from a vague idea to a testable, fundable research question with the PICO and SPIDER frameworks, a quality checklist and method suggestions — no login needed. Exporting your finished question (copy or download) is the one Premium touch. It's the first of the pro tools moving to this free-to-use, premium-to-export model.
+- **One canonical sampling tool** — the old standalone Sample Size Calculator now redirects into the Sampling Design Studio, which does everything it did and more.
+
 ## v10.79.25 — July 1, 2026 (Sampling Studio: optimiser, validation, defend-note)
 
 ### For Learners
