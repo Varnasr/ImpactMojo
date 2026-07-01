@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#0F172A">
+<title>Sampling Toolkit — learn it, then design it | ImpactMojo</title>
+<meta name="description" content="The ImpactMojo Sampling Toolkit for MEL practitioners: a free plain-language primer to learn the ideas, then a guided studio to design and size a defensible sampling strategy. One front door to both.">
+<meta name="keywords" content="sampling, sample size, MEL, cluster sampling, margin of error, design effect, South Asia, ImpactMojo, sampling toolkit">
+<link rel="canonical" href="https://www.impactmojo.in/labs/sampling-toolkit.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sampling Toolkit — ImpactMojo">
+<meta property="og:description" content="Learn the ideas, then design a defensible sample. A free primer plus a guided design studio.">
+<meta property="og:url" content="https://www.impactmojo.in/labs/sampling-toolkit.html">
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JRCMEB9TBW');
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --primary-bg:#FFFFFF;--secondary-bg:#F8FAFC;--accent:#0EA5E9;--accent-hover:#0284C7;
+  --accent2:#6366F1;--success:#10B981;--warning:#F59E0B;--danger:#EF4444;
+  --ink:#0F172A;--muted:#475569;--faint:#52627A;--card:#FFFFFF;--hover:#F1F5F9;--border:#E2E8F0;
+  --grad:linear-gradient(135deg,#0EA5E9 0%,#6366F1 100%);
+  --font-sans:'Amaranth',sans-serif;--font-head:'Inter',sans-serif;--font-mono:'JetBrains Mono',monospace;
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme]){--primary-bg:#0F172A;--secondary-bg:#1E293B;--ink:#F1F5F9;--muted:#CBD5E1;--faint:#94A3B8;--card:#1E293B;--hover:#334155;--border:#334155;}}
+html.dark,[data-theme="dark"],body.dark-mode{--primary-bg:#0F172A;--secondary-bg:#1E293B;--ink:#F1F5F9;--muted:#CBD5E1;--faint:#94A3B8;--card:#1E293B;--hover:#334155;--border:#334155;}
+[data-theme="light"],body.light-mode{--primary-bg:#FFFFFF;--secondary-bg:#F8FAFC;--ink:#0F172A;--muted:#475569;--faint:#52627A;--card:#FFFFFF;--hover:#F1F5F9;--border:#E2E8F0;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--primary-bg);color:var(--ink);line-height:1.6;min-height:100vh}
+.container{max-width:960px;margin:0 auto;padding:2rem 1.25rem 4rem}
+a{color:var(--accent)}
+
+.im-topbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.55rem 1.25rem;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+.im-topbar a{text-decoration:none}
+.im-topbar-home{display:flex;align-items:center;gap:0.5rem;color:var(--ink);font-family:var(--font-head);font-weight:800}
+.im-topbar-home svg{width:24px;height:24px}
+.im-topbar-right{display:flex;align-items:center;gap:0.6rem}
+.im-browse-btn,.im-premium-btn{display:inline-flex;align-items:center;gap:0.35rem;font-size:0.85rem;font-weight:600;color:var(--muted);padding:0.35rem 0.6rem;border-radius:8px}
+.im-browse-btn svg,.im-premium-btn svg{width:16px;height:16px}
+.im-premium-btn{color:var(--warning)}
+.im-browse-btn:hover,.im-premium-btn:hover{background:var(--hover)}
+.im-theme-selector{display:inline-flex;gap:2px;background:var(--secondary-bg);border:1px solid var(--border);border-radius:9px;padding:3px}
+.im-theme-btn{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;padding:6px;border:none;background:transparent;color:var(--faint);border-radius:6px;cursor:pointer}
+.im-theme-btn:hover{background:var(--hover);color:var(--ink)}
+.im-theme-btn.active{background:var(--accent);color:#fff}
+.im-theme-btn svg{width:16px;height:16px}
+
+.back-link{display:inline-flex;align-items:center;gap:0.5rem;color:var(--accent);text-decoration:none;font-size:0.9rem;margin-bottom:1.5rem}
+.back-link svg{width:18px;height:18px}
+
+.header{text-align:center;margin-bottom:2rem;padding-bottom:1.75rem;border-bottom:1px solid var(--border)}
+.header-badge{display:inline-flex;align-items:center;gap:0.5rem;padding:0.35rem 1rem;background:rgba(14,165,233,0.14);color:var(--accent);border-radius:20px;font-size:0.8rem;font-weight:700;margin-bottom:1rem;font-family:var(--font-head)}
+.header h1{font-family:var(--font-head);font-weight:800;font-size:2.2rem;line-height:1.15;letter-spacing:-0.02em}
+.header .tagline{color:var(--muted);max-width:640px;margin:0.75rem auto 0;font-size:1.05rem}
+
+.ladder{display:flex;align-items:center;justify-content:center;gap:0.6rem;flex-wrap:wrap;margin:1.75rem 0 2rem;font-family:var(--font-head);font-weight:600;color:var(--muted);font-size:0.95rem}
+.ladder .rung{background:var(--secondary-bg);border:1px solid var(--border);border-radius:999px;padding:0.4rem 0.9rem}
+.ladder .rung b{color:var(--ink)}
+.ladder .arrow{color:var(--accent)}
+
+.cards{display:grid;gap:1.25rem}
+@media(min-width:720px){.cards{grid-template-columns:1fr 1fr}}
+.tcard{position:relative;display:flex;flex-direction:column;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:1.5rem 1.4rem;transition:transform .15s,box-shadow .15s,border-color .15s}
+.tcard::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;border-radius:16px 16px 0 0;background:var(--grad);opacity:0;transition:opacity .15s}
+.tcard:hover{transform:translateY(-4px);box-shadow:0 16px 36px rgba(15,23,42,.13);border-color:var(--accent)}
+.tcard:hover::before{opacity:1}
+.tcard .lvl{font-family:var(--font-mono);font-size:0.75rem;font-weight:600;color:var(--accent2);text-transform:uppercase;letter-spacing:0.08em}
+.tcard h2{font-family:var(--font-head);font-weight:800;font-size:1.35rem;margin:0.25rem 0 0.5rem;display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap}
+.tcard p{color:var(--muted);font-size:0.95rem;margin-bottom:0.9rem}
+.tcard ul{list-style:none;margin:0 0 1.1rem;font-size:0.9rem}
+.tcard li{display:flex;gap:0.5rem;margin-bottom:0.35rem;color:var(--ink)}
+.tcard li svg{width:16px;height:16px;color:var(--success);flex-shrink:0;margin-top:0.2rem}
+.tag{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;padding:0.15rem 0.5rem;border-radius:5px;color:#fff}
+.tag.free{background:var(--success)}
+.tag.freemium{background:linear-gradient(135deg,#F59E0B,#EF4444)}
+.cta{margin-top:auto;display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.75rem 1.2rem;border-radius:10px;background:var(--grad);color:#fff;font-family:var(--font-head);font-weight:700;text-decoration:none}
+.cta:hover{filter:brightness(1.08)}
+
+.pick{background:var(--secondary-bg);border:1px solid var(--border);border-radius:14px;padding:1.2rem 1.4rem;margin-top:2rem}
+.pick h3{font-family:var(--font-head);font-weight:800;font-size:1.05rem;margin-bottom:0.6rem}
+.pick div{font-size:0.93rem;color:var(--muted);margin-bottom:0.4rem}
+.pick b{color:var(--ink)}
+
+.related{margin-top:2rem;font-size:0.92rem;color:var(--muted);text-align:center}
+.related a{font-weight:600}
+
+.im-footer{background:var(--secondary-bg);border-top:1px solid var(--border);margin-top:3rem;padding:2rem 1.25rem 1.25rem}
+.im-footer-grid{max-width:960px;margin:0 auto;display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.im-footer h4{font-family:var(--font-head);font-size:0.95rem;margin-bottom:0.6rem}
+.im-footer ul{list-style:none}
+.im-footer li{margin-bottom:0.35rem}
+.im-footer a{color:var(--muted);text-decoration:none;font-size:0.88rem}
+.im-footer a:hover{color:var(--accent)}
+.im-footer-bottom{max-width:960px;margin:1.5rem auto 0;padding-top:1rem;border-top:1px solid var(--border);text-align:center;color:var(--faint);font-size:0.82rem}
+.skip-link{position:absolute;left:-9999px;top:0;padding:0.5rem;background:var(--accent);color:#fff;z-index:100}
+.skip-link:focus{left:0}
+</style>
+</head>
+<body>
+<div class="im-topbar" id="imTopbar">
+  <div class="im-topbar-left">
+    <a href="../index.html" class="im-topbar-home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>ImpactMojo</span>
+    </a>
+  </div>
+  <div class="im-topbar-right">
+    <a href="/catalog.html" class="im-browse-btn" title="Browse all content"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Browse</a>
+    <a href="../premium.html" class="im-premium-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Premium</a>
+    <div class="im-theme-selector" aria-label="Theme selection">
+      <button class="im-theme-btn" data-imtheme="system" title="System theme" aria-label="Use system theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
+      <button class="im-theme-btn" data-imtheme="light" title="Light theme" aria-label="Use light theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
+      <button class="im-theme-btn" data-imtheme="dark" title="Dark theme" aria-label="Use dark theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<a href="#main" class="skip-link">Skip to content</a>
+<div class="container" id="main">
+  <a href="../index.html" class="back-link">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+    Back to ImpactMojo
+  </a>
+
+  <div class="header">
+    <div class="header-badge">◇ Sampling Toolkit</div>
+    <h1>Sampling, done right</h1>
+    <p class="tagline">Two free tools that take you from "how many should we survey?" to a defensible sampling plan — first learn the ideas, then design your study. Built for MEL practitioners across South Asia.</p>
+  </div>
+
+  <div class="ladder">
+    <span class="rung"><b>Level 1</b> · Learn the ideas</span>
+    <span class="arrow">→</span>
+    <span class="rung"><b>Level 2</b> · Design your sample</span>
+  </div>
+
+  <div class="cards">
+    <div class="tcard">
+      <span class="lvl">Level 1 · Primer</span>
+      <h2>Sampling Basics <span class="tag free">Free</span></h2>
+      <p>New to sampling? Start here. A plain-language, no-maths, ten-minute grounding in the ideas — with two quick interactive demos.</p>
+      <ul>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Population vs sample; why we don't measure everyone</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Bias &amp; representativeness (convenience-vs-random demo)</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Margin of error &amp; confidence (a sample-size slider)</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Clusters, describing vs comparing, a plain glossary</li>
+      </ul>
+      <a class="cta" href="/labs/sampling-basics-lab.html">Start with the basics →</a>
+    </div>
+
+    <div class="tcard">
+      <span class="lvl">Level 2 · Studio</span>
+      <h2>Sampling Design Studio <span class="tag freemium">Free · export Premium</span></h2>
+      <p>Already know the basics? Design a real, defensible sampling strategy and size it properly — with the maths shown and explained as you go.</p>
+      <ul>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Recommends a strategy — SRS, stratified, cluster, multistage</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Sizes proportion, mean and impact (power/MDE) designs</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>ICC library, cluster cost optimiser, live self-validation</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Printable plan &amp; a donor/IRB "defend this number" note</li>
+      </ul>
+      <a class="cta" href="/labs/sampling-design-lab.html">Open the studio →</a>
+    </div>
+  </div>
+
+  <div class="pick">
+    <h3>Which do I need?</h3>
+    <div>• <b>Never designed a sample before?</b> Start with <a href="/labs/sampling-basics-lab.html">Sampling Basics</a> — ten minutes, no maths.</div>
+    <div>• <b>Know the concepts and need a real number and plan?</b> Go straight to the <a href="/labs/sampling-design-lab.html">Sampling Design Studio</a>.</div>
+    <div>• <b>Just want a quick sample size?</b> The Studio does that too — pick your question and read off the number.</div>
+  </div>
+
+  <p class="related">Part of the wider MEL path — pairs with the <a href="../courses/mel/">MEL flagship course</a>, the <a href="/labs/mel-design-lab.html">MEL Design Lab</a>, and ImpactMojo <a href="../coaching.html">coaching</a> &amp; <a href="../dojos">dojos</a>.</p>
+</div>
+
+<footer class="im-footer">
+  <div class="im-footer-grid">
+    <div><h4>Sampling Toolkit</h4><ul>
+      <li><a href="/labs/sampling-basics-lab.html">Sampling Basics (L1)</a></li>
+      <li><a href="/labs/sampling-design-lab.html">Sampling Design Studio (L2)</a></li>
+    </ul></div>
+    <div><h4>MEL</h4><ul>
+      <li><a href="../courses/mel/">MEL course</a></li>
+      <li><a href="/labs/mel-design-lab.html">MEL Design Lab</a></li>
+      <li><a href="/labs/mel-plan-lab.html">MEL Plan Lab</a></li>
+    </ul></div>
+    <div><h4>Learn</h4><ul>
+      <li><a href="/labs/">All Labs</a></li>
+      <li><a href="../courses/">Flagship Courses</a></li>
+      <li><a href="/game-library.html">Game Library</a></li>
+    </ul></div>
+    <div><h4>Support</h4><ul>
+      <li><a href="../coaching.html">Coaching</a></li>
+      <li><a href="../dojos">Dojos</a></li>
+      <li><a href="../faq.html">FAQ</a></li>
+    </ul></div>
+  </div>
+  <div class="im-footer-bottom">
+    <p>&copy; 2026 ImpactMojo. All content for educational purposes only.</p>
+    <p>Released under <strong>MIT License</strong> | Supported by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+  </div>
+</footer>
+
+<!-- Supabase Auth -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="/js/state-manager.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/theme.js"></script>
+<script src="/js/translate-sarvam.js" defer></script>
+</body>
+</html>

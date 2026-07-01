@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.28 — July 1, 2026 (One Sampling Toolkit front door)
+
+### For Learners
+
+- **New [Sampling Toolkit](https://www.impactmojo.in/labs/sampling-toolkit.html) hub** — a single front door (also at **impactmojo.in/sampling**) that presents the free Sampling Basics primer (Level 1) and the Sampling Design Studio (Level 2) as a clear "learn it, then design it" path, with a short "which do I need?" guide. The navigation now shows one **Sampling Toolkit** entry instead of two separate links.
+
 ## v10.79.27 — July 1, 2026 (Three more pro tools now free to use)
 
 ### For Learners
