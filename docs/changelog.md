@@ -7,6 +7,7 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 ### Fixed
 
 - **Game Library menu categories now filter correctly** — the category links under Platform → Game Library (Policy & Economics, MEL & Research, Gender & Equity, and the rest) each open the Game Library pre-filtered to that track instead of all landing on the same page. The Game Library page now reads `?track=` and `?type=` deep links.
+- **Corrected the Game Library breakdown** — the "134 games" it describes are 17 interactive simulations plus **117** puzzles (not 134); fixed the miscount on the homepage, Premium page, press kit and README.
 
 ## v10.79.19 — June 25, 2026 (Telugu translation added)
 

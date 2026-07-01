@@ -186,7 +186,7 @@ Shorter introductory courses covering the breadth of development practice:
 - **Code Convert Pro** — Script translation between Stata, R, Python, SPSS (Professional)
 - **VaniScribe** — AI transcription for 10+ South Asian languages (Professional)
 
-### Game Library (134 — 17 simulations + 134 puzzles)
+### Game Library (134 — 17 simulations + 117 puzzles)
 
 Interactive simulations powered by **MiroFish AI agents** with **Indian folk art story illustrations** in 6 traditional styles. Each game features AI opponents with distinct South Asian personas, backed by Groq/Gemini/DeepSeek LLMs with automatic fallback:
 
