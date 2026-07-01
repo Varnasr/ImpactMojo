@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.29 — July 1, 2026 (Homepage + Premium page reflect the free tools)
+
+### Fixed
+
+- **The homepage no longer locks the now-free tools.** The Research Question Builder, Qualitative Insights Lab and Statistical Code Converter cards were still gated (a free user couldn't click through). They're now open, retitled without "Pro", and badged **Free**.
+- **The Premium page now describes the freemium model** — the Explorer (free) tier lists the five free-to-use pro tools, the hero and FAQ say plainly that these tools are free to use with only export behind Premium, and the paid tiers now read "export from …" rather than implying the whole tool is paywalled.
+
 ## v10.79.28 — July 1, 2026 (One Sampling Toolkit front door)
 
 ### For Learners
