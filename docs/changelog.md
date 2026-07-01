@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.20 — July 1, 2026 (Game Library menu fix)
+
+### Fixed
+
+- **Game Library menu categories now filter correctly** — the category links under Platform → Game Library (Policy & Economics, MEL & Research, Gender & Equity, and the rest) each open the Game Library pre-filtered to that track instead of all landing on the same page. The Game Library page now reads `?track=` and `?type=` deep links.
+
 ## v10.79.19 — June 25, 2026 (Telugu translation added)
 
 ### For Learners

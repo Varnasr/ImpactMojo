@@ -1127,16 +1127,16 @@ section.section { padding: 1.5rem 0 2.5rem; }
 
   function buildFilters() {
     var tf = document.getElementById('trackFilters');
-    var chips = '<button class="chip chip-track active" data-track="all">All tracks <b>' + PUZZLES.length + '</b></button>';
+    var chips = '<button class="chip chip-track' + (activeTrack === 'all' ? ' active' : '') + '" data-track="all">All tracks <b>' + PUZZLES.length + '</b></button>';
     Object.keys(TRACKS).forEach(function (k) {
       var n = PUZZLES.filter(function (p) { return p.track === k; }).length;
-      chips += '<button class="chip chip-track" data-track="' + k + '"><span class="dot" style="background:' + TRACKS[k].color + ';"></span>' + esc(TRACKS[k].name) + ' <b>' + n + '</b></button>';
+      chips += '<button class="chip chip-track' + (activeTrack === k ? ' active' : '') + '" data-track="' + k + '"><span class="dot" style="background:' + TRACKS[k].color + ';"></span>' + esc(TRACKS[k].name) + ' <b>' + n + '</b></button>';
     });
     tf.innerHTML = chips;
-    var typeChips = '<button class="chip active" data-type="all">All formats</button>';
+    var typeChips = '<button class="chip' + (activeType === 'all' ? ' active' : '') + '" data-type="all">All formats</button>';
     TYPE_ORDER.forEach(function (t) {
       var n = PUZZLES.filter(function (p) { return p.type === t; }).length;
-      if (n) typeChips += '<button class="chip" data-type="' + t + '">' + ICONS[t] + TYPE_LABEL[t] + ' <b>' + n + '</b></button>';
+      if (n) typeChips += '<button class="chip' + (activeType === t ? ' active' : '') + '" data-type="' + t + '">' + ICONS[t] + TYPE_LABEL[t] + ' <b>' + n + '</b></button>';
     });
     document.getElementById('typeFilters').innerHTML = typeChips;
 
@@ -1220,6 +1220,12 @@ section.section { padding: 1.5rem 0 2.5rem; }
     .then(function (res) { if (!res.ok) throw new Error('HTTP ' + res.status); return res.json(); })
     .then(function (data) {
       DATA = data; TRACKS = data.tracks || {}; PUZZLES = data.puzzles || [];
+      // Deep-link filters: ?track=<key> and/or ?type=<key> pre-select a chip so
+      // nav categories (Platform > Game Library) land on the right slice.
+      var qs = new URLSearchParams(location.search);
+      var qTrack = qs.get('track'), qType = qs.get('type');
+      if (qTrack && TRACKS[qTrack]) activeTrack = qTrack;
+      if (qType && PUZZLES.some(function (p) { return p.type === qType; })) activeType = qType;
       buildFilters(); fillHeroStats(); renderCards(); renderProgress();
       if (location.hash) { var id = location.hash.slice(1); if (PUZZLES.some(function (p) { return p.id === id; })) openPuzzle(id); }
     })
