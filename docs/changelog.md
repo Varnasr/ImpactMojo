@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.31 — July 1, 2026 (New Budget & Fiscal Analysis Lab)
+
+### For Learners
+
+- **[Budget & Fiscal Analysis Lab](https://www.impactmojo.in/labs/budget-fiscal-lab.html)** — a new hands-on lab that teaches you to read Union and State budgets like a practitioner: decode BE/RE/actuals, trace fund flows from Centre to beneficiary, calculate per-capita spends with an interactive calculator, and understand fiscal federalism and Finance Commission devolution. The first of several new labs being added to the collection.
+
 ## v10.79.30 — July 1, 2026 (Free Tools section on the homepage)
 
 ### For Learners
