@@ -76,7 +76,7 @@ Each game:
 
 ---
 
-## Interactive Labs (15 labs)
+## Interactive Labs (28 labs)
 
 Labs are browser-based workbenches where you build something. Unlike courses (where you read and reflect), labs are hands-on — you follow a guided workflow and produce a real output.
 
