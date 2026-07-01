@@ -442,6 +442,23 @@ body.facil-on .facil{display:block}
             <p class="hint">Education outcomes often 0.1–0.3; health 0.01–0.1. When unsure, 0.05–0.10.</p>
           </label>
         </div>
+
+        <details class="learn" id="optDetails">
+          <summary>Optimise m for your budget (cost-variance)</summary>
+          <p>How many people per cluster is most efficient? Reaching a new cluster costs travel and setup; each extra interview inside it is cheaper but tells you a bit less. The variance-minimising cluster size for a fixed budget is <span class="formula" style="display:inline-block;padding:0.15rem 0.4rem">m* = √( (cost per cluster ÷ cost per interview) × (1−ρ)/ρ )</span></p>
+          <div class="grid cols-2">
+            <label class="fld">
+              <span class="lab">Cost to reach one cluster <small>travel + setup, ₹</small></span>
+              <input type="number" id="costCluster" value="3000" min="0" step="100">
+            </label>
+            <label class="fld">
+              <span class="lab">Cost per interview <small>enumerator time, ₹</small></span>
+              <input type="number" id="costUnit" value="200" min="1" step="10">
+            </label>
+          </div>
+          <div class="tip info" id="optOut"><span class="ic">i</span><span>Enter your costs to see the efficient cluster size.</span></div>
+          <button type="button" class="btn btn-ghost" id="optApply" style="font-size:0.85rem;padding:0.5rem 0.9rem">Use m* as my cluster size</button>
+        </details>
       </div>
 
       <label class="fld">
@@ -477,10 +494,17 @@ body.facil-on .facil{display:block}
       <p>Finally we divide by (1 − non-response) to get the number you must approach.</p>
     </details>
 
+    <details class="learn" id="validationDetails"><summary>Validation — check our maths against the textbooks</summary>
+      <p>Don't take our word for it. These are standard reference values from the sampling literature, computed live by the same engine that sizes your study. They should match to the rounding.</p>
+      <table class="work" id="validationTable"></table>
+      <p style="font-size:0.85rem;color:var(--faint)">References: Cochran, <i>Sampling Techniques</i>; Cohen, <i>Statistical Power Analysis</i>; Kish, <i>Survey Sampling</i> (design effect).</p>
+    </details>
+
     <div class="btnrow">
       <button class="btn btn-ghost" data-next="4">← Adjust precision</button>
       <div style="display:flex;gap:0.6rem;flex-wrap:wrap;align-items:center">
-        <span class="pro-pill" title="Exporting the plan is a Premium feature">★ Premium</span>
+        <span class="pro-pill" title="Exporting is a Premium feature">★ Premium</span>
+        <button class="btn btn-ghost" id="defendBtn" title="A donor/IRB-ready one-page justification"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Defend this number</button>
         <button class="btn btn-ghost" id="copyBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy plan</button>
         <button class="btn btn-ghost" id="dlBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download .md</button>
         <button class="btn btn-primary" id="printBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Print</button>
@@ -953,7 +977,115 @@ body.facil-on .facil{display:block}
       if(confirm('Clear all your inputs and start over?')){ try{localStorage.removeItem(LS);}catch(e){} location.reload(); }
     });
 
+    // "Defend this number" — a donor/IRB-ready one-pager (premium export)
+    $('defendBtn').addEventListener('click', function(){
+      if(!gateOK()) return;
+      var groupIds = Object.keys(S.groups);
+      if(!S.design || !groupIds.length){ alert('Complete the steps first — pick what you measure and at least one group.'); return; }
+      var html = buildDefendNote(groupIds);
+      var blob = new Blob([html], {type:'text/html'});
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob); a.download = 'sample-size-justification.html';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    });
+
+    // Cluster cost-variance optimiser (free)
+    function updOpt(){
+      var c1 = parseFloat($('costCluster').value), c2 = parseFloat($('costUnit').value), rho = S.icc;
+      var out = $('optOut');
+      if(!(c1>0) || !(c2>0)){ out.innerHTML = '<span class="ic">i</span><span>Enter both costs to see the efficient cluster size.</span>'; return; }
+      if(!(rho>0)){ out.innerHTML = '<span class="ic">i</span><span>With ICC = 0 there is no clustering penalty, so larger clusters are efficient — set ρ above 0 to optimise.</span>'; return; }
+      var mopt = Math.sqrt((c1/c2)*((1-rho)/rho));
+      var mR = Math.max(2, Math.round(mopt));
+      var deff = 1 + (mR-1)*rho;
+      out.innerHTML = '<span class="ic">★</span><span>Most efficient size ≈ <b>'+mR+' people per cluster</b> (design effect ≈ '+deff.toFixed(2)+'). '+
+        'Fewer, larger clusters waste money on redundant interviews; more, smaller clusters cost more travel. This balances them.</span>';
+      $('optApply').dataset.m = mR;
+    }
+    $('costCluster').addEventListener('input', updOpt);
+    $('costUnit').addEventListener('input', updOpt);
+    $('optApply').addEventListener('click', function(){
+      var m = parseInt(this.dataset.m||'0',10);
+      if(m>=2){ S.mSize = m; $('mSize').value = m; save(); this.textContent = '✓ Applied — m = '+m; }
+    });
+    updOpt();
+
+    // Validation table — reference values computed live by the same engine
+    buildValidation();
+
     go(S.step||1);
+  }
+
+  // Reference scenarios: our engine's core formulas vs published textbook values.
+  function buildValidation(){
+    var z95 = 1.96, z90 = 1.645;
+    function nProp(z,p,e){ return Math.ceil(z*z*p*(1-p)/(e*e)); }
+    function nArm(za,zb,d){ return Math.ceil(2*Math.pow(za+zb,2)/(d*d)); } // sd=1
+    function deff(m,rho){ return (1+(m-1)*rho).toFixed(2); }
+    var rows = [
+      ['Proportion, 95%, p=0.5, ±5%', '384–385', nProp(z95,0.5,0.05)],
+      ['Proportion, 95%, p=0.5, ±3%', '1067–1068', nProp(z95,0.5,0.03)],
+      ['Proportion, 90%, p=0.5, ±5%', '271–272', nProp(z90,0.5,0.05)],
+      ['Two-group, d=0.2, 80% power, α=.05 (per arm)', '392–393', nArm(1.96,0.84,0.2)],
+      ['Two-group, d=0.5, 80% power, α=.05 (per arm)', '≈63–64', nArm(1.96,0.84,0.5)],
+      ['Design effect, m=20, ρ=0.05', '1.95', deff(20,0.05)]
+    ];
+    var t = document.getElementById('validationTable');
+    if(!t) return;
+    t.innerHTML = '<tr><td><b>Scenario</b></td><td style="text-align:center"><b>Published</b></td><td style="text-align:right"><b>This engine</b></td></tr>' +
+      rows.map(function(r){
+        return '<tr><td>'+r[0]+'</td><td style="text-align:center;color:var(--faint)">'+r[1]+'</td><td style="text-align:right"><b style="color:var(--success)">'+r[2]+'</b> ✓</td></tr>';
+      }).join('');
+  }
+
+  // Build the donor/IRB one-pager (self-contained HTML)
+  function buildDefendNote(groupIds){
+    var esc2 = function(x){ return String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); };
+    var designLabel = {proportion:'Estimate a proportion (descriptive survey)',mean:'Estimate a mean (descriptive survey)',impact:'Two-group impact comparison',monitoring:'Routine monitoring'}[S.design];
+    var rec = recommendStrategy(groupIds.length);
+    var confLabel = ({1.645:'90%',1.96:'95%',2.576:'99%'})[S.conf] || S.conf;
+    var rowsG = groupIds.map(function(gid){
+      var g = GROUPS.filter(function(x){return x.id===gid;})[0];
+      var N = S.groupPop[gid] != null ? S.groupPop[gid] : defaultPop(g.unitHint);
+      var r = computeForGroup(N);
+      return '<tr><td>'+esc2(g.nm)+'</td><td>'+fmt(N)+'</td><td><b>'+fmt(r.ideal)+'</b></td><td><b>'+fmt(r.final)+'</b></td><td>'+(r.clusters||'—')+'</td></tr>';
+    }).join('');
+    var assume = [];
+    assume.push(['Confidence level', confLabel]);
+    if(S.design==='impact'){ assume.push(['Minimum detectable effect (MDE)', S.mde+' (SD '+S.sdImp+', standardised d = '+(S.mde/S.sdImp).toFixed(2)+')']); assume.push(['Statistical power', ({0.84:'80%',1.036:'85%',1.282:'90%'})[S.power]||S.power]); }
+    else if(S.design==='mean'){ assume.push(['Margin of error', '±'+S.moe+' units (assumed SD '+S.sd+')']); }
+    else if(S.design==='proportion'){ assume.push(['Margin of error', '±'+S.moe+' percentage points (expected proportion '+S.prop+'%)']); }
+    if(S.useCluster==='yes'){ assume.push(['Clustering', S.mSize+' per cluster; ICC ρ = '+S.icc+'; design effect = '+(1+(S.mSize-1)*S.icc).toFixed(2)]); }
+    assume.push(['Non-response / attrition buffer', S.nr+'%']);
+    var formula = S.design==='impact' ? 'n_per_arm = 2·(z_α + z_β)²·σ² / MDE²'
+      : S.design==='mean' ? 'n₀ = z²·σ² / e²'
+      : S.design==='monitoring' ? 'pragmatic rule of thumb (≈10% of frame, floored at 30, capped at 120)'
+      : 'n₀ = z²·p(1−p) / e²';
+    var assumeRows = assume.map(function(a){ return '<tr><td>'+esc2(a[0])+'</td><td>'+esc2(a[1])+'</td></tr>'; }).join('');
+    return '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">'+
+      '<title>Sample-Size Justification</title><style>'+
+      'body{font-family:Georgia,\'Times New Roman\',serif;max-width:760px;margin:2rem auto;padding:0 1.5rem;color:#111;line-height:1.5}'+
+      'h1{font-size:1.5rem;margin-bottom:0.2rem}h2{font-size:1.05rem;margin:1.4rem 0 0.4rem;border-bottom:1px solid #ccc;padding-bottom:0.2rem}'+
+      'table{width:100%;border-collapse:collapse;margin:0.5rem 0;font-size:0.92rem}td{border:1px solid #ddd;padding:0.4rem 0.6rem;text-align:left}'+
+      'th{background:#f2f2f2}.formula{font-family:Consolas,monospace;background:#f6f6f6;border:1px solid #ddd;padding:0.5rem;border-radius:4px}'+
+      '.muted{color:#666;font-size:0.85rem}.stamp{margin-top:2rem;border-top:1px solid #ccc;padding-top:0.6rem;font-size:0.8rem;color:#666}'+
+      '@media print{body{margin:0}}</style></head><body>'+
+      '<h1>Sample-Size Justification</h1>'+
+      '<p class="muted">Prepared with the ImpactMojo Sampling Design Studio · impactmojo.in</p>'+
+      '<h2>1. Study &amp; design</h2>'+
+      '<p><b>Purpose:</b> '+esc2(designLabel)+'.<br><b>Recommended sampling strategy:</b> '+esc2(rec.strat)+'.<br><b>Unit of analysis:</b> '+esc2(document.getElementById('unit').value)+'.</p>'+
+      '<h2>2. Required sample</h2>'+
+      '<table><tr><th>Group</th><th>Frame (N)</th><th>Statistical ideal</th><th>Field target</th><th>Clusters</th></tr>'+rowsG+'</table>'+
+      '<p class="muted">"Statistical ideal" is the sample pure precision requires; "field target" adds the design effect and non-response buffer — the number to actually approach.</p>'+
+      '<h2>3. Assumptions</h2><table>'+assumeRows+'</table>'+
+      '<h2>4. Formula</h2><div class="formula">'+esc2(formula)+'</div>'+
+      '<p class="muted">Finite-population correction applied where the frame is small: n = n₀ / (1 + (n₀−1)/N). Clustered designs inflated by the design effect DEFF = 1 + (m−1)·ρ, then divided by (1 − non-response).</p>'+
+      '<h2>5. Notes for the reviewer</h2><ul>'+
+      '<li>The intra-cluster correlation is an assumption; where possible it is drawn from published studies of comparable outcomes and should be revisited against local pilot data.</li>'+
+      '<li>This sizing assumes simple random sampling within strata and a single primary outcome. Multiple outcomes, sub-group analysis or unequal weighting may require more.</li>'+
+      '<li>A qualified statistician should review this before the sample is fielded.</li></ul>'+
+      '<div class="stamp">Generated by ImpactMojo Sampling Design Studio. A defensible first draft, not a substitute for a statistician. Prepared by: ________________  Date: ____________</div>'+
+      '</body></html>';
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();

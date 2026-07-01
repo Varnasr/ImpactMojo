@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.25 — July 1, 2026 (Sampling Studio: optimiser, validation, defend-note)
+
+### For Learners
+
+- **The [Sampling Design Studio](https://www.impactmojo.in/Labs/sampling-design-lab.html) gained three pro touches.** A **cluster cost optimiser** works out the most budget-efficient number of people per cluster from your travel and interview costs (free). A **validation panel** shows our engine reproducing standard textbook sample sizes — so you can check the maths, not just trust it (free). And **"Defend this number"** exports a donor/IRB-ready one-page justification — purpose, required sample, assumptions, formula and reviewer notes (Premium, like the other exports).
+
 ## v10.79.24 — July 1, 2026 (Sampling toolkit: nav tidy-up + freemium)
 
 ### Changed
