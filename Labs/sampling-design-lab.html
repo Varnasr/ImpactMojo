@@ -114,6 +114,8 @@ a{color:var(--accent)}
 .why-pt{display:flex;gap:0.55rem;font-size:0.88rem;color:var(--muted)}
 .why-pt b{color:var(--ink)}
 .why-ic{font-size:1.1rem;flex-shrink:0;line-height:1.3}
+.pro-pill{display:inline-flex;align-items:center;gap:0.25rem;background:linear-gradient(135deg,#F59E0B,#EF4444);color:#fff;font-family:var(--font-head);font-weight:700;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.4px;padding:0.12rem 0.45rem;border-radius:5px;vertical-align:middle}
+.pro-hint{font-size:0.8rem;color:var(--faint);margin-top:0.5rem;text-align:right;width:100%}
 .grid{display:grid;gap:0.85rem}
 @media(min-width:640px){.grid.cols-2{grid-template-columns:1fr 1fr}.grid.cols-3{grid-template-columns:1fr 1fr 1fr}}
 
@@ -248,7 +250,7 @@ body.facil-on .facil{display:block}
     <div class="header-badge">◇ Interactive Lab</div>
     <h1>Sampling Design Studio</h1>
     <p class="tagline">Walk from your evaluation question to a defensible sampling strategy — and learn the statistics as you go. Built for MEL practitioners, emerging evaluators and NGO teams across South Asia.</p>
-    <p class="credit">Free · in-browser · nothing leaves your device · not a substitute for a qualified statistician</p>
+    <p class="credit">Free to design &amp; size · exporting the plan and facilitator mode are <a href="/premium" style="color:var(--warning);font-weight:700">Premium</a> · nothing leaves your device · not a substitute for a qualified statistician</p>
   </div>
 
   <div class="why-strip">
@@ -263,9 +265,9 @@ body.facil-on .facil{display:block}
   </div>
 
   <div class="toggle-row">
-    <span>Facilitator mode</span>
-    <label class="switch"><input type="checkbox" id="facilToggle" aria-label="Toggle facilitator prompts"><span class="slider-sw"></span></label>
-    <span style="color:var(--faint)">show discussion prompts for training</span>
+    <span>Facilitator mode <span class="pro-pill">★ Premium</span></span>
+    <label class="switch"><input type="checkbox" id="facilToggle" aria-label="Toggle facilitator prompts (premium)"><span class="slider-sw"></span></label>
+    <span style="color:var(--faint)">discussion prompts for training</span>
   </div>
 
   <!-- Stepper -->
@@ -477,7 +479,8 @@ body.facil-on .facil{display:block}
 
     <div class="btnrow">
       <button class="btn btn-ghost" data-next="4">← Adjust precision</button>
-      <div style="display:flex;gap:0.6rem;flex-wrap:wrap">
+      <div style="display:flex;gap:0.6rem;flex-wrap:wrap;align-items:center">
+        <span class="pro-pill" title="Exporting the plan is a Premium feature">★ Premium</span>
         <button class="btn btn-ghost" id="copyBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy plan</button>
         <button class="btn btn-ghost" id="dlBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download .md</button>
         <button class="btn btn-primary" id="printBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Print</button>
@@ -909,16 +912,29 @@ body.facil-on .facil{display:block}
       p.addEventListener('click', function(){ go(p.dataset.step); });
     });
 
-    // facilitator
+    // Freemium gate: designing & sizing is free; exporting the plan and the
+    // facilitator mode are premium (practitioner+). Soft in-page gate — if the
+    // premium module isn't available we fail open so the tool never breaks.
+    function gateOK(){
+      if(!window.IMXPremium || typeof window.IMXPremium.hasAccess !== 'function') return true;
+      if(window.IMXPremium.hasAccess('practitioner')) return true;
+      if(typeof window.IMXPremium.showUpgradeModal === 'function') window.IMXPremium.showUpgradeModal('practitioner');
+      else window.location.href = '/premium';
+      return false;
+    }
+
+    // facilitator (premium)
     $('facilToggle').checked = S.facil;
     document.body.classList.toggle('facil-on', S.facil);
     $('facilToggle').addEventListener('change', function(){
+      if(this.checked && !gateOK()){ this.checked = false; return; }
       S.facil=this.checked; document.body.classList.toggle('facil-on', this.checked); save();
     });
 
-    // exports
-    $('printBtn').addEventListener('click', function(){ window.print(); });
+    // exports (premium)
+    $('printBtn').addEventListener('click', function(){ if(!gateOK()) return; window.print(); });
     $('copyBtn').addEventListener('click', function(){
+      if(!gateOK()) return;
       if(!S._lastPlan) renderStrategy();
       var orig = $('copyBtn').innerHTML;
       navigator.clipboard.writeText(S._lastPlan||'').then(function(){
@@ -926,6 +942,7 @@ body.facil-on .facil{display:block}
       }).catch(function(){ alert('Copy failed — use Download instead.'); });
     });
     $('dlBtn').addEventListener('click', function(){
+      if(!gateOK()) return;
       if(!S._lastPlan) renderStrategy();
       var blob = new Blob([S._lastPlan||''], {type:'text/markdown'});
       var a = document.createElement('a');
@@ -947,6 +964,7 @@ body.facil-on .facil{display:block}
 <script src="/js/state-manager.js"></script>
 <script src="/js/config.js"></script>
 <script src="/js/auth.js"></script>
+<script src="/js/premium.js"></script>
 <script src="/js/theme.js"></script>
 <script src="/js/translate-sarvam.js" defer></script>
 </body>

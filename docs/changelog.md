@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.24 — July 1, 2026 (Sampling toolkit: nav tidy-up + freemium)
+
+### Changed
+
+- **Moved the two sampling tools into the Specials → Practice & Programs menu** (out of the Learn dropdown), where the Sampling Basics primer and Sampling Design Studio now sit together as a toolkit.
+- **The Sampling Design Studio is now freemium** — designing your sampling strategy and seeing every sample size stays completely free; exporting/printing the sampling plan and the facilitator mode are Premium features. The Sampling Basics primer remains fully free.
+
 ## v10.79.23 — July 1, 2026 (Sampling Basics — a beginner's primer)
 
 ### For Learners
