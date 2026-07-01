@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.30 — July 1, 2026 (Free Tools section on the homepage)
+
+### For Learners
+
+- **New "Free Tools" section on the homepage** — the practitioner tools that are free to use (Sampling Toolkit, Research Question Builder, ToR Builder, Qualitative Insights Lab, Statistical Code Converter) now have their own clearly-labelled home, instead of sitting under "Premium Offerings." They've been removed from the premium showcase so nothing is double-listed.
+
 ## v10.79.29 — July 1, 2026 (Homepage + Premium page reflect the free tools)
 
 ### Fixed
