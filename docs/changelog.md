@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.23 — July 1, 2026 (Sampling Basics — a beginner's primer)
+
+### For Learners
+
+- **New [Sampling Basics primer](https://www.impactmojo.in/Labs/sampling-basics-lab.html)** — a free, no-maths, ten-minute grounding in the ideas behind sampling: why we don't measure everyone, what makes a sample representative (with a live convenience-vs-random demo), margin of error and confidence (with a sample-size slider you can feel), clusters, and describing vs comparing — plus a plain-language glossary. It's the gentle **Level 1** that leads into the Sampling Design Studio, so people meeting sampling for the first time aren't dropped in at the deep end. The 15th ImpactMojo Lab.
+
 ## v10.79.22 — July 1, 2026 (Sampling Design Studio — ICC library + two-level precision)
 
 ### For Learners

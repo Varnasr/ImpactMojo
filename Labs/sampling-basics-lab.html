@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#0F172A">
+<title>Sampling Basics — A Plain-Language Primer | ImpactMojo</title>
+<meta name="description" content="A free, no-maths, 10-minute primer on the ideas behind sampling — population vs sample, bias and representativeness, margin of error and confidence, clusters, and describing vs comparing. The gentle Level 1 before the Sampling Design Studio.">
+<meta name="keywords" content="sampling basics, what is a sample, representative sample, margin of error, confidence, bias, cluster sampling, MEL, beginner, South Asia, ImpactMojo">
+<link rel="canonical" href="https://www.impactmojo.in/Labs/sampling-basics-lab.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sampling Basics — A Plain-Language Primer">
+<meta property="og:description" content="The ideas you need before you size a survey — no maths, 10 minutes. Then you're ready for the Sampling Design Studio.">
+<meta property="og:url" content="https://www.impactmojo.in/Labs/sampling-basics-lab.html">
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JRCMEB9TBW');
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --primary-bg:#FFFFFF;--secondary-bg:#F8FAFC;--accent:#0EA5E9;--accent-hover:#0284C7;
+  --accent2:#6366F1;--success:#10B981;--warning:#F59E0B;--danger:#EF4444;
+  --ink:#0F172A;--muted:#475569;--faint:#52627A;--card:#FFFFFF;--hover:#F1F5F9;--border:#E2E8F0;
+  --grad:linear-gradient(135deg,#0EA5E9 0%,#6366F1 100%);
+  --font-sans:'Amaranth',sans-serif;--font-head:'Inter',sans-serif;--font-mono:'JetBrains Mono',monospace;
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme]){--primary-bg:#0F172A;--secondary-bg:#1E293B;--ink:#F1F5F9;--muted:#CBD5E1;--faint:#94A3B8;--card:#1E293B;--hover:#334155;--border:#334155;}}
+html.dark,[data-theme="dark"],body.dark-mode{--primary-bg:#0F172A;--secondary-bg:#1E293B;--ink:#F1F5F9;--muted:#CBD5E1;--faint:#94A3B8;--card:#1E293B;--hover:#334155;--border:#334155;}
+[data-theme="light"],body.light-mode{--primary-bg:#FFFFFF;--secondary-bg:#F8FAFC;--ink:#0F172A;--muted:#475569;--faint:#52627A;--card:#FFFFFF;--hover:#F1F5F9;--border:#E2E8F0;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--primary-bg);color:var(--ink);line-height:1.65;min-height:100vh}
+.container{max-width:820px;margin:0 auto;padding:2rem 1.25rem 4rem}
+a{color:var(--accent)}
+
+.im-topbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.55rem 1.25rem;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+.im-topbar a{text-decoration:none}
+.im-topbar-home{display:flex;align-items:center;gap:0.5rem;color:var(--ink);font-family:var(--font-head);font-weight:800}
+.im-topbar-home svg{width:24px;height:24px}
+.im-topbar-right{display:flex;align-items:center;gap:0.6rem}
+.im-browse-btn,.im-premium-btn{display:inline-flex;align-items:center;gap:0.35rem;font-size:0.85rem;font-weight:600;color:var(--muted);padding:0.35rem 0.6rem;border-radius:8px}
+.im-browse-btn svg,.im-premium-btn svg{width:16px;height:16px}
+.im-premium-btn{color:var(--warning)}
+.im-browse-btn:hover,.im-premium-btn:hover{background:var(--hover)}
+.im-theme-selector{display:inline-flex;gap:2px;background:var(--secondary-bg);border:1px solid var(--border);border-radius:9px;padding:3px}
+.im-theme-btn{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;padding:6px;border:none;background:transparent;color:var(--faint);border-radius:6px;cursor:pointer}
+.im-theme-btn:hover{background:var(--hover);color:var(--ink)}
+.im-theme-btn.active{background:var(--accent);color:#fff}
+.im-theme-btn svg{width:16px;height:16px}
+
+.back-link{display:inline-flex;align-items:center;gap:0.5rem;color:var(--accent);text-decoration:none;font-size:0.9rem;margin-bottom:1.5rem}
+.back-link svg{width:18px;height:18px}
+
+.header{margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.header-badge{display:inline-flex;align-items:center;gap:0.5rem;padding:0.35rem 1rem;background:rgba(99,102,241,0.14);color:var(--accent2);border-radius:20px;font-size:0.8rem;font-weight:700;margin-bottom:1rem;font-family:var(--font-head)}
+.header h1{font-family:var(--font-head);font-weight:800;font-size:2.05rem;line-height:1.15;letter-spacing:-0.02em}
+.header .tagline{color:var(--muted);margin-top:0.7rem;font-size:1.05rem}
+.header .credit{color:var(--faint);font-size:0.82rem;margin-top:0.7rem}
+
+.toc{background:var(--secondary-bg);border:1px solid var(--border);border-radius:12px;padding:0.9rem 1.1rem;margin-bottom:2rem;font-size:0.9rem}
+.toc b{font-family:var(--font-head);display:block;margin-bottom:0.35rem;color:var(--ink)}
+.toc ol{margin-left:1.1rem;color:var(--muted)}
+.toc a{text-decoration:none}
+
+section.concept{margin-bottom:2.4rem}
+section.concept h2{font-family:var(--font-head);font-weight:800;font-size:1.4rem;display:flex;align-items:baseline;gap:0.6rem;margin-bottom:0.6rem;scroll-margin-top:70px}
+section.concept h2 .n{font-family:var(--font-mono);color:var(--accent);font-size:1rem;font-weight:600}
+section.concept p{margin-bottom:0.8rem;color:var(--ink)}
+section.concept p.aside{color:var(--muted);font-size:0.95rem}
+.key{background:rgba(14,165,233,0.1);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:0.7rem 1rem;margin:0.9rem 0;font-size:0.95rem}
+.key b{font-family:var(--font-head)}
+.eg{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:0.8rem 1rem;margin:0.9rem 0;font-size:0.93rem;color:var(--muted)}
+.eg b{color:var(--ink)}
+
+.demo{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.2rem;margin:1rem 0}
+.demo h4{font-family:var(--font-head);font-size:0.95rem;margin-bottom:0.8rem;color:var(--accent2)}
+.demo .row{display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.55rem 1rem;border-radius:9px;border:none;font-family:var(--font-head);font-weight:700;font-size:0.9rem;cursor:pointer}
+.btn-primary{background:var(--grad);color:#fff}
+.btn-ghost{background:var(--card);color:var(--ink);border:1.5px solid var(--border)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.estwrap{display:flex;gap:1rem;flex-wrap:wrap;margin-top:0.9rem}
+.estcard{flex:1;min-width:150px;border:1px solid var(--border);border-radius:10px;padding:0.7rem 0.9rem;text-align:center}
+.estcard b{display:block;font-family:var(--font-mono);font-size:1.5rem;line-height:1.1}
+.estcard span{font-size:0.78rem;color:var(--faint)}
+.estcard.truth b{color:var(--success)}
+.estcard.rand b{color:var(--accent)}
+.estcard.conv b{color:var(--danger)}
+.moebar-track{height:26px;background:var(--secondary-bg);border-radius:6px;position:relative;overflow:hidden;margin-top:0.6rem}
+.moebar-fill{position:absolute;left:50%;top:0;bottom:0;background:rgba(14,165,233,0.35);border-left:2px solid var(--accent);border-right:2px solid var(--accent);transform:translateX(-50%)}
+.moeval{font-family:var(--font-mono);font-weight:600;color:var(--accent)}
+.dotgrid{display:grid;grid-template-columns:repeat(30,1fr);gap:2px;margin-top:0.7rem}
+.dot{aspect-ratio:1;border-radius:2px;background:var(--border)}
+.dot.trait{background:var(--warning)}
+.dot.picked{outline:2px solid var(--ink);outline-offset:-1px}
+
+.glossary{display:grid;gap:0.6rem}
+@media(min-width:600px){.glossary{grid-template-columns:1fr 1fr}}
+.gterm{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:0.7rem 0.9rem;font-size:0.9rem}
+.gterm b{font-family:var(--font-head);color:var(--accent2)}
+
+.cta{background:var(--grad);color:#fff;border-radius:16px;padding:1.5rem;margin-top:2.5rem;text-align:center}
+.cta h3{font-family:var(--font-head);font-weight:800;font-size:1.35rem}
+.cta p{opacity:0.95;margin:0.5rem 0 1rem}
+.cta .btn{background:#fff;color:var(--accent2)}
+
+.im-footer{background:var(--secondary-bg);border-top:1px solid var(--border);margin-top:3rem;padding:2rem 1.25rem 1.25rem}
+.im-footer-grid{max-width:820px;margin:0 auto;display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.im-footer h4{font-family:var(--font-head);font-size:0.95rem;margin-bottom:0.6rem}
+.im-footer ul{list-style:none}
+.im-footer li{margin-bottom:0.35rem}
+.im-footer a{color:var(--muted);text-decoration:none;font-size:0.88rem}
+.im-footer a:hover{color:var(--accent)}
+.im-footer-bottom{max-width:820px;margin:1.5rem auto 0;padding-top:1rem;border-top:1px solid var(--border);text-align:center;color:var(--faint);font-size:0.82rem}
+.skip-link{position:absolute;left:-9999px;top:0;padding:0.5rem;background:var(--accent);color:#fff;z-index:100}
+.skip-link:focus{left:0}
+</style>
+</head>
+<body>
+<div class="im-topbar" id="imTopbar">
+  <div class="im-topbar-left">
+    <a href="../index.html" class="im-topbar-home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>ImpactMojo</span>
+    </a>
+  </div>
+  <div class="im-topbar-right">
+    <a href="/catalog.html" class="im-browse-btn" title="Browse all content"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Browse</a>
+    <a href="../premium.html" class="im-premium-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Premium</a>
+    <div class="im-theme-selector" aria-label="Theme selection">
+      <button class="im-theme-btn" data-imtheme="system" title="System theme" aria-label="Use system theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
+      <button class="im-theme-btn" data-imtheme="light" title="Light theme" aria-label="Use light theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
+      <button class="im-theme-btn" data-imtheme="dark" title="Dark theme" aria-label="Use dark theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<a href="#main" class="skip-link">Skip to content</a>
+<div class="container" id="main">
+  <a href="../index.html" class="back-link">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+    Back to ImpactMojo
+  </a>
+
+  <div class="header">
+    <div class="header-badge">◇ Level 1 · Primer</div>
+    <h1>Sampling Basics</h1>
+    <p class="tagline">The handful of ideas you need <em>before</em> you size a survey — in plain language, no maths, about ten minutes. When it clicks, you'll be ready for the Sampling Design Studio.</p>
+    <p class="credit">Free · in-browser · nothing to install · written for people meeting sampling for the first time</p>
+  </div>
+
+  <div class="toc">
+    <b>What you'll pick up</b>
+    <ol>
+      <li><a href="#s1">Why we don't measure everyone</a></li>
+      <li><a href="#s2">The one idea that matters: representativeness</a></li>
+      <li><a href="#s3">Random beats big</a></li>
+      <li><a href="#s4">“How sure?” and “how precise?”</a></li>
+      <li><a href="#s5">When your sample comes in clumps (clusters)</a></li>
+      <li><a href="#s6">Describing vs comparing</a></li>
+      <li><a href="#s7">Your vocabulary cheat-sheet</a></li>
+    </ol>
+  </div>
+
+  <section class="concept" id="s1">
+    <h2><span class="n">01</span> Why we don't measure everyone</h2>
+    <p>Say your programme reaches 8,000 women across a district and you want to know how many feel confident speaking up in their group meeting. You <em>could</em> interview all 8,000 — but it would take months and a budget you don't have. So you don't. You talk to a well-chosen few hundred and use their answers to say something trustworthy about all 8,000.</p>
+    <p>That's the whole game. The big group you care about is the <b>population</b>. The few you actually talk to are the <b>sample</b>. Measuring everyone is a <b>census</b>; measuring a slice is <b>sampling</b>.</p>
+    <div class="key"><b>The promise of sampling:</b> a small slice, chosen well, can tell you something reliable about the whole — for a fraction of the time and money.</div>
+  </section>
+
+  <section class="concept" id="s2">
+    <h2><span class="n">02</span> The one idea that matters: representativeness</h2>
+    <p>A sample is only useful if it <b>looks like</b> the whole group. If a quarter of your population is landless, roughly a quarter of your sample should be too. When your method quietly favours some kinds of people over others, that's <b>bias</b> — and a biased sample lies to you confidently.</p>
+    <p class="aside">The classic trap is the <b>convenience sample</b>: you interview whoever is easy to reach — the women already at the centre, the households near the road. Easy, and usually wrong, because “easy to reach” is rarely “typical.”</p>
+
+    <div class="demo" id="biasDemo">
+      <h4>See it: convenience vs random</h4>
+      <p style="font-size:0.9rem;color:var(--muted);margin-bottom:0.4rem">A village of 300. The <span style="color:var(--warning)">amber dots</span> are the 40% who are landless — the people a market-day interview tends to miss. Draw 30 people two ways and compare what each “finds.”</p>
+      <div class="dotgrid" id="dotgrid" aria-hidden="true"></div>
+      <div class="estwrap">
+        <div class="estcard truth"><b>40%</b><span>the real share (landless)</span></div>
+        <div class="estcard conv"><b id="convEst">—</b><span>convenience sample says</span></div>
+        <div class="estcard rand"><b id="randEst">—</b><span>random sample says</span></div>
+      </div>
+      <div class="row" style="margin-top:0.9rem"><button class="btn btn-primary" id="drawBtn">Draw both samples</button></div>
+      <p style="font-size:0.85rem;color:var(--faint);margin-top:0.6rem">Run it a few times. The convenience number keeps landing well below the truth; the random one hugs 40%. Same size — only the <em>method</em> differs.</p>
+    </div>
+  </section>
+
+  <section class="concept" id="s3">
+    <h2><span class="n">03</span> Random beats big</h2>
+    <p>Beginners assume a bigger sample is always better. It isn't. A <b>small random sample beats a huge biased one</b>, every time. The famous example: in 1936 a US magazine mailed 10 million ballots and got 2.4 million back predicting the wrong election winner — while a pollster with a few thousand <em>well-chosen</em> people got it right. Size didn't save the biased method.</p>
+    <p><b>Random selection</b> — every person having a known, fair chance of being picked — is what earns you the right to generalise from the few to the many. Size only helps <em>after</em> you've got the method right.</p>
+    <div class="key"><b>Order of operations:</b> get it representative first (random), get it big enough second. Never the other way round.</div>
+  </section>
+
+  <section class="concept" id="s4">
+    <h2><span class="n">04</span> “How sure?” and “how precise?”</h2>
+    <p>Because you asked a sample and not everyone, your answer carries a little wobble. Two plain words describe it:</p>
+    <p><b>Margin of error</b> — how wide the wobble is. “62%, give or take 5 points” means the true figure is very likely between 57% and 67%.</p>
+    <p><b>Confidence</b> — how often that range would contain the truth if you repeated the whole exercise. “95% confidence” means if you did it 20 times, about 19 of your ranges would capture the real number.</p>
+
+    <div class="demo" id="moeDemo">
+      <h4>See it: bigger sample, tighter answer</h4>
+      <p style="font-size:0.9rem;color:var(--muted)">Drag to change the sample size and watch the margin of error (95% confidence) shrink.</p>
+      <div class="row" style="margin-top:0.6rem"><input type="range" id="nRange" min="30" max="2000" step="10" value="400"></div>
+      <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:0.9rem;margin-top:0.4rem">
+        <span>n = <b id="nVal">400</b> people</span>
+        <span>margin of error ≈ <span class="moeval" id="moeVal">±4.9</span> points</span>
+      </div>
+      <div class="moebar-track"><div class="moebar-fill" id="moeFill"></div></div>
+      <p style="font-size:0.85rem;color:var(--faint);margin-top:0.6rem" id="moeNote"></p>
+    </div>
+    <p class="aside">Notice the <b>diminishing returns</b>: going from 400 to 1,600 people (four times the cost) only halves the wobble. Precision gets expensive fast — which is exactly why picking the right sample size is a real decision, not “grab as many as you can.”</p>
+  </section>
+
+  <section class="concept" id="s5">
+    <h2><span class="n">05</span> When your sample comes in clumps (clusters)</h2>
+    <p>Often you simply can't get a list of all 8,000 women to draw randomly from. But you <em>can</em> list the 200 villages they live in. So you randomly pick, say, 30 villages, then interview women within those. That's <b>cluster sampling</b>.</p>
+    <p>It's practical — but there's a catch. People in the same village tend to be alike: same water source, same school, same local prices. So each extra woman you interview <em>in a village you've already visited</em> teaches you a little less than a brand-new independent person would. To get the same precision, you need a somewhat <b>bigger total sample</b>. Statisticians call that penalty the <b>design effect</b>, and the “how alike are people in a cluster” number behind it the <b>intra-cluster correlation</b>.</p>
+    <div class="key"><b>Plain version:</b> clusters save you legwork but cost you a bit of precision, so clustered surveys need more people overall. The more alike a cluster's members, the bigger that cost.</div>
+  </section>
+
+  <section class="concept" id="s6">
+    <h2><span class="n">06</span> Describing vs comparing</h2>
+    <p>One last fork, because it changes everything about how big your sample must be:</p>
+    <div class="eg"><b>Describing</b> — “What share of children can read a Grade-2 text?” You're estimating one number for one group. This is a survey.</div>
+    <div class="eg"><b>Comparing</b> — “Did our programme <em>raise</em> reading?” Now you need two groups (those in the programme and a comparison) and you're hunting for a difference between them. Detecting a difference reliably — especially a small one — takes a <b>much larger</b> sample than simply describing.</div>
+    <p class="aside">Knowing which one you're doing is the first question the Sampling Design Studio will ask you — and now you'll know why it matters.</p>
+  </section>
+
+  <section class="concept" id="s7">
+    <h2><span class="n">07</span> Your vocabulary cheat-sheet</h2>
+    <p>Every word you'll meet in the Studio, in one place:</p>
+    <div class="glossary">
+      <div class="gterm"><b>Population</b> — the whole group you want to learn about.</div>
+      <div class="gterm"><b>Sample</b> — the slice you actually measure.</div>
+      <div class="gterm"><b>Sampling frame</b> — the list you draw your sample from (people, or villages).</div>
+      <div class="gterm"><b>Census</b> — measuring everyone, no sampling.</div>
+      <div class="gterm"><b>Bias</b> — a method that quietly favours some people, skewing your answer.</div>
+      <div class="gterm"><b>Representative</b> — a sample that mirrors the population's mix.</div>
+      <div class="gterm"><b>Random sampling</b> — everyone has a fair, known chance of being picked.</div>
+      <div class="gterm"><b>Stratify</b> — split the population into groups (e.g. by gender) and sample each, so every group is covered.</div>
+      <div class="gterm"><b>Cluster sampling</b> — pick groups (villages/schools) first, then people within them.</div>
+      <div class="gterm"><b>Margin of error</b> — how wide the “give or take” around your answer is.</div>
+      <div class="gterm"><b>Confidence level</b> — how often that range would capture the truth on repetition (usually 95%).</div>
+      <div class="gterm"><b>Design effect</b> — the extra sample clustering costs you.</div>
+    </div>
+  </section>
+
+  <div class="cta">
+    <h3>Ready to design your own?</h3>
+    <p>You've got the ideas. Now let the Studio turn your evaluation question into a real, defensible sampling plan — it does the maths and keeps explaining as you go.</p>
+    <a class="btn" href="/labs/sampling-design-lab.html">Open the Sampling Design Studio (Level 2) →</a>
+  </div>
+</div>
+
+<footer class="im-footer">
+  <div class="im-footer-grid">
+    <div><h4>Learn</h4><ul>
+      <li><a href="../courses/">Flagship Courses</a></li>
+      <li><a href="/labs/">All Labs</a></li>
+      <li><a href="../courses/mel/">MEL course</a></li>
+    </ul></div>
+    <div><h4>Sampling</h4><ul>
+      <li><a href="/labs/sampling-design-lab.html">Sampling Design Studio</a></li>
+      <li><a href="/BookCompanionTools/sample-size-calculator.html">Sample Size Calculator</a></li>
+      <li><a href="/labs/mel-design-lab.html">MEL Design Lab</a></li>
+    </ul></div>
+    <div><h4>Support</h4><ul>
+      <li><a href="../coaching.html">Coaching</a></li>
+      <li><a href="../dojos">Dojos</a></li>
+      <li><a href="../faq.html">FAQ</a></li>
+    </ul></div>
+  </div>
+  <div class="im-footer-bottom">
+    <p>&copy; 2026 ImpactMojo. All content for educational purposes only.</p>
+    <p>Released under <strong>MIT License</strong> | Supported by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  function $(id){return document.getElementById(id);}
+
+  // --- Bias demo: convenience vs random -------------------------------------
+  var POP = 300, TRAIT_SHARE = 0.40, SAMPLE = 30;
+  // Build a fixed population: index < 120 are landless (trait). "visibility"
+  // (how likely to be caught by a market-day convenience grab) is LOW for the
+  // landless — that's what biases convenience sampling.
+  var people = [];
+  for(var i=0;i<POP;i++){
+    var trait = i < Math.round(POP*TRAIT_SHARE);
+    people.push({trait:trait, vis: (trait?0.2:1.0)});
+  }
+  function paintGrid(pickedSet){
+    var g = $('dotgrid'); if(!g) return;
+    var html='';
+    for(var i=0;i<POP;i++){
+      var c='dot'+(people[i].trait?' trait':'')+(pickedSet && pickedSet.has(i)?' picked':'');
+      html+='<span class="'+c+'"></span>';
+    }
+    g.innerHTML=html;
+  }
+  function shuffle(a){ for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+  function draw(){
+    var idx=[]; for(var i=0;i<POP;i++) idx.push(i);
+    // random: fair shuffle, take 30
+    var rnd = shuffle(idx.slice()).slice(0,SAMPLE);
+    var randTrait = rnd.filter(function(k){return people[k].trait;}).length;
+    // convenience: weight by visibility (landless under-represented)
+    var weighted = idx.slice().map(function(k){return {k:k, w:people[k].vis*(0.5+Math.random())};});
+    weighted.sort(function(a,b){return b.w-a.w;});
+    var conv = weighted.slice(0,SAMPLE).map(function(o){return o.k;});
+    var convTrait = conv.filter(function(k){return people[k].trait;}).length;
+    $('randEst').textContent = Math.round(randTrait/SAMPLE*100)+'%';
+    $('convEst').textContent = Math.round(convTrait/SAMPLE*100)+'%';
+    var picked=new Set(conv.concat(rnd));
+    paintGrid(picked);
+  }
+  if($('dotgrid')){ paintGrid(null); $('drawBtn').addEventListener('click', draw); }
+
+  // --- Margin-of-error demo -------------------------------------------------
+  // MoE for a proportion at 95% (z=1.96), worst-case p=0.5: 1.96*sqrt(.25/n)*100
+  function moe(n){ return 1.96*Math.sqrt(0.25/n)*100; }
+  function updMoe(){
+    var n=parseInt($('nRange').value,10);
+    var m=moe(n);
+    $('nVal').textContent=n.toLocaleString('en-IN');
+    $('moeVal').textContent='±'+m.toFixed(1);
+    // bar width: full track = ±15 points; scale accordingly (cap at 100%)
+    var pct=Math.min(100, (m/15)*100);
+    $('moeFill').style.width=pct+'%';
+    var note='';
+    if(m>8) note='A wobble this wide can hide big differences — fine for a rough read, risky for a decision.';
+    else if(m>4) note='Around ±5 points — the everyday default for programme reporting.';
+    else note='Very tight — precise, but notice how many people it took to get here.';
+    $('moeNote').textContent=note;
+  }
+  if($('nRange')){ $('nRange').addEventListener('input', updMoe); updMoe(); }
+})();
+</script>
+
+<!-- Supabase Auth -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="/js/state-manager.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/theme.js"></script>
+<script src="/js/translate-sarvam.js" defer></script>
+</body>
+</html>

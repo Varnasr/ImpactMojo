@@ -155,7 +155,7 @@ ImpactMojo is built as a **Progressive Web App (PWA)**, which means it can work 
 ImpactMojo is free to use, and the free tier is genuinely substantial. Here's what each level offers, explained in terms of what it means for your work:
 
 ### Explorer (Free)
-**What you get:** All 60 courses, 134 simulation games, 14 labs, 84 handouts, ImpactLex, Dev Case Studies, DevDiscourses, Dataverse access, and the Telegram community channel.
+**What you get:** All 60 courses, 134 simulation games, 15 labs, 84 handouts, ImpactLex, Dev Case Studies, DevDiscourses, Dataverse access, and the Telegram community channel.
 
 **Who it's for:** Anyone who wants to learn. Students, curious professionals, or team members exploring new topics. There's no time limit and no content restrictions on the core library.
 
