@@ -2,6 +2,24 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.32 — July 1, 2026 (Eleven new Interactive Labs)
+
+The Interactive Labs collection grows from 16 to 27, with three new tracks — Research & Methods, Governance & Digital, and Climate & Environment.
+
+### For Learners
+
+- **[Climate Risk & Adaptation Lab](https://www.impactmojo.in/labs/climate-adaptation-lab.html)** — assess climate vulnerability, prioritise hazards on a risk matrix, and design context-specific adaptation strategies for South Asian communities, with a cost-benefit calculator.
+- **[Conflict-Sensitive Programming Lab](https://www.impactmojo.in/labs/conflict-sensitive-lab.html)** — apply Do No Harm principles, analyse conflict actors and drivers, and practise adapt/suspend/exit decisions for fragile settings.
+- **[Data Feminism & Intersectional Analysis Lab](https://www.impactmojo.in/labs/data-feminism-lab.html)** — analyse data through gender, caste and power: disaggregate, spot bias across the data lifecycle, and visualise intersectionally.
+- **[Digital Public Infrastructure Lab](https://www.impactmojo.in/labs/dpi-lab.html)** — understand India's DPI stack (Aadhaar, UPI, DigiLocker, ABHA, ONDC) and the DPDP Act 2023, and design programmes with ethical fallbacks.
+- **[Ethics & Research Integrity Lab](https://www.impactmojo.in/labs/ethics-research-lab.html)** — navigate consent, data privacy, positionality, ethics review, and real fieldwork dilemmas to protect your participants.
+- **[Grant Writing & Proposal Lab](https://www.impactmojo.in/labs/grant-writing-lab.html)** — match donors, build a theory of change, write compelling narratives, and budget credibly for fundable proposals.
+- **[Participatory Methods Lab](https://www.impactmojo.in/labs/participatory-methods-lab.html)** — master participatory rural appraisal, community mapping, focus-group facilitation, and participatory M&E.
+- **[Policy Brief Writing Lab](https://www.impactmojo.in/labs/policy-brief-lab.html)** — distil research into two-page briefs that move ministers, bureaucrats and media, with audience targeting and structure.
+- **[Stakeholder Mapping & Power Analysis Lab](https://www.impactmojo.in/labs/stakeholder-mapping-lab.html)** — map actors, interests and influence on a power–interest grid to design smarter interventions and coalitions.
+- **[Survey Design Lab](https://www.impactmojo.in/labs/survey-design-lab.html)** — craft survey instruments that measure what they claim: question wording, scales, bias tests, translation and piloting.
+- **[Systems Thinking & Complexity Lab](https://www.impactmojo.in/labs/systems-thinking-lab.html)** — map systems, build causal loop diagrams, use the iceberg model and leverage points, and manage adaptively.
+
 ## v10.79.31 — July 1, 2026 (New Budget & Fiscal Analysis Lab)
 
 ### For Learners
