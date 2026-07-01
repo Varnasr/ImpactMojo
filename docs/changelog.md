@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.79.27 — July 1, 2026 (Three more pro tools now free to use)
+
+### For Learners
+
+- **The ToR Builder, Qualitative Insights Lab and Statistical Code Converter are now free for everyone to use** — write a full Terms of Reference, code and analyse qualitative transcripts, or translate statistical code between R/Stata/SPSS/Python, all without a login. Exporting your work (copy, download, print) is the one Premium touch. That's four pro tools now on the free-to-use, premium-to-export model.
+- *(The AI Advisory Board stays Premium — it runs live AI for every session.)*
+
 ## v10.79.26 — July 1, 2026 (Research Question Builder now free to use)
 
 ### For Learners

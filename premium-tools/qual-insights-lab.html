@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Qualitative Insights Lab Pro — ImpactMojo</title>
+<title>Qualitative Insights Lab — free coding &amp; analysis | ImpactMojo</title>
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com" rel="preconnect">
 <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
@@ -451,7 +451,7 @@ body { padding-top: 56px; }
 <!-- Shown to Professional subscribers -->
 <div id="liveTool" style="display:none">
 <nav class="warli-border">
-  <h1>Qualitative Insights Lab Pro <span>— ImpactMojo</span></h1>
+  <h1>Qualitative Insights Lab <span>— free to use, export is Premium</span></h1>
   <div class="tab-bar">
     <button class="tab-btn active" data-tab="coding">Coding</button>
     <button class="tab-btn" data-tab="analysis">Analysis</button>
@@ -506,8 +506,8 @@ body { padding-top: 56px; }
     </div>
     <div id="tab-export" class="tab-content">
       <div class="export-section warli-corner">
-        <h3 style="color:var(--accent-gold);margin-bottom:12px;">Export Project</h3>
-        <p>Download your codebook, coded passages, and memos as a single JSON file.</p>
+        <h3 style="color:var(--accent-gold);margin-bottom:12px;">Export Project <span style="background:linear-gradient(135deg,#F59E0B,#EF4444);color:#fff;font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;padding:0.15rem 0.5rem;border-radius:5px;vertical-align:middle;">★ Premium</span></h3>
+        <p>Download your codebook, coded passages, and memos as a single JSON file. Coding and analysis are free; exporting is a Premium feature.</p>
         <button class="btn-gold" onclick="exportProject()" style="padding:10px 24px;font-size:1rem;">Download JSON</button>
       </div>
     </div>
@@ -894,6 +894,7 @@ function renderMatrix() {
 
 /* ── Export ── */
 function exportProject() {
+  if (!qilRequirePremium()) return;
   const data = {
     exportDate: new Date().toISOString(),
     tool: 'Qualitative Insights Lab Pro — ImpactMojo',
@@ -998,22 +999,25 @@ renderMemos();
 <script src="/js/state-manager.js"></script>
 <script src="/js/config.js"></script>
 <script src="/js/auth.js"></script>
+<script src="/js/premium.js"></script>
 <script src="/js/translate-sarvam.js" defer></script>
 
-<!-- Subscription gate: reveal the live tool only for Professional subscribers -->
+<!-- Freemium: coding & analysis are free for everyone; exporting is Premium -->
 <script>
+window.QIL_PREMIUM = false;
 async function initGate() {
     try { if (window.ImpactMojoAuth) await window.ImpactMojoAuth.waitForAuthReady(); } catch (e) {}
     const auth = window.ImpactMojoAuth;
-    const isPro = !!(auth && typeof auth.hasTierAccess === "function" && auth.hasTierAccess("professional"));
+    window.QIL_PREMIUM = !!(auth && typeof auth.hasTierAccess === "function" && auth.hasTierAccess("professional"));
     var gl = document.getElementById("gateLoading"); if (gl) gl.style.display = "none";
-    if (isPro) {
-        document.getElementById("liveTool").style.display = "block";
-    } else {
-        document.getElementById("lockGate").style.display = "block";
-        // If already signed in (just not Professional), hide the Sign in button.
-        if (auth && auth.user) { var b = document.getElementById("signinBtn"); if (b) b.style.display = "none"; }
-    }
+    var lock = document.getElementById("lockGate"); if (lock) lock.style.display = "none";
+    document.getElementById("liveTool").style.display = "block"; // free to code & analyse
+}
+function qilRequirePremium() {
+    if (window.QIL_PREMIUM) return true;
+    if (window.IMXPremium && typeof window.IMXPremium.showUpgradeModal === "function") window.IMXPremium.showUpgradeModal("professional");
+    else window.location.href = "/premium.html#detail-professional";
+    return false;
 }
 if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initGate);
 else initGate();

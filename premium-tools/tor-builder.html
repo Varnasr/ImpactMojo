@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ToR Builder Pro — Terms of Reference Generator | ImpactMojo</title>
+<title>ToR Builder — free Terms of Reference generator | ImpactMojo</title>
 <meta name="description" content="Free interactive Terms of Reference (ToR) generator for commissioning development research and evaluations. Build a complete ToR plus a costing sheet and export as Markdown or PDF.">
 <meta name="robots" content="index, follow">
 <meta property="og:title" content="ToR Builder Pro — Terms of Reference Generator | ImpactMojo">
@@ -143,7 +143,8 @@ table.cost .num{text-align:right;font-family:'JetBrains Mono',monospace;}
 
 /* preview */
 .preview-wrap{position:sticky;top:72px;}
-.preview-actions{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.8rem;}
+.preview-actions{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.8rem;align-items:center;}
+.tor-pro-pill{display:inline-flex;align-items:center;gap:.25rem;background:linear-gradient(135deg,#F59E0B,#EF4444);color:#fff;font-weight:700;font-size:.62rem;text-transform:uppercase;letter-spacing:.4px;padding:.15rem .5rem;border-radius:5px;}
 .btn{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem .95rem;border-radius:9px;font-family:'Inter',sans-serif;font-weight:600;font-size:.84rem;cursor:pointer;border:1px solid var(--border-color);background:var(--card-bg);color:var(--text-primary);transition:all .15s;}
 .btn:hover{border-color:var(--accent-color);color:var(--accent-color);}
 .btn.primary{background:var(--gradient-primary);color:#fff;-webkit-text-fill-color:#fff;border:none;}
@@ -225,8 +226,8 @@ table.cost .num{text-align:right;font-family:'JetBrains Mono',monospace;}
 <main class="wrap" id="main">
     <div class="hero">
         <span class="badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg> Premium Tool</span>
-        <h1>ToR Builder Pro</h1>
-        <p>Write a <strong>Terms of Reference</strong> that gets you useful research. Fill in the structured prompts on the left, watch a complete, professional ToR — plus a costing sheet — assemble on the right, then export it.</p>
+        <h1>ToR Builder</h1>
+        <p>Write a <strong>Terms of Reference</strong> that gets you useful research. Fill in the structured prompts on the left, watch a complete, professional ToR — plus a costing sheet — assemble on the right. <strong>Free to build</strong>; exporting (copy, download, print) is Premium.</p>
         <p class="links">Pairs with the <a href="/practice-packs/tor-writing/">ToR Practice Pack</a> &middot; and the guide <a href="/blog/writing-a-tor-for-research.html">How to Write a ToR</a></p>
     </div>
 
@@ -380,9 +381,10 @@ table.cost .num{text-align:right;font-family:'JetBrains Mono',monospace;}
         <div>
             <div class="preview-wrap">
                 <div class="preview-actions">
+                    <span class="tor-pro-pill" title="Exporting is a Premium feature">★ Premium</span>
                     <button class="btn primary" onclick="copyMarkdown()"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy Markdown</button>
                     <button class="btn" onclick="downloadMarkdown()"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download .md</button>
-                    <button class="btn" onclick="window.print()"><svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Print / PDF</button>
+                    <button class="btn" onclick="torRequirePremium() &amp;&amp; window.print()"><svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Print / PDF</button>
                     <button class="btn" onclick="loadExample()"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Load example</button>
                     <button class="btn" onclick="resetAll()"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Reset</button>
                 </div>
@@ -622,8 +624,9 @@ function toMarkdown(){
     L.push('---','_Drafted with the ImpactMojo ToR Builder · impactmojo.in_');
     return L.join('\n');
 }
-function copyMarkdown(){navigator.clipboard.writeText(toMarkdown()).then(()=>toast('ToR copied as Markdown')).catch(()=>toast('Copy failed — select & copy manually'));}
+function copyMarkdown(){if(!torRequirePremium())return;navigator.clipboard.writeText(toMarkdown()).then(()=>toast('ToR copied as Markdown')).catch(()=>toast('Copy failed — select & copy manually'));}
 function downloadMarkdown(){
+    if(!torRequirePremium())return;
     const m=model();
     const name=(m.title||'Terms-of-Reference').replace(/[^a-z0-9]+/gi,'_').replace(/^_+|_+$/g,'').slice(0,60)||'ToR';
     const blob=new Blob([toMarkdown()],{type:'text/markdown'});
@@ -735,23 +738,26 @@ function initTool(){
 <script src="/js/state-manager.js"></script>
 <script src="/js/config.js"></script>
 <script src="/js/auth.js"></script>
+<script src="/js/premium.js"></script>
 <script src="/js/translate-sarvam.js" defer></script>
 
-<!-- Subscription gate: reveal the live tool only for Practitioner subscribers -->
+<!-- Freemium: building a ToR is free for everyone; exporting is Premium -->
 <script>
+window.TOR_PREMIUM = false;
 async function initGate(){
     try { if (window.ImpactMojoAuth) await window.ImpactMojoAuth.waitForAuthReady(); } catch (e) {}
     const auth = window.ImpactMojoAuth;
-    const hasAccess = !!(auth && typeof auth.hasTierAccess === "function" && auth.hasTierAccess("practitioner"));
+    window.TOR_PREMIUM = !!(auth && typeof auth.hasTierAccess === "function" && auth.hasTierAccess("practitioner"));
     const gl = document.getElementById("gateLoading"); if (gl) gl.style.display = "none";
-    if (hasAccess) {
-        const lt = document.getElementById("liveTool"); if (lt) lt.style.display = "block";
-        if (typeof initTool === "function") initTool();
-    } else {
-        const lg = document.getElementById("lockGate"); if (lg) lg.style.display = "block";
-        // If already signed in (just not Practitioner), hide the Sign in button.
-        if (auth && auth.user) { const b = document.getElementById("signinBtn"); if (b) b.style.display = "none"; }
-    }
+    const lg = document.getElementById("lockGate"); if (lg) lg.style.display = "none";
+    const lt = document.getElementById("liveTool"); if (lt) lt.style.display = "block";
+    if (typeof initTool === "function") initTool();
+}
+function torRequirePremium(){
+    if (window.TOR_PREMIUM) return true;
+    if (window.IMXPremium && typeof window.IMXPremium.showUpgradeModal === "function") window.IMXPremium.showUpgradeModal("practitioner");
+    else window.location.href = "/premium.html#detail-practitioner";
+    return false;
 }
 if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initGate);
 else initGate();

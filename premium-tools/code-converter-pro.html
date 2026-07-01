@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Statistical Code Converter Pro — ImpactMojo</title>
+<title>Statistical Code Converter — free, in-browser | ImpactMojo</title>
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com" rel="preconnect">
 <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
@@ -131,7 +131,8 @@ body { font-family: var(--font-main); background: var(--bg-primary); color: var(
   padding: 10px 16px; background: var(--bg-panel); border-bottom: 1px solid var(--border-soft);
 }
 .panel-header span { font-family: var(--font-heading); font-size: 0.85rem; font-weight: 700; color: var(--accent-blue); }
-.panel-actions { display: flex; gap: 6px; }
+.panel-actions { display: flex; gap: 6px; align-items: center; }
+.cc-pro-pill { display: inline-flex; align-items: center; gap: .25rem; background: linear-gradient(135deg,#F59E0B,#EF4444); color: #fff; font-weight: 700; font-size: .6rem; text-transform: uppercase; letter-spacing: .4px; padding: .12rem .45rem; border-radius: 5px; }
 .panel-actions button {
   background: transparent; color: var(--text-secondary); border: 1px solid var(--border-soft);
   padding: 4px 10px; border-radius: var(--radius); cursor: pointer;
@@ -463,8 +464,8 @@ body { padding-top: 56px; }
 
 <div class="topbar">
   <div>
-    <h1>Statistical Code Converter Pro</h1>
-    <div class="subtitle">ImpactMojo — Development Education Platform</div>
+    <h1>Statistical Code Converter</h1>
+    <div class="subtitle">Free to convert · exporting the output is Premium</div>
   </div>
   <span class="badge">PREMIUM TOOL</span>
 </div>
@@ -521,6 +522,7 @@ body { padding-top: 56px; }
     <div class="panel-header">
       <span id="tgtLabel">Output (Python)</span>
       <div class="panel-actions">
+        <span class="cc-pro-pill" title="Exporting is a Premium feature">★ Premium</span>
         <button onclick="copyOutput()">Copy</button>
         <button onclick="downloadOutput()">Download</button>
       </div>
@@ -834,6 +836,7 @@ function pasteClipboard() {
 }
 
 function copyOutput() {
+  if (!ccRequirePremium()) return;
   if (!rawOutput) { setStatus('Nothing to copy.'); return; }
   navigator.clipboard.writeText(rawOutput).then(function() {
     setStatus('Copied to clipboard.');
@@ -841,6 +844,7 @@ function copyOutput() {
 }
 
 function downloadOutput() {
+  if (!ccRequirePremium()) return;
   if (!rawOutput) { setStatus('Nothing to download.'); return; }
   var tgt = document.getElementById('tgtLang').value;
   var ext = LANG_EXT[tgt];
@@ -975,23 +979,26 @@ function loadSnippet(idx) {
 <script src="/js/state-manager.js"></script>
 <script src="/js/config.js"></script>
 <script src="/js/auth.js"></script>
+<script src="/js/premium.js"></script>
 <script src="/js/translate-sarvam.js" defer></script>
 
-<!-- Subscription gate: reveal the live tool only for Professional subscribers -->
+<!-- Freemium: converting is free for everyone; exporting the output is Premium -->
 <script>
+window.CC_PREMIUM = false;
 async function initGate() {
   try { if (window.ImpactMojoAuth) await window.ImpactMojoAuth.waitForAuthReady(); } catch (e) {}
   var auth = window.ImpactMojoAuth;
-  var isPro = !!(auth && typeof auth.hasTierAccess === "function" && auth.hasTierAccess("professional"));
+  window.CC_PREMIUM = !!(auth && typeof auth.hasTierAccess === "function" && auth.hasTierAccess("professional"));
   var loading = document.getElementById("gateLoading");
   if (loading) loading.style.display = "none";
-  if (isPro) {
-    document.getElementById("liveTool").style.display = "block";
-  } else {
-    document.getElementById("lockGate").style.display = "block";
-    // If already signed in (just not Professional), hide the Sign in button.
-    if (auth && auth.user) { var b = document.getElementById("signinBtn"); if (b) b.style.display = "none"; }
-  }
+  var lock = document.getElementById("lockGate"); if (lock) lock.style.display = "none";
+  document.getElementById("liveTool").style.display = "block"; // free to convert
+}
+function ccRequirePremium() {
+  if (window.CC_PREMIUM) return true;
+  if (window.IMXPremium && typeof window.IMXPremium.showUpgradeModal === "function") window.IMXPremium.showUpgradeModal("professional");
+  else window.location.href = "/premium.html#detail-professional";
+  return false;
 }
 if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initGate);
 else initGate();
