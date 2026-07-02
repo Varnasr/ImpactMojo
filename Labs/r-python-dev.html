@@ -55,7 +55,7 @@
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
         body { font-family: var(--font-sans); background: var(--primary-bg); color: var(--text-primary); line-height: 1.6; min-height: 100vh; }
-        .container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        .container { max-width: 900px; margin: 0 auto; padding: 2rem; position: relative; z-index: 1; }
         .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--accent-color); text-decoration: none; font-size: 0.9rem; margin-bottom: 2rem; }
         .back-link:hover { color: var(--accent-hover); }
         .back-link svg { width: 18px; height: 18px; }
@@ -108,11 +108,15 @@
         .pill.soon { background: rgba(148,163,184,0.15); color: var(--text-muted); border: 1px solid var(--border-color); }
         .tag { display: inline-block; padding: 4px 12px; background: rgba(14,165,233,0.12); color: var(--accent-color); border-radius: 12px; font-size: 0.78rem; font-family: var(--font-heading); font-weight: 600; margin: 4px 4px 4px 0; }
         .v3-inline-icon { width: 16px; height: 16px; vertical-align: middle; display: inline-block; }
+        .v3-paper-plane { position: fixed; top: 14%; right: 6%; width: 130px; height: 130px; opacity: 0.18; z-index: 0; pointer-events: none; animation: v3-float-plane 25s ease-in-out infinite; }
+        @keyframes v3-float-plane { 0% { transform: translate(0,0) rotate(0deg);} 20% { transform: translate(-50px,40px) rotate(10deg);} 40% { transform: translate(100px,30px) rotate(-8deg);} 60% { transform: translate(40px,60px) rotate(15deg);} 80% { transform: translate(-30px,-40px) rotate(-12deg);} 100% { transform: translate(0,0) rotate(0deg);} }
+        @media (prefers-reduced-motion: reduce) { .v3-paper-plane { animation: none !important; } }
 
         @media (max-width: 768px) {
             .container { padding: 1rem; }
             .code-input { font-size: 0.82rem; }
             .code-output { font-size: 0.78rem; }
+            .v3-paper-plane { width: 90px; height: 90px; opacity: 0.12; }
         }
     </style>
 <style>
@@ -208,6 +212,11 @@ code, pre, .monospace, kbd, samp { font-family: 'JetBrains Mono', monospace; }
 </div>
 
 <div class="container" id="main">
+    <svg class="v3-paper-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M80,130 L150,50" stroke="#10B981" stroke-width="2" stroke-dasharray="4,4"/>
+        <circle cx="150" cy="50" r="4" fill="#6366F1"/>
+    </svg>
     <a href="../Labs/index.html" class="back-link">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
         Back to Labs
