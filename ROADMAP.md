@@ -82,6 +82,9 @@ ImpactMojo development priorities for 2026. Items are roughly ordered by priorit
 
 ## Q3 2026 (Jul-Sep) — Shipped early
 
+- [x] **12 new Interactive Labs** — Budget & Fiscal Analysis, Climate Risk & Adaptation, Conflict-Sensitive Programming, Data Feminism & Intersectional Analysis, Digital Public Infrastructure, Ethics & Research Integrity, Grant Writing & Proposal, Participatory Methods, Policy Brief Writing, Stakeholder Mapping & Power Analysis, Survey Design, and Systems Thinking & Complexity — drafted labs re-skinned to the standard lab template (cyan/indigo, 3-mode theme, floating SVG, footer), fact-checked, and wired across `/labs/`, catalog, search index and sitemap. Labs collection **15 → 28** (incl. the R/Python course) with 3 new tracks: Research & Methods, Governance & Digital, Climate & Environment. (#643–#648)
+- [ ] **R & Python for Development** — interactive course teaching R and Python from zero with real code running in the browser via WebR + Pyodide (no install). _Early access: Module 1 live; Modules 2–7 (real NFHS/ASER/PLFS/Budget data, wrangling, visualisation, impact evaluation) in progress._
+
 - [x] **Peer review system** — Learners review each other's submissions; Supabase-backed (`peer-review.html`, `peer_reviews` + `challenge_submissions` tables with RLS)
 - [x] **Certificate marketplace** — Employer-facing verification portal (`verify.html`)
 - [x] **API for partners** — REST API for organizations to integrate ImpactMojo content (`api-docs.html` + `netlify/functions/partner-api.mjs`)
