@@ -47,6 +47,10 @@ Migrating remaining 45 foundational course decks from Gamma iframes to self-host
 
 ## Recently Completed
 
+### July 2026 — 12 new labs + live-code course
+- **12 new Interactive Labs** — Budget & Fiscal Analysis, Climate Risk & Adaptation, Conflict-Sensitive Programming, Data Feminism, Digital Public Infrastructure, Ethics & Research Integrity, Grant Writing, Participatory Methods, Policy Brief Writing, Stakeholder Mapping, Survey Design, and Systems Thinking. The labs collection grew from 15 to 28, with three new tracks.
+- **R & Python for Development (early access)** — a new interactive course to learn R and Python from zero, running real code live in your browser (WebR + Pyodide, no install). Module 1 is live; more modules coming.
+
 ### v10.18.0 — April 2026
 - **Sitemap expansion** — 84 → 171 indexed URLs (all courses, BookSummaries, blog posts, and public pages)
 - **Stale link cleanup** — ~100 legacy `101.impactmojo.in` links migrated to self-hosted paths

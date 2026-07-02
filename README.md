@@ -170,6 +170,19 @@ Shorter introductory courses covering the breadth of development practice:
 - **Impact Partnerships Lab** — Partnership mapping and collaboration framework
 - **Community Engagement Lab** — Participatory assessment and action planning
 - **Gender Studies Lab** — Gender analysis frameworks and assessment tools
+- **Budget & Fiscal Analysis Lab** — Read Union/State budgets (BE/RE/actuals), fund-flow simulator, per-capita calculator, fiscal federalism
+- **Climate Risk & Adaptation Lab** — Vulnerability assessment, risk matrix, adaptation cost-benefit analysis
+- **Conflict-Sensitive Programming Lab** — Do No Harm framework, conflict analysis, adapt/suspend/exit decisions
+- **Data Feminism & Intersectional Analysis Lab** — Disaggregation, bias detection, intersectional visualisation
+- **Digital Public Infrastructure Lab** — Aadhaar, UPI, DigiLocker, ABHA, ONDC and the DPDP Act 2023
+- **Ethics & Research Integrity Lab** — Consent, data privacy, positionality, ethics review, field dilemmas
+- **Grant Writing & Proposal Lab** — Donor matching, theory of change, narrative, budgeting
+- **Participatory Methods Lab** — PRA, community mapping, focus groups, participatory M&E
+- **Policy Brief Writing Lab** — Two-page briefs with audience targeting and structure
+- **Stakeholder Mapping & Power Analysis Lab** — Power–interest grid, actor and influence mapping
+- **Survey Design Lab** — Question wording, scales, bias tests, translation, piloting
+- **Systems Thinking & Complexity Lab** — Causal loop diagrams, iceberg model, leverage points
+- **R & Python for Development** — Learn R and Python from zero with live in-browser code (WebR + Pyodide), no install _(early access)_
 
 ### Tools & Calculators
 
