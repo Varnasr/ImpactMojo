@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
     <meta name="theme-color" content="#0F172A">
     <title>R &amp; Python for Development — a South Asia 101 | ImpactMojo</title>
-    <meta name="description" content="Learn R and Python from absolute zero for development-sector data work in South Asia — run real code live in your browser, no installation. Read data, wrangle, visualise, and evaluate impact.">
-    <meta name="keywords" content="R, Python, learn to code, development sector, data analysis, WebR, Pyodide, impact evaluation, South Asia, NFHS, ASER, PLFS, ImpactMojo">
+    <meta name="description" content="Learn R and Python from absolute zero for development-sector data work in South Asia — run real code live in your browser, no installation. Read data, wrangle, summarise, visualise, and evaluate impact.">
+    <meta name="keywords" content="R, Python, learn to code, development sector, data analysis, WebR, Pyodide, impact evaluation, tidyverse, pandas, South Asia, NFHS, ASER, PLFS, ImpactMojo">
     <link rel="canonical" href="https://www.impactmojo.in/Labs/r-python-dev.html">
 
 <!-- Google Analytics -->
@@ -38,7 +38,6 @@
             --text-primary: #F1F5F9; --text-secondary: #CBD5E1; --text-muted: #94A3B8;
             --card-bg: #1E293B; --hover-bg: #334155; --border-color: #334155;
             --code-bg: #0B1220; --code-out-bg: #020617; --code-out-text: #E2E8F0;
-            --gradient-primary: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
         } }
 [data-theme="light"] {
             --primary-bg: #FFFFFF; --secondary-bg: #F8FAFC; --accent-color: #0EA5E9; --accent-hover: #0284C7;
@@ -63,61 +62,86 @@
         .header-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 1rem; background: rgba(14, 165, 233, 0.15); color: var(--accent-color); border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-bottom: 1rem; font-family: var(--font-heading); }
         .header h1 { font-family: var(--font-heading); font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 0.5rem; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .header p { color: var(--text-secondary); font-size: 1.05rem; max-width: 700px; margin: 0 auto; }
-        .top-controls { display: flex; justify-content: flex-end; gap: 0.5rem; margin-bottom: 1.5rem; }
-        .theme-selector { display: flex; gap: 4px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 4px; }
-        .lesson { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 1.75rem; margin-bottom: 1.5rem; }
+        .top-controls { display: flex; justify-content: flex-end; gap: 0.5rem; margin-bottom: 1rem; }
+        .ctrl-btn { padding: 0.6rem 0.9rem; background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-size: 0.85rem; cursor: pointer; font-family: var(--font-sans); }
+        .ctrl-btn:hover { border-color: var(--accent-color); background: var(--hover-bg); }
+
+        /* Tabs */
+        .progress-bar { width: 100%; height: 6px; background: var(--border-color); border-radius: 3px; margin-bottom: 1.25rem; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: var(--gradient-primary); border-radius: 3px; transition: width 0.4s; width: 12.5%; }
+        .tabs { display: flex; gap: 0; margin-bottom: 1.75rem; border-bottom: 2px solid var(--border-color); overflow-x: auto; }
+        .tab-btn { padding: 0.8rem 1rem; background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -2px; color: var(--text-muted); font-size: 0.88rem; font-family: var(--font-sans); cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 0.4rem; }
+        .tab-btn:hover { color: var(--text-secondary); }
+        .tab-btn.active { color: var(--accent-color); border-bottom-color: var(--accent-color); }
+        .tab-btn .tab-num { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: var(--border-color); font-size: 0.7rem; font-weight: 700; font-family: var(--font-heading); }
+        .tab-btn.active .tab-num { background: var(--accent-color); color: #fff; }
+        .tab-btn.completed .tab-num { background: var(--success-color); color: #fff; }
+        .tab-panel { display: none; animation: fadeIn 0.3s ease; }
+        .tab-panel.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
         .lesson h2 { font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 0.75rem; color: var(--text-primary); }
-        .lesson h3 { font-family: var(--font-heading); font-size: 1.1rem; margin: 1.5rem 0 0.6rem; color: var(--text-primary); }
+        .lesson h3 { font-family: var(--font-heading); font-size: 1.08rem; margin: 1.5rem 0 0.6rem; color: var(--text-primary); }
         .lesson p { color: var(--text-secondary); font-size: 0.97rem; margin-bottom: 0.85rem; }
+        .lesson ul { color: var(--text-secondary); font-size: 0.95rem; margin: 0 0 0.85rem 1.4rem; line-height: 1.8; }
         .lesson strong { color: var(--text-primary); }
         .eyebrow { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent-color); font-weight: 600; margin-bottom: 0.4rem; }
         .info-box { background: rgba(14,165,233,0.08); border-left: 4px solid var(--accent-color); padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin: 1rem 0; font-size: 0.92rem; color: var(--text-secondary); }
         .info-box.warning { background: rgba(245,158,11,0.10); border-left-color: var(--warning-color); }
+        .info-box.success { background: rgba(16,185,129,0.10); border-left-color: var(--success-color); }
         .info-box strong { color: var(--text-primary); }
         code.inline { font-family: var(--font-mono); font-size: 0.86em; background: var(--code-bg); padding: 0.1em 0.4em; border-radius: 5px; color: var(--text-primary); }
+        .illustrative-tag { display: inline-block; font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.5px; text-transform: uppercase; font-weight: 600; padding: 2px 8px; border-radius: 5px; background: rgba(245,158,11,0.15); color: var(--warning-color); border: 1px solid rgba(245,158,11,0.35); margin-left: 6px; vertical-align: middle; }
 
         /* Live code cell */
         .code-cell { border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; margin: 1.25rem 0; background: var(--secondary-bg); }
-        .cell-tabs { display: flex; gap: 2px; padding: 8px 8px 0; background: var(--secondary-bg); }
+        .cell-tabs { display: flex; gap: 2px; padding: 8px 8px 0; background: var(--secondary-bg); align-items: center; }
         .cell-tab { font-family: var(--font-heading); font-size: 0.82rem; font-weight: 600; padding: 7px 16px; border: 1px solid var(--border-color); border-bottom: none; border-radius: 8px 8px 0 0; background: transparent; color: var(--text-muted); cursor: pointer; }
         .cell-tab.active { background: var(--code-bg); color: var(--accent-color); }
-        .cell-lang-note { margin-left: auto; align-self: center; font-family: var(--font-mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); padding-right: 6px; }
-        .code-input { width: 100%; min-height: 92px; resize: vertical; border: none; border-top: 1px solid var(--border-color); background: var(--code-bg); color: var(--text-primary); font-family: var(--font-mono); font-size: 0.9rem; line-height: 1.5; padding: 14px 16px; tab-size: 2; }
+        .cell-lang-note { margin-left: auto; align-self: center; font-family: var(--font-mono); font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); padding-right: 6px; }
+        .code-input { width: 100%; min-height: 88px; resize: vertical; border: none; border-top: 1px solid var(--border-color); background: var(--code-bg); color: var(--text-primary); font-family: var(--font-mono); font-size: 0.88rem; line-height: 1.5; padding: 14px 16px; tab-size: 2; }
         .code-input:focus { outline: none; box-shadow: inset 0 0 0 2px rgba(14,165,233,0.35); }
-        .cell-actions { display: flex; align-items: center; gap: 0.75rem; padding: 10px 12px; background: var(--secondary-bg); border-top: 1px solid var(--border-color); flex-wrap: wrap; }
-        .run-btn { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--accent-color); color: #fff; border: none; border-radius: 8px; font-family: var(--font-heading); font-weight: 600; font-size: 0.85rem; padding: 0.5rem 1.1rem; cursor: pointer; transition: background 0.2s; }
+        .cell-actions { display: flex; align-items: center; gap: 0.6rem; padding: 10px 12px; background: var(--secondary-bg); border-top: 1px solid var(--border-color); flex-wrap: wrap; }
+        .run-btn { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--accent-color); color: #fff; border: none; border-radius: 8px; font-family: var(--font-heading); font-weight: 600; font-size: 0.85rem; padding: 0.5rem 1.1rem; cursor: pointer; }
         .run-btn:hover { background: var(--accent-hover); }
         .run-btn:disabled { opacity: 0.6; cursor: progress; }
         .reset-btn { background: transparent; border: 1px solid var(--border-color); color: var(--text-secondary); border-radius: 8px; font-family: var(--font-heading); font-size: 0.8rem; padding: 0.45rem 0.8rem; cursor: pointer; }
         .reset-btn:hover { border-color: var(--accent-color); color: var(--text-primary); }
-        .run-status { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); }
+        .run-status { font-family: var(--font-mono); font-size: 0.74rem; color: var(--text-muted); }
         .run-status.err { color: var(--danger-color); }
-        .code-output { display: none; margin: 0; background: var(--code-out-bg); color: var(--code-out-text); font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.5; padding: 14px 16px; white-space: pre-wrap; word-break: break-word; border-top: 1px solid var(--border-color); max-height: 360px; overflow: auto; }
+        .code-output { display: none; margin: 0; background: var(--code-out-bg); color: var(--code-out-text); font-family: var(--font-mono); font-size: 0.84rem; line-height: 1.5; padding: 14px 16px; white-space: pre-wrap; word-break: break-word; border-top: 1px solid var(--border-color); max-height: 380px; overflow: auto; }
         .code-output.show { display: block; }
-        .code-output .out-label { color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 6px; }
+        .code-output .out-label { color: var(--text-muted); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 6px; }
+        .code-output img { max-width: 100%; border-radius: 6px; margin-top: 8px; background: #fff; }
 
-        /* Roadmap */
+        /* Data table (rendered previews) */
         .roadmap { display: grid; gap: 0.6rem; margin: 1rem 0; }
         .road-item { display: flex; gap: 0.85rem; align-items: flex-start; padding: 0.85rem 1rem; border: 1px solid var(--border-color); border-radius: 10px; background: var(--secondary-bg); }
         .road-num { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--gradient-primary); color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; }
-        .road-item.now { border-color: var(--accent-color); box-shadow: 0 0 0 2px rgba(14,165,233,0.15); }
         .road-item h4 { font-family: var(--font-heading); font-size: 0.95rem; color: var(--text-primary); margin-bottom: 0.15rem; }
         .road-item p { font-size: 0.83rem; color: var(--text-muted); margin: 0; }
-        .pill { display: inline-block; font-family: var(--font-mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; padding: 2px 7px; border-radius: 5px; margin-left: 6px; vertical-align: middle; }
-        .pill.now { background: rgba(16,185,129,0.15); color: var(--success-color); border: 1px solid rgba(16,185,129,0.3); }
-        .pill.soon { background: rgba(148,163,184,0.15); color: var(--text-muted); border: 1px solid var(--border-color); }
         .tag { display: inline-block; padding: 4px 12px; background: rgba(14,165,233,0.12); color: var(--accent-color); border-radius: 12px; font-size: 0.78rem; font-family: var(--font-heading); font-weight: 600; margin: 4px 4px 4px 0; }
+        .nav-row { display: flex; justify-content: space-between; margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px solid var(--border-color); gap: 1rem; }
+        .btn { padding: 0.7rem 1.4rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--secondary-bg); color: var(--text-primary); font-size: 0.9rem; font-family: var(--font-sans); cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; text-decoration: none; }
+        .btn:hover { border-color: var(--accent-color); background: var(--hover-bg); }
+        .btn-primary { background: var(--accent-color); border-color: var(--accent-color); color: #fff; font-weight: 600; }
+        .btn-primary:hover { background: var(--accent-hover); color: #fff; }
+        .completion-badge { text-align: center; padding: 2.25rem 1.5rem; background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 16px; margin: 1rem 0; }
+        .completion-badge .tick { width: 68px; height: 68px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; }
+        .completion-badge .tick svg { width: 34px; height: 34px; stroke: #fff; }
+        .completion-badge h2 { font-family: var(--font-heading); color: var(--text-primary); font-size: 1.5rem; margin-bottom: 0.75rem; }
+        .completion-badge p { color: var(--text-secondary); max-width: 560px; margin: 0 auto; }
         .v3-inline-icon { width: 16px; height: 16px; vertical-align: middle; display: inline-block; }
         .v3-paper-plane { position: fixed; top: 14%; right: 6%; width: 130px; height: 130px; opacity: 0.18; z-index: 0; pointer-events: none; animation: v3-float-plane 25s ease-in-out infinite; }
         @keyframes v3-float-plane { 0% { transform: translate(0,0) rotate(0deg);} 20% { transform: translate(-50px,40px) rotate(10deg);} 40% { transform: translate(100px,30px) rotate(-8deg);} 60% { transform: translate(40px,60px) rotate(15deg);} 80% { transform: translate(-30px,-40px) rotate(-12deg);} 100% { transform: translate(0,0) rotate(0deg);} }
-        @media (prefers-reduced-motion: reduce) { .v3-paper-plane { animation: none !important; } }
-
+        @media (prefers-reduced-motion: reduce) { .v3-paper-plane { animation: none !important; } .tab-panel { animation: none; } }
         @media (max-width: 768px) {
             .container { padding: 1rem; }
             .code-input { font-size: 0.82rem; }
             .code-output { font-size: 0.78rem; }
             .v3-paper-plane { width: 90px; height: 90px; opacity: 0.12; }
         }
+        @media print { .im-topbar, .v3-paper-plane, .tabs, .nav-row, .cell-actions { display: none !important; } .tab-panel { display: block !important; page-break-inside: avoid; } }
     </style>
 <style>
 /* ===== ImpactMojo Design System (topbar / footer) ===== */
@@ -225,128 +249,243 @@ code, pre, .monospace, kbd, samp { font-family: 'JetBrains Mono', monospace; }
     <div class="header">
         <div class="header-badge"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Code.svg" alt="" class="v3-inline-icon" loading="lazy" style="filter:brightness(0) saturate(100%) invert(56%) sepia(72%) saturate(2840%) hue-rotate(177deg) brightness(97%) contrast(93%)"> Interactive Course · Live code</div>
         <h1>R &amp; Python for Development</h1>
-        <p>A South Asia 101 — learn to code from absolute zero, with real R and Python running live in your browser. No installation, no account, works on a modest laptop.</p>
+        <p>A South Asia 101 — learn to code from absolute zero, with real R and Python running live in your browser. No installation, works on a modest laptop.</p>
     </div>
 
     <div class="top-controls">
-        <div class="theme-selector" aria-label="Theme selection">
-            <button class="im-theme-btn" data-theme="light" title="Light" aria-label="Light theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg></button>
-            <button class="im-theme-btn" data-theme="dark" title="Dark" aria-label="Dark theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
-        </div>
+        <button class="ctrl-btn" onclick="window.print()">Print</button>
     </div>
 
-    <!-- Intro -->
-    <div class="lesson">
-        <div class="eyebrow">Module 1 of 7 · Pilot</div>
+    <div class="info-box warning" style="margin-bottom:1.25rem;">
+        <strong>How the live code works.</strong> The first time you Run R or Python, your browser downloads the language engine once (R ≈ 7&nbsp;MB, Python ≈ 10&nbsp;MB; later modules fetch a package or two more). Give the first click 10–30 seconds; after that it's quick. A shared dataset (<code class="inline">SURVEY_CSV</code>) is loaded for you when the engine starts, so every code cell can use it.
+    </div>
+
+    <div class="progress-bar"><div class="progress-bar-fill" id="progressFill"></div></div>
+
+    <div class="tabs" id="tabs">
+        <button class="tab-btn active" onclick="switchTab(0)"><span class="tab-num">1</span> First code</button>
+        <button class="tab-btn" onclick="switchTab(1)"><span class="tab-num">2</span> Data in/out</button>
+        <button class="tab-btn" onclick="switchTab(2)"><span class="tab-num">3</span> Wrangling</button>
+        <button class="tab-btn" onclick="switchTab(3)"><span class="tab-num">4</span> Summaries</button>
+        <button class="tab-btn" onclick="switchTab(4)"><span class="tab-num">5</span> Visualise</button>
+        <button class="tab-btn" onclick="switchTab(5)"><span class="tab-num">6</span> Regression</button>
+        <button class="tab-btn" onclick="switchTab(6)"><span class="tab-num">7</span> Reproduce</button>
+        <button class="tab-btn" onclick="switchTab(7)"><span class="tab-num">8</span> Done</button>
+    </div>
+
+    <!-- ===== M1 ===== -->
+    <div class="tab-panel active lesson" data-panel="0">
+        <div class="eyebrow">Module 1 of 7</div>
         <h2>Your first line of code</h2>
-        <p>Two languages run almost everything in development-sector data work: <strong>R</strong> (loved by statisticians and evaluators) and <strong>Python</strong> (loved by data scientists and engineers). You do not have to choose — this course teaches <strong>both, side by side</strong>, so you can read either one and pick what your team uses.</p>
-        <p>Everything here runs <strong>inside this page</strong>. Click <strong>Run</strong> and the code executes in your browser — nothing is installed and nothing is sent to a server.</p>
-        <div class="info-box warning">
-            <strong>First run downloads the engine.</strong> The very first time you Run R or Python, your browser fetches the language runtime once (R ≈ 7&nbsp;MB, Python ≈ 10&nbsp;MB). Give it 10–30 seconds on the first click; after that it is instant. Best on Wi-Fi for the first run.
-        </div>
-    </div>
+        <p>Two languages run most development-sector data work: <strong>R</strong> (loved by statisticians and evaluators) and <strong>Python</strong> (loved by data scientists). You don't have to choose — this course teaches <strong>both, side by side</strong>. Click <strong>Run</strong>, then switch the tab from R to Python and Run again.</p>
 
-    <!-- Lesson: print -->
-    <div class="lesson">
-        <h3>1 · Make the computer say something</h3>
-        <p>The most basic thing code does is <strong>print</strong> — show a value on screen. In both languages the command is <code class="inline">print(...)</code>. Text goes inside quotes. Press <strong>Run</strong>, then switch the tab from R to Python and Run again.</p>
-
-        <div class="code-cell"
-             data-r='print("Hello from R")'
-             data-py='print("Hello from Python")'>
-            <div class="cell-tabs">
-                <button class="cell-tab active" data-lang="r">R</button>
-                <button class="cell-tab" data-lang="py">Python</button>
-                <span class="cell-lang-note">editable — change it and re-run</span>
-            </div>
+        <div class="code-cell" data-r='print("Hello from R")' data-py='print("Hello from Python")'>
+            <div class="cell-tabs"><button class="cell-tab active" data-lang="r">R</button><button class="cell-tab" data-lang="py">Python</button><span class="cell-lang-note">editable</span></div>
             <textarea class="code-input" spellcheck="false" aria-label="Code editor">print("Hello from R")</textarea>
-            <div class="cell-actions">
-                <button class="run-btn">▶ Run</button>
-                <button class="reset-btn">Reset</button>
-                <span class="run-status"></span>
-            </div>
+            <div class="cell-actions"><button class="run-btn">▶ Run</button><button class="reset-btn">Reset</button><span class="run-status"></span></div>
             <pre class="code-output"></pre>
         </div>
 
-        <p>Notice how similar they are. That similarity is the whole reason we can teach them together — the <em>ideas</em> are the same; only small details of spelling differ.</p>
-    </div>
-
-    <!-- Lesson: a tiny calculation -->
-    <div class="lesson">
-        <h3>2 · A tiny piece of real analysis</h3>
-        <p>Say you surveyed five people and recorded their ages. Let's store those numbers and compute the <strong>average (mean)</strong> — the workhorse of any baseline report.</p>
-        <p>In R a list of numbers is made with <code class="inline">c(...)</code> (for "combine") and the average is <code class="inline">mean(...)</code>. In Python we use a list <code class="inline">[...]</code> and compute <code class="inline">sum(...) / len(...)</code>. Run both.</p>
-
-        <div class="code-cell"
-             data-r='ages <- c(19, 22, 25, 31, 45)&#10;mean(ages)'
-             data-py='ages = [19, 22, 25, 31, 45]&#10;sum(ages) / len(ages)'>
-            <div class="cell-tabs">
-                <button class="cell-tab active" data-lang="r">R</button>
-                <button class="cell-tab" data-lang="py">Python</button>
-                <span class="cell-lang-note">editable — change it and re-run</span>
-            </div>
+        <h3>A first calculation</h3>
+        <p>Store five people's ages and compute the <strong>average</strong>. In R a list of numbers is <code class="inline">c(...)</code> and the mean is <code class="inline">mean(...)</code>; in Python it's a list <code class="inline">[...]</code> and <code class="inline">sum(...) / len(...)</code>.</p>
+        <div class="code-cell" data-r='ages <- c(19, 22, 25, 31, 45)&#10;mean(ages)' data-py='ages = [19, 22, 25, 31, 45]&#10;sum(ages) / len(ages)'>
+            <div class="cell-tabs"><button class="cell-tab active" data-lang="r">R</button><button class="cell-tab" data-lang="py">Python</button><span class="cell-lang-note">editable</span></div>
             <textarea class="code-input" spellcheck="false" aria-label="Code editor">ages <- c(19, 22, 25, 31, 45)
 mean(ages)</textarea>
-            <div class="cell-actions">
-                <button class="run-btn">▶ Run</button>
-                <button class="reset-btn">Reset</button>
-                <span class="run-status"></span>
-            </div>
+            <div class="cell-actions"><button class="run-btn">▶ Run</button><button class="reset-btn">Reset</button><span class="run-status"></span></div>
+            <pre class="code-output"></pre>
+        </div>
+        <div class="info-box"><strong>That's 80% of analysis:</strong> data goes into a variable, a function does something to it, you read the result.</div>
+        <div class="nav-row"><span></span><button class="btn btn-primary" onclick="switchTab(1)">Next: Data in/out &rarr;</button></div>
+    </div>
+
+    <!-- ===== M2 ===== -->
+    <div class="tab-panel lesson" data-panel="1">
+        <div class="eyebrow">Module 2 of 7</div>
+        <h2>Data in, data out</h2>
+        <p>Real analysis starts with a <strong>dataset</strong> — rows (people, households) and columns (variables). We've loaded a small illustrative household-survey sample into <code class="inline">SURVEY_CSV</code> for you. <span class="illustrative-tag">Illustrative data</span></p>
+        <p>Read it into a <strong>data frame</strong> — a spreadsheet-like table. In R, <code class="inline">read.csv(text = SURVEY_CSV)</code>; in Python, <code class="inline">pandas</code>. Then peek at the first rows and the shape.</p>
+
+        <div class="code-cell" data-pypkgs="pandas"
+             data-r='df <- read.csv(text = SURVEY_CSV)&#10;head(df)&#10;cat("rows:", nrow(df), " cols:", ncol(df), "\n")'
+             data-py='import pandas as pd, io&#10;df = pd.read_csv(io.StringIO(SURVEY_CSV))&#10;print(df.head())&#10;print("rows:", df.shape[0], " cols:", df.shape[1])'>
+            <div class="cell-tabs"><button class="cell-tab active" data-lang="r">R</button><button class="cell-tab" data-lang="py">Python</button><span class="cell-lang-note">first Python run loads pandas</span></div>
+            <textarea class="code-input" spellcheck="false" aria-label="Code editor">df <- read.csv(text = SURVEY_CSV)
+head(df)
+cat("rows:", nrow(df), " cols:", ncol(df), "\n")</textarea>
+            <div class="cell-actions"><button class="run-btn">▶ Run</button><button class="reset-btn">Reset</button><span class="run-status"></span></div>
             <pre class="code-output"></pre>
         </div>
 
-        <div class="info-box">
-            <strong>What just happened:</strong> you created a variable (<code class="inline">ages</code>), put five numbers in it, and ran a function over it. That is 80% of data analysis — data goes into a variable, a function does something to it, you read the result.
+        <h3>Look at one column</h3>
+        <p>Columns are accessed by name: <code class="inline">df$pc_exp</code> in R, <code class="inline">df["pc_exp"]</code> in Python. Let's summarise monthly per-capita expenditure.</p>
+        <div class="code-cell" data-pypkgs="pandas"
+             data-r='df <- read.csv(text = SURVEY_CSV)&#10;summary(df$pc_exp)'
+             data-py='import pandas as pd, io&#10;df = pd.read_csv(io.StringIO(SURVEY_CSV))&#10;print(df["pc_exp"].describe())'>
+            <div class="cell-tabs"><button class="cell-tab active" data-lang="r">R</button><button class="cell-tab" data-lang="py">Python</button><span class="cell-lang-note">editable</span></div>
+            <textarea class="code-input" spellcheck="false" aria-label="Code editor">df <- read.csv(text = SURVEY_CSV)
+summary(df$pc_exp)</textarea>
+            <div class="cell-actions"><button class="run-btn">▶ Run</button><button class="reset-btn">Reset</button><span class="run-status"></span></div>
+            <pre class="code-output"></pre>
         </div>
+        <div class="info-box">In the field you'll read NFHS, ASER, PLFS or your own survey the same way — from a <code class="inline">.csv</code> file with <code class="inline">read.csv("mydata.csv")</code> or <code class="inline">pd.read_csv("mydata.csv")</code>.</div>
+        <div class="nav-row"><button class="btn" onclick="switchTab(0)">&larr; Back</button><button class="btn btn-primary" onclick="switchTab(2)">Next: Wrangling &rarr;</button></div>
     </div>
 
-    <!-- Your turn -->
-    <div class="lesson">
-        <h3>3 · Your turn</h3>
-        <p>Change the numbers below to a small dataset of your own — maybe household sizes, or the number of children in five families — then Run. Try it in both R and Python.</p>
+    <!-- ===== M3 ===== -->
+    <div class="tab-panel lesson" data-panel="2">
+        <div class="eyebrow">Module 3 of 7</div>
+        <h2>Wrangling — filter and select</h2>
+        <p>Most data work is <strong>reshaping</strong>: keep some rows, keep some columns. Say we want only <strong>rural</strong> households. In R (base) we index with a condition; in Python we use <code class="inline">pandas</code>.</p>
+        <div class="code-cell" data-pypkgs="pandas"
+             data-r='df <- read.csv(text = SURVEY_CSV)&#10;rural <- df[df$area == "Rural", ]&#10;rural[, c("district", "gender", "caste", "pc_exp")]'
+             data-py='import pandas as pd, io&#10;df = pd.read_csv(io.StringIO(SURVEY_CSV))&#10;rural = df[df["area"] == "Rural"]&#10;print(rural[["district","gender","caste","pc_exp"]])'>
+            <div class="cell-tabs"><button class="cell-tab active" data-lang="r">R</button><button class="cell-tab" data-lang="py">Python</button><span class="cell-lang-note">editable</span></div>
+            <textarea class="code-input" spellcheck="false" aria-label="Code editor">df <- read.csv(text = SURVEY_CSV)
+rural <- df[df$area == "Rural", ]
+rural[, c("district", "gender", "caste", "pc_exp")]</textarea>
+            <div class="cell-actions"><button class="run-btn">▶ Run</button><button class="reset-btn">Reset</button><span class="run-status"></span></div>
+            <pre class="code-output"></pre>
+        </div>
+        <h3>Add a new column</h3>
+        <p>Flag "low expenditure" households (below ₹1,500/month). Assign a new column and count how many.</p>
+        <div class="code-cell" data-pypkgs="pandas"
+             data-r='df <- read.csv(text = SURVEY_CSV)&#10;df$low_exp <- df$pc_exp < 1500&#10;table(df$low_exp)'
+             data-py='import pandas as pd, io&#10;df = pd.read_csv(io.StringIO(SURVEY_CSV))&#10;df["low_exp"] = df["pc_exp"] < 1500&#10;print(df["low_exp"].value_counts())'>
+            <div class="cell-tabs"><button class="cell-tab active" data-lang="r">R</button><button class="cell-tab" data-lang="py">Python</button><span class="cell-lang-note">editable</span></div>
+            <textarea class="code-input" spellcheck="false" aria-label="Code editor">df <- read.csv(text = SURVEY_CSV)
+df$low_exp <- df$pc_exp < 1500
+table(df$low_exp)</textarea>
+            <div class="cell-actions"><button class="run-btn">▶ Run</button><button class="reset-btn">Reset</button><span class="run-status"></span></div>
+            <pre class="code-output"></pre>
+        </div>
+        <div class="info-box">Once you're comfortable, R's <strong>tidyverse</strong> (<code class="inline">dplyr</code>) and Python's <strong>pandas</strong> chaining make this even cleaner: <code class="inline">df |&gt; filter(area=="Rural")</code> / <code class="inline">df.query('area=="Rural"')</code>. Same idea, nicer grammar. (Our <a href="../code-converter-pro.html" style="color:var(--accent-color)">Code Convert Pro</a> tool translates between them.)</div>
+        <div class="nav-row"><button class="btn" onclick="switchTab(1)">&larr; Back</button><button class="btn btn-primary" onclick="switchTab(3)">Next: Summaries &rarr;</button></div>
+    </div>
 
+    <!-- ===== M4 ===== -->
+    <div class="tab-panel lesson" data-panel="3">
+        <div class="eyebrow">Module 4 of 7</div>
+        <h2>Summaries &amp; disaggregation</h2>
+        <p>An average hides as much as it reveals. The real story is in the <strong>disaggregation</strong> — the same number split by gender, caste, or geography. (This is exactly the lens of the <a href="data-feminism-lab.html" style="color:var(--accent-color)">Data Feminism Lab</a>.)</p>
+        <p>Mean expenditure by <strong>gender</strong>, then by <strong>gender × caste</strong>:</p>
+        <div class="code-cell" data-pypkgs="pandas"
+             data-r='df <- read.csv(text = SURVEY_CSV)&#10;aggregate(pc_exp ~ gender, df, mean)&#10;aggregate(pc_exp ~ gender + caste, df, mean)'
+             data-py='import pandas as pd, io&#10;df = pd.read_csv(io.StringIO(SURVEY_CSV))&#10;print(df.groupby("gender")["pc_exp"].mean())&#10;print(df.groupby(["gender","caste"])["pc_exp"].mean())'>
+            <div class="cell-tabs"><button class="cell-tab active" data-lang="r">R</button><button class="cell-tab" data-lang="py">Python</button><span class="cell-lang-note">editable</span></div>
+            <textarea class="code-input" spellcheck="false" aria-label="Code editor">df <- read.csv(text = SURVEY_CSV)
+aggregate(pc_exp ~ gender, df, mean)
+aggregate(pc_exp ~ gender + caste, df, mean)</textarea>
+            <div class="cell-actions"><button class="run-btn">▶ Run</button><button class="reset-btn">Reset</button><span class="run-status"></span></div>
+            <pre class="code-output"></pre>
+        </div>
+        <div class="info-box warning"><strong>Read the gaps.</strong> A single "average expenditure" number would erase the gap between, say, General-caste and SC/ST households, and between men and women within each group. Disaggregation is where inequality becomes visible.</div>
+        <div class="nav-row"><button class="btn" onclick="switchTab(2)">&larr; Back</button><button class="btn btn-primary" onclick="switchTab(4)">Next: Visualise &rarr;</button></div>
+    </div>
+
+    <!-- ===== M5 ===== -->
+    <div class="tab-panel lesson" data-panel="4">
+        <div class="eyebrow">Module 5 of 7</div>
+        <h2>Your first chart</h2>
+        <p>A picture makes a gap obvious. We'll draw a <strong>bar chart</strong> of mean expenditure by caste. In Python we use <code class="inline">matplotlib</code> and call <code class="inline">show()</code> (a helper we've provided) to display it; in R we use base <code class="inline">barplot()</code>.</p>
+        <div class="info-box">First run of this module downloads the plotting library (a few MB more). The chart appears below the code.</div>
+        <div class="code-cell" data-pypkgs="pandas,matplotlib"
+             data-r='df <- read.csv(text = SURVEY_CSV)&#10;m <- aggregate(pc_exp ~ caste, df, mean)&#10;barplot(m$pc_exp, names.arg = m$caste,&#10;        col = "#0EA5E9", main = "Mean expenditure by caste",&#10;        ylab = "Rupees / month")'
+             data-py='import pandas as pd, io&#10;import matplotlib&#10;matplotlib.use("AGG")&#10;import matplotlib.pyplot as plt&#10;df = pd.read_csv(io.StringIO(SURVEY_CSV))&#10;m = df.groupby("caste")["pc_exp"].mean()&#10;fig, ax = plt.subplots(figsize=(6,3.5))&#10;ax.bar(m.index, m.values, color="#0EA5E9")&#10;ax.set_title("Mean expenditure by caste")&#10;ax.set_ylabel("Rupees / month")&#10;show(fig)'>
+            <div class="cell-tabs"><button class="cell-tab active" data-lang="r">R</button><button class="cell-tab" data-lang="py">Python</button><span class="cell-lang-note">draws an image</span></div>
+            <textarea class="code-input" spellcheck="false" aria-label="Code editor">df <- read.csv(text = SURVEY_CSV)
+m <- aggregate(pc_exp ~ caste, df, mean)
+barplot(m$pc_exp, names.arg = m$caste,
+        col = "#0EA5E9", main = "Mean expenditure by caste",
+        ylab = "Rupees / month")</textarea>
+            <div class="cell-actions"><button class="run-btn">▶ Run</button><button class="reset-btn">Reset</button><span class="run-status"></span></div>
+            <pre class="code-output"></pre>
+        </div>
+        <div class="info-box">The production-grade tools are R's <strong>ggplot2</strong> and Python's <strong>matplotlib/seaborn</strong>. For design principles, see the <a href="../101-courses/data-viz.html" style="color:var(--accent-color)">Data Visualization 101</a>.</div>
+        <div class="nav-row"><button class="btn" onclick="switchTab(3)">&larr; Back</button><button class="btn btn-primary" onclick="switchTab(5)">Next: Regression &rarr;</button></div>
+    </div>
+
+    <!-- ===== M6 ===== -->
+    <div class="tab-panel lesson" data-panel="5">
+        <div class="eyebrow">Module 6 of 7</div>
+        <h2>Regression &amp; the idea of impact</h2>
+        <p>A <strong>regression</strong> asks: as one thing changes, how does another move? Here — does an extra year of education go with higher expenditure? In R, <code class="inline">lm(y ~ x)</code>; in Python, <code class="inline">numpy.polyfit</code> for the same slope.</p>
+        <div class="code-cell" data-pypkgs="pandas,numpy"
+             data-r='df <- read.csv(text = SURVEY_CSV)&#10;model <- lm(pc_exp ~ years_edu, data = df)&#10;summary(model)$coefficients'
+             data-py='import pandas as pd, io, numpy as np&#10;df = pd.read_csv(io.StringIO(SURVEY_CSV))&#10;slope, intercept = np.polyfit(df["years_edu"], df["pc_exp"], 1)&#10;print("slope (Rs per extra year):", round(slope, 1))&#10;print("intercept:", round(intercept, 1))'>
+            <div class="cell-tabs"><button class="cell-tab active" data-lang="r">R</button><button class="cell-tab" data-lang="py">Python</button><span class="cell-lang-note">editable</span></div>
+            <textarea class="code-input" spellcheck="false" aria-label="Code editor">df <- read.csv(text = SURVEY_CSV)
+model <- lm(pc_exp ~ years_edu, data = df)
+summary(model)$coefficients</textarea>
+            <div class="cell-actions"><button class="run-btn">▶ Run</button><button class="reset-btn">Reset</button><span class="run-status"></span></div>
+            <pre class="code-output"></pre>
+        </div>
+        <h3>From correlation to impact</h3>
+        <p>That slope is a <em>correlation</em>, not proof that education <em>causes</em> higher spending. Impact evaluation isolates cause — e.g. <strong>difference-in-differences</strong> compares the change in a treated group to the change in a comparison group. A tiny illustration: <span class="illustrative-tag">Illustrative</span></p>
         <div class="code-cell"
-             data-r='household_size <- c(4, 6, 3, 5, 7, 2)&#10;mean(household_size)'
-             data-py='household_size = [4, 6, 3, 5, 7, 2]&#10;sum(household_size) / len(household_size)'>
-            <div class="cell-tabs">
-                <button class="cell-tab active" data-lang="r">R</button>
-                <button class="cell-tab" data-lang="py">Python</button>
-                <span class="cell-lang-note">this one is all yours</span>
-            </div>
-            <textarea class="code-input" spellcheck="false" aria-label="Code editor">household_size <- c(4, 6, 3, 5, 7, 2)
-mean(household_size)</textarea>
-            <div class="cell-actions">
-                <button class="run-btn">▶ Run</button>
-                <button class="reset-btn">Reset</button>
-                <span class="run-status"></span>
-            </div>
+             data-r='# before/after means for treated (T) and comparison (C) groups&#10;T_before <- 1000; T_after <- 1600&#10;C_before <- 1000; C_after <- 1200&#10;did <- (T_after - T_before) - (C_after - C_before)&#10;cat("Difference-in-differences estimate:", did, "\n")'
+             data-py='T_before, T_after = 1000, 1600&#10;C_before, C_after = 1000, 1200&#10;did = (T_after - T_before) - (C_after - C_before)&#10;print("Difference-in-differences estimate:", did)'>
+            <div class="cell-tabs"><button class="cell-tab active" data-lang="r">R</button><button class="cell-tab" data-lang="py">Python</button><span class="cell-lang-note">editable</span></div>
+            <textarea class="code-input" spellcheck="false" aria-label="Code editor"># before/after means for treated (T) and comparison (C) groups
+T_before <- 1000; T_after <- 1600
+C_before <- 1000; C_after <- 1200
+did <- (T_after - T_before) - (C_after - C_before)
+cat("Difference-in-differences estimate:", did, "\n")</textarea>
+            <div class="cell-actions"><button class="run-btn">▶ Run</button><button class="reset-btn">Reset</button><span class="run-status"></span></div>
             <pre class="code-output"></pre>
         </div>
+        <div class="info-box">Go deeper in the <a href="../courses/causal/" style="color:var(--accent-color)">Causal Inference for Development</a> course and <a href="../101-courses/impact-eval.html" style="color:var(--accent-color)">Impact Evaluation 101</a>. A great open text with R/Python/Stata code: Martin Huber, <em>Causal Analysis</em> (MIT Press).</div>
+        <div class="nav-row"><button class="btn" onclick="switchTab(4)">&larr; Back</button><button class="btn btn-primary" onclick="switchTab(6)">Next: Reproduce &rarr;</button></div>
     </div>
 
-    <!-- Roadmap -->
-    <div class="lesson">
-        <h2>Where this course goes</h2>
-        <p>This is the pilot lesson. The full 101 continues with real South Asian datasets — NFHS, ASER, PLFS, Census, Union Budget — building from "hello" to running an actual impact evaluation.</p>
+    <!-- ===== M7 ===== -->
+    <div class="tab-panel lesson" data-panel="6">
+        <div class="eyebrow">Module 7 of 7</div>
+        <h2>Reproducibility &amp; sharing</h2>
+        <p>Analysis you can't re-run is analysis nobody can trust. The habit: put your steps in a <strong>script</strong>, <strong>comment</strong> it, and share the script + data so anyone can reproduce your numbers. Here's the whole pipeline from this course in one runnable cell.</p>
+        <div class="code-cell" data-pypkgs="pandas"
+             data-r='# --- A tiny reproducible analysis ---&#10;df <- read.csv(text = SURVEY_CSV)   # 1. read data&#10;df$low_exp <- df$pc_exp < 1500       # 2. derive a variable&#10;by_grp <- aggregate(pc_exp ~ gender + caste, df, mean)  # 3. summarise&#10;print(by_grp)&#10;cat("Share low-expenditure:", round(mean(df$low_exp), 2), "\n")  # 4. headline'
+             data-py='# --- A tiny reproducible analysis ---&#10;import pandas as pd, io&#10;df = pd.read_csv(io.StringIO(SURVEY_CSV))     # 1. read data&#10;df["low_exp"] = df["pc_exp"] < 1500           # 2. derive a variable&#10;by_grp = df.groupby(["gender","caste"])["pc_exp"].mean()  # 3. summarise&#10;print(by_grp)&#10;print("Share low-expenditure:", round(df["low_exp"].mean(), 2))  # 4. headline'>
+            <div class="cell-tabs"><button class="cell-tab active" data-lang="r">R</button><button class="cell-tab" data-lang="py">Python</button><span class="cell-lang-note">the full pipeline</span></div>
+            <textarea class="code-input" spellcheck="false" aria-label="Code editor"># --- A tiny reproducible analysis ---
+df <- read.csv(text = SURVEY_CSV)   # 1. read data
+df$low_exp <- df$pc_exp < 1500       # 2. derive a variable
+by_grp <- aggregate(pc_exp ~ gender + caste, df, mean)  # 3. summarise
+print(by_grp)
+cat("Share low-expenditure:", round(mean(df$low_exp), 2), "\n")  # 4. headline</textarea>
+            <div class="cell-actions"><button class="run-btn">▶ Run</button><button class="reset-btn">Reset</button><span class="run-status"></span></div>
+            <pre class="code-output"></pre>
+        </div>
+        <ul>
+            <li><strong>Comment</strong> every step (the <code class="inline">#</code> lines) so future-you understands it.</li>
+            <li><strong>Never edit data by hand</strong> — every change should be a line of code you can re-run.</li>
+            <li><strong>Share</strong> the script and data (a folder, a GitHub repo, an <code class="inline">.Rproj</code> / notebook). Reproducibility is the difference between a claim and evidence.</li>
+        </ul>
+        <div class="nav-row"><button class="btn" onclick="switchTab(5)">&larr; Back</button><button class="btn btn-primary" onclick="switchTab(7)">Finish &rarr;</button></div>
+    </div>
+
+    <!-- ===== Done ===== -->
+    <div class="tab-panel lesson" data-panel="7">
+        <div class="completion-badge">
+            <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <h2>You can now code with data</h2>
+            <p>From "hello" to reading a survey, wrangling it, disaggregating, charting, and running a regression — in both R and Python, entirely in your browser.</p>
+        </div>
+        <div style="text-align:center;">
+            <span class="tag">R</span><span class="tag">Python</span><span class="tag">tidyverse / pandas</span><span class="tag">WebR + Pyodide</span><span class="tag">No install</span>
+        </div>
+        <h3 style="text-align:center;margin-top:1.5rem;">Where to go next</h3>
         <div class="roadmap">
-            <div class="road-item now"><div class="road-num">1</div><div><h4>Your first line of code <span class="pill now">You are here</span></h4><p>print, variables, a first calculation — in R and Python.</p></div></div>
-            <div class="road-item"><div class="road-num">2</div><div><h4>Data in, data out <span class="pill soon">Coming</span></h4><p>Read a real NFHS / ASER / PLFS file; look at rows and columns.</p></div></div>
-            <div class="road-item"><div class="road-num">3</div><div><h4>Wrangling <span class="pill soon">Coming</span></h4><p>Filter, select, group — tidyverse in R, pandas in Python.</p></div></div>
-            <div class="road-item"><div class="road-num">4</div><div><h4>Summaries &amp; disaggregation <span class="pill soon">Coming</span></h4><p>Means and rates split by gender, caste, geography (ties to the Data Feminism lab).</p></div></div>
-            <div class="road-item"><div class="road-num">5</div><div><h4>Visualisation <span class="pill soon">Coming</span></h4><p>Your first chart — ggplot in R, matplotlib in Python.</p></div></div>
-            <div class="road-item"><div class="road-num">6</div><div><h4>Regression &amp; impact evaluation <span class="pill soon">Coming</span></h4><p>Difference-in-differences, matching, IV — using open impact-evaluation datasets.</p></div></div>
-            <div class="road-item"><div class="road-num">7</div><div><h4>Reproducibility &amp; sharing <span class="pill soon">Coming</span></h4><p>Scripts, comments, and sharing your analysis so others can rerun it.</p></div></div>
+            <div class="road-item"><div class="road-num">→</div><div><h4><a href="../101-courses/econometrics-101.html" style="color:var(--text-primary)">Econometrics 101</a></h4><p>Put the regression to work on real questions.</p></div></div>
+            <div class="road-item"><div class="road-num">→</div><div><h4><a href="data-feminism-lab.html" style="color:var(--text-primary)">Data Feminism Lab</a></h4><p>The ethics and power of disaggregation.</p></div></div>
+            <div class="road-item"><div class="road-num">→</div><div><h4><a href="../code-converter-pro.html" style="color:var(--text-primary)">Code Convert Pro</a></h4><p>Translate your code between R, Python, Stata and SPSS.</p></div></div>
+            <div class="road-item"><div class="road-num">→</div><div><h4><a href="sampling-toolkit.html" style="color:var(--text-primary)">Sampling Toolkit</a></h4><p>Design the survey your code will analyse.</p></div></div>
         </div>
-        <div style="margin-top:1rem;">
-            <span class="tag">R</span><span class="tag">Python</span><span class="tag">WebR + Pyodide</span><span class="tag">No install</span><span class="tag">South Asia</span>
-        </div>
-        <div class="info-box" style="margin-top:1.25rem;">
-            Prefer to translate between languages? Try the <a href="../code-converter-pro.html" style="color:var(--accent-color);">Code Convert Pro</a> tool — paste R and get Python (and Stata, SPSS), or the reverse.
-        </div>
+        <div class="nav-row"><button class="btn" onclick="switchTab(6)">&larr; Review</button><a class="btn btn-primary" href="index.html">More labs &rarr;</a></div>
     </div>
 </div>
 
-<!-- ImpactMojo Footer -->
+<!-- Footer -->
 <footer class="im-footer" role="contentinfo">
 <div class="im-footer-content">
 <p class="im-footer-made">Made with &#10084; by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
@@ -373,13 +512,13 @@ mean(household_size)</textarea>
 </div>
 <div class="im-footer-bottom">
 <p>&copy; 2026 ImpactMojo. Free development education for South Asia.</p>
-<p>R runs via <a href="https://webr.r-wasm.org" rel="noopener" target="_blank">WebR</a> · Python via <a href="https://pyodide.org" rel="noopener" target="_blank">Pyodide</a> — both open source, running in your browser.</p>
+<p>R runs via <a href="https://webr.r-wasm.org" rel="noopener" target="_blank">WebR</a> · Python via <a href="https://pyodide.org" rel="noopener" target="_blank">Pyodide</a> — open source, in your browser.</p>
 </div>
 </div>
 </footer>
 
 <script>
-/* THEME (system / light / dark) */
+/* THEME */
 (function initTheme() {
     var saved = localStorage.getItem('impactmojo-theme') || 'system';
     applyTheme(saved);
@@ -402,14 +541,45 @@ function applyTheme(theme) {
     document.querySelectorAll('.im-theme-btn').forEach(function(b) { b.classList.toggle('active', b.dataset.theme === theme); });
 }
 
-/* ===== Live code engines (lazy-loaded) ===== */
+/* TABS */
+var TOTAL_TABS = 8;
+var visited = { 0: true };
+function switchTab(idx) {
+    visited[idx] = true;
+    document.querySelectorAll('.tab-btn').forEach(function(b, i) {
+        b.classList.toggle('active', i === idx);
+        b.classList.toggle('completed', i !== idx && visited[i]);
+    });
+    document.querySelectorAll('.tab-panel').forEach(function(p, i) { p.classList.toggle('active', i === idx); });
+    document.getElementById('progressFill').style.width = ((idx + 1) / TOTAL_TABS * 100) + '%';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ===== Shared illustrative dataset ===== */
+var SURVEY_CSV = [
+ "id,district,gender,caste,area,pc_exp,years_edu,toilet",
+ "1,Rewa,Female,SC,Rural,980,3,No",
+ "2,Rewa,Male,SC,Rural,1450,6,No",
+ "3,Rewa,Female,General,Urban,3200,12,Yes",
+ "4,Rewa,Male,General,Urban,4100,15,Yes",
+ "5,Betul,Female,ST,Rural,760,2,No",
+ "6,Betul,Male,ST,Rural,1100,5,No",
+ "7,Betul,Female,OBC,Rural,1600,7,Yes",
+ "8,Betul,Male,OBC,Rural,2050,9,Yes",
+ "9,Indore,Female,General,Urban,5200,16,Yes",
+ "10,Indore,Male,General,Urban,6000,17,Yes",
+ "11,Indore,Female,SC,Urban,2400,10,Yes",
+ "12,Indore,Male,SC,Urban,2900,11,Yes",
+ "13,Rewa,Female,OBC,Rural,1350,6,No",
+ "14,Betul,Male,General,Urban,3800,14,Yes",
+ "15,Indore,Female,ST,Rural,900,4,No",
+ "16,Indore,Male,OBC,Urban,3100,12,Yes"
+].join("\n");
+
+/* ===== Live engines (lazy) ===== */
 var WEBR_VERSION = 'latest';
 var PYODIDE_VERSION = 'v0.26.4';
 var webrPromise = null, pyodidePromise = null;
-
-function setAllStatus(msg) {
-    document.querySelectorAll('.run-status').forEach(function(s){ if(s.dataset.loading==='1'){ s.textContent = msg; } });
-}
 
 function getWebR() {
     if (!webrPromise) {
@@ -417,12 +587,12 @@ function getWebR() {
             var mod = await import('https://webr.r-wasm.org/' + WEBR_VERSION + '/webr.mjs');
             var webR = new mod.WebR();
             await webR.init();
+            await webR.evalRVoid('SURVEY_CSV <- ' + JSON.stringify(SURVEY_CSV));
             return webR;
         })();
     }
     return webrPromise;
 }
-
 function loadScript(src) {
     return new Promise(function (resolve, reject) {
         var s = document.createElement('script');
@@ -430,40 +600,62 @@ function loadScript(src) {
         document.head.appendChild(s);
     });
 }
-
 function getPyodide() {
     if (!pyodidePromise) {
         pyodidePromise = (async function () {
             await loadScript('https://cdn.jsdelivr.net/pyodide/' + PYODIDE_VERSION + '/full/pyodide.js');
-            return await loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/' + PYODIDE_VERSION + '/full/' });
+            var py = await loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/' + PYODIDE_VERSION + '/full/' });
+            py.globals.set('SURVEY_CSV', SURVEY_CSV);
+            await py.runPythonAsync(
+                "import io, base64\n" +
+                "def show(fig=None):\n" +
+                "    import matplotlib.pyplot as plt\n" +
+                "    fig = fig or plt.gcf()\n" +
+                "    b = io.BytesIO(); fig.savefig(b, format='png', dpi=110, bbox_inches='tight'); plt.close(fig)\n" +
+                "    print('IMG:' + base64.b64encode(b.getvalue()).decode())\n"
+            );
+            return py;
         })();
     }
     return pyodidePromise;
 }
-
+function bitmapToDataURL(bitmap) {
+    var c = document.createElement('canvas');
+    c.width = bitmap.width; c.height = bitmap.height;
+    c.getContext('2d').drawImage(bitmap, 0, 0);
+    return c.toDataURL('image/png');
+}
 async function runR(code) {
     var webR = await getWebR();
     var shelter = await new webR.Shelter();
     try {
-        var cap = await shelter.captureR(code, { withAutoprint: true, captureStreams: true, captureConditions: false });
-        var lines = cap.output.filter(function (o) { return o.type === 'stdout' || o.type === 'stderr'; }).map(function (o) { return o.data; });
-        return lines.join('\n');
+        var cap = await shelter.captureR(code, { withAutoprint: true, captureGraphics: { width: 640, height: 420 } });
+        var text = cap.output.filter(function (o) { return o.type === 'stdout' || o.type === 'stderr'; })
+                             .map(function (o) { return o.data; }).join('\n');
+        var images = [];
+        if (cap.images && cap.images.length) {
+            for (var i = 0; i < cap.images.length; i++) { images.push(bitmapToDataURL(cap.images[i])); }
+        }
+        return { text: text, images: images };
     } finally { shelter.purge(); }
 }
-
-async function runPython(code) {
+async function runPython(code, pkgs) {
     var py = await getPyodide();
+    if (pkgs) { await py.loadPackage(pkgs.split(',').map(function (s) { return s.trim(); })); }
     var buf = '';
     py.setStdout({ batched: function (s) { buf += s + '\n'; } });
     py.setStderr({ batched: function (s) { buf += s + '\n'; } });
     var result = await py.runPythonAsync(code);
-    if ((buf === '' || buf === '\n') && result !== undefined && result !== null) {
-        buf = String(result);
-    }
-    return buf.replace(/\n+$/, '');
+    if (!buf.trim() && result !== undefined && result !== null) { buf = String(result); }
+    var images = [], kept = [];
+    buf.split('\n').forEach(function (ln) {
+        if (ln.indexOf('IMG:') === 0) { images.push('data:image/png;base64,' + ln.slice(4)); }
+        else { kept.push(ln); }
+    });
+    return { text: kept.join('\n').replace(/\n+$/, ''), images: images };
 }
 
-/* Wire up each code cell */
+/* Wire each code cell */
 document.querySelectorAll('.code-cell').forEach(function (cell) {
     var tabs = cell.querySelectorAll('.cell-tab');
     var input = cell.querySelector('.code-input');
@@ -472,55 +664,50 @@ document.querySelectorAll('.code-cell').forEach(function (cell) {
     var status = cell.querySelector('.run-status');
     var output = cell.querySelector('.code-output');
     var lang = 'r';
-
     function snippet(l) { return (l === 'py' ? cell.dataset.py : cell.dataset.r) || ''; }
-
     tabs.forEach(function (t) {
         t.addEventListener('click', function () {
             var newLang = t.dataset.lang;
-            // only overwrite the editor if it still matches the other language's default (don't clobber edits)
             if (input.value === snippet(lang)) { input.value = snippet(newLang); }
             lang = newLang;
             tabs.forEach(function (x) { x.classList.toggle('active', x === t); });
         });
     });
-
     resetBtn.addEventListener('click', function () {
         input.value = snippet(lang);
         output.classList.remove('show'); status.textContent = ''; status.classList.remove('err');
     });
-
     runBtn.addEventListener('click', async function () {
         var code = input.value;
         runBtn.disabled = true;
         status.classList.remove('err');
-        status.dataset.loading = '1';
-        status.textContent = (lang === 'r' ? 'Loading R…' : 'Loading Python…');
+        status.textContent = (lang === 'r' ? 'Running R…' : 'Running Python…');
         try {
-            var out = (lang === 'r') ? await runR(code) : await runPython(code);
-            status.dataset.loading = '0';
+            var res = (lang === 'r') ? await runR(code) : await runPython(code, cell.dataset.pypkgs);
             output.textContent = '';
-            var lbl = document.createElement('span'); lbl.className = 'out-label'; lbl.textContent = (lang === 'r' ? 'R output' : 'Python output');
+            var lbl = document.createElement('span'); lbl.className = 'out-label';
+            lbl.textContent = (lang === 'r' ? 'R output' : 'Python output');
             output.appendChild(lbl);
-            output.appendChild(document.createTextNode(out === '' ? '(ran with no printed output)' : out));
+            if (res.text) { output.appendChild(document.createTextNode(res.text)); }
+            else if (!res.images.length) { output.appendChild(document.createTextNode('(ran with no printed output)')); }
+            (res.images || []).forEach(function (src) {
+                var img = document.createElement('img'); img.src = src; img.alt = 'Plot output';
+                output.appendChild(img);
+            });
             output.classList.add('show');
             status.textContent = '✓ done';
         } catch (e) {
-            status.dataset.loading = '0';
-            status.classList.add('err');
-            status.textContent = 'error';
+            status.classList.add('err'); status.textContent = 'error';
             output.textContent = '';
             var lbl2 = document.createElement('span'); lbl2.className = 'out-label'; lbl2.textContent = 'Error';
             output.appendChild(lbl2);
             var msg = (e && e.message) ? e.message : String(e);
             if (/Failed to (fetch|load)/i.test(msg) || /import/i.test(msg)) {
-                msg += '\n\n(Could not download the ' + (lang === 'r' ? 'R (WebR)' : 'Python (Pyodide)') + ' engine. Check your internet connection and try again — the first run needs to fetch it once.)';
+                msg += '\n\n(Could not download the ' + (lang === 'r' ? 'R (WebR)' : 'Python (Pyodide)') + ' engine or a package. Check your internet connection and try again — the first run fetches it once.)';
             }
             output.appendChild(document.createTextNode(msg));
             output.classList.add('show');
-        } finally {
-            runBtn.disabled = false;
-        }
+        } finally { runBtn.disabled = false; }
     });
 });
 </script>
