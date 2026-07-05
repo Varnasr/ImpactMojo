@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Counterfactual: The Evaluation Game — ImpactMojo</title>
+<!-- ImpactMojo Fonts: Amaranth (body) + Inter (headings) + JetBrains Mono (code) -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0F172A;--card:#1E293B;--card-hover:#263548;
+  --sky:#38BDF8;--sky-dim:#0369A1;
+  --emerald:#10B981;--emerald-glow:rgba(16,185,129,.35);
+  --amber:#F59E0B;
+  --red:#EF4444;--red-glow:rgba(239,68,68,.35);
+  --text:#E2E8F0;--text-dim:#94A3B8;--text-muted:#64748B;
+  --border:#334155;--radius:12px;
+}
+[data-theme="light"]{
+  --bg:#F8FAFC;--card:#FFFFFF;--card-hover:#F1F5F9;
+  --sky:#0369A1;--sky-dim:#0284C7;
+  --emerald:#047857;--emerald-glow:rgba(4,120,87,.18);
+  --amber:#B45309;
+  --red:#B91C1C;--red-glow:rgba(185,28,28,.15);
+  --text:#0F172A;--text-dim:#475569;--text-muted:#64748B;
+  --border:#E2E8F0;
+}
+html{font-size:16px}
+body{font-family:'Amaranth',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Inter',sans-serif;font-weight:700;line-height:1.2}
+button{cursor:pointer;font-family:inherit;border:none;outline:none}
+button:focus-visible,a:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+.container{max-width:900px;margin:0 auto;padding:0 20px}
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--sky);color:#fff;padding:8px 16px;z-index:10000;border-radius:0 0 8px 0}
+.skip-link:focus{left:0}
+
+/* ── Screens ── */
+.screen{display:none;animation:fadeIn .4s ease}
+.screen.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media (prefers-reduced-motion: reduce){.screen{animation:none}}
+
+/* ── Story intro ── */
+.story-screen{padding:32px 0 48px;text-align:center}
+.story-inner{max-width:840px;margin:0 auto;padding:0 16px}
+.story-inner svg{max-width:100%;height:auto;border-radius:var(--radius);filter:drop-shadow(0 4px 24px rgba(56,189,248,.15))}
+.story-caption{font-size:1.05rem;color:var(--text-dim);max-width:620px;margin:20px auto 8px;font-style:italic}
+.story-credit{font-size:.78rem;color:var(--text-muted);margin-bottom:24px}
+.btn-primary{background:var(--sky-dim);color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:1rem;padding:13px 34px;border-radius:10px;transition:transform .15s,background .2s;-webkit-text-fill-color:#fff}
+.btn-primary:hover{background:var(--sky);transform:translateY(-2px)}
+[data-theme="light"] .btn-primary{background:var(--sky)}
+[data-theme="light"] .btn-primary:hover{background:var(--sky-dim)}
+
+/* ── Welcome ── */
+#welcome{padding:36px 0 60px}
+.welcome-header{text-align:center;margin-bottom:30px}
+.welcome-header h1{font-size:2.3rem;color:var(--sky);margin-bottom:8px}
+.welcome-header p{font-size:1.08rem;color:var(--text-dim)}
+.story-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px 28px;margin-bottom:26px}
+.story-box p{margin-bottom:12px;color:var(--text-dim);font-size:.97rem}
+.story-box p:last-child{margin-bottom:0}
+.story-box strong{color:var(--text)}
+.rules-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:30px}
+.rule-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.rule-card h3{font-size:.95rem;color:var(--sky);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.rule-card h3 svg{width:18px;height:18px;flex-shrink:0}
+.rule-card p{font-size:.88rem;color:var(--text-dim)}
+.center{text-align:center}
+
+/* ── Game screen ── */
+#game{padding:28px 0 60px}
+.hud{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap}
+.hud-pips{display:flex;gap:6px}
+.pip{width:22px;height:8px;border-radius:4px;background:var(--border);transition:background .3s}
+.pip.done{background:var(--emerald)}
+.pip.now{background:var(--sky)}
+.hud-score{font-family:'JetBrains Mono',monospace;font-size:.95rem;color:var(--text-dim)}
+.hud-score strong{color:var(--sky);font-size:1.15rem}
+.scenario{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:26px 28px;margin-bottom:18px}
+.scenario .round-label{font-family:'Inter',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--sky);margin-bottom:6px}
+.scenario h2{font-size:1.45rem;margin-bottom:12px}
+.scenario .setting{color:var(--text-dim);font-size:.97rem;margin-bottom:14px}
+.claim{border-left:4px solid var(--amber);background:rgba(245,158,11,.08);border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:14px;font-size:1.02rem}
+.claim .who{display:block;font-size:.8rem;color:var(--text-muted);margin-top:4px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:'Inter',sans-serif;font-size:.74rem;font-weight:600;padding:4px 12px;border-radius:99px;border:1px solid var(--border);color:var(--text-dim);background:var(--bg)}
+.prompt-line{font-size:1.02rem;margin:18px 2px 12px;color:var(--text)}
+.options{display:grid;gap:12px}
+.opt{background:var(--card);border:2px solid var(--border);border-radius:var(--radius);padding:16px 18px;text-align:left;color:var(--text);font-size:.95rem;line-height:1.5;transition:border-color .2s,transform .12s,background .2s;display:flex;gap:12px;align-items:flex-start}
+.opt:hover:not(:disabled){border-color:var(--sky);background:var(--card-hover);transform:translateY(-1px)}
+.opt:disabled{cursor:default;opacity:.92}
+.opt .key{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--sky);flex-shrink:0;background:rgba(56,189,248,.12);border-radius:6px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:.85rem}
+.opt.revealed-best{border-color:var(--emerald);box-shadow:0 0 0 3px var(--emerald-glow)}
+.opt.revealed-trap{border-color:var(--red);box-shadow:0 0 0 3px var(--red-glow)}
+.opt.chosen{background:var(--card-hover)}
+.opt .verdict-tag{margin-left:auto;flex-shrink:0;font-family:'Inter',sans-serif;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:3px 10px;border-radius:99px;display:none}
+.opt.revealed .verdict-tag{display:inline-block}
+.tag-3{background:rgba(16,185,129,.15);color:var(--emerald)}
+.tag-2{background:rgba(56,189,248,.15);color:var(--sky)}
+.tag-1{background:rgba(245,158,11,.15);color:var(--amber)}
+.tag-0{background:rgba(239,68,68,.15);color:var(--red)}
+.feedback{display:none;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-top:18px}
+.feedback.show{display:block;animation:fadeIn .35s ease}
+.feedback .fb-verdict{font-family:'Inter',sans-serif;font-weight:800;font-size:1.1rem;margin-bottom:8px}
+.fb-good{color:var(--emerald)}.fb-ok{color:var(--sky)}.fb-weak{color:var(--amber)}.fb-bad{color:var(--red)}
+.feedback p{color:var(--text-dim);font-size:.95rem;margin-bottom:10px}
+.cf-question{border-left:4px solid var(--sky);background:rgba(56,189,248,.07);border-radius:0 8px 8px 0;padding:10px 14px;margin:12px 0;font-size:.95rem;color:var(--text)}
+.trap-banner{display:flex;align-items:center;gap:10px;background:rgba(239,68,68,.08);border:1px dashed var(--red);border-radius:8px;padding:10px 14px;margin-top:10px;font-size:.88rem;color:var(--text-dim)}
+.trap-banner.learned{background:rgba(16,185,129,.08);border-color:var(--emerald)}
+.trap-banner strong{color:var(--text)}
+.next-wrap{text-align:right;margin-top:16px}
+
+/* ── Results ── */
+#results{padding:36px 0 60px}
+.result-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:30px;text-align:center;margin-bottom:24px}
+.result-card .archetype{font-size:1.9rem;color:var(--sky);margin:6px 0 10px}
+.result-card .final-score{font-family:'JetBrains Mono',monospace;font-size:1.1rem;color:var(--text-dim)}
+.result-card .final-score strong{color:var(--emerald);font-size:1.5rem}
+.result-card .blurb{max-width:560px;margin:14px auto 0;color:var(--text-dim);font-size:.98rem}
+.best-note{font-size:.85rem;color:var(--text-muted);margin-top:10px}
+.traps-recap{margin-bottom:26px}
+.traps-recap h3{font-size:1.15rem;color:var(--sky);margin-bottom:14px}
+.trap-list{display:grid;gap:10px}
+.trap-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;font-size:.9rem}
+.trap-item .t-icon{flex-shrink:0;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-weight:700;font-size:.8rem}
+.trap-item.dodged .t-icon{background:rgba(16,185,129,.15);color:var(--emerald)}
+.trap-item.fell .t-icon{background:rgba(239,68,68,.15);color:var(--red)}
+.trap-item strong{color:var(--text)}
+.trap-item p{color:var(--text-dim);margin-top:2px}
+.next-steps{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-bottom:26px}
+.next-steps h3{font-size:1.05rem;color:var(--sky);margin-bottom:12px}
+.next-steps ul{list-style:none}
+.next-steps li{margin-bottom:8px;font-size:.92rem}
+.next-steps a{color:var(--sky);text-decoration:none;border-bottom:1px dotted var(--sky)}
+.next-steps a:hover{border-bottom-style:solid}
+.result-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-secondary{background:transparent;color:var(--sky);border:2px solid var(--sky);font-family:'Inter',sans-serif;font-weight:700;font-size:.95rem;padding:11px 28px;border-radius:10px;transition:background .2s,color .2s}
+.btn-secondary:hover{background:var(--sky);color:#fff}
+
+@media (max-width:600px){
+  .welcome-header h1{font-size:1.7rem}
+  .scenario{padding:20px}
+  .scenario h2{font-size:1.2rem}
+  .opt{padding:13px 14px;font-size:.9rem}
+  .hud{justify-content:center}
+}
+</style>
+<style>
+/* ===== ImpactMojo Design System ===== */
+:root {
+    --im-primary-bg: #0F172A;
+    --im-secondary-bg: #1E293B;
+    --im-accent: #0EA5E9;
+    --im-accent-hover: #0284C7;
+    --im-secondary-accent: #6366F1;
+    --im-success: #10B981;
+    --im-text-primary: #F1F5F9;
+    --im-text-secondary: #94A3B8;
+    --im-text-muted: #64748B;
+    --im-card-bg: #1E293B;
+    --im-hover-bg: #334155;
+    --im-border: #334155;
+    --im-nav-bg: rgba(15, 23, 42, 0.95);
+    --im-gradient: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+}
+[data-theme="light"] {
+    --im-primary-bg: #F8FAFC;
+    --im-secondary-bg: #FFFFFF;
+    --im-accent: #0284C7;
+    --im-accent-hover: #0369A1;
+    --im-text-primary: #0F172A;
+    --im-text-secondary: #475569;
+    --im-text-muted: #64748B;
+    --im-card-bg: #FFFFFF;
+    --im-hover-bg: #F1F5F9;
+    --im-border: #E2E8F0;
+    --im-nav-bg: rgba(248, 250, 252, 0.95);
+}
+
+/* ImpactMojo Top Bar */
+.im-topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    background: var(--im-nav-bg, rgba(15, 23, 42, 0.95));
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--im-border, #334155);
+    padding: 0.5rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.75rem; flex-wrap: wrap;
+    font-family: 'Inter', sans-serif;
+}
+.im-topbar a { text-decoration: none; }
+.im-topbar-left {
+    display: flex; align-items: center; gap: 0.75rem;
+}
+.im-topbar-home {
+    display: flex; align-items: center; gap: 0.5rem;
+    color: var(--im-text-primary, #F1F5F9);
+    font-weight: 700; font-size: 1rem;
+    background: var(--im-gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.im-topbar-home svg { width: 24px; height: 24px; flex-shrink: 0; }
+.im-topbar-right {
+    display: flex; align-items: center; gap: 0.5rem;
+}
+.im-premium-btn {
+    background: var(--im-gradient);
+    color: #fff !important;
+    padding: 0.35rem 0.85rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: flex; align-items: center; gap: 0.35rem;
+    transition: opacity 0.2s;
+    -webkit-text-fill-color: #fff;
+}
+.im-browse-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--im-text, #1C1917); background: var(--im-surface, #FFFFFF); border: 1.5px solid var(--im-border, #E2E8F0); padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; transition: background 0.18s ease, border-color 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease; }
+.im-browse-btn:hover { background: var(--im-accent, #0EA5E9); color: #FFFFFF; border-color: var(--im-accent, #0EA5E9); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25); }
+.im-browse-btn svg { width: 14px; height: 14px; }
+@media (prefers-color-scheme: dark) { .im-browse-btn { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.18); } .im-browse-btn:hover { background: var(--im-accent, #0EA5E9); border-color: var(--im-accent, #0EA5E9); color: #FFFFFF; } }
+.im-premium-btn:hover { opacity: 0.9; }
+.im-premium-btn svg { width: 14px; height: 14px; }
+
+/* Theme Selector - 3 mode */
+.im-theme-selector {
+    display: flex; gap: 2px;
+    background: var(--im-card-bg, #1E293B);
+    border: 1px solid var(--im-border, #334155);
+    border-radius: 8px; padding: 2px;
+}
+.im-theme-btn {
+    background: transparent; border: none;
+    color: var(--im-text-secondary, #94A3B8);
+    padding: 6px; border-radius: 5px; cursor: pointer;
+    transition: all 0.2s; display: flex; align-items: center;
+    justify-content: center; width: 30px; height: 30px;
+}
+.im-theme-btn:hover {
+    background: var(--im-hover-bg, #334155);
+    color: var(--im-text-primary, #F1F5F9);
+}
+.im-theme-btn.active {
+    background: var(--im-accent, #0EA5E9);
+    color: #fff;
+}
+.im-theme-btn svg { width: 16px; height: 16px; }
+
+/* Paper Plane */
+.im-paper-plane {
+    position: fixed; top: 15%; right: 8%;
+    width: 120px; height: 120px;
+    opacity: 0.15; z-index: 0;
+    pointer-events: none;
+    animation: im-fly 25s ease-in-out infinite;
+}
+[data-theme="light"] .im-paper-plane { opacity: 0.2; }
+@keyframes im-fly {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    20% { transform: translate(60px, -40px) rotate(12deg); }
+    40% { transform: translate(120px, 30px) rotate(-8deg); }
+    60% { transform: translate(40px, 60px) rotate(15deg); }
+    80% { transform: translate(-30px, 20px) rotate(-5deg); }
+}
+@media (prefers-reduced-motion: reduce) { .im-paper-plane { animation: none; } }
+
+/* ImpactMojo Footer */
+.im-footer {
+    background: var(--im-secondary-bg, #1E293B);
+    border-top: 1px solid var(--im-border, #334155);
+    padding: 2rem 1rem; margin-top: auto;
+    font-family: 'Inter', sans-serif;
+    color: var(--im-text-secondary, #94A3B8);
+}
+.im-footer-content {
+    max-width: 1100px; margin: 0 auto;
+}
+.im-footer-made {
+    text-align: center; margin-bottom: 1.5rem;
+    font-size: 0.9rem; color: var(--im-text-muted, #64748B);
+}
+.im-footer-made a { color: var(--im-accent, #0EA5E9); }
+.im-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem; margin-bottom: 1.5rem;
+}
+.im-footer-section h4 {
+    font-family: 'Inter', sans-serif;
+    color: var(--im-text-primary, #F1F5F9);
+    font-size: 0.9rem; margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+.im-footer-section ul { list-style: none; padding: 0; margin: 0; }
+.im-footer-section li { margin-bottom: 0.4rem; }
+.im-footer-section a {
+    color: var(--im-text-secondary, #94A3B8);
+    text-decoration: none; font-size: 0.85rem;
+    transition: color 0.2s;
+}
+.im-footer-section a:hover { color: var(--im-accent, #0EA5E9); }
+.im-footer-bottom {
+    text-align: center; padding-top: 1rem;
+    border-top: 1px solid var(--im-border, #334155);
+    font-size: 0.8rem; color: var(--im-text-muted, #64748B);
+}
+.im-footer-bottom p { margin: 0.25rem 0; }
+.im-footer-bottom a { color: var(--im-accent, #0EA5E9); text-decoration: none; }
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .im-topbar { padding: 0.4rem 0.75rem; gap: 0.5rem; }
+    .im-topbar-home { font-size: 0.85rem; }
+    .im-topbar-home svg { width: 20px; height: 20px; }
+    .im-premium-btn { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
+    .im-theme-btn { width: 26px; height: 26px; padding: 4px; }
+    .im-theme-btn svg { width: 14px; height: 14px; }
+    .im-paper-plane { width: 80px; height: 80px; top: 10%; right: 5%; }
+    .im-footer-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+}
+@media (max-width: 480px) {
+    .im-footer-grid { grid-template-columns: 1fr; }
+    .im-topbar-home span { display: none; }
+}
+
+/* ImpactMojo Global Font Overrides */
+body { font-family: 'Amaranth', sans-serif !important; }
+h1, h2, h3, h4, h5, h6 { font-family: 'Inter', sans-serif !important; }
+code, pre, .monospace, kbd, samp { font-family: 'JetBrains Mono', monospace !important; }
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+<!-- SEO meta -->
+<meta name="description" content="Play Counterfactual: The Evaluation Game — 8 real-world scenarios from Indian development programmes where you pick the evaluation design that answers 'what would have happened anyway?'. Learn regression to the mean, selection bias, spillovers, and more.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.impactmojo.in/Games/counterfactual-game.html">
+<meta property="og:title" content="Counterfactual: The Evaluation Game — ImpactMojo">
+<meta property="og:description" content="8 scenarios, 8 classic causal-inference traps. Choose the evaluation design that finds the true counterfactual — free interactive game from ImpactMojo.">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:url" content="https://www.impactmojo.in/Games/counterfactual-game.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ImpactMojo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Counterfactual: The Evaluation Game — ImpactMojo">
+<meta name="twitter:description" content="8 scenarios, 8 classic causal-inference traps. Choose the evaluation design that finds the true counterfactual.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<style>
+/* Body clears fixed im-topbar */
+body { padding-top: 56px; }
+@media (max-width: 768px) { body { padding-top: 52px; } }
+</style>
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/css/light-mode-fallback.css">
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to content</a>
+<!-- ImpactMojo Top Bar -->
+<div class="im-topbar" id="imTopbar">
+    <div class="im-topbar-left">
+        <a href="../index.html" class="im-topbar-home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>ImpactMojo</span>
+        </a>
+    </div>
+    <div class="im-topbar-right">
+        <a href="/catalog.html" class="im-browse-btn" title="Browse all content"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Browse</a>
+        <a href="../premium.html" class="im-premium-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Premium
+        </a>
+        <div class="im-theme-selector" aria-label="Theme selection">
+            <button class="im-theme-btn" data-imtheme="system" title="System theme" aria-label="Use system theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </button>
+            <button class="im-theme-btn" data-imtheme="light" title="Light theme" aria-label="Use light theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </button>
+            <button class="im-theme-btn" data-imtheme="dark" title="Dark theme" aria-label="Use dark theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<main id="main-content">
+
+<!-- ═══════════ STORY INTRO ═══════════ -->
+<div id="storyIntro" class="screen story-screen active">
+<div class="story-inner">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" role="img" aria-label="Warli art: a village circle dance beside its faded mirror image — the counterfactual village that never got the programme">
+  <!-- terracotta ground -->
+  <rect width="800" height="400" fill="#93412A"/>
+  <rect width="800" height="400" fill="#7A3522" opacity=".35"/>
+  <!-- warli border: triangle chains -->
+  <g fill="none" stroke="#F5E9DC" stroke-width="2" opacity=".8">
+    <path d="M10 22 L26 8 L42 22 L58 8 L74 22 L90 8 L106 22 L122 8 L138 22 L154 8 L170 22 L186 8 L202 22 L218 8 L234 22 L250 8 L266 22 L282 8 L298 22 L314 8 L330 22 L346 8 L362 22 L378 8 L394 22 L410 8 L426 22 L442 8 L458 22 L474 8 L490 22 L506 8 L522 22 L538 8 L554 22 L570 8 L586 22 L602 8 L618 22 L634 8 L650 22 L666 8 L682 22 L698 8 L714 22 L730 8 L746 22 L762 8 L778 22 L790 12"/>
+    <path d="M10 378 L26 392 L42 378 L58 392 L74 378 L90 392 L106 378 L122 392 L138 378 L154 392 L170 378 L186 392 L202 378 L218 392 L234 378 L250 392 L266 378 L282 392 L298 378 L314 392 L330 378 L346 392 L362 378 L378 392 L394 378 L410 392 L426 378 L442 392 L458 378 L474 392 L490 378 L506 392 L522 378 L538 392 L554 378 L570 392 L586 378 L602 392 L618 378 L634 392 L650 378 L666 392 L682 378 L698 392 L714 378 L730 392 L746 378 L762 392 L778 378 L790 388"/>
+  </g>
+  <!-- sun spiral (top left) -->
+  <g stroke="#F5E9DC" fill="none" stroke-width="2.5" stroke-linecap="round">
+    <circle cx="105" cy="80" r="16"/>
+    <circle cx="105" cy="80" r="26" opacity=".7"/>
+    <g opacity=".9">
+      <line x1="105" y1="42" x2="105" y2="30"/><line x1="105" y1="118" x2="105" y2="130"/>
+      <line x1="67" y1="80" x2="55" y2="80"/><line x1="143" y1="80" x2="155" y2="80"/>
+      <line x1="78" y1="53" x2="70" y2="45"/><line x1="132" y1="107" x2="140" y2="115"/>
+      <line x1="78" y1="107" x2="70" y2="115"/><line x1="132" y1="53" x2="140" y2="45"/>
+    </g>
+  </g>
+  <!-- tree of life (center divider) -->
+  <g stroke="#F5E9DC" fill="none" stroke-width="2.5" stroke-linecap="round">
+    <line x1="400" y1="360" x2="400" y2="180"/>
+    <path d="M400 200 Q370 185 355 155"/><path d="M400 200 Q430 185 445 155"/>
+    <path d="M400 240 Q365 230 345 205"/><path d="M400 240 Q435 230 455 205"/>
+    <path d="M400 180 Q390 150 400 125"/>
+    <circle cx="355" cy="148" r="5" fill="#F5E9DC"/><circle cx="445" cy="148" r="5" fill="#F5E9DC"/>
+    <circle cx="345" cy="198" r="5" fill="#F5E9DC"/><circle cx="455" cy="198" r="5" fill="#F5E9DC"/>
+    <circle cx="400" cy="118" r="6" fill="#F5E9DC"/>
+  </g>
+  <!-- LEFT: the factual village — solid circle dance of 8 warli figures -->
+  <g stroke="#F5E9DC" fill="#F5E9DC" stroke-width="2.2" stroke-linecap="round">
+    <!-- circle path they dance on -->
+    <ellipse cx="200" cy="265" rx="118" ry="52" fill="none" stroke-dasharray="1 7" opacity=".65"/>
+    <!-- 8 figures around the ellipse: triangle-torso stick figures, holding hands -->
+    <g id="wf">
+      <!-- figure template repeated manually at ellipse points -->
+      <!-- top -->
+      <g transform="translate(200,205)"><circle cx="0" cy="-26" r="6" fill="none"/><path d="M-8 -20 L8 -20 L0 2 Z" fill="#F5E9DC" stroke="none"/><line x1="-8" y1="-16" x2="-20" y2="-6"/><line x1="8" y1="-16" x2="20" y2="-6"/><line x1="-3" y1="2" x2="-10" y2="20"/><line x1="3" y1="2" x2="10" y2="20"/></g>
+      <!-- upper right -->
+      <g transform="translate(285,225) rotate(8)"><circle cx="0" cy="-26" r="6" fill="none"/><path d="M-8 -20 L8 -20 L0 2 Z" fill="#F5E9DC" stroke="none"/><line x1="-8" y1="-16" x2="-20" y2="-6"/><line x1="8" y1="-16" x2="20" y2="-6"/><line x1="-3" y1="2" x2="-10" y2="20"/><line x1="3" y1="2" x2="10" y2="20"/></g>
+      <!-- right -->
+      <g transform="translate(313,270) rotate(14)"><circle cx="0" cy="-26" r="6" fill="none"/><path d="M-8 -20 L8 -20 L0 2 Z" fill="#F5E9DC" stroke="none"/><line x1="-8" y1="-16" x2="-20" y2="-6"/><line x1="8" y1="-16" x2="20" y2="-6"/><line x1="-3" y1="2" x2="-10" y2="20"/><line x1="3" y1="2" x2="10" y2="20"/></g>
+      <!-- lower right -->
+      <g transform="translate(268,308) rotate(6)"><circle cx="0" cy="-26" r="6" fill="none"/><path d="M-8 -20 L8 -20 L0 2 Z" fill="#F5E9DC" stroke="none"/><line x1="-8" y1="-16" x2="-20" y2="-6"/><line x1="8" y1="-16" x2="20" y2="-6"/><line x1="-3" y1="2" x2="-10" y2="20"/><line x1="3" y1="2" x2="10" y2="20"/></g>
+      <!-- bottom -->
+      <g transform="translate(200,322)"><circle cx="0" cy="-26" r="6" fill="none"/><path d="M-8 -20 L8 -20 L0 2 Z" fill="#F5E9DC" stroke="none"/><line x1="-8" y1="-16" x2="-20" y2="-6"/><line x1="8" y1="-16" x2="20" y2="-6"/><line x1="-3" y1="2" x2="-10" y2="20"/><line x1="3" y1="2" x2="10" y2="20"/></g>
+      <!-- lower left -->
+      <g transform="translate(132,308) rotate(-6)"><circle cx="0" cy="-26" r="6" fill="none"/><path d="M-8 -20 L8 -20 L0 2 Z" fill="#F5E9DC" stroke="none"/><line x1="-8" y1="-16" x2="-20" y2="-6"/><line x1="8" y1="-16" x2="20" y2="-6"/><line x1="-3" y1="2" x2="-10" y2="20"/><line x1="3" y1="2" x2="10" y2="20"/></g>
+      <!-- left -->
+      <g transform="translate(87,270) rotate(-14)"><circle cx="0" cy="-26" r="6" fill="none"/><path d="M-8 -20 L8 -20 L0 2 Z" fill="#F5E9DC" stroke="none"/><line x1="-8" y1="-16" x2="-20" y2="-6"/><line x1="8" y1="-16" x2="20" y2="-6"/><line x1="-3" y1="2" x2="-10" y2="20"/><line x1="3" y1="2" x2="10" y2="20"/></g>
+      <!-- upper left -->
+      <g transform="translate(115,225) rotate(-8)"><circle cx="0" cy="-26" r="6" fill="none"/><path d="M-8 -20 L8 -20 L0 2 Z" fill="#F5E9DC" stroke="none"/><line x1="-8" y1="-16" x2="-20" y2="-6"/><line x1="8" y1="-16" x2="20" y2="-6"/><line x1="-3" y1="2" x2="-10" y2="20"/><line x1="3" y1="2" x2="10" y2="20"/></g>
+    </g>
+    <!-- crop sheaf beside the real village -->
+    <g fill="none" opacity=".9"><line x1="55" y1="345" x2="55" y2="315"/><path d="M55 322 Q45 315 42 305"/><path d="M55 322 Q65 315 68 305"/><path d="M55 332 Q47 327 44 320"/><path d="M55 332 Q63 327 66 320"/></g>
+  </g>
+  <!-- RIGHT: the counterfactual village — same dance, faded and dashed -->
+  <g stroke="#F5E9DC" fill="#F5E9DC" stroke-width="2.2" stroke-linecap="round" opacity=".38" stroke-dasharray="4 4">
+    <ellipse cx="600" cy="265" rx="118" ry="52" fill="none" stroke-dasharray="1 7"/>
+    <g transform="translate(600,205)"><circle cx="0" cy="-26" r="6" fill="none"/><path d="M-8 -20 L8 -20 L0 2 Z" fill="none"/><line x1="-8" y1="-16" x2="-20" y2="-6"/><line x1="8" y1="-16" x2="20" y2="-6"/><line x1="-3" y1="2" x2="-10" y2="20"/><line x1="3" y1="2" x2="10" y2="20"/></g>
+    <g transform="translate(685,225) rotate(8)"><circle cx="0" cy="-26" r="6" fill="none"/><path d="M-8 -20 L8 -20 L0 2 Z" fill="none"/><line x1="-8" y1="-16" x2="-20" y2="-6"/><line x1="8" y1="-16" x2="20" y2="-6"/><line x1="-3" y1="2" x2="-10" y2="20"/><line x1="3" y1="2" x2="10" y2="20"/></g>
+    <g transform="translate(713,270) rotate(14)"><circle cx="0" cy="-26" r="6" fill="none"/><path d="M-8 -20 L8 -20 L0 2 Z" fill="none"/><line x1="-8" y1="-16" x2="-20" y2="-6"/><line x1="8" y1="-16" x2="20" y2="-6"/><line x1="-3" y1="2" x2="-10" y2="20"/><line x1="3" y1="2" x2="10" y2="20"/></g>
+    <g transform="translate(668,308) rotate(6)"><circle cx="0" cy="-26" r="6" fill="none"/><path d="M-8 -20 L8 -20 L0 2 Z" fill="none"/><line x1="-8" y1="-16" x2="-20" y2="-6"/><line x1="8" y1="-16" x2="20" y2="-6"/><line x1="-3" y1="2" x2="-10" y2="20"/><line x1="3" y1="2" x2="10" y2="20"/></g>
+    <g transform="translate(600,322)"><circle cx="0" cy="-26" r="6" fill="none"/><path d="M-8 -20 L8 -20 L0 2 Z" fill="none"/><line x1="-8" y1="-16" x2="-20" y2="-6"/><line x1="8" y1="-16" x2="20" y2="-6"/><line x1="-3" y1="2" x2="-10" y2="20"/><line x1="3" y1="2" x2="10" y2="20"/></g>
+    <g transform="translate(532,308) rotate(-6)"><circle cx="0" cy="-26" r="6" fill="none"/><path d="M-8 -20 L8 -20 L0 2 Z" fill="none"/><line x1="-8" y1="-16" x2="-20" y2="-6"/><line x1="8" y1="-16" x2="20" y2="-6"/><line x1="-3" y1="2" x2="-10" y2="20"/><line x1="3" y1="2" x2="10" y2="20"/></g>
+    <g transform="translate(487,270) rotate(-14)"><circle cx="0" cy="-26" r="6" fill="none"/><path d="M-8 -20 L8 -20 L0 2 Z" fill="none"/><line x1="-8" y1="-16" x2="-20" y2="-6"/><line x1="8" y1="-16" x2="20" y2="-6"/><line x1="-3" y1="2" x2="-10" y2="20"/><line x1="3" y1="2" x2="10" y2="20"/></g>
+    <g transform="translate(515,225) rotate(-8)"><circle cx="0" cy="-26" r="6" fill="none"/><path d="M-8 -20 L8 -20 L0 2 Z" fill="none"/><line x1="-8" y1="-16" x2="-20" y2="-6"/><line x1="8" y1="-16" x2="20" y2="-6"/><line x1="-3" y1="2" x2="-10" y2="20"/><line x1="3" y1="2" x2="10" y2="20"/></g>
+  </g>
+  <!-- moon (top right, mirrors the sun, faded) -->
+  <g stroke="#F5E9DC" fill="none" stroke-width="2.5" opacity=".45">
+    <path d="M700 60 A 22 22 0 1 0 700 104 A 17 17 0 1 1 700 60"/>
+  </g>
+  <!-- labels -->
+  <g font-family="Inter, sans-serif" fill="#F5E9DC" text-anchor="middle">
+    <text x="200" y="368" font-size="13" font-weight="700" letter-spacing="2">WHAT HAPPENED</text>
+    <text x="600" y="368" font-size="13" font-weight="700" letter-spacing="2" opacity=".55">WHAT WOULD HAVE HAPPENED</text>
+  </g>
+</svg>
+<p class="story-caption">Every impact claim casts a shadow question: <strong>what would have happened anyway?</strong> The village that got the programme is easy to see. The counterfactual village — its ghostly twin — must be found.</p>
+<p class="story-credit">Illustration in the Warli tradition of Maharashtra — the art of the circle dance.</p>
+<button class="btn-primary" id="btnToWelcome">Begin &rarr;</button>
+</div>
+</div>
+
+<!-- ═══════════ WELCOME ═══════════ -->
+<div id="welcome" class="screen">
+<div class="container">
+  <div class="welcome-header">
+    <h1>Counterfactual</h1>
+    <p>The Evaluation Game — can you find what would have happened anyway?</p>
+  </div>
+  <div class="story-box">
+    <p><strong>You are the new Evaluation Lead at the Sambhav Collaborative</strong>, a consortium of Indian NGOs and funders. Eight programme teams are queued outside your office. Each arrives with a confident impact claim — and a decision to make about how to test it.</p>
+    <p>Your job is not to be a cynic. It is to choose, for each situation, the <strong>evaluation design</strong> that gets closest to the true counterfactual given the real constraints — budget, timing, ethics, and politics. Sometimes that's a randomised trial. Often it isn't.</p>
+  </div>
+  <div class="rules-grid">
+    <div class="rule-card">
+      <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>8 rounds, ~10 minutes</h3>
+      <p>Each round is a real-world scenario drawn from Indian development practice. Read the claim, weigh the constraints, pick a design.</p>
+    </div>
+    <div class="rule-card">
+      <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Score 0–3 per round</h3>
+      <p>3 points for the strongest feasible design, partial credit for defensible ones, 0 for the classic trap. Maximum: 24.</p>
+    </div>
+    <div class="rule-card">
+      <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>8 traps to dodge</h3>
+      <p>Every scenario hides one classic threat to validity — regression to the mean, self-selection, survivorship, spillovers, and friends.</p>
+    </div>
+    <div class="rule-card">
+      <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>No jargon required</h3>
+      <p>You don't need econometrics. You need the counterfactual habit of mind. The feedback explains every design in plain language.</p>
+    </div>
+  </div>
+  <div class="center">
+    <button class="btn-primary" id="btnStart">Meet the first team &rarr;</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ GAME ═══════════ -->
+<div id="game" class="screen">
+<div class="container">
+  <div class="hud">
+    <div class="hud-pips" id="pips" aria-label="Round progress"></div>
+    <div class="hud-score" aria-live="polite">Score <strong id="scoreVal">0</strong> / 24</div>
+  </div>
+  <div class="scenario">
+    <div class="round-label" id="roundLabel">Round 1 of 8</div>
+    <h2 id="scTitle"></h2>
+    <p class="setting" id="scSetting"></p>
+    <div class="claim"><span id="scClaim"></span><span class="who" id="scWho"></span></div>
+    <div class="chips" id="scChips"></div>
+    <p class="prompt-line"><strong>What do you recommend?</strong></p>
+    <div class="options" id="optWrap" role="group" aria-label="Evaluation design options"></div>
+    <div class="feedback" id="feedback" aria-live="polite">
+      <div class="fb-verdict" id="fbVerdict"></div>
+      <p id="fbExplain"></p>
+      <div class="cf-question" id="fbCf"></div>
+      <div class="trap-banner" id="fbTrap"></div>
+      <div class="next-wrap"><button class="btn-primary" id="btnNext">Next team &rarr;</button></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ RESULTS ═══════════ -->
+<div id="results" class="screen">
+<div class="container">
+  <div class="result-card">
+    <div class="round-label" style="font-family:'Inter',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--sky)">Evaluation season over</div>
+    <h2 class="archetype" id="resArchetype"></h2>
+    <p class="final-score">Final score: <strong id="resScore"></strong> / 24</p>
+    <p class="blurb" id="resBlurb"></p>
+    <p class="best-note" id="resBest"></p>
+  </div>
+  <div class="traps-recap">
+    <h3>The 8 traps — dodged or fallen for?</h3>
+    <div class="trap-list" id="trapList"></div>
+  </div>
+  <div class="next-steps">
+    <h3>Go deeper on ImpactMojo</h3>
+    <ul>
+      <li>&#9656; <a href="/courses/causal/">Causal Inference flagship course</a> — every design in this game, properly taught</li>
+      <li>&#9656; <a href="/courses/mel/">Monitoring, Evaluation &amp; Learning flagship</a> — build the full MEL toolkit</li>
+      <li>&#9656; <a href="/Labs/mel-design-lab.html">MEL Design Lab</a> — design a real evaluation for your own programme</li>
+      <li>&#9656; <a href="/practice-packs/critiquing-evidence/">Practice Pack: Critiquing Evidence</a> — 4 modules on reading claims like you just played</li>
+      <li>&#9656; <a href="/blog/quasi-experimental-designs.html">Blog: Quasi-Experimental Designs</a> — when randomisation isn't possible</li>
+    </ul>
+  </div>
+  <div class="result-actions">
+    <button class="btn-primary" id="btnReplay">Play again</button>
+    <a class="btn-secondary" href="/game-library.html" style="text-decoration:none;display:inline-flex;align-items:center">More games</a>
+  </div>
+</div>
+</div>
+
+</main>
+
+<script>
+(function(){
+'use strict';
+
+var ROUNDS = [
+  {
+    title:"The Remedial Camp",
+    setting:"An education NGO in Bihar ran a six-week remedial camp for the 100 lowest scorers in a block-level assessment. On the retest, the camp students improved by 18 points on average.",
+    claim:"“An 18-point jump in six weeks! The camp works — let's scale it to every block.”",
+    who:"— Programme Director, Education team",
+    chips:["Retest data in hand","Next cohort starts in 3 months","Moderate budget","Selection was: lowest 100 scorers"],
+    trap:{name:"Regression to the mean", short:"Extreme scorers drift back toward average on retest — with or without help.", explain:"Students picked precisely because they scored lowest will, on average, score better next time even with no programme at all — bad luck, sickness, and guessing don't repeat. Some of that 18-point jump is statistical gravity, not teaching."},
+    options:[
+      {t:"Accept the before–after gain as the impact estimate and write the scale-up note.", pts:0, tag:"The trap", v:"bad",
+       e:"This is the regression-to-the-mean trap in its purest form. Students selected for extreme low scores bounce back on retest regardless of the camp — plus retest familiarity adds its own bump. The 18 points is an upper bound contaminated by statistical gravity."},
+      {t:"Compare camp students' gains with the rest of the school's gains over the same period.", pts:1, tag:"Weak", v:"weak",
+       e:"Better than nothing — it nets out school-wide changes like a new teacher. But the comparison group was selected to be different (they scored higher), and high and low scorers don't drift the same way on retests. The counterfactual is still wrong."},
+      {t:"For the next cohort, randomise eligible low scorers between camp-now and camp-next-term, and compare their retest scores.", pts:3, tag:"Strongest", v:"good",
+       e:"A waitlist (phase-in) randomised design. Both groups were selected the same way, so regression to the mean hits both equally and cancels out. Nobody is denied the camp — the control group simply gets it one term later. Feasible within the 3-month window."},
+      {t:"Match each camp student to a similar-scoring student in a neighbouring block and compare their gains.", pts:2, tag:"Defensible", v:"ok",
+       e:"Matching on baseline scores handles regression to the mean better than option B, since both groups are low scorers. But unmeasured differences remain — why did one block get the camp first? — and neighbouring-block data may be hard to collect. A solid fallback if randomisation is refused."}
+    ]
+  },
+  {
+    title:"The SHG Income Claim",
+    setting:"A livelihoods team supports women's self-help groups across 400 villages in Jharkhand. A survey finds SHG members earn 30% more than non-members in the same villages.",
+    claim:"“Members earn 30% more than non-members. Membership causes prosperity — the data says so.”",
+    who:"— State Lead, Livelihoods team",
+    chips:["Cross-sectional survey done","200 more villages approved, starting next year","No baseline in old villages","Members chose to join"],
+    trap:{name:"Self-selection bias", short:"People who choose a programme differ from those who don't — before it even starts.", explain:"Women who join SHGs are systematically different: more confident, better networked, often slightly better off. Their incomes would differ from non-joiners' even in a world with no SHGs. Comparing joiners to non-joiners measures who joins, not what joining does."},
+    options:[
+      {t:"Report the member vs non-member comparison as the programme's impact.", pts:0, tag:"The trap", v:"bad",
+       e:"Textbook self-selection. The 30% gap mixes the SHG's effect with everything that made these women joiners in the first place — confidence, networks, household support. You cannot separate the two from a cross-section of volunteers."},
+      {t:"Use the 200 approved-but-not-yet-started villages as the comparison group, surveying would-be members there.", pts:3, tag:"Strongest", v:"good",
+       e:"A pipeline comparison. Women in approved villages who intend to join are the closest available counterfactual for current members — same programme targeting, same kind of self-selectors, just earlier in the queue. It rides the rollout you already have, at survey-only cost."},
+      {t:"Ask members directly how much the SHG raised their income.", pts:1, tag:"Weak", v:"weak",
+       e:"Useful colour, terrible measurement. Recall is unreliable, and members who invested years in a group have every reason — social desirability, loyalty, hope — to credit it. Keep the qualitative interviews, but not as the impact number."},
+      {t:"Track new joiners and matched never-joiners over two years and compare income changes.", pts:2, tag:"Defensible", v:"ok",
+       e:"A panel difference-in-differences. Following changes rather than levels strips out fixed differences between joiners and non-joiners. But time-varying selection remains — women often join right when their circumstances shift — and it takes two years. Good, slower, second-best."}
+    ]
+  },
+  {
+    title:"The Scholarship Cutoff",
+    setting:"A state government gives a college scholarship to every student scoring 75+ in the Class 12 board exam. The education department wants to know whether the scholarship actually increases college enrolment.",
+    claim:"“We spend ₹340 crore a year on this. Does the scholarship change who enrols, or reward those going anyway?”",
+    who:"— Principal Secretary, Education",
+    chips:["Rule-based cutoff at 75 marks","Admin data on scores + enrolment","Cannot deny eligible students","No baseline survey"],
+    trap:{name:"Ignoring natural experiments", short:"When a rule draws an arbitrary line, the line itself creates the comparison.", explain:"The strongest designs are sometimes lying in the administrative rules. A hard cutoff means a 74.9 scorer and a 75.1 scorer are nearly identical people with different treatment — a natural experiment. Evaluators who only think 'RCT or nothing' miss it."},
+    options:[
+      {t:"Compare college enrolment of all scholarship recipients vs all non-recipients.", pts:1, tag:"Weak", v:"weak",
+       e:"A 90-scorer and a 50-scorer differ in far more than scholarship status — family income, aspiration, school quality. Ability confounds everything. This comparison will wildly overstate the scholarship's effect."},
+      {t:"Compare enrolment of students scoring just above 75 with those scoring just below.", pts:3, tag:"Strongest", v:"good",
+       e:"Regression discontinuity — the right tool when a rule draws a sharp line. Students at 74 and 76 are effectively identical except for the scholarship, so the enrolment jump at the cutoff is the causal effect. It runs entirely on admin data you already hold."},
+      {t:"Randomly withhold the scholarship from some eligible students to create a control group.", pts:0, tag:"The trap", v:"bad",
+       e:"An RCT is not automatically the gold standard — here it is unethical and illegal. Students have a statutory entitlement; denying it for research would be indefensible. Reaching for randomisation when a cleaner natural experiment exists is a failure of design judgement, not rigour."},
+      {t:"Survey recipients before and after college admission season about their intentions.", pts:1, tag:"Weak", v:"weak",
+       e:"Intentions move with the season for everyone — hardly evidence of the scholarship's effect. And there's still no counterfactual: what would these same students have done without the money? The cutoff can tell you; the survey can't."}
+    ]
+  },
+  {
+    title:"The Phased Immunisation Drive",
+    setting:"A health department is rolling out an intensified immunisation drive across 60 districts in three phases over 18 months. Phase-1 districts were picked for readiness: better cold chains, stronger ANM networks.",
+    claim:"“Phase-1 districts already show coverage 12 points higher than phase-3 districts. The drive is clearly working.”",
+    who:"— Mission Director, Health",
+    chips:["Phased rollout, 3 waves","Phase-1 chosen for readiness","Monthly HMIS coverage data","Remaining schedule already committed"],
+    trap:{name:"Programme placement bias", short:"Where a programme goes first is rarely random — early sites were chosen because they'd do well.", explain:"Comparing early-rollout to late-rollout areas confuses the programme's effect with the reasons behind the rollout order. Phase-1 districts were selected on the very characteristics — infrastructure, staffing — that drive coverage anyway."},
+    options:[
+      {t:"Compare current coverage in phase-1 districts against phase-3 districts.", pts:0, tag:"The trap", v:"bad",
+       e:"Placement bias, straight up. Phase-1 districts were picked because they were ready — better cold chains and staffing would give them higher coverage with no drive at all. The 12-point gap is partly (maybe mostly) the selection rule, not the programme."},
+      {t:"Use the staggered rollout: track each district's monthly coverage before and after its own start date, checking that pre-trends were parallel.", pts:3, tag:"Strongest", v:"good",
+       e:"A staggered difference-in-differences on data you already collect. Each district serves as its own control, later phases anchor the counterfactual trend, and the parallel pre-trends check tells you whether the comparison is honest. No new data collection required."},
+      {t:"Ask to randomise the order in which the remaining phase-3 districts start.", pts:2, tag:"Defensible", v:"ok",
+       e:"Randomised phase-in would be the cleanest design — but the brief says the remaining schedule is already committed, and reopening it costs political capital. Worth raising for the next programme; as the answer to this one, it dodges the question."},
+      {t:"Report the before–after coverage change within phase-1 districts only.", pts:1, tag:"Weak", v:"weak",
+       e:"Coverage trends move with seasons, campaigns, and secular improvement across the whole state. Without untreated districts anchoring the trend, you can't say how much of the rise was the drive. You have later-phase districts — use them."}
+    ]
+  },
+  {
+    title:"The Skilling Completers",
+    setting:"A youth skilling centre in Hyderabad reports on its 6-month IT course: graduates who completed earn 40% more than those who dropped out midway.",
+    claim:"“Completers out-earn dropouts by 40%. Completion is the key to transformation — we should market this number.”",
+    who:"— CEO, Skilling partner",
+    chips:["1,200 enrolled, 700 completed","Tracer survey of completers done","Dropouts barely surveyed","Twice-yearly admission cycles"],
+    trap:{name:"Survivorship bias", short:"Judging a programme only by those who finished ignores everyone the programme lost.", explain:"Completers are the survivors — more motivated, fewer family shocks, better job prospects to begin with. Comparing them to dropouts credits the course with the difference between people who persist and people who couldn't. The dead don't testify; neither do dropouts."},
+    options:[
+      {t:"Publish the completers vs dropouts earnings comparison.", pts:0, tag:"The trap", v:"bad",
+       e:"Survivorship bias — the same error as studying only the planes that returned. Dropouts left because of the very things (shocks, caregiving duties, weaker prospects) that also depress earnings. The 40% gap would largely exist if the course taught nothing."},
+      {t:"Compare everyone offered admission against similar applicants who narrowly missed admission, regardless of who completed.", pts:3, tag:"Strongest", v:"good",
+       e:"Intention-to-treat with a real comparison group. Analysing everyone offered the course — completers and dropouts together — against non-admitted applicants preserves the like-for-like comparison and gives the honest answer for scale-up decisions: what does offering this course achieve?"},
+      {t:"Compare completers with matched young people who never applied.", pts:1, tag:"Weak", v:"weak",
+       e:"Now there are two selection gates: applying, and completing. Non-applicants differ from applicants in motivation; completers differ again. Matching on age, gender, and education can't close either gap."},
+      {t:"Trace the dropouts properly and report both groups' outcomes with an attrition analysis.", pts:2, tag:"Defensible", v:"ok",
+       e:"A genuine improvement — knowing who drops out, when, and why is essential operational evidence, and bounding the bias beats ignoring it. But even perfect dropout data can't manufacture a counterfactual for the programme itself. Do this AND fix the comparison."}
+    ]
+  },
+  {
+    title:"The Sanitation Spillover",
+    setting:"A WASH NGO is designing an evaluation of a community-led total sanitation (CLTS) programme in 80 gram panchayats in Odisha, with funding for a proper study — design not yet fixed.",
+    claim:"“Let's randomise households within each village — half get triggered, half don't. Cleanest possible design, no?”",
+    who:"— Research Officer, WASH team",
+    chips:["Budget for a real evaluation","Design not yet locked","CLTS works through community pressure","80 GPs available"],
+    trap:{name:"Spillovers (the wrong unit)", short:"When treatment leaks to the comparison group, randomising at the wrong level poisons both.", explain:"CLTS works precisely through community-wide shame, pride, and collective resolutions. Untreated households in a treated village are exposed to all of it. Their outcomes shift too — so the within-village comparison understates the true effect, sometimes to zero."},
+    options:[
+      {t:"Randomise households within each village to triggered vs not-triggered.", pts:1, tag:"Weak", v:"weak",
+       e:"It IS a randomised trial — but at the wrong unit. Community pressure doesn't respect your treatment list: control households in triggered villages get swept along, shrinking the measured effect toward zero. Rigorous-looking, quietly broken."},
+      {t:"Randomise whole gram panchayats to the programme or comparison, with distance buffers between them.", pts:3, tag:"Strongest", v:"good",
+       e:"A cluster-randomised design at the level the mechanism operates — the community. Spillovers stay inside treated GPs, buffers stop leakage across boundaries, and 80 GPs gives workable statistical power. This is what the budget is for."},
+      {t:"Skip randomisation: compare households that adopted toilets with those that didn't.", pts:0, tag:"The trap", v:"bad",
+       e:"Adopters differ from non-adopters in wealth, education, and motivation — self-selection all over again, with a funded RCT budget left unused. The one option worse than randomising at the wrong level is not randomising when you genuinely could."},
+      {t:"Run a difference-in-differences between NGO villages and similar non-programme villages.", pts:2, tag:"Defensible", v:"ok",
+       e:"A reasonable quasi-experimental fallback — if randomisation were impossible. It handles fixed village differences but not why some villages got the NGO. Here, with money and 80 GPs available, it needlessly settles for second-best."}
+    ]
+  },
+  {
+    title:"The Monitoring Bump",
+    setting:"An ICDS nutrition programme's dashboard shows excellent outcomes — but nearly all growth-monitoring data is recorded during announced supervision visits, which anganwadi workers prepare for in advance.",
+    claim:"“The dashboards show 90% of children weighed monthly and malnutrition falling. The data is right there.”",
+    who:"— District Programme Officer, WCD",
+    chips:["Announced visits, prepared registers","Dashboard = supervision-day data","Small budget for verification","Workers fear penalties"],
+    trap:{name:"The observer effect", short:"What you measure changes when people know they're being measured.", explain:"Announced visits produce performance, not practice: registers updated the night before, extra children called in, scales recalibrated for the day. The dashboard measures supervision-day behaviour — the one day that looks least like the other twenty-nine."},
+    options:[
+      {t:"Take the dashboard at face value — the data is officially reported.", pts:0, tag:"The trap", v:"bad",
+       e:"Data generated under observation, with penalties attached, measures the visit — not the programme. Treating it as truth doesn't just overstate impact; it teaches the whole system that theatre works."},
+      {t:"Commission unannounced spot checks by independent enumerators on a random sample of centres.", pts:3, tag:"Strongest", v:"good",
+       e:"Random, unannounced, independent — each word closes a gaming channel. A modest sample of surprise visits establishes the true baseline of daily practice and calibrates how much the dashboard flatters. Affordable within a small verification budget."},
+      {t:"Compare announced-visit data against the same centres' routine-day records to size the gap.", pts:2, tag:"Defensible", v:"ok",
+       e:"Clever use of what exists — the announced-vs-routine gap is itself a measure of performance inflation. But routine registers can be back-filled too, so this bounds the problem rather than solving it. Pairs well with option B."},
+      {t:"Ask workers to self-report their monthly weighing practices in a survey.", pts:1, tag:"Weak", v:"weak",
+       e:"Workers who fear penalties will report compliance — social desirability with a livelihood attached. Anonymous surveys can add texture about constraints they face, but as outcome data this is the observer effect wearing a different hat."}
+    ]
+  },
+  {
+    title:"The Drought Year",
+    setting:"A livelihoods programme gave productive-asset grants to 5,000 households in Marathwada in 2024. A severe drought hit in 2025. The 2026 endline finds household incomes below baseline.",
+    claim:"“Incomes fell below baseline. The programme failed — the board wants to shut it down.”",
+    who:"— Trustee, Funder's board",
+    chips:["Baseline (2024) + endline (2026)","Severe drought in 2025","Comparison villages surveyed at baseline","Board decision in 2 months"],
+    trap:{name:"Confounding shocks", short:"A before–after comparison credits (or blames) the programme for everything else that happened in between.", explain:"The drought moved every household's income, participant or not. Before–after math attributes the entire drought to the programme. The right question was never 'did incomes rise?' — it's 'did participants fare better than they would have in the same drought?'"},
+    options:[
+      {t:"Accept the before–after decline as evidence of failure and recommend closure.", pts:0, tag:"The trap", v:"bad",
+       e:"This blames the programme for the monsoon. Every income in Marathwada fell in 2025; without asking what happened to comparable non-participants, the before–after number contains the drought, not the programme. Boards have killed good programmes on exactly this arithmetic."},
+      {t:"Survey the baseline comparison villages now and run a difference-in-differences through the drought.", pts:3, tag:"Strongest", v:"good",
+       e:"You already hold the key asset: baseline data on comparison villages that faced the same drought. If participants' incomes fell by less — assets cushioned the shock — the programme protected people precisely when it mattered. That's the honest answer, available within two months."},
+      {t:"Statistically adjust the before–after estimate using district rainfall data.", pts:1, tag:"Weak", v:"weak",
+       e:"Rainfall regressions assume you know exactly how the drought maps to income for every household type — the very thing you don't know. A comparison group experiences the drought for you; a model only guesses at it. Fragile foundations for a shutdown decision."},
+      {t:"Add rapid qualitative work on how households used the assets during the drought, alongside the quantitative comparison.", pts:2, tag:"Defensible", v:"ok",
+       e:"Exactly the right companion evidence — did families sell assets, eat into them, or lean on them? — and it may reveal resilience the income numbers miss. But on its own it can't answer the board's causal question. Do this with option B, not instead of it."}
+    ]
+  }
+];
+
+var state = { round:0, score:0, picks:[], answered:false };
+var $ = function(id){ return document.getElementById(id); };
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+  $(id).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function renderPips(){
+  var h='';
+  for(var i=0;i<ROUNDS.length;i++){
+    h += '<span class="pip'+(i<state.round?' done':(i===state.round?' now':''))+'"></span>';
+  }
+  $('pips').innerHTML = h;
+}
+
+function renderRound(){
+  var r = ROUNDS[state.round];
+  state.answered = false;
+  renderPips();
+  $('roundLabel').textContent = 'Round '+(state.round+1)+' of '+ROUNDS.length;
+  $('scTitle').textContent = r.title;
+  $('scSetting').textContent = r.setting;
+  $('scClaim').textContent = r.claim;
+  $('scWho').textContent = r.who;
+  $('scChips').innerHTML = r.chips.map(function(c){ return '<span class="chip">'+c+'</span>'; }).join('');
+  var keys = ['A','B','C','D'];
+  $('optWrap').innerHTML = r.options.map(function(o,i){
+    return '<button class="opt" data-i="'+i+'"><span class="key">'+keys[i]+'</span><span>'+o.t+'</span><span class="verdict-tag tag-'+o.pts+'">'+o.tag+'</span></button>';
+  }).join('');
+  $('feedback').classList.remove('show');
+  Array.prototype.forEach.call(document.querySelectorAll('.opt'), function(btn){
+    btn.addEventListener('click', function(){ choose(parseInt(this.getAttribute('data-i'),10)); });
+  });
+}
+
+function choose(i){
+  if(state.answered) return;
+  state.answered = true;
+  var r = ROUNDS[state.round];
+  var o = r.options[i];
+  state.score += o.pts;
+  state.picks.push({round:state.round, pick:i, pts:o.pts, fellForTrap:(o.pts===0)});
+  $('scoreVal').textContent = state.score;
+
+  Array.prototype.forEach.call(document.querySelectorAll('.opt'), function(btn,bi){
+    btn.disabled = true;
+    btn.classList.add('revealed');
+    var op = r.options[bi];
+    if(op.pts===3) btn.classList.add('revealed-best');
+    if(op.pts===0) btn.classList.add('revealed-trap');
+    if(bi===i) btn.classList.add('chosen');
+  });
+
+  var vMap = {good:['Strong choice.','fb-good'], ok:['Defensible.','fb-ok'], weak:['Risky ground.','fb-weak'], bad:['You walked into the trap.','fb-bad']};
+  var vm = vMap[o.v];
+  $('fbVerdict').textContent = vm[0]+' +'+o.pts+(o.pts===1?' point':' points');
+  $('fbVerdict').className = 'fb-verdict '+vm[1];
+  $('fbExplain').textContent = o.e;
+  $('fbCf').innerHTML = '<strong>The counterfactual question:</strong> '+r.trap.explain;
+  var trapEl = $('fbTrap');
+  if(o.pts===0){
+    trapEl.className = 'trap-banner';
+    trapEl.innerHTML = '<strong>Trap:</strong>&nbsp;'+r.trap.name+' — '+r.trap.short;
+  } else {
+    trapEl.className = 'trap-banner learned';
+    trapEl.innerHTML = '<strong>Trap dodged:</strong>&nbsp;'+r.trap.name+' — '+r.trap.short;
+  }
+  $('btnNext').textContent = (state.round === ROUNDS.length-1) ? 'See your results →' : 'Next team →';
+  $('feedback').classList.add('show');
+  $('feedback').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function archetype(score){
+  if(score>=21) return ['The Causal Detective','You see the ghost village behind every claim. Designs, constraints, ethics — you weighed them all and picked the strongest feasible counterfactual almost every time. Your funders should be nervous in the best way.'];
+  if(score>=16) return ['The Evidence Builder','You have the counterfactual habit of mind and it shows. A couple of traps caught your sleeve — review the recap below and you’ll be un-foolable.'];
+  if(score>=10) return ['The Curious Analyst','You dodge the obvious traps but sometimes settle for a weaker comparison than the situation offered. The good news: design judgement is learnable — start with the recap below.'];
+  return ['The Hopeful Storyteller','You believe programmes work — a fine trait in an implementer, a dangerous one in an evaluator. Play again and ask one question before choosing: what would have happened anyway?'];
+}
+
+function renderResults(){
+  var a = archetype(state.score);
+  $('resArchetype').textContent = a[0];
+  $('resScore').textContent = state.score;
+  $('resBlurb').textContent = a[1];
+  $('trapList').innerHTML = state.picks.map(function(p){
+    var r = ROUNDS[p.round];
+    var dodged = !p.fellForTrap;
+    return '<div class="trap-item '+(dodged?'dodged':'fell')+'">'+
+      '<span class="t-icon">'+(dodged?'✓':'✗')+'</span>'+
+      '<div><strong>'+r.trap.name+'</strong> <span style="color:var(--text-muted)">('+r.title+')</span>'+
+      '<p>'+r.trap.short+'</p></div></div>';
+  }).join('');
+  try{
+    var best = parseInt(localStorage.getItem('imx-counterfactual-best')||'0',10);
+    if(state.score>best){ localStorage.setItem('imx-counterfactual-best', String(state.score)); best = state.score; }
+    $('resBest').textContent = 'Your best score on this device: '+best+' / 24';
+  }catch(e){ $('resBest').textContent=''; }
+  showScreen('results');
+}
+
+$('btnToWelcome').addEventListener('click', function(){ showScreen('welcome'); });
+$('btnStart').addEventListener('click', function(){
+  state = { round:0, score:0, picks:[], answered:false };
+  $('scoreVal').textContent = '0';
+  renderRound();
+  showScreen('game');
+});
+$('btnNext').addEventListener('click', function(){
+  if(state.round === ROUNDS.length-1){ renderResults(); return; }
+  state.round++;
+  renderRound();
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+$('btnReplay').addEventListener('click', function(){
+  state = { round:0, score:0, picks:[], answered:false };
+  $('scoreVal').textContent = '0';
+  renderRound();
+  showScreen('game');
+});
+
+// keyboard shortcuts A-D / 1-4
+document.addEventListener('keydown', function(ev){
+  if(!$('game').classList.contains('active') || state.answered) return;
+  var map = {a:0,b:1,c:2,d:3,'1':0,'2':1,'3':2,'4':3};
+  var k = ev.key.toLowerCase();
+  if(k in map) choose(map[k]);
+});
+
+})();
+</script>
+<script src="../js/game-shell.js?v=6"></script>
+<!-- ImpactMojo Theme Toggle JS -->
+<script src="/js/theme.js"></script>
+<!-- ImpactMojo Paper Plane -->
+<svg class="im-paper-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M80,130 L150,50" stroke="#10B981" stroke-width="2" stroke-dasharray="4,4"/>
+    <circle cx="150" cy="50" r="4" fill="#6366F1"/>
+    <circle cx="40" cy="155" r="2" fill="#0EA5E9" opacity="0.6"/>
+    <circle cx="35" cy="165" r="1.5" fill="#6366F1" opacity="0.4"/>
+    <circle cx="45" cy="170" r="1" fill="#10B981" opacity="0.5"/>
+</svg>
+<!-- ImpactMojo Footer -->
+<footer class="im-footer" role="contentinfo">
+<div class="im-footer-content">
+<p class="im-footer-made">Made with &#10084; by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+<div class="im-footer-grid">
+<div class="im-footer-section">
+<h4>About ImpactMojo</h4>
+<ul>
+<li><a href="../about.html">About Us</a></li>
+<li><a href="../contact.html">Contact</a></li>
+<li><a href="https://github.com/ImpactMojo/ImpactMojo" rel="noopener noreferrer" target="_blank">GitHub</a></li>
+<li><a href="../transparency.html">Transparency</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4>Legal</h4>
+<ul>
+<li><a href="../privacy-policy.html">Privacy Policy</a></li>
+<li><a href="../terms-of-service.html">Terms of Service</a></li>
+<li><a href="../disclaimer.html">Disclaimer</a></li>
+<li><a href="../data-protection.html">Data Protection</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4>Quick Links</h4>
+<ul>
+<li><a href="../catalog.html">All Courses</a></li>
+<li><a href="../premium.html">Premium Content</a></li>
+<li><a href="../coaching.html">Coaching</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4>Resources</h4>
+<ul>
+<li><a href="../handouts.html">Handouts</a></li>
+<li><a href="../blog.html">Blog</a></li>
+<li><a href="../faq.html">FAQ</a></li>
+<li><a href="../sitemap.html">Sitemap</a></li>
+<li><a href="/docs/" rel="noopener noreferrer" target="_blank">Documentation</a></li>
+</ul>
+</div>
+</div>
+<div class="im-footer-bottom">
+<p>&copy; 2026 ImpactMojo. All content for educational purposes only.</p>
+<p>Released under <strong>MIT License</strong> | Supported by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+</div>
+</div>
+</footer>
+
+<!-- Supabase Auth -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="/js/state-manager.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/translate-sarvam.js" defer></script>
+</body>
+</html>

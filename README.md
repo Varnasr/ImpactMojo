@@ -43,7 +43,7 @@ We provide accessible, high-quality educational materials grounded in South Asia
 |----------|-------------|
 | **62 Courses** | 15 flagship + 47 foundational courses across 6 learning tracks (all foundational decks self-hosted as native HTML slide decks) |
 | **28 Interactive Labs** | Hands-on workbenches for MEL, policy, partnerships, budgeting, gender analysis, and more |
-| **134 Game Library** | 17 interactive simulations (MiroFish AI agents, Indian folk art — Warli, Madhubani, Gond, Kalamkari, Pichwai, Pattachitra) + 117 crosswords, quizzes & word searches |
+| **135 Game Library** | 18 interactive simulations (MiroFish AI agents, Indian folk art — Warli, Madhubani, Gond, Kalamkari, Pichwai, Pattachitra) + 117 crosswords, quizzes & word searches |
 | **ImpactLex Dictionary** | 390+ development terms with contextual definitions, formulas, and case studies (PWA, hosted on ImpactMojo) |
 | **Dev Case Studies** | 200 evidence-based case studies from 117 countries |
 | **DevDiscourses** | 500+ curated open-access research papers, books, and grey literature |
@@ -199,7 +199,7 @@ Shorter introductory courses covering the breadth of development practice:
 - **Code Convert Pro** — Script translation between Stata, R, Python, SPSS (Professional)
 - **VaniScribe** — AI transcription for 10+ South Asian languages (Professional)
 
-### Game Library (134 — 17 simulations + 117 puzzles)
+### Game Library (134 — 18 simulations + 117 puzzles)
 
 Interactive simulations powered by **MiroFish AI agents** with **Indian folk art story illustrations** in 6 traditional styles. Each game features AI opponents with distinct South Asian personas, backed by Groq/Gemini/DeepSeek LLMs with automatic fallback:
 
@@ -459,7 +459,7 @@ ImpactMojo/
 ├── data/
 │   ├── bct-repository.json # BCT technique data (203 entries)
 │   ├── dataverse.json      # Dataverse catalog data (296 entries, 22 categories)
-│   └── game-agents.json    # MiroFish AI agent personas (30+ agents across 134 games)
+│   └── game-agents.json    # MiroFish AI agent personas (30+ agents across 135 games)
 │
 ├── assets/
 │   ├── images/             # Logos, icons, illustrations

@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [10.80.0] - 2026-07-05
 
+### Added
+
+- **New game — Counterfactual: The Evaluation Game** (`/Games/counterfactual-game.html`, game #18). You are the evaluation lead at an Indian NGO consortium: eight scenarios (a Bihar remedial camp, an SHG income claim, a scholarship cutoff, a phased immunisation drive, skilling completers, a CLTS spillover design, an ICDS monitoring bump, and a drought-year endline), each hiding one classic causal-inference trap — regression to the mean, self-selection, ignoring natural experiments, placement bias, survivorship bias, spillovers, the observer effect, and confounding shocks. Score 0–3 per round on design judgement (the strongest *feasible* design, not always an RCT), with plain-language feedback and a trap recap. Warli-style intro art (the counterfactual village as the faded mirror of the real one), keyboard shortcuts, best-score persistence, full brand chrome. Game Library: 134 → 135 (18 simulations + 117 puzzles); wired into the library, catalogue, search index, sitemap, and games guide.
+
+### For Learners
+
+- **Counterfactual: The Evaluation Game** — a new 10-minute game where you face eight real-world impact claims and pick the evaluation design that answers "what would have happened anyway?" Learn to dodge the eight classic traps that fool funders and boards — no statistics background needed.
+
 ### Fixed
 
 - **26 blog posts and 4 book companions are now searchable.** Only 5 of 31 blog posts had ever been added to `data/search-index.json`; the other 26 (the entire Learning Loops back-catalogue — ToC pitfalls, sample size, participatory MEL, quasi-experimental designs, and more) were invisible to site search. Added them (`BLOG033`–`BLOG058`) along with the 4 book companions that joined the catalogue in v10.79.12 but never reached the index (Health Economics/Kobelt, Unlimited Memory, Public Health Equity & Ethics, Using Python for Introductory Econometrics — `BS51`–`BS54`). Search index: 733 → 763 entries.

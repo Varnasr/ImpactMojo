@@ -22,7 +22,7 @@ Every game features **original Indian folk art** rendered as inline SVGs in six 
 
 | Art Style | Origin | Games |
 |-----------|--------|-------|
-| **Warli** | Maharashtra — white line art on terracotta | Climate Action, Cooperation Paradox, Network Effects |
+| **Warli** | Maharashtra — white line art on terracotta | Climate Action, Cooperation Paradox, Network Effects, Counterfactual |
 | **Madhubani** | Bihar — bold outlines, bright fills, nature motifs | Gender Equity, Econ Concepts, Real Middle India |
 | **Gond** | Madhya Pradesh — dot patterns, vibrant nature-tech fusion | Prisoners' Dilemma, Digital Ethics |
 | **Kalamkari** | Andhra Pradesh — pen-drawn narrative scrolls | Opportunity Cost, Risk & Reward |
@@ -74,6 +74,7 @@ The art grounds each game in South Asian visual culture while making abstract co
 | **Climate Action Challenge** | Climate science | Allocate resources between mitigation and adaptation across decades — the lesson that both are needed together | — |
 | **Care Economy Challenge** | Gender equity | Experience the invisible burden of unpaid care work and how policy choices affect equity outcomes | — |
 | **Epidemic Response** | Public health | Manage a disease outbreak across surveillance, treatment, prevention, community health workers, and communication | — |
+| **Counterfactual: The Evaluation Game** | Causal inference | Eight impact claims from Indian programmes, each hiding a classic trap — regression to the mean, self-selection, survivorship bias, spillovers, the observer effect. Pick the evaluation design that finds what would have happened anyway | — |
 
 ---
 

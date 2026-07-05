@@ -62,7 +62,7 @@ All courses are organized into **6 tracks**, so you can follow a structured lear
 
 ---
 
-## Interactive Games (134 games)
+## Interactive Games (135 games)
 
 These are interactive simulations that put you in the driver's seat of economic decisions. You might be allocating a district health budget, managing a microfinance portfolio, or navigating trade policy — and seeing the consequences of your choices play out in real time.
 
@@ -262,7 +262,7 @@ Switch languages from the platform interface. This makes ImpactMojo usable for t
 
 ## What's Free vs. Premium?
 
-The vast majority of ImpactMojo is **completely free** — this is a genuine commitment, not a marketing strategy. All 62 courses, 134 games, 28 labs, handouts, ImpactLex, case studies, DevDiscourses, and Dataverse are available at no cost.
+The vast majority of ImpactMojo is **completely free** — this is a genuine commitment, not a marketing strategy. All 62 courses, 135 games, 28 labs, handouts, ImpactLex, case studies, DevDiscourses, and Dataverse are available at no cost.
 
 Premium memberships (starting at ₹399/month) unlock additional tools, PDF/PNG export from labs, certificates, and priority access to coaching and workshops.
 

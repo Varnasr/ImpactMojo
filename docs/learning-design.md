@@ -12,7 +12,7 @@ Four principles guide everything we build:
 
 1. **Practical over theoretical.** Every concept connects to something you can use in your work — a framework, a method, a tool.
 2. **Applied in context.** Examples, data, and case studies come from South Asian development programs, not textbook abstractions.
-3. **Free and open.** All 15 flagship courses, 47 foundational courses, 134 games, 28 labs, and 84 handouts are free. No paywall on learning.
+3. **Free and open.** All 15 flagship courses, 47 foundational courses, 135 games, 28 labs, and 84 handouts are free. No paywall on learning.
 4. **Built for real conditions.** Works on mobile, works offline, works on slow connections. No login required to start learning.
 
 ## How Courses Are Designed
@@ -52,7 +52,7 @@ The goal is not to test whether you memorized a definition — it is to help you
 
 ## How Games Work
 
-The 134 learning games on ImpactMojo are not quizzes dressed up as games. They are economic and policy simulations that put you inside a decision-making scenario.
+The 135 learning games on ImpactMojo are not quizzes dressed up as games. They are economic and policy simulations that put you inside a decision-making scenario.
 
 **Examples:**
 
