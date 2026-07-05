@@ -4,19 +4,20 @@
 
 Live Case Challenges are **authentic case studies from real partner organisations** where you apply your skills to solve actual development problems. Each challenge gives you a realistic scenario, a set of deliverables to produce, and a rubric for evaluation.
 
-ImpactMojo offers **9 challenges across 6 learning tracks**, ranging from Beginner to Advanced difficulty. Completed work can be submitted for peer feedback and earns portfolio badges.
+ImpactMojo offers **15 challenges across 6 learning tracks**, ranging from Beginner to Advanced difficulty. Completed work can be submitted for peer feedback and earns portfolio badges. Every flagship course now has a matching challenge.
 
 ---
 
-## The 9 Challenges
+## The 15 Challenges
 
 ### MEL (Monitoring, Evaluation & Learning)
 
 | Challenge | Difficulty | Partner |
 |-----------|-----------|---------|
 | Redesign a Flawed Logframe | Intermediate | HealthBridge Foundation |
+| Stress-Test an Impact Claim | Intermediate | JalSeva Trust |
 
-**What you do:** Diagnose problems in a real logframe — weak indicators, missing assumptions, confused outcome levels — and redesign it using SMART criteria and proper causal logic.
+**What you do:** Diagnose problems in a real logframe — weak indicators, missing assumptions, confused outcome levels — and redesign it using SMART criteria and proper causal logic. Or audit a "43% reduction" impact claim for threats to validity and design a feasible identification strategy for the next evaluation round.
 
 ### Data & Technology
 
@@ -24,16 +25,21 @@ ImpactMojo offers **9 challenges across 6 learning tracks**, ranging from Beginn
 |-----------|-----------|---------|
 | Critique and Redesign a Programme Dashboard | Intermediate | POSHAN Abhiyaan (Rajasthan) |
 | Audit an AI Model for Bias in Beneficiary Targeting | Advanced | Government of Jharkhand |
+| Spec an Honest Power BI Dashboard from Messy Survey Data | Intermediate | Shiksha Setu Foundation |
 
-**What you do:** Evaluate data visualisation choices and redesign for clarity, or audit an algorithmic targeting system for fairness across caste, gender, and geography.
+**What you do:** Evaluate data visualisation choices and redesign for clarity, audit an algorithmic targeting system for fairness across caste, gender, and geography, or design a star-schema data model, transform plan, DAX measures, and honest layout from three messy education data sources.
 
 ### Policy & Economics
 
 | Challenge | Difficulty | Partner |
 |-----------|-----------|---------|
 | Cost-Effectiveness Analysis of Two Nutrition Interventions | Intermediate | Government of Odisha |
+| Design a Graduation Pathway for Ultra-Poor Households | Intermediate | Udyam Sakhi Sansthan |
+| Diagnose the Incentives Behind a Failing Procurement System | Advanced | Government of Madhya Kshetra (fictionalised) |
+| Manage a Donor Exit Without Wrecking the Programme | Intermediate | Sajha Swasthya Consortium (Nepal) |
+| Draft a Policy Memo Before the Window Closes | Beginner | Dakshin Pradesh Policy Lab (fictionalised) |
 
-**What you do:** Compare two nutrition programmes using cost-effectiveness ratios, analyse equity implications, and make a policy recommendation with evidence.
+**What you do:** Compare nutrition programmes on cost-effectiveness, design a 24-month graduation-approach pilot with real unit economics, apply public-choice analysis to a textbook procurement system that fails every year, plan a responsible 18-month donor exit transition, or exploit a policy window with a Kingdon-framed decision memo.
 
 ### Gender, Equity & Inclusion
 
@@ -83,7 +89,7 @@ You can save drafts as you work. Completed submissions go through peer feedback 
 | Tier | Access |
 |------|--------|
 | Explorer (free) | Selected challenges marked as Explorer tier |
-| Practitioner+ (paid) | All 9 challenges with full submission and feedback features |
+| Practitioner+ (paid) | All 15 challenges with full submission and feedback features |
 
 ---
 
