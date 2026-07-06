@@ -104,6 +104,17 @@
 
     <div class="grid">
 
+      <div class="card-link" data-gofish-pilot style="cursor:default;">
+      <article class="card tile" data-card>
+        <span class="tag">Women &amp; Work &middot; New</span>
+        <h3>The dip and the rebound</h3>
+        <div class="chart-holder"><div id="gofish-flfpr" role="img" aria-label="Bar chart of India's female labour-force participation rate: 30.3% in 1990, 34.4% in 2000, 28.4% in 2010, 26.6% in 2015, 26.0% in 2020 and 31.0% in 2023 — a long dip through the 2000s and 2010s, then a rebound.">
+          <p class="gofish-fallback" style="font-size:0.85rem;color:var(--muted,#64748b);padding:0.5rem 0;">Loading chart&hellip; If it doesn&rsquo;t appear, the figures are: India female labour-force participation (% of women 15+) — 1990: 30.3, 2000: 34.4, 2010: 28.4, 2015: 26.6, 2020: 26.0, 2023: 31.0.</p>
+        </div></div>
+        <p class="insight">India&rsquo;s female labour-force participation <strong>fell through the 2000s and 2010s</strong> &mdash; a long-running puzzle &mdash; before climbing back toward its 1990 level in the last few years.</p>
+        <p class="source">Source: World Bank / ILO modeled estimate (SL.TLF.CACT.FE.ZS), % of women aged 15+, pulled from the World Bank API. Rendered with <a href="https://gofish.graphics/" target="_blank" rel="noopener">GoFish</a> (pilot).</p>
+      </article></div>
+
       <a class="card-link" href="/the-long-view/chart.html?c=c-gender"><article class="card tile" data-card>
         <span class="tag">Gender</span>
         <h3>The same gap, four ways</h3>
@@ -494,5 +505,38 @@
 <script src="/js/state-manager.js"></script>
 <script src="/js/config.js"></script>
 <script src="/js/auth.js"></script>
+
+<!-- ===== GoFish pilot: India female labour-force participation ===== -->
+<script type="module">
+  (async () => {
+    var holder = document.getElementById('gofish-flfpr');
+    if (!holder) return;
+    // India female labour-force participation rate (% of women 15+),
+    // World Bank / ILO modeled estimate (SL.TLF.CACT.FE.ZS).
+    var data = [
+      { year: "1990", flfpr: 30.3 },
+      { year: "2000", flfpr: 34.4 },
+      { year: "2010", flfpr: 28.4 },
+      { year: "2015", flfpr: 26.6 },
+      { year: "2020", flfpr: 26.0 },
+      { year: "2023", flfpr: 31.0 }
+    ];
+    try {
+      var gf = await import('https://esm.sh/gofish-graphics@0.1.0');
+      var chart = gf.chart || gf.default;
+      if (typeof chart !== 'function' || typeof gf.spread !== 'function' || typeof gf.rect !== 'function') {
+        throw new Error('GoFish API surface not as expected');
+      }
+      holder.innerHTML = '';
+      chart(data, { axes: true })
+        .flow(gf.spread({ by: "year", dir: "x" }))
+        .mark(gf.rect({ h: "flfpr" }))
+        .render(holder, { w: 520, h: 300 });
+    } catch (e) {
+      // Fallback text (cited figures) stays visible on failure.
+      console.error('GoFish pilot did not render:', e);
+    }
+  })();
+</script>
 </body>
 </html>
