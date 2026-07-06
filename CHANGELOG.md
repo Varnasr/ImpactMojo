@@ -5,6 +5,18 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.82.1] - 2026-07-06
+
+### For Learners
+
+- **AI Agents for Evaluators — shipped ahead of schedule.** The Certificate Track's promised module is live now, not in August: what an AI agent actually is, five agents worth building in M&E work (reporting assistant, indicator tracker, data-quality reviewer, qualitative coding assistant, follow-up nudger), two complete no-code build walkthroughs with copy-paste prompt templates, the ethics non-negotiables, and the capstone brief. Free to read at /ai-agents-for-evaluators.html.
+- **Build Circles and the Certificate Track are now easy to find** — in the catalogue (new Programs filter), the homepage services menu, and the premium and products pages.
+
+### Added
+
+- **AI Agents for Evaluators module** (`/ai-agents-for-evaluators.html`, 692 lines): 6 sections, ~3,000 words, sticky scrollspy nav, per-section progress persistence, 2 MCQ self-checks, copyable prompt blocks, capstone rubric (weights sum 100). Certificate-page card flipped from "August 2026" to "Available now" with a link. Registered in search index and sitemap.
+- **Programme cross-referencing**: catalog.html gains a Programs (2) filter chip + entries; homepage services nav links both programmes; premium.html Programs card; products.html Programs section; updates.html launch card; docs/premium.md + docs/platform-overview.md sections.
+
 ## [10.82.0] - 2026-07-06
 
 ### For Learners

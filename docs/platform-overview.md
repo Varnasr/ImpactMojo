@@ -310,3 +310,8 @@ The vast majority of ImpactMojo is **completely free** — this is a genuine com
 Premium memberships (starting at ₹399/month) unlock additional tools, PDF/PNG export from labs, certificates, and priority access to coaching and workshops.
 
 For full details on tiers and pricing, see [Premium & Memberships](premium.md).
+
+
+## Programs: Build Circles & the AI for M&E Certificate Track
+
+ImpactMojo runs two structured programmes. **Build Circles** are four-week cohort sprints: you bring a real M&E problem (or pick a Live Case Challenge), build an AI workflow with no-code tools, and demo it on Demo Day — the ₹1,000 seat deposit is refunded in full when you demo. **The AI for M&E Certificate Track** (₹2,499, self-paced) bundles a guided path through the AI for Impact flagship, the Counterfactual game, the Critiquing Evidence practice pack, and the AI Agents for Evaluators module, ending in an assessed capstone and a verifiable certificate.
