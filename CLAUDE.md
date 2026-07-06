@@ -14,11 +14,11 @@ Free development education platform for South Asia. Static HTML/CSS/JS, Supabase
 - **Site**: impactmojo.in
 - **Games**: Self-contained HTML in `/Games/` (single file, no deps)
 - **Labs**: Browser-based in `/Labs/*-lab.html`
-- **Courses**: 15 flagship (`/courses/{name}/`), 47 foundational (catalog)
-- **Handouts**: 400+ in `/Handouts/{Track}/`
+- **Courses**: 15 flagship (`/courses/{name}/`), 47 foundational (`/101-courses/`, all native HTML decks)
+- **Handouts**: 84 in `/Handouts/{Track}/`
 - **Data**: JSON in `/data/` (search-index, dataverse, BCT repository)
 - **Docs**: GitBook in `/docs/`
-- **NotebookLM**: 11 AI Study Companion notebooks managed via `notebooklm-py`. Registry: `data/notebooklm-registry.json`. Script: `scripts/notebooklm-manage.py`
+- **NotebookLM**: 12 AI Study Companion notebooks managed via `notebooklm-py`. Registry: `data/notebooklm-registry.json`. Script: `scripts/notebooklm-manage.py`
 
 ## Conventions
 

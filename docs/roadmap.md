@@ -4,16 +4,20 @@ What's coming next for ImpactMojo. This is a living document — we'd love your 
 
 ## Currently In Progress
 
-### Vernacular Content
-Professional translations of courses in Hindi, Tamil, Bengali, and Marathi. ([#29](https://github.com/ImpactMojo/ImpactMojo/issues/29))
+### Vernacular Course Content
+Full course content in regional languages. ([#29](https://github.com/ImpactMojo/ImpactMojo/issues/29))
 
-**What this means for you:** If you work with teams who are more comfortable in regional languages, full course translations (not just Google Translate) will be available soon. We're starting with the most-used flagship courses.
+**Where this stands:** The platform interface and quality-audited page translations are already live in **5 languages** — Hindi, Tamil, Bengali, Marathi, and Telugu. What remains in progress is deeper course-level localisation: complete course translations refined toward human quality, starting with the most-used flagship courses.
 
-### BookSummaries Expansion
-Growing from 28 to 40+ interactive book companions across development economics, statistics, leadership, and productivity. ([#272](https://github.com/ImpactMojo/ImpactMojo/issues/272))
+**What this means for you:** If you work with teams who are more comfortable in regional languages, you can already switch the interface and key pages today — and full course translations are on the way.
 
-### Native 101 Deck Migration
-Migrating remaining 45 foundational course decks from Gamma iframes to self-hosted HTML with 100 slides each, interactive charts, and keyboard/touch navigation.
+## Recently Shipped
+
+These were previously listed as in progress and have now shipped:
+
+- **BookSummaries expansion** — the interactive book companion library has grown to **55 companions** across development economics, statistics, research methods, communication, leadership, and productivity. ([#272](https://github.com/ImpactMojo/ImpactMojo/issues/272))
+- **Native 101 deck migration** — all **47 foundational course decks** are now self-hosted HTML with ~100 slides each, interactive charts, and keyboard/touch navigation. No third-party presentation embeds remain.
+- **Vernacular interface** — the UI and quality-audited page translations ship in 5 languages (Hindi, Tamil, Bengali, Marathi, Telugu); see "Currently In Progress" above for what's still open.
 
 ## Planned — Q2 2026 (April–June)
 
@@ -47,9 +51,14 @@ Migrating remaining 45 foundational course decks from Gamma iframes to self-host
 
 ## Recently Completed
 
+### v10.80.0 — July 2026
+- **Counterfactual: The Evaluation Game** — the 18th simulation: eight impact claims, eight classic causal-inference traps, pick the strongest feasible evaluation design
+- **Six new Live Case Challenges** — every flagship course now has a matching real-world challenge (15 in total)
+- **Gender & Work in India timeline** — the sixth timeline, 18 citation-backed nodes across 6 eras (the collection now spans 113 nodes and 44 eras)
+
 ### July 2026 — 12 new labs + live-code course
 - **12 new Interactive Labs** — Budget & Fiscal Analysis, Climate Risk & Adaptation, Conflict-Sensitive Programming, Data Feminism, Digital Public Infrastructure, Ethics & Research Integrity, Grant Writing, Participatory Methods, Policy Brief Writing, Stakeholder Mapping, Survey Design, and Systems Thinking. The labs collection grew from 15 to 28, with three new tracks.
-- **R & Python for Development (early access)** — a new interactive course to learn R and Python from zero, running real code live in your browser (WebR + Pyodide, no install). Module 1 is live; more modules coming.
+- **R & Python for Development** — a new interactive course to learn R and Python from zero, running real code live in your browser (WebR + Pyodide, no install). All seven modules are live, using real NFHS, ASER, PLFS, and Budget data.
 
 ### v10.18.0 — April 2026
 - **Sitemap expansion** — 84 → 171 indexed URLs (all courses, BookSummaries, blog posts, and public pages)

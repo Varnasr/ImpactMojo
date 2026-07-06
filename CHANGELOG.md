@@ -5,6 +5,35 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.80.1] - 2026-07-06
+
+### For Learners
+
+- **All 15 flagship courses can now be downloaded for offline use** — the offline download list previously covered only 9 courses; Gender, Public Choice, Public Policy, Causal Inference, Livelihoods, and Power BI are now included.
+- **Site search now finds every course** — the Gender and Public Policy flagships and the Inequality Basics 101 deck were missing from search and are now indexed.
+
+### Fixed
+
+- **Systemic `/labs/` → `/Labs/` case mismatch** across the search index (32 URLs), sitemap (30 URLs), `netlify.toml`, and `_redirects` — individual lab URLs relied on Netlify's case-insensitive serving and would 404 on any case-sensitive host. The bare `/labs/` URL now serves the 28-lab gallery (`Labs/index.html`) instead of rewriting to the homepage.
+- **Search-index hygiene**: added the missing `gender` and `pubpol` flagship entries and the `inequality-basics` 101 deck; removed a duplicate lab entry (`LAB-SSC`); fixed a `deepdive` type typo (now `special`); index at 767 entries.
+- **Monthly newsletter counts were wrong**: the intro derived "courses" from the raw search-index type count (106, which includes practice workbooks); it now derives flagship + foundational = 62, and the fetch-failure fallbacks were updated from 16/11/49 to 18/28/62 games/labs/courses.
+- **`api-docs.html` was stuck in one theme** — no toggle and no `theme.js`; it now carries the standard 3-mode toggle, and the paper-plane motif was added there and on `events.html`, `verify.html`, and `peer-review.html`.
+- **`Games/sel-simulation-game.html`** was the only game bypassing the shared harness, reading a single legacy theme key; it now loads `game-shell.js` + the canonical `theme.js`.
+- **Count contradictions** fixed on `transparency.html`, `catalog.html` (134 vs 135 games), and `updates.html` ("five" → six timelines); README flagship table now lists all 15 courses, the game list includes all 18 simulations, and Telugu joins the language lists.
+- **Malformed HTML tag** in status-alert emails (`status-probe.mjs`); misleading route comment in `devdiscourses.ts`.
+
+### Added
+
+- **Four new documentation guides** — Timelines, Research to Action, Practice Packs, and Deep Dives (`docs/*.md`, wired into the GitBook TOC), closing the gap where whole content types had no guide.
+- **Schema capture migration** (`supabase/migrations/20260706_capture_subscriptions_and_profile_sync.sql`): the `subscriptions` + `subscription_payments` tables and the `profiles` cloud-sync columns existed only in production; a fresh environment can now reproduce the backend.
+- **Service worker v2-2026-07-06**: offline course downloads for all 15 flagships (`service-worker.js` + `js/offline.js`); behaviour test PASS.
+
+### Changed
+
+- **docs refresh**: `docs/changelog.md` synced to v10.80.0 (the newsletter parses it), `docs/content-catalog.md` fully regenerated (was listing 7 book summaries vs 55), `docs/platform-overview.md` + `docs/getting-started.md` now cover timelines/practice packs/challenges/Research to Action/R & Python/status page, both roadmap files reconciled.
+- **Security**: `npm audit fix` on root + mcp-server lockfiles (0 vulnerabilities remain); devDeps bumped to dependabot targets; 2 dependabot PRs merged (actions/checkout v7, hono), superseding the other 10.
+- **Dead code removed**: 4 orphaned JS files with zero references (`assessments.js`, `assessment-data.js`, `mobile-ui.js`, `token-gate.js`, ~79 KB).
+
 ## [10.80.0] - 2026-07-05
 
 ### Added

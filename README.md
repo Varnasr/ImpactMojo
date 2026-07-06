@@ -51,8 +51,13 @@ We provide accessible, high-quality educational materials grounded in South Asia
 | **BCT Repository** | 203 behavior change techniques from BCT Taxonomy v1 with definitions, examples, evidence ratings, 60 WASH/nutrition case studies, fuzzy search, bookmarks, notes, comparison tool, PDF export — dark mode, filters, CSV export |
 | **Dataverse** | 296 curated tools, datasets, APIs, MCP servers, and platforms across 22 categories — dark mode, category filters, responsive cards |
 | **55 Book Companions** | Interactive study companions for development economics, statistics, leadership, and productivity texts |
-| **12 AI Study Companions** | NotebookLM-powered study notebooks for all flagship courses |
+| **12 AI Study Companions** | NotebookLM-powered study notebooks covering the flagship courses |
 | **84 Handouts** | Downloadable resources across 6 learning tracks |
+| **20 Deep Dives** | Curated, annotated reading guides — working syllabi on contested development questions |
+| **6 Timelines** | Citation-backed visual histories (113 nodes / 44 eras) — development thinking, Indian policy, MEL methods, climate, rights, gender & work |
+| **18 Practice Packs** | 4-module applied workbooks with capstone builders — 9 subject + 9 method packs |
+| **15 Live Case Challenges** | Realistic case packets with rubrics — one for every flagship course |
+| **Research to Action** | 7 poster series / 70 posters translating research into practice |
 | **31 Blog Posts** | Learning Loops Blog — articles, tutorials, and case studies on development practice |
 | **Between the Logframes** | Development podcast — honest conversations on MEAL and impact work |
 | **MCP Server** | Model Context Protocol server — connect any AI assistant to search all ImpactMojo content, BCTs, Dataverse, climate data, and more ([Setup guide](mcp-server/README.md)) |
@@ -143,6 +148,9 @@ Deep, comprehensive learning tracks — free for all users:
 | **Public Policy: Process, Design & Governance** | How policy gets made, implemented, and evaluated |
 | **Gender Studies: Feminisms, Power & Social Change** | Feminist theory, gender analysis, and development |
 | **Public Choice: Decisions, Incentives & Institutions** | Mechanics of choice — voting paradoxes, rent-seeking, bureaucracy, federalism |
+| **Causal Inference for Development** | Counterfactuals, RCTs, quasi-experimental designs, and evidence judgement |
+| **Livelihoods in India: Rural, Urban & Skills** | NRLM, informal and gig work, Skill India — evidence for both sides of the commissioning table |
+| **Power BI for Practitioners** | Honest dashboards from real survey data — Power Query, star schemas, DAX, visualisation ethics |
 
 ### Foundational Courses (47)
 
@@ -199,7 +207,7 @@ Shorter introductory courses covering the breadth of development practice:
 - **Code Convert Pro** — Script translation between Stata, R, Python, SPSS (Professional)
 - **VaniScribe** — AI transcription for 10+ South Asian languages (Professional)
 
-### Game Library (134 — 18 simulations + 117 puzzles)
+### Game Library (135 — 18 simulations + 117 puzzles)
 
 Interactive simulations powered by **MiroFish AI agents** with **Indian folk art story illustrations** in 6 traditional styles. Each game features AI opponents with distinct South Asian personas, backed by Groq/Gemini/DeepSeek LLMs with automatic fallback:
 
@@ -222,6 +230,8 @@ Interactive simulations powered by **MiroFish AI agents** with **Indian folk art
 - **Care Economy Challenge** — Gender equity and unpaid care work (Madhubani art)
 - **Epidemic Response** — Public health outbreak management (Pattachitra art)
 - **Algorithm's Dilemma** — AI ethics: fairness, privacy, trust tradeoffs (Gond art)
+- **SEL Simulation: Five Lenses** — Social-emotional learning from five roles incl. parent mode (30 scenarios)
+- **Counterfactual: The Evaluation Game** — Pick the evaluation design that survives eight classic causal-inference traps (Warli art)
 
 ### Other Resources
 
@@ -239,7 +249,7 @@ Interactive simulations powered by **MiroFish AI agents** with **Indian folk art
 
 Two-tier translation system for highest quality:
 
-1. **Curated translations** (`i18n/*.json`) — Hand-crafted translations for 200+ key UI strings in Hindi (हिन्दी), Tamil (தமிழ்), Bengali (বাংলা), Marathi (मराठी)
+1. **Curated translations** (`i18n/*.json`) — Hand-crafted translations for 200+ key UI strings in Hindi (हिन्दी), Tamil (தமிழ்), Bengali (বাংলা), Marathi (मराठी), Telugu (తెలుగు)
 2. **Google Translate fallback** — Covers remaining content automatically
 
 Elements marked with `data-i18n` attributes receive curated translations first; Google Translate handles the rest. Language preference persists via localStorage.
@@ -307,7 +317,7 @@ Comprehensive ToC learning and building toolkit:
 | **SQL (PostgreSQL)** | Database schema, triggers, RLS policies |
 | **Supabase** | Authentication, database, Edge Functions |
 | **Netlify** | Hosting, deployment, Edge Functions (auth-gate) |
-| **Google Translate** | Multilingual fallback (Hindi, Tamil, Bengali, Marathi) |
+| **Google Translate** | Multilingual fallback (Hindi, Tamil, Bengali, Marathi, Telugu) |
 | **Curated i18n** | Hand-crafted translations (`i18n/*.json`) for key UI strings |
 | **Open Badges 3.0** | W3C Verifiable Credentials for course completion badges |
 | **Google Analytics** | Usage analytics |
@@ -375,15 +385,12 @@ ImpactMojo/
 │   ├── auth.js             # Supabase authentication
 │   ├── router.js           # Clean URL section router
 │   ├── resource-launch.js  # JWT-based premium resource launcher
-│   ├── token-gate.js       # Client-side token verification
 │   ├── premium.js          # Premium tier UI logic
 │   ├── translate-sarvam.js # Site-wide language switcher (Sarvam-backed, /api/translate)
 │   ├── open-badges.js      # W3C Open Badges 3.0 credential system
 │   ├── learning-pathways.js # Structured credential tracks with milestones
 │   ├── learning-tracks.js  # Track data, modal handler, progress tracking
 │   ├── pwa.js              # Service worker registration & update checks
-│   ├── assessments.js      # Interactive assessment component (MCQ/T-F/multi-select)
-│   ├── assessment-data.js  # Question banks for MEL, DataViz, DevAI courses
 │   ├── search.js           # Full-text fuzzy search (Fuse.js) with Ctrl+K shortcut
 │   └── course-progress.js  # Course progress tracking with Supabase sync
 │
@@ -411,7 +418,7 @@ ImpactMojo/
 ├── dataverse.html          # Dataverse (296 tools & datasets across 22 categories)
 ├── blog.html               # Learning Loops blog
 ├── podcast.html            # Between the Logframes podcast
-├── handouts.html           # 85 downloadable resources
+├── handouts.html           # 84 downloadable resources
 ├── testimonials.html       # Wall of Love
 │
 ├── community/
@@ -660,7 +667,7 @@ This platform is supported by a family of open-source repositories:
 | [**ImpactLex**](https://www.impactmojo.in/impactlex/) | Offline PWA glossary of development terminology — now hosted on ImpactMojo. Legacy repo: [Varnasr/ImpactLex](https://github.com/Varnasr/ImpactLex) |
 | [**The-Real-Middle**](https://github.com/Varnasr/The-Real-Middle) | Interactive income inequality explorer for India |
 
-All repos share consistent governance (Code of Conduct, Security Policy, Contributing Guidelines) and are tracked in [STACK_GROUPS.md](.github/STACK_GROUPS.md).
+All repos share consistent governance (Code of Conduct, Security Policy, Contributing Guidelines).
 
 ## License
 
@@ -706,8 +713,8 @@ The platform is shaped by contributions from educators, practitioners, designers
 
 ---
 
-**Version:** 10.18.0
-**Last Updated:** 2026-04-12
+**Version:** 10.80.1
+**Last Updated:** 2026-07-06
 **License:** MIT (code) + CC BY-NC-ND 4.0 (content)
 **Hosting:** Netlify
 
