@@ -109,3 +109,11 @@ If you find ImpactMojo's free content useful in your work, you can support the p
 - **Sliding scale** is always available — for coaching, workshops, and dojos. We believe in equitable access.
 - **Annual discounts** — save 2 months on yearly membership plans.
 - **Cohort pricing** for workshops — a flat rate per team, not per person, so small NGOs aren't penalized.
+
+
+## Programs
+
+Two structured programmes sit alongside memberships and services:
+
+- **Build Circles** — four-week AI build cohorts for M&E problems. No lectures: a small cohort, a weekly rhythm, and a Demo Day. A ₹1,000 seat deposit is fully refunded when you demo, and demoing earns a verified certificate. Joining the waitlist is free at [/build-circles.html](https://www.impactmojo.in/build-circles.html).
+- **AI for M&E Certificate Track** (₹2,499) — a self-paced assessed track: a guided path through the AI for Impact flagship, the Counterfactual game, the full Critiquing Evidence practice pack, the AI Agents for Evaluators module, and a capstone reviewed with written feedback. Passing earns a certificate verifiable at [/verify-certificate.html](https://www.impactmojo.in/verify-certificate.html). Enrol at [/ai-for-me-certificate.html](https://www.impactmojo.in/ai-for-me-certificate.html).
