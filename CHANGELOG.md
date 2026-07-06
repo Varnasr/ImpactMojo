@@ -5,6 +5,24 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.82.2] - 2026-07-06
+
+### For Learners
+
+- **Check what you've learned — every flagship now ends with a self-check.** All 15 flagship courses now finish with a six-question auto-graded self-assessment (90 questions in all), each grounded in that course's own material. Pick an answer, check it instantly, and read a short explanation of the reasoning. No sign-in, nothing stored.
+
+### Added
+
+- **Course assessments on all 15 flagships**: a `#course-assessment` section with 6 auto-graded multiple-choice questions each, grounded in the course's own modules (e.g. theory of change / attribution / OECD-DAC for MEL; visual encoding / graphical integrity for DataViz; AI limits / bias / accountability for AI for M&E; counterfactual / selection bias / DiD for Causal; median voter / rent-seeking / Arrow for Public Choice; SLF five capitals for Livelihoods; intersectionality / GII for Gender; star schema / DAX / RLS for Power BI; and so on across Gandhi, Law, Media, Politics of Aspiration, Public Policy, SEL, DevEcon). Each question carries a per-question teaching explanation via a `data-explain` attribute. Most courses already shipped the quiz CSS + `checkAnswer()` JS unused; where a course was missing the JS (Livelihoods, Gender, Public Policy) or the base CSS (Gender, Public Policy, Power BI), the standard, self-contained pattern was ported in using that course's own design tokens.
+
+### Fixed
+
+- **Dangling "Assess Yourself" navigation links** on the Data Visualization and AI for M&E flagships — the sidebar linked to a `#course-assessment` anchor that had never been built, so the link jumped nowhere. Now resolved (and every other flagship gained a matching "Assess Yourself" link + section).
+
+### Changed
+
+- **Nav placement**: moved **AI for M&E Certificate** from the Services dropdown to **Learn** (after Flagship Courses) on the homepage — it's a self-paced assessed credential, not a facilitated service. **Build Circles** stays in Services.
+
 ## [10.82.1] - 2026-07-06
 
 ### For Learners
