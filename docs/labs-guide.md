@@ -2,13 +2,13 @@
 
 ## What Are the ImpactMojo Labs?
 
-ImpactMojo offers **15 interactive labs** — hands-on workbenches where you build, design, and practice real development skills. Unlike courses (which teach concepts) or games (which simulate dynamics), labs produce **tangible outputs** — a Theory of Change diagram, a MEL plan, a policy brief — that you can export and use in your actual work.
+ImpactMojo offers **28 interactive labs** — hands-on workbenches where you build, design, and practice real development skills. Unlike courses (which teach concepts) or games (which simulate dynamics), labs produce **tangible outputs** — a Theory of Change diagram, a MEL plan, a policy brief — that you can export and use in your actual work.
 
 All labs are **free, browser-based, and require no login**.
 
 ---
 
-## The 15 Labs
+## The 28 Labs
 
 ### MEL & Research Labs
 
@@ -19,18 +19,44 @@ All labs are **free, browser-based, and require no login**.
 | **MEL Plan Lab** | A complete MEL plan with data collection schedule, tools, and responsibilities | [Open](/Labs/mel-plan-lab.html) |
 | **Sampling Basics (Primer)** | Plain-language grounding in the ideas — population vs sample, bias, margin of error, clusters — the Level 1 before the Studio | [Open](/Labs/sampling-basics-lab.html) |
 | **Sampling Design Studio** | A defensible sampling strategy (SRS, stratified, cluster or multistage) with sample sizes, design effect, and a printable plan | [Open](/Labs/sampling-design-lab.html) |
+| **Survey Design Lab** | A survey instrument that measures what it claims — question wording, scales, and bias testing | [Open](/Labs/survey-design-lab.html) |
+| **Ethics & Research Integrity Lab** | Worked judgements on informed consent, data privacy, positionality, and real fieldwork dilemmas | [Open](/Labs/ethics-research-lab.html) |
+| **Participatory Methods Lab** | Practice with PRA, community mapping, focus-group facilitation, and participatory analysis | [Open](/Labs/participatory-methods-lab.html) |
+| **Data Feminism & Intersectional Analysis Lab** | Data analysed through gender, caste, and power — disaggregation and bias-spotting across the data lifecycle | [Open](/Labs/data-feminism-lab.html) |
+| **Teacher Evidence Explorer** | A filtered shortlist of 30+ teacher-effectiveness interventions by evidence quality, cost, and India relevance | [Open](/Labs/teacher-evidence-lab.html) |
+
+### Design & Programme Labs
+
+| Lab | What You Build | Link |
+|-----|---------------|------|
 | **Design Thinking Lab** | A human-centred design process from empathy mapping to prototyping | [Open](/Labs/design-thinking-lab.html) |
 | **Community Development Lab** | A participatory community assessment and action plan | [Open](/Labs/community-lab.html) |
 | **Risk and Mitigation Lab** | A risk register with likelihood, impact, and mitigation strategies | [Open](/Labs/risk-mitigation-lab.html) |
 | **Resource and Sustainability Lab** | A resource mobilisation and sustainability plan | [Open](/Labs/resource-sustainability-lab.html) |
 | **Impact and Partnerships Lab** | A partnership mapping and impact measurement framework | [Open](/Labs/impact-partnerships-lab.html) |
+| **Systems Thinking & Complexity Lab** | Causal loop diagrams, the iceberg model, and leverage-point analysis for your system | [Open](/Labs/systems-thinking-lab.html) |
+| **Conflict-Sensitive Programming Lab** | A Do No Harm analysis of conflict actors and drivers with adapt/suspend decision practice | [Open](/Labs/conflict-sensitive-lab.html) |
+| **Climate Risk & Adaptation Lab** | A climate vulnerability assessment, hazard risk matrix, and context-specific adaptation plan | [Open](/Labs/climate-adaptation-lab.html) |
+| **Grant Writing & Proposal Lab** | A donor-matched proposal — theory of change, narrative, and credible budget | [Open](/Labs/grant-writing-lab.html) |
+| **Stakeholder Mapping & Power Analysis Lab** | A power-interest grid of actors, interests, and influence for smarter intervention design | [Open](/Labs/stakeholder-mapping-lab.html) |
 
-### Communication & Governance Labs
+### Policy, Communication & Governance Labs
 
 | Lab | What You Build | Link |
 |-----|---------------|------|
 | **Storytelling Lab** | A structured impact story with narrative arc and evidence integration | [Open](/Labs/storytelling-lab.html) |
 | **Policy & Advocacy Lab** | A policy brief and advocacy strategy with stakeholder mapping | [Open](/Labs/policy-advocacy-lab.html) |
+| **Policy Analysis Lab** | Structured tools for reasoning through a policy problem | [Open](/Labs/policy-analysis-lab.html) |
+| **Policy Brief Writing Lab** | A two-page brief that moves ministers, bureaucrats, and media — with audience targeting | [Open](/Labs/policy-brief-lab.html) |
+| **Budget & Fiscal Analysis Lab** | Practitioner readings of Union and State budgets — BE/RE/actuals and fund-flow tracing | [Open](/Labs/budget-fiscal-lab.html) |
+| **Digital Public Infrastructure Lab** | A working map of India's DPI stack — Aadhaar, UPI, DigiLocker, ABHA, ONDC — and the DPDP Act 2023 | [Open](/Labs/dpi-lab.html) |
+| **Gender Analysis Lab** | Gender frameworks applied to your programme, with intersectionality assessment | [Open](/Labs/gender-studies-lab.html) |
+
+### Data & Code
+
+| Lab | What You Build | Link |
+|-----|---------------|------|
+| **R & Python for Development** | Live-code fluency in R and Python for development data work, from absolute zero | [Open](/Labs/r-python-dev.html) |
 
 ---
 
