@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.82.1 — July 6, 2026 (AI Agents module ships early)
+
+### For Learners
+
+- **AI Agents for Evaluators is live now — a month early.** The Certificate Track's newest module teaches you to build no-code AI assistants for real M&E work: five agent patterns, two step-by-step build walkthroughs with copy-paste prompts, the ethics rules that keep you safe, and a capstone you can put in your portfolio. Free to read.
+- **Two new programmes are now easy to find everywhere** — Build Circles (four-week AI build cohorts where demoing wins your deposit back) and the AI for M&E Certificate Track are in the catalogue, the homepage menu, and the products page.
+
 ## v10.82.0 — July 6, 2026 (Build Circles & the AI for M&E Certificate Track)
 
 ### For Learners
