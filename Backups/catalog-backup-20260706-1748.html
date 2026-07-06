@@ -1,0 +1,2883 @@
+<!DOCTYPE html>
+<!--
+    +===============================================================================+
+    |  IMPACTMOJO CATALOG PAGE v3.1.0                                               |
+    |  Version: 3.1.0 - January 28, 2026                                            |
+    |                                                                               |
+    |  Complete catalog page with V3 design system matching index.html standards.   |
+    |  Features 62 courses (15 flagship + 47 foundational), 28 labs, 135 games, 11 premium tools, plus free tools — Game Library, Peer Review, certificate verification and a Partner API. |
+    |                                                                               |
+    |  INCLUDED FEATURES (ALL Required Elements):                                   |
+    |  [OK] Google Analytics (G-JRCMEB9TBW)                                            |
+    |  [OK] UserWay Accessibility Widget (account: EksmhlPg9k)                         |
+    |  [OK] Cache Control Meta Tags                                                    |
+    |  [OK] Auto-refresh on back/forward navigation (pageshow)                         |
+    |  [OK] Theme Toggle (Sun/Moon) with localStorage sync                             |
+    |  [OK] CSS Variables (Dark/Light mode matching index.html)                        |
+    |  [OK] Google Fonts (Amaranth body + Inter headings)                               |
+    |  [OK] Favicons (all 4 sizes + manifest.json)                                     |
+    |  [OK] Full Navigation with Dropdowns (Learn, Services, About Us)                 |
+    |  [OK] V3 Design Elements (Paper Planes, Gradient Blobs)                          |
+    |  [OK] Full 4-Section Footer (About, Legal IT Act, Quick Links, Resources)        |
+    |  [OK] Mojini Chatbot with FAQ bank                                               |
+    |  [OK] Cookie Consent Banner                                                      |
+    |  [OK] Speed Dial Toolbox (Bookmarks, Notes, Streak)                              |
+    |  [OK] Mobile Responsive Design with Fixed Menu                                   |
+    |  [OK] Tour Disabled on Mobile                                                    |
+    +===============================================================================+
+-->
+<html lang="en">
+<head>
+<!-- Early Mobile Menu Functions - Must load before DOM -->
+<script>
+/* Mobile Menu Functions - Defined early for onclick handlers */
+function toggleMobileMenu() {
+    var navLinks = document.getElementById('navLinks');
+    var toggle = document.getElementById('mobile-menu-btn');
+    var overlay = document.getElementById('mobileMenuOverlay');
+    var authSection = document.getElementById('mobileAuthSection');
+    
+    if (!navLinks) return;
+    
+    var isOpen = navLinks.classList.contains('active');
+    
+    if (isOpen) {
+        navLinks.classList.remove('active');
+        if (toggle) toggle.classList.remove('active');
+        if (overlay) overlay.classList.remove('active');
+        if (authSection) authSection.classList.remove('active');
+        document.body.classList.remove('menu-open');
+        document.body.style.overflow = '';
+        document.querySelectorAll('.nav-links > li.has-dropdown.open').forEach(function(item) {
+            item.classList.remove('open');
+        });
+    } else {
+        navLinks.classList.add('active');
+        if (toggle) toggle.classList.add('active');
+        if (overlay) overlay.classList.add('active');
+        if (authSection) authSection.classList.add('active');
+        document.body.classList.add('menu-open');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeMobileMenu() {
+    var navLinks = document.getElementById('navLinks');
+    var toggle = document.getElementById('mobile-menu-btn');
+    var overlay = document.getElementById('mobileMenuOverlay');
+    var authSection = document.getElementById('mobileAuthSection');
+    
+    if (navLinks) navLinks.classList.remove('active');
+    if (toggle) toggle.classList.remove('active');
+    if (overlay) overlay.classList.remove('active');
+    if (authSection) authSection.classList.remove('active');
+    document.body.classList.remove('menu-open');
+    document.body.style.overflow = '';
+    
+    document.querySelectorAll('.nav-links > li.has-dropdown.open').forEach(function(item) {
+        item.classList.remove('open');
+    });
+}
+
+function toggleMobileDropdown(event, element) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    var li = element.closest('li.has-dropdown');
+    if (!li) return;
+    
+    if (window.innerWidth <= 768) {
+        document.querySelectorAll('.nav-links > li.has-dropdown.open').forEach(function(item) {
+            if (item !== li) item.classList.remove('open');
+        });
+        li.classList.toggle('open');
+    }
+}
+
+/* Disable tour on mobile */
+(function() {
+    var isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (isMobile) {
+        window.shepherdTourDisabled = true;
+        window.tourDisabled = true;
+        window.startTour = function() { console.log('Tour disabled on mobile'); };
+    }
+})();
+</script>
+
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<!-- Google tag (gtag.js) - G-JRCMEB9TBW -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JRCMEB9TBW');
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Cache Control - Force fresh content -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="version" content="3.1.0.20260128">
+
+<!-- Auto-refresh on back/forward navigation -->
+<script>
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        window.location.reload();
+    }
+});
+</script>
+
+<!-- SEO Meta Tags -->
+<meta name="description" content="Browse 15 flagship courses, 60 free courses, 28 interactive labs, and 135 educational games on MEAL, Theory of Change, Research Methods, Gender Studies, and more. ImpactMojo: Free development education for NGOs and impact teams across South Asia.">
+<meta property="og:title" content="Course Catalog | ImpactMojo">
+<meta property="og:description" content="Browse 15 flagship courses, 60 free courses, 28 interactive labs, and 135 educational games on MEAL, Theory of Change, Research Methods, Gender Studies, and more.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.impactmojo.in/catalog.html">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:site_name" content="ImpactMojo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Course Catalog | ImpactMojo">
+<meta name="twitter:description" content="Browse 15 flagship courses, 60 free courses, 28 interactive labs, and 135 educational games on MEAL, Theory of Change, Research Methods, Gender Studies, and more.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+
+<title>Course Catalog | ImpactMojo</title>
+
+<!-- Favicons -->
+<link href="assets/images/favicon.png" rel="icon" type="image/png">
+<link href="assets/images/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
+<link href="assets/images/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png">
+<link href="assets/images/apple-touch-icon.png" rel="apple-touch-icon">
+<link href="manifest.json" rel="manifest">
+<meta name="theme-color" content="#0EA5E9">
+
+<!-- Google Fonts - Amaranth & Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&amp;family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&amp;family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="/css/impact-bold.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/8.3.2/introjs.min.css">
+<link rel="stylesheet" href="/css/tour-theme.css">
+
+<style>
+/* ========================================
+   CSS RESET
+   ======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ========================================
+   CSS VARIABLES - V3 Design System
+   ======================================== */
+:root {
+    /* Professional Light Mode Colors - DEFAULT */
+    --primary-bg: #FFFFFF;
+    --secondary-bg: #F8FAFC;
+    --accent-color: #0EA5E9;
+    --accent-hover: #0284C7;
+    --secondary-accent: #6366F1;
+    --success-color: #10B981;
+    --warning-color: #F59E0B;
+    --danger-color: #EF4444;
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #52627A;
+    --card-bg: #FFFFFF;
+    --hover-bg: #F1F5F9;
+    --border-color: #E2E8F0;
+    --gradient-primary: linear-gradient(135deg, #0369A1 0%, #4338CA 100%);
+    --gradient-accent: linear-gradient(135deg, #0EA5E9 0%, #10B981 100%);
+    --gradient-hero: linear-gradient(180deg, rgba(14, 165, 233, 0.1) 0%, transparent 50%);
+    --nav-bg: rgba(255, 255, 255, 0.95);
+    --nav-text: #0F172A;
+    --star-color: #FCD34D;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Professional Dark Theme */
+body.dark-mode {
+    --primary-bg: #0F172A;
+    --secondary-bg: #1E293B;
+    --accent-color: #0EA5E9;
+    --accent-hover: #0284C7;
+    --secondary-accent: #6366F1;
+    --success-color: #10B981;
+    --warning-color: #F59E0B;
+    --danger-color: #EF4444;
+    --text-primary: #F1F5F9;
+    --text-secondary: #CBD5E1;
+    --text-muted: #94A3B8;
+    --card-bg: #1E293B;
+    --hover-bg: #334155;
+    --border-color: #334155;
+    --nav-bg: rgba(15, 23, 42, 0.95);
+    --nav-text: #F1F5F9;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.2);
+    --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* ========================================
+   BASE STYLES
+   ======================================== */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Amaranth', sans-serif;
+    background: var(--primary-bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--accent-hover);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+/* ========================================
+   V3 DECORATIVE ELEMENTS - Paper Planes & Blobs
+   ======================================== */
+.v3-decoration-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+/* V3 Paper Plane - matches index.html */
+.v3-paper-plane {
+    position: fixed;
+    top: 15%;
+    right: 8%;
+    width: 140px;
+    height: 140px;
+    opacity: 0.18;
+    z-index: 0;
+    pointer-events: none;
+    animation: v3-fly 25s ease-in-out infinite;
+}
+
+@keyframes v3-fly {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    20% { transform: translate(60px, -40px) rotate(12deg); }
+    40% { transform: translate(120px, 30px) rotate(-8deg); }
+    60% { transform: translate(40px, 60px) rotate(15deg); }
+    80% { transform: translate(-30px, 20px) rotate(-5deg); }
+}
+
+/* V3 Organic Background Blobs - matches index.html */
+.v3-organic-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -2;
+    overflow: hidden;
+}
+
+.v3-blob {
+    position: absolute;
+    border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
+    animation: v3-morph 20s ease-in-out infinite;
+}
+
+.v3-blob-1 {
+    top: -120px;
+    right: -120px;
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, rgba(14, 165, 233, 0.12) 0%, transparent 70%);
+    animation-delay: 0s;
+}
+
+.v3-blob-2 {
+    bottom: -180px;
+    left: -180px;
+    width: 550px;
+    height: 550px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.10) 0%, transparent 70%);
+    border-radius: 41% 59% 38% 62% / 67% 44% 56% 33%;
+    animation-delay: -5s;
+    animation-direction: reverse;
+}
+
+.v3-blob-3 {
+    top: 40%;
+    left: 60%;
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
+    border-radius: 52% 48% 61% 39% / 43% 58% 42% 57%;
+    animation-delay: -10s;
+}
+
+.v3-blob-4 {
+    top: 60%;
+    right: 20%;
+    width: 280px;
+    height: 280px;
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.06) 0%, transparent 70%);
+    border-radius: 38% 62% 45% 55% / 61% 39% 61% 39%;
+    animation-delay: -15s;
+    animation-direction: reverse;
+}
+
+@keyframes v3-morph {
+    0%, 100% { 
+        transform: translate(0, 0) rotate(0deg) scale(1);
+        border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
+    }
+    25% { 
+        transform: translate(30px, -25px) rotate(5deg) scale(1.05);
+        border-radius: 41% 59% 48% 52% / 47% 53% 47% 53%;
+    }
+    50% { 
+        transform: translate(-20px, 35px) rotate(-3deg) scale(0.95);
+        border-radius: 54% 46% 38% 62% / 62% 38% 62% 38%;
+    }
+    75% { 
+        transform: translate(25px, 15px) rotate(8deg) scale(1.02);
+        border-radius: 48% 52% 59% 41% / 53% 47% 53% 47%;
+    }
+}
+
+body.dark-mode .v3-paper-plane { opacity: 0.10; }
+body.dark-mode .v3-organic-bg,
+body.dark-mode .v3-blob { pointer-events: none; }
+body.dark-mode .v3-blob-1 { background: radial-gradient(circle, rgba(14, 165, 233, 0.06) 0%, transparent 70%); }
+body.dark-mode .v3-blob-2 { background: radial-gradient(circle, rgba(99, 102, 241, 0.05) 0%, transparent 70%); }
+body.dark-mode .v3-blob-3 { background: radial-gradient(circle, rgba(16, 185, 129, 0.04) 0%, transparent 70%); }
+body.dark-mode .v3-blob-4 { background: radial-gradient(circle, rgba(245, 158, 11, 0.03) 0%, transparent 70%); }
+
+/* ========================================
+   HEADER & NAVIGATION
+   ======================================== */
+.header {
+    position: fixed; left: 0; right: 0;
+    top: 0;
+    z-index: 1000;
+    background: var(--nav-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0.75rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+}
+
+.logo-svg img {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    object-fit: contain;
+}
+
+.logo-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-main {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 800;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+}
+
+.logo-tagline {
+    font-size: 0.7rem;
+    color: var(--text-secondary, #475569);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+    display: none;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    cursor: pointer;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+    z-index: 9999;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.mobile-menu-toggle .hamburger-line {
+    width: 22px;
+    height: 2px;
+    background: var(--text-primary);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    display: block;
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Navigation Links */
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    list-style: none;
+}
+
+.nav-links > li > a {
+    padding: 0.6rem 1rem;
+    color: var(--nav-text);
+    font-weight: 500;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-links > li > a:hover {
+    background: var(--hover-bg);
+    color: var(--accent-color);
+}
+
+.nav-links > li > a.active {
+    color: #075985; /* WCAG AA on white (7.66:1); was #0284C7 = 4.09:1 */
+    font-weight: 600;
+}
+
+/* Sargam inline icons */
+.v3-inline-icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.85;
+    vertical-align: middle;
+    filter: brightness(0) saturate(100%) invert(56%) sepia(92%) saturate(1500%) hue-rotate(175deg) brightness(96%) contrast(91%);
+}
+
+/* Dropdown Menu */
+.has-dropdown {
+    position: relative;
+}
+
+.dropdown-arrow {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.3s ease;
+}
+
+.has-dropdown:hover .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 0.5rem;
+    min-width: 200px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-lg);
+    z-index: 100;
+    list-style: none;
+}
+
+.has-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-menu a {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: var(--text-primary);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.dropdown-menu a:hover {
+    background: var(--hover-bg);
+    color: var(--accent-color);
+    padding-left: 1.25rem;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: var(--border-color);
+    margin: 0.5rem 0;
+}
+
+/* Nav Buttons */
+.nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.theme-selector {
+    display: flex;
+    gap: 4px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 4px;
+}
+
+.theme-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+}
+
+.theme-btn:hover {
+    background: var(--hover-bg);
+    color: var(--text-primary);
+}
+
+.theme-btn.active {
+    background: var(--accent-color);
+    color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.theme-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Mobile Menu Overlay */
+.mobile-menu-overlay,
+.mobile-auth-section {
+    display: none;
+}
+
+/* ========================================
+   PAGE CONTENT AREA
+   ======================================== */
+.page-content {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+}
+
+/* Hero Section */
+.page-hero {
+    padding: 4rem 2rem;
+    text-align: center;
+    background: var(--gradient-hero);
+    position: relative;
+}
+
+.page-hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.page-hero p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Stats Bar */
+.stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-family: 'Inter', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #ffffff;
+    -webkit-text-fill-color: #ffffff;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.18);
+}
+
+.stat-label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* ========================================
+   FILTER SECTION
+   ======================================== */
+.filter-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 2rem;
+}
+
+.search-box {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.search-input {
+    flex: 1;
+    padding: 14px 20px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+.search-input::placeholder {
+    color: var(--text-secondary);
+}
+
+/* Filter Tabs */
+.filter-tabs {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.filter-tab {
+    padding: 10px 20px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 25px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-tab:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+.filter-tab.active {
+    background: var(--gradient-primary);
+    border-color: transparent;
+    color: white;
+}
+
+/* Track Filters */
+.track-filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.track-filter {
+    padding: 8px 16px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.track-filter:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+.track-filter.active {
+    background: rgba(14, 165, 233, 0.2);
+    border-color: var(--accent-color);
+    color: #075985;
+}
+body.dark-mode .track-filter.active,
+[data-theme="dark"] .track-filter.active { color: #7DD3FC; }
+[data-theme="dark"] .nav-links > li > a.active, body.dark-mode .nav-links > li > a.active { color: #7DD3FC; }
+
+/* ========================================
+   CONTENT SECTION & CARDS
+   ======================================== */
+.content-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 2rem 60px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.section-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.result-count {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Course Cards Grid */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 25px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    border-color: var(--accent-color);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(14, 165, 233, 0.15);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.card-type {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* WCAG AA: light brand-color text on light brand-tinted bg failed AA.
+   Darker variants: sky-800 / emerald-800 / amber-700 / indigo-700. */
+.card-type.course {
+    background: rgba(14, 165, 233, 0.2);
+    color: #075985;
+}
+
+.card-type.lab {
+    background: rgba(16, 185, 129, 0.2);
+    color: #065F46;
+}
+
+.card-type.game {
+    background: rgba(245, 158, 11, 0.2);
+    color: #92400E;
+}
+
+.card-type.premium {
+    background: rgba(99, 102, 241, 0.2);
+    color: #4338CA;
+}
+
+.card-type.flagship {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(14, 165, 233, 0.3) 100%);
+    color: #4338CA;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+.card-type.deep-dive {
+    background: rgba(200, 145, 10, 0.18);
+    color: #92400E;
+}
+
+.card-type.special {
+    background: rgba(29, 78, 216, 0.16);
+    color: #1D4ED8;
+}
+
+.card-type.book-summary {
+    background: rgba(217, 119, 6, 0.18);
+    color: #92400E;
+}
+
+.card-type.reference {
+    background: rgba(99, 102, 241, 0.18);
+    color: #4338CA;
+}
+
+.card-type.handout {
+    background: rgba(20, 184, 166, 0.18);
+    color: #0F766E;
+}
+
+.card-type.poster {
+    background: rgba(19, 138, 156, 0.18);
+    color: #0E6E7E;
+}
+body.dark-mode .card-type.course,        [data-theme="dark"] .card-type.course        { color: #7DD3FC; }
+body.dark-mode .card-type.lab,           [data-theme="dark"] .card-type.lab           { color: #6EE7B7; }
+body.dark-mode .card-type.game,          [data-theme="dark"] .card-type.game          { color: #FCD34D; }
+body.dark-mode .card-type.premium,       [data-theme="dark"] .card-type.premium       { color: #A5B4FC; }
+body.dark-mode .card-type.flagship,      [data-theme="dark"] .card-type.flagship      { color: #A5B4FC; }
+body.dark-mode .card-type.deep-dive,     [data-theme="dark"] .card-type.deep-dive     { color: #FCD34D; }
+body.dark-mode .card-type.special,       [data-theme="dark"] .card-type.special       { color: #93B4FF; }
+body.dark-mode .card-type.book-summary,  [data-theme="dark"] .card-type.book-summary  { color: #FBBF24; }
+body.dark-mode .card-type.reference,     [data-theme="dark"] .card-type.reference     { color: #A5B4FC; }
+body.dark-mode .card-type.handout,       [data-theme="dark"] .card-type.handout       { color: #5EEAD4; }
+body.dark-mode .card-type.poster,        [data-theme="dark"] .card-type.poster        { color: #67E8F9; }
+
+.card-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    /* WCAG AA: #B45309 = 5.02:1 on white (light), #FBBF24 = 8.76:1 on dark cards.
+       Was var(--warning-color) #F59E0B which is 2.15:1 on white — fails AA. */
+    color: #B45309;
+    font-size: 0.85rem;
+}
+body.dark-mode .card-rating,
+[data-theme="dark"] .card-rating {
+    color: #FBBF24;
+}
+
+.card-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+}
+
+.card-description {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    flex-grow: 1;
+    margin-bottom: 15px;
+}
+
+.card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+}
+
+.card-track {
+    font-size: 0.8rem;
+    /* WCAG AA: #0369A1 = 5.93:1 on white (light), #38BDF8 = 6.83:1 on dark cards.
+       Was var(--accent-color) #0EA5E9 which is 2.77:1 on white — fails AA. */
+    color: #0369A1;
+    font-weight: 500;
+}
+body.dark-mode .card-track,
+[data-theme="dark"] .card-track {
+    color: #38BDF8;
+}
+
+.card-users {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+.card-deckmeta { display:flex; align-items:center; gap:6px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-muted,#52627A); margin:-2px 0 10px; }
+.card-deckmeta .ck { color:#047857; font-weight:800; }
+body.dark-mode .card-deckmeta, [data-theme="dark"] .card-deckmeta { color:#94A3B8; }
+
+/* Coming Soon cards — non-clickable placeholders for unbuilt courses */
+.card-coming-soon {
+    cursor: default;
+    opacity: 0.72;
+    position: relative;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: var(--card-bg, #fff);
+    border: 1px dashed var(--border-color, #cbd5e1);
+    border-radius: var(--radius, 12px);
+    padding: 20px;
+}
+.card-coming-soon:hover {
+    transform: none;
+    box-shadow: none;
+    opacity: 0.85;
+}
+.card-coming-soon .card-title,
+.card-coming-soon .card-description {
+    color: var(--text-secondary, #64748b);
+}
+.card-coming-soon-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #92400e;
+    background: #fef3c7;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+body.dark-mode .card-coming-soon-badge,
+[data-theme="dark"] .card-coming-soon-badge {
+    color: #fbbf24;
+    background: rgba(251, 191, 36, 0.12);
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.empty-state .icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.empty-state h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+}
+
+.empty-state p {
+    color: var(--text-secondary);
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+.footer {
+    background: var(--secondary-bg);
+    border-top: 1px solid var(--border-color);
+    padding: 3rem 2rem 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-section h4 {
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-section a {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+}
+
+.footer-section a:hover {
+    color: var(--accent-color);
+}
+
+.footer-bottom {
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.footer-copyright {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.footer-social {
+    display: flex;
+    gap: 1rem;
+}
+
+.footer-social a {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+}
+
+.footer-social a:hover {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: white;
+}
+
+.footer-social svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+/* ========================================
+   SPEED DIAL TOOLBOX
+   ======================================== */
+.imx-speed-dial {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    z-index: 9000;
+}
+
+.imx-speed-dial-toggle {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-lg);
+    transition: all 0.3s ease;
+}
+
+.imx-speed-dial-toggle:hover {
+    background: var(--hover-bg);
+    border-color: var(--accent-color);
+}
+
+.imx-speed-dial-toggle svg {
+    width: 22px;
+    height: 22px;
+    stroke: var(--text-primary);
+    fill: none;
+    stroke-width: 1.5;
+}
+
+.imx-speed-dial-menu {
+    position: absolute;
+    bottom: 60px;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.imx-speed-dial.open .imx-speed-dial-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.imx-speed-dial-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.imx-speed-dial-label {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    box-shadow: var(--shadow-md);
+}
+
+.imx-speed-dial-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-md);
+    transition: all 0.2s ease;
+}
+
+.imx-speed-dial-btn:hover {
+    background: var(--hover-bg);
+    border-color: var(--accent-color);
+    transform: scale(1.1);
+}
+
+.imx-speed-dial-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--accent-color);
+    fill: none;
+    stroke-width: 2;
+}
+
+/* ========================================
+   MOJINI CHATBOT
+   ======================================== */
+.feedback-fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-lg);
+    z-index: 9000;
+    transition: all 0.3s ease;
+}
+
+.feedback-fab:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-xl);
+}
+
+.feedback-fab svg {
+    width: 24px;
+    height: 24px;
+    stroke: white;
+    fill: none;
+    stroke-width: 2;
+}
+
+.chatbot-modal {
+    display: none;
+    position: fixed;
+    bottom: 90px;
+    right: 24px;
+    width: 380px;
+    max-width: calc(100vw - 48px);
+    max-height: 500px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: var(--shadow-xl);
+    z-index: 9001;
+    overflow: hidden;
+    flex-direction: column;
+}
+
+.chatbot-modal.open {
+    display: flex;
+}
+
+.chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: var(--gradient-primary);
+    color: white;
+}
+
+.chat-header h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.chat-header svg {
+    width: 20px;
+    height: 20px;
+    stroke: white;
+    fill: none;
+}
+
+.chat-close {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+}
+
+.chat-close:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+.chat-close svg {
+    width: 16px;
+    height: 16px;
+    stroke: white;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 300px;
+}
+
+.bot-message {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.bot-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.bot-avatar svg {
+    width: 18px;
+    height: 18px;
+    stroke: white;
+    fill: none;
+}
+
+.bot-bubble {
+    background: var(--secondary-bg);
+    padding: 12px 16px;
+    border-radius: 12px;
+    border-top-left-radius: 4px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    max-width: 85%;
+}
+
+.chat-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0 16px 12px;
+}
+
+.chat-option {
+    padding: 8px 14px;
+    background: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.chat-option:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+.chat-input-area {
+    display: flex;
+    gap: 10px;
+    padding: 16px;
+    border-top: 1px solid var(--border-color);
+    background: var(--secondary-bg);
+}
+
+.chat-input-area input {
+    flex: 1;
+    padding: 10px 14px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    outline: none;
+}
+
+.chat-input-area input:focus {
+    border-color: var(--accent-color);
+}
+
+.chat-send {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: var(--gradient-primary);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.chat-send:hover {
+    transform: scale(1.05);
+}
+
+.chat-send svg {
+    width: 18px;
+    height: 18px;
+    stroke: white;
+    fill: none;
+}
+
+/* ========================================
+   MOBILE RESPONSIVE STYLES
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) { .v3-paper-plane, .v3-blob { animation: none !important; } }
+@media print { .v3-paper-plane, .v3-organic-bg { display: none !important; } }
+@media (max-width: 768px) {
+    /* Hide tour on mobile */
+    .tour-toggle,
+    .shepherd-element,
+    .imx-tour-welcome,
+    .imx-tour-tooltip {
+        display: none !important;
+    }
+    
+    /* Header mobile */
+    .nav-container {
+        padding: 0.75rem 1rem;
+    }
+    
+    /* Show hamburger */
+    .mobile-menu-toggle {
+        display: flex !important;
+    }
+    
+    .logo-tagline {
+        display: none;
+    }
+    
+    /* Hide desktop nav */
+    .nav-links {
+        display: none;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        width: 100%;
+        background: var(--card-bg);
+        flex-direction: column;
+        padding: 1rem;
+        border-top: 1px solid var(--border-color);
+        box-shadow: var(--shadow-lg);
+        z-index: 9998;
+        max-height: calc(100vh - 70px);
+        overflow-y: auto;
+    }
+    
+    .nav-links.active {
+        display: flex;
+    }
+    
+    .nav-links > li {
+        width: 100%;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .nav-links > li > a {
+        padding: 1rem;
+        justify-content: space-between;
+    }
+    
+    /* Mobile dropdowns */
+    .dropdown-menu {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        max-height: 0;
+        overflow: hidden;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+        background: var(--secondary-bg);
+        transition: max-height 0.3s ease;
+    }
+    
+    .has-dropdown.open .dropdown-menu {
+        max-height: 500px;
+        padding: 0.5rem 0;
+    }
+    
+    .has-dropdown.open .dropdown-arrow {
+        transform: rotate(180deg);
+    }
+    
+    /* Mobile menu overlay */
+    .mobile-menu-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 9997;
+    }
+    
+    .mobile-menu-overlay.active {
+        display: block;
+    }
+    
+    /* Mobile auth section */
+    .mobile-auth-section {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 1rem;
+        background: var(--secondary-bg);
+        border-top: 1px solid var(--border-color);
+        z-index: 9999;
+        gap: 0.75rem;
+    }
+    
+    .mobile-auth-section.active {
+        display: flex;
+    }
+    
+    .mobile-auth-btn {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.875rem;
+        border-radius: 10px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+    
+    .mobile-auth-login {
+        background: var(--card-bg);
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+    }
+    
+    .mobile-auth-signup {
+        background: var(--gradient-primary);
+        color: white;
+    }
+    
+    /* Body scroll lock */
+    body.menu-open {
+        overflow: hidden;
+    }
+    
+    /* Hide desktop nav buttons on mobile */
+    .nav-buttons .auth-btn {
+        display: none;
+    }
+    /* Theme selector mobile */
+    .theme-selector {
+        display: flex !important;
+        height: 40px !important;
+        min-height: 40px !important;
+        border-radius: 10px !important;
+        align-items: center !important;
+    }
+    .theme-btn {
+        width: 32px;
+        height: 32px;
+        padding: 6px;
+    }
+
+    
+    /* Page hero mobile */
+    .page-hero {
+        padding: 2.5rem 1.25rem;
+    }
+    
+    .page-hero h1 {
+        font-size: 1.75rem;
+    }
+    
+    .page-hero p {
+        font-size: 0.95rem;
+    }
+    
+    /* Stats bar mobile */
+    .stats-bar {
+        gap: 20px;
+    }
+    
+    .stat-number {
+        font-size: 1.8rem;
+    }
+    
+    /* Filter section mobile */
+    .filter-section {
+        padding: 20px 1rem;
+    }
+    
+    .content-section {
+        padding: 20px 1rem;
+    }
+    
+    /* Cards grid mobile */
+    .cards-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Footer mobile */
+    .footer {
+        padding: 2rem 1rem;
+    }
+    
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    /* Speed dial mobile */
+    .imx-speed-dial {
+        bottom: 80px;
+        left: 16px;
+    }
+    
+    /* Chatbot mobile */
+    .chatbot-modal {
+        right: 12px;
+        left: 12px;
+        width: auto;
+        bottom: 80px;
+    }
+    
+    /* Cookie consent mobile *//* Decorative elements mobile */
+    .v3-paper-plane {
+        width: 100px;
+        height: 100px;
+        top: 10%;
+        right: 5%;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .page-hero h1 {
+        font-size: 1.5rem;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+}
+
+/* Accessibility: focus-visible styles */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+    outline: 3px solid var(--accent-color, #0EA5E9);
+    outline-offset: 2px;
+}
+
+/* Screen-reader only utility */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+body { padding-top: 70px; } /* clear fixed header */
+</style>
+<style>
+/* ===== ImpactMojo Design System ===== */
+:root {
+    --im-primary-bg: #0F172A;
+    --im-secondary-bg: #1E293B;
+    --im-accent: #0EA5E9;
+    --im-accent-hover: #0284C7;
+    --im-secondary-accent: #6366F1;
+    --im-success: #10B981;
+    --im-text-primary: #F1F5F9;
+    --im-text-secondary: #94A3B8;
+    --im-text-muted: #64748B;
+    --im-card-bg: #1E293B;
+    --im-hover-bg: #334155;
+    --im-border: #334155;
+    --im-nav-bg: rgba(15, 23, 42, 0.95);
+    --im-gradient: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+}
+[data-theme="light"] {
+    --im-primary-bg: #F8FAFC;
+    --im-secondary-bg: #FFFFFF;
+    --im-accent: #0284C7;
+    --im-accent-hover: #0369A1;
+    --im-text-primary: #0F172A;
+    --im-text-secondary: #475569;
+    --im-text-muted: #64748B;
+    --im-card-bg: #FFFFFF;
+    --im-hover-bg: #F1F5F9;
+    --im-border: #E2E8F0;
+    --im-nav-bg: rgba(248, 250, 252, 0.95);
+}
+
+/* ImpactMojo Top Bar */
+.im-topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    background: var(--im-nav-bg, rgba(15, 23, 42, 0.95));
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--im-border, #334155);
+    padding: 0.5rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.75rem; flex-wrap: wrap;
+    font-family: 'Inter', sans-serif;
+}
+.im-topbar a { text-decoration: none; }
+.im-topbar-left {
+    display: flex; align-items: center; gap: 0.75rem;
+}
+.im-topbar-home {
+    display: flex; align-items: center; gap: 0.5rem;
+    color: var(--im-text-primary, #F1F5F9);
+    font-weight: 700; font-size: 1rem;
+    background: var(--im-gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.im-topbar-home svg { width: 24px; height: 24px; flex-shrink: 0; }
+.im-topbar-right {
+    display: flex; align-items: center; gap: 0.5rem;
+}
+.im-premium-btn {
+    background: var(--im-gradient);
+    color: #fff !important;
+    padding: 0.35rem 0.85rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: flex; align-items: center; gap: 0.35rem;
+    transition: opacity 0.2s;
+    -webkit-text-fill-color: #fff;
+}
+.im-premium-btn:hover { opacity: 0.9; }
+.im-premium-btn svg { width: 14px; height: 14px; }
+
+/* Theme Selector - 3 mode */
+.im-theme-selector {
+    display: flex; gap: 2px;
+    background: var(--im-card-bg, #1E293B);
+    border: 1px solid var(--im-border, #334155);
+    border-radius: 8px; padding: 2px;
+}
+.im-theme-btn {
+    background: transparent; border: none;
+    color: var(--im-text-secondary, #475569);
+    padding: 6px; border-radius: 5px; cursor: pointer;
+    transition: all 0.2s; display: flex; align-items: center;
+    justify-content: center; width: 30px; height: 30px;
+}
+.im-theme-btn:hover {
+    background: var(--im-hover-bg, #334155);
+    color: var(--im-text-primary, #F1F5F9);
+}
+.im-theme-btn.active {
+    background: var(--im-accent, #0EA5E9);
+    color: #fff;
+}
+.im-theme-btn svg { width: 16px; height: 16px; }
+
+/* Paper Plane */
+.im-paper-plane {
+    position: fixed; top: 15%; right: 8%;
+    width: 120px; height: 120px;
+    opacity: 0.15; z-index: 0;
+    pointer-events: none;
+    animation: im-fly 25s ease-in-out infinite;
+}
+[data-theme="light"] .im-paper-plane { opacity: 0.2; }
+@keyframes im-fly {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    20% { transform: translate(60px, -40px) rotate(12deg); }
+    40% { transform: translate(120px, 30px) rotate(-8deg); }
+    60% { transform: translate(40px, 60px) rotate(15deg); }
+    80% { transform: translate(-30px, 20px) rotate(-5deg); }
+}
+
+/* ImpactMojo Footer */
+.im-footer {
+    background: var(--im-secondary-bg, #1E293B);
+    border-top: 1px solid var(--im-border, #334155);
+    padding: 2rem 1rem; margin-top: auto;
+    font-family: 'Inter', sans-serif;
+    color: var(--im-text-secondary, #475569);
+}
+.im-footer-content {
+    max-width: 1100px; margin: 0 auto;
+}
+.im-footer-made {
+    text-align: center; margin-bottom: 1.5rem;
+    font-size: 0.9rem; color: var(--im-text-muted, #52627A);
+}
+.im-footer-made a { color: var(--im-accent, #0EA5E9); }
+.im-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem; margin-bottom: 1.5rem;
+}
+.im-footer-section h4 {
+    font-family: 'Inter', sans-serif;
+    color: var(--im-text-primary, #F1F5F9);
+    font-size: 0.9rem; margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+.im-footer-section ul { list-style: none; padding: 0; margin: 0; }
+.im-footer-section li { margin-bottom: 0.4rem; }
+.im-footer-section a {
+    color: var(--im-text-secondary, #475569);
+    text-decoration: none; font-size: 0.85rem;
+    transition: color 0.2s;
+}
+.im-footer-section a:hover { color: var(--im-accent, #0EA5E9); }
+.im-footer-bottom {
+    text-align: center; padding-top: 1rem;
+    border-top: 1px solid var(--im-border, #334155);
+    font-size: 0.8rem; color: var(--im-text-muted, #52627A);
+}
+.im-footer-bottom p { margin: 0.25rem 0; }
+.im-footer-bottom a { color: var(--im-accent, #0EA5E9); text-decoration: none; }
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .im-topbar { padding: 0.4rem 0.75rem; gap: 0.5rem; }
+    .im-topbar-home { font-size: 0.85rem; }
+    .im-topbar-home svg { width: 20px; height: 20px; }
+    .im-premium-btn { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
+    .im-theme-btn { width: 26px; height: 26px; padding: 4px; }
+    .im-theme-btn svg { width: 14px; height: 14px; }
+    .im-paper-plane { width: 80px; height: 80px; top: 10%; right: 5%; }
+    .im-footer-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+}
+@media (max-width: 480px) {
+    .im-footer-grid { grid-template-columns: 1fr; }
+    .im-topbar-home span { display: none; }
+}
+
+/* ImpactMojo Global Font Overrides */
+body { font-family: 'Amaranth', sans-serif !important; }
+h1, h2, h3, h4, h5, h6 { font-family: 'Inter', sans-serif !important; }
+code, pre, .monospace, kbd, samp { font-family: 'JetBrains Mono', monospace !important; }
+</style>
+<!-- SEO meta (autogenerated) -->
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.impactmojo.in/catalog.html">
+</head>
+<body>
+
+<a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:9999;padding:8px 16px;background:#F59E0B;color:#0F172A;font-weight:600;font-size:0.9rem;text-decoration:none;border-radius:0 0 8px 0;" onfocus="this.style.cssText='position:fixed;left:0;top:0;z-index:9999;padding:8px 16px;background:#F59E0B;color:#0F172A;font-weight:600;font-size:0.9rem;text-decoration:none;border-radius:0 0 8px 0;'" onblur="this.style.cssText='position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;'">Skip to content</a>
+
+<!-- V3 Decorative Elements - Paper Planes & Blobs -->
+<div class="v3-decoration-container">
+    <!-- Paper Planes -->
+<!-- V3 Paper Plane - matches index.html -->
+<svg class="v3-paper-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M80,130 L150,50" stroke="#10B981" stroke-width="2" stroke-dasharray="4,4"/>
+    <circle cx="150" cy="50" r="4" fill="#6366F1"/>
+    <circle cx="40" cy="155" r="2" fill="#0EA5E9" opacity="0.6"/>
+    <circle cx="35" cy="165" r="1.5" fill="#6366F1" opacity="0.4"/>
+    <circle cx="45" cy="170" r="1" fill="#10B981" opacity="0.5"/>
+</svg>
+
+<!-- V3 Organic Background Blobs -->
+<div class="v3-organic-bg" aria-hidden="true">
+    <div class="v3-blob v3-blob-1"></div>
+    <div class="v3-blob v3-blob-2"></div>
+    <div class="v3-blob v3-blob-3"></div>
+    <div class="v3-blob v3-blob-4"></div>
+</div>
+</div>
+
+<!-- Header -->
+<header class="header" role="banner">
+    <nav class="nav-container" role="navigation" aria-label="Main navigation">
+        <a class='logo-container' href='/'>
+            <div class="logo-svg">
+                <img alt="ImpactMojo logo" src="assets/images/ImpactMojo%20Logo.png" width="48" height="48" loading="lazy">
+            </div>
+            <div class="logo-text">
+                <div class="logo-main">ImpactMojo</div>
+                <div class="logo-tagline">Development Know-How</div>
+            </div>
+        </a>
+        
+        <button class="mobile-menu-toggle" id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle menu" type="button">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+        
+        <!-- Mobile Auth Section -->
+        <div class="mobile-auth-section" id="mobileAuthSection">
+            <a class='mobile-auth-btn mobile-auth-login' href='/login' onclick='closeMobileMenu()'>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                Log In
+            </a>
+            <a class='mobile-auth-btn mobile-auth-signup' href='/signup' onclick='closeMobileMenu()'>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                Sign Up
+            </a>
+        </div>
+        
+        <ul class="nav-links" id="navLinks">
+            <li><a href='/'>Home</a></li>
+            
+            <!-- Learn Dropdown -->
+            <li class="has-dropdown">
+                <a href="javascript:void(0)" onclick="toggleMobileDropdown(event, this)" class="active">Learn
+                    <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href='/catalog'>Catalog</a></li>
+                    <li><a href="/products.html">Products &amp; Kits</a></li>
+                    <li><a href='/handouts'>Resources</a></li>
+                    <li><a href='/premium'>Premium</a></li>
+                </ul>
+            </li>
+            
+            <!-- Services Dropdown -->
+            <li class="has-dropdown">
+                <a href="javascript:void(0)" onclick="toggleMobileDropdown(event, this)">Services
+                    <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href='/coaching'>Coaching</a></li>
+                    <li><a href='/workshops'>Workshops</a></li>
+                </ul>
+            </li>
+            
+            <!-- About Us Dropdown -->
+            <li class="has-dropdown">
+                <a href="javascript:void(0)" onclick="toggleMobileDropdown(event, this)">About Us
+                    <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href='/about'>About ImpactMojo</a></li>
+                    <li><a href='/contact'>Contact</a></li>
+                    <li><a href='/community'>Community</a></li>
+                </ul>
+            </li>
+            
+            <li><a href='/blog'>Blog <img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Article.svg" alt="" class="v3-inline-icon" loading="lazy"></a></li>
+            <li><a href='/podcast'>Podcast <img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Album.svg" alt="" class="v3-inline-icon" loading="lazy"></a></li>
+        </ul>
+        
+        <div class="nav-buttons">
+            <a href="premium.html" class="premium-link" style="display:inline-flex;align-items:center;gap:0.35rem;padding:0.4rem 0.85rem;margin-right:0.5rem;border-radius:8px;background:linear-gradient(135deg,#0EA5E9,#6366F1);color:#fff;text-decoration:none;font-family:Inter,sans-serif;font-size:0.85rem;font-weight:600;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Premium</a>
+            <div class="theme-selector" aria-label="Theme selection">
+                <button class="theme-btn" data-theme="system" title="System theme" aria-label="Use system theme">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                </button>
+                <button class="theme-btn" data-theme="light" title="Light theme" aria-label="Use light theme">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <button class="theme-btn" data-theme="dark" title="Dark theme" aria-label="Use dark theme">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!-- Mobile Menu Overlay -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenu()"></div>
+
+<!-- PAGE CONTENT -->
+<main class="page-content ib" id="main-content" role="main">
+    <!-- Hero Section -->
+    <section class="ib-hero">
+        <div class="ib-hero-in">
+        <span class="ib-eyebrow">Course Catalog</span>
+        <h1>Everything we make,<br><span class="ib-pop">in one place</span></h1>
+        <p class="ib-tagline">Explore the complete collection of courses, interactive labs and educational games for development professionals.</p>
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-number">62</div>
+                <div class="stat-label">Courses</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">13</div>
+                <div class="stat-label">Labs</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">134</div>
+                <div class="stat-label">Games</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">11</div>
+                <div class="stat-label">Premium</div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="filter-section">
+        <div class="search-box">
+            <label for="searchInput" class="sr-only">Search courses, labs, games</label>
+            <input type="text" class="search-input" id="searchInput" placeholder="Search courses, labs, games...">
+        </div>
+        
+        <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all">All</button>
+            <button class="filter-tab" data-filter="flagship"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Star.svg" alt="" style="width:1em;height:1em;vertical-align:-0.15em;display:inline-block;" aria-hidden="true"> Flagship (15)</button>
+            <button class="filter-tab" data-filter="course">Courses (47)</button>
+            <button class="filter-tab" data-filter="lab">Labs (28)</button>
+            <button class="filter-tab" data-filter="game">Games (18)</button>
+            <button class="filter-tab" data-filter="deep-dive"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Library_books.svg" alt="" style="width:1em;height:1em;vertical-align:-0.15em;display:inline-block;" aria-hidden="true"> Deep Dives (21)</button>
+            <button class="filter-tab" data-filter="book-summary"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Book.svg" alt="" style="width:1em;height:1em;vertical-align:-0.15em;display:inline-block;" aria-hidden="true"> Book Companions (55)</button>
+            <button class="filter-tab" data-filter="reference"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Layers.svg" alt="" style="width:1em;height:1em;vertical-align:-0.15em;display:inline-block;" aria-hidden="true"> Reference (6)</button>
+            <button class="filter-tab" data-filter="special"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Album.svg" alt="" style="width:1em;height:1em;vertical-align:-0.15em;display:inline-block;" aria-hidden="true"> Specials (2)</button>
+            <button class="filter-tab" data-filter="poster"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Album.svg" alt="" style="width:1em;height:1em;vertical-align:-0.15em;display:inline-block;" aria-hidden="true"> Research to Action (7)</button>
+            <button class="filter-tab" data-filter="handout"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Article.svg" alt="" style="width:1em;height:1em;vertical-align:-0.15em;display:inline-block;" aria-hidden="true"> Handouts</button>
+            <button class="filter-tab" data-filter="premium">Premium (11)</button>
+            <button class="filter-tab" data-filter="program"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Users.svg" alt="" style="width:1em;height:1em;vertical-align:-0.15em;display:inline-block;" aria-hidden="true"> Programs (2)</button>
+            <button class="filter-tab" data-filter="tool"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Settings.svg" alt="" style="width:1em;height:1em;vertical-align:-0.15em;display:inline-block;" aria-hidden="true"> Tools & Features (9)</button>
+            <button class="filter-tab" data-filter="timeline"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Clock.svg" alt="" style="width:1em;height:1em;vertical-align:-0.15em;display:inline-block;" aria-hidden="true"> Timelines (6)</button>
+        </div>
+        
+        <div class="track-filters">
+            <button class="track-filter active" data-track="all">All Tracks</button>
+            <button class="track-filter" data-track="data-tech">Data & Technology</button>
+            <button class="track-filter" data-track="gender">Gender, Equity & Inclusion</button>
+            <button class="track-filter" data-track="policy">Policy & Economics</button>
+            <button class="track-filter" data-track="mel">Monitoring, Evaluation & Learning</button>
+            <button class="track-filter" data-track="philosophy">Philosophy, Law & Governance</button>
+            <button class="track-filter" data-track="health">Health, Communication & Wellbeing</button>
+        </div>
+    </section>
+
+    <!-- Content Grid -->
+    <section class="content-section">
+        <div class="section-header">
+            <h2 class="section-title">All Content</h2>
+            <span class="result-count" id="resultCount">Showing 67 items</span>
+        </div>
+        
+        <div class="cards-grid" id="cardsGrid">
+            <!-- Cards will be dynamically populated -->
+        </div>
+        
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="icon"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Search.svg" alt="" style="width:1em;height:1em;vertical-align:-0.15em;display:inline-block;" aria-hidden="true"></div>
+            <h3>No results found</h3>
+            <p>Try adjusting your search or filters</p>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="footer" role="contentinfo">
+    <div class="footer-content">
+        <div class="footer-grid">
+            <div class="footer-section">
+                <h4>About</h4>
+                <ul>
+                    <li><a href='/about'>About ImpactMojo</a></li>
+                    <li><a href='/contact'>Contact Us</a></li>
+                    <li><a href='/community'>Community</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal & IT Act</h4>
+                <ul>
+                    <li><a href="/terms-of-service">Terms of Service</a></li>
+                    <li><a href="/privacy-policy">Privacy Policy</a></li>
+                    <li><a href="/refund-policy">Refund Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href='/catalog'>Course Catalog</a></li>
+                    <li><a href='/premium'>Premium Access</a></li>
+                    <li><a href='/faq'>FAQ</a></li>
+<li><a href="/docs/" rel="noopener noreferrer" target="_blank">Documentation</a></li>
+</ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="/status.html">System Status</a></li>
+                    <li><a href="/products.html">Products &amp; Kits</a></li>
+                    <li><a href='/blog'>Blog</a></li>
+                    <li><a href='/podcast'>Podcast</a></li>
+                    <li><a href='/handouts'>Handouts</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-copyright">© 2026 ImpactMojo. All rights reserved. Made with <3 in India. Code under MIT; content under CC BY-NC-ND 4.0.</p>
+            <div class="footer-social">
+                <a href="https://www.linkedin.com/company/impactmojo" target="_blank" rel="noopener" title="LinkedIn">
+                    <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                </a>
+                <a href="https://www.instagram.com/impactmojo" target="_blank" rel="noopener" title="Instagram">
+                    <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                </a>
+                <a href="https://twitter.com/impactmojo" target="_blank" rel="noopener" title="X (Twitter)">
+                    <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Speed Dial Toolbox -->
+<div class="imx-speed-dial" id="imxSpeedDial">
+    <button class="imx-speed-dial-toggle" aria-label="Toggle tools menu" onclick="toggleSpeedDial()" title="Tools">
+        <svg viewBox="0 0 24 24" class="toggle-icon-tools">
+            <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+    </button>
+    <div class="imx-speed-dial-menu">
+        <div class="imx-speed-dial-item">
+            <span class="imx-speed-dial-label">Bookmarks</span>
+            <button class="imx-speed-dial-btn" title="Bookmarks" aria-label="Open bookmarks">
+                <svg viewBox="0 0 24 24"><path d="m19 21-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            </button>
+        </div>
+        <div class="imx-speed-dial-item">
+            <span class="imx-speed-dial-label">Notes</span>
+            <button class="imx-speed-dial-btn" title="Notes" aria-label="Open notes">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </button>
+        </div>
+        <div class="imx-speed-dial-item">
+            <span class="imx-speed-dial-label">Progress</span>
+            <button class="imx-speed-dial-btn" title="Progress" aria-label="View progress">
+                <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Mojini Chatbot FAB -->
+<button class="feedback-fab" id="mojini-chat-toggle" onclick="openChatbot()" title="Chat with Mojini" aria-label="Open Mojini chatbot">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+</button>
+
+<!-- Chatbot Modal -->
+<div class="chatbot-modal" id="chatbotModal" role="dialog" aria-label="Mojini chatbot">
+    <div class="chat-header">
+        <h3>
+            <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/></svg>
+            Mojini
+        </h3>
+        <button class="chat-close" aria-label="Close chat" onclick="closeChatbot()">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+        <div class="message bot-message">
+            <div class="bot-avatar">
+                <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/></svg>
+            </div>
+            <div class="bot-bubble">Hey there! <svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.15em" aria-hidden="true"><path d="M18 11V6.5a1.5 1.5 0 0 0-3 0V11"/><path d="M15 11V5a1.5 1.5 0 0 0-3 0v6"/><path d="M12 11V6.5a1.5 1.5 0 0 0-3 0V13"/><path d="M9 13V8.5a1.5 1.5 0 0 0-3 0V18a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4v-4"/></svg> I'm Mojini, your ImpactMojo assistant. How can I help you today?</div>
+        </div>
+    </div>
+    <div class="chat-options">
+        <button class="chat-option" onclick="selectOption('courses')"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Library_books.svg" alt="" style="width:1em;height:1em;vertical-align:-0.15em;display:inline-block;" aria-hidden="true"> Courses</button>
+        <button class="chat-option" onclick="selectOption('contact')"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Mail.svg" alt="" style="width:1em;height:1em;vertical-align:-0.15em;display:inline-block;" aria-hidden="true"> Contact</button>
+        <button class="chat-option" onclick="selectOption('feedback')"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Chat.svg" alt="" style="width:1em;height:1em;vertical-align:-0.15em;display:inline-block;" aria-hidden="true"> Feedback</button>
+    </div>
+    <div class="chat-input-area">
+        <label for="chatInput" class="sr-only">Chat message</label>
+        <input type="text" id="chatInput" placeholder="Type your message..." onkeypress="handleChatKeyPress(event)">
+        <button class="chat-send" aria-label="Send message" onclick="sendChatMessage()">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+    </div>
+</div>
+
+<!-- UserWay Accessibility Widget -->
+<script>
+    (function(d) {
+      var s = d.createElement("script");
+      s.setAttribute("data-position", 2);
+      s.setAttribute("data-widget_layout", "full");
+      s.setAttribute("data-account", "EksmhlPg9k");
+      s.setAttribute("src", "https://cdn.userway.org/widget.js");
+      (d.body || d.head).appendChild(s);
+    })(document);
+</script>
+
+<!-- JavaScript -->
+<script>
+// =====================================================
+// ALL CONTENT DATA
+// =====================================================
+const allContent = [
+    // FLAGSHIP COURSES (14) - Deep-dive comprehensive courses
+    { id: 'f1', type: 'flagship', title: "Gandhi's Political Thought: Philosophy for Praxis", description: 'Comprehensive exploration of Gandhian political philosophy covering Swaraj, Satyagraha, Trusteeship, and Gram Swaraj. 13 modules with 55-term interactive lexicon.', track: 'philosophy', rating: 4.9, users: '3.2K', url: '/courses/gandhi/' },
+    { id: 'f2', type: 'flagship', title: 'Understanding Development: An Economics Perspective', description: 'Master foundational theories in development economics—from growth models and poverty measurement to institutional economics. 13 modules with 63-term lexicon.', track: 'policy', rating: 4.9, users: '4.1K', url: '/courses/devecon/' },
+    { id: 'f3', type: 'flagship', title: 'Seeing Data: Visualization for Impact', description: 'From Tufte principles to interactive dashboards. 12 modules covering visual encoding, chart selection, and M&E dashboards with AI study companion.', track: 'data-tech', rating: 4.9, users: '3.5K', url: '/courses/dataviz/' },
+    { id: 'f4', type: 'flagship', title: 'AI for Impact: Data Monitoring & Evaluation', description: 'Navigate the AI revolution in development—ML fundamentals, NLP for qualitative data, computer vision, and algorithmic bias. 12 modules with 50-term lexicon.', track: 'data-tech', rating: 4.9, users: '2.8K', url: '/courses/devai/' },
+    { id: 'f5', type: 'flagship', title: 'MEL for Development: Monitoring, Evaluation & Learning', description: 'Master the complete MEL cycle—theory of change, SMART indicators, data collection, and adaptive learning. 14 modules with 65-term lexicon.', track: 'mel', rating: 4.9, users: '4.5K', url: '/courses/mel/' },
+    { id: 'f6', type: 'flagship', title: 'Politics of Aspiration: Rights, Insurance & Social Mobility', description: "Explore India's rights-based programs—RTI, NREGA, Food Security Act—as insurance enabling poor households to pursue aspirations. 13 modules with 60-term lexicon.", track: 'policy', rating: 4.9, users: '1.8K', url: '/courses/poa/' },
+    { id: 'f7', type: 'flagship', title: 'Media for Development: Communication, Power & Practice', description: "Ethical storytelling, humanitarian comms, participatory media, data journalism, and AI in media. 12 modules with 65-term interactive lexicon and South Asian case studies.", track: 'health', rating: 4.9, users: '1.2K', url: '/courses/media/' },
+    { id: 'f8', type: 'flagship', title: 'Social-Emotional Learning for Development', description: 'SEL competencies for practitioners and programmes. Self-awareness, relationship skills, responsible decision-making, with South Asian case studies. 13 modules with interactive lexicon.', track: 'health', rating: 4.9, users: '950', url: '/courses/sel/' },
+    { id: 'f9', type: 'flagship', title: 'Constitution & Law for Development Practice', description: "A practitioner's guide to constitutional law and rights-based frameworks. From the basic structure doctrine to PIL, from Article 21 to digital rights and climate justice. 13 modules grounded in real case law.", track: 'policy', rating: 4.9, users: '1.1K', url: '/courses/law/' },
+    { id: 'f10', type: 'flagship', title: 'Public Policy: Process, Design & Governance', description: "How policy gets made, implemented, and why it often doesn't work. From the Planning Commission to NITI Aayog, fiscal federalism to GST, regulatory governance to social sector delivery. 16 modules.", track: 'policy', rating: 4.9, users: '1.4K', url: '/courses/pubpol/' },
+    { id: 'f11', type: 'flagship', title: 'Gender Studies: Feminisms, Power & Social Change', description: 'A rigorous introduction to feminist theory, the political economy of gender, care work, law and rights, caste-gender intersections, and development practice — anchored in South Asian scholarship. 16 modules with AI study companion.', track: 'gender', rating: 4.9, users: '1.6K', url: '/courses/gender/' },
+    { id: 'f12', type: 'flagship', title: 'Public Choice: Decisions, Incentives & Institutions', description: 'Mechanics, incentives, and institutional design. From voting paradoxes and rent-seeking to bureaucratic capture and federal bargaining, with South Asian cases throughout. 13 modules with 83-term interactive lexicon.', track: 'policy', rating: 4.9, users: 'New', url: '/courses/pubchoice/' },
+    { id: 'f13', type: 'flagship', title: 'Livelihoods in India: Rural, Urban & Skills', description: 'Comprehensive flagship across three modules — rural (NRLM, SHGs, MGNREGA, agriculture), urban (informal sector, gig economy, vendors, domestic workers), and skills (Skill India, apprenticeships, FLFPR, returns to training). Evidence-driven, India-centred, ~15,000 words.', track: 'policy', rating: 4.9, users: 'New', url: '/courses/livelihoods/' },
+    { id: 'f14', type: 'flagship', title: 'Power BI for Practitioners', description: 'Free hands-on Power BI flagship — build honest dashboards from real survey data across eight lab-driven modules: Power Query, star schemas, DAX, and visualisation ethics, with the free-tier and privacy realities made plain. Includes an interactive lexicon.', track: 'data-tech', rating: 4.9, users: 'New', url: '/courses/powerBI/powerbi.html' },
+    { id: 'f15', type: 'flagship', title: 'Causal Inference for Development', description: 'Design-based causal inference for practitioners who read and commission impact evidence — potential outcomes, RCTs, IV, regression discontinuity, difference-in-differences, synthetic control and causal ML, with the judgement to know which design a claim can bear. R and Stata throughout, Indian programme cases, 13 modules with a 65-term interactive lexicon.', track: 'data-tech', rating: 4.9, users: 'New', url: '/courses/causal/' },
+
+    // FOUNDATIONAL COURSES (38)
+    { id: 'c1', type: 'course', title: 'MEL Basics 101', description: 'Master the fundamentals of Monitoring, Evaluation, and Learning for development projects.', track: 'mel', rating: 4.8, users: '2.5K', slides: 104, deckMeta: '104 slides · Quiz · 7 charts', url: '/101-courses/mel-basics.html' },
+    { id: 'c2', type: 'course', title: 'Theory of Change 101', description: 'Learn to design robust theories of change that articulate impact pathways.', track: 'mel', rating: 4.9, users: '2.1K', slides: 100, deckMeta: '100 slides · Quiz', url: '/101-courses/toc-workbench.html' },
+    { id: 'c3', type: 'course', title: 'Data Literacy 101', description: 'Build essential data skills for collecting, analyzing, and interpreting information.', track: 'data-tech', rating: 4.8, users: '1.8K', slides: 100, deckMeta: '100 slides', url: '/101-courses/data-lit.html' },
+    { id: 'c4', type: 'course', title: 'Qualitative Methods 101', description: 'Master qualitative research techniques including interviews, focus groups, and ethnography.', track: 'mel', rating: 4.8, users: '1.6K', slides: 100, deckMeta: '100 slides', url: '/101-courses/qual-methods.html' },
+    { id: 'c5', type: 'course', title: 'Survey Design 101', description: 'Create effective questionnaires and sampling strategies for field research.', track: 'mel', rating: 4.8, users: 'New', slides: 100, deckMeta: '100 slides', url: '/101-courses/survey-design.html' },
+    { id: 'c6', type: 'course', title: 'Research Ethics 101', description: 'Navigate ethical considerations in development research and protect vulnerable populations.', track: 'mel', rating: 4.8, users: '1.3K', slides: 100, deckMeta: '100 slides · Quiz', url: '/101-courses/research-ethics.html' },
+    { id: 'c7', type: 'course', title: 'Gender Mainstreaming 101', description: 'Integrate gender perspectives across all stages of development programming.', track: 'gender', rating: 4.8, users: 'New', slides: 100, deckMeta: '100 slides · Quiz', url: '/101-courses/gender-mainstreaming.html' },
+    { id: 'c8', type: 'course', title: 'Development Economics 101', description: 'Understand core economic concepts shaping development policy and practice.', track: 'policy', rating: 4.8, users: '1.7K', slides: 104, deckMeta: '104 slides · 5 charts', url: '/101-courses/dev-economics.html' },
+    { id: 'c9', type: 'course', title: 'Public Health 101', description: 'Explore epidemiology, health systems, and disease prevention strategies.', track: 'health', rating: 4.8, users: '1.2K', slides: 100, deckMeta: '100 slides · Quiz', url: '/101-courses/pub-health-basics.html' },
+    { id: 'c10', type: 'course', title: 'Visual Ethnography 101', description: 'Learn to document and analyze social phenomena through photography and video.', track: 'health', rating: 4.8, users: '890', slides: 100, deckMeta: '100 slides', url: '/101-courses/visual-eth.html' },
+    { id: 'c11', type: 'course', title: 'Mixed Methods 101', description: 'Combine quantitative and qualitative approaches for comprehensive research.', track: 'mel', rating: 4.8, users: 'New', slides: 100, deckMeta: '100 slides', url: '/101-courses/mixed-methods.html' },
+    { id: 'c12', type: 'course', title: 'Impact Evaluation 101', description: 'Design rigorous impact evaluations using experimental and quasi-experimental methods.', track: 'mel', rating: 4.8, users: 'New', slides: 100, deckMeta: '100 slides · Quiz', url: '/101-courses/impact-eval.html' },
+    { id: 'c13', type: 'course', title: 'Maternal Health 101', description: 'Understand maternal health challenges and evidence-based interventions.', track: 'health', rating: 4.8, users: 'New', slides: 100, deckMeta: '100 slides', url: '/101-courses/maternal-health.html' },
+    { id: 'c14', type: 'course', title: 'Child Development 101', description: 'Explore early childhood development and nutrition interventions.', track: 'health', rating: 4.8, users: 'New', slides: 100, deckMeta: '100 slides · Quiz', url: '/101-courses/child-development.html' },
+    { id: 'c15', type: 'course', title: 'Sexual Health 101', description: 'Navigate sensitive topics in sexual and reproductive health programming.', track: 'health', rating: 4.8, users: '780', slides: 100, deckMeta: '100 slides', url: '/101-courses/SRHR-basics.html' },
+    { id: 'c16', type: 'course', title: 'Feminist Research 101', description: 'Apply feminist methodologies to challenge power dynamics in knowledge production.', track: 'gender', rating: 4.8, users: 'New', slides: 100, deckMeta: '100 slides', url: '/101-courses/feminist-research.html' },
+    { id: 'c17', type: 'course', title: 'Social Margins 101', description: 'A grounded introduction to identity, inequality and justice in South Asia &mdash; caste, tribe, religion, gender, sexuality, disability, region and language. Constitutional, sociological, and empirical tools for practitioners. 100-slide native HTML deck (12 sections, intersectional throughout).', track: 'gender', rating: 4.9, users: '1.4K', slides: 123, deckMeta: '123 slides · Quiz · 5 charts', url: '/101-courses/social-margins.html' },
+    { id: 'c18', type: 'course', title: 'Decolonial Development 101', description: 'Challenge dominant development paradigms through postcolonial frameworks.', track: 'policy', rating: 4.8, users: '1.0K', slides: 100, deckMeta: '100 slides', url: '/101-courses/decolonize-dev.html' },
+    { id: 'c19', type: 'course', title: 'Community Development 101', description: 'Master participatory approaches to community mobilization and asset-based development.', track: 'mel', rating: 4.8, users: '1.5K', slides: 100, deckMeta: '100 slides · Quiz', url: '/101-courses/community-dev.html' },
+    { id: 'c20', type: 'course', title: 'Environmental Justice 101', description: 'Explore how environmental degradation disproportionately impacts marginalized communities.', track: 'philosophy', rating: 4.8, users: '1.1K', slides: 100, deckMeta: '100 slides · Quiz', url: '/101-courses/env-justice.html' },
+    { id: 'c21', type: 'course', title: 'Care Economy 101', description: 'Understand the economic value of unpaid care work and explore supportive policies.', track: 'health', rating: 4.8, users: '980', slides: 100, deckMeta: '100 slides', url: '/101-courses/care-economy-101.html' },
+    { id: 'c22', type: 'course', title: 'Econometrics 101', description: 'Master statistical techniques for causal inference in development economics.', track: 'data-tech', rating: 4.8, users: '1.6K', slides: 100, deckMeta: '100 slides', url: '/101-courses/econometrics-101.html' },
+    { id: 'c23', type: 'course', title: 'Global Development Governance 101', description: 'Navigate the complex ecosystem of development institutions.', track: 'policy', rating: 4.8, users: '1.2K', slides: 100, deckMeta: '100 slides', url: '/101-courses/dev-architecture.html' },
+    { id: 'c24', type: 'course', title: 'Post Truth Politics 101', description: 'Analyze how misinformation and polarization shape development outcomes.', track: 'philosophy', rating: 4.8, users: '890', slides: 100, deckMeta: '100 slides', url: '/101-courses/post-truth-101.html' },
+    { id: 'c25', type: 'course', title: 'Fundraising Basics 101', description: 'Develop essential skills for resource mobilization in the development sector.', track: 'policy', rating: 4.8, users: '1.3K', slides: 100, deckMeta: '100 slides', url: '/101-courses/fundraising-basics.html' },
+    { id: 'c26', type: 'course', title: 'Exploratory Data Analysis 101', description: 'Develop skills for cleaning, exploring, and visualizing household survey data.', track: 'data-tech', rating: 4.8, users: '1.4K', slides: 100, deckMeta: '100 slides', url: '/101-courses/eda-hhs.html' },
+    { id: 'c27', type: 'course', title: 'Bivariate Analysis 101', description: 'Master techniques for examining relationships between two variables.', track: 'data-tech', rating: 4.8, users: '1.1K', slides: 100, deckMeta: '100 slides', url: '/101-courses/bi-analysis.html' },
+    { id: 'c28', type: 'course', title: 'Work, Labour & Livelihoods 101', description: 'A comprehensive course on the SNA boundary, care economy, sustainable-livelihoods framework, the agrarian question, migration, and the non-farm economy. Replaces Decent Work and Livelihoods 101.', track: 'policy', rating: 4.9, users: 'New', slides: 104, deckMeta: '104 slides · Quiz · 5 charts', url: '/101-courses/work-labour-livelihoods.html' },
+    { id: 'c29', type: 'course', title: 'Item Response Theory 101', description: 'Learn advanced psychometric techniques for developing measurement instruments.', track: 'data-tech', rating: 4.8, users: '650', slides: 100, deckMeta: '100 slides · Quiz', url: '/101-courses/irt-basics.html' },
+    { id: 'c30', type: 'course', title: 'Digital Ethics 101', description: 'Navigate ethical challenges in digital development and responsible innovation.', track: 'philosophy', rating: 4.8, users: '920', slides: 100, deckMeta: '100 slides', url: '/101-courses/digital-ethics.html' },
+    { id: 'c31', type: 'course', title: 'Multivariate Analysis 101', description: 'Master advanced statistical techniques for analyzing complex relationships.', track: 'data-tech', rating: 4.8, users: '1.0K', slides: 100, deckMeta: '100 slides', url: '/101-courses/multivariate-basics.html' },
+    { id: 'c32', type: 'course', title: 'SEL Basics 101', description: 'Understand Social and Emotional Learning frameworks for education programs.', track: 'health', rating: 4.8, users: '750', slides: 100, deckMeta: '100 slides', url: '/101-courses/sel-basics.html' },
+    { id: 'c33', type: 'course', title: 'Cost Effectiveness 101', description: 'Master economic evaluation techniques for comparing development interventions.', track: 'policy', rating: 4.8, users: '1.1K', slides: 100, deckMeta: '100 slides', url: '/101-courses/cost-effectiveness.html' },
+    { id: 'c34', type: 'course', title: 'Data Feminism 101', description: 'Explore how power dynamics shape data collection through an intersectional feminist framework.', track: 'gender', rating: 4.8, users: '890', slides: 100, deckMeta: '100 slides', url: '/101-courses/data-feminism.html' },
+    { id: 'c35', type: 'course', title: 'Education and Pedagogy 101', description: 'Discover evidence-based teaching methodologies and learning theories.', track: 'health', rating: 4.8, users: '1.0K', slides: 100, deckMeta: '100 slides · Quiz', url: '/101-courses/edu-pedagogy.html' },
+    { id: 'c36', type: 'course', title: 'Indian Constitution 101', description: 'Examine the constitutional framework that guides Indias democracy.', track: 'philosophy', rating: 4.8, users: '1.3K', slides: 100, deckMeta: '100 slides', url: '/101-courses/ind-constitution.html' },
+    { id: 'c37', type: 'course', title: 'Observation to Insight 101', description: 'Transform raw field observations into actionable insights.', track: 'data-tech', rating: 4.8, users: '720', slides: 100, deckMeta: '100 slides · Quiz', url: '/101-courses/obs2insight.html' },
+    { id: 'c38', type: 'course', title: 'Political Economy 101', description: 'How power, institutions, and economic interests shape development policy and outcomes.', track: 'policy', rating: 4.8, users: 'New', slides: 100, deckMeta: '100 slides', url: '/101-courses/pol-economy.html' },
+    { id: 'c39', type: 'course', title: 'English for Development 101', description: 'Master the specialized vocabulary and communication strategies for development work.', track: 'mel', rating: 4.8, users: '1.2K', slides: 100, deckMeta: '100 slides', url: '/101-courses/eng-dev.html' },
+    { id: 'c41', type: 'course', title: 'Public Finance & Budgeting 101', description: 'How governments raise revenue, allocate spending, and account to citizens — fiscal architecture, the Union and state budgets, finance commissions, and budget transparency in India.', track: 'policy', rating: 4.9, users: 'New', slides: 104, deckMeta: '104 slides · Quiz · 5 charts', url: '/101-courses/public-finance-budgeting.html' },
+    { id: 'c42', type: 'course', title: 'Advocacy Basics 101', description: 'Plan and run evidence-based advocacy — framing, targets, tactics, and measuring influence.', track: 'policy', rating: 4.8, users: 'New', slides: 100, deckMeta: '100 slides', url: '/101-courses/advocacy-basics.html' },
+    { id: 'c43', type: 'course', title: 'Behaviour Change Communication 101', description: 'Design behaviour-change communication grounded in theory, audience insight, and evaluation.', track: 'health', rating: 4.8, users: 'New', slides: 100, deckMeta: '100 slides', url: '/101-courses/bcc-comms.html' },
+    { id: 'c44', type: 'course', title: 'Climate Essentials 101', description: 'Climate science, mitigation, adaptation, and resilience for development practitioners.', track: 'policy', rating: 4.8, users: 'New', slides: 104, deckMeta: '104 slides · Quiz · 11 charts', url: '/101-courses/climate-essentials.html' },
+    { id: 'c45', type: 'course', title: 'Data Visualization 101', description: 'Foundations of honest data visualization — encoding, chart choice, and clear design.', track: 'data-tech', rating: 4.8, users: 'New', slides: 100, deckMeta: '100 slides', url: '/101-courses/data-viz.html' },
+    { id: 'c46', type: 'course', title: 'Inequality Basics 101', description: 'Measuring and understanding inequality — income, wealth, opportunity, and policy responses.', track: 'policy', rating: 4.8, users: 'New', slides: 104, deckMeta: '104 slides · Quiz · 9 charts', url: '/101-courses/inequality-basics.html' },
+    { id: 'c47', type: 'course', title: 'Logframe 101', description: 'Build a logical framework — inputs to impact, indicators, assumptions, and risks.', track: 'mel', rating: 4.8, users: 'New', slides: 100, deckMeta: '100 slides', url: '/101-courses/logframe-101.html' },
+    { id: 'c48', type: 'course', title: "Women's Economic Empowerment 101", description: 'Women in the economy — labour, entrepreneurship, finance, and the structural barriers to participation.', track: 'gender', rating: 4.8, users: 'New', slides: 100, deckMeta: '100 slides', url: '/101-courses/wee-studies.html' },
+
+    // LABS (11)
+    { id: 'l1', type: 'lab', title: 'Theory of Change Lab', description: 'Construct robust theories of change through assumption mapping and evidence review exercises.', track: 'mel', rating: 5.0, users: '1.5K', url: '/Labs/toc-lab.html' },
+    { id: 'l2', type: 'lab', title: 'MLE Design Lab', description: 'Create comprehensive Monitoring, Learning, and Evaluation systems from scratch.', track: 'mel', rating: 4.8, users: '1.2K', url: '/Labs/mel-design-lab.html' },
+    { id: 'l3', type: 'lab', title: 'MEL Plan Lab', description: 'Develop detailed MEL plans with indicators, targets, and data management systems.', track: 'mel', rating: 4.8, users: '980', url: '/Labs/mel-plan-lab.html' },
+    { id: 'l4', type: 'lab', title: 'Storytelling Lab', description: 'Transform data and field experiences into compelling narratives.', track: 'health', rating: 4.0, users: '890', url: '/Labs/storytelling-lab.html' },
+    { id: 'l5', type: 'lab', title: 'Design Thinking Lab', description: 'Apply human-centered design methodologies to development challenges.', track: 'mel', rating: 4.8, users: '750', url: '/Labs/design-thinking-lab.html' },
+    { id: 'l6', type: 'lab', title: 'Community Development Lab', description: 'Practice participatory facilitation techniques and community mapping.', track: 'mel', rating: 4.8, users: '680', url: '/Labs/community-lab.html' },
+    { id: 'l7', type: 'lab', title: 'Policy & Advocacy Lab', description: 'Design and test policy advocacy campaigns through hands-on exercises.', track: 'philosophy', rating: 4.8, users: '620', url: '/Labs/policy-advocacy-lab.html' },
+    { id: 'l8', type: 'lab', title: 'Risk and Mitigation Lab', description: 'Identify, assess, and develop mitigation strategies for risks.', track: 'mel', rating: 4.8, users: '540', url: '/Labs/risk-mitigation-lab.html' },
+    { id: 'l9', type: 'lab', title: 'Resource and Sustainability Lab', description: 'Analyze resource flows and develop sustainability plans.', track: 'mel', rating: 4.8, users: '490', url: '/Labs/resource-sustainability-lab.html' },
+    { id: 'l10', type: 'lab', title: 'Impact and Partnerships Lab', description: 'Map partnership ecosystems and design collaboration frameworks.', track: 'mel', rating: 4.8, users: '450', url: '/Labs/impact-partnerships-lab.html' },
+    { id: 'l11', type: 'lab', title: 'Gender Analysis Lab', description: 'Apply gender frameworks, assess intersectionality, design gender-responsive programmes, and plan inclusive interventions.', track: 'gender', rating: 4.8, users: '420', url: '/Labs/gender-studies-lab.html' },
+    { id: 'l12', type: 'lab', title: 'Teacher Evidence Explorer', description: 'Filter 30+ teacher-effectiveness interventions by evidence quality, cost, type, outcome, and India relevance. Built from rigorous evaluations 2000–2024 — TaRL, contract teachers, mentoring, Mindspark, pay-for-performance, and more.', track: 'health', rating: 4.9, users: 'New', url: '/Labs/teacher-evidence-lab.html' },
+    { id: 'l13', type: 'lab', title: 'Policy Analysis Lab', description: "Structured tools for policy reasoning — Bardach's eight-step path, a stakeholder power grid, a causal-loop builder, a decision matrix, and a policy-brief generator. Free, browser-only, auto-saves your work.", track: 'policy', rating: 4.9, users: 'New', url: '/Labs/policy-analysis-lab.html' },
+    { id: 'l14', type: 'lab', title: 'Sampling Design Studio', description: 'Walk from your evaluation question to a defensible sampling strategy — SRS, stratified, cluster or multistage — sized with design effect, finite-population correction, power/MDE and non-response buffers. Teaches the statistics, exports a printable sampling plan, and has a facilitator mode for training.', track: 'mel', rating: 4.9, users: 'New', url: '/Labs/sampling-design-lab.html' },
+    { id: 'l15', type: 'lab', title: 'Budget & Fiscal Analysis Lab', description: 'Read Union and State budgets like a practitioner  decode BE, RE and actuals, trace fund flows from Centre to beneficiary, calculate per-capita spends, and grasp fiscal federalism. Fund-flow simulator and per-capita calculator included.', track: 'policy', rating: 4.9, users: 'New', url: '/Labs/budget-fiscal-lab.html' },
+    { id: 'l16', type: 'lab', title: 'Climate Risk & Adaptation Lab', description: 'Assess climate vulnerability, prioritise hazards on a risk matrix, and design context-specific adaptation strategies for South Asian communities, with a cost-benefit calculator.', track: 'mel', rating: 4.9, users: 'New', url: '/Labs/climate-adaptation-lab.html' },
+    { id: 'l17', type: 'lab', title: 'Conflict-Sensitive Programming Lab', description: 'Apply Do No Harm principles, analyse conflict actors and drivers, and practise adapt, suspend or exit decisions for fragile and conflict-affected settings.', track: 'mel', rating: 4.9, users: 'New', url: '/Labs/conflict-sensitive-lab.html' },
+    { id: 'l18', type: 'lab', title: 'Data Feminism & Intersectional Analysis Lab', description: 'Analyse data through gender, caste and power  disaggregate, spot bias across the data lifecycle, and visualise intersectionally to reveal what aggregates hide.', track: 'gender', rating: 4.9, users: 'New', url: '/Labs/data-feminism-lab.html' },
+    { id: 'l19', type: 'lab', title: 'Digital Public Infrastructure Lab', description: 'Understand India DPI stack  Aadhaar, UPI, DigiLocker, ABHA, ONDC  and the DPDP Act 2023, and design programmes with ethical fallbacks.', track: 'data-tech', rating: 4.9, users: 'New', url: '/Labs/dpi-lab.html' },
+    { id: 'l20', type: 'lab', title: 'Ethics & Research Integrity Lab', description: 'Navigate informed consent, data privacy, positionality, ethics review and real fieldwork dilemmas to protect research participants.', track: 'data-tech', rating: 4.9, users: 'New', url: '/Labs/ethics-research-lab.html' },
+    { id: 'l21', type: 'lab', title: 'Grant Writing & Proposal Lab', description: 'Match donors, build a theory of change, write compelling narratives, and budget credibly  the full arc of a fundable proposal.', track: 'mel', rating: 4.9, users: 'New', url: '/Labs/grant-writing-lab.html' },
+    { id: 'l22', type: 'lab', title: 'Participatory Methods Lab', description: 'Master participatory rural appraisal, community mapping, focus-group facilitation and participatory monitoring and evaluation.', track: 'mel', rating: 4.9, users: 'New', url: '/Labs/participatory-methods-lab.html' },
+    { id: 'l23', type: 'lab', title: 'Policy Brief Writing Lab', description: 'Distil research into two-page briefs that move ministers, bureaucrats and media, with audience targeting and a clear structure.', track: 'policy', rating: 4.9, users: 'New', url: '/Labs/policy-brief-lab.html' },
+    { id: 'l24', type: 'lab', title: 'Stakeholder Mapping & Power Analysis Lab', description: 'Map actors, interests and influence on a power-interest grid to design smarter interventions and coalitions.', track: 'policy', rating: 4.9, users: 'New', url: '/Labs/stakeholder-mapping-lab.html' },
+    { id: 'l25', type: 'lab', title: 'Survey Design Lab', description: 'Craft survey instruments that measure what they claim  question wording, scales, bias tests, translation and piloting.', track: 'data-tech', rating: 4.9, users: 'New', url: '/Labs/survey-design-lab.html' },
+    { id: 'l26', type: 'lab', title: 'Systems Thinking & Complexity Lab', description: 'Map systems, build causal loop diagrams, use the iceberg model and leverage points, and manage adaptively in complex contexts.', track: 'mel', rating: 4.9, users: 'New', url: '/Labs/systems-thinking-lab.html' },
+    { id: 'l27', type: 'lab', title: 'R & Python for Development', description: 'Learn R and Python from absolute zero for development data work, running real code live in your browser via WebR and Pyodide  no install. Early access, Module 1 live.', track: 'data-tech', rating: 4.9, users: 'New', url: '/Labs/r-python-dev.html' },
+    { id: 'l15', type: 'lab', title: 'Sampling Basics (Primer)', description: 'New to sampling? A plain-language, no-maths primer on the ideas behind it — population vs sample, bias and representativeness, margin of error and confidence, clusters, and describing vs comparing — with quick interactive demos. The gentle Level 1 before the Sampling Design Studio.', track: 'mel', rating: 4.9, users: 'New', url: '/Labs/sampling-basics-lab.html' },
+    { id: 'p10', type: 'premium', title: 'ToR Builder', description: 'Free to build — export is Premium. Turn structured prompts into a complete Terms of Reference plus a costing sheet, in your browser — export as Markdown or PDF. The interactive companion to the ToR Template and Practice Pack.', track: 'mel', rating: 4.9, users: 'New', url: '/premium-tools/tor-builder.html' },
+    
+    // GAMES (16)
+    { id: 'g1', type: 'game', title: 'The Real Middle', description: 'Understand who the middle-class really is in India through wealth inequality dynamics.', track: 'policy', rating: 4.0, users: '850', url: '/Games/real-middle-india.html' },
+    { id: 'g2', type: 'game', title: 'Risk & Reward Explorer', description: 'Experience behavioral economics through prospect theory and cognitive biases.', track: 'policy', rating: 4.5, users: '1.2K', url: '/Games/risk-reward-game.html' },
+    { id: 'g3', type: 'game', title: 'Cooperation Paradox', description: 'Explore game theory concepts through strategic decision-making scenarios.', track: 'policy', rating: 4.0, users: '920', url: '/Games/cooperation-paradox-game.html' },
+    { id: 'g4', type: 'game', title: 'Public Good Game', description: 'Experience the free-rider problem as players decide whether to contribute to shared resources.', track: 'policy', rating: 4.8, users: '780', url: '/Games/public-good-game.html' },
+    { id: 'g5', type: 'game', title: 'Prisoners Dilemma Game', description: 'Navigate strategic decision-making where individual rationality leads to suboptimal outcomes.', track: 'policy', rating: 4.8, users: '890', url: '/Games/prisoners-dilemma-game.html' },
+    { id: 'g6', type: 'game', title: 'Opportunity Cost Game', description: 'Make resource allocation decisions under constraints and experience tradeoffs.', track: 'policy', rating: 4.8, users: '720', url: '/Games/opportunity-cost-game.html' },
+    { id: 'g7', type: 'game', title: 'Network Effects Game', description: 'Build networks and watch value multiply as more participants join.', track: 'policy', rating: 4.8, users: '650', url: '/Games/network-effects-game.html' },
+    { id: 'g8', type: 'game', title: 'Bidding Wars Game', description: 'Participate in various auction formats to understand price discovery.', track: 'policy', rating: 4.8, users: '580', url: '/Games/bidding-wars-game.html' },
+    { id: 'g9', type: 'game', title: 'Information Asymmetry Game', description: 'Navigate markets where buyers and sellers have different information.', track: 'policy', rating: 4.8, users: '520', url: '/Games/info-asymmetry-game.html' },
+    { id: 'g10', type: 'game', title: 'Externality Game', description: 'Make production decisions while discovering hidden social costs and benefits.', track: 'policy', rating: 4.8, users: '480', url: '/Games/externality-game.html' },
+    { id: 'g11', type: 'game', title: 'Commons Crisis Game', description: 'Manage shared resources while avoiding the tragedy of the commons.', track: 'policy', rating: 4.8, users: '430', url: '/Games/commons-crisis-game.html' },
+    { id: 'g12', type: 'game', title: 'Econ Concepts Puzzle', description: 'Solve economic puzzles that teach concepts through engaging brain-teasers.', track: 'policy', rating: 4.8, users: '610', url: '/Games/econ-concepts-game.html' },
+    { id: 'g13', type: 'game', title: "The Algorithm's Dilemma", description: 'Navigate ethical trade-offs in algorithmic decision-making — bias, surveillance, and the politics of data systems.', track: 'data-tech', rating: 4.7, users: '420', url: '/Games/digital-ethics-game.html' },
+    { id: 'g14', type: 'game', title: 'Epidemic Response Challenge', description: 'Manage a public health crisis: balance containment, communication, equity, and economic costs in real time.', track: 'health', rating: 4.7, users: '380', url: '/Games/public-health-game.html' },
+    { id: 'g15', type: 'game', title: 'Climate Action Challenge', description: 'Make climate policy trade-offs: mitigation vs. adaptation, equity vs. speed, energy transition under constraints.', track: 'policy', rating: 4.7, users: '410', url: '/Games/climate-action-game.html' },
+    { id: 'g16', type: 'game', title: 'The Care Economy Challenge', description: 'Confront the invisibilised work of care — design recognition, redistribution, and reward into policy systems.', track: 'gender', rating: 4.8, users: '350', url: '/Games/gender-equity-game.html' },
+    { id: 'g17', type: 'game', title: 'SEL Simulation: Five Lenses', description: 'Step into SEL from five sides — teacher, program designer, evaluator, student, or parent. 30 evidence-grounded scenarios drawing on CASEL, SEE Learning, WHO Life Skills, Delhi Happiness Curriculum + EMC, Indian indigenous traditions, and NEP 2020 (including teacher-side provisions: NPST, CPD, 4-yr B.Ed.).', track: 'health', rating: 4.9, users: 'New', url: '/Games/sel-simulation-game.html' },
+    { id: 'g18', type: 'game', title: 'Counterfactual: The Evaluation Game', description: 'Eight impact claims from Indian development programmes, eight hidden causal-inference traps. Pick the evaluation design that finds what would have happened anyway — regression to the mean, self-selection, survivorship, spillovers and more.', track: 'mel', rating: 4.9, users: 'New', url: '/Games/counterfactual-game.html' },
+
+    // PREMIUM (10)
+    { id: 'p11', type: 'premium', title: 'Advisory Board Pro', description: 'Pose a development-sector dilemma and a panel of AI advisors — economist, field practitioner, behavioural scientist, and critic — debate it from every angle, then synthesise. Multi-model voices; steer the debate and export the transcript.', track: 'policy', rating: 4.9, users: 'New', url: '/premium-tools/advisory-board-pro.html' },
+    { id: 'p1', type: 'premium', title: 'Field Notes from a Development Economist', description: 'Behind-the-scenes analysis of real programs, procurement dynamics, and implementation trade-offs across South Asia.', track: 'policy', rating: 5.0, users: '450', url: 'https://impactmojo-field-notes-pro.netlify.app/', resourceId: 'field-notes-pro' },
+    { id: 'p2', type: 'premium', title: 'Qualitative Insights Lab', description: 'Free to use — export is Premium. Thematic coding, memo generation, and pattern identification for interview and FGD transcripts. Built for researchers without NVivo licensing.', track: 'mel', rating: 4.5, users: '680', url: '/premium-tools/qual-insights-lab.html' },
+    { id: 'p3', type: 'premium', title: 'Statistical Code Converter', description: 'Free to convert — export is Premium. Translate code between R, Stata, SPSS, and Python with regression diagnostics, effect-size calculators, and power analysis.', track: 'data-tech', rating: 4.8, users: '920', url: '/premium-tools/code-converter-pro.html' },
+    { id: 'p4', type: 'premium', title: 'Research Question Builder', description: 'Free to build — export is Premium. Guided research-question builder with PICO/SPIDER framing, method suggestions, and worked examples.', track: 'mel', rating: 4.9, users: '540', url: '/premium-tools/rq-builder.html' },
+    { id: 'p5', type: 'premium', title: 'TOC Workbench Pro', description: 'Advanced Theory of Change building with assumption mapping, evidence linkage, version history, and PDF/PNG export.', track: 'mel', rating: 4.9, users: '720', url: 'https://impactmojo-workshop-pro.netlify.app/toc-pro.html', resourceId: 'toc-workshop-pro' },
+    { id: 'p6', type: 'premium', title: 'VaniScribe: AI Transcription for Development', description: 'Transcribe field interviews, FGDs, and KIIs in Hindi, Tamil, Bengali, and 10+ South Asian languages. Speaker diarization and structured exports.', track: 'data-tech', rating: 4.8, users: 'New', url: 'https://vaniscribe.netlify.app/', resourceId: 'vaniscribe' },
+    { id: 'p7', type: 'premium', title: 'DevData Practice', description: '36 realistic dataset generators producing 840K+ rows modelled on DHS, NFHS, ASER, MGNREGA. Each generator includes a data dictionary and analysis exercises.', track: 'data-tech', rating: 4.8, users: 'New', url: 'https://impactmojo-devdata-pro.netlify.app/', resourceId: 'devdata-practice' },
+    { id: 'p8', type: 'premium', title: 'Visualization Cookbook', description: '14 chart types with question-driven recipes — production-ready code in R (ggplot2), Python (matplotlib/seaborn), and Excel.', track: 'data-tech', rating: 4.8, users: 'New', url: 'https://impactmojo-devdata-pro.netlify.app/charts.html', resourceId: 'viz-cookbook' },
+    { id: 'p9', type: 'premium', title: 'DevEconomics Toolkit', description: '11 interactive Shiny apps: RCT power, DiD event study, RDD bandwidth, synthetic control, FGT poverty, Theil/MPI inequality, CEA, and more.', track: 'mel', rating: 4.8, users: 'New', url: 'https://impactmojo-devecon-toolkit.netlify.app/', resourceId: 'devecon-toolkit' },
+
+    // DEEP DIVES (5) - Curated annotated reading lists from named scholars
+    { id: 'dd1', type: 'deep-dive', title: 'Reading Indian Political Economy', description: 'From colonial legacies to coalition capitalism — a curated reading list on how power, markets, and the state co-evolve in India. Curated by Sukhmeet Bedi.', track: 'policy', rating: 5.0, users: 'New', url: '/DeepDives/indian-political-economy.html' },
+    { id: 'dd2', type: 'deep-dive', title: 'Impact Measurement: Foundations and Frontiers', description: 'What we measure, why it matters, and where the field is heading — a working syllabus for evaluators. Curated by the ImpactMojo Editorial team.', track: 'mel', rating: 5.0, users: 'New', url: '/DeepDives/impact-measurement-foundations.html' },
+    { id: 'dd3', type: 'deep-dive', title: 'Climate and Just Transitions in South Asia', description: 'Reading climate change as a development question — equity, energy, and the politics of transition. Curated by Sukhmeet Bedi.', track: 'policy', rating: 5.0, users: 'New', url: '/DeepDives/climate-just-transitions-south-asia.html' },
+    { id: 'dd4', type: 'deep-dive', title: 'Caste, Identity, and Development', description: 'Why development outcomes track social hierarchy — and what it would take to design programs that don\'t. Curated by the ImpactMojo Editorial team.', track: 'gender', rating: 5.0, users: 'New', url: '/DeepDives/caste-identity-development.html' },
+    { id: 'dd5', type: 'deep-dive', title: 'Data, Power, and the Global South', description: 'Who counts, who is counted, and who decides — a critical syllabus on data politics in the developing world. Curated by the ImpactMojo Editorial team.', track: 'data-tech', rating: 5.0, users: 'New', url: '/DeepDives/data-power-global-south.html' },
+    { id: 'dd6', type: 'deep-dive', title: 'Evaluating SEL Programs in India', description: 'How to measure social-emotional learning where the constructs are contested and the context is everything. Curated by the ImpactMojo Editorial team.', track: 'mel', rating: 5.0, users: 'New', url: '/DeepDives/sel-evaluation-india.html' },
+    { id: 'dd7', type: 'deep-dive', title: 'Cash Transfers and the Evidence', description: 'Conditional or unconditional, cash or kind, delivered how — what two decades of trials actually taught us about giving money to the poor. Curated by the ImpactMojo team.', track: 'policy', rating: 5.0, users: 'New', url: '/DeepDives/cash-transfers-evidence.html' },
+    { id: 'dd8', type: 'deep-dive', title: 'Climate Adaptation Finance and Loss & Damage', description: 'Who pays to adapt, and who pays for the harm already done — a working reading list on the money behind climate justice. Curated by the ImpactMojo team.', track: 'policy', rating: 5.0, users: 'New', url: '/DeepDives/climate-adaptation-finance.html' },
+    { id: 'dd9', type: 'deep-dive', title: 'Randomista Economics and Its Critics', description: 'The rise of the randomised trial, the 2019 Nobel, and the long argument about what experiments can and cannot tell us about development. Curated by the ImpactMojo team.', track: 'mel', rating: 5.0, users: 'New', url: '/DeepDives/randomista-economics.html' },
+    { id: 'dd10', type: 'deep-dive', title: 'India\'s Female Labour-Force Puzzle', description: 'Why do so few Indian women work for pay — and why did participation fall as the economy boomed? A guided reading list. Curated by the ImpactMojo team.', track: 'gender', rating: 5.0, users: 'New', url: '/DeepDives/india-female-labour-force-participation.html' },
+    { id: 'dd11', type: 'deep-dive', title: 'The Learning Crisis', description: 'Children are in school as never before — and learning far less than the world assumed. A reading list on the gap between schooling and learning. Curated by the ImpactMojo team.', track: 'policy', rating: 5.0, users: 'New', url: '/DeepDives/the-learning-crisis.html' },
+    { id: 'dd12', type: 'deep-dive', title: 'Measuring Empowerment', description: 'Beyond income: agency, autonomy, and the trouble with proxies — a working reading list for evaluators measuring something that resists measurement. Curated by the ImpactMojo team.', track: 'gender', rating: 5.0, users: 'New', url: '/DeepDives/measuring-empowerment.html' },
+    { id: 'dd13', type: 'deep-dive', title: 'The Politics of Targeting', description: 'Universal or targeted welfare? A reading list on who gets left out, why "programmes for the poor" so often become poor programmes, and how the technology of identification reshapes the politics. Curated by the ImpactMojo team.', track: 'policy', rating: 5.0, users: 'New', url: '/DeepDives/politics-of-targeting.html' },
+    { id: 'dd14', type: 'deep-dive', title: 'Health Systems and UHC in South Asia', description: 'How a region of nearly two billion people is trying to reach universal health coverage — and why the money, not just the medicine, is the hard part. Curated by the ImpactMojo team.', track: 'policy', rating: 5.0, users: 'New', url: '/DeepDives/health-systems-uhc-south-asia.html' },
+    { id: 'dd15', type: 'deep-dive', title: 'Decolonising Development Knowledge', description: 'Whose evidence counts, who gets to theorise, and what localisation actually demands — a reading list on epistemic justice in development. Curated by the ImpactMojo team.', track: 'mel', rating: 5.0, users: 'New', url: '/DeepDives/decolonising-development-knowledge.html' },
+    { id: 'dd16', type: 'deep-dive', title: 'Informality and Social Protection', description: 'Gig work, the "missing middle", and portable benefits — how informal economies are measured, and how protection can reach the workers who hold them up. Curated by the ImpactMojo team.', track: 'policy', rating: 5.0, users: 'New', url: '/DeepDives/informality-and-social-protection.html' },
+    { id: 'dd17', type: 'deep-dive', title: 'The Stunting Puzzle', description: "Why are South Asia's children among the most stunted in the world, despite rising incomes? The Asian Enigma, the first 1,000 days, sanitation, women's status, and what actually reduces stunting. Curated by the ImpactMojo team.", track: 'health', rating: 5.0, users: 'New', url: '/DeepDives/the-stunting-puzzle.html' },
+    { id: 'dd18', type: 'deep-dive', title: 'The Care Economy', description: "The unpaid work that holds every economy up — mostly women's, mostly uncounted. Feminist economics, time-use data, the Recognize-Reduce-Redistribute agenda, and care in South Asia. Curated by the ImpactMojo team.", track: 'gender', rating: 5.0, users: 'New', url: '/DeepDives/the-care-economy.html' },
+    { id: 'dd19', type: 'deep-dive', title: 'Climate Migration in South Asia', description: "Floods, salt, heat, and the people who move — and the people who can't. Climate, displacement, and migration-as-adaptation across the region most exposed to both. Curated by the ImpactMojo team.", track: 'policy', rating: 5.0, users: 'New', url: '/DeepDives/climate-migration-south-asia.html' },
+    { id: 'dd20', type: 'deep-dive', title: 'AI and Development', description: "What AI can genuinely do for the poor — and what it does to them. Poverty prediction from satellites and phones, decolonial AI and data colonialism, digital public infrastructure, and the LLM moment in the Global South. Curated by the ImpactMojo team.", track: 'data-tech', rating: 5.0, users: 'New', url: '/DeepDives/ai-and-development.html' },
+
+    // BOOK SUMMARIES (46) — interactive companions to development-sector and adjacent texts
+    { id: 'bs1', type: 'book-summary', title: 'The 21 Irrefutable Laws of Leadership', description: 'Maxwell on the practice of leadership — 21 laws applied to influence, vision, sacrifice, and team-building.', track: 'policy', rating: 4.7, users: 'New', url: '/BookSummaries/21-laws-leadership-companion.html' },
+    { id: 'bs2', type: 'book-summary', title: 'The 22 Immutable Laws of Marketing', description: 'Ries and Trout on positioning, category creation, and the rules brands break at their peril.', track: 'health', rating: 4.7, users: 'New', url: '/BookSummaries/22-laws-marketing-companion.html' },
+    { id: 'bs3', type: 'book-summary', title: 'Atomic Habits', description: 'Clear on cue-craving-response-reward and the mechanics of habit change for individuals and organisations.', track: 'health', rating: 4.7, users: 'New', url: '/BookSummaries/atomic-habits-companion.html' },
+    { id: 'bs4', type: 'book-summary', title: 'Basic Econometrics (Gujarati)', description: 'Gujarati\'s foundational text — OLS, GLS, panel data, and the econometric toolkit for practitioners.', track: 'mel', rating: 4.7, users: 'New', url: '/BookSummaries/basic-econometrics-companion.html' },
+    { id: 'bs5', type: 'book-summary', title: 'Beyond Developmentality', description: 'Deb on the politics of development discourse — what gets called development, what counts, and who decides.', track: 'policy', rating: 4.7, users: 'New', url: '/BookSummaries/beyond-developmentality-deb-companion.html' },
+    { id: 'bs6', type: 'book-summary', title: 'Principles for Navigating Big Debt Crises', description: 'Dalio\'s template for diagnosing debt cycles, deflationary deleveragings, and central bank responses.', track: 'policy', rating: 4.7, users: 'New', url: '/BookSummaries/dalio-big-debt-crises-companion.html' },
+    { id: 'bs7', type: 'book-summary', title: 'Damned Lies and Statistics', description: 'Best on how statistics are produced, distorted, and weaponised — and how to read them as a citizen.', track: 'mel', rating: 4.7, users: 'New', url: '/BookSummaries/damned-lies-companion.html' },
+    { id: 'bs8', type: 'book-summary', title: 'Development Economics', description: 'Ray\'s canonical Development Economics — growth, poverty, inequality, institutions, with rigorous models throughout.', track: 'policy', rating: 4.7, users: 'New', url: '/BookSummaries/debraj-ray-companion.html' },
+    { id: 'bs9', type: 'book-summary', title: 'Deep Work', description: 'Newport on attention, focused effort, and producing valuable work in an age of distraction.', track: 'health', rating: 4.7, users: 'New', url: '/BookSummaries/deep-work-companion.html' },
+    { id: 'bs10', type: 'book-summary', title: 'Design Thinking', description: 'A practitioner companion to design thinking — empathy, ideation, prototyping, and human-centred problem framing for development work.', track: 'data-tech', rating: 4.7, users: 'New', url: '/BookSummaries/dt-companion.html' },
+    { id: 'bs11', type: 'book-summary', title: 'Eat That Frog!', description: 'Tracy on prioritisation, procrastination, and tackling the most important task first each day.', track: 'health', rating: 4.7, users: 'New', url: '/BookSummaries/eat-frog-companion.html' },
+    { id: 'bs12', type: 'book-summary', title: 'Econometrics by Example', description: 'Gujarati\'s applied companion — worked examples in regression, time series, and panel data analysis.', track: 'mel', rating: 4.7, users: 'New', url: '/BookSummaries/econometrics-by-example-companion.html' },
+    { id: 'bs13', type: 'book-summary', title: 'The 4-Hour Workweek', description: 'Ferriss on lifestyle design, automation, and the DEAL framework — adapted for practitioner context.', track: 'health', rating: 4.7, users: 'New', url: '/BookSummaries/four-hour-workweek-companion.html' },
+    { id: 'bs14', type: 'book-summary', title: 'The Great Greenwashing', description: 'Pinto on how corporate sustainability claims hide ongoing harm — what greenwashing looks like in practice and how to read past it.', track: 'policy', rating: 4.7, users: 'New', url: '/BookSummaries/gog-companion.html' },
+    { id: 'bs15', type: 'book-summary', title: 'Grit', description: 'Duckworth on passion, perseverance, and the long-arc development of skill and impact.', track: 'health', rating: 4.7, users: 'New', url: '/BookSummaries/grit-companion.html' },
+    { id: 'bs16', type: 'book-summary', title: 'History of Economic Thought', description: 'A practitioner\'s tour through economic thought from Smith and Marx to Keynes, Sen, and Stiglitz.', track: 'policy', rating: 4.7, users: 'New', url: '/BookSummaries/history-economic-thought-companion.html' },
+    { id: 'bs17', type: 'book-summary', title: 'Influence', description: 'Cialdini on the six principles of persuasion — reciprocity, scarcity, authority, consistency, liking, social proof.', track: 'health', rating: 4.7, users: 'New', url: '/BookSummaries/influence-companion.html' },
+    { id: 'bs18', type: 'book-summary', title: 'Info We Trust', description: 'RJ Andrews on visual storytelling with data — narrative structure, design principles, and turning numbers into meaning.', track: 'data-tech', rating: 4.7, users: 'New', url: '/BookSummaries/info-we-trust-companion.html' },
+    { id: 'bs19', type: 'book-summary', title: 'Handbook for IPCC Authors on Climate Communications', description: 'IPCC handbook — six evidence-based principles for communicating climate science to non-specialist audiences.', track: 'health', rating: 4.7, users: 'New', url: '/BookSummaries/ipcc-climate-communication-companion.html' },
+    { id: 'bs20', type: 'book-summary', title: 'Naked Statistics', description: 'Wheelan on the statistics every citizen and practitioner should understand — sampling, regression, causation.', track: 'mel', rating: 4.7, users: 'New', url: '/BookSummaries/naked-stats-companion.html' },
+    { id: 'bs21', type: 'book-summary', title: 'Pre-Suasion', description: 'Cialdini on the moments before persuasion — framing, attention, and how to set the stage for change.', track: 'health', rating: 4.7, users: 'New', url: '/BookSummaries/presuasion-companion.html' },
+    { id: 'bs22', type: 'book-summary', title: 'Radical Candor', description: 'Scott on caring personally and challenging directly — the management practice of giving useful feedback.', track: 'health', rating: 4.7, users: 'New', url: '/BookSummaries/radical-candor-companion.html' },
+    { id: 'bs23', type: 'book-summary', title: 'Revised Structures of Effective Aid', description: 'Resilience, Sustainability, and Outcomes Engineering — a practitioner framework for adaptive programme design.', track: 'policy', rating: 4.7, users: 'New', url: '/BookSummaries/rsoe-companion.html' },
+    { id: 'bs24', type: 'book-summary', title: 'Storytelling to Accelerate Climate Solutions', description: 'Coren and Wang on narrative approaches to climate action — case studies in framing, audience, and agency.', track: 'health', rating: 4.7, users: 'New', url: '/BookSummaries/storytelling-climate-solutions-companion.html' },
+    { id: 'bs25', type: 'book-summary', title: 'Storytelling with Data', description: 'Knaflic on storytelling with data — the discipline of choosing chart, message, and emphasis for audience.', track: 'data-tech', rating: 4.7, users: 'New', url: '/BookSummaries/swd-companion.html' },
+    { id: 'bs26', type: 'book-summary', title: 'TED Talks: The Official Guide to Public Speaking', description: 'Anderson on the architecture of a TED talk — connection, narrative, idea-density, and the discipline of editing.', track: 'health', rating: 4.7, users: 'New', url: '/BookSummaries/ted-talks-companion.html' },
+    { id: 'bs27', type: 'book-summary', title: 'Thinking in Systems', description: 'Meadows on stocks, flows, feedback loops, and seeing the structures behind events.', track: 'policy', rating: 4.7, users: 'New', url: '/BookSummaries/thinking-in-systems-companion.html' },
+    { id: 'bs28', type: 'book-summary', title: 'To Sell Is Human', description: 'Pink on the new ABCs of selling — attunement, buoyancy, and clarity for non-sales professionals.', track: 'health', rating: 4.7, users: 'New', url: '/BookSummaries/to-sell-is-human-companion.html' },
+    { id: 'bs29', type: 'book-summary', title: 'The Truthful Art', description: 'Cairo on the ethics and craft of data visualisation — accuracy, functionality, and aesthetics.', track: 'data-tech', rating: 4.7, users: 'New', url: '/BookSummaries/truthful-art-companion.html' },
+    { id: 'bs30', type: 'book-summary', title: 'The Visual Display of Quantitative Information', description: 'Tufte\'s canon on the visual display of quantitative information — small multiples, data-ink ratio, sparklines.', track: 'data-tech', rating: 4.7, users: 'New', url: '/BookSummaries/tufte-companion.html' },
+    { id: 'bs31', type: 'book-summary', title: 'Ultralearning', description: 'Young on aggressive self-directed skill acquisition — directness, drilling, retention, and feedback loops.', track: 'health', rating: 4.7, users: 'New', url: '/BookSummaries/ultralearning-companion.html' },
+    { id: 'bs32', type: 'book-summary', title: 'Digital Roadmap for a Circular Economy', description: 'European Commission on how IoT, blockchain, and AI can accelerate circular economy transitions, with Indian landscape analysis.', track: 'policy', rating: 4.8, users: 'New', url: '/BookSummaries/circular-economy-companion.html' },
+    { id: 'bs33', type: 'book-summary', title: 'Measuring Empowerment', description: 'BMGF methods note on measuring women and girls\' empowerment — WEAI, DHS modules, results frameworks, and measurement biases.', track: 'gender', rating: 4.8, users: 'New', url: '/BookSummaries/measuring-empowerment-companion.html' },
+    { id: 'bs34', type: 'book-summary', title: 'Field Experiments in Economics', description: 'Favereau & Nagatsu on the methodological history of field experiments — lab-extension vs programme-evaluation strands.', track: 'data-tech', rating: 4.8, users: 'New', url: '/BookSummaries/field-experiments-companion.html' },
+    { id: 'bs35', type: 'book-summary', title: 'Learning Policy, Doing Policy', description: 'Mercer, Ayres, Head & Wanna on public policy theory-practice interactions with Australian, NZ, and Indian case studies.', track: 'policy', rating: 4.8, users: 'New', url: '/BookSummaries/learning-policy-companion.html' },
+    { id: 'bs36', type: 'book-summary', title: 'Learning Statistics with R', description: 'Navarro\'s open-access textbook companion — research design, hypothesis testing, regression, ANOVA, and R code.', track: 'data-tech', rating: 4.8, users: 'New', url: '/BookSummaries/learning-statistics-r-companion.html' },
+    { id: 'bs37', type: 'book-summary', title: 'M&E Frameworks', description: 'USAID program cycle companion — CLA Toolkit, Evaluation Toolkit, Monitoring Toolkit, and MEL Plan guidance.', track: 'data-tech', rating: 4.8, users: 'New', url: '/BookSummaries/me-frameworks-companion.html' },
+    { id: 'bs38', type: 'book-summary', title: 'Social Norms & SBC', description: 'USAID Passages, UNICEF, UNFPA companion on norm diagnostics, ego-network analysis, and social & behavior change programming.', track: 'gender', rating: 4.8, users: 'New', url: '/BookSummaries/social-norms-sbc-companion.html' },
+    { id: 'bs39', type: 'book-summary', title: 'Paying for Health', description: 'Cylus, Forman et al. on health financing — UHC frameworks, revenue raising, pooling, purchasing, and the WHO cube.', track: 'health', rating: 4.8, users: 'New', url: '/BookSummaries/paying-for-health-companion.html' },
+    { id: 'bs40', type: 'book-summary', title: 'Public Innovation Playbook', description: 'Johns Hopkins Bloomberg Center playbook for city-level innovation teams — four phases from mission to sustainability.', track: 'policy', rating: 4.8, users: 'New', url: '/BookSummaries/public-innovation-playbook-companion.html' },
+    { id: 'bs41', type: 'book-summary', title: 'Qualitative Methods Suite', description: 'Hurst, Mortelmans & Hennink-Kaiser three-textbook companion on qualitative research methods — 21 chapters.', track: 'data-tech', rating: 4.8, users: 'New', url: '/BookSummaries/qualitative-methods-companion.html' },
+    { id: 'bs42', type: 'book-summary', title: 'Value of RCTs in Developing Contexts', description: 'Sengupta on RCT design, ethics, and external validity — 7 Asia-Pacific case studies.', track: 'data-tech', rating: 4.8, users: 'New', url: '/BookSummaries/rct-developing-contexts-companion.html' },
+    { id: 'bs43', type: 'book-summary', title: 'Research Design Workflow', description: 'Multi-source companion on literature review, formative research, mixed methods, and survey design.', track: 'data-tech', rating: 4.8, users: 'New', url: '/BookSummaries/research-design-workflow-companion.html' },
+    { id: 'bs44', type: 'book-summary', title: 'Public Speaking for Researchers', description: 'Gallo & Berkun two-book companion on storytelling, presentation skills, and overcoming stage anxiety.', track: 'policy', rating: 4.7, users: 'New', url: '/BookSummaries/public-speaking-companion.html' },
+    { id: 'bs45', type: 'book-summary', title: 'Small Sample Size Solutions', description: 'van de Schoot & Miočević on Bayesian approaches, multilevel modelling, and SEM for small samples.', track: 'data-tech', rating: 4.8, users: 'New', url: '/BookSummaries/small-sample-size-companion.html' },
+    { id: 'bs46', type: 'book-summary', title: 'Poor Economics', description: 'Banerjee & Duflo on fighting poverty through rigorously-tested interventions — nutrition, health, education, microfinance, and the behavioural lives of the poor.', track: 'policy', rating: 4.9, users: 'New', url: '/BookSummaries/poor-economics-companion.html' },
+    { id: 'bs47', type: 'book-summary', title: 'Why Nations Fail', description: 'Acemoglu & Robinson on why prosperity is made by inclusive versus extractive institutions — critical junctures, creative destruction, and the incentives of elites.', track: 'policy', rating: 4.9, users: 'New', url: '/BookSummaries/why-nations-fail-companion.html' },
+    { id: 'bs48', type: 'book-summary', title: 'Development as Freedom', description: 'Amartya Sen on development as the expansion of human freedoms — the capability approach, the five instrumental freedoms, famines and democracy, and women\'s agency.', track: 'policy', rating: 4.9, users: 'New', url: '/BookSummaries/development-as-freedom-companion.html' },
+    { id: 'bs49', type: 'book-summary', title: 'Capital in the Twenty-First Century', description: 'Piketty\'s study of wealth and inequality — r > g, the capital/income ratio, patrimonial capitalism, and the case for a progressive tax on capital.', track: 'policy', rating: 4.8, users: 'New', url: '/BookSummaries/capital-in-the-21st-century-companion.html' },
+    { id: 'bs50', type: 'book-summary', title: 'India After Gandhi', description: 'Ramachandra Guha\'s history of independent India — Partition, the princely states, the Nehru era, linguistic states, the Emergency, and 1991 reforms.', track: 'policy', rating: 4.9, users: 'New', url: '/BookSummaries/india-after-gandhi-companion.html' },
+    { id: 'bs51', type: 'book-summary', title: 'Health Economics: An Introduction to Economic Evaluation', description: 'Core health-economic evaluation — cost-effectiveness, cost-utility, QALY/DALY methodology, discounting, sensitivity analysis, and decision modelling for health-technology assessment.', track: 'health', rating: 4.9, users: 'New', url: '/BookSummaries/kobelt-companion.html' },
+    { id: 'bs52', type: 'book-summary', title: 'Unlimited Memory', description: "Kevin Horsley's five core mnemonic techniques — the SEE principle, car and body methods, the peg system, and the journey method — with cognitive-science underpinnings and India-specific applications.", track: 'policy', rating: 4.9, users: 'New', url: '/BookSummaries/memory-companion.html' },
+    { id: 'bs53', type: 'book-summary', title: 'Public Health Equity and Ethics', description: "Two foundational texts paired — WHO's health-inequality monitoring methodology and Anand, Peter and Sen's ethics of public health — with India applications throughout.", track: 'health', rating: 4.9, users: 'New', url: '/BookSummaries/phee-companion.html' },
+    { id: 'bs54', type: 'book-summary', title: 'Using Python for Introductory Econometrics', description: 'Heiss and Brunner\'s 19-chapter companion following Wooldridge — simple and multiple regression, IV, panel data, and time series, implemented in Python with NumPy, statsmodels, and linearmodels.', track: 'data-tech', rating: 4.9, users: 'New', url: '/BookSummaries/pyecon-companion.html' },
+    { id: 'bs55', type: 'book-summary', title: 'The Handbook of Social Protection', description: 'Hanna and Olken\'s MIT Press handbook on social protection — targeting, cash transfers, workfare, subsidies, and delivery systems, with evidence from across the Global South.', track: 'policy', rating: 4.9, users: 'New', url: '/BookSummaries/handbook-social-protection.html' },
+
+    // PROGRAMS (2) — cohort + certificate offerings
+    { id: 'prog1', type: 'program', title: 'Build Circles — 4-Week AI Build Cohorts', description: 'Small cohorts, no lectures: pick a real M&E problem, build an AI workflow, demo it on Demo Day and your ₹1,000 deposit comes back — plus a verified certificate. Rolling cohorts, free waitlist.', track: 'mel', rating: 5.0, users: 'New', url: '/build-circles.html' },
+    { id: 'prog2', type: 'program', title: 'AI for M&E Certificate Track', description: 'Self-paced assessed track: the AI for Impact flagship, the Counterfactual game, the Critiquing Evidence pack, an AI Agents module, and a verified certificate on passing the capstone. ₹2,499.', track: 'mel', rating: 5.0, users: 'New', url: '/ai-for-me-certificate.html' },
+
+    // REFERENCE LIBRARIES (6) — surfaced in catalog so users can browse them too
+    { id: 'rl1', type: 'reference', title: 'ImpactLex', description: 'Searchable glossary of 390+ development sector terms, acronyms, formulas, and frameworks. South Asia-grounded and offline-capable.', track: 'data-tech', rating: 4.9, users: '2.5K', url: '/impactlex/' },
+    { id: 'rl2', type: 'reference', title: 'DevDiscourses', description: '500+ open-access research papers, books, and grey literature on development and public policy. Read, cite, and share freely.', track: 'mel', rating: 4.9, users: '1.8K', url: '/devdiscourses' },
+    { id: 'rl3', type: 'reference', title: 'FieldCases', description: '200 cited development case studies from 117 countries — financial inclusion, health, education, governance, livelihoods.', track: 'policy', rating: 4.8, users: '1.6K', url: 'https://varnasr.github.io/dev-case-studies/' },
+    { id: 'rl4', type: 'reference', title: 'PolicyDhara', description: 'Curated Indian public policy documents, government schemes, and legislative frameworks for practitioners and researchers.', track: 'policy', rating: 4.9, users: '1.2K', url: '/policydhara' },
+    { id: 'rl5', type: 'reference', title: 'Dataverse', description: '270+ datasets, APIs, MCP servers, and data tools for the development sector — searchable and tagged by domain.', track: 'data-tech', rating: 4.9, users: '1.4K', url: '/dataverse.html' },
+    { id: 'rl6', type: 'reference', title: 'NudgeKit', description: 'Searchable catalog of 203 behaviour change techniques from BCT Taxonomy v1 — definitions, examples, evidence ratings.', track: 'health', rating: 4.8, users: '980', url: '/bct-repository' },
+
+    // HANDOUTS — single entry pointing to the full collection (84 individual handouts)
+    { id: 'hd1', type: 'handout', title: 'Handouts Library', description: '84 practitioner handouts across MEL, data, policy, gender, health, climate, and governance — searchable and downloadable.', track: 'mel', rating: 4.8, users: '3.1K', url: '/handouts.html' },
+
+    // SPECIALS — original illustrated/interactive pieces
+    { id: 'sp1', type: 'special', title: 'Capacity for Irony — Marginalia', description: 'Ten cartoons from the development sector, where the language of help meets the people it claims to help — each backed by two or three cited, evidence-based paragraphs.', track: 'mel', rating: 5.0, users: 'New', url: '/specials/capacity-for-irony/' },
+
+    // RESEARCH TO ACTION — poster series (7 series, 70 posters)
+    { id: 'rta1', type: 'poster', title: 'Research to Action (Series 1)', description: 'Ten posters on turning research into decisions and impact — questions, design, sample size, indicators, bias, causation, interpretation, and communication.', track: 'mel', rating: 5.0, users: 'New', url: '/research-to-action/#1-1' },
+    { id: 'rta2', type: 'poster', title: 'Data to Decisions (Series 2)', description: 'Ten posters on making data useful — quality, triangulation, monitoring, dashboards, administrative data, ethics, inclusion, learning loops, qualitative data, and storytelling.', track: 'data-tech', rating: 5.0, users: 'New', url: '/research-to-action/#2-1' },
+    { id: 'rta3', type: 'poster', title: 'Evaluation in Practice (Series 3)', description: 'Ten posters on doing evaluation well — theory of change, evaluation questions, process and outcome evaluation, contribution analysis, equity and realist evaluation, and reporting.', track: 'mel', rating: 5.0, users: 'New', url: '/research-to-action/#3-1' },
+    { id: 'rta4', type: 'poster', title: 'Research Methods Without Panic (Series 4)', description: 'Ten posters on core methods — sampling, sample size, survey design, validity, reliability, qualitative interviews, focus groups, coding, mixed methods, and research ethics.', track: 'data-tech', rating: 5.0, users: 'New', url: '/research-to-action/#4-1' },
+    { id: 'rta5', type: 'poster', title: 'Climate, Health & Resilience (Series 5)', description: 'Ten posters on climate and public health — heat action plans, WASH, food and nutrition, vector-borne disease, resilient health systems, early warning, equity, and adaptation.', track: 'health', rating: 5.0, users: 'New', url: '/research-to-action/#5-1' },
+    { id: 'rta6', type: 'poster', title: 'Home Truths (Series 6)', description: 'Ten development-sector home truths — capacity building, the last mile, dashboards, pilots vs scale, real participation, innovation, learning, frontline workers, and systems change.', track: 'mel', rating: 5.0, users: 'New', url: '/research-to-action/#6-1' },
+    { id: 'rta7', type: 'poster', title: 'Policy & Programme Design (Series 7)', description: 'Ten posters on policy and programme design — problem definition, policy levers, targeting, implementation systems, frontline delivery, incentives, cost-effectiveness, accountability, and public value.', track: 'policy', rating: 5.0, users: 'New', url: '/research-to-action/#7-1' },
+
+    // TOOLS & FEATURES — free platform tools and services
+    { id: 'tool-gamelib', type: 'tool', title: 'Game Library', description: 'All 134 in-browser games — simulations, crosswords, quizzes and word searches across economics, gender, MEAL, health and climate. Filter by topic and format.', track: 'data-tech', url: '/game-library.html' },
+    { id: 'tool-peer', type: 'tool', title: 'Peer Review', description: 'Review other learners\' assignments and case analyses with a clarity/rigour/usefulness rubric, and see feedback on your own submissions. Free, sign-in required.', track: 'mel', url: '/peer-review.html' },
+    { id: 'tool-verify', type: 'tool', title: 'Verify a Certificate', description: 'Employer-facing portal to confirm an ImpactMojo certificate or Open Badge by ID or link in seconds. No account needed.', track: 'policy', url: '/verify.html' },
+    { id: 'tool-api', type: 'tool', title: 'Partner API', description: 'Free, read-only REST API and docs so organisations can pull the ImpactMojo course, game and content catalogue into their own systems.', track: 'data-tech', url: '/api-docs.html' },
+
+    // TIMELINES — interactive history scrollers
+    { id: 'tl1', type: 'timeline', title: 'Development Thinking (Timeline)', description: 'How development ideas evolved since 1776 — the schools, the turns, and the critiques, as an interactive timeline.', track: 'policy', url: '/timelines/development-thinking.html' },
+    { id: 'tl2', type: 'timeline', title: 'Climate Policy & Justice (Timeline)', description: 'Milestones in climate policy and justice since 1972 — and the politics behind them.', track: 'health', url: '/timelines/climate-policy.html' },
+    { id: 'tl3', type: 'timeline', title: 'Indian Policy & Welfare State (Timeline)', description: 'Key milestones in India\'s policy and welfare-state history since 1947.', track: 'policy', url: '/timelines/indian-policy.html' },
+    { id: 'tl4', type: 'timeline', title: 'Indian Rights & Social Margins (Timeline)', description: 'Rights, movements and social-margin struggles in India since 1950.', track: 'gender', url: '/timelines/indian-rights.html' },
+    { id: 'tl5', type: 'timeline', title: 'MEL & Research Methods (Timeline)', description: 'The evolution of monitoring, evaluation and research methods since 1969.', track: 'mel', url: '/timelines/mel-methods.html' },
+    { id: 'tl6', type: 'timeline', title: 'Gender & Work in India (Timeline)', description: 'Eighteen landmark moments, 1931–today — from the Karachi Resolution through SEWA, Vishaka, MGNREGA and the POSH Act to the FLFPR puzzle, platform work and the care-economy turn.', track: 'gender', url: '/timelines/gender-work-india.html' },
+
+    // PROGRAMMES
+    { id: 'tool-packs', type: 'tool', title: 'Practice Packs', description: '18 hands-on practice packs — Subject Packs (SEL, livelihoods, gender, education, health, climate, policy, media, governance) and Method Packs (ToR, surveys, logframes, costing, focus groups, evidence critique, and more). First two modules free.', track: 'mel', url: '/practice-packs/' },
+    { id: 'tool-impact', type: 'tool', title: 'Impact Dashboard', description: 'Log the real-world outcomes of applying what you learned, and explore the aggregate community impact — outcomes logged, people reached, and contributors.', track: 'mel', url: '/impact-dashboard.html' },
+    { id: 'tool-events', type: 'tool', title: 'Webinars', description: 'Free live online sessions — register, add to your calendar, and join on the day. Theory of Change clinics, sample size, gender-responsive MEL and more.', track: 'mel', url: '/events.html' },
+    { id: 'tool-contribute', type: 'tool', title: 'Contribute a Course', description: 'Practitioners and researchers can propose a course to publish free under CC BY-NC-ND with full author credit. Teach with ImpactMojo.', track: 'policy', url: '/contribute.html' },
+    { id: 'tool-dojos', type: 'tool', title: 'Practice Dojos', description: 'A 56-session deliberate-practice programme for development practitioners — short, structured reps across the core skills.', track: 'mel', url: '/dojos.html' }
+];
+
+// =====================================================
+// State
+// =====================================================
+let currentTypeFilter = 'all';
+let currentTrackFilter = 'all';
+let searchTerm = '';
+
+// =====================================================
+// Theme Toggle
+// =====================================================
+// =====================================================
+// Theme Selection System (System / Light / Dark)
+// =====================================================
+function initThemeSelector() {
+    const themeBtns = document.querySelectorAll('.theme-btn');
+    const currentTheme = localStorage.getItem('theme') || 'system';
+    
+    updateActiveThemeButton(currentTheme);
+    applyTheme(currentTheme);
+    
+    themeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const theme = btn.dataset.theme;
+            localStorage.setItem('theme', theme);
+            updateActiveThemeButton(theme);
+            applyTheme(theme);
+        });
+    });
+}
+
+function updateActiveThemeButton(theme) {
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.theme === theme);
+    });
+}
+
+function applyTheme(theme) {
+    if (theme === 'system') {
+        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.body.classList.toggle('dark-mode', systemTheme === 'dark');
+    } else {
+        document.body.classList.toggle('dark-mode', theme === 'dark');
+    }
+}
+
+// Listen for system theme changes
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    const currentTheme = localStorage.getItem('theme') || 'system';
+    if (currentTheme === 'system') {
+        applyTheme('system');
+    }
+});
+
+// Load theme immediately to prevent flash
+(function() {
+    var savedTheme = localStorage.getItem('theme') || 'system';
+    var isDark;
+    if (savedTheme === 'dark') {
+        isDark = true;
+    } else if (savedTheme === 'light') {
+        isDark = false;
+    } else {
+        isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    if (isDark) {
+        document.documentElement.classList.add('dark-mode');
+        document.body.classList.add('dark-mode');
+    }
+})();
+
+// =====================================================
+// =====================================================
+// Speed Dial
+// =====================================================
+function toggleSpeedDial() {
+    document.getElementById('imxSpeedDial').classList.toggle('open');
+}
+
+// =====================================================
+// Chatbot
+// =====================================================
+function openChatbot() {
+    document.getElementById('chatbotModal').classList.add('open');
+}
+
+function closeChatbot() {
+    document.getElementById('chatbotModal').classList.remove('open');
+}
+
+function selectOption(option) {
+    const messages = document.getElementById('chatMessages');
+    let response = '';
+    
+    switch(option) {
+        case 'courses':
+            response = 'We offer free courses on MEAL, Theory of Change, Research Methods, Gender Studies, and more! Visit our <a href="catalog.html">Catalog</a> to browse all courses.';
+            break;
+        case 'contact':
+            response = 'You can reach us at <a href="mailto:hello@impactmojo.in">hello@impactmojo.in</a> or visit our <a href="contact.html">Contact page</a>.';
+            break;
+        case 'feedback':
+            response = 'We love hearing from you! Please share your feedback, suggestions, or bug reports. Your input helps us improve ImpactMojo for everyone.';
+            break;
+        default:
+            response = 'How can I help you today?';
+    }
+    
+    const userMsg = document.createElement('div');
+    userMsg.className = 'message';
+    userMsg.innerHTML = `<div class="bot-bubble" style="margin-left: auto; background: var(--gradient-primary); color: white; border-radius: 12px; border-top-right-radius: 4px;">${option.charAt(0).toUpperCase() + option.slice(1)}</div>`;
+    messages.appendChild(userMsg);
+    
+    setTimeout(() => {
+        const botMsg = document.createElement('div');
+        botMsg.className = 'message bot-message';
+        botMsg.innerHTML = `
+            <div class="bot-avatar">
+                <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path></svg>
+            </div>
+            <div class="bot-bubble">${response}</div>
+        `;
+        messages.appendChild(botMsg);
+        messages.scrollTop = messages.scrollHeight;
+    }, 500);
+}
+
+function handleChatKeyPress(event) {
+    if (event.key === 'Enter') {
+        sendChatMessage();
+    }
+}
+
+function sendChatMessage() {
+    const input = document.getElementById('chatInput');
+    const message = input.value.trim();
+    
+    if (!message) return;
+    
+    const messages = document.getElementById('chatMessages');
+    
+    const userMsg = document.createElement('div');
+    userMsg.className = 'message';
+    userMsg.innerHTML = `<div class="bot-bubble" style="margin-left: auto; background: var(--gradient-primary); color: white; border-radius: 12px; border-top-right-radius: 4px;">${message}</div>`;
+    messages.appendChild(userMsg);
+    
+    input.value = '';
+    
+    setTimeout(() => {
+        let response = "Thanks for your message! For detailed assistance, please email us at <a href='mailto:hello@impactmojo.in'>hello@impactmojo.in</a> or visit our <a href='faq.html'>FAQ page</a>.";
+        
+        const lowerMsg = message.toLowerCase();
+        if (lowerMsg.includes('course') || lowerMsg.includes('learn')) {
+            response = "We offer free courses on MEAL, Theory of Change, Research Methods, and more! Check our <a href='catalog.html'>Catalog</a> for all courses.";
+        } else if (lowerMsg.includes('workshop') || lowerMsg.includes('training')) {
+            response = "We offer customized workshops for NGOs and development teams. Visit our <a href='workshops.html'>Workshops page</a> for details.";
+        } else if (lowerMsg.includes('coach') || lowerMsg.includes('mentor')) {
+            response = "Our coaching services provide personalized guidance for your development career. Learn more on our <a href='coaching.html'>Coaching page</a>.";
+        } else if (lowerMsg.includes('free') || lowerMsg.includes('cost') || lowerMsg.includes('price')) {
+            response = "All core educational content on ImpactMojo is completely free! We follow a 'pay what you think is fair' philosophy.";
+        }
+        
+        const botMsg = document.createElement('div');
+        botMsg.className = 'message bot-message';
+        botMsg.innerHTML = `
+            <div class="bot-avatar">
+                <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path></svg>
+            </div>
+            <div class="bot-bubble">${response}</div>
+        `;
+        messages.appendChild(botMsg);
+        messages.scrollTop = messages.scrollHeight;
+    }, 800);
+}
+
+// =====================================================
+// Filtering and Rendering
+// =====================================================
+function filterContent() {
+    return allContent.filter(item => {
+        const matchesType = currentTypeFilter === 'all' || item.type === currentTypeFilter;
+        const matchesTrack = currentTrackFilter === 'all' || item.track === currentTrackFilter;
+        const matchesSearch = searchTerm === '' || 
+            item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            item.description.toLowerCase().includes(searchTerm.toLowerCase());
+        
+        return matchesType && matchesTrack && matchesSearch;
+    });
+}
+
+function renderCards() {
+    const filtered = filterContent();
+    const grid = document.getElementById('cardsGrid');
+    const emptyState = document.getElementById('emptyState');
+    const resultCount = document.getElementById('resultCount');
+    
+    resultCount.textContent = `Showing ${filtered.length} items`;
+    
+    if (filtered.length === 0) {
+        grid.style.display = 'none';
+        emptyState.style.display = 'block';
+        return;
+    }
+    
+    grid.style.display = 'grid';
+    emptyState.style.display = 'none';
+    
+    grid.innerHTML = filtered.map(item => {
+        if (item.comingSoon) {
+            return `
+        <div class="card card-coming-soon" aria-disabled="true">
+            <div class="card-header">
+                <span class="card-type ${item.type}">${item.type}</span>
+                <span class="card-coming-soon-badge">Coming Soon</span>
+            </div>
+            <h3 class="card-title">${item.title}</h3>
+            <p class="card-description">${item.description}</p>
+            <div class="card-meta">
+                <span class="card-track">${item.track.toUpperCase()}</span>
+                <span class="card-users">In development</span>
+            </div>
+        </div>
+    `;
+        }
+        return `
+        <a href="${item.url}"${item.resourceId ? ` data-resource-id="${item.resourceId}"` : ``} target="_blank" class="card">
+            <div class="card-header">
+                <span class="card-type ${item.type}">${item.type}</span>
+                ${item.rating ? `<span class="card-rating"> ${item.rating}</span>` : `<span class="card-rating">Free</span>`}
+            </div>
+            <h3 class="card-title">${item.title}</h3>
+            <p class="card-description">${item.description}</p>
+            ${item.deckMeta ? `<div class="card-deckmeta"><span class="ck">✓</span>${item.deckMeta}</div>` : ''}
+            <div class="card-meta">
+                <span class="card-track">${item.track.toUpperCase()}</span>
+                ${item.users ? `<span class="card-users">${item.users} users</span>` : `<span class="card-users">Open access</span>`}
+            </div>
+        </a>
+    `;
+    }).join('');
+}
+
+// =====================================================
+// Event Listeners
+// =====================================================
+document.querySelectorAll('.filter-tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+        document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        currentTypeFilter = this.dataset.filter;
+        renderCards();
+    });
+});
+
+document.querySelectorAll('.track-filter').forEach(filter => {
+    filter.addEventListener('click', function() {
+        document.querySelectorAll('.track-filter').forEach(f => f.classList.remove('active'));
+        this.classList.add('active');
+        currentTrackFilter = this.dataset.track;
+        renderCards();
+    });
+});
+
+document.getElementById('searchInput').addEventListener('input', function(e) {
+    searchTerm = e.target.value;
+    renderCards();
+});
+
+// =====================================================
+// Initialization
+// =====================================================
+document.addEventListener('DOMContentLoaded', function() {
+    initThemeSelector();
+    renderCards();
+});
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.has-dropdown') && window.innerWidth <= 768) {
+        document.querySelectorAll('.has-dropdown.open').forEach(el => {
+            el.classList.remove('open');
+        });
+    }
+});
+
+// Close speed dial when clicking outside
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.imx-speed-dial')) {
+        document.getElementById('imxSpeedDial').classList.remove('open');
+    }
+});
+</script>
+
+
+<!-- Language Translation (Hindi, Tamil, Bengali, Marathi) -->
+<script src="/js/search.js" defer></script>
+<script defer src="js/auto-refresh.js"></script>
+<script>
+(function(){
+  var idle = ['https://cdnjs.cloudflare.com/ajax/libs/intro.js/8.3.2/intro.min.js', '/js/tours.js'];
+  function load() { idle.forEach(function(s){ var el=document.createElement('script'); el.src=s; document.body.appendChild(el); }); }
+  'requestIdleCallback' in window ? requestIdleCallback(load, {timeout:3000}) : setTimeout(load, 2000);
+})();
+</script>
+<!-- ImpactMojo Theme Toggle JS -->
+<script src="/js/theme.js"></script>
+
+<!-- Supabase Auth -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="/js/state-manager.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/resource-launch.js" defer></script>
+<script src="/js/translate-sarvam.js" defer></script>
+</body>
+</html>
