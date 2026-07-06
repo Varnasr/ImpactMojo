@@ -178,14 +178,14 @@ ImpactMojo works on any device with a modern web browser:
 
 ## What is the difference between flagship courses and foundational courses?
 
-**Flagship courses** (13 courses) are ImpactMojo's most developed learning experiences. Each one has:
+**Flagship courses** (15 courses) are ImpactMojo's most developed learning experiences. Each one has:
 - ~13 in-depth modules that build on each other
 - An interactive lexicon of 50–65 key terms
 - South Asian case studies, reflection prompts, and curated further reading
 - Quizzes and assessment components
 - Certificate eligibility on completion
 
-**Foundational courses** (37 courses) are comprehensive study decks — self-paced reading materials that cover a specific topic thoroughly. They are:
+**Foundational courses** (47 courses) are comprehensive study decks — self-paced reading materials that cover a specific topic thoroughly. They are:
 - Great for self-study and reference
 - Comprehensive in their coverage of a topic
 - Older in their technology — they don't include interactive features, assessments, or project components

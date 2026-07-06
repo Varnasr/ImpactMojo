@@ -51,6 +51,10 @@ These were previously listed as in progress and have now shipped:
 
 ## Recently Completed
 
+### v10.82.2 — July 2026
+- **Interactive assessments on every flagship** — all 15 flagship courses now end with a six-question auto-graded "Assess Yourself" self-check (90 questions in total), each grounded in the course's own material, with instant feedback and explanations.
+- **Build Circles & the AI for M&E Certificate Track** — a four-week AI build-cohort programme and a self-paced, assessed certificate track, plus the free **AI Agents for Evaluators** module.
+
 ### v10.80.0 — July 2026
 - **Counterfactual: The Evaluation Game** — the 18th simulation: eight impact claims, eight classic causal-inference traps, pick the strongest feasible evaluation design
 - **Six new Live Case Challenges** — every flagship course now has a matching real-world challenge (15 in total)

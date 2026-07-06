@@ -17,6 +17,7 @@ Each flagship course includes:
 - **South Asian case studies** drawn from real programmes
 - **Reflection prompts** so you can connect the material to your own work
 - **Further reading** links curated from DevDiscourses
+- An end-of-course **"Assess Yourself" self-check** — six auto-graded questions with instant feedback and explanations
 
 **Example flagship courses:**
 - *MEL for Development* — from the basics of monitoring and evaluation through to adaptive learning

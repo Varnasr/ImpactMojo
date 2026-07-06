@@ -220,12 +220,30 @@
     '</div>';
   }
 
+  // ── Featured paid track (assessed, verifiable credential) ───────────
+  // A pre-built, paid journey shown alongside the free credential pathways.
+  // No progress UI — it links out to the product page.
+  function renderPaidCard() {
+    return '<a class="imx-pw-paid-card" href="/ai-for-me-certificate.html" ' +
+      'style="display:flex;flex-direction:column;text-decoration:none;color:var(--text-primary);' +
+      'background:var(--card-bg);border:1px solid #F59E0B;border-radius:14px;padding:1.25rem 1.5rem;position:relative;">' +
+      '<span style="position:absolute;top:1rem;right:1.1rem;font-size:0.58rem;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;background:#B45309;color:#fff;padding:0.2rem 0.55rem;border-radius:5px;">Paid · Verified</span>' +
+      '<div style="font-weight:700;font-size:1.05rem;margin-bottom:0.15rem;color:var(--text-primary);">AI for M&E — Assessed Track</div>' +
+      '<div style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:0.6rem;">Monitoring, Evaluation & Learning</div>' +
+      '<p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.5;margin:0 0 0.75rem;">A pre-built, assessed path — the AI for Impact course, the Counterfactual game, the Critiquing Evidence pack and the AI Agents module — capstone-reviewed, with a verifiable credential you can prove online.</p>' +
+      '<div style="margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:0.5rem;">' +
+        '<span style="font-weight:700;color:var(--text-primary);">₹2,499 <span style="font-weight:400;font-size:0.75rem;color:var(--text-secondary);">one-time</span></span>' +
+        '<span style="font-size:0.8rem;font-weight:600;color:#fff;background:#B45309;padding:0.3rem 0.7rem;border-radius:6px;">View the track →</span>' +
+      '</div>' +
+    '</a>';
+  }
+
   // ── Render All Pathways ─────────────────────────────────────────────
   function renderPathways(containerId) {
     var container = document.getElementById(containerId);
     if (!container) return;
 
-    var html = '';
+    var html = renderPaidCard();
     Object.keys(PATHWAYS).forEach(function (id) {
       html += renderPathwayCard(id);
     });

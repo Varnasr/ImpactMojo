@@ -94,7 +94,7 @@
     { re: /\b(what('| i)?s|about).+premium|\bpremium\b.+(include|cover|benefit)/i,
       a: "**Practitioner Tier** includes RQ Builder Pro, TOC Workbench Pro, completion certificates, and community access. **Professional Tier** adds Qual Research Lab, Code Converter Pro, VaniScribe AI Transcription, DevData Practice datasets, Visualization Cookbook, and the DevEconomics Toolkit with 11 interactive Shiny apps. Field Notes from a Dev Economist is free for all tiers. See the Premium page for current pricing." },
     { re: /\b(price|cost|fee|paid|free).+premium|\bpremium.+(price|cost|fee)/i,
-      a: "Premium has two tiers: **Practitioner** and **Professional**. Pricing and full details are on the live Premium page. All 9 flagship courses, 101-level courses, labs, and games remain **free** forever." },
+      a: "Premium has two tiers: **Practitioner** and **Professional**. Pricing and full details are on the live Premium page. All 15 flagship courses, 101-level courses, labs, and games remain **free** forever." },
 
     // Courses (catalog, objectives, level, format)
     { re: /\b(list|show|see).+course(s)?\b|^\s*courses?\s*$/i,
@@ -224,7 +224,7 @@
 
     // Flagship count
     { re: /how many.*course|flagship|all.*course/i,
-      a: () => "We have **9 flagship courses** (Gandhi, DevEcon, DataViz, DevAI, MEL, Politics of Aspiration, Media for Development, Constitution & Law, and Social-Emotional Learning) plus **39 specialist courses**. Each flagship includes 12-13 modules, interactive lexicons, AI companions, and coach callouts.\n\n" + listCourses() },
+      a: () => "We have **15 flagship courses** (Gandhi, DevEcon, DataViz, AI for Impact, MEL, Politics of Aspiration, Media for Development, Constitution & Law, Social-Emotional Learning, Livelihoods, Gender, Public Choice, Public Policy, Causal Inference, and Power BI) plus **47 foundational courses**. Each flagship includes 12-13 modules, interactive lexicons, AI companions, and coach callouts.\n\n" + listCourses() },
 
     // PoA specific
     { re: /poa|politics.*aspiration|nrega|rti|nfsa|forest.*right/i,
