@@ -41,7 +41,7 @@ We provide accessible, high-quality educational materials grounded in South Asia
 
 | Category | Description |
 |----------|-------------|
-| **62 Courses** | 15 flagship + 47 foundational courses across 6 learning tracks (all foundational decks self-hosted as native HTML slide decks) |
+| **62 Courses** | 15 flagship + 47 foundational courses across 6 learning tracks (all foundational decks self-hosted as native HTML slide decks). Every flagship ends with an auto-graded "Assess Yourself" self-check (90 questions across the 15) |
 | **28 Interactive Labs** | Hands-on workbenches for MEL, policy, partnerships, budgeting, gender analysis, and more |
 | **135 Game Library** | 18 interactive simulations (MiroFish AI agents, Indian folk art — Warli, Madhubani, Gond, Kalamkari, Pichwai, Pattachitra) + 117 crosswords, quizzes & word searches |
 | **ImpactLex Dictionary** | 390+ development terms with contextual definitions, formulas, and case studies (PWA, hosted on ImpactMojo) |
@@ -100,6 +100,14 @@ All sessions are 1 hour, bookable via Google Calendar. Contact: hello@impactmojo
 - Pay per session, no long-term commitment
 
 Example skills: pre-mortems, reading RCTs, cost-effectiveness analysis, stakeholder mapping, funder psychology, data storytelling.
+
+#### Programmes
+
+Structured, outcome-focused paths that combine courses, games, and practice into a credential.
+
+- **Build Circles** — four-week AI build cohorts. Pick a real M&E problem, build a working AI workflow with a small matched cohort, and demo it on Demo Day. Free waitlist; the ₹1,000 seat deposit is returned when you demo, along with a verified certificate. ([build-circles.html](build-circles.html))
+- **AI for M&E Certificate Track** — ₹2,499. A self-paced, assessed track: a guided path through the AI for Impact course, the Counterfactual game, the Critiquing Evidence practice pack, the AI Agents for Evaluators module, and a real-work capstone with written feedback, ending in a verifiable certificate. ([ai-for-me-certificate.html](ai-for-me-certificate.html))
+- **AI Agents for Evaluators** — a free, self-paced module (part of the Certificate Track): five agent patterns for M&E work, two no-code build walkthroughs with copy-paste prompts, the ethics non-negotiables, and a capstone brief. ([ai-agents-for-evaluators.html](ai-agents-for-evaluators.html))
 
 #### Premium Membership Tiers
 
