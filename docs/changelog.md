@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.82.2 — July 6, 2026 (Course self-assessments)
+
+### For Learners
+
+- **Check what you've learned.** Three flagship courses — MEL, Data Visualization, and AI for M&E — now end with a six-question auto-graded self-check. Pick an answer, see instantly whether it's right, and read a short explanation of the reasoning. No sign-in, nothing stored. (This also fixes the "Assess Yourself" links on Data Visualization and AI for M&E, which previously led nowhere.)
+
 ## v10.82.1 — July 6, 2026 (AI Agents module ships early)
 
 ### For Learners
