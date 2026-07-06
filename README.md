@@ -53,7 +53,7 @@ We provide accessible, high-quality educational materials grounded in South Asia
 | **55 Book Companions** | Interactive study companions for development economics, statistics, leadership, and productivity texts |
 | **12 AI Study Companions** | NotebookLM-powered study notebooks covering the flagship courses |
 | **84 Handouts** | Downloadable resources across 6 learning tracks |
-| **20 Deep Dives** | Curated, annotated reading guides — working syllabi on contested development questions |
+| **21 Deep Dives** | Curated, annotated reading guides — working syllabi on contested development questions |
 | **6 Timelines** | Citation-backed visual histories (113 nodes / 44 eras) — development thinking, Indian policy, MEL methods, climate, rights, gender & work |
 | **18 Practice Packs** | 4-module applied workbooks with capstone builders — 9 subject + 9 method packs |
 | **15 Live Case Challenges** | Realistic case packets with rubrics — one for every flagship course |

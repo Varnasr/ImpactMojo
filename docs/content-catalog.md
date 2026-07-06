@@ -313,7 +313,7 @@ Real-world case challenges with 2-document case packets and assessment rubrics â
 
 ---
 
-## Deep Dives (20)
+## Deep Dives (21)
 
 Curated, fully web-cited reading lists on the debates that shape development practice.
 
@@ -339,6 +339,7 @@ Curated, fully web-cited reading lists on the debates that shape development pra
 | 18 | The Care Economy | [Open](/DeepDives/the-care-economy.html) |
 | 19 | Climate Migration in South Asia | [Open](/DeepDives/climate-migration-south-asia.html) |
 | 20 | AI and Development | [Open](/DeepDives/ai-and-development.html) |
+| 21 | Platform & Gig Work in India | [Open](/DeepDives/platform-gig-work-india.html) |
 
 ---
 

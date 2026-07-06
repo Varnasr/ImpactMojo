@@ -4,7 +4,7 @@
 
 Deep Dives are **curated, annotated reading guides** — themed bibliographies with a clear editorial point of view, assembled by named scholars and practitioners. Each one is a working syllabus: 11–32 readings organised into sections that build an argument, with annotations explaining why each reading earns its place and how the pieces talk to each other.
 
-ImpactMojo offers **20 Deep Dives** spanning political economy, evaluation methods, climate, gender, health, education, and technology. All are **free, browser-based, and require no login**.
+ImpactMojo offers **21 Deep Dives** spanning political economy, evaluation methods, climate, gender, health, education, and technology. All are **free, browser-based, and require no login**.
 
 ### How a Deep Dive Differs from a Course or a Book Companion
 
@@ -14,7 +14,7 @@ ImpactMojo offers **20 Deep Dives** spanning political economy, evaluation metho
 
 ---
 
-## The 20 Deep Dives
+## The 21 Deep Dives
 
 | Deep Dive | Topic | Readings | Link |
 |-----------|-------|----------|------|
@@ -38,6 +38,7 @@ ImpactMojo offers **20 Deep Dives** spanning political economy, evaluation metho
 | **The Care Economy** | Gender & Economics | 14 | [Open](/DeepDives/the-care-economy.html) |
 | **Climate Migration in South Asia** | Climate & Migration | 13 | [Open](/DeepDives/climate-migration-south-asia.html) |
 | **AI and Development** | Technology & Power | 13 | [Open](/DeepDives/ai-and-development.html) |
+| **Platform & Gig Work in India** | Labour & Technology | 26 | [Open](/DeepDives/platform-gig-work-india.html) |
 
 Browse all Deep Dives at [/DeepDives/](/DeepDives/).
 

@@ -2,6 +2,17 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.80.2 — July 6, 2026 (New Deep Dive: Platform & Gig Work in India)
+
+### For Learners
+
+- **[Platform & Gig Work in India](https://www.impactmojo.in/DeepDives/platform-gig-work-india.html)** — a new Deep Dive with 26 annotated readings on India's gig economy: how big it really is, what the work feels like for drivers, delivery partners and beauty workers, the new laws (Rajasthan's 2023 Act, the Social Security Code), the global debate, and how gig workers are organising. The 21st Deep Dive — pairs with the Livelihoods course and the Gender & Work timeline.
+- **All 15 flagship courses can now be downloaded for offline use** — six more courses (Gender, Public Choice, Public Policy, Causal Inference, Livelihoods, Power BI) joined the offline download list, so every flagship works without a connection once saved.
+
+### Fixed
+
+- Three blog posts had hidden, unusable menu buttons — now cleaned up; the theme toggle on those pages works again. The sidebar collapse button on the SEL, Gender, and AI courses now works on desktop.
+
 ## v10.80.0 — July 5, 2026 (Counterfactual game, 15 Live Case Challenges, 6th timeline)
 
 ### For Learners
