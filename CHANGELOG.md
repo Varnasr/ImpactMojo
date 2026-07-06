@@ -9,15 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### For Learners
 
-- **Check what you've learned — new end-of-course self-checks.** Three flagship courses — MEL, Data Visualization, and AI for M&E — now finish with a six-question auto-graded self-assessment. Pick an answer, check it instantly, and read a short explanation of the reasoning. No sign-in, nothing stored.
+- **Check what you've learned — every flagship now ends with a self-check.** All 15 flagship courses now finish with a six-question auto-graded self-assessment (90 questions in all), each grounded in that course's own material. Pick an answer, check it instantly, and read a short explanation of the reasoning. No sign-in, nothing stored.
 
 ### Added
 
-- **Course assessments** on three flagships (`courses/mel`, `courses/dataviz`, `courses/devai`): a `#course-assessment` section with 6 auto-graded multiple-choice questions each, grounded in the course's own modules (theory of change / indicators / attribution for MEL; visual encoding / chart choice / graphical integrity for DataViz; AI limits / bias / accountability / privacy for AI for M&E). These activate the quiz CSS + `checkAnswer()` JS that already shipped unused in each course, and add a per-question teaching explanation via a `data-explain` attribute.
+- **Course assessments on all 15 flagships**: a `#course-assessment` section with 6 auto-graded multiple-choice questions each, grounded in the course's own modules (e.g. theory of change / attribution / OECD-DAC for MEL; visual encoding / graphical integrity for DataViz; AI limits / bias / accountability for AI for M&E; counterfactual / selection bias / DiD for Causal; median voter / rent-seeking / Arrow for Public Choice; SLF five capitals for Livelihoods; intersectionality / GII for Gender; star schema / DAX / RLS for Power BI; and so on across Gandhi, Law, Media, Politics of Aspiration, Public Policy, SEL, DevEcon). Each question carries a per-question teaching explanation via a `data-explain` attribute. Most courses already shipped the quiz CSS + `checkAnswer()` JS unused; where a course was missing the JS (Livelihoods, Gender, Public Policy) or the base CSS (Gender, Public Policy, Power BI), the standard, self-contained pattern was ported in using that course's own design tokens.
 
 ### Fixed
 
-- **Dangling "Assess Yourself" navigation links** on the Data Visualization and AI for M&E flagships — the sidebar linked to a `#course-assessment` anchor that had never been built, so the link jumped nowhere. Both now resolve to the new assessment.
+- **Dangling "Assess Yourself" navigation links** on the Data Visualization and AI for M&E flagships — the sidebar linked to a `#course-assessment` anchor that had never been built, so the link jumped nowhere. Now resolved (and every other flagship gained a matching "Assess Yourself" link + section).
 
 ### Changed
 

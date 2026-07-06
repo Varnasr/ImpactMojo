@@ -6,7 +6,7 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 
 ### For Learners
 
-- **Check what you've learned.** Three flagship courses — MEL, Data Visualization, and AI for M&E — now end with a six-question auto-graded self-check. Pick an answer, see instantly whether it's right, and read a short explanation of the reasoning. No sign-in, nothing stored. (This also fixes the "Assess Yourself" links on Data Visualization and AI for M&E, which previously led nowhere.)
+- **Check what you've learned — every flagship now ends with a self-check.** All 15 flagship courses now finish with a six-question auto-graded self-assessment (90 questions in all), each grounded in that course's own material. Pick an answer, see instantly whether it's right, and read a short explanation of the reasoning. No sign-in, nothing stored. (This also fixes the "Assess Yourself" links on Data Visualization and AI for M&E, which previously led nowhere.)
 
 ## v10.82.1 — July 6, 2026 (AI Agents module ships early)
 
