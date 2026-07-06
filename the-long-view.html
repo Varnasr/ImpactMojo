@@ -104,16 +104,29 @@
 
     <div class="grid">
 
-      <div class="card-link" data-gofish-pilot style="cursor:default;">
-      <article class="card tile" data-card>
-        <span class="tag">Women &amp; Work &middot; New</span>
-        <h3>The dip and the rebound</h3>
-        <div class="chart-holder"><div id="gofish-flfpr" role="img" aria-label="Bar chart of India's female labour-force participation rate: 30.3% in 1990, 34.4% in 2000, 28.4% in 2010, 26.6% in 2015, 26.0% in 2020 and 31.0% in 2023 — a long dip through the 2000s and 2010s, then a rebound.">
-          <p class="gofish-fallback" style="font-size:0.85rem;color:var(--muted,#64748b);padding:0.5rem 0;">Loading chart&hellip; If it doesn&rsquo;t appear, the figures are: India female labour-force participation (% of women 15+) — 1990: 30.3, 2000: 34.4, 2010: 28.4, 2015: 26.6, 2020: 26.0, 2023: 31.0.</p>
-        </div></div>
-        <p class="insight">India&rsquo;s female labour-force participation <strong>fell through the 2000s and 2010s</strong> &mdash; a long-running puzzle &mdash; before climbing back toward its 1990 level in the last few years.</p>
-        <p class="source">Source: World Bank / ILO modeled estimate (SL.TLF.CACT.FE.ZS), % of women aged 15+, pulled from the World Bank API. Rendered with <a href="https://gofish.graphics/" target="_blank" rel="noopener">GoFish</a> (pilot).</p>
-      </article></div>
+      <a class="card-link" href="/the-long-view/chart.html?c=c-bump"><article class="card tile" data-card>
+        <span class="tag">Population &middot; New</span>
+        <h3>The new giants</h3>
+        <div class="chart-holder"><svg id="c-bump" role="img" aria-label="A bump chart of world population rank for six countries from 1990 to 2050. India and China swap the top two places around 2023 as India rises to first; Nigeria climbs from tenth toward third, overtaking the United States."></svg></div>
+        <p class="insight">India passed China to become the world's most populous country in <strong>2023</strong>. Look further out and the order keeps shifting — the UN projects <strong>Nigeria</strong> to climb past the United States by 2050.</p>
+        <p class="source">Source: UN World Population Prospects 2024 — country population ranks, 1990–2050 (2050 projected).</p>
+      <span class="explore">Explore this chart →</span></article></a>
+
+      <a class="card-link" href="/the-long-view/chart.html?c=c-gapminder"><article class="card tile" data-card>
+        <span class="tag">Development &middot; New</span>
+        <h3>The wealth and health of nations</h3>
+        <div class="chart-holder"><svg id="c-gapminder" role="img" aria-label="A bubble chart of GDP per person on a log axis against life expectancy for twelve countries in 2022, each bubble sized by population and coloured by region. Richer countries live longer, but India and Bangladesh reach long lives at modest incomes while Nigeria and Ethiopia sit low on both."></svg></div>
+        <p class="insight">Richer countries tend to live longer — but the link bends. <strong>India and Bangladesh</strong> reach lives nearly as long as far richer places, while Nigeria and Ethiopia sit low on both. Each bubble is a country, sized by population and coloured by region.</p>
+        <p class="source">Source: World Bank Open Data, 2022 — GDP per capita (PPP), life expectancy and population, pulled from the World Bank API.</p>
+      <span class="explore">Explore this chart →</span></article></a>
+
+      <a class="card-link" href="/the-long-view/chart.html?c=c-monsoon"><article class="card tile" data-card>
+        <span class="tag">Climate &middot; New</span>
+        <h3>The shape of the monsoon</h3>
+        <div class="chart-holder"><svg id="c-monsoon" role="img" aria-label="A radial area chart of India's normal monthly rainfall wrapped around a twelve-month clock. The form is small through the dry winter and bulges sharply outward at July and August, the four monsoon months June to September marked."></svg></div>
+        <p class="insight">India's rain doesn't spread across the year — it arrives in a burst. About <strong>three-quarters</strong> of it falls in the four monsoon months, June to September.</p>
+        <p class="source">Source: India Meteorological Department — normal (long-period average) monthly rainfall, all-India. Figures approximate.</p>
+      <span class="explore">Explore this chart →</span></article></a>
 
       <a class="card-link" href="/the-long-view/chart.html?c=c-gender"><article class="card tile" data-card>
         <span class="tag">Gender</span>
@@ -505,38 +518,5 @@
 <script src="/js/state-manager.js"></script>
 <script src="/js/config.js"></script>
 <script src="/js/auth.js"></script>
-
-<!-- ===== GoFish pilot: India female labour-force participation ===== -->
-<script type="module">
-  (async () => {
-    var holder = document.getElementById('gofish-flfpr');
-    if (!holder) return;
-    // India female labour-force participation rate (% of women 15+),
-    // World Bank / ILO modeled estimate (SL.TLF.CACT.FE.ZS).
-    var data = [
-      { year: "1990", flfpr: 30.3 },
-      { year: "2000", flfpr: 34.4 },
-      { year: "2010", flfpr: 28.4 },
-      { year: "2015", flfpr: 26.6 },
-      { year: "2020", flfpr: 26.0 },
-      { year: "2023", flfpr: 31.0 }
-    ];
-    try {
-      var gf = await import('https://esm.sh/gofish-graphics@0.1.0');
-      var chart = gf.chart || gf.default;
-      if (typeof chart !== 'function' || typeof gf.spread !== 'function' || typeof gf.rect !== 'function') {
-        throw new Error('GoFish API surface not as expected');
-      }
-      holder.innerHTML = '';
-      chart(data, { axes: true })
-        .flow(gf.spread({ by: "year", dir: "x" }))
-        .mark(gf.rect({ h: "flfpr" }))
-        .render(holder, { w: 520, h: 300 });
-    } catch (e) {
-      // Fallback text (cited figures) stays visible on failure.
-      console.error('GoFish pilot did not render:', e);
-    }
-  })();
-</script>
 </body>
 </html>

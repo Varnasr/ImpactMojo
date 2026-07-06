@@ -780,6 +780,85 @@ window.LV = (function() {
   }
 
   /* ---------- Render everything ---------- */
+  /* ---------- Bump chart: rank over time ---------- */
+  function bumpChart(id, o) {
+    var svg = frame(id); if (!svg) return;
+    var mL = 34, mR = 108, mT = 22, mB = 26;
+    var years = o.years, n = years.length, rmax = o.rankMax || 6;
+    function X(i){ return mL + i * (W - mL - mR) / (n - 1); }
+    function Y(r){ return mT + (r - 1) * (H - mT - mB) / (rmax - 1); }
+    for (var r = 1; r <= rmax; r++) {
+      svg.appendChild(mk('line', { x1: mL, y1: Y(r), x2: W - mR, y2: Y(r), stroke: gridc(), 'stroke-width': 1 }));
+      svg.appendChild(mk('text', { x: mL - 8, y: Y(r) + 3.5, 'text-anchor': 'end', 'font-size': 9, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, r));
+    }
+    years.forEach(function(yr, i){ tick(svg, X(i), H - mB + 16, yr); });
+    o.series.forEach(function(s, si){
+      var pts = s.ranks.map(function(rk, i){ return [X(i), Y(rk)]; });
+      var d = 'M' + pts.map(function(p){ return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' L');
+      var path = mk('path', { d: d, fill: 'none', stroke: s.color, 'stroke-width': 3, 'stroke-linejoin': 'round', 'stroke-linecap': 'round', opacity: 0.92 });
+      svg.appendChild(path); animPath(path);
+      pts.forEach(function(p){ svg.appendChild(mk('circle', { cx: p[0], cy: p[1], r: 4.5, fill: s.color, stroke: '#fff', 'stroke-width': 1.5 })); });
+      var last = pts[n - 1];
+      svg.appendChild(mk('text', { x: last[0] + 9, y: last[1] + 3.5, 'text-anchor': 'start', 'font-size': 11, 'font-weight': 700, fill: s.color, 'font-family': 'Inter, sans-serif' }, s.name));
+    });
+    svg.appendChild(mk('text', { x: mL - 8, y: mT - 8, 'text-anchor': 'end', 'font-size': 8.5, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, 'rank'));
+  }
+
+  /* ---------- Radial (polar) area: a value around a 12-point clock ---------- */
+  function radialArea(id, o) {
+    var svg = frame(id); if (!svg) return;
+    var cx = W / 2, cy = H / 2 + 6, rIn = 14, rOut = 108;
+    var vals = o.values, n = vals.length, max = o.max;
+    function ang(i){ return -Math.PI / 2 + i * 2 * Math.PI / n; }
+    function R(v){ return rIn + (v / max) * (rOut - rIn); }
+    (o.rings || []).forEach(function(rv){
+      svg.appendChild(mk('circle', { cx: cx, cy: cy, r: R(rv), fill: 'none', stroke: gridc(), 'stroke-width': 1 }));
+      svg.appendChild(mk('text', { x: cx + 3, y: cy - R(rv) - 2, 'font-size': 8, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, rv));
+    });
+    var pts = vals.map(function(v, i){ var a = ang(i); return [cx + R(v) * Math.cos(a), cy + R(v) * Math.sin(a)]; });
+    var d = 'M' + pts.map(function(p){ return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' L') + ' Z';
+    svg.appendChild(mk('path', { d: d, fill: o.color, 'fill-opacity': 0.26, stroke: o.color, 'stroke-width': 2.5, 'stroke-linejoin': 'round' }));
+    vals.forEach(function(v, i){
+      var a = ang(i), p = pts[i], hot = o.highlight && o.highlight.indexOf(i) >= 0;
+      svg.appendChild(mk('circle', { cx: p[0], cy: p[1], r: hot ? 4 : 2.6, fill: hot ? o.hot : o.color }));
+      var lr = rOut + 15, lx = cx + lr * Math.cos(a), ly = cy + lr * Math.sin(a) + 3;
+      svg.appendChild(mk('text', { x: lx, y: ly, 'text-anchor': 'middle', 'font-size': 9.5, 'font-weight': hot ? 700 : 400, fill: hot ? o.hot : ink(), 'font-family': 'Inter, sans-serif' }, o.labels[i]));
+    });
+    if (o.center) {
+      svg.appendChild(mk('text', { x: cx, y: cy - 2, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 800, fill: o.hot, 'font-family': 'Inter, sans-serif' }, o.center.big));
+      svg.appendChild(mk('text', { x: cx, y: cy + 11, 'text-anchor': 'middle', 'font-size': 8.5, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, o.center.small));
+    }
+  }
+
+  /* ---------- Bubble chart (log-x): wealth vs health, size = population ---------- */
+  function bubbleChart(id, o) {
+    var svg = frame(id); if (!svg) return;
+    var mL = 30, mR = 12, mT = 12, mB = 30;
+    var lo = Math.log(o.xMin), hi = Math.log(o.xMax);
+    function X(v){ return mL + (Math.log(v) - lo) / (hi - lo) * (W - mL - mR); }
+    function Y(v){ return H - mB - (v - o.yMin) / (o.yMax - o.yMin) * (H - mT - mB); }
+    var maxPopRoot = Math.sqrt(Math.max.apply(null, o.points.map(function(p){ return p.pop; })));
+    function R(pop){ return 5 + Math.sqrt(pop) / maxPopRoot * 30; }
+    o.xticks.forEach(function(t){ var x = X(t); svg.appendChild(mk('line', { x1: x, y1: mT, x2: x, y2: H - mB, stroke: gridc(), 'stroke-width': 1 })); tick(svg, x, H - mB + 15, t >= 1000 ? (t / 1000) + 'k' : t); });
+    o.yticks.forEach(function(t){ var y = Y(t); svg.appendChild(mk('line', { x1: mL, y1: y, x2: W - mR, y2: y, stroke: gridc(), 'stroke-width': 1 })); svg.appendChild(mk('text', { x: mL - 6, y: y + 3, 'text-anchor': 'end', 'font-size': 9, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, t)); });
+    o.points.slice().sort(function(a, b){ return b.pop - a.pop; }).forEach(function(p, i){
+      var cx = X(p.x), cy = Y(p.y), r = R(p.pop);
+      var c = mk('circle', { cx: cx, cy: cy, r: r, fill: p.color, 'fill-opacity': 0.6, stroke: p.color, 'stroke-width': 1.4 });
+      svg.appendChild(c); fadeIn(c, i * 0.05);
+      if (p.label) svg.appendChild(mk('text', { x: cx, y: cy + 3, 'text-anchor': 'middle', 'font-size': 9.5, 'font-weight': 700, fill: '#fff', 'font-family': 'Inter, sans-serif' }, p.label));
+      else if (p.note) svg.appendChild(mk('text', { x: cx, y: cy - r - 3, 'text-anchor': 'middle', 'font-size': 9, 'font-weight': 600, fill: ink(), 'font-family': 'Inter, sans-serif' }, p.note));
+    });
+    // region legend (top-left = high life, low GDP; sparse)
+    (o.legend || []).forEach(function(lg, i){
+      var lx = mL + 4 + (i % 2) * 92, ly = mT + 8 + Math.floor(i / 2) * 13;
+      svg.appendChild(mk('circle', { cx: lx, cy: ly - 3, r: 4, fill: lg.color, 'fill-opacity': 0.75 }));
+      svg.appendChild(mk('text', { x: lx + 8, y: ly, 'font-size': 8.5, fill: ink(), 'font-family': 'Inter, sans-serif' }, lg.name));
+    });
+    svg.appendChild(mk('text', { x: (mL + W - mR) / 2, y: H - 2, 'text-anchor': 'middle', 'font-size': 9, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, o.xlabel));
+    var ymid = mT + (H - mT - mB) / 2;
+    svg.appendChild(mk('text', { x: 9, y: ymid, 'text-anchor': 'middle', 'font-size': 9, fill: ink(), 'font-family': 'JetBrains Mono, monospace', transform: 'rotate(-90 9 ' + ymid + ')' }, o.ylabel));
+  }
+
   function renderAll() {
     lineChart('c-poverty',
       [{x:1990,y:37.9},{x:2000,y:29.7},{x:2010,y:16.7},{x:2015,y:10.4},{x:2019,y:8.4}],
@@ -963,6 +1042,45 @@ window.LV = (function() {
       ] });
 
     ethicChart('c-ethic');
+
+    bumpChart('c-bump',
+      { years: [1990, 2010, 2023, 2050], rankMax: 10, series: [
+        { name: 'India',      color: COL.teal,   ranks: [2, 2, 1, 1] },
+        { name: 'China',      color: COL.blue,   ranks: [1, 1, 2, 2] },
+        { name: 'Nigeria',    color: COL.green,  ranks: [10, 7, 6, 3] },
+        { name: 'United States', color: COL.red, ranks: [3, 3, 3, 4] },
+        { name: 'Pakistan',   color: COL.amber,  ranks: [8, 6, 5, 5] },
+        { name: 'Indonesia',  color: COL.purple, ranks: [4, 4, 4, 6] }
+      ] });
+
+    radialArea('c-monsoon',
+      { labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+        values: [17, 21, 25, 31, 62, 165, 286, 259, 175, 82, 32, 13],
+        max: 300, rings: [100, 200, 300], color: COL.blue, hot: COL.teal,
+        highlight: [5, 6, 7, 8],
+        center: { big: '~75%', small: 'Jun–Sep' } });
+
+    bubbleChart('c-gapminder',
+      { xMin: 2200, xMax: 90000, yMin: 50, yMax: 86,
+        xticks: [2500, 5000, 10000, 20000, 50000], yticks: [55, 60, 65, 70, 75, 80, 85],
+        xlabel: 'GDP per person (PPP $, log)', ylabel: 'life expectancy (yrs)',
+        legend: [ { name: 'South Asia', color: COL.teal }, { name: 'East Asia', color: COL.blue },
+                  { name: 'SE Asia', color: COL.purple }, { name: 'Africa', color: COL.amber },
+                  { name: 'Americas', color: COL.red }, { name: 'Europe', color: COL.green } ],
+        points: [
+          { x: 9207,  y: 71.7, pop: 1425, color: COL.teal,   label: 'India' },
+          { x: 23032, y: 78.2, pop: 1412, color: COL.blue,   label: 'China' },
+          { x: 77861, y: 77.4, pop: 334,  color: COL.red,    note: 'USA' },
+          { x: 8305,  y: 54.1, pop: 223,  color: COL.amber,  note: 'Nigeria' },
+          { x: 19877, y: 74.9, pop: 210,  color: COL.red },
+          { x: 47192, y: 84.0, pop: 125,  color: COL.blue,   note: 'Japan' },
+          { x: 69049, y: 80.6, pop: 83,   color: COL.green,  note: 'Germany' },
+          { x: 8451,  y: 74.3, pop: 169,  color: COL.teal },
+          { x: 14285, y: 70.9, pop: 279,  color: COL.purple, note: 'Indonesia' },
+          { x: 2845,  y: 66.9, pop: 125,  color: COL.amber,  note: 'Ethiopia' },
+          { x: 14749, y: 65.5, pop: 62,   color: COL.amber },
+          { x: 13905, y: 74.5, pop: 100,  color: COL.purple }
+        ] });
 
     ladder('f-ladder');
     resultsChain('f-toc');
@@ -1167,8 +1285,26 @@ window.LV = (function() {
 
   function drawMasters(){ drawRose(); drawMinard(); drawSnow(); drawDuBois(); }
 
-  var ORDER = ['c-gender','c-wealth','c-caste','c-co2','c-energy','c-nfhs','c-forest','c-decline','c-transition','c-migration','c-where','c-ghg','c-ghg3','c-waffle','c-stream','c-pyramid','c-states','c-poverty','c-u5mr','c-flfp','c-pipeline','c-climate'];
+  var ORDER = ['c-bump','c-gapminder','c-monsoon','c-gender','c-wealth','c-caste','c-co2','c-energy','c-nfhs','c-forest','c-decline','c-transition','c-migration','c-where','c-ghg','c-ghg3','c-waffle','c-stream','c-pyramid','c-states','c-poverty','c-u5mr','c-flfp','c-pipeline','c-climate'];
   var DETAILS = {
+    'c-bump': { tag:'Population', title:'The new giants',
+      takeaway:"India passed China to become the world's most populous country in 2023. Look further out and the order keeps shifting — the UN projects Nigeria to climb past the United States by 2050.",
+      source:"UN World Population Prospects 2024 — country population rankings for 1990, 2010, 2023 and the 2050 projection.",
+      why:"A bump chart is built for ranks that change over time: each line is one country, and what you read is the crossings — who overtakes whom, and when — not the raw millions.",
+      how:"Each country's global population rank is plotted at four dates and joined into a line; rank 1 is at the top. Ranks are from the UN's 2024 revision, with 2050 a projection.",
+      look:"The India–China cross around 2023, and Nigeria's steep climb from tenth toward third." },
+    'c-gapminder': { tag:'Development', title:'The wealth and health of nations',
+      takeaway:"Richer countries tend to live longer, but the link bends and breaks: India and Bangladesh reach lives nearly as long as far richer places, while oil-poor Nigeria and Ethiopia sit low on both.",
+      source:"World Bank Open Data, 2022 — GDP per capita (PPP, current international $), life expectancy at birth, and total population, pulled from the World Bank API.",
+      why:"A bubble chart carries four variables at once — wealth on a log x-axis, health on the y, population as size, region as colour — so a whole world of countries fits in one frame. It's the shape Hans Rosling made famous.",
+      how:"Each bubble is a country in 2022, placed by GDP per person (log scale) and life expectancy, sized by population and coloured by region. Drawn in SVG from World Bank figures.",
+      look:"How steeply life expectancy rises with the first few thousand dollars, then flattens — and how India sits well above its income on the health axis." },
+    'c-monsoon': { tag:'Climate', title:'The shape of the monsoon',
+      takeaway:"India's rain is not spread across the year — it arrives in a burst. About three-quarters of it falls in the four monsoon months, June to September.",
+      source:"India Meteorological Department — long-period average (normal) monthly rainfall, all-India (mm). Figures approximate.",
+      why:"Wrapping the twelve months around a circle makes the year's rhythm a shape you can see: a lopsided blob straining toward the monsoon months, not the flat line a row of bars would suggest.",
+      how:"Each month sits at a clock position; the distance from the centre is that month's normal rainfall. The four monsoon months are marked; rings show 100, 200 and 300 mm.",
+      look:"How the whole form bulges toward July and August, and how thin the dry winter months are." },
     'c-migration': { tag:'Migration', title:'Migration is a web',
       takeaway:"People move in every direction between world regions — not just South to North. The biggest single cross-region pull is into Northern America.",
       source:"UN DESA, International Migrant Stock 2020 — between-region flows, regional aggregates (approximate, millions). Within-region migration (most of the total) is left out for clarity.",
