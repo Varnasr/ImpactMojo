@@ -469,7 +469,7 @@ Advanced tools and products for researchers and practitioners — 30 in all, inc
 | **DevDiscourses** | 500+ curated research papers and books | Free |
 | **PolicyDhara** | Indian policy tracking and analysis | Free — [Browse](/policydhara) |
 | **NotebookLM Study Companions** | 12 AI study companion notebooks | Free |
-| **Blog: Learning Loops** | 31 articles on development practice | Free — [Read](/blog.html) |
+| **Blog: Learning Loops** | 32 articles on development practice | Free — [Read](/blog.html) |
 | **Podcast: Between the Logframes** | Audio episodes on Spotify | Free |
 | **Dojos** | 56-session practice program | Paid |
 | **Status Page** | Live platform status checks | Free — [View](/status.html) |
@@ -491,7 +491,7 @@ Advanced tools and products for researchers and practitioners — 30 in all, inc
 | Practice packs | 18 |
 | Live Case Challenges | 15 |
 | Research to Action | 7 series, 70 posters |
-| Blog posts | 31 |
+| Blog posts | 32 |
 | Premium products | 30 |
 | Handout pages | 84 |
 | Dataverse entries | 296 |

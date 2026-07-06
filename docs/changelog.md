@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.81.1 — July 6, 2026 (New blog post: The Counterfactual Habit)
+
+### For Learners
+
+- **[What Would Have Happened Anyway? The Counterfactual Habit](https://www.impactmojo.in/blog/counterfactual-habit.html)** — a new plain-language blog post on the single most useful habit in impact evaluation: asking "compared to what would have happened anyway?" Learn the four traps that fool boards and funders — regression to the mean, self-selection, survivorship, and confounding shocks — the ladder of honest evaluation designs, and three questions to ask of any impact claim. No statistics background needed; pairs with the Counterfactual game and the Causal Inference course.
+
 ## v10.81.0 — July 6, 2026 (Smoother theme switching, faster homepage)
 
 ### Fixed

@@ -58,7 +58,7 @@ We provide accessible, high-quality educational materials grounded in South Asia
 | **18 Practice Packs** | 4-module applied workbooks with capstone builders — 9 subject + 9 method packs |
 | **15 Live Case Challenges** | Realistic case packets with rubrics — one for every flagship course |
 | **Research to Action** | 7 poster series / 70 posters translating research into practice |
-| **31 Blog Posts** | Learning Loops Blog — articles, tutorials, and case studies on development practice |
+| **32 Blog Posts** | Learning Loops Blog — articles, tutorials, and case studies on development practice |
 | **Between the Logframes** | Development podcast — honest conversations on MEAL and impact work |
 | **MCP Server** | Model Context Protocol server — connect any AI assistant to search all ImpactMojo content, BCTs, Dataverse, climate data, and more ([Setup guide](mcp-server/README.md)) |
 
