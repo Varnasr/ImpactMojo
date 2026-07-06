@@ -181,10 +181,6 @@
         }
         function writeTheme(theme) {
             localStorage.setItem('im-theme', theme);
-            // Keep legacy keys in sync so any page still reading them sees the same value
-            localStorage.setItem('theme', theme);
-            localStorage.setItem('impactmojo-theme', theme);
-            localStorage.setItem('imx_theme', theme);
         }
         function initThemeSelector() {
             const themeBtns = document.querySelectorAll('.theme-btn');

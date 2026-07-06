@@ -5,6 +5,19 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.81.0] - 2026-07-06
+
+### Fixed
+
+- **Blog theme controls unified — the last of the theme-key sprawl.** All 31 blog posts replaced their legacy two-state sun/moon cycle toggle (which wrote a legacy localStorage key that shared `/js/theme.js` silently overrode on the next load) with the canonical 3-mode System/Light/Dark selector bound to `theme.js`. `js/cookie-ui.js` now writes only the canonical `im-theme` key (legacy-key read-migration kept). Gated per file on script-syntax checks and zero residual references; 5 diverse posts Playwright-verified (toggle flips theme, choice persists across reload). Net −227 lines of duplicated inline code.
+- **`/courses/` and `/games/` now serve their real landings** (courses gallery and the Game Library) instead of rewriting to the homepage — same defect class as `/labs/`, fixed in v10.80.1.
+- **Gender course crashed a script on every page load** (`setTheme()` looked up a nonexistent `theme-<name>` element → `null.classList`); guarded, page now loads with zero JS errors.
+
+### Changed
+
+- **Homepage sprite**: 85 repeated literal inline SVG icons deduplicated into 13 `<symbol>` definitions; screenshot-gated (4 viewport/scroll pairs ≥ 99.97% identical, matching the pristine-control diff exactly), all inline scripts byte-identical.
+- **Dependabot queue cleared**: the 7 remaining open dependency PRs closed as superseded (main's lockfiles already carry equal-or-newer versions of every target after v10.80.1); the repo has zero open PRs.
+
 ## [10.80.2] - 2026-07-06
 
 ### For Learners
