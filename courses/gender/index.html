@@ -332,6 +332,91 @@ a:hover { text-decoration: underline; }
   min-width: 22px;
 }
 
+/* ============================================================
+   SIDEBAR COLLAPSE BUTTON (desktop only)
+   ============================================================ */
+.sidebar-collapse-btn {
+  position: absolute;
+  top: 50%;
+  right: -12px;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background: var(--bg-sidebar);
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 101;
+  transition: all 0.2s ease;
+}
+
+.sidebar-collapse-btn:hover {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+.sidebar-collapse-btn svg {
+  width: 14px;
+  height: 14px;
+  stroke: var(--text-muted);
+  fill: none;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-collapse-btn:hover svg {
+  stroke: #fff;
+}
+
+/* Collapsed sidebar state (desktop only — mobile drawer unaffected) */
+@media (min-width: 901px) {
+  .sidebar.collapsed {
+    width: 60px;
+    overflow: hidden;
+  }
+
+  .sidebar.collapsed .sidebar-section-label {
+    display: none;
+  }
+
+  .sidebar.collapsed .sidebar-link {
+    justify-content: center;
+    padding: 7px 0;
+    font-size: 0;
+    line-height: 0;
+    gap: 0;
+  }
+
+  .sidebar.collapsed .sidebar-link .sidebar-num {
+    font-size: 0.7rem;
+    line-height: 1.2;
+    min-width: auto;
+  }
+
+  .sidebar.collapsed .sidebar-link span:not(.sidebar-num) {
+    font-size: 0.82rem;
+    line-height: 1.2;
+  }
+
+  .sidebar.collapsed .sidebar-link img {
+    width: 15px;
+    height: 15px;
+  }
+
+  .sidebar.collapsed .sidebar-collapse-btn svg {
+    transform: rotate(180deg);
+  }
+}
+
+@media (max-width: 900px) {
+  .sidebar-collapse-btn {
+    display: none !important;
+  }
+}
+
 /* MAIN CONTENT */
 .main {
   flex: 1;
@@ -1730,6 +1815,12 @@ main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) 
 
   <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
+    <!-- Sidebar Collapse Button (desktop only) -->
+    <button class="sidebar-collapse-btn" id="sidebar-collapse-btn" type="button" title="Collapse sidebar" aria-label="Toggle sidebar" aria-expanded="true">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/>
+      </svg>
+    </button>
     <div class="sidebar-section-label">Overview</div>
     <a href="#hero" class="sidebar-link active" data-section="hero">
       <span>→</span> Course Introduction
@@ -2199,6 +2290,33 @@ main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) 
   }));
   // Reset on resize back to desktop
   window.addEventListener('resize', () => { if (window.innerWidth > 900) closeSidebar(); });
+
+  /* ============================================================
+     SIDEBAR COLLAPSE TOGGLE (Desktop)
+     ============================================================ */
+  const sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn');
+
+  function toggleSidebarCollapse() {
+    sidebar.classList.toggle('collapsed');
+    document.body.classList.toggle('sidebar-collapsed');
+    // Save preference
+    localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+    if (sidebarCollapseBtn) {
+      sidebarCollapseBtn.setAttribute('aria-expanded', sidebar.classList.contains('collapsed') ? 'false' : 'true');
+    }
+  }
+
+  // Initialize from saved preference
+  const savedCollapsed = localStorage.getItem('sidebarCollapsed');
+  if (savedCollapsed === 'true') {
+    sidebar.classList.add('collapsed');
+    document.body.classList.add('sidebar-collapsed');
+    if (sidebarCollapseBtn) sidebarCollapseBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  if (sidebarCollapseBtn) {
+    sidebarCollapseBtn.addEventListener('click', toggleSidebarCollapse);
+  }
 })();
 </script>
 

@@ -5,6 +5,29 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.80.2] - 2026-07-06
+
+### For Learners
+
+- **New Deep Dive — Platform & Gig Work in India**: 26 annotated readings on India's gig economy — how big it really is, what the work feels like, the new laws (Rajasthan's 2023 Act, the Social Security Code), the global debate, and how gig workers are organising. Pairs with the Livelihoods course and the Gender & Work timeline.
+- **What's New page refreshed** — the updates feed now covers everything shipped this month: the 12 new labs, the R & Python course, the Counterfactual game, all 15 challenges, and the new timeline.
+
+### Added
+
+- **Deep Dive #21: Platform & Gig Work in India** (`/DeepDives/platform-gig-work-india.html`) — 26 readings across 5 sections (sizing, worker experience, law & regulation, global frames, organising); registered in deep-dives.json v1.2.0, search index, sitemap; count swept 20 → 21 sitewide.
+- **Desktop sidebar-collapse chevron on gender + devai flagships** (the last two courses missing it), with per-course palettes, localStorage persistence, and mobile-drawer protection; Playwright-verified at 1440px and 390px.
+
+### Fixed
+
+- **SEL course's sidebar chevron was dead** — markup id `sidebar-collapse` vs JS looking up `sidebar-collapse-btn`; one-line fix, verified collapsing/restoring.
+- **Three blog posts had a truncated topbar transplant** (`meal-demystified`, `theory-of-change-pitfalls`, `why-impactmojo-exists`) that buried unusable Browse/Premium/theme controls under the header; orphan fragment removed (blog chrome is the header bar), pages verified in headless Chromium.
+- **catalog_data.json regenerated** from the canonical catalogue (97 → 224 entries — the admin dashboard was missing 54 book companions and whole content types); missing 6th timeline added to the catalogue (chip 5 → 6); admin games label 134 → 135.
+- **Final emoji pass**: chatbot menu icons in PAGE-TEMPLATE, marketing-kit download arrows, and the products-page bulb replaced with inline SVGs; stale "400+ handouts" claim on products.html corrected to real counts.
+
+### Changed
+
+- **Theme-convergence sweep ran with hard gates and migrated zero pages by design** — all 29 remaining inline-theme blog pages use a two-state cycle toggle that requires a deliberate redesign rather than mechanical migration (documented for the future pass); the sweep's gates caught and auto-reverted 3 attempted migrations and surfaced the broken-topbar bug above.
+
 ## [10.80.1] - 2026-07-06
 
 ### For Learners
