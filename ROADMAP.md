@@ -67,13 +67,13 @@ ImpactMojo development priorities for 2026. Items are roughly ordered by priorit
 - [x] **FieldCases + DevDiscourses theme toggle** (sister sites on `varnasr.github.io`) — 3-button system/light/dark selector shipped on both
 - [x] **"Impact Bold" visual refresh** — 32-page bold restyle on a shared `impact-bold.css`, plus a full premium-page redesign
 - [x] **Deep Dives library (→16)** — 10 new curated, fully web-cited reading lists (cash transfers, India's FLFP, politics of targeting, the RCT debate, climate adaptation finance, measuring empowerment, informality, the learning crisis, health systems & UHC, decolonising development knowledge)
-- [x] **Game Library** — unified the 17 economics simulations + 117 puzzles into one filterable library (134 games) at `/game-library`, with a 301 from the old `/puzzle-library`
+- [x] **Game Library** — unified the 18 simulations + 117 puzzles into one filterable library (135 games) at `/game-library`, with a 301 from the old `/puzzle-library`
 - [x] **Blog citation program** — ~22 methods/evidence posts upgraded to verified inline citations; corrected the debunked "learning pyramid" retention myth
 - [x] **Daily Spotlight** — date-seeded "of the day" rotation engine (testimonials "featured voice" + homepage Today's Spotlight across courses/labs/deep dives/games/timelines)
 - [x] **Certificate policy consistency** — reconciled to "free completion + Premium verified" site-wide
 - [x] **Contact-email consolidation** — 11 scattered addresses folded into a single `hello@`
 - [x] **Header-offset + anchor-scroll fixes** — heroes no longer trapped under the fixed header (10 pages); in-page `#section` links land correctly
-- [x] **Count-consistency pass** — canonical counts (62 courses · 15 labs · 54 book companions · 20 Deep Dives · 134 Game Library) propagated across site, README, and press kit
+- [x] **Count-consistency pass** — canonical counts (62 courses · 28 labs · 55 book companions · 20 Deep Dives · 135 Game Library) propagated across site, README, and press kit
 - [x] **Migrate all 47 foundational decks to native HTML** — every `/101-courses/*` deck is now a self-hosted ~100-slide native HTML deck (Chart.js, light/dark, keyboard/touch nav). Zero Gamma iframes remain across the 101 series; verified live on impactmojo.in.
 - [ ] **Vernacular Content** — Full courses in regional languages (#29). _Live: machine-translated + quality-audited per-page course content ships for **5 languages** — Hindi, Tamil, Bengali, Marathi and **Telugu** (30 page-dictionaries each) — plus a 409-string common UI dictionary per language, all behind a protected-terms glossary and the `check-i18n-quality` CI guard. Telugu (2026-06) was generated via a glossary-aware Gemini pass (`scripts/gemini-translate.py`) as a Sarvam fallback. The strategy is high-quality machine translation refined toward human quality (via the glossary + a community-correction override layer), not paid human localization._
 - [x] **Analytics dashboard v2** — Learner analytics with completion funnels, time-on-task, and assessment scores (`admin/learner-analytics.html`)
@@ -83,11 +83,16 @@ ImpactMojo development priorities for 2026. Items are roughly ordered by priorit
 ## Q3 2026 (Jul-Sep) — Shipped early
 
 - [x] **12 new Interactive Labs** — Budget & Fiscal Analysis, Climate Risk & Adaptation, Conflict-Sensitive Programming, Data Feminism & Intersectional Analysis, Digital Public Infrastructure, Ethics & Research Integrity, Grant Writing & Proposal, Participatory Methods, Policy Brief Writing, Stakeholder Mapping & Power Analysis, Survey Design, and Systems Thinking & Complexity — drafted labs re-skinned to the standard lab template (cyan/indigo, 3-mode theme, floating SVG, footer), fact-checked, and wired across `/labs/`, catalog, search index and sitemap. Labs collection **15 → 28** (incl. the R/Python course) with 3 new tracks: Research & Methods, Governance & Digital, Climate & Environment. (#643–#648)
-- [ ] **R & Python for Development** — interactive course teaching R and Python from zero with real code running in the browser via WebR + Pyodide (no install). _Early access: Module 1 live; Modules 2–7 (real NFHS/ASER/PLFS/Budget data, wrangling, visualisation, impact evaluation) in progress._
+- [x] **R & Python for Development** — interactive course teaching R and Python from zero with real code running in the browser via WebR + Pyodide (no install). _All 7 modules live (real NFHS/ASER/PLFS/Budget data, wrangling, visualisation, impact evaluation)._
 
 - [x] **Peer review system** — Learners review each other's submissions; Supabase-backed (`peer-review.html`, `peer_reviews` + `challenge_submissions` tables with RLS)
 - [x] **Certificate marketplace** — Employer-facing verification portal (`verify.html`)
 - [x] **API for partners** — REST API for organizations to integrate ImpactMojo content (`api-docs.html` + `netlify/functions/partner-api.mjs`)
+
+### Shipped so far (Q3)
+
+- **Jul 2** — 12 new Interactive Labs (15 → 28, three new tracks) + the full **R & Python for Development** live-code course (7 modules, WebR + Pyodide)
+- **Jul 5 (v10.80.0)** — *Counterfactual: The Evaluation Game* (game #18; Game Library 135), six new Live Case Challenges (9 → 15, every flagship covered), the *Gender & Work in India* timeline (6th timeline; 113 nodes / 44 eras), and search-index completeness (26 blog posts + 4 book companions added to site search)
 
 ## Q4 2026 (Oct-Dec) — Shipped early
 

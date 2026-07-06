@@ -188,6 +188,10 @@ Now that you know how to navigate the platform, here are some good starting poin
 - **If you're new to M&E:** Start with the *MEL for Development* flagship course
 - **If you want a quick skill:** Try a foundational course — they're focused and can be completed in a few hours
 - **If you're preparing a workshop:** Browse the games and labs for interactive activities
+- **If you want historical context:** Explore the six visual timelines — citation-backed histories of development thinking, Indian policy and rights, climate policy, MEL methods, and gender and work in India
+- **If you want structured practice:** Work through a practice pack — 18 realistic exercises like building an MEL system from scratch, designing a survey instrument, or costing a programme
+- **If you want to test yourself:** Take on a Live Case Challenge — every flagship course has a matching real-world case with a two-document packet and a professional deliverable to produce
+- **If you like learning visually:** Browse the Research to Action poster album — seven series of shareable posters that each distil a research, evaluation, or policy idea into one page
 - **If you need a specific resource:** Press Ctrl+K and search for it
 - **If you want to see everything:** Read the [Platform Overview](platform-overview.md) for a detailed guide to every content type
 

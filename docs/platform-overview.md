@@ -8,7 +8,7 @@ This page walks through everything available on ImpactMojo — what each content
 
 Courses are the backbone of ImpactMojo. There are two types:
 
-### Flagship Courses (13 courses)
+### Flagship Courses (15 courses)
 
 These are comprehensive, deep-dive courses — each with approximately **13 modules** that build on each other. Think of them as the equivalent of a semester-long university course, but written for working professionals.
 
@@ -25,14 +25,14 @@ Each flagship course includes:
 
 **How to use them:** Work through a course at your own pace (one module per week is a comfortable rhythm). Assign modules to your team as pre-reading before a planning session. Use them as the curriculum backbone for a university course or NGO training programme.
 
-### Foundational Courses (37 courses)
+### Foundational Courses (47 courses)
 
-Comprehensive study decks that cover a specific skill or concept in depth. These are self-paced reading materials — thorough in their coverage but simpler in format than flagship courses. **4 courses are now native 100-slide HTML decks** (Dev Econ, MEL, Climate, Inequality) with interactive charts, light/dark theme, and keyboard/touch navigation. The remaining courses are available as visual Gamma presentations. See the [101 Course Decks Guide](101-decks-guide.md) for details.
+Comprehensive study decks that cover a specific skill or concept in depth. These are self-paced reading materials — thorough in their coverage but simpler in format than flagship courses. **All 47 courses are native ~100-slide HTML decks** with interactive charts, light/dark theme, and keyboard/touch navigation — fully self-hosted, with no third-party presentation embeds. See the [101 Course Decks Guide](101-decks-guide.md) for details.
 
 **What they include:**
 - Comprehensive topic coverage — each one covers its subject thoroughly
 - Self-study format — read at your own pace, no interactive components
-- Native HTML slide decks or Gamma visual presentations, with Indian folk art by track
+- Native HTML slide decks with Indian folk art by track
 
 **What they don't include (yet):**
 - Interactive features, quizzes, or assessments
@@ -64,7 +64,7 @@ All courses are organized into **6 tracks**, so you can follow a structured lear
 
 ## Interactive Games (135 games)
 
-These are interactive simulations that put you in the driver's seat of economic decisions. You might be allocating a district health budget, managing a microfinance portfolio, or navigating trade policy — and seeing the consequences of your choices play out in real time.
+The Game Library brings together **18 simulations and 117 quick concept puzzles** in one filterable collection. The simulations put you in the driver's seat of economic and programme decisions. You might be allocating a district health budget, managing a microfinance portfolio, or navigating trade policy — and seeing the consequences of your choices play out in real time.
 
 Each game:
 - **Runs in your browser** — no downloads, no installation
@@ -95,13 +95,53 @@ Each lab:
 
 ---
 
-## Handouts (400+)
+## R & Python for Development (live-code course)
+
+A seven-module interactive course that teaches R and Python from absolute zero for development data work — data wrangling, visualisation, and impact evaluation with real Indian datasets (NFHS, ASER, PLFS, Union Budget). Every line of code runs **live in your browser** via WebR and Pyodide, so there's nothing to install and nothing to configure.
+
+**How to use it:** Work through it as your first programming course — it assumes no prior coding. Use it to move your team from spreadsheet-only analysis to reproducible code. Pair it with the econometrics and data-analysis foundational courses for the underlying concepts.
+
+---
+
+## Timelines (6)
+
+Visual, citation-backed histories of the ideas, policies, and struggles that shape development practice — six timelines with **113 nodes across 44 eras**, covering development thinking, climate policy and justice, Indian policy and the welfare state, Indian rights and social margins, MEL and research methods, and gender and work in India. Each node explains what was argued, why it mattered, and what the critiques were, with cross-links to related courses and labs.
+
+**How to use them:** Assign a timeline as pre-reading so a course's ideas land with their historical context. Use individual nodes as discussion prompts — "what changed after this moment?" Browse one to orient yourself in a new topic before diving into a full course.
+
+---
+
+## Practice Packs (18)
+
+Structured practice exercises with realistic scenarios and materials — build an MEL system from scratch, design a survey instrument, cost a programme from activities up, write a ToR, run a focus group, or evaluate programmes across health, education, livelihoods, climate, governance, media, and policy.
+
+**How to use them:** Use a pack as a take-home assignment after a workshop. Work through one before a real deliverable — practise the donor report before writing the actual donor report. Use them in interviews and team assessments to see how someone approaches realistic tasks.
+
+---
+
+## Live Case Challenges (15)
+
+Real-world case challenges — **one for every flagship course**. Each challenge gives you a two-document case packet (the kind of messy material you'd actually receive) and asks you to produce a professional output: stress-test an impact claim, redesign a flawed logframe, audit an AI model for bias, manage a donor exit, draft a policy memo before the window closes, and more.
+
+**How to use them:** Take on the challenge after finishing its flagship course to test whether you can apply what you learned. Use them as capstone assignments in training programmes. Compare answers as a team exercise — the packets are designed to support more than one defensible response.
+
+---
+
+## Handouts (84)
 
 Handouts are single-page HTML documents — concise reference materials you can read on screen, print, or share. Think of them as well-designed cheat sheets and briefing notes.
 
 They're organized by track, so you can browse all handouts related to MEL, gender, economics, and so on.
 
 **How to use them:** Print a set for a training session. Share a handout as pre-reading before a team meeting. Keep them as desk references for concepts you use regularly. They're designed to be useful on their own, not just as supplements to courses.
+
+---
+
+## Research to Action (7 series, 70 posters)
+
+Shareable poster series that turn research, evaluation, and policy concepts into visual explainers — ten posters per series across seven series: Research to Action, Data to Decisions, Evaluation in Practice, Research Methods Without Panic, Climate Health & Resilience, Home Truths (development-sector realities), and Policy & Programme Design.
+
+**How to use them:** Drop a poster into a training deck or workshop chat to anchor a concept. Print a series for the office wall. Share them on social media or in team channels as conversation starters — each one distils an idea that usually takes a lecture to explain.
 
 ---
 
@@ -143,11 +183,11 @@ Entries are organized by topic and tagged for easy browsing.
 
 ---
 
-## Dataverse (270 resources)
+## Dataverse (296 resources)
 
 Dataverse is your starting point for development data. It includes:
 
-- **270 datasets, tools, and APIs** from sources like the World Bank, DHS, NFHS, NSSO, and more
+- **296 datasets, tools, and APIs** from sources like the World Bank, DHS, NFHS, NSSO, and more
 - **APIs** for programmatic data access
 - **Tools** for data analysis and visualization
 - **MCP servers** for AI-assisted development research
@@ -162,12 +202,7 @@ Resources cover poverty, health, education, gender, governance, climate, and mor
 
 Interactive book companions that go far beyond a summary. Each BookSummary offers chapter-by-chapter navigation, evidence explorers, data playgrounds with interactive simulators, programme comparison tools, concept glossaries, and AI-powered Q&A. Currently available under Specials. See the [Book Companions Guide](book-summaries-guide.md) for full details.
 
-**Current entries (5 books, 100+ chapters):**
-- *The Handbook of Social Protection and Inclusionary Development* (Hanna & Olken, MIT Press 2026) — 30+ chapters, evidence explorer, data playground, AI Q&A
-- *Development Economics* (Debraj Ray, Princeton 1998) — 18 chapters, rigorous models, exercises, AI-powered companion
-- *Design Thinking* (Andrew Pressman, Routledge 2019) — 10 chapters, creative problem-solving, case studies, interdisciplinary applications
-- *Basic Econometrics* (Gujarati & Porter, McGraw-Hill) — 22 chapters, regression analysis, hypothesis testing, multicollinearity, simultaneous equations
-- *Econometrics by Example* (Gujarati, Palgrave Macmillan) — 20 chapters, hands-on approach with real-world examples, panel data, time series
+**Current entries: 55 book companions** spanning development economics (Poor Economics, Why Nations Fail, Development as Freedom, Debraj Ray), econometrics and statistics (Gujarati, Naked Statistics, Learning Statistics with R), data visualization (Tufte, Storytelling with Data, The Truthful Art), research methods, communication, leadership, and productivity. See the full list in the [Content Catalog](content-catalog.md).
 
 ---
 
@@ -212,13 +247,21 @@ ImpactMojo has a **Model Context Protocol (MCP) server** that lets any AI assist
 **11 tools available:**
 - `search_content` — Full-text search across all 700+ content items
 - `lookup_bct` / `search_bcts` / `list_bct_categories` — 203 BCT techniques with South Asian context and case studies
-- `browse_dataverse` / `search_dataverse` — 270 tools, datasets, APIs
+- `browse_dataverse` / `search_dataverse` — 296 tools, datasets, APIs
 - `list_challenges` / `get_challenge` — Practice exercises with rubrics
 - `list_courses` — 62 courses across 6 learning tracks
-- `get_game_info` — 16 economics simulation games with AI agent personas
+- `get_game_info` — 18 simulation games with AI agent personas
 - `query_climate_data` — India GHG emissions from Climate TRACE
 
 **How to use it:** Install the MCP server locally, connect it to your AI assistant, and ask questions like "find BCT techniques for nutrition in India" or "what climate data does ImpactMojo have?" See the [MCP Server README](https://github.com/ImpactMojo/ImpactMojo/tree/main/mcp-server) for setup instructions.
+
+---
+
+## Status Page
+
+A live status page at [/status.html](https://www.impactmojo.in/status.html) checks the platform's key services directly from your browser — so if something ever seems down, you can see at a glance whether it's the platform or your connection.
+
+**How to use it:** Bookmark it. If a page won't load during a workshop, open the status page from any device to check whether the platform is up before troubleshooting your venue's internet.
 
 ---
 
