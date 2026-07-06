@@ -5,6 +5,16 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.81.1] - 2026-07-06
+
+### For Learners
+
+- **What Would Have Happened Anyway? The Counterfactual Habit** — a new plain-language blog post on counterfactual thinking for non-statisticians: four traps that fool boards and funders (regression to the mean, self-selection, survivorship, confounding shocks), the hierarchy of honest evaluation designs, and three questions to ask of any impact claim. Pairs with the Counterfactual game and the Causal Inference course.
+
+### Added
+
+- **Blog post #32: The Counterfactual Habit** (`/blog/counterfactual-habit.html`) — Methods post with two inline hand-drawn-style SVG diagrams (counterfactual gap, four-traps 2×2; napkin.ai placeholders), cross-linked to the Counterfactual game, Causal Inference course, Live Case Challenges, and the Critiquing Evidence practice pack; registered in search index (BLOG059), sitemap, blog.html card grid; blog count 31 → 32.
+
 ## [10.81.0] - 2026-07-06
 
 ### Fixed

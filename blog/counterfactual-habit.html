@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JRCMEB9TBW');
+</script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<meta name="description" content="Every impact claim implies a counterfactual. A plain-language guide to counterfactual thinking for non-statisticians — four classic traps, the hierarchy of honest answers, and three questions to ask of any impact claim."/>
+<meta property="og:title" content="What Would Have Happened Anyway? The Counterfactual Habit | Learning Loops">
+<meta property="og:description" content="Every impact claim implies a counterfactual. A plain-language guide to counterfactual thinking for non-statisticians — four classic traps, the hierarchy of honest answers, and three questions to ask of any impact claim.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://www.impactmojo.in/blog/counterfactual-habit.html">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:site_name" content="ImpactMojo">
+<meta property="article:author" content="The ImpactMojo Team">
+<meta property="article:published_time" content="2026-07-06">
+<meta property="article:section" content="Methods">
+<meta property="article:tag" content="counterfactual">
+<meta property="article:tag" content="causal inference">
+<meta name="twitter:card" content="summary_large_image">
+<title>What Would Have Happened Anyway? The Counterfactual Habit | Learning Loops</title>
+<link href="../assets/images/favicon.png" rel="icon" type="image/png"/>
+<link href="../assets/images/apple-touch-icon.png" rel="apple-touch-icon"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<!-- ImpactMojo Fonts: Amaranth (body) + Inter (headings) + JetBrains Mono (code) -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --primary-bg: #FFFFFF; --secondary-bg: #F8FAFC; --text-primary: #0F172A; --text-secondary: #475569; --text-muted: #52627A; --card-bg: #FFFFFF; --hover-bg: #F1F5F9; --border-color: #E2E8F0; --nav-bg: rgba(255, 255, 255, 0.95); --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07); --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1); }
+@media (prefers-color-scheme: dark) { :root { --primary-bg: #0F172A; --secondary-bg: #1E293B; --accent-color: #0EA5E9; --accent-hover: #0284C7; --secondary-accent: #6366F1; --success-color: #10B981; --warning-color: #F59E0B; --text-primary: #F1F5F9; --text-secondary: #CBD5E1; --text-muted: #94A3B8; --card-bg: #1E293B; --hover-bg: #334155; --border-color: #334155; --gradient-primary: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%); --nav-bg: rgba(15, 23, 42, 0.95); --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1); --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.2); } }
+body.light-mode, [data-theme="light"] { --primary-bg: #FFFFFF; --secondary-bg: #F8FAFC; --text-primary: #0F172A; --text-secondary: #475569; --text-muted: #52627A; --card-bg: #FFFFFF; --hover-bg: #F1F5F9; --border-color: #E2E8F0; --nav-bg: rgba(255, 255, 255, 0.95); --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07); --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1); }
+body.dark-mode, [data-theme="dark"] { --primary-bg: #0F172A; --secondary-bg: #1E293B; --accent-color: #0EA5E9; --accent-hover: #0284C7; --secondary-accent: #6366F1; --success-color: #10B981; --warning-color: #F59E0B; --text-primary: #F1F5F9; --text-secondary: #CBD5E1; --text-muted: #94A3B8; --card-bg: #1E293B; --hover-bg: #334155; --border-color: #334155; --gradient-primary: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%); --nav-bg: rgba(15, 23, 42, 0.95); --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1); --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.2); }
+
+body { font-family: 'Amaranth', sans-serif; background: var(--primary-bg); color: var(--text-primary); line-height: 1.8; min-height: 100vh; transition: background 0.3s ease, color 0.3s ease; }
+.header { position: fixed; top: 0; left: 0; right: 0; background: var(--nav-bg); backdrop-filter: blur(20px); z-index: 1000; border-bottom: 1px solid var(--border-color); }
+.nav-container { max-width: 900px; margin: 0 auto; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+.logo-container { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--text-primary); }
+.logo-container img { width: 36px; height: 36px; border-radius: 8px; }
+.logo-main { font-family: 'Inter', sans-serif; font-size: 1.25rem; font-weight: 700; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.nav-right { display: flex; align-items: center; gap: 1rem; }
+.back-link { color: var(--text-secondary); text-decoration: none; font-family: 'Amaranth', sans-serif; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; transition: color 0.2s ease; }
+.back-link:hover { color: var(--accent-color); }
+.back-link svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
+.article-container { max-width: 750px; margin: 0 auto; padding: 3rem 1.5rem; }
+.article-header { margin-bottom: 2.5rem; text-align: center; }
+.article-category { display: inline-block; background: var(--accent-color); color: white; padding: 0.25rem 0.75rem; border-radius: 15px; font-family: 'Amaranth', sans-serif; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1rem; }
+.article-title { font-family: 'Inter', sans-serif; font-size: 2.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 1rem; color: var(--text-primary); }
+.article-meta { display: flex; justify-content: center; flex-wrap: wrap; gap: 1.5rem; font-family: 'Amaranth', sans-serif; font-size: 0.9rem; color: var(--text-muted); }
+.article-meta span { display: flex; align-items: center; gap: 0.35rem; }
+.article-meta svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
+.article-tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+.article-tag { background: var(--hover-bg); color: var(--text-muted); padding: 0.25rem 0.6rem; border-radius: 12px; font-family: 'Amaranth', sans-serif; font-size: 0.75rem; }
+.article-content { font-size: 1.125rem; color: var(--text-secondary); }
+.article-content p { margin-bottom: 1.5rem; }
+.article-content h2 { font-family: 'Inter', sans-serif; font-size: 1.75rem; font-weight: 700; color: var(--text-primary); margin: 2.5rem 0 1rem; }
+.article-content h3 { font-family: 'Inter', sans-serif; font-size: 1.35rem; font-weight: 600; color: var(--text-primary); margin: 2rem 0 0.75rem; }
+.article-content ul, .article-content ol { margin: 1.5rem 0; padding-left: 1.5rem; }
+.article-content li { margin-bottom: 0.75rem; }
+.article-content blockquote { border-left: 4px solid var(--accent-color); padding: 1rem 1.5rem; margin: 2rem 0; background: var(--secondary-bg); border-radius: 0 8px 8px 0; font-style: italic; }
+.article-content a { color: var(--accent-color); text-decoration: underline; }
+.article-content a:hover { color: var(--accent-hover); }
+.article-illustration { margin: 2.5rem 0; text-align: center; }
+.article-illustration img { max-width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border-color); }
+.article-illustration svg { max-width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border-color); background: var(--secondary-bg); padding: 1rem; color: var(--text-secondary); }
+.article-illustration figcaption { font-family: 'Amaranth', sans-serif; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.75rem; font-style: italic; }
+.highlight-box { background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; margin: 2rem 0; }
+.highlight-box h4 { font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.75rem; }
+.share-section { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-color); text-align: center; }
+.share-section h4 { font-family: 'Amaranth', sans-serif; font-size: 0.9rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1rem; }
+.share-buttons { display: flex; justify-content: center; gap: 0.75rem; }
+.share-btn { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: var(--secondary-bg); border: 1px solid var(--border-color); color: var(--text-secondary); text-decoration: none; transition: all 0.2s ease; }
+.share-btn:hover { background: var(--accent-color); border-color: var(--accent-color); color: white; transform: translateY(-2px); }
+.share-btn svg { width: 20px; height: 20px; fill: currentColor; }
+.newsletter-cta { background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem; margin: 3rem 0; text-align: center; }
+.newsletter-cta h3 { font-family: 'Inter', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
+.newsletter-cta p { color: var(--text-secondary); margin-bottom: 1rem; font-family: 'Amaranth', sans-serif; font-size: 0.95rem; }
+.newsletter-btn { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--gradient-primary); color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-family: 'Amaranth', sans-serif; font-weight: 600; font-size: 0.95rem; transition: all 0.2s ease; }
+.newsletter-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.related-posts { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-color); }
+.related-posts h3 { font-family: 'Inter', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; text-align: center; }
+.related-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+.related-card { background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; text-decoration: none; transition: all 0.2s ease; }
+.related-card:hover { border-color: var(--accent-color); transform: translateY(-3px); }
+.related-card-category { font-family: 'Amaranth', sans-serif; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; color: var(--accent-color); margin-bottom: 0.5rem; }
+.related-card-title { font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 600; color: var(--text-primary); line-height: 1.3; }
+.footer { background: var(--secondary-bg); border-top: 1px solid var(--border-color); padding: 2rem; text-align: center; margin-top: 3rem; }
+.footer p { font-family: 'Amaranth', sans-serif; color: var(--text-muted); font-size: 0.875rem; margin-bottom: 0.5rem; }
+.footer a { color: var(--accent-color); text-decoration: none; }
+.footer a:hover { text-decoration: underline; }
+@media (max-width: 768px) { .article-title { font-size: 2rem; } .related-grid { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .article-container { padding: 2rem 1rem; } .article-title { font-size: 1.75rem; } .article-content { font-size: 1rem; } .article-meta { flex-direction: column; gap: 0.5rem; } }
+</style>
+<style>
+/* ===== ImpactMojo Design System ===== */
+:root {
+    --im-primary-bg: #0F172A;
+    --im-secondary-bg: #1E293B;
+    --im-accent: #0EA5E9;
+    --im-accent-hover: #0284C7;
+    --im-secondary-accent: #6366F1;
+    --im-success: #10B981;
+    --im-text-primary: #F1F5F9;
+    --im-text-secondary: #94A3B8;
+    --im-text-muted: #64748B;
+    --im-card-bg: #1E293B;
+    --im-hover-bg: #334155;
+    --im-border: #334155;
+    --im-nav-bg: rgba(15, 23, 42, 0.95);
+    --im-gradient: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+}
+[data-theme="light"] {
+    --im-primary-bg: #F8FAFC;
+    --im-secondary-bg: #FFFFFF;
+    --im-accent: #0284C7;
+    --im-accent-hover: #0369A1;
+    --im-text-primary: #0F172A;
+    --im-text-secondary: #475569;
+    --im-text-muted: #64748B;
+    --im-card-bg: #FFFFFF;
+    --im-hover-bg: #F1F5F9;
+    --im-border: #E2E8F0;
+    --im-nav-bg: rgba(248, 250, 252, 0.95);
+}
+
+/* ImpactMojo Top Bar */
+.im-topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    background: var(--im-nav-bg, rgba(15, 23, 42, 0.95));
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--im-border, #334155);
+    padding: 0.5rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.75rem; flex-wrap: wrap;
+    font-family: 'Inter', sans-serif;
+}
+.im-topbar a { text-decoration: none; }
+.im-topbar-left {
+    display: flex; align-items: center; gap: 0.75rem;
+}
+.im-topbar-home {
+    display: flex; align-items: center; gap: 0.5rem;
+    color: var(--im-text-primary, #F1F5F9);
+    font-weight: 700; font-size: 1rem;
+    background: var(--im-gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.im-topbar-home svg { width: 24px; height: 24px; flex-shrink: 0; }
+.im-topbar-right {
+    display: flex; align-items: center; gap: 0.5rem;
+}
+.im-premium-btn {
+    background: var(--im-gradient);
+    color: #fff !important;
+    padding: 0.35rem 0.85rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: flex; align-items: center; gap: 0.35rem;
+    transition: opacity 0.2s;
+    -webkit-text-fill-color: #fff;
+}
+.im-premium-btn:hover { opacity: 0.9; }
+.im-premium-btn svg { width: 14px; height: 14px; }
+
+/* Theme Selector - 3 mode */
+.im-theme-selector {
+    display: flex; gap: 2px;
+    background: var(--im-card-bg, #1E293B);
+    border: 1px solid var(--im-border, #334155);
+    border-radius: 8px; padding: 2px;
+}
+.im-theme-btn {
+    background: transparent; border: none;
+    color: var(--im-text-secondary, #94A3B8);
+    padding: 6px; border-radius: 5px; cursor: pointer;
+    transition: all 0.2s; display: flex; align-items: center;
+    justify-content: center; width: 30px; height: 30px;
+}
+.im-theme-btn:hover {
+    background: var(--im-hover-bg, #334155);
+    color: var(--im-text-primary, #F1F5F9);
+}
+.im-theme-btn.active {
+    background: var(--im-accent, #0EA5E9);
+    color: #fff;
+}
+.im-theme-btn svg { width: 16px; height: 16px; }
+
+/* Paper Plane */
+.im-paper-plane {
+    position: fixed; top: 15%; right: 8%;
+    width: 120px; height: 120px;
+    opacity: 0.15; z-index: 0;
+    pointer-events: none;
+    animation: im-fly 25s ease-in-out infinite;
+}
+[data-theme="light"] .im-paper-plane { opacity: 0.2; }
+@keyframes im-fly {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    20% { transform: translate(60px, -40px) rotate(12deg); }
+    40% { transform: translate(120px, 30px) rotate(-8deg); }
+    60% { transform: translate(40px, 60px) rotate(15deg); }
+    80% { transform: translate(-30px, 20px) rotate(-5deg); }
+}
+
+/* ImpactMojo Footer */
+.im-footer {
+    background: var(--im-secondary-bg, #1E293B);
+    border-top: 1px solid var(--im-border, #334155);
+    padding: 2rem 1rem; margin-top: auto;
+    font-family: 'Inter', sans-serif;
+    color: var(--im-text-secondary, #94A3B8);
+}
+.im-footer-content {
+    max-width: 1100px; margin: 0 auto;
+}
+.im-footer-made {
+    text-align: center; margin-bottom: 1.5rem;
+    font-size: 0.9rem; color: var(--im-text-muted, #64748B);
+}
+.im-footer-made a { color: var(--im-accent, #0EA5E9); }
+.im-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem; margin-bottom: 1.5rem;
+}
+.im-footer-section h4 {
+    font-family: 'Inter', sans-serif;
+    color: var(--im-text-primary, #F1F5F9);
+    font-size: 0.9rem; margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+.im-footer-section ul { list-style: none; padding: 0; margin: 0; }
+.im-footer-section li { margin-bottom: 0.4rem; }
+.im-footer-section a {
+    color: var(--im-text-secondary, #94A3B8);
+    text-decoration: none; font-size: 0.85rem;
+    transition: color 0.2s;
+}
+.im-footer-section a:hover { color: var(--im-accent, #0EA5E9); }
+.im-footer-bottom {
+    text-align: center; padding-top: 1rem;
+    border-top: 1px solid var(--im-border, #334155);
+    font-size: 0.8rem; color: var(--im-text-muted, #64748B);
+}
+.im-footer-bottom p { margin: 0.25rem 0; }
+.im-footer-bottom a { color: var(--im-accent, #0EA5E9); text-decoration: none; }
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .im-topbar { padding: 0.4rem 0.75rem; gap: 0.5rem; }
+    .im-topbar-home { font-size: 0.85rem; }
+    .im-topbar-home svg { width: 20px; height: 20px; }
+    .im-premium-btn { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
+    .im-theme-btn { width: 26px; height: 26px; padding: 4px; }
+    .im-theme-btn svg { width: 14px; height: 14px; }
+    .im-paper-plane { width: 80px; height: 80px; top: 10%; right: 5%; }
+    .im-footer-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+}
+@media (max-width: 480px) {
+    .im-footer-grid { grid-template-columns: 1fr; }
+    .im-topbar-home span { display: none; }
+}
+
+/* ImpactMojo Global Font Overrides */
+body { font-family: 'Amaranth', sans-serif !important; }
+h1, h2, h3, h4, h5, h6 { font-family: 'Inter', sans-serif !important; }
+code, pre, .monospace, kbd, samp { font-family: 'JetBrains Mono', monospace !important; }
+
+/* WCAG 2.1 AA (1.4.1 Use of Color): inline anchors in content paragraphs must be distinguishable without relying on color alone. Scoped to <main> so nav/footer button-links are unaffected. */
+main p a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]),
+main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+</style>
+<!-- SEO meta (autogenerated) -->
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.impactmojo.in/blog/counterfactual-habit.html">
+</head>
+<body>
+
+<header class="header">
+<nav class="nav-container">
+    <a class="logo-container" href="../index.html">
+        <img alt="ImpactMojo" src="../assets/images/ImpactMojo%20Logo.png" width="36" height="36">
+        <div class="logo-main">ImpactMojo</div>
+    </a>
+    <div class="nav-right">
+        <a href="../blog.html" class="back-link">
+            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            All Posts
+        </a>
+        <div class="im-theme-selector" aria-label="Theme selection">
+            <button class="im-theme-btn" data-imtheme="system" title="System theme" aria-label="Use system theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </button>
+            <button class="im-theme-btn" data-imtheme="light" title="Light theme" aria-label="Use light theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </button>
+            <button class="im-theme-btn" data-imtheme="dark" title="Dark theme" aria-label="Use dark theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+        </div>
+    </div>
+</nav>
+</header>
+<main class="article-container">
+    <article>
+        <header class="article-header">
+            <span class="article-category">Methods</span>
+            <h1 class="article-title">What Would Have Happened Anyway? The Counterfactual Habit</h1>
+            <div class="article-meta">
+                <span><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>The ImpactMojo Team</span>
+                <span><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>July 6, 2026</span>
+                <span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>9 min read</span>
+            </div>
+            <div class="article-tags">
+                <span class="article-tag">counterfactual</span>
+                <span class="article-tag">causal inference</span>
+                <span class="article-tag">evaluation</span>
+            </div>
+        </header>
+        <div class="article-content">
+<h2>A Number Walks Into a Boardroom</h2>
+<p>The slide is already on the screen when the trustees take their seats. An adolescent-nutrition programme in eastern Uttar Pradesh: anaemia among girls in the programme blocks was 58 per cent at baseline, 41 per cent at endline. Seventeen points in two years. The chair beams. There is a proposal on the table to triple the budget and expand to three new states, and this one number is about to carry the vote.</p>
+<p>Nobody in the room is being dishonest. The survey was real, the fieldwork careful, the fall in anaemia genuine. And yet the slide does not show what everyone in the room believes it shows. In those same two years, the state ran an iron-and-folic-acid campaign through every government school, a good harvest lowered food prices, and the district rolled out fortified rice through the public distribution system. Some of those seventeen points belong to the programme. Some belong to everything else. The slide cannot tell you which.</p>
+
+<h2>The Question Inside Every Impact Claim</h2>
+<p>Every impact claim — every "we reduced", "we increased", "we transformed" — quietly contains a comparison. It compares the world as it is with a world that never happened: the one where the programme did not run. Evaluators call that invisible world the <strong>counterfactual</strong>, and the entire craft of impact evaluation is the art of estimating it honestly.</p>
+<p>This means the question is never <em>"did things improve?"</em> Things improve, and worsen, for a hundred reasons — seasons turn, economies grow, children age, governments act. The question is always <em>"compared to what would have happened anyway?"</em> Impact is not the change you observed. Impact is the gap between what happened and what would have happened without you. The change you observed is merely one side of that subtraction; the other side is invisible, and it has to be estimated from somewhere.</p>
+<p>None of this is exotic. You already think counterfactually a dozen times a day — "the traffic would have been worse on the ring road", "she'd have recovered without the antibiotics anyway". What the development sector struggles with is applying the same reflex to its own numbers, partly because reporting formats reward before-after arithmetic: baseline column, endline column, arrow pointing up. The counterfactual habit is not a statistical technique. It is a discipline of asking, before celebrating or despairing, where the invisible column would have landed — and being suspicious of anyone whose answer is simply "wherever the baseline was".</p>
+
+<!-- NOTE: The two inline SVG diagrams below are hand-drawn-style placeholders. Replace with napkin.ai-generated versions (assets/images/blog/counterfactual-habit/) when API access returns. -->
+<figure class="article-illustration">
+<svg viewBox="0 0 560 330" role="img" aria-label="Line chart sketch: a solid line shows what actually happened rising over time, a dashed line below shows what would have happened anyway, and the vertical gap between them at the end is labelled impact" xmlns="http://www.w3.org/2000/svg">
+  <title>The counterfactual gap: impact is the distance between what happened and what would have happened anyway</title>
+  <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M62,32 C60,110 63,200 61,278 L500,280"/>
+    <path d="M56,44 L62,31 L69,43"/>
+    <path d="M488,273 L501,280 L488,287"/>
+    <path d="M168,60 C170,130 167,210 169,286" stroke-dasharray="2,7" opacity="0.55"/>
+  </g>
+  <g fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M75,225 C110,220 145,216 168,212 C230,200 300,160 370,120 C410,98 440,85 462,76" stroke="var(--accent-color, #0EA5E9)"/>
+    <path d="M75,225 C110,220 145,216 168,212 C235,206 320,196 400,186 C425,183 448,180 462,178" stroke="currentColor" stroke-dasharray="9,8" opacity="0.75"/>
+  </g>
+  <g fill="none" stroke="var(--warning-color, #F59E0B)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M492,84 C494,110 493,140 492,168"/>
+    <path d="M485,96 L492,83 L499,96"/>
+    <path d="M485,156 L492,169 L499,156"/>
+  </g>
+  <g font-family="Amaranth, 'Comic Sans MS', cursive" font-size="17" fill="currentColor">
+    <text x="120" y="55" opacity="0.8">outcome</text>
+    <text x="452" y="312" opacity="0.8">time</text>
+    <text x="138" y="308" opacity="0.6" font-size="15">programme starts</text>
+    <text x="252" y="112" fill="var(--accent-color, #0EA5E9)">what actually happened</text>
+    <text x="222" y="242" opacity="0.75">what would have happened anyway</text>
+    <text x="505" y="133" fill="var(--warning-color, #F59E0B)" font-size="19" font-weight="700">impact</text>
+  </g>
+</svg>
+<figcaption>Impact is not the rise in the solid line — it is the gap between the two lines. The dashed line never gets measured; it has to be estimated.</figcaption>
+</figure>
+
+<h2>Four Ways the Comparison Lies to You</h2>
+<p>When nobody builds the counterfactual deliberately, one gets smuggled in by accident — and the accidental ones are systematically flattering. Four traps account for most of the damage. (Our new <a href="../Games/counterfactual-game.html">Counterfactual game</a> lets you practise dodging all of them, plus a few more, in ten minutes.)</p>
+<h3>1. Regression to the mean</h3>
+<p>An after-school reading programme in Lucknow enrols the children who read worst on a fluency screening — the bottom of every class list. One term later, the same screen shows most of them reading noticeably better, and the annual report celebrates. But children land at the bottom of a single test partly through bad luck: illness that day, a noisy hall, one misread passage. Test them again and the unlucky ones drift back towards their true level with or without tuition. Whenever you select people <em>because</em> they scored at an extreme, their next measurement improves on average by statistical gravity alone — and a before-after comparison hands the programme the credit.</p>
+<h3>2. Self-selection</h3>
+<p>A federation promoting women's self-help groups in coastal Odisha finds that members' households save more and their children miss fewer school days than non-member households in the same panchayats. Proof that the groups work? Not yet. The women who walked into a savings meeting and stayed were already different from those who did not — more forward-planning, better supported at home, less consumed by crisis. Those same traits drive savings and school attendance directly. Comparing joiners with non-joiners measures <em>who joins</em>, not <em>what joining does</em>: the two groups differed before the first meeting was ever held.</p>
+<h3>3. Survivorship</h3>
+<p>An apparel-sector training centre in Indore reports an 82 per cent job-placement rate — calculated among trainees who finished the four-month course. The 500 who left midway, many pulled out by marriage, migration or a family illness, appear nowhere in the denominator. Yet the forces that pulled them out are the same forces that make steady factory employment hard, so the completers were always the trainees most likely to be placed, course or no course. Judge a programme only by its survivors and you are studying persistence, not training. The honest denominator is everyone who started.</p>
+<h3>4. Confounding shocks</h3>
+<p>A micro-irrigation subsidy scheme in Bundelkhand runs its endline the year the monsoon fails. Farm incomes come in below baseline, and the review meeting turns funereal — until someone asks what happened to incomes on the unsubsidised farms next door, which fell further. A before-after number silently attributes everything that occurred in between — drought, price crashes, a pandemic, an election-year subsidy — to the programme. The same arithmetic cuts both ways: had that endline landed in a bumper year, a mediocre scheme would have been crowned a triumph by the rain.</p>
+
+<figure class="article-illustration">
+<svg viewBox="0 0 560 400" role="img" aria-label="A two-by-two grid of sketched icons naming the four counterfactual traps: regression to the mean, self-selection, survivorship, and confounding shocks" xmlns="http://www.w3.org/2000/svg">
+  <title>The four traps: regression to the mean, self-selection, survivorship, confounding shocks</title>
+  <g fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.45">
+    <rect x="22" y="18" width="248" height="176" rx="14"/>
+    <rect x="290" y="18" width="248" height="176" rx="14"/>
+    <rect x="22" y="208" width="248" height="176" rx="14"/>
+    <rect x="290" y="208" width="248" height="176" rx="14"/>
+  </g>
+  <!-- Regression to the mean: extreme point snapping back to a dashed average line -->
+  <g fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M55,90 C110,88 190,92 240,89" stroke="currentColor" stroke-dasharray="8,7" opacity="0.6"/>
+    <path d="M80,90 C95,110 105,132 118,138 C138,146 158,112 172,94" stroke="var(--accent-color, #0EA5E9)"/>
+    <path d="M160,96 L173,92 L170,105" stroke="var(--accent-color, #0EA5E9)"/>
+    <circle cx="118" cy="138" r="5" fill="var(--accent-color, #0EA5E9)" stroke="none"/>
+  </g>
+  <!-- Self-selection: one figure steps through a doorway, one stays out -->
+  <g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M430,50 L430,140 L482,140 L482,50 C465,46 447,46 430,50"/>
+    <g stroke="var(--accent-color, #0EA5E9)">
+      <circle cx="452" cy="78" r="9"/>
+      <path d="M452,87 L452,116 M452,96 L440,106 M452,96 L464,108 M452,116 L443,136 M452,116 L462,135"/>
+    </g>
+    <g opacity="0.5">
+      <circle cx="345" cy="82" r="9"/>
+      <path d="M345,91 L345,118 M345,98 L334,108 M345,98 L356,108 M345,118 L337,138 M345,118 L353,138"/>
+    </g>
+  </g>
+  <!-- Survivorship: two solid figures, one faded dashed figure -->
+  <g stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <g stroke="var(--accent-color, #0EA5E9)">
+      <circle cx="85" cy="258" r="9"/>
+      <path d="M85,267 L85,296 M85,275 L74,285 M85,275 L96,285 M85,296 L77,316 M85,296 L93,316"/>
+      <circle cx="140" cy="258" r="9"/>
+      <path d="M140,267 L140,296 M140,275 L129,285 M140,275 L151,285 M140,296 L132,316 M140,296 L148,316"/>
+    </g>
+    <g stroke="currentColor" opacity="0.35" stroke-dasharray="4,4">
+      <circle cx="200" cy="258" r="9"/>
+      <path d="M200,267 L200,296 M200,275 L189,285 M200,275 L211,285 M200,296 L192,316 M200,296 L208,316"/>
+    </g>
+    <path d="M188,336 L212,352 M212,336 L188,352" stroke="var(--warning-color, #F59E0B)" opacity="0.8"/>
+  </g>
+  <!-- Confounding shocks: storm cloud + lightning over a falling line -->
+  <g fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M355,262 C350,246 366,236 380,240 C384,226 406,222 416,232 C432,226 448,238 442,252 C452,258 446,270 434,270 L370,270 C360,270 354,268 355,262" stroke="currentColor"/>
+    <path d="M398,276 L388,296 L400,296 L390,318" stroke="var(--warning-color, #F59E0B)"/>
+    <path d="M366,282 L361,294 M436,280 L431,292" stroke="currentColor" opacity="0.6"/>
+    <path d="M330,318 C355,326 385,336 415,344 C440,350 465,352 490,350" stroke="var(--accent-color, #0EA5E9)"/>
+  </g>
+  <g font-family="Amaranth, 'Comic Sans MS', cursive" font-size="16" fill="currentColor" text-anchor="middle">
+    <text x="146" y="180">regression to the mean</text>
+    <text x="414" y="180">self-selection</text>
+    <text x="146" y="372">survivorship</text>
+    <text x="414" y="372">confounding shocks</text>
+  </g>
+</svg>
+<figcaption>Four accidental counterfactuals — each one makes a before-after or naive comparison systematically flattering (or damning).</figcaption>
+</figure>
+
+<h2>The Hierarchy of Honest Answers</h2>
+<p>None of this means every programme needs a randomised trial. It means every claim should be built on the strongest counterfactual that is feasible in its context — and that we should be honest about which rung of the ladder we are standing on.</p>
+<ul>
+<li><strong>Before-after.</strong> The weakest rung. Good enough only when almost nothing else plausibly moves the outcome — counting toilets your programme built, yes; claiming income gains in a living economy, no.</li>
+<li><strong>Matched comparison.</strong> Compare participants with non-participants who look similar on observable traits. Good enough when you understand why people got the programme and that reason is largely captured in your data — say, an administrative rule about district eligibility — rather than in unmeasured motivation.</li>
+<li><strong>Difference-in-differences.</strong> Compare the <em>change</em> in participants with the <em>change</em> in a comparison group, netting out both fixed differences and common shocks like that Bundelkhand drought. Good enough when you hold baseline data for both groups and their pre-programme trends ran parallel; our post on <a href="quasi-experimental-designs.html">quasi-experimental designs</a> walks through the mechanics.</li>
+<li><strong>Natural experiments.</strong> Let an eligibility cutoff, a lottery, or a staggered rollout do the assigning for you. Good enough — often excellent — when the rule that decided who got the programme had nothing to do with who was likely to succeed.</li>
+<li><strong>Randomisation.</strong> The cleanest counterfactual there is, because chance guarantees the two groups start identical on average. Good enough by construction, but only worth it when the rollout genuinely permits it — an oversubscribed programme, a phased expansion — and when it is done well: a leaky RCT with heavy attrition tells you less than a careful difference-in-differences.</li>
+</ul>
+<p>The stance worth internalising: the goal is not the gold standard, it is the <em>strongest feasible</em> design. A pipeline comparison that rides an expansion you were doing anyway beats an imaginary trial you will never run. The full logic — from theory of change to power calculations to ethics — is in our <a href="../courses/causal/">Causal Inference &amp; Impact Evaluation course</a>.</p>
+
+<h2>The Habit</h2>
+<p>You do not need statistics to practise counterfactual thinking. You need a reflex — three questions asked, politely and every time, of any number that claims impact.</p>
+<div class="highlight-box"><h4>Three questions for any impact claim</h4>
+<ol style="margin: 0.5rem 0 0; padding-left: 1.25rem;">
+<li><strong>Who was compared to whom?</strong> If the answer is "the same people, earlier", you have a before-after number, not an impact estimate.</li>
+<li><strong>Why might the groups have differed before the programme?</strong> Volunteers, completers, and the lowest scorers are never a random slice of anyone.</li>
+<li><strong>What else changed over the same period?</strong> Monsoons, markets, elections, and other people's programmes do not pause for your evaluation.</li>
+</ol></div>
+<p>Ask them in that Uttar Pradesh boardroom and the conversation changes. Perhaps the seventeen points survive scrutiny — programmes do work, and honest counterfactuals often vindicate them, as the Bundelkhand irrigation scheme discovered in reverse. Or perhaps the board delays the vote and commissions a comparison-block survey first. Either way, the decision now rests on impact rather than arithmetic coincidence.</p>
+<p>The habit sharpens with use. Try the <a href="../Games/counterfactual-game.html">Counterfactual game</a> against eight boardroom-ready claims, take on the Stress-Test an Impact Claim brief among our <a href="../challenges.html">Live Case Challenges</a>, or work through the <a href="../practice-packs/critiquing-evidence/">Critiquing Evidence practice pack</a> with your team. The next time a triumphant slide goes up, be the person who asks, kindly: <em>compared to what would have happened anyway?</em></p>
+        </div>
+        <div class="share-section">
+            <h4>Share This Post</h4>
+            <div class="share-buttons">
+                <a href="https://twitter.com/intent/tweet?url=https://www.impactmojo.in/blog/counterfactual-habit.html&text=What%20Would%20Have%20Happened%20Anyway%3F%20The%20Counterfactual%20Habit" target="_blank" class="share-btn" title="Share on Twitter"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://www.impactmojo.in/blog/counterfactual-habit.html" target="_blank" class="share-btn" title="Share on LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.impactmojo.in/blog/counterfactual-habit.html" target="_blank" class="share-btn" title="Share on Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                <a href="mailto:?subject=What%20Would%20Have%20Happened%20Anyway%3F%20The%20Counterfactual%20Habit&body=Check%20out%20this%20article:%20https://www.impactmojo.in/blog/counterfactual-habit.html" class="share-btn" title="Share via Email"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
+            </div>
+        </div>
+        <div class="newsletter-cta">
+            <h3>Want More Insights?</h3>
+            <p>Subscribe to <strong>Research Rundown</strong> for bimonthly curated research from the development sector.</p>
+            <a href="https://varna.substack.com" target="_blank" class="newsletter-btn">Subscribe on Substack</a>
+        </div>
+        <section class="related-posts">
+            <h3>Related Posts</h3>
+            <div class="related-grid">
+                <a href="quasi-experimental-designs.html" class="related-card">
+                    <div class="related-card-category">Methods</div>
+                    <div class="related-card-title">Quasi-Experimental Designs: When Randomisation Isn't Possible</div>
+                </a>
+                <a href="what-the-evidence-says-about-cash-transfers.html" class="related-card">
+                    <div class="related-card-category">Methods</div>
+                    <div class="related-card-title">What the Evidence Actually Says About Cash Transfers</div>
+                </a>
+            </div>
+        </section>
+    </article>
+</main>
+<footer class="footer">
+    <p>&copy; 2026 ImpactMojo. Released under <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a>.</p>
+    <p>Supported by <a href="https://www.pinpointventures.in" target="_blank">PinPoint Ventures</a></p>
+    <p style="margin-top: 1rem;"><a href="../blog.html">&larr; Back to Learning Loops</a></p>
+    <p style="margin-top: 0.5rem;"><a href="/docs/" rel="noopener noreferrer" target="_blank">Documentation</a></p>
+</footer>
+<script src="/js/search.js" defer></script>
+<!-- ImpactMojo Theme Toggle JS -->
+<script src="/js/theme.js"></script>
+<!-- ImpactMojo Paper Plane -->
+<svg class="im-paper-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M80,130 L150,50" stroke="#10B981" stroke-width="2" stroke-dasharray="4,4"/>
+    <circle cx="150" cy="50" r="4" fill="#6366F1"/>
+    <circle cx="40" cy="155" r="2" fill="#0EA5E9" opacity="0.6"/>
+    <circle cx="35" cy="165" r="1.5" fill="#6366F1" opacity="0.4"/>
+    <circle cx="45" cy="170" r="1" fill="#10B981" opacity="0.5"/>
+</svg>
+
+<!-- Supabase Auth -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="/js/state-manager.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/translate-sarvam.js" defer></script>
+</body>
+</html>
