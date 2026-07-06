@@ -335,6 +335,23 @@ body {
         <p>Read fellow learners' assignments and case analyses, give structured feedback, and see what peers thought of your own work. Reviewing others sharpens your own analysis.</p>
     </div>
 
+    <!-- Sign-in gate: shown to logged-out visitors instead of an abrupt redirect to /login.html -->
+    <section id="authGate" style="display:none">
+        <div style="max-width:560px;margin:1rem auto 3rem;padding:2rem;border:1px solid var(--border-color,#e5e7eb);border-radius:16px;background:var(--card-bg,#fff);text-align:center">
+            <div style="font-size:2.5rem;line-height:1" aria-hidden="true">🤝</div>
+            <h2 style="margin:0.75rem 0 0.5rem">Peer Review is for signed-in learners</h2>
+            <p style="color:var(--text-secondary,#6b7280);margin:0 0 1.25rem">
+                It's a shared workspace tied to your own submissions — read other learners' assignments and case analyses, leave structured feedback, and see the feedback you've received. Sign in to take part. It's free.
+            </p>
+            <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap">
+                <a href="/login.html" style="background:#4F46E5;color:#fff;padding:0.7rem 1.4rem;border-radius:10px;text-decoration:none;font-weight:600">Sign in</a>
+                <a href="/signup.html" style="border:1px solid #4F46E5;color:#4F46E5;padding:0.7rem 1.4rem;border-radius:10px;text-decoration:none;font-weight:600">Create a free account</a>
+            </div>
+            <p style="margin:1.25rem 0 0;font-size:0.85rem"><a href="/courses/" style="color:var(--text-secondary,#6b7280)">Browse open courses instead &rarr;</a></p>
+        </div>
+    </section>
+
+    <div id="peerReviewApp">
     <div class="tab-nav" role="tablist">
         <button class="tab-btn active" data-tab="queue" role="tab">Review queue</button>
         <button class="tab-btn" data-tab="given" role="tab">Reviews I've given</button>
@@ -356,6 +373,7 @@ body {
     <section class="tab-content" id="tab-received" role="tabpanel">
         <div id="receivedList"><div class="empty-state"><p>Loading…</p></div></div>
     </section>
+    </div><!-- /#peerReviewApp -->
 </main>
 
 <!-- Footer -->
@@ -726,11 +744,19 @@ body {
     // ---------- init ----------
     AuthGate.protect({
         loadingEl: document.getElementById('loadingOverlay'),
-        redirectUrl: '/login.html',
         onReady: function(user, profile) {
             currentUser = user;
             sb = window.supabaseClient;
             initTabs();
+        },
+        // Logged-out visitors get a friendly explainer instead of an abrupt bounce
+        // to /login.html. We stash the destination so signing in returns them here.
+        onDenied: function() {
+            try { sessionStorage.setItem('authRedirect', '/peer-review.html'); } catch (e) {}
+            var app = document.getElementById('peerReviewApp');
+            var gate = document.getElementById('authGate');
+            if (app) app.style.display = 'none';
+            if (gate) gate.style.display = 'block';
         }
     });
 })();
