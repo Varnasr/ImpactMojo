@@ -97,6 +97,15 @@ async function getContentCounts() {
       const t = (item.type || "other").toLowerCase();
       counts[t] = (counts[t] || 0) + 1;
     }
+    // The raw 'course' type includes practice workbooks and other sub-pages.
+    // Actual course count = flagship dirs (/courses/x/) + direct 101 decks (/101-courses/x.html).
+    const courseEntries = items.filter((i) => (i.type || "").toLowerCase() === "course");
+    const flagships = courseEntries.filter((i) => (i.url || "").startsWith("/courses/")).length;
+    const foundational = courseEntries.filter((i) => {
+      const u = i.url || "";
+      return u.startsWith("/101-courses/") && u.endsWith(".html") && u.split("/").length === 3;
+    }).length;
+    counts.courseTotal = flagships + foundational;
     return { counts, total: items.length };
   } catch (err) {
     console.error("Failed to fetch search index:", err);
@@ -125,9 +134,9 @@ export default async () => {
   const subject = `What's new on ImpactMojo — ${month}`;
 
   // Build intro with real counts
-  const gameCount = stats.counts.game || 16;
-  const labCount = stats.counts.lab || 11;
-  const courseCount = stats.counts.course || 49;
+  const gameCount = stats.counts.game || 18;
+  const labCount = stats.counts.lab || 28;
+  const courseCount = stats.counts.courseTotal || 62;
   const intro = `Here's your monthly update from ImpactMojo. The platform now has <strong>${gameCount} games</strong>, <strong>${labCount} labs</strong>, <strong>${courseCount} courses</strong>, and <strong>${stats.total}+ resources</strong> — all free, as always.`;
 
   // Build highlights from changelog + evergreen content

@@ -6,7 +6,7 @@
 // when matching, so the no-slash form silently serves the page with
 // broken relative paths).
 //
-// Routes (configured in netlify.toml):
+// Routes (self-registered via the exported config below):
 //   /devdiscourses        → varnasr.github.io/development-discourses/
 //   /devdiscourses/       → varnasr.github.io/development-discourses/
 //   /devdiscourses/*      → varnasr.github.io/development-discourses/<splat>

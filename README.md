@@ -375,15 +375,12 @@ ImpactMojo/
 │   ├── auth.js             # Supabase authentication
 │   ├── router.js           # Clean URL section router
 │   ├── resource-launch.js  # JWT-based premium resource launcher
-│   ├── token-gate.js       # Client-side token verification
 │   ├── premium.js          # Premium tier UI logic
 │   ├── translate-sarvam.js # Site-wide language switcher (Sarvam-backed, /api/translate)
 │   ├── open-badges.js      # W3C Open Badges 3.0 credential system
 │   ├── learning-pathways.js # Structured credential tracks with milestones
 │   ├── learning-tracks.js  # Track data, modal handler, progress tracking
 │   ├── pwa.js              # Service worker registration & update checks
-│   ├── assessments.js      # Interactive assessment component (MCQ/T-F/multi-select)
-│   ├── assessment-data.js  # Question banks for MEL, DataViz, DevAI courses
 │   ├── search.js           # Full-text fuzzy search (Fuse.js) with Ctrl+K shortcut
 │   └── course-progress.js  # Course progress tracking with Supabase sync
 │

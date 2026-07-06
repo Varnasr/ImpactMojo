@@ -2,7 +2,7 @@
 
 Welcome to the ImpactMojo knowledge base — for educators, practitioners, contributors, and developers.
 
-**Live site:** [impactmojo.in](https://www.impactmojo.in) | **Version:** 10.9.0
+**Live site:** [impactmojo.in](https://www.impactmojo.in) | **Version:** 10.80.0
 
 ## What is ImpactMojo?
 
@@ -17,7 +17,7 @@ Everything on the platform is free to use. No login required, no paywall, no tri
 - [Getting Started](getting-started.md) — How to use the platform, step by step
 - [Workshops & Facilitation](workshops-and-facilitation.md) — Run workshops using ImpactMojo content
 - [Handouts Guide](handouts-guide.md) — How to find, use, and print 84 handouts
-- [Dataverse Guide](dataverse-guide.md) — 270 data tools and datasets, explained
+- [Dataverse Guide](dataverse-guide.md) — 296 data tools and datasets, explained
 - [FAQ](faq.md) — Common questions answered
 
 **If you want to contribute:**

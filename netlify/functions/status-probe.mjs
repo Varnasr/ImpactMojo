@@ -198,7 +198,7 @@ export default async () => {
       next.issue = await openIssue(c, r, note);
       await sendAlertEmail(
         `🔴 ImpactMojo status: ${c.name} is down`,
-        `<p><strong>${c.name}</strong> failed ${fails} consecutive checks (code ${r.code}, ${r.ms} ms).</strong></p>` +
+        `<p><strong>${c.name}</strong> failed ${fails} consecutive checks (code ${r.code}, ${r.ms} ms).</p>` +
         (note ? `<p>Auto-remediation: ${note}.</p>` : "") +
         `<p>Live status: <a href="${SITE_URL}/status.html">${SITE_URL}/status.html</a></p>`
       );

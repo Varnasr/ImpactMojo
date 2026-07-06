@@ -5,7 +5,7 @@ import type { LoadedData } from "../data-loader.js";
 export function registerDataverseTools(server: McpServer, data: LoadedData) {
   server.tool(
     "browse_dataverse",
-    "Browse ImpactMojo's Dataverse catalog of 270 tools, datasets, APIs, and MCP servers for development research. Filter by category, type, or free-only.",
+    "Browse ImpactMojo's Dataverse catalog of 296 tools, datasets, APIs, and MCP servers for development research. Filter by category, type, or free-only.",
     {
       category: z.string().optional().describe("Category ID, e.g. 'india-gov-data', 'health-epi'. Omit to list all categories."),
       type: z.string().optional().describe("Filter by type: api, dataset, mcp-server, tool, platform, visualization"),
@@ -61,7 +61,7 @@ export function registerDataverseTools(server: McpServer, data: LoadedData) {
 
   server.tool(
     "search_dataverse",
-    "Keyword search across 270 dataverse items — tools, datasets, APIs, and MCP servers for development research.",
+    "Keyword search across 296 dataverse items — tools, datasets, APIs, and MCP servers for development research.",
     {
       query: z.string().describe("Search term (e.g. 'climate', 'health survey', 'india statistics')"),
       limit: z.number().optional().default(10).describe("Max results (default 10)"),
