@@ -247,7 +247,11 @@
     wrap.id = "im-lang-switch"; wrap.setAttribute("data-no-translate", "");
     wrap.className = inNav ? "im-lang-innav" : "im-lang-floating";
     wrap.style.cssText = inNav
-      ? "position:relative;display:inline-flex;align-items:center;z-index:9990;font-family:system-ui,-apple-system,sans-serif"
+      // No z-index in the nav: a high value here made the globe paint over the
+      // Services/Specials dropdowns (z-index 1000). Leaving it auto lets an open
+      // dropdown sit above the button, while the menu below (z-index 10000, no
+      // stacking context on the wrap) still opens above everything.
+      ? "position:relative;display:inline-flex;align-items:center;font-family:system-ui,-apple-system,sans-serif"
       // Floating fallback (mainly the homepage on mobile, where the nav buttons
       // collapse): sit above the speed-dial FAB so the two don't overlap.
       : "position:fixed;right:16px;bottom:5.5rem;z-index:9990;font-family:system-ui,-apple-system,sans-serif";
