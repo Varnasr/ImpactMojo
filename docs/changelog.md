@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.81.0 — July 6, 2026 (Smoother theme switching, faster homepage)
+
+### Fixed
+
+- Every blog post now has the same three-way theme control (System / Light / Dark) as the rest of the site, and your choice sticks across pages and visits. The /courses and /games web addresses now take you straight to the course gallery and the Game Library.
+
 ## v10.80.2 — July 6, 2026 (New Deep Dive: Platform & Gig Work in India)
 
 ### For Learners
