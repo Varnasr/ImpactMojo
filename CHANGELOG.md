@@ -14,6 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - **Blog post #32: The Counterfactual Habit** (`/blog/counterfactual-habit.html`) — Methods post with two inline hand-drawn-style SVG diagrams (counterfactual gap, four-traps 2×2; napkin.ai placeholders), cross-linked to the Counterfactual game, Causal Inference course, Live Case Challenges, and the Critiquing Evidence practice pack; registered in search index (BLOG059), sitemap, blog.html card grid; blog count 31 → 32.
+- **Visual-regression harness stabilised** (`tests/visual/`, gates issue #563): all 36 snapshots now deterministic (external hosts route-blocked, clock/random frozen, motion disabled) — double-green verified; the stage-1 `@layer` wrap of `imx-main.css` was attempted and cleanly reverted by the gate, with the blocking `!important`-inversion mechanism documented on #563 for stage 2. Runs in remote agent sandboxes (Chromium is available there).
+
+### Fixed
+
+- **Accessibility backlog cleared (issue #360): 679 WCAG 2.1 AA errors → 0** across 26 audited pages — 14 course lexicons (497 errors), 3 handout files (74), 5 premium tools + premium.html (108), and the dataverse cluster. Mechanical fixes only: same-hue AA-compliant contrast tokens (light theme; dark values explicitly preserved), aria-labels on unlabeled search/filter/form controls (including tor-builder's JS-generated rows), and removal of two hourly `meta refresh` tags on static glossaries (WCAG 2.2.1). Every touched page re-audited to zero; no visual restructuring.
+- **Gender lexicon rendered zero terms** — the same unguarded `theme-` element lookup as the course page threw on load and killed the entire render script; guarded, and the page now renders all 683 term elements with no JS errors.
 
 ## [10.81.0] - 2026-07-06
 

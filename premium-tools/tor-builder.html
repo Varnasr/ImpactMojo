@@ -36,7 +36,7 @@
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
-    --primary-bg:#F8FAFC; --secondary-bg:#FFFFFF; --accent-color:#0284C7; --accent-hover:#0369A1;
+    --primary-bg:#F8FAFC; --secondary-bg:#FFFFFF; --accent-color:#0369A1; --accent-hover:#0369A1;
     --secondary-accent:#6366F1; --success-color:#16A34A; --warning-color:#D97706; --danger-color:#DC2626;
     --text-primary:#0F172A; --text-secondary:#475569; --text-muted:#64748B;
     --card-bg:#FFFFFF; --hover-bg:#F1F5F9; --border-color:#E2E8F0; --nav-bg:rgba(248,250,252,0.95);
@@ -51,7 +51,7 @@
     --shadow-sm:0 1px 2px rgba(0,0,0,.1); --shadow-md:0 4px 6px rgba(0,0,0,.2); --shadow-lg:0 10px 25px rgba(0,0,0,.3);
 }}
 body.light-mode{
-    --primary-bg:#F8FAFC; --secondary-bg:#FFFFFF; --accent-color:#0284C7; --accent-hover:#0369A1;
+    --primary-bg:#F8FAFC; --secondary-bg:#FFFFFF; --accent-color:#0369A1; --accent-hover:#0369A1;
     --success-color:#16A34A; --warning-color:#D97706; --danger-color:#DC2626;
     --text-primary:#0F172A; --text-secondary:#475569; --text-muted:#64748B;
     --card-bg:#FFFFFF; --hover-bg:#F1F5F9; --border-color:#E2E8F0; --nav-bg:rgba(248,250,252,0.95);
@@ -274,7 +274,7 @@ table.cost .num{text-align:right;font-family:'JetBrains Mono',monospace;}
             <div class="section">
                 <h2><span class="n">2</span> Background &amp; Rationale</h2>
                 <div class="fg"><div class="hint">What is the programme/problem, who funds it, and why are you commissioning this work now? 2–4 sentences.</div>
-                    <textarea id="background" placeholder="The Rural Livelihoods Programme has worked with 12,000 households since 2022… We are commissioning a midline evaluation to…"></textarea></div>
+                    <textarea id="background" aria-label="Background and rationale" placeholder="The Rural Livelihoods Programme has worked with 12,000 households since 2022… We are commissioning a midline evaluation to…"></textarea></div>
             </div>
 
             <div class="section">
@@ -353,12 +353,12 @@ table.cost .num{text-align:right;font-family:'JetBrains Mono',monospace;}
             <div class="section">
                 <h2><span class="n">9</span> Team &amp; Qualifications</h2>
                 <div class="fg"><div class="hint">Skills, experience, and any sectoral/linguistic requirements.</div>
-                    <textarea id="team" placeholder="Lead with 7+ yrs in livelihoods evaluation; mixed-methods expertise; Hindi fluency; experience with SHG programmes; female enumerators for women respondents."></textarea></div>
+                    <textarea id="team" aria-label="Team and qualifications" placeholder="Lead with 7+ yrs in livelihoods evaluation; mixed-methods expertise; Hindi fluency; experience with SHG programmes; female enumerators for women respondents."></textarea></div>
             </div>
 
             <div class="section">
                 <h2><span class="n">10</span> Costing Sheet</h2>
-                <div class="hint" style="margin-bottom:.6rem">Build an indicative budget by phase or role. Currency: <input type="text" id="currency" value="₹" style="width:60px;display:inline-block;padding:.2rem .4rem"></div>
+                <div class="hint" style="margin-bottom:.6rem">Build an indicative budget by phase or role. Currency: <input type="text" id="currency" aria-label="Currency symbol" value="₹" style="width:60px;display:inline-block;padding:.2rem .4rem"></div>
                 <table class="cost"><thead><tr><th>Item / phase</th><th style="width:70px">Days</th><th style="width:110px">Day rate</th><th style="width:90px" class="num">Cost</th><th style="width:34px"></th></tr></thead>
                     <tbody id="costRows"></tbody></table>
                 <button class="add-btn" onclick="addCostRow()" type="button">+ Add line</button>
@@ -455,8 +455,8 @@ function addItem(listId, kind, value){
     div.className = 'item';
     const multiline = kind === 'objective' || kind === 'deliverable';
     div.innerHTML = (multiline
-        ? `<input type="text" placeholder="Add a ${kind}…">`
-        : `<input type="text" placeholder="Add a ${kind}…">`) +
+        ? `<input type="text" aria-label="Add a ${kind}" placeholder="Add a ${kind}…">`
+        : `<input type="text" aria-label="Add a ${kind}" placeholder="Add a ${kind}…">`) +
         `<button class="icon-btn" title="Remove" type="button" onclick="this.parentElement.remove();render();save();">&times;</button>`;
     if(value) div.querySelector('input').value = value;
     div.querySelector('input').addEventListener('input', ()=>{render();save();});
@@ -468,9 +468,9 @@ function listValues(listId){return [...$(listId).querySelectorAll('input')].map(
 function addCostRow(item,days,rate){
     const tb = $('costRows');
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td><input type="text" class="ci-item" placeholder="e.g., Inception & design"></td>
-        <td><input type="number" class="ci-days" min="0" value="0"></td>
-        <td><input type="number" class="ci-rate" min="0" value="0"></td>
+    tr.innerHTML = `<td><input type="text" class="ci-item" aria-label="Cost item" placeholder="e.g., Inception & design"></td>
+        <td><input type="number" class="ci-days" aria-label="Days" min="0" value="0"></td>
+        <td><input type="number" class="ci-rate" aria-label="Rate" min="0" value="0"></td>
         <td class="num ci-cost">0</td>
         <td><button class="icon-btn" type="button" title="Remove" onclick="this.closest('tr').remove();calcCost();render();save();">&times;</button></td>`;
     if(item) tr.querySelector('.ci-item').value = item;
