@@ -2356,7 +2356,11 @@ document.getElementById('googleBtn').addEventListener('click', async function() 
 // =====================================================
 window.addEventListener('authStateChanged', function(e) {
     if (e.detail.isLoggedIn) {
-        window.location.href = 'account.html';
+        // Honour a stashed destination (e.g. a gated page that sent the visitor here),
+        // otherwise land on the account page.
+        var dest = null;
+        try { dest = sessionStorage.getItem('authRedirect'); sessionStorage.removeItem('authRedirect'); } catch (err) {}
+        window.location.href = dest || 'account.html';
     }
 });
 
