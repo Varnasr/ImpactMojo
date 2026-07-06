@@ -4,6 +4,9 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: '.',
+  // Full-page shots of the ~620 KB home page can take a while; the old 30 s
+  // default was part of the flake story once anything network-side stalled.
+  timeout: 90_000,
   // Baselines live next to the spec, keyed by project (viewport) + title.
   snapshotPathTemplate: '{testDir}/__screenshots__/{projectName}/{arg}{ext}',
   fullyParallel: true,
