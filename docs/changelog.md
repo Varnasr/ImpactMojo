@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.82.0 — July 6, 2026 (Build Circles & the AI for M&E Certificate Track)
+
+### For Learners
+
+- **Build Circles — four-week AI build cohorts.** Pick a real M&E problem, build a working AI workflow with a small cohort on a weekly rhythm, and demo it on Demo Day. Free waitlist; the ₹1,000 seat deposit comes back to you when you demo, along with a verified certificate.
+- **AI for M&E Certificate Track (₹2,499).** Self-paced and assessed: a guided path through the AI for Impact course, the Counterfactual game, the full Critiquing Evidence practice pack, a real-work capstone with written feedback, and a verifiable certificate.
+
 ## v10.81.1 — July 6, 2026 (New blog post: The Counterfactual Habit)
 
 ### For Learners

@@ -5,6 +5,17 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.82.0] - 2026-07-06
+
+### For Learners
+
+- **Build Circles — four-week AI build cohorts.** Pick a real M&E problem (yours, or one of our 15 Live Case Challenges), build a working AI workflow with a small matched cohort on a weekly rhythm, and demo it on Demo Day. Joining the waitlist is free; the ₹1,000 seat deposit is paid only when your circle is scheduled — and comes straight back to you when you demo, along with a verified certificate. Facilitated by Dr. Varna Sri Raman and Vandana Soni. Rolling cohorts — join at /build-circles.html.
+- **AI for M&E Certificate Track (₹2,499).** A self-paced, assessed track: a guided path through the AI for Impact course, the Counterfactual game, the full Critiquing Evidence practice pack, a real-work capstone reviewed with written feedback, and a verified certificate you can prove online — at a fraction of the price of comparable international certificates. An AI Agents for Evaluators module joins the track in August at no extra cost.
+
+### Added
+
+- **Two new programme pages** (`/build-circles.html`, `/ai-for-me-certificate.html`): brand chrome, canonical theme system, Netlify forms (`build-circle-waitlist`, `certificate-track-order` with hidden product field + WhatsApp fallback), decode-verified UPI QR assets (₹1,000 deposit, ₹2,499 track), FAQ blocks, and mutual cross-links; wired into search index and sitemap. Both pages Playwright-smoke-tested (render, theme flip, form fields, QR load, zero page errors). Design note: both builds independently flagged that `assets/css/light-mode-fallback.css` (an invert-filter hack for dark-only pages) corrupts genuinely two-theme pages — one page neutralises it, one omits it; a future sweep should stop shipping it on two-theme pages.
+
 ## [10.81.1] - 2026-07-06
 
 ### For Learners
