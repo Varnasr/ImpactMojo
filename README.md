@@ -106,7 +106,7 @@ Example skills: pre-mortems, reading RCTs, cost-effectiveness analysis, stakehol
 Structured, outcome-focused paths that combine courses, games, and practice into a credential.
 
 - **Build Circles** — four-week AI build cohorts. Pick a real M&E problem, build a working AI workflow with a small matched cohort, and demo it on Demo Day. Free waitlist; the ₹1,000 seat deposit is returned when you demo, along with a verified certificate. ([build-circles.html](build-circles.html))
-- **AI for M&E Certificate Track** — ₹2,499. A self-paced, assessed track: a guided path through the AI for Impact course, the Counterfactual game, the Critiquing Evidence practice pack, the AI Agents for Evaluators module, and a real-work capstone with written feedback, ending in a verifiable certificate. ([ai-for-me-certificate.html](ai-for-me-certificate.html))
+- **AI for M&E — Assessed Track** — ₹2,499. A self-paced, assessed track: a guided path through the AI for Impact course, the Counterfactual game, the Critiquing Evidence practice pack, the AI Agents for Evaluators module, and a real-work capstone with written feedback, ending in a verifiable credential. ([ai-for-me-certificate.html](ai-for-me-certificate.html))
 - **AI Agents for Evaluators** — a free, self-paced module (part of the Certificate Track): five agent patterns for M&E work, two no-code build walkthroughs with copy-paste prompts, the ethics non-negotiables, and a capstone brief. ([ai-agents-for-evaluators.html](ai-agents-for-evaluators.html))
 
 #### Premium Membership Tiers
