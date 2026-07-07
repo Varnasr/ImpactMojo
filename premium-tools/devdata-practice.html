@@ -1,0 +1,1798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevData Practice — Realistic Datasets for Development Economics</title>
+  <meta name="description" content="36 generators producing 840k+ rows of realistic practice datasets for development economics: household surveys, RCTs, health, education, agriculture, gender, climate, WASH, humanitarian, IRT, care economy, and more.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-bg: #FFFFFF;
+      --secondary-bg: #F8FAFC;
+      --accent-color: #0EA5E9;
+      --accent-hover: #0284C7;
+      --secondary-accent: #6366F1;
+      --success-color: #10B981;
+      --warning-color: #F59E0B;
+      --danger-color: #EF4444;
+      --text-primary: #0F172A;
+      --text-secondary: #475569;
+      --text-muted: #94A3B8;
+      --card-bg: #FFFFFF;
+      --hover-bg: #F1F5F9;
+      --border-color: #E2E8F0;
+      --code-bg: #F1F5F9;
+      --gradient-primary: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+      --gradient-accent: linear-gradient(135deg, #0EA5E9 0%, #10B981 100%);
+      --nav-bg: rgba(255, 255, 255, 0.95);
+      --nav-text: #0F172A;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+      --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+      --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+    body.dark-mode {
+      --primary-bg: #0F172A;
+      --secondary-bg: #1E293B;
+      --text-primary: #F1F5F9;
+      --text-secondary: #94A3B8;
+      --text-muted: #64748B;
+      --card-bg: #1E293B;
+      --hover-bg: #334155;
+      --border-color: #334155;
+      --code-bg: #1E293B;
+      --nav-bg: rgba(15, 23, 42, 0.95);
+      --nav-text: #F1F5F9;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.2);
+      --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--primary-bg);
+      color: var(--text-primary);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      transition: background 0.3s, color 0.3s;
+      animation: pageFadeIn 0.4s ease-out;
+    }
+    @keyframes pageFadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--primary-bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+    html { scroll-behavior: smooth; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 1000;
+      background: var(--nav-bg);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0 1.5rem; transition: background 0.3s;
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; height: 64px;
+    }
+    .logo {
+      font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.1rem;
+      color: var(--text-primary); text-decoration: none;
+    }
+    .logo span { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .nav-right { display: flex; align-items: center; gap: 24px; }
+    .nav-links { display: flex; gap: 24px; list-style: none; }
+    .nav-links a {
+      color: var(--text-secondary); text-decoration: none; font-size: 0.85rem;
+      font-weight: 500; transition: color 0.2s; text-transform: uppercase; letter-spacing: 0.02em;
+    }
+    .nav-links a:hover { color: var(--accent-color); }
+    .theme-selector {
+      display: flex; gap: 4px; background: var(--secondary-bg);
+      border: 1px solid var(--border-color); border-radius: 10px; padding: 3px;
+    }
+    .theme-btn {
+      width: 34px; height: 34px; border: none; border-radius: 8px;
+      background: transparent; cursor: pointer; font-size: 0.9rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s; color: var(--text-muted);
+    }
+    .theme-btn:hover { background: var(--hover-bg); }
+    .theme-btn.active { background: var(--accent-color); color: #fff; box-shadow: var(--shadow-sm); }
+    .mobile-toggle {
+      display: none; width: 44px; height: 44px; border: none; background: none;
+      cursor: pointer; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+    }
+    .mobile-toggle span { width: 22px; height: 2px; background: var(--text-primary); border-radius: 2px; }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .mobile-toggle { display: flex; }
+      .nav-links.open {
+        display: flex; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0;
+        background: var(--nav-bg); backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border-color); padding: 16px 24px; gap: 16px; z-index: 999;
+      }
+    }
+
+    /* HERO */
+    .hero {
+      position: relative; padding: 100px 0 80px; text-align: center; overflow: hidden;
+      background: var(--primary-bg); transition: background 0.3s;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    body.dark-mode .hero::before {
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 16px; background: var(--card-bg); border: 1px solid var(--border-color);
+      border-radius: 100px; font-size: 0.8rem; font-weight: 500;
+      color: var(--text-secondary); margin-bottom: 28px; box-shadow: var(--shadow-sm);
+    }
+    .hero-badge .dot { width: 6px; height: 6px; background: var(--success-color); border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .hero h1 {
+      font-family: 'Poppins', sans-serif; font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 20px;
+    }
+    .hero h1 .gradient-text { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero p { font-size: 1.1rem; color: var(--text-secondary); max-width: 660px; margin: 0 auto 36px; line-height: 1.8; }
+    .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 0.75rem 2rem; border-radius: var(--radius-sm);
+      font-size: 0.9rem; font-weight: 600; text-decoration: none;
+      transition: all 0.2s; border: none; cursor: pointer;
+    }
+    .btn-primary { background: var(--gradient-primary); color: #fff; box-shadow: var(--shadow-md); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+    .btn-secondary { background: var(--card-bg); color: var(--text-primary); border: 2px solid var(--border-color); }
+    .btn-secondary:hover { border-color: var(--accent-color); transform: translateY(-2px); }
+    .btn svg { width: 18px; height: 18px; }
+
+    /* STATS */
+    .stats {
+      display: flex; justify-content: center; gap: 48px; padding: 40px 0;
+      border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);
+      margin-bottom: 80px; flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat-value {
+      font-family: 'Poppins', sans-serif; font-size: 2rem; font-weight: 700;
+      background: var(--gradient-primary); -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .stat-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 4px; }
+
+    /* SECTIONS */
+    section { padding: 4rem 0; }
+    .section-alt { background: var(--secondary-bg); transition: background 0.3s; }
+    .section-header { text-align: center; margin-bottom: 48px; }
+    .section-header h2 { font-family: 'Poppins', sans-serif; font-size: 2.25rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px; }
+    .section-header p { color: var(--text-secondary); font-size: 1.05rem; max-width: 620px; margin: 0 auto; }
+
+    /* DATASET CARDS */
+    .dataset-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
+    .dataset-card {
+      background: var(--card-bg); border: 1px solid var(--border-color);
+      border-radius: var(--radius); overflow: hidden; transition: all 0.25s;
+      box-shadow: var(--shadow-sm);
+    }
+    .dataset-card::before {
+      content: ''; display: block; height: 3px;
+      background: var(--gradient-primary); opacity: 0; transition: opacity 0.3s;
+    }
+    .dataset-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--accent-color); }
+    .dataset-card:hover::before { opacity: 1; }
+    .dataset-card-inner { padding: 24px 28px 28px; }
+    .dataset-card h3 { font-family: 'Poppins', sans-serif; font-size: 1.1rem; font-weight: 600; margin-bottom: 4px; }
+    .dataset-meta { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 10px; font-family: 'JetBrains Mono', monospace; }
+    .dataset-card p { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.7; margin-bottom: 14px; }
+    .features { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag {
+      font-size: 0.72rem; padding: 4px 10px; background: var(--secondary-bg);
+      border: 1px solid var(--border-color); border-radius: 6px;
+      color: var(--text-muted); font-weight: 500;
+    }
+
+    /* DETAILS */
+    .app-doc {
+      background: var(--card-bg); border: 1px solid var(--border-color);
+      border-radius: var(--radius); margin-bottom: 16px; box-shadow: var(--shadow-sm);
+      overflow: hidden; transition: all 0.25s;
+    }
+    .app-doc:hover { box-shadow: var(--shadow-md); }
+    .app-doc summary {
+      padding: 20px 28px; cursor: pointer; display: flex; align-items: center; gap: 16px;
+      font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1rem;
+      list-style: none; transition: background 0.2s; color: var(--text-primary);
+    }
+    .app-doc summary::-webkit-details-marker { display: none; }
+    .app-doc summary::before {
+      content: ''; width: 20px; height: 20px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'/%3E%3C/svg%3E") no-repeat center;
+      flex-shrink: 0; transition: transform 0.2s;
+    }
+    .app-doc[open] summary::before { transform: rotate(90deg); }
+    .app-doc summary:hover { background: var(--hover-bg); }
+    .badge-row { display: flex; gap: 8px; margin-left: auto; }
+    .doc-body { padding: 0 28px 28px; border-top: 1px solid var(--border-color); }
+    .doc-body h4 { font-family: 'Poppins', sans-serif; font-size: 0.9rem; font-weight: 600; margin: 20px 0 8px; }
+    .doc-body p, .doc-body li { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.75; }
+    .doc-body ul { padding-left: 20px; margin: 8px 0; }
+    .doc-body li { margin-bottom: 4px; }
+    .size-badge {
+      display: inline-flex; padding: 3px 10px; border-radius: 6px; font-size: 0.72rem;
+      font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+      background: rgba(14, 165, 233, 0.1); color: var(--accent-color);
+    }
+
+    /* CODE */
+    pre {
+      background: var(--code-bg); border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm); padding: 18px 20px; overflow-x: auto;
+      margin: 12px 0; transition: background 0.3s;
+    }
+    code {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;
+      line-height: 1.7; color: var(--text-secondary);
+    }
+    code .comment { color: var(--text-muted); }
+    code .cmd { color: var(--accent-color); }
+    code .flag { color: var(--warning-color); }
+    code .string { color: var(--secondary-accent); }
+    p code, li code, td code {
+      background: var(--code-bg); padding: 2px 6px; border-radius: 4px;
+      font-size: 0.84em; border: 1px solid var(--border-color);
+    }
+
+    /* SETUP */
+    .setup-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(480px, 1fr)); gap: 24px; }
+    @media (max-width: 560px) { .setup-grid { grid-template-columns: 1fr; } }
+    .setup-card {
+      background: var(--card-bg); border: 1px solid var(--border-color);
+      border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow-sm); transition: all 0.25s;
+    }
+    .setup-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .setup-card h3 {
+      font-family: 'Poppins', sans-serif; font-size: 1.15rem; font-weight: 600;
+      margin-bottom: 8px; display: flex; align-items: center; gap: 10px;
+    }
+    .setup-card h3 .num {
+      width: 28px; height: 28px; background: var(--gradient-primary); color: #fff;
+      border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; font-weight: 700; flex-shrink: 0;
+    }
+    .setup-card > p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 18px; }
+
+    /* EXERCISES TABLE */
+    .exercise-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 16px; }
+    .exercise-card {
+      background: var(--card-bg); border: 1px solid var(--border-color);
+      border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow-sm); transition: all 0.2s;
+    }
+    .exercise-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .exercise-card h4 { font-family: 'Poppins', sans-serif; font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; }
+    .exercise-card p { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.7; }
+    .exercise-card .dataset-ref { font-size: 0.78rem; color: var(--accent-color); font-weight: 600; margin-top: 8px; }
+    .diff-badge {
+      display: inline-flex; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem;
+      font-weight: 600; text-transform: uppercase; margin-bottom: 8px;
+    }
+    .diff-intro { background: rgba(16, 185, 129, 0.1); color: var(--success-color); }
+    .diff-inter { background: rgba(245, 158, 11, 0.1); color: var(--warning-color); }
+    .diff-adv { background: rgba(239, 68, 68, 0.1); color: var(--danger-color); }
+
+    /* FOOTER */
+    footer {
+      margin-top: 40px; padding: 40px 0; border-top: 1px solid var(--border-color);
+      text-align: center; font-size: 0.85rem; background: var(--secondary-bg); transition: background 0.3s;
+    }
+    footer p { margin: 6px 0; color: var(--text-muted); }
+    footer a { color: var(--accent-color); text-decoration: none; font-weight: 500; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 640px) {
+      .hero { padding: 60px 0 50px; }
+      .stats { gap: 24px; }
+      .dataset-grid { grid-template-columns: 1fr; }
+      .section-header h2 { font-size: 1.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">dev<span>data</span> practice</a>
+    <div class="nav-right">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="/" title="Back to ImpactMojo">&#8592; ImpactMojo</a></li>
+        <li><a href="#datasets">Datasets</a></li>
+        <li><a href="#getting-started">Get Started</a></li>
+        <li><a href="#documentation">Docs</a></li>
+        <li><a href="#exercises">Exercises</a></li>
+        <li><a href="viz-cookbook.html">Charts</a></li>
+        <li><a href="https://github.com/Varnasr/devdata-practice" target="_blank">GitHub</a></li>
+      </ul>
+      <div class="theme-selector">
+        <button class="theme-btn" data-theme="light" title="Light mode" aria-label="Light mode">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <button class="theme-btn" data-theme="system" title="System preference" aria-label="System preference">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </button>
+        <button class="theme-btn" data-theme="dark" title="Dark mode" aria-label="Dark mode">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-badge"><span class="dot"></span> Open Source &middot; MIT License</div>
+    <h1>Practice datasets for<br><span class="gradient-text">development economics</span></h1>
+    <p>
+      36 generators producing large, realistic datasets across every major development sector —
+      from impact evaluation and poverty analysis to gender, climate, WASH, humanitarian response,
+      animal welfare, governance, and more. Built for students and practitioners learning data work
+      in global development.
+    </p>
+    <div class="hero-actions">
+      <a href="https://github.com/Varnasr/devdata-practice" class="btn btn-primary" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        View on GitHub
+      </a>
+      <a href="#getting-started" class="btn btn-secondary">Get Started</a>
+      <a href="https://impactmojo.in" class="btn btn-secondary" target="_blank">Impact Mojo</a>
+    </div>
+  </div>
+</header>
+
+<!-- STATS -->
+<div class="container">
+  <div class="stats">
+    <div class="stat"><div class="stat-value">36</div><div class="stat-label">Generators</div></div>
+    <div class="stat"><div class="stat-value">840k+</div><div class="stat-label">Rows Per Run</div></div>
+    <div class="stat"><div class="stat-value">1,300+</div><div class="stat-label">Variables</div></div>
+    <div class="stat"><div class="stat-value">25</div><div class="stat-label">Countries</div></div>
+    <div class="stat"><div class="stat-value">MIT</div><div class="stat-label">License</div></div>
+  </div>
+</div>
+
+<!-- DATASETS -->
+<section id="datasets">
+  <div class="container">
+    <div class="section-header">
+      <h2>The Datasets</h2>
+      <p>Each generator produces a large, realistic dataset with correlated variables, proper distributions, and realistic missing-data patterns.</p>
+    </div>
+    <div class="dataset-grid">
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Household Survey</h3>
+        <div class="dataset-meta">~75k rows &middot; 27 cols &middot; LSMS-style</div>
+        <p>Multi-module household survey with demographics, per-capita consumption (log-normal), asset ownership, housing quality, food security (FIES), and subjective well-being. Individual-level (members nested in households).</p>
+        <div class="features"><span class="tag">Engel curves</span><span class="tag">Asset index</span><span class="tag">MNAR missingness</span><span class="tag">Intra-HH correlation</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>RCT Experiment</h3>
+        <div class="dataset-meta">25k rows &middot; 15 cols &middot; Multi-arm trial</div>
+        <p>Randomized controlled trial with stratified assignment, 4 treatment arms, partial compliance, differential attrition, and spillover flags. Baseline + endline consumption and food insecurity.</p>
+        <div class="features"><span class="tag">Stratification</span><span class="tag">Compliance</span><span class="tag">Attrition</span><span class="tag">Spillovers</span><span class="tag">Lee bounds</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Panel Data</h3>
+        <div class="dataset-meta">625 rows &middot; 21 cols &middot; 25 countries × 25 years</div>
+        <p>Balanced country-year panel with 20+ development indicators including GDP, life expectancy, mortality, enrollment, fertility, poverty, and Gini. AR(1) persistence, COVID shock, WDI-like gaps.</p>
+        <div class="features"><span class="tag">Cross-indicator correlation</span><span class="tag">Structural breaks</span><span class="tag">Sparse missingness</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Agricultural Survey</h3>
+        <div class="dataset-meta">~31k rows &middot; 27 cols &middot; Plot-level</div>
+        <p>Plot-level crop production data with Cobb-Douglas yields, input use (fertilizer, improved seed, irrigation), rainfall shocks, distance to market, and profit calculation.</p>
+        <div class="features"><span class="tag">Cobb-Douglas</span><span class="tag">Weather shocks</span><span class="tag">Technology adoption</span><span class="tag">Market access</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Health &amp; Nutrition</h3>
+        <div class="dataset-meta">35k rows &middot; 34 cols &middot; DHS-style</div>
+        <p>Under-5 child health data with WHO z-scores (HAZ/WAZ/WHZ), vaccination schedules, maternal health (ANC, delivery), feeding practices, morbidity, and age heaping.</p>
+        <div class="features"><span class="tag">Anthropometrics</span><span class="tag">Vaccination</span><span class="tag">Wealth gradient</span><span class="tag">Age heaping</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Education Outcomes</h3>
+        <div class="dataset-meta">~30k rows &middot; 23 cols &middot; Multi-level</div>
+        <p>Student-level data nested in 500 schools with math/reading scores, attendance, teacher quality, school resources, SES, grade repetition, and dropout. ICC ~0.20.</p>
+        <div class="features"><span class="tag">Multi-level</span><span class="tag">Gender gaps</span><span class="tag">School effects</span><span class="tag">Dropout</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Labor Market</h3>
+        <div class="dataset-meta">40k rows &middot; 24 cols &middot; Labor force survey</div>
+        <p>Working-age adults with Mincer wage equation, formal/informal sector, employment status, hours, migration, remittances, social protection, and underemployment.</p>
+        <div class="features"><span class="tag">Mincer returns</span><span class="tag">Gender gap</span><span class="tag">Formality</span><span class="tag">Migration</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Microfinance</h3>
+        <div class="dataset-meta">30k rows &middot; 28 cols &middot; MFI loan records</div>
+        <p>Loan-level records with group/individual lending, repayment rates, default prediction, repeat borrowers, collateral, and internal credit scoring. Realistic MFI portfolio.</p>
+        <div class="features"><span class="tag">Group lending</span><span class="tag">Default risk</span><span class="tag">Repeat borrowers</span><span class="tag">Credit scoring</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Program Targeting</h3>
+        <div class="dataset-meta">20k rows &middot; 37 cols &middot; PMT data</div>
+        <p>Proxy means test targeting with true vs. predicted consumption, inclusion/exclusion errors, community-based targeting comparison, and categorical eligibility. Ready for targeting accuracy analysis.</p>
+        <div class="features"><span class="tag">PMT score</span><span class="tag">Type I/II errors</span><span class="tag">Community targeting</span><span class="tag">Benefit calc</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Trade &amp; Market Prices</h3>
+        <div class="dataset-meta">~67k rows &middot; 10 cols &middot; 80 markets × 104 weeks</div>
+        <p>Weekly staple commodity prices across 80 markets in 16 countries with seasonality, spatial price correlation, transport cost wedges, border effects, and AR(1) persistence.</p>
+        <div class="features"><span class="tag">Seasonality</span><span class="tag">Spatial correlation</span><span class="tag">Border effects</span><span class="tag">Cointegration</span></div>
+      </div></div>
+      <!-- ── Sector-Specific Datasets ── -->
+      <h3 style="font-family:'Poppins',sans-serif;font-size:1.4rem;font-weight:700;margin:48px 0 24px;padding-top:24px;border-top:1px solid var(--border-color);">Sector-Specific Datasets</h3>
+
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Gender Programme</h3>
+        <div class="dataset-meta">25k rows &middot; 34 cols &middot; Empowerment &amp; GBV</div>
+        <p>Women's empowerment (WEAI-like), decision-making, economic empowerment, time use, GBV prevalence with underreporting, SRH indicators, and programme intervention effects.</p>
+        <div class="features"><span class="tag">WEAI</span><span class="tag">GBV</span><span class="tag">Decision-making</span><span class="tag">Time use</span><span class="tag">SRH</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Girls' Education</h3>
+        <div class="dataset-meta">20k rows &middot; 36 cols &middot; Enrollment &amp; barriers</div>
+        <p>Longitudinal girls' education data with enrollment, MHM, safety (SRGBV), gendered barriers (marriage, pregnancy, cost), primary-secondary transition rates, and scholarship effects.</p>
+        <div class="features"><span class="tag">MHM</span><span class="tag">Dropout barriers</span><span class="tag">Safety</span><span class="tag">Transition</span><span class="tag">Scholarships</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Climate &amp; Resilience</h3>
+        <div class="dataset-meta">20k rows &middot; 41 cols &middot; RIMA-style resilience</div>
+        <p>Climate shocks (drought, flood, cyclone), coping strategies, adaptation practices, RIMA resilience index (absorptive, adaptive, transformative capacity), and carbon footprint.</p>
+        <div class="features"><span class="tag">Shocks</span><span class="tag">Coping</span><span class="tag">RIMA index</span><span class="tag">Adaptation</span><span class="tag">Carbon</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Agriculture &amp; Value Chain</h3>
+        <div class="dataset-meta">25k rows &middot; 25 cols &middot; Farm-to-market</div>
+        <p>Multi-node value chain (producer→aggregator→processor→retailer) with margins, quality grading, post-harvest losses, contract farming, and cooperative membership effects.</p>
+        <div class="features"><span class="tag">Value chain</span><span class="tag">Margins</span><span class="tag">PHL</span><span class="tag">Quality grading</span><span class="tag">Cooperatives</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Animal Welfare</h3>
+        <div class="dataset-meta">15k rows &middot; 32 cols &middot; Five Freedoms</div>
+        <p>Animal welfare assessment using Five Freedoms framework, body condition scoring, working animal welfare (donkeys, horses), veterinary access, rabies vaccination, and programme effects.</p>
+        <div class="features"><span class="tag">Five Freedoms</span><span class="tag">BCS</span><span class="tag">Working animals</span><span class="tag">Vet access</span><span class="tag">Rabies</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Public Health</h3>
+        <div class="dataset-meta">20k rows &middot; 35 cols &middot; Epidemiology &amp; systems</div>
+        <p>Disease surveillance (malaria, TB, HIV), health facility visits, out-of-pocket spending, CHW contact, health insurance, NCD risk factors, mental health (PHQ-9), and COVID vaccination.</p>
+        <div class="features"><span class="tag">Disease surveillance</span><span class="tag">CHW</span><span class="tag">Insurance</span><span class="tag">Mental health</span><span class="tag">NCDs</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Livelihoods</h3>
+        <div class="dataset-meta">20k rows &middot; 57 cols &middot; Economic strengthening</div>
+        <p>Income diversification, VSLA/savings groups, enterprise development, vocational training, asset accumulation, food consumption score, financial inclusion, and youth employment.</p>
+        <div class="features"><span class="tag">VSLA</span><span class="tag">Enterprise</span><span class="tag">FCS</span><span class="tag">Financial inclusion</span><span class="tag">Youth</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Advocacy &amp; Rights</h3>
+        <div class="dataset-meta">15k rows &middot; 37 cols &middot; Legal empowerment</div>
+        <p>Legal identity, land tenure, access to justice, rights awareness (CEDAW, child rights), dispute resolution, civic participation, and advocacy campaign effectiveness.</p>
+        <div class="features"><span class="tag">Legal aid</span><span class="tag">Land tenure</span><span class="tag">Access to justice</span><span class="tag">Civic space</span><span class="tag">RTI</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>WASH</h3>
+        <div class="dataset-meta">18k rows &middot; 35 cols &middot; JMP &amp; water quality</div>
+        <p>JMP service ladders, water quality testing (E.coli, turbidity), sanitation ladders, CLTS/ODF status, handwashing observation, MHM, and diarrhea linked to WASH conditions.</p>
+        <div class="features"><span class="tag">JMP ladders</span><span class="tag">E.coli</span><span class="tag">CLTS</span><span class="tag">Handwashing</span><span class="tag">Diarrhea</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Humanitarian Response</h3>
+        <div class="dataset-meta">18k rows &middot; 43 cols &middot; Emergency needs</div>
+        <p>Displacement status (IDP/refugee/host), multi-sector needs assessment, aid distribution, protection concerns (GBV, child protection), SADD, CwC, and accountability.</p>
+        <div class="features"><span class="tag">SADD</span><span class="tag">Displacement</span><span class="tag">Protection</span><span class="tag">Aid modality</span><span class="tag">CwC</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Social Protection</h3>
+        <div class="dataset-meta">20k rows &middot; 40 cols &middot; Cash transfers</div>
+        <p>Beneficiary registry with cash transfer disbursement, conditionality compliance, payment modalities, FCS/rCSI outcomes, asset graduation model, and dependency metrics.</p>
+        <div class="features"><span class="tag">Cash transfers</span><span class="tag">Conditionality</span><span class="tag">Graduation</span><span class="tag">FCS</span><span class="tag">Modalities</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Governance &amp; Accountability</h3>
+        <div class="dataset-meta">15k rows &middot; 39 cols &middot; Service delivery</div>
+        <p>Citizen satisfaction with public services, trust in institutions, corruption experience (bribery), budget transparency, social accountability, community scorecards, and RTI.</p>
+        <div class="features"><span class="tag">Service delivery</span><span class="tag">Corruption</span><span class="tag">Trust</span><span class="tag">Scorecards</span><span class="tag">Budget</span></div>
+      </div></div>
+
+      <!-- ── Cross-cutting & Methodological Datasets ── -->
+      <h3 style="font-family:'Poppins',sans-serif;font-size:1.4rem;font-weight:700;margin:48px 0 24px;padding-top:24px;border-top:1px solid var(--border-color);">Cross-cutting &amp; Methodological Datasets</h3>
+
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Behaviour Change (KAP)</h3>
+        <div class="dataset-meta">20k rows &middot; 35 cols &middot; BCC survey</div>
+        <p>Knowledge-Attitude-Practice surveys for health/WASH/nutrition. Campaign exposure and dose, KAP cascade (knowledge &gt; attitude &gt; practice), self-efficacy, and social norms.</p>
+        <div class="features"><span class="tag">KAP</span><span class="tag">BCC</span><span class="tag">Campaign</span><span class="tag">Self-efficacy</span><span class="tag">Norms</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Cost-Effectiveness Analysis</h3>
+        <div class="dataset-meta">15k rows &middot; 30 cols &middot; Programme costing</div>
+        <p>Programme cost data across sectors: personnel, materials, transport, overhead. Outcomes, effect sizes, ICER, DALYs averted, QALYs gained. Pilot vs. at-scale economies.</p>
+        <div class="features"><span class="tag">CEA</span><span class="tag">ICER</span><span class="tag">DALY</span><span class="tag">Costing</span><span class="tag">VfM</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Decent Work (ILO)</h3>
+        <div class="dataset-meta">25k rows &middot; 35 cols &middot; Labour standards</div>
+        <p>ILO decent work framework: formal/informal employment, earnings with gender pay gap, social protection, working conditions, union membership, and work-life balance.</p>
+        <div class="features"><span class="tag">ILO</span><span class="tag">Informal</span><span class="tag">Wages</span><span class="tag">Unions</span><span class="tag">Gender gap</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Care Economy &amp; Time Use</h3>
+        <div class="dataset-meta">20k rows &middot; 35 cols &middot; Unpaid care</div>
+        <p>Time use diary data: paid work, unpaid care, domestic work, leisure. 3x gender care gap. Care infrastructure effects, opportunity cost, and time poverty indicators.</p>
+        <div class="features"><span class="tag">Time use</span><span class="tag">Care work</span><span class="tag">Gender gap</span><span class="tag">Time poverty</span><span class="tag">Infrastructure</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Intersectional Inequality</h3>
+        <div class="dataset-meta">25k rows &middot; 31 cols &middot; Caste, gender, disability</div>
+        <p>Intersectional analysis: caste, religion, disability, sexuality with socioeconomic outcomes. Multiplicative disadvantage, discrimination experience, and access to services.</p>
+        <div class="features"><span class="tag">Caste</span><span class="tag">Disability</span><span class="tag">Intersectionality</span><span class="tag">Discrimination</span><span class="tag">Access</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Environmental Justice</h3>
+        <div class="dataset-meta">20k rows &middot; 32 cols &middot; Pollution &amp; health</div>
+        <p>Pollution exposure (PM2.5, indoor air, water contamination), environmental hazards, health outcomes, cooking fuel, green space access, climate vulnerability, and environmental rights.</p>
+        <div class="features"><span class="tag">Pollution</span><span class="tag">PM2.5</span><span class="tag">Health</span><span class="tag">Climate</span><span class="tag">Rights</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Community Development</h3>
+        <div class="dataset-meta">18k rows &middot; 36 cols &middot; Social capital</div>
+        <p>Social capital measurement: bonding vs. bridging ties, trust, collective action, participatory governance, community assets, social cohesion, and CDD programmes.</p>
+        <div class="features"><span class="tag">Social capital</span><span class="tag">Trust</span><span class="tag">CDD</span><span class="tag">Participation</span><span class="tag">Cohesion</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Digital Access &amp; Literacy</h3>
+        <div class="dataset-meta">20k rows &middot; 44 cols &middot; Digital divide</div>
+        <p>Device ownership, connectivity, digital literacy (7 hierarchical skills), social media use, misinformation exposure, privacy awareness, and barriers. Gender and age divides embedded.</p>
+        <div class="features"><span class="tag">Digital divide</span><span class="tag">Literacy</span><span class="tag">Misinformation</span><span class="tag">Privacy</span><span class="tag">Barriers</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Social-Emotional Learning</h3>
+        <div class="dataset-meta">15k rows &middot; 33 cols &middot; Youth SEL</div>
+        <p>CASEL framework: self-awareness, self-management, social awareness, relationship skills, responsible decision-making. Academic scores, wellbeing, bullying, and prosocial behaviour.</p>
+        <div class="features"><span class="tag">CASEL</span><span class="tag">Wellbeing</span><span class="tag">Bullying</span><span class="tag">Prosocial</span><span class="tag">Academics</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>NGO Programme Finance</h3>
+        <div class="dataset-meta">10k rows &middot; 36 cols &middot; Budgets &amp; donors</div>
+        <p>NGO financial management: budget breakdowns, donor types, funding gaps, burn rates, reserves, compliance audits, value-for-money scoring, and the overhead debate.</p>
+        <div class="features"><span class="tag">Budgets</span><span class="tag">Donors</span><span class="tag">VfM</span><span class="tag">Compliance</span><span class="tag">Overhead</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Aid Effectiveness (ODA)</h3>
+        <div class="dataset-meta">12k rows &middot; 30 cols &middot; Paris Declaration</div>
+        <p>Official Development Assistance flows: donor-recipient pairs, Paris Declaration indicators (ownership, alignment, harmonization), tied aid, fragmentation, and conditionality.</p>
+        <div class="features"><span class="tag">ODA</span><span class="tag">Paris</span><span class="tag">Fragmentation</span><span class="tag">Tied aid</span><span class="tag">Coordination</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Media &amp; Information Ecosystems</h3>
+        <div class="dataset-meta">18k rows &middot; 42 cols &middot; Media development</div>
+        <p>Media access and consumption, news source trust, media literacy, development communication exposure, misinformation encounters, press freedom perceptions, and language barriers.</p>
+        <div class="features"><span class="tag">Media</span><span class="tag">Literacy</span><span class="tag">Misinformation</span><span class="tag">Press freedom</span><span class="tag">Dev comm</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>IRT Psychometric Assessment</h3>
+        <div class="dataset-meta">20k rows &middot; 132 cols &middot; Item Response Theory</div>
+        <p>3PL IRT model with 30 items: item difficulty, discrimination, guessing. Latent ability (theta), response times, Differential Item Functioning (DIF) by gender. Full item-level data.</p>
+        <div class="features"><span class="tag">IRT</span><span class="tag">3PL</span><span class="tag">DIF</span><span class="tag">Psychometrics</span><span class="tag">Response time</span></div>
+      </div></div>
+      <div class="dataset-card"><div class="dataset-card-inner">
+        <h3>Field Survey Quality (Paradata)</h3>
+        <div class="dataset-meta">20k rows &middot; 41 cols &middot; Survey QC</div>
+        <p>Survey process data: interview timing, GPS validation, response patterns (straightlining, acquiescence), back-checks, enumerator fatigue, and fabrication detection. ~5% fabricators embedded.</p>
+        <div class="features"><span class="tag">Paradata</span><span class="tag">Straightlining</span><span class="tag">GPS</span><span class="tag">Back-check</span><span class="tag">Fabrication</span></div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<!-- GETTING STARTED -->
+<section id="getting-started" class="section-alt">
+  <div class="container">
+    <div class="section-header">
+      <h2>Getting Started</h2>
+      <p>Generate all datasets in under 30 seconds. Only requires Python 3.8+ and four pip packages.</p>
+    </div>
+    <div class="setup-grid">
+      <div class="setup-card">
+        <h3><span class="num">1</span> Install &amp; Generate All</h3>
+        <p>Clone the repo, install dependencies, and generate all 10 datasets as CSV files.</p>
+        <pre><code><span class="comment"># Clone</span>
+<span class="cmd">git clone</span> https://github.com/Varnasr/devdata-practice.git
+<span class="cmd">cd</span> devdata-practice
+
+<span class="comment"># Install (numpy, pandas, scipy, pyarrow)</span>
+<span class="cmd">pip install</span> <span class="flag">-r</span> requirements.txt
+
+<span class="comment"># Generate all 10 datasets</span>
+<span class="cmd">python</span> generate.py</code></pre>
+        <p style="margin-top: 12px; font-size: 0.85rem;">Outputs ~35 MB of CSVs to <code>./output/</code></p>
+      </div>
+      <div class="setup-card">
+        <h3><span class="num">2</span> Customize</h3>
+        <p>Generate specific datasets, change sizes, set seeds for reproducibility, or export as Parquet.</p>
+        <pre><code><span class="comment"># Generate just two datasets</span>
+<span class="cmd">python</span> generate.py rct_experiment labor_market
+
+<span class="comment"># Larger datasets (override default size)</span>
+<span class="cmd">python</span> generate.py household_survey <span class="flag">--rows</span> 50000
+
+<span class="comment"># Set seed for exact reproducibility</span>
+<span class="cmd">python</span> generate.py <span class="flag">--seed</span> 42
+
+<span class="comment"># Export as Parquet instead of CSV</span>
+<span class="cmd">python</span> generate.py <span class="flag">--format</span> parquet
+
+<span class="comment"># List all available generators</span>
+<span class="cmd">python</span> generate.py <span class="flag">--list</span></code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOCUMENTATION -->
+<section id="documentation">
+  <div class="container">
+    <div class="section-header">
+      <h2>Documentation</h2>
+      <p>Expand any dataset below for the full column dictionary, realistic features, and methodological notes.</p>
+    </div>
+
+    <details class="app-doc">
+      <summary>Household Survey (LSMS-style)<div class="badge-row"><span class="size-badge">~75k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per household member. ~15,000 households with 2-8 members each, expanded to ~75k individual-level rows. Household-level variables are repeated across members.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>individual_id</code>, <code>household_id</code> — Unique identifiers</li>
+          <li><code>country</code>, <code>district</code>, <code>urban</code> — Geography</li>
+          <li><code>relationship</code>, <code>age</code>, <code>female</code>, <code>education_years</code> — Demographics</li>
+          <li><code>monthly_pce_usd</code> — Monthly per-capita expenditure (USD PPP, log-normal)</li>
+          <li><code>food_share</code> — Engel curve: food expenditure as share of total</li>
+          <li><code>food_insecurity_score</code> — FIES-like 0-8 scale</li>
+          <li><code>owns_radio</code> through <code>owns_improved_stove</code> — 8 binary asset indicators</li>
+          <li><code>wall_material</code>, <code>rooms</code>, <code>water_source</code>, <code>toilet_type</code> — Housing</li>
+          <li><code>life_satisfaction</code> — Subjective well-being (1-10)</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>Latent wealth factor drives correlated consumption, assets, and housing</li>
+          <li>Engel curve: food share declines with wealth (0.70 base, -0.08 per SD)</li>
+          <li>Urban premium on wealth (+0.6 SD)</li>
+          <li>MNAR missingness: richer households less likely to report income</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>RCT Experiment<div class="badge-row"><span class="size-badge">25k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per participant. 4 arms: control, cash transfer, cash + training, training only. Stratified by district &times; gender.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>treatment_arm</code> — Randomized assignment</li>
+          <li><code>actually_treated</code> — Compliance indicator (65-85% take-up)</li>
+          <li><code>baseline_consumption_usd</code>, <code>endline_consumption_usd</code> — Primary outcomes</li>
+          <li><code>baseline_food_insecurity</code>, <code>endline_food_insecurity</code> — HFIAS 0-27</li>
+          <li><code>attrited</code> — Endline attrition (differential by arm)</li>
+          <li><code>spillover_risk</code> — Flag for control units in treated villages</li>
+        </ul>
+        <h4>Embedded Effects</h4>
+        <ul>
+          <li>Cash: +15%, Cash+Training: +22%, Training: +8% consumption increase</li>
+          <li>Heterogeneous effects: larger for women and poorer baseline</li>
+          <li>Attrition: 8% base + 3% higher in control + rural premium</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Panel Data (WDI-style)<div class="badge-row"><span class="size-badge">625 rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>Balanced panel: 25 developing countries &times; 25 years (2000-2024). 20+ indicators per country-year.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>gdp_per_capita_usd</code>, <code>log_gdp_per_capita</code> — Income</li>
+          <li><code>life_expectancy</code>, <code>infant_mortality_per_1000</code>, <code>under5_mortality_per_1000</code> — Health</li>
+          <li><code>primary_enrollment_pct</code>, <code>secondary_enrollment_pct</code>, <code>adult_literacy_pct</code> — Education</li>
+          <li><code>fertility_rate</code>, <code>electricity_access_pct</code>, <code>sanitation_access_pct</code> — Development</li>
+          <li><code>poverty_headcount_215</code>, <code>gini_coefficient</code> — Welfare (sparse)</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>AR(1) shock persistence + country-specific growth trends</li>
+          <li>COVID-2020 GDP shock (-8%) and 2021 partial recovery</li>
+          <li>WDI-like missingness: poverty and Gini ~30% missing, GDP near-complete</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Agricultural Survey<div class="badge-row"><span class="size-badge">~31k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per plot. ~15k farm households with 1-4 plots each. 7 crops, full input-output accounting.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>plot_size_acres</code>, <code>crop</code>, <code>soil_quality</code> — Plot characteristics</li>
+          <li><code>improved_seed</code>, <code>fertilizer_kg</code>, <code>irrigation</code>, <code>pesticide_used</code> — Inputs</li>
+          <li><code>rainfall_deviation_sd</code> — Weather shock (SD from normal)</li>
+          <li><code>harvest_kg</code>, <code>price_per_kg_usd</code>, <code>revenue_usd</code>, <code>profit_usd</code> — Outputs</li>
+          <li><code>extension_contact</code>, <code>distance_to_market_km</code> — Access</li>
+        </ul>
+        <h4>Production Function</h4>
+        <p>Yields follow a Cobb-Douglas: Y = A &middot; L<sup>0.50</sup> &middot; Lab<sup>0.25</sup> &middot; F<sup>0.15</sup> with TFP shifters for improved seed (+15%), irrigation (+10%), and soil quality. Rainfall has an inverted-U effect.</p>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Health &amp; Nutrition (DHS-style)<div class="badge-row"><span class="size-badge">35k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per child under 5 with linked mother characteristics. Wealth quintile drives most health gradients.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>height_for_age_z</code>, <code>weight_for_age_z</code>, <code>weight_for_height_z</code> — WHO z-scores</li>
+          <li><code>stunted</code>, <code>underweight</code>, <code>wasted</code> — Binary flags (z &lt; -2)</li>
+          <li><code>bcg_vaccine</code>, <code>dpt1_vaccine</code>, <code>dpt3_vaccine</code>, <code>measles_vaccine</code>, <code>fully_vaccinated</code></li>
+          <li><code>anc_visits</code>, <code>facility_delivery</code>, <code>skilled_birth_attendant</code> — Maternal health</li>
+          <li><code>diarrhea_2wk</code>, <code>fever_2wk</code>, <code>cough_2wk</code>, <code>sought_treatment</code> — Morbidity</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>Growth faltering after 6 months (HAZ declines with age)</li>
+          <li>Age-appropriate vaccination (can't get measles before 9 months)</li>
+          <li>Age heaping at 6, 12, 24, 36, 48 months (interviewer rounding)</li>
+          <li>Birth weight MAR: heavier babies more likely to be weighed</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Education Outcomes<div class="badge-row"><span class="size-badge">~30k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>Students nested in 500 schools (grades 3-8). Multi-level data for HLM analysis.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>math_score</code>, <code>reading_score</code> — 0-100 test scores</li>
+          <li><code>attendance_rate</code>, <code>distance_to_school_km</code> — Student access</li>
+          <li><code>ses_score</code>, <code>school_type</code>, <code>school_meal_program</code> — SES & resources</li>
+          <li><code>pupil_teacher_ratio</code>, <code>pct_trained_teachers</code>, <code>has_library</code> — School quality</li>
+          <li><code>repeated_grade</code>, <code>dropped_out</code> — Persistence</li>
+        </ul>
+        <h4>Embedded Effects</h4>
+        <ul>
+          <li>School random effect (ICC ~0.20): 20% of score variance is between-school</li>
+          <li>Girls outperform in reading (+2 pts), boys in math (+2 pts)</li>
+          <li>Dropout students have missing endline scores (structural missingness)</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Labor Market<div class="badge-row"><span class="size-badge">40k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>Working-age adults (15-64) with employment status, wages, sector, and social protection.</p>
+        <h4>Wage Equation (Mincer)</h4>
+        <p><code>ln(wage) = 1.8 + 0.08&middot;educ + 0.04&middot;exp - 0.0006&middot;exp&sup2; - 0.18&middot;female + 0.25&middot;urban + 0.35&middot;formal + &epsilon;</code></p>
+        <ul>
+          <li>8% return to education, concave experience profile</li>
+          <li>18% gender wage gap (suitable for Oaxaca-Blinder decomposition)</li>
+          <li>35% formality premium</li>
+          <li>Employment: wage, self-employed, unpaid family, unemployed</li>
+          <li>Migration and remittances with realistic amounts</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Microfinance<div class="badge-row"><span class="size-badge">30k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>Loan-level records from a microfinance institution. Group and individual lending products.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>loan_amount_usd</code>, <code>interest_rate_annual_pct</code>, <code>term_months</code> — Terms</li>
+          <li><code>loan_product</code>, <code>loan_purpose</code> — Product classification</li>
+          <li><code>cycle_number</code> — Repeat borrower indicator (graduation)</li>
+          <li><code>defaulted</code>, <code>days_past_due</code>, <code>repayment_rate</code> — Performance</li>
+          <li><code>internal_credit_score</code> — 300-850 score</li>
+        </ul>
+        <h4>Default Model</h4>
+        <p>Default probability via logistic: higher for larger loans, consumption purpose, first-cycle borrowers, uncollateralized. Women default less. Repeat borrowers graduate to larger amounts.</p>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Program Targeting (PMT)<div class="badge-row"><span class="size-badge">20k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>Household-level data with both true consumption (survey) and PMT-predicted consumption. Built for targeting accuracy analysis.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>true_monthly_pce_usd</code> — Actual per-capita consumption (with residual noise)</li>
+          <li><code>pmt_predicted_pce_usd</code> — Fitted values from proxy means formula</li>
+          <li><code>truly_poor</code>, <code>pmt_classified_poor</code> — Binary poverty flags</li>
+          <li><code>exclusion_error</code>, <code>inclusion_error</code> — Targeting mistakes</li>
+          <li><code>community_selected</code> — Community-based targeting comparison</li>
+          <li><code>monthly_benefit_usd</code> — Calculated transfer amount</li>
+        </ul>
+        <h4>Why It's Useful</h4>
+        <p>The gap between true and predicted consumption creates realistic targeting errors. Students can compare PMT, community, and categorical targeting; compute leakage and undercoverage; and simulate benefit reforms.</p>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Trade &amp; Market Prices<div class="badge-row"><span class="size-badge">~67k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>80 markets &times; 104 weeks &times; 8 staple commodities. 2 years of weekly price data across 16 countries.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>market</code>, <code>country</code>, <code>date</code>, <code>commodity</code> — Identifiers</li>
+          <li><code>price_per_kg_usd</code> — Commodity price with seasonality</li>
+          <li><code>volume_traded_kg</code> — Market volume</li>
+          <li><code>transport_cost_pct</code> — Distance-based cost wedge</li>
+        </ul>
+        <h4>Price Dynamics</h4>
+        <ul>
+          <li>Seasonal cycles: lean-season highs, post-harvest lows</li>
+          <li>AR(1) persistence in price levels</li>
+          <li>Spatial correlation: nearby markets move together</li>
+          <li>Border effect: +8% premium for cross-country market pairs</li>
+          <li>Suitable for cointegration / market integration analysis</li>
+        </ul>
+      </div>
+    </details>
+
+    <!-- ── Sector-Specific Dataset Documentation ── -->
+    <h3 style="font-family:'Poppins',sans-serif;font-size:1.3rem;font-weight:700;margin:40px 0 20px;padding-top:20px;border-top:1px solid var(--border-color);">Sector-Specific Datasets</h3>
+
+    <details class="app-doc">
+      <summary>Gender Programme<div class="badge-row"><span class="size-badge">25k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per woman/girl. 25,000 individuals across programme and non-programme areas with empowerment, GBV, and SRH indicators.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>individual_id</code>, <code>household_id</code>, <code>country</code>, <code>district</code> &mdash; Identifiers</li>
+          <li><code>programme_participant</code>, <code>programme_type</code> &mdash; Cash transfers, skills training, savings groups, awareness, legal aid</li>
+          <li><code>decides_own_healthcare</code> through <code>decides_own_earnings</code> &mdash; 5 WEAI decision-making domains</li>
+          <li><code>decision_making_score</code>, <code>empowerment_index</code> &mdash; Composite empowerment scores</li>
+          <li><code>owns_land</code>, <code>owns_house</code>, <code>has_bank_account</code>, <code>has_mobile_money</code> &mdash; Economic empowerment</li>
+          <li><code>care_work_hours_day</code>, <code>productive_work_hours_day</code>, <code>leisure_hours_day</code> &mdash; Time use diary</li>
+          <li><code>reported_physical_gbv</code>, <code>reported_emotional_gbv</code>, <code>reported_economic_gbv</code> &mdash; GBV with underreporting</li>
+          <li><code>using_modern_contraception</code>, <code>unmet_need_family_planning</code> &mdash; SRH indicators</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>WEAI-like empowerment domains with intra-household bargaining</li>
+          <li>GBV prevalence modelled with 40&ndash;60% underreporting of true cases</li>
+          <li>Time-use data summing to realistic daily totals</li>
+          <li>Programme effects vary by type (cash vs. training vs. awareness)</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Girls&rsquo; Education<div class="badge-row"><span class="size-badge">20k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per girl (grades 1&ndash;12). Tracks enrollment, learning outcomes, safety, menstrual hygiene, and dropout barriers.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>girl_id</code>, <code>grade</code>, <code>age</code>, <code>wealth_quintile</code> &mdash; Identifiers &amp; demographics</li>
+          <li><code>enrolled</code>, <code>attendance_rate</code>, <code>dropped_out</code> &mdash; Enrollment status</li>
+          <li><code>math_score</code>, <code>literacy_score</code> &mdash; Learning outcomes (0&ndash;100)</li>
+          <li><code>barrier_marriage</code>, <code>barrier_pregnancy</code>, <code>barrier_cost</code>, <code>barrier_distance</code> &mdash; Dropout barriers</li>
+          <li><code>has_menstruated</code>, <code>mhm_knowledge</code>, <code>has_sanitary_products</code>, <code>missed_school_menstruation</code> &mdash; MHM</li>
+          <li><code>srgbv_experienced</code>, <code>feels_safe_route_to_school</code> &mdash; Safety indicators</li>
+          <li><code>receives_scholarship</code>, <code>receives_school_meals</code> &mdash; Programme support</li>
+          <li><code>at_primary_secondary_transition</code>, <code>transitioned_to_secondary</code> &mdash; Transition tracking</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>Gendered dropout barriers: early marriage, pregnancy, household chores, cost, distance</li>
+          <li>MHM affects attendance &mdash; girls without sanitary products miss more school</li>
+          <li>School-related GBV (SRGBV) linked to dropout</li>
+          <li>Primary&ndash;secondary transition rates driven by scholarships and parental attitudes</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Climate &amp; Resilience<div class="badge-row"><span class="size-badge">20k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per household. Climate shock exposure, coping strategies, adaptation practices, and RIMA-like resilience indices.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>agroecological_zone</code> &mdash; Arid, semi-arid, sub-humid, humid, highland</li>
+          <li><code>experienced_drought</code>, <code>experienced_flood</code>, <code>experienced_cyclone</code>, <code>experienced_pest_outbreak</code> &mdash; Shock exposure</li>
+          <li><code>crop_loss_pct</code>, <code>livestock_loss_pct</code>, <code>income_loss_pct</code> &mdash; Shock losses</li>
+          <li><code>cs_reduced_meals</code>, <code>cs_sold_assets</code>, <code>cs_borrowed_money</code>, <code>cs_migration</code> &mdash; Coping strategies</li>
+          <li><code>adopted_drought_resistant_crop</code>, <code>adopted_irrigation</code>, <code>has_crop_insurance</code> &mdash; Adaptation</li>
+          <li><code>absorptive_capacity</code>, <code>adaptive_capacity</code>, <code>transformative_capacity</code> &mdash; RIMA pillars</li>
+          <li><code>resilience_index</code> &mdash; Composite resilience score</li>
+          <li><code>carbon_footprint_tco2_yr</code> &mdash; Household emissions proxy</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>Shock exposure varies by agro-ecological zone (drought in arid, floods in humid)</li>
+          <li>RIMA-like resilience measurement: absorptive, adaptive, transformative pillars</li>
+          <li>Coping strategy severity ladder from consumption smoothing to asset depletion</li>
+          <li>Early warning system access improves preparedness outcomes</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Agriculture &amp; Value Chain<div class="badge-row"><span class="size-badge">25k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per transaction across a 4-node value chain: producer &rarr; aggregator &rarr; processor &rarr; retailer. 8 commodities.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>chain_node</code> &mdash; Position in value chain (producer/aggregator/processor/retailer)</li>
+          <li><code>commodity</code> &mdash; Maize, coffee, dairy, poultry, horticulture, rice, groundnuts, cassava</li>
+          <li><code>quality_grade</code> &mdash; A/B/C affecting price premiums</li>
+          <li><code>volume_kg</code>, <code>price_per_kg_usd</code>, <code>revenue_usd</code> &mdash; Transaction values</li>
+          <li><code>total_cost_usd</code>, <code>margin_usd</code>, <code>margin_pct</code> &mdash; Profitability</li>
+          <li><code>post_harvest_loss_pct</code> &mdash; Loss rates by chain node</li>
+          <li><code>in_cooperative</code>, <code>has_contract</code>, <code>has_certification</code> &mdash; Market linkage</li>
+          <li><code>buyer_type</code>, <code>season</code> &mdash; Market context</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>Value addition markups: 15% aggregator, 45% processor, 80% retailer</li>
+          <li>Quality grading premiums: A = +25%, C = &minus;25%</li>
+          <li>Post-harvest losses decline along the chain (30% farm &rarr; 8% retail)</li>
+          <li>Contract farming and cooperative membership yield price premiums</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Animal Welfare<div class="badge-row"><span class="size-badge">15k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per animal/household. Covers livestock, working animals, and companion animals with Five Freedoms welfare assessment.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>animal_type</code> &mdash; Cattle, goats, sheep, poultry, donkey, horse, pig, camel, dog, cat</li>
+          <li><code>freedom_hunger_thirst</code> through <code>freedom_fear_distress</code> &mdash; Five Freedoms (1&ndash;5 each)</li>
+          <li><code>welfare_score_avg</code>, <code>body_condition_score</code>, <code>shelter_score</code> &mdash; Composite welfare</li>
+          <li><code>distance_to_vet_km</code>, <code>accessed_vet_last_year</code>, <code>vaccinated</code>, <code>dewormed</code> &mdash; Veterinary access</li>
+          <li><code>working_hours_daily</code>, <code>working_has_wounds</code>, <code>working_proper_harness</code> &mdash; Working animal indicators</li>
+          <li><code>companion_rabies_vaccinated</code>, <code>companion_sterilized</code> &mdash; Companion animal health</li>
+          <li><code>hh_consumes_animal_source_food</code> &mdash; Nutrition linkage</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>Five Freedoms framework with inter-correlated domain scores</li>
+          <li>Body Condition Score (1&ndash;5) driven by wealth and training</li>
+          <li>Working animal data (donkeys, horses, camels) with wound prevalence and harness quality</li>
+          <li>Rabies vaccination coverage for companion animals</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Public Health &amp; Epidemiology<div class="badge-row"><span class="size-badge">20k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per individual. Disease surveillance, health facility use, insurance, NCDs, mental health (PHQ-9), and COVID-19 vaccination.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>malaria_tested</code>, <code>malaria_rdt_positive</code> &mdash; Malaria RDT cascade</li>
+          <li><code>tb_ever_diagnosed</code>, <code>tb_on_treatment</code> &mdash; TB cascade</li>
+          <li><code>hiv_tested_ever</code>, <code>hiv_positive</code>, <code>hiv_on_art</code> &mdash; HIV cascade</li>
+          <li><code>facility_visits_12m</code>, <code>oop_health_spending_usd</code>, <code>catastrophic_health_expenditure</code> &mdash; Utilization</li>
+          <li><code>chw_contact_6m</code>, <code>chw_referred</code>, <code>chw_referral_completed</code> &mdash; CHW referral cascade</li>
+          <li><code>health_insurance_type</code> &mdash; None, CBHI, NHIF, private, employer</li>
+          <li><code>hypertension_diagnosed</code>, <code>hypertension_controlled</code>, <code>diabetes_diagnosed</code> &mdash; NCD screening</li>
+          <li><code>phq9_score</code>, <code>depression_moderate</code>, <code>depression_severe</code> &mdash; Mental health</li>
+          <li><code>covid_vaccine_doses</code> &mdash; 0/1/2/booster doses with wealth gradient</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>Disease cascades (tested &rarr; diagnosed &rarr; treated) with realistic drop-offs</li>
+          <li>Catastrophic health expenditure flag (&gt;10% of household consumption)</li>
+          <li>PHQ-9 depression score (0&ndash;27) correlated with poverty and gender</li>
+          <li>CHW referral completion rates driven by distance and wealth</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Livelihoods &amp; Economic Strengthening<div class="badge-row"><span class="size-badge">20k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per household. Three treatment arms (control, livelihoods only, livelihoods + savings). Covers income, VSLA, training, assets, and food security.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>treatment_arm</code> &mdash; Control, livelihoods_only, livelihoods_plus_savings</li>
+          <li><code>primary_income_source</code>, <code>n_income_sources</code>, <code>income_diversification_index</code> &mdash; Income</li>
+          <li><code>owns_enterprise</code>, <code>enterprise_type</code>, <code>enterprise_monthly_revenue_usd</code> &mdash; Enterprise</li>
+          <li><code>vsla_member</code>, <code>vsla_savings_usd</code>, <code>vsla_shareout_usd</code>, <code>vsla_loan_usd</code> &mdash; Savings groups</li>
+          <li><code>received_vocational_training</code>, <code>training_type</code>, <code>completed_apprenticeship</code> &mdash; Skills</li>
+          <li><code>baseline_asset_index</code>, <code>endline_asset_index</code> &mdash; 7-asset accumulation</li>
+          <li><code>food_consumption_score</code>, <code>fcs_category</code>, <code>reduced_coping_strategies_index</code> &mdash; Food security</li>
+          <li><code>has_mobile_money</code>, <code>has_bank_account</code>, <code>accessed_credit_12m</code> &mdash; Financial inclusion</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>Shannon-like income diversification index</li>
+          <li>VSLA cycle: savings &rarr; share-out &rarr; borrowing with realistic interest</li>
+          <li>Baseline&ndash;endline asset change driven by treatment arm</li>
+          <li>Youth (15&ndash;35) employment, NEET, and training indicators</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Advocacy, Rights &amp; Legal Empowerment<div class="badge-row"><span class="size-badge">15k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per individual. Legal identity, land tenure, dispute resolution, rights awareness, civic participation, and advocacy campaigns.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>has_birth_certificate</code>, <code>has_national_id</code> &mdash; Legal identity documentation</li>
+          <li><code>owns_land</code>, <code>has_land_title</code>, <code>land_dispute_experienced</code> &mdash; Land tenure security</li>
+          <li><code>rights_awareness_score</code>, <code>knows_cedaw</code>, <code>knows_child_rights</code> &mdash; Rights knowledge</li>
+          <li><code>experienced_dispute</code>, <code>dispute_type</code>, <code>resolution_mechanism</code>, <code>dispute_resolved</code> &mdash; Justice</li>
+          <li><code>barrier_cost</code>, <code>barrier_distance</code>, <code>barrier_fear</code>, <code>barrier_distrust</code> &mdash; Justice barriers</li>
+          <li><code>voted_last_election</code>, <code>attended_community_meeting</code>, <code>feels_can_influence_decisions</code> &mdash; Civic participation</li>
+          <li><code>exposed_to_advocacy_campaign</code>, <code>campaign_channel</code>, <code>changed_behavior_post_campaign</code> &mdash; Campaigns</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>Legal identity gaps driven by wealth and rural status</li>
+          <li>Dispute resolution pathways: formal courts, customary leaders, legal aid, mediation</li>
+          <li>Justice barriers &mdash; cost, distance, fear, distrust &mdash; vary by gender and wealth</li>
+          <li>Advocacy campaign reach and self-reported behavior change</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>WASH (Water, Sanitation &amp; Hygiene)<div class="badge-row"><span class="size-badge">18k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per household. JMP service ladders for water, sanitation, and hygiene. Water quality testing, CLTS, MHM, and school WASH.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>water_source</code>, <code>water_improved</code>, <code>jmp_water_service_level</code> &mdash; JMP water ladder</li>
+          <li><code>ecoli_cfu_100ml</code>, <code>ecoli_risk_category</code>, <code>turbidity_ntu</code> &mdash; Water quality testing</li>
+          <li><code>liters_per_person_day</code>, <code>sufficient_water_15lpd</code> &mdash; Water quantity (Sphere)</li>
+          <li><code>sanitation_facility</code>, <code>jmp_sanitation_service_level</code>, <code>open_defecation</code> &mdash; JMP sanitation</li>
+          <li><code>clts_triggered</code>, <code>community_odf_declared</code>, <code>odf_slippage</code> &mdash; CLTS programme</li>
+          <li><code>hw_water_and_soap</code>, <code>hygiene_service_level</code> &mdash; Observed handwashing</li>
+          <li><code>mhm_private_space</code>, <code>mhm_materials_available</code> &mdash; Menstrual hygiene</li>
+          <li><code>child_diarrhea_2wk</code>, <code>diarrhea_ors_used</code>, <code>diarrhea_zinc_used</code> &mdash; Child health</li>
+          <li><code>school_separate_toilets_girls</code>, <code>school_has_mhm_facility</code>, <code>school_pupil_toilet_ratio</code> &mdash; School WASH</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>JMP service ladders: safely managed &rarr; basic &rarr; limited &rarr; unimproved &rarr; surface water / open defecation</li>
+          <li>E. coli and turbidity correlated with source type</li>
+          <li>Handwashing observation vs. self-reported discrepancy (social desirability bias)</li>
+          <li>Child diarrhoea prevalence linked to WASH conditions via logistic model</li>
+          <li>CLTS triggering &rarr; ODF declaration &rarr; verification &rarr; slippage cascade</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Humanitarian &amp; Disaster Response<div class="badge-row"><span class="size-badge">18k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per individual with SADD (Sex and Age Disaggregated Data). Displacement, multi-sector needs, aid distribution, protection, and accountability.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>displacement_status</code> &mdash; IDP, refugee, returnee, host community</li>
+          <li><code>crisis_type</code>, <code>months_displaced</code>, <code>times_displaced</code> &mdash; Displacement profile</li>
+          <li><code>need_food</code> through <code>need_livelihoods</code> &mdash; 7 sector needs scored 0&ndash;5 (JIAF-like)</li>
+          <li><code>overall_severity</code>, <code>people_in_need</code> &mdash; Composite need assessment</li>
+          <li><code>meets_sphere_water</code>, <code>meets_sphere_shelter</code>, <code>meets_sphere_food</code> &mdash; Sphere standards</li>
+          <li><code>received_aid</code>, <code>aid_modality</code>, <code>aid_amount_usd</code> &mdash; Aid distribution</li>
+          <li><code>gbv_risk_reported</code>, <code>child_protection_concern</code>, <code>mine_uxo_awareness</code> &mdash; Protection</li>
+          <li><code>knows_feedback_mechanism</code>, <code>filed_complaint</code>, <code>complaint_resolved</code> &mdash; Accountability</li>
+          <li><code>movement_intention</code> &mdash; Stay, return, relocate, seek asylum, undecided</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>SADD throughout: 5 standard age groups with sex disaggregation</li>
+          <li>Multi-sector severity scoring following JIAF methodology</li>
+          <li>Sphere minimum standards compliance (water 15 L/p/d, shelter 3.5 m&sup2;/p, food 2100 kcal/p/d)</li>
+          <li>Communication with Communities (CwC): information access, preferred channels, feedback loops</li>
+          <li>Vulnerability markers: unaccompanied minors, pregnant/lactating, disability, elderly alone</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Social Protection &amp; Cash Transfers<div class="badge-row"><span class="size-badge">20k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per beneficiary household. Programme registry with transfer tracking, conditionality compliance, and graduation model.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>programme_type</code> &mdash; Unconditional cash, conditional cash, public works, cash plus, food vouchers, school feeding</li>
+          <li><code>transfer_modality</code> &mdash; Mobile money, cash-in-hand, bank transfer, voucher, in-kind</li>
+          <li><code>monthly_transfer_usd</code>, <code>total_received_usd</code>, <code>pct_payments_received</code> &mdash; Transfer tracking</li>
+          <li><code>has_conditionality</code>, <code>conditionality_compliant</code> &mdash; Compliance monitoring</li>
+          <li><code>baseline_consumption_usd</code>, <code>endline_consumption_usd</code> &mdash; Impact measurement</li>
+          <li><code>fcs_baseline</code>, <code>fcs_endline</code>, <code>rcsi_baseline</code>, <code>rcsi_endline</code> &mdash; Food security change</li>
+          <li><code>graduation_score</code>, <code>graduated</code>, <code>would_cope_without_transfer</code> &mdash; Graduation model</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>Graduation model with thresholds on food security, assets, and savings</li>
+          <li>Payment regularity metrics (% received, delays) affecting outcomes</li>
+          <li>Baseline &rarr; endline change in consumption, food security, and asset accumulation</li>
+          <li>Dependency indicator: &ldquo;would cope without transfer&rdquo;</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Governance &amp; Accountability<div class="badge-row"><span class="size-badge">15k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per citizen. Service delivery satisfaction, trust in institutions, corruption experience, budget transparency, and social accountability.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>satisfaction_health</code> through <code>satisfaction_police</code>, <code>overall_service_satisfaction</code> &mdash; Service delivery (1&ndash;5)</li>
+          <li><code>trust_local_govt</code> through <code>trust_ngos</code> &mdash; Institutional trust (1&ndash;5)</li>
+          <li><code>bribery_experience</code>, <code>bribery_context</code>, <code>bribe_amount_usd</code>, <code>reported_bribery</code> &mdash; Corruption</li>
+          <li><code>aware_of_local_budget</code>, <code>budget_literacy_score</code> &mdash; Budget transparency</li>
+          <li><code>in_social_accountability_prog</code>, <code>attended_scorecard_session</code> &mdash; Programme participation</li>
+          <li><code>scorecard_health</code>, <code>scorecard_education</code>, <code>scorecard_water</code> &mdash; Community scorecards (0&ndash;100)</li>
+          <li><code>knows_rti_law</code>, <code>gets_info_radio</code>, <code>gets_info_social_media</code> &mdash; Information access</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>Bribery reporting rate very low (8&ndash;13%) &mdash; realistic underreporting</li>
+          <li>Social accountability programme effects on trust and budget awareness</li>
+          <li>Community scorecard scores varying across service sectors</li>
+          <li>MNAR missingness: bribe amounts more likely missing for larger bribes</li>
+        </ul>
+      </div>
+    </details>
+
+    <!-- ── Cross-cutting & Methodological Documentation ── -->
+    <h3 style="font-family:'Poppins',sans-serif;font-size:1.3rem;font-weight:700;margin:40px 0 20px;padding-top:20px;border-top:1px solid var(--border-color);">Cross-cutting &amp; Methodological Datasets</h3>
+
+    <details class="app-doc">
+      <summary>Behaviour Change (KAP)<div class="badge-row"><span class="size-badge">20k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per individual. Knowledge-Attitude-Practice survey for health, WASH, and nutrition behaviours with campaign exposure tracking.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>exposed_to_campaign</code>, <code>campaign_type</code>, <code>campaign_doses</code> &mdash; Campaign exposure (radio, community drama, peer education, SMS, poster, social media)</li>
+          <li><code>knowledge_score</code>, <code>knows_handwashing_times</code>, <code>knows_ors_for_diarrhea</code>, <code>knows_exclusive_breastfeeding</code> &mdash; Knowledge (0&ndash;10)</li>
+          <li><code>attitude_score</code>, <code>approves_family_planning</code>, <code>gender_equitable_attitude</code>, <code>stigma_hiv</code> &mdash; Attitudes (0&ndash;10)</li>
+          <li><code>practice_score</code>, <code>practices_handwashing</code>, <code>uses_treated_water</code>, <code>uses_mosquito_net</code> &mdash; Practice (0&ndash;10)</li>
+          <li><code>knowledge_practice_gap</code>, <code>attitude_practice_gap</code> &mdash; KAP cascade gaps</li>
+          <li><code>self_efficacy_score</code>, <code>perceives_community_support</code>, <code>discussed_with_peers</code> &mdash; Social norms</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>KAP cascade: campaigns improve knowledge &gt; attitudes &gt; practice (realistic drop-off)</li>
+          <li>Campaign dose-response: more exposures yield stronger effects</li>
+          <li>Self-efficacy mediates the attitude&ndash;practice gap</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Cost-Effectiveness Analysis<div class="badge-row"><span class="size-badge">15k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per programme. Cost breakdowns, beneficiary data, outcomes, and CEA metrics across health, education, nutrition, WASH, livelihoods, and social protection sectors.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>sector</code>, <code>programme_type</code>, <code>implementer_type</code> &mdash; Programme classification</li>
+          <li><code>total_cost_usd</code>, <code>personnel_cost_usd</code>, <code>materials_cost_usd</code>, <code>overhead_cost_usd</code> &mdash; Cost breakdown</li>
+          <li><code>cost_per_beneficiary_usd</code>, <code>cost_per_outcome_usd</code>, <code>overhead_ratio</code>, <code>personnel_ratio</code> &mdash; Cost ratios</li>
+          <li><code>effect_size</code>, <code>icer</code>, <code>daly_averted</code>, <code>qaly_gained</code> &mdash; CEA metrics</li>
+          <li><code>is_pilot</code> &mdash; Pilot vs. at-scale with economies of scale</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>Lognormal cost distributions; personnel 40&ndash;65%, overhead 8&ndash;25%</li>
+          <li>DALYs and QALYs only for health sector; ICER for all</li>
+          <li>Economies of scale: at-scale programmes have lower unit costs</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Decent Work (ILO)<div class="badge-row"><span class="size-badge">25k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per worker. ILO decent work framework covering formal/informal employment, earnings, social protection, working conditions, freedom of association, and the informal economy.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>employment_status</code> &mdash; Formal wage, informal wage, self-employed, casual daily, unpaid family</li>
+          <li><code>monthly_earnings_usd</code>, <code>hourly_wage_usd</code>, <code>below_minimum_wage</code> &mdash; Earnings with embedded gender gap (~0.82 ratio)</li>
+          <li><code>has_written_contract</code>, <code>has_social_security</code>, <code>has_health_insurance</code>, <code>has_pension</code> &mdash; Social protection</li>
+          <li><code>occupational_safety_training</code>, <code>experienced_injury_12m</code>, <code>workplace_harassment</code> &mdash; Conditions</li>
+          <li><code>member_of_union</code>, <code>freedom_of_association</code>, <code>collective_bargaining_covered</code> &mdash; Labour rights</li>
+          <li><code>operates_without_registration</code>, <code>no_bookkeeping</code> &mdash; Informality indicators</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>Gender pay gap embedded in earnings (female/male ratio ~0.82)</li>
+          <li>Social protection strongly linked to formal employment status</li>
+          <li>Occupational segregation: different sector distributions by gender</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Care Economy &amp; Time Use<div class="badge-row"><span class="size-badge">20k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per individual (mixed gender). Time use diary data with care breakdown, care infrastructure, opportunity cost, and time poverty indicators.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>sleep_hours</code>, <code>paid_work_hours</code>, <code>unpaid_care_hours</code>, <code>domestic_work_hours</code>, <code>leisure_hours</code> &mdash; Time diary (~24h/day)</li>
+          <li><code>childcare_hours</code>, <code>eldercare_hours</code>, <code>cooking_hours</code>, <code>water_collection_hours</code> &mdash; Care breakdown</li>
+          <li><code>has_childcare_access</code>, <code>has_electricity</code>, <code>has_improved_cookstove</code> &mdash; Care infrastructure</li>
+          <li><code>forgone_earnings_usd</code>, <code>reduced_labor_participation</code> &mdash; Opportunity cost</li>
+          <li><code>time_poor</code> &mdash; Flag for &gt;10.5 hours/day on paid + unpaid work</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>Women do ~3.4x more unpaid care than men (4.3h vs. 1.3h daily)</li>
+          <li>Care infrastructure reduces care burden (water access, cookstoves, childcare)</li>
+          <li>Time poverty at ~19.5% of population, higher for women</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Intersectional Inequality<div class="badge-row"><span class="size-badge">25k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per individual. Multiple identity dimensions (caste, religion, disability, sexuality) with socioeconomic outcomes showing multiplicative intersectional disadvantage.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>caste_category</code> (general/OBC/SC/ST), <code>religion</code>, <code>has_disability</code>, <code>disability_type</code>, <code>sexual_minority</code>, <code>indigenous</code></li>
+          <li><code>monthly_income_usd</code>, <code>employed</code>, <code>housing_quality_score</code>, <code>food_security_score</code> &mdash; Outcomes</li>
+          <li><code>experienced_discrimination</code>, <code>discrimination_basis</code>, <code>discrimination_context</code> &mdash; Discrimination</li>
+          <li><code>accessed_education</code> through <code>accessed_justice</code> &mdash; Service access</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>Multiplicative disadvantage: SC + female + disability worse than sum of individual effects</li>
+          <li>Intersectional penalty increases with each additional axis of marginalisation</li>
+          <li>Discrimination basis and context vary by identity combination</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Environmental Justice<div class="badge-row"><span class="size-badge">20k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per household. Pollution exposure, environmental hazards, health outcomes, cooking fuel, green space, climate vulnerability, and environmental governance.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>air_quality_pm25</code>, <code>indoor_air_pollution</code>, <code>water_contamination_score</code>, <code>noise_pollution_level</code> &mdash; Pollution</li>
+          <li><code>proximity_to_industrial_site_km</code>, <code>proximity_to_waste_dump_km</code>, <code>flood_risk_zone</code> &mdash; Hazards</li>
+          <li><code>respiratory_illness_12m</code>, <code>waterborne_illness_12m</code>, <code>child_blood_lead_elevated</code> &mdash; Health outcomes</li>
+          <li><code>cooking_fuel_type</code>, <code>cooking_location</code> &mdash; Indoor air quality determinant</li>
+          <li><code>carbon_footprint_tco2</code>, <code>climate_vulnerability_score</code> &mdash; Climate justice</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>Environmental racism/classism: poorer communities have higher pollution exposure</li>
+          <li>Health outcomes linked to pollution load via logistic model</li>
+          <li>Indoor air pollution driven by cooking fuel type (firewood &gt; LPG)</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Community Development<div class="badge-row"><span class="size-badge">18k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per individual. Social capital measurement with bonding vs. bridging ties, collective action, participatory governance, and community-driven development.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>n_group_memberships</code>, <code>primary_group_type</code> &mdash; Group membership</li>
+          <li><code>bonding_social_capital_score</code>, <code>bridging_social_capital_score</code> &mdash; Bonding vs. bridging</li>
+          <li><code>trust_neighbors</code>, <code>trust_strangers</code>, <code>trust_local_leaders</code> &mdash; Trust (1&ndash;5)</li>
+          <li><code>participated_in_collective_action</code>, <code>collective_action_type</code> &mdash; Collective action</li>
+          <li><code>attended_village_assembly</code>, <code>voiced_opinion_in_meeting</code> &mdash; Participatory governance</li>
+          <li><code>in_cdd_programme</code>, <code>contributed_to_project</code>, <code>satisfied_with_project</code> &mdash; CDD</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>Bonding social capital higher in rural areas; bridging higher for educated</li>
+          <li>Free-rider perception inversely related to trust</li>
+          <li>CDD programme effects on participation and community asset satisfaction</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Digital Access &amp; Literacy<div class="badge-row"><span class="size-badge">20k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per individual. Device ownership, connectivity, 7-level digital skills hierarchy, usage patterns, misinformation, privacy, and barriers to access.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>owns_smartphone</code>, <code>owns_computer</code>, <code>shared_device_only</code> &mdash; Device access</li>
+          <li><code>has_internet_access</code>, <code>internet_type</code>, <code>monthly_data_cost_usd</code> &mdash; Connectivity</li>
+          <li><code>can_make_call</code> through <code>can_use_govt_services_online</code> &mdash; 7 hierarchical skills</li>
+          <li><code>digital_literacy_score</code> &mdash; Composite (0&ndash;10)</li>
+          <li><code>encountered_misinformation</code>, <code>can_identify_misinformation</code>, <code>shared_unverified_info</code></li>
+          <li><code>barrier_cost</code>, <code>barrier_literacy</code>, <code>barrier_language</code>, <code>barrier_infrastructure</code></li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>Gender digital divide: women have lower access and literacy scores</li>
+          <li>Age divide: youth more digitally literate, elderly less connected</li>
+          <li>Digital literacy is hierarchical: basic skills prerequisite for advanced ones</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Social-Emotional Learning<div class="badge-row"><span class="size-badge">15k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per student (ages 6&ndash;18). CASEL framework with 5 SEL domains, academic outcomes, wellbeing, bullying, prosocial behaviour, and teacher/parent ratings.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>self_awareness</code>, <code>self_management</code>, <code>social_awareness</code>, <code>relationship_skills</code>, <code>responsible_decision_making</code> &mdash; CASEL domains (1&ndash;5)</li>
+          <li><code>sel_composite_score</code> &mdash; Overall SEL (1&ndash;5)</li>
+          <li><code>math_score</code>, <code>reading_score</code>, <code>attendance_rate</code> &mdash; Academic outcomes</li>
+          <li><code>life_satisfaction</code>, <code>bullying_experienced</code>, <code>bullying_perpetrated</code> &mdash; Wellbeing</li>
+          <li><code>in_sel_programme</code>, <code>programme_duration_months</code>, <code>teacher_trained_in_sel</code> &mdash; Programme</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>SEL programme improves all 5 domains; bigger effects with longer duration</li>
+          <li>Girls score higher on social awareness and relationship skills</li>
+          <li>SEL composite correlates with academic performance and lower bullying</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>NGO Programme Finance<div class="badge-row"><span class="size-badge">10k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per programme. Organisation characteristics, funding, budget breakdowns, financial health, compliance, effectiveness, and partnerships.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>org_type</code> &mdash; Local NGO, INGO, CBO, faith-based, social enterprise</li>
+          <li><code>annual_budget_usd</code>, <code>n_donors</code>, <code>primary_donor_type</code>, <code>funding_gap_usd</code> &mdash; Funding</li>
+          <li><code>personnel_pct</code>, <code>programme_activities_pct</code>, <code>admin_pct</code>, <code>indirect_cost_pct</code> &mdash; Budget</li>
+          <li><code>burn_rate_pct</code>, <code>months_of_reserves</code>, <code>sustainability_score</code> &mdash; Financial health</li>
+          <li><code>audit_completed</code>, <code>audit_qualified</code>, <code>vfm_score</code> &mdash; Compliance &amp; VfM</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>Admin costs 10&ndash;25%, with ~25% of orgs under-reporting overhead (real-world pressure)</li>
+          <li>Larger orgs have better compliance and financial health scores</li>
+          <li>Funding secured percentage varies by donor type and org capacity</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Aid Effectiveness (ODA)<div class="badge-row"><span class="size-badge">12k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per aid flow (2010&ndash;2025). Donor-recipient pairs with Paris Declaration indicators, fragmentation, conditionality, and coordination.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>donor_country</code>, <code>recipient_country</code>, <code>year</code> &mdash; Flow identifiers</li>
+          <li><code>oda_amount_usd</code>, <code>disbursement_type</code>, <code>channel</code> &mdash; Aid modality</li>
+          <li><code>country_ownership_score</code>, <code>alignment_with_national_plan</code>, <code>uses_country_systems</code> &mdash; Paris principles</li>
+          <li><code>donor_concentration_index</code>, <code>is_tied_aid</code> &mdash; Fragmentation</li>
+          <li><code>has_conditionality</code>, <code>conditionality_type</code>, <code>conditionality_met</code> &mdash; Conditionality</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>Aid flows more to poorer, larger countries (with geopolitical weighting)</li>
+          <li>Paris indicators improve slightly over time (2010&ndash;2025 trend)</li>
+          <li>Budget support improves Paris scores; humanitarian aid bypasses systems</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Media &amp; Information Ecosystems<div class="badge-row"><span class="size-badge">18k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per individual. Media access, consumption, source trust, media literacy, development communication, misinformation, and press freedom perceptions.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>has_radio</code>, <code>has_tv</code>, <code>has_smartphone</code>, <code>has_internet</code> &mdash; Media access</li>
+          <li><code>radio_hours</code>, <code>tv_hours</code>, <code>social_media_hours</code> &mdash; Consumption (hours/week)</li>
+          <li><code>primary_news_source</code>, <code>trusts_primary_source</code> &mdash; Information sources</li>
+          <li><code>media_literacy_score</code>, <code>can_identify_fake_news</code> &mdash; Media literacy (0&ndash;10)</li>
+          <li><code>exposed_to_dev_content</code>, <code>dev_content_topic</code> &mdash; Development communication</li>
+          <li><code>encountered_health_misinformation</code>, <code>shared_misinformation</code> &mdash; Misinformation</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>Urban&ndash;rural divide: urban = more digital, rural = more radio</li>
+          <li>Youth lean to social media; elderly to radio and TV</li>
+          <li>Media literacy reduces misinformation sharing</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>IRT Psychometric Assessment<div class="badge-row"><span class="size-badge">20k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per respondent with 30 item responses. 3-Parameter Logistic (3PL) IRT model with item difficulty, discrimination, guessing, and response times.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>theta</code> &mdash; Latent ability (standard normal, driven by education/wealth/urban)</li>
+          <li><code>item_1</code> through <code>item_30</code> &mdash; Binary responses (0/1 correct)</li>
+          <li>Item parameters: <code>difficulty</code> (b, &minus;3 to 3), <code>discrimination</code> (a, 0.5&ndash;2.5), guessing (c, ~0.25)</li>
+          <li><code>rt_item_1</code> through <code>rt_item_30</code> &mdash; Response times (seconds, lognormal)</li>
+          <li><code>total_score</code>, <code>pct_correct</code> &mdash; Test-level summaries</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>3PL model: P = c + (1&minus;c) / (1 + exp(&minus;a &times; (theta &minus; b)))</li>
+          <li>Differential Item Functioning: items 5, 12, 18 favor females; items 8, 22, 27 favor males</li>
+          <li>Response times: slower for harder items, faster for higher-ability respondents</li>
+          <li>Theta&ndash;total_score correlation ~0.87</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="app-doc">
+      <summary>Field Survey Quality (Paradata)<div class="badge-row"><span class="size-badge">20k rows</span></div></summary>
+      <div class="doc-body">
+        <h4>Structure</h4>
+        <p>One row per survey interview. 200 enumerators with timing, GPS, response pattern, back-check, and enumerator-level quality data. ~5% of enumerators are fabricators.</p>
+        <h4>Key Columns</h4>
+        <ul>
+          <li><code>interview_duration_min</code>, <code>travel_time_min</code>, <code>too_short</code>, <code>too_long</code>, <code>outside_working_hours</code> &mdash; Timing</li>
+          <li><code>gps_latitude</code>, <code>gps_longitude</code>, <code>gps_accuracy_m</code>, <code>gps_suspicious</code> &mdash; GPS validation</li>
+          <li><code>straightlining_score</code>, <code>acquiescence_score</code>, <code>digit_preference_score</code> &mdash; Response patterns</li>
+          <li><code>back_checked</code>, <code>back_check_match_rate</code> &mdash; Verification</li>
+          <li><code>enumerator_experience_months</code>, <code>surveys_completed_today</code>, <code>fatigue_flag</code> &mdash; Enumerator</li>
+          <li><code>missing_rate</code>, <code>dont_know_rate</code>, <code>refused_rate</code>, <code>outlier_count</code> &mdash; Data quality</li>
+        </ul>
+        <h4>Realistic Features</h4>
+        <ul>
+          <li>~5% fabricating enumerators: short duration + straightlining + GPS issues</li>
+          <li>Fatigue effect: quality degrades after 6+ surveys per day</li>
+          <li>Suitable for training data quality auditors and building fraud detection models</li>
+        </ul>
+      </div>
+    </details>
+
+  </div>
+</section>
+
+<!-- EXERCISES -->
+<section id="exercises" class="section-alt">
+  <div class="container">
+    <div class="section-header">
+      <h2>Practice Exercises</h2>
+      <p>Suggested exercises for each dataset, organized by difficulty. Perfect for coursework and self-study.</p>
+    </div>
+    <div class="exercise-grid">
+      <div class="exercise-card">
+        <span class="diff-badge diff-intro">Introductory</span>
+        <h4>Poverty Profile</h4>
+        <p>Using the household survey, calculate headcount poverty rates by district, urban/rural, and household head gender. Plot the Lorenz curve and compute the Gini coefficient.</p>
+        <div class="dataset-ref">Dataset: household_survey</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-intro">Introductory</span>
+        <h4>Descriptive Health Statistics</h4>
+        <p>Compute stunting, underweight, and wasting prevalence by wealth quintile. Plot vaccination coverage by age. Detect the age heaping pattern.</p>
+        <div class="dataset-ref">Dataset: health_nutrition</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-inter">Intermediate</span>
+        <h4>ITT &amp; LATE Estimation</h4>
+        <p>Estimate intent-to-treat effects for each arm. Use compliance data to compute LATE via IV/2SLS. Test for differential attrition and compute Lee bounds.</p>
+        <div class="dataset-ref">Dataset: rct_experiment</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-inter">Intermediate</span>
+        <h4>Mincer Wage Regression</h4>
+        <p>Estimate returns to education and experience. Perform Oaxaca-Blinder decomposition of the gender wage gap. Compare formal vs. informal sector returns.</p>
+        <div class="dataset-ref">Dataset: labor_market</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-inter">Intermediate</span>
+        <h4>Agricultural Productivity</h4>
+        <p>Estimate the Cobb-Douglas production function. Test for technology adoption effects. Analyze how rainfall shocks affect yields and whether irrigation mitigates damage.</p>
+        <div class="dataset-ref">Dataset: agriculture</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-inter">Intermediate</span>
+        <h4>Multi-level Education Model</h4>
+        <p>Fit a hierarchical linear model with student and school levels. Estimate the ICC. Test whether school meal programs improve test scores controlling for SES.</p>
+        <div class="dataset-ref">Dataset: education</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-adv">Advanced</span>
+        <h4>Targeting Accuracy Analysis</h4>
+        <p>Compare PMT, community-based, and categorical targeting. Compute undercoverage, leakage, and total error. Simulate moving the poverty line and observe the error trade-off.</p>
+        <div class="dataset-ref">Dataset: targeting</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-adv">Advanced</span>
+        <h4>Credit Risk &amp; Default Prediction</h4>
+        <p>Build a logistic regression model predicting default. Compute ROC/AUC. Analyze whether group lending reduces default vs. individual lending, controlling for observables.</p>
+        <div class="dataset-ref">Dataset: microfinance</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-adv">Advanced</span>
+        <h4>Market Integration</h4>
+        <p>Test for cointegration between market pairs using the Engle-Granger method. Estimate the law of one price. Analyze how transport costs and borders affect price transmission.</p>
+        <div class="dataset-ref">Dataset: trade_markets</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-adv">Advanced</span>
+        <h4>Growth &amp; Development Regressions</h4>
+        <p>Estimate the relationship between GDP growth and poverty reduction. Test convergence across countries. Use fixed effects to control for unobserved country heterogeneity.</p>
+        <div class="dataset-ref">Dataset: panel_data</div>
+      </div>
+
+      <!-- Sector-Specific Exercises -->
+      <div class="exercise-card">
+        <span class="diff-badge diff-inter">Intermediate</span>
+        <h4>Women&rsquo;s Empowerment Index</h4>
+        <p>Construct a WEAI-like composite index from the 5 decision-making domains. Analyze how programme type (cash vs. training vs. awareness) differentially affects empowerment. Examine GBV underreporting patterns.</p>
+        <div class="dataset-ref">Dataset: gender_programme</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-inter">Intermediate</span>
+        <h4>Girls&rsquo; Dropout Analysis</h4>
+        <p>Build a logistic regression predicting dropout. Quantify the relative contribution of each barrier (marriage, cost, distance, MHM). Estimate scholarship programme effects on primary&ndash;secondary transition.</p>
+        <div class="dataset-ref">Dataset: girls_education</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-inter">Intermediate</span>
+        <h4>Climate Resilience Measurement</h4>
+        <p>Reconstruct the RIMA resilience index from its three pillars. Compare resilience across agro-ecological zones. Analyze whether early warning access reduces crop losses from drought.</p>
+        <div class="dataset-ref">Dataset: climate_resilience</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-inter">Intermediate</span>
+        <h4>Value Chain Margin Analysis</h4>
+        <p>Calculate value addition at each node. Test whether cooperative membership and quality certification improve producer margins. Analyze how post-harvest losses vary by chain node and storage type.</p>
+        <div class="dataset-ref">Dataset: agri_value_chain</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-intro">Introductory</span>
+        <h4>Animal Welfare Assessment</h4>
+        <p>Compute mean Five Freedoms scores by animal type. Visualize how welfare training shifts body condition scores. Compare veterinary access between working and companion animals.</p>
+        <div class="dataset-ref">Dataset: animal_welfare</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-inter">Intermediate</span>
+        <h4>Disease Cascade Analysis</h4>
+        <p>Map the testing&ndash;diagnosis&ndash;treatment cascade for malaria, TB, and HIV. Identify drop-off points. Estimate the equity gap in catastrophic health expenditure by wealth quintile.</p>
+        <div class="dataset-ref">Dataset: public_health</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-inter">Intermediate</span>
+        <h4>VSLA Impact Evaluation</h4>
+        <p>Compare asset accumulation (baseline vs. endline) across treatment arms. Estimate the effect of savings group membership on food consumption score. Analyze financial inclusion disparities by gender.</p>
+        <div class="dataset-ref">Dataset: livelihoods</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-inter">Intermediate</span>
+        <h4>Access to Justice Barriers</h4>
+        <p>Model the determinants of dispute resolution. Estimate how legal aid affects outcomes. Analyze whether rights awareness (CEDAW, child rights) translates into civic participation and advocacy behavior change.</p>
+        <div class="dataset-ref">Dataset: advocacy_rights</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-adv">Advanced</span>
+        <h4>JMP Service Ladder Analysis</h4>
+        <p>Classify households across JMP water and sanitation ladders. Correlate E. coli contamination with source type. Test whether handwashing observation vs. self-report shows social desirability bias. Link WASH conditions to child diarrhoea.</p>
+        <div class="dataset-ref">Dataset: wash</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-adv">Advanced</span>
+        <h4>Humanitarian Needs Assessment</h4>
+        <p>Construct multi-sector severity scores (JIAF-like). Profile vulnerability by displacement status. Analyze Sphere standards compliance gaps. Assess whether feedback mechanisms improve aid satisfaction.</p>
+        <div class="dataset-ref">Dataset: humanitarian</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-adv">Advanced</span>
+        <h4>Graduation Model Evaluation</h4>
+        <p>Evaluate the social protection graduation model: which thresholds (food security, assets, savings) best predict self-sufficiency? Compare programme types. Estimate consumption smoothing effects of regular transfers.</p>
+        <div class="dataset-ref">Dataset: social_protection</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-adv">Advanced</span>
+        <h4>Governance &amp; Corruption Analysis</h4>
+        <p>Estimate the determinants of bribery experience. Test whether social accountability programmes improve trust and budget awareness. Analyze the gap between bribery experience and reporting rates. Build community scorecards from the data.</p>
+        <div class="dataset-ref">Dataset: governance</div>
+      </div>
+
+      <!-- Cross-cutting Exercises -->
+      <div class="exercise-card">
+        <span class="diff-badge diff-inter">Intermediate</span>
+        <h4>KAP Cascade Analysis</h4>
+        <p>Measure the knowledge&ndash;attitude&ndash;practice cascade gap. Test whether campaign dose-response is linear. Model the role of self-efficacy in closing the attitude&ndash;practice gap.</p>
+        <div class="dataset-ref">Dataset: behaviour_change</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-adv">Advanced</span>
+        <h4>Cost-Effectiveness Comparison</h4>
+        <p>Calculate cost-per-beneficiary and ICER across sectors. Compare pilot vs. at-scale programmes for economies of scale. Build a CEA league table ranking interventions by DALY averted per USD.</p>
+        <div class="dataset-ref">Dataset: cost_effectiveness</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-inter">Intermediate</span>
+        <h4>Decent Work &amp; Gender Pay Gap</h4>
+        <p>Decompose the gender wage gap using Oaxaca-Blinder. Compare social protection coverage across formal and informal workers. Estimate the incidence of below-minimum-wage employment by sector.</p>
+        <div class="dataset-ref">Dataset: decent_work</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-inter">Intermediate</span>
+        <h4>Care Work Gender Gap</h4>
+        <p>Calculate the gender care gap in hours/day. Estimate how care infrastructure (water access, cookstoves, childcare) reduces women&rsquo;s care burden. Compute time poverty rates by gender and wealth quintile.</p>
+        <div class="dataset-ref">Dataset: care_economy</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-adv">Advanced</span>
+        <h4>Intersectional Disadvantage</h4>
+        <p>Test for multiplicative (vs. additive) intersectional penalties on income. Compare outcomes for SC women with disabilities against single-axis disadvantage. Map service access gaps across identity combinations.</p>
+        <div class="dataset-ref">Dataset: intersectionality</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-inter">Intermediate</span>
+        <h4>Pollution &amp; Health Inequality</h4>
+        <p>Correlate PM2.5 exposure with wealth quintile to test environmental injustice. Model respiratory illness as a function of pollution exposure and cooking fuel. Compare green space access by income.</p>
+        <div class="dataset-ref">Dataset: environmental_justice</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-intro">Introductory</span>
+        <h4>Social Capital Measurement</h4>
+        <p>Compare bonding vs. bridging social capital across urban/rural areas. Visualize trust levels by education. Test whether CDD programme participants report higher satisfaction and community participation.</p>
+        <div class="dataset-ref">Dataset: community_development</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-inter">Intermediate</span>
+        <h4>Digital Divide Analysis</h4>
+        <p>Map the gender and age digital divide. Test whether digital literacy (hierarchical skills) predicts misinformation resilience. Analyze barriers to internet access by wealth and geography.</p>
+        <div class="dataset-ref">Dataset: digital_access</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-intro">Introductory</span>
+        <h4>SEL Programme Impact</h4>
+        <p>Compare CASEL domain scores between programme and non-programme students. Test whether SEL composite score correlates with academic performance and lower bullying. Visualize gender differences in SEL domains.</p>
+        <div class="dataset-ref">Dataset: social_emotional_learning</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-inter">Intermediate</span>
+        <h4>NGO Financial Health</h4>
+        <p>Analyze the overhead debate: do lower admin costs predict better outcomes? Compare financial health metrics across org types. Build a value-for-money composite. Identify under-reporting patterns in admin costs.</p>
+        <div class="dataset-ref">Dataset: ngo_finance</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-adv">Advanced</span>
+        <h4>Aid Effectiveness &amp; Paris Principles</h4>
+        <p>Analyze Paris Declaration compliance over time (2010&ndash;2025). Test whether budget support improves country ownership scores. Compute donor fragmentation (HHI) by sector. Evaluate tied aid trends.</p>
+        <div class="dataset-ref">Dataset: aid_effectiveness</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-intro">Introductory</span>
+        <h4>Media Landscape Mapping</h4>
+        <p>Profile media consumption by age group and urban/rural status. Test whether media literacy score predicts ability to identify fake news. Analyze which channels reach development communication content most effectively.</p>
+        <div class="dataset-ref">Dataset: media_development</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-adv">Advanced</span>
+        <h4>IRT Model Estimation</h4>
+        <p>Estimate item parameters (difficulty, discrimination) from the response data. Detect DIF items by gender. Compare 1PL, 2PL, and 3PL model fits. Analyze response time patterns by item difficulty and respondent ability.</p>
+        <div class="dataset-ref">Dataset: irt_assessment</div>
+      </div>
+      <div class="exercise-card">
+        <span class="diff-badge diff-adv">Advanced</span>
+        <h4>Survey Fraud Detection</h4>
+        <p>Build a classifier to detect fabricating enumerators from paradata (duration, straightlining, GPS, back-checks). Calculate false positive and negative rates. Recommend a quality threshold for field team supervision.</p>
+        <div class="dataset-ref">Dataset: field_survey_quality</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p><strong>devdata-practice</strong> &middot; Realistic practice data for development economics</p>
+    <p>
+      <a href="https://github.com/Varnasr/devdata-practice" target="_blank">GitHub Repository</a>
+      &nbsp;&middot;&nbsp;
+      <a href="https://varnasr.github.io/deveconomics-toolkit/" target="_blank">DevEconomics Toolkit</a>
+      &nbsp;&middot;&nbsp;
+      <a href="https://impactmojo.in" target="_blank">Impact Mojo</a>
+      &nbsp;&middot;&nbsp;
+      MIT License
+    </p>
+    <p style="margin-top: 16px;">&copy; 2026 Impact Mojo. Open source under the MIT License.</p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  var STORAGE_KEY = 'devdata-theme';
+  var buttons = document.querySelectorAll('.theme-btn');
+  var body = document.body;
+  function getSystemTheme() { return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+  function applyTheme(setting) {
+    var resolved = setting === 'system' ? getSystemTheme() : setting;
+    if (resolved === 'dark') body.classList.add('dark-mode'); else body.classList.remove('dark-mode');
+    buttons.forEach(function(btn) { btn.classList.toggle('active', btn.getAttribute('data-theme') === setting); });
+  }
+  var saved = localStorage.getItem(STORAGE_KEY) || 'system';
+  applyTheme(saved);
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var theme = btn.getAttribute('data-theme');
+      localStorage.setItem(STORAGE_KEY, theme);
+      applyTheme(theme);
+    });
+  });
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+    if (localStorage.getItem(STORAGE_KEY) === 'system') applyTheme('system');
+  });
+  var toggle = document.getElementById('mobileToggle');
+  var navLinks = document.getElementById('navLinks');
+  if (toggle && navLinks) toggle.addEventListener('click', function() { navLinks.classList.toggle('open'); });
+})();
+</script>
+
+</body>
+</html>

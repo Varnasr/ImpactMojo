@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.82.3 — July 7, 2026 (DevData Practice & Visualization Cookbook now on-site)
+
+### Changed
+
+- **DevData Practice** and the **Visualization Cookbook** are now served directly from impactmojo.in (under `/premium-tools/`) instead of a separate external site, so they open in the same session as the rest of Pro Studio and no longer bounce through a separate sign-in wall. DevData Practice documents 36 open-source dataset generators (840k+ rows modelled on DHS / NFHS / ASER frameworks); the Visualization Cookbook covers 14 chart types with ready-to-run R, Python, and Excel code.
+
 ## v10.82.2 — July 6, 2026 (Course self-assessments)
 
 ### For Learners
