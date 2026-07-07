@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visualization Cookbook — DevData Practice</title>
+  <meta name="description" content="Interactive chart picker for 36 development economics datasets. Pick your question, dataset, and get ready-to-use Python visualization code.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-bg:#FFFFFF;--secondary-bg:#F8FAFC;--accent-color:#0EA5E9;--accent-hover:#0284C7;
+      --secondary-accent:#6366F1;--success-color:#10B981;--warning-color:#F59E0B;--danger-color:#EF4444;
+      --text-primary:#0F172A;--text-secondary:#475569;--text-muted:#94A3B8;
+      --card-bg:#FFFFFF;--hover-bg:#F1F5F9;--border-color:#E2E8F0;--code-bg:#F1F5F9;
+      --gradient-primary:linear-gradient(135deg,#0EA5E9 0%,#6366F1 100%);
+      --nav-bg:rgba(255,255,255,0.95);--nav-text:#0F172A;
+      --shadow-sm:0 1px 3px rgba(0,0,0,0.12);--shadow-md:0 4px 6px rgba(0,0,0,0.07);
+      --shadow-lg:0 10px 15px rgba(0,0,0,0.1);--radius:12px;--radius-sm:8px;
+    }
+    body.dark-mode {
+      --primary-bg:#0F172A;--secondary-bg:#1E293B;--text-primary:#F1F5F9;--text-secondary:#94A3B8;
+      --text-muted:#64748B;--card-bg:#1E293B;--hover-bg:#334155;--border-color:#334155;
+      --code-bg:#1E293B;--nav-bg:rgba(15,23,42,0.95);--nav-text:#F1F5F9;
+      --shadow-sm:0 1px 2px rgba(0,0,0,0.05);--shadow-md:0 4px 6px rgba(0,0,0,0.1);
+      --shadow-lg:0 10px 25px rgba(0,0,0,0.2);
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',-apple-system,sans-serif;background:var(--primary-bg);color:var(--text-primary);line-height:1.7;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
+    html{scroll-behavior:smooth}
+    ::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:var(--primary-bg)}::-webkit-scrollbar-thumb{background:var(--border-color);border-radius:4px}
+    .container{max-width:1200px;margin:0 auto;padding:0 1.5rem}
+
+    /* NAV */
+    nav{position:sticky;top:0;z-index:1000;background:var(--nav-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border-color);padding:0 1.5rem}
+    .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+    .logo{font-family:'Poppins',sans-serif;font-weight:700;font-size:1.1rem;color:var(--text-primary);text-decoration:none}
+    .logo span{background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .nav-right{display:flex;align-items:center;gap:24px}
+    .nav-links{display:flex;gap:24px;list-style:none}
+    .nav-links a{color:var(--text-secondary);text-decoration:none;font-size:.85rem;font-weight:500;transition:color .2s;text-transform:uppercase;letter-spacing:.02em}
+    .nav-links a:hover{color:var(--accent-color)}
+    .theme-selector{display:flex;gap:4px;background:var(--secondary-bg);border:1px solid var(--border-color);border-radius:10px;padding:3px}
+    .theme-btn{width:34px;height:34px;border:none;border-radius:8px;background:transparent;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:all .2s;color:var(--text-muted)}
+    .theme-btn:hover{background:var(--hover-bg)}.theme-btn.active{background:var(--accent-color);color:#fff;box-shadow:var(--shadow-sm)}
+
+    /* HERO */
+    .hero{position:relative;padding:80px 0 48px;text-align:center;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:700px;background:radial-gradient(circle,rgba(99,102,241,.08) 0%,transparent 70%);pointer-events:none}
+    body.dark-mode .hero::before{background:radial-gradient(circle,rgba(99,102,241,.12) 0%,transparent 70%)}
+    .hero h1{font-family:'Poppins',sans-serif;font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-.03em;line-height:1.15;margin-bottom:16px}
+    .hero h1 .gradient-text{background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero p{font-size:1.05rem;color:var(--text-secondary);max-width:640px;margin:0 auto 28px;line-height:1.8}
+
+    /* PRINCIPLES BAR */
+    .principles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:48px}
+    .principle{background:var(--card-bg);border:1px solid var(--border-color);border-radius:var(--radius-sm);padding:20px;text-align:center}
+    .principle-icon{font-size:1.5rem;margin-bottom:8px}
+    .principle h4{font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:700;margin-bottom:6px}
+    .principle p{font-size:.78rem;color:var(--text-secondary);line-height:1.5}
+
+    /* FILTERS */
+    .filter-bar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:32px;align-items:center}
+    .filter-bar select,.filter-bar input{
+      background:var(--card-bg);color:var(--text-primary);border:1px solid var(--border-color);
+      border-radius:var(--radius-sm);padding:10px 14px;font-size:.85rem;font-family:'Inter',sans-serif;
+      min-width:180px;cursor:pointer;transition:border-color .2s;outline:none;
+    }
+    .filter-bar select:focus,.filter-bar input:focus{border-color:var(--accent-color)}
+    .filter-bar select option{background:var(--card-bg);color:var(--text-primary)}
+    .filter-count{font-size:.85rem;color:var(--text-muted);margin-left:auto;white-space:nowrap}
+
+    /* RECIPE CARDS */
+    .recipe-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:20px;margin-bottom:48px}
+    .recipe-card{background:var(--card-bg);border:1px solid var(--border-color);border-radius:var(--radius);overflow:hidden;transition:all .25s;box-shadow:var(--shadow-sm)}
+    .recipe-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--accent-color)}
+    .recipe-header{padding:20px 20px 12px;display:flex;gap:12px;align-items:flex-start}
+    .chart-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+    .recipe-header h3{font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:700;line-height:1.3}
+    .recipe-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+    .badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.03em}
+    .badge-dataset{background:rgba(14,165,233,.12);color:#0EA5E9}
+    .badge-chart{background:rgba(99,102,241,.12);color:#6366F1}
+    .badge-question{background:rgba(16,185,129,.12);color:#10B981}
+    .recipe-body{padding:0 20px 16px}
+    .recipe-body .insight{font-size:.82rem;color:var(--text-secondary);margin-bottom:10px;line-height:1.5}
+    .recipe-body .vars{font-size:.75rem;color:var(--text-muted);margin-bottom:10px}
+    .recipe-body .vars code{font-family:'JetBrains Mono',monospace;background:var(--code-bg);padding:1px 5px;border-radius:3px;font-size:.72rem}
+    .recipe-tip{font-size:.76rem;color:var(--warning-color);padding:8px 12px;background:rgba(245,158,11,.06);border-radius:6px;margin-bottom:10px;line-height:1.5}
+    .recipe-tip::before{content:'Design tip: ';font-weight:700}
+    .code-toggle{display:flex;align-items:center;gap:6px;background:none;border:1px solid var(--border-color);border-radius:6px;padding:6px 12px;font-size:.78rem;color:var(--text-secondary);cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;width:100%}
+    .code-toggle:hover{border-color:var(--accent-color);color:var(--accent-color)}
+    .code-toggle svg{width:14px;height:14px;transition:transform .2s}
+    .code-toggle.open svg{transform:rotate(90deg)}
+    .code-block{display:none;margin-top:10px;position:relative}
+    .code-block.open{display:block}
+    .code-block pre{background:var(--code-bg);border:1px solid var(--border-color);border-radius:8px;padding:14px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:.75rem;line-height:1.6;color:var(--text-primary)}
+    .copy-btn{position:absolute;top:8px;right:8px;background:var(--card-bg);border:1px solid var(--border-color);border-radius:6px;padding:4px 10px;font-size:.7rem;cursor:pointer;color:var(--text-muted);font-family:'Inter',sans-serif;transition:all .2s}
+    .copy-btn:hover{border-color:var(--accent-color);color:var(--accent-color)}
+
+    /* CHART TYPE GUIDE */
+    .guide-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:32px}
+    .guide-card{background:var(--card-bg);border:1px solid var(--border-color);border-radius:var(--radius-sm);padding:20px;transition:all .2s}
+    .guide-card:hover{border-color:var(--accent-color)}
+    .guide-card h4{font-family:'Poppins',sans-serif;font-size:.9rem;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+    .guide-card p{font-size:.8rem;color:var(--text-secondary);margin-bottom:8px;line-height:1.5}
+    .guide-card .when{font-size:.75rem;color:var(--text-muted);line-height:1.4}
+    .guide-card .when strong{color:var(--success-color)}
+    .guide-card .avoid{font-size:.75rem;color:var(--danger-color);margin-top:4px;line-height:1.4}
+
+    section{padding:3rem 0}
+    .section-alt{background:var(--secondary-bg);transition:background .3s}
+    .section-header{text-align:center;margin-bottom:36px}
+    .section-header h2{font-family:'Poppins',sans-serif;font-size:2rem;font-weight:700;letter-spacing:-.02em;margin-bottom:10px}
+    .section-header p{color:var(--text-secondary);font-size:1rem;max-width:600px;margin:0 auto}
+    .empty-state{text-align:center;padding:60px 20px;color:var(--text-muted);font-size:.95rem}
+
+    footer{border-top:1px solid var(--border-color);padding:2rem 0;text-align:center}
+    footer p{font-size:.8rem;color:var(--text-muted)}
+    footer a{color:var(--accent-color);text-decoration:none}
+
+    @media(max-width:768px){
+      .recipe-grid{grid-template-columns:1fr}
+      .filter-bar{flex-direction:column}
+      .filter-bar select,.filter-bar input{width:100%;min-width:auto}
+      .filter-count{margin-left:0;margin-top:4px}
+      .principles{grid-template-columns:1fr 1fr}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="devdata-practice.html" class="logo">Dev<span>Data</span></a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="/" title="Back to ImpactMojo">&#8592; ImpactMojo</a></li>
+        <li><a href="devdata-practice.html#datasets">Datasets</a></li>
+        <li><a href="devdata-practice.html#documentation">Docs</a></li>
+        <li><a href="devdata-practice.html#exercises">Exercises</a></li>
+        <li><a href="viz-cookbook.html" style="color:var(--accent-color)">Charts</a></li>
+      </ul>
+      <div class="theme-selector">
+        <button class="theme-btn" onclick="setTheme('light')" title="Light">&#9788;</button>
+        <button class="theme-btn active" onclick="setTheme('dark')" title="Dark">&#9790;</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <h1>Visualization <span class="gradient-text">Cookbook</span></h1>
+    <p>
+      Pick your question, choose a dataset, get production-ready Python code.
+      Every recipe is designed around what story your data tells — not just which chart looks nice.
+    </p>
+  </div>
+</header>
+
+<!-- DESIGN PRINCIPLES (inspired by Chartosaur's DAL framework) -->
+<div class="container">
+  <div class="principles">
+    <div class="principle">
+      <div class="principle-icon">&#9881;</div>
+      <h4>Message First</h4>
+      <p>Start with the question you're answering, not the chart type. The visualization follows the insight.</p>
+    </div>
+    <div class="principle">
+      <div class="principle-icon">&#9986;</div>
+      <h4>Data-to-Ink</h4>
+      <p>Every pixel should earn its place. Remove gridlines, borders, and colours that don't carry meaning.</p>
+    </div>
+    <div class="principle">
+      <div class="principle-icon">&#9875;</div>
+      <h4>Anchor in Context</h4>
+      <p>Numbers without context are noise. Show benchmarks, thresholds, or comparisons that make the data meaningful.</p>
+    </div>
+    <div class="principle">
+      <div class="principle-icon">&#9783;</div>
+      <h4>Sometimes a Table</h4>
+      <p>If your audience needs exact values or your data has &lt;5 items, a clean table often beats any chart.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FILTERS -->
+<section>
+  <div class="container">
+    <div class="filter-bar">
+      <select id="filterQuestion" onchange="render()">
+        <option value="">All Questions</option>
+        <option value="compare">How do groups compare?</option>
+        <option value="distribute">How is it distributed?</option>
+        <option value="relate">How are things related?</option>
+        <option value="compose">What are the parts of the whole?</option>
+        <option value="trend">How does it change over time?</option>
+        <option value="spatial">Where is it happening?</option>
+      </select>
+      <select id="filterDataset" onchange="render()">
+        <option value="">All Datasets</option>
+      </select>
+      <select id="filterChart" onchange="render()">
+        <option value="">All Chart Types</option>
+        <option value="bar">Bar</option>
+        <option value="histogram">Histogram</option>
+        <option value="box">Box Plot</option>
+        <option value="scatter">Scatter</option>
+        <option value="line">Line</option>
+        <option value="heatmap">Heatmap</option>
+        <option value="stacked_bar">Stacked Bar</option>
+        <option value="violin">Violin</option>
+        <option value="lollipop">Lollipop / Dot</option>
+        <option value="density">Density</option>
+        <option value="paired_bar">Paired Bar</option>
+        <option value="table">Table</option>
+        <option value="area">Area</option>
+        <option value="bubble">Bubble</option>
+      </select>
+      <input type="text" id="filterSearch" placeholder="Search recipes..." oninput="render()">
+      <span class="filter-count" id="filterCount"></span>
+    </div>
+    <div class="recipe-grid" id="recipeGrid"></div>
+    <div class="empty-state" id="emptyState" style="display:none">No recipes match your filters. Try broadening your search.</div>
+  </div>
+</section>
+
+<!-- CHART TYPE GUIDE -->
+<section class="section-alt" id="guide">
+  <div class="container">
+    <div class="section-header">
+      <h2>Chart Type Guide</h2>
+      <p>When to use each chart — and when not to. Inspired by the Chartosaur principles.</p>
+    </div>
+    <div class="guide-grid">
+      <div class="guide-card">
+        <h4>&#9642; Bar Chart</h4>
+        <p>Compare values across categories. The workhorse of data viz.</p>
+        <div class="when"><strong>Use when:</strong> Comparing &le;15 categories on one measure. Horizontal bars for long labels.</div>
+        <div class="avoid">Avoid: 3D bars, excessive categories, missing zero baseline.</div>
+      </div>
+      <div class="guide-card">
+        <h4>&#9646; Histogram</h4>
+        <p>Show the shape of a single continuous variable's distribution.</p>
+        <div class="when"><strong>Use when:</strong> You want to see skewness, outliers, or modality. Choose bin widths carefully.</div>
+        <div class="avoid">Avoid: Too few bins (hides shape) or too many (noise). Don't use for categories.</div>
+      </div>
+      <div class="guide-card">
+        <h4>&#9744; Box Plot</h4>
+        <p>Compare distributions across groups — shows median, IQR, and outliers.</p>
+        <div class="when"><strong>Use when:</strong> Comparing spread and central tendency across 3&ndash;12 groups.</div>
+        <div class="avoid">Avoid: When your audience doesn't know how to read box plots. Consider violin or jitter instead.</div>
+      </div>
+      <div class="guide-card">
+        <h4>&#9679; Scatter Plot</h4>
+        <p>Reveal relationships between two continuous variables.</p>
+        <div class="when"><strong>Use when:</strong> Exploring correlation, clusters, or outliers. Add trend line for emphasis.</div>
+        <div class="avoid">Avoid: Overplotting (&gt;5k points without transparency). Consider hex bins or density instead.</div>
+      </div>
+      <div class="guide-card">
+        <h4>&#9135; Line Chart</h4>
+        <p>Show trends over a continuous, ordered dimension (usually time).</p>
+        <div class="when"><strong>Use when:</strong> Data has a natural order. Limit to 4&ndash;5 lines max.</div>
+        <div class="avoid">Avoid: Connecting categorical data or unordered groups. Don't truncate y-axis for trend charts.</div>
+      </div>
+      <div class="guide-card">
+        <h4>&#9632; Heatmap</h4>
+        <p>Show patterns in matrices — correlation tables, cross-tabs, or time grids.</p>
+        <div class="when"><strong>Use when:</strong> You have two categorical/ordinal axes and a continuous fill value.</div>
+        <div class="avoid">Avoid: More than ~20 items per axis. Use diverging colour scales for correlation.</div>
+      </div>
+      <div class="guide-card">
+        <h4>&#9636; Stacked Bar</h4>
+        <p>Show composition — how parts sum to a whole.</p>
+        <div class="when"><strong>Use when:</strong> Showing shares across &le;5 categories. Use 100% stacking for share comparison.</div>
+        <div class="avoid">Avoid: Too many segments (&gt;5). Hard to compare middle segments — put the key one at the base.</div>
+      </div>
+      <div class="guide-card">
+        <h4>&#9827; Violin Plot</h4>
+        <p>Like box plots but show the full distribution shape via kernel density.</p>
+        <div class="when"><strong>Use when:</strong> Distributions are bimodal or otherwise non-normal. Half-violins + jitter is powerful.</div>
+        <div class="avoid">Avoid: When groups are small (n &lt; 30). KDE can be misleading with small samples.</div>
+      </div>
+      <div class="guide-card">
+        <h4>&#8943; Lollipop / Dot Plot</h4>
+        <p>Like bar charts but with less ink. Great for rankings.</p>
+        <div class="when"><strong>Use when:</strong> Ranking items, showing gaps to a target, or before/after comparisons.</div>
+        <div class="avoid">Avoid: When your audience expects bars. Lollipops work best for data-savvy viewers.</div>
+      </div>
+      <div class="guide-card">
+        <h4>&#9783; Table</h4>
+        <p>Sometimes the most honest, readable format. Don't force a chart.</p>
+        <div class="when"><strong>Use when:</strong> &le;5 rows, exact values matter, or your data tells multiple stories at once.</div>
+        <div class="avoid">Avoid: Large tables (&gt;20 rows) without highlighting. Use conditional formatting or sparklines.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p><a href="devdata-practice.html">DevData Practice</a> &mdash; 36 generators, 840k+ rows, 1,300+ variables.<br>
+    Design principles inspired by <a href="https://www.chartosaur.com/playbook" target="_blank">Chartosaur's Present with Data Playbook</a>.</p>
+  </div>
+</footer>
+
+<script>
+// ── Chart type metadata ──
+const CHART_META = {
+  bar:        {icon:'&#9642;',color:'#0EA5E9',label:'Bar'},
+  histogram:  {icon:'&#9646;',color:'#6366F1',label:'Histogram'},
+  box:        {icon:'&#9744;',color:'#8B5CF6',label:'Box Plot'},
+  scatter:    {icon:'&#9679;',color:'#F59E0B',label:'Scatter'},
+  line:       {icon:'&#9135;',color:'#10B981',label:'Line'},
+  heatmap:    {icon:'&#9632;',color:'#EF4444',label:'Heatmap'},
+  stacked_bar:{icon:'&#9636;',color:'#6366F1',label:'Stacked Bar'},
+  violin:     {icon:'&#9827;',color:'#EC4899',label:'Violin'},
+  lollipop:   {icon:'&#8943;',color:'#F59E0B',label:'Lollipop'},
+  density:    {icon:'&#8776;',color:'#3B82F6',label:'Density'},
+  paired_bar: {icon:'&#8644;',color:'#14B8A6',label:'Paired Bar'},
+  table:      {icon:'&#9783;',color:'#64748B',label:'Table'},
+  area:       {icon:'&#9650;',color:'#10B981',label:'Area'},
+  bubble:     {icon:'&#9711;',color:'#F97316',label:'Bubble'},
+};
+const Q_LABELS = {compare:'Compare',distribute:'Distribute',relate:'Relate',compose:'Compose',trend:'Trend',spatial:'Spatial'};
+
+// ── Dataset display names ──
+const DS_NAMES = {
+  household_survey:'Household Survey',rct_experiment:'RCT Experiment',panel_data:'Panel Data',
+  agriculture:'Agriculture',health_nutrition:'Health & Nutrition',education:'Education',
+  labor_market:'Labour Market',microfinance:'Microfinance',targeting:'PMT Targeting',
+  trade_markets:'Trade & Markets',gender_programme:'Gender Programme',girls_education:"Girls' Education",
+  climate_resilience:'Climate Resilience',agri_value_chain:'Agri Value Chain',animal_welfare:'Animal Welfare',
+  public_health:'Public Health',livelihoods:'Livelihoods',advocacy_rights:'Advocacy & Rights',
+  wash:'WASH',humanitarian:'Humanitarian',social_protection:'Social Protection',governance:'Governance',
+  behaviour_change:'Behaviour Change',cost_effectiveness:'Cost-Effectiveness',decent_work:'Decent Work',
+  care_economy:'Care Economy',intersectionality:'Intersectionality',environmental_justice:'Environmental Justice',
+  community_development:'Community Development',digital_access:'Digital Access',
+  social_emotional_learning:'Social-Emotional Learning',ngo_finance:'NGO Finance',
+  aid_effectiveness:'Aid Effectiveness',media_development:'Media Development',
+  irt_assessment:'IRT Assessment',field_survey_quality:'Survey Quality',
+};
+
+// ── Visualization recipes ──
+const RECIPES = [
+// ─── HOUSEHOLD SURVEY ───
+{dataset:'household_survey',title:'Consumption inequality across wealth quintiles',question:'compare',chartType:'box',
+ vars:['wealth_quintile','consumption_per_capita'],
+ insight:'Reveals how consumption spread widens dramatically in the top quintile — a hallmark of developing-country inequality.',
+ tip:'Always start y-axis at zero. Label the median values directly on each box.',
+ code:`df = pd.read_csv('output/household_survey.csv')
+sns.boxplot(data=df, x='wealth_quintile', y='consumption_per_capita',
+            palette='viridis', order=[1,2,3,4,5])
+plt.xlabel('Wealth Quintile')
+plt.ylabel('Consumption per Capita (USD/month)')
+plt.title('Consumption Distribution by Wealth Group')
+plt.tight_layout(); plt.show()`},
+{dataset:'household_survey',title:'Income distribution — log-normal shape',question:'distribute',chartType:'histogram',
+ vars:['household_income'],
+ insight:'Income follows a log-normal distribution — most households cluster at the bottom with a long right tail.',
+ tip:'Use log scale or log-transform for a clearer shape. Annotate the median vs mean to show skewness.',
+ code:`df = pd.read_csv('output/household_survey.csv')
+plt.hist(df['household_income'].dropna(), bins=50, edgecolor='white', alpha=0.8)
+plt.axvline(df['household_income'].median(), color='red', ls='--', label='Median')
+plt.axvline(df['household_income'].mean(), color='orange', ls='--', label='Mean')
+plt.xlabel('Household Income (USD)'); plt.ylabel('Count')
+plt.title('Income Distribution'); plt.legend()
+plt.tight_layout(); plt.show()`},
+{dataset:'household_survey',title:'Asset ownership rates by urban/rural',question:'compare',chartType:'paired_bar',
+ vars:['urban_rural','has_electricity','has_mobile_phone','has_improved_water'],
+ insight:'Urban-rural gaps in asset ownership reveal infrastructure inequality more clearly than income alone.',
+ tip:'Order bars by the size of the gap, not alphabetically. Use a minimal colour pair (blue/grey).',
+ code:`df = pd.read_csv('output/household_survey.csv')
+assets = ['has_electricity','has_mobile_phone','has_improved_water']
+grouped = df.groupby('urban_rural')[assets].mean().T
+grouped.plot(kind='barh', figsize=(8,4))
+plt.xlabel('Ownership Rate'); plt.title('Asset Ownership: Urban vs Rural')
+plt.tight_layout(); plt.show()`},
+
+// ─── RCT EXPERIMENT ───
+{dataset:'rct_experiment',title:'Treatment effect by arm with confidence intervals',question:'compare',chartType:'lollipop',
+ vars:['treatment_arm','outcome_score'],
+ insight:'Visualise point estimates with CIs — which arms have statistically significant effects?',
+ tip:'Sort by effect size. Add a vertical reference line at zero (null effect). Grey out non-significant arms.',
+ code:`df = pd.read_csv('output/rct_experiment.csv')
+means = df.groupby('treatment_arm')['outcome_score'].agg(['mean','sem']).reset_index()
+means['ci'] = means['sem'] * 1.96
+plt.errorbar(means['mean'], means['treatment_arm'], xerr=means['ci'],
+             fmt='o', capsize=4, color='#6366F1')
+plt.axvline(0, color='grey', ls=':', alpha=0.5)
+plt.xlabel('Outcome Score'); plt.title('Treatment Effects by Arm')
+plt.tight_layout(); plt.show()`},
+{dataset:'rct_experiment',title:'Attrition patterns by treatment arm',question:'compose',chartType:'stacked_bar',
+ vars:['treatment_arm','attrited'],
+ insight:'Differential attrition across arms threatens internal validity — check balance here.',
+ tip:'Use a two-colour scheme (stayed/attrited). Annotate percentages on each segment.',
+ code:`df = pd.read_csv('output/rct_experiment.csv')
+ct = pd.crosstab(df['treatment_arm'], df['attrited'], normalize='index')
+ct.plot(kind='bar', stacked=True, color=['#10B981','#EF4444'])
+plt.ylabel('Proportion'); plt.title('Attrition Rate by Treatment Arm')
+plt.legend(['Stayed','Attrited']); plt.xticks(rotation=0)
+plt.tight_layout(); plt.show()`},
+{dataset:'rct_experiment',title:'Compliance vs outcome — IV intuition',question:'relate',chartType:'scatter',
+ vars:['compliance','outcome_score','treatment_arm'],
+ insight:'The compliance-outcome relationship gives intuition for LATE estimation. Non-compliers blur ITT.',
+ tip:'Use colour for treatment arm. Add separate trend lines per arm to show differential slopes.',
+ code:`df = pd.read_csv('output/rct_experiment.csv')
+sns.scatterplot(data=df, x='compliance', y='outcome_score',
+                hue='treatment_arm', alpha=0.4, s=15)
+plt.title('Compliance vs Outcome by Arm')
+plt.tight_layout(); plt.show()`},
+
+// ─── PANEL DATA ───
+{dataset:'panel_data',title:'GDP growth trajectories across countries',question:'trend',chartType:'line',
+ vars:['year','gdp_per_capita','country'],
+ insight:'Line charts reveal convergence, divergence, and growth shocks across countries over 25 years.',
+ tip:'Highlight 2-3 countries of interest, grey out the rest. Add recession shading for context.',
+ code:`df = pd.read_csv('output/panel_data.csv')
+for c in df['country'].unique()[:5]:
+    sub = df[df['country']==c]
+    plt.plot(sub['year'], sub['gdp_per_capita'], label=c, alpha=0.8)
+plt.xlabel('Year'); plt.ylabel('GDP per Capita (USD)')
+plt.title('GDP Trajectories'); plt.legend(fontsize=7)
+plt.tight_layout(); plt.show()`},
+{dataset:'panel_data',title:'Development indicator correlation matrix',question:'relate',chartType:'heatmap',
+ vars:['gdp_per_capita','life_expectancy','literacy_rate','infant_mortality'],
+ insight:'Heatmap reveals which development indicators move together — and which don\'t.',
+ tip:'Use a diverging colour scale (red-white-blue). Annotate cells with r values. Mask the diagonal.',
+ code:`df = pd.read_csv('output/panel_data.csv')
+cols = ['gdp_per_capita','life_expectancy','literacy_rate','infant_mortality_rate']
+corr = df[cols].corr()
+sns.heatmap(corr, annot=True, fmt='.2f', cmap='RdBu_r',
+            center=0, vmin=-1, vmax=1)
+plt.title('Development Indicator Correlations')
+plt.tight_layout(); plt.show()`},
+
+// ─── AGRICULTURE ───
+{dataset:'agriculture',title:'Crop yield distribution by crop type',question:'compare',chartType:'violin',
+ vars:['crop_type','yield_kg_per_hectare'],
+ insight:'Violin plots reveal that yield distributions are often bimodal — reflecting irrigated vs rainfed farming.',
+ tip:'Add a box plot inside the violin. Order crops by median yield.',
+ code:`df = pd.read_csv('output/agriculture.csv')
+sns.violinplot(data=df, x='crop_type', y='yield_kg_per_hectare',
+               inner='box', palette='Set2')
+plt.xticks(rotation=45, ha='right')
+plt.ylabel('Yield (kg/ha)'); plt.title('Yield Distribution by Crop')
+plt.tight_layout(); plt.show()`},
+{dataset:'agriculture',title:'Fertiliser use vs yield — diminishing returns',question:'relate',chartType:'scatter',
+ vars:['fertilizer_kg_per_hectare','yield_kg_per_hectare'],
+ insight:'Shows the classic agronomic production function — returns diminish at higher fertiliser rates.',
+ tip:'Add a LOWESS or polynomial trend line to show the non-linear relationship. Use alpha for density.',
+ code:`df = pd.read_csv('output/agriculture.csv')
+sns.regplot(data=df, x='fertilizer_kg_per_hectare', y='yield_kg_per_hectare',
+            lowess=True, scatter_kws={'alpha':0.2,'s':8}, line_kws={'color':'red'})
+plt.xlabel('Fertiliser (kg/ha)'); plt.ylabel('Yield (kg/ha)')
+plt.title('Fertiliser-Yield Relationship'); plt.tight_layout(); plt.show()`},
+{dataset:'agriculture',title:'Input adoption rates by wealth quintile',question:'compare',chartType:'bar',
+ vars:['wealth_quintile','uses_improved_seed','uses_fertilizer','has_irrigation'],
+ insight:'Adoption of modern inputs rises sharply with wealth — a key constraint for smallholders.',
+ tip:'Use horizontal grouped bars. Add a benchmark line if there is a target adoption rate.',
+ code:`df = pd.read_csv('output/agriculture.csv')
+inputs = ['uses_improved_seed','uses_fertilizer','has_irrigation']
+rates = df.groupby('wealth_quintile')[inputs].mean()
+rates.plot(kind='bar', figsize=(8,4))
+plt.ylabel('Adoption Rate'); plt.title('Input Adoption by Wealth Quintile')
+plt.xticks(rotation=0); plt.legend(loc='upper left')
+plt.tight_layout(); plt.show()`},
+
+// ─── HEALTH & NUTRITION ───
+{dataset:'health_nutrition',title:'Stunting (HAZ < -2) prevalence by district',question:'compare',chartType:'bar',
+ vars:['district','height_for_age_z'],
+ insight:'District-level stunting rates reveal geographic inequality in child malnutrition.',
+ tip:'Sort bars by prevalence (worst first). Add WHO threshold line. Use a single strong colour.',
+ code:`df = pd.read_csv('output/health_nutrition.csv')
+df['stunted'] = (df['height_for_age_z'] < -2).astype(int)
+prev = df.groupby('district')['stunted'].mean().sort_values(ascending=False).head(15)
+prev.plot(kind='barh', color='#EF4444')
+plt.xlabel('Stunting Prevalence'); plt.title('Top 15 Districts by Stunting Rate')
+plt.tight_layout(); plt.show()`},
+{dataset:'health_nutrition',title:'Height-for-age Z-score distribution vs WHO reference',question:'distribute',chartType:'density',
+ vars:['height_for_age_z'],
+ insight:'Comparing the observed HAZ distribution against the WHO standard (N(0,1)) reveals the leftward shift typical of developing countries.',
+ tip:'Overlay the WHO reference curve in grey. Shade the area below -2 SD to highlight stunting.',
+ code:`df = pd.read_csv('output/health_nutrition.csv')
+import scipy.stats as stats
+x = np.linspace(-5, 5, 200)
+plt.fill_between(x, stats.norm.pdf(x), alpha=0.15, color='grey', label='WHO reference')
+df['height_for_age_z'].plot(kind='density', color='#EF4444', lw=2, label='Observed')
+plt.axvline(-2, color='red', ls=':', alpha=0.5, label='Stunting threshold')
+plt.xlabel('HAZ'); plt.title('HAZ Distribution vs WHO Reference')
+plt.legend(); plt.tight_layout(); plt.show()`},
+{dataset:'health_nutrition',title:'Vaccination coverage by antigen',question:'compare',chartType:'lollipop',
+ vars:['bcg_vaccinated','dpt3_vaccinated','measles_vaccinated','fully_immunized'],
+ insight:'Dropout between BCG (birth) and DPT3/measles reveals health system reach vs follow-through.',
+ tip:'Order antigens by schedule timing. Highlight the dropout gap between first and last dose.',
+ code:`df = pd.read_csv('output/health_nutrition.csv')
+antigens = ['bcg_vaccinated','dpt3_vaccinated','measles_vaccinated','fully_immunized']
+rates = df[antigens].mean()
+plt.hlines(y=rates.index, xmin=0, xmax=rates.values, color='#0EA5E9', lw=2)
+plt.plot(rates.values, rates.index, 'o', color='#0EA5E9', markersize=8)
+plt.xlabel('Coverage Rate'); plt.title('Vaccination Coverage by Antigen')
+plt.tight_layout(); plt.show()`},
+
+// ─── EDUCATION ───
+{dataset:'education',title:'Test score distributions by school type',question:'compare',chartType:'violin',
+ vars:['school_type','avg_math_score'],
+ insight:'Private vs public school score gaps — but is it selection or quality?',
+ tip:'Add individual data points (jitter) inside the violin to show sample sizes.',
+ code:`df = pd.read_csv('output/education.csv')
+sns.violinplot(data=df, x='school_type', y='avg_math_score', inner='stick', palette='muted')
+plt.ylabel('Average Math Score'); plt.title('Math Scores by School Type')
+plt.tight_layout(); plt.show()`},
+{dataset:'education',title:'Pupil-teacher ratio vs test scores',question:'relate',chartType:'scatter',
+ vars:['pupil_teacher_ratio','avg_math_score'],
+ insight:'Classic education production function — do smaller classes help? The relationship is often weaker than expected.',
+ tip:'Use bubble size for school enrollment. Add a regression line with confidence band.',
+ code:`df = pd.read_csv('output/education.csv')
+sns.regplot(data=df, x='pupil_teacher_ratio', y='avg_math_score',
+            scatter_kws={'alpha':0.3,'s':15}, line_kws={'color':'red'})
+plt.xlabel('Pupil-Teacher Ratio'); plt.ylabel('Avg Math Score')
+plt.title('Class Size vs Achievement'); plt.tight_layout(); plt.show()`},
+
+// ─── LABOUR MARKET ───
+{dataset:'labor_market',title:'Wage distributions: formal vs informal',question:'compare',chartType:'density',
+ vars:['monthly_wage_usd','is_formal'],
+ insight:'The bimodal wage structure between formal and informal sectors is a defining feature of developing labour markets.',
+ tip:'Use overlapping density curves with transparency. Add vertical lines at median for each group.',
+ code:`df = pd.read_csv('output/labor_market.csv')
+for label, sub in df.groupby('is_formal'):
+    sub['monthly_wage_usd'].plot(kind='density', label='Formal' if label else 'Informal', lw=2)
+plt.xlabel('Monthly Wage (USD)'); plt.xlim(0, df['monthly_wage_usd'].quantile(0.95))
+plt.title('Wage Distribution: Formal vs Informal')
+plt.legend(); plt.tight_layout(); plt.show()`},
+{dataset:'labor_market',title:'Employment composition by sector and gender',question:'compose',chartType:'stacked_bar',
+ vars:['gender','sector'],
+ insight:'Occupational segregation: women concentrated in certain sectors, men in others.',
+ tip:'Use a colour palette where each sector is distinct. Keep to ≤6 sectors (group the rest as "other").',
+ code:`df = pd.read_csv('output/labor_market.csv')
+ct = pd.crosstab(df['gender'], df['sector'], normalize='index')
+ct.plot(kind='bar', stacked=True, figsize=(8,5), colormap='Set3')
+plt.ylabel('Share'); plt.title('Employment Composition by Gender')
+plt.xticks(rotation=0); plt.legend(bbox_to_anchor=(1.05,1), fontsize=7)
+plt.tight_layout(); plt.show()`},
+
+// ─── MICROFINANCE ───
+{dataset:'microfinance',title:'Loan size distribution by lending model',question:'compare',chartType:'box',
+ vars:['lending_model','loan_amount_usd'],
+ insight:'Group loans tend to be smaller and less variable; individual loans have wider range and bigger outliers.',
+ tip:'Show the mean as a diamond marker alongside the median line. Log-scale y-axis if range is wide.',
+ code:`df = pd.read_csv('output/microfinance.csv')
+sns.boxplot(data=df, x='lending_model', y='loan_amount_usd', palette='Set2', showmeans=True)
+plt.ylabel('Loan Amount (USD)'); plt.title('Loan Size by Lending Model')
+plt.tight_layout(); plt.show()`},
+{dataset:'microfinance',title:'Repayment rate over loan cycle',question:'trend',chartType:'line',
+ vars:['loan_cycle','repayment_rate'],
+ insight:'Repayment improves with loan cycle — a key finding in microfinance (selection + learning effects).',
+ tip:'Add a shaded confidence band around the mean line. Mark the first-loan dropout rate.',
+ code:`df = pd.read_csv('output/microfinance.csv')
+by_cycle = df.groupby('loan_cycle')['repayment_rate'].agg(['mean','sem']).reset_index()
+plt.fill_between(by_cycle['loan_cycle'], by_cycle['mean']-1.96*by_cycle['sem'],
+                 by_cycle['mean']+1.96*by_cycle['sem'], alpha=0.2)
+plt.plot(by_cycle['loan_cycle'], by_cycle['mean'], 'o-', color='#6366F1')
+plt.xlabel('Loan Cycle'); plt.ylabel('Repayment Rate')
+plt.title('Repayment Improves with Experience'); plt.tight_layout(); plt.show()`},
+
+// ─── TARGETING ───
+{dataset:'targeting',title:'Inclusion and exclusion errors by threshold',question:'relate',chartType:'line',
+ vars:['pmt_score','actual_poor','predicted_poor'],
+ insight:'The trade-off between inclusion error (giving to non-poor) and exclusion error (missing the poor) at different PMT thresholds.',
+ tip:'Plot both error curves on the same axes. Mark the optimal threshold where they cross.',
+ code:`df = pd.read_csv('output/targeting.csv')
+thresholds = np.linspace(df['pmt_score'].quantile(0.1), df['pmt_score'].quantile(0.9), 50)
+incl, excl = [], []
+for t in thresholds:
+    pred = df['pmt_score'] < t
+    incl.append((pred & ~df['actual_poor']).mean())
+    excl.append((~pred & df['actual_poor']).mean())
+plt.plot(thresholds, incl, label='Inclusion Error', color='#F59E0B')
+plt.plot(thresholds, excl, label='Exclusion Error', color='#EF4444')
+plt.xlabel('PMT Threshold'); plt.ylabel('Error Rate')
+plt.title('Targeting Error Trade-off'); plt.legend()
+plt.tight_layout(); plt.show()`},
+
+// ─── TRADE & MARKETS ───
+{dataset:'trade_markets',title:'Commodity price trends across markets',question:'trend',chartType:'line',
+ vars:['week','price','commodity','market_id'],
+ insight:'Price co-movement across markets tests market integration (law of one price).',
+ tip:'Highlight one commodity and grey out the rest. Add a seasonal decomposition if weekly data.',
+ code:`df = pd.read_csv('output/trade_markets.csv')
+commodity = df['commodity'].unique()[0]
+sub = df[df['commodity']==commodity]
+for m in sub['market_id'].unique()[:8]:
+    ms = sub[sub['market_id']==m]
+    plt.plot(ms['week'], ms['price'], alpha=0.4, lw=1)
+plt.xlabel('Week'); plt.ylabel('Price (local currency)')
+plt.title(f'{commodity}: Price Trends Across Markets')
+plt.tight_layout(); plt.show()`},
+
+// ─── GENDER PROGRAMME ───
+{dataset:'gender_programme',title:'Women\'s decision-making power by domain',question:'compare',chartType:'bar',
+ vars:['decides_own_health','decides_major_purchases','decides_visit_family'],
+ insight:'Decision-making autonomy varies by domain — women often have more say over daily matters than large purchases.',
+ tip:'Use horizontal bars sorted by rate. A consistent colour for all bars focuses attention on differences.',
+ code:`df = pd.read_csv('output/gender_programme.csv')
+domains = ['decides_own_health','decides_major_purchases','decides_visit_family']
+rates = df[domains].mean().sort_values()
+rates.plot(kind='barh', color='#6366F1')
+plt.xlabel('Proportion with Decision-Making Power')
+plt.title("Women's Decision-Making by Domain")
+plt.tight_layout(); plt.show()`},
+{dataset:'gender_programme',title:'GBV prevalence by type and reporting',question:'compare',chartType:'paired_bar',
+ vars:['experienced_physical_violence','experienced_emotional_violence','reported_gbv'],
+ insight:'The gap between GBV experience and reporting rates reveals the extent of underreporting.',
+ tip:'Use muted colours for experience, a bright accent for reporting. Annotate the gap.',
+ code:`df = pd.read_csv('output/gender_programme.csv')
+types = ['experienced_physical_violence','experienced_emotional_violence']
+rates = df[types].mean()
+report = df.loc[df[types].any(axis=1), 'reported_gbv'].mean() if 'reported_gbv' in df.columns else 0
+plt.bar(range(len(rates)), rates.values, color='#EF4444', alpha=0.7, label='Experienced')
+plt.title('GBV Prevalence vs Reporting')
+plt.xticks(range(len(rates)), ['Physical','Emotional']); plt.ylabel('Rate')
+plt.tight_layout(); plt.show()`},
+
+// ─── GIRLS' EDUCATION ───
+{dataset:'girls_education',title:'Enrolment by age — the dropout cliff',question:'trend',chartType:'line',
+ vars:['age','enrolled_in_school'],
+ insight:'Enrolment rates are high for young girls but drop sharply at puberty (age 12-14) — the "dropout cliff".',
+ tip:'Add a shaded region at puberty age. Annotate the steepest drop point.',
+ code:`df = pd.read_csv('output/girls_education.csv')
+by_age = df.groupby('age')['enrolled_in_school'].mean()
+plt.plot(by_age.index, by_age.values, 'o-', color='#6366F1', lw=2)
+plt.axvspan(12, 14, alpha=0.1, color='red', label='Puberty window')
+plt.xlabel('Age'); plt.ylabel('Enrolment Rate')
+plt.title("Girls' Enrolment by Age"); plt.legend()
+plt.tight_layout(); plt.show()`},
+{dataset:'girls_education',title:'Barriers to education — stacked composition',question:'compose',chartType:'stacked_bar',
+ vars:['barrier_distance','barrier_cost','barrier_safety','barrier_menstruation'],
+ insight:'Cost and distance dominate, but menstruation-related barriers are underappreciated.',
+ tip:'Order segments by prevalence. Use colours that are accessible to colour-blind viewers.',
+ code:`df = pd.read_csv('output/girls_education.csv')
+barriers = ['barrier_distance','barrier_cost','barrier_safety','barrier_menstruation']
+rates = df[barriers].mean().sort_values(ascending=False)
+rates.plot(kind='barh', color=['#EF4444','#F59E0B','#6366F1','#EC4899'])
+plt.xlabel('Prevalence Rate'); plt.title('Barriers to Girls\\' Education')
+plt.tight_layout(); plt.show()`},
+
+// ─── CLIMATE RESILIENCE ───
+{dataset:'climate_resilience',title:'Climate shock frequency by type',question:'compare',chartType:'bar',
+ vars:['experienced_drought','experienced_flood','experienced_cyclone'],
+ insight:'Which shocks are most common? Drought dominates in most contexts, but flood damage may be higher per event.',
+ tip:'Add a secondary axis for average damage/loss per event to show severity alongside frequency.',
+ code:`df = pd.read_csv('output/climate_resilience.csv')
+shocks = ['experienced_drought','experienced_flood','experienced_cyclone']
+rates = df[shocks].mean().sort_values(ascending=False)
+rates.plot(kind='bar', color='#F59E0B')
+plt.ylabel('Proportion Experiencing Shock')
+plt.title('Climate Shock Prevalence'); plt.xticks(rotation=0)
+plt.tight_layout(); plt.show()`},
+{dataset:'climate_resilience',title:'RIMA resilience index components',question:'compose',chartType:'stacked_bar',
+ vars:['absorptive_capacity','adaptive_capacity','transformative_capacity'],
+ insight:'Which dimension drives overall resilience? Decomposing the RIMA index reveals capacity gaps.',
+ tip:'Normalise to 100% to focus on composition rather than levels. Use muted, distinct colours.',
+ code:`df = pd.read_csv('output/climate_resilience.csv')
+comps = ['absorptive_capacity_score','adaptive_capacity_score','transformative_capacity_score']
+avail = [c for c in comps if c in df.columns]
+if avail:
+    df[avail].mean().plot(kind='bar', color=['#0EA5E9','#10B981','#6366F1'])
+    plt.ylabel('Score'); plt.title('RIMA Resilience Components')
+    plt.xticks(rotation=15); plt.tight_layout(); plt.show()`},
+
+// ─── AGRI VALUE CHAIN ───
+{dataset:'agri_value_chain',title:'Price margins along the value chain',question:'compare',chartType:'box',
+ vars:['value_chain_stage','price_per_kg_usd'],
+ insight:'Price increases from farm gate to retail — the margin captured at each stage reveals power dynamics.',
+ tip:'Order stages from farm → wholesale → retail. Add horizontal connector lines between medians.',
+ code:`df = pd.read_csv('output/agri_value_chain.csv')
+order = ['farm_gate','aggregator','processor','wholesaler','retailer']
+avail = [s for s in order if s in df['value_chain_stage'].unique()]
+sns.boxplot(data=df[df['value_chain_stage'].isin(avail)],
+            x='value_chain_stage', y='price_per_kg_usd', order=avail, palette='YlOrRd')
+plt.xlabel('Stage'); plt.ylabel('Price (USD/kg)')
+plt.title('Price Progression Along Value Chain')
+plt.tight_layout(); plt.show()`},
+
+// ─── ANIMAL WELFARE ───
+{dataset:'animal_welfare',title:'Body condition scores by species',question:'compare',chartType:'violin',
+ vars:['animal_species','body_condition_score'],
+ insight:'BCS distributions reveal species-level welfare differences and identify at-risk populations.',
+ tip:'Add a horizontal line at BCS=2 (underweight threshold). Show the proportion below threshold.',
+ code:`df = pd.read_csv('output/animal_welfare.csv')
+sns.violinplot(data=df, x='animal_species', y='body_condition_score', inner='box', palette='coolwarm')
+plt.axhline(2, color='red', ls=':', alpha=0.5, label='Underweight threshold')
+plt.ylabel('Body Condition Score'); plt.title('BCS by Species')
+plt.legend(); plt.tight_layout(); plt.show()`},
+
+// ─── PUBLIC HEALTH ───
+{dataset:'public_health',title:'Disease prevalence by district',question:'compare',chartType:'heatmap',
+ vars:['district','malaria_positive','tb_positive','hiv_positive'],
+ insight:'A disease prevalence heatmap reveals geographic clustering and co-morbidity hotspots.',
+ tip:'Normalise by district population. Use a sequential colour scale (white→red). Sort by total burden.',
+ code:`df = pd.read_csv('output/public_health.csv')
+diseases = [c for c in ['malaria_positive','tb_positive','hiv_positive'] if c in df.columns]
+prev = df.groupby('district')[diseases].mean()
+sns.heatmap(prev.T, cmap='YlOrRd', annot=True, fmt='.2f', linewidths=0.5)
+plt.title('Disease Prevalence by District')
+plt.tight_layout(); plt.show()`},
+
+// ─── LIVELIHOODS ───
+{dataset:'livelihoods',title:'Food Consumption Score distribution',question:'distribute',chartType:'histogram',
+ vars:['food_consumption_score'],
+ insight:'FCS thresholds (0-21 poor, 21.5-35 borderline, >35 acceptable) segment food security status.',
+ tip:'Add vertical lines at thresholds (21, 35). Shade the zones with traffic light colours.',
+ code:`df = pd.read_csv('output/livelihoods.csv')
+plt.hist(df['food_consumption_score'].dropna(), bins=40, edgecolor='white', alpha=0.8, color='#6366F1')
+plt.axvline(21, color='red', ls='--', label='Poor threshold')
+plt.axvline(35, color='orange', ls='--', label='Borderline threshold')
+plt.xlabel('FCS'); plt.ylabel('Count')
+plt.title('Food Consumption Score Distribution'); plt.legend()
+plt.tight_layout(); plt.show()`},
+{dataset:'livelihoods',title:'Income sources composition',question:'compose',chartType:'stacked_bar',
+ vars:['income_agriculture','income_wage','income_business','income_transfers'],
+ insight:'Diversification matters — households relying on a single source are more vulnerable.',
+ tip:'Normalise to 100%. Sort by share of the most volatile source.',
+ code:`df = pd.read_csv('output/livelihoods.csv')
+sources = [c for c in ['income_agriculture','income_wage','income_business','income_transfers'] if c in df.columns]
+if sources:
+    totals = df[sources].mean()
+    totals.plot(kind='pie', autopct='%1.0f%%', colors=['#10B981','#0EA5E9','#F59E0B','#6366F1'])
+    plt.ylabel(''); plt.title('Average Income Composition')
+    plt.tight_layout(); plt.show()`},
+
+// ─── ADVOCACY & RIGHTS ───
+{dataset:'advocacy_rights',title:'Legal awareness vs access to justice',question:'relate',chartType:'scatter',
+ vars:['legal_awareness_score','accessed_justice'],
+ insight:'Higher awareness doesn\'t always translate to access — structural barriers (cost, distance, bias) intervene.',
+ tip:'Use colour for gender or caste to reveal intersectional barriers. Add a LOWESS line.',
+ code:`df = pd.read_csv('output/advocacy_rights.csv')
+sns.regplot(data=df, x='legal_awareness_score', y='accessed_justice',
+            logistic=True, scatter_kws={'alpha':0.1,'s':5}, line_kws={'color':'red'})
+plt.xlabel('Legal Awareness Score'); plt.ylabel('Accessed Justice')
+plt.title('Awareness vs Access to Justice')
+plt.tight_layout(); plt.show()`},
+
+// ─── WASH ───
+{dataset:'wash',title:'JMP water ladder distribution',question:'compose',chartType:'stacked_bar',
+ vars:['water_source_jmp_level'],
+ insight:'The JMP ladder (unimproved → basic → safely managed) is the global standard for tracking WASH progress.',
+ tip:'Order bars from lowest to highest rung. Use the official JMP colour scheme if available.',
+ code:`df = pd.read_csv('output/wash.csv')
+counts = df['water_source_jmp_level'].value_counts(normalize=True)
+counts.plot(kind='bar', color='#0EA5E9')
+plt.ylabel('Proportion'); plt.title('JMP Water Ladder Distribution')
+plt.xticks(rotation=30, ha='right')
+plt.tight_layout(); plt.show()`},
+{dataset:'wash',title:'Water quality vs diarrhea incidence',question:'relate',chartType:'scatter',
+ vars:['e_coli_per_100ml','diarrhea_under5_2weeks'],
+ insight:'The dose-response between contamination and diarrhea follows a clear threshold pattern.',
+ tip:'Log-scale the x-axis (E. coli counts are highly skewed). Add WHO guideline threshold line.',
+ code:`df = pd.read_csv('output/wash.csv')
+col_ecoli = [c for c in df.columns if 'coli' in c.lower()][0] if any('coli' in c.lower() for c in df.columns) else None
+col_diarr = [c for c in df.columns if 'diarr' in c.lower()][0] if any('diarr' in c.lower() for c in df.columns) else None
+if col_ecoli and col_diarr:
+    sns.regplot(data=df, x=col_ecoli, y=col_diarr, logistic=True, scatter_kws={'alpha':0.1,'s':5})
+    plt.xlabel('E. coli (CFU/100ml)'); plt.ylabel('Diarrhea prevalence')
+    plt.title('Water Quality vs Diarrhea'); plt.tight_layout(); plt.show()`},
+
+// ─── HUMANITARIAN ───
+{dataset:'humanitarian',title:'Needs severity distribution by sector',question:'compare',chartType:'heatmap',
+ vars:['sector','severity_score'],
+ insight:'Cross-sector severity matrix identifies multi-sectoral needs and geographic hotspots.',
+ tip:'Use a 1-5 severity colour scale matching OCHA standards. Sort by worst-off district.',
+ code:`df = pd.read_csv('output/humanitarian.csv')
+severity_cols = [c for c in df.columns if 'severity' in c or 'need' in c][:5]
+if severity_cols:
+    corr = df[severity_cols].corr()
+    sns.heatmap(corr, annot=True, fmt='.2f', cmap='YlOrRd', center=0)
+    plt.title('Needs Severity Correlation'); plt.tight_layout(); plt.show()`},
+
+// ─── SOCIAL PROTECTION ───
+{dataset:'social_protection',title:'Transfer amount adequacy vs poverty line',question:'compare',chartType:'box',
+ vars:['wealth_quintile','transfer_amount_usd'],
+ insight:'Are transfers adequate? Comparing transfer size to the poverty line reveals the poverty gap coverage.',
+ tip:'Add a horizontal line for the national poverty line. Show the proportion covered.',
+ code:`df = pd.read_csv('output/social_protection.csv')
+sns.boxplot(data=df, x='wealth_quintile', y='transfer_amount_usd', palette='viridis')
+plt.ylabel('Monthly Transfer (USD)')
+plt.title('Transfer Adequacy by Wealth Quintile')
+plt.tight_layout(); plt.show()`},
+
+// ─── GOVERNANCE ───
+{dataset:'governance',title:'Institutional trust across dimensions',question:'compare',chartType:'bar',
+ vars:['trust_local_govt','trust_national_govt','trust_judiciary','trust_police'],
+ insight:'Trust varies sharply across institutions — police and judiciary often score lowest.',
+ tip:'Use a horizontal bar sorted by trust level. Add the neutral midpoint (3/5) as a reference line.',
+ code:`df = pd.read_csv('output/governance.csv')
+trust_cols = [c for c in df.columns if c.startswith('trust_')][:6]
+means = df[trust_cols].mean().sort_values()
+means.plot(kind='barh', color='#6366F1')
+plt.xlabel('Mean Trust Score'); plt.title('Trust in Institutions')
+plt.tight_layout(); plt.show()`},
+
+// ─── BEHAVIOUR CHANGE ───
+{dataset:'behaviour_change',title:'KAP cascade — knowledge > attitude > practice',question:'compare',chartType:'paired_bar',
+ vars:['knowledge_score','attitude_score','practice_score'],
+ insight:'The KAP cascade always drops: people know more than they believe in, and believe more than they practice.',
+ tip:'Use three bars of decreasing intensity. Annotate the drop percentage between each stage.',
+ code:`df = pd.read_csv('output/behaviour_change.csv')
+means = df[['knowledge_score','attitude_score','practice_score']].mean()
+colors = ['#10B981','#0EA5E9','#6366F1']
+plt.bar(range(3), means.values, color=colors, width=0.6)
+plt.xticks(range(3), ['Knowledge','Attitude','Practice'])
+plt.ylabel('Mean Score (0-10)'); plt.title('KAP Cascade')
+for i,v in enumerate(means): plt.text(i, v+0.1, f'{v:.1f}', ha='center', fontweight='bold')
+plt.tight_layout(); plt.show()`},
+{dataset:'behaviour_change',title:'Campaign dose-response curve',question:'relate',chartType:'line',
+ vars:['campaign_doses','practice_score'],
+ insight:'More campaign exposures yield higher practice scores — but with diminishing returns.',
+ tip:'Show means with error bars at each dose. Mark the "saturation point" where additional doses add little.',
+ code:`df = pd.read_csv('output/behaviour_change.csv')
+by_dose = df.groupby('campaign_doses')['practice_score'].agg(['mean','sem']).reset_index()
+plt.errorbar(by_dose['campaign_doses'], by_dose['mean'], yerr=1.96*by_dose['sem'],
+             fmt='o-', color='#6366F1', capsize=3)
+plt.xlabel('Campaign Doses'); plt.ylabel('Practice Score')
+plt.title('Dose-Response: Campaign Exposure vs Practice')
+plt.tight_layout(); plt.show()`},
+
+// ─── COST-EFFECTIVENESS ───
+{dataset:'cost_effectiveness',title:'Cost per beneficiary by sector',question:'compare',chartType:'box',
+ vars:['sector','cost_per_beneficiary_usd'],
+ insight:'Health interventions tend to be cheapest per head; education and livelihoods more expensive.',
+ tip:'Use log scale for y-axis (costs span orders of magnitude). Sort sectors by median.',
+ code:`df = pd.read_csv('output/cost_effectiveness.csv')
+order = df.groupby('sector')['cost_per_beneficiary_usd'].median().sort_values().index
+sns.boxplot(data=df, x='sector', y='cost_per_beneficiary_usd', order=order, palette='Set2')
+plt.yscale('log'); plt.ylabel('Cost per Beneficiary (USD, log)')
+plt.xticks(rotation=30, ha='right')
+plt.title('Unit Costs by Sector'); plt.tight_layout(); plt.show()`},
+{dataset:'cost_effectiveness',title:'Effect size vs cost — CEA frontier',question:'relate',chartType:'scatter',
+ vars:['cost_per_beneficiary_usd','effect_size','sector'],
+ insight:'The cost-effectiveness frontier shows which programmes deliver the most impact per dollar.',
+ tip:'Colour by sector. Label outliers. Draw a frontier line connecting the most efficient programmes.',
+ code:`df = pd.read_csv('output/cost_effectiveness.csv')
+sns.scatterplot(data=df, x='cost_per_beneficiary_usd', y='effect_size',
+                hue='sector', alpha=0.5, s=30)
+plt.xlabel('Cost per Beneficiary (USD)'); plt.ylabel('Effect Size')
+plt.title('Cost-Effectiveness Frontier')
+plt.legend(fontsize=7, bbox_to_anchor=(1.05,1))
+plt.tight_layout(); plt.show()`},
+
+// ─── DECENT WORK ───
+{dataset:'decent_work',title:'Gender wage gap by sector',question:'compare',chartType:'paired_bar',
+ vars:['sector','gender','monthly_earnings_usd'],
+ insight:'The gender pay gap varies by sector — widest in professional services, narrowest in agriculture.',
+ tip:'Show the gap percentage above each pair. Sort by gap size for impact.',
+ code:`df = pd.read_csv('output/decent_work.csv')
+gap = df.groupby(['sector','gender'])['monthly_earnings_usd'].median().unstack()
+if 'male' in gap.columns and 'female' in gap.columns:
+    gap.plot(kind='bar', figsize=(10,5))
+    plt.ylabel('Median Monthly Earnings (USD)')
+    plt.title('Gender Pay Gap by Sector'); plt.xticks(rotation=30, ha='right')
+    plt.tight_layout(); plt.show()`},
+{dataset:'decent_work',title:'Social protection coverage: formal vs informal',question:'compare',chartType:'heatmap',
+ vars:['employment_status','has_written_contract','has_social_security','has_health_insurance'],
+ insight:'Formal workers have near-universal protection; informal workers have almost none.',
+ tip:'Use a binary heatmap (dark=covered, light=not). This is more like a table with colour — and that is fine.',
+ code:`df = pd.read_csv('output/decent_work.csv')
+prot = ['has_written_contract','has_social_security','has_health_insurance','has_pension']
+avail = [c for c in prot if c in df.columns]
+coverage = df.groupby('employment_status')[avail].mean()
+sns.heatmap(coverage, annot=True, fmt='.1%', cmap='YlGn', linewidths=1)
+plt.title('Social Protection Coverage by Employment Status')
+plt.tight_layout(); plt.show()`},
+
+// ─── CARE ECONOMY ───
+{dataset:'care_economy',title:'Gender care gap — hours per day',question:'compare',chartType:'paired_bar',
+ vars:['gender','unpaid_care_hours','paid_work_hours','domestic_work_hours'],
+ insight:'Women spend ~3.4x more time on unpaid care. This is the core care economy finding.',
+ tip:'Use horizontal paired bars. Place men and women side-by-side to make the gap visceral.',
+ code:`df = pd.read_csv('output/care_economy.csv')
+time_cols = ['paid_work_hours','unpaid_care_hours','domestic_work_hours','leisure_hours']
+avail = [c for c in time_cols if c in df.columns]
+by_gender = df.groupby('gender')[avail].mean()
+by_gender.plot(kind='barh', figsize=(8,5))
+plt.xlabel('Hours per Day'); plt.title('Time Use by Gender')
+plt.legend(fontsize=8); plt.tight_layout(); plt.show()`},
+{dataset:'care_economy',title:'Time poverty by wealth quintile and gender',question:'relate',chartType:'bar',
+ vars:['wealth_quintile','gender','time_poor'],
+ insight:'Time poverty is highest among poor women — an intersectional burden of care and work.',
+ tip:'Use a grouped bar (gender within quintile). Add the overall average as a reference line.',
+ code:`df = pd.read_csv('output/care_economy.csv')
+tp = df.groupby(['wealth_quintile','gender'])['time_poor'].mean().unstack()
+tp.plot(kind='bar', figsize=(8,5), color=['#EC4899','#0EA5E9'])
+plt.ylabel('Time Poverty Rate'); plt.title('Time Poverty by Wealth & Gender')
+plt.xticks(rotation=0); plt.tight_layout(); plt.show()`},
+
+// ─── INTERSECTIONALITY ───
+{dataset:'intersectionality',title:'Income by intersectional group — multiplicative penalty',question:'compare',chartType:'bar',
+ vars:['caste_category','gender','has_disability','monthly_income_usd'],
+ insight:'The intersectional penalty: SC + female + disability yields far less income than any single axis predicts.',
+ tip:'Show the "expected" additive penalty vs actual. The gap between them IS the intersectional effect.',
+ code:`df = pd.read_csv('output/intersectionality.csv')
+groups = df.groupby(['caste_category','gender'])['monthly_income_usd'].median().unstack()
+groups.plot(kind='bar', figsize=(10,5))
+plt.ylabel('Median Monthly Income (USD)')
+plt.title('Income by Caste & Gender'); plt.xticks(rotation=0)
+plt.tight_layout(); plt.show()`},
+{dataset:'intersectionality',title:'Discrimination experience by identity',question:'compare',chartType:'bar',
+ vars:['caste_category','experienced_discrimination'],
+ insight:'Discrimination rates vary by identity — SC/ST groups report much higher rates.',
+ tip:'Sort by rate. Add error bars (bootstrap CI) to show statistical significance.',
+ code:`df = pd.read_csv('output/intersectionality.csv')
+disc = df.groupby('caste_category')['experienced_discrimination'].mean().sort_values(ascending=False)
+disc.plot(kind='barh', color='#EF4444')
+plt.xlabel('Proportion Experiencing Discrimination')
+plt.title('Discrimination by Caste Category')
+plt.tight_layout(); plt.show()`},
+
+// ─── ENVIRONMENTAL JUSTICE ───
+{dataset:'environmental_justice',title:'PM2.5 exposure by wealth — environmental injustice',question:'relate',chartType:'scatter',
+ vars:['wealth_quintile','air_quality_pm25'],
+ insight:'Poorer households breathe dirtier air — a core environmental justice finding.',
+ tip:'Add WHO guideline (15 μg/m³) as a horizontal line. Colour by urban/rural.',
+ code:`df = pd.read_csv('output/environmental_justice.csv')
+sns.boxplot(data=df, x='wealth_quintile', y='air_quality_pm25', palette='YlOrRd')
+plt.axhline(15, color='green', ls='--', label='WHO guideline')
+plt.ylabel('PM2.5 (μg/m³)'); plt.xlabel('Wealth Quintile')
+plt.title('Air Quality by Wealth Group'); plt.legend()
+plt.tight_layout(); plt.show()`},
+{dataset:'environmental_justice',title:'Health outcomes by cooking fuel type',question:'compare',chartType:'bar',
+ vars:['cooking_fuel_type','respiratory_illness_12m'],
+ insight:'Firewood and dung fuels cause dramatically higher respiratory illness — the indoor air pollution crisis.',
+ tip:'Order fuels from dirtiest to cleanest. Use a gradient colour scale matching pollution level.',
+ code:`df = pd.read_csv('output/environmental_justice.csv')
+by_fuel = df.groupby('cooking_fuel_type')['respiratory_illness_12m'].mean().sort_values(ascending=False)
+by_fuel.plot(kind='barh', color='#EF4444')
+plt.xlabel('Respiratory Illness Rate (12m)')
+plt.title('Respiratory Illness by Cooking Fuel')
+plt.tight_layout(); plt.show()`},
+
+// ─── COMMUNITY DEVELOPMENT ───
+{dataset:'community_development',title:'Bonding vs bridging social capital',question:'relate',chartType:'scatter',
+ vars:['bonding_social_capital_score','bridging_social_capital_score'],
+ insight:'High bonding + low bridging = insular communities. The ideal is both.',
+ tip:'Add quadrant lines at the medians. Label each quadrant with its social capital type.',
+ code:`df = pd.read_csv('output/community_development.csv')
+plt.scatter(df['bonding_social_capital_score'], df['bridging_social_capital_score'],
+            alpha=0.2, s=10, color='#6366F1')
+plt.axhline(df['bridging_social_capital_score'].median(), color='grey', ls=':')
+plt.axvline(df['bonding_social_capital_score'].median(), color='grey', ls=':')
+plt.xlabel('Bonding Social Capital'); plt.ylabel('Bridging Social Capital')
+plt.title('Social Capital Mapping'); plt.tight_layout(); plt.show()`},
+
+// ─── DIGITAL ACCESS ───
+{dataset:'digital_access',title:'Digital literacy skills hierarchy',question:'compare',chartType:'bar',
+ vars:['can_make_call','can_send_sms','can_use_internet','can_use_social_media','can_verify_info','can_use_govt_services_online'],
+ insight:'Digital skills are hierarchical: nearly everyone can call, but few can use e-government.',
+ tip:'Use a waterfall or descending bar to emphasise the drop-off at each skill level.',
+ code:`df = pd.read_csv('output/digital_access.csv')
+skills = ['can_make_call','can_send_sms','can_use_internet','can_use_social_media',
+          'can_verify_info','can_use_govt_services_online']
+avail = [s for s in skills if s in df.columns]
+rates = df[avail].mean()
+plt.bar(range(len(rates)), rates.values, color='#0EA5E9')
+plt.xticks(range(len(rates)), [s.replace('can_','').replace('_',' ').title() for s in avail], rotation=30, ha='right')
+plt.ylabel('Proficiency Rate'); plt.title('Digital Skills Hierarchy')
+plt.tight_layout(); plt.show()`},
+{dataset:'digital_access',title:'Gender digital divide across age groups',question:'compare',chartType:'line',
+ vars:['age_group','gender','digital_literacy_score'],
+ insight:'The gender digital divide is widest among older adults and narrowest among urban youth.',
+ tip:'Use two lines (M/F) with confidence bands. Highlight the convergence point if visible.',
+ code:`df = pd.read_csv('output/digital_access.csv')
+bins = [15,25,35,45,55,65,100]
+labels = ['15-24','25-34','35-44','45-54','55-64','65+']
+df['age_bin'] = pd.cut(df['age'], bins=bins, labels=labels, right=False)
+by_ag = df.groupby(['age_bin','gender'])['digital_literacy_score'].mean().unstack()
+by_ag.plot(marker='o', lw=2)
+plt.xlabel('Age Group'); plt.ylabel('Digital Literacy Score')
+plt.title('Gender Digital Divide by Age'); plt.legend()
+plt.tight_layout(); plt.show()`},
+
+// ─── SOCIAL-EMOTIONAL LEARNING ───
+{dataset:'social_emotional_learning',title:'CASEL domain scores — programme vs control',question:'compare',chartType:'paired_bar',
+ vars:['in_sel_programme','self_awareness','self_management','social_awareness','relationship_skills','responsible_decision_making'],
+ insight:'SEL programmes improve all five domains, with largest gains in self-management and social awareness.',
+ tip:'Use paired bars (programme/control) for each domain. Annotate effect sizes (Cohen\'s d).',
+ code:`df = pd.read_csv('output/social_emotional_learning.csv')
+domains = ['self_awareness','self_management','social_awareness','relationship_skills','responsible_decision_making']
+avail = [d for d in domains if d in df.columns]
+by_prog = df.groupby('in_sel_programme')[avail].mean()
+by_prog.T.plot(kind='bar', figsize=(10,5), color=['#94A3B8','#6366F1'])
+plt.ylabel('Mean Score (1-5)'); plt.title('SEL Domain Scores: Programme vs Control')
+plt.legend(['Control','Programme']); plt.xticks(rotation=20, ha='right')
+plt.tight_layout(); plt.show()`},
+
+// ─── NGO FINANCE ───
+{dataset:'ngo_finance',title:'Budget composition by org type',question:'compose',chartType:'stacked_bar',
+ vars:['org_type','personnel_pct','programme_activities_pct','admin_pct'],
+ insight:'The "overhead debate": do lower admin costs mean better programmes? Not necessarily.',
+ tip:'Use 100% stacked bars. Add a benchmark line at common donor cap (e.g., 15% admin).',
+ code:`df = pd.read_csv('output/ngo_finance.csv')
+comps = ['personnel_pct','programme_activities_pct','admin_pct','indirect_cost_pct']
+avail = [c for c in comps if c in df.columns]
+by_org = df.groupby('org_type')[avail].mean()
+by_org.plot(kind='bar', stacked=True, figsize=(10,5), colormap='Set2')
+plt.ylabel('Budget Share'); plt.title('Budget Composition by Org Type')
+plt.xticks(rotation=20, ha='right'); plt.legend(fontsize=7)
+plt.tight_layout(); plt.show()`},
+
+// ─── AID EFFECTIVENESS ───
+{dataset:'aid_effectiveness',title:'ODA trends by donor over time',question:'trend',chartType:'area',
+ vars:['year','oda_amount_usd','donor_country'],
+ insight:'Stacked area reveals which donors dominate and how aid volumes shift over time.',
+ tip:'Group small donors as "Other". Use pastel colours to avoid visual overload.',
+ code:`df = pd.read_csv('output/aid_effectiveness.csv')
+by_yr = df.groupby(['year','donor_country'])['oda_amount_usd'].sum().unstack(fill_value=0)
+top5 = by_yr.sum().nlargest(5).index
+by_yr[top5].plot(kind='area', stacked=True, figsize=(10,5), alpha=0.7)
+plt.ylabel('ODA Amount (USD)'); plt.title('ODA Trends by Top 5 Donors')
+plt.legend(fontsize=7); plt.tight_layout(); plt.show()`},
+{dataset:'aid_effectiveness',title:'Paris Declaration compliance heatmap',question:'relate',chartType:'heatmap',
+ vars:['donor_country','country_ownership_score','alignment_with_national_plan','uses_country_systems'],
+ insight:'Which donors best align with Paris principles? Multilaterals often score higher than bilaterals.',
+ tip:'Use a sequential green scale. Sort donors by average compliance.',
+ code:`df = pd.read_csv('output/aid_effectiveness.csv')
+paris = ['country_ownership_score','alignment_with_national_plan','uses_country_systems']
+avail = [c for c in paris if c in df.columns]
+if avail:
+    by_donor = df.groupby('donor_country')[avail].mean()
+    top = by_donor.head(12)
+    sns.heatmap(top, annot=True, fmt='.2f', cmap='YlGn', linewidths=0.5)
+    plt.title('Paris Declaration Compliance by Donor')
+    plt.tight_layout(); plt.show()`},
+
+// ─── MEDIA DEVELOPMENT ───
+{dataset:'media_development',title:'Media consumption by age group',question:'compare',chartType:'stacked_bar',
+ vars:['age_group','radio_hours','tv_hours','social_media_hours'],
+ insight:'Youth lean digital; older adults lean radio/TV. Understanding the media landscape guides campaign channel choice.',
+ tip:'Normalise to total hours for composition view. Use intuitive colours (radio=yellow, TV=blue, social=purple).',
+ code:`df = pd.read_csv('output/media_development.csv')
+bins = [15,25,35,45,55,65,100]
+labels = ['15-24','25-34','35-44','45-54','55-64','65+']
+df['age_bin'] = pd.cut(df['age'], bins=bins, labels=labels, right=False)
+media = ['radio_hours','tv_hours','social_media_hours']
+avail = [m for m in media if m in df.columns]
+by_age = df.groupby('age_bin')[avail].mean()
+by_age.plot(kind='bar', stacked=True, color=['#F59E0B','#0EA5E9','#6366F1'])
+plt.ylabel('Hours per Week'); plt.title('Media Consumption by Age')
+plt.xticks(rotation=0); plt.tight_layout(); plt.show()`},
+
+// ─── IRT ASSESSMENT ───
+{dataset:'irt_assessment',title:'Item Characteristic Curves — 3PL model',question:'relate',chartType:'line',
+ vars:['theta','item_1','item_5','item_15','item_30'],
+ insight:'ICCs show how item difficulty, discrimination, and guessing shape response probability at each ability level.',
+ tip:'Plot 4-5 items with varying difficulty. Show the guessing floor (c parameter) as a horizontal asymptote.',
+ code:`df = pd.read_csv('output/irt_assessment.csv')
+theta = np.linspace(-3, 3, 100)
+# Example: plot empirical ICC for item_1
+for item in ['item_1','item_10','item_20','item_30']:
+    bins = pd.cut(df['theta'], bins=20)
+    emp = df.groupby(bins)[item].mean()
+    plt.plot(range(len(emp)), emp.values, label=item, lw=2)
+plt.xlabel('Ability (theta bins)'); plt.ylabel('P(correct)')
+plt.title('Empirical Item Characteristic Curves')
+plt.legend(); plt.tight_layout(); plt.show()`},
+{dataset:'irt_assessment',title:'Theta distribution by education level',question:'compare',chartType:'violin',
+ vars:['education_level','theta'],
+ insight:'Latent ability (theta) is driven by education — the model recovers this relationship.',
+ tip:'Add a box plot inside each violin. Mark the overall mean with a horizontal line.',
+ code:`df = pd.read_csv('output/irt_assessment.csv')
+sns.violinplot(data=df, x='education_level', y='theta', inner='box', palette='muted')
+plt.xlabel('Education Level'); plt.ylabel('Theta (Latent Ability)')
+plt.title('Ability Distribution by Education')
+plt.tight_layout(); plt.show()`},
+
+// ─── FIELD SURVEY QUALITY ───
+{dataset:'field_survey_quality',title:'Interview duration — normal vs fabricating enumerators',question:'compare',chartType:'density',
+ vars:['interview_duration_min','is_fabricator'],
+ insight:'Fabricating enumerators cluster at very short durations (~10 min vs ~33 min) — a strong detection signal.',
+ tip:'Overlay two density curves. Add a vertical threshold line where you\'d flag for review.',
+ code:`df = pd.read_csv('output/field_survey_quality.csv')
+# Flag fabricators by short duration + high straightlining
+for label in [0, 1]:
+    sub = df[df.get('is_fabricator', df['interview_duration_min'] < 15) == label] if 'is_fabricator' in df.columns else df
+    if 'is_fabricator' in df.columns:
+        sub = df[df['is_fabricator']==label]
+        sub['interview_duration_min'].dropna().plot(kind='density', label='Fabricator' if label else 'Normal', lw=2)
+plt.xlabel('Interview Duration (min)'); plt.title('Duration: Normal vs Fabricators')
+plt.legend(); plt.tight_layout(); plt.show()`},
+{dataset:'field_survey_quality',title:'GPS distance from cluster center — fraud detection',question:'relate',chartType:'scatter',
+ vars:['gps_distance_from_cluster_center_km','straightlining_score'],
+ insight:'Fabricators are often far from their assigned cluster AND have high straightlining — two signals combined.',
+ tip:'Use colour intensity for interview duration (short=red). This creates a 3-variable fraud signature.',
+ code:`df = pd.read_csv('output/field_survey_quality.csv')
+dist_col = [c for c in df.columns if 'distance' in c and 'cluster' in c]
+if dist_col:
+    plt.scatter(df[dist_col[0]], df['straightlining_score'],
+                c=df['interview_duration_min'], cmap='RdYlGn', alpha=0.3, s=10)
+    plt.colorbar(label='Duration (min)')
+    plt.xlabel('Distance from Cluster Center (km)')
+    plt.ylabel('Straightlining Score')
+    plt.title('Fraud Detection: GPS + Response Patterns')
+    plt.tight_layout(); plt.show()`},
+];
+
+// ── Populate dataset dropdown ──
+const dsSelect = document.getElementById('filterDataset');
+const sortedDS = Object.keys(DS_NAMES).sort((a,b) => DS_NAMES[a].localeCompare(DS_NAMES[b]));
+sortedDS.forEach(k => {
+  const opt = document.createElement('option');
+  opt.value = k; opt.textContent = DS_NAMES[k];
+  dsSelect.appendChild(opt);
+});
+
+// ── Render recipes ──
+function render() {
+  const qFilter = document.getElementById('filterQuestion').value;
+  const dsFilter = document.getElementById('filterDataset').value;
+  const ctFilter = document.getElementById('filterChart').value;
+  const search = document.getElementById('filterSearch').value.toLowerCase().trim();
+
+  const filtered = RECIPES.filter(r => {
+    if (qFilter && r.question !== qFilter) return false;
+    if (dsFilter && r.dataset !== dsFilter) return false;
+    if (ctFilter && r.chartType !== ctFilter) return false;
+    if (search && !r.title.toLowerCase().includes(search) &&
+        !r.insight.toLowerCase().includes(search) &&
+        !r.dataset.toLowerCase().includes(search) &&
+        !r.vars.some(v => v.toLowerCase().includes(search))) return false;
+    return true;
+  });
+
+  const grid = document.getElementById('recipeGrid');
+  const empty = document.getElementById('emptyState');
+  const count = document.getElementById('filterCount');
+
+  count.textContent = `${filtered.length} of ${RECIPES.length} recipes`;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  grid.innerHTML = filtered.map((r, i) => {
+    const cm = CHART_META[r.chartType] || {icon:'?',color:'#999',label:r.chartType};
+    const varsHtml = r.vars.map(v => `<code>${v}</code>`).join(' ');
+    return `
+    <div class="recipe-card">
+      <div class="recipe-header">
+        <div class="chart-icon" style="background:${cm.color}22;color:${cm.color}">${cm.icon}</div>
+        <div>
+          <h3>${r.title}</h3>
+          <div class="recipe-badges">
+            <span class="badge badge-dataset">${DS_NAMES[r.dataset]||r.dataset}</span>
+            <span class="badge badge-chart">${cm.label}</span>
+            <span class="badge badge-question">${Q_LABELS[r.question]||r.question}</span>
+          </div>
+        </div>
+      </div>
+      <div class="recipe-body">
+        <div class="insight">${r.insight}</div>
+        <div class="vars">${varsHtml}</div>
+        <div class="recipe-tip">${r.tip}</div>
+        <button class="code-toggle" onclick="toggleCode(this, ${i})">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          Show Python code
+        </button>
+        <div class="code-block" id="code-${i}">
+          <button class="copy-btn" onclick="copyCode(${i})">Copy</button>
+          <pre>import pandas as pd\nimport numpy as np\nimport seaborn as sns\nimport matplotlib.pyplot as plt\n\n${escapeHtml(r.code)}</pre>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function toggleCode(btn, i) {
+  const block = document.getElementById('code-'+i);
+  btn.classList.toggle('open');
+  block.classList.toggle('open');
+  btn.innerHTML = block.classList.contains('open')
+    ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg> Hide Python code'
+    : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg> Show Python code';
+}
+
+function copyCode(i) {
+  const pre = document.getElementById('code-'+i).querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    const btn = document.getElementById('code-'+i).querySelector('.copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+}
+
+// ── Theme ──
+function setTheme(t) {
+  document.body.classList.toggle('dark-mode', t === 'dark');
+  document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+  event.target.closest('.theme-btn').classList.add('active');
+  localStorage.setItem('theme', t);
+}
+(function(){
+  const saved = localStorage.getItem('theme');
+  if (saved === 'light') {
+    document.body.classList.remove('dark-mode');
+    document.querySelectorAll('.theme-btn')[0].classList.add('active');
+    document.querySelectorAll('.theme-btn')[1].classList.remove('active');
+  } else {
+    document.body.classList.add('dark-mode');
+  }
+})();
+
+// Initial render
+render();
+</script>
+</body>
+</html>
