@@ -127,7 +127,10 @@
       .filter-count{margin-left:0;margin-top:4px}
       .principles{grid-template-columns:1fr 1fr}
     }
-  </style>
+  .pro-pill{display:inline-flex;align-items:center;gap:.2rem;background:linear-gradient(135deg,#F59E0B,#EF4444);color:#fff;font-weight:700;font-size:.6rem;text-transform:uppercase;letter-spacing:.4px;padding:.1rem .4rem;border-radius:5px;vertical-align:middle;}
+.freemium-note{margin:1rem auto 0;max-width:640px;display:inline-flex;align-items:center;gap:.5rem;flex-wrap:wrap;justify-content:center;padding:.55rem .85rem;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:8px;font-size:.85rem;color:var(--text-secondary);}
+.freemium-note a{color:#F59E0B;font-weight:700;text-decoration:none;}
+</style>
 </head>
 <body>
 
@@ -157,6 +160,7 @@
       Pick your question, choose a dataset, get production-ready Python code.
       Every recipe is designed around what story your data tells — not just which chart looks nice.
     </p>
+    <div class="freemium-note"><span class="pro-pill">&#9733; Premium</span> Browsing recipes is free. Copying the Python code is a Premium feature. <a href="/premium.html#detail-professional">Upgrade &rarr;</a></div>
   </div>
 </header>
 
@@ -1169,7 +1173,7 @@ function render() {
           Show Python code
         </button>
         <div class="code-block" id="code-${i}">
-          <button class="copy-btn" onclick="copyCode(${i})">Copy</button>
+          <button class="copy-btn" onclick="copyCode(${i})">Copy <span class="pro-pill">&#9733; Premium</span></button>
           <pre>import pandas as pd\nimport numpy as np\nimport seaborn as sns\nimport matplotlib.pyplot as plt\n\n${escapeHtml(r.code)}</pre>
         </div>
       </div>
@@ -1191,6 +1195,7 @@ function toggleCode(btn, i) {
 }
 
 function copyCode(i) {
+  if (!requirePremium()) return; // browsing is free, copying code is Premium
   const pre = document.getElementById('code-'+i).querySelector('pre');
   navigator.clipboard.writeText(pre.textContent).then(() => {
     const btn = document.getElementById('code-'+i).querySelector('.copy-btn');
@@ -1219,6 +1224,18 @@ function setTheme(t) {
 
 // Initial render
 render();
+</script>
+<!-- ImpactMojo auth + premium (Pro Studio freemium gate) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="/js/state-manager.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/premium.js"></script>
+<script>
+window.TOOL_PREMIUM=false; var TOOL_TIER='professional';
+async function initGate(){ try{ if(window.ImpactMojoAuth) await window.ImpactMojoAuth.waitForAuthReady(); }catch(e){} var a=window.ImpactMojoAuth; window.TOOL_PREMIUM=!!(a&&typeof a.hasTierAccess==='function'&&a.hasTierAccess(TOOL_TIER)); }
+function requirePremium(){ if(window.TOOL_PREMIUM) return true; if(window.IMXPremium&&typeof window.IMXPremium.showUpgradeModal==='function') window.IMXPremium.showUpgradeModal(TOOL_TIER); else window.location.href='/premium.html#detail-'+TOOL_TIER; return false; }
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initGate); else initGate();
 </script>
 </body>
 </html>
