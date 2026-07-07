@@ -123,7 +123,7 @@
       { element: '#nav-specials', intro: '<strong>Explore</strong><br>The Game Library, reference tools (Dataverse, ImpactLex), Book Companions, Deep Dives, the Research to Action poster series, Dojos, and more.' },
       { element: '#nav-dataverse', intro: '<strong>Dataverse</strong><br>296 curated data tools, APIs, and datasets for development research.' },
       { element: '.theme-selector', intro: '<strong>Theme</strong><br>Switch between light, dark, and system themes.' },
-      { element: '#premium', intro: '<strong>Premium Tools</strong><br>Professional-grade tools like VaniScribe AI, Code Convert Pro, and Qual Insights Lab.' }
+      { element: '#pro-studio', intro: '<strong>Pro Studio</strong><br>Professional-grade tools like VaniScribe AI, Code Convert Pro, and Qual Insights Lab.' }
     ],
 
     catalog: [
