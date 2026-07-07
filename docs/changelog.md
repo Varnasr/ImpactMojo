@@ -2,6 +2,16 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.82.4 — July 7, 2026 (VaniScribe field transcription, now freemium & on-site)
+
+### For Learners
+
+- **VaniScribe — free AI transcription for field research.** Transcribe interviews, FGDs, and field recordings in 22 Indian languages right in your browser, including code-mixed Hindi-English speech. It's free to use — you bring your own Sarvam AI key (every new account gets ₹1,000 in free credits, ~33 hours of audio) and your key never leaves your device. Export to TXT, CSV, or JSON. For heavier fieldwork, a Premium companion notebook adds speaker labelling (who said what) and long-file batch processing.
+
+### Changed
+
+- VaniScribe now runs directly on impactmojo.in (under `/premium-tools/`) instead of a separate external site, and moved to a freemium model: the browser transcriber is free for everyone, while the advanced Colab batch notebook (speaker diarization, 60-minute files, 20-file batches) is a Professional-tier feature.
+
 ## v10.82.3 — July 7, 2026 (DevData Practice & Visualization Cookbook now on-site)
 
 ### Changed
