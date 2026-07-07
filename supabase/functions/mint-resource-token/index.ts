@@ -168,7 +168,10 @@ serve(async (req: Request) => {
     const userClient = createClient(supabaseUrl, supabaseAnonKey, {
       global: { headers: { Authorization: `Bearer ${accessToken}` } },
     });
-    const { data: { user }, error: userError } = await userClient.auth.getUser();
+    // Pass the JWT explicitly: in an edge function there is no persisted
+    // session for getUser() to read, and with the project's JWT signing keys
+    // the token must be validated against the auth server directly.
+    const { data: { user }, error: userError } = await userClient.auth.getUser(accessToken);
     if (userError || !user) {
       return new Response(
         JSON.stringify({ error: "Invalid session" }),
