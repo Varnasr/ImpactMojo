@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Strategy Canvas — free AI opportunity tool | ImpactMojo</title>
+<meta name="description" content="Interactive canvas to evaluate AI opportunities for development and social impact programs. Free to build — exporting is a Premium feature.">
+<link href="/assets/images/favicon.png" rel="icon" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+    --primary-bg: #FFFFFF; --secondary-bg: #F8FAFC; --accent-color: #0EA5E9;
+    --accent-hover: #0284C7; --text-primary: #0F172A; --text-secondary: #475569;
+    --card-bg: #FFFFFF; --border-color: #E2E8F0; --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+}
+body.dark-mode {
+    --primary-bg: #0F172A; --secondary-bg: #1E293B; --text-primary: #F1F5F9;
+    --text-secondary: #94A3B8; --card-bg: #1E293B; --border-color: #334155;
+}
+body { font-family: 'Amaranth', sans-serif; background: var(--primary-bg); color: var(--text-primary); }
+
+.header {
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color); padding: 1rem 2rem;
+    position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between;
+}
+body.dark-mode .header { background: rgba(15,23,42,0.95); }
+.header h1 { font-family: 'Inter', sans-serif; font-size: 1.25rem; }
+.btn { padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-primary); cursor: pointer; font-size: 0.85rem; font-family: inherit; transition: all 0.2s; }
+.btn:hover { border-color: var(--accent-color); }
+.btn-primary { background: var(--accent-color); color: white; border-color: var(--accent-color); }
+
+.container { padding: 2rem; max-width: 1100px; margin: 0 auto; }
+
+.instructions {
+    background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 10px;
+    padding: 1.25rem; margin-bottom: 1.5rem; font-size: 0.85rem; color: var(--text-secondary);
+}
+.instructions strong { color: var(--text-primary); }
+
+.project-bar {
+    background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px;
+    padding: 1rem; margin-bottom: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;
+}
+.project-bar input {
+    flex: 1; min-width: 200px; padding: 0.6rem; border: 1px solid var(--border-color); border-radius: 6px;
+    background: var(--primary-bg); color: var(--text-primary); font-family: inherit; font-size: 0.9rem;
+}
+
+.canvas-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0;
+    border: 2px solid var(--border-color); border-radius: 12px; overflow: hidden;
+}
+.canvas-section {
+    padding: 1rem; border: 1px solid var(--border-color); min-height: 180px;
+}
+.canvas-section.full-width { grid-column: 1 / -1; }
+.canvas-section.half-width { grid-column: span 1; }
+.canvas-section.two-thirds { grid-column: span 2; }
+
+.section-header {
+    display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;
+}
+.section-num {
+    width: 22px; height: 22px; border-radius: 50%; background: var(--accent-color);
+    color: white; font-size: 0.7rem; font-weight: 700; display: flex; align-items: center;
+    justify-content: center; flex-shrink: 0;
+}
+.section-title { font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 700; }
+.section-prompt { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+
+.note-area {
+    width: 100%; min-height: 80px; border: 1px solid var(--border-color); border-radius: 6px;
+    padding: 0.5rem; background: var(--secondary-bg); color: var(--text-primary);
+    font-family: inherit; font-size: 0.82rem; resize: vertical; outline: none; line-height: 1.5;
+}
+.note-area:focus { border-color: var(--accent-color); }
+
+.score-section {
+    background: var(--secondary-bg); border: 2px solid var(--border-color);
+    border-radius: 12px; margin-top: 1.5rem; padding: 1.5rem;
+}
+.score-section h3 { font-family: 'Inter', sans-serif; font-size: 1rem; margin-bottom: 1rem; }
+.score-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
+.score-item { display: flex; flex-direction: column; gap: 0.25rem; }
+.score-item label { font-size: 0.82rem; font-weight: 500; }
+.score-item input[type="range"] { width: 100%; accent-color: var(--accent-color); }
+.score-item .score-val { font-size: 0.75rem; color: var(--text-secondary); text-align: right; }
+.total-score {
+    margin-top: 1rem; padding: 1rem; background: var(--card-bg); border-radius: 8px;
+    text-align: center; border: 1px solid var(--border-color);
+}
+.total-score .score-num { font-family: 'Inter', sans-serif; font-size: 2rem; font-weight: 700; color: var(--accent-color); }
+.total-score .score-label { font-size: 0.85rem; color: var(--text-secondary); }
+.verdict { font-size: 0.9rem; font-weight: 600; margin-top: 0.5rem; }
+
+@media (max-width: 768px) {
+    .canvas-grid { grid-template-columns: 1fr; }
+    .canvas-section.full-width, .canvas-section.half-width, .canvas-section.two-thirds { grid-column: 1; }
+}
+@media print {
+    .header, .instructions { display: none !important; }
+}
+
+/* ── Pro Studio branding + freemium ─────────────────────────── */
+.header { flex-wrap: wrap; gap: 0.75rem; }
+.header-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+.header-brand { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--text-primary); }
+.header-brand img { width: 30px; height: 30px; border-radius: 6px; }
+.header-brand .brand-name { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1rem; }
+.tool-name { font-family: 'Inter', sans-serif; font-size: 1.05rem; font-weight: 600; padding-left: 0.75rem; border-left: 2px solid var(--border-color); }
+.pro-pill { display: inline-flex; align-items: center; gap: 0.2rem; background: linear-gradient(135deg,#F59E0B,#EF4444); color: #fff; font-weight: 700; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.4px; padding: 0.15rem 0.45rem; border-radius: 5px; white-space: nowrap; }
+.freemium-note { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; padding: 0.6rem 0.9rem; background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.3); border-radius: 8px; font-size: 0.82rem; color: var(--text-secondary); }
+.freemium-note a { color: #F59E0B; font-weight: 700; text-decoration: none; }
+.freemium-note a:hover { text-decoration: underline; }
+@media (max-width: 640px) { .tool-name { font-size: 0.9rem; padding-left: 0.5rem; } .header-brand .brand-name { display: none; } }
+@media print { .freemium-note { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <div style="display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap;">
+        <a class="header-brand" href="/" title="ImpactMojo home">
+            <img src="/assets/images/ImpactMojo%20Logo.png" alt="ImpactMojo" width="30" height="30">
+            <span class="brand-name">ImpactMojo</span>
+        </a>
+        <h1 class="tool-name">AI Strategy Canvas</h1>
+    </div>
+    <div class="header-actions">
+        <button class="btn" onclick="toggleDarkMode()" title="Toggle dark mode" aria-label="Toggle dark mode">&#9790;</button>
+        <button class="btn" onclick="clearAll()">Clear All</button>
+        <button class="btn" onclick="loadExample()">Load Example</button>
+        <button class="btn btn-primary" onclick="exportToJSON()">Export <span class="pro-pill">&#9733; Premium</span></button>
+        <button class="btn btn-primary" onclick="printTemplate()">Print <span class="pro-pill">&#9733; Premium</span></button>
+    </div>
+</div>
+
+<div class="container">
+    <div class="instructions">
+        <strong>AI Strategy Canvas:</strong> Use this canvas to evaluate whether an AI solution is appropriate for a development challenge. Work through each section to build a complete picture of the opportunity, risks, and feasibility.
+    </div>
+
+    <div class="freemium-note">
+        <span class="pro-pill">&#9733; Premium</span>
+        <span>Building is free. Exporting is a Premium feature. <a href="/premium.html#detail-professional">Upgrade to Professional &rarr;</a></span>
+    </div>
+
+    <div class="project-bar">
+        <input type="text" id="projectName" placeholder="Project / Initiative name" data-field="projectName">
+        <input type="text" id="orgName" placeholder="Organization" data-field="orgName">
+        <input type="text" id="dateFilled" placeholder="Date" data-field="dateFilled">
+    </div>
+
+    <div class="canvas-grid" id="canvasGrid"></div>
+
+    <div class="score-section">
+        <h3>Feasibility Score</h3>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:1rem;">Rate each dimension 1-5 to get a quick feasibility assessment.</p>
+        <div class="score-grid" id="scoreGrid"></div>
+        <div class="total-score">
+            <div class="score-num" id="totalScore">0</div>
+            <div class="score-label">out of 30</div>
+            <div class="verdict" id="verdict"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+var SECTIONS = [
+    { id: 'problem', num: 1, title: 'Problem Statement', prompt: 'What specific problem are you trying to solve? Who experiences it? What is the current workaround?', width: 'full-width' },
+    { id: 'ai_solution', num: 2, title: 'Proposed AI Solution', prompt: 'How could AI help? What type of AI (NLP, computer vision, prediction, automation)?', width: 'two-thirds' },
+    { id: 'non_ai', num: 3, title: 'Non-AI Alternative', prompt: 'What is the best non-AI solution? Why is AI better?', width: 'half-width' },
+    { id: 'data', num: 4, title: 'Data Availability', prompt: 'What data exists? Quality? Volume? Who owns it? Privacy concerns?', width: 'half-width' },
+    { id: 'users', num: 5, title: 'End Users & Context', prompt: 'Who will use the AI tool? Tech literacy? Connectivity? Language needs?', width: 'half-width' },
+    { id: 'impact', num: 6, title: 'Expected Impact', prompt: 'What measurable outcomes will improve? By how much? For whom?', width: 'half-width' },
+    { id: 'risks', num: 7, title: 'Risks & Ethics', prompt: 'Bias risks? Privacy concerns? Potential harms? Who could be excluded?', width: 'half-width' },
+    { id: 'resources', num: 8, title: 'Resources Needed', prompt: 'Team skills, budget, timeline, infrastructure, partnerships required?', width: 'half-width' },
+    { id: 'sustainability', num: 9, title: 'Sustainability', prompt: 'How will it be maintained? Who pays after the pilot? What if the AI vendor disappears?', width: 'half-width' },
+    { id: 'next_steps', num: 10, title: 'Next Steps', prompt: 'What is the minimum viable pilot? First 3 actions to take?', width: 'full-width' }
+];
+
+var SCORES = [
+    { id: 'data_ready', label: 'Data Readiness' },
+    { id: 'tech_feasible', label: 'Technical Feasibility' },
+    { id: 'user_ready', label: 'User Readiness' },
+    { id: 'ethical_ok', label: 'Ethical Soundness' },
+    { id: 'impact_potential', label: 'Impact Potential' },
+    { id: 'sustain', label: 'Sustainability' }
+];
+
+var STORAGE_KEY = 'impactmojo_ai_canvas';
+var data = {};
+
+function init() {
+    var saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) { try { data = JSON.parse(saved); } catch(e) { data = {}; } }
+
+    // Render canvas
+    var grid = document.getElementById('canvasGrid');
+    SECTIONS.forEach(function(s) {
+        var section = document.createElement('div');
+        section.className = 'canvas-section ' + s.width;
+        section.innerHTML = '<div class="section-header"><span class="section-num">' + s.num + '</span><span class="section-title">' + s.title + '</span></div>' +
+            '<div class="section-prompt">' + s.prompt + '</div>';
+        var ta = document.createElement('textarea');
+        ta.className = 'note-area';
+        ta.value = data[s.id] || '';
+        ta.dataset.field = s.id;
+        ta.addEventListener('input', function() { data[this.dataset.field] = this.value; save(); });
+        section.appendChild(ta);
+        grid.appendChild(section);
+    });
+
+    // Project bar
+    ['projectName', 'orgName', 'dateFilled'].forEach(function(f) {
+        var el = document.getElementById(f);
+        el.value = data[f] || '';
+        el.addEventListener('input', function() { data[f] = this.value; save(); });
+    });
+
+    // Score sliders
+    var scoreGrid = document.getElementById('scoreGrid');
+    SCORES.forEach(function(sc) {
+        var item = document.createElement('div');
+        item.className = 'score-item';
+        item.innerHTML = '<label>' + sc.label + '</label><input type="range" min="1" max="5" value="' + (data['score_' + sc.id] || 3) + '" data-score="' + sc.id + '"><div class="score-val">' + (data['score_' + sc.id] || 3) + '/5</div>';
+        var slider = item.querySelector('input[type="range"]');
+        var val = item.querySelector('.score-val');
+        slider.addEventListener('input', function() {
+            data['score_' + this.dataset.score] = parseInt(this.value);
+            val.textContent = this.value + '/5';
+            save(); updateTotal();
+        });
+        scoreGrid.appendChild(item);
+    });
+    updateTotal();
+}
+
+function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+
+function updateTotal() {
+    var total = 0;
+    SCORES.forEach(function(sc) { total += (data['score_' + sc.id] || 3); });
+    document.getElementById('totalScore').textContent = total;
+    var verdict = document.getElementById('verdict');
+    if (total >= 25) { verdict.textContent = 'Strong candidate for AI'; verdict.style.color = '#10B981'; }
+    else if (total >= 18) { verdict.textContent = 'Promising — address gaps before proceeding'; verdict.style.color = '#F59E0B'; }
+    else { verdict.textContent = 'Reconsider — significant barriers exist'; verdict.style.color = '#EF4444'; }
+}
+
+function clearAll() {
+    if (!confirm('Clear everything?')) return;
+    data = {}; localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('.note-area').forEach(function(ta) { ta.value = ''; });
+    document.querySelectorAll('.project-bar input').forEach(function(i) { i.value = ''; });
+    document.querySelectorAll('input[type="range"]').forEach(function(r) { r.value = 3; r.nextElementSibling.textContent = '3/5'; });
+    updateTotal();
+}
+
+function loadExample() {
+    data = {
+        projectName: 'AI-Assisted Crop Disease Detection', orgName: 'AgriTech4Good', dateFilled: '2026-03-16',
+        problem: 'Smallholder farmers in East Africa lose 20-30% of crops to disease annually. Most cannot identify diseases early enough to treat. Extension officers are scarce (1 per 3,000 farmers) and can\'t provide timely diagnosis.',
+        ai_solution: 'A mobile app using computer vision (image classification) to identify crop diseases from phone photos. Farmers photograph affected leaves, the AI identifies the disease and recommends treatment. Works offline with on-device inference.',
+        non_ai: 'Printed disease identification guides + SMS hotline to extension officers. AI is better because: visual diagnosis is faster and more accurate than text descriptions, available 24/7, scalable without hiring more officers.',
+        data: 'PlantVillage dataset (50,000+ labeled images). Need to supplement with local varieties. Data is open-access. Will need to collect ~5,000 local images for fine-tuning. No personal data collected from farmers.',
+        users: 'Smallholder farmers, 60% smartphone ownership, basic digital literacy. Connectivity varies (offline capability essential). Languages: Swahili, English, local languages. Extension officers as power users.',
+        impact: 'Target: 15% reduction in crop losses within 2 seasons. 50,000 farmers reached in pilot. Faster diagnosis (minutes vs. days). Secondary: build disease surveillance data for early warning system.',
+        risks: 'Misdiagnosis risk (confidence thresholds needed). Overreliance on AI vs. local knowledge. Phone quality affects accuracy. Could exclude non-smartphone users (30-40% of target).',
+        resources: 'Team: 2 ML engineers, 1 agronomist, 1 UX designer. Budget: $150K for 12-month pilot. Need: cloud GPU for training, local data collection team, partnerships with agri-dealers for treatment recommendations.',
+        sustainability: 'Freemium model: free basic ID, premium for treatment plans and weather alerts. Partnership with seed companies for sponsorship. Government extension service adoption as official tool. Open-source model weights for community.',
+        next_steps: '1. Collect 2,000 local crop disease images with agronomist labels\n2. Fine-tune PlantVillage model on local data\n3. Build offline-capable prototype and test with 50 farmers\n4. Partner with 3 agri-dealers for treatment recommendation validation',
+        score_data_ready: 4, score_tech_feasible: 4, score_user_ready: 3, score_ethical_ok: 4, score_impact_potential: 5, score_sustain: 3
+    };
+    // Update UI
+    document.querySelectorAll('.note-area').forEach(function(ta) { ta.value = data[ta.dataset.field] || ''; });
+    ['projectName', 'orgName', 'dateFilled'].forEach(function(f) { document.getElementById(f).value = data[f] || ''; });
+    document.querySelectorAll('input[type="range"]').forEach(function(r) {
+        var key = 'score_' + r.dataset.score;
+        if (data[key]) { r.value = data[key]; r.nextElementSibling.textContent = data[key] + '/5'; }
+    });
+    save(); updateTotal();
+}
+
+function exportToJSON() {
+    if (!requirePremium()) return; // building is free, exporting is Premium
+    var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'ai-opportunity-canvas.json'; a.click();
+}
+
+function printTemplate() {
+    if (!requirePremium()) return; // building is free, exporting is Premium
+    window.print();
+}
+
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('impactmojo_dark', document.body.classList.contains('dark-mode'));
+}
+if (localStorage.getItem('impactmojo_dark') === 'true') document.body.classList.add('dark-mode');
+init();
+</script>
+
+<!-- ImpactMojo auth + premium (Pro Studio freemium gate) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="/js/state-manager.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/premium.js"></script>
+<script>
+// Pro Studio freemium: building is free for everyone; exporting is Premium.
+// The whole builder above is always visible — no sign-in wall to use it.
+window.TOOL_PREMIUM = false;
+var TOOL_TIER = 'professional';
+async function initGate() {
+  try { if (window.ImpactMojoAuth) await window.ImpactMojoAuth.waitForAuthReady(); } catch (e) {}
+  var auth = window.ImpactMojoAuth;
+  window.TOOL_PREMIUM = !!(auth && typeof auth.hasTierAccess === 'function' && auth.hasTierAccess(TOOL_TIER));
+}
+// Gate a Premium action (export/print). Free users get the upgrade path.
+function requirePremium() {
+  if (window.TOOL_PREMIUM) return true;
+  if (window.IMXPremium && typeof window.IMXPremium.showUpgradeModal === 'function') window.IMXPremium.showUpgradeModal(TOOL_TIER);
+  else window.location.href = '/premium.html#detail-' + TOOL_TIER;
+  return false;
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initGate);
+else initGate();
+</script>
+</body>
+</html>

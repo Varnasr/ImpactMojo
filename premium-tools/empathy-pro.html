@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Empathy Mapping — free empathy map tool | ImpactMojo</title>
+<meta name="description" content="Interactive Empathy Map template for understanding stakeholders and beneficiaries. Free to build — exporting is a Premium feature.">
+<link href="/assets/images/favicon.png" rel="icon" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+    --primary-bg: #FFFFFF; --secondary-bg: #F8FAFC; --accent-color: #0EA5E9;
+    --accent-hover: #0284C7; --text-primary: #0F172A; --text-secondary: #475569;
+    --card-bg: #FFFFFF; --border-color: #E2E8F0; --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+}
+body.dark-mode {
+    --primary-bg: #0F172A; --secondary-bg: #1E293B; --text-primary: #F1F5F9;
+    --text-secondary: #94A3B8; --card-bg: #1E293B; --border-color: #334155;
+}
+body { font-family: 'Amaranth', sans-serif; background: var(--primary-bg); color: var(--text-primary); }
+
+.header {
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color); padding: 1rem 2rem;
+    position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between;
+}
+body.dark-mode .header { background: rgba(15,23,42,0.95); }
+.header h1 { font-family: 'Inter', sans-serif; font-size: 1.25rem; }
+.btn { padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-primary); cursor: pointer; font-size: 0.85rem; font-family: inherit; transition: all 0.2s; }
+.btn:hover { border-color: var(--accent-color); }
+.btn-primary { background: var(--accent-color); color: white; border-color: var(--accent-color); }
+
+.container { padding: 2rem; max-width: 900px; margin: 0 auto; }
+
+.instructions {
+    background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 10px;
+    padding: 1.25rem; margin-bottom: 1.5rem; font-size: 0.85rem; color: var(--text-secondary);
+}
+.instructions strong { color: var(--text-primary); }
+
+.persona-bar {
+    background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px;
+    padding: 1rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem;
+}
+.persona-bar input {
+    flex: 1; padding: 0.6rem; border: 1px solid var(--border-color); border-radius: 6px;
+    background: var(--primary-bg); color: var(--text-primary); font-family: inherit; font-size: 0.9rem;
+}
+.persona-avatar {
+    width: 48px; height: 48px; border-radius: 50%; background: var(--accent-color);
+    display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: white;
+    flex-shrink: 0;
+}
+
+.empathy-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    border: 2px solid var(--border-color); border-radius: 12px; overflow: hidden;
+}
+.empathy-section {
+    min-height: 220px; padding: 1rem; border: 1px solid var(--border-color);
+    position: relative;
+}
+.section-header {
+    display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;
+}
+.section-icon { font-size: 1.2rem; }
+.section-title { font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 700; }
+.section-hint { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+
+.thinks .section-header { color: #6366F1; }
+.feels .section-header { color: #EC4899; }
+.says .section-header { color: #10B981; }
+.does .section-header { color: #F59E0B; }
+
+.sticky-notes { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.sticky {
+    background: #FEF3C7; border: 1px solid #FCD34D; border-radius: 6px;
+    padding: 0.5rem; min-width: 100px; max-width: 180px; position: relative;
+    font-size: 0.82rem; box-shadow: 1px 2px 4px rgba(0,0,0,0.06);
+}
+body.dark-mode .sticky { background: #422006; border-color: #92400E; }
+.sticky textarea {
+    width: 100%; border: none; background: transparent; color: var(--text-primary);
+    font-family: inherit; font-size: 0.82rem; resize: none; outline: none; line-height: 1.4;
+}
+.sticky .delete-sticky {
+    position: absolute; top: 2px; right: 4px; background: none; border: none;
+    color: var(--text-secondary); cursor: pointer; font-size: 0.9rem; opacity: 0; transition: opacity 0.2s;
+}
+.sticky:hover .delete-sticky { opacity: 1; }
+.sticky .delete-sticky:hover { color: #EF4444; }
+
+.add-sticky {
+    border: 2px dashed var(--border-color); border-radius: 6px; padding: 0.5rem 0.75rem;
+    background: transparent; color: var(--text-secondary); cursor: pointer; font-size: 0.78rem;
+    min-width: 80px; text-align: center; transition: all 0.2s; font-family: inherit;
+}
+.add-sticky:hover { border-color: var(--accent-color); color: var(--accent-color); }
+
+.pains-gains {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    border: 2px solid var(--border-color); border-top: none; border-radius: 0 0 12px 12px;
+    overflow: hidden;
+}
+.pains-gains .empathy-section { min-height: 160px; }
+.pains .section-header { color: #EF4444; }
+.gains .section-header { color: #10B981; }
+
+@media (max-width: 600px) {
+    .empathy-grid { grid-template-columns: 1fr; }
+    .pains-gains { grid-template-columns: 1fr; }
+}
+@media print {
+    .header, .instructions { display: none !important; }
+    .sticky { break-inside: avoid; }
+}
+
+/* ── Pro Studio branding + freemium ─────────────────────────── */
+.header { flex-wrap: wrap; gap: 0.75rem; }
+.header-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+.header-brand { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--text-primary); }
+.header-brand img { width: 30px; height: 30px; border-radius: 6px; }
+.header-brand .brand-name { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1rem; }
+.tool-name { font-family: 'Inter', sans-serif; font-size: 1.05rem; font-weight: 600; padding-left: 0.75rem; border-left: 2px solid var(--border-color); }
+.pro-pill { display: inline-flex; align-items: center; gap: 0.2rem; background: linear-gradient(135deg,#F59E0B,#EF4444); color: #fff; font-weight: 700; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.4px; padding: 0.15rem 0.45rem; border-radius: 5px; white-space: nowrap; }
+.freemium-note { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; padding: 0.6rem 0.9rem; background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.3); border-radius: 8px; font-size: 0.82rem; color: var(--text-secondary); }
+.freemium-note a { color: #F59E0B; font-weight: 700; text-decoration: none; }
+.freemium-note a:hover { text-decoration: underline; }
+@media (max-width: 640px) { .tool-name { font-size: 0.9rem; padding-left: 0.5rem; } .header-brand .brand-name { display: none; } }
+@media print { .freemium-note { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <div style="display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap;">
+        <a class="header-brand" href="/" title="ImpactMojo home">
+            <img src="/assets/images/ImpactMojo%20Logo.png" alt="ImpactMojo" width="30" height="30">
+            <span class="brand-name">ImpactMojo</span>
+        </a>
+        <h1 class="tool-name">Empathy Mapping</h1>
+    </div>
+    <div class="header-actions">
+        <button class="btn" onclick="toggleDarkMode()" title="Toggle dark mode" aria-label="Toggle dark mode">&#9790;</button>
+        <button class="btn" onclick="clearAll()">Clear All</button>
+        <button class="btn" onclick="loadExample()">Load Example</button>
+        <button class="btn btn-primary" onclick="exportToJSON()">Export <span class="pro-pill">&#9733; Premium</span></button>
+        <button class="btn btn-primary" onclick="printTemplate()">Print <span class="pro-pill">&#9733; Premium</span></button>
+    </div>
+</div>
+
+<div class="container">
+    <div class="instructions">
+        <strong>Empathy Mapping:</strong> Choose a specific person or persona (beneficiary, stakeholder, user). Fill each quadrant with what they <em>think, feel, say,</em> and <em>do</em>. Then identify their <em>pains</em> and <em>gains</em>. Add sticky notes by clicking "+ Add".
+    </div>
+
+    <div class="freemium-note">
+        <span class="pro-pill">&#9733; Premium</span>
+        <span>Building is free. Exporting is a Premium feature. <a href="/premium.html#detail-professional">Upgrade to Professional &rarr;</a></span>
+    </div>
+
+    <div class="persona-bar">
+        <div class="persona-avatar" id="avatar">?</div>
+        <input type="text" id="personaName" placeholder="Who are we empathizing with? (e.g., Smallholder farmer in Bihar)" maxlength="80">
+    </div>
+
+    <div class="empathy-grid">
+        <div class="empathy-section thinks" data-section="thinks">
+            <div class="section-header"><span class="section-icon">&#128173;</span><span class="section-title">Thinks</span></div>
+            <div class="section-hint">What occupies their mind? Worries, aspirations, beliefs?</div>
+            <div class="sticky-notes" id="thinks-notes"></div>
+        </div>
+        <div class="empathy-section feels" data-section="feels">
+            <div class="section-header"><span class="section-icon">&#10084;</span><span class="section-title">Feels</span></div>
+            <div class="section-hint">What emotions do they experience? Fears, hopes, frustrations?</div>
+            <div class="sticky-notes" id="feels-notes"></div>
+        </div>
+        <div class="empathy-section says" data-section="says">
+            <div class="section-header"><span class="section-icon">&#128172;</span><span class="section-title">Says</span></div>
+            <div class="section-hint">What do they tell others? Quotes, phrases, complaints?</div>
+            <div class="sticky-notes" id="says-notes"></div>
+        </div>
+        <div class="empathy-section does" data-section="does">
+            <div class="section-header"><span class="section-icon">&#9997;</span><span class="section-title">Does</span></div>
+            <div class="section-hint">What actions and behaviors do you observe?</div>
+            <div class="sticky-notes" id="does-notes"></div>
+        </div>
+    </div>
+    <div class="pains-gains">
+        <div class="empathy-section pains" data-section="pains">
+            <div class="section-header"><span class="section-icon">&#9888;</span><span class="section-title">Pains</span></div>
+            <div class="section-hint">Frustrations, obstacles, risks they face</div>
+            <div class="sticky-notes" id="pains-notes"></div>
+        </div>
+        <div class="empathy-section gains" data-section="gains">
+            <div class="section-header"><span class="section-icon">&#9733;</span><span class="section-title">Gains</span></div>
+            <div class="section-hint">What would make their life better? Desired outcomes?</div>
+            <div class="sticky-notes" id="gains-notes"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+var STORAGE_KEY = 'impactmojo_empathy_map';
+var SECTIONS = ['thinks', 'feels', 'says', 'does', 'pains', 'gains'];
+var data = { persona: '', thinks: [], feels: [], says: [], does: [], pains: [], gains: [] };
+
+function init() {
+    var saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) { try { data = JSON.parse(saved); } catch(e) {} }
+    SECTIONS.forEach(function(s) { if (!data[s]) data[s] = []; });
+    document.getElementById('personaName').value = data.persona || '';
+    document.getElementById('personaName').addEventListener('input', function() {
+        data.persona = this.value;
+        document.getElementById('avatar').textContent = this.value ? this.value.charAt(0).toUpperCase() : '?';
+        save();
+    });
+    if (data.persona) document.getElementById('avatar').textContent = data.persona.charAt(0).toUpperCase();
+    render();
+}
+
+function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+
+function render() {
+    SECTIONS.forEach(function(s) {
+        var container = document.getElementById(s + '-notes');
+        container.innerHTML = '';
+        data[s].forEach(function(text, i) {
+            var sticky = document.createElement('div');
+            sticky.className = 'sticky';
+            var ta = document.createElement('textarea');
+            ta.value = text; ta.rows = 2; ta.placeholder = 'Type here...';
+            ta.addEventListener('input', function() {
+                this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';
+                data[s][i] = this.value; save();
+            });
+            setTimeout(function() { ta.style.height = ta.scrollHeight + 'px'; }, 0);
+            var del = document.createElement('button');
+            del.className = 'delete-sticky'; del.innerHTML = '&times;';
+            del.addEventListener('click', function() { data[s].splice(i, 1); save(); render(); });
+            sticky.appendChild(ta); sticky.appendChild(del);
+            container.appendChild(sticky);
+        });
+        var addBtn = document.createElement('button');
+        addBtn.className = 'add-sticky'; addBtn.textContent = '+ Add';
+        addBtn.addEventListener('click', function() {
+            data[s].push(''); save(); render();
+            var notes = container.querySelectorAll('.sticky textarea');
+            if (notes.length) notes[notes.length - 1].focus();
+        });
+        container.appendChild(addBtn);
+    });
+}
+
+function clearAll() {
+    if (!confirm('Clear all notes?')) return;
+    data = { persona: '', thinks: [], feels: [], says: [], does: [], pains: [], gains: [] };
+    document.getElementById('personaName').value = '';
+    document.getElementById('avatar').textContent = '?';
+    save(); render();
+}
+
+function loadExample() {
+    data = {
+        persona: 'Priya — Community Health Worker in rural Rajasthan',
+        thinks: ['Will I get paid on time this month?', 'Am I giving the right advice?', 'I want my community to see me as a professional'],
+        feels: ['Pride in helping families', 'Anxious about handling complications', 'Frustrated by lack of supplies', 'Isolated from support network'],
+        says: ['"The families trust me more than the clinic"', '"I need more training on nutrition"', '"The data forms take too long to fill"'],
+        does: ['Walks 5km daily to visit households', 'Tracks pregnancies on paper registers', 'Refers complicated cases to PHC', 'Attends monthly meetings at block office'],
+        pains: ['Delayed salary payments', 'No smartphone for digital reporting', 'Limited medical knowledge for edge cases', 'Low recognition from health system'],
+        gains: ['Consistent income and benefits', 'Digital tools that save time', 'Advanced training and certification', 'Career progression pathway']
+    };
+    document.getElementById('personaName').value = data.persona;
+    document.getElementById('avatar').textContent = 'P';
+    save(); render();
+}
+
+function exportToJSON() {
+    if (!requirePremium()) return; // building is free, exporting is Premium
+    var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'empathy-map.json'; a.click();
+}
+
+function printTemplate() {
+    if (!requirePremium()) return; // building is free, exporting is Premium
+    window.print();
+}
+
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('impactmojo_dark', document.body.classList.contains('dark-mode'));
+}
+if (localStorage.getItem('impactmojo_dark') === 'true') document.body.classList.add('dark-mode');
+init();
+</script>
+
+<!-- ImpactMojo auth + premium (Pro Studio freemium gate) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="/js/state-manager.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/premium.js"></script>
+<script>
+// Pro Studio freemium: building is free for everyone; exporting is Premium.
+// The whole builder above is always visible — no sign-in wall to use it.
+window.TOOL_PREMIUM = false;
+var TOOL_TIER = 'professional';
+async function initGate() {
+  try { if (window.ImpactMojoAuth) await window.ImpactMojoAuth.waitForAuthReady(); } catch (e) {}
+  var auth = window.ImpactMojoAuth;
+  window.TOOL_PREMIUM = !!(auth && typeof auth.hasTierAccess === 'function' && auth.hasTierAccess(TOOL_TIER));
+}
+// Gate a Premium action (export/print). Free users get the upgrade path.
+function requirePremium() {
+  if (window.TOOL_PREMIUM) return true;
+  if (window.IMXPremium && typeof window.IMXPremium.showUpgradeModal === 'function') window.IMXPremium.showUpgradeModal(TOOL_TIER);
+  else window.location.href = '/premium.html#detail-' + TOOL_TIER;
+  return false;
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initGate);
+else initGate();
+</script>
+</body>
+</html>
