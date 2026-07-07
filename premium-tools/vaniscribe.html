@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VaniScribe — AI Field Transcription | ImpactMojo</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --earth: #2c2418;
+  --earth-mid: #5c4a36;
+  --bark: #8b7355;
+  --sand: #c4a882;
+  --cream: #faf6f0;
+  --parchment: #f3ede3;
+  --warm-white: #fefcf8;
+  --terracotta: #c0623a;
+  --terracotta-deep: #a84e2a;
+  --terracotta-light: #e8956e;
+  --terracotta-bg: #fdf3ee;
+  --sage: #5a7a5e;
+  --sage-bg: #f1f5f1;
+  --teal-muted: #4a7e8e;
+  --border: #e0d8cc;
+  --border-light: #ebe5db;
+  --serif: 'Fraunces', Georgia, serif;
+  --sans: 'DM Sans', -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+html { font-size: 16px; }
+body {
+  font-family: var(--sans);
+  background: var(--cream);
+  color: var(--earth);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+header {
+  background: var(--earth);
+  color: var(--cream);
+  padding: 0;
+}
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 2rem;
+  font-size: 0.75rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  max-width: 1040px;
+  margin: 0 auto;
+}
+.header-top a { color: var(--sand); text-decoration: none; }
+.header-top a:hover { text-decoration: underline; }
+.premium-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: rgba(192,98,58,0.2);
+  border: 1px solid rgba(192,98,58,0.35);
+  color: var(--terracotta-light);
+  padding: 0.15rem 0.55rem;
+  border-radius: 100px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.header-main {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem 1.8rem;
+}
+.header-main h1 {
+  font-family: var(--serif);
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.header-main h1 .vani { color: var(--terracotta-light); }
+.header-main h1 .star { color: var(--sand); opacity: 0.6; font-size: 0.7em; vertical-align: super; }
+.header-tagline {
+  font-size: 0.95rem;
+  color: var(--sand);
+  margin-top: 0.3rem;
+  font-style: italic;
+  font-family: var(--serif);
+}
+.header-desc {
+  font-size: 0.82rem;
+  color: rgba(196,168,130,0.7);
+  margin-top: 0.6rem;
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+/* ── MAIN ── */
+main {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* ── CARDS ── */
+.card {
+  background: var(--warm-white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+.card-title {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: var(--earth);
+}
+.card-subtitle {
+  font-size: 0.82rem;
+  color: var(--bark);
+  margin-bottom: 1.2rem;
+  line-height: 1.55;
+}
+
+/* ── FORMS ── */
+label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--bark);
+  margin-bottom: 0.35rem;
+}
+input[type="text"], input[type="password"], select {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  background: var(--parchment);
+  color: var(--earth);
+  transition: border-color 0.2s;
+}
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--terracotta);
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.form-group { margin-bottom: 1rem; }
+.input-hint {
+  font-size: 0.72rem;
+  color: var(--bark);
+  margin-top: 0.3rem;
+  opacity: 0.75;
+}
+
+/* ── MODE SELECTOR ── */
+.mode-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.mode-option {
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  padding: 0.65rem 0.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--warm-white);
+}
+.mode-option:hover { border-color: var(--terracotta-light); background: var(--terracotta-bg); }
+.mode-option.active {
+  border-color: var(--terracotta);
+  background: var(--terracotta-bg);
+  box-shadow: 0 0 0 1px var(--terracotta);
+}
+.mode-option .mode-name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--earth);
+}
+.mode-option .mode-desc {
+  font-size: 0.67rem;
+  color: var(--bark);
+  margin-top: 0.1rem;
+}
+
+/* ── MODE EXAMPLE ── */
+.mode-example {
+  background: var(--parchment);
+  border-radius: 5px;
+  padding: 0.85rem 1rem;
+  margin-top: 0.8rem;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  border-left: 3px solid var(--sand);
+}
+.mode-example .example-label {
+  font-weight: 600;
+  color: var(--bark);
+  font-size: 0.7rem;
+  letter-spacing: 0.03em;
+}
+.mode-example .example-text {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  margin-top: 0.25rem;
+  color: var(--earth);
+}
+
+/* ── AUDIO ZONE ── */
+.audio-zone {
+  border: 2px dashed var(--border);
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.25s;
+  cursor: pointer;
+  position: relative;
+  background: var(--parchment);
+}
+.audio-zone:hover, .audio-zone.dragover {
+  border-color: var(--terracotta);
+  background: var(--terracotta-bg);
+}
+.audio-zone-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+.audio-zone-text { font-size: 0.88rem; color: var(--bark); }
+.audio-zone-text strong { color: var(--terracotta); }
+.audio-zone input[type="file"] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer;
+}
+
+.or-divider {
+  text-align: center;
+  color: var(--bark);
+  font-size: 0.75rem;
+  margin: 1rem 0;
+  position: relative;
+}
+.or-divider::before, .or-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: calc(50% - 1.5rem);
+  height: 1px;
+  background: var(--border);
+}
+.or-divider::before { left: 0; }
+.or-divider::after { right: 0; }
+
+/* ── RECORD BUTTON ── */
+.record-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.btn-record {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.4rem;
+  border: 1.5px solid var(--terracotta);
+  border-radius: 100px;
+  background: var(--warm-white);
+  color: var(--terracotta);
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-record:hover { background: var(--terracotta-bg); }
+.btn-record.recording {
+  background: var(--terracotta);
+  color: white;
+  animation: pulse-border 1.5s ease-in-out infinite;
+}
+@keyframes pulse-border {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(192,98,58,0.3); }
+  50% { box-shadow: 0 0 0 8px rgba(192,98,58,0); }
+}
+.record-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--terracotta);
+}
+.recording .record-dot { background: white; }
+.record-timer {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--bark);
+  min-width: 3.5rem;
+}
+
+/* ── FILE LIST ── */
+.file-list { margin-top: 1rem; }
+.file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  background: var(--parchment);
+  border-radius: 5px;
+  margin-bottom: 0.4rem;
+  font-size: 0.82rem;
+}
+.file-item .file-name {
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 70%;
+}
+.file-item .file-size { color: var(--bark); }
+.file-item .file-remove {
+  color: var(--terracotta);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.78rem;
+}
+.file-item .file-remove:hover { text-decoration: underline; }
+
+/* ── TRANSCRIBE BUTTON ── */
+.btn-transcribe {
+  display: block;
+  width: 100%;
+  padding: 0.85rem;
+  background: var(--terracotta);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  letter-spacing: 0.01em;
+}
+.btn-transcribe:hover { background: var(--terracotta-deep); }
+.btn-transcribe:disabled {
+  background: var(--border);
+  color: var(--bark);
+  cursor: not-allowed;
+}
+
+/* ── PROGRESS ── */
+.progress-area { margin-top: 1rem; display: none; }
+.progress-area.visible { display: block; }
+.progress-bar-track {
+  width: 100%;
+  height: 6px;
+  background: var(--parchment);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: var(--terracotta);
+  border-radius: 3px;
+  transition: width 0.3s;
+  width: 0%;
+}
+.progress-text { font-size: 0.8rem; color: var(--bark); }
+
+/* ── NOTICE ── */
+.notice {
+  background: var(--terracotta-bg);
+  border-left: 3px solid var(--terracotta);
+  padding: 0.75rem 1rem;
+  font-size: 0.82rem;
+  color: var(--earth);
+  line-height: 1.5;
+  border-radius: 0 5px 5px 0;
+  margin-bottom: 1rem;
+}
+.notice strong { font-weight: 600; }
+
+/* ── RESULTS ── */
+.results-area { display: none; }
+.results-area.visible { display: block; }
+.transcript-block {
+  background: var(--warm-white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+.transcript-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: var(--parchment);
+  border-bottom: 1px solid var(--border);
+}
+.transcript-header .th-title {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.transcript-header .th-meta {
+  font-size: 0.72rem;
+  color: var(--bark);
+}
+.transcript-body {
+  padding: 1.25rem;
+  max-height: 500px;
+  overflow-y: auto;
+  font-size: 0.88rem;
+  line-height: 1.8;
+}
+.plain-transcript {
+  font-family: var(--serif);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-size: 0.92rem;
+}
+
+/* ── EXPORT ── */
+.export-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.btn-export {
+  padding: 0.5rem 1rem;
+  border: 1.5px solid var(--border);
+  border-radius: 5px;
+  background: var(--warm-white);
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--earth);
+}
+.btn-export:hover {
+  border-color: var(--terracotta);
+  color: var(--terracotta);
+}
+
+/* ── COMPARISON SECTION ── */
+.tool-guide {
+  border-left: 3px solid var(--sage);
+}
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.comparison-col {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--warm-white);
+}
+.comparison-header {
+  padding: 0.7rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.webapp-header { background: var(--terracotta-bg); }
+.colab-header { background: var(--sage-bg); }
+.comparison-icon { font-size: 1.1rem; }
+.comparison-label {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+.comparison-body { padding: 0.7rem 1rem; }
+.comparison-item {
+  font-size: 0.8rem;
+  padding: 0.25rem 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  line-height: 1.45;
+}
+.comparison-item .check { color: var(--sage); font-weight: 700; flex-shrink: 0; }
+.comparison-item.limit { color: var(--bark); }
+.comparison-item .warn { flex-shrink: 0; font-size: 0.75rem; }
+
+/* ── COLAB SECTION ── */
+.colab-section {
+  background: var(--parchment);
+  border-radius: 8px;
+  padding: 1.25rem;
+}
+.colab-section-title {
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.colab-section-desc {
+  font-size: 0.84rem;
+  line-height: 1.6;
+  color: var(--earth);
+}
+.colab-section-desc code {
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  background: var(--warm-white);
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+}
+.colab-sample {
+  background: var(--warm-white);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 0.75rem 1rem;
+  margin-top: 0.5rem;
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+.sample-line { margin-bottom: 0.25rem; }
+.sample-ts {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--bark);
+}
+.sample-spk {
+  font-weight: 600;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.spk1 { color: var(--terracotta); }
+.spk2 { color: var(--teal-muted); }
+.btn-colab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.65rem 1.3rem;
+  background: var(--sage);
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-colab:hover { background: #4a6a4e; }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 1.5rem 2rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--bark);
+}
+footer a { color: var(--terracotta); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+footer .footer-brand {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--earth);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+  main { padding: 1rem; }
+  .mode-grid { grid-template-columns: repeat(3, 1fr); }
+  .form-row { grid-template-columns: 1fr; }
+  .header-main { padding: 1rem; }
+  .header-top { padding: 0.5rem 1rem; }
+  .header-main h1 { font-size: 1.5rem; }
+  .comparison-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .mode-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header>
+  <div class="header-top">
+    <a href="/" title="Back to ImpactMojo">← impactmojo.in</a>
+    <span class="premium-badge">✦ Free · Premium notebook</span>
+  </div>
+  <div class="header-main">
+    <h1><span class="vani">Vani</span>Scribe <span class="star">✦</span></h1>
+    <div class="header-tagline">Voice to text for Indian language field research</div>
+    <div class="header-desc">Transcribe interviews, FGDs, and field recordings in 22 Indian languages. Powered by Sarvam AI's Saaras v3 model with code-mixed speech recognition.</div>
+  </div>
+</header>
+
+<main>
+
+  <!-- API KEY -->
+  <div class="card">
+    <div class="card-title">API Key</div>
+    <div class="card-subtitle">VaniScribe uses <a href="https://sarvam.ai" target="_blank" style="color:var(--terracotta)">Sarvam AI</a>'s speech-to-text API. You bring your own key. ImpactMojo does not charge for this tool.</div>
+
+    <div style="background:var(--sage-bg); border-radius:6px; padding:1rem 1.2rem; margin-bottom:1rem; font-size:0.84rem; line-height:1.65; color:var(--earth);">
+      <strong style="color:var(--sage);">How to get your free API key:</strong><br>
+      1. Go to <a href="https://dashboard.sarvam.ai/" target="_blank" style="color:var(--terracotta); font-weight:600;">dashboard.sarvam.ai</a> and create an account<br>
+      2. Navigate to API Keys and generate a new key<br>
+      3. Copy the key (starts with <code style="font-family:var(--mono); font-size:0.8rem; background:var(--parchment); padding:0.1rem 0.3rem; border-radius:3px;">sk_</code>) and paste it below
+    </div>
+
+    <div style="background:var(--terracotta-bg); border-radius:6px; padding:1rem 1.2rem; margin-bottom:1rem; font-size:0.82rem; line-height:1.65; color:var(--earth-mid);">
+      <strong style="color:var(--terracotta-deep);">What does it cost?</strong><br>
+      Every new Sarvam account gets <strong>₹1,000 in free credits</strong> (roughly 33 hours of transcription). After that, speech-to-text costs ₹30/hour of audio. A typical 45-minute interview costs about ₹23 (~$0.27). See <a href="https://www.sarvam.ai/api-pricing/" target="_blank" style="color:var(--terracotta);">Sarvam's pricing page</a> for current rates.
+    </div>
+
+    <label>Your Sarvam AI API Key</label>
+    <input type="password" id="apiKey" value="" placeholder="Paste your Sarvam AI API key here (starts with sk_)">
+    <div class="input-hint">Your key stays in your browser and is never sent to ImpactMojo. It is only used to call Sarvam's API directly.</div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="card">
+    <div class="card-title">Transcription Settings</div>
+    <div class="card-subtitle">Choose how your audio should be transcribed. Each mode produces different output from the same recording.</div>
+
+    <label>Output Mode</label>
+    <div class="mode-grid" id="modeGrid">
+      <div class="mode-option active" data-mode="translate">
+        <div class="mode-name">Translate</div>
+        <div class="mode-desc">English output</div>
+      </div>
+      <div class="mode-option" data-mode="transcribe">
+        <div class="mode-name">Transcribe</div>
+        <div class="mode-desc">Native script</div>
+      </div>
+      <div class="mode-option" data-mode="translit">
+        <div class="mode-name">Translit</div>
+        <div class="mode-desc">Romanized</div>
+      </div>
+      <div class="mode-option" data-mode="codemix">
+        <div class="mode-name">Codemix</div>
+        <div class="mode-desc">Mixed scripts</div>
+      </div>
+      <div class="mode-option" data-mode="verbatim">
+        <div class="mode-name">Verbatim</div>
+        <div class="mode-desc">Raw with fillers</div>
+      </div>
+    </div>
+
+    <div class="mode-example" id="modeExample">
+      <div class="example-label">✦ Example input: "mujhe lagta hai ki yeh policy bahut important hai for the poor families"</div>
+      <div class="example-text" id="modeExampleText">I think this policy is very important for the poor families</div>
+    </div>
+
+    <div class="form-row" style="margin-top:1rem;">
+      <div>
+        <label>Language</label>
+        <select id="langCode">
+          <option value="unknown" selected>Auto-detect (recommended)</option>
+          <option value="hi-IN">Hindi</option>
+          <option value="bn-IN">Bengali</option>
+          <option value="ta-IN">Tamil</option>
+          <option value="te-IN">Telugu</option>
+          <option value="kn-IN">Kannada</option>
+          <option value="ml-IN">Malayalam</option>
+          <option value="mr-IN">Marathi</option>
+          <option value="gu-IN">Gujarati</option>
+          <option value="pa-IN">Punjabi</option>
+          <option value="od-IN">Odia</option>
+          <option value="en-IN">English (Indian)</option>
+        </select>
+      </div>
+      <div>
+        <label>Model</label>
+        <select id="modelSelect">
+          <option value="saaras:v3" selected>Saaras v3 (recommended)</option>
+          <option value="saarika:v2.5">Saarika v2.5 (legacy)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUDIO INPUT -->
+  <div class="card">
+    <div class="card-title">Audio Input</div>
+    <div class="card-subtitle">Upload a recording or use your microphone. Supports MP3, WAV, AAC, OGG, FLAC, M4A, WebM. Files longer than 30 seconds are automatically split into chunks and stitched back together.</div>
+
+    <div class="notice">
+      <strong>Note on speaker labels:</strong> This web app uses the REST API, which does not support speaker diarization (labelling who said what). For interviews and FGDs where you need speaker turns, use the Colab Notebook below.
+    </div>
+
+    <div class="audio-zone" id="dropZone">
+      <div class="audio-zone-icon">📁</div>
+      <div class="audio-zone-text">Drag and drop audio files here, or <strong>click to browse</strong></div>
+      <input type="file" id="fileInput" accept=".mp3,.wav,.aac,.ogg,.opus,.flac,.m4a,.mp4,.amr,.wma,.webm,.aiff" multiple>
+    </div>
+
+    <div class="or-divider">or record directly</div>
+
+    <div class="record-row">
+      <button class="btn-record" id="recordBtn">
+        <span class="record-dot"></span>
+        <span id="recordLabel">Record</span>
+      </button>
+      <span class="record-timer" id="recordTimer">0:00</span>
+    </div>
+
+    <div class="file-list" id="fileList"></div>
+  </div>
+
+  <!-- TRANSCRIBE -->
+  <div class="card">
+    <button class="btn-transcribe" id="transcribeBtn" disabled>✦ Transcribe</button>
+    <div class="progress-area" id="progressArea">
+      <div class="progress-bar-track"><div class="progress-bar-fill" id="progressFill"></div></div>
+      <div class="progress-text" id="progressText">Preparing...</div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results-area" id="resultsArea">
+    <div class="card">
+      <div class="card-title">Transcripts</div>
+      <div class="card-subtitle" id="resultsSummary"></div>
+      <div id="transcriptsContainer"></div>
+      <div class="export-row" style="margin-top:1rem;">
+        <button class="btn-export" onclick="exportTXT()">Download TXT</button>
+        <button class="btn-export" onclick="exportCSV()">Download CSV</button>
+        <button class="btn-export" onclick="exportJSON()">Download raw JSON</button>
+        <button class="btn-export" onclick="copyAll()">Copy to clipboard</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOOL GUIDE -->
+  <div class="card tool-guide" id="toolGuide">
+    <div class="card-title">When to Use What</div>
+    <div class="card-subtitle">VaniScribe has two interfaces. This web app is for quick work; the Colab Notebook is for full-scale transcription with speaker labels.</div>
+
+    <div class="comparison-grid">
+      <div class="comparison-col">
+        <div class="comparison-header webapp-header">
+          <div class="comparison-icon">🌐</div>
+          <div class="comparison-label">This Web App</div>
+        </div>
+        <div class="comparison-body">
+          <div class="comparison-item"><span class="check">✓</span> Quick transcription of short recordings</div>
+          <div class="comparison-item"><span class="check">✓</span> Single-speaker field notes or memos</div>
+          <div class="comparison-item"><span class="check">✓</span> Recording directly from your microphone</div>
+          <div class="comparison-item"><span class="check">✓</span> Pilot testing before fieldwork</div>
+          <div class="comparison-item"><span class="check">✓</span> Sharing with RAs who are not comfortable with code</div>
+          <div class="comparison-item limit"><span class="warn">⚠</span> No speaker diarization</div>
+          <div class="comparison-item limit"><span class="warn">⚠</span> Browser chunking is less reliable for very large files</div>
+        </div>
+      </div>
+      <div class="comparison-col">
+        <div class="comparison-header colab-header">
+          <div class="comparison-icon">📓</div>
+          <div class="comparison-label">Colab Notebook</div>
+        </div>
+        <div class="comparison-body">
+          <div class="comparison-item"><span class="check">✓</span> <strong>Speaker diarization</strong> (who said what)</div>
+          <div class="comparison-item"><span class="check">✓</span> Long interviews and FGDs up to 60 minutes</div>
+          <div class="comparison-item"><span class="check">✓</span> Batch processing up to 20 files at once</div>
+          <div class="comparison-item"><span class="check">✓</span> Timestamped, turn-by-turn transcripts</div>
+          <div class="comparison-item"><span class="check">✓</span> CSV structured for NVivo, Atlas.ti, Dedoose</div>
+          <div class="comparison-item"><span class="check">✓</span> Handles noisy telephony audio robustly</div>
+          <div class="comparison-item limit"><span class="warn">⚠</span> Requires Google Colab (runs Python, but no coding needed)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="colab-section">
+      <div class="colab-section-title">✦ The Colab Notebook <span style="font-size:0.75rem; font-weight:600; color:var(--terracotta);">· Premium</span></div>
+      <div class="colab-section-desc" style="margin-bottom:0.5rem;">
+        The browser transcriber above is <strong>free for everyone</strong> — you only need your own Sarvam key. This advanced Colab notebook (speaker diarization, 60-minute files, batch jobs) is a <strong>Premium</strong> feature; sign in with a Professional plan to download it.
+      </div>
+      <div class="colab-section-desc">
+        Use this for your main transcription work. It uses Sarvam's <strong>Batch API</strong> with the Saaras v3 model, which supports speaker diarization (up to 8 speakers), handles files up to 60 minutes, and produces structured output with timestamps. This is what you want for interviews and focus group discussions.
+      </div>
+      <div class="colab-section-desc" style="margin-top:0.5rem;">
+        Output looks like this:
+      </div>
+      <div class="colab-sample">
+        <div class="sample-line"><span class="sample-ts">[00:00:12]</span> <span class="sample-spk spk1">Speaker 1:</span> I think this policy is very important for the poor families</div>
+        <div class="sample-line"><span class="sample-ts">[00:00:18]</span> <span class="sample-spk spk2">Speaker 2:</span> But what about the implementation challenges?</div>
+        <div class="sample-line"><span class="sample-ts">[00:00:25]</span> <span class="sample-spk spk1">Speaker 1:</span> That is exactly the problem, the block-level officers are not trained</div>
+      </div>
+      <div class="colab-section-desc" style="margin-top:0.75rem;">
+        The notebook produces both readable TXT files and a combined CSV with columns for <code>file</code>, <code>speaker</code>, <code>start_time</code>, <code>end_time</code>, <code>text</code>, and <code>language</code>.
+      </div>
+      <div class="colab-section-desc" style="margin-top:0.5rem;">
+        Recommended workflow: run the same audio twice. First with <strong>translate</strong> for your primary analysis, then with <strong>translit</strong> as a reference to check nuance in the original language.
+      </div>
+      <button class="btn-colab" onclick="downloadNotebook()">
+        <span>📓</span>
+        Download Colab Notebook (.ipynb)
+        <span id="nbPremiumPill" style="margin-left:0.5rem; padding:0.1rem 0.5rem; border-radius:999px; background:rgba(255,255,255,0.22); font-size:0.7rem; font-weight:600;">✦ Premium</span>
+      </button>
+      <div style="font-size:0.72rem; color:var(--bark); margin-top:0.5rem;">
+        Open the downloaded file in <a href="https://colab.research.google.com/" target="_blank" style="color:var(--terracotta)">Google Colab</a> via File → Upload Notebook.
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-brand">ImpactMojo ✦</div>
+  <div style="margin-top:0.3rem;">
+    Development Know-How for Social Impact · <a href="https://www.impactmojo.in" target="_blank">impactmojo.in</a>
+  </div>
+  <div style="margin-top:0.3rem;">
+    VaniScribe is powered by <a href="https://sarvam.ai" target="_blank">Sarvam AI</a>'s speech-to-text API
+  </div>
+  <div style="margin-top:0.5rem; font-size:0.7rem; opacity:0.5;">
+    &copy; 2026 ImpactMojo. Free development education for everyone.
+  </div>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════
+let selectedMode = 'translate';
+let audioFiles = [];
+let transcriptResults = [];
+let mediaRecorder = null;
+let recordingChunks = [];
+let recordingStartTime = null;
+let recordingTimerInterval = null;
+
+const MODE_EXAMPLES = {
+  translate: 'I think this policy is very important for the poor families',
+  transcribe: 'मुझे लगता है कि यह पॉलिसी बहुत इंपॉर्टेंट है फॉर द पुअर फैमिलीज़',
+  translit: 'mujhe lagta hai ki yeh policy bahut important hai for the poor families',
+  codemix: 'मुझे लगता है कि यह policy बहुत important है for the poor families',
+  verbatim: 'मुझे लगता है कि... उम्म... यह पॉलिसी बहुत इंपॉर्टेंट है फॉर द पुअर फैमिलीज़',
+};
+
+// ═══════════════════════════════════════════════════
+//  MODE SELECTION
+// ═══════════════════════════════════════════════════
+document.getElementById('modeGrid').addEventListener('click', (e) => {
+  const option = e.target.closest('.mode-option');
+  if (!option) return;
+  document.querySelectorAll('.mode-option').forEach(o => o.classList.remove('active'));
+  option.classList.add('active');
+  selectedMode = option.dataset.mode;
+  document.getElementById('modeExampleText').textContent = MODE_EXAMPLES[selectedMode];
+});
+
+// ═══════════════════════════════════════════════════
+//  FILE UPLOAD
+// ═══════════════════════════════════════════════════
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+
+['dragenter', 'dragover'].forEach(evt => {
+  dropZone.addEventListener(evt, (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+});
+['dragleave', 'drop'].forEach(evt => {
+  dropZone.addEventListener(evt, () => dropZone.classList.remove('dragover'));
+});
+dropZone.addEventListener('drop', (e) => { e.preventDefault(); handleFiles(e.dataTransfer.files); });
+fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+function handleFiles(fileListObj) {
+  for (const f of fileListObj) audioFiles.push({ name: f.name, blob: f });
+  renderFileList();
+}
+function removeFile(index) { audioFiles.splice(index, 1); renderFileList(); }
+function renderFileList() {
+  const container = document.getElementById('fileList');
+  if (!audioFiles.length) { container.innerHTML = ''; document.getElementById('transcribeBtn').disabled = true; return; }
+  container.innerHTML = audioFiles.map((f, i) => {
+    const size = (f.blob.size / (1024 * 1024)).toFixed(1);
+    return `<div class="file-item"><span class="file-name">${f.name}</span><span class="file-size">${size} MB</span><span class="file-remove" onclick="removeFile(${i})">remove</span></div>`;
+  }).join('');
+  document.getElementById('transcribeBtn').disabled = false;
+}
+
+// ═══════════════════════════════════════════════════
+//  MICROPHONE RECORDING
+// ═══════════════════════════════════════════════════
+const recordBtn = document.getElementById('recordBtn');
+const recordLabel = document.getElementById('recordLabel');
+const recordTimer = document.getElementById('recordTimer');
+
+recordBtn.addEventListener('click', async () => {
+  if (mediaRecorder && mediaRecorder.state === 'recording') {
+    mediaRecorder.stop();
+    recordBtn.classList.remove('recording');
+    recordLabel.textContent = 'Record';
+    clearInterval(recordingTimerInterval);
+    return;
+  }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    recordingChunks = [];
+    mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm;codecs=opus' });
+    mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) recordingChunks.push(e.data); };
+    mediaRecorder.onstop = () => {
+      stream.getTracks().forEach(t => t.stop());
+      const blob = new Blob(recordingChunks, { type: 'audio/webm' });
+      const now = new Date();
+      const name = `recording_${now.getHours()}${String(now.getMinutes()).padStart(2,'0')}.webm`;
+      audioFiles.push({ name, blob });
+      renderFileList();
+    };
+    mediaRecorder.start(250);
+    recordBtn.classList.add('recording');
+    recordLabel.textContent = 'Stop';
+    recordingStartTime = Date.now();
+    recordTimer.textContent = '0:00';
+    recordingTimerInterval = setInterval(() => {
+      const elapsed = Math.floor((Date.now() - recordingStartTime) / 1000);
+      recordTimer.textContent = `${Math.floor(elapsed/60)}:${String(elapsed%60).padStart(2,'0')}`;
+    }, 500);
+  } catch (err) { alert('Could not access microphone. Please allow microphone permissions.'); }
+});
+
+// ═══════════════════════════════════════════════════
+//  AUDIO CHUNKING
+// ═══════════════════════════════════════════════════
+async function splitAudioIntoChunks(blob, chunkDurationSec = 25) {
+  const arrayBuffer = await blob.arrayBuffer();
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  let audioBuffer;
+  try { audioBuffer = await audioCtx.decodeAudioData(arrayBuffer); }
+  catch (e) { audioCtx.close(); return [blob]; }
+  const totalDuration = audioBuffer.duration;
+  audioCtx.close();
+  if (totalDuration <= 30) return [blob];
+
+  const chunks = [];
+  const sampleRate = audioBuffer.sampleRate;
+  const numChannels = audioBuffer.numberOfChannels;
+  const chunkSamples = Math.floor(chunkDurationSec * sampleRate);
+
+  for (let start = 0; start < audioBuffer.length; start += chunkSamples) {
+    const end = Math.min(start + chunkSamples, audioBuffer.length);
+    const length = end - start;
+    const offlineCtx = new OfflineAudioContext(numChannels, length, sampleRate);
+    const source = offlineCtx.createBufferSource();
+    const chunkBuffer = offlineCtx.createBuffer(numChannels, length, sampleRate);
+    for (let ch = 0; ch < numChannels; ch++) {
+      chunkBuffer.getChannelData(ch).set(audioBuffer.getChannelData(ch).subarray(start, end));
+    }
+    source.buffer = chunkBuffer;
+    source.connect(offlineCtx.destination);
+    source.start(0);
+    const rendered = await offlineCtx.startRendering();
+    chunks.push(audioBufferToWav(rendered));
+  }
+  return chunks;
+}
+
+function audioBufferToWav(buffer) {
+  const numCh = buffer.numberOfChannels, sr = buffer.sampleRate, len = buffer.length;
+  let interleaved;
+  if (numCh === 1) { interleaved = buffer.getChannelData(0); }
+  else {
+    interleaved = new Float32Array(len * numCh);
+    for (let i = 0; i < len; i++) for (let ch = 0; ch < numCh; ch++) interleaved[i*numCh+ch] = buffer.getChannelData(ch)[i];
+  }
+  const pcm = new Int16Array(interleaved.length);
+  for (let i = 0; i < interleaved.length; i++) { const s = Math.max(-1, Math.min(1, interleaved[i])); pcm[i] = s < 0 ? s*0x8000 : s*0x7FFF; }
+  const dataLen = pcm.length * 2, buf = new ArrayBuffer(44 + dataLen), v = new DataView(buf);
+  const ws = (o, s) => { for (let i = 0; i < s.length; i++) v.setUint8(o+i, s.charCodeAt(i)); };
+  ws(0,'RIFF'); v.setUint32(4,36+dataLen,true); ws(8,'WAVE'); ws(12,'fmt ');
+  v.setUint32(16,16,true); v.setUint16(20,1,true); v.setUint16(22,numCh,true);
+  v.setUint32(24,sr,true); v.setUint32(28,sr*numCh*2,true); v.setUint16(32,numCh*2,true);
+  v.setUint16(34,16,true); ws(36,'data'); v.setUint32(40,dataLen,true);
+  new Int16Array(buf,44).set(pcm);
+  return new Blob([buf], { type: 'audio/wav' });
+}
+
+// ═══════════════════════════════════════════════════
+//  TRANSCRIPTION
+// ═══════════════════════════════════════════════════
+const API_URL = 'https://api.sarvam.ai/speech-to-text/transcribe';
+
+async function transcribeChunk(blob, apiKey, mode, langCode, model) {
+  const fd = new FormData();
+  fd.append('file', blob, 'chunk.wav');
+  fd.append('model', model);
+  if (model === 'saaras:v3') fd.append('mode', mode);
+  if (langCode !== 'unknown') fd.append('language_code', langCode);
+  const r = await fetch(API_URL, { method: 'POST', headers: { 'api-subscription-key': apiKey }, body: fd });
+  if (!r.ok) { const t = await r.text(); throw new Error(`API error ${r.status}: ${t}`); }
+  return await r.json();
+}
+
+document.getElementById('transcribeBtn').addEventListener('click', async () => {
+  const apiKey = document.getElementById('apiKey').value.trim();
+  if (!apiKey) { alert('Please enter your Sarvam AI API key.'); return; }
+  if (!audioFiles.length) { alert('Please upload or record at least one audio file.'); return; }
+
+  const mode = selectedMode;
+  const langCode = document.getElementById('langCode').value;
+  const model = document.getElementById('modelSelect').value;
+  const btn = document.getElementById('transcribeBtn');
+  const progressArea = document.getElementById('progressArea');
+  const progressFill = document.getElementById('progressFill');
+  const progressText = document.getElementById('progressText');
+
+  btn.disabled = true; btn.textContent = 'Transcribing...';
+  progressArea.classList.add('visible');
+  transcriptResults = [];
+  let totalChunks = 0, completedChunks = 0;
+
+  try {
+    progressText.textContent = 'Splitting audio into chunks...';
+    const fileChunks = [];
+    for (const af of audioFiles) {
+      const chunks = await splitAudioIntoChunks(af.blob);
+      fileChunks.push({ name: af.name, chunks });
+      totalChunks += chunks.length;
+    }
+    progressText.textContent = `Transcribing ${totalChunks} chunk(s) across ${audioFiles.length} file(s)...`;
+
+    for (const fc of fileChunks) {
+      const chunkResults = [];
+      for (let i = 0; i < fc.chunks.length; i++) {
+        const result = await transcribeChunk(fc.chunks[i], apiKey, mode, langCode, model);
+        chunkResults.push(result);
+        completedChunks++;
+        const pct = Math.round((completedChunks / totalChunks) * 100);
+        progressFill.style.width = pct + '%';
+        progressText.textContent = `Transcribing: ${completedChunks}/${totalChunks} chunks (${pct}%)`;
+      }
+      transcriptResults.push({
+        filename: fc.name,
+        transcript: chunkResults.map(r => r.transcript || '').join(' '),
+        language: chunkResults[0]?.language_code || 'unknown',
+        chunks: chunkResults,
+        mode: mode,
+      });
+    }
+    progressText.textContent = 'Done.';
+    renderResults();
+  } catch (err) {
+    alert('Transcription error: ' + err.message);
+    progressText.textContent = 'Error: ' + err.message;
+  } finally { btn.disabled = false; btn.textContent = '✦ Transcribe'; }
+});
+
+// ═══════════════════════════════════════════════════
+//  RENDER RESULTS
+// ═══════════════════════════════════════════════════
+function renderResults() {
+  const area = document.getElementById('resultsArea');
+  const container = document.getElementById('transcriptsContainer');
+  document.getElementById('resultsSummary').textContent = `${transcriptResults.length} file(s) transcribed in "${selectedMode}" mode.`;
+  area.classList.add('visible');
+  container.innerHTML = transcriptResults.map(r => {
+    const wc = r.transcript.split(/\s+/).filter(Boolean).length;
+    return `<div class="transcript-block"><div class="transcript-header"><span class="th-title">${r.filename}</span><span class="th-meta">${r.language} · ${wc} words · ${r.chunks.length} chunk(s)</span></div><div class="transcript-body"><div class="plain-transcript">${escapeHtml(r.transcript)}</div></div></div>`;
+  }).join('');
+  area.scrollIntoView({ behavior: 'smooth' });
+}
+function escapeHtml(str) { const d = document.createElement('div'); d.textContent = str; return d.innerHTML; }
+
+// ═══════════════════════════════════════════════════
+//  EXPORTS
+// ═══════════════════════════════════════════════════
+function downloadFile(content, filename, mimeType) {
+  const blob = new Blob([content], { type: mimeType });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+}
+function exportTXT() {
+  if (!transcriptResults.length) return;
+  let c = '';
+  for (const r of transcriptResults) c += `TRANSCRIPT: ${r.filename}\nMode: ${r.mode} | Language: ${r.language}\n${'='.repeat(60)}\n\n${r.transcript}\n\n\n`;
+  downloadFile(c, 'vaniscribe_transcripts.txt', 'text/plain;charset=utf-8');
+}
+function exportCSV() {
+  if (!transcriptResults.length) return;
+  let csv = '\uFEFF"file","mode","language","chunk_index","text"\n';
+  for (const r of transcriptResults) r.chunks.forEach((c, i) => { csv += `"${r.filename}","${r.mode}","${r.language}","${i+1}","${(c.transcript||'').replace(/"/g,'""')}"\n`; });
+  downloadFile(csv, 'vaniscribe_transcripts.csv', 'text/csv;charset=utf-8');
+}
+function exportJSON() {
+  if (!transcriptResults.length) return;
+  downloadFile(JSON.stringify(transcriptResults, null, 2), 'vaniscribe_transcripts.json', 'application/json;charset=utf-8');
+}
+function copyAll() {
+  if (!transcriptResults.length) return;
+  navigator.clipboard.writeText(transcriptResults.map(r => r.transcript).join('\n\n---\n\n')).then(() => alert('Transcript copied to clipboard.'));
+}
+
+// ═══════════════════════════════════════════════════
+//  EMBEDDED COLAB NOTEBOOK
+// ═══════════════════════════════════════════════════
+function downloadNotebook() {
+  // Freemium: the browser transcriber is free; the advanced Colab batch notebook
+  // (speaker diarization, long files, batch jobs) is the Premium feature.
+  if (typeof requirePremium === 'function' && !requirePremium()) return;
+  const nb = {"nbformat":4,"nbformat_minor":0,"metadata":{"colab":{"provenance":[]},"kernelspec":{"name":"python3","display_name":"Python 3"},"language_info":{"name":"python"}},"cells":[{"cell_type":"markdown","metadata":{},"source":["# VaniScribe ✦ Colab Notebook\n","### ImpactMojo Premium\n","\n","Transcribe interviews, FGDs, and field recordings in Indian languages using [Sarvam AI's](https://sarvam.ai) **Saaras v3** speech-to-text model.\n","\n","**Why use this notebook instead of the web app?**\n","\n","This Colab notebook uses Sarvam's **Batch API**, which provides two features the browser-based web app cannot:\n","\n","1. **Speaker diarization** (labels who said what, with speaker IDs and timestamps)\n","2. **Long file support** (up to 60 minutes per file, up to 20 files per batch)\n","\n","Use the web app for quick single-speaker transcription. Use this notebook for your main transcription work on interviews and FGDs.\n","\n","---\n","\n","### Setup\n","\n","1. Get a free API key from [dashboard.sarvam.ai](https://dashboard.sarvam.ai/)\n","2. Run each cell in order\n","3. Upload your audio files when prompted\n","4. Download your transcripts at the end"]},{"cell_type":"markdown","metadata":{},"source":["## 1. Install Dependencies"]},{"cell_type":"code","execution_count":null,"metadata":{},"outputs":[],"source":["!pip install -q sarvamai pandas"]},{"cell_type":"markdown","metadata":{},"source":["## 2. Enter Your API Key"]},{"cell_type":"code","execution_count":null,"metadata":{},"outputs":[],"source":["import getpass\nimport os\n\nSARVAM_API_KEY = getpass.getpass(\"Paste your Sarvam AI API key: \")\nos.environ[\"SARVAM_API_KEY\"] = SARVAM_API_KEY\nprint(\"API key set.\")"]},{"cell_type":"markdown","metadata":{},"source":["## 3. Configure Transcription Settings\n","\n","### What each mode produces\n","\n","Suppose your respondent says (in Hindi-English mix):\n","\n","*\"mujhe lagta hai ki yeh policy bahut important hai for the poor families\"*\n","\n","| Mode | What it does | Example output |\n","|------|-------------|----------------|\n","| `transcribe` | Native script (Devanagari, Tamil, etc.) | मुझे लगता है कि यह पॉलिसी बहुत इंपॉर्टेंट है फॉर द पुअर फैमिलीज़ |\n","| `translate` | English translation | I think this policy is very important for the poor families |\n","| `translit` | Romanized Latin script | mujhe lagta hai ki yeh policy bahut important hai for the poor families |\n","| `codemix` | English in Latin, Indic in native | मुझे लगता है कि यह policy बहुत important है for the poor families |\n","| `verbatim` | Raw with fillers and hesitations | मुझे लगता है कि... उम्म... यह पॉलिसी बहुत इंपॉर्टेंट है फॉर द पुअर फैमिलीज़ |\n","\n","**Recommended workflow:** Run the same audio twice. First with `translate` for analysis, then with `translit` to check nuance."]},{"cell_type":"code","execution_count":null,"metadata":{},"outputs":[],"source":["# ──────────────────────────────────────────────\n# CONFIGURATION  (edit these)\n# ──────────────────────────────────────────────\n\nMODE = \"translate\"            # see table above\nLANGUAGE_CODE = \"unknown\"     # auto-detect recommended\nENABLE_DIARIZATION = True     # True for interviews/FGDs\nNUM_SPEAKERS = 2              # expected speakers (max 8)\n\n# ──────────────────────────────────────────────\nprint(f\"Mode: {MODE}\")\nprint(f\"Language: {LANGUAGE_CODE}\")\nprint(f\"Diarization: {ENABLE_DIARIZATION} ({NUM_SPEAKERS} speakers)\")"]},{"cell_type":"markdown","metadata":{},"source":["## 4. Upload Audio Files"]},{"cell_type":"code","execution_count":null,"metadata":{},"outputs":[],"source":["from google.colab import files\nimport os\n\nUPLOAD_DIR = \"/content/audio_uploads\"\nos.makedirs(UPLOAD_DIR, exist_ok=True)\n\nprint(\"Select your audio file(s)...\")\nuploaded = files.upload()\n\naudio_paths = []\nVALID_EXTENSIONS = {\".mp3\", \".wav\", \".aac\", \".ogg\", \".opus\", \".flac\",\n                    \".m4a\", \".mp4\", \".amr\", \".wma\", \".webm\", \".aiff\"}\n\nfor filename, content in uploaded.items():\n    ext = os.path.splitext(filename)[1].lower()\n    if ext not in VALID_EXTENSIONS:\n        print(f\"  Skipping {filename} (unsupported format: {ext})\")\n        continue\n    filepath = os.path.join(UPLOAD_DIR, filename)\n    with open(filepath, \"wb\") as f:\n        f.write(content)\n    audio_paths.append(filepath)\n    size_mb = len(content) / (1024 * 1024)\n    print(f\"  Loaded: {filename} ({size_mb:.1f} MB)\")\n\nprint(f\"\\n{len(audio_paths)} file(s) ready for transcription.\")"]},{"cell_type":"markdown","metadata":{},"source":["## 5. Run Transcription\n","\n","Uses the **Batch API** for long recordings (up to 60 min). A 30-minute interview typically takes 2 to 5 minutes."]},{"cell_type":"code","execution_count":null,"metadata":{},"outputs":[],"source":["from sarvamai import SarvamAI\nimport json\nimport time\n\nclient = SarvamAI(api_subscription_key=SARVAM_API_KEY)\n\nOUTPUT_DIR = \"/content/transcripts\"\nos.makedirs(OUTPUT_DIR, exist_ok=True)\n\njob_params = dict(model=\"saaras:v3\", mode=MODE, with_diarization=ENABLE_DIARIZATION)\nif LANGUAGE_CODE != \"unknown\":\n    job_params[\"language_code\"] = LANGUAGE_CODE\nif ENABLE_DIARIZATION:\n    job_params[\"num_speakers\"] = NUM_SPEAKERS\n\nprint(\"Creating batch job...\")\njob = client.speech_to_text_job.create_job(**job_params)\nprint(f\"Job created. Uploading {len(audio_paths)} file(s)...\")\n\njob.upload_files(file_paths=audio_paths)\nprint(\"Upload complete. Starting transcription...\")\njob.start()\n\nstart_time = time.time()\nwhile True:\n    status = job.get_status()\n    elapsed = time.time() - start_time\n    print(f\"  [{elapsed:.0f}s] Status: {status}\", end=\"\\r\")\n    if status in (\"COMPLETED\", \"FAILED\"):\n        break\n    time.sleep(5)\n\nprint(f\"\\nJob finished in {elapsed:.0f}s with status: {status}\")\n\nif status == \"COMPLETED\":\n    file_results = job.get_file_results()\n    print(f\"Successful: {len(file_results['successful'])} file(s)\")\n    if file_results['failed']:\n        for f in file_results['failed']:\n            print(f\"  Error in {f['file_name']}: {f['error_message']}\")\n    job.download_outputs(output_dir=OUTPUT_DIR)\n    print(f\"\\nRaw transcripts saved to {OUTPUT_DIR}/\")\nelse:\n    print(\"Transcription failed. Check your audio files and API key.\")"]},{"cell_type":"markdown","metadata":{},"source":["## 6. Format Transcripts for Qualitative Analysis"]},{"cell_type":"code","execution_count":null,"metadata":{},"outputs":[],"source":["import json\nimport glob\nimport pandas as pd\nfrom pathlib import Path\n\nFORMATTED_DIR = \"/content/formatted_transcripts\"\nos.makedirs(FORMATTED_DIR, exist_ok=True)\n\ndef seconds_to_timestamp(seconds):\n    h = int(seconds // 3600)\n    m = int((seconds % 3600) // 60)\n    s = int(seconds % 60)\n    return f\"{h:02d}:{m:02d}:{s:02d}\"\n\ndef format_diarized_transcript(data, source_filename):\n    rows, lines = [], []\n    diarized = data.get(\"diarized_transcript\", {}).get(\"entries\", [])\n    lang = data.get(\"language_code\", \"unknown\")\n    if diarized:\n        for entry in diarized:\n            speaker = f\"Speaker {int(entry['speaker_id']) + 1}\"\n            start_ts = seconds_to_timestamp(entry[\"start_time_seconds\"])\n            end_ts = seconds_to_timestamp(entry[\"end_time_seconds\"])\n            text = entry[\"transcript\"].strip()\n            lines.append(f\"[{start_ts}] {speaker}: {text}\")\n            rows.append({\"file\": source_filename, \"speaker\": speaker, \"start_time\": start_ts, \"end_time\": end_ts, \"start_seconds\": round(entry[\"start_time_seconds\"], 2), \"end_seconds\": round(entry[\"end_time_seconds\"], 2), \"text\": text, \"language\": lang})\n    else:\n        transcript = data.get(\"transcript\", \"\")\n        lines.append(transcript)\n        rows.append({\"file\": source_filename, \"speaker\": \"N/A\", \"start_time\": \"00:00:00\", \"end_time\": \"\", \"start_seconds\": 0, \"end_seconds\": None, \"text\": transcript, \"language\": lang})\n    return \"\\n\\n\".join(lines), rows\n\nall_rows = []\njson_files = sorted(glob.glob(os.path.join(OUTPUT_DIR, \"*.json\")))\n\nif not json_files:\n    print(\"No JSON output files found. Make sure Step 5 completed successfully.\")\nelse:\n    for jf in json_files:\n        with open(jf, \"r\", encoding=\"utf-8\") as f:\n            data = json.load(f)\n        source_name = Path(jf).stem\n        formatted_text, rows = format_diarized_transcript(data, source_name)\n        all_rows.extend(rows)\n        txt_path = os.path.join(FORMATTED_DIR, f\"{source_name}_transcript.txt\")\n        with open(txt_path, \"w\", encoding=\"utf-8\") as f:\n            header = f\"TRANSCRIPT: {source_name}\\nMode: {MODE} | Language: {data.get('language_code', 'N/A')}\\nDiarization: {ENABLE_DIARIZATION}\\n{'=' * 60}\\n\\n\"\n            f.write(header + formatted_text)\n        print(f\"  Formatted: {source_name}_transcript.txt\")\n    if all_rows:\n        df = pd.DataFrame(all_rows)\n        csv_path = os.path.join(FORMATTED_DIR, \"all_transcripts.csv\")\n        df.to_csv(csv_path, index=False, encoding=\"utf-8-sig\")\n        print(f\"\\n  Combined CSV: all_transcripts.csv ({len(df)} rows across {len(json_files)} file(s))\")\n    print(f\"\\nAll formatted transcripts saved to {FORMATTED_DIR}/\")"]},{"cell_type":"markdown","metadata":{},"source":["## 7. Preview a Transcript"]},{"cell_type":"code","execution_count":null,"metadata":{},"outputs":[],"source":["txt_files = sorted(glob.glob(os.path.join(FORMATTED_DIR, \"*_transcript.txt\")))\nif txt_files:\n    with open(txt_files[0], \"r\", encoding=\"utf-8\") as f:\n        content = f.read()\n    print(content[:3000])\n    if len(content) > 3000:\n        print(f\"\\n... (truncated, full file is {len(content):,} characters)\")\nelse:\n    print(\"No transcripts found. Run the previous cells first.\")"]},{"cell_type":"markdown","metadata":{},"source":["## 8. Download Everything"]},{"cell_type":"code","execution_count":null,"metadata":{},"outputs":[],"source":["import shutil\nfrom google.colab import files as colab_files\n\nzip_path = \"/content/vaniscribe_transcripts\"\nshutil.make_archive(zip_path, \"zip\", FORMATTED_DIR)\nprint(f\"Created: {zip_path}.zip\")\n\ncolab_files.download(f\"{zip_path}.zip\")\nprint(\"Download started.\")"]},{"cell_type":"markdown","metadata":{},"source":["---\n","## Tips for Field Recordings\n","\n","- **Noisy environments:** The model handles background noise well, but a simple lapel mic makes a big difference.\n","- **Unknown language:** Leave `LANGUAGE_CODE = \"unknown\"`. The model auto-detects.\n","- **Code-mixed speech:** Both `transcribe` and `codemix` modes handle Hindi-English and similar switching.\n","- **Overlapping speech:** Diarization works best with clear turn-taking. Overlap may be attributed to the louder speaker.\n","- **Number of speakers:** Set `NUM_SPEAKERS` to your best estimate (max 8). Use 2 for interviews, count participants for FGDs.\n","- **File length:** Up to 60 minutes per file. Split longer recordings before uploading.\n","- **Multiple passes:** Rename `formatted_transcripts` between runs to keep outputs from different modes separate."]}]};
+  downloadFile(JSON.stringify(nb, null, 1), 'vaniscribe_notebook.ipynb', 'application/json');
+}
+</script>
+
+<!-- ImpactMojo auth + premium (Pro Studio freemium gate) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="/js/state-manager.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/premium.js"></script>
+<script>
+// VaniScribe freemium: the browser transcriber is free for everyone (bring your
+// own Sarvam key & credits). The advanced Colab batch notebook — speaker
+// diarization, 60-minute files, 20-file batches — is the Premium feature.
+window.TOOL_PREMIUM = false;
+var TOOL_TIER = 'professional';
+async function initGate() {
+  try { if (window.ImpactMojoAuth) await window.ImpactMojoAuth.waitForAuthReady(); } catch (e) {}
+  var auth = window.ImpactMojoAuth;
+  window.TOOL_PREMIUM = !!(auth && typeof auth.hasTierAccess === 'function' && auth.hasTierAccess(TOOL_TIER));
+  var pill = document.getElementById('nbPremiumPill');
+  if (pill) pill.textContent = window.TOOL_PREMIUM ? '✦ Unlocked' : '✦ Premium';
+}
+function requirePremium() {
+  if (window.TOOL_PREMIUM) return true;
+  if (window.IMXPremium && typeof window.IMXPremium.showUpgradeModal === 'function') window.IMXPremium.showUpgradeModal(TOOL_TIER);
+  else window.location.href = '/premium.html#detail-' + TOOL_TIER;
+  return false;
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initGate);
+else initGate();
+</script>
+</body>
+</html>
