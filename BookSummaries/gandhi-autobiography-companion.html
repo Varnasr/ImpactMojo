@@ -1,0 +1,777 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Story of My Experiments with Truth — ImpactMojo Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+/* === ImpactMojo Design System === */
+:root {
+    --im-gradient: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+    --im-accent: #0EA5E9;
+    --im-nav-bg: rgba(15, 23, 42, 0.95);
+    --im-border: #334155;
+    --im-text-primary: #F1F5F9;
+    --im-text-secondary: #94A3B8;
+    --im-text-muted: #64748B;
+    --im-card-bg: #1E293B;
+    --im-hover-bg: #334155;
+    --im-secondary-bg: #1E293B;
+}
+body { padding-top: 56px !important; }
+.im-topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    background: var(--im-nav-bg);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--im-border);
+    padding: 0.5rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.75rem; flex-wrap: wrap;
+    font-family: 'Inter', 'Amaranth', sans-serif;
+}
+.im-topbar a { text-decoration: none; }
+.im-topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+.im-topbar-home {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-weight: 700; font-size: 1rem;
+    background: var(--im-gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.im-topbar-home svg { width: 24px; height: 24px; flex-shrink: 0; stroke: #0EA5E9; }
+.im-topbar-right { display: flex; align-items: center; gap: 0.5rem; }
+.im-premium-btn {
+    background: var(--im-gradient);
+    color: #fff !important; -webkit-text-fill-color: #fff;
+    padding: 0.35rem 0.85rem; border-radius: 6px;
+    font-size: 0.8rem; font-weight: 600;
+    display: flex; align-items: center; gap: 0.35rem;
+    transition: opacity 0.2s; border: none; cursor: pointer;
+}
+.im-browse-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--im-text, #1C1917); background: var(--im-surface, #FFFFFF); border: 1.5px solid var(--im-border, #E2E8F0); padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; transition: background 0.18s ease, border-color 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease; }
+.im-browse-btn:hover { background: var(--im-accent, #0EA5E9); color: #FFFFFF; border-color: var(--im-accent, #0EA5E9); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25); }
+.im-browse-btn svg { width: 14px; height: 14px; }
+@media (prefers-color-scheme: dark) { .im-browse-btn { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.18); } .im-browse-btn:hover { background: var(--im-accent, #0EA5E9); border-color: var(--im-accent, #0EA5E9); color: #FFFFFF; } }
+.im-premium-btn:hover { opacity: 0.9; }
+.im-premium-btn svg { width: 14px; height: 14px; }
+.im-theme-selector {
+    display: flex; gap: 2px;
+    background: var(--im-card-bg);
+    border: 1px solid var(--im-border);
+    border-radius: 8px; padding: 2px;
+}
+.im-theme-btn {
+    background: transparent; border: none;
+    color: var(--im-text-secondary);
+    padding: 6px; border-radius: 5px; cursor: pointer;
+    transition: all 0.2s; display: flex; align-items: center;
+    justify-content: center; width: 30px; height: 30px;
+}
+.im-theme-btn:hover { background: var(--im-hover-bg); color: var(--im-text-primary); }
+.im-theme-btn.active { background: var(--im-accent); color: #fff; }
+.im-theme-btn svg { width: 16px; height: 16px; }
+.im-footer {
+    background: var(--im-secondary-bg);
+    border-top: 1px solid var(--im-border);
+    padding: 2rem 1rem; margin-top: auto;
+    font-family: 'Inter', 'Amaranth', sans-serif;
+    color: var(--im-text-secondary);
+}
+.im-footer-content { max-width: 1100px; margin: 0 auto; }
+.im-footer-made {
+    text-align: center; margin-bottom: 1.5rem;
+    font-size: 0.9rem; color: var(--im-text-muted);
+}
+.im-footer-made a { color: var(--im-accent); text-decoration: none; }
+.im-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem; margin-bottom: 1.5rem;
+}
+.im-footer-section h4 {
+    font-family: 'Inter', 'Amaranth', sans-serif;
+    color: var(--im-text-primary);
+    font-size: 0.9rem; margin-bottom: 0.75rem; font-weight: 600;
+}
+.im-footer-section ul { list-style: none; padding: 0; margin: 0; }
+.im-footer-section li { margin-bottom: 0.4rem; }
+.im-footer-section a {
+    color: var(--im-text-secondary);
+    text-decoration: none; font-size: 0.85rem; transition: color 0.2s;
+}
+.im-footer-section a:hover { color: var(--im-accent); }
+.im-footer-bottom {
+    text-align: center; padding-top: 1rem;
+    border-top: 1px solid var(--im-border);
+    font-size: 0.8rem; color: var(--im-text-muted);
+}
+.im-footer-bottom p { margin: 0.25rem 0; }
+.im-footer-bottom a { color: var(--im-accent); text-decoration: none; }
+@media (max-width: 640px) {
+    .im-topbar { padding: 0.4rem 0.75rem; gap: 0.5rem; }
+    .im-topbar-home { font-size: 0.85rem; }
+    .im-topbar-home svg { width: 20px; height: 20px; }
+    .im-topbar-home span { display: none; }
+    .im-premium-btn { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
+    .im-theme-btn { width: 26px; height: 26px; padding: 4px; }
+    .im-theme-btn svg { width: 14px; height: 14px; }
+    .im-footer-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+}
+@media (max-width: 400px) {
+    .im-footer-grid { grid-template-columns: 1fr; }
+}
+/* === End ImpactMojo Design System === */
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F8F5F0;--card:#fff;--border:#E8E0D5;--text:#1C1C1C;--muted:#6B6560;
+  --accent:#1A3C34;--accent-light:#EBF5F2;--teal:#1A6B5A;--teal-light:#EBF5F2;
+  --radius:8px;
+}
+body{background:var(--bg);font-family:'Amaranth','Inter',system-ui,sans-serif;color:var(--text);padding-top:52px}
+.app{min-height:100vh;display:flex;flex-direction:column}
+nav{background:#1C1C1C;display:flex;align-items:center;gap:20px;padding:0 20px;min-height:52px;flex-wrap:wrap;position:sticky;top:52px;z-index:99}
+.brand{display:flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.brand-name{font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:#fff;letter-spacing:.05em;text-transform:uppercase}
+.tabs{display:flex;gap:2px;flex-wrap:wrap}
+.tab-btn{background:none;border:none;padding:6px 13px;font-family:Inter,sans-serif;font-size:11px;font-weight:600;color:rgba(255,255,255,.5);cursor:pointer;border-radius:4px;text-transform:uppercase;letter-spacing:.04em;transition:all .15s}
+.tab-btn:hover{color:rgba(255,255,255,.85)}
+.tab-btn.active{color:#fff;background:var(--accent)}
+main{flex:1;padding:32px 20px;max-width:860px;margin:44px auto 0;width:100%}
+.h1{font-family:Inter,sans-serif;font-size:22px;font-weight:700;margin-bottom:8px}
+.sub{color:var(--muted);font-size:15px;margin-bottom:24px;font-family:Inter,sans-serif;line-height:1.5}
+.panel{display:none}.panel.active{display:block}
+
+/* HERO */
+.hero{background:#1C1C1C;color:#fff;border-radius:12px;padding:32px;margin-bottom:20px}
+.day-badge{display:inline-block;background:var(--accent);font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 10px;border-radius:4px;margin-bottom:14px}
+.hero h1{font-size:34px;font-weight:700;margin-bottom:4px}
+.hero .auth{font-family:Inter,sans-serif;font-size:13px;color:rgba(255,255,255,.5);margin-bottom:14px}
+.hero .tagline{font-size:15px;color:rgba(255,255,255,.8);line-height:1.6;max-width:620px;margin-bottom:18px}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-family:Inter,sans-serif;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.8)}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:18px 14px;text-align:center}
+.stat-n{font-size:30px;font-weight:700;color:var(--accent);font-family:Inter,sans-serif}
+.stat-l{font-family:Inter,sans-serif;font-size:12px;color:var(--muted);margin-top:4px}
+.arg{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:22px;margin-bottom:24px}
+.arg p{font-size:15px;line-height:1.75}
+.arg p+p{margin-top:1rem}
+.nav-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.nav-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:left;cursor:pointer;transition:all .15s}
+.nav-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.nav-card-label{font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
+.nav-card-desc{font-family:Inter,sans-serif;font-size:12px;color:var(--muted)}
+
+/* PATHWAYS */
+.pw-tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.pw-btn{font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:6px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s}
+.pw-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.pw-desc{font-family:Inter,sans-serif;font-size:14px;color:var(--muted);padding:12px 14px;background:var(--accent-light);border-radius:6px;margin-bottom:20px;line-height:1.5}
+.pw-steps{display:flex;flex-direction:column;gap:10px}
+.pw-step{display:flex;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px}
+.step-n{width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-family:Inter,sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-title{font-family:Inter,sans-serif;font-size:14px;font-weight:700;margin-bottom:3px}
+.step-focus{font-family:Inter,sans-serif;font-size:13px;color:var(--muted);line-height:1.5}
+
+/* SECTIONS */
+.sec-card{background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.sec-header{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;cursor:pointer;background:none;border:none;text-align:left;width:100%}
+.sec-num{font-family:Inter,sans-serif;font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;min-width:24px;padding-top:2px}
+.sec-title{font-family:Inter,sans-serif;font-size:15px;font-weight:700;margin-bottom:2px}
+.sec-sub{font-family:Inter,sans-serif;font-size:12px;color:var(--muted)}
+.sec-chev{font-size:16px;color:var(--muted);padding-top:2px;margin-left:auto}
+.sec-body{padding:0 18px 18px 56px;border-top:1px solid var(--border)}
+.sec-summary{font-size:15px;line-height:1.75;padding-top:14px;margin-bottom:18px}
+.ideas-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
+.idea-item{display:flex;gap:8px;margin-bottom:7px;font-family:Inter,sans-serif;font-size:13px;line-height:1.55}
+.idea-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:6px}
+blockquote{font-style:italic;font-size:14px;color:var(--muted);border-left:3px solid var(--accent);padding-left:12px;margin-bottom:8px;line-height:1.6}
+.dev-toggle{font-family:Inter,sans-serif;font-size:12px;font-weight:600;color:var(--teal);background:var(--teal-light);border:none;padding:7px 12px;border-radius:4px;cursor:pointer;margin-top:10px}
+.dev-text{margin-top:10px;font-family:Inter,sans-serif;font-size:13px;line-height:1.65;background:var(--teal-light);padding:12px;border-radius:6px}
+
+/* CONCEPTS */
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+.concept-card:hover,.concept-card.open{border-color:var(--accent)}
+.concept-term{font-family:Inter,sans-serif;font-size:15px;font-weight:700}
+.concept-def{font-family:Inter,sans-serif;font-size:14px;line-height:1.7;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.prac-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-top:10px;margin-bottom:4px}
+.prac-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65;color:var(--muted)}
+
+/* TOOLKIT */
+.tool-tabs{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+.tool-btn{font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:6px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s}
+.tool-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tool-panel{display:none;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:22px}
+.tool-panel.active{display:block}
+.tool-intro{font-family:Inter,sans-serif;font-size:14px;color:var(--muted);margin-bottom:20px;line-height:1.5}
+.fld-label{font-family:Inter,sans-serif;font-size:13px;font-weight:600;margin-bottom:5px;display:block}
+.fld{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;outline:none;background:var(--bg);margin-bottom:12px}
+.fld:focus{border-color:var(--accent)}
+.output-box{background:var(--accent-light);padding:14px;border-radius:6px;margin-top:16px;font-family:Inter,sans-serif;font-size:14px;line-height:1.65}
+.output-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:8px}
+
+/* CONTEXT */
+.conn-card{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:16px 18px;margin-bottom:10px}
+.conn-book{font-family:Inter,sans-serif;font-size:14px;font-weight:700;margin-bottom:5px}
+.conn-text{font-family:Inter,sans-serif;font-size:13px;color:var(--muted);line-height:1.65}
+.crit-item{display:flex;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:8px}
+.crit-n{width:24px;height:24px;border-radius:50%;background:#FFF8E6;color:#C8910A;font-family:Inter,sans-serif;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.crit-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65}
+.context-h{font-family:Inter,sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;margin-top:6px}
+
+/* ASK */
+.ask-setup{}
+.setup-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+.setup-step{display:flex;gap:12px;font-family:Inter,sans-serif;font-size:14px;line-height:1.5}
+.setup-num{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.setup-step a{color:var(--accent)}
+.key-row{display:flex;gap:10px}
+.key-input{flex:1;max-width:400px;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;outline:none}
+.key-btn{padding:9px 22px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:Inter,sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.key-btn:disabled{opacity:.4;cursor:not-allowed}
+.ask-ui{display:flex;flex-direction:column;height:calc(100vh - 180px)}
+.ask-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.ask-hdr-title{font-family:Inter,sans-serif;font-size:18px;font-weight:700}
+.ask-reset{background:none;border:1px solid var(--border);border-radius:4px;padding:4px 10px;font-family:Inter,sans-serif;font-size:12px;color:var(--muted);cursor:pointer}
+.msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px;margin-bottom:10px}
+.suggested-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px}
+.sug-btn{display:block;width:100%;text-align:left;padding:9px 12px;background:var(--card);border:1px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;cursor:pointer;margin-bottom:6px;transition:all .15s}
+.sug-btn:hover{border-color:var(--accent);background:var(--accent-light)}
+.msg{max-width:85%}
+.msg.user{align-self:flex-end}
+.msg.assistant{align-self:flex-start}
+.msg-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65;padding:10px 14px;border-radius:8px;white-space:pre-wrap}
+.msg.user .msg-text{background:var(--accent);color:#fff}
+.msg.assistant .msg-text{background:var(--card);border:1px solid var(--border)}
+.typing{display:flex;gap:4px;padding:12px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px}
+.typing span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:bounce 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.ask-input-row{display:flex;gap:8px;border-top:1px solid var(--border);padding-top:10px}
+.ask-input{flex:1;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;resize:none;outline:none;background:var(--bg)}
+.ask-input:focus{border-color:var(--accent)}
+.ask-send{padding:9px 18px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:Inter,sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.ask-send:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:640px){.stat-grid{grid-template-columns:repeat(2,1fr)}.nav-grid{grid-template-columns:1fr 1fr}.sec-body{padding-left:18px}}
+
+/* WCAG 2.1 AA (1.4.1 Use of Color): inline anchors in content paragraphs must be distinguishable without relying on color alone. Scoped to <main> so nav/footer button-links are unaffected. */
+main p a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]),
+main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
+/* === Dark Mode === */
+html.dark body { background: #0f172a; color: #e2e8f0; }
+html.dark #root,
+html.dark main,
+html.dark .app,
+html.dark [id^="p-"],
+html.dark .panel { filter: invert(0.88) hue-rotate(180deg); }
+html.dark #root img,
+html.dark #root svg:not([class*="im-"]),
+html.dark main img,
+html.dark main svg:not([class*="im-"]) { filter: invert(1) hue-rotate(180deg); }
+html.dark .im-topbar, html.dark .im-footer { filter: none; }
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+<!-- SEO meta (autogenerated) -->
+<meta name="description" content="The Story of My Experiments with Truth (M. K. Gandhi, 1927-29) — ImpactMojo Companion. An interactive English guide to Gandhi's autobiography, its five Parts, and its method of treating a life as a laboratory for truth and nonviolence.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.impactmojo.in/BookSummaries/gandhi-autobiography-companion.html">
+<meta property="og:title" content="The Story of My Experiments with Truth — ImpactMojo Companion">
+<meta property="og:description" content="The Story of My Experiments with Truth (M. K. Gandhi, 1927-29) — ImpactMojo Companion. An interactive English guide to Gandhi's autobiography, its five Parts, and its method of treating a life as a laboratory for truth and nonviolence.">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:url" content="https://www.impactmojo.in/BookSummaries/gandhi-autobiography-companion.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ImpactMojo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Story of My Experiments with Truth — ImpactMojo Companion">
+<meta name="twitter:description" content="The Story of My Experiments with Truth (M. K. Gandhi, 1927-29) — ImpactMojo Companion. An interactive English guide to Gandhi's autobiography, its five Parts, and its method of treating a life as a laboratory for truth and nonviolence.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<!-- Favicons -->
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<!-- Translate -->
+<style>
+/* Skip link (WCAG 2.4.1) */
+.im-skip-link { position:absolute; top:-40px; left:0; background:#0EA5E9; color:#fff; padding:8px 16px; z-index:10000; text-decoration:none; font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600; }
+.im-skip-link:focus { top:0; }
+/* Floating paper plane */
+.im-paper-plane { position:fixed; bottom:2rem; right:2rem; width:60px; height:60px; opacity:0.14; pointer-events:none; z-index:0; animation: imFloat 6s ease-in-out infinite; }
+@keyframes imFloat { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-15px) rotate(3deg);} }
+html.dark .im-paper-plane { opacity:0.22; }
+/* Interactive companion CTA */
+.im-interactive-cta { display:inline-flex; align-items:center; gap:0.5rem; background:var(--im-gradient); color:#fff !important; -webkit-text-fill-color:#fff; padding:0.5rem 1rem; border-radius:6px; font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600; text-decoration:none; margin-top:14px; transition:opacity 0.2s; }
+.im-interactive-cta:hover { opacity:0.9; }
+
+/* === ImpactMojo Brand Override (fonts + dark mode) — v10.21 === */
+html body, html body .app, html body main, html body .panel,
+html body p, html body li, html body blockquote, html body .sec-summary, html body .arg p,
+html body .sub, html body .tagline, html body .hero, html body .hero h1 {
+  font-family: 'Amaranth', Arial, sans-serif !important;
+}
+html body h1, html body h2, html body h3, html body h4, html body h5, html body h6,
+html body .h1, html body .brand-name, html body .day-badge, html body .pill,
+html body .stat-n, html body .stat-l, html body .sec-title, html body .sec-sub, html body .sec-num,
+html body .concept-term, html body .step-title, html body .step-focus, html body .conn-book,
+html body .book-title, html body .tab-btn, html body .pw-btn, html body .tool-btn,
+html body .im-topbar, html body .im-topbar *, html body .im-footer, html body .im-footer * {
+  font-family: 'Inter', 'Amaranth', Helvetica, sans-serif !important;
+}
+html body code, html body pre, html body .mono, html body kbd, html body samp {
+  font-family: 'JetBrains Mono', ui-monospace, monospace !important;
+}
+
+/* Replace filter-invert dark mode with proper token-based dark mode */
+html.dark body { background: #0F172A !important; color: #E2E8F0 !important; }
+html.dark #root, html.dark main, html.dark .app, html.dark [id^="p-"], html.dark .panel,
+html.dark .arg, html.dark .hero, html.dark .stat, html.dark .nav-card, html.dark .pw-step,
+html.dark .sec-card, html.dark .sec-body, html.dark .concept-card, html.dark .tool-panel,
+html.dark .conn-card, html.dark .crit-item, html.dark .msg.assistant .msg-text,
+html.dark .output-box, html.dark .typing, html.dark .ask-input, html.dark .key-input,
+html.dark .fld, html.dark .tool-btn, html.dark .pw-btn, html.dark .sug-btn, html.dark .pw-desc {
+  filter: none !important;
+}
+html.dark { color-scheme: dark; }
+html.dark body,
+html.dark body .app,
+html.dark body main { background: #0F172A !important; color: #E2E8F0 !important; }
+html.dark .hero { background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%) !important; color: #F1F5F9 !important; border: 1px solid #334155; }
+html.dark .hero .auth, html.dark .hero .tagline { color: #CBD5E1 !important; }
+html.dark .stat, html.dark .arg, html.dark .nav-card, html.dark .sec-card, html.dark .pw-step,
+html.dark .concept-card, html.dark .tool-panel, html.dark .conn-card, html.dark .crit-item,
+html.dark .msg.assistant .msg-text { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .sec-header, html.dark .sec-body { background: transparent !important; color: #E2E8F0 !important; }
+html.dark .sec-body { border-top-color: #334155 !important; }
+html.dark .stat-n { color: #38BDF8 !important; }
+html.dark .stat-l, html.dark .sec-sub, html.dark .sub, html.dark .nav-card-desc,
+html.dark .step-focus, html.dark .pw-desc, html.dark .prac-text, html.dark .conn-text,
+html.dark .ideas-label, html.dark .prac-label, html.dark .output-label, html.dark .suggested-label,
+html.dark .dev-text, html.dark .fld-label { color: #94A3B8 !important; }
+html.dark .h1, html.dark .sec-title, html.dark .concept-term, html.dark .step-title,
+html.dark .nav-card-label, html.dark .conn-book, html.dark .context-h, html.dark .ask-hdr-title { color: #F1F5F9 !important; }
+html.dark blockquote { color: #CBD5E1 !important; border-left-color: #38BDF8 !important; }
+html.dark .pill { background: rgba(56, 189, 248, 0.15) !important; color: #7DD3FC !important; }
+html.dark .day-badge { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .tab-btn { color: rgba(226, 232, 240, 0.6) !important; }
+html.dark .tab-btn.active { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .tab-btn:hover { color: #F1F5F9 !important; }
+html.dark nav { background: #0F172A !important; border-bottom: 1px solid #334155; }
+html.dark .pw-btn, html.dark .tool-btn { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .pw-btn.active, html.dark .tool-btn.active { background: #0EA5E9 !important; border-color: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .pw-desc { background: rgba(14, 165, 233, 0.1) !important; color: #CBD5E1 !important; }
+html.dark .output-box { background: rgba(14, 165, 233, 0.1) !important; color: #E2E8F0 !important; }
+html.dark .step-n, html.dark .setup-num { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .sec-num { color: #38BDF8 !important; }
+html.dark .ideas-label, html.dark .prac-label, html.dark .output-label { color: #38BDF8 !important; }
+html.dark .dev-toggle { background: rgba(56, 189, 248, 0.1) !important; color: #7DD3FC !important; }
+html.dark .dev-text { background: rgba(56, 189, 248, 0.08) !important; color: #CBD5E1 !important; }
+html.dark .fld, html.dark .key-input, html.dark .ask-input { background: #0F172A !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .msg.user .msg-text { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .sug-btn { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .sug-btn:hover { background: rgba(14, 165, 233, 0.15) !important; border-color: #0EA5E9 !important; }
+html.dark .crit-n { background: rgba(251, 191, 36, 0.15) !important; color: #FCD34D !important; }
+html.dark #root img, html.dark #root svg:not([class*="im-"]),
+html.dark main img, html.dark main svg:not([class*="im-"]) { filter: none !important; }
+html.dark .im-topbar, html.dark .im-footer { filter: none !important; }
+/* === End ImpactMojo Brand Override === */
+
+/* Ethics disclaimer heading — readable in both modes */
+.im-ethics-disclaimer .im-ethics-heading { color: #0F172A !important; }
+html.dark .im-ethics-disclaimer .im-ethics-heading, body.dark-mode .im-ethics-disclaimer .im-ethics-heading { color: #F1F5F9 !important; }
+html.dark .im-ethics-disclaimer, body.dark-mode .im-ethics-disclaimer { background: rgba(56,189,248,0.08) !important; border-left-color: #38BDF8 !important; color: #CBD5E1 !important; }
+</style>
+<link rel="stylesheet" href="/assets/css/booksummary-dark.css">
+</head>
+<body>
+<a href="#main-content" class="im-skip-link">Skip to content</a>
+<header class="im-topbar" role="banner">
+  <div class="im-topbar-left">
+    <a class="im-topbar-home" href="/" aria-label="ImpactMojo home">
+      <img src="/assets/images/ImpactMojo%20Logo.png" alt="ImpactMojo" width="24" height="24" style="border-radius:4px;">
+      <span>ImpactMojo</span>
+    </a>  </div>
+  <div class="im-topbar-right">
+    <a href="/catalog.html" class="im-browse-btn" title="Browse all content"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Browse</a>
+    
+    <a class="im-premium-btn" href="/premium.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Premium
+    </a>
+    <div class="im-theme-selector" role="group" aria-label="Theme">
+      <button class="im-theme-btn" data-imtheme="system" title="System theme" aria-label="System theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </button>
+      <button class="im-theme-btn" data-imtheme="light" title="Light theme" aria-label="Light theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <button class="im-theme-btn" data-imtheme="dark" title="Dark theme" aria-label="Dark theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="app">
+<nav>
+  <div class="brand"><div class="dot"></div><span class="brand-name">ImpactMojo</span></div>
+  <div class="tabs" id="tabbar"></div>
+</nav>
+<main id="main-content">
+  <div class="panel active" id="p-overview"></div>
+  <div class="panel" id="p-pathways"></div>
+  <div class="panel" id="p-sections"></div>
+  <div class="panel" id="p-concepts"></div>
+  <div class="panel" id="p-toolkit"></div>
+  <div class="panel" id="p-context"></div>
+  <div class="panel" id="p-ask"></div>
+</main>
+</div>
+
+<!-- Sargam Icon Sprites -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+<symbol id="si_Direction_alt" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m3 3 18 7.92-7.987 2.093L10.92 21z"/></symbol>
+<symbol id="si_Flare" viewBox="0 0 24 24" fill="none"><g clip-path="url(#clip_si_Flare)"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M7 12H1m22 0h-6m-5 5v6m3.536-7.464 1.414 1.414m-9.9-9.9 1.414 1.414m7.072 0L16.95 7.05m-9.9 9.9 1.414-1.414M12 1v6m2 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0"/></g><defs><clipPath id="clip_si_Flare"><path fill="#fff" d="M0 0h24v24H0z"/></clipPath></defs></symbol>
+<symbol id="si_Info" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 8h.008M12 16v-5m10 1c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10"/></symbol>
+<symbol id="si_Lock" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M8 10V7c0-2.21 1.79-4 4-4s4 1.79 4 4v3m-4 5a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 0v3m-5.4-8h10.8c.88 0 1.6.72 1.6 1.6v7c0 1.32-1.08 2.4-2.4 2.4H7.4C6.08 21 5 19.92 5 18.6v-7c0-.88.72-1.6 1.6-1.6"/></symbol>
+<symbol id="si_Lightning" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m12.667 10.5 1.25-7.5L6 13h5l-1.25 7.5 7.917-10z" clip-rule="evenodd"/></symbol>
+<symbol id="si_Library_books" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M10 11h8m-8 3h4m-4-6h8m2 14H8.4C5.42 22 3 19.58 3 16.6V5m5.4-2h11.2A2.4 2.4 0 0 1 22 5.4v11.2a2.4 2.4 0 0 1-2.4 2.4H8.4A2.4 2.4 0 0 1 6 16.6V5.4A2.4 2.4 0 0 1 8.4 3"/></symbol>
+<symbol id="si_Book" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 7.333C12 5.5 10.5 4 8.667 4H2v12h6.708C12 16 12 19.334 12 19.334m0-12C12 5.5 13.5 4 15.333 4H22v12h-6.667C12 16 12 19.334 12 19.334m0-12v12m1.875 1.124A2.58 2.58 0 0 1 16.167 19H21m-10.875 1.458A2.54 2.54 0 0 0 7.833 19H3"/></symbol>
+<symbol id="si_Article" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M8 12h8m-8 3h4M8 9h8M4.4 4h15.2A2.4 2.4 0 0 1 22 6.4v11.2a2.4 2.4 0 0 1-2.4 2.4H4.4A2.4 2.4 0 0 1 2 17.6V6.4A2.4 2.4 0 0 1 4.4 4"/></symbol>
+<symbol id="si_Mail" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m5 7.06 6.87 5.89c.07.06.19.06.26 0L19 7.06M3.2 4h17.6c.66 0 1.2.54 1.2 1.2v12.4c0 1.32-1.08 2.4-2.4 2.4H4.4C3.08 20 2 18.92 2 17.6V5.2C2 4.54 2.54 4 3.2 4"/></symbol>
+<symbol id="si_Help" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M11.83 14v-.621a2.33 2.33 0 0 1 1.164-2.02c1.126-.66 1.514-2.057.854-3.183s-2.057-1.514-3.183-.854C9.965 7.75 9.5 8.487 9.5 9.341M12 17h-.008M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12s4.477 10 10 10 10-4.477 10-10"/></symbol>
+<symbol id="si_Heart" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.696 3C14.652 3 12.887 4.197 12 5.943 11.113 4.197 9.348 3 7.304 3 4.374 3 2 5.457 2 8.481s1.817 5.796 4.165 8.073S12 21 12 21s3.374-2.133 5.835-4.446C20.46 14.088 22 11.514 22 8.481S19.626 3 16.696 3"/></symbol>
+<symbol id="si_Globe_detailed" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M22 12c0 5.523-4.477 10-10 10m10-10c0-5.523-4.477-10-10-10m10 10H2m10 10C6.477 22 2 17.523 2 12m10 10 .66-.31c2.1-2.71 3.34-6.14 3.34-9.78s-1.22-7-3.27-9.69L12 2m0 20-.73-.31A15.94 15.94 0 0 1 8 12c0-3.64 1.24-7.07 3.34-9.78L12 2M2 12C2 6.477 6.477 2 12 2m7.14 17c-1.82-1.85-4.34-3-7.14-3s-5.33 1.15-7.14 3M19.14 5C17.33 6.85 14.8 8 12 8S6.68 6.85 4.86 5"/></symbol>
+</svg>
+
+
+<div id="root"></div>
+<script>
+const DATA = {"title": "The Story of My Experiments with Truth", "dayBadge": "Autobiography", "author": "M. K. Gandhi · 1927–29 (Gujarati; Hindi: Satya ke Prayog)", "tagline": "An interactive companion to Gandhi's autobiography — a life told as a running series of experiments in truth and nonviolence.", "pills": ["Gandhi", "Nonviolence", "Satyagraha", "Self-rule", "Ethics of practice", "South Asia"], "stats": [{"n": "5", "l": "Parts"}, {"n": "14", "l": "Key concepts"}], "argument": ["Gandhi wrote his autobiography not to record achievements but to describe a method. He calls his life a set of 'experiments with truth' — deliberate, revisable trials in diet, celibacy, honesty, fear, and public action, each tested against conscience and result the way a scientist tests a hypothesis. The claim is radical for a memoir: moral and political life can be approached experimentally, with humility about outcomes and willingness to admit error in public.", "The narrative moves from a timid, conventional boy in Kathiawar — married at thirteen, ashamed of small thefts and meat-eating, terrified of the dark — to the leader who forged satyagraha (truth-force) in South Africa and carried it back to India. The through-line is not talent but discipline: a person of ordinary gifts remaking himself through vows, self-restraint, and the refusal to separate means from ends.", "For practitioners, the book is less a saint's story than a manual of how a public actor builds credibility. Gandhi ties political authority to personal conduct — non-possession, manual labour, dietary and sexual self-control, absolute transparency about mistakes. Power, in his account, is earned by what you are willing to give up and by never letting the pursuit of a good end excuse a tainted means.", "Note on this companion: the platform's source file is a Hindi translation (Satya ke Prayog, trans. Kashinath Trivedi, Navajivan) whose Devanagari extraction is heavily corrupted, so this English companion is structured around the canonical five-Part organisation of the work and its universally documented episodes rather than a chapter-literal reading of the degraded text. It complements ImpactMojo's Gandhi course and the Hind Swaraj companion."], "accent": "#B45309", "accent_light": "#FEF3C7", "pathways": [], "sections": [{"title": "Preface & Method: A Life as Experiment", "subtitle": "Introduction · Why an autobiography", "summary": "", "ideas": ["Gandhi resists the very genre of autobiography, warning that in the West only 'great men' write them and that the form invites self-display; he agrees only because his aim is to narrate experiments, not exploits.", "The organising metaphor is scientific: like a researcher, he reports methods and results but disclaims finality — his conclusions are 'true for me at present' and open to revision if better light appears.", "'Truth' for Gandhi is layered: literal honesty of word and thought, but ultimately Truth as the absolute — 'that alone which is imperishable' — which he later renders as the claim that Truth is God rather than God is Truth.", "He insists the account will be candid about humiliations and failures, because a confession that omits the shameful parts is worthless as evidence for others attempting the same experiments.", "Ahimsa (nonviolence), brahmacharya (celibacy/self-restraint), and other vows are presented as subordinate experiments in the service of truth, not independent goals."], "quotes": ["\"I simply want to tell the story of my numerous experiments with truth.\"", "\"Truth is the sovereign principle... the relative truth of our conception, and the Absolute Truth, the Eternal Principle, that is God.\""], "devEcon": "The book's framing — treat your own conduct as a testable, revisable hypothesis and publish your errors — is a demanding model of accountability for anyone doing public or development work in South Asia, where credibility is often the scarcest resource."}, {"title": "Part I — Childhood & the Making of Conscience", "subtitle": "Part I · Kathiawar, 1869–1888", "summary": "", "ideas": ["Born in Porbandar to Karamchand (Kaba) Gandhi, a diwan known for incorruptibility and plain justice, and the deeply devout Putlibai, whose fasting and vows shaped his sense of self-discipline.", "Formative episodes of shame and truth-telling: the school inspector's spelling test (he refuses to copy 'kettle' from a neighbour even when the teacher hints), and a written confession of a small theft to his father, whose silent tears become Gandhi's first lesson in the power of nonviolent, love-based response to wrongdoing.", "Married at about thirteen to Kasturbai in a joint child-wedding; Gandhi is unsparing about his jealous, possessive early husbandhood and later condemns child marriage as a cruel custom.", "The meat-eating experiment: persuaded by a friend that the British ruled because they ate meat, he secretly eats it to make India strong, then abandons it because the deception of his vegetarian parents is unbearable — an early case of means poisoning ends.", "Encounters with fear, a brief flirtation with atheism and petty vice, and the steadying influence of texts like the Ramayana and the ethical maxim to 'return good for evil.'"], "quotes": ["\"This was for me an object-lesson in Ahimsa.\""], "devEcon": "Gandhi's willingness to name child marriage, patriarchy within his own home, and the seductions of the 'be like the coloniser' argument models the reflexive self-critique that reform work in South Asia still demands of its practitioners."}, {"title": "Part I — London & the Vegetarian Vow", "subtitle": "Part I · England, 1888–1891", "summary": "", "ideas": ["To sail for England he must overcome caste elders who declare him an outcaste; he goes anyway, bound by three vows extracted by his mother through the Jain monk Becharji Swami: no meat, no wine, no women.", "Early attempts to become an 'English gentleman' — dancing, elocution, French, expensive clothes — collapse quickly as wasteful and false to himself; frugality and self-reliance replace them.", "The vegetarian vow, first a burden imposed by his mother, becomes a chosen conviction after he reads Henry Salt's 'A Plea for Vegetarianism'; he joins the London Vegetarian Society and gets his first practice in committee work, public argument, and painful shyness.", "Introduced by Theosophist friends to the Bhagavad Gita (in Edwin Arnold's 'The Song Celestial') and to the New Testament's Sermon on the Mount, he begins the lifelong synthesis of Hindu, Christian, and Jain ethics around renunciation and nonviolence.", "Called to the bar in 1891, he returns to India confessing he knows almost nothing of practical Indian law and is paralysed by nerves in his first courtroom brief."], "quotes": ["\"To keep two or three vows... I would rather die than break.\""], "devEcon": "The arc from imposed rule to internalised conviction — a vow kept first out of duty, then owned by choice — is a useful lens on behaviour-change and norm-shift work, where compliance and genuine commitment are easily confused."}, {"title": "Part II — The Train at Pietermaritzburg", "subtitle": "Part II · South Africa, 1893", "summary": "", "ideas": ["Unable to establish himself in India, Gandhi takes a one-year contract to assist in a lawsuit for the Muslim merchant Dada Abdulla in Natal, South Africa — the journey that redirects his entire life.", "The defining event: holding a first-class ticket, he is ordered to the van compartment because of his colour, refuses, and is thrown off the train at Pietermaritzburg, shivering through the night in the waiting room and deciding to stay and fight the disease of racial prejudice rather than flee.", "A cascade of humiliations follows — beaten by a stagecoach conductor, barred from hotels — crystallising his sense that the indignity is collective, suffered by all Indians in South Africa, not a private grievance.", "He resolves the Abdulla case by pushing both parties toward arbitration and compromise, discovering that the true function of a lawyer is to unite parties, not inflame them — a first glimpse of conflict as something to be transformed rather than won.", "He begins organising Natal's Indian community, laying the groundwork for the Natal Indian Congress and a career of collective, public grievance."], "quotes": ["\"I began to think of my duty. Should I fight for my rights or go back to India?\""], "devEcon": "The reframing of a personal injury as a structural, shared injustice — and the choice to organise rather than exit — is the founding move of rights-based mobilisation, directly relevant to caste, labour, and minority organising across South Asia."}, {"title": "Part II–III — Faith, Frugality & Public Life", "subtitle": "Parts II–III · Natal, 1894–1901", "summary": "", "ideas": ["A sustained comparative religious inquiry — with Christian friends urging conversion, and the Jain jeweller-poet Raychandbhai (Shrimad Rajchandra) as his moral touchstone — leaves him rooted in a reformed Hinduism while borrowing freely across traditions.", "He begins stripping his life down: doing his own laundry and barbering, nursing, and cutting household expenses, testing how little a public worker can live on so that money never compromises the work.", "The Natal Indian Congress and the newspaper are used to document and publicise the legal disabilities of Indians; Gandhi learns that patient, factual, public pressure is itself a form of power.", "He nurses plague patients and, later, insists his own family share in scavenging and sanitary work, breaking caste taboos around 'untouchable' labour inside his own home — a running source of conflict with Kasturbai.", "Growing conviction that private ethics and public service are inseparable: one cannot campaign for justice while living in comfort extracted unjustly."], "quotes": [], "devEcon": "Gandhi's fusion of frugal living, self-performed 'menial' labour, and public advocacy is an early answer to a question every development worker faces: whether the standard of life you keep is consistent with the change you demand of others."}, {"title": "Part III — Brahmacharya, Phoenix & 'Unto This Last'", "subtitle": "Part III · c. 1899–1906", "summary": "", "ideas": ["Reading Ruskin's 'Unto This Last' on an overnight train converts him instantly to the ideals that the good of the individual is contained in the good of all, that all labour has equal worth, and that a life of manual toil is the life worth living.", "He founds the Phoenix Settlement near Durban, moving 'Indian Opinion' and its workers onto the land so that publishing, farming, and shared bread-labour become one experiment in community.", "During the Boer War and the Zulu 'rebellion' he organises an Indian ambulance corps, reasoning that citizenship claims carry duties — a stance he later reappraises but which teaches him discipline under fire.", "He takes the vow of brahmacharya (celibacy) in 1906 with Kasturbai's assent, framing self-restraint not as world-denial but as the conservation of energy for service and the precondition of fearlessness.", "Persistent experiments in diet, fasting, and nature cure become, in his telling, moral as much as physical training — the body as the first site of self-rule."], "quotes": ["\"The book was impossible to lay aside... I determined to change my life in accordance with the ideals of the book.\""], "devEcon": "The Ruskin-derived triad — welfare of all, dignity of all labour, and community grounded in shared work — anticipates Gandhian sarvodaya and remains a live template for cooperative and rural-livelihood models in the region."}, {"title": "Part IV — Satyagraha Is Born", "subtitle": "Part IV · Transvaal, 1906–1908", "summary": "", "ideas": ["The Transvaal government's 'Black Act' requiring Indians to register and be fingerprinted triggers a mass pledge of disciplined, nonviolent resistance at a Johannesburg meeting in 1906.", "Dissatisfied with the English term 'passive resistance' as weak and negative, Gandhi coins 'satyagraha' — holding firmly to truth, or truth-force / soul-force — to name an active, self-suffering, courageous method distinct from both submission and violence.", "Satyagraha's inner logic: the resister accepts suffering and punishment without retaliation, aiming to convert the opponent through appeal to conscience rather than to defeat him through fear.", "The campaign fills the jails; Gandhi himself is imprisoned repeatedly, and a controversial compromise with General Smuts — followed by Gandhi's own beating by Indians who felt betrayed over the fingerprinting — tests the movement's discipline.", "He treats prison not as defeat but as a natural, even welcome, phase of the method — a stance that redefines what 'losing' means in political struggle."], "quotes": ["\"Satyagraha... is the vindication of truth not by infliction of suffering on the opponent but on one's own self.\""], "devEcon": "The birth of satyagraha is the book's central gift to South Asian practice: a repeatable technique of collective, nonviolent pressure whose legitimacy comes from the resister's willingness to bear the cost, not impose it."}, {"title": "Part IV — Tolstoy Farm & the Great March", "subtitle": "Part IV · Transvaal & Natal, 1910–1914", "summary": "", "ideas": ["Tolstoy Farm (named for the correspondent Leo Tolstoy) houses resisters' families across religion and caste; Gandhi runs it as a total experiment in self-sufficiency, shared labour, simple diet, and hands-on, character-first education of children.", "He details exacting experiments in food (giving up milk, salt, and cooked food for stretches), fasting for self-purification and to atone for others' lapses, and nature cure — insisting these are inseparable from the political work.", "The 1913 campaign broadens to the humiliating £3 tax on ex-indentured labourers and the non-recognition of Hindu and Muslim marriages, drawing women and mine workers into satyagraha for the first time.", "The 'Great March' of thousands of striking miners across the Transvaal border, and the mass imprisonments that follow, force negotiations; the Indian Relief Act of 1914 concedes the key demands.", "Gandhi leaves South Africa in 1914 after two decades, his method proven at scale and his self-discipline hardened into a public discipline others can join."], "quotes": [], "devEcon": "Tolstoy Farm is a working prototype of the intentional community — cross-communal, self-reliant, education-led — that recurs in South Asian ashram, gram-swaraj, and alternative-schooling experiments to this day."}, {"title": "Part V — Return to India & the Ashram", "subtitle": "Part V · India, 1915–1917", "summary": "", "ideas": ["On the advice of his political mentor Gokhale, Gandhi spends his first year back travelling India third-class to see the country before acting, absorbing its poverty and its distances.", "He founds the Satyagraha Ashram at Kochrab, later Sabarmati (near Ahmedabad), governed by vows including truth, nonviolence, celibacy, non-possession, control of the palate, and the removal of untouchability.", "A defining crisis: admitting an 'untouchable' family (Dudabhai and his family) to the ashram nearly bankrupts it as donors withdraw and even Kasturbai resists — Gandhi holds firm, making anti-untouchability a non-negotiable of his practice.", "He begins the long romance with hand-spinning and khadi, hunting for a working spinning wheel (charkha) as the emblem and economic base of self-reliant village India.", "The ashram is offered as a laboratory: a small, rule-bound community where the vows can be lived and tested before being asked of a nation."], "quotes": [], "devEcon": "The ashram-as-vow-community and the insistence that social reform (untouchability) is inseparable from political freedom foreshadow debates in Indian development about whether economic programmes can succeed while caste hierarchy is left intact."}, {"title": "Part V — Champaran & Kheda: Satyagraha on Indian Soil", "subtitle": "Part V · Bihar & Gujarat, 1917–1918", "summary": "", "ideas": ["Champaran (1917): summoned by the peasant Rajkumar Shukla, Gandhi investigates the tinkathia system forcing indigo cultivation on Bihar's ryots; defying an order to leave, he turns his own arrest into the lever that opens an official inquiry and ends the abuse — his first satyagraha on Indian soil.", "His method there is documentary and disciplined: collect thousands of sworn peasant statements, keep scrupulously to facts, avoid inflaming, and let the government's own inquiry vindicate the claims.", "The Ahmedabad mill strike (1918): mediating between millworkers and owners (including his friend Ambalal Sarabhai), Gandhi undertakes his first public 'fast unto death' to hold wavering workers to their pledge — a fast he admits was ethically fraught because it pressured the very owners who were his friends.", "Kheda (1918): he leads peasants ruined by crop failure in withholding land revenue until the poorest are granted relief, refining satyagraha as a mass rural tactic.", "These campaigns convert satyagraha from a South African export into an instrument fitted to Indian agrarian grievance, and make Gandhi a national figure."], "quotes": [], "devEcon": "Champaran and Kheda are foundational case studies for rights-based rural organising in South Asia — fact-gathering, legal defiance, and disciplined mass action against extractive agrarian systems that still echo in land- and tenancy-rights struggles."}, {"title": "Part V — Rowlatt, the 'Himalayan Miscalculation' & Non-Cooperation", "subtitle": "Part V · 1919–1921", "summary": "", "ideas": ["Against the repressive Rowlatt Bills, Gandhi launches a nationwide satyagraha and hartal in 1919 — his first all-India mass action — invoking a higher law against unjust legislation.", "When the movement turns violent in places, Gandhi calls it his 'Himalayan miscalculation': he had launched mass civil disobedience before people were trained in its discipline, and he suspends it, taking responsibility for the failure.", "The Jallianwala Bagh massacre and martial law in Punjab (which he investigates for the Congress) mark, in his telling, the collapse of any faith that British rule could be reformed from within.", "He aligns with the Khilafat cause to build Hindu–Muslim unity and, from 1920, leads the Non-Cooperation movement — boycotting British titles, courts, schools, and cloth — with the charkha and khadi as its constructive core.", "The autobiography closes around 1921 with Gandhi at the head of a national movement, still calling his politics a set of unfinished experiments rather than settled doctrine."], "quotes": ["\"It was a Himalayan miscalculation.\""], "devEcon": "The candour of naming his own 'Himalayan miscalculation' — scaling a method before the base was disciplined enough to sustain it — is a sober lesson for anyone scaling social mobilisation or programmes faster than institutions and training can bear."}, {"title": "Farewell: Truth as God", "subtitle": "Conclusion · The unfinished experiment", "summary": "", "ideas": ["Gandhi ends not with triumph but with a farewell, declaring that to see Truth face to face one must love the meanest of creation as oneself — hence the seeker after truth cannot stay out of any field of life, including politics.", "He restates that his conclusions are provisional; the experiments continue, and he asks readers to treat his life as data, not gospel.", "The identity he affirms — 'God is Truth' deepened into 'Truth is God' — makes the pursuit of truth, not doctrinal belief, the core of religion and of ethical action.", "Self-purification (self-restraint, fearlessness, ahimsa) is presented as the precondition of any real service to others; you cannot cleanse a society you have not begun to cleanse in yourself.", "The book leaves the method open-ended and reproducible, inviting the reader to run their own experiments rather than to venerate Gandhi's results."], "quotes": ["\"To see the universal and all-pervading Spirit of Truth face to face one must be able to love the meanest of creation as oneself.\""], "devEcon": "The closing stance — provisional conclusions, self-purification before service, and an invitation to experiment rather than to imitate — is arguably the book's most useful bequest to reflective practitioners in the region."}], "concepts": [{"term": "Satya (Truth)", "definition": "For Gandhi, both literal truthfulness in word, thought, and deed and Truth as the absolute, imperishable reality he equates with God; the sovereign principle to which all his other vows are subordinate.", "practitionerNote": "Treat truthfulness as the non-negotiable base of credibility — including public honesty about your own errors."}, {"term": "Ahimsa (Nonviolence)", "definition": "Refusal to harm in thought, word, or act; not mere non-killing but active love and goodwill extended even to opponents, understood as the necessary means to Truth.", "practitionerNote": "Means and ends are one system — an unjust method corrupts a just goal."}, {"term": "Satyagraha (Truth-force)", "definition": "Gandhi's coined term for active nonviolent resistance: holding firmly to truth by self-suffering, accepting punishment without retaliation to convert the opponent's conscience rather than defeat them by force.", "practitionerNote": "The method's legitimacy comes from bearing the cost yourself, not imposing it on others."}, {"term": "Brahmacharya", "definition": "Vow of celibacy and broader self-restraint (of the senses and appetites), taken in 1906, framed as conserving energy for service and as the ground of fearlessness rather than as world-denial.", "practitionerNote": "Self-discipline is presented as the private precondition of public authority."}, {"term": "Aparigraha (Non-possession)", "definition": "The ashram vow of holding no more than one needs; deliberate poverty so that money and property never compromise the integrity of one's work.", "practitionerNote": "Ask whether your standard of living is consistent with the change you ask of others."}, {"term": "Swadeshi", "definition": "The principle of using and serving what is nearest and one's own — local production and self-reliance — as both an economic and a moral discipline against dependence.", "practitionerNote": "A frame for local-first, dependency-reducing development strategies."}, {"term": "Khadi & the Charkha", "definition": "Hand-spun cloth and the spinning wheel; for Gandhi the emblem and economic base of self-reliant village India and the constructive core of non-cooperation.", "practitionerNote": "A constructive programme paired with resistance — build the alternative while you refuse the injustice."}, {"term": "Ashram vows", "definition": "The rule of the Sabarmati/Kochrab community — truth, nonviolence, celibacy, non-possession, control of the palate, fearlessness, removal of untouchability, and bread-labour — lived and tested at small scale.", "practitionerNote": "A prototype: pilot a demanding standard in a small rule-bound community before asking it of many."}, {"term": "Sarvodaya (Welfare of all)", "definition": "The ideal, drawn from Ruskin's 'Unto This Last,' that the good of the individual lies in the good of all and that all labour has equal worth.", "practitionerNote": "A universalist welfare criterion that resists trade-offs which sacrifice the weakest."}, {"term": "Bread-labour", "definition": "The conviction (via Ruskin and Tolstoy) that everyone should earn their living by manual work, especially food-producing toil, and that such labour is the life worth living.", "practitionerNote": "Grounds authority in shared physical work rather than in status or distance from it."}, {"term": "Fasting as self-purification", "definition": "Voluntary fasting to discipline the body, atone for the lapses of a movement, and — as at Ahmedabad — to hold others to a pledge; a tool Gandhi himself flags as ethically double-edged.", "practitionerNote": "Powerful but coercive at the edges — Gandhi admits the Ahmedabad fast pressured his own friends."}, {"term": "The 'Himalayan miscalculation'", "definition": "Gandhi's own name for launching mass civil disobedience (1919) before people were trained in nonviolent discipline, leading to violence and his suspension of the campaign.", "practitionerNote": "A caution against scaling mobilisation faster than the discipline and training that sustain it."}, {"term": "Removal of untouchability", "definition": "Gandhi's insistence that abolishing caste-based untouchability is a religious and political imperative, enforced first inside his own ashram and household at real cost.", "practitionerNote": "Treats social reform as inseparable from — not subordinate to — political and economic freedom."}, {"term": "Experiments with truth", "definition": "The book's governing method: approaching moral and political life as a scientist approaches the lab — deliberate trials, humility about outcomes, revisable conclusions, and public disclosure of failures.", "practitionerNote": "Model your own practice as testable, documented, and correctable rather than as fixed doctrine."}], "tools": [{"label": "Reflection Journal", "intro": "Use these prompts to connect Gandhi's autobiography to your own practice.", "html": "<label class=\"fld-label\">Q1 — Gandhi treats his life as a series of revisable 'experiments' and publishes his failures. What is one belief or method in your own work you are currently treating as settled that might be worth re-testing?</label>\n<textarea class=\"fld\" id=\"r1\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<label class=\"fld-label\">Q2 — Satyagraha earns legitimacy through the resister's willingness to bear the cost rather than impose it. Where in your context could a strategy of self-suffering or disciplined refusal be more effective — or more dangerous — than confrontation?</label>\n<textarea class=\"fld\" id=\"r2\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<label class=\"fld-label\">Q3 — Gandhi insists social reform (ending untouchability) and political freedom are inseparable, and that your standard of living must match what you ask of others. Where does your own work separate the two, and what would it cost to align them?</label>\n<textarea class=\"fld\" id=\"r3\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<div style=\"margin-top:12px;font-family:Inter,sans-serif;font-size:13px;color:var(--muted)\">Reflections stay in your browser only and are not sent anywhere.</div>"}], "connections": [], "southAsia": ["Champaran and Kheda are template case studies for rights-based rural organising in South Asia — fact-gathering, legal defiance, and disciplined mass action against extractive agrarian systems that still shape land- and tenancy-rights struggles.", "Gandhi's fusion of the anti-untouchability vow with the freedom struggle frames a still-open Indian debate: whether economic and political programmes can succeed while caste hierarchy is left untouched.", "Swadeshi, khadi, and the charkha remain live reference points for local-first, self-reliant, and cooperative livelihood models across the region.", "The ashram — cross-communal, self-reliant, vow-governed — is a recurring prototype behind South Asian gram-swaraj, intentional-community, and alternative-education experiments.", "The 'Himalayan miscalculation' is a standing caution for movements and programmes that scale mobilisation faster than the training and institutions needed to keep it disciplined."], "critiques": ["The autobiography is deeply selective — it largely stops at 1921 and says little about later, more contested phases, so it should not be read as a complete political record.", "Feminist readers note Gandhi's frank possessiveness toward Kasturbai and his celibacy experiments impose costs on the women around him that the text under-examines.", "His stance during the Boer and Zulu campaigns — organising an ambulance corps within the imperial war effort — sits uneasily with his later anti-imperialism and reveals an evolving, sometimes inconsistent politics.", "Critics such as B. R. Ambedkar argued that Gandhi's approach to untouchability worked within Hindu reform rather than dismantling caste itself, limiting its emancipatory reach.", "The scientific 'experiment' metaphor can obscure how much of Gandhi's authority rested on charisma and personal example that are hard to institutionalise or reproduce."], "suggested": [], "systemPrompt": "You are an expert reading companion for 'The Story of My Experiments with Truth' (Satya ke Prayog) by M. K. Gandhi. Your audience is development practitioners and students in South Asia. Explain the book's arguments faithfully across its five Parts — childhood and the making of conscience in Kathiawar, London and the vegetarian vow, South Africa and the birth of satyagraha, and the return to India through Champaran, Kheda, Rowlatt and non-cooperation. Foreground Gandhi's method: treating a life as revisable experiments in truth and nonviolence, the unity of means and ends, and the link between personal discipline and public authority. Note major critiques (its selectivity, the costs to the women around him, Ambedkar's critique on caste, the imperial-war episodes). Connect it to contemporary South Asian debates on rights-based organising, caste, and self-reliance. Be accurate to the actual text and honest about what the book does and does not cover."};
+
+// Tab management
+const TABS = [
+  {id:"overview",label:"Overview"},
+  {id:"pathways",label:"Pathways"},
+  {id:"sections",label:"Sections"},
+  {id:"concepts",label:"Concepts"},
+  {id:"toolkit",label:"Toolkit"},
+  {id:"context",label:"Context"},
+  {id:"ask",label:"Ask"},
+];
+
+const tabbar = document.getElementById("tabbar");
+TABS.forEach(t => {
+  const btn = document.createElement("button");
+  btn.className = "tab-btn" + (t.id === "overview" ? " active" : "");
+  btn.textContent = t.label;
+  btn.onclick = () => switchTab(t.id);
+  tabbar.appendChild(btn);
+});
+
+function switchTab(id) {
+  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById("p-" + id).classList.add("active");
+  tabbar.querySelectorAll(".tab-btn")[TABS.findIndex(t=>t.id===id)].classList.add("active");
+}
+
+// OVERVIEW
+(function() {
+  const el = document.getElementById("p-overview");
+  el.innerHTML = `
+    <div class="hero">
+      <div class="day-badge">${DATA.dayBadge}</div>
+      <h1>${DATA.title}</h1>
+      <div class="auth">${DATA.author}</div>
+      <div class="tagline">${DATA.tagline}</div>
+      <div class="pills">${DATA.pills.map(p=>`<span class="pill">${p}</span>`).join("")}</div>
+    </div>
+    <div class="stat-grid">
+      ${DATA.stats.map(s=>`<div class="stat"><div class="stat-n">${s.n}</div><div class="stat-l">${s.l}</div></div>`).join("")}
+    </div>
+    <div class="arg">
+      <div class="h1">The central argument</div>
+      ${DATA.argument.map(p=>`<p>${p}</p>`).join("")}
+    </div>
+    <div class="h1" style="margin-top:24px">What's in this companion</div>
+    <div class="nav-grid">
+      ${[["pathways","Learning Pathways","Structured reading routes by role"],["sections","Section by Section","Full analysis with dev econ connections"],["concepts","Concepts & Frameworks","Key terms with practitioner notes"],["toolkit","Practitioner Toolkit","Interactive tools"],["context","Book in Context","Connections and assessment"],["ask","Ask the Book","Gemini-powered Q&A"]].map(([id,label,desc])=>`<button class="nav-card" onclick="switchTab('${id}')" ><div class="nav-card-label">${label}</div><div class="nav-card-desc">${desc}</div></button>`).join("")}
+    </div>
+  `;
+})();
+
+// PATHWAYS
+(function() {
+  const el = document.getElementById("p-pathways");
+  let active = 0;
+  function render() {
+    const pw = DATA.pathways[active];
+    el.innerHTML = `
+      <div class="h1">Learning Pathways</div>
+      <div class="sub">Three structured routes through the book based on your role.</div>
+      <div class="pw-tabs">
+        ${DATA.pathways.map((p,i)=>`<button class="pw-btn ${i===active?"active":""}" onclick="__pw(${i})">${p.label}</button>`).join("")}
+      </div>
+      <div class="pw-desc">${pw.desc}</div>
+      <div class="pw-steps">
+        ${pw.steps.map((s,i)=>`<div class="pw-step"><div class="step-n">${i+1}</div><div><div class="step-title">${s.section}</div><div class="step-focus">${s.focus}</div></div></div>`).join("")}
+      </div>
+    `;
+  }
+  window.__pw = (i) => { active = i; render(); };
+  render();
+})();
+
+// SECTIONS
+(function() {
+  const el = document.getElementById("p-sections");
+  let openId = null;
+  let showDev = {};
+  function render() {
+    el.innerHTML = `
+      <div class="h1">Section by Section</div>
+      <div class="sub">All sections with full analysis and development economics connections.</div>
+      ${DATA.sections.map((s,i)=>`
+        <div class="sec-card">
+          <button class="sec-header" onclick="__sec(${i})">
+            <div class="sec-num">§${i+1}</div>
+            <div class="sec-title-block"><div class="sec-title">${s.title}</div><div class="sec-sub">${s.subtitle}</div></div>
+            <div class="sec-chev">${openId===i?"−":"+"}</div>
+          </button>
+          ${openId===i?`<div class="sec-body">
+            <div class="sec-summary">${s.summary}</div>
+            <div class="ideas-label">Key ideas</div>
+            ${s.ideas.map(idea=>`<div class="idea-item"><span class="idea-dot"></span><span>${idea}</span></div>`).join("")}
+            <div class="ideas-label" style="margin-top:14px">Key quotes</div>
+            ${s.quotes.map(q=>`<blockquote>${q}</blockquote>`).join("")}
+            <button class="dev-toggle" onclick="__dev(${i})">${showDev[i]?"Hide":"Show"} development economics connection</button>
+            ${showDev[i]?`<div class="dev-text">${s.devEcon}</div>`:""}
+          </div>`:""}
+        </div>
+      `).join("")}
+    `;
+  }
+  window.__sec = (i) => { openId = openId===i?null:i; render(); };
+  window.__dev = (i) => { showDev[i]=!showDev[i]; render(); };
+  render();
+})();
+
+// CONCEPTS
+(function() {
+  const el = document.getElementById("p-concepts");
+  let open = null;
+  function render() {
+    el.innerHTML = `
+      <div class="h1">Concepts & Frameworks</div>
+      <div class="sub">Key terms with definitions and practitioner notes. Click to expand.</div>
+      ${DATA.concepts.map((c,i)=>`
+        <div class="concept-card ${open===i?"open":""}" onclick="__con(${i})">
+          <div class="concept-term">${c.term}</div>
+          ${open===i?`<div class="concept-def">${c.definition}</div><div class="prac-label">Practitioner note</div><div class="prac-text">${c.practitionerNote}</div>`:""}
+        </div>
+      `).join("")}
+    `;
+  }
+  window.__con = (i) => { open = open===i?null:i; render(); };
+  render();
+})();
+
+// TOOLKIT  
+(function() {
+  const el = document.getElementById("p-toolkit");
+  el.innerHTML = `
+    <div class="h1">Practitioner Toolkit</div>
+    <div class="sub">Interactive tools derived from the book. Use for personal practice or programme design.</div>
+    <div class="tool-tabs">
+      ${DATA.tools.map((t,i)=>`<button class="tool-btn ${i===0?"active":""}" onclick="__tool(${i})">${t.label}</button>`).join("")}
+    </div>
+    ${DATA.tools.map((t,i)=>`
+      <div class="tool-panel ${i===0?"active":""}" id="toolp-${i}">
+        <div class="tool-intro">${t.intro}</div>
+        ${t.html}
+      </div>
+    `).join("")}
+  `;
+  window.__tool = (i) => {
+    document.querySelectorAll(".tool-btn").forEach((b,j)=>b.classList.toggle("active",i===j));
+    document.querySelectorAll(".tool-panel").forEach((p,j)=>p.classList.toggle("active",i===j));
+  };
+})();
+
+// CONTEXT
+(function() {
+  const el = document.getElementById("p-context");
+  el.innerHTML = `
+    <div class="h1">Book in Context</div>
+    <div class="sub">How this book fits within the broader literature, and an honest assessment of its limits.</div>
+    <div class="context-h">Connected works</div>
+    ${DATA.connections.map(c=>`<div class="conn-card"><div class="conn-book">${c.book}</div><div class="conn-text">${c.text}</div></div>`).join("")}
+    <div class="context-h" style="margin-top:24px">Honest assessment</div>
+    <div class="sub">Limits and qualifications for the ImpactMojo context:</div>
+    ${DATA.critiques.map((c,i)=>`<div class="crit-item"><div class="crit-n">${i+1}</div><div class="crit-text">${c}</div></div>`).join("")}
+  `;
+})();
+
+// ASK
+(function() {
+  const el = document.getElementById("p-ask");
+  let apiKey = "", msgs = [], loading = false;
+  
+  function renderSetup() {
+    el.innerHTML = `
+      <div class="ask-setup">
+        <div class="h1">Ask the Book</div>
+        <div class="sub">AI-powered Q&A using Gemini 2.0 Flash (free). Requires a Google AI Studio API key.</div>
+        <div class="setup-steps">
+          <div class="setup-step"><span class="setup-num">1</span><span>Go to <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com/app/apikey</a> and create a free API key.</span></div>
+          <div class="setup-step"><span class="setup-num">2</span><span>Paste it below. The key stays in your browser only and is never stored.</span></div>
+        </div>
+        <div class="key-row">
+          <input class="key-input" type="password" id="key-in" placeholder="AIza..." oninput="document.getElementById('key-submit').disabled=!this.value.trim()"/>
+          <button class="key-btn" id="key-submit" disabled onclick="__setKey()">Connect</button>
+        </div>
+      </div>
+    `;
+  }
+  
+  function renderChat() {
+    el.innerHTML = `
+      <div class="ask-ui">
+        <div class="ask-hdr"><span class="ask-hdr-title">Ask the Book</span><button class="ask-reset" onclick="__resetKey()">Change key</button></div>
+        <div class="msgs" id="msgs-box">
+          ${msgs.length===0?`<div><div class="suggested-label">Suggested questions</div>${DATA.suggested.map(q=>`<button class="sug-btn" onclick="__ask('${q.replace(/'/g,"\'")}')">${q}</button>`).join("")}</div>`:""}
+          ${msgs.map(m=>`<div class="msg ${m.role}"><div class="msg-text">${m.content}</div></div>`).join("")}
+          ${loading?`<div class="msg assistant"><div class="typing"><span></span><span></span><span></span></div></div>`:""}
+        </div>
+        <div class="ask-input-row">
+          <textarea class="ask-input" id="ask-in" rows="2" placeholder="Ask about the book..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();__sendAsk()}"></textarea>
+          <button class="ask-send" id="ask-send" onclick="__sendAsk()">Send</button>
+        </div>
+      </div>
+    `;
+    const box = document.getElementById("msgs-box");
+    if(box) box.scrollTop = box.scrollHeight;
+  }
+  
+  window.__setKey = () => {
+    const v = document.getElementById("key-in").value.trim();
+    if(v) { apiKey = v; renderChat(); }
+  };
+  window.__resetKey = () => { apiKey=""; msgs=[]; renderSetup(); };
+  window.__ask = (q) => {
+    document.getElementById("ask-in").value = q;
+    __sendAsk();
+  };
+  window.__sendAsk = async () => {
+    const inp = document.getElementById("ask-in");
+    if(!inp) return;
+    const q = inp.value.trim();
+    if(!q || loading) return;
+    inp.value = "";
+    msgs.push({role:"user",content:q});
+    loading = true; renderChat();
+    try {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,{
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({
+          system_instruction:{parts:[{text:DATA.systemPrompt}]},
+          contents: msgs.map(m=>{return{role:m.role==="assistant"?"model":"user",parts:[{text:m.content}]}}).slice(0,-1).concat([{role:"user",parts:[{text:q}]}]),
+          generationConfig:{maxOutputTokens:1200,temperature:0.3}
+        })
+      });
+      const data = await res.json();
+      if(!res.ok) throw new Error(data.error?.message||"API error");
+      const reply = data?.candidates?.[0]?.content?.parts?.map(p=>p.text).join("")||"No response.";
+      msgs.push({role:"assistant",content:reply});
+    } catch(e) {
+      msgs.push({role:"assistant",content:"Error: "+e.message});
+    }
+    loading = false; renderChat();
+  };
+  
+  renderSetup();
+})();
+</script>
+
+<!-- ImpactMojo Footer -->
+<!-- Ethics & Copyright Disclaimer -->
+<section class="im-ethics-disclaimer" style="max-width:1100px;margin:2rem auto 1rem;padding:1.25rem 1.5rem;background:rgba(14,165,233,0.06);border-left:4px solid #0EA5E9;border-radius:8px;font-family:'Inter','Amaranth',sans-serif;font-size:0.85rem;line-height:1.65;color:var(--im-text-secondary,#64748B);">
+  <p class="im-ethics-heading" style="margin:0 0 0.5rem;font-weight:600;">A note on books, authors, and intellectual labour</p>
+  <p style="margin:0;">All books companioned on ImpactMojo have been duly purchased with real money and form part of a personal collection. None of the source texts have been obtained by any illegal means — we deeply respect the intellectual labour of authors, editors, and publishers. These reading companions are offered free of charge as educational aids; ImpactMojo does not sell book companions as a paid service and therefore does not violate any commercial licensing agreement or copyright. Nothing here reproduces the full text of any book — each companion is an interpretive study guide.</p>
+</section>
+
+<footer class="im-footer" role="contentinfo">
+<div class="im-footer-content">
+<p class="im-footer-made">Made with <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;color:#EF4444;"><use href="#si_Heart"/></svg> by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+<div class="im-footer-grid">
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Info"/></svg> About ImpactMojo</h4>
+<ul>
+<li><a href="../about.html">About Us</a></li>
+<li><a href="../contact.html">Contact</a></li>
+<li><a href="https://github.com/ImpactMojo/ImpactMojo" rel="noopener noreferrer" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Globe_detailed"/></svg> GitHub</a></li>
+<li><a href="../transparency.html">Transparency</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Lock"/></svg> Legal</h4>
+<ul>
+<li><a href="../privacy-policy.html">Privacy Policy</a></li>
+<li><a href="../terms-of-service.html">Terms of Service</a></li>
+<li><a href="../disclaimer.html">Disclaimer</a></li>
+<li><a href="../data-protection.html">Data Protection</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Lightning"/></svg> Quick Links</h4>
+<ul>
+<li><a href="../catalog.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Library_books"/></svg> All Courses</a></li>
+<li><a href="../premium.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Flare"/></svg> Premium Content</a></li>
+<li><a href="../coaching.html">Coaching</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Book"/></svg> Resources</h4>
+<ul>
+<li><a href="../handouts.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Article"/></svg> Handouts</a></li>
+<li><a href="../blog.html">Blog</a></li>
+<li><a href="../faq.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Help"/></svg> FAQ</a></li>
+<li><a href="../sitemap.html">Sitemap</a></li>
+<li><a href="/docs/" rel="noopener noreferrer" target="_blank">Documentation</a></li>
+</ul>
+</div>
+</div>
+<div class="im-footer-bottom">
+<p>&copy; 2026 ImpactMojo. All content for educational purposes only.</p>
+<p>Released under <strong>MIT License</strong> | Supported by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+</div>
+</div>
+</footer>
+
+<script src="/js/theme.js"></script>
+
+
+<!-- Supabase Auth -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="/js/state-manager.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+
+<!-- Floating paper plane (ImpactMojo decorative element) -->
+<svg class="im-paper-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M80,130 L150,50" stroke="#10B981" stroke-width="2" stroke-dasharray="4,4"/>
+  <circle cx="150" cy="50" r="4" fill="#6366F1"/>
+  <circle cx="40" cy="155" r="2" fill="#0EA5E9" opacity="0.6"/>
+  <circle cx="35" cy="165" r="1.5" fill="#6366F1" opacity="0.4"/>
+  <circle cx="45" cy="170" r="1" fill="#10B981" opacity="0.5"/>
+</svg>
+<script src="/js/translate-sarvam.js" defer></script>
+</body>
+</html>
