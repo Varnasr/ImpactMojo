@@ -1,0 +1,777 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Learning About Learning — ImpactMojo Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+/* === ImpactMojo Design System === */
+:root {
+    --im-gradient: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+    --im-accent: #0EA5E9;
+    --im-nav-bg: rgba(15, 23, 42, 0.95);
+    --im-border: #334155;
+    --im-text-primary: #F1F5F9;
+    --im-text-secondary: #94A3B8;
+    --im-text-muted: #64748B;
+    --im-card-bg: #1E293B;
+    --im-hover-bg: #334155;
+    --im-secondary-bg: #1E293B;
+}
+body { padding-top: 56px !important; }
+.im-topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    background: var(--im-nav-bg);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--im-border);
+    padding: 0.5rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.75rem; flex-wrap: wrap;
+    font-family: 'Inter', 'Amaranth', sans-serif;
+}
+.im-topbar a { text-decoration: none; }
+.im-topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+.im-topbar-home {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-weight: 700; font-size: 1rem;
+    background: var(--im-gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.im-topbar-home svg { width: 24px; height: 24px; flex-shrink: 0; stroke: #0EA5E9; }
+.im-topbar-right { display: flex; align-items: center; gap: 0.5rem; }
+.im-premium-btn {
+    background: var(--im-gradient);
+    color: #fff !important; -webkit-text-fill-color: #fff;
+    padding: 0.35rem 0.85rem; border-radius: 6px;
+    font-size: 0.8rem; font-weight: 600;
+    display: flex; align-items: center; gap: 0.35rem;
+    transition: opacity 0.2s; border: none; cursor: pointer;
+}
+.im-browse-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--im-text, #1C1917); background: var(--im-surface, #FFFFFF); border: 1.5px solid var(--im-border, #E2E8F0); padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; transition: background 0.18s ease, border-color 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease; }
+.im-browse-btn:hover { background: var(--im-accent, #0EA5E9); color: #FFFFFF; border-color: var(--im-accent, #0EA5E9); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25); }
+.im-browse-btn svg { width: 14px; height: 14px; }
+@media (prefers-color-scheme: dark) { .im-browse-btn { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.18); } .im-browse-btn:hover { background: var(--im-accent, #0EA5E9); border-color: var(--im-accent, #0EA5E9); color: #FFFFFF; } }
+.im-premium-btn:hover { opacity: 0.9; }
+.im-premium-btn svg { width: 14px; height: 14px; }
+.im-theme-selector {
+    display: flex; gap: 2px;
+    background: var(--im-card-bg);
+    border: 1px solid var(--im-border);
+    border-radius: 8px; padding: 2px;
+}
+.im-theme-btn {
+    background: transparent; border: none;
+    color: var(--im-text-secondary);
+    padding: 6px; border-radius: 5px; cursor: pointer;
+    transition: all 0.2s; display: flex; align-items: center;
+    justify-content: center; width: 30px; height: 30px;
+}
+.im-theme-btn:hover { background: var(--im-hover-bg); color: var(--im-text-primary); }
+.im-theme-btn.active { background: var(--im-accent); color: #fff; }
+.im-theme-btn svg { width: 16px; height: 16px; }
+.im-footer {
+    background: var(--im-secondary-bg);
+    border-top: 1px solid var(--im-border);
+    padding: 2rem 1rem; margin-top: auto;
+    font-family: 'Inter', 'Amaranth', sans-serif;
+    color: var(--im-text-secondary);
+}
+.im-footer-content { max-width: 1100px; margin: 0 auto; }
+.im-footer-made {
+    text-align: center; margin-bottom: 1.5rem;
+    font-size: 0.9rem; color: var(--im-text-muted);
+}
+.im-footer-made a { color: var(--im-accent); text-decoration: none; }
+.im-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem; margin-bottom: 1.5rem;
+}
+.im-footer-section h4 {
+    font-family: 'Inter', 'Amaranth', sans-serif;
+    color: var(--im-text-primary);
+    font-size: 0.9rem; margin-bottom: 0.75rem; font-weight: 600;
+}
+.im-footer-section ul { list-style: none; padding: 0; margin: 0; }
+.im-footer-section li { margin-bottom: 0.4rem; }
+.im-footer-section a {
+    color: var(--im-text-secondary);
+    text-decoration: none; font-size: 0.85rem; transition: color 0.2s;
+}
+.im-footer-section a:hover { color: var(--im-accent); }
+.im-footer-bottom {
+    text-align: center; padding-top: 1rem;
+    border-top: 1px solid var(--im-border);
+    font-size: 0.8rem; color: var(--im-text-muted);
+}
+.im-footer-bottom p { margin: 0.25rem 0; }
+.im-footer-bottom a { color: var(--im-accent); text-decoration: none; }
+@media (max-width: 640px) {
+    .im-topbar { padding: 0.4rem 0.75rem; gap: 0.5rem; }
+    .im-topbar-home { font-size: 0.85rem; }
+    .im-topbar-home svg { width: 20px; height: 20px; }
+    .im-topbar-home span { display: none; }
+    .im-premium-btn { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
+    .im-theme-btn { width: 26px; height: 26px; padding: 4px; }
+    .im-theme-btn svg { width: 14px; height: 14px; }
+    .im-footer-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+}
+@media (max-width: 400px) {
+    .im-footer-grid { grid-template-columns: 1fr; }
+}
+/* === End ImpactMojo Design System === */
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F8F5F0;--card:#fff;--border:#E8E0D5;--text:#1C1C1C;--muted:#6B6560;
+  --accent:#1A3C34;--accent-light:#EBF5F2;--teal:#1A6B5A;--teal-light:#EBF5F2;
+  --radius:8px;
+}
+body{background:var(--bg);font-family:'Amaranth','Inter',system-ui,sans-serif;color:var(--text);padding-top:52px}
+.app{min-height:100vh;display:flex;flex-direction:column}
+nav{background:#1C1C1C;display:flex;align-items:center;gap:20px;padding:0 20px;min-height:52px;flex-wrap:wrap;position:sticky;top:52px;z-index:99}
+.brand{display:flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.brand-name{font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:#fff;letter-spacing:.05em;text-transform:uppercase}
+.tabs{display:flex;gap:2px;flex-wrap:wrap}
+.tab-btn{background:none;border:none;padding:6px 13px;font-family:Inter,sans-serif;font-size:11px;font-weight:600;color:rgba(255,255,255,.5);cursor:pointer;border-radius:4px;text-transform:uppercase;letter-spacing:.04em;transition:all .15s}
+.tab-btn:hover{color:rgba(255,255,255,.85)}
+.tab-btn.active{color:#fff;background:var(--accent)}
+main{flex:1;padding:32px 20px;max-width:860px;margin:44px auto 0;width:100%}
+.h1{font-family:Inter,sans-serif;font-size:22px;font-weight:700;margin-bottom:8px}
+.sub{color:var(--muted);font-size:15px;margin-bottom:24px;font-family:Inter,sans-serif;line-height:1.5}
+.panel{display:none}.panel.active{display:block}
+
+/* HERO */
+.hero{background:#1C1C1C;color:#fff;border-radius:12px;padding:32px;margin-bottom:20px}
+.day-badge{display:inline-block;background:var(--accent);font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 10px;border-radius:4px;margin-bottom:14px}
+.hero h1{font-size:34px;font-weight:700;margin-bottom:4px}
+.hero .auth{font-family:Inter,sans-serif;font-size:13px;color:rgba(255,255,255,.5);margin-bottom:14px}
+.hero .tagline{font-size:15px;color:rgba(255,255,255,.8);line-height:1.6;max-width:620px;margin-bottom:18px}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-family:Inter,sans-serif;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.8)}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:18px 14px;text-align:center}
+.stat-n{font-size:30px;font-weight:700;color:var(--accent);font-family:Inter,sans-serif}
+.stat-l{font-family:Inter,sans-serif;font-size:12px;color:var(--muted);margin-top:4px}
+.arg{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:22px;margin-bottom:24px}
+.arg p{font-size:15px;line-height:1.75}
+.arg p+p{margin-top:1rem}
+.nav-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.nav-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:left;cursor:pointer;transition:all .15s}
+.nav-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.nav-card-label{font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
+.nav-card-desc{font-family:Inter,sans-serif;font-size:12px;color:var(--muted)}
+
+/* PATHWAYS */
+.pw-tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.pw-btn{font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:6px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s}
+.pw-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.pw-desc{font-family:Inter,sans-serif;font-size:14px;color:var(--muted);padding:12px 14px;background:var(--accent-light);border-radius:6px;margin-bottom:20px;line-height:1.5}
+.pw-steps{display:flex;flex-direction:column;gap:10px}
+.pw-step{display:flex;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px}
+.step-n{width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-family:Inter,sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-title{font-family:Inter,sans-serif;font-size:14px;font-weight:700;margin-bottom:3px}
+.step-focus{font-family:Inter,sans-serif;font-size:13px;color:var(--muted);line-height:1.5}
+
+/* SECTIONS */
+.sec-card{background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.sec-header{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;cursor:pointer;background:none;border:none;text-align:left;width:100%}
+.sec-num{font-family:Inter,sans-serif;font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;min-width:24px;padding-top:2px}
+.sec-title{font-family:Inter,sans-serif;font-size:15px;font-weight:700;margin-bottom:2px}
+.sec-sub{font-family:Inter,sans-serif;font-size:12px;color:var(--muted)}
+.sec-chev{font-size:16px;color:var(--muted);padding-top:2px;margin-left:auto}
+.sec-body{padding:0 18px 18px 56px;border-top:1px solid var(--border)}
+.sec-summary{font-size:15px;line-height:1.75;padding-top:14px;margin-bottom:18px}
+.ideas-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
+.idea-item{display:flex;gap:8px;margin-bottom:7px;font-family:Inter,sans-serif;font-size:13px;line-height:1.55}
+.idea-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:6px}
+blockquote{font-style:italic;font-size:14px;color:var(--muted);border-left:3px solid var(--accent);padding-left:12px;margin-bottom:8px;line-height:1.6}
+.dev-toggle{font-family:Inter,sans-serif;font-size:12px;font-weight:600;color:var(--teal);background:var(--teal-light);border:none;padding:7px 12px;border-radius:4px;cursor:pointer;margin-top:10px}
+.dev-text{margin-top:10px;font-family:Inter,sans-serif;font-size:13px;line-height:1.65;background:var(--teal-light);padding:12px;border-radius:6px}
+
+/* CONCEPTS */
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+.concept-card:hover,.concept-card.open{border-color:var(--accent)}
+.concept-term{font-family:Inter,sans-serif;font-size:15px;font-weight:700}
+.concept-def{font-family:Inter,sans-serif;font-size:14px;line-height:1.7;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.prac-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-top:10px;margin-bottom:4px}
+.prac-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65;color:var(--muted)}
+
+/* TOOLKIT */
+.tool-tabs{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+.tool-btn{font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:6px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s}
+.tool-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tool-panel{display:none;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:22px}
+.tool-panel.active{display:block}
+.tool-intro{font-family:Inter,sans-serif;font-size:14px;color:var(--muted);margin-bottom:20px;line-height:1.5}
+.fld-label{font-family:Inter,sans-serif;font-size:13px;font-weight:600;margin-bottom:5px;display:block}
+.fld{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;outline:none;background:var(--bg);margin-bottom:12px}
+.fld:focus{border-color:var(--accent)}
+.output-box{background:var(--accent-light);padding:14px;border-radius:6px;margin-top:16px;font-family:Inter,sans-serif;font-size:14px;line-height:1.65}
+.output-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:8px}
+
+/* CONTEXT */
+.conn-card{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:16px 18px;margin-bottom:10px}
+.conn-book{font-family:Inter,sans-serif;font-size:14px;font-weight:700;margin-bottom:5px}
+.conn-text{font-family:Inter,sans-serif;font-size:13px;color:var(--muted);line-height:1.65}
+.crit-item{display:flex;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:8px}
+.crit-n{width:24px;height:24px;border-radius:50%;background:#FFF8E6;color:#C8910A;font-family:Inter,sans-serif;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.crit-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65}
+.context-h{font-family:Inter,sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;margin-top:6px}
+
+/* ASK */
+.ask-setup{}
+.setup-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+.setup-step{display:flex;gap:12px;font-family:Inter,sans-serif;font-size:14px;line-height:1.5}
+.setup-num{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.setup-step a{color:var(--accent)}
+.key-row{display:flex;gap:10px}
+.key-input{flex:1;max-width:400px;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;outline:none}
+.key-btn{padding:9px 22px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:Inter,sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.key-btn:disabled{opacity:.4;cursor:not-allowed}
+.ask-ui{display:flex;flex-direction:column;height:calc(100vh - 180px)}
+.ask-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.ask-hdr-title{font-family:Inter,sans-serif;font-size:18px;font-weight:700}
+.ask-reset{background:none;border:1px solid var(--border);border-radius:4px;padding:4px 10px;font-family:Inter,sans-serif;font-size:12px;color:var(--muted);cursor:pointer}
+.msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px;margin-bottom:10px}
+.suggested-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px}
+.sug-btn{display:block;width:100%;text-align:left;padding:9px 12px;background:var(--card);border:1px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;cursor:pointer;margin-bottom:6px;transition:all .15s}
+.sug-btn:hover{border-color:var(--accent);background:var(--accent-light)}
+.msg{max-width:85%}
+.msg.user{align-self:flex-end}
+.msg.assistant{align-self:flex-start}
+.msg-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65;padding:10px 14px;border-radius:8px;white-space:pre-wrap}
+.msg.user .msg-text{background:var(--accent);color:#fff}
+.msg.assistant .msg-text{background:var(--card);border:1px solid var(--border)}
+.typing{display:flex;gap:4px;padding:12px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px}
+.typing span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:bounce 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.ask-input-row{display:flex;gap:8px;border-top:1px solid var(--border);padding-top:10px}
+.ask-input{flex:1;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;resize:none;outline:none;background:var(--bg)}
+.ask-input:focus{border-color:var(--accent)}
+.ask-send{padding:9px 18px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:Inter,sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.ask-send:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:640px){.stat-grid{grid-template-columns:repeat(2,1fr)}.nav-grid{grid-template-columns:1fr 1fr}.sec-body{padding-left:18px}}
+
+/* WCAG 2.1 AA (1.4.1 Use of Color): inline anchors in content paragraphs must be distinguishable without relying on color alone. Scoped to <main> so nav/footer button-links are unaffected. */
+main p a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]),
+main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
+/* === Dark Mode === */
+html.dark body { background: #0f172a; color: #e2e8f0; }
+html.dark #root,
+html.dark main,
+html.dark .app,
+html.dark [id^="p-"],
+html.dark .panel { filter: invert(0.88) hue-rotate(180deg); }
+html.dark #root img,
+html.dark #root svg:not([class*="im-"]),
+html.dark main img,
+html.dark main svg:not([class*="im-"]) { filter: invert(1) hue-rotate(180deg); }
+html.dark .im-topbar, html.dark .im-footer { filter: none; }
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+<!-- SEO meta (autogenerated) -->
+<meta name="description" content="Learning About Learning: What Every New Teacher Needs to Know (Pomerance, Greenberg & Walsh / NCTQ, 2016) — ImpactMojo Companion. A cognitive-science audit of what teacher-prep textbooks actually teach about how students learn.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.impactmojo.in/BookSummaries/learning-about-learning-companion.html">
+<meta property="og:title" content="Learning About Learning — ImpactMojo Companion">
+<meta property="og:description" content="Learning About Learning: What Every New Teacher Needs to Know (Pomerance, Greenberg & Walsh / NCTQ, 2016) — ImpactMojo Companion. A cognitive-science audit of what teacher-prep textbooks actually teach about how students learn.">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:url" content="https://www.impactmojo.in/BookSummaries/learning-about-learning-companion.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ImpactMojo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Learning About Learning — ImpactMojo Companion">
+<meta name="twitter:description" content="Learning About Learning: What Every New Teacher Needs to Know (Pomerance, Greenberg & Walsh / NCTQ, 2016) — ImpactMojo Companion. A cognitive-science audit of what teacher-prep textbooks actually teach about how students learn.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<!-- Favicons -->
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<!-- Translate -->
+<style>
+/* Skip link (WCAG 2.4.1) */
+.im-skip-link { position:absolute; top:-40px; left:0; background:#0EA5E9; color:#fff; padding:8px 16px; z-index:10000; text-decoration:none; font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600; }
+.im-skip-link:focus { top:0; }
+/* Floating paper plane */
+.im-paper-plane { position:fixed; bottom:2rem; right:2rem; width:60px; height:60px; opacity:0.14; pointer-events:none; z-index:0; animation: imFloat 6s ease-in-out infinite; }
+@keyframes imFloat { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-15px) rotate(3deg);} }
+html.dark .im-paper-plane { opacity:0.22; }
+/* Interactive companion CTA */
+.im-interactive-cta { display:inline-flex; align-items:center; gap:0.5rem; background:var(--im-gradient); color:#fff !important; -webkit-text-fill-color:#fff; padding:0.5rem 1rem; border-radius:6px; font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600; text-decoration:none; margin-top:14px; transition:opacity 0.2s; }
+.im-interactive-cta:hover { opacity:0.9; }
+
+/* === ImpactMojo Brand Override (fonts + dark mode) — v10.21 === */
+html body, html body .app, html body main, html body .panel,
+html body p, html body li, html body blockquote, html body .sec-summary, html body .arg p,
+html body .sub, html body .tagline, html body .hero, html body .hero h1 {
+  font-family: 'Amaranth', Arial, sans-serif !important;
+}
+html body h1, html body h2, html body h3, html body h4, html body h5, html body h6,
+html body .h1, html body .brand-name, html body .day-badge, html body .pill,
+html body .stat-n, html body .stat-l, html body .sec-title, html body .sec-sub, html body .sec-num,
+html body .concept-term, html body .step-title, html body .step-focus, html body .conn-book,
+html body .book-title, html body .tab-btn, html body .pw-btn, html body .tool-btn,
+html body .im-topbar, html body .im-topbar *, html body .im-footer, html body .im-footer * {
+  font-family: 'Inter', 'Amaranth', Helvetica, sans-serif !important;
+}
+html body code, html body pre, html body .mono, html body kbd, html body samp {
+  font-family: 'JetBrains Mono', ui-monospace, monospace !important;
+}
+
+/* Replace filter-invert dark mode with proper token-based dark mode */
+html.dark body { background: #0F172A !important; color: #E2E8F0 !important; }
+html.dark #root, html.dark main, html.dark .app, html.dark [id^="p-"], html.dark .panel,
+html.dark .arg, html.dark .hero, html.dark .stat, html.dark .nav-card, html.dark .pw-step,
+html.dark .sec-card, html.dark .sec-body, html.dark .concept-card, html.dark .tool-panel,
+html.dark .conn-card, html.dark .crit-item, html.dark .msg.assistant .msg-text,
+html.dark .output-box, html.dark .typing, html.dark .ask-input, html.dark .key-input,
+html.dark .fld, html.dark .tool-btn, html.dark .pw-btn, html.dark .sug-btn, html.dark .pw-desc {
+  filter: none !important;
+}
+html.dark { color-scheme: dark; }
+html.dark body,
+html.dark body .app,
+html.dark body main { background: #0F172A !important; color: #E2E8F0 !important; }
+html.dark .hero { background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%) !important; color: #F1F5F9 !important; border: 1px solid #334155; }
+html.dark .hero .auth, html.dark .hero .tagline { color: #CBD5E1 !important; }
+html.dark .stat, html.dark .arg, html.dark .nav-card, html.dark .sec-card, html.dark .pw-step,
+html.dark .concept-card, html.dark .tool-panel, html.dark .conn-card, html.dark .crit-item,
+html.dark .msg.assistant .msg-text { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .sec-header, html.dark .sec-body { background: transparent !important; color: #E2E8F0 !important; }
+html.dark .sec-body { border-top-color: #334155 !important; }
+html.dark .stat-n { color: #38BDF8 !important; }
+html.dark .stat-l, html.dark .sec-sub, html.dark .sub, html.dark .nav-card-desc,
+html.dark .step-focus, html.dark .pw-desc, html.dark .prac-text, html.dark .conn-text,
+html.dark .ideas-label, html.dark .prac-label, html.dark .output-label, html.dark .suggested-label,
+html.dark .dev-text, html.dark .fld-label { color: #94A3B8 !important; }
+html.dark .h1, html.dark .sec-title, html.dark .concept-term, html.dark .step-title,
+html.dark .nav-card-label, html.dark .conn-book, html.dark .context-h, html.dark .ask-hdr-title { color: #F1F5F9 !important; }
+html.dark blockquote { color: #CBD5E1 !important; border-left-color: #38BDF8 !important; }
+html.dark .pill { background: rgba(56, 189, 248, 0.15) !important; color: #7DD3FC !important; }
+html.dark .day-badge { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .tab-btn { color: rgba(226, 232, 240, 0.6) !important; }
+html.dark .tab-btn.active { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .tab-btn:hover { color: #F1F5F9 !important; }
+html.dark nav { background: #0F172A !important; border-bottom: 1px solid #334155; }
+html.dark .pw-btn, html.dark .tool-btn { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .pw-btn.active, html.dark .tool-btn.active { background: #0EA5E9 !important; border-color: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .pw-desc { background: rgba(14, 165, 233, 0.1) !important; color: #CBD5E1 !important; }
+html.dark .output-box { background: rgba(14, 165, 233, 0.1) !important; color: #E2E8F0 !important; }
+html.dark .step-n, html.dark .setup-num { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .sec-num { color: #38BDF8 !important; }
+html.dark .ideas-label, html.dark .prac-label, html.dark .output-label { color: #38BDF8 !important; }
+html.dark .dev-toggle { background: rgba(56, 189, 248, 0.1) !important; color: #7DD3FC !important; }
+html.dark .dev-text { background: rgba(56, 189, 248, 0.08) !important; color: #CBD5E1 !important; }
+html.dark .fld, html.dark .key-input, html.dark .ask-input { background: #0F172A !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .msg.user .msg-text { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .sug-btn { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .sug-btn:hover { background: rgba(14, 165, 233, 0.15) !important; border-color: #0EA5E9 !important; }
+html.dark .crit-n { background: rgba(251, 191, 36, 0.15) !important; color: #FCD34D !important; }
+html.dark #root img, html.dark #root svg:not([class*="im-"]),
+html.dark main img, html.dark main svg:not([class*="im-"]) { filter: none !important; }
+html.dark .im-topbar, html.dark .im-footer { filter: none !important; }
+/* === End ImpactMojo Brand Override === */
+
+/* Ethics disclaimer heading — readable in both modes */
+.im-ethics-disclaimer .im-ethics-heading { color: #0F172A !important; }
+html.dark .im-ethics-disclaimer .im-ethics-heading, body.dark-mode .im-ethics-disclaimer .im-ethics-heading { color: #F1F5F9 !important; }
+html.dark .im-ethics-disclaimer, body.dark-mode .im-ethics-disclaimer { background: rgba(56,189,248,0.08) !important; border-left-color: #38BDF8 !important; color: #CBD5E1 !important; }
+</style>
+<link rel="stylesheet" href="/assets/css/booksummary-dark.css">
+</head>
+<body>
+<a href="#main-content" class="im-skip-link">Skip to content</a>
+<header class="im-topbar" role="banner">
+  <div class="im-topbar-left">
+    <a class="im-topbar-home" href="/" aria-label="ImpactMojo home">
+      <img src="/assets/images/ImpactMojo%20Logo.png" alt="ImpactMojo" width="24" height="24" style="border-radius:4px;">
+      <span>ImpactMojo</span>
+    </a>  </div>
+  <div class="im-topbar-right">
+    <a href="/catalog.html" class="im-browse-btn" title="Browse all content"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Browse</a>
+    
+    <a class="im-premium-btn" href="/premium.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Premium
+    </a>
+    <div class="im-theme-selector" role="group" aria-label="Theme">
+      <button class="im-theme-btn" data-imtheme="system" title="System theme" aria-label="System theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </button>
+      <button class="im-theme-btn" data-imtheme="light" title="Light theme" aria-label="Light theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <button class="im-theme-btn" data-imtheme="dark" title="Dark theme" aria-label="Dark theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="app">
+<nav>
+  <div class="brand"><div class="dot"></div><span class="brand-name">ImpactMojo</span></div>
+  <div class="tabs" id="tabbar"></div>
+</nav>
+<main id="main-content">
+  <div class="panel active" id="p-overview"></div>
+  <div class="panel" id="p-pathways"></div>
+  <div class="panel" id="p-sections"></div>
+  <div class="panel" id="p-concepts"></div>
+  <div class="panel" id="p-toolkit"></div>
+  <div class="panel" id="p-context"></div>
+  <div class="panel" id="p-ask"></div>
+</main>
+</div>
+
+<!-- Sargam Icon Sprites -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+<symbol id="si_Direction_alt" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m3 3 18 7.92-7.987 2.093L10.92 21z"/></symbol>
+<symbol id="si_Flare" viewBox="0 0 24 24" fill="none"><g clip-path="url(#clip_si_Flare)"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M7 12H1m22 0h-6m-5 5v6m3.536-7.464 1.414 1.414m-9.9-9.9 1.414 1.414m7.072 0L16.95 7.05m-9.9 9.9 1.414-1.414M12 1v6m2 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0"/></g><defs><clipPath id="clip_si_Flare"><path fill="#fff" d="M0 0h24v24H0z"/></clipPath></defs></symbol>
+<symbol id="si_Info" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 8h.008M12 16v-5m10 1c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10"/></symbol>
+<symbol id="si_Lock" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M8 10V7c0-2.21 1.79-4 4-4s4 1.79 4 4v3m-4 5a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 0v3m-5.4-8h10.8c.88 0 1.6.72 1.6 1.6v7c0 1.32-1.08 2.4-2.4 2.4H7.4C6.08 21 5 19.92 5 18.6v-7c0-.88.72-1.6 1.6-1.6"/></symbol>
+<symbol id="si_Lightning" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m12.667 10.5 1.25-7.5L6 13h5l-1.25 7.5 7.917-10z" clip-rule="evenodd"/></symbol>
+<symbol id="si_Library_books" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M10 11h8m-8 3h4m-4-6h8m2 14H8.4C5.42 22 3 19.58 3 16.6V5m5.4-2h11.2A2.4 2.4 0 0 1 22 5.4v11.2a2.4 2.4 0 0 1-2.4 2.4H8.4A2.4 2.4 0 0 1 6 16.6V5.4A2.4 2.4 0 0 1 8.4 3"/></symbol>
+<symbol id="si_Book" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 7.333C12 5.5 10.5 4 8.667 4H2v12h6.708C12 16 12 19.334 12 19.334m0-12C12 5.5 13.5 4 15.333 4H22v12h-6.667C12 16 12 19.334 12 19.334m0-12v12m1.875 1.124A2.58 2.58 0 0 1 16.167 19H21m-10.875 1.458A2.54 2.54 0 0 0 7.833 19H3"/></symbol>
+<symbol id="si_Article" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M8 12h8m-8 3h4M8 9h8M4.4 4h15.2A2.4 2.4 0 0 1 22 6.4v11.2a2.4 2.4 0 0 1-2.4 2.4H4.4A2.4 2.4 0 0 1 2 17.6V6.4A2.4 2.4 0 0 1 4.4 4"/></symbol>
+<symbol id="si_Mail" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m5 7.06 6.87 5.89c.07.06.19.06.26 0L19 7.06M3.2 4h17.6c.66 0 1.2.54 1.2 1.2v12.4c0 1.32-1.08 2.4-2.4 2.4H4.4C3.08 20 2 18.92 2 17.6V5.2C2 4.54 2.54 4 3.2 4"/></symbol>
+<symbol id="si_Help" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M11.83 14v-.621a2.33 2.33 0 0 1 1.164-2.02c1.126-.66 1.514-2.057.854-3.183s-2.057-1.514-3.183-.854C9.965 7.75 9.5 8.487 9.5 9.341M12 17h-.008M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12s4.477 10 10 10 10-4.477 10-10"/></symbol>
+<symbol id="si_Heart" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.696 3C14.652 3 12.887 4.197 12 5.943 11.113 4.197 9.348 3 7.304 3 4.374 3 2 5.457 2 8.481s1.817 5.796 4.165 8.073S12 21 12 21s3.374-2.133 5.835-4.446C20.46 14.088 22 11.514 22 8.481S19.626 3 16.696 3"/></symbol>
+<symbol id="si_Globe_detailed" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M22 12c0 5.523-4.477 10-10 10m10-10c0-5.523-4.477-10-10-10m10 10H2m10 10C6.477 22 2 17.523 2 12m10 10 .66-.31c2.1-2.71 3.34-6.14 3.34-9.78s-1.22-7-3.27-9.69L12 2m0 20-.73-.31A15.94 15.94 0 0 1 8 12c0-3.64 1.24-7.07 3.34-9.78L12 2M2 12C2 6.477 6.477 2 12 2m7.14 17c-1.82-1.85-4.34-3-7.14-3s-5.33 1.15-7.14 3M19.14 5C17.33 6.85 14.8 8 12 8S6.68 6.85 4.86 5"/></symbol>
+</svg>
+
+
+<div id="root"></div>
+<script>
+const DATA = {"title": "Learning About Learning: What Every New Teacher Needs to Know", "dayBadge": "Teacher Education & Learning Science", "author": "Laura Pomerance, Julie Greenberg & Kate Walsh · National Council on Teacher Quality (NCTQ) · 2016", "tagline": "An interactive companion to the NCTQ report auditing what teacher-preparation textbooks and coursework teach about the science of learning.", "pills": ["Learning Science", "Teacher Education", "Cognitive Psychology", "Instructional Design", "Evidence-Based Practice", "Retrieval Practice"], "stats": [{"n": "6", "l": "Sections"}, {"n": "14", "l": "Key concepts"}], "argument": ["This is not a book but a 2016 research report by the National Council on Teacher Quality (NCTQ), authored by Laura Pomerance, Julie Greenberg and Kate Walsh. Its claim is blunt: teacher-preparation programs devote more time to how students learn than to any other subject, yet the textbooks and coursework that carry that training almost entirely neglect the instructional strategies that decades of cognitive research have shown to work.", "The report anchors itself in six 'fundamental instructional strategies' distilled by the U.S. Institute of Education Sciences (IES) in its 2007 practice guide, Organizing Instruction and Study to Improve Student Learning. Two help students take in new information (pairing graphics with words; linking abstract concepts with concrete representations), two deepen understanding (posing probing questions; alternating solved and unsolved problems), and two build retention (distributing practice; assessing to boost retention). Reviewing 48 widely used textbooks and 219 courses, the authors find that no textbook accurately covers all six, at most two are covered in any single text, and nearly 60% of the mentions that should appear are simply absent.", "The corrosive twist is not just silence but noise: debunked ideas such as 'learning styles' are taught as best practice — two-thirds of programs require candidates to accommodate learning styles in every lesson plan — while the testing effect, the strategy with the longest research pedigree, appears in no textbook's coverage. The report frames this as a failure in the transfer of knowledge from researchers to publishers to teacher educators to new teachers, and closes with concrete recommendations for authors, programs, and state licensing agencies.", "For South Asian practitioners running teacher training, curriculum design, or education programs, the report is a portable diagnostic. Its six strategies are low-cost, technology-independent, and universal across subject and grade — precisely the qualities that matter in resource-constrained systems — and its method (audit what your training materials actually say against what the evidence supports) travels directly to any B.Ed. curriculum, NGO teacher-training module, or edtech product."], "accent": "#059669", "accent_light": "#D1FAE5", "pathways": [], "sections": [{"title": "Executive Summary: Why This Study", "subtitle": "Overview · The core finding", "summary": "", "ideas": ["About 190,000 candidates graduate yearly from traditional U.S. teacher-prep programs; each takes at least one ed-psych course and one methods course purportedly about how children learn — no other subject gets more attention in training.", "The report's premise: a textbook on instructional design that omits these six strategies is 'no less remiss than a botany textbook that fails to address photosynthesis' — coverage of the core science of learning is treated as non-negotiable, not optional.", "Headline data: of 48 textbooks reviewed, none accurately describes all six strategies; at most two are covered in any one text; nearly 60% of the 288 possible mentions (48 texts × 6 strategies) are absent, and when a strategy is mentioned it can be as brief as one to two sentences in a several-hundred-page book.", "Only one strategy — posing probing questions — appears frequently; two strategies (alternating solved/unsolved problems, and assessing to boost retention) are covered in no textbook at all.", "The waste is concrete: candidates spend upward of $40 million a year on textbooks that fail to impart this core knowledge, and untrained teachers end up 'guessing in the classroom' at the moment they are most vulnerable — with students as the losers.", "A rare 'Letter of Support' signed by prominent learning scientists (Dunlosky, Mayer, Pashler, Rawson, Graesser, Robinson, Wiseheart) opens the report, lending unusual disciplinary weight to its indictment."], "quotes": ["Theories du jour and debunked notions are being passed on to new teachers as knowledge and best practice.", "Anecdotal information is dressed up as science."], "devEcon": "The framing — audit the training materials against the evidence base, then quantify the gap — is a reusable evaluation design for any teacher-education system, including South Asia's B.Ed. and D.El.Ed. programs where textbook quality is rarely benchmarked against learning science."}, {"title": "Introduction: Learning About Learning", "subtitle": "Ch 1 · The case for the six strategies", "summary": "", "ideas": ["In 2007 the IES sifted hundreds of high-quality studies and published Organizing Instruction and Study to Improve Student Learning, identifying only six strategies with strong-to-moderate research support that work regardless of subject or grade.", "The strategies are 'timeless' and technology-independent — they can be embedded in edtech but do not require it — and they let teachers coach students to learn independently (e.g., advising self-testing over rereading or highlighting).", "A seminal spacing study: 8th-graders who reviewed history material four months after learning it remembered twice as much as those who reviewed it after one week — showing how the interval, not just the fact of review, drives retention.", "An interleaving study: students given six worked examples alternating with six problems to solve learned significantly more than students given the same twelve problems with all worked examples clumped at the front.", "Textbooks 'drive instruction': more than 85% of the 219 courses reviewed require a text, and 79% of instructors who assign one organize class discussion and assignments directly around its chapters — so what textbooks omit propagates straight into the classroom.", "Deans for Impact's brochure The Science of Learning (by Daniel Willingham) independently features all six strategies, corroborating the IES list from outside the report."], "quotes": ["If students absorb something for the moment, but can't retain or recall information later, they haven't really learned.", "There is little debate among scholars about the effectiveness of these six strategies."], "devEcon": "The point that 'textbooks drive instruction' matters wherever centrally-prescribed textbooks dominate — as across South Asia — because it means textbook reform is a high-leverage entry point: fixing the core text upgrades every downstream classroom that follows it."}, {"title": "What Textbooks Teach About Learning", "subtitle": "Ch 2 · The haystack of 48 texts", "summary": "", "ideas": ["Two analysts independently read each of 48 textbooks (used across 219 ed-psych and methods courses in a random national sample), extracting any text resembling the six strategies; a learning-science expert then judged whether coverage was real.", "The bar for 'covering' a strategy was deliberately low — roughly one page — requiring only (1) most key concepts, (2) a consistent message, and (3) conveyance of the strategy's universality; even so, no text covered more than two strategies and nearly half covered none.", "Coverage rates across the 48 texts: posing probing questions 41%, linking abstract-to-concrete 25%, distributing practice 22%, pairing graphics with words 13%, alternating solved/unsolved problems 0%, assessing to boost retention 0% — no strategy is covered by even half the sample.", "Mentions are frequently inaccurate: pairing graphics with words is repeatedly conflated with the debunked 'learning styles' idea (e.g., claiming graphics work because they 'engage most or all of the senses' to match learner preferences), which no research supports.", "Vague mentions fail teachers: books say to schedule 'periodic review' without defining the interval, even though effective intervals are weeks or months — far longer than most teachers would guess.", "In 14,000 pages across the 48 books, the strategy of alternating solved and unsolved problems gets a single passing sentence, and the testing effect — despite being the strategy with the longest research history — is never adequately explained.", "As a contrast case, the report points to Richard Mayer's Applying the Science of Learning (not in the sample) as a model of how one strategy should be taught: strong general background, worked benefits, and concrete guidance on graphic-word placement."], "quotes": ["Looking for the six strategies in these textbooks is akin to looking for six needles in a haystack.", "We might go so far as to suggest that pushing weak, even junk science on aspiring teachers is educational malpractice."], "devEcon": "The audit method — two independent coders, an expert adjudicator, a transparent three-part rubric, and author right-of-reply — is a rigorous, low-cost template a South Asian institution could apply to its own B.Ed. reading lists or NGO training decks to find where evidence quietly drops out."}, {"title": "What Coursework Teaches About Learning", "subtitle": "Ch 3 · Coursework mirrors the texts", "summary": "", "ideas": ["Beyond textbooks, the study examined lecture and discussion topics, assignments, and student-teaching practice; a program 'prepared' candidates in a strategy only if it was introduced in class AND practiced at least once in an assignment or during student teaching.", "Findings: 46% of programs prepare candidates in only one strategy, and 35% require candidates to learn and practice none of them.", "Coursework mirrors textbooks almost exactly — the same two strategies absent from every text (alternating solved/unsolved problems and assessing to boost retention) also never appear in assignments or student-teacher feedback.", "Practice is scarce even where the strategy appears: posing probing questions is the only strategy with any evidence of practice during student teaching, yet only 38% of programs introduce it, practice it in assignments, and practice it again in student teaching.", "Evidence that reading is not enough: 35 elementary teachers in a two-week intensive course needed multiple rounds of feedback and revision before they could build lesson plans that used just three of the strategies well — mastery requires deliberate practice, not exposure.", "The pseudo-science persists: two-thirds (67%) of programs require candidates to accommodate the discredited 'learning styles' in every lesson plan — a mandated practice with no evidentiary basis crowding out ones that have it.", "The report notes findings feed a new Standard 11 ('Fundamentals of Instruction') in NCTQ's Teacher Prep Review 2016, turning the diagnosis into an accountability lever."], "quotes": ["Preparation programs do require considerable practice on a pseudo-science throughout teacher prep.", "Candidates who simply read about any of the fundamental instructional strategies, or read about a strategy and practice it only once, are probably not going to master its use."], "devEcon": "The 'mastery needs repeated practice with feedback' finding is a direct warning for short, one-off teacher-training workshops common in the NGO and government sectors across South Asia: a single exposure to a good strategy predictably fails to change classroom practice."}, {"title": "The Fundamental Instructional Strategies", "subtitle": "Ch 4 · The six, in practice", "summary": "", "ideas": ["The strategies rest on an information-processing model: new material enters working memory (brief, limited capacity); unless it is transferred to long-term memory it is forgotten, and long-term memories are strengthened by periodic retrieval — the mechanism the six strategies exploit.", "1. Pairing graphics with words — convey new material both verbally and through concept-rich graphics (flow charts, diagrams); note that teacher-provided paired graphics during instruction is not the same as having students make graphics afterward.", "2. Linking abstract concepts with concrete representations — pair tangible examples with the big idea and make the connection explicit (e.g., pizza-slice fractions demonstrated on a number line while stressing 'all fractions are numbers'), rather than leaving concrete aids disconnected from the abstraction.", "3. Posing probing questions — ask 'why', 'how', and 'compare and contrast' questions that force examination of causal mechanisms and evidence, as opposed to opinion or feeling questions ('how would you have felt?').", "4. Repeatedly alternating solved and unsolved problems ('interleaving') — worked solutions alternate with problems students solve, so learners focus on underlying principles; for hard content, give several worked examples per unsolved problem and taper as skill grows.", "5. Distributing practice — expose students to important material at least twice, with review spaced weeks and then months later; reviewing too soon (the Friday open-book warm-up) squanders the spacing effect.", "6. Assessing to boost retention — every act of retrieval cements memory ('use it or lose it'); low-stakes quizzes that force unaided recall plus timely feedback on correct answers strengthen learning, whereas open-note exit tickets without feedback do not.", "The strategies share practical virtues: no technology or special materials required, compatibility with teacher-directed, inquiry-based, or cooperative instruction, no curricular straitjacket, and built-in room for differentiation."], "quotes": ["Every time a person is asked to retrieve information from memory, the retrieved information becomes more cemented in memory.", "Simple images in drawings or photos are not sufficient, unless they are carefully chosen to convey entire concepts."], "devEcon": "Because the six strategies need no technology, special materials, or extra budget and work across every subject and grade, they are unusually well-suited to under-resourced classrooms in South Asia — a rare instance where a rich-country evidence base transfers cleanly to low-cost settings."}, {"title": "Recommendations and Conclusion", "subtitle": "Ch 5 · Fixing the transfer of knowledge", "summary": "", "ideas": ["For authors and publishers: make textbooks a 'how-to' guide presenting the six strategies as the cognitive bedrock of instructional design, and insist that most references be primary sources from well-designed (IES-standard) studies while any weakly-supported claim is clearly flagged.", "Three 'quick fixes' can graft the strategies onto existing text: attach 'assessing to boost retention' to existing formative-assessment sections; add correct spacing intervals to existing review-and-practice discussions; and refine 'use visuals' advice into proper pairing of graphics with words.", "For teacher-prep programs: teach both the cognitive science and the strategies, stop assigning texts that promote weakly-supported methods, and require candidates to practice the strategies to mastery using a lesson-plan template with strategy prompts across all courses plus observation forms that rate strategy use.", "Recommended substitutes: use the free IES practice guide as a primary text, supplemented by Dunlosky et al. (2013) and Mayer's Applying the Science of Learning; the report notes Hattie's Visible Learning and Willingham's Why Don't Students Like School each cover more strategies than the sampled textbooks.", "For state agencies: 'what gets tested gets taught' — revise licensing and performance assessments (ETS 'Learning and Teaching' tests, edTPA) to cover all six strategies and remove items rewarding unsupported practices such as learning styles.", "Two root-cause hypotheses: (1) teacher education tolerates small-scale, case-based studies instead of demanding rigorous designs, so publishers never vet texts for research quality; and (2) educators are encouraged to preach their own 'preferred' approaches, leaving candidates to invent situational, self-defined methods to little effect.", "Conclusion: the transfer of knowledge from researchers to publishers to educators to new teachers is broken, and authors, publishers, and teacher educators bear — but are not fulfilling — the responsibility to fix it."], "quotes": ["What gets tested gets taught.", "The transfer of knowledge — from researchers to publishers to teacher educators to aspiring teachers — is not happening while the need to impart it has never been more urgent."], "devEcon": "The recommendations map onto three levers South Asian systems already pull — textbook procurement (NCERT/state boards), B.Ed. accreditation (NCTE), and teacher licensing exams (CTET/TET) — making the report a ready checklist for aligning any of them with learning science."}], "concepts": [{"term": "Fundamental Instructional Strategies", "definition": "The six teaching practices the IES 2007 practice guide identified as having strong-to-moderate research support for helping students learn and retain material, applicable across any subject and grade: pairing graphics with words, linking abstract concepts to concrete representations, posing probing questions, alternating solved and unsolved problems, distributing practice, and assessing to boost retention.", "practitionerNote": "Treat this as the minimum evidence-based content any instructional-design curriculum must cover."}, {"term": "Pairing Graphics with Words", "definition": "Presenting new material through both verbal and visual channels simultaneously, using concept-rich graphics (diagrams, flow charts, animations) — not decorative images — because learners take in information through separate auditory and visual pathways.", "practitionerNote": "Teacher-provided paired graphics during instruction is distinct from having students draw graphics afterward; both help, but only the former is this strategy."}, {"term": "Linking Abstract Concepts with Concrete Representations", "definition": "Pairing tangible examples with the overarching idea and explicitly stating how the two connect, so students can transfer the concept to new situations rather than memorizing isolated cases.", "practitionerNote": "The explicit connection is the active ingredient; concrete aids left unlinked to the abstraction can even mislead (e.g., fraction bars that hide that fractions are numbers >1)."}, {"term": "Posing Probing Questions", "definition": "Asking 'why', 'how', and 'compare and contrast' questions that require examination of causal mechanisms, evidence, and comparisons of key ideas — beyond factual recall or exchanges of opinion.", "practitionerNote": "The one strategy widely taught, but its counts may be inflated by crediting questioning aimed merely at student interaction rather than at deepening understanding."}, {"term": "Interleaving (Alternating Solved and Unsolved Problems)", "definition": "Repeatedly alternating worked-out example problems with problems students must solve, so learners focus on the underlying principles instead of mechanical procedure; for hard content, give several worked examples per unsolved problem.", "practitionerNote": "Covered by zero textbooks in the sample despite strong evidence — a clear gap to fill in any problem-based subject."}, {"term": "Distributing Practice (Spaced Practice)", "definition": "Exposing students to important material at least twice with review sessions spaced over significant intervals — weeks and then months — to build long-term retention.", "practitionerNote": "Effective intervals are far longer than intuition suggests; vague 'periodic review' advice without specified intervals is why textbooks lose credit here."}, {"term": "Assessing to Boost Retention (Testing Effect)", "definition": "Using assessments of any stakes not only to measure learning but to strengthen it, because each act of retrieving information from memory cements it — most powerful when recall is unaided and followed by feedback on correct answers.", "practitionerNote": "The strategy with the longest research history yet covered by no sampled textbook; low-stakes recall quizzes with feedback are the cheapest high-yield classroom change."}, {"term": "Information-Processing Model", "definition": "The cognitive account underlying the six strategies: sensory input enters brief, limited-capacity working memory; unless transferred to long-term memory it is forgotten; long-term memories fade but are reinforced by periodic retrieval.", "practitionerNote": "Explaining this mechanism to teachers is what turns the strategies from a checklist into decisions they can reason about."}, {"term": "IES Practice Guide", "definition": "Organizing Instruction and Study to Improve Student Learning (Pashler et al., 2007), published by the Institute of Education Sciences — the research arm of the U.S. Department of Education — which distilled the best studies into the fundamental instructional strategies.", "practitionerNote": "Free online and recommended by the report as a primary text; a ready reference for curriculum designers anywhere."}, {"term": "Learning Styles (Debunked)", "definition": "The discredited belief that students learn best when instruction matches a preferred sensory modality (visual, auditory, kinesthetic); no research supports tailoring instruction to such styles.", "practitionerNote": "Required in every lesson plan by 67% of programs studied — a vivid example of a pseudo-science crowding out evidence-based practice."}, {"term": "Formative vs. Summative Assessment", "definition": "Formative assessment informs what a teacher should teach next; summative assessment determines what students have learned. Assessing to boost retention is a third, distinct purpose — using the act of testing itself to strengthen memory.", "practitionerNote": "The report's 'quick fix': graft retention-boosting testing onto the formative-assessment content textbooks already contain."}, {"term": "Primary vs. Secondary Sources", "definition": "A quality distinction in the research base: primary sources report original well-designed studies, whereas teacher-education texts were found to lean heavily on secondary sources, diluting the reliability of the guidance they pass on.", "practitionerNote": "A fast credibility test for any training material: check whether claims trace to primary studies meeting a recognized evidence standard."}, {"term": "Transfer of Knowledge (Research-to-Practice Gap)", "definition": "The chain by which findings should move from researchers to publishers to teacher educators to new teachers; the report argues this chain is broken, so validated science never reaches classrooms.", "practitionerNote": "Names the systemic failure the report targets — useful framing for anyone designing dissemination or knowledge-translation programs."}, {"term": "Licensing and Performance Assessments (edTPA)", "definition": "The pencil-and-paper and performance tests candidates pass to be licensed (e.g., ETS 'Learning and Teaching' tests, the edTPA performance assessment); the report finds they mirror textbooks by testing at most one of the six strategies.", "practitionerNote": "'What gets tested gets taught' — reforming licensing exams is the report's lever for state agencies and a direct analogue to South Asia's TET/CTET exams."}], "tools": [{"label": "Reflection Journal", "intro": "Use these prompts to connect this book to your own practice.", "html": "<label class=\"fld-label\">Pick one of the six fundamental strategies you rarely use in your own teaching or training. What would it take to build it into your next lesson or workshop?</label>\n<textarea class=\"fld\" id=\"r1\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<label class=\"fld-label\">The report shows teacher-training materials quietly drop the evidence base. Audit one textbook, module, or slide deck you rely on — which of the six strategies does it actually cover, and what pseudo-science (like learning styles) does it promote instead?</label>\n<textarea class=\"fld\" id=\"r2\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<label class=\"fld-label\">Mastery needed repeated practice with feedback, not a single exposure. How could you redesign a one-off training you run so participants actually practice a strategy more than once?</label>\n<textarea class=\"fld\" id=\"r3\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<div style=\"margin-top:12px;font-family:Inter,sans-serif;font-size:13px;color:var(--muted)\">Reflections stay in your browser only and are not sent anywhere.</div>"}], "connections": [], "southAsia": ["The six strategies need no technology, special materials, or budget and work across every subject and grade — a rare rich-country evidence base that transfers cleanly to under-resourced classrooms in India, Pakistan, Bangladesh, and Nepal.", "Because centrally-prescribed textbooks (NCERT and state boards) dominate South Asian schooling, the report's finding that 'textbooks drive instruction' makes textbook reform an unusually high-leverage entry point for improving learning outcomes.", "The mandated-pseudo-science warning lands directly: 'learning styles' remains widely taught in South Asian B.Ed. programs and edtech marketing despite having no evidentiary basis.", "The 'mastery needs repeated practice with feedback' finding is a caution for the many short, one-off government and NGO teacher-training workshops across the region, which predictably fail to change classroom practice.", "The three recommendation levers map onto institutions South Asia already runs — textbook procurement (NCERT/state boards), teacher-education accreditation (NCTE), and licensing exams (CTET/state TETs) — giving reformers a ready checklist for alignment with learning science."], "critiques": ["The report evaluates textbooks solely on coverage of six IES strategies, an intentionally narrow lens that ignores whatever else — classroom management, equity, assessment design, subject pedagogy — a text may cover well.", "It is a U.S.-specific advocacy document from NCTQ, an organization with a contested reputation among teacher educators; its methodology and conclusions have drawn pushback from parts of the education-school community it critiques.", "The IES list is presented as near-settled 'bedrock', but the strength of evidence varies across the six strategies and some (e.g., the boundaries of interleaving or optimal spacing intervals) remain active research questions rather than closed cases.", "Coursework judgments rest on syllabi and assignment documents from 2009–2012, which may understate what actually happens in classrooms and had already aged by the 2016 publication — though the report argues the neglect is not changing over time.", "Framing textbook gaps as 'educational malpractice' is rhetorically forceful but risks overstating causality, since teacher effectiveness depends on far more than whether one textbook explains six strategies."], "suggested": [], "systemPrompt": "You are an expert reading companion for 'Learning About Learning: What Every New Teacher Needs to Know' by Laura Pomerance, Julie Greenberg and Kate Walsh, a 2016 research report published by the National Council on Teacher Quality (NCTQ). Your audience is development practitioners, teacher educators, and students in South Asia. Explain the report's argument faithfully — that teacher-preparation textbooks and coursework neglect the six IES fundamental instructional strategies while promoting debunked ideas like learning styles — note major critiques (its narrow six-strategy lens, NCTQ's contested standing, aging coursework data), and connect it to contemporary debates on teacher training, textbook reform, and licensing in South Asia. Be accurate to the actual text and clear that this is a report, not a book."};
+
+// Tab management
+const TABS = [
+  {id:"overview",label:"Overview"},
+  {id:"pathways",label:"Pathways"},
+  {id:"sections",label:"Sections"},
+  {id:"concepts",label:"Concepts"},
+  {id:"toolkit",label:"Toolkit"},
+  {id:"context",label:"Context"},
+  {id:"ask",label:"Ask"},
+];
+
+const tabbar = document.getElementById("tabbar");
+TABS.forEach(t => {
+  const btn = document.createElement("button");
+  btn.className = "tab-btn" + (t.id === "overview" ? " active" : "");
+  btn.textContent = t.label;
+  btn.onclick = () => switchTab(t.id);
+  tabbar.appendChild(btn);
+});
+
+function switchTab(id) {
+  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById("p-" + id).classList.add("active");
+  tabbar.querySelectorAll(".tab-btn")[TABS.findIndex(t=>t.id===id)].classList.add("active");
+}
+
+// OVERVIEW
+(function() {
+  const el = document.getElementById("p-overview");
+  el.innerHTML = `
+    <div class="hero">
+      <div class="day-badge">${DATA.dayBadge}</div>
+      <h1>${DATA.title}</h1>
+      <div class="auth">${DATA.author}</div>
+      <div class="tagline">${DATA.tagline}</div>
+      <div class="pills">${DATA.pills.map(p=>`<span class="pill">${p}</span>`).join("")}</div>
+    </div>
+    <div class="stat-grid">
+      ${DATA.stats.map(s=>`<div class="stat"><div class="stat-n">${s.n}</div><div class="stat-l">${s.l}</div></div>`).join("")}
+    </div>
+    <div class="arg">
+      <div class="h1">The central argument</div>
+      ${DATA.argument.map(p=>`<p>${p}</p>`).join("")}
+    </div>
+    <div class="h1" style="margin-top:24px">What's in this companion</div>
+    <div class="nav-grid">
+      ${[["pathways","Learning Pathways","Structured reading routes by role"],["sections","Section by Section","Full analysis with dev econ connections"],["concepts","Concepts & Frameworks","Key terms with practitioner notes"],["toolkit","Practitioner Toolkit","Interactive tools"],["context","Book in Context","Connections and assessment"],["ask","Ask the Book","Gemini-powered Q&A"]].map(([id,label,desc])=>`<button class="nav-card" onclick="switchTab('${id}')" ><div class="nav-card-label">${label}</div><div class="nav-card-desc">${desc}</div></button>`).join("")}
+    </div>
+  `;
+})();
+
+// PATHWAYS
+(function() {
+  const el = document.getElementById("p-pathways");
+  let active = 0;
+  function render() {
+    const pw = DATA.pathways[active];
+    el.innerHTML = `
+      <div class="h1">Learning Pathways</div>
+      <div class="sub">Three structured routes through the book based on your role.</div>
+      <div class="pw-tabs">
+        ${DATA.pathways.map((p,i)=>`<button class="pw-btn ${i===active?"active":""}" onclick="__pw(${i})">${p.label}</button>`).join("")}
+      </div>
+      <div class="pw-desc">${pw.desc}</div>
+      <div class="pw-steps">
+        ${pw.steps.map((s,i)=>`<div class="pw-step"><div class="step-n">${i+1}</div><div><div class="step-title">${s.section}</div><div class="step-focus">${s.focus}</div></div></div>`).join("")}
+      </div>
+    `;
+  }
+  window.__pw = (i) => { active = i; render(); };
+  render();
+})();
+
+// SECTIONS
+(function() {
+  const el = document.getElementById("p-sections");
+  let openId = null;
+  let showDev = {};
+  function render() {
+    el.innerHTML = `
+      <div class="h1">Section by Section</div>
+      <div class="sub">All sections with full analysis and development economics connections.</div>
+      ${DATA.sections.map((s,i)=>`
+        <div class="sec-card">
+          <button class="sec-header" onclick="__sec(${i})">
+            <div class="sec-num">§${i+1}</div>
+            <div class="sec-title-block"><div class="sec-title">${s.title}</div><div class="sec-sub">${s.subtitle}</div></div>
+            <div class="sec-chev">${openId===i?"−":"+"}</div>
+          </button>
+          ${openId===i?`<div class="sec-body">
+            <div class="sec-summary">${s.summary}</div>
+            <div class="ideas-label">Key ideas</div>
+            ${s.ideas.map(idea=>`<div class="idea-item"><span class="idea-dot"></span><span>${idea}</span></div>`).join("")}
+            <div class="ideas-label" style="margin-top:14px">Key quotes</div>
+            ${s.quotes.map(q=>`<blockquote>${q}</blockquote>`).join("")}
+            <button class="dev-toggle" onclick="__dev(${i})">${showDev[i]?"Hide":"Show"} development economics connection</button>
+            ${showDev[i]?`<div class="dev-text">${s.devEcon}</div>`:""}
+          </div>`:""}
+        </div>
+      `).join("")}
+    `;
+  }
+  window.__sec = (i) => { openId = openId===i?null:i; render(); };
+  window.__dev = (i) => { showDev[i]=!showDev[i]; render(); };
+  render();
+})();
+
+// CONCEPTS
+(function() {
+  const el = document.getElementById("p-concepts");
+  let open = null;
+  function render() {
+    el.innerHTML = `
+      <div class="h1">Concepts & Frameworks</div>
+      <div class="sub">Key terms with definitions and practitioner notes. Click to expand.</div>
+      ${DATA.concepts.map((c,i)=>`
+        <div class="concept-card ${open===i?"open":""}" onclick="__con(${i})">
+          <div class="concept-term">${c.term}</div>
+          ${open===i?`<div class="concept-def">${c.definition}</div><div class="prac-label">Practitioner note</div><div class="prac-text">${c.practitionerNote}</div>`:""}
+        </div>
+      `).join("")}
+    `;
+  }
+  window.__con = (i) => { open = open===i?null:i; render(); };
+  render();
+})();
+
+// TOOLKIT  
+(function() {
+  const el = document.getElementById("p-toolkit");
+  el.innerHTML = `
+    <div class="h1">Practitioner Toolkit</div>
+    <div class="sub">Interactive tools derived from the book. Use for personal practice or programme design.</div>
+    <div class="tool-tabs">
+      ${DATA.tools.map((t,i)=>`<button class="tool-btn ${i===0?"active":""}" onclick="__tool(${i})">${t.label}</button>`).join("")}
+    </div>
+    ${DATA.tools.map((t,i)=>`
+      <div class="tool-panel ${i===0?"active":""}" id="toolp-${i}">
+        <div class="tool-intro">${t.intro}</div>
+        ${t.html}
+      </div>
+    `).join("")}
+  `;
+  window.__tool = (i) => {
+    document.querySelectorAll(".tool-btn").forEach((b,j)=>b.classList.toggle("active",i===j));
+    document.querySelectorAll(".tool-panel").forEach((p,j)=>p.classList.toggle("active",i===j));
+  };
+})();
+
+// CONTEXT
+(function() {
+  const el = document.getElementById("p-context");
+  el.innerHTML = `
+    <div class="h1">Book in Context</div>
+    <div class="sub">How this book fits within the broader literature, and an honest assessment of its limits.</div>
+    <div class="context-h">Connected works</div>
+    ${DATA.connections.map(c=>`<div class="conn-card"><div class="conn-book">${c.book}</div><div class="conn-text">${c.text}</div></div>`).join("")}
+    <div class="context-h" style="margin-top:24px">Honest assessment</div>
+    <div class="sub">Limits and qualifications for the ImpactMojo context:</div>
+    ${DATA.critiques.map((c,i)=>`<div class="crit-item"><div class="crit-n">${i+1}</div><div class="crit-text">${c}</div></div>`).join("")}
+  `;
+})();
+
+// ASK
+(function() {
+  const el = document.getElementById("p-ask");
+  let apiKey = "", msgs = [], loading = false;
+  
+  function renderSetup() {
+    el.innerHTML = `
+      <div class="ask-setup">
+        <div class="h1">Ask the Book</div>
+        <div class="sub">AI-powered Q&A using Gemini 2.0 Flash (free). Requires a Google AI Studio API key.</div>
+        <div class="setup-steps">
+          <div class="setup-step"><span class="setup-num">1</span><span>Go to <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com/app/apikey</a> and create a free API key.</span></div>
+          <div class="setup-step"><span class="setup-num">2</span><span>Paste it below. The key stays in your browser only and is never stored.</span></div>
+        </div>
+        <div class="key-row">
+          <input class="key-input" type="password" id="key-in" placeholder="AIza..." oninput="document.getElementById('key-submit').disabled=!this.value.trim()"/>
+          <button class="key-btn" id="key-submit" disabled onclick="__setKey()">Connect</button>
+        </div>
+      </div>
+    `;
+  }
+  
+  function renderChat() {
+    el.innerHTML = `
+      <div class="ask-ui">
+        <div class="ask-hdr"><span class="ask-hdr-title">Ask the Book</span><button class="ask-reset" onclick="__resetKey()">Change key</button></div>
+        <div class="msgs" id="msgs-box">
+          ${msgs.length===0?`<div><div class="suggested-label">Suggested questions</div>${DATA.suggested.map(q=>`<button class="sug-btn" onclick="__ask('${q.replace(/'/g,"\'")}')">${q}</button>`).join("")}</div>`:""}
+          ${msgs.map(m=>`<div class="msg ${m.role}"><div class="msg-text">${m.content}</div></div>`).join("")}
+          ${loading?`<div class="msg assistant"><div class="typing"><span></span><span></span><span></span></div></div>`:""}
+        </div>
+        <div class="ask-input-row">
+          <textarea class="ask-input" id="ask-in" rows="2" placeholder="Ask about the book..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();__sendAsk()}"></textarea>
+          <button class="ask-send" id="ask-send" onclick="__sendAsk()">Send</button>
+        </div>
+      </div>
+    `;
+    const box = document.getElementById("msgs-box");
+    if(box) box.scrollTop = box.scrollHeight;
+  }
+  
+  window.__setKey = () => {
+    const v = document.getElementById("key-in").value.trim();
+    if(v) { apiKey = v; renderChat(); }
+  };
+  window.__resetKey = () => { apiKey=""; msgs=[]; renderSetup(); };
+  window.__ask = (q) => {
+    document.getElementById("ask-in").value = q;
+    __sendAsk();
+  };
+  window.__sendAsk = async () => {
+    const inp = document.getElementById("ask-in");
+    if(!inp) return;
+    const q = inp.value.trim();
+    if(!q || loading) return;
+    inp.value = "";
+    msgs.push({role:"user",content:q});
+    loading = true; renderChat();
+    try {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,{
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({
+          system_instruction:{parts:[{text:DATA.systemPrompt}]},
+          contents: msgs.map(m=>{return{role:m.role==="assistant"?"model":"user",parts:[{text:m.content}]}}).slice(0,-1).concat([{role:"user",parts:[{text:q}]}]),
+          generationConfig:{maxOutputTokens:1200,temperature:0.3}
+        })
+      });
+      const data = await res.json();
+      if(!res.ok) throw new Error(data.error?.message||"API error");
+      const reply = data?.candidates?.[0]?.content?.parts?.map(p=>p.text).join("")||"No response.";
+      msgs.push({role:"assistant",content:reply});
+    } catch(e) {
+      msgs.push({role:"assistant",content:"Error: "+e.message});
+    }
+    loading = false; renderChat();
+  };
+  
+  renderSetup();
+})();
+</script>
+
+<!-- ImpactMojo Footer -->
+<!-- Ethics & Copyright Disclaimer -->
+<section class="im-ethics-disclaimer" style="max-width:1100px;margin:2rem auto 1rem;padding:1.25rem 1.5rem;background:rgba(14,165,233,0.06);border-left:4px solid #0EA5E9;border-radius:8px;font-family:'Inter','Amaranth',sans-serif;font-size:0.85rem;line-height:1.65;color:var(--im-text-secondary,#64748B);">
+  <p class="im-ethics-heading" style="margin:0 0 0.5rem;font-weight:600;">A note on books, authors, and intellectual labour</p>
+  <p style="margin:0;">All books companioned on ImpactMojo have been duly purchased with real money and form part of a personal collection. None of the source texts have been obtained by any illegal means — we deeply respect the intellectual labour of authors, editors, and publishers. These reading companions are offered free of charge as educational aids; ImpactMojo does not sell book companions as a paid service and therefore does not violate any commercial licensing agreement or copyright. Nothing here reproduces the full text of any book — each companion is an interpretive study guide.</p>
+</section>
+
+<footer class="im-footer" role="contentinfo">
+<div class="im-footer-content">
+<p class="im-footer-made">Made with <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;color:#EF4444;"><use href="#si_Heart"/></svg> by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+<div class="im-footer-grid">
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Info"/></svg> About ImpactMojo</h4>
+<ul>
+<li><a href="../about.html">About Us</a></li>
+<li><a href="../contact.html">Contact</a></li>
+<li><a href="https://github.com/ImpactMojo/ImpactMojo" rel="noopener noreferrer" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Globe_detailed"/></svg> GitHub</a></li>
+<li><a href="../transparency.html">Transparency</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Lock"/></svg> Legal</h4>
+<ul>
+<li><a href="../privacy-policy.html">Privacy Policy</a></li>
+<li><a href="../terms-of-service.html">Terms of Service</a></li>
+<li><a href="../disclaimer.html">Disclaimer</a></li>
+<li><a href="../data-protection.html">Data Protection</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Lightning"/></svg> Quick Links</h4>
+<ul>
+<li><a href="../catalog.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Library_books"/></svg> All Courses</a></li>
+<li><a href="../premium.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Flare"/></svg> Premium Content</a></li>
+<li><a href="../coaching.html">Coaching</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Book"/></svg> Resources</h4>
+<ul>
+<li><a href="../handouts.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Article"/></svg> Handouts</a></li>
+<li><a href="../blog.html">Blog</a></li>
+<li><a href="../faq.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Help"/></svg> FAQ</a></li>
+<li><a href="../sitemap.html">Sitemap</a></li>
+<li><a href="/docs/" rel="noopener noreferrer" target="_blank">Documentation</a></li>
+</ul>
+</div>
+</div>
+<div class="im-footer-bottom">
+<p>&copy; 2026 ImpactMojo. All content for educational purposes only.</p>
+<p>Released under <strong>MIT License</strong> | Supported by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+</div>
+</div>
+</footer>
+
+<script src="/js/theme.js"></script>
+
+
+<!-- Supabase Auth -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="/js/state-manager.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+
+<!-- Floating paper plane (ImpactMojo decorative element) -->
+<svg class="im-paper-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M80,130 L150,50" stroke="#10B981" stroke-width="2" stroke-dasharray="4,4"/>
+  <circle cx="150" cy="50" r="4" fill="#6366F1"/>
+  <circle cx="40" cy="155" r="2" fill="#0EA5E9" opacity="0.6"/>
+  <circle cx="35" cy="165" r="1.5" fill="#6366F1" opacity="0.4"/>
+  <circle cx="45" cy="170" r="1" fill="#10B981" opacity="0.5"/>
+</svg>
+<script src="/js/translate-sarvam.js" defer></script>
+</body>
+</html>
