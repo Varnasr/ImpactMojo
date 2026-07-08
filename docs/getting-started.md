@@ -8,7 +8,7 @@ This guide will walk you through your first experience with ImpactMojo — from 
 
 1. **Open [impactmojo.in](https://www.impactmojo.in)** in any browser — Chrome, Firefox, Safari, or Edge on your phone, tablet, or computer
 2. **Explore the homepage.** You'll see an overview of what's available: courses, games, labs, and resources. Scroll through to get a sense of the platform.
-3. **Browse the course catalog.** Click on "Courses" or "Catalog" to see all 62 courses — 15 flagship courses with deep, multi-module content, and 47 foundational courses on focused topics.
+3. **Browse the course catalog.** Click on "Courses" or "Catalog" to see all 62 courses — 16 flagship courses with deep, multi-module content, and 47 foundational courses on focused topics.
 4. **Open any course and start reading.** No login, no signup, no payment. The content is right there.
 
 That's it. You're learning.

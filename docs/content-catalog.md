@@ -4,7 +4,7 @@ Complete catalog of all ImpactMojo learning resources with direct links. Everyth
 
 ---
 
-## Flagship Courses (15)
+## Flagship Courses (16)
 
 Deep, multi-module courses with 8–16 modules each, interactive lexicons, South Asian case studies, and AI study companions.
 
@@ -481,7 +481,7 @@ Advanced tools and products for researchers and practitioners — 30 in all, inc
 
 | Category | Count |
 |----------|-------|
-| Flagship courses | 15 |
+| Flagship courses | 16 |
 | Foundational courses | 47 |
 | Interactive labs | 28 |
 | Game Library | 135 (18 simulations + 117 puzzles) |

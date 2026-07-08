@@ -93,7 +93,7 @@ ImpactMojo development priorities for 2026. Items are roughly ordered by priorit
 
 - **Jul 2** — 12 new Interactive Labs (15 → 28, three new tracks) + the full **R & Python for Development** live-code course (7 modules, WebR + Pyodide)
 - **Jul 5 (v10.80.0)** — *Counterfactual: The Evaluation Game* (game #18; Game Library 135), six new Live Case Challenges (9 → 15, every flagship covered), the *Gender & Work in India* timeline (6th timeline; 113 nodes / 44 eras), and search-index completeness (26 blog posts + 4 reading companions added to site search)
-- **Jul 6 (v10.82.0–82.2)** — **Build Circles** (4-week AI build cohorts) and the **AI for M&E Certificate Track** (₹2,499) + the free **AI Agents for Evaluators** module; and **interactive assessments on every flagship** — all 15 flagship courses now end with a six-question auto-graded "Assess Yourself" self-check (90 questions total), surfaced across catalog, homepage, nav, footer, updates, README and docs
+- **Jul 6 (v10.82.0–82.2)** — **Build Circles** (4-week AI build cohorts) and the **AI for M&E Certificate Track** (₹2,499) + the free **AI Agents for Evaluators** module; and **interactive assessments on every flagship** — all 16 flagship courses now end with a six-question auto-graded "Assess Yourself" self-check (90 questions total), surfaced across catalog, homepage, nav, footer, updates, README and docs
 
 ## Q4 2026 (Oct-Dec) — Shipped early
 

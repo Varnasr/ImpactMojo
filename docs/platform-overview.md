@@ -8,7 +8,7 @@ This page walks through everything available on ImpactMojo — what each content
 
 Courses are the backbone of ImpactMojo. There are two types:
 
-### Flagship Courses (15 courses)
+### Flagship Courses (16 courses)
 
 These are comprehensive, deep-dive courses — each with approximately **13 modules** that build on each other. Think of them as the equivalent of a semester-long university course, but written for working professionals.
 
