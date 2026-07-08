@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.83.8 — July 8, 2026 (Join the PLC via form)
+
+### Changed
+
+- Joining the **Professional Learning Community** now goes through a short application form instead of an open WhatsApp group link — so the community stays a curated space for development practitioners. The "Request to Join" buttons across the homepage, community page, premium, account and updates pages all point to the form.
+
 ## v10.83.7 — July 8, 2026 (Book Companions renamed to Reading Companions)
 
 ### Changed
