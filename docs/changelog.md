@@ -2,6 +2,17 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.83.5 — July 8, 2026 (2 new companions — digital rights & AI literacy)
+
+### For Learners
+
+- **Poisoned Wells: DNS Censorship in India** (Karan Saini) — the largest study to date of DNS-based web censorship in India, for digital-rights and civil-society practitioners.
+- **How Image AI Works** — a plain-language explainer of how vision/image AI models actually work (patches, embeddings, CLIP, diffusion, multimodal LLMs), with every concept translated into social-sector use cases and risks.
+
+### Changed
+
+- Book Companions count updated across the site: 103 → 105.
+
 ## v10.83.4 — July 8, 2026 (5 new companions — care economy, statistics, education & Gandhi)
 
 ### For Learners
