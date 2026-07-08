@@ -6,7 +6,7 @@ This page documents how educational content is structured in ImpactMojo, for con
 
 | Type | Count | Format | Access |
 |------|-------|--------|--------|
-| Flagship Courses | 15 | Multi-module (12–13 modules each) | Free |
+| Flagship Courses | 16 | Multi-module (12–13 modules each) | Free |
 | Foundational Courses | 47 | Single-page or multi-section | Free |
 | Interactive Labs | 28 | HTML/JS workbenches | Free |
 | Learning Games | 135 | 18 simulations + 117 puzzles | Free |

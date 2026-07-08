@@ -2,6 +2,18 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.84.0 — July 8, 2026 (New flagship — Designing What Works)
+
+### For Learners
+
+- **Designing What Works: Development Interventions from Model to Scale** — a new 14-module flagship on the craft of intervention and programme design: the models proven at population scale (the graduation approach, cash transfers, community health workers, self-help groups, teaching at the right level), the design principles behind them, and how to think about scale. Grounded in South Asian delivery systems — NRLM, ASHA, DBT, Pratham and BRAC — with an interactive lexicon and an "Assess Yourself" self-check.
+
+### Added
+
+- New flagship course at `/courses/intervention/` with a native HTML shell and 14 modules served from Supabase (`course_content`, seed migration `20260708_seed_intervention_content.sql`).
+- New **Practice & Design** track on the flagship courses page.
+- Flagship count updated across the site: 15 → 16.
+
 ## v10.83.8 — July 8, 2026 (Join the PLC via form)
 
 ### Changed
