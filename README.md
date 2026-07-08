@@ -649,7 +649,7 @@ We welcome contributions! Whether improving content, fixing bugs, enhancing acce
 | **Workshops & Coaching** | hello@impactmojo.in |
 | **Registration** | hello@impactmojo.in |
 | **Newsletter** | [Varna's Substack](https://varna.substack.com) |
-| **WhatsApp PLC** | [Professional Learning Community](https://chat.whatsapp.com/EsBjbKaQfupG1HbtajTjHM) |
+| **WhatsApp PLC** | [Professional Learning Community](https://forms.gle/vJaHFd7QcMe4JVF19) |
 | **Discord** | [Tech tinkering & data tools](https://discord.gg/M3ZCmUe7ab) |
 | **Telegram** | [Free toolkits & resources](https://t.me/impactmojo) |
 

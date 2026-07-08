@@ -97,7 +97,7 @@ Use [GitHub Issues](https://github.com/ImpactMojo/ImpactMojo/issues) with the ap
 
 ## Community Channels
 
-- [WhatsApp PLC](https://chat.whatsapp.com/EsBjbKaQfupG1HbtajTjHM) — Peer discussions among practitioners
+- [WhatsApp PLC](https://forms.gle/vJaHFd7QcMe4JVF19) — Peer discussions among practitioners
 - [Discord](https://discord.gg/M3ZCmUe7ab) — Technical discussions and tinkering
 - [Telegram](https://t.me/impactmojo) — Free resources and updates
 - [GitHub Discussions](https://github.com/ImpactMojo/ImpactMojo/discussions) — Ideas, Q&A, and announcements
