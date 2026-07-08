@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.83.7 — July 8, 2026 (Book Companions renamed to Reading Companions)
+
+### Changed
+
+- The **Book Companions** section is now **Reading Companions** — the collection includes journal articles, essays, chapters and reports, not only books, so the label was broadened across the site (hero, navigation, catalogue filter, premium, docs, search). URLs and filenames are unchanged. Pre-baked the new label in Hindi, Tamil, Bengali and Marathi.
+
 ## v10.83.6 — July 8, 2026 (Real State of the Economy companion + translated-doc counts)
 
 ### Added
