@@ -203,7 +203,7 @@ Resources cover poverty, health, education, gender, governance, climate, and mor
 
 Interactive book companions that go far beyond a summary. Each BookSummary offers chapter-by-chapter navigation, evidence explorers, data playgrounds with interactive simulators, programme comparison tools, concept glossaries, and AI-powered Q&A. Currently available under Specials. See the [Book Companions Guide](book-summaries-guide.md) for full details.
 
-**Current entries: 55 book companions** spanning development economics (Poor Economics, Why Nations Fail, Development as Freedom, Debraj Ray), econometrics and statistics (Gujarati, Naked Statistics, Learning Statistics with R), data visualization (Tufte, Storytelling with Data, The Truthful Art), research methods, communication, leadership, and productivity. See the full list in the [Content Catalog](content-catalog.md).
+**Current entries: 105 book companions** spanning development economics (Poor Economics, Why Nations Fail, Development as Freedom, Debraj Ray), econometrics and statistics (Gujarati, Naked Statistics, Learning Statistics with R), data visualization (Tufte, Storytelling with Data, The Truthful Art), research methods, communication, leadership, and productivity. See the full list in the [Content Catalog](content-catalog.md).
 
 ---
 

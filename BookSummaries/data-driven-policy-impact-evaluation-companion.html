@@ -1,0 +1,777 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Data-Driven Policy Impact Evaluation — ImpactMojo Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+/* === ImpactMojo Design System === */
+:root {
+    --im-gradient: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+    --im-accent: #0EA5E9;
+    --im-nav-bg: rgba(15, 23, 42, 0.95);
+    --im-border: #334155;
+    --im-text-primary: #F1F5F9;
+    --im-text-secondary: #94A3B8;
+    --im-text-muted: #64748B;
+    --im-card-bg: #1E293B;
+    --im-hover-bg: #334155;
+    --im-secondary-bg: #1E293B;
+}
+body { padding-top: 56px !important; }
+.im-topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    background: var(--im-nav-bg);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--im-border);
+    padding: 0.5rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.75rem; flex-wrap: wrap;
+    font-family: 'Inter', 'Amaranth', sans-serif;
+}
+.im-topbar a { text-decoration: none; }
+.im-topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+.im-topbar-home {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-weight: 700; font-size: 1rem;
+    background: var(--im-gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.im-topbar-home svg { width: 24px; height: 24px; flex-shrink: 0; stroke: #0EA5E9; }
+.im-topbar-right { display: flex; align-items: center; gap: 0.5rem; }
+.im-premium-btn {
+    background: var(--im-gradient);
+    color: #fff !important; -webkit-text-fill-color: #fff;
+    padding: 0.35rem 0.85rem; border-radius: 6px;
+    font-size: 0.8rem; font-weight: 600;
+    display: flex; align-items: center; gap: 0.35rem;
+    transition: opacity 0.2s; border: none; cursor: pointer;
+}
+.im-browse-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--im-text, #1C1917); background: var(--im-surface, #FFFFFF); border: 1.5px solid var(--im-border, #E2E8F0); padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; transition: background 0.18s ease, border-color 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease; }
+.im-browse-btn:hover { background: var(--im-accent, #0EA5E9); color: #FFFFFF; border-color: var(--im-accent, #0EA5E9); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25); }
+.im-browse-btn svg { width: 14px; height: 14px; }
+@media (prefers-color-scheme: dark) { .im-browse-btn { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.18); } .im-browse-btn:hover { background: var(--im-accent, #0EA5E9); border-color: var(--im-accent, #0EA5E9); color: #FFFFFF; } }
+.im-premium-btn:hover { opacity: 0.9; }
+.im-premium-btn svg { width: 14px; height: 14px; }
+.im-theme-selector {
+    display: flex; gap: 2px;
+    background: var(--im-card-bg);
+    border: 1px solid var(--im-border);
+    border-radius: 8px; padding: 2px;
+}
+.im-theme-btn {
+    background: transparent; border: none;
+    color: var(--im-text-secondary);
+    padding: 6px; border-radius: 5px; cursor: pointer;
+    transition: all 0.2s; display: flex; align-items: center;
+    justify-content: center; width: 30px; height: 30px;
+}
+.im-theme-btn:hover { background: var(--im-hover-bg); color: var(--im-text-primary); }
+.im-theme-btn.active { background: var(--im-accent); color: #fff; }
+.im-theme-btn svg { width: 16px; height: 16px; }
+.im-footer {
+    background: var(--im-secondary-bg);
+    border-top: 1px solid var(--im-border);
+    padding: 2rem 1rem; margin-top: auto;
+    font-family: 'Inter', 'Amaranth', sans-serif;
+    color: var(--im-text-secondary);
+}
+.im-footer-content { max-width: 1100px; margin: 0 auto; }
+.im-footer-made {
+    text-align: center; margin-bottom: 1.5rem;
+    font-size: 0.9rem; color: var(--im-text-muted);
+}
+.im-footer-made a { color: var(--im-accent); text-decoration: none; }
+.im-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem; margin-bottom: 1.5rem;
+}
+.im-footer-section h4 {
+    font-family: 'Inter', 'Amaranth', sans-serif;
+    color: var(--im-text-primary);
+    font-size: 0.9rem; margin-bottom: 0.75rem; font-weight: 600;
+}
+.im-footer-section ul { list-style: none; padding: 0; margin: 0; }
+.im-footer-section li { margin-bottom: 0.4rem; }
+.im-footer-section a {
+    color: var(--im-text-secondary);
+    text-decoration: none; font-size: 0.85rem; transition: color 0.2s;
+}
+.im-footer-section a:hover { color: var(--im-accent); }
+.im-footer-bottom {
+    text-align: center; padding-top: 1rem;
+    border-top: 1px solid var(--im-border);
+    font-size: 0.8rem; color: var(--im-text-muted);
+}
+.im-footer-bottom p { margin: 0.25rem 0; }
+.im-footer-bottom a { color: var(--im-accent); text-decoration: none; }
+@media (max-width: 640px) {
+    .im-topbar { padding: 0.4rem 0.75rem; gap: 0.5rem; }
+    .im-topbar-home { font-size: 0.85rem; }
+    .im-topbar-home svg { width: 20px; height: 20px; }
+    .im-topbar-home span { display: none; }
+    .im-premium-btn { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
+    .im-theme-btn { width: 26px; height: 26px; padding: 4px; }
+    .im-theme-btn svg { width: 14px; height: 14px; }
+    .im-footer-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+}
+@media (max-width: 400px) {
+    .im-footer-grid { grid-template-columns: 1fr; }
+}
+/* === End ImpactMojo Design System === */
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F8F5F0;--card:#fff;--border:#E8E0D5;--text:#1C1C1C;--muted:#6B6560;
+  --accent:#1A3C34;--accent-light:#EBF5F2;--teal:#1A6B5A;--teal-light:#EBF5F2;
+  --radius:8px;
+}
+body{background:var(--bg);font-family:'Amaranth','Inter',system-ui,sans-serif;color:var(--text);padding-top:52px}
+.app{min-height:100vh;display:flex;flex-direction:column}
+nav{background:#1C1C1C;display:flex;align-items:center;gap:20px;padding:0 20px;min-height:52px;flex-wrap:wrap;position:sticky;top:52px;z-index:99}
+.brand{display:flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.brand-name{font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:#fff;letter-spacing:.05em;text-transform:uppercase}
+.tabs{display:flex;gap:2px;flex-wrap:wrap}
+.tab-btn{background:none;border:none;padding:6px 13px;font-family:Inter,sans-serif;font-size:11px;font-weight:600;color:rgba(255,255,255,.5);cursor:pointer;border-radius:4px;text-transform:uppercase;letter-spacing:.04em;transition:all .15s}
+.tab-btn:hover{color:rgba(255,255,255,.85)}
+.tab-btn.active{color:#fff;background:var(--accent)}
+main{flex:1;padding:32px 20px;max-width:860px;margin:44px auto 0;width:100%}
+.h1{font-family:Inter,sans-serif;font-size:22px;font-weight:700;margin-bottom:8px}
+.sub{color:var(--muted);font-size:15px;margin-bottom:24px;font-family:Inter,sans-serif;line-height:1.5}
+.panel{display:none}.panel.active{display:block}
+
+/* HERO */
+.hero{background:#1C1C1C;color:#fff;border-radius:12px;padding:32px;margin-bottom:20px}
+.day-badge{display:inline-block;background:var(--accent);font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 10px;border-radius:4px;margin-bottom:14px}
+.hero h1{font-size:34px;font-weight:700;margin-bottom:4px}
+.hero .auth{font-family:Inter,sans-serif;font-size:13px;color:rgba(255,255,255,.5);margin-bottom:14px}
+.hero .tagline{font-size:15px;color:rgba(255,255,255,.8);line-height:1.6;max-width:620px;margin-bottom:18px}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-family:Inter,sans-serif;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.8)}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:18px 14px;text-align:center}
+.stat-n{font-size:30px;font-weight:700;color:var(--accent);font-family:Inter,sans-serif}
+.stat-l{font-family:Inter,sans-serif;font-size:12px;color:var(--muted);margin-top:4px}
+.arg{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:22px;margin-bottom:24px}
+.arg p{font-size:15px;line-height:1.75}
+.arg p+p{margin-top:1rem}
+.nav-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.nav-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:left;cursor:pointer;transition:all .15s}
+.nav-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.nav-card-label{font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
+.nav-card-desc{font-family:Inter,sans-serif;font-size:12px;color:var(--muted)}
+
+/* PATHWAYS */
+.pw-tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.pw-btn{font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:6px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s}
+.pw-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.pw-desc{font-family:Inter,sans-serif;font-size:14px;color:var(--muted);padding:12px 14px;background:var(--accent-light);border-radius:6px;margin-bottom:20px;line-height:1.5}
+.pw-steps{display:flex;flex-direction:column;gap:10px}
+.pw-step{display:flex;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px}
+.step-n{width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-family:Inter,sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-title{font-family:Inter,sans-serif;font-size:14px;font-weight:700;margin-bottom:3px}
+.step-focus{font-family:Inter,sans-serif;font-size:13px;color:var(--muted);line-height:1.5}
+
+/* SECTIONS */
+.sec-card{background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.sec-header{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;cursor:pointer;background:none;border:none;text-align:left;width:100%}
+.sec-num{font-family:Inter,sans-serif;font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;min-width:24px;padding-top:2px}
+.sec-title{font-family:Inter,sans-serif;font-size:15px;font-weight:700;margin-bottom:2px}
+.sec-sub{font-family:Inter,sans-serif;font-size:12px;color:var(--muted)}
+.sec-chev{font-size:16px;color:var(--muted);padding-top:2px;margin-left:auto}
+.sec-body{padding:0 18px 18px 56px;border-top:1px solid var(--border)}
+.sec-summary{font-size:15px;line-height:1.75;padding-top:14px;margin-bottom:18px}
+.ideas-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
+.idea-item{display:flex;gap:8px;margin-bottom:7px;font-family:Inter,sans-serif;font-size:13px;line-height:1.55}
+.idea-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:6px}
+blockquote{font-style:italic;font-size:14px;color:var(--muted);border-left:3px solid var(--accent);padding-left:12px;margin-bottom:8px;line-height:1.6}
+.dev-toggle{font-family:Inter,sans-serif;font-size:12px;font-weight:600;color:var(--teal);background:var(--teal-light);border:none;padding:7px 12px;border-radius:4px;cursor:pointer;margin-top:10px}
+.dev-text{margin-top:10px;font-family:Inter,sans-serif;font-size:13px;line-height:1.65;background:var(--teal-light);padding:12px;border-radius:6px}
+
+/* CONCEPTS */
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+.concept-card:hover,.concept-card.open{border-color:var(--accent)}
+.concept-term{font-family:Inter,sans-serif;font-size:15px;font-weight:700}
+.concept-def{font-family:Inter,sans-serif;font-size:14px;line-height:1.7;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.prac-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-top:10px;margin-bottom:4px}
+.prac-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65;color:var(--muted)}
+
+/* TOOLKIT */
+.tool-tabs{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+.tool-btn{font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:6px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s}
+.tool-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tool-panel{display:none;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:22px}
+.tool-panel.active{display:block}
+.tool-intro{font-family:Inter,sans-serif;font-size:14px;color:var(--muted);margin-bottom:20px;line-height:1.5}
+.fld-label{font-family:Inter,sans-serif;font-size:13px;font-weight:600;margin-bottom:5px;display:block}
+.fld{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;outline:none;background:var(--bg);margin-bottom:12px}
+.fld:focus{border-color:var(--accent)}
+.output-box{background:var(--accent-light);padding:14px;border-radius:6px;margin-top:16px;font-family:Inter,sans-serif;font-size:14px;line-height:1.65}
+.output-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:8px}
+
+/* CONTEXT */
+.conn-card{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:16px 18px;margin-bottom:10px}
+.conn-book{font-family:Inter,sans-serif;font-size:14px;font-weight:700;margin-bottom:5px}
+.conn-text{font-family:Inter,sans-serif;font-size:13px;color:var(--muted);line-height:1.65}
+.crit-item{display:flex;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:8px}
+.crit-n{width:24px;height:24px;border-radius:50%;background:#FFF8E6;color:#C8910A;font-family:Inter,sans-serif;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.crit-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65}
+.context-h{font-family:Inter,sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;margin-top:6px}
+
+/* ASK */
+.ask-setup{}
+.setup-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+.setup-step{display:flex;gap:12px;font-family:Inter,sans-serif;font-size:14px;line-height:1.5}
+.setup-num{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.setup-step a{color:var(--accent)}
+.key-row{display:flex;gap:10px}
+.key-input{flex:1;max-width:400px;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;outline:none}
+.key-btn{padding:9px 22px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:Inter,sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.key-btn:disabled{opacity:.4;cursor:not-allowed}
+.ask-ui{display:flex;flex-direction:column;height:calc(100vh - 180px)}
+.ask-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.ask-hdr-title{font-family:Inter,sans-serif;font-size:18px;font-weight:700}
+.ask-reset{background:none;border:1px solid var(--border);border-radius:4px;padding:4px 10px;font-family:Inter,sans-serif;font-size:12px;color:var(--muted);cursor:pointer}
+.msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px;margin-bottom:10px}
+.suggested-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px}
+.sug-btn{display:block;width:100%;text-align:left;padding:9px 12px;background:var(--card);border:1px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;cursor:pointer;margin-bottom:6px;transition:all .15s}
+.sug-btn:hover{border-color:var(--accent);background:var(--accent-light)}
+.msg{max-width:85%}
+.msg.user{align-self:flex-end}
+.msg.assistant{align-self:flex-start}
+.msg-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65;padding:10px 14px;border-radius:8px;white-space:pre-wrap}
+.msg.user .msg-text{background:var(--accent);color:#fff}
+.msg.assistant .msg-text{background:var(--card);border:1px solid var(--border)}
+.typing{display:flex;gap:4px;padding:12px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px}
+.typing span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:bounce 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.ask-input-row{display:flex;gap:8px;border-top:1px solid var(--border);padding-top:10px}
+.ask-input{flex:1;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;resize:none;outline:none;background:var(--bg)}
+.ask-input:focus{border-color:var(--accent)}
+.ask-send{padding:9px 18px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:Inter,sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.ask-send:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:640px){.stat-grid{grid-template-columns:repeat(2,1fr)}.nav-grid{grid-template-columns:1fr 1fr}.sec-body{padding-left:18px}}
+
+/* WCAG 2.1 AA (1.4.1 Use of Color): inline anchors in content paragraphs must be distinguishable without relying on color alone. Scoped to <main> so nav/footer button-links are unaffected. */
+main p a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]),
+main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
+/* === Dark Mode === */
+html.dark body { background: #0f172a; color: #e2e8f0; }
+html.dark #root,
+html.dark main,
+html.dark .app,
+html.dark [id^="p-"],
+html.dark .panel { filter: invert(0.88) hue-rotate(180deg); }
+html.dark #root img,
+html.dark #root svg:not([class*="im-"]),
+html.dark main img,
+html.dark main svg:not([class*="im-"]) { filter: invert(1) hue-rotate(180deg); }
+html.dark .im-topbar, html.dark .im-footer { filter: none; }
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+<!-- SEO meta (autogenerated) -->
+<meta name="description" content="Data-Driven Policy Impact Evaluation (Nuno Crato & Paolo Paruolo, eds., 2019) — ImpactMojo Companion. How administrative microdata and counterfactual methods let governments rigorously measure what policies actually do.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.impactmojo.in/BookSummaries/data-driven-policy-impact-evaluation-companion.html">
+<meta property="og:title" content="Data-Driven Policy Impact Evaluation — ImpactMojo Companion">
+<meta property="og:description" content="Data-Driven Policy Impact Evaluation (Nuno Crato & Paolo Paruolo, eds., 2019) — ImpactMojo Companion. How administrative microdata and counterfactual methods let governments rigorously measure what policies actually do.">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:url" content="https://www.impactmojo.in/BookSummaries/data-driven-policy-impact-evaluation-companion.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ImpactMojo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Data-Driven Policy Impact Evaluation — ImpactMojo Companion">
+<meta name="twitter:description" content="Data-Driven Policy Impact Evaluation (Nuno Crato & Paolo Paruolo, eds., 2019) — ImpactMojo Companion. How administrative microdata and counterfactual methods let governments rigorously measure what policies actually do.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<!-- Favicons -->
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<!-- Translate -->
+<style>
+/* Skip link (WCAG 2.4.1) */
+.im-skip-link { position:absolute; top:-40px; left:0; background:#0EA5E9; color:#fff; padding:8px 16px; z-index:10000; text-decoration:none; font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600; }
+.im-skip-link:focus { top:0; }
+/* Floating paper plane */
+.im-paper-plane { position:fixed; bottom:2rem; right:2rem; width:60px; height:60px; opacity:0.14; pointer-events:none; z-index:0; animation: imFloat 6s ease-in-out infinite; }
+@keyframes imFloat { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-15px) rotate(3deg);} }
+html.dark .im-paper-plane { opacity:0.22; }
+/* Interactive companion CTA */
+.im-interactive-cta { display:inline-flex; align-items:center; gap:0.5rem; background:var(--im-gradient); color:#fff !important; -webkit-text-fill-color:#fff; padding:0.5rem 1rem; border-radius:6px; font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600; text-decoration:none; margin-top:14px; transition:opacity 0.2s; }
+.im-interactive-cta:hover { opacity:0.9; }
+
+/* === ImpactMojo Brand Override (fonts + dark mode) — v10.21 === */
+html body, html body .app, html body main, html body .panel,
+html body p, html body li, html body blockquote, html body .sec-summary, html body .arg p,
+html body .sub, html body .tagline, html body .hero, html body .hero h1 {
+  font-family: 'Amaranth', Arial, sans-serif !important;
+}
+html body h1, html body h2, html body h3, html body h4, html body h5, html body h6,
+html body .h1, html body .brand-name, html body .day-badge, html body .pill,
+html body .stat-n, html body .stat-l, html body .sec-title, html body .sec-sub, html body .sec-num,
+html body .concept-term, html body .step-title, html body .step-focus, html body .conn-book,
+html body .book-title, html body .tab-btn, html body .pw-btn, html body .tool-btn,
+html body .im-topbar, html body .im-topbar *, html body .im-footer, html body .im-footer * {
+  font-family: 'Inter', 'Amaranth', Helvetica, sans-serif !important;
+}
+html body code, html body pre, html body .mono, html body kbd, html body samp {
+  font-family: 'JetBrains Mono', ui-monospace, monospace !important;
+}
+
+/* Replace filter-invert dark mode with proper token-based dark mode */
+html.dark body { background: #0F172A !important; color: #E2E8F0 !important; }
+html.dark #root, html.dark main, html.dark .app, html.dark [id^="p-"], html.dark .panel,
+html.dark .arg, html.dark .hero, html.dark .stat, html.dark .nav-card, html.dark .pw-step,
+html.dark .sec-card, html.dark .sec-body, html.dark .concept-card, html.dark .tool-panel,
+html.dark .conn-card, html.dark .crit-item, html.dark .msg.assistant .msg-text,
+html.dark .output-box, html.dark .typing, html.dark .ask-input, html.dark .key-input,
+html.dark .fld, html.dark .tool-btn, html.dark .pw-btn, html.dark .sug-btn, html.dark .pw-desc {
+  filter: none !important;
+}
+html.dark { color-scheme: dark; }
+html.dark body,
+html.dark body .app,
+html.dark body main { background: #0F172A !important; color: #E2E8F0 !important; }
+html.dark .hero { background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%) !important; color: #F1F5F9 !important; border: 1px solid #334155; }
+html.dark .hero .auth, html.dark .hero .tagline { color: #CBD5E1 !important; }
+html.dark .stat, html.dark .arg, html.dark .nav-card, html.dark .sec-card, html.dark .pw-step,
+html.dark .concept-card, html.dark .tool-panel, html.dark .conn-card, html.dark .crit-item,
+html.dark .msg.assistant .msg-text { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .sec-header, html.dark .sec-body { background: transparent !important; color: #E2E8F0 !important; }
+html.dark .sec-body { border-top-color: #334155 !important; }
+html.dark .stat-n { color: #38BDF8 !important; }
+html.dark .stat-l, html.dark .sec-sub, html.dark .sub, html.dark .nav-card-desc,
+html.dark .step-focus, html.dark .pw-desc, html.dark .prac-text, html.dark .conn-text,
+html.dark .ideas-label, html.dark .prac-label, html.dark .output-label, html.dark .suggested-label,
+html.dark .dev-text, html.dark .fld-label { color: #94A3B8 !important; }
+html.dark .h1, html.dark .sec-title, html.dark .concept-term, html.dark .step-title,
+html.dark .nav-card-label, html.dark .conn-book, html.dark .context-h, html.dark .ask-hdr-title { color: #F1F5F9 !important; }
+html.dark blockquote { color: #CBD5E1 !important; border-left-color: #38BDF8 !important; }
+html.dark .pill { background: rgba(56, 189, 248, 0.15) !important; color: #7DD3FC !important; }
+html.dark .day-badge { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .tab-btn { color: rgba(226, 232, 240, 0.6) !important; }
+html.dark .tab-btn.active { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .tab-btn:hover { color: #F1F5F9 !important; }
+html.dark nav { background: #0F172A !important; border-bottom: 1px solid #334155; }
+html.dark .pw-btn, html.dark .tool-btn { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .pw-btn.active, html.dark .tool-btn.active { background: #0EA5E9 !important; border-color: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .pw-desc { background: rgba(14, 165, 233, 0.1) !important; color: #CBD5E1 !important; }
+html.dark .output-box { background: rgba(14, 165, 233, 0.1) !important; color: #E2E8F0 !important; }
+html.dark .step-n, html.dark .setup-num { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .sec-num { color: #38BDF8 !important; }
+html.dark .ideas-label, html.dark .prac-label, html.dark .output-label { color: #38BDF8 !important; }
+html.dark .dev-toggle { background: rgba(56, 189, 248, 0.1) !important; color: #7DD3FC !important; }
+html.dark .dev-text { background: rgba(56, 189, 248, 0.08) !important; color: #CBD5E1 !important; }
+html.dark .fld, html.dark .key-input, html.dark .ask-input { background: #0F172A !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .msg.user .msg-text { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .sug-btn { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .sug-btn:hover { background: rgba(14, 165, 233, 0.15) !important; border-color: #0EA5E9 !important; }
+html.dark .crit-n { background: rgba(251, 191, 36, 0.15) !important; color: #FCD34D !important; }
+html.dark #root img, html.dark #root svg:not([class*="im-"]),
+html.dark main img, html.dark main svg:not([class*="im-"]) { filter: none !important; }
+html.dark .im-topbar, html.dark .im-footer { filter: none !important; }
+/* === End ImpactMojo Brand Override === */
+
+/* Ethics disclaimer heading — readable in both modes */
+.im-ethics-disclaimer .im-ethics-heading { color: #0F172A !important; }
+html.dark .im-ethics-disclaimer .im-ethics-heading, body.dark-mode .im-ethics-disclaimer .im-ethics-heading { color: #F1F5F9 !important; }
+html.dark .im-ethics-disclaimer, body.dark-mode .im-ethics-disclaimer { background: rgba(56,189,248,0.08) !important; border-left-color: #38BDF8 !important; color: #CBD5E1 !important; }
+</style>
+<link rel="stylesheet" href="/assets/css/booksummary-dark.css">
+</head>
+<body>
+<a href="#main-content" class="im-skip-link">Skip to content</a>
+<header class="im-topbar" role="banner">
+  <div class="im-topbar-left">
+    <a class="im-topbar-home" href="/" aria-label="ImpactMojo home">
+      <img src="/assets/images/ImpactMojo%20Logo.png" alt="ImpactMojo" width="24" height="24" style="border-radius:4px;">
+      <span>ImpactMojo</span>
+    </a>  </div>
+  <div class="im-topbar-right">
+    <a href="/catalog.html" class="im-browse-btn" title="Browse all content"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Browse</a>
+    
+    <a class="im-premium-btn" href="/premium.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Premium
+    </a>
+    <div class="im-theme-selector" role="group" aria-label="Theme">
+      <button class="im-theme-btn" data-imtheme="system" title="System theme" aria-label="System theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </button>
+      <button class="im-theme-btn" data-imtheme="light" title="Light theme" aria-label="Light theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <button class="im-theme-btn" data-imtheme="dark" title="Dark theme" aria-label="Dark theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="app">
+<nav>
+  <div class="brand"><div class="dot"></div><span class="brand-name">ImpactMojo</span></div>
+  <div class="tabs" id="tabbar"></div>
+</nav>
+<main id="main-content">
+  <div class="panel active" id="p-overview"></div>
+  <div class="panel" id="p-pathways"></div>
+  <div class="panel" id="p-sections"></div>
+  <div class="panel" id="p-concepts"></div>
+  <div class="panel" id="p-toolkit"></div>
+  <div class="panel" id="p-context"></div>
+  <div class="panel" id="p-ask"></div>
+</main>
+</div>
+
+<!-- Sargam Icon Sprites -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+<symbol id="si_Direction_alt" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m3 3 18 7.92-7.987 2.093L10.92 21z"/></symbol>
+<symbol id="si_Flare" viewBox="0 0 24 24" fill="none"><g clip-path="url(#clip_si_Flare)"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M7 12H1m22 0h-6m-5 5v6m3.536-7.464 1.414 1.414m-9.9-9.9 1.414 1.414m7.072 0L16.95 7.05m-9.9 9.9 1.414-1.414M12 1v6m2 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0"/></g><defs><clipPath id="clip_si_Flare"><path fill="#fff" d="M0 0h24v24H0z"/></clipPath></defs></symbol>
+<symbol id="si_Info" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 8h.008M12 16v-5m10 1c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10"/></symbol>
+<symbol id="si_Lock" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M8 10V7c0-2.21 1.79-4 4-4s4 1.79 4 4v3m-4 5a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 0v3m-5.4-8h10.8c.88 0 1.6.72 1.6 1.6v7c0 1.32-1.08 2.4-2.4 2.4H7.4C6.08 21 5 19.92 5 18.6v-7c0-.88.72-1.6 1.6-1.6"/></symbol>
+<symbol id="si_Lightning" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m12.667 10.5 1.25-7.5L6 13h5l-1.25 7.5 7.917-10z" clip-rule="evenodd"/></symbol>
+<symbol id="si_Library_books" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M10 11h8m-8 3h4m-4-6h8m2 14H8.4C5.42 22 3 19.58 3 16.6V5m5.4-2h11.2A2.4 2.4 0 0 1 22 5.4v11.2a2.4 2.4 0 0 1-2.4 2.4H8.4A2.4 2.4 0 0 1 6 16.6V5.4A2.4 2.4 0 0 1 8.4 3"/></symbol>
+<symbol id="si_Book" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 7.333C12 5.5 10.5 4 8.667 4H2v12h6.708C12 16 12 19.334 12 19.334m0-12C12 5.5 13.5 4 15.333 4H22v12h-6.667C12 16 12 19.334 12 19.334m0-12v12m1.875 1.124A2.58 2.58 0 0 1 16.167 19H21m-10.875 1.458A2.54 2.54 0 0 0 7.833 19H3"/></symbol>
+<symbol id="si_Article" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M8 12h8m-8 3h4M8 9h8M4.4 4h15.2A2.4 2.4 0 0 1 22 6.4v11.2a2.4 2.4 0 0 1-2.4 2.4H4.4A2.4 2.4 0 0 1 2 17.6V6.4A2.4 2.4 0 0 1 4.4 4"/></symbol>
+<symbol id="si_Mail" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m5 7.06 6.87 5.89c.07.06.19.06.26 0L19 7.06M3.2 4h17.6c.66 0 1.2.54 1.2 1.2v12.4c0 1.32-1.08 2.4-2.4 2.4H4.4C3.08 20 2 18.92 2 17.6V5.2C2 4.54 2.54 4 3.2 4"/></symbol>
+<symbol id="si_Help" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M11.83 14v-.621a2.33 2.33 0 0 1 1.164-2.02c1.126-.66 1.514-2.057.854-3.183s-2.057-1.514-3.183-.854C9.965 7.75 9.5 8.487 9.5 9.341M12 17h-.008M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12s4.477 10 10 10 10-4.477 10-10"/></symbol>
+<symbol id="si_Heart" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.696 3C14.652 3 12.887 4.197 12 5.943 11.113 4.197 9.348 3 7.304 3 4.374 3 2 5.457 2 8.481s1.817 5.796 4.165 8.073S12 21 12 21s3.374-2.133 5.835-4.446C20.46 14.088 22 11.514 22 8.481S19.626 3 16.696 3"/></symbol>
+<symbol id="si_Globe_detailed" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M22 12c0 5.523-4.477 10-10 10m10-10c0-5.523-4.477-10-10-10m10 10H2m10 10C6.477 22 2 17.523 2 12m10 10 .66-.31c2.1-2.71 3.34-6.14 3.34-9.78s-1.22-7-3.27-9.69L12 2m0 20-.73-.31A15.94 15.94 0 0 1 8 12c0-3.64 1.24-7.07 3.34-9.78L12 2M2 12C2 6.477 6.477 2 12 2m7.14 17c-1.82-1.85-4.34-3-7.14-3s-5.33 1.15-7.14 3M19.14 5C17.33 6.85 14.8 8 12 8S6.68 6.85 4.86 5"/></symbol>
+</svg>
+
+
+<div id="root"></div>
+<script>
+const DATA = {"title": "Data-Driven Policy Impact Evaluation", "dayBadge": "Impact Evaluation", "author": "Nuno Crato & Paolo Paruolo (eds.) · Springer, 2019", "tagline": "An interactive companion to the open-access volume on how access to administrative microdata is transforming counterfactual policy evaluation.", "pills": ["Impact Evaluation", "Administrative Data", "Counterfactual Methods", "Evidence-Based Policy", "Microdata", "Europe"], "stats": [{"n": "20", "l": "Chapters"}, {"n": "14", "l": "Key concepts"}], "argument": ["This open-access Springer volume, edited by Nuno Crato and Paolo Paruolo of the European Commission's Joint Research Centre, makes one central claim: it is now possible to rigorously establish what a policy actually caused, even when the data did not come from a controlled experiment. Two developments make this feasible together — the growing availability of high-quality administrative microdata (records that public bodies already collect on individuals, firms and communities), and a mature toolkit of counterfactual impact evaluation (CIE) methods that recover causal effects from observational data.", "The book echoes Milton Friedman's warning against judging programmes by their intentions rather than their results, and situates itself inside the 'credibility revolution' in empirical economics — the design-based turn that Angrist and Pischke describe as taking causal identification seriously. Its four workhorse methods — differences-in-differences, regression discontinuity design, instrumental variables and propensity score matching — are all quasi-experimental strategies for defeating selection bias when random assignment is impossible or unethical.", "But methods are only half the story. The volume is equally about the plumbing: how to link registries into research-ready datasets, how to anonymise them without destroying their analytical value, and how to grant researchers safe, often remote, access to confidential records. It documents national systems (Germany's IAB, the Netherlands' CPB and LISS, Hungary's reform of a low-trust data regime, Eurostat) alongside applied case studies in employment, education, health, pensions and youth services.", "For practitioners, the payoff is a worked argument that evaluation is not a luxury bolted on after the fact but a design choice made at the start: if you plan data collection and linkage when you design a policy, you can evaluate its impact continuously, cheaply and in near real time — turning administrative records already sitting in government servers into a public good for better policymaking."], "accent": "#059669", "accent_light": "#D1FAE5", "pathways": [], "sections": [{"title": "The Power of Microdata: An Introduction", "subtitle": "Ch 1 · Framing", "summary": "", "ideas": ["Frames the book around the 'what works' policy movement and Angrist-Pischke's 'credibility revolution' — a design-based approach that emphasizes the identification of causal effects rather than mere correlation", "Two enabling realities: the rising availability and quality of microdata (especially administrative data) and the maturing of counterfactual econometric methods for causal policy evaluation", "Data granularity matters — microdata (individuals, firms, geographic units) can identify a programme's effectiveness at the individual level, whereas aggregate data cannot separate the policy from general economic conditions", "Administrative data advantages: already collected (low cost), cover the whole population (not a sample), representative, and largely free of attrition, non-response and measurement error — but may omit research-relevant variables", "Introduces the four core CIE methods (differences-in-differences, regression discontinuity, instrumental variables, propensity score matching) as quasi-experimental responses to selection bias, and closes with a plain-language glossary", "A 'call to action': data collection and linkage should be planned at the START of policy design, so impact can be evaluated systematically and in near real time"], "quotes": ["One of the great mistakes is to judge policies and programs by their intentions rather than their results. (Milton Friedman, quoted in Ch. 1)", "correlation is not causation"], "devEcon": "The framing chapter is the single best entry point for South Asian practitioners: it explains, without equations, why an unemployment rate or enrolment count can never prove a training programme worked, and why individual-level linked records can. It reframes monitoring data as an evaluation asset."}, {"title": "From 'Intruders' to 'Partners'", "subtitle": "Ch 2 · Microdata for Policy Research", "summary": "", "ideas": ["Paul Jackson traces the recent history of microdata use: only around the start of the twenty-first century did the value of administrative and micro-level data become fully appreciated", "Historically, original micro records were treated as strictly confidential, used only to compute summary statistics (average income, regional unemployment counts) and then discarded", "The title captures a cultural shift — external researchers moved from being seen as 'intruders' on official data to trusted 'partners' of statistical agencies", "Using administrative sources for policy research is still, by historical standards, an innovative practice rather than a settled routine", "Because the records already exist, they are comparatively inexpensive to exploit — the cost is largely extraction, cleaning and linkage, not fresh collection"], "quotes": [], "devEcon": "The 'intruders-to-partners' framing maps directly onto South Asia, where statistical offices and line ministries often guard administrative records tightly. Building researcher-agency trust is a prerequisite before any of the methods later in the book can be applied."}, {"title": "Microdata as a Public Good", "subtitle": "Ch 3 · Microdata for Policy Research", "summary": "", "ideas": ["Ugo Trivellato argues microdata should be treated as a public good — the case for releasing it rests on both scientific value and democratic participation", "Making data available is a matter of public interest: it enables better knowledge of society and independent evaluation of public policies", "Reviews recent advances in the regulation and practice of microdata access at EU, member-state and transnational levels", "Concludes that remote data access is the most effective mode for safely sharing highly informative confidential data — reconciling openness with confidentiality", "Positions data release as accountability infrastructure, not merely a research convenience"], "quotes": [], "devEcon": "The public-good framing is a useful advocacy anchor for open-data campaigns in India and the region: it justifies release of NREGA, health and education administrative data for independent evaluation, while pointing to remote access as the safe technical compromise."}, {"title": "Data Linkage Methods", "subtitle": "Ch 4 · Microdata for Policy Research", "summary": "", "ideas": ["Natalie Shlomo explains how full use of administrative data requires linking multiple databases about the same units", "Deterministic linkage uses unique identifiers (e.g. national ID numbers) to join records unambiguously; probabilistic linkage joins records plausibly when identifiers are missing or imperfect", "Probabilistic linkage can bypass data faults and still yield perfectly usable datasets — a crucial capability where identifiers are inconsistent", "Linkage errors are not free: subsequent statistical modelling on linked data must explicitly account for the uncertainty introduced by imperfect matching", "Record linkage has become a highly technical field with its own methods, motivating routine linkage design when administrative data are collected"], "quotes": [], "devEcon": "Aadhaar and other unique-ID systems make deterministic linkage newly feasible across Indian registries — but Shlomo's warning that linkage errors bias downstream estimates is essential for evaluators working with messy, partially-identified South Asian datasets."}, {"title": "Privacy in Microdata Release", "subtitle": "Ch 5 · Microdata for Policy Research", "summary": "", "ideas": ["Giovanni Livraga surveys how modern computer-science techniques anonymise datasets while preserving the information social research needs", "Confidentiality is identified as the single major real concern about microdata — distinct from the 'imaginary' obstacles sometimes used as pretexts to keep data locked away", "Covers statistical disclosure control and de-identification challenges, techniques and approaches for safe release", "Confronts the re-identification risk: combining several datasets or partial information can unmask individuals in supposedly anonymised data", "Frames anonymisation as a solvable engineering problem, undercutting confidentiality as a blanket reason to deny access"], "quotes": [], "devEcon": "As India's Digital Personal Data Protection Act (2023) reshapes data governance, Livraga's distinction between real confidentiality risks and imaginary pretexts helps practitioners argue for evaluation access without dismissing genuine re-identification threats."}, {"title": "Access to European Statistical System Microdata", "subtitle": "Ch 6 · Microdata Access", "summary": "", "ideas": ["Aleksandra Bujnowska describes how Eurostat acts as a single entry point for safely accessing microdata supplied by national statistical offices across the EU", "Demonstrates a federated model: a supranational body brokers access to data that remains held by member states", "Illustrates the institutional scaffolding — legal agreements, secure environments, accreditation of researchers — that makes cross-border microdata research possible", "Positions a shared access infrastructure as a way to lower the fixed cost each researcher would otherwise face"], "quotes": [], "devEcon": "The Eurostat 'entry point' model is a template for a hypothetical South Asian or all-India data access facility — a single accredited gateway would spare every evaluator from renegotiating access with each ministry."}, {"title": "German Labour Market Data: A Success Story", "subtitle": "Ch 7 · Microdata Access", "summary": "", "ideas": ["Dana Müller and Joachim Möller detail how Germany's Institute for Employment Research (IAB) processes social security data and links it to survey data", "IAB organises safe researcher access to this linked wealth of information, making it one of Europe's most successful data-access institutions", "Scale of impact: by 2016 the system served more than 1,000 users and 500 research projects", "Shows that a well-run, purpose-built research data centre can turn a country's social-security registry into a globally used research resource", "Safe access and analytical richness are presented as complementary, not competing, goals"], "quotes": [], "devEcon": "IAB is the concrete proof-of-concept practitioners can cite: a national employment registry, professionally curated and safely opened, can generate hundreds of evaluations a year — a model for India's EPFO/ESIC or state labour databases."}, {"title": "Hungary: Reform in a Low-Trust Environment", "subtitle": "Ch 8 · Microdata Access", "summary": "", "ideas": ["Ágota Scharle recounts how Hungary changed its legislation on linkage and access to administrative microdata in the face of outdated laws and confidentiality concerns", "As head of the Finance Ministry's reform effort, she shows the negotiation and political work behind a modern data-access system", "A candid case study of reform in a LOW-TRUST setting — where security and confidentiality anxieties, not technology, are the binding constraint", "Successful negotiation, rather than new statistical technique, produced an open and modern system of administrative data access", "Advances in policy research are tied to increased trust between researchers and public administrators"], "quotes": [], "devEcon": "Of all the country cases, Hungary's is the most transferable to South Asia: many states share its starting point of outdated legislation and institutional distrust. The chapter is effectively a playbook for the political economy of data-access reform."}, {"title": "The LISS Panel: Experimental & Longitudinal Data", "subtitle": "Ch 9 · Microdata Access", "summary": "", "ideas": ["Marcel Das and Marike Knoef describe the Dutch Longitudinal Internet Studies for the Social Sciences (LISS) panel infrastructure", "LISS lets researchers run field surveys and experiments on a standing, probability-based panel of households", "Its innovation is integration: survey results can be combined with existing administrative data on the same respondents", "Bridges the survey-versus-registry divide, capturing attitudes and experimental outcomes that admin data alone miss, while retaining admin-data depth", "Open access to the collected data extends its value to the wider scientific community"], "quotes": [], "devEcon": "LISS shows how to plug the gap that pure administrative data leave — subjective wellbeing, preferences, experimental treatments — a design worth emulating where South Asian evaluators need both registry outcomes and survey-measured mechanisms."}, {"title": "Big Data & an Employment Activation Programme", "subtitle": "Ch 10 · Counterfactual Studies", "summary": "", "ideas": ["Pedro Martins illustrates counterfactual evaluation on a job-search support and monitoring programme running in Portugal since 2012", "Uses a regression discontinuity design on administrative data to identify the programme's causal effect", "A concrete demonstration of how 'big' administrative datasets enable robust, graphable causal designs", "Shows the RDD logic in practice: eligibility rules that create a threshold become the source of quasi-experimental variation", "Model application for active labour market policy evaluation using data governments already hold"], "quotes": [], "devEcon": "Directly relevant to employment-scheme evaluation in South Asia: wherever a programme has an eligibility cutoff (age, income, score), RDD on administrative rolls can estimate impact without a costly bespoke survey."}, {"title": "Active Labour Market Policy: Liste di Mobilità", "subtitle": "Ch 11 · Counterfactual Studies", "summary": "", "ideas": ["Enrico Rettore and Ugo Trivellato evaluate Italy's 'Liste di Mobilità', a scheme handling collective redundancies in the Veneto region", "Deploy a 'crescendo' of increasingly sophisticated regression discontinuity designs as administrative data sources expanded over 15 years", "Key institutional insight: the administrative data existed from the start — what improved was trust and access, not the records themselves", "Demonstrates how evaluation quality co-evolves with the researcher-administrator relationship over time", "A longitudinal illustration that better identification often comes from better data access rather than new estimators"], "quotes": [], "devEcon": "The 15-year 'crescendo' is a patience lesson for the region: data that seem inaccessible today can, with sustained trust-building, become the backbone of credible redundancy- and retraining-policy evaluation."}, {"title": "Negative Home Equity and Job Mobility", "subtitle": "Ch 12 · Counterfactual Studies", "summary": "", "ideas": ["Andrea Morescalchi, Sander van Veldhuizen, Bart Voogt and Benedikt Vogt study whether owing more than a home is worth reduces workers' willingness to change jobs", "Use a Dutch administrative panel covering 2006–2011 (spanning the housing downturn)", "Apply panel fixed-effects estimation to control for time-invariant unobserved differences between households", "Find negative home equity has a MODERATE negative effect on the probability of changing jobs", "Shows how linked housing-and-employment registries can answer questions that connect financial and labour-market behaviour"], "quotes": [], "devEcon": "A template for using panel fixed effects on linked administrative records — a method well suited to South Asian settings where repeated observations on the same households exist but random assignment does not."}, {"title": "Microdata and Policy Evaluation at CPB", "subtitle": "Ch 13 · Counterfactual Studies", "summary": "", "ideas": ["Rudy Douven and colleagues survey counterfactual work at the CPB Netherlands Bureau for Economic Policy Analysis", "Four worked examples: parental labour participation with young children, tax shifting by small corporations, teacher quality and student achievement, and performance-based pay in mental health care", "CPB combines structural economic models with impact-evaluation methods — differences-in-differences, regression discontinuity and random assignment — on large datasets", "Emphasises that numerous programmes run simultaneously, making disentangling their separate effects genuinely hard", "Stresses the communication of results to policymakers as an integral part of evaluation, not an afterthought"], "quotes": [], "devEcon": "CPB's insistence on pairing rigorous methods with clear communication to decision-makers is a corrective for South Asian evaluators: a technically flawless estimate that policymakers cannot use changes nothing."}, {"title": "Long-Term Effects of a Youth Intervention", "subtitle": "Ch 14 · Counterfactual Studies", "summary": "", "ideas": ["Jacob Nielsen Arendt and Mette Verner study the long-term effects of a Danish social intervention for young people with conduct-disorder problems", "Register data let them build a comparison group of youth receiving alternative treatments but with similar parental characteristics and life-cycle service-use profiles", "Use propensity score matching to approximate a fair counterfactual from observational records", "Findings are sobering: participants are more likely to sit primary-school exams but have lower upper-secondary completion and employment, more welfare dependence and more criminal convictions", "A reminder that credible evaluation can reveal a well-intentioned programme underperforming — the point of doing it"], "quotes": [], "devEcon": "The nuanced, partly negative result models intellectual honesty for South Asian social-sector evaluation: register-based matching can surface uncomfortable long-run outcomes that short-term monitoring would miss entirely."}, {"title": "Retirement and Well-Being: Evidence from Italy", "subtitle": "Ch 15 · Counterfactual Studies", "summary": "", "ideas": ["Claudio Deiana and Gianluca Mazzarella ask whether the decision to retire causally affects well-being", "Exploit exogenous variation from changes to Italian pension eligibility rules enacted in 1995 and 1997 as an instrumental variable", "The eligibility reforms shift retirement timing without directly affecting well-being — satisfying the logic of a valid instrument", "Find a sizeable positive effect of retiring on satisfaction with leisure time and on frequency of meeting friends", "Combine survey and administrative data, showing the two sources answering a question neither could alone"], "quotes": [], "devEcon": "A clean illustration of using policy rule-changes as instruments — directly applicable wherever South Asian pension, age or eligibility reforms create exogenous variation an evaluator can exploit for causal claims."}, {"title": "Age of School Entry and Academic Progression", "subtitle": "Ch 16 · Counterfactual Studies", "summary": "", "ideas": ["Julio Cáceres-Delpiano and Eugenio Giolito examine how a child's age at school entry affects academic progression in Chile", "Use a regression discontinuity design built on birth-date enrolment cutoffs, drawing on a very detailed administrative education database", "Older entrants show higher grade point averages and a higher likelihood of passing a grade", "Crucially, this advantage tends to WEAR OFF over time — a caution against over-reading short-run gains", "Delayed-entry children are also more likely to follow an academic (rather than vocational) track at secondary level"], "quotes": [], "devEcon": "The 'fades over time' finding is directly pertinent to South Asian debates on school starting age and grade repetition — and shows why administrative panels that follow cohorts for years beat one-shot cross-sections."}, {"title": "Active Labour Market Policies Across Europe", "subtitle": "Ch 17 · Use of Results", "summary": "", "ideas": ["Béatrice d'Hombres and Giulia Santangelo present the state of counterfactual evidence on active labour market policies (ALMPs) across Europe", "Synthesise findings across countries and time to summarise what works, for whom and when", "Demonstrate the value of organising accumulated impact estimates by policy area rather than treating each study in isolation", "Illustrate how comparative, cross-country evidence supports transferable policy lessons", "Move from individual studies to a knowledge base usable by decision-makers"], "quotes": [], "devEcon": "The 'organise evidence by policy area' approach is what South Asia's fragmented evaluation landscape most lacks — a synthesised, comparable ALMP evidence base would let states learn from one another's schemes."}, {"title": "Evaluating Modern Apprenticeships in Scotland", "subtitle": "Ch 18 · Use of Results", "summary": "", "ideas": ["Matej Bajgar and Chiara Criscuolo show how the impact of a major vocational training programme can be evaluated", "Draw on the example of Modern Apprenticeships in Scotland", "Rely on LINKED administrative and survey data to construct outcomes and comparison groups", "Illustrate evaluation DESIGN — how to set up a credible study before results are in — rather than only reporting findings", "Reinforce the volume's theme that linkage of admin and survey sources multiplies analytical power"], "quotes": [], "devEcon": "For South Asia's large skilling and apprenticeship investments, this chapter is a design guide: it shows how to link training-scheme administrative records with survey outcomes to build an evaluation into the programme from the outset."}, {"title": "Pay for Performance in Primary Care", "subtitle": "Ch 19 · Use of Results", "summary": "", "ideas": ["Rita Santos, Sara Barsanti and Chiara Seghieri examine administrative data use in the health sector", "Focus on evaluating pay-for-performance (P4P) schemes in primary care in England and Italy", "Show how health economists exploit routine administrative health records for counterfactual evaluation", "Extend the book's methods from labour and education into health-system incentive design", "Comparative English-Italian lens highlights how institutional context shapes what P4P achieves"], "quotes": [], "devEcon": "As Indian states experiment with performance-linked incentives for health workers and facilities, this chapter shows how existing HMIS-type administrative records can be turned into rigorous P4P impact evidence."}, {"title": "The Future of Administrative Microdata in Europe", "subtitle": "Ch 20 · Use of Results", "summary": "", "ideas": ["Sven Langedijk, Ian Vollbracht and Paolo Paruolo close the volume by looking at the future of microdata access across Europe", "Lay out the benefits of expanding administrative data use both within and across European countries", "Confront the outstanding issues — legal, technical and political — that still limit cross-border data sharing", "Argue the potential for better policymaking is large and largely untapped", "Tie the book's threads together: data, methods, access and use as one connected agenda for evidence-based policy"], "quotes": ["Microdata exist and can be safely organised for a better knowledge of society and for policy research; data-based policy assessment, monitoring, evaluation and improvement are feasible and desirable. (Preface)"], "devEcon": "The forward-looking agenda — interoperable registries, safe cross-jurisdiction access, evaluation planned into policy design — is precisely the roadmap a maturing South Asian evidence ecosystem would need to adopt."}], "concepts": [{"term": "Counterfactual Impact Evaluation (CIE)", "definition": "Statistical procedures for assessing whether a policy caused its intended effect, by comparing the outcome of a treated group with what would have happened to it absent the intervention — the counterfactual, approximated by a comparison (control) group.", "practitionerNote": ""}, {"term": "Administrative (Registry) Data", "definition": "Data collected by governments and public agencies in the course of their regular activity (tax, social security, education, health, employment records) rather than for research. Typically population-wide, granular, continuously updated and comparatively cheap to exploit because already collected.", "practitionerNote": ""}, {"term": "Microdata", "definition": "Data recorded at the level of individual units — persons, households, firms or municipalities — as opposed to aggregate or macrodata that report only totals and averages. Only microdata allow individual-level causal identification.", "practitionerNote": ""}, {"term": "Selection Bias", "definition": "The distortion that arises when individuals or firms self-select into a treatment according to observable and unobservable characteristics, so that treated and untreated groups differ systematically before the policy. The central problem all CIE methods are designed to overcome.", "practitionerNote": ""}, {"term": "Average Treatment Effect (ATE)", "definition": "The mean difference in an outcome caused by a treatment across the relevant population. In an RCT it is estimated by the difference in average outcomes between randomly assigned treated and control groups; RDD instead recovers a local ATE around the eligibility threshold.", "practitionerNote": ""}, {"term": "Differences-in-Differences (DiD)", "definition": "A method that estimates impact by comparing the CHANGE in outcomes over time for a treated group with the change for a control group, differencing away fixed pre-existing gaps. Relies on the common trend assumption — that both groups would have moved in parallel absent the policy.", "practitionerNote": ""}, {"term": "Regression Discontinuity Design (RDD)", "definition": "A method exploiting an eligibility threshold on an observable variable (age, size, score). Units just above and just below the cutoff are treated as comparable, so the jump in the outcome at the threshold estimates the local treatment effect. Robust and graphable, but data-hungry near the cutoff.", "practitionerNote": ""}, {"term": "Instrumental Variables (IV)", "definition": "A method using an instrument — an exogenous variable that affects the treatment (relevance) but influences the outcome only through the treatment (exclusion restriction) — to isolate causal effect when treatment is correlated with unobservables. Policy rule-changes and lotteries are classic instruments.", "practitionerNote": ""}, {"term": "Propensity Score Matching (PSM)", "definition": "A method that pairs each treated unit with untreated units having a similar propensity score — the estimated probability of being treated given observed characteristics. Valid under the conditional independence assumption (selection on observables); requires large samples rich in covariates.", "practitionerNote": ""}, {"term": "Common Trend Assumption", "definition": "The identifying assumption behind DiD: in the absence of the intervention, treated and control groups would have followed the same trend over time, so the control group's change is a valid estimate of the counterfactual change for the treated group.", "practitionerNote": ""}, {"term": "Database Linkage", "definition": "Joining records about the same units across different databases. Deterministic linkage uses unique identifiers (e.g. national ID) for unambiguous joins; probabilistic linkage matches plausibly when identifiers are imperfect, at the cost of linkage errors that later modelling must account for.", "practitionerNote": ""}, {"term": "Anonymisation & Re-identification", "definition": "Anonymisation (de-identification) processes data so individual units cannot be identified; statistical disclosure control preserves analytical value while protecting privacy. Re-identification is the reverse risk — combining datasets or partial information to unmask individuals in supposedly anonymous data.", "practitionerNote": ""}, {"term": "Remote / Safe Data Access", "definition": "Institutional and technical arrangements (secure remote environments, accreditation, controlled outputs) that let researchers analyse confidential microdata without taking possession of raw records. The volume argues remote access is the most effective mode for safely sharing highly informative confidential data.", "practitionerNote": ""}, {"term": "Big Data (the three Vs)", "definition": "Large modern digital datasets characterised by volume, variety and velocity (with veracity and value sometimes added). Administrative registries increasingly fall into this category, enabling near-real-time policy analysis but raising confidentiality and processing challenges.", "practitionerNote": ""}], "tools": [{"label": "Reflection Journal", "intro": "Use these prompts to connect this book to your own practice.", "html": "<label class=\"fld-label\">Which programme in your own work could be evaluated using administrative records you already collect — and what outcome would you link to?</label>\n<textarea class=\"fld\" id=\"r1\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<label class=\"fld-label\">Does your programme have an eligibility threshold or a rule-change that could serve as a natural experiment (RDD or IV)? Describe it.</label>\n<textarea class=\"fld\" id=\"r2\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<label class=\"fld-label\">What is the single biggest barrier — legal, technical or trust-based — to linking and accessing the data you would need, and what is one step to lower it?</label>\n<textarea class=\"fld\" id=\"r3\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<div style=\"margin-top:12px;font-family:Inter,sans-serif;font-size:13px;color:var(--muted)\">Reflections stay in your browser only and are not sent anywhere.</div>"}], "connections": [], "southAsia": ["Aadhaar and other unique-ID systems make deterministic database linkage across Indian registries newly feasible — the technical precondition the book treats as central to serious impact evaluation.", "Vast administrative systems already exist in the region (NREGA MIS, SECC, health HMIS, education UDISE+, EPFO/ESIC) — the book's argument is that these monitoring systems are latent evaluation datasets waiting to be linked and analysed.", "Hungary's reform in a low-trust environment is the volume's most transferable case for South Asia, where outdated legislation and institutional distrust — not technology — are usually the binding constraint on data access.", "India's Digital Personal Data Protection Act (2023) makes Livraga's distinction between real confidentiality risks and imaginary pretexts, plus remote-access models, immediately practical for evaluators seeking legal data access.", "The book's insistence on planning data collection and linkage at the design stage speaks to South Asia's habit of commissioning evaluations only after a scheme launches, when the counterfactual data no longer exist."], "critiques": ["The volume is heavily Europe-centric (11 European countries plus OECD/Eurostat), assuming statistical infrastructure, unique identifiers and administrative capacity that many developing-country settings lack.", "As an edited collection its coverage is uneven — the methods introduction is deliberately non-technical, so readers seeking rigorous derivations must go to the cited Angrist-Pischke and Imbens-Rubin texts.", "Its optimism that anonymisation 'solves' confidentiality can understate the escalating re-identification risk from data linkage and external datasets — a tension the book acknowledges but does not fully resolve.", "The volume gives limited attention to the political economy of data — who controls registries, whose interests are served by (non-)release, and the power asymmetries between citizens and the state that holds their records.", "Methods like RDD and IV recover local effects (around a threshold or for compliers); the book underplays the external-validity gap between these internally valid estimates and the population-wide effects policymakers actually want."], "suggested": [], "systemPrompt": "You are an expert reading companion for 'Data-Driven Policy Impact Evaluation: How Access to Microdata is Transforming Policy Design' edited by Nuno Crato and Paolo Paruolo (Springer, 2019, open access). Your audience is development practitioners, researchers and students in South Asia. Explain the book's arguments faithfully — the case that administrative microdata plus counterfactual impact evaluation methods (differences-in-differences, regression discontinuity, instrumental variables, propensity score matching) make rigorous causal policy evaluation possible without controlled experiments. Cover the data-access, linkage and anonymisation themes as well as the applied case studies. Note major critiques (Europe-centrism, external validity, privacy, political economy of data) and connect the ideas to contemporary South Asian development debates. Be accurate to the actual text."};
+
+// Tab management
+const TABS = [
+  {id:"overview",label:"Overview"},
+  {id:"pathways",label:"Pathways"},
+  {id:"sections",label:"Sections"},
+  {id:"concepts",label:"Concepts"},
+  {id:"toolkit",label:"Toolkit"},
+  {id:"context",label:"Context"},
+  {id:"ask",label:"Ask"},
+];
+
+const tabbar = document.getElementById("tabbar");
+TABS.forEach(t => {
+  const btn = document.createElement("button");
+  btn.className = "tab-btn" + (t.id === "overview" ? " active" : "");
+  btn.textContent = t.label;
+  btn.onclick = () => switchTab(t.id);
+  tabbar.appendChild(btn);
+});
+
+function switchTab(id) {
+  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById("p-" + id).classList.add("active");
+  tabbar.querySelectorAll(".tab-btn")[TABS.findIndex(t=>t.id===id)].classList.add("active");
+}
+
+// OVERVIEW
+(function() {
+  const el = document.getElementById("p-overview");
+  el.innerHTML = `
+    <div class="hero">
+      <div class="day-badge">${DATA.dayBadge}</div>
+      <h1>${DATA.title}</h1>
+      <div class="auth">${DATA.author}</div>
+      <div class="tagline">${DATA.tagline}</div>
+      <div class="pills">${DATA.pills.map(p=>`<span class="pill">${p}</span>`).join("")}</div>
+    </div>
+    <div class="stat-grid">
+      ${DATA.stats.map(s=>`<div class="stat"><div class="stat-n">${s.n}</div><div class="stat-l">${s.l}</div></div>`).join("")}
+    </div>
+    <div class="arg">
+      <div class="h1">The central argument</div>
+      ${DATA.argument.map(p=>`<p>${p}</p>`).join("")}
+    </div>
+    <div class="h1" style="margin-top:24px">What's in this companion</div>
+    <div class="nav-grid">
+      ${[["pathways","Learning Pathways","Structured reading routes by role"],["sections","Section by Section","Full analysis with dev econ connections"],["concepts","Concepts & Frameworks","Key terms with practitioner notes"],["toolkit","Practitioner Toolkit","Interactive tools"],["context","Book in Context","Connections and assessment"],["ask","Ask the Book","Gemini-powered Q&A"]].map(([id,label,desc])=>`<button class="nav-card" onclick="switchTab('${id}')" ><div class="nav-card-label">${label}</div><div class="nav-card-desc">${desc}</div></button>`).join("")}
+    </div>
+  `;
+})();
+
+// PATHWAYS
+(function() {
+  const el = document.getElementById("p-pathways");
+  let active = 0;
+  function render() {
+    const pw = DATA.pathways[active];
+    el.innerHTML = `
+      <div class="h1">Learning Pathways</div>
+      <div class="sub">Three structured routes through the book based on your role.</div>
+      <div class="pw-tabs">
+        ${DATA.pathways.map((p,i)=>`<button class="pw-btn ${i===active?"active":""}" onclick="__pw(${i})">${p.label}</button>`).join("")}
+      </div>
+      <div class="pw-desc">${pw.desc}</div>
+      <div class="pw-steps">
+        ${pw.steps.map((s,i)=>`<div class="pw-step"><div class="step-n">${i+1}</div><div><div class="step-title">${s.section}</div><div class="step-focus">${s.focus}</div></div></div>`).join("")}
+      </div>
+    `;
+  }
+  window.__pw = (i) => { active = i; render(); };
+  render();
+})();
+
+// SECTIONS
+(function() {
+  const el = document.getElementById("p-sections");
+  let openId = null;
+  let showDev = {};
+  function render() {
+    el.innerHTML = `
+      <div class="h1">Section by Section</div>
+      <div class="sub">All sections with full analysis and development economics connections.</div>
+      ${DATA.sections.map((s,i)=>`
+        <div class="sec-card">
+          <button class="sec-header" onclick="__sec(${i})">
+            <div class="sec-num">§${i+1}</div>
+            <div class="sec-title-block"><div class="sec-title">${s.title}</div><div class="sec-sub">${s.subtitle}</div></div>
+            <div class="sec-chev">${openId===i?"−":"+"}</div>
+          </button>
+          ${openId===i?`<div class="sec-body">
+            <div class="sec-summary">${s.summary}</div>
+            <div class="ideas-label">Key ideas</div>
+            ${s.ideas.map(idea=>`<div class="idea-item"><span class="idea-dot"></span><span>${idea}</span></div>`).join("")}
+            <div class="ideas-label" style="margin-top:14px">Key quotes</div>
+            ${s.quotes.map(q=>`<blockquote>${q}</blockquote>`).join("")}
+            <button class="dev-toggle" onclick="__dev(${i})">${showDev[i]?"Hide":"Show"} development economics connection</button>
+            ${showDev[i]?`<div class="dev-text">${s.devEcon}</div>`:""}
+          </div>`:""}
+        </div>
+      `).join("")}
+    `;
+  }
+  window.__sec = (i) => { openId = openId===i?null:i; render(); };
+  window.__dev = (i) => { showDev[i]=!showDev[i]; render(); };
+  render();
+})();
+
+// CONCEPTS
+(function() {
+  const el = document.getElementById("p-concepts");
+  let open = null;
+  function render() {
+    el.innerHTML = `
+      <div class="h1">Concepts & Frameworks</div>
+      <div class="sub">Key terms with definitions and practitioner notes. Click to expand.</div>
+      ${DATA.concepts.map((c,i)=>`
+        <div class="concept-card ${open===i?"open":""}" onclick="__con(${i})">
+          <div class="concept-term">${c.term}</div>
+          ${open===i?`<div class="concept-def">${c.definition}</div><div class="prac-label">Practitioner note</div><div class="prac-text">${c.practitionerNote}</div>`:""}
+        </div>
+      `).join("")}
+    `;
+  }
+  window.__con = (i) => { open = open===i?null:i; render(); };
+  render();
+})();
+
+// TOOLKIT  
+(function() {
+  const el = document.getElementById("p-toolkit");
+  el.innerHTML = `
+    <div class="h1">Practitioner Toolkit</div>
+    <div class="sub">Interactive tools derived from the book. Use for personal practice or programme design.</div>
+    <div class="tool-tabs">
+      ${DATA.tools.map((t,i)=>`<button class="tool-btn ${i===0?"active":""}" onclick="__tool(${i})">${t.label}</button>`).join("")}
+    </div>
+    ${DATA.tools.map((t,i)=>`
+      <div class="tool-panel ${i===0?"active":""}" id="toolp-${i}">
+        <div class="tool-intro">${t.intro}</div>
+        ${t.html}
+      </div>
+    `).join("")}
+  `;
+  window.__tool = (i) => {
+    document.querySelectorAll(".tool-btn").forEach((b,j)=>b.classList.toggle("active",i===j));
+    document.querySelectorAll(".tool-panel").forEach((p,j)=>p.classList.toggle("active",i===j));
+  };
+})();
+
+// CONTEXT
+(function() {
+  const el = document.getElementById("p-context");
+  el.innerHTML = `
+    <div class="h1">Book in Context</div>
+    <div class="sub">How this book fits within the broader literature, and an honest assessment of its limits.</div>
+    <div class="context-h">Connected works</div>
+    ${DATA.connections.map(c=>`<div class="conn-card"><div class="conn-book">${c.book}</div><div class="conn-text">${c.text}</div></div>`).join("")}
+    <div class="context-h" style="margin-top:24px">Honest assessment</div>
+    <div class="sub">Limits and qualifications for the ImpactMojo context:</div>
+    ${DATA.critiques.map((c,i)=>`<div class="crit-item"><div class="crit-n">${i+1}</div><div class="crit-text">${c}</div></div>`).join("")}
+  `;
+})();
+
+// ASK
+(function() {
+  const el = document.getElementById("p-ask");
+  let apiKey = "", msgs = [], loading = false;
+  
+  function renderSetup() {
+    el.innerHTML = `
+      <div class="ask-setup">
+        <div class="h1">Ask the Book</div>
+        <div class="sub">AI-powered Q&A using Gemini 2.0 Flash (free). Requires a Google AI Studio API key.</div>
+        <div class="setup-steps">
+          <div class="setup-step"><span class="setup-num">1</span><span>Go to <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com/app/apikey</a> and create a free API key.</span></div>
+          <div class="setup-step"><span class="setup-num">2</span><span>Paste it below. The key stays in your browser only and is never stored.</span></div>
+        </div>
+        <div class="key-row">
+          <input class="key-input" type="password" id="key-in" placeholder="AIza..." oninput="document.getElementById('key-submit').disabled=!this.value.trim()"/>
+          <button class="key-btn" id="key-submit" disabled onclick="__setKey()">Connect</button>
+        </div>
+      </div>
+    `;
+  }
+  
+  function renderChat() {
+    el.innerHTML = `
+      <div class="ask-ui">
+        <div class="ask-hdr"><span class="ask-hdr-title">Ask the Book</span><button class="ask-reset" onclick="__resetKey()">Change key</button></div>
+        <div class="msgs" id="msgs-box">
+          ${msgs.length===0?`<div><div class="suggested-label">Suggested questions</div>${DATA.suggested.map(q=>`<button class="sug-btn" onclick="__ask('${q.replace(/'/g,"\'")}')">${q}</button>`).join("")}</div>`:""}
+          ${msgs.map(m=>`<div class="msg ${m.role}"><div class="msg-text">${m.content}</div></div>`).join("")}
+          ${loading?`<div class="msg assistant"><div class="typing"><span></span><span></span><span></span></div></div>`:""}
+        </div>
+        <div class="ask-input-row">
+          <textarea class="ask-input" id="ask-in" rows="2" placeholder="Ask about the book..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();__sendAsk()}"></textarea>
+          <button class="ask-send" id="ask-send" onclick="__sendAsk()">Send</button>
+        </div>
+      </div>
+    `;
+    const box = document.getElementById("msgs-box");
+    if(box) box.scrollTop = box.scrollHeight;
+  }
+  
+  window.__setKey = () => {
+    const v = document.getElementById("key-in").value.trim();
+    if(v) { apiKey = v; renderChat(); }
+  };
+  window.__resetKey = () => { apiKey=""; msgs=[]; renderSetup(); };
+  window.__ask = (q) => {
+    document.getElementById("ask-in").value = q;
+    __sendAsk();
+  };
+  window.__sendAsk = async () => {
+    const inp = document.getElementById("ask-in");
+    if(!inp) return;
+    const q = inp.value.trim();
+    if(!q || loading) return;
+    inp.value = "";
+    msgs.push({role:"user",content:q});
+    loading = true; renderChat();
+    try {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,{
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({
+          system_instruction:{parts:[{text:DATA.systemPrompt}]},
+          contents: msgs.map(m=>{return{role:m.role==="assistant"?"model":"user",parts:[{text:m.content}]}}).slice(0,-1).concat([{role:"user",parts:[{text:q}]}]),
+          generationConfig:{maxOutputTokens:1200,temperature:0.3}
+        })
+      });
+      const data = await res.json();
+      if(!res.ok) throw new Error(data.error?.message||"API error");
+      const reply = data?.candidates?.[0]?.content?.parts?.map(p=>p.text).join("")||"No response.";
+      msgs.push({role:"assistant",content:reply});
+    } catch(e) {
+      msgs.push({role:"assistant",content:"Error: "+e.message});
+    }
+    loading = false; renderChat();
+  };
+  
+  renderSetup();
+})();
+</script>
+
+<!-- ImpactMojo Footer -->
+<!-- Ethics & Copyright Disclaimer -->
+<section class="im-ethics-disclaimer" style="max-width:1100px;margin:2rem auto 1rem;padding:1.25rem 1.5rem;background:rgba(14,165,233,0.06);border-left:4px solid #0EA5E9;border-radius:8px;font-family:'Inter','Amaranth',sans-serif;font-size:0.85rem;line-height:1.65;color:var(--im-text-secondary,#64748B);">
+  <p class="im-ethics-heading" style="margin:0 0 0.5rem;font-weight:600;">A note on books, authors, and intellectual labour</p>
+  <p style="margin:0;">All books companioned on ImpactMojo have been duly purchased with real money and form part of a personal collection. None of the source texts have been obtained by any illegal means — we deeply respect the intellectual labour of authors, editors, and publishers. These reading companions are offered free of charge as educational aids; ImpactMojo does not sell book companions as a paid service and therefore does not violate any commercial licensing agreement or copyright. Nothing here reproduces the full text of any book — each companion is an interpretive study guide.</p>
+</section>
+
+<footer class="im-footer" role="contentinfo">
+<div class="im-footer-content">
+<p class="im-footer-made">Made with <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;color:#EF4444;"><use href="#si_Heart"/></svg> by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+<div class="im-footer-grid">
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Info"/></svg> About ImpactMojo</h4>
+<ul>
+<li><a href="../about.html">About Us</a></li>
+<li><a href="../contact.html">Contact</a></li>
+<li><a href="https://github.com/ImpactMojo/ImpactMojo" rel="noopener noreferrer" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Globe_detailed"/></svg> GitHub</a></li>
+<li><a href="../transparency.html">Transparency</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Lock"/></svg> Legal</h4>
+<ul>
+<li><a href="../privacy-policy.html">Privacy Policy</a></li>
+<li><a href="../terms-of-service.html">Terms of Service</a></li>
+<li><a href="../disclaimer.html">Disclaimer</a></li>
+<li><a href="../data-protection.html">Data Protection</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Lightning"/></svg> Quick Links</h4>
+<ul>
+<li><a href="../catalog.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Library_books"/></svg> All Courses</a></li>
+<li><a href="../premium.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Flare"/></svg> Premium Content</a></li>
+<li><a href="../coaching.html">Coaching</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Book"/></svg> Resources</h4>
+<ul>
+<li><a href="../handouts.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Article"/></svg> Handouts</a></li>
+<li><a href="../blog.html">Blog</a></li>
+<li><a href="../faq.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Help"/></svg> FAQ</a></li>
+<li><a href="../sitemap.html">Sitemap</a></li>
+<li><a href="/docs/" rel="noopener noreferrer" target="_blank">Documentation</a></li>
+</ul>
+</div>
+</div>
+<div class="im-footer-bottom">
+<p>&copy; 2026 ImpactMojo. All content for educational purposes only.</p>
+<p>Released under <strong>MIT License</strong> | Supported by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+</div>
+</div>
+</footer>
+
+<script src="/js/theme.js"></script>
+
+
+<!-- Supabase Auth -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="/js/state-manager.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+
+<!-- Floating paper plane (ImpactMojo decorative element) -->
+<svg class="im-paper-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M80,130 L150,50" stroke="#10B981" stroke-width="2" stroke-dasharray="4,4"/>
+  <circle cx="150" cy="50" r="4" fill="#6366F1"/>
+  <circle cx="40" cy="155" r="2" fill="#0EA5E9" opacity="0.6"/>
+  <circle cx="35" cy="165" r="1.5" fill="#6366F1" opacity="0.4"/>
+  <circle cx="45" cy="170" r="1" fill="#10B981" opacity="0.5"/>
+</svg>
+<script src="/js/translate-sarvam.js" defer></script>
+</body>
+</html>

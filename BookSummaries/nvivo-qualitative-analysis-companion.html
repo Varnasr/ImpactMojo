@@ -1,0 +1,777 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Doing Qualitative Data Analysis with NVivo — ImpactMojo Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+/* === ImpactMojo Design System === */
+:root {
+    --im-gradient: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+    --im-accent: #0EA5E9;
+    --im-nav-bg: rgba(15, 23, 42, 0.95);
+    --im-border: #334155;
+    --im-text-primary: #F1F5F9;
+    --im-text-secondary: #94A3B8;
+    --im-text-muted: #64748B;
+    --im-card-bg: #1E293B;
+    --im-hover-bg: #334155;
+    --im-secondary-bg: #1E293B;
+}
+body { padding-top: 56px !important; }
+.im-topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    background: var(--im-nav-bg);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--im-border);
+    padding: 0.5rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.75rem; flex-wrap: wrap;
+    font-family: 'Inter', 'Amaranth', sans-serif;
+}
+.im-topbar a { text-decoration: none; }
+.im-topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+.im-topbar-home {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-weight: 700; font-size: 1rem;
+    background: var(--im-gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.im-topbar-home svg { width: 24px; height: 24px; flex-shrink: 0; stroke: #0EA5E9; }
+.im-topbar-right { display: flex; align-items: center; gap: 0.5rem; }
+.im-premium-btn {
+    background: var(--im-gradient);
+    color: #fff !important; -webkit-text-fill-color: #fff;
+    padding: 0.35rem 0.85rem; border-radius: 6px;
+    font-size: 0.8rem; font-weight: 600;
+    display: flex; align-items: center; gap: 0.35rem;
+    transition: opacity 0.2s; border: none; cursor: pointer;
+}
+.im-browse-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--im-text, #1C1917); background: var(--im-surface, #FFFFFF); border: 1.5px solid var(--im-border, #E2E8F0); padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; transition: background 0.18s ease, border-color 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease; }
+.im-browse-btn:hover { background: var(--im-accent, #0EA5E9); color: #FFFFFF; border-color: var(--im-accent, #0EA5E9); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25); }
+.im-browse-btn svg { width: 14px; height: 14px; }
+@media (prefers-color-scheme: dark) { .im-browse-btn { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.18); } .im-browse-btn:hover { background: var(--im-accent, #0EA5E9); border-color: var(--im-accent, #0EA5E9); color: #FFFFFF; } }
+.im-premium-btn:hover { opacity: 0.9; }
+.im-premium-btn svg { width: 14px; height: 14px; }
+.im-theme-selector {
+    display: flex; gap: 2px;
+    background: var(--im-card-bg);
+    border: 1px solid var(--im-border);
+    border-radius: 8px; padding: 2px;
+}
+.im-theme-btn {
+    background: transparent; border: none;
+    color: var(--im-text-secondary);
+    padding: 6px; border-radius: 5px; cursor: pointer;
+    transition: all 0.2s; display: flex; align-items: center;
+    justify-content: center; width: 30px; height: 30px;
+}
+.im-theme-btn:hover { background: var(--im-hover-bg); color: var(--im-text-primary); }
+.im-theme-btn.active { background: var(--im-accent); color: #fff; }
+.im-theme-btn svg { width: 16px; height: 16px; }
+.im-footer {
+    background: var(--im-secondary-bg);
+    border-top: 1px solid var(--im-border);
+    padding: 2rem 1rem; margin-top: auto;
+    font-family: 'Inter', 'Amaranth', sans-serif;
+    color: var(--im-text-secondary);
+}
+.im-footer-content { max-width: 1100px; margin: 0 auto; }
+.im-footer-made {
+    text-align: center; margin-bottom: 1.5rem;
+    font-size: 0.9rem; color: var(--im-text-muted);
+}
+.im-footer-made a { color: var(--im-accent); text-decoration: none; }
+.im-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem; margin-bottom: 1.5rem;
+}
+.im-footer-section h4 {
+    font-family: 'Inter', 'Amaranth', sans-serif;
+    color: var(--im-text-primary);
+    font-size: 0.9rem; margin-bottom: 0.75rem; font-weight: 600;
+}
+.im-footer-section ul { list-style: none; padding: 0; margin: 0; }
+.im-footer-section li { margin-bottom: 0.4rem; }
+.im-footer-section a {
+    color: var(--im-text-secondary);
+    text-decoration: none; font-size: 0.85rem; transition: color 0.2s;
+}
+.im-footer-section a:hover { color: var(--im-accent); }
+.im-footer-bottom {
+    text-align: center; padding-top: 1rem;
+    border-top: 1px solid var(--im-border);
+    font-size: 0.8rem; color: var(--im-text-muted);
+}
+.im-footer-bottom p { margin: 0.25rem 0; }
+.im-footer-bottom a { color: var(--im-accent); text-decoration: none; }
+@media (max-width: 640px) {
+    .im-topbar { padding: 0.4rem 0.75rem; gap: 0.5rem; }
+    .im-topbar-home { font-size: 0.85rem; }
+    .im-topbar-home svg { width: 20px; height: 20px; }
+    .im-topbar-home span { display: none; }
+    .im-premium-btn { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
+    .im-theme-btn { width: 26px; height: 26px; padding: 4px; }
+    .im-theme-btn svg { width: 14px; height: 14px; }
+    .im-footer-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+}
+@media (max-width: 400px) {
+    .im-footer-grid { grid-template-columns: 1fr; }
+}
+/* === End ImpactMojo Design System === */
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F8F5F0;--card:#fff;--border:#E8E0D5;--text:#1C1C1C;--muted:#6B6560;
+  --accent:#1A3C34;--accent-light:#EBF5F2;--teal:#1A6B5A;--teal-light:#EBF5F2;
+  --radius:8px;
+}
+body{background:var(--bg);font-family:'Amaranth','Inter',system-ui,sans-serif;color:var(--text);padding-top:52px}
+.app{min-height:100vh;display:flex;flex-direction:column}
+nav{background:#1C1C1C;display:flex;align-items:center;gap:20px;padding:0 20px;min-height:52px;flex-wrap:wrap;position:sticky;top:52px;z-index:99}
+.brand{display:flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.brand-name{font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:#fff;letter-spacing:.05em;text-transform:uppercase}
+.tabs{display:flex;gap:2px;flex-wrap:wrap}
+.tab-btn{background:none;border:none;padding:6px 13px;font-family:Inter,sans-serif;font-size:11px;font-weight:600;color:rgba(255,255,255,.5);cursor:pointer;border-radius:4px;text-transform:uppercase;letter-spacing:.04em;transition:all .15s}
+.tab-btn:hover{color:rgba(255,255,255,.85)}
+.tab-btn.active{color:#fff;background:var(--accent)}
+main{flex:1;padding:32px 20px;max-width:860px;margin:44px auto 0;width:100%}
+.h1{font-family:Inter,sans-serif;font-size:22px;font-weight:700;margin-bottom:8px}
+.sub{color:var(--muted);font-size:15px;margin-bottom:24px;font-family:Inter,sans-serif;line-height:1.5}
+.panel{display:none}.panel.active{display:block}
+
+/* HERO */
+.hero{background:#1C1C1C;color:#fff;border-radius:12px;padding:32px;margin-bottom:20px}
+.day-badge{display:inline-block;background:var(--accent);font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 10px;border-radius:4px;margin-bottom:14px}
+.hero h1{font-size:34px;font-weight:700;margin-bottom:4px}
+.hero .auth{font-family:Inter,sans-serif;font-size:13px;color:rgba(255,255,255,.5);margin-bottom:14px}
+.hero .tagline{font-size:15px;color:rgba(255,255,255,.8);line-height:1.6;max-width:620px;margin-bottom:18px}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-family:Inter,sans-serif;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.8)}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:18px 14px;text-align:center}
+.stat-n{font-size:30px;font-weight:700;color:var(--accent);font-family:Inter,sans-serif}
+.stat-l{font-family:Inter,sans-serif;font-size:12px;color:var(--muted);margin-top:4px}
+.arg{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:22px;margin-bottom:24px}
+.arg p{font-size:15px;line-height:1.75}
+.arg p+p{margin-top:1rem}
+.nav-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.nav-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:left;cursor:pointer;transition:all .15s}
+.nav-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.nav-card-label{font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
+.nav-card-desc{font-family:Inter,sans-serif;font-size:12px;color:var(--muted)}
+
+/* PATHWAYS */
+.pw-tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.pw-btn{font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:6px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s}
+.pw-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.pw-desc{font-family:Inter,sans-serif;font-size:14px;color:var(--muted);padding:12px 14px;background:var(--accent-light);border-radius:6px;margin-bottom:20px;line-height:1.5}
+.pw-steps{display:flex;flex-direction:column;gap:10px}
+.pw-step{display:flex;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px}
+.step-n{width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-family:Inter,sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-title{font-family:Inter,sans-serif;font-size:14px;font-weight:700;margin-bottom:3px}
+.step-focus{font-family:Inter,sans-serif;font-size:13px;color:var(--muted);line-height:1.5}
+
+/* SECTIONS */
+.sec-card{background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.sec-header{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;cursor:pointer;background:none;border:none;text-align:left;width:100%}
+.sec-num{font-family:Inter,sans-serif;font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;min-width:24px;padding-top:2px}
+.sec-title{font-family:Inter,sans-serif;font-size:15px;font-weight:700;margin-bottom:2px}
+.sec-sub{font-family:Inter,sans-serif;font-size:12px;color:var(--muted)}
+.sec-chev{font-size:16px;color:var(--muted);padding-top:2px;margin-left:auto}
+.sec-body{padding:0 18px 18px 56px;border-top:1px solid var(--border)}
+.sec-summary{font-size:15px;line-height:1.75;padding-top:14px;margin-bottom:18px}
+.ideas-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
+.idea-item{display:flex;gap:8px;margin-bottom:7px;font-family:Inter,sans-serif;font-size:13px;line-height:1.55}
+.idea-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:6px}
+blockquote{font-style:italic;font-size:14px;color:var(--muted);border-left:3px solid var(--accent);padding-left:12px;margin-bottom:8px;line-height:1.6}
+.dev-toggle{font-family:Inter,sans-serif;font-size:12px;font-weight:600;color:var(--teal);background:var(--teal-light);border:none;padding:7px 12px;border-radius:4px;cursor:pointer;margin-top:10px}
+.dev-text{margin-top:10px;font-family:Inter,sans-serif;font-size:13px;line-height:1.65;background:var(--teal-light);padding:12px;border-radius:6px}
+
+/* CONCEPTS */
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+.concept-card:hover,.concept-card.open{border-color:var(--accent)}
+.concept-term{font-family:Inter,sans-serif;font-size:15px;font-weight:700}
+.concept-def{font-family:Inter,sans-serif;font-size:14px;line-height:1.7;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.prac-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-top:10px;margin-bottom:4px}
+.prac-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65;color:var(--muted)}
+
+/* TOOLKIT */
+.tool-tabs{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+.tool-btn{font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:6px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s}
+.tool-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tool-panel{display:none;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:22px}
+.tool-panel.active{display:block}
+.tool-intro{font-family:Inter,sans-serif;font-size:14px;color:var(--muted);margin-bottom:20px;line-height:1.5}
+.fld-label{font-family:Inter,sans-serif;font-size:13px;font-weight:600;margin-bottom:5px;display:block}
+.fld{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;outline:none;background:var(--bg);margin-bottom:12px}
+.fld:focus{border-color:var(--accent)}
+.output-box{background:var(--accent-light);padding:14px;border-radius:6px;margin-top:16px;font-family:Inter,sans-serif;font-size:14px;line-height:1.65}
+.output-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:8px}
+
+/* CONTEXT */
+.conn-card{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:16px 18px;margin-bottom:10px}
+.conn-book{font-family:Inter,sans-serif;font-size:14px;font-weight:700;margin-bottom:5px}
+.conn-text{font-family:Inter,sans-serif;font-size:13px;color:var(--muted);line-height:1.65}
+.crit-item{display:flex;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:8px}
+.crit-n{width:24px;height:24px;border-radius:50%;background:#FFF8E6;color:#C8910A;font-family:Inter,sans-serif;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.crit-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65}
+.context-h{font-family:Inter,sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;margin-top:6px}
+
+/* ASK */
+.ask-setup{}
+.setup-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+.setup-step{display:flex;gap:12px;font-family:Inter,sans-serif;font-size:14px;line-height:1.5}
+.setup-num{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.setup-step a{color:var(--accent)}
+.key-row{display:flex;gap:10px}
+.key-input{flex:1;max-width:400px;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;outline:none}
+.key-btn{padding:9px 22px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:Inter,sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.key-btn:disabled{opacity:.4;cursor:not-allowed}
+.ask-ui{display:flex;flex-direction:column;height:calc(100vh - 180px)}
+.ask-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.ask-hdr-title{font-family:Inter,sans-serif;font-size:18px;font-weight:700}
+.ask-reset{background:none;border:1px solid var(--border);border-radius:4px;padding:4px 10px;font-family:Inter,sans-serif;font-size:12px;color:var(--muted);cursor:pointer}
+.msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px;margin-bottom:10px}
+.suggested-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px}
+.sug-btn{display:block;width:100%;text-align:left;padding:9px 12px;background:var(--card);border:1px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;cursor:pointer;margin-bottom:6px;transition:all .15s}
+.sug-btn:hover{border-color:var(--accent);background:var(--accent-light)}
+.msg{max-width:85%}
+.msg.user{align-self:flex-end}
+.msg.assistant{align-self:flex-start}
+.msg-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65;padding:10px 14px;border-radius:8px;white-space:pre-wrap}
+.msg.user .msg-text{background:var(--accent);color:#fff}
+.msg.assistant .msg-text{background:var(--card);border:1px solid var(--border)}
+.typing{display:flex;gap:4px;padding:12px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px}
+.typing span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:bounce 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.ask-input-row{display:flex;gap:8px;border-top:1px solid var(--border);padding-top:10px}
+.ask-input{flex:1;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;resize:none;outline:none;background:var(--bg)}
+.ask-input:focus{border-color:var(--accent)}
+.ask-send{padding:9px 18px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:Inter,sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.ask-send:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:640px){.stat-grid{grid-template-columns:repeat(2,1fr)}.nav-grid{grid-template-columns:1fr 1fr}.sec-body{padding-left:18px}}
+
+/* WCAG 2.1 AA (1.4.1 Use of Color): inline anchors in content paragraphs must be distinguishable without relying on color alone. Scoped to <main> so nav/footer button-links are unaffected. */
+main p a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]),
+main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
+/* === Dark Mode === */
+html.dark body { background: #0f172a; color: #e2e8f0; }
+html.dark #root,
+html.dark main,
+html.dark .app,
+html.dark [id^="p-"],
+html.dark .panel { filter: invert(0.88) hue-rotate(180deg); }
+html.dark #root img,
+html.dark #root svg:not([class*="im-"]),
+html.dark main img,
+html.dark main svg:not([class*="im-"]) { filter: invert(1) hue-rotate(180deg); }
+html.dark .im-topbar, html.dark .im-footer { filter: none; }
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+<!-- SEO meta (autogenerated) -->
+<meta name="description" content="Doing Qualitative Data Analysis with NVivo (Dimitri Mortelmans, 2025) — ImpactMojo Companion. A chapter-by-chapter guide to coding, querying and analysing qualitative data in NVivo for South Asian researchers and practitioners.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.impactmojo.in/BookSummaries/nvivo-qualitative-analysis-companion.html">
+<meta property="og:title" content="Doing Qualitative Data Analysis with NVivo — ImpactMojo Companion">
+<meta property="og:description" content="Doing Qualitative Data Analysis with NVivo (Dimitri Mortelmans, 2025) — ImpactMojo Companion. A chapter-by-chapter guide to coding, querying and analysing qualitative data in NVivo for South Asian researchers and practitioners.">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:url" content="https://www.impactmojo.in/BookSummaries/nvivo-qualitative-analysis-companion.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ImpactMojo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Doing Qualitative Data Analysis with NVivo — ImpactMojo Companion">
+<meta name="twitter:description" content="Doing Qualitative Data Analysis with NVivo (Dimitri Mortelmans, 2025) — ImpactMojo Companion. A chapter-by-chapter guide to coding, querying and analysing qualitative data in NVivo for South Asian researchers and practitioners.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<!-- Favicons -->
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<!-- Translate -->
+<style>
+/* Skip link (WCAG 2.4.1) */
+.im-skip-link { position:absolute; top:-40px; left:0; background:#0EA5E9; color:#fff; padding:8px 16px; z-index:10000; text-decoration:none; font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600; }
+.im-skip-link:focus { top:0; }
+/* Floating paper plane */
+.im-paper-plane { position:fixed; bottom:2rem; right:2rem; width:60px; height:60px; opacity:0.14; pointer-events:none; z-index:0; animation: imFloat 6s ease-in-out infinite; }
+@keyframes imFloat { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-15px) rotate(3deg);} }
+html.dark .im-paper-plane { opacity:0.22; }
+/* Interactive companion CTA */
+.im-interactive-cta { display:inline-flex; align-items:center; gap:0.5rem; background:var(--im-gradient); color:#fff !important; -webkit-text-fill-color:#fff; padding:0.5rem 1rem; border-radius:6px; font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600; text-decoration:none; margin-top:14px; transition:opacity 0.2s; }
+.im-interactive-cta:hover { opacity:0.9; }
+
+/* === ImpactMojo Brand Override (fonts + dark mode) — v10.21 === */
+html body, html body .app, html body main, html body .panel,
+html body p, html body li, html body blockquote, html body .sec-summary, html body .arg p,
+html body .sub, html body .tagline, html body .hero, html body .hero h1 {
+  font-family: 'Amaranth', Arial, sans-serif !important;
+}
+html body h1, html body h2, html body h3, html body h4, html body h5, html body h6,
+html body .h1, html body .brand-name, html body .day-badge, html body .pill,
+html body .stat-n, html body .stat-l, html body .sec-title, html body .sec-sub, html body .sec-num,
+html body .concept-term, html body .step-title, html body .step-focus, html body .conn-book,
+html body .book-title, html body .tab-btn, html body .pw-btn, html body .tool-btn,
+html body .im-topbar, html body .im-topbar *, html body .im-footer, html body .im-footer * {
+  font-family: 'Inter', 'Amaranth', Helvetica, sans-serif !important;
+}
+html body code, html body pre, html body .mono, html body kbd, html body samp {
+  font-family: 'JetBrains Mono', ui-monospace, monospace !important;
+}
+
+/* Replace filter-invert dark mode with proper token-based dark mode */
+html.dark body { background: #0F172A !important; color: #E2E8F0 !important; }
+html.dark #root, html.dark main, html.dark .app, html.dark [id^="p-"], html.dark .panel,
+html.dark .arg, html.dark .hero, html.dark .stat, html.dark .nav-card, html.dark .pw-step,
+html.dark .sec-card, html.dark .sec-body, html.dark .concept-card, html.dark .tool-panel,
+html.dark .conn-card, html.dark .crit-item, html.dark .msg.assistant .msg-text,
+html.dark .output-box, html.dark .typing, html.dark .ask-input, html.dark .key-input,
+html.dark .fld, html.dark .tool-btn, html.dark .pw-btn, html.dark .sug-btn, html.dark .pw-desc {
+  filter: none !important;
+}
+html.dark { color-scheme: dark; }
+html.dark body,
+html.dark body .app,
+html.dark body main { background: #0F172A !important; color: #E2E8F0 !important; }
+html.dark .hero { background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%) !important; color: #F1F5F9 !important; border: 1px solid #334155; }
+html.dark .hero .auth, html.dark .hero .tagline { color: #CBD5E1 !important; }
+html.dark .stat, html.dark .arg, html.dark .nav-card, html.dark .sec-card, html.dark .pw-step,
+html.dark .concept-card, html.dark .tool-panel, html.dark .conn-card, html.dark .crit-item,
+html.dark .msg.assistant .msg-text { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .sec-header, html.dark .sec-body { background: transparent !important; color: #E2E8F0 !important; }
+html.dark .sec-body { border-top-color: #334155 !important; }
+html.dark .stat-n { color: #38BDF8 !important; }
+html.dark .stat-l, html.dark .sec-sub, html.dark .sub, html.dark .nav-card-desc,
+html.dark .step-focus, html.dark .pw-desc, html.dark .prac-text, html.dark .conn-text,
+html.dark .ideas-label, html.dark .prac-label, html.dark .output-label, html.dark .suggested-label,
+html.dark .dev-text, html.dark .fld-label { color: #94A3B8 !important; }
+html.dark .h1, html.dark .sec-title, html.dark .concept-term, html.dark .step-title,
+html.dark .nav-card-label, html.dark .conn-book, html.dark .context-h, html.dark .ask-hdr-title { color: #F1F5F9 !important; }
+html.dark blockquote { color: #CBD5E1 !important; border-left-color: #38BDF8 !important; }
+html.dark .pill { background: rgba(56, 189, 248, 0.15) !important; color: #7DD3FC !important; }
+html.dark .day-badge { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .tab-btn { color: rgba(226, 232, 240, 0.6) !important; }
+html.dark .tab-btn.active { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .tab-btn:hover { color: #F1F5F9 !important; }
+html.dark nav { background: #0F172A !important; border-bottom: 1px solid #334155; }
+html.dark .pw-btn, html.dark .tool-btn { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .pw-btn.active, html.dark .tool-btn.active { background: #0EA5E9 !important; border-color: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .pw-desc { background: rgba(14, 165, 233, 0.1) !important; color: #CBD5E1 !important; }
+html.dark .output-box { background: rgba(14, 165, 233, 0.1) !important; color: #E2E8F0 !important; }
+html.dark .step-n, html.dark .setup-num { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .sec-num { color: #38BDF8 !important; }
+html.dark .ideas-label, html.dark .prac-label, html.dark .output-label { color: #38BDF8 !important; }
+html.dark .dev-toggle { background: rgba(56, 189, 248, 0.1) !important; color: #7DD3FC !important; }
+html.dark .dev-text { background: rgba(56, 189, 248, 0.08) !important; color: #CBD5E1 !important; }
+html.dark .fld, html.dark .key-input, html.dark .ask-input { background: #0F172A !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .msg.user .msg-text { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .sug-btn { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .sug-btn:hover { background: rgba(14, 165, 233, 0.15) !important; border-color: #0EA5E9 !important; }
+html.dark .crit-n { background: rgba(251, 191, 36, 0.15) !important; color: #FCD34D !important; }
+html.dark #root img, html.dark #root svg:not([class*="im-"]),
+html.dark main img, html.dark main svg:not([class*="im-"]) { filter: none !important; }
+html.dark .im-topbar, html.dark .im-footer { filter: none !important; }
+/* === End ImpactMojo Brand Override === */
+
+/* Ethics disclaimer heading — readable in both modes */
+.im-ethics-disclaimer .im-ethics-heading { color: #0F172A !important; }
+html.dark .im-ethics-disclaimer .im-ethics-heading, body.dark-mode .im-ethics-disclaimer .im-ethics-heading { color: #F1F5F9 !important; }
+html.dark .im-ethics-disclaimer, body.dark-mode .im-ethics-disclaimer { background: rgba(56,189,248,0.08) !important; border-left-color: #38BDF8 !important; color: #CBD5E1 !important; }
+</style>
+<link rel="stylesheet" href="/assets/css/booksummary-dark.css">
+</head>
+<body>
+<a href="#main-content" class="im-skip-link">Skip to content</a>
+<header class="im-topbar" role="banner">
+  <div class="im-topbar-left">
+    <a class="im-topbar-home" href="/" aria-label="ImpactMojo home">
+      <img src="/assets/images/ImpactMojo%20Logo.png" alt="ImpactMojo" width="24" height="24" style="border-radius:4px;">
+      <span>ImpactMojo</span>
+    </a>  </div>
+  <div class="im-topbar-right">
+    <a href="/catalog.html" class="im-browse-btn" title="Browse all content"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Browse</a>
+    
+    <a class="im-premium-btn" href="/premium.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Premium
+    </a>
+    <div class="im-theme-selector" role="group" aria-label="Theme">
+      <button class="im-theme-btn" data-imtheme="system" title="System theme" aria-label="System theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </button>
+      <button class="im-theme-btn" data-imtheme="light" title="Light theme" aria-label="Light theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <button class="im-theme-btn" data-imtheme="dark" title="Dark theme" aria-label="Dark theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="app">
+<nav>
+  <div class="brand"><div class="dot"></div><span class="brand-name">ImpactMojo</span></div>
+  <div class="tabs" id="tabbar"></div>
+</nav>
+<main id="main-content">
+  <div class="panel active" id="p-overview"></div>
+  <div class="panel" id="p-pathways"></div>
+  <div class="panel" id="p-sections"></div>
+  <div class="panel" id="p-concepts"></div>
+  <div class="panel" id="p-toolkit"></div>
+  <div class="panel" id="p-context"></div>
+  <div class="panel" id="p-ask"></div>
+</main>
+</div>
+
+<!-- Sargam Icon Sprites -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+<symbol id="si_Direction_alt" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m3 3 18 7.92-7.987 2.093L10.92 21z"/></symbol>
+<symbol id="si_Flare" viewBox="0 0 24 24" fill="none"><g clip-path="url(#clip_si_Flare)"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M7 12H1m22 0h-6m-5 5v6m3.536-7.464 1.414 1.414m-9.9-9.9 1.414 1.414m7.072 0L16.95 7.05m-9.9 9.9 1.414-1.414M12 1v6m2 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0"/></g><defs><clipPath id="clip_si_Flare"><path fill="#fff" d="M0 0h24v24H0z"/></clipPath></defs></symbol>
+<symbol id="si_Info" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 8h.008M12 16v-5m10 1c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10"/></symbol>
+<symbol id="si_Lock" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M8 10V7c0-2.21 1.79-4 4-4s4 1.79 4 4v3m-4 5a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 0v3m-5.4-8h10.8c.88 0 1.6.72 1.6 1.6v7c0 1.32-1.08 2.4-2.4 2.4H7.4C6.08 21 5 19.92 5 18.6v-7c0-.88.72-1.6 1.6-1.6"/></symbol>
+<symbol id="si_Lightning" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m12.667 10.5 1.25-7.5L6 13h5l-1.25 7.5 7.917-10z" clip-rule="evenodd"/></symbol>
+<symbol id="si_Library_books" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M10 11h8m-8 3h4m-4-6h8m2 14H8.4C5.42 22 3 19.58 3 16.6V5m5.4-2h11.2A2.4 2.4 0 0 1 22 5.4v11.2a2.4 2.4 0 0 1-2.4 2.4H8.4A2.4 2.4 0 0 1 6 16.6V5.4A2.4 2.4 0 0 1 8.4 3"/></symbol>
+<symbol id="si_Book" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 7.333C12 5.5 10.5 4 8.667 4H2v12h6.708C12 16 12 19.334 12 19.334m0-12C12 5.5 13.5 4 15.333 4H22v12h-6.667C12 16 12 19.334 12 19.334m0-12v12m1.875 1.124A2.58 2.58 0 0 1 16.167 19H21m-10.875 1.458A2.54 2.54 0 0 0 7.833 19H3"/></symbol>
+<symbol id="si_Article" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M8 12h8m-8 3h4M8 9h8M4.4 4h15.2A2.4 2.4 0 0 1 22 6.4v11.2a2.4 2.4 0 0 1-2.4 2.4H4.4A2.4 2.4 0 0 1 2 17.6V6.4A2.4 2.4 0 0 1 4.4 4"/></symbol>
+<symbol id="si_Mail" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m5 7.06 6.87 5.89c.07.06.19.06.26 0L19 7.06M3.2 4h17.6c.66 0 1.2.54 1.2 1.2v12.4c0 1.32-1.08 2.4-2.4 2.4H4.4C3.08 20 2 18.92 2 17.6V5.2C2 4.54 2.54 4 3.2 4"/></symbol>
+<symbol id="si_Help" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M11.83 14v-.621a2.33 2.33 0 0 1 1.164-2.02c1.126-.66 1.514-2.057.854-3.183s-2.057-1.514-3.183-.854C9.965 7.75 9.5 8.487 9.5 9.341M12 17h-.008M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12s4.477 10 10 10 10-4.477 10-10"/></symbol>
+<symbol id="si_Heart" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.696 3C14.652 3 12.887 4.197 12 5.943 11.113 4.197 9.348 3 7.304 3 4.374 3 2 5.457 2 8.481s1.817 5.796 4.165 8.073S12 21 12 21s3.374-2.133 5.835-4.446C20.46 14.088 22 11.514 22 8.481S19.626 3 16.696 3"/></symbol>
+<symbol id="si_Globe_detailed" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M22 12c0 5.523-4.477 10-10 10m10-10c0-5.523-4.477-10-10-10m10 10H2m10 10C6.477 22 2 17.523 2 12m10 10 .66-.31c2.1-2.71 3.34-6.14 3.34-9.78s-1.22-7-3.27-9.69L12 2m0 20-.73-.31A15.94 15.94 0 0 1 8 12c0-3.64 1.24-7.07 3.34-9.78L12 2M2 12C2 6.477 6.477 2 12 2m7.14 17c-1.82-1.85-4.34-3-7.14-3s-5.33 1.15-7.14 3M19.14 5C17.33 6.85 14.8 8 12 8S6.68 6.85 4.86 5"/></symbol>
+</svg>
+
+
+<div id="root"></div>
+<script>
+const DATA = {"title": "Doing Qualitative Data Analysis with NVivo", "dayBadge": "Qualitative Methods", "author": "Dimitri Mortelmans · Springer, 2025", "tagline": "An interactive companion to Dimitri Mortelmans' open-access handbook on doing qualitative data analysis with NVivo.", "pills": ["Qualitative Methods", "CAQDAS", "Coding", "Grounded Theory", "NVivo", "Research Methods"], "stats": [{"n": "21", "l": "Chapters"}, {"n": "16", "l": "Key concepts"}], "argument": ["This is a practical, methodology-aware manual for using NVivo — the leading Computer Assisted Qualitative Data Analysis Software (CAQDAS) — to analyse interviews, focus groups, field notes, images, social media and literature. Mortelmans' central claim is that NVivo does three things well and nothing more: it manages your data, it lets you code (label) that data, and it lets you retrieve and query the coded material. Everything that actually counts as analysis — reading, interpreting, and writing — happens in the researcher's head, outside the software.", "The book insists that software is a support, not a method. Merely naming 'NVivo' or 'Grounded Theory' in a methods section does not confer rigour; the ease of coding can seduce researchers into 'analytical madness', mistaking a bulging codebook for understanding. Mortelmans grounds the workflow in a Grounded-Theory-inspired cycle — open, axial and selective coding under constant comparison — while stressing that NVivo is method-independent and can host many analytic traditions.", "The first third of the book teaches the craft of coding: what is worth coding, how deep to code, how to keep codes close to the data, how to build hierarchical codebooks, and how to use memos to capture fleeting analytic insights. The later chapters scale this up — classifications and cases for comparison, eight query types for retrieval, maps and matrices for visualisation, and specialised workflows for focus groups, multimedia, social media, mixed methods, team projects, literature reviews and AI-assisted auto-coding.", "For practitioners, the book is a warning as much as a toolkit: it repeatedly flags the risk that NVivo's growing quantification and AI features (counting codes, cluster analysis, automatic sentiment coding) pull qualitative work toward shallow, decontextualised counting. The recommended discipline is to always code within context, use the 'spread to' option to retrieve surrounding text, and treat the software as a way to organise thought rather than replace it."], "accent": "#059669", "accent_light": "#D1FAE5", "pathways": [], "sections": [{"title": "A Guided Tour in Qualitative Research", "subtitle": "Ch 1 · Foundations", "summary": "", "ideas": ["Qualitative research resists a single definition; Mortelmans follows Bryman, Shank and others in defining it by a family of characteristics rather than a boundary — a large 'tent' or 'umbrella' sheltering many approaches", "Five components distinguish qualitative work: research questions about complex social processes, a flexible naturalistic design, multiple flexible data-collection methods, text-based interpretive analysis seeking meaning, and reporting that keeps context and involves participants", "It aligns with Miles, Huberman and Saldaña's 'transcendental realism': social phenomena exist outside our minds and stable regularities can be discovered, so qualitative work still aims at theory formation, just closer to lived experience", "The absence of numbers is a weak definition — a study with quantitative questions answered by a few in-depth interviews is neither good qualitative nor good quantitative work", "The role of software (CAQDAS) is 'contested': critics warn that citing software does not validate analysis (Barbour, Bong), that coding-as-end-goal breeds 'analytical madness' (Seidel), and that software can 'reify' researcher and data by detaching them from context (Weaver & Atkinson)", "Mortelmans answers these critiques pragmatically: NVivo's 'spread to' retrieval keeps context, and modern packages are flexible enough for many methods — but the 1990s warnings gain new force as generative AI reignites the debate"], "quotes": ["\"Invent the piano, and a whole host of composers will start writing a new music.\" (Richards, 2002)", "The risk is bigger than the information given in the codebook."], "devEcon": "For South Asian researchers under pressure to appear methodologically rigorous, the chapter's key lesson is that tool-name-dropping is not method; the credibility of a study rests on transparent, context-sensitive analytic reasoning, not on the mention of NVivo."}, {"title": "A Guided Tour in Qualitative Data Analysis", "subtitle": "Ch 2 · Foundations", "summary": "", "ideas": ["Analysis is where researchers get 'unexpectedly challenged': data may be gathered fast, but interpretation is slow, solitary, and cannot be reduced to a click-of-a-button cookbook", "Across paradigms (postpositivism, constructivism, critical/feminist) the analytic core is the same metaphor: dismantling and rebuilding — coding/indexing/labelling to break data down, then linking/connecting/aggregating to build concepts, themes and theory", "The book uses Grounded Theory (Glaser & Strauss, 1967) as its worked example, chosen for its prevalence and its historic link to NVivo's ancestor NUD*IST — while stressing NVivo is now method-independent", "Grounded Theory's engine is the Constant Comparative Method: cyclical data collection and cyclical analysis, continually comparing new data against emerging concepts", "Three named coding phases: open coding (segmenting and labelling data), axial coding (relating categories to sub-categories around an axis), and selective coding (integrating and refining around one central category)", "Theoretical sensitivity — the researcher's trained capacity to see concepts in raw data — is developed through social-scientific education and literature, using 'sensitizing concepts' that guide without dictating"], "quotes": ["Just as one cannot encapsulate 'falling in love' in rules and procedures, qualitative analysis cannot be fully captured in a definitive analytical pathway."], "devEcon": "The dismantle-and-rebuild framing gives practitioners a shared mental model for evaluation and research reports alike: NVivo organises the fragments, but the analyst must do the rebuilding into a defensible narrative or theory of change."}, {"title": "A Quick Tour of NVivo", "subtitle": "Ch 3 · The Tool", "summary": "", "ideas": ["NVivo (successor to NUD*IST, 1981) is one of three dominant CAQDAS players alongside ATLAS.ti and MAXQDA; it rests on three attributes — data management, coding, and querying/retrieval", "The whole project lives in one file (.nvp on Windows, .nvpx on Mac) that stores every source, code, memo and visualisation", "'Code-and-retrieve' is the fundamental, decades-old principle: import raw data, attach codes, then retrieve the coded material through queries — the data type (text, audio, video, image) is irrelevant", "Coding is a manual, laborious data-reduction step; NVivo eases it with visual aids (coding stripes, highlighting), drag-and-drop coding, and a codebook that can be organised into parent/child hierarchies with an aggregate option", "Retrieval runs through eight query types; the Matrix Coding Query is called the most powerful tool, crossing rows and columns of codes or attributes, with the Crosstab query specialised for crossing two classification attributes (e.g. young vs older women)", "A crucial boundary: NVivo reaches its limit at retrieval — it produces lists of references, not storylines or theories. Reading, interpreting and writing happen outside the software"], "quotes": ["From that point onwards, NVivo reaches the limit of what it can do for the researcher."], "devEcon": "The 'inside vs outside NVivo' distinction (data management, coding, querying inside; reading, interpreting, writing outside) is the single most useful frame for teams in South Asia deciding what the software can and cannot deliver in an evaluation or thesis."}, {"title": "Getting Started 1: Installing and Configuring NVivo", "subtitle": "Ch 4 · Setup", "summary": "", "ideas": ["NVivo is sold by Lumivero (formerly QSR) via individual or institutional licences; a free 14-day trial is available if you have neither", "Installation requires Microsoft SQL Server as a background component — it is not optional; the free NCapture add-on is only needed for social-media capture (Chapter 17)", "The Mac installer is a .dmg; some interface languages (Portuguese, Simplified Chinese) are not yet available on Mac", "A User Profile (name and initials) is mandatory because NVivo is a database that logs every user action — essential for tracking who created or changed each project item, especially in teams", "Licence type governs updates: an individually bought version-locked licence entitles you only to point updates of that version, while a yearly institutional volume licence entitles users to major upgrades released within the year", "File formats can change between and even within versions; team members must run the same version to exchange project files"], "quotes": [], "devEcon": "The SQL Server dependency and version-matching requirement are practical gotchas for under-resourced South Asian institutions and mixed Windows/Mac teams; planning licences and versions before fieldwork avoids costly file-incompatibility problems mid-project."}, {"title": "Getting Started 2: The Workspace and Jargon of NVivo", "subtitle": "Ch 5 · Interface", "summary": "", "ideas": ["The workspace resembles Microsoft Outlook and has three areas: the blue Navigation View (left), the List View (folder contents), and the Detail View window (opened items and new project items)", "The Navigation View is the project hub with eight sections: Data, Coding, Cases, Notes, Sets, Queries, Visualisations and Reports — each mapped in the book to the chapter that covers it", "Predefined folders (e.g. Files, File Classifications, Externals under Data) cannot be renamed or removed, but users can create custom subfolders inside most of them", "The Detail View window stacks multiple horizontal tabs; opening a file adds a context-specific second ribbon (e.g. coding icons for a document, media controls for audio/video)", "Workspace can be customised for efficiency: switch from Bottom View to Right-hand View to read more of an interview while coding, or undock the Detail View onto a second screen", "The status bar reports counts (e.g. a folder of 142 items; an interview coded at 2 files with 21 references) and offers a zoom control"], "quotes": [], "devEcon": "Because coding is the most time-consuming phase, the Right-hand View and dual-screen undocking tips translate directly into hours saved for research teams working through large interview corpora."}, {"title": "Setting Up Your Project: Primary Data Management", "subtitle": "Ch 6 · Data", "summary": "", "ideas": ["Everything lives in one .nvp/.nvpx project file; a two-step New Project wizard sets the title, save location, an optional user-action log, and the autosave/recovery settings", "A key trade-off: NVivo forces a choice between Autosave and the Undo function — Mortelmans recommends disabling autosave to keep Undo, then saving manually and often", "The Recovery File is not a backup: use File > Copy Project to make real backups (he recommends five daily backups a week plus one kept weekly, stored on separate media)", "Compact and Repair (File > Help) fixes errors and compresses bloated project files that grow large and slow over long projects", "Import > Files brings in text, PDF, image, audio and video (audio/video embedded up to 20 MB, extendable to 40 MB); other import routes handle surveys, NCapture, classifications, bibliography and codebooks — but codebooks import only in REFI-QDA format, not from Word or Excel", "NVivo can transcribe media in four steps (Edit mode > Transcribe mode > timestamped Transcription Entries), or you can type transcripts as new documents while playing media externally to keep the project file small (at the cost of timestamps)"], "quotes": ["Beware that this is only a recovery file and not a backup."], "devEcon": "The autosave-vs-undo trade-off and the recovery-file-is-not-a-backup warning are exactly the failure points that cost field researchers weeks of lost coding; a disciplined Copy Project backup routine is essential where hardware is unreliable."}, {"title": "Working with Memos", "subtitle": "Ch 7 · Analytic Writing", "summary": "", "ideas": ["Memos capture fleeting analytic 'flashes of thought' that arise during collection, transcription or coding; Glaser's rule is to give memo-writing absolute priority — drop everything and record the idea before it fades", "Memos have a 'double relationship' with data: analysable like data, yet stored outside the Data folder because they are the researcher's reflection on the data, not the data itself", "NVivo provides two tools for the single literature concept of 'memo': Memos (standalone project items) and Annotations (embedded, margin-note style)", "A Memo is a separate, codable, exportable project item that can be joined to exactly one other item via a 1-to-1 Memo Link", "An Annotation is a 'memo light' tied to a specific selection inside a file — it cannot be coded, cannot be exported as content, and cannot exist independently; it shows as a coloured background plus a margin icon", "Both are listed under Notes in the Navigation View; memo types include theoretical, reflective/methodological, and commentary memos (e.g. remarks on teammates' coding)"], "quotes": ["Remember that memo writing is given absolute priority over all other research work."], "devEcon": "Memoing is where interpretation actually happens and where an audit trail of analytic decisions is built — a practice that strengthens the credibility and transparency of qualitative findings in policy and programme evaluation."}, {"title": "Thematic Coding", "subtitle": "Ch 8 · Coding", "summary": "", "ideas": ["Coding labels all information that says the same thing under one umbrella code (e.g. 'honesty' + 'reliability' coded as 'trust'); the collection of codes is the codebook, and coding is primary data reduction", "A code is attached to a reference (a selected fragment of text, audio or image); three common reference sizes are word-by-word (documents/websites), line-or-paragraph (interviews), and event-by-event (observation)", "What to code is guided by the research question — Auerbach's tip is to keep a short version of the question on a post-it while coding to resist the 'everything is important' trap", "Depth matters: Strauss and Charmaz urge asking a series of questions ('What processes are going on? How does this develop? What are the consequences?') to move past surface-level descriptive codes, and Glaser advises using verbs ('influencing', 'searching') to preserve the dynamism of social reality", "Codebooks are hierarchical (parent/child codes across multiple levels); the Aggregate option lets you code close to the data at low levels and roll coding up the tree automatically", "Two coding modes on a continuum: deductive (import/create a codebook first — import only via REFI-QDA, else rebuild manually) and inductive (build the codebook while reading); coding a selection uses Code Selection (CTRL+F2), plus efficiency aids like drag-and-drop, coding stripes, highlighting, in vivo coding, merging, splitting and uncoding"], "quotes": ["Codes can get stuck on the surface and be purely descriptive.", "One should never limit oneself to one word if that hinders the interpretability of a code later on."], "devEcon": "This chapter is the practical heart of the book; the discipline of coding close to the data, avoiding both over-general 'Reasons' codes and over-specific 'once-only' codes, directly determines whether a South Asian study yields analysable themes or an unusable codebook. Note: the extracted PDF text for this chapter ends partway through the inductive-coding section, so a few later sub-topics (aggregating coding work, coding stripes, printing with stripes) are summarised from the book's own detailed table of contents rather than verbatim text."}, {"title": "Coding with Classifications", "subtitle": "Ch 9 · Cases & Attributes", "summary": "", "ideas": ["Classifications hold the structured attributes of the units you study (respondent age, gender, location; document type/date), turning qualitative material into something comparable across groups", "Determining your unit of analysis is the first decision — it fixes what a 'case' is (a person, a household, a village, a document)", "Two classification types: File Classifications (attributes of sources) and Case Classifications (attributes of cases such as interviewees); the chapter walks through creating them and their multi-step use", "Cases are the twin of classifications: a case aggregates all data about one unit and can be coded so its attributes travel with every fragment about it", "Efficiency features include creating cases from files on import, using the Classification Sheet for spreadsheet-style data entry, and the fully automated Descriptive Matrix", "Classifications are what make later comparative queries (Matrix Coding, Crosstab) possible — without them, cross-group comparison must be done by hand"], "quotes": [], "devEcon": "Classifications are how NVivo enables systematic comparison across gender, caste, region or programme arm — central to equity-focused analysis in South Asian development research. NOTE: the source PDF extraction truncated before this chapter, so this section is reconstructed from the book's detailed table of contents and the author's cross-references in Chapters 3, 5 and 8, plus standard NVivo practice; treat sub-step details as indicative."}, {"title": "Exploring Coded Data", "subtitle": "Ch 10 · Exploration", "summary": "", "ideas": ["After coding, exploration tools help you 'walk through' your data before formal querying", "The Explore Diagram traces the connections around a selected project item — a quick way to see what is linked to a code or case", "The Comparison Diagram sets two items side by side to reveal what they share and where they diverge (dual comparison)", "The Framework Matrix builds case-by-theme summary grids (cases in rows, themes in columns) where the researcher writes condensed summaries in each cell — bridging qualitative depth and matrix overview", "These visual/summary tools sit between coding and querying, supporting interpretation without producing statistics", "The Framework Matrix in particular echoes the Miles-Huberman matrix-display tradition of qualitative data reduction"], "quotes": [], "devEcon": "Framework matrices are widely used in applied policy and health research (the 'Framework Method'), making this chapter directly relevant to evaluators in South Asia who must summarise many cases against common themes. NOTE: this section is reconstructed from the book's detailed table of contents and standard NVivo functionality because the PDF extraction truncated before this chapter."}, {"title": "Organising Your Project: Secondary Data Management", "subtitle": "Ch 11 · Organisation", "summary": "", "ideas": ["Beyond primary data, NVivo lets you organise relationships and groupings among project items ('secondary' data management)", "Relationships link items with a defined Relationship Type (e.g. 'influences', 'is spouse of'), created in two steps and then assigned to pairs of project items", "See-Also Links connect a point in one item to related material elsewhere — lightweight cross-references that preserve associative thinking", "Static Sets are hand-picked, fixed groupings of items; Dynamic Sets are query-driven groupings that update automatically as the project changes", "These structures let researchers model connections in the data without coding them, and assemble working collections for focused analysis", "Sets feed into queries as convenient scope selectors, streamlining retrieval across chosen subsets"], "quotes": [], "devEcon": "Relationships and sets let researchers model social ties (kinship, patron-client, institutional links) that matter enormously in South Asian fieldwork but are hard to capture through coding alone. NOTE: reconstructed from the book's detailed table of contents and standard NVivo practice, as the PDF extraction ended before this chapter."}, {"title": "Querying (Coded) Data", "subtitle": "Ch 12 · Retrieval", "summary": "", "ideas": ["Querying is NVivo's retrieval engine — the book covers roughly eight query types, each dissected through the shared Query window", "The Coding Query retrieves fragments coded at one or more codes, with Boolean logic and the crucial 'spread to' option to expand results to surrounding sentence/paragraph context", "The Text Search Query finds text patterns and can double as a coding device (auto-coding recurring terms), while the Word Frequency Query surfaces the most common words and feeds word clouds", "The Matrix Coding Query — called the most powerful tool — crosses rows against columns (codes, attributes, or users), each cell openable to its underlying references; the Crosstab Query specialises in crossing two classification attributes", "Advanced queries include the Compound Query (nesting one query inside another), the Coding Comparison Query (inter-coder agreement via kappa), and the Group Query (retrieving items associated with a set)", "Query results can themselves be coded and saved, folding retrieval back into the coding cycle"], "quotes": [], "devEcon": "The 'spread to' option is the practical antidote to the decontextualisation critique raised in Chapter 1, and the Coding Comparison (kappa) query supports inter-coder reliability checks expected in team-based and funded research. NOTE: reconstructed from the book's detailed table of contents plus the author's own query overview in Chapter 3, since the PDF extraction truncated before this chapter."}, {"title": "Visualising Data with Maps", "subtitle": "Ch 13 · Visualisation", "summary": "", "ideas": ["NVivo offers three map types for thinking visually about a project", "The Mind Map is a free-form brainstorming canvas, useful early to sketch ideas and possible codes", "The Concept Map lets you draw relationships between project items and concepts, modelling an emerging theory or framework", "The Project Map visualises actual items in the project and their existing connections (codes, cases, relationships)", "Maps support the axial/selective-coding move from fragments toward integrated theory", "They are analytic aids for interpretation and communication, not automated outputs — the researcher builds the structure"], "quotes": [], "devEcon": "Concept and project maps are effective for communicating a theory of change or an emergent framework to non-technical stakeholders and funders. NOTE: reconstructed from the book's detailed table of contents and standard NVivo features, as the PDF extraction ended before this chapter."}, {"title": "Reporting and Exporting Data", "subtitle": "Ch 14 · Output", "summary": "", "ideas": ["NVivo generates formatted reports and lets you export project material as text extracts for writing up", "Extracts export coded references and other content — but this is also the route by which coding can drift toward quantification (exported to Excel/SPSS), a risk the book flags", "You can copy an entire project or export selected parts, and exchange data with other CAQDAS packages via the REFI-QDA format", "Specific project items (codebooks, memos, individual sources) can be exported individually", "Reporting supports transparency and the audit trail but does not write the analysis for you", "Export choices should preserve context and avoid reducing rich coding to mere counts"], "quotes": [], "devEcon": "REFI-QDA export protects researchers against software lock-in — valuable for South Asian institutions that may switch tools or collaborate across packages. NOTE: reconstructed from the book's detailed table of contents plus the author's Chapter 1 remarks on exporting and quantification, since the PDF extraction truncated before this chapter."}, {"title": "Using NVivo in Focus Group Research", "subtitle": "Ch 15 · Focus Groups", "summary": "", "ideas": ["Focus groups differ analytically from interviews because meaning is co-produced through group interaction, not individual accounts", "Transcription must preserve speaker identity so that speaker-based analysis is possible", "The chapter compares interviews and focus groups as analytical data sources, highlighting what each affords", "Classifications are used to attach attributes to each speaker within a group so contributions can be compared across participant characteristics", "Queries (especially matrix and speaker-based) let you compare how different participants or subgroups discuss themes", "NVivo's speaker-name auto-coding (see Chapter 19) is particularly useful for splitting focus-group transcripts by participant"], "quotes": [], "devEcon": "Focus groups are a workhorse method in South Asian community research; the ability to code by speaker attribute helps surface whose voices dominate and how consensus is manufactured in group settings. NOTE: reconstructed from the book's detailed table of contents and standard NVivo practice, as the PDF extraction ended before this chapter."}, {"title": "Using Multimedia Material (Photos, Sound and Videos)", "subtitle": "Ch 16 · Multimedia", "summary": "", "ideas": ["The code-and-retrieve principle applies unchanged to non-textual data — the difference is in how references are selected", "Pictures are coded by selecting regions of the image; the code attaches to that spatial selection", "Audio and video are coded by selecting time-ranges on the media timeline, optionally alongside a transcript", "Non-textual coded material can be queried much like text, enabling comparison across media", "Multimedia coding keeps visual and aural evidence inside the analytic frame rather than reducing everything to transcripts", "This extends qualitative analysis to photo-elicitation, observation video and recorded audio"], "quotes": [], "devEcon": "Photo and video coding supports participatory and visual methods increasingly used with low-literacy communities in South Asia, keeping the original evidence analysable rather than flattening it into text. NOTE: reconstructed from the book's detailed table of contents and standard NVivo functionality because the PDF extraction truncated before this chapter."}, {"title": "Using Social Media in NVivo", "subtitle": "Ch 17 · Social Media", "summary": "", "ideas": ["Social media is imported through the free NCapture browser add-on, which captures web pages, tweets/X posts, Facebook content and YouTube videos", "Captured NCapture entries are imported as datasets or documents into the project", "Social-media material can then be coded like any other source", "It can also be queried — including using dataset attributes (e.g. author, date) captured alongside the content", "The workflow lets researchers bring naturally-occurring online discourse into a structured qualitative analysis", "As with surveys, large social-media datasets raise the book's recurring caution about drifting toward counting over interpretation"], "quotes": [], "devEcon": "NCapture opens up analysis of online public discourse — WhatsApp-adjacent forums, X/Twitter debates, YouTube commentary — that increasingly shape South Asian public opinion and social movements. NOTE: reconstructed from the book's detailed table of contents plus the author's Chapter 4 note on NCapture, as the PDF extraction ended before this chapter."}, {"title": "NVivo in Mixed Methods Studies", "subtitle": "Ch 18 · Mixed Methods", "summary": "", "ideas": ["NVivo can import survey databases (e.g. from Qualtrics or SurveyMonkey) and treat open-ended responses as codable qualitative data", "The Classify Cases from Dataset wizard turns survey respondents into cases with their closed-answer variables as attributes", "Datasets can be sorted and filtered to focus analysis on particular subgroups", "Open-ended survey answers can be coded thematically and then cross-tabulated against the closed variables", "Querying databases lets you connect qualitative themes to quantitative respondent characteristics", "This makes NVivo a bridge for genuinely integrated mixed-methods designs rather than parallel silos"], "quotes": [], "devEcon": "Mixed-methods integration is central to rigorous impact evaluation in South Asia; linking coded open-ended responses to survey variables lets practitioners explain 'why' behind the numbers. NOTE: reconstructed from the book's detailed table of contents plus the author's Chapter 1 remarks on survey import, since the PDF extraction truncated before this chapter."}, {"title": "NVivo and AI: (Semi)-Automatic Coding", "subtitle": "Ch 19 · Automation & AI", "summary": "", "ideas": ["NVivo offers a spectrum of automation, from structural semi-auto coding to AI- and machine-learning-based auto coding", "Semi-automatic coding can code by paragraph style, by paragraph, by selected range, and by speaker name (invaluable for focus groups)", "AI-based auto coding can assign sentiment (positive/negative) and detect themes automatically as a first pass", "Machine learning can learn your existing coding patterns and apply them to code new, incoming data", "Auto-coding is best treated as a starting scaffold to be reviewed and deepened by manual coding, not a replacement for it", "This chapter is where the book's opening critique bites hardest: generative AI reignites debates about rigour, context and the researcher's interpretive role (Davison et al., 2024)"], "quotes": [], "devEcon": "AI auto-coding tempts under-resourced teams to skip close reading; the chapter's discipline — use it as a first pass, then verify in context — is critical guidance for South Asian researchers balancing scale against rigour. NOTE: reconstructed from the book's detailed table of contents plus the author's Chapter 1 and Chapter 3 discussion of AI/auto-coding, as the PDF extraction ended before this chapter."}, {"title": "Using NVivo in Team Projects", "subtitle": "Ch 20 · Collaboration", "summary": "", "ideas": ["Teams choose between a standalone approach and a server/cloud approach to collaboration", "Separated team projects: members code copies of the project independently, then merge their work by importing projects together", "Integrated team projects: members work on a shared project (via NVivo server or the Collaboration Cloud add-on)", "Version consistency is essential — mismatched NVivo versions can make merged project files unreadable", "User profiles let coordinators attribute coding to individual coders, enabling coding-comparison (inter-coder reliability) checks", "The Collaboration Cloud avoids a server install but cannot mix Windows and Mac teams"], "quotes": [], "devEcon": "Distributed teams are the norm in multi-site South Asian studies; understanding the separated-vs-integrated trade-off and version discipline prevents merge failures that can derail collaborative coding. NOTE: reconstructed from the book's detailed table of contents plus the author's Chapters 4 and 6 notes on versions and licences, since the PDF extraction truncated before this chapter."}, {"title": "Doing a Literature Review with NVivo", "subtitle": "Ch 21 · Literature Review", "summary": "", "ideas": ["NVivo supports systematic literature reviews by importing bibliographic data from reference managers (e.g. EndNote, Zotero, Mendeley)", "Imported literature is thematically coded like any other source, with auto-code functions to speed up initial structuring", "Reviews are summarised and visualised through word clouds (Word Frequency Query), Explore and Comparison Diagrams, cluster analysis and hierarchy charts", "Querying the literature reveals patterns across studies (which authors discuss which themes)", "Network analysis can surface the structure of the reviewed literature and its intellectual connections", "The bundled sample project 'Virtual Reality and Health' demonstrates the full literature-review workflow"], "quotes": [], "devEcon": "A coded, queryable literature corpus makes systematic reviews and evidence syntheses more transparent and reproducible — increasingly demanded in South Asian policy research and funded evidence work. NOTE: reconstructed from the book's detailed table of contents and standard NVivo literature-review features, as the PDF extraction ended before this chapter."}], "concepts": [{"term": "CAQDAS", "definition": "Computer Assisted Qualitative Data AnalysiS — the class of software (NVivo, ATLAS.ti, MAXQDA) that supports, but does not perform, qualitative analysis by managing data, enabling coding, and retrieving coded material.", "practitionerNote": "Naming the software does not validate your analysis; rigour comes from transparent, context-sensitive reasoning."}, {"term": "Code-and-Retrieve", "definition": "The foundational CAQDAS principle: import raw data, attach codes (labels) to selected fragments, then retrieve and query the coded material. The data type (text, audio, video, image) is irrelevant to the principle.", "practitionerNote": "Retrieval is where NVivo's help ends — reading, interpreting and writing remain the researcher's job."}, {"term": "Reference", "definition": "A selected fragment of data (text passage, image region, or media time-range) to which one or more codes are attached. References can be word-by-word, line/paragraph, or event-by-event.", "practitionerNote": "Reference size shapes coding depth; line-by-line for interviews forces closer, deeper coding than whole answers."}, {"term": "Code & Codebook", "definition": "A code is a short label expressing the content of a reference; the codebook is the organised collection of all codes in a project, which can be arranged into hierarchies of parent and child codes.", "practitionerNote": "Avoid both over-general codes ('Reasons') and hyper-specific 'once-only' codes that never recur."}, {"term": "Code Hierarchy (Parent/Child)", "definition": "A tree structure in the codebook where broader parent codes contain more specific child codes across multiple levels, organising related concepts.", "practitionerNote": "Selecting the Codes folder creates a top-level code; selecting an existing code creates a child beneath it."}, {"term": "Aggregation", "definition": "The NVivo option that rolls coding done at lower (child) codes up into higher (parent) codes automatically, so you can code close to the data yet analyse at higher levels of abstraction.", "practitionerNote": "Code once at the detailed level and let aggregation supply the summary views."}, {"term": "Grounded Theory", "definition": "The analytic tradition (Glaser & Strauss, 1967) that builds theory inductively from data through open, axial and selective coding under constant comparison. NVivo's ancestor NUD*IST originated in it.", "practitionerNote": "NVivo is now method-independent — Grounded Theory is the book's example, not a requirement."}, {"term": "Constant Comparison", "definition": "The cyclical Grounded Theory method of continually comparing new data against emerging concepts, refining codes and categories with each round of collection and analysis.", "practitionerNote": "It is what keeps an evolving theory 'grounded in' rather than imposed on the data."}, {"term": "Open / Axial / Selective Coding", "definition": "The three Grounded Theory phases: open coding segments and labels data; axial coding relates categories to sub-categories around an axis; selective coding integrates everything around one central category.", "practitionerNote": "In NVivo, 'coding' largely corresponds to Grounded Theory's open coding."}, {"term": "Theoretical Sensitivity", "definition": "The researcher's trained capacity to perceive and conceptualise theoretically relevant patterns in raw data, developed through social-scientific education and literature (Glaser, 1978).", "practitionerNote": "'Sensitizing concepts' guide attention without dictating what you will find."}, {"term": "Memo vs Annotation", "definition": "Two NVivo tools for the single idea of a 'memo': a Memo is a standalone, codable, exportable project item (with a 1-to-1 Memo Link); an Annotation is an embedded, non-codable 'memo light' tied to a specific selection inside a file.", "practitionerNote": "Use memos for developing analytic ideas; use annotations for quick margin notes you won't code."}, {"term": "Classification (File & Case)", "definition": "Structures that hold the attributes of sources (File Classifications) or of cases such as respondents (Case Classifications), turning qualitative data into something comparable across groups.", "practitionerNote": "Classifications are the prerequisite for comparative Matrix Coding and Crosstab queries."}, {"term": "Case", "definition": "A project item representing one unit of analysis (a person, household, village, or document) that aggregates all data about that unit and carries its classification attributes onto every fragment.", "practitionerNote": "Define your unit of analysis before creating cases — it fixes what you can compare."}, {"term": "Query (Coding & Matrix)", "definition": "NVivo's retrieval tools (about eight types). The Coding Query retrieves fragments at chosen codes; the Matrix Coding Query — the most powerful — crosses rows against columns of codes, attributes or users, each cell openable to its references.", "practitionerNote": "Use the 'spread to' option to retrieve surrounding context and avoid decontextualised analysis."}, {"term": "Framework Matrix", "definition": "A case-by-theme summary grid (cases in rows, themes in columns) in which the researcher writes condensed summaries in each cell, combining qualitative depth with matrix-style overview.", "practitionerNote": "Widely used as the 'Framework Method' in applied policy and health research."}, {"term": "REFI-QDA Standard", "definition": "The Rotterdam Exchange Format Initiative's open exchange format for qualitative software, letting researchers move codebooks and projects between NVivo, ATLAS.ti and MAXQDA.", "practitionerNote": "It is the main protection against software lock-in — but there is no converter from Word/Excel codebooks."}], "tools": [{"label": "Reflection Journal", "intro": "Use these prompts to connect this book to your own practice.", "html": "<label class=\"fld-label\">Which of NVivo's three jobs — data management, coding, or querying — is the real bottleneck in your current project, and where does the analysis actually have to happen 'outside' the software?</label>\n<textarea class=\"fld\" id=\"r1\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<label class=\"fld-label\">Looking at your codebook, are your codes too general (like 'Reasons'), too specific (once-only labels), or close to the data? What one change would improve their depth?</label>\n<textarea class=\"fld\" id=\"r2\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<label class=\"fld-label\">Where might auto-coding, sentiment analysis or counting codes tempt you toward shallow, decontextualised analysis — and how will you keep coding within context?</label>\n<textarea class=\"fld\" id=\"r3\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<div style=\"margin-top:12px;font-family:Inter,sans-serif;font-size:13px;color:var(--muted)\">Reflections stay in your browser only and are not sent anywhere.</div>"}], "connections": [], "southAsia": ["The book's warning that citing 'NVivo' or 'Grounded Theory' does not confer rigour is pointed for South Asian graduate work, where tool-name-dropping in methods sections is common; credibility rests on a transparent audit trail of coding and memos.", "Classifications and cases let researchers compare themes systematically across caste, gender, region and programme arm — the equity dimensions at the heart of South Asian development analysis.", "NCapture-based social-media analysis (Chapter 17) opens up the study of X/Twitter debates, Facebook and YouTube discourse that increasingly drive public opinion and mobilisation across the subcontinent.", "The autosave-vs-undo trade-off, recovery-file-is-not-a-backup warning, and version-matching requirements are concrete safeguards for field teams working with unreliable hardware and mixed Windows/Mac setups.", "Mixed-methods integration (linking coded open-ended survey responses to closed variables) supports the 'why behind the numbers' that rigorous impact evaluation in South Asia demands."], "critiques": ["As a software manual it is version-bound: NVivo's interface, menus and AI features change frequently, so specific click-paths will date quickly even as the analytic principles endure.", "It leans on Grounded Theory as its worked example; researchers using phenomenology, discourse analysis or narrative methods get less tailored guidance despite the claim of method-independence.", "The book flags the quantification and AI risks it also documents, but stops short of a strong stance — leaving readers to police the very 'analytical madness' and decontextualisation it warns about.", "It is a technique-focused manual rather than a treatise on interpretation or writing-up; the hardest analytic work ('outside NVivo') is acknowledged but not deeply taught.", "NVivo is proprietary, paid software with a Microsoft SQL Server dependency; the book does not seriously engage free/open alternatives (e.g. Taguette, QualCoder) relevant to under-resourced institutions."], "suggested": [], "systemPrompt": "You are an expert reading companion for 'Doing Qualitative Data Analysis with NVivo' by Dimitri Mortelmans (Springer, 2025, open access). Your audience is development practitioners, researchers and students in South Asia. Explain the book's arguments faithfully — that NVivo manages data, enables coding, and retrieves coded material, while reading, interpreting and writing happen outside the software — and situate the workflow in its Grounded-Theory-inspired frame (open/axial/selective coding, constant comparison, memoing). Note the book's own critiques about software not conferring rigour and about the drift toward quantification and AI auto-coding. Be accurate to the actual text; where you are unsure, say so. Note that the book has 21 chapters and that reliable detailed text was available for Chapters 1-8, with Chapters 9-21 summarised from the book's table of contents and standard NVivo practice."};
+
+// Tab management
+const TABS = [
+  {id:"overview",label:"Overview"},
+  {id:"pathways",label:"Pathways"},
+  {id:"sections",label:"Sections"},
+  {id:"concepts",label:"Concepts"},
+  {id:"toolkit",label:"Toolkit"},
+  {id:"context",label:"Context"},
+  {id:"ask",label:"Ask"},
+];
+
+const tabbar = document.getElementById("tabbar");
+TABS.forEach(t => {
+  const btn = document.createElement("button");
+  btn.className = "tab-btn" + (t.id === "overview" ? " active" : "");
+  btn.textContent = t.label;
+  btn.onclick = () => switchTab(t.id);
+  tabbar.appendChild(btn);
+});
+
+function switchTab(id) {
+  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById("p-" + id).classList.add("active");
+  tabbar.querySelectorAll(".tab-btn")[TABS.findIndex(t=>t.id===id)].classList.add("active");
+}
+
+// OVERVIEW
+(function() {
+  const el = document.getElementById("p-overview");
+  el.innerHTML = `
+    <div class="hero">
+      <div class="day-badge">${DATA.dayBadge}</div>
+      <h1>${DATA.title}</h1>
+      <div class="auth">${DATA.author}</div>
+      <div class="tagline">${DATA.tagline}</div>
+      <div class="pills">${DATA.pills.map(p=>`<span class="pill">${p}</span>`).join("")}</div>
+    </div>
+    <div class="stat-grid">
+      ${DATA.stats.map(s=>`<div class="stat"><div class="stat-n">${s.n}</div><div class="stat-l">${s.l}</div></div>`).join("")}
+    </div>
+    <div class="arg">
+      <div class="h1">The central argument</div>
+      ${DATA.argument.map(p=>`<p>${p}</p>`).join("")}
+    </div>
+    <div class="h1" style="margin-top:24px">What's in this companion</div>
+    <div class="nav-grid">
+      ${[["pathways","Learning Pathways","Structured reading routes by role"],["sections","Section by Section","Full analysis with dev econ connections"],["concepts","Concepts & Frameworks","Key terms with practitioner notes"],["toolkit","Practitioner Toolkit","Interactive tools"],["context","Book in Context","Connections and assessment"],["ask","Ask the Book","Gemini-powered Q&A"]].map(([id,label,desc])=>`<button class="nav-card" onclick="switchTab('${id}')" ><div class="nav-card-label">${label}</div><div class="nav-card-desc">${desc}</div></button>`).join("")}
+    </div>
+  `;
+})();
+
+// PATHWAYS
+(function() {
+  const el = document.getElementById("p-pathways");
+  let active = 0;
+  function render() {
+    const pw = DATA.pathways[active];
+    el.innerHTML = `
+      <div class="h1">Learning Pathways</div>
+      <div class="sub">Three structured routes through the book based on your role.</div>
+      <div class="pw-tabs">
+        ${DATA.pathways.map((p,i)=>`<button class="pw-btn ${i===active?"active":""}" onclick="__pw(${i})">${p.label}</button>`).join("")}
+      </div>
+      <div class="pw-desc">${pw.desc}</div>
+      <div class="pw-steps">
+        ${pw.steps.map((s,i)=>`<div class="pw-step"><div class="step-n">${i+1}</div><div><div class="step-title">${s.section}</div><div class="step-focus">${s.focus}</div></div></div>`).join("")}
+      </div>
+    `;
+  }
+  window.__pw = (i) => { active = i; render(); };
+  render();
+})();
+
+// SECTIONS
+(function() {
+  const el = document.getElementById("p-sections");
+  let openId = null;
+  let showDev = {};
+  function render() {
+    el.innerHTML = `
+      <div class="h1">Section by Section</div>
+      <div class="sub">All sections with full analysis and development economics connections.</div>
+      ${DATA.sections.map((s,i)=>`
+        <div class="sec-card">
+          <button class="sec-header" onclick="__sec(${i})">
+            <div class="sec-num">§${i+1}</div>
+            <div class="sec-title-block"><div class="sec-title">${s.title}</div><div class="sec-sub">${s.subtitle}</div></div>
+            <div class="sec-chev">${openId===i?"−":"+"}</div>
+          </button>
+          ${openId===i?`<div class="sec-body">
+            <div class="sec-summary">${s.summary}</div>
+            <div class="ideas-label">Key ideas</div>
+            ${s.ideas.map(idea=>`<div class="idea-item"><span class="idea-dot"></span><span>${idea}</span></div>`).join("")}
+            <div class="ideas-label" style="margin-top:14px">Key quotes</div>
+            ${s.quotes.map(q=>`<blockquote>${q}</blockquote>`).join("")}
+            <button class="dev-toggle" onclick="__dev(${i})">${showDev[i]?"Hide":"Show"} development economics connection</button>
+            ${showDev[i]?`<div class="dev-text">${s.devEcon}</div>`:""}
+          </div>`:""}
+        </div>
+      `).join("")}
+    `;
+  }
+  window.__sec = (i) => { openId = openId===i?null:i; render(); };
+  window.__dev = (i) => { showDev[i]=!showDev[i]; render(); };
+  render();
+})();
+
+// CONCEPTS
+(function() {
+  const el = document.getElementById("p-concepts");
+  let open = null;
+  function render() {
+    el.innerHTML = `
+      <div class="h1">Concepts & Frameworks</div>
+      <div class="sub">Key terms with definitions and practitioner notes. Click to expand.</div>
+      ${DATA.concepts.map((c,i)=>`
+        <div class="concept-card ${open===i?"open":""}" onclick="__con(${i})">
+          <div class="concept-term">${c.term}</div>
+          ${open===i?`<div class="concept-def">${c.definition}</div><div class="prac-label">Practitioner note</div><div class="prac-text">${c.practitionerNote}</div>`:""}
+        </div>
+      `).join("")}
+    `;
+  }
+  window.__con = (i) => { open = open===i?null:i; render(); };
+  render();
+})();
+
+// TOOLKIT  
+(function() {
+  const el = document.getElementById("p-toolkit");
+  el.innerHTML = `
+    <div class="h1">Practitioner Toolkit</div>
+    <div class="sub">Interactive tools derived from the book. Use for personal practice or programme design.</div>
+    <div class="tool-tabs">
+      ${DATA.tools.map((t,i)=>`<button class="tool-btn ${i===0?"active":""}" onclick="__tool(${i})">${t.label}</button>`).join("")}
+    </div>
+    ${DATA.tools.map((t,i)=>`
+      <div class="tool-panel ${i===0?"active":""}" id="toolp-${i}">
+        <div class="tool-intro">${t.intro}</div>
+        ${t.html}
+      </div>
+    `).join("")}
+  `;
+  window.__tool = (i) => {
+    document.querySelectorAll(".tool-btn").forEach((b,j)=>b.classList.toggle("active",i===j));
+    document.querySelectorAll(".tool-panel").forEach((p,j)=>p.classList.toggle("active",i===j));
+  };
+})();
+
+// CONTEXT
+(function() {
+  const el = document.getElementById("p-context");
+  el.innerHTML = `
+    <div class="h1">Book in Context</div>
+    <div class="sub">How this book fits within the broader literature, and an honest assessment of its limits.</div>
+    <div class="context-h">Connected works</div>
+    ${DATA.connections.map(c=>`<div class="conn-card"><div class="conn-book">${c.book}</div><div class="conn-text">${c.text}</div></div>`).join("")}
+    <div class="context-h" style="margin-top:24px">Honest assessment</div>
+    <div class="sub">Limits and qualifications for the ImpactMojo context:</div>
+    ${DATA.critiques.map((c,i)=>`<div class="crit-item"><div class="crit-n">${i+1}</div><div class="crit-text">${c}</div></div>`).join("")}
+  `;
+})();
+
+// ASK
+(function() {
+  const el = document.getElementById("p-ask");
+  let apiKey = "", msgs = [], loading = false;
+  
+  function renderSetup() {
+    el.innerHTML = `
+      <div class="ask-setup">
+        <div class="h1">Ask the Book</div>
+        <div class="sub">AI-powered Q&A using Gemini 2.0 Flash (free). Requires a Google AI Studio API key.</div>
+        <div class="setup-steps">
+          <div class="setup-step"><span class="setup-num">1</span><span>Go to <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com/app/apikey</a> and create a free API key.</span></div>
+          <div class="setup-step"><span class="setup-num">2</span><span>Paste it below. The key stays in your browser only and is never stored.</span></div>
+        </div>
+        <div class="key-row">
+          <input class="key-input" type="password" id="key-in" placeholder="AIza..." oninput="document.getElementById('key-submit').disabled=!this.value.trim()"/>
+          <button class="key-btn" id="key-submit" disabled onclick="__setKey()">Connect</button>
+        </div>
+      </div>
+    `;
+  }
+  
+  function renderChat() {
+    el.innerHTML = `
+      <div class="ask-ui">
+        <div class="ask-hdr"><span class="ask-hdr-title">Ask the Book</span><button class="ask-reset" onclick="__resetKey()">Change key</button></div>
+        <div class="msgs" id="msgs-box">
+          ${msgs.length===0?`<div><div class="suggested-label">Suggested questions</div>${DATA.suggested.map(q=>`<button class="sug-btn" onclick="__ask('${q.replace(/'/g,"\'")}')">${q}</button>`).join("")}</div>`:""}
+          ${msgs.map(m=>`<div class="msg ${m.role}"><div class="msg-text">${m.content}</div></div>`).join("")}
+          ${loading?`<div class="msg assistant"><div class="typing"><span></span><span></span><span></span></div></div>`:""}
+        </div>
+        <div class="ask-input-row">
+          <textarea class="ask-input" id="ask-in" rows="2" placeholder="Ask about the book..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();__sendAsk()}"></textarea>
+          <button class="ask-send" id="ask-send" onclick="__sendAsk()">Send</button>
+        </div>
+      </div>
+    `;
+    const box = document.getElementById("msgs-box");
+    if(box) box.scrollTop = box.scrollHeight;
+  }
+  
+  window.__setKey = () => {
+    const v = document.getElementById("key-in").value.trim();
+    if(v) { apiKey = v; renderChat(); }
+  };
+  window.__resetKey = () => { apiKey=""; msgs=[]; renderSetup(); };
+  window.__ask = (q) => {
+    document.getElementById("ask-in").value = q;
+    __sendAsk();
+  };
+  window.__sendAsk = async () => {
+    const inp = document.getElementById("ask-in");
+    if(!inp) return;
+    const q = inp.value.trim();
+    if(!q || loading) return;
+    inp.value = "";
+    msgs.push({role:"user",content:q});
+    loading = true; renderChat();
+    try {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,{
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({
+          system_instruction:{parts:[{text:DATA.systemPrompt}]},
+          contents: msgs.map(m=>{return{role:m.role==="assistant"?"model":"user",parts:[{text:m.content}]}}).slice(0,-1).concat([{role:"user",parts:[{text:q}]}]),
+          generationConfig:{maxOutputTokens:1200,temperature:0.3}
+        })
+      });
+      const data = await res.json();
+      if(!res.ok) throw new Error(data.error?.message||"API error");
+      const reply = data?.candidates?.[0]?.content?.parts?.map(p=>p.text).join("")||"No response.";
+      msgs.push({role:"assistant",content:reply});
+    } catch(e) {
+      msgs.push({role:"assistant",content:"Error: "+e.message});
+    }
+    loading = false; renderChat();
+  };
+  
+  renderSetup();
+})();
+</script>
+
+<!-- ImpactMojo Footer -->
+<!-- Ethics & Copyright Disclaimer -->
+<section class="im-ethics-disclaimer" style="max-width:1100px;margin:2rem auto 1rem;padding:1.25rem 1.5rem;background:rgba(14,165,233,0.06);border-left:4px solid #0EA5E9;border-radius:8px;font-family:'Inter','Amaranth',sans-serif;font-size:0.85rem;line-height:1.65;color:var(--im-text-secondary,#64748B);">
+  <p class="im-ethics-heading" style="margin:0 0 0.5rem;font-weight:600;">A note on books, authors, and intellectual labour</p>
+  <p style="margin:0;">All books companioned on ImpactMojo have been duly purchased with real money and form part of a personal collection. None of the source texts have been obtained by any illegal means — we deeply respect the intellectual labour of authors, editors, and publishers. These reading companions are offered free of charge as educational aids; ImpactMojo does not sell book companions as a paid service and therefore does not violate any commercial licensing agreement or copyright. Nothing here reproduces the full text of any book — each companion is an interpretive study guide.</p>
+</section>
+
+<footer class="im-footer" role="contentinfo">
+<div class="im-footer-content">
+<p class="im-footer-made">Made with <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;color:#EF4444;"><use href="#si_Heart"/></svg> by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+<div class="im-footer-grid">
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Info"/></svg> About ImpactMojo</h4>
+<ul>
+<li><a href="../about.html">About Us</a></li>
+<li><a href="../contact.html">Contact</a></li>
+<li><a href="https://github.com/ImpactMojo/ImpactMojo" rel="noopener noreferrer" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Globe_detailed"/></svg> GitHub</a></li>
+<li><a href="../transparency.html">Transparency</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Lock"/></svg> Legal</h4>
+<ul>
+<li><a href="../privacy-policy.html">Privacy Policy</a></li>
+<li><a href="../terms-of-service.html">Terms of Service</a></li>
+<li><a href="../disclaimer.html">Disclaimer</a></li>
+<li><a href="../data-protection.html">Data Protection</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Lightning"/></svg> Quick Links</h4>
+<ul>
+<li><a href="../catalog.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Library_books"/></svg> All Courses</a></li>
+<li><a href="../premium.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Flare"/></svg> Premium Content</a></li>
+<li><a href="../coaching.html">Coaching</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Book"/></svg> Resources</h4>
+<ul>
+<li><a href="../handouts.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Article"/></svg> Handouts</a></li>
+<li><a href="../blog.html">Blog</a></li>
+<li><a href="../faq.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Help"/></svg> FAQ</a></li>
+<li><a href="../sitemap.html">Sitemap</a></li>
+<li><a href="/docs/" rel="noopener noreferrer" target="_blank">Documentation</a></li>
+</ul>
+</div>
+</div>
+<div class="im-footer-bottom">
+<p>&copy; 2026 ImpactMojo. All content for educational purposes only.</p>
+<p>Released under <strong>MIT License</strong> | Supported by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+</div>
+</div>
+</footer>
+
+<script src="/js/theme.js"></script>
+
+
+<!-- Supabase Auth -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="/js/state-manager.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+
+<!-- Floating paper plane (ImpactMojo decorative element) -->
+<svg class="im-paper-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M80,130 L150,50" stroke="#10B981" stroke-width="2" stroke-dasharray="4,4"/>
+  <circle cx="150" cy="50" r="4" fill="#6366F1"/>
+  <circle cx="40" cy="155" r="2" fill="#0EA5E9" opacity="0.6"/>
+  <circle cx="35" cy="165" r="1.5" fill="#6366F1" opacity="0.4"/>
+  <circle cx="45" cy="170" r="1" fill="#10B981" opacity="0.5"/>
+</svg>
+<script src="/js/translate-sarvam.js" defer></script>
+</body>
+</html>

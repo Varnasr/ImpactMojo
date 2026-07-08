@@ -1,0 +1,777 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>A Year of Havoc — ImpactMojo Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+/* === ImpactMojo Design System === */
+:root {
+    --im-gradient: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+    --im-accent: #0EA5E9;
+    --im-nav-bg: rgba(15, 23, 42, 0.95);
+    --im-border: #334155;
+    --im-text-primary: #F1F5F9;
+    --im-text-secondary: #94A3B8;
+    --im-text-muted: #64748B;
+    --im-card-bg: #1E293B;
+    --im-hover-bg: #334155;
+    --im-secondary-bg: #1E293B;
+}
+body { padding-top: 56px !important; }
+.im-topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    background: var(--im-nav-bg);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--im-border);
+    padding: 0.5rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.75rem; flex-wrap: wrap;
+    font-family: 'Inter', 'Amaranth', sans-serif;
+}
+.im-topbar a { text-decoration: none; }
+.im-topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+.im-topbar-home {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-weight: 700; font-size: 1rem;
+    background: var(--im-gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.im-topbar-home svg { width: 24px; height: 24px; flex-shrink: 0; stroke: #0EA5E9; }
+.im-topbar-right { display: flex; align-items: center; gap: 0.5rem; }
+.im-premium-btn {
+    background: var(--im-gradient);
+    color: #fff !important; -webkit-text-fill-color: #fff;
+    padding: 0.35rem 0.85rem; border-radius: 6px;
+    font-size: 0.8rem; font-weight: 600;
+    display: flex; align-items: center; gap: 0.35rem;
+    transition: opacity 0.2s; border: none; cursor: pointer;
+}
+.im-browse-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--im-text, #1C1917); background: var(--im-surface, #FFFFFF); border: 1.5px solid var(--im-border, #E2E8F0); padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; transition: background 0.18s ease, border-color 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease; }
+.im-browse-btn:hover { background: var(--im-accent, #0EA5E9); color: #FFFFFF; border-color: var(--im-accent, #0EA5E9); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25); }
+.im-browse-btn svg { width: 14px; height: 14px; }
+@media (prefers-color-scheme: dark) { .im-browse-btn { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.18); } .im-browse-btn:hover { background: var(--im-accent, #0EA5E9); border-color: var(--im-accent, #0EA5E9); color: #FFFFFF; } }
+.im-premium-btn:hover { opacity: 0.9; }
+.im-premium-btn svg { width: 14px; height: 14px; }
+.im-theme-selector {
+    display: flex; gap: 2px;
+    background: var(--im-card-bg);
+    border: 1px solid var(--im-border);
+    border-radius: 8px; padding: 2px;
+}
+.im-theme-btn {
+    background: transparent; border: none;
+    color: var(--im-text-secondary);
+    padding: 6px; border-radius: 5px; cursor: pointer;
+    transition: all 0.2s; display: flex; align-items: center;
+    justify-content: center; width: 30px; height: 30px;
+}
+.im-theme-btn:hover { background: var(--im-hover-bg); color: var(--im-text-primary); }
+.im-theme-btn.active { background: var(--im-accent); color: #fff; }
+.im-theme-btn svg { width: 16px; height: 16px; }
+.im-footer {
+    background: var(--im-secondary-bg);
+    border-top: 1px solid var(--im-border);
+    padding: 2rem 1rem; margin-top: auto;
+    font-family: 'Inter', 'Amaranth', sans-serif;
+    color: var(--im-text-secondary);
+}
+.im-footer-content { max-width: 1100px; margin: 0 auto; }
+.im-footer-made {
+    text-align: center; margin-bottom: 1.5rem;
+    font-size: 0.9rem; color: var(--im-text-muted);
+}
+.im-footer-made a { color: var(--im-accent); text-decoration: none; }
+.im-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem; margin-bottom: 1.5rem;
+}
+.im-footer-section h4 {
+    font-family: 'Inter', 'Amaranth', sans-serif;
+    color: var(--im-text-primary);
+    font-size: 0.9rem; margin-bottom: 0.75rem; font-weight: 600;
+}
+.im-footer-section ul { list-style: none; padding: 0; margin: 0; }
+.im-footer-section li { margin-bottom: 0.4rem; }
+.im-footer-section a {
+    color: var(--im-text-secondary);
+    text-decoration: none; font-size: 0.85rem; transition: color 0.2s;
+}
+.im-footer-section a:hover { color: var(--im-accent); }
+.im-footer-bottom {
+    text-align: center; padding-top: 1rem;
+    border-top: 1px solid var(--im-border);
+    font-size: 0.8rem; color: var(--im-text-muted);
+}
+.im-footer-bottom p { margin: 0.25rem 0; }
+.im-footer-bottom a { color: var(--im-accent); text-decoration: none; }
+@media (max-width: 640px) {
+    .im-topbar { padding: 0.4rem 0.75rem; gap: 0.5rem; }
+    .im-topbar-home { font-size: 0.85rem; }
+    .im-topbar-home svg { width: 20px; height: 20px; }
+    .im-topbar-home span { display: none; }
+    .im-premium-btn { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
+    .im-theme-btn { width: 26px; height: 26px; padding: 4px; }
+    .im-theme-btn svg { width: 14px; height: 14px; }
+    .im-footer-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+}
+@media (max-width: 400px) {
+    .im-footer-grid { grid-template-columns: 1fr; }
+}
+/* === End ImpactMojo Design System === */
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F8F5F0;--card:#fff;--border:#E8E0D5;--text:#1C1C1C;--muted:#6B6560;
+  --accent:#1A3C34;--accent-light:#EBF5F2;--teal:#1A6B5A;--teal-light:#EBF5F2;
+  --radius:8px;
+}
+body{background:var(--bg);font-family:'Amaranth','Inter',system-ui,sans-serif;color:var(--text);padding-top:52px}
+.app{min-height:100vh;display:flex;flex-direction:column}
+nav{background:#1C1C1C;display:flex;align-items:center;gap:20px;padding:0 20px;min-height:52px;flex-wrap:wrap;position:sticky;top:52px;z-index:99}
+.brand{display:flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.brand-name{font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:#fff;letter-spacing:.05em;text-transform:uppercase}
+.tabs{display:flex;gap:2px;flex-wrap:wrap}
+.tab-btn{background:none;border:none;padding:6px 13px;font-family:Inter,sans-serif;font-size:11px;font-weight:600;color:rgba(255,255,255,.5);cursor:pointer;border-radius:4px;text-transform:uppercase;letter-spacing:.04em;transition:all .15s}
+.tab-btn:hover{color:rgba(255,255,255,.85)}
+.tab-btn.active{color:#fff;background:var(--accent)}
+main{flex:1;padding:32px 20px;max-width:860px;margin:44px auto 0;width:100%}
+.h1{font-family:Inter,sans-serif;font-size:22px;font-weight:700;margin-bottom:8px}
+.sub{color:var(--muted);font-size:15px;margin-bottom:24px;font-family:Inter,sans-serif;line-height:1.5}
+.panel{display:none}.panel.active{display:block}
+
+/* HERO */
+.hero{background:#1C1C1C;color:#fff;border-radius:12px;padding:32px;margin-bottom:20px}
+.day-badge{display:inline-block;background:var(--accent);font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 10px;border-radius:4px;margin-bottom:14px}
+.hero h1{font-size:34px;font-weight:700;margin-bottom:4px}
+.hero .auth{font-family:Inter,sans-serif;font-size:13px;color:rgba(255,255,255,.5);margin-bottom:14px}
+.hero .tagline{font-size:15px;color:rgba(255,255,255,.8);line-height:1.6;max-width:620px;margin-bottom:18px}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-family:Inter,sans-serif;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.8)}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:18px 14px;text-align:center}
+.stat-n{font-size:30px;font-weight:700;color:var(--accent);font-family:Inter,sans-serif}
+.stat-l{font-family:Inter,sans-serif;font-size:12px;color:var(--muted);margin-top:4px}
+.arg{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:22px;margin-bottom:24px}
+.arg p{font-size:15px;line-height:1.75}
+.arg p+p{margin-top:1rem}
+.nav-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.nav-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:left;cursor:pointer;transition:all .15s}
+.nav-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.nav-card-label{font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
+.nav-card-desc{font-family:Inter,sans-serif;font-size:12px;color:var(--muted)}
+
+/* PATHWAYS */
+.pw-tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.pw-btn{font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:6px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s}
+.pw-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.pw-desc{font-family:Inter,sans-serif;font-size:14px;color:var(--muted);padding:12px 14px;background:var(--accent-light);border-radius:6px;margin-bottom:20px;line-height:1.5}
+.pw-steps{display:flex;flex-direction:column;gap:10px}
+.pw-step{display:flex;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px}
+.step-n{width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-family:Inter,sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-title{font-family:Inter,sans-serif;font-size:14px;font-weight:700;margin-bottom:3px}
+.step-focus{font-family:Inter,sans-serif;font-size:13px;color:var(--muted);line-height:1.5}
+
+/* SECTIONS */
+.sec-card{background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.sec-header{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;cursor:pointer;background:none;border:none;text-align:left;width:100%}
+.sec-num{font-family:Inter,sans-serif;font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;min-width:24px;padding-top:2px}
+.sec-title{font-family:Inter,sans-serif;font-size:15px;font-weight:700;margin-bottom:2px}
+.sec-sub{font-family:Inter,sans-serif;font-size:12px;color:var(--muted)}
+.sec-chev{font-size:16px;color:var(--muted);padding-top:2px;margin-left:auto}
+.sec-body{padding:0 18px 18px 56px;border-top:1px solid var(--border)}
+.sec-summary{font-size:15px;line-height:1.75;padding-top:14px;margin-bottom:18px}
+.ideas-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
+.idea-item{display:flex;gap:8px;margin-bottom:7px;font-family:Inter,sans-serif;font-size:13px;line-height:1.55}
+.idea-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:6px}
+blockquote{font-style:italic;font-size:14px;color:var(--muted);border-left:3px solid var(--accent);padding-left:12px;margin-bottom:8px;line-height:1.6}
+.dev-toggle{font-family:Inter,sans-serif;font-size:12px;font-weight:600;color:var(--teal);background:var(--teal-light);border:none;padding:7px 12px;border-radius:4px;cursor:pointer;margin-top:10px}
+.dev-text{margin-top:10px;font-family:Inter,sans-serif;font-size:13px;line-height:1.65;background:var(--teal-light);padding:12px;border-radius:6px}
+
+/* CONCEPTS */
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+.concept-card:hover,.concept-card.open{border-color:var(--accent)}
+.concept-term{font-family:Inter,sans-serif;font-size:15px;font-weight:700}
+.concept-def{font-family:Inter,sans-serif;font-size:14px;line-height:1.7;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.prac-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-top:10px;margin-bottom:4px}
+.prac-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65;color:var(--muted)}
+
+/* TOOLKIT */
+.tool-tabs{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+.tool-btn{font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:6px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s}
+.tool-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tool-panel{display:none;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:22px}
+.tool-panel.active{display:block}
+.tool-intro{font-family:Inter,sans-serif;font-size:14px;color:var(--muted);margin-bottom:20px;line-height:1.5}
+.fld-label{font-family:Inter,sans-serif;font-size:13px;font-weight:600;margin-bottom:5px;display:block}
+.fld{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;outline:none;background:var(--bg);margin-bottom:12px}
+.fld:focus{border-color:var(--accent)}
+.output-box{background:var(--accent-light);padding:14px;border-radius:6px;margin-top:16px;font-family:Inter,sans-serif;font-size:14px;line-height:1.65}
+.output-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:8px}
+
+/* CONTEXT */
+.conn-card{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:16px 18px;margin-bottom:10px}
+.conn-book{font-family:Inter,sans-serif;font-size:14px;font-weight:700;margin-bottom:5px}
+.conn-text{font-family:Inter,sans-serif;font-size:13px;color:var(--muted);line-height:1.65}
+.crit-item{display:flex;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:8px}
+.crit-n{width:24px;height:24px;border-radius:50%;background:#FFF8E6;color:#C8910A;font-family:Inter,sans-serif;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.crit-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65}
+.context-h{font-family:Inter,sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;margin-top:6px}
+
+/* ASK */
+.ask-setup{}
+.setup-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+.setup-step{display:flex;gap:12px;font-family:Inter,sans-serif;font-size:14px;line-height:1.5}
+.setup-num{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.setup-step a{color:var(--accent)}
+.key-row{display:flex;gap:10px}
+.key-input{flex:1;max-width:400px;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;outline:none}
+.key-btn{padding:9px 22px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:Inter,sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.key-btn:disabled{opacity:.4;cursor:not-allowed}
+.ask-ui{display:flex;flex-direction:column;height:calc(100vh - 180px)}
+.ask-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.ask-hdr-title{font-family:Inter,sans-serif;font-size:18px;font-weight:700}
+.ask-reset{background:none;border:1px solid var(--border);border-radius:4px;padding:4px 10px;font-family:Inter,sans-serif;font-size:12px;color:var(--muted);cursor:pointer}
+.msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px;margin-bottom:10px}
+.suggested-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px}
+.sug-btn{display:block;width:100%;text-align:left;padding:9px 12px;background:var(--card);border:1px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;cursor:pointer;margin-bottom:6px;transition:all .15s}
+.sug-btn:hover{border-color:var(--accent);background:var(--accent-light)}
+.msg{max-width:85%}
+.msg.user{align-self:flex-end}
+.msg.assistant{align-self:flex-start}
+.msg-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65;padding:10px 14px;border-radius:8px;white-space:pre-wrap}
+.msg.user .msg-text{background:var(--accent);color:#fff}
+.msg.assistant .msg-text{background:var(--card);border:1px solid var(--border)}
+.typing{display:flex;gap:4px;padding:12px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px}
+.typing span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:bounce 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.ask-input-row{display:flex;gap:8px;border-top:1px solid var(--border);padding-top:10px}
+.ask-input{flex:1;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;resize:none;outline:none;background:var(--bg)}
+.ask-input:focus{border-color:var(--accent)}
+.ask-send{padding:9px 18px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:Inter,sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.ask-send:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:640px){.stat-grid{grid-template-columns:repeat(2,1fr)}.nav-grid{grid-template-columns:1fr 1fr}.sec-body{padding-left:18px}}
+
+/* WCAG 2.1 AA (1.4.1 Use of Color): inline anchors in content paragraphs must be distinguishable without relying on color alone. Scoped to <main> so nav/footer button-links are unaffected. */
+main p a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]),
+main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
+/* === Dark Mode === */
+html.dark body { background: #0f172a; color: #e2e8f0; }
+html.dark #root,
+html.dark main,
+html.dark .app,
+html.dark [id^="p-"],
+html.dark .panel { filter: invert(0.88) hue-rotate(180deg); }
+html.dark #root img,
+html.dark #root svg:not([class*="im-"]),
+html.dark main img,
+html.dark main svg:not([class*="im-"]) { filter: invert(1) hue-rotate(180deg); }
+html.dark .im-topbar, html.dark .im-footer { filter: none; }
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+<!-- SEO meta (autogenerated) -->
+<meta name="description" content="A Year of Havoc (edited by Varna Sri Raman for Oxfam India, 2022) — ImpactMojo Companion. An interactive reading guide to six rapid studies of India's catastrophic 2021 COVID-19 second wave: the middle class, informal workers, patients and vaccines, private and government schools, and domestic violence.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.impactmojo.in/BookSummaries/year-of-havoc-companion.html">
+<meta property="og:title" content="A Year of Havoc — ImpactMojo Companion">
+<meta property="og:description" content="A Year of Havoc (edited by Varna Sri Raman for Oxfam India, 2022) — ImpactMojo Companion. An interactive reading guide to six rapid studies of India's catastrophic 2021 COVID-19 second wave: the middle class, informal workers, patients and vaccines, private and government schools, and domestic violence.">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:url" content="https://www.impactmojo.in/BookSummaries/year-of-havoc-companion.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ImpactMojo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="A Year of Havoc — ImpactMojo Companion">
+<meta name="twitter:description" content="A Year of Havoc (edited by Varna Sri Raman for Oxfam India, 2022) — ImpactMojo Companion. An interactive reading guide to six rapid studies of India's catastrophic 2021 COVID-19 second wave: the middle class, informal workers, patients and vaccines, private and government schools, and domestic violence.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<!-- Favicons -->
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<!-- Translate -->
+<style>
+/* Skip link (WCAG 2.4.1) */
+.im-skip-link { position:absolute; top:-40px; left:0; background:#0EA5E9; color:#fff; padding:8px 16px; z-index:10000; text-decoration:none; font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600; }
+.im-skip-link:focus { top:0; }
+/* Floating paper plane */
+.im-paper-plane { position:fixed; bottom:2rem; right:2rem; width:60px; height:60px; opacity:0.14; pointer-events:none; z-index:0; animation: imFloat 6s ease-in-out infinite; }
+@keyframes imFloat { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-15px) rotate(3deg);} }
+html.dark .im-paper-plane { opacity:0.22; }
+/* Interactive companion CTA */
+.im-interactive-cta { display:inline-flex; align-items:center; gap:0.5rem; background:var(--im-gradient); color:#fff !important; -webkit-text-fill-color:#fff; padding:0.5rem 1rem; border-radius:6px; font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600; text-decoration:none; margin-top:14px; transition:opacity 0.2s; }
+.im-interactive-cta:hover { opacity:0.9; }
+
+/* === ImpactMojo Brand Override (fonts + dark mode) — v10.21 === */
+html body, html body .app, html body main, html body .panel,
+html body p, html body li, html body blockquote, html body .sec-summary, html body .arg p,
+html body .sub, html body .tagline, html body .hero, html body .hero h1 {
+  font-family: 'Amaranth', Arial, sans-serif !important;
+}
+html body h1, html body h2, html body h3, html body h4, html body h5, html body h6,
+html body .h1, html body .brand-name, html body .day-badge, html body .pill,
+html body .stat-n, html body .stat-l, html body .sec-title, html body .sec-sub, html body .sec-num,
+html body .concept-term, html body .step-title, html body .step-focus, html body .conn-book,
+html body .book-title, html body .tab-btn, html body .pw-btn, html body .tool-btn,
+html body .im-topbar, html body .im-topbar *, html body .im-footer, html body .im-footer * {
+  font-family: 'Inter', 'Amaranth', Helvetica, sans-serif !important;
+}
+html body code, html body pre, html body .mono, html body kbd, html body samp {
+  font-family: 'JetBrains Mono', ui-monospace, monospace !important;
+}
+
+/* Replace filter-invert dark mode with proper token-based dark mode */
+html.dark body { background: #0F172A !important; color: #E2E8F0 !important; }
+html.dark #root, html.dark main, html.dark .app, html.dark [id^="p-"], html.dark .panel,
+html.dark .arg, html.dark .hero, html.dark .stat, html.dark .nav-card, html.dark .pw-step,
+html.dark .sec-card, html.dark .sec-body, html.dark .concept-card, html.dark .tool-panel,
+html.dark .conn-card, html.dark .crit-item, html.dark .msg.assistant .msg-text,
+html.dark .output-box, html.dark .typing, html.dark .ask-input, html.dark .key-input,
+html.dark .fld, html.dark .tool-btn, html.dark .pw-btn, html.dark .sug-btn, html.dark .pw-desc {
+  filter: none !important;
+}
+html.dark { color-scheme: dark; }
+html.dark body,
+html.dark body .app,
+html.dark body main { background: #0F172A !important; color: #E2E8F0 !important; }
+html.dark .hero { background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%) !important; color: #F1F5F9 !important; border: 1px solid #334155; }
+html.dark .hero .auth, html.dark .hero .tagline { color: #CBD5E1 !important; }
+html.dark .stat, html.dark .arg, html.dark .nav-card, html.dark .sec-card, html.dark .pw-step,
+html.dark .concept-card, html.dark .tool-panel, html.dark .conn-card, html.dark .crit-item,
+html.dark .msg.assistant .msg-text { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .sec-header, html.dark .sec-body { background: transparent !important; color: #E2E8F0 !important; }
+html.dark .sec-body { border-top-color: #334155 !important; }
+html.dark .stat-n { color: #38BDF8 !important; }
+html.dark .stat-l, html.dark .sec-sub, html.dark .sub, html.dark .nav-card-desc,
+html.dark .step-focus, html.dark .pw-desc, html.dark .prac-text, html.dark .conn-text,
+html.dark .ideas-label, html.dark .prac-label, html.dark .output-label, html.dark .suggested-label,
+html.dark .dev-text, html.dark .fld-label { color: #94A3B8 !important; }
+html.dark .h1, html.dark .sec-title, html.dark .concept-term, html.dark .step-title,
+html.dark .nav-card-label, html.dark .conn-book, html.dark .context-h, html.dark .ask-hdr-title { color: #F1F5F9 !important; }
+html.dark blockquote { color: #CBD5E1 !important; border-left-color: #38BDF8 !important; }
+html.dark .pill { background: rgba(56, 189, 248, 0.15) !important; color: #7DD3FC !important; }
+html.dark .day-badge { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .tab-btn { color: rgba(226, 232, 240, 0.6) !important; }
+html.dark .tab-btn.active { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .tab-btn:hover { color: #F1F5F9 !important; }
+html.dark nav { background: #0F172A !important; border-bottom: 1px solid #334155; }
+html.dark .pw-btn, html.dark .tool-btn { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .pw-btn.active, html.dark .tool-btn.active { background: #0EA5E9 !important; border-color: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .pw-desc { background: rgba(14, 165, 233, 0.1) !important; color: #CBD5E1 !important; }
+html.dark .output-box { background: rgba(14, 165, 233, 0.1) !important; color: #E2E8F0 !important; }
+html.dark .step-n, html.dark .setup-num { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .sec-num { color: #38BDF8 !important; }
+html.dark .ideas-label, html.dark .prac-label, html.dark .output-label { color: #38BDF8 !important; }
+html.dark .dev-toggle { background: rgba(56, 189, 248, 0.1) !important; color: #7DD3FC !important; }
+html.dark .dev-text { background: rgba(56, 189, 248, 0.08) !important; color: #CBD5E1 !important; }
+html.dark .fld, html.dark .key-input, html.dark .ask-input { background: #0F172A !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .msg.user .msg-text { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .sug-btn { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .sug-btn:hover { background: rgba(14, 165, 233, 0.15) !important; border-color: #0EA5E9 !important; }
+html.dark .crit-n { background: rgba(251, 191, 36, 0.15) !important; color: #FCD34D !important; }
+html.dark #root img, html.dark #root svg:not([class*="im-"]),
+html.dark main img, html.dark main svg:not([class*="im-"]) { filter: none !important; }
+html.dark .im-topbar, html.dark .im-footer { filter: none !important; }
+/* === End ImpactMojo Brand Override === */
+
+/* Ethics disclaimer heading — readable in both modes */
+.im-ethics-disclaimer .im-ethics-heading { color: #0F172A !important; }
+html.dark .im-ethics-disclaimer .im-ethics-heading, body.dark-mode .im-ethics-disclaimer .im-ethics-heading { color: #F1F5F9 !important; }
+html.dark .im-ethics-disclaimer, body.dark-mode .im-ethics-disclaimer { background: rgba(56,189,248,0.08) !important; border-left-color: #38BDF8 !important; color: #CBD5E1 !important; }
+</style>
+<link rel="stylesheet" href="/assets/css/booksummary-dark.css">
+</head>
+<body>
+<a href="#main-content" class="im-skip-link">Skip to content</a>
+<header class="im-topbar" role="banner">
+  <div class="im-topbar-left">
+    <a class="im-topbar-home" href="/" aria-label="ImpactMojo home">
+      <img src="/assets/images/ImpactMojo%20Logo.png" alt="ImpactMojo" width="24" height="24" style="border-radius:4px;">
+      <span>ImpactMojo</span>
+    </a>  </div>
+  <div class="im-topbar-right">
+    <a href="/catalog.html" class="im-browse-btn" title="Browse all content"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Browse</a>
+    
+    <a class="im-premium-btn" href="/premium.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Premium
+    </a>
+    <div class="im-theme-selector" role="group" aria-label="Theme">
+      <button class="im-theme-btn" data-imtheme="system" title="System theme" aria-label="System theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </button>
+      <button class="im-theme-btn" data-imtheme="light" title="Light theme" aria-label="Light theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <button class="im-theme-btn" data-imtheme="dark" title="Dark theme" aria-label="Dark theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="app">
+<nav>
+  <div class="brand"><div class="dot"></div><span class="brand-name">ImpactMojo</span></div>
+  <div class="tabs" id="tabbar"></div>
+</nav>
+<main id="main-content">
+  <div class="panel active" id="p-overview"></div>
+  <div class="panel" id="p-pathways"></div>
+  <div class="panel" id="p-sections"></div>
+  <div class="panel" id="p-concepts"></div>
+  <div class="panel" id="p-toolkit"></div>
+  <div class="panel" id="p-context"></div>
+  <div class="panel" id="p-ask"></div>
+</main>
+</div>
+
+<!-- Sargam Icon Sprites -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+<symbol id="si_Direction_alt" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m3 3 18 7.92-7.987 2.093L10.92 21z"/></symbol>
+<symbol id="si_Flare" viewBox="0 0 24 24" fill="none"><g clip-path="url(#clip_si_Flare)"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M7 12H1m22 0h-6m-5 5v6m3.536-7.464 1.414 1.414m-9.9-9.9 1.414 1.414m7.072 0L16.95 7.05m-9.9 9.9 1.414-1.414M12 1v6m2 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0"/></g><defs><clipPath id="clip_si_Flare"><path fill="#fff" d="M0 0h24v24H0z"/></clipPath></defs></symbol>
+<symbol id="si_Info" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 8h.008M12 16v-5m10 1c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10"/></symbol>
+<symbol id="si_Lock" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M8 10V7c0-2.21 1.79-4 4-4s4 1.79 4 4v3m-4 5a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 0v3m-5.4-8h10.8c.88 0 1.6.72 1.6 1.6v7c0 1.32-1.08 2.4-2.4 2.4H7.4C6.08 21 5 19.92 5 18.6v-7c0-.88.72-1.6 1.6-1.6"/></symbol>
+<symbol id="si_Lightning" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m12.667 10.5 1.25-7.5L6 13h5l-1.25 7.5 7.917-10z" clip-rule="evenodd"/></symbol>
+<symbol id="si_Library_books" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M10 11h8m-8 3h4m-4-6h8m2 14H8.4C5.42 22 3 19.58 3 16.6V5m5.4-2h11.2A2.4 2.4 0 0 1 22 5.4v11.2a2.4 2.4 0 0 1-2.4 2.4H8.4A2.4 2.4 0 0 1 6 16.6V5.4A2.4 2.4 0 0 1 8.4 3"/></symbol>
+<symbol id="si_Book" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 7.333C12 5.5 10.5 4 8.667 4H2v12h6.708C12 16 12 19.334 12 19.334m0-12C12 5.5 13.5 4 15.333 4H22v12h-6.667C12 16 12 19.334 12 19.334m0-12v12m1.875 1.124A2.58 2.58 0 0 1 16.167 19H21m-10.875 1.458A2.54 2.54 0 0 0 7.833 19H3"/></symbol>
+<symbol id="si_Article" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M8 12h8m-8 3h4M8 9h8M4.4 4h15.2A2.4 2.4 0 0 1 22 6.4v11.2a2.4 2.4 0 0 1-2.4 2.4H4.4A2.4 2.4 0 0 1 2 17.6V6.4A2.4 2.4 0 0 1 4.4 4"/></symbol>
+<symbol id="si_Mail" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m5 7.06 6.87 5.89c.07.06.19.06.26 0L19 7.06M3.2 4h17.6c.66 0 1.2.54 1.2 1.2v12.4c0 1.32-1.08 2.4-2.4 2.4H4.4C3.08 20 2 18.92 2 17.6V5.2C2 4.54 2.54 4 3.2 4"/></symbol>
+<symbol id="si_Help" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M11.83 14v-.621a2.33 2.33 0 0 1 1.164-2.02c1.126-.66 1.514-2.057.854-3.183s-2.057-1.514-3.183-.854C9.965 7.75 9.5 8.487 9.5 9.341M12 17h-.008M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12s4.477 10 10 10 10-4.477 10-10"/></symbol>
+<symbol id="si_Heart" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.696 3C14.652 3 12.887 4.197 12 5.943 11.113 4.197 9.348 3 7.304 3 4.374 3 2 5.457 2 8.481s1.817 5.796 4.165 8.073S12 21 12 21s3.374-2.133 5.835-4.446C20.46 14.088 22 11.514 22 8.481S19.626 3 16.696 3"/></symbol>
+<symbol id="si_Globe_detailed" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M22 12c0 5.523-4.477 10-10 10m10-10c0-5.523-4.477-10-10-10m10 10H2m10 10C6.477 22 2 17.523 2 12m10 10 .66-.31c2.1-2.71 3.34-6.14 3.34-9.78s-1.22-7-3.27-9.69L12 2m0 20-.73-.31A15.94 15.94 0 0 1 8 12c0-3.64 1.24-7.07 3.34-9.78L12 2M2 12C2 6.477 6.477 2 12 2m7.14 17c-1.82-1.85-4.34-3-7.14-3s-5.33 1.15-7.14 3M19.14 5C17.33 6.85 14.8 8 12 8S6.68 6.85 4.86 5"/></symbol>
+</svg>
+
+
+<div id="root"></div>
+<script>
+const DATA = {"title": "A Year of Havoc", "dayBadge": "Public Health & Development", "author": "Edited by Varna Sri Raman (Oxfam India) · 2022", "tagline": "An interactive companion to a memorial volume of rapid research on India's catastrophic 2021 COVID-19 second wave — six studies spanning the middle class, informal workers, patients' rights and vaccine access, private and government schooling, and the shadow pandemic of violence against women.", "pills": ["COVID-19 second wave", "Informal workers", "Gender-based violence", "Social protection", "Patients' rights", "School closures", "Vaccine equity"], "stats": [{"n": "8", "l": "Sections"}, {"n": "15", "l": "Key concepts"}, {"n": "6", "l": "Rapid studies"}, {"n": "2021", "l": "Year documented"}], "argument": ["A Year of Havoc is a memorial volume — dedicated \"In Memory of 2021\" — that assembles six rapid research studies Oxfam India conducted through the year of the devastating COVID-19 second wave. Its central claim is stated in the Preface: the catastrophe was not an unavoidable natural disaster but the product of institutional choices. In January 2021 the government declared India had \"beaten\" the pandemic and relaxed containment; in March the Health Minister claimed India was \"in the end game.\" In the intervening year the state \"did next to nothing to prepare,\" failed to ramp up oxygen, actively dismantled field hospitals, permitted mega political rallies and the Kumbh Mela, and \"prioritised vaccine diplomacy versus vaccination atma-nirbharta when it mattered.\" An estimated 4.67 lakh Indians died.", "The volume's method is to treat lived experience as evidence in its own right: \"The insights of people with lived experience can be extremely valuable in prevention planning, treatment, and education.\" Across the six studies the same mechanism recurs — a health emergency instantly becoming a livelihoods, food-security, gender, education and mental-health emergency because the underlying social protections were already too thin to hold. The middle class discovered its security was an illusion once hospitals buckled; informal workers lost income overnight with no cushion; patients were denied dignity, information and even the bodies of their dead; children lost the world's fourth-longest school year; and women confined with abusers faced a documented surge in violence.", "For practitioners the book is both an indictment and a toolkit. It combines large rapid surveys (roughly 1,800 middle-class respondents; 1,461 informal workers across four cities; nearly 15,000 patients and vaccine-seekers; 3,440 private-school and 3,876 government-school respondents) with a deep qualitative study of violence in Patna's slums (12 focus groups and 16 key-informant interviews). Together they model how to capture an unfolding disaster in near-real time, disaggregate its burden by caste, class, gender, religion and migration status, and translate raw testimony into a concrete reform agenda.", "The closing chapter, \"Was a Better Year Possible?\", answers yes. It argues for a coherent policy response guided by three principles — reversibility (minimising hysteresis), subsidiarity (local official and civil-society action), and sustainability — spanning demand support and progressive taxation for the middle class, universal and portable social protection for informal workers, price-capping and patients'-rights enforcement in health, effective regulation of private schools, and gender-responsive crisis systems."], "accent": "#9F1239", "accent_light": "#FFE4E6", "pathways": [], "sections": [{"title": "In Memory of 2021: Could the Pandemic Have Been Managed Better?", "subtitle": "Preface · Framing the havoc", "summary": "", "ideas": ["The volume is an act of remembrance for the estimated 4.67 lakh Indians who died, published open-access (CC BY-SA) with the support of the Wall of Grief crowdfunding campaign, and illustrated with infographics by Bryan Mathers.", "It frames the second wave as avoidable: India declared victory in January 2021, called it the \"end game\" in March, then failed to ramp up oxygen, dismantled field hospitals, and allowed the Kumbh Mela and election rallies to become super-spreader events.", "India's top virologist quit a scientific advisory panel criticising the government's \"stubborn resistance to evidence-based policymaking\"; the Centre told the Rajya Sabha that no oxygen-shortage deaths were reported by states.", "Between January and May 2021 India bought ~350 million vaccine doses — enough for barely 20% of the population — yet exported more than it administered while the PM declared victory three times on television.", "The Preface poses the book's six guiding questions: how the middle class suffered, what social protections failed migrants, people's lived experience of care and vaccines, the schooling crisis under mass closures, and the documented rise in domestic violence.", "It positions the collection as \"a layered collection of rapid research studies conducted through the year 2021\" that together constitute \"an accurate assessment of the state's orientation.\""], "quotes": ["\"we are in the end game of the COVID19 pandemic in India\" — India's Health Minister, March 2021", "\"The insights of people with lived experience can be extremely valuable in prevention planning, treatment, and education... reducing deaths and improving support for loss survivors.\""], "devEcon": "For South Asian practitioners it reframes disaster response as a governance and equity question rather than a purely medical one, and legitimises rapid, participatory, testimony-based evidence in a field that too often privileges only official counts."}, {"title": "Cracks in India's Middle Class", "subtitle": "Ch 1 · When assumed security collapsed", "summary": "", "ideas": ["An online rapid survey of ~1,800 respondents (mostly urban, tier-II, southern states; ran ~two months from mid-September 2021) captured how the group assumed to be insulated was itself a casualty — its \"aura of security and progress\" fell apart.", "16% of respondents lost jobs in the second wave; job loss was steeply regressive by income (31% in the lowest bracket vs 7% in the highest), and 66% of those who lost jobs were SC, ST or OBC, with minorities making up 60% of the religious distribution.", "The very young and the old saw the deepest wage cuts (roughly 20% reductions under age 20; ~40% for ages 45–60), while the highest earners were least affected — the shock was unequally distributed even within the middle class.", "Household expenditure rose most for the lower middle class (57% and 61% of the two lowest brackets), with Muslim households bearing a disproportionate 60% burden; the increased burden of housework fell hardest on women (66%) and SC households (71%).", "Catastrophic health costs drove the pain: private hospitalisation could reach about one lakh rupees a day, home-isolation respondents faced overpriced oxygen and medicines, and 9% paid more than INR 1,00,000 per day in private hospitals.", "Nearly 45% of respondents rated the central government's pandemic response \"very poor,\" and the middle class had to rely twice as heavily as normal on personal networks to survive the crisis."], "quotes": ["\"the pandemic deepened the cracks in an already fissured society.\"", "\"The aura of security and progress that previously defined the middle class fell apart as a result of COVID19.\""], "devEcon": "It punctures the assumption that only the poor need protection during shocks: when health systems collapse, catastrophic out-of-pocket spending can impoverish salaried households too, strengthening the case for universal public health investment and progressive taxation."}, {"title": "Of Precarious Lives on the Edge", "subtitle": "Ch 2 · Informal workers and social security", "summary": "", "ideas": ["A survey of 1,461 informal-sector chief wage-earners across slums in Bangalore, Mumbai, Delhi and Pune (June–July 2021) mapped access to the PDS and Ayushman Bharat — the informal sector employs 86.8% of India's workforce and contributes nearly 50% of GDP.", "The pandemic's job destruction was overwhelmingly informal: of 122 million jobs lost in the first wave, 75% (92 million) were in the informal sector, and PLFS data shows distress reverse-migration back into low-wage agriculture.", "Food security failed in practice, not on paper: 66% held a ration card but only 67.8% could actually buy ration; casual-wage workers had the highest card ownership (73.4%) yet the lowest ability to buy (45.6%) because fair-price shops were closed or barely open.", "The PDS's \"sedentary bias\" excludes migrants whose cards are tied to their home state — short-term circular migrants, among the most vulnerable, had cards at only 35.5%, and ONORC portability is limited by incomplete ePoS and Aadhaar seeding.", "Health insurance was almost fictional: only 8.3% had ever heard of Ayushman Bharat and just 1% held a card; 80% of employed respondents received no social security benefits, only 9.3% had a written contract, and a mere 0.7% were registered with a workers' welfare board.", "Awareness of legal rights was near zero — under 1% had heard of the Wage Code and none had heard of the Code on Social Security 2020 — with migrants and female workers the least protected of all."], "quotes": ["\"universal social security... seems like a distant dream.\"", "\"the poorest groups also exhibit the least awareness and consequently have the least access as well. Of all the respondents, migrant workers are the least protected group.\""], "devEcon": "This is the analytical core of the book's social-protection critique: it shows why schemes fail at the point of delivery, and why shock-response for South Asia's majority-informal workforce must be universal, self-selectable and portable rather than employer-linked or address-bound."}, {"title": "Finding Medicine, Care and a Jab", "subtitle": "Ch 3 · Patients' rights and the vaccine experience", "summary": "", "ideas": ["Two Advocacy-team studies (a Patients' Rights Charter survey of 3,890 respondents and a vaccination survey of 10,955, ~15,000 responses in total) document routine denial of dignity in a system where over half of hospitalisations are now private.", "Rights violations were rampant: 36% of women were physically examined by a male practitioner with no other woman present; 74–75% received a prescription with no explanation of their illness; 58% got no cost estimate before treatment; and 19% were denied release of a relative's dead body.", "Discrimination was systemic — a third of Muslim respondents, and 22% of STs and 21% of SCs, reported being discriminated against in hospitals; the Tablighi Jamaat episode deepened Islamophobia and hospitals were reported refusing Muslim patients.", "The chapter captures how official endorsement drove desperate behaviour around hydroxychloroquine: \"After all, ICMR had recommended the drug: that must mean HCQ worked,\" alongside the fatalistic refrain \"Agar yeh sab bimari tumko nahin hoga toh aur kisko hoga?\"", "Vaccine access was rigged toward the rich: a full course for a family of three cost INR 3,600 (Covishield) or 7,200 (Covaxin) — 24% and 48% of monthly income, and 43%/86% for the bottom 20%; only 6% of doses were delivered privately yet those slots were easiest to book.", "12% of those earning under INR 10,000/month had received no dose (vs 5% of higher earners); 40% of those who missed out found the centre had run out; and the elderly and PwDs were left behind for lack of doorstep vaccination until November."], "quotes": ["\"After all, ICMR had recommended the drug: that must mean HCQ worked.\"", "\"Health does not simply mean freedom from diseases. A healthy life is every persons' right. The onus for this is on our government to make every possible effort to ensure this\" — Modi, 2019"], "devEcon": "It is a field-level anatomy of health-system failure and vaccine inequity: misinformation, cost, stigma, digital registration and the gap between political promise and delivery decide who actually reaches care during an emergency."}, {"title": "Public Failures in Privatised Schools", "subtitle": "Ch 4 · Private schooling under closure", "summary": "", "ideas": ["A survey of 3,440 parents across 36 states/UTs (September–November 2021) examined private schooling — now nearly 50% of all school-going children — against the NEP 2020's admission that regulation has failed to prevent profiteering.", "Commercialisation ran unchecked: close to 60% of parents paid illegal capitation fees, two in three were forced to buy books/uniforms from a specific vendor, 57% faced undisclosed hidden charges, and 52% paid hiked fees despite 14 states barring hikes.", "RTE norms were openly violated — 13% of children were denied admission on grounds of gender or social identity (19% for Muslims combined with another factor), and over half of children had to sit tests or interviews that RTE prohibits.", "Parental voice was hollow: 84% said government failed to regulate private schools, 51% had no agency in key decisions, fewer than 5% were satisfied with any complaint resolution, over a third saw their child harassed for complaining, and under 20% of schools had a functioning PTA.", "Learning collapsed: almost 50% of children had no teacher-led learning at all over a two-month window, two in three couldn't get doubts cleared online, and only 33% of parents earning under 20,000/month could keep up with home teaching versus 53% of those over 80,000.", "Recovery was neglected — only 14% of schools assessed children's current learning level on return and fewer than 10% revised the previous year's syllabus, even as closure for grades 1–5 crossed 600 days in several states."], "quotes": ["\"private schools, if left unregulated, will continue to profiteer and exploit parents.\"", "\"even for children who are attending online classes, it remains a medium of passively receiving instruction, and not one of co-creation of knowledge based on children's lived experiences.\""], "devEcon": "It shows that unregulated private schooling converts a health shock into an equity and affordability crisis, and that fee legislation without enforcement is meaningless — a direct lesson for education-governance and RTE-implementation work across the region."}, {"title": "Leaving All Children Behind", "subtitle": "Ch 5 · Government schools, teachers and reopening", "summary": "", "ideas": ["A survey of 3,876 respondents (1,406 parents, 1,557 children, 913 teachers) across up to 11 states focused on reopening — India's 32 crore students endured the world's fourth-longest school lockdown, with 92% of children losing at least one language competency.", "Digital learning excluded the poorest: barely 15% of rural households had internet at the start, 96% of SC and ST households lacked a computer, and over half of non-attending children lacked a device or had to share a phone.", "Marginalised children were not coming back — 12% of girls versus 7% of boys, and 41% of Muslim children, were not attending after reopening, while fewer than half of all children attended six days a week.", "The closure hardened into permanent harm: 29% of children (grades 1–8) reported being married off during this time, roughly 40% were helping with household chores or supporting the family financially, and child labour \"made a comeback.\"", "Recovery infrastructure barely functioned — mid-day meals resumed in only 39% of schools, current learning levels were assessed in fewer than a third, and two in three children were struggling to follow lessons.", "Teachers were unsupported frontline workers: 9% lost a colleague on government (often election) duty — amid reports of 1,621 teacher deaths during UP's Panchayat elections — and 70% of bereaved families were dissatisfied with the compensation received."], "quotes": ["\"India's 32 crore students in the world's second largest education system have faced the world's fourth longest school lockdown.\"", "\"While children's names may potentially have remained enrolled in school, many appear to have, for all effects and purposes, dropped out.\""], "devEcon": "It connects the education shock to livelihoods, gender and child protection — school closures are simultaneously a learning, nutrition, early-marriage, child-labour and teacher-welfare crisis, demanding disaster-preparedness planning for uninterrupted education."}, {"title": "A Violent Pandemic within Walls", "subtitle": "Ch 6 · The shadow pandemic in Patna's slums", "summary": "", "ideas": ["A qualitative Gender Justice study in six flood-affected informal settlements of Patna (Kaushal Nagar, Yarpur Band Gumpti, Mestarpara, Bahadurpur, Saidpur, Gausnagar) used 12 focus groups and 16 key-informant interviews (July–September 2021), analysed through Lori Heise's ecological model.", "Loss of livelihood was the primary shock with a cascading effect: as one expert put it, \"while during the second wave people died... because of the disease, in the first lockdown people suffered because of the lockdown itself\" — driving hunger, debt and asset sales.", "Lockdown dismantled women's escape routes: violence that once had a release valve — the natal home, a neighbour's house, community mediation — now had none, and one activist described exactly why abusers felt emboldened when \"the woman can't go anywhere.\"", "Hunger and lost income translated directly into violence: \"When there would be no earning, fights are bound to increase. If there is no earning, then how will we eat?... We'd fight,\" while enforced 24x7 proximity and mobile-phone-fuelled suspicion (shakk) added new triggers.", "Violence was so normalised that women narrated it as routine — \"Ye toh roz ka hai\" (this is a daily thing) — yet the study insists this must never be read as consent; support systems had collapsed to telephonic counselling alone.", "The context echoes the NCW's official surge (1,477 complaints between 25 March and 31 May 2020, 1.5 times the previous year), and the volume argues this violence is structural and \"long-dure,\" not an exceptional pandemic event."], "quotes": ["\"We live in a rented house. I had to sell my anklet to buy ration for the house.\" (FGD Yarpur Band Gumpti, 18–30 years)", "\"There is no support system from the government... The cycle of violence doesn't end.\" (Nivedita Jha, Bihar Mahila Samaj, Personal Interview, August 2021)"], "devEcon": "It gives South Asian gender and protection programmes hard qualitative evidence that lockdowns are not gender-neutral: confinement, lost livelihoods and disabled referral systems create a shadow pandemic that telephonic helplines alone cannot hold."}, {"title": "Was a Better Year Possible?", "subtitle": "Ch 7 · From testimony to a coherent policy response", "summary": "", "ideas": ["The closing chapter answers its own question — yes — and calls for a \"coherent\" response in which government, civil society, service providers and individuals reinforce one another, moving policy from the domain of efficiency to the domain of justice.", "It is organised around three public-policy principles: minimising hysteresis (easy reversibility), subsidiarity (supporting local official and civil-society action), and sustainability (a graded response that wins back people's confidence in government).", "For the middle class it prescribes demand stimulus, more progressive taxation (\"let the rich pay more tax\"), lower living costs, health and education entitlements, and protection from arbitrary wage cuts and temporary contracts.", "For informal workers it recommends raising scheme awareness, making all social protection self-selectable, reducing registration barriers (e.g. mobile vans and the e-shram portal), and registering casual and migrant workers with welfare boards on-site.", "For health it urges price-capping of treatment, oxygen and medicines, enforcement of the Patients' Rights Charter, expanded public-sector vaccine manufacturing, IP-sharing, and flexibility for local health administrations.", "For education it calls for enforceable private-school fee regulation (citing progressive Chhattisgarh and Himachal Pradesh measures) and a disaster-preparedness plan to keep learning uninterrupted, arguing the country stood \"at the brink of losing an entire generation's future.\""], "quotes": ["\"unless adequate support is provided, the pandemic will have long lasting effects... and this impact will be intergenerational not just long-term in our lifetimes.\"", "\"knowledge sharing and listening to people is probably the best way to effectively respond to crises.\""], "devEcon": "This is the actionable core for policy audiences: it converts raw testimony into a sequenced reform agenda — portable social protection, universal health coverage, enforced regulation, gender-responsive emergency systems — designed for the next inevitable shock."}], "concepts": [{"term": "Informal Sector Workers (ISWs)", "definition": "Workers outside the formal, regulated economy — domestic workers, vendors, daily-wage, casual and gig labour — without written contracts, social insurance or job security. The book notes the informal sector employs 86.8% of India's workforce and contributes nearly 50% of GDP.", "practitionerNote": "Shock-response design must start from the reality that most South Asian workers have no employer or state cushion; universal, portable protections beat employer-linked ones."}, {"term": "Lived-experience research", "definition": "An approach that treats first-person testimony of those who endured an event as primary evidence — valuable in its own right for prevention planning, treatment and reform, not merely as colour around official statistics.", "practitionerNote": "Use it to surface harms that administrative data misses or hides, and to give affected communities authorship of the evidence about them."}, {"term": "Rapid research study", "definition": "A fast, focused inquiry using surveys, focus groups and interviews to capture an unfolding crisis in near-real time. The volume's six studies ran through 2021 while the second wave was still cresting.", "practitionerNote": "Trade some statistical precision for timeliness; rapid studies can inform response while it still matters, then be validated later. The book is candid that its online samples are not representative."}, {"term": "Catastrophic health expenditure", "definition": "Out-of-pocket medical spending large enough to push a household into poverty — a central mechanism by which the second wave harmed even the middle class through private hospitalisation (up to ~one lakh rupees a day), oxygen and drugs.", "practitionerNote": "The strongest argument for public health investment: without it, a single illness can wipe out a family's security regardless of class."}, {"term": "Public Distribution System (PDS) & sedentary bias", "definition": "India's subsidised-grain system under the National Food Security Act, 2013. Its 'sedentary bias' ties ration cards to the beneficiary's home state, so migrants cannot claim food where they actually live and work.", "practitionerNote": "Availability of an entitlement is not access; make rations portable and delinked from a fixed address so migrants and the newly jobless can claim them."}, {"term": "One Nation One Ration Card (ONORC)", "definition": "A portability initiative (2019) letting ration cards work at any fair-price shop nationwide, dependent on ePoS devices and Aadhaar seeding — still incomplete, and exclusionary for those without Aadhaar.", "practitionerNote": "Technology-dependent portability can reproduce exclusion; pair it with manual fallbacks so the least-documented are not locked out."}, {"term": "Ayushman Bharat (PM-JAY)", "definition": "India's flagship health-insurance scheme offering INR 5 lakh cover per family. The ISW study found only 8.3% of respondents had heard of it and 1% held a card — awareness and access, not just design, are the binding constraints.", "practitionerNote": "Insurance needs a robust public primary-care backbone; without it, low awareness and registration friction gut its protective value for the poor."}, {"term": "Code on Social Security, 2020", "definition": "A labour code subsuming nine earlier laws and, for the first time, recognising gig and platform workers, with provision for a social security fund. The book flags that enforcement, rights-status and financing remain 'unknowns.'", "practitionerNote": "Recognition in law is a first step, not delivery; advocacy should target enforcement mechanisms, not just statutory language."}, {"term": "Patients' Rights Charter (PRC)", "definition": "A 13-right charter released by MoHFW in 2018 on NHRC's recommendation, meant to be adopted by states. Years on it remains largely unadopted, and the study documents mass violations of information, consent and dignity.", "practitionerNote": "Rights frameworks without state adoption and grievance mechanisms are inert; enforcement and public awareness are the missing pieces."}, {"term": "Vaccine equity / access", "definition": "Whether people can actually reach vaccination given cost, digital registration (CoWIN), documentation and supply — distinct from whether vaccines formally exist. Private doses cost 24–86% of monthly income for poorer families.", "practitionerNote": "Availability is not access; registration platforms, cost and stigma can exclude the very groups most at risk. Design doorstep and no-documentation options in from the start."}, {"term": "Intimate Partner Violence (IPV) / shadow pandemic", "definition": "Physical, sexual, emotional or economic abuse by a partner, whose lockdown-era surge the UN named a 'shadow pandemic.' The Patna study shows how confinement removed women's escape routes while hunger and lost income multiplied triggers.", "practitionerNote": "Treat IPV as a predictable secondary effect of lockdowns; keep referral and shelter pathways funded and open precisely when movement is restricted."}, {"term": "Ecological model (Lori Heise)", "definition": "An analytical framework of four concentric levels — individual, family/household, community/institutions, and macro (laws, policies, norms) — used to understand how factors across levels combine to produce violence against women.", "practitionerNote": "It disciplines a gender analysis to look beyond the household to institutions and norms, guiding multi-level rather than single-point interventions."}, {"term": "Learning deprivation", "definition": "The loss of learning and competencies from prolonged school closure; 92% of children lost at least one language ability during India's fourth-longest lockdown, compounded by reduced teacher-led time even where instruction continued.", "practitionerNote": "Reopening is not recovery: schools need learning-level assessment, revision of prior syllabus and accelerated catch-up, which the study found almost entirely absent."}, {"term": "Anganwadi / ICDS", "definition": "The urban/village childcare and nutrition centres of the Integrated Child Development Services — a frontline safety net that shut during lockdown, leaving Anganwadi workers to witness families going hungry.", "practitionerNote": "Closing nutrition centres removes food and childcare at once; designate them essential services that keep operating safely in emergencies."}, {"term": "Social protection", "definition": "The set of policies — cash transfers, food entitlements, health insurance, guaranteed work (MGNREGA), welfare boards — that cushion households against shocks. The book argues India's were too fragmented and thin to prevent hunger and death in 2021.", "practitionerNote": "Build shock-responsive, universal-leaning systems before the crisis; retrofitting protection mid-emergency is slow, leaky and reaches the poorest last."}], "tools": [{"label": "Reflection Journal", "intro": "Use these prompts to connect this book to your own practice.", "html": "<label class=\"fld-label\">In your own context, which group in a crisis is assumed to be 'safe' but is actually one shock away from destitution — and what would it take to protect them before the next emergency?</label>\n<textarea class=\"fld\" id=\"r1\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<label class=\"fld-label\">The book treats lived-experience testimony as evidence in its own right. Where in your work do official statistics hide a harm that only first-person accounts reveal, and how could you capture it in real time?</label>\n<textarea class=\"fld\" id=\"r2\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<label class=\"fld-label\">A Year of Havoc shows one emergency becoming a livelihoods, food, gender, health and education crisis at once. In a shock you have responded to, which of these dimensions did your programme neglect — and why?</label>\n<textarea class=\"fld\" id=\"r3\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<div style=\"margin-top:12px;font-family:Inter,sans-serif;font-size:13px;color:var(--muted)\">Reflections stay in your browser only and are not sent anywhere.</div>"}], "connections": [], "southAsia": ["The informal-worker study is grounded in the slums of Bangalore, Mumbai, Delhi and Pune, and the violence study in Patna's flood-affected bastis — documenting how South Asia's urban informal poor absorbed the sharpest edge of pandemic policy.", "It is a detailed case study in why blanket, uncushioned lockdowns are regressive where 86.8% of workers are informal, hand-to-mouth, and tied to home-state entitlements they cannot use once they migrate.", "The Patna findings give hard qualitative evidence for the region's 'shadow pandemic' and the fragility of PWDVA-era protection systems once services shrink to telephonic counselling.", "The HCQ/ICMR, vaccine-cost and CoWIN material speaks directly to trust, misinformation, out-of-pocket cost and the digital divide in South Asian public-health delivery.", "As an open-access, Creative Commons volume from Oxfam India, it models accessible, participatory knowledge production for the region rather than paywalled expertise."], "critiques": ["The studies mix genuinely large rapid surveys with small qualitative work, but the online surveys are self-selecting and skew urban, southern, male and better-off — the book is admirably candid that they are not statistically representative.", "Because samples are non-representative, many striking percentages illustrate mechanisms and inequities rather than measure national prevalence, and should be cited as such.", "The volume is data- and infographic-heavy in a scanned form, so some numeric claims and OCR'd tables are hard to audit against underlying methods without the original annexures.", "Its indictment of 'the state's orientation' is powerfully argued from lived experience but leans more on testimony and secondary policy critique than on systematic fiscal or causal analysis.", "The reform agenda in the final chapter is comprehensive but pitched at the level of principles and recommendations; it names what must change more clearly than how to sequence, cost or finance it."], "suggested": [], "systemPrompt": "You are an expert reading companion for 'A Year of Havoc', a memorial volume of six rapid research studies edited by Varna Sri Raman and produced for Oxfam India (2022), documenting the lived experience of India's 2021 COVID-19 second wave. The studies cover: the middle class (Ch 1); informal sector workers and social security (Ch 2); patients' rights and the vaccination experience (Ch 3); private schooling (Ch 4); government schooling and teachers (Ch 5); and violence against women in Patna's slums (Ch 6); with a closing policy synthesis (Ch 7). Your audience is development practitioners and students in South Asia. Explain the book's arguments faithfully, cite its real findings and testimony, note that most studies are rapid and (for the online surveys) non-representative rather than nationally generalisable, surface major critiques, and connect it to contemporary debates on social protection, lockdown policy, gender-based violence, health-system equity and school closures. Be accurate to the actual text and distinguish clearly between the book's evidence and your own inference."};
+
+// Tab management
+const TABS = [
+  {id:"overview",label:"Overview"},
+  {id:"pathways",label:"Pathways"},
+  {id:"sections",label:"Sections"},
+  {id:"concepts",label:"Concepts"},
+  {id:"toolkit",label:"Toolkit"},
+  {id:"context",label:"Context"},
+  {id:"ask",label:"Ask"},
+];
+
+const tabbar = document.getElementById("tabbar");
+TABS.forEach(t => {
+  const btn = document.createElement("button");
+  btn.className = "tab-btn" + (t.id === "overview" ? " active" : "");
+  btn.textContent = t.label;
+  btn.onclick = () => switchTab(t.id);
+  tabbar.appendChild(btn);
+});
+
+function switchTab(id) {
+  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById("p-" + id).classList.add("active");
+  tabbar.querySelectorAll(".tab-btn")[TABS.findIndex(t=>t.id===id)].classList.add("active");
+}
+
+// OVERVIEW
+(function() {
+  const el = document.getElementById("p-overview");
+  el.innerHTML = `
+    <div class="hero">
+      <div class="day-badge">${DATA.dayBadge}</div>
+      <h1>${DATA.title}</h1>
+      <div class="auth">${DATA.author}</div>
+      <div class="tagline">${DATA.tagline}</div>
+      <div class="pills">${DATA.pills.map(p=>`<span class="pill">${p}</span>`).join("")}</div>
+    </div>
+    <div class="stat-grid">
+      ${DATA.stats.map(s=>`<div class="stat"><div class="stat-n">${s.n}</div><div class="stat-l">${s.l}</div></div>`).join("")}
+    </div>
+    <div class="arg">
+      <div class="h1">The central argument</div>
+      ${DATA.argument.map(p=>`<p>${p}</p>`).join("")}
+    </div>
+    <div class="h1" style="margin-top:24px">What's in this companion</div>
+    <div class="nav-grid">
+      ${[["pathways","Learning Pathways","Structured reading routes by role"],["sections","Section by Section","Full analysis with dev econ connections"],["concepts","Concepts & Frameworks","Key terms with practitioner notes"],["toolkit","Practitioner Toolkit","Interactive tools"],["context","Book in Context","Connections and assessment"],["ask","Ask the Book","Gemini-powered Q&A"]].map(([id,label,desc])=>`<button class="nav-card" onclick="switchTab('${id}')" ><div class="nav-card-label">${label}</div><div class="nav-card-desc">${desc}</div></button>`).join("")}
+    </div>
+  `;
+})();
+
+// PATHWAYS
+(function() {
+  const el = document.getElementById("p-pathways");
+  let active = 0;
+  function render() {
+    const pw = DATA.pathways[active];
+    el.innerHTML = `
+      <div class="h1">Learning Pathways</div>
+      <div class="sub">Three structured routes through the book based on your role.</div>
+      <div class="pw-tabs">
+        ${DATA.pathways.map((p,i)=>`<button class="pw-btn ${i===active?"active":""}" onclick="__pw(${i})">${p.label}</button>`).join("")}
+      </div>
+      <div class="pw-desc">${pw.desc}</div>
+      <div class="pw-steps">
+        ${pw.steps.map((s,i)=>`<div class="pw-step"><div class="step-n">${i+1}</div><div><div class="step-title">${s.section}</div><div class="step-focus">${s.focus}</div></div></div>`).join("")}
+      </div>
+    `;
+  }
+  window.__pw = (i) => { active = i; render(); };
+  render();
+})();
+
+// SECTIONS
+(function() {
+  const el = document.getElementById("p-sections");
+  let openId = null;
+  let showDev = {};
+  function render() {
+    el.innerHTML = `
+      <div class="h1">Section by Section</div>
+      <div class="sub">All sections with full analysis and development economics connections.</div>
+      ${DATA.sections.map((s,i)=>`
+        <div class="sec-card">
+          <button class="sec-header" onclick="__sec(${i})">
+            <div class="sec-num">§${i+1}</div>
+            <div class="sec-title-block"><div class="sec-title">${s.title}</div><div class="sec-sub">${s.subtitle}</div></div>
+            <div class="sec-chev">${openId===i?"−":"+"}</div>
+          </button>
+          ${openId===i?`<div class="sec-body">
+            <div class="sec-summary">${s.summary}</div>
+            <div class="ideas-label">Key ideas</div>
+            ${s.ideas.map(idea=>`<div class="idea-item"><span class="idea-dot"></span><span>${idea}</span></div>`).join("")}
+            <div class="ideas-label" style="margin-top:14px">Key quotes</div>
+            ${s.quotes.map(q=>`<blockquote>${q}</blockquote>`).join("")}
+            <button class="dev-toggle" onclick="__dev(${i})">${showDev[i]?"Hide":"Show"} development economics connection</button>
+            ${showDev[i]?`<div class="dev-text">${s.devEcon}</div>`:""}
+          </div>`:""}
+        </div>
+      `).join("")}
+    `;
+  }
+  window.__sec = (i) => { openId = openId===i?null:i; render(); };
+  window.__dev = (i) => { showDev[i]=!showDev[i]; render(); };
+  render();
+})();
+
+// CONCEPTS
+(function() {
+  const el = document.getElementById("p-concepts");
+  let open = null;
+  function render() {
+    el.innerHTML = `
+      <div class="h1">Concepts & Frameworks</div>
+      <div class="sub">Key terms with definitions and practitioner notes. Click to expand.</div>
+      ${DATA.concepts.map((c,i)=>`
+        <div class="concept-card ${open===i?"open":""}" onclick="__con(${i})">
+          <div class="concept-term">${c.term}</div>
+          ${open===i?`<div class="concept-def">${c.definition}</div><div class="prac-label">Practitioner note</div><div class="prac-text">${c.practitionerNote}</div>`:""}
+        </div>
+      `).join("")}
+    `;
+  }
+  window.__con = (i) => { open = open===i?null:i; render(); };
+  render();
+})();
+
+// TOOLKIT  
+(function() {
+  const el = document.getElementById("p-toolkit");
+  el.innerHTML = `
+    <div class="h1">Practitioner Toolkit</div>
+    <div class="sub">Interactive tools derived from the book. Use for personal practice or programme design.</div>
+    <div class="tool-tabs">
+      ${DATA.tools.map((t,i)=>`<button class="tool-btn ${i===0?"active":""}" onclick="__tool(${i})">${t.label}</button>`).join("")}
+    </div>
+    ${DATA.tools.map((t,i)=>`
+      <div class="tool-panel ${i===0?"active":""}" id="toolp-${i}">
+        <div class="tool-intro">${t.intro}</div>
+        ${t.html}
+      </div>
+    `).join("")}
+  `;
+  window.__tool = (i) => {
+    document.querySelectorAll(".tool-btn").forEach((b,j)=>b.classList.toggle("active",i===j));
+    document.querySelectorAll(".tool-panel").forEach((p,j)=>p.classList.toggle("active",i===j));
+  };
+})();
+
+// CONTEXT
+(function() {
+  const el = document.getElementById("p-context");
+  el.innerHTML = `
+    <div class="h1">Book in Context</div>
+    <div class="sub">How this book fits within the broader literature, and an honest assessment of its limits.</div>
+    <div class="context-h">Connected works</div>
+    ${DATA.connections.map(c=>`<div class="conn-card"><div class="conn-book">${c.book}</div><div class="conn-text">${c.text}</div></div>`).join("")}
+    <div class="context-h" style="margin-top:24px">Honest assessment</div>
+    <div class="sub">Limits and qualifications for the ImpactMojo context:</div>
+    ${DATA.critiques.map((c,i)=>`<div class="crit-item"><div class="crit-n">${i+1}</div><div class="crit-text">${c}</div></div>`).join("")}
+  `;
+})();
+
+// ASK
+(function() {
+  const el = document.getElementById("p-ask");
+  let apiKey = "", msgs = [], loading = false;
+  
+  function renderSetup() {
+    el.innerHTML = `
+      <div class="ask-setup">
+        <div class="h1">Ask the Book</div>
+        <div class="sub">AI-powered Q&A using Gemini 2.0 Flash (free). Requires a Google AI Studio API key.</div>
+        <div class="setup-steps">
+          <div class="setup-step"><span class="setup-num">1</span><span>Go to <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com/app/apikey</a> and create a free API key.</span></div>
+          <div class="setup-step"><span class="setup-num">2</span><span>Paste it below. The key stays in your browser only and is never stored.</span></div>
+        </div>
+        <div class="key-row">
+          <input class="key-input" type="password" id="key-in" placeholder="AIza..." oninput="document.getElementById('key-submit').disabled=!this.value.trim()"/>
+          <button class="key-btn" id="key-submit" disabled onclick="__setKey()">Connect</button>
+        </div>
+      </div>
+    `;
+  }
+  
+  function renderChat() {
+    el.innerHTML = `
+      <div class="ask-ui">
+        <div class="ask-hdr"><span class="ask-hdr-title">Ask the Book</span><button class="ask-reset" onclick="__resetKey()">Change key</button></div>
+        <div class="msgs" id="msgs-box">
+          ${msgs.length===0?`<div><div class="suggested-label">Suggested questions</div>${DATA.suggested.map(q=>`<button class="sug-btn" onclick="__ask('${q.replace(/'/g,"\'")}')">${q}</button>`).join("")}</div>`:""}
+          ${msgs.map(m=>`<div class="msg ${m.role}"><div class="msg-text">${m.content}</div></div>`).join("")}
+          ${loading?`<div class="msg assistant"><div class="typing"><span></span><span></span><span></span></div></div>`:""}
+        </div>
+        <div class="ask-input-row">
+          <textarea class="ask-input" id="ask-in" rows="2" placeholder="Ask about the book..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();__sendAsk()}"></textarea>
+          <button class="ask-send" id="ask-send" onclick="__sendAsk()">Send</button>
+        </div>
+      </div>
+    `;
+    const box = document.getElementById("msgs-box");
+    if(box) box.scrollTop = box.scrollHeight;
+  }
+  
+  window.__setKey = () => {
+    const v = document.getElementById("key-in").value.trim();
+    if(v) { apiKey = v; renderChat(); }
+  };
+  window.__resetKey = () => { apiKey=""; msgs=[]; renderSetup(); };
+  window.__ask = (q) => {
+    document.getElementById("ask-in").value = q;
+    __sendAsk();
+  };
+  window.__sendAsk = async () => {
+    const inp = document.getElementById("ask-in");
+    if(!inp) return;
+    const q = inp.value.trim();
+    if(!q || loading) return;
+    inp.value = "";
+    msgs.push({role:"user",content:q});
+    loading = true; renderChat();
+    try {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,{
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({
+          system_instruction:{parts:[{text:DATA.systemPrompt}]},
+          contents: msgs.map(m=>{return{role:m.role==="assistant"?"model":"user",parts:[{text:m.content}]}}).slice(0,-1).concat([{role:"user",parts:[{text:q}]}]),
+          generationConfig:{maxOutputTokens:1200,temperature:0.3}
+        })
+      });
+      const data = await res.json();
+      if(!res.ok) throw new Error(data.error?.message||"API error");
+      const reply = data?.candidates?.[0]?.content?.parts?.map(p=>p.text).join("")||"No response.";
+      msgs.push({role:"assistant",content:reply});
+    } catch(e) {
+      msgs.push({role:"assistant",content:"Error: "+e.message});
+    }
+    loading = false; renderChat();
+  };
+  
+  renderSetup();
+})();
+</script>
+
+<!-- ImpactMojo Footer -->
+<!-- Ethics & Copyright Disclaimer -->
+<section class="im-ethics-disclaimer" style="max-width:1100px;margin:2rem auto 1rem;padding:1.25rem 1.5rem;background:rgba(14,165,233,0.06);border-left:4px solid #0EA5E9;border-radius:8px;font-family:'Inter','Amaranth',sans-serif;font-size:0.85rem;line-height:1.65;color:var(--im-text-secondary,#64748B);">
+  <p class="im-ethics-heading" style="margin:0 0 0.5rem;font-weight:600;">A note on books, authors, and intellectual labour</p>
+  <p style="margin:0;">All books companioned on ImpactMojo have been duly purchased with real money and form part of a personal collection. None of the source texts have been obtained by any illegal means — we deeply respect the intellectual labour of authors, editors, and publishers. These reading companions are offered free of charge as educational aids; ImpactMojo does not sell book companions as a paid service and therefore does not violate any commercial licensing agreement or copyright. Nothing here reproduces the full text of any book — each companion is an interpretive study guide.</p>
+</section>
+
+<footer class="im-footer" role="contentinfo">
+<div class="im-footer-content">
+<p class="im-footer-made">Made with <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;color:#EF4444;"><use href="#si_Heart"/></svg> by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+<div class="im-footer-grid">
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Info"/></svg> About ImpactMojo</h4>
+<ul>
+<li><a href="../about.html">About Us</a></li>
+<li><a href="../contact.html">Contact</a></li>
+<li><a href="https://github.com/ImpactMojo/ImpactMojo" rel="noopener noreferrer" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Globe_detailed"/></svg> GitHub</a></li>
+<li><a href="../transparency.html">Transparency</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Lock"/></svg> Legal</h4>
+<ul>
+<li><a href="../privacy-policy.html">Privacy Policy</a></li>
+<li><a href="../terms-of-service.html">Terms of Service</a></li>
+<li><a href="../disclaimer.html">Disclaimer</a></li>
+<li><a href="../data-protection.html">Data Protection</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Lightning"/></svg> Quick Links</h4>
+<ul>
+<li><a href="../catalog.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Library_books"/></svg> All Courses</a></li>
+<li><a href="../premium.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Flare"/></svg> Premium Content</a></li>
+<li><a href="../coaching.html">Coaching</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Book"/></svg> Resources</h4>
+<ul>
+<li><a href="../handouts.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Article"/></svg> Handouts</a></li>
+<li><a href="../blog.html">Blog</a></li>
+<li><a href="../faq.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Help"/></svg> FAQ</a></li>
+<li><a href="../sitemap.html">Sitemap</a></li>
+<li><a href="/docs/" rel="noopener noreferrer" target="_blank">Documentation</a></li>
+</ul>
+</div>
+</div>
+<div class="im-footer-bottom">
+<p>&copy; 2026 ImpactMojo. All content for educational purposes only.</p>
+<p>Released under <strong>MIT License</strong> | Supported by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+</div>
+</div>
+</footer>
+
+<script src="/js/theme.js"></script>
+
+
+<!-- Supabase Auth -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="/js/state-manager.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+
+<!-- Floating paper plane (ImpactMojo decorative element) -->
+<svg class="im-paper-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M80,130 L150,50" stroke="#10B981" stroke-width="2" stroke-dasharray="4,4"/>
+  <circle cx="150" cy="50" r="4" fill="#6366F1"/>
+  <circle cx="40" cy="155" r="2" fill="#0EA5E9" opacity="0.6"/>
+  <circle cx="35" cy="165" r="1.5" fill="#6366F1" opacity="0.4"/>
+  <circle cx="45" cy="170" r="1" fill="#10B981" opacity="0.5"/>
+</svg>
+<script src="/js/translate-sarvam.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,777 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Challenges in Research Policy — ImpactMojo Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+/* === ImpactMojo Design System === */
+:root {
+    --im-gradient: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+    --im-accent: #0EA5E9;
+    --im-nav-bg: rgba(15, 23, 42, 0.95);
+    --im-border: #334155;
+    --im-text-primary: #F1F5F9;
+    --im-text-secondary: #94A3B8;
+    --im-text-muted: #64748B;
+    --im-card-bg: #1E293B;
+    --im-hover-bg: #334155;
+    --im-secondary-bg: #1E293B;
+}
+body { padding-top: 56px !important; }
+.im-topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    background: var(--im-nav-bg);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--im-border);
+    padding: 0.5rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.75rem; flex-wrap: wrap;
+    font-family: 'Inter', 'Amaranth', sans-serif;
+}
+.im-topbar a { text-decoration: none; }
+.im-topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+.im-topbar-home {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-weight: 700; font-size: 1rem;
+    background: var(--im-gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.im-topbar-home svg { width: 24px; height: 24px; flex-shrink: 0; stroke: #0EA5E9; }
+.im-topbar-right { display: flex; align-items: center; gap: 0.5rem; }
+.im-premium-btn {
+    background: var(--im-gradient);
+    color: #fff !important; -webkit-text-fill-color: #fff;
+    padding: 0.35rem 0.85rem; border-radius: 6px;
+    font-size: 0.8rem; font-weight: 600;
+    display: flex; align-items: center; gap: 0.35rem;
+    transition: opacity 0.2s; border: none; cursor: pointer;
+}
+.im-browse-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--im-text, #1C1917); background: var(--im-surface, #FFFFFF); border: 1.5px solid var(--im-border, #E2E8F0); padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; transition: background 0.18s ease, border-color 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease; }
+.im-browse-btn:hover { background: var(--im-accent, #0EA5E9); color: #FFFFFF; border-color: var(--im-accent, #0EA5E9); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25); }
+.im-browse-btn svg { width: 14px; height: 14px; }
+@media (prefers-color-scheme: dark) { .im-browse-btn { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.18); } .im-browse-btn:hover { background: var(--im-accent, #0EA5E9); border-color: var(--im-accent, #0EA5E9); color: #FFFFFF; } }
+.im-premium-btn:hover { opacity: 0.9; }
+.im-premium-btn svg { width: 14px; height: 14px; }
+.im-theme-selector {
+    display: flex; gap: 2px;
+    background: var(--im-card-bg);
+    border: 1px solid var(--im-border);
+    border-radius: 8px; padding: 2px;
+}
+.im-theme-btn {
+    background: transparent; border: none;
+    color: var(--im-text-secondary);
+    padding: 6px; border-radius: 5px; cursor: pointer;
+    transition: all 0.2s; display: flex; align-items: center;
+    justify-content: center; width: 30px; height: 30px;
+}
+.im-theme-btn:hover { background: var(--im-hover-bg); color: var(--im-text-primary); }
+.im-theme-btn.active { background: var(--im-accent); color: #fff; }
+.im-theme-btn svg { width: 16px; height: 16px; }
+.im-footer {
+    background: var(--im-secondary-bg);
+    border-top: 1px solid var(--im-border);
+    padding: 2rem 1rem; margin-top: auto;
+    font-family: 'Inter', 'Amaranth', sans-serif;
+    color: var(--im-text-secondary);
+}
+.im-footer-content { max-width: 1100px; margin: 0 auto; }
+.im-footer-made {
+    text-align: center; margin-bottom: 1.5rem;
+    font-size: 0.9rem; color: var(--im-text-muted);
+}
+.im-footer-made a { color: var(--im-accent); text-decoration: none; }
+.im-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem; margin-bottom: 1.5rem;
+}
+.im-footer-section h4 {
+    font-family: 'Inter', 'Amaranth', sans-serif;
+    color: var(--im-text-primary);
+    font-size: 0.9rem; margin-bottom: 0.75rem; font-weight: 600;
+}
+.im-footer-section ul { list-style: none; padding: 0; margin: 0; }
+.im-footer-section li { margin-bottom: 0.4rem; }
+.im-footer-section a {
+    color: var(--im-text-secondary);
+    text-decoration: none; font-size: 0.85rem; transition: color 0.2s;
+}
+.im-footer-section a:hover { color: var(--im-accent); }
+.im-footer-bottom {
+    text-align: center; padding-top: 1rem;
+    border-top: 1px solid var(--im-border);
+    font-size: 0.8rem; color: var(--im-text-muted);
+}
+.im-footer-bottom p { margin: 0.25rem 0; }
+.im-footer-bottom a { color: var(--im-accent); text-decoration: none; }
+@media (max-width: 640px) {
+    .im-topbar { padding: 0.4rem 0.75rem; gap: 0.5rem; }
+    .im-topbar-home { font-size: 0.85rem; }
+    .im-topbar-home svg { width: 20px; height: 20px; }
+    .im-topbar-home span { display: none; }
+    .im-premium-btn { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
+    .im-theme-btn { width: 26px; height: 26px; padding: 4px; }
+    .im-theme-btn svg { width: 14px; height: 14px; }
+    .im-footer-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+}
+@media (max-width: 400px) {
+    .im-footer-grid { grid-template-columns: 1fr; }
+}
+/* === End ImpactMojo Design System === */
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F8F5F0;--card:#fff;--border:#E8E0D5;--text:#1C1C1C;--muted:#6B6560;
+  --accent:#1A3C34;--accent-light:#EBF5F2;--teal:#1A6B5A;--teal-light:#EBF5F2;
+  --radius:8px;
+}
+body{background:var(--bg);font-family:'Amaranth','Inter',system-ui,sans-serif;color:var(--text);padding-top:52px}
+.app{min-height:100vh;display:flex;flex-direction:column}
+nav{background:#1C1C1C;display:flex;align-items:center;gap:20px;padding:0 20px;min-height:52px;flex-wrap:wrap;position:sticky;top:52px;z-index:99}
+.brand{display:flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.brand-name{font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:#fff;letter-spacing:.05em;text-transform:uppercase}
+.tabs{display:flex;gap:2px;flex-wrap:wrap}
+.tab-btn{background:none;border:none;padding:6px 13px;font-family:Inter,sans-serif;font-size:11px;font-weight:600;color:rgba(255,255,255,.5);cursor:pointer;border-radius:4px;text-transform:uppercase;letter-spacing:.04em;transition:all .15s}
+.tab-btn:hover{color:rgba(255,255,255,.85)}
+.tab-btn.active{color:#fff;background:var(--accent)}
+main{flex:1;padding:32px 20px;max-width:860px;margin:44px auto 0;width:100%}
+.h1{font-family:Inter,sans-serif;font-size:22px;font-weight:700;margin-bottom:8px}
+.sub{color:var(--muted);font-size:15px;margin-bottom:24px;font-family:Inter,sans-serif;line-height:1.5}
+.panel{display:none}.panel.active{display:block}
+
+/* HERO */
+.hero{background:#1C1C1C;color:#fff;border-radius:12px;padding:32px;margin-bottom:20px}
+.day-badge{display:inline-block;background:var(--accent);font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 10px;border-radius:4px;margin-bottom:14px}
+.hero h1{font-size:34px;font-weight:700;margin-bottom:4px}
+.hero .auth{font-family:Inter,sans-serif;font-size:13px;color:rgba(255,255,255,.5);margin-bottom:14px}
+.hero .tagline{font-size:15px;color:rgba(255,255,255,.8);line-height:1.6;max-width:620px;margin-bottom:18px}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-family:Inter,sans-serif;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.8)}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:18px 14px;text-align:center}
+.stat-n{font-size:30px;font-weight:700;color:var(--accent);font-family:Inter,sans-serif}
+.stat-l{font-family:Inter,sans-serif;font-size:12px;color:var(--muted);margin-top:4px}
+.arg{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:22px;margin-bottom:24px}
+.arg p{font-size:15px;line-height:1.75}
+.arg p+p{margin-top:1rem}
+.nav-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.nav-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:left;cursor:pointer;transition:all .15s}
+.nav-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.nav-card-label{font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
+.nav-card-desc{font-family:Inter,sans-serif;font-size:12px;color:var(--muted)}
+
+/* PATHWAYS */
+.pw-tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.pw-btn{font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:6px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s}
+.pw-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.pw-desc{font-family:Inter,sans-serif;font-size:14px;color:var(--muted);padding:12px 14px;background:var(--accent-light);border-radius:6px;margin-bottom:20px;line-height:1.5}
+.pw-steps{display:flex;flex-direction:column;gap:10px}
+.pw-step{display:flex;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px}
+.step-n{width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-family:Inter,sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-title{font-family:Inter,sans-serif;font-size:14px;font-weight:700;margin-bottom:3px}
+.step-focus{font-family:Inter,sans-serif;font-size:13px;color:var(--muted);line-height:1.5}
+
+/* SECTIONS */
+.sec-card{background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.sec-header{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;cursor:pointer;background:none;border:none;text-align:left;width:100%}
+.sec-num{font-family:Inter,sans-serif;font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;min-width:24px;padding-top:2px}
+.sec-title{font-family:Inter,sans-serif;font-size:15px;font-weight:700;margin-bottom:2px}
+.sec-sub{font-family:Inter,sans-serif;font-size:12px;color:var(--muted)}
+.sec-chev{font-size:16px;color:var(--muted);padding-top:2px;margin-left:auto}
+.sec-body{padding:0 18px 18px 56px;border-top:1px solid var(--border)}
+.sec-summary{font-size:15px;line-height:1.75;padding-top:14px;margin-bottom:18px}
+.ideas-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
+.idea-item{display:flex;gap:8px;margin-bottom:7px;font-family:Inter,sans-serif;font-size:13px;line-height:1.55}
+.idea-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:6px}
+blockquote{font-style:italic;font-size:14px;color:var(--muted);border-left:3px solid var(--accent);padding-left:12px;margin-bottom:8px;line-height:1.6}
+.dev-toggle{font-family:Inter,sans-serif;font-size:12px;font-weight:600;color:var(--teal);background:var(--teal-light);border:none;padding:7px 12px;border-radius:4px;cursor:pointer;margin-top:10px}
+.dev-text{margin-top:10px;font-family:Inter,sans-serif;font-size:13px;line-height:1.65;background:var(--teal-light);padding:12px;border-radius:6px}
+
+/* CONCEPTS */
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+.concept-card:hover,.concept-card.open{border-color:var(--accent)}
+.concept-term{font-family:Inter,sans-serif;font-size:15px;font-weight:700}
+.concept-def{font-family:Inter,sans-serif;font-size:14px;line-height:1.7;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.prac-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-top:10px;margin-bottom:4px}
+.prac-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65;color:var(--muted)}
+
+/* TOOLKIT */
+.tool-tabs{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+.tool-btn{font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:6px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s}
+.tool-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tool-panel{display:none;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:22px}
+.tool-panel.active{display:block}
+.tool-intro{font-family:Inter,sans-serif;font-size:14px;color:var(--muted);margin-bottom:20px;line-height:1.5}
+.fld-label{font-family:Inter,sans-serif;font-size:13px;font-weight:600;margin-bottom:5px;display:block}
+.fld{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;outline:none;background:var(--bg);margin-bottom:12px}
+.fld:focus{border-color:var(--accent)}
+.output-box{background:var(--accent-light);padding:14px;border-radius:6px;margin-top:16px;font-family:Inter,sans-serif;font-size:14px;line-height:1.65}
+.output-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:8px}
+
+/* CONTEXT */
+.conn-card{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:16px 18px;margin-bottom:10px}
+.conn-book{font-family:Inter,sans-serif;font-size:14px;font-weight:700;margin-bottom:5px}
+.conn-text{font-family:Inter,sans-serif;font-size:13px;color:var(--muted);line-height:1.65}
+.crit-item{display:flex;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:8px}
+.crit-n{width:24px;height:24px;border-radius:50%;background:#FFF8E6;color:#C8910A;font-family:Inter,sans-serif;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.crit-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65}
+.context-h{font-family:Inter,sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;margin-top:6px}
+
+/* ASK */
+.ask-setup{}
+.setup-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+.setup-step{display:flex;gap:12px;font-family:Inter,sans-serif;font-size:14px;line-height:1.5}
+.setup-num{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.setup-step a{color:var(--accent)}
+.key-row{display:flex;gap:10px}
+.key-input{flex:1;max-width:400px;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;outline:none}
+.key-btn{padding:9px 22px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:Inter,sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.key-btn:disabled{opacity:.4;cursor:not-allowed}
+.ask-ui{display:flex;flex-direction:column;height:calc(100vh - 180px)}
+.ask-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.ask-hdr-title{font-family:Inter,sans-serif;font-size:18px;font-weight:700}
+.ask-reset{background:none;border:1px solid var(--border);border-radius:4px;padding:4px 10px;font-family:Inter,sans-serif;font-size:12px;color:var(--muted);cursor:pointer}
+.msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px;margin-bottom:10px}
+.suggested-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px}
+.sug-btn{display:block;width:100%;text-align:left;padding:9px 12px;background:var(--card);border:1px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;cursor:pointer;margin-bottom:6px;transition:all .15s}
+.sug-btn:hover{border-color:var(--accent);background:var(--accent-light)}
+.msg{max-width:85%}
+.msg.user{align-self:flex-end}
+.msg.assistant{align-self:flex-start}
+.msg-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65;padding:10px 14px;border-radius:8px;white-space:pre-wrap}
+.msg.user .msg-text{background:var(--accent);color:#fff}
+.msg.assistant .msg-text{background:var(--card);border:1px solid var(--border)}
+.typing{display:flex;gap:4px;padding:12px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px}
+.typing span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:bounce 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.ask-input-row{display:flex;gap:8px;border-top:1px solid var(--border);padding-top:10px}
+.ask-input{flex:1;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;resize:none;outline:none;background:var(--bg)}
+.ask-input:focus{border-color:var(--accent)}
+.ask-send{padding:9px 18px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:Inter,sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.ask-send:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:640px){.stat-grid{grid-template-columns:repeat(2,1fr)}.nav-grid{grid-template-columns:1fr 1fr}.sec-body{padding-left:18px}}
+
+/* WCAG 2.1 AA (1.4.1 Use of Color): inline anchors in content paragraphs must be distinguishable without relying on color alone. Scoped to <main> so nav/footer button-links are unaffected. */
+main p a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]),
+main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
+/* === Dark Mode === */
+html.dark body { background: #0f172a; color: #e2e8f0; }
+html.dark #root,
+html.dark main,
+html.dark .app,
+html.dark [id^="p-"],
+html.dark .panel { filter: invert(0.88) hue-rotate(180deg); }
+html.dark #root img,
+html.dark #root svg:not([class*="im-"]),
+html.dark main img,
+html.dark main svg:not([class*="im-"]) { filter: invert(1) hue-rotate(180deg); }
+html.dark .im-topbar, html.dark .im-footer { filter: none; }
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+<!-- SEO meta (autogenerated) -->
+<meta name="description" content="Challenges in Research Policy (Sivertsen & Langfeldt, eds., 2025) — ImpactMojo Companion. Thirteen evidence-based policy briefs on how to assess, fund, and govern public research responsibly.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.impactmojo.in/BookSummaries/challenges-in-research-policy-companion.html">
+<meta property="og:title" content="Challenges in Research Policy — ImpactMojo Companion">
+<meta property="og:description" content="Challenges in Research Policy (Sivertsen & Langfeldt, eds., 2025) — ImpactMojo Companion. Thirteen evidence-based policy briefs on how to assess, fund, and govern public research responsibly.">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:url" content="https://www.impactmojo.in/BookSummaries/challenges-in-research-policy-companion.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ImpactMojo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Challenges in Research Policy — ImpactMojo Companion">
+<meta name="twitter:description" content="Challenges in Research Policy (Sivertsen & Langfeldt, eds., 2025) — ImpactMojo Companion. Thirteen evidence-based policy briefs on how to assess, fund, and govern public research responsibly.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<!-- Favicons -->
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<!-- Translate -->
+<style>
+/* Skip link (WCAG 2.4.1) */
+.im-skip-link { position:absolute; top:-40px; left:0; background:#0EA5E9; color:#fff; padding:8px 16px; z-index:10000; text-decoration:none; font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600; }
+.im-skip-link:focus { top:0; }
+/* Floating paper plane */
+.im-paper-plane { position:fixed; bottom:2rem; right:2rem; width:60px; height:60px; opacity:0.14; pointer-events:none; z-index:0; animation: imFloat 6s ease-in-out infinite; }
+@keyframes imFloat { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-15px) rotate(3deg);} }
+html.dark .im-paper-plane { opacity:0.22; }
+/* Interactive companion CTA */
+.im-interactive-cta { display:inline-flex; align-items:center; gap:0.5rem; background:var(--im-gradient); color:#fff !important; -webkit-text-fill-color:#fff; padding:0.5rem 1rem; border-radius:6px; font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600; text-decoration:none; margin-top:14px; transition:opacity 0.2s; }
+.im-interactive-cta:hover { opacity:0.9; }
+
+/* === ImpactMojo Brand Override (fonts + dark mode) — v10.21 === */
+html body, html body .app, html body main, html body .panel,
+html body p, html body li, html body blockquote, html body .sec-summary, html body .arg p,
+html body .sub, html body .tagline, html body .hero, html body .hero h1 {
+  font-family: 'Amaranth', Arial, sans-serif !important;
+}
+html body h1, html body h2, html body h3, html body h4, html body h5, html body h6,
+html body .h1, html body .brand-name, html body .day-badge, html body .pill,
+html body .stat-n, html body .stat-l, html body .sec-title, html body .sec-sub, html body .sec-num,
+html body .concept-term, html body .step-title, html body .step-focus, html body .conn-book,
+html body .book-title, html body .tab-btn, html body .pw-btn, html body .tool-btn,
+html body .im-topbar, html body .im-topbar *, html body .im-footer, html body .im-footer * {
+  font-family: 'Inter', 'Amaranth', Helvetica, sans-serif !important;
+}
+html body code, html body pre, html body .mono, html body kbd, html body samp {
+  font-family: 'JetBrains Mono', ui-monospace, monospace !important;
+}
+
+/* Replace filter-invert dark mode with proper token-based dark mode */
+html.dark body { background: #0F172A !important; color: #E2E8F0 !important; }
+html.dark #root, html.dark main, html.dark .app, html.dark [id^="p-"], html.dark .panel,
+html.dark .arg, html.dark .hero, html.dark .stat, html.dark .nav-card, html.dark .pw-step,
+html.dark .sec-card, html.dark .sec-body, html.dark .concept-card, html.dark .tool-panel,
+html.dark .conn-card, html.dark .crit-item, html.dark .msg.assistant .msg-text,
+html.dark .output-box, html.dark .typing, html.dark .ask-input, html.dark .key-input,
+html.dark .fld, html.dark .tool-btn, html.dark .pw-btn, html.dark .sug-btn, html.dark .pw-desc {
+  filter: none !important;
+}
+html.dark { color-scheme: dark; }
+html.dark body,
+html.dark body .app,
+html.dark body main { background: #0F172A !important; color: #E2E8F0 !important; }
+html.dark .hero { background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%) !important; color: #F1F5F9 !important; border: 1px solid #334155; }
+html.dark .hero .auth, html.dark .hero .tagline { color: #CBD5E1 !important; }
+html.dark .stat, html.dark .arg, html.dark .nav-card, html.dark .sec-card, html.dark .pw-step,
+html.dark .concept-card, html.dark .tool-panel, html.dark .conn-card, html.dark .crit-item,
+html.dark .msg.assistant .msg-text { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .sec-header, html.dark .sec-body { background: transparent !important; color: #E2E8F0 !important; }
+html.dark .sec-body { border-top-color: #334155 !important; }
+html.dark .stat-n { color: #38BDF8 !important; }
+html.dark .stat-l, html.dark .sec-sub, html.dark .sub, html.dark .nav-card-desc,
+html.dark .step-focus, html.dark .pw-desc, html.dark .prac-text, html.dark .conn-text,
+html.dark .ideas-label, html.dark .prac-label, html.dark .output-label, html.dark .suggested-label,
+html.dark .dev-text, html.dark .fld-label { color: #94A3B8 !important; }
+html.dark .h1, html.dark .sec-title, html.dark .concept-term, html.dark .step-title,
+html.dark .nav-card-label, html.dark .conn-book, html.dark .context-h, html.dark .ask-hdr-title { color: #F1F5F9 !important; }
+html.dark blockquote { color: #CBD5E1 !important; border-left-color: #38BDF8 !important; }
+html.dark .pill { background: rgba(56, 189, 248, 0.15) !important; color: #7DD3FC !important; }
+html.dark .day-badge { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .tab-btn { color: rgba(226, 232, 240, 0.6) !important; }
+html.dark .tab-btn.active { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .tab-btn:hover { color: #F1F5F9 !important; }
+html.dark nav { background: #0F172A !important; border-bottom: 1px solid #334155; }
+html.dark .pw-btn, html.dark .tool-btn { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .pw-btn.active, html.dark .tool-btn.active { background: #0EA5E9 !important; border-color: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .pw-desc { background: rgba(14, 165, 233, 0.1) !important; color: #CBD5E1 !important; }
+html.dark .output-box { background: rgba(14, 165, 233, 0.1) !important; color: #E2E8F0 !important; }
+html.dark .step-n, html.dark .setup-num { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .sec-num { color: #38BDF8 !important; }
+html.dark .ideas-label, html.dark .prac-label, html.dark .output-label { color: #38BDF8 !important; }
+html.dark .dev-toggle { background: rgba(56, 189, 248, 0.1) !important; color: #7DD3FC !important; }
+html.dark .dev-text { background: rgba(56, 189, 248, 0.08) !important; color: #CBD5E1 !important; }
+html.dark .fld, html.dark .key-input, html.dark .ask-input { background: #0F172A !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .msg.user .msg-text { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .sug-btn { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .sug-btn:hover { background: rgba(14, 165, 233, 0.15) !important; border-color: #0EA5E9 !important; }
+html.dark .crit-n { background: rgba(251, 191, 36, 0.15) !important; color: #FCD34D !important; }
+html.dark #root img, html.dark #root svg:not([class*="im-"]),
+html.dark main img, html.dark main svg:not([class*="im-"]) { filter: none !important; }
+html.dark .im-topbar, html.dark .im-footer { filter: none !important; }
+/* === End ImpactMojo Brand Override === */
+
+/* Ethics disclaimer heading — readable in both modes */
+.im-ethics-disclaimer .im-ethics-heading { color: #0F172A !important; }
+html.dark .im-ethics-disclaimer .im-ethics-heading, body.dark-mode .im-ethics-disclaimer .im-ethics-heading { color: #F1F5F9 !important; }
+html.dark .im-ethics-disclaimer, body.dark-mode .im-ethics-disclaimer { background: rgba(56,189,248,0.08) !important; border-left-color: #38BDF8 !important; color: #CBD5E1 !important; }
+</style>
+<link rel="stylesheet" href="/assets/css/booksummary-dark.css">
+</head>
+<body>
+<a href="#main-content" class="im-skip-link">Skip to content</a>
+<header class="im-topbar" role="banner">
+  <div class="im-topbar-left">
+    <a class="im-topbar-home" href="/" aria-label="ImpactMojo home">
+      <img src="/assets/images/ImpactMojo%20Logo.png" alt="ImpactMojo" width="24" height="24" style="border-radius:4px;">
+      <span>ImpactMojo</span>
+    </a>  </div>
+  <div class="im-topbar-right">
+    <a href="/catalog.html" class="im-browse-btn" title="Browse all content"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Browse</a>
+    
+    <a class="im-premium-btn" href="/premium.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Premium
+    </a>
+    <div class="im-theme-selector" role="group" aria-label="Theme">
+      <button class="im-theme-btn" data-imtheme="system" title="System theme" aria-label="System theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </button>
+      <button class="im-theme-btn" data-imtheme="light" title="Light theme" aria-label="Light theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <button class="im-theme-btn" data-imtheme="dark" title="Dark theme" aria-label="Dark theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="app">
+<nav>
+  <div class="brand"><div class="dot"></div><span class="brand-name">ImpactMojo</span></div>
+  <div class="tabs" id="tabbar"></div>
+</nav>
+<main id="main-content">
+  <div class="panel active" id="p-overview"></div>
+  <div class="panel" id="p-pathways"></div>
+  <div class="panel" id="p-sections"></div>
+  <div class="panel" id="p-concepts"></div>
+  <div class="panel" id="p-toolkit"></div>
+  <div class="panel" id="p-context"></div>
+  <div class="panel" id="p-ask"></div>
+</main>
+</div>
+
+<!-- Sargam Icon Sprites -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+<symbol id="si_Direction_alt" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m3 3 18 7.92-7.987 2.093L10.92 21z"/></symbol>
+<symbol id="si_Flare" viewBox="0 0 24 24" fill="none"><g clip-path="url(#clip_si_Flare)"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M7 12H1m22 0h-6m-5 5v6m3.536-7.464 1.414 1.414m-9.9-9.9 1.414 1.414m7.072 0L16.95 7.05m-9.9 9.9 1.414-1.414M12 1v6m2 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0"/></g><defs><clipPath id="clip_si_Flare"><path fill="#fff" d="M0 0h24v24H0z"/></clipPath></defs></symbol>
+<symbol id="si_Info" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 8h.008M12 16v-5m10 1c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10"/></symbol>
+<symbol id="si_Lock" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M8 10V7c0-2.21 1.79-4 4-4s4 1.79 4 4v3m-4 5a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 0v3m-5.4-8h10.8c.88 0 1.6.72 1.6 1.6v7c0 1.32-1.08 2.4-2.4 2.4H7.4C6.08 21 5 19.92 5 18.6v-7c0-.88.72-1.6 1.6-1.6"/></symbol>
+<symbol id="si_Lightning" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m12.667 10.5 1.25-7.5L6 13h5l-1.25 7.5 7.917-10z" clip-rule="evenodd"/></symbol>
+<symbol id="si_Library_books" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M10 11h8m-8 3h4m-4-6h8m2 14H8.4C5.42 22 3 19.58 3 16.6V5m5.4-2h11.2A2.4 2.4 0 0 1 22 5.4v11.2a2.4 2.4 0 0 1-2.4 2.4H8.4A2.4 2.4 0 0 1 6 16.6V5.4A2.4 2.4 0 0 1 8.4 3"/></symbol>
+<symbol id="si_Book" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 7.333C12 5.5 10.5 4 8.667 4H2v12h6.708C12 16 12 19.334 12 19.334m0-12C12 5.5 13.5 4 15.333 4H22v12h-6.667C12 16 12 19.334 12 19.334m0-12v12m1.875 1.124A2.58 2.58 0 0 1 16.167 19H21m-10.875 1.458A2.54 2.54 0 0 0 7.833 19H3"/></symbol>
+<symbol id="si_Article" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M8 12h8m-8 3h4M8 9h8M4.4 4h15.2A2.4 2.4 0 0 1 22 6.4v11.2a2.4 2.4 0 0 1-2.4 2.4H4.4A2.4 2.4 0 0 1 2 17.6V6.4A2.4 2.4 0 0 1 4.4 4"/></symbol>
+<symbol id="si_Mail" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m5 7.06 6.87 5.89c.07.06.19.06.26 0L19 7.06M3.2 4h17.6c.66 0 1.2.54 1.2 1.2v12.4c0 1.32-1.08 2.4-2.4 2.4H4.4C3.08 20 2 18.92 2 17.6V5.2C2 4.54 2.54 4 3.2 4"/></symbol>
+<symbol id="si_Help" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M11.83 14v-.621a2.33 2.33 0 0 1 1.164-2.02c1.126-.66 1.514-2.057.854-3.183s-2.057-1.514-3.183-.854C9.965 7.75 9.5 8.487 9.5 9.341M12 17h-.008M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12s4.477 10 10 10 10-4.477 10-10"/></symbol>
+<symbol id="si_Heart" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.696 3C14.652 3 12.887 4.197 12 5.943 11.113 4.197 9.348 3 7.304 3 4.374 3 2 5.457 2 8.481s1.817 5.796 4.165 8.073S12 21 12 21s3.374-2.133 5.835-4.446C20.46 14.088 22 11.514 22 8.481S19.626 3 16.696 3"/></symbol>
+<symbol id="si_Globe_detailed" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M22 12c0 5.523-4.477 10-10 10m10-10c0-5.523-4.477-10-10-10m10 10H2m10 10C6.477 22 2 17.523 2 12m10 10 .66-.31c2.1-2.71 3.34-6.14 3.34-9.78s-1.22-7-3.27-9.69L12 2m0 20-.73-.31A15.94 15.94 0 0 1 8 12c0-3.64 1.24-7.07 3.34-9.78L12 2M2 12C2 6.477 6.477 2 12 2m7.14 17c-1.82-1.85-4.34-3-7.14-3s-5.33 1.15-7.14 3M19.14 5C17.33 6.85 14.8 8 12 8S6.68 6.85 4.86 5"/></symbol>
+</svg>
+
+
+<div id="root"></div>
+<script>
+const DATA = {"title": "Challenges in Research Policy", "dayBadge": "Research Policy", "author": "Gunnar Sivertsen & Liv Langfeldt (eds.) · Springer, 2025", "tagline": "An interactive companion to the open-access SpringerBrief of evidence-based policy briefs on assessing, funding, and governing public research.", "pills": ["Research Assessment", "Science Funding", "Peer Review & Metrics", "Open Access", "Science Policy", "Research Governance"], "stats": [{"n": "13", "l": "Chapters"}, {"n": "14", "l": "Key concepts"}], "argument": ["This is not a single-authored monograph but an open-access edited volume — a SpringerBrief in Political Science produced by researchers at Norway's NIFU and the international R-QUEST centre. Its thirteen chapters are each written as a short, user-friendly “policy brief”, adapted from briefs the authors wrote between 2016 and 2024, and each closes with a boxed set of Policy Implications. The book's premise is that although the fashions of research policy change — from efficiency and innovation, to “excellence”, to today's emphasis on open research, societal challenges, and good research cultures — every generation of actors faces the same stable core problem: how to govern, organise, fund, assess, and prioritise public research responsibly.", "Part I (Chapters 2–8) concerns research quality and its evaluation. Its recurring finding is that research quality is real but contested and multidimensional — usually decomposed into solidity/plausibility, originality/novelty, and scientific and societal value — and that no single instrument captures it. Peer review remains the “best, and often only” method, yet it is biased, conservative, and now strained by low success rates and reviewer fatigue. Citations and metrics can inform but cannot replace expert judgement, and each carries its own distortions. The reform movement (DORA, the Leiden Manifesto, and the 700-plus-signatory Agreement on Reforming Research Assessment behind CoARA) is welcomed but critiqued for being hostile to bibliometrics as a field and for applying one template across very different assessment contexts.", "Part II (Chapters 9–13) concerns funding and governance. It documents a strong drift toward the concentration of funding in a few elite researchers and safe topics (amplifying gender and topic biases), the unresolved question of the right balance between stable “basic” and competitive “external” funding, the paradoxes of performance-based research funding systems (where tying assessment to money corrupts the assessment), the limited strategic capacity of universities as “losely coupled” organisations, and the way well-meaning Gold Open Access mandates have shifted scholarly communication from pay-to-read to pay-to-publish — pricing out researchers in low- and middle-income countries.", "For practitioners, the through-line is a caution against simple, one-dimensional fixes. Excellence, metrics, competition, and openness each solve a problem while quietly creating another. The book's constructive counsel is to broaden notions of quality, differentiate instruments by context, favour formative learning over punitive measurement, minimise the link between assessment and money, and involve the assessed in designing the systems that judge them."], "accent": "#0E7490", "accent_light": "#CFFAFE", "pathways": [], "sections": [{"title": "Introduction", "subtitle": "Ch 1 · The Stable Challenges of Research Policy", "summary": "", "ideas": ["Frames public research as a large, integrated, heavily invested part of the public sector that must be governed, organised, funded, assessed, and prioritised responsibly — and argues these five verbs name the enduring challenges of research policy.", "Sketches three eras of research policy: efficiency and innovation (thirty years ago), “excellence” as a common denominator and instrument of prioritisation (“we will only fund the best, and the funded will get more”), and the current focus on good research cultures, societal challenges (the UN SDGs), and open research in interaction with society.", "Notes that even open research can be challenged by security policy — an example of how research policy is dynamic because it interacts with other policies.", "Explains the book's structure: Part I (Chs 2–8) on research quality and evaluation, Part II (Chs 9–13) on funding and governance, each chapter a self-contained evidence-based policy brief with recommendations.", "Discloses provenance: all authors collaborated in the R-QUEST centre (an 8-year commitment funded by the Research Council of Norway); the briefs were written 2016–2024 and reflect shifting concerns, so some chapters (2, 4, 9) predate 2020 while most (3, 6, 8, 10–13) are from 2024."], "quotes": ["Each generation of actors need to understand and solve the core challenges of how to govern, organize, fund, assess, and prioritize research responsibly.", "This book is mainly about such stable challenges in research policy, but it also discusses temporary issues."], "devEcon": "Sets an agenda directly useful to anyone building or reforming a research system: the fashionable label changes, but the responsibilities of assessing and funding knowledge well are permanent, and best approached as a policy-design problem rather than a slogan."}, {"title": "Identifying and Facilitating High-Quality Research", "subtitle": "Ch 2 · The Politics of Research Quality", "summary": "", "ideas": ["Argues that “high-quality research” is the near-universal justification for research spending — appealing for solving grand challenges and ensuring value for money — yet is “contested and elusive” once you ask what it means or how to identify it.", "Decomposes research quality into three basic aspects drawn from decades of study: plausibility/solidity (methodological soundness, integrity), originality/novelty, and value (scientific and/or societal) — the framework that recurs throughout the whole book.", "Warns that diversity and excellence should be seen as complementary, not contradictory: because future knowledge needs are unpredictable, a system that only funds “the best” narrow work erodes the broad knowledge base needed for unforeseen challenges.", "Documents that both peer review and metrics tend to be conservative and disfavour interdisciplinary and unconventional research, and that metrics create dysfunctional incentives — researchers begin to “think with quantitative indicators”, prioritising quantity over originality and long-term contribution.", "Reviews the (weak) evidence linking policy to performance: no causal link between research policy and research performance has been established; financial incentives show no straightforward connection to system efficiency; but funding stability over long periods, autonomy, and good group-level conditions matter.", "Concludes with a call for targeted, field-sensitive policy and “open policy” that provides good general conditions and monitors adverse effects, using maps and visualisations rather than one-dimensional rankings."], "quotes": ["Even if clear and comprehensible at this basic conceptual level, “research quality” is contested and elusive.", "It has not been possible to establish a causal link between research policy and research performance."], "devEcon": "A grounding caution for funders and ministries anywhere: “quality” cannot be reduced to one metric or one definition, conditions for good work differ by field, and policies aimed at excellence can quietly narrow the very diversity a developing knowledge base depends on."}, {"title": "Evaluating Transdisciplinary Research Quality", "subtitle": "Ch 3 · When Relevance Is Built Into the Research", "summary": "", "ideas": ["Defines transdisciplinary research (TDR) as research that crosses disciplinary boundaries and actively involves non-academic partners throughout the process — distinct from multidisciplinary or interdisciplinary work — and increasingly demanded as “part of the solution” to societal challenges.", "Shows why conventional evaluation fails TDR: research policy has operationalised quality mainly as scientific impact measured bibliometrically, but publications are often not the point of TDR, and grant panels systematically disfavour inter- and transdisciplinary proposals.", "Adopts Belcher et al.'s four TDR quality principles — relevance, credibility, legitimacy, and effectiveness — in which relevance moves up front and legitimacy depends on whether stakeholders perceive the process as fair and ethical.", "Stresses that societal impact evaluations that judge relevance only after a project ends create an “artificial separation” between research and impact that misrepresents the genuinely transdisciplinary research process.", "Recommends investing heavily in the early design phase, including stakeholders (even non-human ones) in evaluation, adapting to context, and recognising that absence of measured impact does not imply low quality.", "Highlights Theory of Change (ToC) as a promising evaluation approach — testable hypotheses about how change in knowledge, attitudes, skills, relationships, and behaviour is expected to occur — usable for planning, monitoring, and evaluation."], "quotes": ["In transdisciplinary research … relevance is embedded in the research process and a core criterium.", "The lack of outcomes or impact of TDR does not imply low quality."], "devEcon": "Directly relevant to development research, which is almost always commissioned, problem-driven, and stakeholder-embedded: it warns funders that judging such work by publication counts misses its purpose, and offers Theory of Change as a familiar, practical evaluation frame."}, {"title": "Evaluating and Improving the Societal Impact of Research", "subtitle": "Ch 4 · Normal vs Extraordinary Impact", "summary": "", "ideas": ["Introduces the book's most portable distinction: “normal” societal impact — the everyday, productive, two-sided interactions between research organisations and other organisations — versus “extraordinary” impact, the rare, serendipitous, headline case.", "Criticises the UK Research Excellence Framework (REF) case-study method for implicitly relying on a “linear model” of innovation/communication, and for surfacing mainly extraordinary, individual-level stories that make good media copy but yield little to learn from.", "Names four generic problems with linking research to impact — causality, attribution, internationality, and time scale — and shows they matter far less once impact is studied as an ongoing interaction rather than a one-way effect.", "Points to the Swedish samverkan reform (2021), which replaced the duty to “serve society with knowledge” with “cocreation with society for mutual benefit”, as a legal embodiment of the interactive model; and to alternative frameworks (Payback, SIAMPI/ERiC, Contribution Mapping, realist evaluation).", "Shows normal interactions differ sharply by field — a Law faculty serves the legal system, a Medical faculty the health system, musicology serves musical life — so impact evaluation needs field-specific typologies of interacting organisations, not generic pathways.", "Frames the Macchiarini scandal at Karolinska as extraordinary negative impact (“grimpact”) — a violation of the science–society “societal contract” — and contrasts it with Health Technology Assessment as well-organised normal impact."], "quotes": ["Societal impact of research is normal and part of society.", "The main purpose of the evaluation should be the improvement of the relations, rather than the assessment or funding of one side of the relation."], "devEcon": "Reframes “impact” for practitioners away from cherry-picked success stories toward the routine quality of research–society relationships — and insists impact is an organisational responsibility and a two-way relationship to be improved, not a trophy to be exhibited."}, {"title": "The Many Dilemmas of Grant Peer Review", "subtitle": "Ch 5 · Fatigue, Distrust, and Low Success Rates", "summary": "", "ideas": ["Distinguishes peer review's two functions — quality assurance (gatekeeping to a good standard) and quality enhancement (improving research through competition) — and shows they pull toward different, sometimes conflicting, objectives.", "Argues grant review “constructs conclusions on something that is genuinely uncertain”: it predicts future success from a plan, reviewers routinely disagree, and consensus collapses once you must separate winners within the top group.", "Identifies the core staffing dilemma: the more expert a reviewer is in a proposal's field, the more likely a conflict of interest — and in small international specialties, unconflicted competent peers may not exist.", "Diagnoses a self-reinforcing crisis: low success rates (often 10–20%) generate more proposals, heavier reviewer burden, more reviewer fatigue, and more distrust; agencies may spend six hours or more finding reviewers per proposal.", "Catalogues the randomness in outcomes — the “luck of the reviewer draw”, panel negotiation skills, criteria, rating scales, and budget-line structure can all swing a decision — and notes randomness grows as success rates fall.", "Offers remedies: increase reviewer competence and transparency (applicant-nominated reviewers, rebuttals, panel learning), match expertise while monitoring field biases, separate budget lines for interdisciplinary work, and consider partial randomisation (a lottery among highly-rated proposals) to cut cost and bias."], "quotes": ["Along with low success rates and demanding review processes comes distrust in the review.", "Distrust needs to be met by transparency."], "devEcon": "A practical field guide for any grant-giving body: it names the trade-offs honestly (competence vs impartiality, cost vs thoroughness) and legitimises unconventional fixes — transparency, rebuttals, and even funding lotteries — as reasonable responses to overload rather than heresies."}, {"title": "How Citations Relate to Research Quality", "subtitle": "Ch 6 · What Citations Do and Do Not Measure", "summary": "", "ideas": ["Traces citation analysis to Eugene Garfield's 1961 Science Citation Index — built for information retrieval, then repurposed to measure “impact” — and notes newer indicators (h-index, normalised counts) did not dissolve the old limitations.", "Reports that comparisons of citations with peer judgement find only a “moderately positive”, imperfect correlation — so citations do not reflect the same thing as peer review, and validity varies by field, database, and time window.", "Tests citations against each quality dimension: for solidity/plausibility there is no evidence citations track soundness — some fraudulent, retracted papers are cited hundreds of times, disproportionately in high-impact journals.", "For originality/novelty the relationship is loose: highly original work may be much cited, but so are mundane methods papers (Lowry et al. on protein measurement), while important replication studies are under-cited and under-published.", "Argues citations relate most defensibly to scientific value understood as impact/influence — following Martin and Irvine's distinction, impact (“actual influence on surrounding research”) is a better reading of citations than quality; even a “mistaken” paper can have large impact.", "Shows societal relevance is poorly captured by citations — clinically important papers can be lightly cited, national/local research is under-represented in Web of Science and Scopus — hence citation limits are larger in the social sciences and humanities than in the natural sciences and medicine."], "quotes": ["There is … little empirical support for claiming that citations metrics reflect the same aspects of research quality or impact as peer-review assessments.", "Given the limitations of citation-based indicators, they should not replace peer reviews."], "devEcon": "Equips practitioners to push back on citation-driven rankings: citations are a partial signal of scientific impact only, they are weakest precisely for the SSH and for nationally-relevant research common in development contexts, and they should complement, not replace, expert judgement."}, {"title": "The Ongoing Reform of Research Assessment", "subtitle": "Ch 7 · A Critical Reading of CoARA / ARRA", "summary": "", "ideas": ["Analyses the Agreement on Reforming Research Assessment (ARRA, July 2022), signed by 700+ organisations and coordinated by the CoARA coalition, across three contexts: assessing individual researchers, individual proposals, and whole organisations.", "Credits ARRA's core commitments — recognise the plurality of contributions, respect epistemic differences between fields, and reward open science, integrity, and societal relevance — as reflecting the Open Research and “responsible metrics” agendas.", "Charges ARRA with an ambivalent, sometimes hostile stance toward bibliometrics: it condemns “journal- and publication-based metrics” (JIF, h-index) using only discredited examples, effectively tarring the whole research field of indicator design that the Leiden Manifesto itself came from.", "Warns ARRA is over-optimistic about peer review — calling it “the most robust method known for assessing quality” — while under-addressing the fatigue and distrust documented in Chapter 5; realising its vision will require even more assessment time and resources.", "Argues ARRA leans on applicant “narratives” without solving the documentation problem earlier projects (ACUMEN, NOR-CAM) hit, and undervalues scientific publications, which can now embed data, software, methods, and responsible-practice indicators.", "Concludes the same guidelines cannot fit all contexts: ARRA is adequate for assessing persons, needs adjustment for proposals, and is weakest for organisational assessment — where statistics and scientometric expertise matter and formative (not summative) evaluation would better serve its aims."], "quotes": ["There is a tendency in ARRA to play quantitative and qualitative off against one another.", "The challenge is to find the best configuration of both in each assessment context."], "devEcon": "A balanced brief for reformers tempted to simply “ban metrics”: it defends responsible quantitative indicators alongside peer review, insists reform must be differentiated by context, and reminds institutions that abandoning metrics without fixing peer-review overload just shifts the burden."}, {"title": "The Use of Metrics in Academic Recruitment", "subtitle": "Ch 8 · Screening Tool, Not Game-Changer", "summary": "", "ideas": ["Confronts the widespread claim that metrics have replaced peer review in hiring with rare empirical evidence — confidential recruitment reports from four fields at a Norwegian university (2000–2017) plus a five-country European survey.", "Finds metrics function mainly as an early screening tool to reduce large applicant pools; the decisive stage remains qualitative peer review by expert committees (metrics were the top criterion for 57% of selection committees but almost no expert or interview committees).", "Shows disciplinary culture matters far more than country: economics stands out with a strong and rising reliance on metrics that partly replaces qualitative assessment, while sociology, informatics, and physics rely on metrics much less.", "Reports that across five countries only about half of researchers rated publication records as highly important — future potential, fit with the field, overall impression, and research contribution ranked higher — with only moderate cross-country differences.", "Concludes reform initiatives must be evidence-based and nuanced, distinguishing metrics as a screening aid from metrics as a replacement for judgement, and recognising recruitment as a sequential, multi-stage process.", "Notes an unresolved risk: even moderate metric use may deter researchers from pursuing innovative ideas as they protect the publication record needed for future jobs, and responsible screening could also help counter subjective bias, inbreeding, and gender bias."], "quotes": ["Metrics primarily served as screening tools during the initial stages of recruitment.", "There is a significant distinction between utilising metrics as an initial screening tool and employing them as a replacement to qualitative judgements."], "devEcon": "Injects evidence into a heated debate: for institutions building fair hiring in a global, high-volume applicant market, metrics can be a defensible screening aid if used with bibliometric literacy and field-awareness — the danger is confusing screening with judgement."}, {"title": "Quality Criteria and Concentration of Research Funding", "subtitle": "Ch 9 · Who Gets the Money — and Why", "summary": "", "ideas": ["Documents rising concentration of research funding internationally (US NIH, Canada, UK) and, in a detailed Danish dataset of ~20,000 grants across 15 funders (2004–2016), finds the top 20% of grantees received roughly 90% of funding once the full researcher population is counted.", "Shows concentration amplifies gender bias — women were only 15–16% of the top funding groups, rising only as average grant size fell — and skews topic selection away from societal need (weak correlation between disease funding and WHO DALY burden; diabetes and breast cancer over-funded).", "Finds different funder types (public, private, philanthropic) mirror each other's priorities rather than complement them, because they apply similar narrow “excellence” criteria — producing more concentration than any single funder intends.", "Explains concentration as multiple reinforcing causes: the inherent Matthew effect (Merton), deliberate “world-leading” policies and larger grants, uniform one-dimensional excellence criteria, low success rates, many uncoordinated funders, and performance-based internal funding rewarding past winners.", "Weighs the case: some concentration is defensible (meritocracy, economies of scale, critical mass, risk-taking flexibility), but dispersal spreads risk, increases serendipity and breakthrough chances, aligns better with societal needs, and builds systemic resilience and a growth layer of early-career researchers.", "Concludes that both too much and too little concentration are inefficient, that most systems have drifted too far toward concentration, and recommends portfolio-level oversight, experiments with anti-concentration mechanisms (blinding, modified lotteries), and above all broader notions of quality."], "quotes": ["The 20 percent of most successful grantees received almost 90 percent of allocated funding.", "Both too little and too much concentration appears inefficient in both economic and epistemic terms."], "devEcon": "A powerful, data-rich warning for funders: chasing “excellence” with uniform criteria concentrates money in a few elite hands and safe topics, worsens gender inequity, and detaches research from societal need — a systemic failure invisible at the level of any single “sound” grant decision."}, {"title": "Balancing Basic and External Research Funding", "subtitle": "Ch 10 · A Comparative Analysis", "summary": "", "ideas": ["Poses the core allocation question — direct “basic” (institutional) funding versus competitive “external” (project) funding — and finds no “golden formula”, “silver bullet”, or optimal ratio in either the literature or international data.", "Lays out the trade-offs: basic funding gives stability, saves proposal-writing effort, better supports risky and locally-relevant work, and counters Matthew effects; external funding sharpens competition, enables thematic steering, and signals accountability and “value for money”.", "Documents that the external-funding share rose sharply in the 1990s–2000s under New Public Management, then broadly stabilised, while public funding stagnates — and that performance-based components have spread within basic funding (evaluation-based, indicator-based, and performance agreements).", "Compares countries with OECD, ETER, and Eurostat data: Switzerland, Austria, and Norway keep relatively high basic-funding shares (~70%), while many peers sit near or below 50%; Norway is unusual in increasing its basic share.", "Reviews Nordic policy trends: Denmark's council concludes “the balance is tipped” toward too much external dependence (75% of university researchers lack internal research funds); Finland pushes more competition; Norway and Sweden lean back toward basic funding.", "Recommends designing the funding mix for what each system needs (not a universal ratio), accounting for the whole research system including institutes and hospitals, capturing private and international funding, and building better meso-level indicators."], "quotes": ["There is no “silver bullet”.", "The balance between basic funding and external funding is … not only a question of “what works”, but just as much a question of what governments will achieve with their funding."], "devEcon": "Useful for ministries designing a funding architecture: it dismantles the idea of a copyable ideal ratio, insists the mix be judged against national goals and the whole research ecosystem (not just flagship universities), and flags the hidden cost of co-financing that external grants impose on institutions."}, {"title": "Designing Performance-Based Research Funding Systems", "subtitle": "Ch 11 · The Paradox of Tying Assessment to Money", "summary": "", "ideas": ["Maps performance-based research funding systems (PBFS) into three types — evaluation-based (UK REF, Italy, NZ), indicator-based (Norway, Denmark, Sweden, Finland), and performance agreements (Austria, Netherlands, Switzerland) — with country lists and possible combinations.", "Explains why superficially similar systems are never the same: they are anchored in local budgeting traditions, continuously contested and adjusted, yet conservative once installed because they become “games with rules” that must stay predictable for budgets.", "Traces PBFS to New Public Management — accountability, measurement, efficiency through competition — and to the UK's 1986 origins under Thatcher-era spending pressure, while noting they also serve transparency and can shore up political willingness to fund research.", "Reports that the effects of PBFS are genuinely hard to determine: despite “Goodhart's law” intuitions, the comparative literature is inconclusive because systems differ, change constantly, and cannot be isolated from other funding and evaluation influences.", "Identifies the central paradox via Australia's ERA and Uppsala University: the more assessment is tied to funding and reputation, the more evaluees and evaluators inflate ratings and hedge — so “to reach the aims of a PBFS … their effects on funding and reputation should be minimised”.", "Recommends replacing the NPM frame with Public Value Management, favouring formative over summative evaluation, and involving funded organisations in designing the systems so external incentives align with institutions' own value creation."], "quotes": ["The paradox is that, to reach the aims of a PBFS more effectively, their effects on funding and reputation should be minimised.", "When a measure becomes a target, it ceases to be a good measure."], "devEcon": "A design manual for anyone tempted to bolt research funding onto measured performance: it shows the strongest link between money and metrics is precisely what corrupts the metrics, and argues for lighter-touch, formative, co-designed systems built for learning rather than punishment."}, {"title": "The Limits of Universities' Strategic Capacity for Steering Research", "subtitle": "Ch 12 · Loosely Coupled Organisations", "summary": "", "ideas": ["Observes a shift in governance rhetoric: as research priorities have been outsourced to external funders, there is new pressure for university leadership to “steer” research — but studies question whether universities actually have that capacity.", "Distinguishes formal from “lived” autonomy (usually more limited) and defines strategic capacity as lining up internal subunits toward common goals — hard because universities are “losely coupled” organisations whose parts operate largely independently.", "Contrasts teaching and research: leadership can steer administratively-regulated teaching far more than research, which depends on individual creativity and deep disciplinary differences.", "Details how national performance-based systems and the shift to competitive funding erode room to manoeuvre — driving indicator-gaming, goal displacement, and the outsourcing of what to research and whom to hire to external grant peer reviewers and principal investigators.", "Shows strategic capacity is unequally distributed: wealthy, old, reputationally strong universities (Stanford, Oxford) and well-funded departments can pursue their own strategies, while poorer institutions and units mostly follow external priorities — and strong departments gain internal power that buffers them against leadership.", "Argues funding is a powerful but not the only steering tool: formative, peer-reviewed evaluations (Norway's development agreements, the Netherlands' SEP with no funding attached) can legitimise priorities and enable “sense-giving”, and a one-size-fits-all strategy will fail across diverse subunits."], "quotes": ["Universities are … loosely coupled organisations, in which subunits as well as formal structures and activities often are independent of one another.", "While being a powerful steering tool, funding is not the only and maybe sometimes even the wrong means to implement strategies."], "devEcon": "Explains why top-down mandates so often fail inside universities and research bodies, and offers practitioners a subtler toolkit — formative evaluation, negotiated agreements, and legitimacy-building at the faculty and department level — for steering organisations that cannot simply be commanded."}, {"title": "The Consequences of Paying to Publish", "subtitle": "Ch 13 · The Open-Access Paradox", "summary": "", "ideas": ["Recounts how the open science movement began with an egalitarian aim — fair read-access to literature priced out of reach for scholars in low- and middle-income countries — and grew via national mandates, institutional policies, and grant requirements.", "Distinguishes the open-access models: Gold (all content free, often funded by expensive Article Processing Charges), Hybrid (subscription journals opening some articles via APCs), and the community-funded Diamond model where authors pay nothing.", "Shows that 2018's Plan S (cOAlition S) prioritised Gold over Hybrid, yet Hybrid persists years later, letting publishers profit from both subscriptions and APCs — shifting the system “from a pay-to-read to a very expensive pay-to-publish model, sometimes both”.", "Presents the striking Brazil–Netherlands comparison: after PPP correction, an average APC equals about 10x the minimum monthly wage in Brazil versus 1.8x in the Netherlands — so Gold OA improved read access but priced Global-South scholars out of publishing.", "Finds nominal APC spending correlates positively with citation impact, but PPP-corrected (real-cost) spending correlates inversely — underscoring that the true burden of APCs falls hardest on less wealthy systems.", "Concludes that transformative “Read & Publish” agreements largely failed to transform (Dutch academics chose prestigious Hybrid over Gold), that predatory publishing and ghost conferencing are further unintended effects, and that Diamond OA deserves far better policy support."], "quotes": ["The scholarly publishing system is moving from a pay-to-read to a very expensive pay-to-publish model, sometimes both.", "Access to publishing in the international serial literature by the research communities from low- and middle-income countries has decreased."], "devEcon": "The single most directly South-Asia-relevant chapter: it demonstrates with hard PPP-adjusted numbers how Gold OA mandates designed for equity have raised a new financial wall against researchers in the Global South, and points to Diamond OA as the fairer, under-supported alternative."}], "concepts": [{"term": "Research Quality (three aspects)", "definition": "The book's core framework: quality decomposes into (1) plausibility/solidity — methodological soundness, integrity, ethics; (2) originality/novelty — new knowledge; and (3) value — scientific and/or societal significance. Real but contested, multidimensional, and never fully captured by any single instrument.", "practitionerNote": ""}, {"term": "Peer Review", "definition": "Expert judgement of proposals, manuscripts, or track records — described as the “best, and often only” method for identifying quality, and the “least worst” form of academic governance — yet biased, conservative toward unconventional work, and now strained by low success rates and reviewer fatigue.", "practitionerNote": ""}, {"term": "Bibliometrics & Citation Indicators", "definition": "Quantitative measures (citation counts, h-index, journal impact factor) built on aggregated peer judgement. They reflect scientific impact only partially, correlate imperfectly with peer review, and are weakest for solidity, societal relevance, and the social sciences and humanities.", "practitionerNote": ""}, {"term": "Responsible Metrics", "definition": "A reform movement (crystallised in the Leiden Manifesto) holding that quantitative evaluation should support, not supplant, expert judgement — re-legitimising bibliometrics when used appropriately, with field-awareness and technical expertise.", "practitionerNote": ""}, {"term": "Leiden Manifesto (2015)", "definition": "Ten principles for the responsible use of research metrics; its first principle is that quantitative evaluation should support qualitative expert assessment. Warns: “We risk damaging the system with the very tools designed to improve it.”", "practitionerNote": ""}, {"term": "DORA & CoARA / ARRA", "definition": "The San Francisco Declaration on Research Assessment (DORA, 2012) and the Agreement on Reforming Research Assessment (ARRA, 2022) under the CoARA coalition (700+ signatories) — commitments to reward a plurality of contributions, respect field differences, value open science and societal relevance, and curb inappropriate metric use.", "practitionerNote": ""}, {"term": "Transdisciplinary Research (TDR)", "definition": "Research that crosses disciplinary boundaries and actively involves non-academic partners throughout. Its quality is judged by four principles — relevance, credibility, legitimacy, effectiveness — with relevance embedded up front, requiring different evaluation from disciplinary work.", "practitionerNote": ""}, {"term": "Normal vs Extraordinary Impact", "definition": "Sivertsen and Meijer's distinction: “normal” societal impact is the everyday, two-sided, productive interaction between research and society; “extraordinary” impact is the rare, serendipitous, headline case (including negative “grimpact”). Evaluation should focus on improving normal relations, not exhibiting extraordinary ones.", "practitionerNote": ""}, {"term": "Funding Concentration vs Dispersal", "definition": "The distribution of research money across few elite recipients versus many. Concentration offers critical mass but amplifies the Matthew effect, gender bias, and topic narrowing; dispersal spreads risk, aids serendipity, and aligns better with societal needs. Both extremes are inefficient.", "practitionerNote": ""}, {"term": "Matthew Effect", "definition": "Merton's principle that advantage accumulates — successful researchers attract still more funding and recognition. A built-in bias of science toward concentration, amplified by uniform excellence criteria and performance-based internal funding that rewards past winners.", "practitionerNote": ""}, {"term": "Basic vs External Funding", "definition": "Direct, stable “basic” (institutional) funding versus competitive “external” (project) funding won through peer review. No optimal ratio exists in theory or data; the right mix depends on a system's goals, and heavy external dependence imposes hidden co-financing costs on institutions.", "practitionerNote": ""}, {"term": "Performance-Based Research Funding Systems (PBFS)", "definition": "Systems allocating institutional funding by assessed research performance, in three types: evaluation-based, indicator-based, and performance agreements. Their paradox: the stronger the link between assessment and money/reputation, the more the assessment is corrupted (rating inflation, gaming, displaced goals).", "practitionerNote": ""}, {"term": "Goodhart's Law", "definition": "“When a measure becomes a target, it ceases to be a good measure.” Intuitively describes indicator distortion under PBFS, though the empirical literature on PBFS effects remains inconclusive because systems differ and change constantly.", "practitionerNote": ""}, {"term": "Gold / Hybrid / Diamond Open Access & APCs", "definition": "Models of open-access publishing: Gold (all free, funded by Article Processing Charges), Hybrid (subscription journals opening some articles via APCs), and Diamond (community-funded, free to authors and readers). High APCs shift the system from pay-to-read to pay-to-publish, pricing out Global-South researchers.", "practitionerNote": ""}], "tools": [{"label": "Reflection Journal", "intro": "Use these prompts to connect this book to your own practice.", "html": "<label class=\"fld-label\">The book argues “research quality” is real but contested — solidity, originality, and value all matter and no single metric captures them. In your organisation or funder, which one aspect quietly dominates how quality is judged, and what is being missed?</label>\n<textarea class=\"fld\" id=\"r1\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<label class=\"fld-label\">Chapter 13 shows Gold Open Access mandates improved read-access but priced Global-South scholars out of publishing (a PPP-adjusted APC can equal 10x a monthly minimum wage). How does the pay-to-publish shift affect researchers you know in South Asia — and would Diamond OA help?</label>\n<textarea class=\"fld\" id=\"r2\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<label class=\"fld-label\">The PBFS chapter warns that tying assessment tightly to money and reputation corrupts the assessment itself. Where you work, is evaluation used to learn and improve (formative) or to judge and allocate (summative) — and what would change if you loosened that link?</label>\n<textarea class=\"fld\" id=\"r3\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<div style=\"margin-top:12px;font-family:Inter,sans-serif;font-size:13px;color:var(--muted)\">Reflections stay in your browser only and are not sent anywhere.</div>"}], "connections": [], "southAsia": ["Chapter 13's PPP-adjusted APC analysis (Brazil vs the Netherlands) is a near-perfect parallel for South Asia: Gold Open Access mandates designed for equity have raised a new financial barrier that prices Indian, Bangladeshi, Pakistani, and Sri Lankan researchers out of publishing — making the community-funded Diamond model especially relevant.", "The critique that citation indexes (Web of Science, Scopus) under-represent nationally and locally relevant research directly implicates how South Asian scholarship — much of it in national journals or applied to local problems — is systematically undervalued by global metrics.", "The concentration-of-funding findings speak to debates over elite institutions (IITs, IISc, central universities) capturing disproportionate research money while regional and state universities and their students are starved — and to how “excellence” criteria can worsen gender and geographic inequity.", "The transdisciplinary-research chapter maps onto the reality of development research in South Asia, which is overwhelmingly commissioned, problem-driven, and stakeholder-embedded — and warns funders against judging it by publication counts rather than relevance, legitimacy, and change.", "The book's caution that imported policy templates (NPM, performance-based funding, REF-style exercises, one-size-fits-all reform) must be adapted to local budgeting traditions and system realities is a direct warning for South Asian ministries importing Northern research-assessment models wholesale."], "critiques": ["The evidence base is overwhelmingly Nordic and Western European — Norway, Denmark, Sweden, Finland, the Netherlands, the UK — so its “challenges in research policy” are really the challenges of well-funded, high-autonomy, high-trust systems, and travel unevenly to lower-income, capacity-constrained contexts.", "As a collection of short policy briefs adapted from 2016–2024, the chapters vary in depth and currency and do not build a single integrated theory; some briefs (written before 2020) predate the very reforms other chapters analyse, creating mild internal tension.", "The authors are closely tied to the institutions and instruments they assess (NIFU, R-QUEST, Norway's own funding and indicator systems), which lends insider expertise but also a standpoint sympathetic to expert-led, formative evaluation over more radical alternatives.", "Several chapters candidly concede the absence of causal evidence — no established link between policy and performance, inconclusive PBFS effects — which, while honest, leaves many recommendations resting on reasoned judgement and case illustration rather than demonstrated results.", "The volume centres institutional and system-level actors (funders, universities, ministries, coalitions) and gives comparatively little voice to individual early-career researchers, non-Western knowledge systems, or the political economy of the commercial publishers whose grip Chapter 13 documents."], "suggested": [], "systemPrompt": "You are an expert reading companion for 'Challenges in Research Policy: Evidence-Based Policy Briefs with Recommendations', an open-access SpringerBrief in Political Science edited by Gunnar Sivertsen and Liv Langfeldt (Springer, 2025), with chapters by researchers at Norway's NIFU and the international R-QUEST centre. Your audience is development practitioners, researchers, and students in South Asia. This is an edited volume of thirteen short policy briefs (adapted from briefs written 2016–2024), each ending in boxed Policy Implications, in two parts: Part I (Chs 2–8) on research quality and its evaluation, Part II (Chs 9–13) on research funding and governance. Explain the arguments faithfully: the three-aspect view of research quality (solidity/plausibility, originality, scientific and societal value); the strengths and limits of peer review under low success rates and reviewer fatigue; what citations do and do not measure; transdisciplinary research quality (relevance, credibility, legitimacy, effectiveness) and Theory of Change; the normal-versus-extraordinary societal impact distinction and critique of the REF case-study method; the responsible-metrics movement (DORA, Leiden Manifesto) and a balanced critique of the CoARA/ARRA reform; the evidence that metrics are mainly a screening tool in recruitment; funding concentration versus dispersal and the Matthew effect; the basic-versus-external funding balance with no optimal ratio; performance-based research funding systems (PBFS), their three types, and the paradox that tying assessment to money corrupts it (Goodhart's law, Public Value Management, formative evaluation); universities as loosely coupled organisations with limited strategic capacity; and the open-access paradox in which Gold OA and APCs shift scholarly communication from pay-to-read to pay-to-publish, pricing out low- and middle-income-country researchers (the Brazil–Netherlands PPP comparison), with Diamond OA as a fairer alternative. Note that the evidence base is largely Nordic/Western European and connect the book to South Asian debates on research funding concentration, metric-driven assessment, undervaluation of nationally-relevant research, and open-access inequity. Present critiques fairly and be accurate to the actual text."};
+
+// Tab management
+const TABS = [
+  {id:"overview",label:"Overview"},
+  {id:"pathways",label:"Pathways"},
+  {id:"sections",label:"Sections"},
+  {id:"concepts",label:"Concepts"},
+  {id:"toolkit",label:"Toolkit"},
+  {id:"context",label:"Context"},
+  {id:"ask",label:"Ask"},
+];
+
+const tabbar = document.getElementById("tabbar");
+TABS.forEach(t => {
+  const btn = document.createElement("button");
+  btn.className = "tab-btn" + (t.id === "overview" ? " active" : "");
+  btn.textContent = t.label;
+  btn.onclick = () => switchTab(t.id);
+  tabbar.appendChild(btn);
+});
+
+function switchTab(id) {
+  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById("p-" + id).classList.add("active");
+  tabbar.querySelectorAll(".tab-btn")[TABS.findIndex(t=>t.id===id)].classList.add("active");
+}
+
+// OVERVIEW
+(function() {
+  const el = document.getElementById("p-overview");
+  el.innerHTML = `
+    <div class="hero">
+      <div class="day-badge">${DATA.dayBadge}</div>
+      <h1>${DATA.title}</h1>
+      <div class="auth">${DATA.author}</div>
+      <div class="tagline">${DATA.tagline}</div>
+      <div class="pills">${DATA.pills.map(p=>`<span class="pill">${p}</span>`).join("")}</div>
+    </div>
+    <div class="stat-grid">
+      ${DATA.stats.map(s=>`<div class="stat"><div class="stat-n">${s.n}</div><div class="stat-l">${s.l}</div></div>`).join("")}
+    </div>
+    <div class="arg">
+      <div class="h1">The central argument</div>
+      ${DATA.argument.map(p=>`<p>${p}</p>`).join("")}
+    </div>
+    <div class="h1" style="margin-top:24px">What's in this companion</div>
+    <div class="nav-grid">
+      ${[["pathways","Learning Pathways","Structured reading routes by role"],["sections","Section by Section","Full analysis with dev econ connections"],["concepts","Concepts & Frameworks","Key terms with practitioner notes"],["toolkit","Practitioner Toolkit","Interactive tools"],["context","Book in Context","Connections and assessment"],["ask","Ask the Book","Gemini-powered Q&A"]].map(([id,label,desc])=>`<button class="nav-card" onclick="switchTab('${id}')" ><div class="nav-card-label">${label}</div><div class="nav-card-desc">${desc}</div></button>`).join("")}
+    </div>
+  `;
+})();
+
+// PATHWAYS
+(function() {
+  const el = document.getElementById("p-pathways");
+  let active = 0;
+  function render() {
+    const pw = DATA.pathways[active];
+    el.innerHTML = `
+      <div class="h1">Learning Pathways</div>
+      <div class="sub">Three structured routes through the book based on your role.</div>
+      <div class="pw-tabs">
+        ${DATA.pathways.map((p,i)=>`<button class="pw-btn ${i===active?"active":""}" onclick="__pw(${i})">${p.label}</button>`).join("")}
+      </div>
+      <div class="pw-desc">${pw.desc}</div>
+      <div class="pw-steps">
+        ${pw.steps.map((s,i)=>`<div class="pw-step"><div class="step-n">${i+1}</div><div><div class="step-title">${s.section}</div><div class="step-focus">${s.focus}</div></div></div>`).join("")}
+      </div>
+    `;
+  }
+  window.__pw = (i) => { active = i; render(); };
+  render();
+})();
+
+// SECTIONS
+(function() {
+  const el = document.getElementById("p-sections");
+  let openId = null;
+  let showDev = {};
+  function render() {
+    el.innerHTML = `
+      <div class="h1">Section by Section</div>
+      <div class="sub">All sections with full analysis and development economics connections.</div>
+      ${DATA.sections.map((s,i)=>`
+        <div class="sec-card">
+          <button class="sec-header" onclick="__sec(${i})">
+            <div class="sec-num">§${i+1}</div>
+            <div class="sec-title-block"><div class="sec-title">${s.title}</div><div class="sec-sub">${s.subtitle}</div></div>
+            <div class="sec-chev">${openId===i?"−":"+"}</div>
+          </button>
+          ${openId===i?`<div class="sec-body">
+            <div class="sec-summary">${s.summary}</div>
+            <div class="ideas-label">Key ideas</div>
+            ${s.ideas.map(idea=>`<div class="idea-item"><span class="idea-dot"></span><span>${idea}</span></div>`).join("")}
+            <div class="ideas-label" style="margin-top:14px">Key quotes</div>
+            ${s.quotes.map(q=>`<blockquote>${q}</blockquote>`).join("")}
+            <button class="dev-toggle" onclick="__dev(${i})">${showDev[i]?"Hide":"Show"} development economics connection</button>
+            ${showDev[i]?`<div class="dev-text">${s.devEcon}</div>`:""}
+          </div>`:""}
+        </div>
+      `).join("")}
+    `;
+  }
+  window.__sec = (i) => { openId = openId===i?null:i; render(); };
+  window.__dev = (i) => { showDev[i]=!showDev[i]; render(); };
+  render();
+})();
+
+// CONCEPTS
+(function() {
+  const el = document.getElementById("p-concepts");
+  let open = null;
+  function render() {
+    el.innerHTML = `
+      <div class="h1">Concepts & Frameworks</div>
+      <div class="sub">Key terms with definitions and practitioner notes. Click to expand.</div>
+      ${DATA.concepts.map((c,i)=>`
+        <div class="concept-card ${open===i?"open":""}" onclick="__con(${i})">
+          <div class="concept-term">${c.term}</div>
+          ${open===i?`<div class="concept-def">${c.definition}</div><div class="prac-label">Practitioner note</div><div class="prac-text">${c.practitionerNote}</div>`:""}
+        </div>
+      `).join("")}
+    `;
+  }
+  window.__con = (i) => { open = open===i?null:i; render(); };
+  render();
+})();
+
+// TOOLKIT  
+(function() {
+  const el = document.getElementById("p-toolkit");
+  el.innerHTML = `
+    <div class="h1">Practitioner Toolkit</div>
+    <div class="sub">Interactive tools derived from the book. Use for personal practice or programme design.</div>
+    <div class="tool-tabs">
+      ${DATA.tools.map((t,i)=>`<button class="tool-btn ${i===0?"active":""}" onclick="__tool(${i})">${t.label}</button>`).join("")}
+    </div>
+    ${DATA.tools.map((t,i)=>`
+      <div class="tool-panel ${i===0?"active":""}" id="toolp-${i}">
+        <div class="tool-intro">${t.intro}</div>
+        ${t.html}
+      </div>
+    `).join("")}
+  `;
+  window.__tool = (i) => {
+    document.querySelectorAll(".tool-btn").forEach((b,j)=>b.classList.toggle("active",i===j));
+    document.querySelectorAll(".tool-panel").forEach((p,j)=>p.classList.toggle("active",i===j));
+  };
+})();
+
+// CONTEXT
+(function() {
+  const el = document.getElementById("p-context");
+  el.innerHTML = `
+    <div class="h1">Book in Context</div>
+    <div class="sub">How this book fits within the broader literature, and an honest assessment of its limits.</div>
+    <div class="context-h">Connected works</div>
+    ${DATA.connections.map(c=>`<div class="conn-card"><div class="conn-book">${c.book}</div><div class="conn-text">${c.text}</div></div>`).join("")}
+    <div class="context-h" style="margin-top:24px">Honest assessment</div>
+    <div class="sub">Limits and qualifications for the ImpactMojo context:</div>
+    ${DATA.critiques.map((c,i)=>`<div class="crit-item"><div class="crit-n">${i+1}</div><div class="crit-text">${c}</div></div>`).join("")}
+  `;
+})();
+
+// ASK
+(function() {
+  const el = document.getElementById("p-ask");
+  let apiKey = "", msgs = [], loading = false;
+  
+  function renderSetup() {
+    el.innerHTML = `
+      <div class="ask-setup">
+        <div class="h1">Ask the Book</div>
+        <div class="sub">AI-powered Q&A using Gemini 2.0 Flash (free). Requires a Google AI Studio API key.</div>
+        <div class="setup-steps">
+          <div class="setup-step"><span class="setup-num">1</span><span>Go to <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com/app/apikey</a> and create a free API key.</span></div>
+          <div class="setup-step"><span class="setup-num">2</span><span>Paste it below. The key stays in your browser only and is never stored.</span></div>
+        </div>
+        <div class="key-row">
+          <input class="key-input" type="password" id="key-in" placeholder="AIza..." oninput="document.getElementById('key-submit').disabled=!this.value.trim()"/>
+          <button class="key-btn" id="key-submit" disabled onclick="__setKey()">Connect</button>
+        </div>
+      </div>
+    `;
+  }
+  
+  function renderChat() {
+    el.innerHTML = `
+      <div class="ask-ui">
+        <div class="ask-hdr"><span class="ask-hdr-title">Ask the Book</span><button class="ask-reset" onclick="__resetKey()">Change key</button></div>
+        <div class="msgs" id="msgs-box">
+          ${msgs.length===0?`<div><div class="suggested-label">Suggested questions</div>${DATA.suggested.map(q=>`<button class="sug-btn" onclick="__ask('${q.replace(/'/g,"\'")}')">${q}</button>`).join("")}</div>`:""}
+          ${msgs.map(m=>`<div class="msg ${m.role}"><div class="msg-text">${m.content}</div></div>`).join("")}
+          ${loading?`<div class="msg assistant"><div class="typing"><span></span><span></span><span></span></div></div>`:""}
+        </div>
+        <div class="ask-input-row">
+          <textarea class="ask-input" id="ask-in" rows="2" placeholder="Ask about the book..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();__sendAsk()}"></textarea>
+          <button class="ask-send" id="ask-send" onclick="__sendAsk()">Send</button>
+        </div>
+      </div>
+    `;
+    const box = document.getElementById("msgs-box");
+    if(box) box.scrollTop = box.scrollHeight;
+  }
+  
+  window.__setKey = () => {
+    const v = document.getElementById("key-in").value.trim();
+    if(v) { apiKey = v; renderChat(); }
+  };
+  window.__resetKey = () => { apiKey=""; msgs=[]; renderSetup(); };
+  window.__ask = (q) => {
+    document.getElementById("ask-in").value = q;
+    __sendAsk();
+  };
+  window.__sendAsk = async () => {
+    const inp = document.getElementById("ask-in");
+    if(!inp) return;
+    const q = inp.value.trim();
+    if(!q || loading) return;
+    inp.value = "";
+    msgs.push({role:"user",content:q});
+    loading = true; renderChat();
+    try {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,{
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({
+          system_instruction:{parts:[{text:DATA.systemPrompt}]},
+          contents: msgs.map(m=>{return{role:m.role==="assistant"?"model":"user",parts:[{text:m.content}]}}).slice(0,-1).concat([{role:"user",parts:[{text:q}]}]),
+          generationConfig:{maxOutputTokens:1200,temperature:0.3}
+        })
+      });
+      const data = await res.json();
+      if(!res.ok) throw new Error(data.error?.message||"API error");
+      const reply = data?.candidates?.[0]?.content?.parts?.map(p=>p.text).join("")||"No response.";
+      msgs.push({role:"assistant",content:reply});
+    } catch(e) {
+      msgs.push({role:"assistant",content:"Error: "+e.message});
+    }
+    loading = false; renderChat();
+  };
+  
+  renderSetup();
+})();
+</script>
+
+<!-- ImpactMojo Footer -->
+<!-- Ethics & Copyright Disclaimer -->
+<section class="im-ethics-disclaimer" style="max-width:1100px;margin:2rem auto 1rem;padding:1.25rem 1.5rem;background:rgba(14,165,233,0.06);border-left:4px solid #0EA5E9;border-radius:8px;font-family:'Inter','Amaranth',sans-serif;font-size:0.85rem;line-height:1.65;color:var(--im-text-secondary,#64748B);">
+  <p class="im-ethics-heading" style="margin:0 0 0.5rem;font-weight:600;">A note on books, authors, and intellectual labour</p>
+  <p style="margin:0;">All books companioned on ImpactMojo have been duly purchased with real money and form part of a personal collection. None of the source texts have been obtained by any illegal means — we deeply respect the intellectual labour of authors, editors, and publishers. These reading companions are offered free of charge as educational aids; ImpactMojo does not sell book companions as a paid service and therefore does not violate any commercial licensing agreement or copyright. Nothing here reproduces the full text of any book — each companion is an interpretive study guide.</p>
+</section>
+
+<footer class="im-footer" role="contentinfo">
+<div class="im-footer-content">
+<p class="im-footer-made">Made with <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;color:#EF4444;"><use href="#si_Heart"/></svg> by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+<div class="im-footer-grid">
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Info"/></svg> About ImpactMojo</h4>
+<ul>
+<li><a href="../about.html">About Us</a></li>
+<li><a href="../contact.html">Contact</a></li>
+<li><a href="https://github.com/ImpactMojo/ImpactMojo" rel="noopener noreferrer" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Globe_detailed"/></svg> GitHub</a></li>
+<li><a href="../transparency.html">Transparency</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Lock"/></svg> Legal</h4>
+<ul>
+<li><a href="../privacy-policy.html">Privacy Policy</a></li>
+<li><a href="../terms-of-service.html">Terms of Service</a></li>
+<li><a href="../disclaimer.html">Disclaimer</a></li>
+<li><a href="../data-protection.html">Data Protection</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Lightning"/></svg> Quick Links</h4>
+<ul>
+<li><a href="../catalog.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Library_books"/></svg> All Courses</a></li>
+<li><a href="../premium.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Flare"/></svg> Premium Content</a></li>
+<li><a href="../coaching.html">Coaching</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Book"/></svg> Resources</h4>
+<ul>
+<li><a href="../handouts.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Article"/></svg> Handouts</a></li>
+<li><a href="../blog.html">Blog</a></li>
+<li><a href="../faq.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Help"/></svg> FAQ</a></li>
+<li><a href="../sitemap.html">Sitemap</a></li>
+<li><a href="/docs/" rel="noopener noreferrer" target="_blank">Documentation</a></li>
+</ul>
+</div>
+</div>
+<div class="im-footer-bottom">
+<p>&copy; 2026 ImpactMojo. All content for educational purposes only.</p>
+<p>Released under <strong>MIT License</strong> | Supported by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+</div>
+</div>
+</footer>
+
+<script src="/js/theme.js"></script>
+
+
+<!-- Supabase Auth -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="/js/state-manager.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+
+<!-- Floating paper plane (ImpactMojo decorative element) -->
+<svg class="im-paper-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M80,130 L150,50" stroke="#10B981" stroke-width="2" stroke-dasharray="4,4"/>
+  <circle cx="150" cy="50" r="4" fill="#6366F1"/>
+  <circle cx="40" cy="155" r="2" fill="#0EA5E9" opacity="0.6"/>
+  <circle cx="35" cy="165" r="1.5" fill="#6366F1" opacity="0.4"/>
+  <circle cx="45" cy="170" r="1" fill="#10B981" opacity="0.5"/>
+</svg>
+<script src="/js/translate-sarvam.js" defer></script>
+</body>
+</html>

@@ -2,6 +2,109 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.83.5 — July 8, 2026 (2 new companions — digital rights & AI literacy)
+
+### For Learners
+
+- **Poisoned Wells: DNS Censorship in India** (Karan Saini) — the largest study to date of DNS-based web censorship in India, for digital-rights and civil-society practitioners.
+- **How Image AI Works** — a plain-language explainer of how vision/image AI models actually work (patches, embeddings, CLIP, diffusion, multimodal LLMs), with every concept translated into social-sector use cases and risks.
+
+### Changed
+
+- Book Companions count updated across the site: 103 → 105.
+
+## v10.83.4 — July 8, 2026 (5 new companions — care economy, statistics, education & Gandhi)
+
+### For Learners
+
+- **Wages for Housework** (Kotiswaran, OUP) — India's experiment with unconditional cash transfers to women, and the care economy.
+- **The Story of My Experiments with Truth** (Gandhi) and **The Life of Mahatma Gandhi** (Louis Fischer) — Gandhi's own autobiography and the classic biography.
+- **Statistics for Non-Statisticians** (Madsen) — an applied, spreadsheet-based first course in statistics for practitioners.
+- **PINDICS / Teacher Self-Assessment** (NCERT) — India's teacher performance-indicator framework for education M&E.
+
+### Changed
+
+- Book Companions count updated across the site: 98 → 103. This is the final batch of a 48-companion expansion (55 → 103).
+
+## v10.83.3 — July 8, 2026 (12 new reading companions — papers & essays)
+
+### For Learners
+
+- **Twelve new interactive reading companions for key papers and essays**, each with section navigation, key concepts, a practitioner toolkit and an AI Q&A:
+  - **Social Safety Nets & Women's Agency** (Peterman et al., *Nature Human Behaviour*) — a meta-analysis of 93 RCTs across 45 countries.
+  - **Women's Work, Now Paid: Tamil Nadu's Urimai Thogai** (Kotiswaran, *World Development*) — a feminist take on cash transfers.
+  - **Intergenerational Transmission of Gender Attitudes** (Dhar, Jain & Jayachandran) — how gender norms pass across generations in Haryana.
+  - **Policies to Address Health Inequities** (Hayre et al., *BMC Public Health*) — an umbrella review and the Health Equity Pyramid.
+  - **Indian Muslims: Perceptions & Voting in 2024** (Jaffrelot & Ahmed) and **The Idea of Minority** & **Researching India's Muslims** (Hilal Ahmed).
+  - **Marxism in Translation** (Kaviraj) — Indian radical thought and the caste-class problem.
+  - **Gastro-Politics in Hindu South Asia** (Appadurai) — food, caste and hierarchy.
+  - **Two Talal Asad essays** — on the concepts of religion and ritual.
+  - **Rightist Violence: An Historical Perspective** (Wilson, ICCT) — a comparative history.
+
+### Changed
+
+- Book Companions count updated across the site: 86 → 98.
+
+## v10.83.2 — July 8, 2026 (9 new book companions — statistics, data & coding)
+
+### For Learners
+
+- **Nine new interactive book companions on statistics, data and coding**, each with chapter navigation, key concepts, a practitioner toolkit and an AI Q&A:
+  - **Introductory Statistics 2e** (OpenStax) and **Beginning Statistics** (Shafer & Zhang) — two open introductory statistics courses.
+  - **A Primer for Spatial Econometrics** (Arbia) — spatial weights, Moran's I, and spatial regression models.
+  - **Reading Charts** (Janaganamana Data Skill Lab) — a data-literacy lab on interrogating charts.
+  - **Learning About Learning** (NCTQ) — the six evidence-based instructional strategies.
+  - **NumPy: From Basics to Advanced** — a code-first guide to arrays and data work.
+  - **Introducing Python** (Lubanovic, 3rd ed.) — a hands-on Python 3 introduction.
+  - **Python Cookbook** (Martelli & Ascher) — the classic O'Reilly recipe collection.
+  - **Machine Learning Systems** (Reddi, Harvard) — the engineering of production ML systems.
+
+### Changed
+
+- Book Companions count updated across the site: 77 → 86.
+
+## v10.83.1 — July 8, 2026 (12 new book companions — research methods & M&E)
+
+### For Learners
+
+- **Twelve new interactive book companions on research methods, evaluation and impact measurement**, each with chapter navigation, key concepts, a practitioner toolkit and an AI Q&A:
+  - **Data-Driven Policy Impact Evaluation** (Crato & Paruolo) — counterfactual methods (DiD, RDD, IV, PSM) and microdata for policy.
+  - **Causality in Policy Studies** (Damonte & Negri) — a pluralist toolbox of causal-inference methods.
+  - **Challenges in Research Policy** (Sivertsen & Langfeldt) — research quality, metrics reform and open access.
+  - **A Guide to Responsible Research** (Marušić) — integrity, authorship, peer review and ethics.
+  - **Best Practices for Scale Development** (Boateng et al.) — building and validating measurement scales.
+  - **How to Conduct Qualitative Formative Research** (JHU CCP) — a step-by-step SBC field guide.
+  - **The Open Handbook of Experience Sampling** (Myin-Germeys & Kuppens) — designing and analysing ESM/EMA studies.
+  - **Doing Qualitative Data Analysis with NVivo** (Mortelmans) — a full course in coding and querying.
+  - **Co-design for Public Services** (Trischler et al.) — user-driven service design.
+  - **Designing Digital Interventions** (UNICEF) — human-centred design for digital health.
+  - **Health Inequality Monitoring** (WHO) — the equity-monitoring cycle and disaggregated data.
+  - **Programmatic Impact Guide for Non-Profits** (Lumina & NUS) — outputs vs outcomes and purposeful metrics.
+
+### Changed
+
+- Book Companions count updated across the site: 65 → 77.
+
+## v10.83.0 — July 8, 2026 (10 new book companions — political economy, theory & Indian politics)
+
+### For Learners
+
+- **Ten new interactive book companions**, each with chapter-by-chapter navigation, key concepts, a practitioner reflection toolkit, and an AI Q&A:
+  - **Hind Swaraj** (Gandhi) — the 1909 case for swaraj as self-rule, and the critique of modern civilisation and machinery.
+  - **Annihilation of Caste** (Ambedkar) — caste as graded inequality, inter-caste marriage, and the reply to Gandhi.
+  - **Elite Parties, Poor Voters** (Thachil) — how a party of the rich wins the votes of the poor through nonstate service.
+  - **Alternative Futures: India Unshackled** (Kothari & Joy) — radical ecological, political and economic alternatives for India.
+  - **On Populist Reason** (Laclau) — the theory of populism, hegemony, and how "the people" is constructed.
+  - **A Brief History of the Present** (Hilal Ahmed) — Muslims in New India, read through survey evidence.
+  - **The Vedic People** (Kochhar) — astronomy, geography and philology on the Aryan-origins debate.
+  - **Unlimited: Aspirational Politics** (Mukherjee) — mobile media, Digital India, and its structural limits.
+  - **Nineteen Eighty-Four** (Orwell) — surveillance, propaganda and information control, for civic-tech readers.
+  - **A Year of Havoc** (Oxfam India) — lived experience of India's 2021 COVID second wave.
+
+### Changed
+
+- Book Companions count updated across the site: 55 → 65.
+
 ## v10.82.4 — July 7, 2026 (VaniScribe field transcription, now freemium & on-site)
 
 ### For Learners
