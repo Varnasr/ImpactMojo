@@ -2,6 +2,28 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.83.1 — July 8, 2026 (12 new book companions — research methods & M&E)
+
+### For Learners
+
+- **Twelve new interactive book companions on research methods, evaluation and impact measurement**, each with chapter navigation, key concepts, a practitioner toolkit and an AI Q&A:
+  - **Data-Driven Policy Impact Evaluation** (Crato & Paruolo) — counterfactual methods (DiD, RDD, IV, PSM) and microdata for policy.
+  - **Causality in Policy Studies** (Damonte & Negri) — a pluralist toolbox of causal-inference methods.
+  - **Challenges in Research Policy** (Sivertsen & Langfeldt) — research quality, metrics reform and open access.
+  - **A Guide to Responsible Research** (Marušić) — integrity, authorship, peer review and ethics.
+  - **Best Practices for Scale Development** (Boateng et al.) — building and validating measurement scales.
+  - **How to Conduct Qualitative Formative Research** (JHU CCP) — a step-by-step SBC field guide.
+  - **The Open Handbook of Experience Sampling** (Myin-Germeys & Kuppens) — designing and analysing ESM/EMA studies.
+  - **Doing Qualitative Data Analysis with NVivo** (Mortelmans) — a full course in coding and querying.
+  - **Co-design for Public Services** (Trischler et al.) — user-driven service design.
+  - **Designing Digital Interventions** (UNICEF) — human-centred design for digital health.
+  - **Health Inequality Monitoring** (WHO) — the equity-monitoring cycle and disaggregated data.
+  - **Programmatic Impact Guide for Non-Profits** (Lumina & NUS) — outputs vs outcomes and purposeful metrics.
+
+### Changed
+
+- Book Companions count updated across the site: 65 → 77.
+
 ## v10.83.0 — July 8, 2026 (10 new book companions — political economy, theory & Indian politics)
 
 ### For Learners
