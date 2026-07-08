@@ -2,6 +2,19 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.83.4 — July 8, 2026 (5 new companions — care economy, statistics, education & Gandhi)
+
+### For Learners
+
+- **Wages for Housework** (Kotiswaran, OUP) — India's experiment with unconditional cash transfers to women, and the care economy.
+- **The Story of My Experiments with Truth** (Gandhi) and **The Life of Mahatma Gandhi** (Louis Fischer) — Gandhi's own autobiography and the classic biography.
+- **Statistics for Non-Statisticians** (Madsen) — an applied, spreadsheet-based first course in statistics for practitioners.
+- **PINDICS / Teacher Self-Assessment** (NCERT) — India's teacher performance-indicator framework for education M&E.
+
+### Changed
+
+- Book Companions count updated across the site: 98 → 103. This is the final batch of a 48-companion expansion (55 → 103).
+
 ## v10.83.3 — July 8, 2026 (12 new reading companions — papers & essays)
 
 ### For Learners
