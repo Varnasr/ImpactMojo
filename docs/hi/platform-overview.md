@@ -203,7 +203,7 @@ Dataverse विकास के डेटा के लिए आपका श�
 
 इंटरैक्टिव बुक कंपेनियन जो किसी सारांश से कहीं आगे जाते हैं। हर BookSummary अध्याय-दर-अध्याय नेविगेशन, प्रमाण एक्सप्लोरर, इंटरैक्टिव सिमुलेटर वाले डेटा प्लेग्राउंड, कार्यक्रम तुलना उपकरण, अवधारणा शब्दावलियाँ, और AI-संचालित प्रश्नोत्तर देता है। फ़िलहाल Specials के अंतर्गत उपलब्ध। पूरे विवरण के लिए [Book Companions Guide](book-summaries-guide.md) देखें।
 
-**मौजूदा प्रविष्टियाँ: 55 बुक कंपेनियन** जो विकास अर्थशास्त्र (Poor Economics, Why Nations Fail, Development as Freedom, Debraj Ray), इकोनोमेट्रिक्स और सांख्यिकी (Gujarati, Naked Statistics, Learning Statistics with R), डेटा विज़ुअलाइज़ेशन (Tufte, Storytelling with Data, The Truthful Art), शोध विधियाँ, संचार, नेतृत्व, और उत्पादकता को कवर करते हैं। पूरी सूची [Content Catalog](content-catalog.md) में देखें।
+**मौजूदा प्रविष्टियाँ: 106 बुक कंपेनियन** जो विकास अर्थशास्त्र (Poor Economics, Why Nations Fail, Development as Freedom, Debraj Ray), इकोनोमेट्रिक्स और सांख्यिकी (Gujarati, Naked Statistics, Learning Statistics with R), डेटा विज़ुअलाइज़ेशन (Tufte, Storytelling with Data, The Truthful Art), शोध विधियाँ, संचार, नेतृत्व, और उत्पादकता को कवर करते हैं। पूरी सूची [Content Catalog](content-catalog.md) में देखें।
 
 ---
 

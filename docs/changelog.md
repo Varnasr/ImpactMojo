@@ -2,6 +2,17 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.83.6 — July 8, 2026 (Real State of the Economy companion + translated-doc counts)
+
+### Added
+
+- **Real State of the Economy 2026** book companion — a reading companion to the AICC (Indian National Congress) research wing's economic counter-report, presented transparently as an opposition-party primary source to be read alongside official data.
+
+### Changed
+
+- Book Companions count updated across the site: 105 → 106.
+- Refreshed the Book Companions count (→106) in the Hindi, Tamil, Bengali and Marathi documentation.
+
 ## v10.83.5 — July 8, 2026 (2 new companions — digital rights & AI literacy)
 
 ### For Learners
