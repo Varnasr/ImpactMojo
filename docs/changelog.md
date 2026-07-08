@@ -2,6 +2,24 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.83.2 — July 8, 2026 (9 new book companions — statistics, data & coding)
+
+### For Learners
+
+- **Nine new interactive book companions on statistics, data and coding**, each with chapter navigation, key concepts, a practitioner toolkit and an AI Q&A:
+  - **Introductory Statistics 2e** (OpenStax) and **Beginning Statistics** (Shafer & Zhang) — two open introductory statistics courses.
+  - **A Primer for Spatial Econometrics** (Arbia) — spatial weights, Moran's I, and spatial regression models.
+  - **Reading Charts** (Janaganamana Data Skill Lab) — a data-literacy lab on interrogating charts.
+  - **Learning About Learning** (NCTQ) — the six evidence-based instructional strategies.
+  - **NumPy: From Basics to Advanced** — a code-first guide to arrays and data work.
+  - **Introducing Python** (Lubanovic, 3rd ed.) — a hands-on Python 3 introduction.
+  - **Python Cookbook** (Martelli & Ascher) — the classic O'Reilly recipe collection.
+  - **Machine Learning Systems** (Reddi, Harvard) — the engineering of production ML systems.
+
+### Changed
+
+- Book Companions count updated across the site: 77 → 86.
+
 ## v10.83.1 — July 8, 2026 (12 new book companions — research methods & M&E)
 
 ### For Learners
