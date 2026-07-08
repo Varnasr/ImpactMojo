@@ -2,6 +2,25 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.83.3 — July 8, 2026 (12 new reading companions — papers & essays)
+
+### For Learners
+
+- **Twelve new interactive reading companions for key papers and essays**, each with section navigation, key concepts, a practitioner toolkit and an AI Q&A:
+  - **Social Safety Nets & Women's Agency** (Peterman et al., *Nature Human Behaviour*) — a meta-analysis of 93 RCTs across 45 countries.
+  - **Women's Work, Now Paid: Tamil Nadu's Urimai Thogai** (Kotiswaran, *World Development*) — a feminist take on cash transfers.
+  - **Intergenerational Transmission of Gender Attitudes** (Dhar, Jain & Jayachandran) — how gender norms pass across generations in Haryana.
+  - **Policies to Address Health Inequities** (Hayre et al., *BMC Public Health*) — an umbrella review and the Health Equity Pyramid.
+  - **Indian Muslims: Perceptions & Voting in 2024** (Jaffrelot & Ahmed) and **The Idea of Minority** & **Researching India's Muslims** (Hilal Ahmed).
+  - **Marxism in Translation** (Kaviraj) — Indian radical thought and the caste-class problem.
+  - **Gastro-Politics in Hindu South Asia** (Appadurai) — food, caste and hierarchy.
+  - **Two Talal Asad essays** — on the concepts of religion and ritual.
+  - **Rightist Violence: An Historical Perspective** (Wilson, ICCT) — a comparative history.
+
+### Changed
+
+- Book Companions count updated across the site: 86 → 98.
+
 ## v10.83.2 — July 8, 2026 (9 new book companions — statistics, data & coding)
 
 ### For Learners
