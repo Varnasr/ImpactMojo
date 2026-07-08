@@ -22,7 +22,7 @@
 
 ---
 
-## BookSummaries (7)
+## BookSummaries (106)
 
 Specials अंतर्गत परस्परसंवादी पुस्तक सहकारी — डेटा साधने आणि AI-चालित प्रश्नोत्तरांसह सखोल, प्रकरण-दर-प्रकरण अन्वेषण. संपूर्ण तपशीलांसाठी [Book Companions Guide](book-summaries-guide.md) पहा.
 

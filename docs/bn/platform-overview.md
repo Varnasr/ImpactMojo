@@ -203,7 +203,7 @@ Dataverse হলো উন্নয়ন ডেটার জন্য আপন
 
 ইন্টারঅ্যাক্টিভ বুক কম্প্যানিয়ন যা নিছক সারাংশের অনেক বেশি এগিয়ে। প্রতিটি BookSummary-তে থাকে অধ্যায়-ভিত্তিক নেভিগেশন, এভিডেন্স এক্সপ্লোরার, ইন্টারঅ্যাক্টিভ সিমুলেটরসহ ডেটা প্লেগ্রাউন্ড, কর্মসূচি তুলনা করার টুল, ধারণার শব্দকোষ, এবং AI-চালিত প্রশ্নোত্তর। বর্তমানে Specials-এর অধীনে পাওয়া যায়। পূর্ণ বিবরণের জন্য দেখুন [Book Companions Guide](book-summaries-guide.md)।
 
-**বর্তমান এন্ট্রি: ৫৫টি বুক কম্প্যানিয়ন** — যা বিস্তৃত উন্নয়ন অর্থনীতি (Poor Economics, Why Nations Fail, Development as Freedom, Debraj Ray), ইকোনোমেট্রিক্স ও পরিসংখ্যান (Gujarati, Naked Statistics, Learning Statistics with R), ডেটা ভিজ্যুয়ালাইজেশন (Tufte, Storytelling with Data, The Truthful Art), গবেষণা পদ্ধতি, যোগাযোগ, নেতৃত্ব ও উৎপাদনশীলতা জুড়ে। পূর্ণ তালিকা দেখুন [Content Catalog](content-catalog.md)-এ।
+**বর্তমান এন্ট্রি: ১০৬টি বুক কম্প্যানিয়ন** — যা বিস্তৃত উন্নয়ন অর্থনীতি (Poor Economics, Why Nations Fail, Development as Freedom, Debraj Ray), ইকোনোমেট্রিক্স ও পরিসংখ্যান (Gujarati, Naked Statistics, Learning Statistics with R), ডেটা ভিজ্যুয়ালাইজেশন (Tufte, Storytelling with Data, The Truthful Art), গবেষণা পদ্ধতি, যোগাযোগ, নেতৃত্ব ও উৎপাদনশীলতা জুড়ে। পূর্ণ তালিকা দেখুন [Content Catalog](content-catalog.md)-এ।
 
 ---
 

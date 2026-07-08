@@ -203,7 +203,7 @@ DevDiscourses என்பது வளர்ச்சி நடைமுறை�
 
 ஒரு சுருக்கத்திற்கு அப்பால் வெகுதூரம் செல்லும் ஊடாடும் புத்தகத் துணைகள். ஒவ்வொரு BookSummary-யும் அத்தியாயம்-வாரியான வழிசெலுத்தல், ஆதார ஆய்வாளர்கள், ஊடாடும் simulator-கள் கொண்ட தரவு விளையாட்டு மைதானங்கள், திட்ட ஒப்பீட்டுக் கருவிகள், கருத்துச் சொற்களஞ்சியங்கள், மற்றும் AI-இயங்கும் கேள்வி-பதில் ஆகியவற்றை வழங்குகிறது. தற்போது Specials-இன் கீழ் கிடைக்கிறது. முழு விவரங்களுக்கு [Book Companions Guide](book-summaries-guide.md) பார்க்கவும்.
 
-**தற்போதைய உள்ளீடுகள்: 55 புத்தகத் துணைகள்** — வளர்ச்சிப் பொருளாதாரம் (Poor Economics, Why Nations Fail, Development as Freedom, Debraj Ray), econometrics மற்றும் புள்ளியியல் (Gujarati, Naked Statistics, Learning Statistics with R), தரவு காட்சிப்படுத்துதல் (Tufte, Storytelling with Data, The Truthful Art), ஆராய்ச்சி முறைகள், தொடர்பாடல், தலைமைத்துவம், மற்றும் உற்பத்தித்திறன் ஆகியவற்றை உள்ளடக்கியவை. முழுப் பட்டியலை [Content Catalog](content-catalog.md) இல் பார்க்கவும்.
+**தற்போதைய உள்ளீடுகள்: 106 புத்தகத் துணைகள்** — வளர்ச்சிப் பொருளாதாரம் (Poor Economics, Why Nations Fail, Development as Freedom, Debraj Ray), econometrics மற்றும் புள்ளியியல் (Gujarati, Naked Statistics, Learning Statistics with R), தரவு காட்சிப்படுத்துதல் (Tufte, Storytelling with Data, The Truthful Art), ஆராய்ச்சி முறைகள், தொடர்பாடல், தலைமைத்துவம், மற்றும் உற்பத்தித்திறன் ஆகியவற்றை உள்ளடக்கியவை. முழுப் பட்டியலை [Content Catalog](content-catalog.md) இல் பார்க்கவும்.
 
 ---
 
