@@ -90,7 +90,7 @@ Use [GitHub Issues](https://github.com/ImpactMojo/ImpactMojo/issues) to report:
 
 ## Community
 
-- **WhatsApp PLC**: [Join the Professional Learning Community](https://chat.whatsapp.com/EsBjbKaQfupG1HbtajTjHM)
+- **WhatsApp PLC**: [Request to join the Professional Learning Community](https://forms.gle/vJaHFd7QcMe4JVF19)
 - **Discord**: [Join for tech discussions](https://discord.gg/M3ZCmUe7ab)
 - **Telegram**: [Follow for free resources](https://t.me/impactmojo)
 - **Email**: hello@impactmojo.in
