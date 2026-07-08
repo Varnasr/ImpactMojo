@@ -2,6 +2,26 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.83.0 — July 8, 2026 (10 new book companions — political economy, theory & Indian politics)
+
+### For Learners
+
+- **Ten new interactive book companions**, each with chapter-by-chapter navigation, key concepts, a practitioner reflection toolkit, and an AI Q&A:
+  - **Hind Swaraj** (Gandhi) — the 1909 case for swaraj as self-rule, and the critique of modern civilisation and machinery.
+  - **Annihilation of Caste** (Ambedkar) — caste as graded inequality, inter-caste marriage, and the reply to Gandhi.
+  - **Elite Parties, Poor Voters** (Thachil) — how a party of the rich wins the votes of the poor through nonstate service.
+  - **Alternative Futures: India Unshackled** (Kothari & Joy) — radical ecological, political and economic alternatives for India.
+  - **On Populist Reason** (Laclau) — the theory of populism, hegemony, and how "the people" is constructed.
+  - **A Brief History of the Present** (Hilal Ahmed) — Muslims in New India, read through survey evidence.
+  - **The Vedic People** (Kochhar) — astronomy, geography and philology on the Aryan-origins debate.
+  - **Unlimited: Aspirational Politics** (Mukherjee) — mobile media, Digital India, and its structural limits.
+  - **Nineteen Eighty-Four** (Orwell) — surveillance, propaganda and information control, for civic-tech readers.
+  - **A Year of Havoc** (Oxfam India) — lived experience of India's 2021 COVID second wave.
+
+### Changed
+
+- Book Companions count updated across the site: 55 → 65.
+
 ## v10.82.4 — July 7, 2026 (VaniScribe field transcription, now freemium & on-site)
 
 ### For Learners
