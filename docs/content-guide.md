@@ -15,7 +15,7 @@ This page documents how educational content is structured in ImpactMojo, for con
 | Dev Case Studies | 200 | Curated library | Free |
 | DevDiscourses | 500+ | Curated papers/books | Free |
 | Handouts | 84 | HTML pages | Free |
-| BookSummaries | 55 | Interactive book companions | Free (Specials) |
+| BookSummaries | 55 | Interactive reading companions | Free (Specials) |
 | Deep Dives | 21 | Curated annotated reading lists | Free (Specials) |
 | 101 Course Decks | 47 | Native HTML (~100 slides), fully self-hosted | Free |
 | Blog posts | Ongoing | HTML articles | Free |
@@ -122,7 +122,7 @@ Deep Dives are curated annotated reading lists. Each list is an editorial artifa
 3. **Editor's Note** — 2–4 paragraph framing essay in the curator's voice. This is the substance; the list is the receipt.
 4. **3–6 themed sections** — e.g. "Foundations", "Recent Debates", "Voices from the Field". Don't make a flat list.
 5. **Reading items** — for each: a type badge (📘 Book / 📄 Paper / 🎙 Podcast / 🎬 Film / 📊 Dataset / 📰 Article / 🌐 Web), a full citation with outbound link, and a 2–4 sentence annotation that says why the work matters and how it fits the syllabus.
-6. **Related ImpactMojo content** — cross-link 2–4 courses, labs, games, or book companions.
+6. **Related ImpactMojo content** — cross-link 2–4 courses, labs, games, or reading companions.
 7. **Suggested citation** — APA-style citation block.
 8. **Contribute CTA** — link to the pitch form.
 
@@ -143,5 +143,5 @@ To add a new Deep Dive:
 - **Curator voice over neutrality.** A list without a point of view is just a bibliography. Tell the reader what you would press into their hands and why.
 - **Mixed media is encouraged.** A good Deep Dive has at least one podcast, one dataset, and one practitioner-facing source alongside the academic core.
 - **Annotate, don't summarise.** Two to four sentences. Why this work, why now, who should read it.
-- **Cross-link generously.** Use the "Related ImpactMojo Content" block to send readers to courses, labs, and book companions that build on the list.
+- **Cross-link generously.** Use the "Related ImpactMojo Content" block to send readers to courses, labs, and reading companions that build on the list.
 - **Stay in scope.** Each Deep Dive is one coherent topic — don't try to cover a whole field.

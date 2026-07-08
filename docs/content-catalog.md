@@ -30,9 +30,9 @@ Deep, multi-module courses with 8–16 modules each, interactive lexicons, South
 
 ## BookSummaries (106)
 
-Interactive book companions under Specials — deep, chapter-by-chapter explorations with data tools and AI-powered Q&A. See the [Book Companions Guide](book-summaries-guide.md) for full details.
+Interactive reading companions under Specials — deep, chapter-by-chapter explorations with data tools and AI-powered Q&A. See the [Reading Companions Guide](book-summaries-guide.md) for full details.
 
-| # | Book Companion | Link |
+| # | Reading Companion | Link |
 |---|----------------|------|
 | 1 | The 21 Irrefutable Laws of Leadership | [Open](/BookSummaries/21-laws-leadership-companion.html) |
 | 2 | The 22 Immutable Laws of Marketing | [Open](/BookSummaries/22-laws-marketing-companion.html) |

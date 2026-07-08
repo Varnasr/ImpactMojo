@@ -6,10 +6,10 @@ Deep Dives are **curated, annotated reading guides** — themed bibliographies w
 
 ImpactMojo offers **21 Deep Dives** spanning political economy, evaluation methods, climate, gender, health, education, and technology. All are **free, browser-based, and require no login**.
 
-### How a Deep Dive Differs from a Course or a Book Companion
+### How a Deep Dive Differs from a Course or a Reading Companion
 
 - **A course** teaches concepts through structured lessons and exercises — you are taught.
-- **A Book Companion** guides you through one book in depth — one author's argument, unpacked.
+- **A Reading Companion** guides you through one book in depth — one author's argument, unpacked.
 - **A Deep Dive** curates the literature on one question — many authors, sequenced and annotated, so you can read your way to your own view. It is closer to a seminar syllabus than a lesson.
 
 ---
@@ -91,4 +91,4 @@ Courses teach the concepts; Deep Dives supply the primary literature. A MEL cour
 - **These are syllabi with a point of view, not neutral bibliographies.** Every list makes an argument through its selection and sequence — reading against the curation is part of the exercise.
 - **The critique sections are not optional.** Most Deep Dives end with the pushback (methodological, political, or both); skipping it means getting half the debate.
 - **Use them to update your own syllabi.** Even if you teach from your own reading list, the Deep Dives flag recent additions to each literature worth folding in.
-- **Combine with Book Companions.** When a Deep Dive reading is a full book with an ImpactMojo Book Companion, use the companion to decide whether the whole book merits your seminar's time.
+- **Combine with Reading Companions.** When a Deep Dive reading is a full book with an ImpactMojo Reading Companion, use the companion to decide whether the whole book merits your seminar's time.

@@ -19,7 +19,7 @@
 * [Practice Packs Guide](practice-packs-guide.md)
 * [Deep Dives Guide](deep-dives-guide.md)
 * [Dojos Guide](dojos-guide.md)
-* [Book Companions Guide](book-summaries-guide.md)
+* [Reading Companions Guide](book-summaries-guide.md)
 * [101 Course Decks Guide](101-decks-guide.md)
 * [Podcast Guide](podcast-guide.md)
 * [Certificates & Progress](certificates-and-progress.md)
