@@ -1,6 +1,6 @@
-# Book Companions Guide
+# Reading Companions Guide
 
-## What Are the ImpactMojo Book Companions?
+## What Are the ImpactMojo Reading Companions?
 
 ImpactMojo offers **interactive, chapter-by-chapter companions** for essential development texts. Unlike traditional summaries that condense a book into a few paragraphs, these companions are designed for practitioners who want to understand and apply the ideas in their work.
 

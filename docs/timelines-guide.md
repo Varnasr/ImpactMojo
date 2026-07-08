@@ -4,7 +4,7 @@
 
 ImpactMojo Timelines are **curated, citation-backed visual histories** of how development thinking, policy, methods, climate action, and rights frameworks have evolved. Each timeline is a hand-curated, chronologically-ordered map of a domain — not a wiki dump — with **6 live timelines covering 113 nodes across 44 eras**.
 
-Every node carries the original argument, why it mattered, the critique that came after, and links to where you can study the idea more deeply on ImpactMojo (101 decks, Book Companions, Deep Dives, Handouts). All timelines are **free, browser-based, and require no login**.
+Every node carries the original argument, why it mattered, the critique that came after, and links to where you can study the idea more deeply on ImpactMojo (101 decks, Reading Companions, Deep Dives, Handouts). All timelines are **free, browser-based, and require no login**.
 
 ---
 
@@ -33,7 +33,7 @@ Each node is a card for one landmark text, law, or event. Every node contains:
 2. **Argued** — what the original text or policy actually claimed, in plain language
 3. **Mattered** — why it shaped the field: what agenda it set, what debates it opened
 4. **Critique** — the scholarly pushback that came after, with the critics named
-5. **Cross-links** — buttons to related ImpactMojo content (101 decks, Book Companions, Deep Dives, Handouts) for deeper study
+5. **Cross-links** — buttons to related ImpactMojo content (101 decks, Reading Companions, Deep Dives, Handouts) for deeper study
 
 Nodes are click-to-expand: the timeline scans as a compact chronology, and any node opens to show its full Argued / Mattered / Critique sections.
 
@@ -44,7 +44,7 @@ Nodes are click-to-expand: the timeline scans as a compact chronology, and any n
 
 ### What Timelines Are Not
 
-Timelines are **not a substitute for primary sources**. Each node cites the canonical text and its key critics. Use them as orientation maps before diving into a 101 deck or Book Companion — or as a way to see how the ideas in a single book or paper sit in a longer intellectual lineage.
+Timelines are **not a substitute for primary sources**. Each node cites the canonical text and its key critics. Use them as orientation maps before diving into a 101 deck or Reading Companion — or as a way to see how the ideas in a single book or paper sit in a longer intellectual lineage.
 
 ---
 
@@ -74,7 +74,7 @@ Pair timelines for richer seminars — Indian Policy alongside Development Think
 2. **Start with Development Thinking** — it is the widest-angle map and every other timeline references its debates
 3. **Use the era-nav** to jump to the period you teach, rather than scrolling from the start
 4. **Click a node to expand it** — the Argued / Mattered / Critique sections are where the substance lives
-5. **Follow the cross-links** — each node points to the 101 decks, Book Companions, and Deep Dives where you can go deeper
+5. **Follow the cross-links** — each node points to the 101 decks, Reading Companions, and Deep Dives where you can go deeper
 
 ---
 

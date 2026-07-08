@@ -37,7 +37,7 @@ ImpactMojo development priorities for 2026. Items are roughly ordered by priorit
 - [x] **Server-side auth-gate** on all premium Netlify resource sites
 - [x] **Removed mobile-index.html** — index.html is now fully responsive
 - [x] **Admin tier protection** — database trigger prevents client-side downgrades
-- [x] **BookSummaries** — new content type under Specials with interactive book companions
+- [x] **BookSummaries** — new content type under Specials with interactive reading companions
 - [x] **Handbook of Social Protection** — first interactive book summary (Hanna & Olken, MIT Press 2026)
 - [x] **Gamma API integration** — 23/38 course decks synced as Gamma presentations
 - [x] **Claude Code skills & hooks** — 6 global skills, SessionStart hook for API key bootstrap, multi-provider AI token support
@@ -73,7 +73,7 @@ ImpactMojo development priorities for 2026. Items are roughly ordered by priorit
 - [x] **Certificate policy consistency** — reconciled to "free completion + Premium verified" site-wide
 - [x] **Contact-email consolidation** — 11 scattered addresses folded into a single `hello@`
 - [x] **Header-offset + anchor-scroll fixes** — heroes no longer trapped under the fixed header (10 pages); in-page `#section` links land correctly
-- [x] **Count-consistency pass** — canonical counts (62 courses · 28 labs · 55 book companions · 20 Deep Dives · 135 Game Library) propagated across site, README, and press kit
+- [x] **Count-consistency pass** — canonical counts (62 courses · 28 labs · 55 reading companions · 20 Deep Dives · 135 Game Library) propagated across site, README, and press kit
 - [x] **Migrate all 47 foundational decks to native HTML** — every `/101-courses/*` deck is now a self-hosted ~100-slide native HTML deck (Chart.js, light/dark, keyboard/touch nav). Zero Gamma iframes remain across the 101 series; verified live on impactmojo.in.
 - [ ] **Vernacular Content** — Full courses in regional languages (#29). _Live: machine-translated + quality-audited per-page course content ships for **5 languages** — Hindi, Tamil, Bengali, Marathi and **Telugu** (30 page-dictionaries each) — plus a 409-string common UI dictionary per language, all behind a protected-terms glossary and the `check-i18n-quality` CI guard. Telugu (2026-06) was generated via a glossary-aware Gemini pass (`scripts/gemini-translate.py`) as a Sarvam fallback. The strategy is high-quality machine translation refined toward human quality (via the glossary + a community-correction override layer), not paid human localization._
 - [x] **Analytics dashboard v2** — Learner analytics with completion funnels, time-on-task, and assessment scores (`admin/learner-analytics.html`)
@@ -92,7 +92,7 @@ ImpactMojo development priorities for 2026. Items are roughly ordered by priorit
 ### Shipped so far (Q3)
 
 - **Jul 2** — 12 new Interactive Labs (15 → 28, three new tracks) + the full **R & Python for Development** live-code course (7 modules, WebR + Pyodide)
-- **Jul 5 (v10.80.0)** — *Counterfactual: The Evaluation Game* (game #18; Game Library 135), six new Live Case Challenges (9 → 15, every flagship covered), the *Gender & Work in India* timeline (6th timeline; 113 nodes / 44 eras), and search-index completeness (26 blog posts + 4 book companions added to site search)
+- **Jul 5 (v10.80.0)** — *Counterfactual: The Evaluation Game* (game #18; Game Library 135), six new Live Case Challenges (9 → 15, every flagship covered), the *Gender & Work in India* timeline (6th timeline; 113 nodes / 44 eras), and search-index completeness (26 blog posts + 4 reading companions added to site search)
 - **Jul 6 (v10.82.0–82.2)** — **Build Circles** (4-week AI build cohorts) and the **AI for M&E Certificate Track** (₹2,499) + the free **AI Agents for Evaluators** module; and **interactive assessments on every flagship** — all 15 flagship courses now end with a six-question auto-graded "Assess Yourself" self-check (90 questions total), surfaced across catalog, homepage, nav, footer, updates, README and docs
 
 ## Q4 2026 (Oct-Dec) — Shipped early
