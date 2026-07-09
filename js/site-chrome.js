@@ -102,7 +102,7 @@
     globe: ic('si_Globe_detailed'), star: ic('si_Star'), info: ic('si_Info'), home: ic('si_Home'),
     sys: ic('si_Monitor'), sun: ic('si_Sun'), moon: ic('si_Moon')
   };
-  var LOGO = SITE + '/assets/images/ImpactMojo%20Logo.png';
+  var LOGO = SITE + '/assets/images/apple-touch-icon.png'; // 7KB vs the 599KB full logo
 
   // ── Theme (same contract as theme.js) ──────────────────────────────
   function applyTheme(mode) {
