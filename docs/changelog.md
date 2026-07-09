@@ -2,6 +2,27 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.86.0 — July 9, 2026 (Flagship parity — deeper NVC & Intervention modules)
+
+### For Learners
+
+- **Nonviolence in Practice** modules are now much deeper — every module carries a fully worked example, a hand-drawn concept diagram, richer definitions, and a reflection prompt to close on, with case scenarios grounded in South Asian settings.
+- **Designing What Works** modules gain a clear concept diagram each (problem trees, results chains, the delivery-chain cascade, the targeting-error matrix, the PDIA loop) and worked formulae where the design question is quantitative — value actually received from a transfer, last-mile coverage, chain completion, and cost per outcome.
+
+### Added
+
+- New reference: `docs/flagship-course-standard.md` — the canonical spec for what makes a course a flagship (design system, component catalog, and a per-course parity checklist), used to audit and level up courses.
+- Theme-aware inline-SVG diagrams (recolour with light/dark) across all 14 Intervention and 12 NVC-RJ modules; KaTeX formulae added to the quantitative Intervention modules.
+
+### Changed
+
+- NVC-RJ module content roughly tripled in depth (seed migration `20260709_seed_nvc_rj_content.sql` regenerated); the coaching call-to-action is now used sparingly (about one module in three) rather than on every module.
+- Intervention module content extended additively (seed migration `20260708_seed_intervention_content.sql` regenerated); existing prose and worked examples untouched.
+
+### Fixed
+
+- NVC-RJ course page: the background blobs and reading-progress bar had styles but no markup, so neither rendered — both are now instantiated.
+
 ## v10.85.0 — July 9, 2026 (New flagship — Nonviolence in Practice)
 
 ### For Learners
