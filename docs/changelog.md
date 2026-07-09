@@ -2,6 +2,18 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.85.0 — July 9, 2026 (New flagship — Nonviolence in Practice)
+
+### For Learners
+
+- **Nonviolence in Practice: Communication, Resistance & Repair** — a new flagship on three canonical traditions of applied nonviolence, taught at depth: **Nonviolent Communication** (Marshall Rosenberg), **Non-Violent Resistance / New Authority** (Haim Omer), and **Restorative Justice** (Howard Zehr and the circle traditions). It traces their indigenous and South Asian roots (panchayat justice, gram nyayalayas, ubuntu, Navajo peacemaking), takes the feminist and decolonial critiques seriously, and ends in facilitation fieldcraft and a capstone. 11 modules plus capstone, a 48-term interactive lexicon, and an "Assess Yourself" self-check.
+
+### Added
+
+- New flagship course at `/courses/nvc-rj/` — a native HTML shell whose 11 modules are served from Supabase (`course_content`, seed migration `20260709_seed_nvc_rj_content.sql`), matching the platform's fork-protection model. Includes a companion `lexicon.html` (48 terms across NVC, NVR and Restorative Justice), an inline orientation, capstone and "Assess Yourself" self-check.
+- Cross-linked with the Gandhi and Social-Emotional Learning flagships and the Conflict-Sensitive Programming Lab.
+- Flagship count updated across the site: 16 → 17.
+
 ## v10.84.0 — July 8, 2026 (New flagship — Designing What Works)
 
 ### For Learners
