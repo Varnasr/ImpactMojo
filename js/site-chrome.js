@@ -122,9 +122,16 @@
 
   // ── Build ──────────────────────────────────────────────────────────
   function build() {
-    // 1. remove legacy chrome
-    var kill = document.querySelectorAll('.im-topbar,#imTopbar,.top-nav,.site-header,header.mobile-header,footer,.footer,.foot,.site-footer,.im-footer');
-    for (var i = 0; i < kill.length; i++) { if (kill[i].closest('.im-sc')) continue; kill[i].parentNode && kill[i].parentNode.removeChild(kill[i]); }
+    // 1. remove legacy chrome (broad: catches the many header/footer patterns across the site)
+    var sel = '.im-topbar,#imTopbar,.top-nav,.site-header,header.header,.navbar,.site-nav,.main-nav,'
+            + '.nav-container,.masthead,header.mobile-header,.mobile-header,'
+            + 'footer,.footer,.foot,.site-footer,.im-footer';
+    var kill = [].slice.call(document.querySelectorAll(sel));
+    // also any top-level <header>/<nav> that's a direct child of <body> (the site bar)
+    [].slice.call(document.body.children).forEach(function (el) {
+      var t = el.tagName; if ((t === 'HEADER' || t === 'NAV') && kill.indexOf(el) === -1) kill.push(el);
+    });
+    for (var i = 0; i < kill.length; i++) { if (kill[i].closest && kill[i].closest('.im-sc')) continue; kill[i].parentNode && kill[i].parentNode.removeChild(kill[i]); }
 
     // 2. styles
     var st = document.createElement('style'); st.id = 'im-sc-style'; st.textContent = css(); document.head.appendChild(st);
