@@ -83,7 +83,12 @@
 '.im-sc-foot-col a:hover{color:var(--sc-acc)}',
 '.im-sc-foot-meta{max-width:1180px;margin:26px auto 0;padding-top:18px;border-top:1px solid var(--sc-bd);color:var(--sc-mut);',
  'font-size:12px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:space-between;align-items:center}',
-'@media(prefers-reduced-motion:reduce){.im-sc *{transition:none!important}}'
+'@media(prefers-reduced-motion:reduce){.im-sc *{transition:none!important}}',
+// reconcile app-like pages (course shells): kill dead reserved padding + offset fixed sidebar/progress below the 46px bar
+'body.im-sc-on{padding-top:0!important}',
+'body.im-sc-on .sidebar{top:46px!important;height:calc(100dvh - 46px)!important}',
+'body.im-sc-on .sidebar-overlay{top:46px!important}',
+'body.im-sc-on .reading-progress{top:46px!important}'
     ].join('');
   }
 
@@ -123,6 +128,7 @@
 
     // 2. styles
     var st = document.createElement('style'); st.id = 'im-sc-style'; st.textContent = css(); document.head.appendChild(st);
+    document.body.classList.add('im-sc-on');
 
     // 3. top bar
     var bar = document.createElement('div');
