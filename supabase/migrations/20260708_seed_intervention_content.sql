@@ -42,6 +42,47 @@ VALUES
 <tr><td>Elite capture</td><td>Benefits flow to the already-powerful; the intended group is crowded out.</td><td>Targeting (Modules 7, 10)</td></tr>
 </tbody></table></div>
 
+<p>The first failure mode is the most seductive, because it feels like action. The two rows below show the difference in shape: solution-led design starts from a favoured tool and reasons backwards, so the fit to the real problem is hopeful at best; problem-led design starts from the problem and the mechanism that keeps it stuck, and only then reaches for an intervention.</p>
+<div class="dag-figure">
+  <svg viewBox="0 0 620 220" role="img" aria-label="Two contrasting design paths. Top row, solution-led and failing: a Favoured solution box leads to Find a problem it fits, which connects by a dashed uncertain arrow to a Weak or no fit box. Bottom row, problem-led and working: a Problem and its mechanism box leads to Intervention, which leads to Changed outcome."
+       xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+    <defs>
+      <marker id="arr1a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker>
+      <marker id="arr1b" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker>
+    </defs>
+    <!-- Top row: solution-led (fails) -->
+    <text x="62" y="42" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Solution-led</text>
+    <text x="62" y="58" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">(fails)</text>
+    <rect x="125" y="24" width="130" height="46" rx="8" stroke-width="2"/>
+    <text x="190" y="45" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Favoured</text>
+    <text x="190" y="61" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">solution</text>
+    <line x1="255" y1="47" x2="298" y2="47" stroke-width="2" marker-end="url(#arr1a)"/>
+    <rect x="300" y="24" width="130" height="46" rx="8" stroke-width="2"/>
+    <text x="365" y="45" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Find a problem</text>
+    <text x="365" y="61" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">it fits</text>
+    <line x1="430" y1="47" x2="473" y2="47" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arr1b)"/>
+    <rect x="475" y="24" width="130" height="46" rx="8" stroke-width="2" stroke-dasharray="5 4"/>
+    <text x="540" y="45" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Weak or</text>
+    <text x="540" y="61" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">no fit</text>
+    <!-- Top row X mark on the hopeful join -->
+    <line x1="447" y1="40" x2="457" y2="54" stroke-width="2"/>
+    <line x1="457" y1="40" x2="447" y2="54" stroke-width="2"/>
+    <!-- Bottom row: problem-led (works) -->
+    <text x="62" y="152" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Problem-led</text>
+    <text x="62" y="168" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">(works)</text>
+    <rect x="125" y="134" width="130" height="46" rx="8" stroke-width="2"/>
+    <text x="190" y="155" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Problem &amp;</text>
+    <text x="190" y="171" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">its mechanism</text>
+    <line x1="255" y1="157" x2="298" y2="157" stroke-width="2" marker-end="url(#arr1a)"/>
+    <rect x="300" y="134" width="130" height="46" rx="8" stroke-width="2"/>
+    <text x="365" y="161" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Intervention</text>
+    <line x1="430" y1="157" x2="473" y2="157" stroke-width="2" marker-end="url(#arr1b)"/>
+    <rect x="475" y="134" width="130" height="46" rx="8" stroke-width="2"/>
+    <text x="540" y="161" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Changed outcome</text>
+  </svg>
+  <div class="dag-caption">Solution-led design reasons backwards from a tool and hopes a problem fits (dashed = the join that usually breaks); problem-led design earns its intervention by first naming the problem and the mechanism holding it in place.</div>
+</div>
+
 <div class="worked-example"><div class="worked-example-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Clipboard.svg" alt="" class="sargam-icon"> Case &mdash; two responses to the same problem</div>
 <p>The problem: primary-school children in a district can attend for five years and still not read a simple paragraph &mdash; the "schooling is not learning" gap documented across South Asia (ASER, Pratham).</p>
 <p><strong>Response A &mdash; more of the same.</strong> Build more classrooms, distribute more textbooks, add contract teachers. Inputs rise; the reading gap barely moves, because the binding constraint was never the number of inputs. This is a solution chosen before the problem was diagnosed.</p>
@@ -73,6 +114,39 @@ VALUES
 <div class="definition"><div class="definition-term">5 whys</div><div class="definition-text">Chains &ldquo;why?&rdquo; to drill from symptom to cause. Good for depth; but a single chain follows <em>one</em> path and quietly ignores the others.</div></div>
 <div class="definition"><div class="definition-term">The shared flaw</div><div class="definition-text">Both can be run <em>backwards</em> from a pre-chosen answer &mdash; a team that wants to build toilets will find, five whys down, a tree whose deepest root is conveniently &ldquo;no toilets.&rdquo; The method rationalises the conclusion instead of testing it.</div></div></div>
 <p>A root-cause exercise is only as honest as the team running it. Used to explore, it opens the problem; used to justify, it launders a decision already taken. The corrective is to force a ranking: not <em>what are the causes</em>, but <em>which single cause, relaxed, would move the outcome most</em>.</p>
+<div class="dag-figure">
+  <svg viewBox="0 0 480 300" role="img" aria-label="A problem tree: three root causes at the bottom feed upward into a single core problem in the middle, which in turn feeds upward into three visible symptoms at the top; arrows point upward, showing that symptoms sit far from the roots."
+       xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+    <defs><marker id="arr02up" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker></defs>
+    <!-- Top: visible symptoms -->
+    <rect x="18" y="18" width="132" height="38" rx="8" stroke-width="2"/>
+    <text x="84" y="42" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Poor test scores</text>
+    <rect x="174" y="18" width="132" height="38" rx="8" stroke-width="2"/>
+    <text x="240" y="42" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Absenteeism</text>
+    <rect x="330" y="18" width="132" height="38" rx="8" stroke-width="2"/>
+    <text x="396" y="42" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Drop-out</text>
+    <!-- Middle: core problem -->
+    <rect x="150" y="131" width="180" height="48" rx="8" stroke-width="2.5"/>
+    <text x="240" y="160" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Children not learning</text>
+    <!-- Bottom: root causes -->
+    <rect x="18" y="250" width="132" height="40" rx="8" stroke-width="2"/>
+    <text x="84" y="274" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Time poverty</text>
+    <rect x="174" y="250" width="132" height="40" rx="8" stroke-width="2"/>
+    <text x="240" y="274" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Weak instruction</text>
+    <rect x="330" y="250" width="132" height="40" rx="8" stroke-width="2"/>
+    <text x="396" y="274" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Distrust of school</text>
+    <!-- Roots -> core problem (upward) -->
+    <line x1="84" y1="250" x2="196" y2="181" stroke-width="2" marker-end="url(#arr02up)"/>
+    <line x1="240" y1="250" x2="240" y2="181" stroke-width="2" marker-end="url(#arr02up)"/>
+    <line x1="396" y1="250" x2="284" y2="181" stroke-width="2" marker-end="url(#arr02up)"/>
+    <!-- Core problem -> symptoms (upward) -->
+    <line x1="204" y1="131" x2="90" y2="58" stroke-width="2" marker-end="url(#arr02up)"/>
+    <line x1="240" y1="131" x2="240" y2="58" stroke-width="2" marker-end="url(#arr02up)"/>
+    <line x1="276" y1="131" x2="390" y2="58" stroke-width="2" marker-end="url(#arr02up)"/>
+  </svg>
+  <div class="dag-caption">Causation flows upward: an intervention aimed at the visible symptoms at the top &mdash; more testing, attendance drives &mdash; leaves untouched the binding constraint two levels down at the roots.</div>
+</div>
 
 <h3>Binding-Constraints Thinking</h3>
 <p>That ranking question is the heart of <em>growth diagnostics</em>, developed to explain why economies stall (Hausmann, Rodrik &amp; Velasco 2005). Its logic transfers cleanly to social problems. At any moment, many things are wrong, but they are not equally wrong: one constraint <em>binds</em>, and relaxing it moves the outcome far more than fixing the others. Pour resources into a non-binding constraint and you get almost nothing &mdash; more textbooks where the constraint is instruction, more clinics where the constraint is trust.</p>
@@ -97,6 +171,18 @@ VALUES
 <p>But the binding constraint, research showed, was rarely access. Households with functioning latrines still chose open defecation, driven by beliefs about purity, pollution and caste, and a norm that open defecation was healthier or more manly (Coffey &amp; Spears 2017). This was a <strong>belief/norm problem wearing the mask of a capacity problem.</strong> A toilet is the right instrument for a capacity constraint and the wrong one for a norm constraint &mdash; so latrines were built and then used to store grain.</p>
 <p><strong>The contrast.</strong> <em>Community-Led Total Sanitation</em> (CLTS) diagnosed the problem as a norm and attacked it as one &mdash; no subsidy, no construction target, but a facilitated collective &ldquo;triggering&rdquo; of disgust and shared commitment that shifted the norm village by village. Swachh Bharat&rsquo;s later, more effective phase absorbed exactly this lesson, pairing construction with intensive behaviour-change communication. Same sector, same outcome sought &mdash; the diagnosis, not the toilet, determined whether the design could work.</p></div>
 
+<button class="excerpt-btn" data-excerpt="ex-intervention-m02"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg> Read the passage &mdash; Andrews, Pritchett &amp; Woolcock (2017) &rarr;</button>
+<div class="excerpt-source" id="ex-intervention-m02" hidden>
+  <div class="excerpt-kicker">Key reading &middot; Open access (CC BY-NC-ND 4.0)</div>
+  <h3>Building State Capability: Evidence, Analysis, Action (2017)</h3>
+  <div class="excerpt-cite">Matt Andrews, Lant Pritchett &amp; Michael Woolcock &middot; Oxford University Press &middot; free full text via <a href="https://library.oapen.org/handle/20.500.12657/31857" target="_blank" rel="noopener">OAPEN &rarr;</a></div>
+  <blockquote class="excerpt-quote">
+    <p>The book&rsquo;s central diagnosis is that many reforms fail not for lack of effort or money but because organisations adopt the <em>form</em> of a solution without its <em>function</em> &mdash; what the authors call <strong>isomorphic mimicry</strong>: copying the visible best-practice of a capable organisation (a shiny new anti-corruption agency, a results framework, a logframe) so as to <em>look</em> more capable, while the problem the reform was meant to solve goes untouched.</p>
+    <p>A companion trap is <strong>premature load bearing</strong> &mdash; placing weight on a nascent capability before it can carry it, so the new structure buckles and confidence collapses. Their alternative, <strong>Problem-Driven Iterative Adaptation (PDIA)</strong>, insists that design begin from a locally-nominated, deconstructed <em>problem</em>, not from a solution imported because it worked somewhere else.</p>
+  </blockquote>
+  <p class="excerpt-note"><strong>Why it matters for this module.</strong> BSC is the definitive statement of the failure mode this module warns against: starting from an admired solution and reverse-engineering a problem to justify it. &ldquo;Diagnose first&rdquo; is not a slogan &mdash; it is the difference between solving a problem and performing the appearance of solving one. Chapters 1&ndash;3 lay out the traps; Chapters 7&ndash;9 give the PDIA method.</p>
+</div>
+
 <div class="key-insight"><div class="key-insight-label"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Spark.svg" alt="" class="sargam-icon"> Diagnosis before design</div><p>The intervention class is not a choice made after the problem is understood &mdash; it is <em>implied</em> by how the problem is understood. Misdiagnose the type and no amount of implementation quality can save you: a norm problem answered with hardware, an incentive problem answered with a poster, a capacity problem answered with a rule. <strong>Get the diagnosis right and the design half-writes itself; get it wrong and every later module is compounding a first-order error.</strong></p></div>
 
 <div class="reflection-prompt"><p><strong>Reflect.</strong> Take a problem your organisation is working on. Run the classification: is it, at its binding constraint, an information, incentive, capacity, or belief/norm problem &mdash; and be honest about whether your current intervention matches that type or the type you wish it were. Then ask the harder question: could you have run a problem tree <em>backwards</em> from the solution you already had?</p></div>
@@ -118,6 +204,31 @@ VALUES
 <p>Andrea Vogel's review of the concept for DFID found that the term had drifted to mean almost anything &mdash; a results chain, a narrative, a workshop output &mdash; and that its power was recoverable only when practitioners wrote the assumptions and the causal pathway explicitly, not just the boxes (Vogel 2012). The rest of this module is about doing exactly that.</p>
 <h3>Assumptions Are the Weakest Link</h3>
 <p>Every arrow in a theory of change hides an assumption &mdash; a condition that must be true for the arrow to hold. Interventions rarely fail because the activities were not done; they fail because a load-bearing assumption quietly did not hold. The designer&rsquo;s job is not to list every assumption but to find the <em>killer</em> one: the assumption that is both uncertain and consequential, the single point where the whole theory is most likely to snap.</p>
+<div class="dag-figure">
+  <svg viewBox="0 0 700 150" role="img" aria-label="A horizontal results chain of five linked boxes &mdash; Inputs, Activities, Outputs, Outcomes, Impact &mdash; joined by arrows, with a dashed note reading assumptions attached under the Outputs to Outcomes link to show that every arrow hides an assumption that can fail."
+       xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+    <defs><marker id="rc03arrow" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker></defs>
+    <rect x="8" y="45" width="100" height="44" rx="8" stroke-width="2"/>
+    <text x="58" y="72" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Inputs</text>
+    <rect x="148" y="45" width="100" height="44" rx="8" stroke-width="2"/>
+    <text x="198" y="72" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Activities</text>
+    <rect x="288" y="45" width="100" height="44" rx="8" stroke-width="2"/>
+    <text x="338" y="72" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Outputs</text>
+    <rect x="428" y="45" width="100" height="44" rx="8" stroke-width="2"/>
+    <text x="478" y="72" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Outcomes</text>
+    <rect x="568" y="45" width="100" height="44" rx="8" stroke-width="2"/>
+    <text x="618" y="72" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Impact</text>
+    <line x1="108" y1="67" x2="146" y2="67" stroke-width="2" marker-end="url(#rc03arrow)"/>
+    <line x1="248" y1="67" x2="286" y2="67" stroke-width="2" marker-end="url(#rc03arrow)"/>
+    <line x1="388" y1="67" x2="426" y2="67" stroke-width="2" marker-end="url(#rc03arrow)"/>
+    <line x1="528" y1="67" x2="566" y2="67" stroke-width="2" marker-end="url(#rc03arrow)"/>
+    <line x1="408" y1="89" x2="408" y2="106" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <rect x="360" y="106" width="96" height="26" rx="6" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <text x="408" y="123" text-anchor="middle" font-size="12" font-style="italic" fill="currentColor" stroke="none">assumptions</text>
+  </svg>
+  <div class="dag-caption">The results chain looks like control flowing left to right, but every arrow &mdash; here the fragile output-to-outcome link &mdash; hides an assumption that can silently fail.</div>
+</div>
 <div class="callout callout-amber"><div class="callout-icon"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Alert.svg" alt="" class="sargam-icon"></div><div class="callout-content"><p>Rank assumptions on two axes: <strong>uncertainty</strong> (how confident are we this holds?) and <strong>consequence</strong> (if it fails, does the intervention still work?). The assumptions in the high-uncertainty, high-consequence corner are your <em>killer assumptions</em>. Design a cheap test for each one <em>before</em> committing the budget &mdash; that test is often worth more than the pilot itself.</p></div></div>
 <div class="table-wrapper"><table><thead><tr><th>Assumption (SHG livelihoods programme)</th><th>Uncertainty</th><th>Consequence if false</th><th>Priority</th></tr></thead><tbody>
 <tr><td>Trained women can sell their produce at a viable price (market access)</td><td>High</td><td>Fatal &mdash; income never rises</td><td><strong>Test first</strong></td></tr>
@@ -171,6 +282,41 @@ VALUES
 <p>Before reform, cooking-gas subsidy was delivered by selling the cylinder cheap. That in-kind discount invited two leaks: <em>ghost</em> connections (subsidised cylinders booked against people who did not exist) and <em>diversion</em> (subsidised domestic cylinders resold into the commercial market at a profit).</p>
 <p><strong>The redesign.</strong> Under PAHAL, the consumer pays the full market price for the cylinder and the subsidy is transferred separately into an Aadhaar-linked bank account. A ghost cannot hold a bank account and a diverted cylinder earns no arbitrage, because everyone now pays the same market price. The rail did the work: de-duplication removed non-existent beneficiaries and the direct deposit removed the resale margin.</p>
 <p><strong>The caution.</strong> The same biometric rail that removes ghosts can also remove real people &mdash; a failed fingerprint match, an un-seeded account, a migrant far from her home branch. A rail that plugs leakage by tightening the gate must be watched for <em>exclusion error</em>: the genuine poor wrongly shut out. Efficiency and inclusion pull against each other, and the designer owns both.</p></div>
+<h3>The Delivery Pipeline &mdash; Where Value Leaks</h3>
+<p>Every rupee budgeted passes through a narrowing pipe before it becomes value in a recipient&rsquo;s hand. At each joint the pipe loses a little: administrative overhead, leakage to ghosts and middlemen, and &mdash; the loss designers most often ignore &mdash; the <em>recipient&rsquo;s own</em> cost of reaching the money: the bus fare to a distant branch, the wage forgone queuing, the biometric that will not match. The transfer on paper is not the transfer received.</p>
+<div class="dag-figure">
+  <svg viewBox="0 0 520 240" role="img" aria-label="A cash-delivery pipeline drawn as a funnel that narrows across four stages: budget allocated, disbursed, reaches account, and withdrawn and used by the recipient. Small downward arrows at each joint mark value lost to admin, leakage, and access friction." xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+    <defs><marker id="arrM04pipe" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker></defs>
+    <!-- Stage 1: Budget allocated (widest) -->
+    <rect x="40" y="24" width="300" height="38" rx="6" stroke-width="2"/>
+    <text x="190" y="48" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Budget allocated</text>
+    <!-- narrowing connector -->
+    <path d="M40,62 L340,62 L300,86 L80,86 z" stroke-width="1.5" opacity="0.55"/>
+    <!-- Stage 2: Disbursed -->
+    <rect x="80" y="86" width="220" height="38" rx="6" stroke-width="2"/>
+    <text x="190" y="110" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Disbursed</text>
+    <path d="M80,124 L300,124 L262,148 L118,148 z" stroke-width="1.5" opacity="0.55"/>
+    <!-- Stage 3: Reaches account -->
+    <rect x="118" y="148" width="144" height="38" rx="6" stroke-width="2"/>
+    <text x="190" y="172" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Reaches account</text>
+    <path d="M118,186 L262,186 L232,210 L148,210 z" stroke-width="1.5" opacity="0.55"/>
+    <!-- Stage 4: Withdrawn / used (narrowest) -->
+    <rect x="148" y="210" width="84" height="26" rx="6" stroke-width="2"/>
+    <text x="190" y="227" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Withdrawn &amp; used</text>
+    <!-- leakage arrows on the right, one per joint -->
+    <line x1="360" y1="62" x2="405" y2="80" stroke-width="1.5" marker-end="url(#arrM04pipe)"/>
+    <text x="412" y="80" font-size="11" fill="currentColor" stroke="none">admin overhead</text>
+    <line x1="320" y1="124" x2="365" y2="142" stroke-width="1.5" marker-end="url(#arrM04pipe)"/>
+    <text x="372" y="142" font-size="11" fill="currentColor" stroke="none">leakage / ghosts</text>
+    <line x1="282" y1="186" x2="327" y2="204" stroke-width="1.5" marker-end="url(#arrM04pipe)"/>
+    <text x="334" y="204" font-size="11" fill="currentColor" stroke="none">access friction</text>
+  </svg>
+  <div class="dag-caption">A cash pipeline narrows at every stage &mdash; the rail&rsquo;s job is to keep the funnel wide, and the last drop lost to the recipient&rsquo;s own travel, time, and failed matches is the one measured least.</div>
+</div>
+<p>The value actually received is the gross transfer minus what the pipe swallows on the way &mdash; both the system&rsquo;s leakage and the recipient&rsquo;s private cost of collection:</p>
+<div class="equation-box"><div class="equation">\[ V_{\text{received}} \;=\; T_{\text{gross}} \;-\; L_{\text{leakage}} \;-\; C_{\text{access}} \]</div>
+<div class="equation-caption">\(V_{\text{received}}\) is the value the household truly gains; \(T_{\text{gross}}\) the transfer promised on paper; \(L_{\text{leakage}}\) the value siphoned by admin cost, ghosts, and diversion before it arrives; and \(C_{\text{access}}\) the recipient&rsquo;s own cost of collection &mdash; travel, forgone wages, and time lost to failed matches or un-seeded accounts. A good rail shrinks both \(L\) and \(C\); a rail that cuts \(L\) by tightening the gate can quietly raise \(C\).</div></div>
 <h3>Targeting &mdash; Who Gets the Money</h3>
 <p>Every transfer needs a rule for who is in. There are four families of rule, and the choice is a trade-off among accuracy, administrative cost, stigma, and political durability &mdash; not a search for a single best method.</p>
 <div class="table-wrapper"><table><thead><tr><th>Method</th><th>Targeting accuracy</th><th>Admin cost</th><th>Stigma / take-up</th><th>Political economy</th></tr></thead><tbody>
@@ -200,6 +346,35 @@ VALUES
 <div class="definition"><div class="definition-term">4. Coaching &amp; handholding</div><div class="definition-text">Regular home visits by a field officer over the full period: problem-solving, encouragement, and the social recognition that the household is worth investing in.</div></div>
 <div class="definition"><div class="definition-term">5. Savings</div><div class="definition-text">Enrolment in a savings discipline, so that surplus is banked rather than dissipated &mdash; the mechanism by which the gains become permanent after support ends.</div></div></div>
 <div class="key-insight"><div class="key-insight-label"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Spark.svg" alt="" class="sargam-icon"> Order is a design variable, not an accident</div><p>Consumption support must arrive <em>with</em> the asset, or the family eats the cow. Training must land <em>before</em> the asset can be mismanaged. Coaching runs <em>throughout</em>; savings is emphasised <em>as</em> income begins. Reshuffle the sequence and the same five components fail. <strong>The graduation model treats timing as part of the design, not the delivery.</strong></p></div>
+<div class="dag-figure">
+  <svg viewBox="0 0 520 232" role="img" aria-label="A timeline over roughly 24 months showing five graduation-approach components as overlapping horizontal bars: consumption support runs early, the asset transfer lands near the start, skills training arrives early, coaching runs the whole period, and savings is emphasised in the second half."
+       xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+    <defs><marker id="arr05seq" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker></defs>
+    <!-- five sequenced, overlapping component bars -->
+    <rect x="140" y="18" width="120" height="22" rx="5" stroke-width="1.5" fill="currentColor" fill-opacity="0.12"/>
+    <text x="10" y="33" font-size="11" fill="currentColor" stroke="none">Consumption support</text>
+    <rect x="140" y="46" width="34" height="22" rx="5" stroke-width="1.5" fill="currentColor" fill-opacity="0.12"/>
+    <text x="10" y="61" font-size="11" fill="currentColor" stroke="none">Asset transfer</text>
+    <rect x="150" y="74" width="66" height="22" rx="5" stroke-width="1.5" fill="currentColor" fill-opacity="0.12"/>
+    <text x="10" y="89" font-size="11" fill="currentColor" stroke="none">Skills training</text>
+    <rect x="140" y="102" width="360" height="22" rx="5" stroke-width="1.5" fill="currentColor" fill-opacity="0.12"/>
+    <text x="10" y="117" font-size="11" fill="currentColor" stroke="none">Regular coaching</text>
+    <text x="492" y="117" text-anchor="end" font-size="10" fill="currentColor" stroke="none" font-style="italic">throughout</text>
+    <rect x="275" y="130" width="225" height="22" rx="5" stroke-width="1.5" fill="currentColor" fill-opacity="0.12"/>
+    <text x="10" y="145" font-size="11" fill="currentColor" stroke="none">Savings</text>
+    <!-- time arrow -->
+    <line x1="140" y1="178" x2="512" y2="178" stroke-width="2" marker-end="url(#arr05seq)"/>
+    <line x1="140" y1="173" x2="140" y2="183" stroke-width="1.5"/>
+    <line x1="320" y1="173" x2="320" y2="183" stroke-width="1.5"/>
+    <line x1="500" y1="173" x2="500" y2="183" stroke-width="1.5"/>
+    <text x="140" y="198" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">month 0</text>
+    <text x="320" y="198" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">12</text>
+    <text x="500" y="198" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">~24</text>
+    <text x="326" y="220" text-anchor="middle" font-size="11" fill="currentColor" stroke="none" font-style="italic">a two-year sequence, not a single input</text>
+  </svg>
+  <div class="dag-caption">The bundle works because its five components are time-phased and overlapping &mdash; consumption support cushions the new asset, training lands before the asset can be mismanaged, coaching runs throughout, and savings is pressed as income begins &mdash; so each layer reinforces the next rather than standing alone.</div>
+</div>
 <h3>Complementarity: The Bundle Beats the Sum of Its Parts</h3>
 <p>The single-instrument habit asks &ldquo;which one input works best?&rdquo; The graduation logic answers that the question is wrong: the inputs are <em>complements</em>, each raising the return to the others. An asset without training is squandered; training without an asset is theory; an asset without consumption support is sold under duress. The point is not to find the strongest ingredient but to remove several binding constraints at once so that none can drag the household back.</p>
 <div class="comparison-cards">
@@ -263,6 +438,41 @@ VALUES
 <tr><td>Retention</td><td>Is the role worth staying in?</td><td>Attrition erases the training investment and the household trust with it.</td></tr>
 </tbody></table></div>
 <div class="callout callout-amber"><div class="callout-icon"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Alert.svg" alt="" class="sargam-icon"></div><div class="callout-content"><p>Because the links multiply rather than add, coverage collapses fast. If selection, training, supervision, supply, and retention each work 80% of the time, end-to-end delivery is 0.8&#8309; &asymp; 33%. Strengthening the strongest link changes nothing; only the weakest link moves the outcome. Diagnose the chain before you redesign the incentive.</p></div></div>
+<p>The same multiplication has a spatial shape. Picture coverage as a funnel: the eligible population enters at the top, and at each step &mdash; being physically reached by a worker, being correctly served, and staying served over time &mdash; a slice falls away. Span-of-control (too many households per worker) and workload (too many tasks per visit) widen the gaps between the steps, so that by the bottom only a fraction of those entitled are still holding the benefit.</p>
+<div class="dag-figure">
+  <svg viewBox="0 0 480 300" role="img" aria-label="A last-mile coverage funnel with four narrowing bars from top to bottom: Eligible population, Reached by a worker, Correctly served, and Sustained. Each downward step is narrower than the one above, showing coverage lost at each stage. Labels on the right note that span-of-control and workload widen the drop-off."
+       xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+    <defs><marker id="arrM6funnel" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker></defs>
+    <!-- Stage bars, narrowing top to bottom, centred on x=175 -->
+    <rect x="35" y="18" width="280" height="42" rx="8" stroke-width="2"/>
+    <text x="175" y="44" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Eligible population</text>
+    <rect x="65" y="88" width="220" height="42" rx="8" stroke-width="2"/>
+    <text x="175" y="114" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Reached by a worker</text>
+    <rect x="95" y="158" width="160" height="42" rx="8" stroke-width="2"/>
+    <text x="175" y="184" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Correctly served</text>
+    <rect x="123" y="228" width="104" height="42" rx="8" stroke-width="2"/>
+    <text x="175" y="254" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Sustained</text>
+    <!-- Connecting arrows -->
+    <line x1="175" y1="60" x2="175" y2="86" stroke-width="2" marker-end="url(#arrM6funnel)"/>
+    <line x1="175" y1="130" x2="175" y2="156" stroke-width="2" marker-end="url(#arrM6funnel)"/>
+    <line x1="175" y1="200" x2="175" y2="226" stroke-width="2" marker-end="url(#arrM6funnel)"/>
+    <!-- Erosion annotations (dashed = the loss that is not directly observed) -->
+    <line x1="315" y1="39" x2="360" y2="39" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <text x="365" y="43" text-anchor="start" font-size="12" fill="currentColor" stroke="none">not walkable</text>
+    <line x1="285" y1="109" x2="360" y2="109" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <text x="365" y="113" text-anchor="start" font-size="12" fill="currentColor" stroke="none">span-of-control</text>
+    <line x1="255" y1="179" x2="360" y2="179" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <text x="365" y="183" text-anchor="start" font-size="12" fill="currentColor" stroke="none">workload</text>
+    <line x1="227" y1="249" x2="360" y2="249" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <text x="365" y="253" text-anchor="start" font-size="12" fill="currentColor" stroke="none">attrition</text>
+  </svg>
+  <div class="dag-caption">Coverage narrows at every step from entitlement to sustained benefit; the dashed losses &mdash; unwalkable homes, too many households per worker, too many tasks per visit, and drop-out &mdash; are exactly what span-of-control and workload decisions govern.</div>
+</div>
+<p>The funnel can be written as an identity, which turns the picture into a design lever. Effective coverage is the service a cadre can physically produce divided by the population that needs it:</p>
+<div class="equation-box"><div class="equation">\[ \text{Coverage} \;=\; \frac{N_{\text{workers}} \times v \times q}{P_{\text{target}}} \]</div>
+<div class="equation-caption">Coverage is the number of frontline workers (\(N_{\text{workers}}\)) times the useful visits each can complete (\(v\)) times the quality-or-completion rate of those visits (\(q\)), divided by the target population (\(P_{\text{target}}\)). Adding workers or visits raises the numerator, but a low \(q\) &mdash; a rushed, incomplete, or wrongly-done visit &mdash; caps coverage no matter how many bodies you deploy.</div></div>
+<p>The equation makes the trade-off explicit. Push \(v\) up by piling tasks onto each visit and \(q\) falls as visits are rushed; enlarge each worker&rsquo;s catchment to cut \(N_{\text{workers}}\) and \(v\) per household drops. This is the span-of-control problem in one line: coverage is maximised not by stretching the cadre thinner but by protecting the quality of the visits it can actually complete.</p>
 <h3>Absenteeism and the Limits of Monitoring</h3>
 <p>The most-cited frontline failure is simply not being there. In the landmark six-country study &ldquo;Missing in Action&rdquo; (Chaudhury et al. 2006), on any given day <strong>roughly a quarter of teachers and health workers were absent</strong> from the facilities they were paid to staff &mdash; and absence was highest where supervision and consequences were weakest.</p>
 <div class="stat-grid">
@@ -307,6 +517,63 @@ VALUES
 <div class="comparison-card"><div class="comparison-header"><span class="comparison-icon">1</span><span class="comparison-title">SHG</span></div><div class="comparison-list"><p>10&ndash;20 women. Savings, internal lending, mutual support. The primary institution.</p></div></div>
 <div class="comparison-card"><div class="comparison-header"><span class="comparison-icon">2</span><span class="comparison-title">Village Organisation</span></div><div class="comparison-list"><p>A federation of 10&ndash;15 SHGs in a village. Manages larger funds, resolves disputes, links to schemes.</p></div></div>
 <div class="comparison-card"><div class="comparison-header"><span class="comparison-icon">3</span><span class="comparison-title">Cluster / Block Federation</span></div><div class="comparison-list"><p>Federates village organisations across a cluster or block. Negotiates with banks and the state; runs enterprises.</p></div></div>
+</div>
+<div class="dag-figure">
+  <svg viewBox="0 0 560 300" role="img" aria-label="Nested federation structure: many small self-help groups of ten to fifteen women each aggregate upward into village organisations, which in turn federate into a single cluster or block federation that carries bargaining power with banks and the state."
+       xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+    <defs><marker id="arr07a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker></defs>
+    <!-- tier labels -->
+    <text x="6" y="65" font-size="11" fill="currentColor" stroke="none">Federation</text>
+    <text x="6" y="173" font-size="11" fill="currentColor" stroke="none">Village orgs</text>
+    <text x="6" y="262" font-size="11" fill="currentColor" stroke="none">SHGs</text>
+    <!-- Tier 1: Cluster / Block Federation -->
+    <rect x="245" y="40" width="150" height="46" rx="8" stroke-width="2"/>
+    <text x="320" y="68" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Cluster / Federation</text>
+    <!-- Tier 2: Village Organisations -->
+    <rect x="135" y="150" width="80" height="38" rx="7" stroke-width="1.7"/>
+    <text x="175" y="174" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">VO</text>
+    <rect x="280" y="150" width="80" height="38" rx="7" stroke-width="1.7"/>
+    <text x="320" y="174" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">VO</text>
+    <rect x="425" y="150" width="80" height="38" rx="7" stroke-width="1.7"/>
+    <text x="465" y="174" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">VO</text>
+    <!-- Tier 3: nine SHGs, three tiny member-dots each -->
+    <g stroke-width="1.5">
+      <circle cx="130" cy="255" r="15"/><circle cx="175" cy="255" r="15"/><circle cx="220" cy="255" r="15"/>
+      <circle cx="275" cy="255" r="15"/><circle cx="320" cy="255" r="15"/><circle cx="365" cy="255" r="15"/>
+      <circle cx="420" cy="255" r="15"/><circle cx="465" cy="255" r="15"/><circle cx="510" cy="255" r="15"/>
+    </g>
+    <g fill="currentColor" stroke="none">
+      <circle cx="126" cy="252" r="1.8"/><circle cx="134" cy="252" r="1.8"/><circle cx="130" cy="259" r="1.8"/>
+      <circle cx="171" cy="252" r="1.8"/><circle cx="179" cy="252" r="1.8"/><circle cx="175" cy="259" r="1.8"/>
+      <circle cx="216" cy="252" r="1.8"/><circle cx="224" cy="252" r="1.8"/><circle cx="220" cy="259" r="1.8"/>
+      <circle cx="271" cy="252" r="1.8"/><circle cx="279" cy="252" r="1.8"/><circle cx="275" cy="259" r="1.8"/>
+      <circle cx="316" cy="252" r="1.8"/><circle cx="324" cy="252" r="1.8"/><circle cx="320" cy="259" r="1.8"/>
+      <circle cx="361" cy="252" r="1.8"/><circle cx="369" cy="252" r="1.8"/><circle cx="365" cy="259" r="1.8"/>
+      <circle cx="416" cy="252" r="1.8"/><circle cx="424" cy="252" r="1.8"/><circle cx="420" cy="259" r="1.8"/>
+      <circle cx="461" cy="252" r="1.8"/><circle cx="469" cy="252" r="1.8"/><circle cx="465" cy="259" r="1.8"/>
+      <circle cx="506" cy="252" r="1.8"/><circle cx="514" cy="252" r="1.8"/><circle cx="510" cy="259" r="1.8"/>
+    </g>
+    <!-- SHG -> VO -->
+    <g stroke-width="1.5">
+      <line x1="130" y1="240" x2="168" y2="189" marker-end="url(#arr07a)"/>
+      <line x1="175" y1="240" x2="175" y2="189" marker-end="url(#arr07a)"/>
+      <line x1="220" y1="240" x2="182" y2="189" marker-end="url(#arr07a)"/>
+      <line x1="275" y1="240" x2="313" y2="189" marker-end="url(#arr07a)"/>
+      <line x1="320" y1="240" x2="320" y2="189" marker-end="url(#arr07a)"/>
+      <line x1="365" y1="240" x2="327" y2="189" marker-end="url(#arr07a)"/>
+      <line x1="420" y1="240" x2="458" y2="189" marker-end="url(#arr07a)"/>
+      <line x1="465" y1="240" x2="465" y2="189" marker-end="url(#arr07a)"/>
+      <line x1="510" y1="240" x2="472" y2="189" marker-end="url(#arr07a)"/>
+    </g>
+    <!-- VO -> Federation -->
+    <g stroke-width="1.8">
+      <line x1="175" y1="150" x2="270" y2="87" marker-end="url(#arr07a)"/>
+      <line x1="320" y1="150" x2="320" y2="87" marker-end="url(#arr07a)"/>
+      <line x1="465" y1="150" x2="370" y2="87" marker-end="url(#arr07a)"/>
+    </g>
+  </svg>
+  <div class="dag-caption">Each circle is one self-help group of 10&ndash;15 women; groups nest into village organisations and then a cluster federation, so bargaining power with banks and the state grows tier by tier while member ownership stays at the base.</div>
 </div>
 <div class="key-insight"><div class="key-insight-label"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Layers.svg" alt="" class="sargam-icon"> Federation is a design choice, not a growth accident</div><p>Federating is how a fragile local institution acquires bargaining power, professional staff and financial depth without losing member ownership. But each tier added is a tier that can be captured or can float free of its base. <strong>The design question at every level is the same: does this tier serve the groups below it, or does it start serving itself?</strong></p></div>
 <h3>Ostrom's Design Principles, Mapped to SHG Federations</h3>
@@ -377,6 +644,41 @@ VALUES
 <div class="callout callout-amber"><div class="callout-icon"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Alert.svg" alt="" class="sargam-icon"></div><div class="callout-content"><p><strong>Know the ceiling.</strong> Nudges shift behaviour <em>at the margin</em> &mdash; effect sizes are usually modest, and they cannot fix a structural or supply-side failure. A reminder to visit a clinic is worthless if the clinic has no nurse or no drugs; a savings default cannot conjure income that is not there. Choice architecture works when the barrier is attention, friction, or inertia &mdash; and fails when the barrier is a missing service. Diagnose the constraint (Module 2) before reaching for a nudge.</p></div></div>
 <h3>Platforms vs Point Solutions</h3>
 <p>The deepest lesson of this module is the difference between <em>bolting a fix onto a service</em> and <em>redesigning the platform through which the service is delivered</em>. A point solution &mdash; one more app, one more training, one more kit &mdash; leaves the delivery mechanism untouched and usually disappoints. A platform redesign changes the mechanism itself: the classroom becomes level-grouped, the clinic queue is reordered, the water point becomes the treatment point.</p>
+<p>Shape is not the only thing that must be right; so is the <em>level</em> at which the mechanism is set and steered. Subsidiarity &mdash; the principle that a problem should be handled at the lowest level that can actually see it and act on it &mdash; is what stops a good redesign from being pushed to the wrong rung of the system. Set the decision too high and a single central rule cannot see local variation; set it too low and the unit has neither the reach nor the resources to solve the problem. Getting the level right means matching each problem to the rung that holds both the information and the authority to fix it.</p>
+<div class="dag-figure">
+  <svg viewBox="0 0 540 300" role="img" aria-label="A vertical ladder of governance levels from State at the top down to Household at the bottom. A bracket beside the middle rungs marks where a problem is best solved, with dashed arrows warning that pushing the decision too high or too low breaks the intervention."
+       xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+    <defs><marker id="arr08lvl" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker></defs>
+    <!-- ladder rungs -->
+    <rect x="24" y="16" width="168" height="38" rx="8" stroke-width="2"/>
+    <text x="108" y="40" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">State</text>
+    <rect x="24" y="62" width="168" height="38" rx="8" stroke-width="2"/>
+    <text x="108" y="86" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">District</text>
+    <rect x="24" y="108" width="168" height="38" rx="8" stroke-width="2"/>
+    <text x="108" y="132" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Block</text>
+    <rect x="24" y="154" width="168" height="38" rx="8" stroke-width="2"/>
+    <text x="108" y="178" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Village / Panchayat</text>
+    <rect x="24" y="200" width="168" height="38" rx="8" stroke-width="2"/>
+    <text x="108" y="224" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Household</text>
+    <!-- bracket marking the matched levels -->
+    <path d="M214,64 h8 V125 h6 h-6 V190 h-8" stroke-width="2"/>
+    <line x1="228" y1="127" x2="252" y2="127" stroke-width="2" marker-end="url(#arr08lvl)"/>
+    <text x="258" y="118" font-size="12" fill="currentColor" stroke="none">Match the problem to</text>
+    <text x="258" y="134" font-size="12" fill="currentColor" stroke="none">the rung that holds both</text>
+    <text x="258" y="150" font-size="12" fill="currentColor" stroke="none">the information and the</text>
+    <text x="258" y="166" font-size="12" fill="currentColor" stroke="none">authority to act.</text>
+    <!-- too central (top) -->
+    <line x1="220" y1="35" x2="252" y2="35" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arr08lvl)"/>
+    <text x="258" y="32" font-size="11" fill="currentColor" stroke="none">Too central: one rule</text>
+    <text x="258" y="46" font-size="11" fill="currentColor" stroke="none">can&rsquo;t see local variation</text>
+    <!-- too local (bottom) -->
+    <line x1="220" y1="219" x2="252" y2="219" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arr08lvl)"/>
+    <text x="258" y="216" font-size="11" fill="currentColor" stroke="none">Too local: no reach or</text>
+    <text x="258" y="230" font-size="11" fill="currentColor" stroke="none">resources to solve it</text>
+  </svg>
+  <div class="dag-caption">Getting the level right is matching each problem to the governance rung that can both see it and act on it &mdash; pushing the decision too central or too local breaks the intervention.</div>
+</div>
 <div class="table-wrapper"><table><thead><tr><th>Dimension</th><th>Point solution (add-on)</th><th>Platform redesign</th></tr></thead><tbody>
 <tr><td>What it touches</td><td>A single input bolted onto the existing service</td><td>The delivery mechanism the whole service runs on</td></tr>
 <tr><td>Cost curve</td><td>Rises with each unit added</td><td>Near-flat &mdash; same inputs re-routed</td></tr>
@@ -406,11 +708,45 @@ VALUES
 <div class="definition"><div class="definition-term">Service act</div><div class="definition-text">The intended transaction actually performed &mdash; the grain weighed out honestly, the class taught, the wage paid.</div></div>
 <div class="definition"><div class="definition-term">Uptake</div><div class="definition-text">The beneficiary reached, eligible, and willing to use the service &mdash; not deterred by distance, stigma, or a failed authentication.</div></div>
 <div class="definition"><div class="definition-term">Outcome</div><div class="definition-text">The change the intervention exists to produce &mdash; nutrition, learning, income &mdash; which only appears if all prior links hold.</div></div></div>
-<div class="key-insight"><div class="key-insight-label"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Spark.svg" alt="" class="sargam-icon"> The chain is multiplicative, not additive</div><p>Delivery is a product of probabilities, not a sum. If five links each work 80&percnt; of the time &mdash; individually respectable &mdash; the end-to-end pass rate is 0.8&sup5; &asymp; <strong>33&percnt;</strong>. Two-thirds of the intended effect vanishes without any single link &ldquo;failing.&rdquo; This is why marginal effort is often best spent on the <em>weakest</em> link, not the most visible one, and why designers must know their real per-link odds.</p></div>
+<div class="key-insight"><div class="key-insight-label"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Spark.svg" alt="" class="sargam-icon"> The chain is multiplicative, not additive</div><p>Delivery is a product of probabilities, not a sum. If five links each work 80% of the time &mdash; individually respectable &mdash; the end-to-end pass rate is 0.8&sup5; &asymp; <strong>33%</strong>. Two-thirds of the intended effect vanishes without any single link &ldquo;failing.&rdquo; This is why marginal effort is often best spent on the <em>weakest</em> link, not the most visible one, and why designers must know their real per-link odds.</p></div>
+<div class="dag-figure">
+  <svg viewBox="0 0 780 156" role="img" aria-label="A delivery-chain cascade of five sequential links from Policy to Beneficiary uses. Each hand-off passes only a fraction forward &mdash; 90 percent, then 80 percent, then 85 percent, then 70 percent &mdash; so the cumulative share reaching each link falls from 100 to 90 to 72 to 61 to 43 percent. The end-to-end completion rate of 43 percent is far below any single link's rate."
+       xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+    <defs><marker id="arr09a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker></defs>
+    <rect x="6" y="52" width="118" height="52" rx="8" stroke-width="2"/>
+    <text x="65" y="76" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Policy</text>
+    <text x="65" y="95" text-anchor="middle" font-size="16" fill="currentColor" stroke="none">100%</text>
+    <text x="142" y="44" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">&times;0.90</text>
+    <line x1="124" y1="78" x2="158" y2="78" stroke-width="2" marker-end="url(#arr09a)"/>
+    <rect x="160" y="52" width="118" height="52" rx="8" stroke-width="2"/>
+    <text x="219" y="76" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Funds released</text>
+    <text x="219" y="95" text-anchor="middle" font-size="16" fill="currentColor" stroke="none">90%</text>
+    <text x="296" y="44" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">&times;0.80</text>
+    <line x1="278" y1="78" x2="312" y2="78" stroke-width="2" marker-end="url(#arr09a)"/>
+    <rect x="314" y="52" width="118" height="52" rx="8" stroke-width="2"/>
+    <text x="373" y="76" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Supplies arrive</text>
+    <text x="373" y="95" text-anchor="middle" font-size="16" fill="currentColor" stroke="none">72%</text>
+    <text x="450" y="44" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">&times;0.85</text>
+    <line x1="432" y1="78" x2="466" y2="78" stroke-width="2" marker-end="url(#arr09a)"/>
+    <rect x="468" y="52" width="118" height="52" rx="8" stroke-width="2"/>
+    <text x="527" y="76" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Worker acts</text>
+    <text x="527" y="95" text-anchor="middle" font-size="16" fill="currentColor" stroke="none">61%</text>
+    <text x="604" y="44" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">&times;0.70</text>
+    <line x1="586" y1="78" x2="620" y2="78" stroke-width="2" marker-end="url(#arr09a)"/>
+    <rect x="622" y="52" width="118" height="52" rx="8" stroke-width="3"/>
+    <text x="681" y="76" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Beneficiary uses</text>
+    <text x="681" y="95" text-anchor="middle" font-size="16" fill="currentColor" stroke="none">43%</text>
+    <text x="390" y="132" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Every link is &ldquo;pretty good&rdquo; &mdash; yet only 43% of the intended effect reaches the last mile.</text>
+  </svg>
+  <div class="dag-caption">A delivery-chain cascade: each hand-off passes only a fraction forward, so four respectable links (0.90, 0.80, 0.85, 0.70) compound to an end-to-end rate well below any single one of them.</div>
+</div>
+<div class="equation-box"><div class="equation">\[ p_{\text{end}} \;=\; \prod_{i=1}^{n} p_i \]</div>
+<div class="equation-caption">The end-to-end completion rate \(p_{\text{end}}\) is the <em>product</em> of every link&rsquo;s survival rate \(p_i\), not their average or their minimum. Because rates multiply, a chain of merely &ldquo;pretty good&rdquo; links &mdash; each around 0.8 &mdash; still collapses to a low overall rate, which is precisely why the last mile fails even when no single link looks broken.</div></div>
 <div class="stat-grid">
-<div class="stat-card"><div class="stat-value">0.8&sup5;</div><div class="stat-label">Five links at 80&percnt; each leave roughly 33&percnt; of intended effect</div></div>
-<div class="stat-card"><div class="stat-value">~50&percnt;</div><div class="stat-label">Share of subsidised PDS grain that failed to reach households in the mid-2000s (Khera 2011)</div></div>
-<div class="stat-card"><div class="stat-value">25&percnt;</div><div class="stat-label">Primary-school teachers found absent on any given day (Chaudhury et al. 2006)</div></div>
+<div class="stat-card"><div class="stat-value">0.8&sup5;</div><div class="stat-label">Five links at 80% each leave roughly 33% of intended effect</div></div>
+<div class="stat-card"><div class="stat-value">~50%</div><div class="stat-label">Share of subsidised PDS grain that failed to reach households in the mid-2000s (Khera 2011)</div></div>
+<div class="stat-card"><div class="stat-value">25%</div><div class="stat-label">Primary-school teachers found absent on any given day (Chaudhury et al. 2006)</div></div>
 <div class="stat-card"><div class="stat-value">1 in 4</div><div class="stat-label">Health workers absent in the same multi-country study &mdash; a broken staff link</div></div>
 </div>
 <h3>Where Interventions Leak: The Last Mile and the Missing Middle</h3>
@@ -457,9 +793,37 @@ VALUES
 <tr><td>Exclusion error (undercoverage)</td><td>Genuinely poor households are screened out</td><td>The intended beneficiary &mdash; the person the intervention exists for</td><td>When the benefit is expensive per head and leakage would blow the budget</td></tr>
 <tr><td>Targeting cost</td><td>Surveys, means tests, verification, appeals</td><td>The programme &mdash; and applicants who bear the hassle</td><td>Rarely worth it when the saving from tighter targeting is smaller than the cost of achieving it</td></tr>
 </tbody></table></div>
+<div class="dag-figure">
+  <svg viewBox="0 0 480 300" role="img" aria-label="Two-by-two targeting error matrix. Rows are true status: poor and non-poor. Columns are the programme decision: included and excluded. Poor and included, and non-poor and excluded, are the two correct cells. Non-poor and included is inclusion error, or leakage. Poor and excluded is exclusion error, or undercoverage." xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+    <text x="285" y="22" text-anchor="middle" font-size="13" fill="currentColor" stroke="none" font-style="italic">Programme decision</text>
+    <text x="202" y="46" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Included</text>
+    <text x="367" y="46" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Excluded</text>
+    <text x="24" y="152" text-anchor="middle" font-size="13" fill="currentColor" stroke="none" font-style="italic" transform="rotate(-90 24 152)">True status</text>
+    <text x="92" y="106" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Poor</text>
+    <text x="92" y="201" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Non-poor</text>
+    <rect x="120" y="55" width="330" height="190" rx="8" stroke-width="2"/>
+    <line x1="285" y1="55" x2="285" y2="245" stroke-width="2"/>
+    <line x1="120" y1="150" x2="450" y2="150" stroke-width="2"/>
+    <text x="202" y="96" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Correctly</text>
+    <text x="202" y="113" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">included</text>
+    <text x="202" y="132" text-anchor="middle" font-size="11" fill="currentColor" stroke="none" font-style="italic">(coverage)</text>
+    <text x="367" y="96" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Exclusion error</text>
+    <text x="367" y="113" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">(undercoverage)</text>
+    <text x="367" y="132" text-anchor="middle" font-size="11" fill="currentColor" stroke="none" font-style="italic">the poor screened out</text>
+    <text x="202" y="191" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Inclusion error</text>
+    <text x="202" y="208" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">(leakage)</text>
+    <text x="202" y="227" text-anchor="middle" font-size="11" fill="currentColor" stroke="none" font-style="italic">the non-poor let in</text>
+    <text x="367" y="191" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Correctly</text>
+    <text x="367" y="208" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">excluded</text>
+    <text x="367" y="227" text-anchor="middle" font-size="11" fill="currentColor" stroke="none" font-style="italic">(rightly screened)</text>
+  </svg>
+  <div class="dag-caption">Every targeting rule produces both errors at once: tightening to cut leakage (bottom-left) pushes more of the poor into undercoverage (top-right), and loosening to cover the poor lets more non-poor leak in &mdash; the design choice is which error is cheaper to tolerate here.</div>
+</div>
 <div class="key-insight"><div class="key-insight-label"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Spark.svg" alt="" class="sargam-icon"> The cost of targeting can exceed the savings</div><p>India's debate over a universal Public Distribution System versus a tightly targeted one turns on exactly this. Fine means-testing sounds efficient, but proxy-means tests misclassify large shares of the poor, verification is expensive, and the excluded are precisely those least able to appeal. A broader, near-universal benefit accepts leakage in exchange for near-zero exclusion and low administrative cost &mdash; often the better design for a cheap, essential good. <strong>Targeting is a trade-off to be tuned to the benefit, not a virtue to be maximised.</strong> Module 7 treated the political economy of universal versus targeted; here it is a costed design choice.</p></div>
 <h3>Cost-Effectiveness as a Design Discipline</h3>
 <p>The most common error in comparing interventions is to compare cost per <em>output</em> &mdash; cost per training delivered, per kit distributed &mdash; when what you care about is cost per <em>outcome</em>. An intervention can be cheap per output and ruinously expensive per unit of the change you actually want. Cost-effectiveness analysis forces the denominator to be the outcome: cost per additional year of schooling, per DALY averted, per LAYS (learning-adjusted year of schooling).</p>
+<div class="equation-box"><div class="equation">\[ \text{CE} \;=\; \frac{C}{\Delta Y} \]</div>
+<div class="equation-caption">Cost-effectiveness is the all-in cost \(C\) of the intervention divided by \(\Delta Y\), the <em>additional</em> outcome it causes &mdash; the counterfactual gain, not the gross number reached &mdash; giving cost per unit of outcome, never cost per output.</div></div>
 <div class="stat-grid">
 <div class="stat-card"><div class="stat-value">$3</div><div class="stat-label">approx. cost per additional year of schooling &mdash; deworming where worm loads are high (Kremer et al. 2020)</div></div>
 <div class="stat-card"><div class="stat-value">$100+</div><div class="stat-label">cost per additional year of schooling &mdash; typical conditional cash transfer for attendance</div></div>
@@ -490,6 +854,28 @@ VALUES
 <p>Electrical voltage falls as current travels along a wire; the further it goes, the weaker it arrives. List borrows the image for the gap between the effect an intervention shows in a pilot and the effect that reaches people once it is scaled. The question a designer must ask is not merely &ldquo;does it work?&rdquo; but &ldquo;<em>will it keep its voltage?</em>&rdquo; Al-Ubaydli, List and Suskind call this <em>the science of using science</em> &mdash; the discipline of judging, in advance, whether a piece of evidence is the kind that will scale or the kind that will collapse (Al-Ubaydli et al. 2017; List 2022).</p>
 <div class="definition"><div class="definition-term">Voltage drop</div><div class="definition-text">The reduction in an intervention&rsquo;s treatment effect as it moves from a controlled pilot to full-scale delivery. A programme that lifts test scores by 0.30 SD in a trial and 0.05 SD at scale has lost five-sixths of its voltage.</div></div>
 <div class="key-insight"><div class="key-insight-label"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Spark.svg" alt="" class="sargam-icon"> Scaling is not a growth stage; it is a different intervention</div><p>When you scale, you change who receives the programme, who delivers it, and the environment it operates in. The thing running at national scale is not a bigger copy of the pilot &mdash; it is a new intervention that happens to share a name. <strong>The pilot&rsquo;s evidence is evidence about the pilot, not a promise about the scaled version.</strong></p></div>
+<div class="dag-figure">
+  <svg viewBox="0 0 480 210" role="img" aria-label="A descending bar chart showing an intervention's effect size falling in four steps: high at efficacy (RCT under ideal conditions), lower as effectiveness in a real programme, lower still at national scale, and smallest after political economy — the voltage drop." xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+    <defs><marker id="arr11a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker></defs>
+    <line x1="30" y1="20" x2="30" y2="165" stroke-width="1.5"/>
+    <line x1="30" y1="165" x2="460" y2="165" stroke-width="1.5"/>
+    <text x="30" y="14" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">effect</text>
+    <rect x="55" y="35" width="70" height="130" fill="currentColor" stroke="none" opacity="0.85"/>
+    <rect x="160" y="90" width="70" height="75" fill="currentColor" stroke="none" opacity="0.65"/>
+    <rect x="265" y="125" width="70" height="40" fill="currentColor" stroke="none" opacity="0.45"/>
+    <rect x="370" y="147" width="70" height="18" fill="currentColor" stroke="none" opacity="0.3"/>
+    <path d="M90,30 C160,45 200,85 195,90 C255,100 300,122 300,125 C360,132 400,146 405,147" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arr11a)"/>
+    <text x="90" y="184" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Efficacy</text>
+    <text x="90" y="199" text-anchor="middle" font-size="10" fill="currentColor" stroke="none">RCT, ideal</text>
+    <text x="195" y="184" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Effectiveness</text>
+    <text x="195" y="199" text-anchor="middle" font-size="10" fill="currentColor" stroke="none">real programme</text>
+    <text x="300" y="184" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">National scale</text>
+    <text x="405" y="184" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">After political</text>
+    <text x="405" y="199" text-anchor="middle" font-size="10" fill="currentColor" stroke="none">economy</text>
+  </svg>
+  <div class="dag-caption">The voltage drop: an intervention&rsquo;s measured effect dissipates at each step away from the ideal trial &mdash; the bars are illustrative, but the direction is the recurring finding of List&rsquo;s scaling work.</div>
+</div>
 <h3>The Five Voltage Drops</h3>
 <p>List identifies five distinct reasons an effect fails to travel. They are not interchangeable: each has a different early warning sign and a different design-time remedy. A serious scaling decision interrogates all five before committing a budget.</p>
 <div class="table-wrapper"><table><thead><tr><th>Voltage drop</th><th>What goes wrong</th><th>Design-time diagnostic</th></tr></thead><tbody>
@@ -531,6 +917,34 @@ VALUES
 <div class="comparison-card"><div class="comparison-header"><span class="comparison-icon"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Arrow_upward.svg" alt="" class="sargam-icon"></span><span class="comparison-title">Market / commercial</span></div><div class="comparison-list"><p><strong>Reach:</strong> self-scaling wherever demand and ability-to-pay exist.</p><p><strong>Fidelity:</strong> shaped by price competition, not by your design.</p><p><strong>Durability:</strong> high while the business is viable.</p><p><strong>Cost per head:</strong> borne by the user &mdash; which excludes the poorest.</p></div></div>
 </div>
 <div class="callout callout-amber"><div class="callout-icon"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Alert.svg" alt="" class="sargam-icon"></div><div class="callout-content"><p>No road gives you reach, fidelity, and durability at once. Choosing government buys reach and durability at the cost of fidelity; choosing an NGO buys fidelity at the cost of reach; choosing the market buys durability at the cost of the poorest. The pathway <em>is</em> a trade-off, and pretending otherwise is how programmes drift into a channel that cannot carry them.</p></div></div>
+
+<div class="dag-figure">
+  <svg viewBox="0 0 560 280" role="img" aria-label="One proven pilot node branches into four distinct routes to scale: government adoption or integration into a public system, market or commercial diffusion, NGO replication and franchising, and open-source or crowding-in."
+       xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+    <defs><marker id="arr12scale" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker></defs>
+    <rect x="16" y="112" width="132" height="56" rx="8" stroke-width="2"/>
+    <text x="82" y="136" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Proven pilot</text>
+    <text x="82" y="154" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">(works in 3 districts)</text>
+    <line x1="148" y1="140" x2="384" y2="34" stroke-width="2" marker-end="url(#arr12scale)"/>
+    <line x1="148" y1="140" x2="384" y2="108" stroke-width="2" marker-end="url(#arr12scale)"/>
+    <line x1="148" y1="140" x2="384" y2="180" stroke-width="2" marker-end="url(#arr12scale)"/>
+    <line x1="148" y1="140" x2="384" y2="254" stroke-width="2" marker-end="url(#arr12scale)"/>
+    <rect x="388" y="8" width="164" height="50" rx="8" stroke-width="2"/>
+    <text x="470" y="30" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Government adoption</text>
+    <text x="470" y="46" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">into a public system</text>
+    <rect x="388" y="82" width="164" height="50" rx="8" stroke-width="2"/>
+    <text x="470" y="104" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Market diffusion</text>
+    <text x="470" y="120" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">commercial supply</text>
+    <rect x="388" y="156" width="164" height="50" rx="8" stroke-width="2"/>
+    <text x="470" y="178" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">NGO replication</text>
+    <text x="470" y="194" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">&amp; franchising</text>
+    <rect x="388" y="230" width="164" height="50" rx="8" stroke-width="2" stroke-dasharray="5 4"/>
+    <text x="470" y="252" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Open-source</text>
+    <text x="470" y="268" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">crowding-in</text>
+  </svg>
+  <div class="dag-caption">One proven pilot fans out into four distinct routes to scale &mdash; each with different demands on fidelity, cost, and control &mdash; so scale is a choice among pathways, not an automatic next step (open-source shown dashed: you release the model and let others carry it).</div>
+</div>
 
 <h3>Scaling What? The Question Beneath the Question</h3>
 <p>Before choosing a road, decide what actually travels. "Scale the programme" is usually the wrong instruction. What replicates well is often the <em>principle</em> behind the programme, not its exact form &mdash; a lesson learned painfully whenever a lovingly detailed model is copied and produces nothing (the isomorphic mimicry of Module 1). Distinguish three verbs and three objects.</p>
@@ -583,6 +997,28 @@ VALUES
 </div>
 <h3>Adaptive Management and PDIA</h3>
 <p>The Problem-Driven Iterative Adaptation approach gives the learning process a discipline (Andrews, Pritchett &amp; Woolcock 2017). Rather than importing a best-practice solution and forcing local reality to comply &mdash; the isomorphic mimicry of Module 1 &mdash; PDIA starts from a locally-felt problem and builds the solution through many small, monitored iterations. Each step is a cheap experiment: try something, watch closely, keep what works, drop what does not, and let the next step be shaped by the last. The authors call this <em>crawling the design space</em> &mdash; you do not know the route in advance, so you feel your way toward it, one short, reversible move at a time.</p>
+<div class="dag-figure">
+  <svg viewBox="0 0 460 300" role="img" aria-label="The PDIA cycle: deconstruct the problem, design a small experiment, act and observe, then learn and adapt, with an arrow looping back to the problem to begin the next iteration" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+    <defs><marker id="arr13a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker></defs>
+    <rect x="150" y="14" width="160" height="46" rx="8" stroke-width="2"/>
+    <text x="230" y="34" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Deconstruct the</text>
+    <text x="230" y="50" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">problem</text>
+    <rect x="300" y="127" width="150" height="46" rx="8" stroke-width="2"/>
+    <text x="375" y="147" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Design a small</text>
+    <text x="375" y="163" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">experiment</text>
+    <rect x="150" y="240" width="160" height="46" rx="8" stroke-width="2"/>
+    <text x="230" y="267" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Act &amp; observe</text>
+    <rect x="10" y="127" width="150" height="46" rx="8" stroke-width="2"/>
+    <text x="85" y="147" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Learn &amp; adapt</text>
+    <text x="85" y="163" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">the next move</text>
+    <path d="M312,44 Q400,60 392,123" stroke-width="2" marker-end="url(#arr13a)"/>
+    <path d="M368,175 Q320,245 314,262" stroke-width="2" marker-end="url(#arr13a)"/>
+    <path d="M148,264 Q60,248 68,177" stroke-width="2" marker-end="url(#arr13a)"/>
+    <path d="M92,125 Q140,56 148,42" stroke-width="2" marker-end="url(#arr13a)"/>
+  </svg>
+  <div class="dag-caption">PDIA treats design as a fast, reversible loop &mdash; each pass through the four steps feeds the next &mdash; rather than a linear plan executed once.</div>
+</div>
 <div class="callout callout-blue"><div class="callout-icon"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Info.svg" alt="" class="sargam-icon"></div><div class="callout-content"><p><strong>Positive deviance</strong> is the adaptive designer&rsquo;s favourite raw material. In almost any programme, a few sites, workers, or households already get better results than the rest with the same resources. Instead of importing an outside model, find these deviants, learn what they do differently, and design the next iteration around their practice. It is discovery from inside the system rather than prescription from outside it.</p></div></div>
 <div class="key-insight"><div class="key-insight-label"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Spark.svg" alt="" class="sargam-icon"> Iterations must be small, fast, and monitored</div><p>Adaptation is not the freedom to change anything at any time. Its power comes from a tight loop: a change small enough that its effect can be attributed, fast enough that you learn before the window closes, and monitored closely enough that you actually see the effect. An unmonitored change is not adaptation &mdash; it is drift. <strong>The learning loop, not the flexibility, is the design.</strong></p></div>
 <h3>Developmental Evaluation and Rapid-Cycle Testing</h3>
@@ -626,6 +1062,49 @@ VALUES
 <div class="section-intro"><p class="lead">Every module so far handed you one instrument &mdash; a diagnosis, a theory of change, a model, a delivery map, a scale test. This capstone is where you assemble them. Pick <strong>one</strong> problem you care about &mdash; a real one, in a district or community you know &mdash; and carry it through the whole pipeline until you can hand a critic a design memo that survives their hardest questions. The test of learning here is not recall; it is whether you can design an intervention that a hostile reviewer, a sceptical funder, and the people it is meant to serve would each recognise as honest.</p></div>
 <h3>The End-to-End Design Walk</h3>
 <p>An intervention is designed in a sequence, and each step constrains the next. Work them in order &mdash; the discipline is refusing to name a model before you have diagnosed the problem, and refusing to talk scale before you know the mechanism fires. Take your one problem down this ladder.</p>
+<div class="dag-figure">
+  <svg viewBox="0 0 720 250" role="img" aria-label="A single pathway showing the arc of the whole course: diagnose the problem, then write a theory of change, then choose a model, then get the level and delivery chain right, then check incentives, targeting and cost, then design for scale and adaptation. Each stage is a labelled stop the student walks in the studio." xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+    <defs><marker id="arr14map" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker></defs>
+    <text x="360" y="20" text-anchor="middle" font-size="13" fill="currentColor" stroke="none" opacity="0.75">The one pathway you walk in the studio</text>
+
+    <rect x="20" y="40" width="196" height="46" rx="8" stroke-width="2"/>
+    <text x="118" y="62" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Diagnose the problem</text>
+    <text x="118" y="78" text-anchor="middle" font-size="11" fill="currentColor" stroke="none" opacity="0.7">binding constraint, not symptom</text>
+
+    <rect x="262" y="40" width="196" height="46" rx="8" stroke-width="2"/>
+    <text x="360" y="62" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Theory of change</text>
+    <text x="360" y="78" text-anchor="middle" font-size="11" fill="currentColor" stroke="none" opacity="0.7">mechanism + the sinking assumption</text>
+
+    <rect x="504" y="40" width="196" height="46" rx="8" stroke-width="2"/>
+    <text x="602" y="62" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Choose the model</text>
+    <text x="602" y="78" text-anchor="middle" font-size="11" fill="currentColor" stroke="none" opacity="0.7">logic that matches the mechanism</text>
+
+    <line x1="216" y1="63" x2="256" y2="63" stroke-width="2" marker-end="url(#arr14map)"/>
+    <line x1="458" y1="63" x2="498" y2="63" stroke-width="2" marker-end="url(#arr14map)"/>
+    <path d="M602,86 C602,120 118,120 118,150" stroke-width="2" marker-end="url(#arr14map)"/>
+
+    <rect x="20" y="158" width="196" height="46" rx="8" stroke-width="2"/>
+    <text x="118" y="180" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Level &amp; delivery chain</text>
+    <text x="118" y="196" text-anchor="middle" font-size="11" fill="currentColor" stroke="none" opacity="0.7">right level, weakest link named</text>
+
+    <rect x="262" y="158" width="196" height="46" rx="8" stroke-width="2"/>
+    <text x="360" y="176" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Incentives, targeting,</text>
+    <text x="360" y="191" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">cost</text>
+
+    <rect x="504" y="158" width="196" height="46" rx="8" stroke-width="2"/>
+    <text x="602" y="176" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Scale &amp; adaptation</text>
+    <text x="602" y="191" text-anchor="middle" font-size="11" fill="currentColor" stroke="none" opacity="0.7">who scales, where voltage drops</text>
+
+    <line x1="216" y1="181" x2="256" y2="181" stroke-width="2" marker-end="url(#arr14map)"/>
+    <line x1="458" y1="181" x2="498" y2="181" stroke-width="2" marker-end="url(#arr14map)"/>
+
+    <line x1="504" y1="226" x2="700" y2="226" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <text x="602" y="242" text-anchor="middle" font-size="11" fill="currentColor" stroke="none" opacity="0.7">learning loops run back to every stage</text>
+    <path d="M504,226 C420,226 200,226 118,208" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#arr14map)"/>
+  </svg>
+  <div class="dag-caption">The whole course is one pathway &mdash; each stop constrains the next, and a learning loop (dashed) feeds evidence back so any stage can be revised; the studio is where you walk your own problem down it.</div>
+</div>
 <div class="capstone-timeline">
 <div class="capstone-phase"><div class="phase-number">1</div><div class="phase-content"><h5>Diagnose the problem</h5><p>What kind of problem is this &mdash; information, incentive, capacity, belief, or coordination? Name the binding constraint, not the symptom. (Module 2)</p></div></div>
 <div class="capstone-phase"><div class="phase-number">2</div><div class="phase-content"><h5>Write a falsifiable theory of change</h5><p>State the mechanism in one sentence and list the assumptions it rides on. Mark the one assumption that, if wrong, sinks the whole design. (Module 3)</p></div></div>
