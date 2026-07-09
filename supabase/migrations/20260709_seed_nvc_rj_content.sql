@@ -13,9 +13,43 @@ VALUES
 
 <h3>From <em>ahimsa</em> to method</h3>
 <p>The Sanskrit <em>ahimsa</em> — literally "non-harm" — is older than Gandhi, running through Jain, Buddhist and Hindu ethical traditions. Gandhi's contribution was to make it <strong>active and political</strong>: <em>satyagraha</em> ("holding firmly to truth") is not passive non-resistance but a militant, disciplined confrontation with injustice that accepts suffering rather than inflicting it. The three traditions in this course are, in effect, <em>satyagraha scaled down</em> — from the mass movement to the conversation, the household, and the community circle.</p>
+
+<div class="definition">
+  <div class="definition-term">Ahimsa, satyagraha &mdash; and why neither means &ldquo;being passive&rdquo;</div>
+  <div class="definition-text"><strong>Ahimsa</strong> is the ethical floor: do no injury, in thought, word or deed. <strong>Satyagraha</strong> is the method Gandhi built on that floor &mdash; a &ldquo;truth-force&rdquo; that <em>confronts</em> injustice openly, non-cooperates with it, and absorbs the resulting suffering rather than passing it on. The common misreading is to hear both words as counsels of quietness. Gandhi was blunt that they are not: he preferred violence to cowardice, holding that the person who runs from a fight has not practised nonviolence at all. Nonviolence is the discipline of the strong who <em>could</em> retaliate and choose a harder path &mdash; not the resignation of those who feel they cannot.</div>
+</div>
+
 <blockquote>Nonviolence is not a garment to be put on and off at will. Its seat is in the heart, and it must be an inseparable part of our very being.
 <cite>M.K. Gandhi, <em>Harijan</em>, 1936</cite></blockquote>
 <p>The unifying claim, common to all three, is the Gandhian axiom that <strong>means and ends are inseparable</strong>: a just outcome cannot be reached through unjust means, because the means become the emerging end. You cannot punish people into genuine accountability, shout people into being heard, or coerce a child into trusting you.</p>
+
+<div class="dag-figure">
+  <svg viewBox="0 0 520 232" role="img" aria-label="Three labelled boxes — NVC, Non-Violent Resistance, and Restorative Justice — all with arrows pointing into a central circle labelled: refuse to dominate, refuse to submit."
+       xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+    <defs><marker id="arrM01a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker></defs>
+    <!-- three tradition nodes -->
+    <rect x="200" y="10" width="120" height="44" rx="8" stroke-width="2"/>
+    <text x="260" y="30" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">NVC</text>
+    <text x="260" y="46" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">the conversation</text>
+    <rect x="24" y="166" width="128" height="46" rx="8" stroke-width="2"/>
+    <text x="88" y="187" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Non-Violent</text>
+    <text x="88" y="203" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Resistance</text>
+    <rect x="368" y="166" width="128" height="46" rx="8" stroke-width="2"/>
+    <text x="432" y="187" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Restorative</text>
+    <text x="432" y="203" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Justice</text>
+    <!-- shared centre -->
+    <circle cx="260" cy="120" r="54" stroke-width="2"/>
+    <text x="260" y="110" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">refuse to dominate</text>
+    <text x="260" y="126" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">&mdash;</text>
+    <text x="260" y="142" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">refuse to submit</text>
+    <!-- edges converging on the centre -->
+    <line x1="260" y1="54" x2="260" y2="64" stroke-width="2" marker-end="url(#arrM01a)"/>
+    <line x1="152" y1="176" x2="209" y2="143" stroke-width="2" marker-end="url(#arrM01a)"/>
+    <line x1="368" y1="176" x2="311" y2="143" stroke-width="2" marker-end="url(#arrM01a)"/>
+  </svg>
+  <div class="dag-caption">Three traditions, three scales of social life, one shared commitment: each is a way of holding the line against harm without either dominating or submitting.</div>
+</div>
 
 <h3>Three levels, three questions</h3>
 <p>Each tradition operates at a different scale of social life and answers a different practical question. Holding them together is what makes a rounded nonviolent practitioner.</p>
@@ -31,6 +65,20 @@ VALUES
 <div class="key-insight">
   <div class="key-insight-label"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Spark.svg" alt="" class="sargam-icon"> Orientation</div>
   <p>Nonviolence is often confused with niceness. It is not. All three traditions are compatible with firmness, anger, and the refusal to comply with harm. What they rule out is <strong>the intent to injure</strong> — and the fantasy that you can build peace by winning.</p>
+</div>
+
+<div class="worked-example"><div class="worked-example-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Clipboard.svg" alt="" class="sargam-icon"> Case &mdash; the contested field boundary</div>
+<p>A small NGO in rural Bihar supports a Dalit family whose one-acre plot borders land farmed for generations by a dominant-caste neighbour. After a survey, the neighbour quietly ploughs three feet past the old bund, absorbing a strip of the family's field. When the family objects, he says what he has always said: &ldquo;this has always been ours.&rdquo; The field programme officer must decide how to respond. Three roads open up.</p>
+<p><strong>Approach A &mdash; domination / retaliation.</strong> The officer helps the family answer force with force: mobilise their own caste kin, plough the strip back under cover of night, file a countervailing complaint, humiliate the neighbour in the village. It <em>feels</em> like justice and it may even recover the three feet. But it confirms the neighbour's story that this is a caste war to be won, hardens both sides, and leaves the family more exposed the day the officer's project ends. The means &mdash; domination &mdash; has become the end: another cycle of who-can-overpower-whom.</p>
+<p><strong>Approach B &mdash; submission / appeasement.</strong> To &ldquo;keep the peace,&rdquo; the officer counsels the family to let it go: three feet is not worth the risk, smile, stay on good terms, hope for goodwill later. This is not nonviolence; it is the fear that Gandhi called cowardice dressed as virtue. The harm is simply absorbed by those least able to bear it, the neighbour learns that encroachment carries no cost, and the family's trust in the NGO quietly erodes.</p>
+<p><strong>Approach C &mdash; the nonviolent third path.</strong> The officer refuses both the fist and the flinch. The family names the harm plainly and publicly &mdash; the survey pegs are produced, the encroachment is stated as an <em>observation</em>, not an insult (&ldquo;the plough line has moved past the marked boundary&rdquo;), and a clear request is made: restore the bund, before the panchayat if need be. The officer lines up witnesses and allies so the family is not standing alone (the NVR move), keeps the door open to the neighbour as a person rather than a monster (the NVC move), and frames the aim as repair of a relationship both families must live inside for decades (the restorative move). The neighbour is offered a way to return the land <em>without</em> total loss of face. It is slower and riskier than either reflex &mdash; and it is the only road that does not plant the next dispute.</p></div>
+
+<div class="concept-box"><div class="concept-box-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Direction_alt.svg" alt="" class="sargam-icon"> Naming the third path</div>
+  <p>Most conflict presents itself as a fork with only two prongs: <strong>fight</strong> or <strong>fold</strong>, dominate or submit, the fist or the flinch. Nonviolence is the discipline of finding &mdash; and holding &mdash; a third position that keeps both prongs at bay at once. Judith Butler calls this an &ldquo;ethics of restraint&rdquo; that is nonetheless a form of aggression channelled; Gene Sharp catalogued its hundreds of concrete methods; Gandhi lived it as <em>satyagraha</em>. Across all of them the shape is the same:</p>
+  <div class="comparison-cards">
+    <div class="comparison-card"><strong>Not passivity</strong><br>The harm is named, faced, and actively resisted. Silence and appeasement are ruled out as firmly as violence.</div>
+    <div class="comparison-card"><strong>Not domination</strong><br>The other party is confronted, not crushed. They are always left a route back that does not require their annihilation or total humiliation.</div>
+  </div>
 </div>
 
 <div class="concept-box"><div class="concept-box-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Book.svg" alt="" class="sargam-icon"> Core readings</div>
@@ -52,54 +100,83 @@ VALUES
       <a href="lexicon.html" class="coach-link secondary">Open the lexicon</a>
     </div>
   </div>
-</div>$html$,
+</div>
+
+<div class="reflection-prompt"><p><strong>Reflect.</strong> Take one live conflict from your own work and write out its Approach A and Approach B honestly &mdash; the version where you win, and the version where you keep the peace by giving way. Now describe the third path that refuses both. Which of the two reflexes is yours by default, and what would it cost you to let go of winning?</p></div>$html$,
   NULL,
   true),
 ('nvc-rj', 2, 'Module 2: NVC Foundations',
   'Marshall Rosenberg (1934–2015), a clinical psychologist who trained under Carl Rogers and worked in school desegregation in the 1960s American South, distilled a model of communication he called Nonviolent Communication (NVC), also "Compassionate Communication." Its wager: most conflict escalates not because needs clash, but because we express them as judgments.',
   $html$<h2>Module 2: NVC Foundations</h2>
-<div class="section-intro"><p class="lead">Marshall Rosenberg (1934–2015), a clinical psychologist who trained under Carl Rogers and worked in school desegregation in the 1960s American South, distilled a model of communication he called <strong>Nonviolent Communication</strong> (NVC), also "Compassionate Communication." Its wager: most conflict escalates not because needs clash, but because we express them as <em>judgments</em>.</p></div>
+<div class="section-intro"><p class="lead">Marshall Rosenberg (1934&ndash;2015), a clinical psychologist who trained under Carl Rogers and worked in school desegregation in the 1960s American South, distilled a model of communication he called <strong>Nonviolent Communication</strong> (NVC), also &ldquo;Compassionate Communication.&rdquo; Its wager: most conflict escalates not because needs clash, but because we express them as <em>judgments</em>. The word he chose &mdash; <em>nonviolent</em> &mdash; is a deliberate nod to Gandhi&rsquo;s <em>ahimsa</em>: not merely the absence of blows, but a positive quality of the heart that stays connected to the humanity of the person in front of you.</p></div>
 
 <h3>Life-alienating communication</h3>
-<p>Rosenberg catalogued the habits of speech that "block compassion" and predictably trigger defence and counter-attack:</p>
+<p>Rosenberg catalogued the habits of speech that &ldquo;block compassion&rdquo; and predictably trigger defence and counter-attack:</p>
 <ul>
-  <li><strong>Moralistic judgments</strong> — implying wrongness or badness in those who don't act in harmony with our values ("she's lazy", "you're inconsiderate"). Distinct from <em>value judgments</em> about what we need and care about.</li>
-  <li><strong>Making comparisons</strong> — a form of judgment that guarantees misery.</li>
-  <li><strong>Denial of responsibility</strong> — language that obscures agency: "I <em>had</em> to", "you <em>make</em> me feel", "company policy", "orders."</li>
-  <li><strong>Communicating desires as demands</strong> — where non-compliance is expected to bring blame or punishment.</li>
+  <li><strong>Moralistic judgments</strong> &mdash; implying wrongness or badness in those who don&rsquo;t act in harmony with our values (&ldquo;she&rsquo;s lazy&rdquo;, &ldquo;you&rsquo;re inconsiderate&rdquo;). Distinct from <em>value judgments</em> about what we need and care about.</li>
+  <li><strong>Making comparisons</strong> &mdash; a form of judgment that guarantees misery.</li>
+  <li><strong>Denial of responsibility</strong> &mdash; language that obscures agency: &ldquo;I <em>had</em> to&rdquo;, &ldquo;you <em>make</em> me feel&rdquo;, &ldquo;company policy&rdquo;, &ldquo;orders.&rdquo;</li>
+  <li><strong>Communicating desires as demands</strong> &mdash; where non-compliance is expected to bring blame or punishment.</li>
 </ul>
-<p>Underneath, Rosenberg drew on a stark diagnosis (borrowed from Walter Wink and O.J. Harvey): a "domination culture" trains us in the language of <em>who deserves what</em> — the language of deserving, of good and bad people — which makes punishment and reward feel natural and violence righteous.</p>
+<p>Underneath, Rosenberg drew on a stark diagnosis (borrowed from Walter Wink and O.J. Harvey): a &ldquo;domination culture&rdquo; trains us in the language of <em>who deserves what</em> &mdash; the language of deserving, of good and bad people &mdash; which makes punishment and reward feel natural and violence righteous.</p>
+
+<div class="definition">
+  <div class="definition-term">Life-alienating communication</div>
+  <div class="definition-text">Any speech that disconnects us from the natural state of compassion &mdash; by locating the cause of our feelings in others&rsquo; wrongness rather than in our own unmet needs. Rosenberg named four recurring forms: <strong>moralistic judgments</strong>, <strong>comparisons</strong>, <strong>denial of responsibility</strong>, and <strong>demands</strong>. Each quietly relocates power and accountability outside the speaker, and each all but guarantees the listener will hear an attack rather than a request.</div>
+</div>
+
+<div class="dag-figure">
+  <svg viewBox="0 0 520 232" role="img" aria-label="Two labelled columns show a shift in stance. The left column, Jackal or life-alienating communication, lists moralistic judgment, blame and comparison, demand, and denial of responsibility. A wide arrow points from the left column to the right column, Giraffe or life-connecting communication, which lists observation, feeling, need, and request. The arrow marks the move from a stance of judging who is wrong to a stance of naming what is alive and what would help."
+       xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+    <defs><marker id="arrNvc02a" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker></defs>
+    <rect x="14" y="30" width="190" height="182" rx="10" stroke-width="2"/>
+    <text x="109" y="54" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Jackal</text>
+    <text x="109" y="72" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">life-alienating</text>
+    <line x1="34" y1="84" x2="184" y2="84" stroke-width="1"/>
+    <text x="109" y="108" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Moralistic judgment</text>
+    <text x="109" y="136" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Blame &amp; comparison</text>
+    <text x="109" y="164" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Demand</text>
+    <text x="109" y="192" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Denial of responsibility</text>
+    <line x1="208" y1="121" x2="304" y2="121" stroke-width="3" marker-end="url(#arrNvc02a)"/>
+    <text x="258" y="110" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">shift</text>
+    <rect x="316" y="30" width="190" height="182" rx="10" stroke-width="2"/>
+    <text x="411" y="54" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Giraffe</text>
+    <text x="411" y="72" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">life-connecting</text>
+    <line x1="336" y1="84" x2="486" y2="84" stroke-width="1"/>
+    <text x="411" y="108" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Observation</text>
+    <text x="411" y="136" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Feeling</text>
+    <text x="411" y="164" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Need</text>
+    <text x="411" y="192" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Request</text>
+  </svg>
+  <div class="dag-caption">The core move of NVC: from a jackal stance that judges who is wrong to a giraffe stance that names what happened, what one feels, what one needs, and what one is asking for.</div>
+</div>
 
 <h3>Needs, not strategies</h3>
-<p>The pivot of NVC is the distinction between <strong>needs</strong> — universal human requirements for wellbeing (safety, respect, autonomy, connection, rest, meaning) — and <strong>strategies</strong>, the specific things we do to meet them. Conflict lives at the level of strategies; connection is possible at the level of needs, because needs are shared.</p>
+<p>The pivot of NVC is the distinction between <strong>needs</strong> &mdash; universal human requirements for wellbeing (safety, respect, autonomy, connection, rest, meaning) &mdash; and <strong>strategies</strong>, the specific things we do to meet them. Conflict lives at the level of strategies; connection is possible at the level of needs, because needs are shared.</p>
 <div class="definition">
   <div class="definition-term">Two questions</div>
   <div class="definition-text">Rosenberg framed the whole practice as helping two people answer: (1) <em>What is alive in us?</em> and (2) <em>What would make life more wonderful?</em> Everything technical serves those two questions.</div>
 </div>
 <div class="callout callout-purple">
   <div class="callout-icon"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Chat.svg" alt="" class="sargam-icon"></div>
-  <div class="callout-content"><p><strong>Giraffe &amp; Jackal.</strong> In his trainings Rosenberg used hand-puppets: the <em>jackal</em> (the language of judgment, close to the ground) and the <em>giraffe</em> (the land animal with the largest heart, and a long neck for perspective). They are teaching devices, not personality types — everyone speaks both.</p></div>
+  <div class="callout-content"><p><strong>Giraffe &amp; Jackal.</strong> In his trainings Rosenberg used hand-puppets: the <em>jackal</em> (the language of judgment, close to the ground) and the <em>giraffe</em> (the land animal with the largest heart, and a long neck for perspective). They are teaching devices, not personality types &mdash; everyone speaks both.</p></div>
 </div>
+
+<div class="worked-example"><div class="worked-example-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Clipboard.svg" alt="" class="sargam-icon"> Case &mdash; from &ldquo;you&rsquo;re so irresponsible&rdquo; to a need</div>
+<p>A programme lead in a Bengaluru NGO opens her laptop on Monday and sees that a field colleague has again submitted the beneficiary count two days late. The sentence that arrives, fully formed, is: <em>&ldquo;You&rsquo;re so irresponsible.&rdquo;</em> Watch it move.</p>
+<p><strong>Approach A &mdash; the jackal sentence, said or swallowed.</strong> &ldquo;You&rsquo;re so irresponsible&rdquo; is a moralistic judgment: it diagnoses the person, not the event. If she says it, the colleague hears an attack on his character and defends it (&ldquo;you have no idea what my week looked like&rdquo;); if she swallows it, it hardens into a story about who he <em>is</em>. Either way the actual problem &mdash; a report she can act on &mdash; is now buried under a fight about worth.</p>
+<p><strong>Approach B &mdash; the internal shift, then the words.</strong> Before speaking, she runs the sentence backwards through four questions. <em>What did I actually see?</em> Not &ldquo;irresponsible&rdquo; but &ldquo;the count arrived Wednesday for a Monday deadline, the second time this month&rdquo; &mdash; an <strong>observation</strong>, checkable, free of evaluation. <em>What am I feeling?</em> Under the flash of anger, <strong>anxious</strong>, and a little alone with it. <em>What need is under that?</em> Not &ldquo;he should be better&rdquo; but her own need for <strong>reliability and shared responsibility</strong> &mdash; she cannot plan the donor update without the numbers. <em>What am I asking?</em> A concrete, doable <strong>request</strong>, not a demand: &ldquo;Would you be willing to send me the count by Monday noon, or message me by Friday if that won&rsquo;t be possible?&rdquo; The out-loud version becomes: &ldquo;The count came in on Wednesday again this week&mdash;I&rsquo;m anxious because I can&rsquo;t build the donor report without it, and I need to be able to rely on the timing. Would Monday noon work, or can we find a deadline that does?&rdquo; Notice what changed <em>inside</em> before any word did: the cause of her feeling moved from his character to her own unmet need, which is the one thing she can actually speak from without attack &mdash; and the one thing he can respond to without defending himself.</p></div>
 
 <div class="concept-box"><div class="concept-box-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Book.svg" alt="" class="sargam-icon"> Core readings</div>
   <ul>
-    <li>Marshall Rosenberg — <em>Nonviolent Communication: A Language of Life</em> (3rd ed., 2015)</li>
-    <li>Marshall Rosenberg — <em>Speak Peace in a World of Conflict</em> (2005)</li>
-    <li>Oren Jay Sofer — <em>Say What You Mean</em> (2018) — NVC + mindfulness</li>
+    <li>Marshall Rosenberg &mdash; <em>Nonviolent Communication: A Language of Life</em> (3rd ed., 2015)</li>
+    <li>Marshall Rosenberg &mdash; <em>Speak Peace in a World of Conflict</em> (2005)</li>
+    <li>Oren Jay Sofer &mdash; <em>Say What You Mean</em> (2018) &mdash; NVC + mindfulness</li>
   </ul>
 </div>
 
-<div class="coach-callout">
-  <img loading="lazy" src="https://www.impactmojo.in/assets/images/varna-photo.jpg" alt="Coach Varna" class="coach-photo">
-  <div class="coach-content">
-    <div class="coach-name">Varna</div>
-    <div class="coach-message">Try catching yourself mid-judgment this week and ask, "What need of mine is under that?" The move from blaming to naming a need is the whole practice in miniature.</div>
-    <div class="coach-links">
-      <a href="/coaching" class="coach-link">Book a coaching session</a>
-      <a href="lexicon.html" class="coach-link secondary">Open the lexicon</a>
-    </div>
-  </div>
-</div>$html$,
+<div class="reflection-prompt"><p><strong>Reflect.</strong> Catch one judgment you made this week about a colleague or family member &mdash; the shorter and more certain the label, the better. Trace it back through the four questions: what did you actually observe, what did you feel, and what need of yours was underneath? And the hardest one: are you willing to voice that need as a request the other person could say no to, without it becoming a demand?</p></div>$html$,
   NULL,
   false),
 ('nvc-rj', 3, 'Module 3: The Four Components',
@@ -120,6 +197,28 @@ VALUES
 <blockquote>Observing without evaluating is the highest form of human intelligence.
 <cite>J. Krishnamurti, quoted approvingly by Rosenberg</cite></blockquote>
 
+<div class="dag-figure">
+  <svg viewBox="0 0 560 210" role="img" aria-label="The OFNR cycle: Observation leads to Feeling, Feeling to Need, Need to Request, and the Request loops back through connection and dialogue to a fresh observation."
+       xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+    <defs><marker id="ofnrArr03" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker></defs>
+    <rect x="14" y="30" width="112" height="46" rx="8" stroke-width="2"/>
+    <text x="70" y="58" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Observation</text>
+    <rect x="152" y="30" width="112" height="46" rx="8" stroke-width="2"/>
+    <text x="208" y="58" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Feeling</text>
+    <rect x="290" y="30" width="112" height="46" rx="8" stroke-width="2"/>
+    <text x="346" y="58" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Need</text>
+    <rect x="428" y="30" width="118" height="46" rx="8" stroke-width="2"/>
+    <text x="487" y="58" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Request</text>
+    <line x1="126" y1="53" x2="148" y2="53" stroke-width="2" marker-end="url(#ofnrArr03)"/>
+    <line x1="264" y1="53" x2="286" y2="53" stroke-width="2" marker-end="url(#ofnrArr03)"/>
+    <line x1="402" y1="53" x2="424" y2="53" stroke-width="2" marker-end="url(#ofnrArr03)"/>
+    <path d="M487,76 C487,150 70,150 70,80" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ofnrArr03)"/>
+    <text x="278" y="140" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">connection &amp; dialogue &mdash; a "yes" or a "no" begins the next observation</text>
+  </svg>
+  <div class="dag-caption">OFNR is a loop, not a ladder: the response to a request — including a "no" — feeds back as fresh observation, so connection keeps circulating rather than closing.</div>
+</div>
+
 <h3>Request or demand? The test is in the response to "no"</h3>
 <p>The same sentence — "Would you be willing to take the bins out tonight?" — is a request or a demand depending entirely on what happens when the answer is no. If the "no" is treated as information about the other's needs (and you look for a strategy that works for both), it was a request. If the "no" brings coldness, guilt-tripping or retaliation, it was a demand wearing polite clothing. NVC insists that <strong>we cannot make anyone do anything</strong>; we can only create the quality of connection in which people give willingly.</p>
 <div class="key-insight">
@@ -128,24 +227,25 @@ VALUES
   <strong>Giraffe (OFNR):</strong> "In the last two meetings, when I finished a point you moved straight to the agenda <em>(observation)</em>. I felt discouraged <em>(feeling)</em>, because I really want my contributions to land <em>(need)</em>. Would you be willing to tell me back what you heard before we move on? <em>(request)</em>"</p>
 </div>
 
+<div class="definition">
+  <div class="definition-term">Need vs strategy</div>
+  <div class="definition-text">A <strong>need</strong> is universal and impersonal — for rest, for reliability, for respect, for ease — and can be met in many ways. A <strong>strategy</strong> is one particular person doing one particular thing at one particular time. Conflict almost never lives at the level of needs (everyone wants reliability); it lives at the level of competing strategies. Naming the need first widens the field of workable strategies, so a "no" to <em>your</em> strategy is not a "no" to <em>your</em> need.</div>
+</div>
+
+<div class="worked-example"><div class="worked-example-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Clipboard.svg" alt="" class="sargam-icon"> Case &mdash; the Sunday phone call</div>
+<p>Meera, in Bengaluru, wants her adult son Arjun, newly moved to Pune for work, to call every Sunday evening. Two Sundays pass with no call. Under her irritation is a need for connection and reassurance that he is well.</p>
+<p><strong>Approach A &mdash; the demand in polite clothing.</strong> "A good son would call his mother. If you can't manage one call a week, don't bother." The words request nothing; the tone promises punishment for a "no". When Arjun explains that Sunday evenings are when his shift ends late, Meera hears an excuse, goes quiet, and lets the guilt do its work. He may start calling — resentfully, watching the clock — or stop altogether. Either way the connection she actually wants has been spent to buy the behaviour.</p>
+<p><strong>Approach B &mdash; the genuine request, and a real "no".</strong> "The last two Sundays went by without a call <em>(observation)</em>. I noticed I felt a bit anxious <em>(feeling)</em>, because staying connected with you matters to me and I like knowing you're settling in <em>(need)</em>. Would you be willing to call this Sunday? <em>(present, positive, concrete request)</em>" Arjun answers: "Sundays are impossible — that's when my shift runs over." Because Meera made a request, not a demand, the "no" is information, not injury. She stays with the <em>need</em>, which was never "Sunday" but connection: "Ah — so Sunday doesn't work. What if we found any evening that does, even a five-minute message when you can?" They settle on Wednesdays. The request/demand test passes precisely because the "no" changed the strategy without wounding the relationship.</p>
+</div>
+
 <div class="concept-box"><div class="concept-box-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Book.svg" alt="" class="sargam-icon"> Practise this</div>
   <ul>
-    <li>Rosenberg — <em>NVC: A Language of Life</em>, chs. 3–6 (one chapter per component)</li>
+    <li>Rosenberg — <em>NVC: A Language of Life</em>, chs. 3&ndash;6 (one chapter per component)</li>
     <li>CNVC "feelings &amp; needs inventories" (Center for Nonviolent Communication)</li>
   </ul>
 </div>
 
-<div class="coach-callout">
-  <img loading="lazy" src="https://www.impactmojo.in/assets/images/varna-photo.jpg" alt="Coach Varna" class="coach-photo">
-  <div class="coach-content">
-    <div class="coach-name">Varna</div>
-    <div class="coach-message">Don't let OFNR turn into a robotic formula — the four steps only work when the connection behind them is real. Practise on a low-stakes irritation first, and watch what happens to your own "no".</div>
-    <div class="coach-links">
-      <a href="/coaching" class="coach-link">Book a coaching session</a>
-      <a href="lexicon.html" class="coach-link secondary">Open the lexicon</a>
-    </div>
-  </div>
-</div>$html$,
+<div class="reflection-prompt"><p><strong>Reflect.</strong> Recall a recent "request" you made that was really a demand. Restate it as full OFNR, then name the underlying need beneath your preferred strategy. Now sit with the hardest part: if that person said a clear "no", could you still stay in connection — or would some part of you reach for guilt, distance or punishment?</p></div>$html$,
   NULL,
   false),
 ('nvc-rj', 4, 'Module 4: Empathy, Self-Empathy & the Uses of Force',
@@ -155,8 +255,23 @@ VALUES
 
 <h3>Empathy as presence, not technique</h3>
 <p>For Rosenberg, empathy is "a respectful understanding of what others are experiencing" — emptying our mind and listening with our whole being. It is <em>not</em> advising, reassuring, correcting, one-upping, or explaining. Empathic listening guesses at the other's feelings and needs ("Are you frustrated because you were hoping for more warning?") and stays until the person feels fully received — signalled by a release of tension or a natural falling-silent.</p>
+
+<div class="definition"><div class="definition-term">Empathy vs sympathy, advice &amp; fixing</div><div class="definition-text">Sympathy speaks about <em>my</em> reaction to your pain ("Oh, how awful, I feel terrible for you"). Advice and fixing rush to make the pain go away ("Have you tried&hellip;?"). Reassurance overrides it ("I&rsquo;m sure it&rsquo;ll be fine"). Empathy does none of these: it stays <em>with</em> the person&rsquo;s experience and reflects the living feeling and need underneath their words. Rosenberg&rsquo;s rule of thumb — <em>don&rsquo;t just do something, stand there</em> — inverts the fixer&rsquo;s instinct. The presence itself is the intervention.</div></div>
+
+<div class="concept-box"><div class="concept-box-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Direction_alt.svg" alt="" class="sargam-icon"> Empathy before strategy</div>
+<p>The commonest NVC failure is jumping to solutions before either party feels heard. The sequence Rosenberg taught runs one direction only:</p>
+<ol>
+  <li><strong>Self-empathy first</strong> — hear your own judgment, find the need under it, so you are not reacting from an enemy image.</li>
+  <li><strong>Empathy for the other</strong> — guess their feelings and needs until they feel fully received.</li>
+  <li><strong>Strategy last</strong> — only once both sets of needs are on the table do you look for a request or plan that serves them.</li>
+</ol>
+<p>Reverse the order and even a good solution lands as a fix imposed on a person who does not yet feel understood — and is refused for that reason alone.</p>
+</div>
+
 <h4>Self-empathy and the "cause of anger"</h4>
 <p>Before we can hear another, we often need to hear ourselves. NVC treats anger not as something to suppress or vent, but as an <strong>alarm</strong>: "at the core of all anger is a need that is not being fulfilled." Rosenberg's provocative move is that others' actions are the <em>stimulus</em> but never the <em>cause</em> of our anger — the cause is our own judgment (the "enemy image"). The practice: hear the judgment, translate it into the unmet need, and only then speak.</p>
+
+<div class="definition"><div class="definition-term">Self-empathy</div><div class="definition-text">The receptive practice turned inward: instead of suppressing a reaction (swallowing it) or venting it (dumping it on someone), you hold your own experience with the same OFNR curiosity you would offer another. You notice the trigger, catch the judgment (&ldquo;he&rsquo;s so careless&rdquo;), and ask what need of yours it points to (reliability? respect? being considered?). Self-empathy is what makes it possible to stay present to someone else&rsquo;s anger without being pulled into your own.</div></div>
 
 <h3>Protective vs punitive force</h3>
 <p>NVC is not pacifism-at-any-cost. Rosenberg distinguished:</p>
@@ -164,9 +279,45 @@ VALUES
   <li><strong>The protective use of force</strong> — acting to prevent injury when there is no time for dialogue (restraining a child from running into traffic), with the sole intent to protect.</li>
   <li><strong>The punitive use of force</strong> — acting to make the other suffer for what they did, in the belief they "deserve" it. NVC holds that punishment reliably damages goodwill and never produces the internal motivation we actually want.</li>
 </ul>
+
+<div class="dag-figure">
+  <svg viewBox="0 0 500 240" role="img" aria-label="A single situation requiring force branches two ways: protective force, intended only to prevent harm, assumes no badness and restores dialogue afterwards; punitive force, intended to make the person suffer, assumes badness and breaks connection."
+       xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+    <defs><marker id="arrM4fork" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker></defs>
+    <rect x="180" y="12" width="140" height="42" rx="8" stroke-width="2"/>
+    <text x="250" y="30" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Force is unavoidable</text>
+    <text x="250" y="46" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">— which intent?</text>
+    <line x1="215" y1="54" x2="110" y2="92" stroke-width="2" marker-end="url(#arrM4fork)"/>
+    <line x1="285" y1="54" x2="390" y2="92" stroke-width="2" marker-end="url(#arrM4fork)"/>
+    <rect x="20" y="94" width="180" height="46" rx="8" stroke-width="2"/>
+    <text x="110" y="114" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Protective force</text>
+    <text x="110" y="131" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">intent: prevent harm</text>
+    <rect x="300" y="94" width="180" height="46" rx="8" stroke-width="2"/>
+    <text x="390" y="114" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Punitive force</text>
+    <text x="390" y="131" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">intent: make them suffer</text>
+    <line x1="110" y1="140" x2="110" y2="176" stroke-width="2" marker-end="url(#arrM4fork)"/>
+    <line x1="390" y1="140" x2="390" y2="176" stroke-width="2" marker-end="url(#arrM4fork)"/>
+    <rect x="20" y="178" width="180" height="52" rx="8" stroke-width="1.5"/>
+    <text x="110" y="198" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">assumes no badness</text>
+    <text x="110" y="215" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">dialogue restored</text>
+    <rect x="300" y="178" width="180" height="52" rx="8" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <text x="390" y="198" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">assumes badness</text>
+    <text x="390" y="215" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">connection broken</text>
+  </svg>
+  <div class="dag-caption">The same physical act splits on intent: protective force restrains without judgment and leaves the door to dialogue open; punitive force adds suffering and blame, and reliably closes it (dashed = the connection you were trying to keep).</div>
+</div>
+
 <div class="callout callout-orange">
   <div class="callout-icon"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Target.svg" alt="" class="sargam-icon"></div>
   <div class="callout-content"><p><strong>Two questions before any use of force:</strong> (1) What do I want this person to <em>do</em>? and (2) What do I want their <em>reasons</em> to be? Punishment can sometimes achieve the first; it almost always poisons the second.</p></div>
+</div>
+
+<div class="worked-example"><div class="worked-example-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Clipboard.svg" alt="" class="sargam-icon"> Case — the child at the roadside</div>
+<p>You are walking your five-year-old home along a busy road in Pune. Without warning she darts toward the traffic after a stray ball. There is no time for dialogue — you grab her arm and pull her back onto the pavement. Force is unavoidable. What is <em>not</em> settled is the intent behind the next thirty seconds.</p>
+<p><strong>Approach A — punitive.</strong> Heart pounding, you smack her hand and shout, "Are you stupid? You never listen — do you want to get killed?" The intent has shifted from protecting her to making her suffer for the fright she gave you. She learns that roads are dangerous <em>and</em> that her mother becomes frightening under stress; she files the moment under shame, not safety. Connection breaks, and next time she may hide her impulses rather than trust you with them.</p>
+<p><strong>Approach B — protective, with the empathy that precedes it.</strong> The grab is identical — you still physically stop her, no apology owed for that. But first you catch your own state (<em>self-empathy</em>: "I am shaking because I need her to be safe — that terror is mine to hold, not hers to be punished for"). Then you kneel to her level and empathise: "That was so fast — you really wanted your ball, and then Mama grabbed you hard and it was scary." You wait until she softens. Only then the request: "When we&rsquo;re near cars, I need you to hold my hand — will you do that with me?" The force protected her body; the empathy protected the relationship, and the reason she now has for holding your hand is trust, not fear.</p>
+<p>Both approaches used force. Only one of them left her safer <em>and</em> still able to bring her impulses to you next time.</p>
 </div>
 
 <h3>Taking the critiques seriously</h3>
@@ -196,7 +347,9 @@ VALUES
   <li>Rosenberg — <em>The Surprising Purpose of Anger</em> (2005)</li>
   <li>Critical: essays on NVC and power / tone-policing (see lexicon: "Faux-NVC")</li>
 </ul>
-</div>$html$,
+</div>
+
+<div class="reflection-prompt"><p><strong>Reflect.</strong> Recall a recent moment when you used force — a firm boundary at work, a raised voice at home, removing yourself or someone else from a situation. Which intent was actually driving you: to protect, or to make them suffer? And if you are honest that some punitive charge was mixed in, what unmet need of your own were you trying to make the other person pay for?</p></div>$html$,
   NULL,
   false),
 ('nvc-rj', 5, 'Module 5: NVR & New Authority',
@@ -209,95 +362,204 @@ VALUES
 <blockquote>I am your parent. I cannot make you change, but I will resist your harmful behaviour with all my strength, and I will not give up on you — and I am not alone.
 <cite>The stance of New Authority, paraphrasing Omer</cite></blockquote>
 
+<h3>Old authority and new authority</h3>
+<p>The shift is not from firm to soft. It is a shift in <em>where the authority is located</em>. Old authority is <strong>vertical</strong>: it flows down a single line from the adult who stands above the child, and its currency is obedience secured by distance and the threat of escalation. If that line is challenged, the only moves left are to press harder or to let go. New authority is <strong>networked</strong>: the adult is not a lone figure at the top of a hierarchy but an anchored presence held inside a web of allies — the other parent, the extended family, teachers, neighbours, the wider community. Legitimacy no longer rests on the adult <em>overpowering</em> the child; it rests on the adult being <em>rooted, transparent and supported</em>.</p>
+
+<div class="dag-figure">
+  <svg viewBox="0 0 520 210" role="img" aria-label="Left: old authority drawn as a vertical arrow pointing down from parent to child, labelled control, escalation and obedience. Right: new authority drawn as a central anchored adult connected outward to a network of allies, presence, self-control and transparency."
+       xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+    <defs>
+      <marker id="arr05a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+        <path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker>
+    </defs>
+    <!-- OLD AUTHORITY: vertical line -->
+    <text x="118" y="20" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Old authority &mdash; vertical</text>
+    <rect x="58" y="34" width="120" height="40" rx="8" stroke-width="2"/>
+    <text x="118" y="59" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Adult over child</text>
+    <line x1="118" y1="74" x2="118" y2="150" stroke-width="2" marker-end="url(#arr05a)"/>
+    <text x="176" y="104" text-anchor="start" font-size="12" fill="currentColor" stroke="none">control</text>
+    <text x="176" y="122" text-anchor="start" font-size="12" fill="currentColor" stroke="none">escalation</text>
+    <text x="176" y="140" text-anchor="start" font-size="12" fill="currentColor" stroke="none">obedience</text>
+    <rect x="58" y="152" width="120" height="40" rx="8" stroke-width="2"/>
+    <text x="118" y="177" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Child</text>
+    <!-- divider -->
+    <line x1="262" y1="30" x2="262" y2="196" stroke-width="1" stroke-dasharray="4 4"/>
+    <!-- NEW AUTHORITY: hub and network -->
+    <text x="400" y="20" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">New authority &mdash; networked</text>
+    <line x1="400" y1="113" x2="330" y2="55" stroke-width="1.5"/>
+    <line x1="400" y1="113" x2="470" y2="55" stroke-width="1.5"/>
+    <line x1="400" y1="113" x2="312" y2="140" stroke-width="1.5"/>
+    <line x1="400" y1="113" x2="488" y2="140" stroke-width="1.5"/>
+    <line x1="400" y1="113" x2="400" y2="185" stroke-width="1.5"/>
+    <circle cx="400" cy="113" r="30" stroke-width="2"/>
+    <text x="400" y="110" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">anchored</text>
+    <text x="400" y="124" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">adult</text>
+    <circle cx="330" cy="48" r="20" stroke-width="1.5"/>
+    <text x="330" y="52" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">allies</text>
+    <circle cx="470" cy="48" r="22" stroke-width="1.5"/>
+    <text x="470" y="52" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">presence</text>
+    <circle cx="306" cy="150" r="20" stroke-width="1.5"/>
+    <text x="306" y="147" text-anchor="middle" font-size="10" fill="currentColor" stroke="none">self-</text>
+    <text x="306" y="159" text-anchor="middle" font-size="10" fill="currentColor" stroke="none">control</text>
+    <circle cx="494" cy="150" r="24" stroke-width="1.5"/>
+    <text x="494" y="147" text-anchor="middle" font-size="10" fill="currentColor" stroke="none">trans-</text>
+    <text x="494" y="159" text-anchor="middle" font-size="10" fill="currentColor" stroke="none">parency</text>
+    <circle cx="400" cy="188" r="14" stroke-width="1.5"/>
+    <text x="400" y="192" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">child</text>
+  </svg>
+  <div class="dag-caption">Omer's move: authority stops being a single downward line of control and becomes an anchored, supported network — the adult resists from a rooted position, not from above.</div>
+</div>
+
+<div class="definition"><div class="definition-term">New Authority</div><div class="definition-text">Haim Omer's reconstruction of adult authority for an age that has rightly abandoned domination. Its strength is not the power to make the child comply but the adult's capacity to remain present, self-controlled, transparent and supported. Its core formula: <strong>&ldquo;we resist, we do not attack.&rdquo;</strong> The adult opposes the harmful behaviour without becoming its mirror — refusing both to strike and to surrender.</div></div>
+
 <h3>The two pillars: presence and self-control</h3>
 <ul>
-  <li><strong>Presence.</strong> "I am here, I am your parent, you cannot get rid of me." Not surveillance or control — persistent, warm, unyielding presence that communicates commitment.</li>
-  <li><strong>Self-control (de-escalation).</strong> The single hardest discipline: the adult controls only their <em>own</em> behaviour, never the child's. Omer's maxim — <strong>"strike while the iron is cold"</strong> — inverts the reflex to respond in the heat of the moment. You resist later, deliberately, from a regulated state.</li>
+  <li><strong>Presence.</strong> &ldquo;I am here, I am your parent, you cannot get rid of me.&rdquo; Not surveillance or control — persistent, warm, unyielding presence that communicates commitment.</li>
+  <li><strong>Self-control (de-escalation).</strong> The single hardest discipline: the adult controls only their <em>own</em> behaviour, never the child's. Omer's maxim — <strong>&ldquo;strike while the iron is cold&rdquo;</strong> — inverts the reflex to respond in the heat of the moment. You resist later, deliberately, from a regulated state.</li>
 </ul>
+
+<div class="concept-box"><div class="concept-box-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_User.svg" alt="" class="sargam-icon"> Anchoring: self-control is not control of the other</div>
+<p>The whole method turns on one distinction that is easy to say and hard to live. <strong>Control of the other</strong> asks: how do I make this young person stop? Every answer to that question — a louder threat, a bigger punishment, a withdrawal of love — hands the child the power to escalate, because it makes the adult's stability depend on the child's compliance. <strong>Self-control</strong> asks a different question: how do I stay anchored while I resist? The anchoring function is what a mooring does for a boat in a storm — it does not stop the waves, it holds a fixed point through them. A regulated, present adult who refuses to be dragged into the fight becomes something the young person can push against without being able to knock over. That immovability, paradoxically, is felt as safety.</p>
+</div>
+
 <div class="callout callout-red">
   <div class="callout-icon"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Alert.svg" alt="" class="sargam-icon"></div>
   <div class="callout-content"><p><strong>The escalation traps.</strong> Omer names two: <em>mutual escalation</em> (matching aggression with aggression) and <em>complementary escalation</em> (matching aggression with capitulation). Both teach the young person that escalation works. NVR is the third path: firm resistance without either.</p></div>
 </div>
 
 <h3>The Gandhian transposition</h3>
-<p>Omer is unusually explicit that NVR is Gandhi and the American civil-rights movement <em>brought home</em>. From satyagraha he takes: resistance without aggression; the acceptance of the relationship even while refusing the behaviour; publicity over secrecy; the mobilisation of a wider community; and persistence as a form of strength. The child is never the "enemy" — the <em>behaviour</em> is resisted, the <em>person</em> is held.</p>
+<p>Omer is unusually explicit that NVR is Gandhi and the American civil-rights movement <em>brought home</em>. From satyagraha he takes: resistance without aggression; the acceptance of the relationship even while refusing the behaviour; publicity over secrecy; the mobilisation of a wider community; and persistence as a form of strength. The child is never the &ldquo;enemy&rdquo; — the <em>behaviour</em> is resisted, the <em>person</em> is held.</p>
 
-<div class="coach-callout">
-  <img loading="lazy" src="https://www.impactmojo.in/assets/images/varna-photo.jpg" alt="Coach Varna" class="coach-photo">
-  <div class="coach-content">
-    <div class="coach-name">Varna</div>
-    <div class="coach-message">If you are locked in a struggle with a young person right now, notice which escalation trap you keep falling into — matching force, or giving in. "Strike while the iron is cold" is the whole discipline in one line: resist later, from a regulated place.</div>
-    <div class="coach-links">
-      <a href="/coaching" class="coach-link">Book a coaching session</a>
-      <a href="lexicon.html" class="coach-link secondary">Open the lexicon</a>
-    </div>
-  </div>
-</div>
+<div class="worked-example"><div class="worked-example-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Clipboard.svg" alt="" class="sargam-icon"> Case &mdash; a fifteen-year-old&rsquo;s rage</div>
+<p>Rukhsana is raising her fifteen-year-old son, Imran, largely alone in a crowded Karachi flat; his father works in the Gulf. Over a hard year Imran has begun exploding — shoving past her, punching a door, threatening to leave and not come back, once knocking a plate from her hand. Each incident leaves her shaking and the household frightened.</p>
+<p><strong>Approach A &mdash; matching force / then giving in.</strong> In the moment Rukhsana meets the threat with a bigger one: she shouts, confiscates his phone, warns that she will send him to his uncle&rsquo;s. Imran escalates — that is what a threat invites — and the row peaks in slammed doors. Exhausted and afraid of losing him, she reverses course a day later: the phone comes back, nothing is said, the incident is buried. She has now shown him <em>both</em> escalation traps in a single week: force provokes him, and capitulation rewards him. The lesson he absorbs is that rage is the fastest way to get his mother to move.</p>
+<p><strong>Approach B &mdash; the new-authority response.</strong> Rukhsana does not respond in the heat of it; she <em>strikes while the iron is cold</em>. When she is regulated, she delivers a short, unemotional <strong>announcement</strong>: &ldquo;I have decided I will no longer accept being pushed or threatened. I am not going to fight you and I am not going to give up on you. This has to change, and I will keep coming back to it.&rdquo; She does not demand he agree or reply. She then does the thing old authority forbids — she breaks the secrecy: she tells her sister and Imran&rsquo;s trusted maths tutor what is happening and asks them to be present, to check in, to make the resistance a matter of the wider circle rather than a private duel. When the next incident comes, she stays physically present and calm, names that it is not acceptable, and <strong>refuses either to strike back or to be driven off</strong> — later, with an ally alongside, she may sit outside his room in a quiet <em>sit-in</em> that says <em>I am still here</em>. The mechanism: by removing both the fight he can win and the surrender he can extract, and by anchoring herself inside a visible network, she stops being an opponent he can topple and becomes a presence he can rely on. The aggression loses its function.</p></div>
+
+<div class="key-insight"><div class="key-insight-label"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Spark.svg" alt="" class="sargam-icon"> The reversal</div>
+<p>Old authority tried to be strong by being <em>above</em> and <em>alone</em>. New authority is strong by being <em>anchored</em> and <em>accompanied</em>. Transparency and the support network are not softness — they are the load-bearing walls that let an adult resist for as long as it takes without escalating and without giving in.</p></div>
 
 <div class="concept-box"><div class="concept-box-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Book.svg" alt="" class="sargam-icon"> Core readings</div>
 <ul>
   <li>Haim Omer — <em>Non-Violent Resistance: A New Approach to Violent and Self-Destructive Children</em> (2004)</li>
   <li>Haim Omer — <em>The New Authority: Family, School, and Community</em> (2010)</li>
 </ul>
-</div>$html$,
+</div>
+
+<div class="reflection-prompt"><p><strong>Reflect.</strong> Bring to mind one relationship where you carry authority — as a parent, teacher, manager or care-worker — and a struggle in it that keeps repeating. Which trap do you fall into, matching force or giving in, and what would &ldquo;strike while the iron is cold&rdquo; ask of you next time? Hardest of all: who are the allies you would have to tell — breaking your own secrecy — to stop resisting alone?</p></div>$html$,
   NULL,
   false),
 ('nvc-rj', 6, 'Module 6: NVR in Action',
   'NVR is a toolkit of concrete, sequenced practices. Each mirrors a move from political nonviolent resistance, scaled to the household, classroom or care setting.',
   $html$<h2>Module 6: NVR in Action</h2>
-<div class="section-intro"><p class="lead">NVR is a toolkit of concrete, sequenced practices. Each mirrors a move from political nonviolent resistance, scaled to the household, classroom or care setting.</p></div>
+<div class="section-intro"><p class="lead">NVR is a toolkit of concrete, sequenced practices. Each mirrors a move from political nonviolent resistance, scaled to the household, classroom or care setting. This module walks the sequence &mdash; announce, be present, resist through a basket of measures, keep the relationship warm, and never stand alone &mdash; and then works a full case through it.</p></div>
 
 <h3>The core methods</h3>
 <div class="table-wrapper"><table>
   <thead><tr><th>Method</th><th>What it is</th><th>Political parallel</th></tr></thead>
   <tbody>
-    <tr><td><strong>The Announcement</strong></td><td>A short, calm, often written declaration naming the specific behaviour the adult will now resist — and that they will not use violence or give up</td><td>The public manifesto / statement of grievance</td></tr>
-    <tr><td><strong>The Sit-in</strong></td><td>The adult sits in the young person's space, present and calm, saying "we are here because we cannot accept X; we'd like your ideas," and waits</td><td>The occupation / sit-in</td></tr>
-    <tr><td><strong>Prioritising ("baskets")</strong></td><td>Choosing a small number of behaviours to resist now; deferring the rest — resistance is targeted, not total</td><td>Strategic choice of the point of pressure</td></tr>
+    <tr><td><strong>The Announcement</strong></td><td>A short, calm, often written declaration naming the specific behaviour the adult will now resist &mdash; and that they will not use violence or give up</td><td>The public manifesto / statement of grievance</td></tr>
+    <tr><td><strong>The Sit-in</strong></td><td>The adult sits in the young person&rsquo;s space, present and calm, saying &ldquo;we are here because we cannot accept X; we&rsquo;d like your ideas,&rdquo; and waits</td><td>The occupation / sit-in</td></tr>
+    <tr><td><strong>Prioritising (&ldquo;baskets&rdquo;)</strong></td><td>Choosing a small number of behaviours to resist now; deferring the rest &mdash; resistance is targeted, not total</td><td>Strategic choice of the point of pressure</td></tr>
     <tr><td><strong>Supporters &amp; transparency</strong></td><td>Recruiting family, friends, teachers into an open network; breaking the secrecy around the problem</td><td>The movement; public witness over secrecy</td></tr>
-    <tr><td><strong>Reconciliation gestures</strong></td><td>Unconditional acts of care and connection, <em>decoupled</em> from behaviour, to keep the relationship warm</td><td>Gandhi's insistence on friendship with the opponent</td></tr>
+    <tr><td><strong>Reconciliation gestures</strong></td><td>Unconditional acts of care and connection, <em>decoupled</em> from behaviour, to keep the relationship warm</td><td>Gandhi&rsquo;s insistence on friendship with the opponent</td></tr>
   </tbody>
 </table></div>
 
+<h3>The NVR sequence</h3>
+<p>The methods are not a menu to pick from at random. They run as a sequence, and the support network runs <em>underneath</em> every step &mdash; the adult announces, sits in, applies a measured basket, and reaches out to reconcile, all while held by supporters throughout.</p>
+
+<div class="dag-figure">
+  <svg viewBox="0 0 640 230" role="img" aria-label="The NVR process as a left-to-right sequence: Announcement, then Presence and sit-in, then a Basket of measures that is gradual and non-escalating, then Reconciliation gestures. A Support network band runs underneath all four steps, connecting up to each one."
+       xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+    <defs><marker id="arrM6seq" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker></defs>
+
+    <!-- step nodes -->
+    <rect x="16" y="40" width="128" height="52" rx="8" stroke-width="2"/>
+    <text x="80" y="63" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Announcement</text>
+    <text x="80" y="80" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">name what you resist</text>
+
+    <rect x="176" y="40" width="128" height="52" rx="8" stroke-width="2"/>
+    <text x="240" y="63" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Presence / sit-in</text>
+    <text x="240" y="80" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">calm, waiting</text>
+
+    <rect x="336" y="40" width="128" height="52" rx="8" stroke-width="2"/>
+    <text x="400" y="60" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Basket of</text>
+    <text x="400" y="76" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">measures</text>
+
+    <rect x="496" y="40" width="128" height="52" rx="8" stroke-width="2"/>
+    <text x="560" y="60" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Reconciliation</text>
+    <text x="560" y="76" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">gestures</text>
+
+    <!-- sequence arrows -->
+    <line x1="144" y1="66" x2="172" y2="66" stroke-width="2" marker-end="url(#arrM6seq)"/>
+    <line x1="304" y1="66" x2="332" y2="66" stroke-width="2" marker-end="url(#arrM6seq)"/>
+    <line x1="464" y1="66" x2="492" y2="66" stroke-width="2" marker-end="url(#arrM6seq)"/>
+    <text x="400" y="112" text-anchor="middle" font-size="10" fill="currentColor" stroke="none">gradual, non-escalating</text>
+
+    <!-- support network band underneath -->
+    <rect x="16" y="150" width="608" height="46" rx="8" stroke-width="2" stroke-dasharray="6 4"/>
+    <text x="320" y="178" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Support network &mdash; family, teachers, neighbours &mdash; present throughout</text>
+
+    <!-- connectors from band up to each step -->
+    <line x1="80" y1="150" x2="80" y2="92" stroke-width="1.5" stroke-dasharray="3 3"/>
+    <line x1="240" y1="150" x2="240" y2="92" stroke-width="1.5" stroke-dasharray="3 3"/>
+    <line x1="400" y1="150" x2="400" y2="92" stroke-width="1.5" stroke-dasharray="3 3"/>
+    <line x1="560" y1="150" x2="560" y2="92" stroke-width="1.5" stroke-dasharray="3 3"/>
+  </svg>
+  <div class="dag-caption">The NVR sequence runs left to right &mdash; announce, be present, apply a gradual basket of measures, offer reconciliation &mdash; while an open support network holds every step; the dashed band shows that the adult is never acting alone.</div>
+</div>
+
+<h3>Key terms</h3>
+<div class="definition"><div class="definition-term">Basket of measures</div><div class="definition-text">A small, prioritised set of resistance actions the adult is willing to sustain now, chosen because they can be carried out <em>without</em> aggression or collapse. The &ldquo;basket&rdquo; image is deliberate: it holds only what you can carry. Resistance is targeted at one or two behaviours, not the whole list of grievances &mdash; the rest wait in another basket for later.</div></div>
+
+<div class="definition"><div class="definition-term">The sit-in</div><div class="definition-text">The adult enters the young person&rsquo;s space at a calm moment, states the behaviour that cannot continue, asks for their suggestions, and then simply stays &mdash; present, non-hostile, and un-hurried &mdash; without demanding compliance or issuing threats. Its power is presence and duration, not force: it signals &ldquo;we are here, we are not giving up, and we are not attacking you.&rdquo;</div></div>
+
+<div class="definition"><div class="definition-term">Reconciliation gestures</div><div class="definition-text">Unconditional acts of warmth &mdash; a favourite meal, a note, a shared errand &mdash; deliberately <em>decoupled</em> from whether the behaviour improved. They are not rewards. Their job is to keep the relationship alive so that resistance is felt as &ldquo;I am against this behaviour&rdquo; and never as &ldquo;I am against you.&rdquo;</div></div>
+
+<div class="concept-box"><div class="concept-box-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Info.svg" alt="" class="sargam-icon"> Strike while the iron is cold</div>
+<p>NVR inverts the folk wisdom. The heated moment &mdash; mid-tantrum, mid-fight &mdash; is precisely when the adult should <em>not</em> act, because any response then is reactive and escalates. Omer&rsquo;s rule is <strong>delay over immediacy</strong>: postpone the response to a calm hour, then deliver it deliberately. &ldquo;We&rsquo;ll return to what happened later&rdquo; is a complete, powerful sentence. The announcement and the sit-in are cold-iron acts by design &mdash; planned, rehearsed with supporters, and carried out when tempers have settled, not in the flare-up.</p>
+</div>
+
 <h3>Vigilant care: three levels of attention</h3>
-<p>Omer's answer to "how much monitoring is too much" is <strong>vigilant care</strong> — care that adjusts its intensity to risk, rather than swinging between neglect and surveillance:</p>
+<p>Omer&rsquo;s answer to &ldquo;how much monitoring is too much&rdquo; is <strong>vigilant care</strong> &mdash; care that adjusts its intensity to risk, rather than swinging between neglect and surveillance:</p>
 <ul>
-  <li><strong>Open attention</strong> — the default: warm interest, open conversation.</li>
-  <li><strong>Focused attention</strong> — when worry signs appear: asking more, checking in, coordinating with others.</li>
-  <li><strong>Direct protection</strong> — when danger is clear: acting decisively to protect, without secrecy.</li>
+  <li><strong>Open attention</strong> &mdash; the default: warm interest, open conversation.</li>
+  <li><strong>Focused attention</strong> &mdash; when worry signs appear: asking more, checking in, coordinating with others.</li>
+  <li><strong>Direct protection</strong> &mdash; when danger is clear: acting decisively to protect, without secrecy.</li>
 </ul>
 
 <div class="callout callout-green">
   <div class="callout-icon"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Globe_detailed.svg" alt="" class="sargam-icon"></div>
-  <div class="callout-content"><p><strong>South Asian resonance.</strong> The NVR "network of supporters" maps naturally onto the extended family and neighbourhood structures of South Asian life — the <em>khandaan</em>, the <em>mohalla</em>, the grandparents, the teacher. Where individualistic parenting advice tells a lone parent to be consistent, NVR's insistence that "the adult is not alone" is closer to how care actually works here. The caution (Module&nbsp;9): the same networks can enforce control and honour-based coercion — supporters must be recruited for <em>presence and de-escalation</em>, never for shaming.</p></div>
+  <div class="callout-content"><p><strong>South Asian resonance.</strong> The NVR &ldquo;network of supporters&rdquo; maps naturally onto the extended family and neighbourhood structures of South Asian life &mdash; the <em>khandaan</em>, the <em>mohalla</em>, the grandparents, the teacher. Where individualistic parenting advice tells a lone parent to be consistent, NVR&rsquo;s insistence that &ldquo;the adult is not alone&rdquo; is closer to how care actually works here. The caution (Module&nbsp;9): the same networks can enforce control and honour-based coercion &mdash; supporters must be recruited for <em>presence and de-escalation</em>, never for shaming.</p></div>
 </div>
 
 <h3>Where NVR is used</h3>
 <ul>
-  <li><strong>Parenting</strong> — child violence, self-destructive behaviour, entitlement/tyrannical behaviour, and (via Omer &amp; Lebowitz's <em>SPACE</em> programme) childhood anxiety and OCD, by reducing parental accommodation.</li>
-  <li><strong>Schools</strong> — whole-school anti-bullying built on vigilant care and adult presence rather than zero-tolerance exclusion.</li>
-  <li><strong>Residential &amp; care settings</strong> — de-escalation cultures that reduce restraint.</li>
+  <li><strong>Parenting</strong> &mdash; child violence, self-destructive behaviour, entitlement/tyrannical behaviour, and (via Omer &amp; Lebowitz&rsquo;s <em>SPACE</em> programme) childhood anxiety and OCD, by reducing parental accommodation.</li>
+  <li><strong>Schools</strong> &mdash; whole-school anti-bullying built on vigilant care and adult presence rather than zero-tolerance exclusion.</li>
+  <li><strong>Residential &amp; care settings</strong> &mdash; de-escalation cultures that reduce restraint.</li>
 </ul>
 
-<div class="coach-callout">
-  <img loading="lazy" src="https://www.impactmojo.in/assets/images/varna-photo.jpg" alt="Coach Varna" class="coach-photo">
-  <div class="coach-content">
-    <div class="coach-name">Varna</div>
-    <div class="coach-message">Start with one basket, not the whole list — pick the single behaviour that matters most and let the rest wait. And before you announce anything, quietly line up the supporters who will stand with you; NVR only works because the adult is never alone.</div>
-    <div class="coach-links">
-      <a href="/coaching" class="coach-link">Book a coaching session</a>
-      <a href="lexicon.html" class="coach-link secondary">Open the lexicon</a>
-    </div>
-  </div>
-</div>
+<h3>Working the sequence</h3>
+<div class="worked-example"><div class="worked-example-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Clipboard.svg" alt="" class="sargam-icon"> Case &mdash; persistent bullying at a Chennai school</div>
+<p>Class 8 at a government-aided school in Chennai has a bullying problem centred on one boy, Karthik, who has repeatedly humiliated and shoved a quieter classmate, Aravind, over several weeks. Aravind has started missing school. The class teacher, Mrs&nbsp;Fernandes, must respond.</p>
+<p><strong>Approach A &mdash; zero-tolerance reaction.</strong> Karthik is caught mid-incident, marched to the office, suspended for three days, and warned that the next time means expulsion. The punishment is loud, immediate, and satisfying to the adults. But it is struck while the iron is hot: it escalates the fight, casts Karthik as the enemy, and gives him status among peers as the boy who defied the school. He returns angrier, the bullying goes underground, and Aravind is now marked as the one who &ldquo;told.&rdquo;</p>
+<p><strong>Approach B &mdash; NVR.</strong> Mrs&nbsp;Fernandes does <em>not</em> confront Karthik in the corridor. She strikes while the iron is cold. First she builds the network: she brings in a second teacher, the year coordinator, and &mdash; with care &mdash; Karthik&rsquo;s parents and a respected uncle from the family, recruited for presence and de-escalation, explicitly not for beating or shaming him.</p>
+<p><em>The announcement.</em> At a calm time, two teachers hand Karthik a short written statement and read it aloud: &ldquo;We know that Aravind has been pushed and humiliated. We cannot accept this. We will not use it against you as an enemy, and we will not give up until it stops. We would like your help.&rdquo; No threat, no ultimatum &mdash; a declaration.</p>
+<p><em>The sit-in.</em> When the behaviour continues, the two teachers sit down with Karthik during a free period, in the presence of the coordinator: &ldquo;We are here because the pushing has not stopped. We are not leaving angry, and we are not here to punish you today. We&rsquo;d like your ideas on how it ends.&rdquo; Then they wait &mdash; present, unhurried, silent if need be. The duration and calm carry the message.</p>
+<p><em>The basket &mdash; one or two measures, non-escalating.</em> They choose a single behaviour to resist first: the physical shoving (verbal teasing waits in another basket). The measures are gradual &mdash; an adult now shadows the corridor and yard at the transition times when incidents cluster, and each parent is informed, once, in writing, transparently, so the problem is out of secrecy. There is no expulsion threat and no public humiliation; if the shoving recurs, the response is a repeat sit-in, not a bigger punishment.</p>
+<p><em>Reconciliation, decoupled.</em> Separately &mdash; and regardless of whether Karthik has &ldquo;improved&rdquo; &mdash; Mrs&nbsp;Fernandes keeps a warm door open: she asks him to help set up the science corner, greets him normally. The gesture is not a reward; it keeps the relationship alive so the resistance lands as &ldquo;we are against the shoving,&rdquo; not &ldquo;we are against you.&rdquo; Karthik loses his audience and his enemy at the same time, and the shoving has nowhere to escalate.</p></div>
 
 <div class="concept-box"><div class="concept-box-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Book.svg" alt="" class="sargam-icon"> Core readings</div>
 <ul>
-  <li>Omer — <em>Non-Violent Resistance</em> (2004), practice chapters</li>
-  <li>Eli Lebowitz &amp; Haim Omer — work on <em>SPACE</em> (parent-based treatment of child anxiety)</li>
-  <li>Omer &amp; others — NVR in schools ("vigilant care")</li>
+  <li>Omer &mdash; <em>Non-Violent Resistance</em> (2004), practice chapters</li>
+  <li>Eli Lebowitz &amp; Haim Omer &mdash; work on <em>SPACE</em> (parent-based treatment of child anxiety)</li>
+  <li>Omer &amp; others &mdash; NVR in schools (&ldquo;vigilant care&rdquo;)</li>
 </ul>
-</div>$html$,
+</div>
+
+<div class="reflection-prompt"><p><strong>Reflect.</strong> Think of a persistent behaviour you are currently reacting to hot &mdash; in the moment, alone, with escalating consequences. What single behaviour would go in your first basket, who would you recruit into an open support network before you announced anything, and &mdash; hardest of all &mdash; what reconciliation gesture could you sustain even on the days the behaviour has not improved at all?</p></div>$html$,
   NULL,
   false),
 ('nvc-rj', 7, 'Module 7: The Restorative Paradigm',
@@ -318,13 +580,56 @@ VALUES
 <blockquote>Crime is a violation of people and relationships. It creates obligations to make things right. Justice involves the victim, the offender, and the community in a search for solutions which promote repair, reconciliation, and reassurance.
 <cite>Howard Zehr, <em>Changing Lenses</em> (1990)</cite></blockquote>
 
+<p>The two lenses are not two moods or two degrees of severity — they are two <em>starting questions</em>, and the starting question decides everything that follows. Begin with the broken rule and the whole apparatus of blame, defence, and deserved pain unfolds automatically. Begin with the harmed person and a different apparatus — of listening, need, and obligation — unfolds instead. The diagram below sets the two question-sets side by side so you can feel the fork.</p>
+
+<div class="dag-figure">
+  <svg viewBox="0 0 520 220" role="img" aria-label="Two panels contrasting the retributive and restorative question-sets. The retributive panel asks what law was broken, who did it, and what punishment they deserve. The restorative panel asks who was harmed, what they need, and whose obligation it is to repair."
+       xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+    <defs><marker id="arr07a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker></defs>
+    <!-- Retributive panel -->
+    <rect x="14" y="16" width="228" height="188" rx="10" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <text x="128" y="38" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Retributive lens</text>
+    <text x="128" y="76" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">What law was broken?</text>
+    <line x1="128" y1="86" x2="128" y2="106" stroke-width="1.5" marker-end="url(#arr07a)"/>
+    <text x="128" y="126" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Who did it?</text>
+    <line x1="128" y1="136" x2="128" y2="156" stroke-width="1.5" marker-end="url(#arr07a)"/>
+    <text x="128" y="176" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">What do they deserve?</text>
+    <!-- Restorative panel -->
+    <rect x="278" y="16" width="228" height="188" rx="10" stroke-width="2"/>
+    <text x="392" y="38" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Restorative lens</text>
+    <text x="392" y="76" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Who was harmed?</text>
+    <line x1="392" y1="86" x2="392" y2="106" stroke-width="1.5" marker-end="url(#arr07a)"/>
+    <text x="392" y="126" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">What do they need?</text>
+    <line x1="392" y1="136" x2="392" y2="156" stroke-width="1.5" marker-end="url(#arr07a)"/>
+    <text x="392" y="176" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Whose obligation to repair?</text>
+  </svg>
+  <div class="dag-caption">The same incident, two starting questions: the dashed panel routes toward deserved pain, the solid panel toward repair — the fork is set by the first question you ask, not by the severity of the act.</div>
+</div>
+
 <h3>Zehr's three pillars</h3>
+<p>Zehr distils the restorative lens into three load-bearing commitments. They are not stages to march through but a stance to hold — each one a corrective to a reflex the retributive lens trains into us.</p>
 <ul>
   <li><strong>Harms and needs.</strong> Start with those who were harmed and what they need — safety, answers, acknowledgement, restitution, vindication — not with the rule that was broken.</li>
   <li><strong>Obligations.</strong> The person who caused harm has an obligation to understand and, so far as possible, repair it. Accountability here means <em>facing</em> the harm, not <em>receiving</em> punishment.</li>
   <li><strong>Engagement.</strong> Those with a stake — harmed, responsible, and community — are given meaningful roles in the process, rather than having it done <em>to</em> or <em>for</em> them by professionals.</li>
 </ul>
+
+<div class="definition"><div class="definition-term">Crime, redefined</div><div class="definition-text">In the restorative frame a wrong is <strong>a violation of people and relationships</strong>, not merely a breach of a rule. This is the pivot on which the three pillars turn: because the injury is to persons and the bonds between them, the response must attend to <em>harms and needs</em> first, must locate the <em>obligation</em> to repair with the one who caused it, and must give the affected parties real <em>engagement</em> in setting things right. Rules still matter — but they are the map, not the territory; the territory is the harm done to real people.</div></div>
+
+<div class="concept-box"><div class="concept-box-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Layers.svg" alt="" class="sargam-icon"> The three pillars, and the reflex each corrects</div>
+<ul>
+  <li><strong>Harms &amp; needs</strong> corrects the reflex to lead with the <em>rule</em>. The first move is to name who was hurt and what those people actually need — which is often acknowledgement and safety long before any material restitution.</li>
+  <li><strong>Obligations</strong> corrects the reflex to lead with <em>guilt and desert</em>. Guilt closes a question — did they do it, yes or no. Obligation opens one — what does repair now require of them? The second is far harder to discharge and far more useful.</li>
+  <li><strong>Engagement</strong> corrects the reflex to hand the matter to <em>professionals</em>. When a magistrate, a principal, or an HR officer resolves things <em>for</em> the parties, the harmed person is spoken about rather than heard, and the one responsible never has to face the person they hurt.</li>
+</ul></div>
+
 <div class="callout callout-yellow"><div class="callout-icon"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Info.svg" alt="" class="sargam-icon"></div><div class="callout-content"><p><strong>Reintegrative shaming.</strong> Criminologist John Braithwaite (<em>Crime, Shame and Reintegration</em>, 1989) distinguishes <em>stigmatising</em> shame, which brands a person as bad and pushes them into criminal identities, from <em>reintegrative</em> shame, which disapproves of the <em>act</em> while affirming the person's worth and welcoming them back. RJ aims for the second.</p></div></div>
+
+<div class="worked-example"><div class="worked-example-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Clipboard.svg" alt="" class="sargam-icon"> Case &mdash; a wall of graffiti on the community hall</div>
+<p>In a small town outside Pune, fifteen-year-old Rohit and two friends spray-paint the freshly whitewashed wall of the neighbourhood <em>samaj mandir</em> — the community hall where weddings, prayer meetings, and the women's savings group all gather. The caretaker, an elderly man named Dattatray, finds it in the morning and is visibly shaken; the savings-group women, who had pooled money for the whitewash, are angry and humiliated in front of the town.</p>
+<p><strong>Approach A &mdash; the retributive route.</strong> The managing committee asks the same three questions the criminal-legal reflex supplies: <em>what rule was broken, who did it, what do they deserve?</em> A property rule was broken; Rohit did it; he deserves to pay. He is named at the next public meeting, barred from the hall for a year, and his father is made to hand over a fine. The rule is vindicated and blame is fixed — but notice what is <em>not</em> produced. Dattatray is never asked what the fright cost him. The savings-group women get money but no acknowledgement of the humiliation. Rohit, shamed publicly and cast out, learns that he is a bad boy rather than that he did a bad thing — Braithwaite's <em>stigmatising</em> shame — and drifts toward the older boys who already wear that label. The wall, incidentally, stays defaced for months because no one's obligation is to <em>repair</em> it; the fine went to the committee's account.</p>
+<p><strong>Approach B &mdash; the restorative route.</strong> A facilitator instead convenes a circle and asks Zehr's three questions. <em>Who was harmed?</em> — Dattatray, who felt unsafe in the place he tends; the women, whose labour and standing were mocked; and, it emerges, Rohit himself, bored and unseen since his mother's death. <em>What do they need?</em> — Dattatray needs to hear that it was not aimed at him; the women need public acknowledgement and their wall restored; Rohit needs a way back that does not brand him. <em>Whose obligation is it to repair?</em> — Rohit's, concretely. He hears, to his surprise, what his hour of bravado did to people he passes every day. The circle agrees an obligation: he re-whitewashes the wall over three weekends alongside two of the savings-group women, who — this is the reintegrative move — end up teaching him to plaster and feeding him lunch. The act is still disapproved; the person is kept. What this route produces that the first did not: a repaired wall, a reassured caretaker, acknowledged women, and a boy who is accountable <em>and</em> still belongs.</p></div>
 
 <div class="coach-callout">
   <img loading="lazy" src="https://www.impactmojo.in/assets/images/varna-photo.jpg" alt="Coach Varna" class="coach-photo">
@@ -343,7 +648,9 @@ VALUES
   <li>Howard Zehr — <em>Changing Lenses</em> (1990)</li>
   <li>Howard Zehr — <em>The Little Book of Restorative Justice</em> (rev. 2015)</li>
   <li>John Braithwaite — <em>Crime, Shame and Reintegration</em> (1989)</li>
-</ul></div>$html$,
+</ul></div>
+
+<div class="reflection-prompt"><p><strong>Reflect.</strong> Bring to mind a wrong you were recently asked to respond to — in a classroom, a team, a family. Which of the two starting questions did you reach for first, and what did that reflex produce that repair did not? If you had led instead with <em>who was harmed and what do they need</em>, whose obligation would have shifted — and could you have borne the discomfort of holding the person while still disapproving of the act?</p></div>$html$,
   NULL,
   false),
 ('nvc-rj', 8, 'Module 8: Restorative Practices',
@@ -353,8 +660,8 @@ VALUES
 
 <h3>The core models</h3>
 <ul>
-  <li><strong>Victim–Offender Mediation / Dialogue (VOM).</strong> A prepared, facilitated meeting between the person harmed and the person responsible — the earliest Western RJ model (Kitchener, Ontario, 1974).</li>
-  <li><strong>Family Group Conferencing (FGC).</strong> Originating in Aotearoa New Zealand's <em>Children, Young Persons and Their Families Act 1989</em>, shaped by Māori practice — the extended family (<em>whānau</em>) is convened, given private time to devise a plan, and central to the outcome.</li>
+  <li><strong>Victim&ndash;Offender Mediation / Dialogue (VOM).</strong> A prepared, facilitated meeting between the person harmed and the person responsible — the earliest Western RJ model (Kitchener, Ontario, 1974).</li>
+  <li><strong>Family Group Conferencing (FGC).</strong> Originating in Aotearoa New Zealand's <em>Children, Young Persons and Their Families Act 1989</em>, shaped by M&#257;ori practice — the extended family (<em>wh&#257;nau</em>) is convened, given private time to devise a plan, and central to the outcome.</li>
   <li><strong>Circles</strong> (peacemaking / talking circles / sentencing circles). Rooted in First Nations practice in Canada and the US; a <strong>keeper</strong> holds the space and a <strong>talking piece</strong> passes so each voice is heard in turn. Documented by Kay Pranis.</li>
   <li><strong>Restorative Conferences</strong> (the "Wagga Wagga" / scripted model). A trained facilitator follows a script built on affective questions ("What happened? Who's been affected? What's needed to make things right?").</li>
 </ul>
@@ -362,13 +669,77 @@ VALUES
 <h3>The restorative continuum</h3>
 <p>Ted Wachtel and the IIRP frame practices as a continuum of increasing formality and participation — most restorative work is the informal end, done daily, not the dramatic conference:</p>
 <div class="table-wrapper"><table>
-  <thead><tr><th>Informal ←</th><th></th><th></th><th>→ Formal</th></tr></thead>
+  <thead><tr><th>Informal &larr;</th><th></th><th></th><th>&rarr; Formal</th></tr></thead>
   <tbody>
-    <tr><td>Affective statements ("I felt worried when…")</td><td>Affective questions</td><td>Small impromptu conference / circle</td><td>Formal conference / FGC</td></tr>
+    <tr><td>Affective statements ("I felt worried when&hellip;")</td><td>Affective questions</td><td>Small impromptu conference / circle</td><td>Formal conference / FGC</td></tr>
   </tbody>
 </table></div>
 <div class="key-insight"><div class="key-insight-label"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Spark.svg" alt="" class="sargam-icon"> Design principle</div>
 <p>The heart of every restorative practice is the same: <strong>"with," not "to" or "for."</strong> High expectations <em>and</em> high support, together — not control (to), not permissiveness (for), and not neglect (neither).</p></div>
+
+<h3>The shape of the circle</h3>
+<p>Almost every model shares one deceptively simple geometry: participants sit in an unbroken circle, no table, no rows, no bench — <strong>everyone faces the centre</strong> and everyone can see everyone else. The circle is not decoration; it is the method's statement that no one here is a spectator and no one presides. A facilitator (keeper) sits <em>in</em> the ring, not above it, and a talking piece moves round so that speaking is regulated by an object rather than by status or volume.</p>
+
+<div class="dag-figure">
+  <svg viewBox="0 0 460 340" role="img" aria-label="A restorative circle: person harmed, person responsible, their supporters, the affected community and a facilitator sit evenly spaced around a ring, each facing a talking piece at the centre." xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+    <defs><marker id="arr08a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker></defs>
+    <!-- the ring they sit in -->
+    <circle cx="230" cy="165" r="115" stroke-width="1.5" stroke-dasharray="4 5"/>
+    <!-- talking piece at the centre -->
+    <circle cx="230" cy="165" r="9" fill="currentColor" stroke="none"/>
+    <text x="230" y="150" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">talking piece</text>
+    <!-- six seats, each facing the centre -->
+    <circle cx="230" cy="50" r="7" stroke-width="2"/>
+    <line x1="230" y1="66" x2="230" y2="125" stroke-width="1.5" marker-end="url(#arr08a)"/>
+    <text x="230" y="34" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Facilitator (keeper)</text>
+    <circle cx="330" cy="107" r="7" stroke-width="2"/>
+    <line x1="316" y1="115" x2="265" y2="145" stroke-width="1.5" marker-end="url(#arr08a)"/>
+    <text x="360" y="103" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Person harmed</text>
+    <circle cx="330" cy="222" r="7" stroke-width="2"/>
+    <line x1="316" y1="214" x2="265" y2="185" stroke-width="1.5" marker-end="url(#arr08a)"/>
+    <text x="356" y="240" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Their supporters</text>
+    <circle cx="230" cy="280" r="7" stroke-width="2"/>
+    <line x1="230" y1="264" x2="230" y2="205" stroke-width="1.5" marker-end="url(#arr08a)"/>
+    <text x="230" y="304" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Affected community</text>
+    <circle cx="130" cy="222" r="7" stroke-width="2"/>
+    <line x1="144" y1="214" x2="195" y2="185" stroke-width="1.5" marker-end="url(#arr08a)"/>
+    <text x="104" y="240" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Their supporters</text>
+    <circle cx="130" cy="107" r="7" stroke-width="2"/>
+    <line x1="144" y1="115" x2="195" y2="145" stroke-width="1.5" marker-end="url(#arr08a)"/>
+    <text x="100" y="103" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Person responsible</text>
+  </svg>
+  <div class="dag-caption">In a circle or conference no one sits at the head of the table: harmed, responsible, their supporters and the wider community all face a shared centre, and the talking piece — not the facilitator — governs who speaks.</div>
+</div>
+
+<h3>Three encounters, often confused</h3>
+<p>Practitioners routinely blur mediation, conferencing and circles. They share a restorative spirit but differ in who is in the room, who holds authority and what the process is <em>for</em>.</p>
+<div class="comparison-cards">
+  <div class="comparison-card"><strong>Mediation</strong><p>Typically two parties in dispute and an impartial mediator. The mediator is <em>neutral about the outcome</em> and helps the parties reach their own settlement. Fault need not be established; a good mediation can end with "we simply see this differently." Best where harm is mutual or contested.</p></div>
+  <div class="comparison-card"><strong>Conference</strong><p>A wider, scripted encounter that assumes a person <em>has</em> caused harm and (usually) accepts responsibility. It deliberately includes supporters on both sides and follows affective questions toward an agreement to repair. The facilitator is not neutral about the harm — only about the people.</p></div>
+  <div class="comparison-card"><strong>Circle</strong><p>The most communal form. A keeper and a talking piece structure the space; it can hold many voices and need not centre on a single incident — circles also build community, make decisions, or heal collectively. Everyone speaks in turn; the process is the point as much as any outcome.</p></div>
+</div>
+
+<div class="definition"><div class="definition-term">Talking piece</div><div class="definition-text">A held object (a stone, a shell, a length of cloth — often something of meaning to the community) that passes round the circle. Only the person holding it may speak; everyone else listens. It slows the exchange, protects the quietest voice from the loudest, and removes the facilitator's power to allocate the floor. The object, not a person, keeps order.</div></div>
+
+<div class="concept-box"><div class="concept-box-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_User.svg" alt="" class="sargam-icon"> Pre-conference preparation</div>
+<p>The encounter you see is the smallest part of the work. Before any circle or conference, the facilitator meets each participant <em>separately</em> to prepare them, and this preparation is what makes the room safe:</p>
+<ul>
+  <li><strong>Consent and readiness.</strong> No one is compelled. The person harmed must genuinely want to take part — never pressured "for the offender's sake" — and the person responsible must have moved past denial to some acceptance of what they did.</li>
+  <li><strong>Managing expectations.</strong> The facilitator walks each person through what will happen, what will be asked, and what will <em>not</em> (no ambush, no cross-examination, no guaranteed apology).</li>
+  <li><strong>Safety and power.</strong> Screening for intimidation, ongoing risk or gross power imbalance — some cases (e.g. certain domestic-abuse situations) are unsuitable for a face-to-face meeting, and a skilled practitioner will say so.</li>
+  <li><strong>Choosing supporters.</strong> Helping each side identify the people whose presence will steady rather than inflame them.</li>
+</ul></div>
+
+<div class="definition"><div class="definition-term">Reintegrative vs stigmatising shame</div><div class="definition-text">John Braithwaite (<em>Crime, Shame and Reintegration</em>, 1989) distinguishes shame that brands the <em>person</em> as bad — pushing them out, toward a criminal identity — from shame that disapproves of the <em>act</em> while affirming the person's worth and welcoming them back. A well-run conference is engineered for the second: the harm is named plainly, but supporters in the room signal that the person still belongs. Get this wrong and a conference simply humiliates.</div></div>
+
+<div class="worked-example"><div class="worked-example-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Clipboard.svg" alt="" class="sargam-icon"> Case &mdash; a school conference after a serious fight</div>
+<p>At a secondary school, Rohan (15) punched Imran during a break, splitting his lip and frightening the students who watched. The old response would be a three-day suspension: Rohan misses lessons, learns that he is "a violent boy," and Imran &mdash; the person actually harmed &mdash; is never asked what he needs. The school runs a restorative conference instead.</p>
+<p><strong>Preparation.</strong> The facilitator meets Rohan, Imran and their parents separately. She confirms Imran wants to take part and is not being pressured; she checks that Rohan has moved past "he started it" to some ownership; she agrees who will attend. A bystander who was shaken and Rohan's form teacher are invited as affected community.</p>
+<p><strong>Opening.</strong> Everyone sits in a circle &mdash; no desk between Rohan and Imran. The facilitator states the purpose in one breath: "We are here because of what happened on Tuesday, to understand the harm and work out how to put things right. We are not here to decide punishment." She names the ground rules and, in a circle format, introduces the talking piece.</p>
+<p><strong>Each voice, in turn.</strong> She asks Rohan the affective questions first: <em>what happened, what were you thinking at the time, who has been affected?</em> Then Imran describes the fear and the humiliation of being hit in front of his friends &mdash; the part Rohan had not considered. The bystander speaks to how unsafe the break felt. The parents speak. The facilitator does almost nothing but hold the sequence and let silence do its work; she resists the urge to lecture.</p>
+<p><strong>Reaching agreement.</strong> Only after the harm is fully in the room does she ask: <em>what is needed to make things right?</em> The plan is written by the participants, not imposed &mdash; Rohan apologises in his own words, agrees to help reset the sports store he damaged, and commits to a fortnightly check-in; the school agrees to a period without a suspension mark so Rohan is not branded.</p>
+<p><strong>Follow-up.</strong> The facilitator schedules the check-in and closes by noting what she heard each person offer. Two weeks later she confirms the apology landed for Imran and the agreement is holding &mdash; the accountability was <em>facing</em> the harm and repairing it, not being sent away from it.</p></div>
 
 <h3>Two settings that matter for practitioners</h3>
 <ul>
@@ -376,118 +747,213 @@ VALUES
   <li><strong>Criminal justice.</strong> Used as diversion (pre-charge), pre-sentence, in prisons, and at re-entry. Meta-analyses (e.g. Sherman &amp; Strang) find RJ conferencing tends to reduce repeat offending and markedly improves victim satisfaction and post-traumatic recovery compared with court.</li>
 </ul>
 
-<div class="coach-callout">
-  <img loading="lazy" src="https://www.impactmojo.in/assets/images/varna-photo.jpg" alt="Coach Varna" class="coach-photo">
-  <div class="coach-content">
-    <div class="coach-name">Varna</div>
-    <div class="coach-message">Don't reach for the formal conference first — most of the change you're after lives in the small, daily "with" moments. Start by practising a single affective statement in your next hard conversation and watch what it opens.</div>
-    <div class="coach-links">
-      <a href="/coaching" class="coach-link">Book a coaching session</a>
-      <a href="lexicon.html" class="coach-link secondary">Open the lexicon</a>
-    </div>
-  </div>
-</div>
-
 <div class="concept-box"><div class="concept-box-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Book.svg" alt="" class="sargam-icon"> Core readings</div>
 <ul>
   <li>Kay Pranis — <em>The Little Book of Circle Processes</em> (2005)</li>
   <li>Belinda Hopkins — <em>Just Schools</em> (2004) — restorative approaches in education</li>
   <li>Sherman &amp; Strang — <em>Restorative Justice: The Evidence</em> (2007)</li>
-</ul></div>$html$,
+</ul></div>
+
+<div class="reflection-prompt"><p><strong>Reflect.</strong> Think of a harm you have handled at work or in your community. Which encounter did it really call for — a mediation, a conference or a circle — and did the process you actually used match that? Hardest of all: were you honest about whether the person harmed genuinely wanted to be in the room, or was the meeting quietly arranged for the sake of the person who caused the harm?</p></div>$html$,
   NULL,
   false),
 ('nvc-rj', 9, 'Module 9: Roots, Power & Critique',
   'Restorative justice did not begin in the 1970s, and it is not automatically benign. This module traces its indigenous and South Asian lineages — and gives the serious critiques the weight they deserve.',
   $html$<h2>Module 9: Roots, Power &amp; Critique</h2>
-<div class="section-intro"><p class="lead">Restorative justice did not begin in the 1970s, and it is not automatically benign. This module traces its indigenous and South Asian lineages — and gives the serious critiques the weight they deserve.</p></div>
+<div class="section-intro"><p class="lead">Restorative justice did not begin in the 1970s, and it is not automatically benign. This module traces its indigenous and South Asian lineages &mdash; and gives the serious critiques the weight they deserve.</p></div>
 
 <h3>Older than the movement</h3>
 <p>Contemporary RJ rediscovered, and sometimes appropriated, practices that indigenous and traditional societies never abandoned:</p>
 <ul>
-  <li><strong>Māori</strong> <em>whānau</em>-centred process, which reshaped New Zealand law.</li>
-  <li><strong>First Nations / Navajo peacemaking</strong> (<em>Hózhǫ́ǫ́jí Naat'áanii</em>) — restoring harmony (<em>hózhǫ́</em>) rather than assigning blame.</li>
-  <li><strong>Ubuntu</strong> in Southern Africa — "a person is a person through other persons" — an ethic invoked (and contested) in the Truth and Reconciliation Commission.</li>
-  <li><strong>South Asian</strong> traditions: the <em>panchayat</em> as a forum of community resolution; India's <strong>Gram Nyayalayas Act (2008)</strong> and <strong>Lok Adalats</strong> (settlement-oriented people's courts); traditions of <em>sulh</em> (reconciliation) and mediation in Muslim communities.</li>
+  <li><strong>M&#257;ori</strong> <em>wh&#257;nau</em>-centred process, which reshaped New Zealand law.</li>
+  <li><strong>First Nations / Navajo peacemaking</strong> (<em>H&oacute;zh&#491;&#491;j&iacute; Naat'&aacute;anii</em>) &mdash; restoring harmony (<em>h&oacute;zh&#491;</em>) rather than assigning blame.</li>
+  <li><strong>Ubuntu</strong> in Southern Africa &mdash; &ldquo;a person is a person through other persons&rdquo; &mdash; an ethic invoked (and contested) in the Truth and Reconciliation Commission.</li>
+  <li><strong>South Asian</strong> traditions: the <em>panchayat</em> as a forum of community resolution; India&rsquo;s <strong>Gram Nyayalayas Act (2008)</strong> and <strong>Lok Adalats</strong> (settlement-oriented people&rsquo;s courts); traditions of <em>sulh</em> (reconciliation) and mediation in Muslim communities.</li>
 </ul>
-<div class="callout callout-red"><div class="callout-icon"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Alert.svg" alt="" class="sargam-icon"></div><div class="callout-content"><p><strong>The khap panchayat problem — a required caution.</strong> "Community justice" is not restorative merely because it is communal. The <em>khap panchayat</em>, which has ordered social boycotts and endorsed "honour" killings to enforce caste and gender hierarchy, is the anti-model. Community process can reproduce domination as easily as repair. RJ's safeguards — voluntariness, centring the harmed, refusal of coercion, protection of the vulnerable — are exactly what distinguishes it from oppressive village "justice." Never romanticise the local.</p></div></div>
+
+<div class="dag-figure">
+  <svg viewBox="0 0 560 340" role="img" aria-label="A roots map: five older traditions — Gandhian satyagraha, the panchayat, Maori whanau conferencing, Rwandan Gacaca and First Nations circles — feed upward with solid arrows into three branded modern practices, NVC, NVR and RJ. Three dashed critique arrows point back down, labelled power imbalance, co-optation and commercialisation, and erasure of origins."
+       xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+    <defs>
+      <marker id="arr09up" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+        <path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker>
+    </defs>
+
+    <!-- Canonical branded practices (top) -->
+    <text x="280" y="24" text-anchor="middle" font-size="12" fill="currentColor" stroke="none" opacity="0.7">The &ldquo;canonical&rdquo; branded practices</text>
+    <rect x="70"  y="38" width="110" height="42" rx="8" stroke-width="2"/>
+    <text x="125" y="64" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">NVC</text>
+    <rect x="225" y="38" width="110" height="42" rx="8" stroke-width="2"/>
+    <text x="280" y="64" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">NVR</text>
+    <rect x="380" y="38" width="110" height="42" rx="8" stroke-width="2"/>
+    <text x="435" y="64" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">RJ</text>
+
+    <!-- Older / indigenous traditions (bottom) -->
+    <text x="280" y="248" text-anchor="middle" font-size="12" fill="currentColor" stroke="none" opacity="0.7">Older &amp; indigenous traditions</text>
+    <rect x="14"  y="262" width="96" height="54" rx="8" stroke-width="1.5"/>
+    <text x="62"  y="285" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Satyagraha</text>
+    <text x="62"  y="301" text-anchor="middle" font-size="11" fill="currentColor" stroke="none" opacity="0.75">(Gandhi)</text>
+    <rect x="122" y="262" width="96" height="54" rx="8" stroke-width="1.5"/>
+    <text x="170" y="292" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Panchayat</text>
+    <rect x="230" y="262" width="100" height="54" rx="8" stroke-width="1.5"/>
+    <text x="280" y="285" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">M&#257;ori</text>
+    <text x="280" y="301" text-anchor="middle" font-size="11" fill="currentColor" stroke="none" opacity="0.75">wh&#257;nau</text>
+    <rect x="342" y="262" width="96" height="54" rx="8" stroke-width="1.5"/>
+    <text x="390" y="292" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Gacaca</text>
+    <rect x="450" y="262" width="96" height="54" rx="8" stroke-width="1.5"/>
+    <text x="498" y="285" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">First Nations</text>
+    <text x="498" y="301" text-anchor="middle" font-size="11" fill="currentColor" stroke="none" opacity="0.75">circles</text>
+
+    <!-- Solid "feeds up into" arrows -->
+    <line x1="62"  y1="262" x2="108" y2="82" stroke-width="1.5" marker-end="url(#arr09up)"/>
+    <line x1="170" y1="262" x2="132" y2="82" stroke-width="1.5" marker-end="url(#arr09up)"/>
+    <line x1="280" y1="262" x2="280" y2="82" stroke-width="1.5" marker-end="url(#arr09up)"/>
+    <line x1="390" y1="262" x2="420" y2="82" stroke-width="1.5" marker-end="url(#arr09up)"/>
+    <line x1="498" y1="262" x2="450" y2="82" stroke-width="1.5" marker-end="url(#arr09up)"/>
+
+    <!-- Dashed critique arrows pointing back down -->
+    <path d="M150 84 C 150 150, 150 180, 150 244" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arr09up)"/>
+    <text x="150" y="168" text-anchor="middle" font-size="11" fill="currentColor" stroke="none" opacity="0.8">power imbalance</text>
+    <path d="M280 84 C 340 150, 340 180, 340 244" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arr09up)"/>
+    <text x="345" y="168" text-anchor="middle" font-size="11" fill="currentColor" stroke="none" opacity="0.8">co-optation &amp;</text>
+    <text x="345" y="182" text-anchor="middle" font-size="11" fill="currentColor" stroke="none" opacity="0.8">commercialisation</text>
+    <path d="M415 84 C 470 150, 470 180, 470 244" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arr09up)"/>
+    <text x="472" y="205" text-anchor="middle" font-size="11" fill="currentColor" stroke="none" opacity="0.8">erasure of origins</text>
+  </svg>
+  <div class="dag-caption">Solid arrows: living traditions the branded practices drew from. Dashed arrows: the critiques that flow back &mdash; power imbalance, co-optation &amp; commercialisation, and the erasure of the very origins that gave these practices their authority.</div>
+</div>
+
+<div class="callout callout-red"><div class="callout-icon"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Alert.svg" alt="" class="sargam-icon"></div><div class="callout-content"><p><strong>The khap panchayat problem &mdash; a required caution.</strong> &ldquo;Community justice&rdquo; is not restorative merely because it is communal. The <em>khap panchayat</em>, which has ordered social boycotts and endorsed &ldquo;honour&rdquo; killings to enforce caste and gender hierarchy, is the anti-model. Community process can reproduce domination as easily as repair. RJ&rsquo;s safeguards &mdash; voluntariness, centring the harmed, refusal of coercion, protection of the vulnerable &mdash; are exactly what distinguishes it from oppressive village &ldquo;justice.&rdquo; Never romanticise the local.</p></div></div>
+
+<h3>Naming the critiques precisely</h3>
+<p>&ldquo;It has problems&rdquo; is not a critique. The objections that matter have names, histories, and specific mechanisms. Three deserve to be held sharply.</p>
+
+<div class="definition"><div class="definition-term">Co-optation</div><div class="definition-text">The absorption of a transformative practice into the institution it was meant to challenge, so that its language survives but its power drains away. Bolted onto a punitive court or an HR department, a &ldquo;circle&rdquo; can become a compliance ritual &mdash; the vocabulary of repair doing the work of control. A close cousin is <strong>commercialisation</strong>: NVC and restorative practice sold as branded trainings and certifications, their indigenous and grassroots lineage quietly detached from the invoice.</div></div>
+
+<div class="definition"><div class="definition-term">The feminist critique of forced empathy &amp; reconciliation</div><div class="definition-text">Feminist scholars (Kathleen Daly, Julie Stubbs, and others) argue that empathy and reconciliation, when made the <em>goal</em> of a process rather than a possible outcome, become another burden placed on the harmed &mdash; disproportionately on women. A survivor invited to &ldquo;understand&rdquo; the person who harmed her, or to sit in dialogue with him for the sake of &ldquo;closure,&rdquo; is being asked to perform the emotional labour of repair in the very relation where power was abused. Forced empathy is not empathy; forced reconciliation privatises a public wrong.</div></div>
+
+<div class="definition"><div class="definition-term">The decolonial critique of &ldquo;invention&rdquo;</div><div class="definition-text">Presenting NVC, NVR, or RJ as modern Western &ldquo;inventions&rdquo; erases the M&#257;ori, First Nations, African, and South Asian traditions they draw from &mdash; and then re-sells those traditions back to the communities that kept them alive, now credentialed by a Western trainer. The decolonial point is not that the branded practices are worthless, but that naming a living indigenous practice as someone else&rsquo;s discovery is itself an act of power.</div></div>
 
 <h3>The feminist critique: gender-based violence</h3>
-<p>The most important critique concerns intimate-partner and sexual violence. Feminist scholars (e.g. Kathleen Daly, Julie Stubbs) warn that a face-to-face "dialogue" between a survivor and an abuser can <strong>replicate the power imbalance</strong>, pressure survivors to reconcile, privatise a public wrong, and re-traumatise. Yet survivors are often failed by the criminal system too. The frontier is <strong>survivor-led</strong> design: RJ only where the survivor genuinely chooses it, with rigorous safeguards, skilled facilitation, and no pressure to forgive.</p>
+<p>The most important critique concerns intimate-partner and sexual violence. Feminist scholars warn that a face-to-face &ldquo;dialogue&rdquo; between a survivor and an abuser can <strong>replicate the power imbalance</strong>, pressure survivors to reconcile, privatise a public wrong, and re-traumatise. Yet survivors are often failed by the criminal system too. The frontier is <strong>survivor-led</strong> design: RJ only where the survivor genuinely chooses it, with rigorous safeguards, skilled facilitation, and no pressure to forgive.</p>
+
+<div class="worked-example"><div class="worked-example-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Clipboard.svg" alt="" class="sargam-icon"> Case &mdash; the circle that protected the powerful</div>
+<p>A women&rsquo;s collective in a small town runs a restorative circle after a complaint of sustained harassment by a senior male colleague against a junior woman on staff. The facilitator, trained in NVC, opens by inviting everyone to &ldquo;speak from needs&rdquo; and to hear each other with empathy.</p>
+<p><strong>Approach A &mdash; the naive process that reproduced the imbalance.</strong> Both parties are seated as equals in the circle. The senior colleague is articulate, senior, and socially connected; he frames his conduct as a &ldquo;misunderstanding&rdquo; and names his own &ldquo;need for respect and belonging.&rdquo; The facilitator, committed to even-handed empathy, asks the junior woman whether she can &ldquo;understand where he is coming from&rdquo; and work toward reconciliation so the team can heal. She, outnumbered by his allies and reading the room, agrees, says the right words, and forgives. The circle records a warm resolution. Nothing about his power over her hiring, references, or daily work has changed &mdash; and she now carries the added labour of having publicly absolved him. The form of repair has laundered the abuse.</p>
+<p><strong>Approach B &mdash; taking the critique seriously.</strong> The facilitator treats the power differential, not the interpersonal friction, as the central fact. She screens first: does the survivor genuinely want a process, and which one? No shared circle is convened unless the survivor chooses it, and never as a route to reconciliation. Accountability sits with the person who caused harm &mdash; his obligations (to change conduct, to accept structural consequences, to do the work of understanding <em>her</em> experience) are the agenda, and empathy is asked <em>of him</em>, not demanded <em>of her</em>. &ldquo;Understanding&rdquo; is never framed as the survivor&rsquo;s task, forgiveness is never the goal, and the institution&rsquo;s power arrangements &mdash; supervision, reporting lines, sanction &mdash; are on the table alongside any dialogue. The test is not &ldquo;did we hold a circle?&rdquo; but &ldquo;did power actually shift?&rdquo;</p></div>
 
 <h3>Co-optation, net-widening, and the abolitionist turn</h3>
 <ul>
-  <li><strong>Dilution / co-optation.</strong> Bolted onto punitive systems, RJ can become a soft add-on that changes nothing — or "net-widening," drawing more people (especially children) into formal control for minor matters.</li>
-  <li><strong>Transformative Justice (TJ).</strong> An abolitionist current (generationFIVE, Mia Mingus, INCITE!, Mariame Kaba) argues that harm is produced by structures, and that genuine accountability must be built in communities <em>outside</em> the carceral state, addressing root causes rather than individual incidents. TJ is RJ's most demanding interlocutor.</li>
+  <li><strong>Dilution / co-optation.</strong> Bolted onto punitive systems, RJ can become a soft add-on that changes nothing &mdash; or &ldquo;net-widening,&rdquo; drawing more people (especially children) into formal control for minor matters.</li>
+  <li><strong>Transformative Justice (TJ).</strong> An abolitionist current (generationFIVE, Mia Mingus, INCITE!, Mariame Kaba) argues that harm is produced by structures, and that genuine accountability must be built in communities <em>outside</em> the carceral state, addressing root causes rather than individual incidents. TJ is RJ&rsquo;s most demanding interlocutor.</li>
 </ul>
 <div class="key-insight"><div class="key-insight-label"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Spark.svg" alt="" class="sargam-icon"> Practitioner stance</div>
-<p>Hold the tension: RJ is a real improvement on retribution <em>and</em> can be co-opted, romanticised, or unsafe. The test is never "is it a circle?" but "does this process centre those harmed, refuse coercion, and actually shift power and repair?"</p></div>
-
-<div class="coach-callout">
-  <img loading="lazy" src="https://www.impactmojo.in/assets/images/varna-photo.jpg" alt="Coach Varna" class="coach-photo">
-  <div class="coach-content">
-    <div class="coach-name">Varna</div>
-    <div class="coach-message">Sit with the discomfort of this module — loving restorative practice and refusing to romanticise it are the same commitment, not opposing ones. Before you bring a circle to a case of gender-based violence, ask whether the survivor is truly choosing it, and be willing to hear "no."</div>
-    <div class="coach-links">
-      <a href="/coaching" class="coach-link">Book a coaching session</a>
-      <a href="lexicon.html" class="coach-link secondary">Open the lexicon</a>
-    </div>
-  </div>
-</div>
+<p>Hold the tension: RJ is a real improvement on retribution <em>and</em> can be co-opted, romanticised, or unsafe. The test is never &ldquo;is it a circle?&rdquo; but &ldquo;does this process centre those harmed, refuse coercion, and actually shift power and repair?&rdquo;</p></div>
 
 <div class="concept-box"><div class="concept-box-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Book.svg" alt="" class="sargam-icon"> Core readings</div>
 <ul>
-  <li>Fania Davis — <em>The Little Book of Race and Restorative Justice</em> (2019)</li>
-  <li>Danielle Sered — <em>Until We Reckon</em> (2019)</li>
-  <li>Kathleen Daly &amp; Julie Stubbs — feminist engagements with RJ (papers)</li>
-  <li>generationFIVE — <em>Toward Transformative Justice</em> (2007)</li>
-</ul></div>$html$,
+  <li>Fania Davis &mdash; <em>The Little Book of Race and Restorative Justice</em> (2019)</li>
+  <li>Danielle Sered &mdash; <em>Until We Reckon</em> (2019)</li>
+  <li>Kathleen Daly &amp; Julie Stubbs &mdash; feminist engagements with RJ (papers)</li>
+  <li>generationFIVE &mdash; <em>Toward Transformative Justice</em> (2007)</li>
+</ul></div>
+
+<div class="reflection-prompt"><p><strong>Reflect.</strong> Take one restorative or NVC practice you use and trace it back &mdash; whose tradition did it come from, and does your version still credit them or quietly claim the practice as its own? Now name a case in your own context where &ldquo;empathy&rdquo; or &ldquo;reconciliation&rdquo; was asked of the person with less power: if you ran it again taking the critique seriously, what would you refuse to do &mdash; even if it left the conflict unresolved?</p></div>$html$,
   NULL,
   false),
 ('nvc-rj', 10, 'Module 10: Choosing & Combining the Practices',
   'Three canons, one situation in front of you. The mark of skill is not mastery of any single method but knowing which the moment calls for — and when nonviolent method is not the answer.',
   $html$<h2>Module 10: Choosing &amp; Combining the Practices</h2>
-<div class="section-intro"><p class="lead">Three canons, one situation in front of you. The mark of skill is not mastery of any single method but knowing which the moment calls for — and when nonviolent method is <em>not</em> the answer.</p></div>
+<div class="section-intro"><p class="lead">Three canons, one situation in front of you. The mark of skill is not mastery of any single method but knowing which the moment calls for &mdash; and when nonviolent method is <em>not</em> the answer.</p></div>
 
 <h3>A decision heuristic</h3>
 <div class="table-wrapper"><table>
-  <thead><tr><th>If the situation is…</th><th>Reach first for…</th></tr></thead>
+  <thead><tr><th>If the situation is&hellip;</th><th>Reach first for&hellip;</th></tr></thead>
   <tbody>
-    <tr><td>A charged conversation between rough equals</td><td><strong>NVC</strong> — observation/feeling/need/request; empathy first</td></tr>
-    <tr><td>An adult needing to resist a young person's harmful behaviour</td><td><strong>NVR</strong> — presence, self-control, supporters, announcement</td></tr>
-    <tr><td>Harm has been done and a community must respond</td><td><strong>Restorative Justice</strong> — centre the harmed; circle/conference</td></tr>
-    <tr><td>The conflict is structural / about power and resources</td><td><strong>None of the three alone</strong> — organise, advocate, change the conditions (see Gandhi flagship)</td></tr>
+    <tr><td>A charged conversation between rough equals</td><td><strong>NVC</strong> &mdash; observation/feeling/need/request; empathy first</td></tr>
+    <tr><td>An adult needing to resist a young person's harmful behaviour</td><td><strong>NVR</strong> &mdash; presence, self-control, supporters, announcement</td></tr>
+    <tr><td>Harm has been done and a community must respond</td><td><strong>Restorative Justice</strong> &mdash; centre the harmed; circle/conference</td></tr>
+    <tr><td>The conflict is structural / about power and resources</td><td><strong>None of the three alone</strong> &mdash; organise, advocate, change the conditions (see Gandhi flagship)</td></tr>
   </tbody>
 </table></div>
 <p>They also compose: an NVR supporters' meeting is run with NVC; a restorative circle depends on NVC-style empathic listening; NVC self-empathy is what keeps an NVR parent "striking while the iron is cold."</p>
+
+<div class="dag-figure">
+  <svg viewBox="0 0 580 250" role="img" aria-label="A single situation branches to three practices: an emotional moment between equals leads to NVC; needing to hold a firm non-escalating line against harmful behaviour leads to NVR; harm already done that must be repaired leads to Restorative Justice. A note reads that real cases often need all three in sequence."
+       xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+    <defs><marker id="sel10" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker></defs>
+    <rect x="14" y="101" width="140" height="48" rx="8" stroke-width="2"/>
+    <text x="84" y="121" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">A situation</text>
+    <text x="84" y="138" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">in front of you</text>
+    <rect x="356" y="22" width="212" height="44" rx="8" stroke-width="2"/>
+    <text x="462" y="42" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">NVC</text>
+    <text x="462" y="58" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">the charged conversation</text>
+    <rect x="356" y="102" width="212" height="44" rx="8" stroke-width="2"/>
+    <text x="462" y="122" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">NVR</text>
+    <text x="462" y="138" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">the non-escalating firm line</text>
+    <rect x="356" y="182" width="212" height="44" rx="8" stroke-width="2"/>
+    <text x="462" y="202" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Restorative Justice</text>
+    <text x="462" y="218" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">repair &amp; restore relationship</text>
+    <line x1="154" y1="112" x2="352" y2="46" stroke-width="2" marker-end="url(#sel10)"/>
+    <line x1="154" y1="125" x2="352" y2="124" stroke-width="2" marker-end="url(#sel10)"/>
+    <line x1="154" y1="138" x2="352" y2="202" stroke-width="2" marker-end="url(#sel10)"/>
+    <text x="250" y="70" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">emotional moment, equals</text>
+    <text x="250" y="116" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">hold a firm line</text>
+    <text x="250" y="182" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">harm already done</text>
+    <text x="290" y="245" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Real cases often need all three &mdash; in sequence, not instead of one another.</text>
+  </svg>
+  <div class="dag-caption">The selector is a starting point, not a silo: one incident can send you to NVR to stop harm, NVC to hold the conversations, and RJ to repair &mdash; in that order.</div>
+</div>
+
+<h3>When each fits, and what it cannot do alone</h3>
+<p>A method chosen well still fails if it is asked to do the work of another. The value of holding all three is knowing each one's edge &mdash; the point past which reaching for it does harm.</p>
+<div class="table-wrapper"><table>
+  <thead><tr><th>Practice</th><th>Fits when&hellip;</th><th>Its limit &mdash; what it cannot do alone</th></tr></thead>
+  <tbody>
+    <tr><td><strong>NVC</strong></td><td>Two parties can, in principle, meet as equals; the work is connection, understanding and a workable request.</td><td>Empathy is not a container for ongoing harm. Where one party keeps hurting another, "hearing the need under the behaviour" without a firm limit reads as permission &mdash; and re-victimises the harmed. NVC connects; it does not, by itself, <em>stop</em>.</td></tr>
+    <tr><td><strong>NVR</strong></td><td>Someone must resist harmful behaviour from a position of care &mdash; a parent, warden, teacher &mdash; without escalating or retaliating.</td><td>Stopping harm is not the same as healing it. NVR restores safety and the adult's presence, but it is deliberately one-directional; it leaves the relationship un-repaired and the harmed person's voice un-centred.</td></tr>
+    <tr><td><strong>Restorative Justice</strong></td><td>Harm has already happened, safety is re-established, and a community can centre the harmed and invite genuine accountability.</td><td>A circle opened before harm has stopped, or before people are regulated, coerces a performance of remorse and deepens the injury. RJ repairs; it cannot be the thing that first makes people safe.</td></tr>
+  </tbody>
+</table></div>
 
 <h3>Three cross-cutting cautions</h3>
 <ul>
   <li><strong>Power and safety first.</strong> Where there is ongoing abuse, a live threat, or a severe power imbalance, dialogue can endanger. Safety planning precedes any restorative or communicative process; sometimes the nonviolent act is to <em>leave</em> or to <em>call for protection</em>.</li>
   <li><strong>Trauma-informed practice.</strong> A traumatised nervous system cannot access OFNR or sit in a circle until it is regulated. Grounding, choice, and the option to withdraw are prerequisites, not niceties. (See the <a href="../sel/index.html">SEL flagship</a> on regulation and vicarious trauma.)</li>
-  <li><strong>The practitioner's own regulation.</strong> All three methods fail the instant the facilitator is dysregulated. Self-empathy and self-control are not preliminaries — they are the method.</li>
+  <li><strong>The practitioner's own regulation.</strong> All three methods fail the instant the facilitator is dysregulated. Self-empathy and self-control are not preliminaries &mdash; they are the method.</li>
 </ul>
 <div class="callout callout-purple">
   <div class="callout-icon"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Check_circle.svg" alt="" class="sargam-icon"></div>
-  <div class="callout-content"><p><strong>Consent and voluntariness</strong> run through everything here. A coerced apology, a mandated circle, a scripted "request" that is really a demand — each turns a nonviolent form into a violent function. If participation is not genuinely free, it is not the practice.</p></div>
+  <div class="callout-content"><p><strong>Consent and voluntariness</strong> run through everything here. A coerced apology, a mandated circle, a scripted "request" that is really a demand &mdash; each turns a nonviolent form into a violent function. If participation is not genuinely free, it is not the practice.</p></div>
+</div>
+
+<div class="worked-example"><div class="worked-example-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Clipboard.svg" alt="" class="sargam-icon"> Case &mdash; the hostel, and why the order matters</div>
+<p>Priya is the warden of a residential-school hostel in Rajasthan. For weeks a group of Class 11 seniors have been "ragging" Aakash, a Class 8 boarder &mdash; petty at first (errands, mockery), then colder. One night it tips over: the seniors lock Aakash out on the terrace past midnight to "toughen him up", and he is found at dawn, shaken and mildly hypothermic. Aakash's parents are on the phone by breakfast; the seniors are defensive and half-proud; the junior dormitory is frightened; and a well-meaning colleague is already proposing "let's all sit in a circle and talk it out this afternoon." Priya has all three canons available. The skill is sequencing them.</p>
+<p><strong>First, NVR &mdash; because nothing else is safe until the harm stops.</strong> A circle held while the ragging is still live would put a terrified 13-year-old across from the boys who locked him out and call it dialogue; it would coerce a performance and re-injure him. So Priya does not open with a conversation about feelings. She establishes presence and a firm, non-escalating line: the terrace is locked at night, senior movement into the junior dorm ends, and she recruits <em>supporters</em> &mdash; two other staff and the seniors' own housemaster &mdash; so the limit is carried by a community of adults, not one warden's willpower. She announces plainly, without humiliating anyone back: "The ragging of juniors in this hostel stops now. I am not willing to look away, and I am not going to shame you for it either." NVR is deliberately one-directional here; its whole job is to re-establish safety, not to heal.</p>
+<p><strong>Then, NVC &mdash; for the charged conversations the incident has opened.</strong> Only once harm has stopped can the conversations be held without endangering anyone, and each is charged in its own way. With Aakash, Priya leads with empathy and choice &mdash; observation and feeling before any request, the option to withdraw at any point &mdash; so he is regulated, not re-interrogated. With the seniors, NVC lets her hear the needs under the bravado (belonging, status, their own history of being ragged) <em>without</em> excusing the act &mdash; the firm line from the NVR phase still holds. With the anxious parents and the frightened dorm, self-empathy keeps Priya regulated enough to stay present. NVC connects and prepares people; it is the bridge, not the repair.</p>
+<p><strong>Finally, Restorative Justice &mdash; because stopping and connecting have not yet repaired anything.</strong> Safety is restored and the parties are regulated, so a restorative conference can now do what neither NVR nor NVC could alone: centre Aakash's account of the harm, invite the seniors into genuine (uncoerced) accountability, agree concrete repair, and knit the hostel community back together. Run any earlier &mdash; before the line was firm, before people were regulated &mdash; and the same circle would have coerced remorse and deepened the wound. That is the <em>why</em> of the order: <strong>NVR makes it safe, NVC makes it speakable, RJ makes it whole</strong> &mdash; and each earlier step is the precondition for the next.</p>
 </div>
 
 <div class="coach-callout">
   <img loading="lazy" src="https://www.impactmojo.in/assets/images/varna-photo.jpg" alt="Coach Varna" class="coach-photo">
   <div class="coach-content">
     <div class="coach-name">Varna</div>
-    <div class="coach-message">The hardest skill in this module is restraint — knowing when to reach for a method and when to set all three down and organise for structural change instead. Bring me a live situation and we'll work out together which canon it actually calls for.</div>
+    <div class="coach-message">The hardest skill in this module is restraint &mdash; knowing when to reach for a method and when to set all three down and organise for structural change instead. Bring me a live situation and we'll work out together which canon it actually calls for.</div>
     <div class="coach-links">
       <a href="/coaching" class="coach-link">Book a coaching session</a>
       <a href="lexicon.html" class="coach-link secondary">Open the lexicon</a>
     </div>
   </div>
-</div>$html$,
+</div>
+
+<div class="reflection-prompt"><p><strong>Reflect.</strong> Take a live situation of your own that involves both ongoing harm and harm already done. Map which parts call for NVR, which for NVC, and which for RJ &mdash; and in what order you would sequence them. Now sit with the hardest question: is any part of it actually structural, so that reaching for any of the three would only manage a symptom while leaving the conditions that produced it untouched?</p></div>$html$,
   NULL,
   false),
 ('nvc-rj', 11, 'Module 11: Fieldcraft & Facilitation',
   'A practical, transferable sequence for convening a restorative or communicative process — whether you are mediating a team conflict, running a classroom circle, or coaching a parent through an NVR plan.',
   $html$<h2>Module 11: Fieldcraft &amp; Facilitation</h2>
-<div class="section-intro"><p class="lead">A practical, transferable sequence for convening a restorative or communicative process — whether you are mediating a team conflict, running a classroom circle, or coaching a parent through an NVR plan.</p></div>
+<div class="section-intro"><p class="lead">A practical, transferable sequence for convening a restorative or communicative process — whether you are mediating a team conflict, running a classroom circle, or coaching a parent through an NVR plan. Fieldcraft is what turns the ideas of the preceding modules into something that actually holds when two people who have hurt each other are in the same room.</p></div>
 
 <h3>The facilitation arc</h3>
 <ol>
@@ -499,28 +965,125 @@ VALUES
   <li><strong>Close and follow up.</strong> Mark the transition; record agreements; schedule a check-in. Repair is a process, not an event — reconciliation gestures and follow-through are where it holds or fails.</li>
 </ol>
 
+<div class="dag-figure">
+  <svg viewBox="0 0 620 230" role="img" aria-label="The facilitation arc read left to right: Prepare — assess safety and meet parties separately — leads to Open — set agreements and ground — leads to Hold the space — surface feelings and needs and manage power — leads to Reach agreement, leads to Follow up. Running underneath all five stages is a continuous band labelled self-regulation, your own nervous system, present throughout."
+       xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+    <defs><marker id="arr11a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker></defs>
+    <!-- arc guide -->
+    <path d="M56,120 C180,36 440,36 564,120" stroke-width="1.5" stroke-dasharray="4 5" opacity="0.5"/>
+    <!-- nodes along the arc -->
+    <rect x="8" y="98" width="96" height="44" rx="8" stroke-width="2"/>
+    <text x="56" y="118" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Prepare</text>
+    <text x="56" y="133" text-anchor="middle" font-size="10" fill="currentColor" stroke="none">assess &middot; meet apart</text>
+    <rect x="140" y="52" width="96" height="44" rx="8" stroke-width="2"/>
+    <text x="188" y="72" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Open</text>
+    <text x="188" y="87" text-anchor="middle" font-size="10" fill="currentColor" stroke="none">agree &middot; ground</text>
+    <rect x="262" y="34" width="96" height="44" rx="8" stroke-width="2"/>
+    <text x="310" y="54" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Hold space</text>
+    <text x="310" y="69" text-anchor="middle" font-size="10" fill="currentColor" stroke="none">feelings &middot; needs</text>
+    <rect x="384" y="52" width="100" height="44" rx="8" stroke-width="2"/>
+    <text x="434" y="72" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Reach</text>
+    <text x="434" y="87" text-anchor="middle" font-size="10" fill="currentColor" stroke="none">agreement</text>
+    <rect x="516" y="98" width="96" height="44" rx="8" stroke-width="2"/>
+    <text x="564" y="118" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Follow up</text>
+    <text x="564" y="133" text-anchor="middle" font-size="10" fill="currentColor" stroke="none">check-in</text>
+    <!-- connecting arrows -->
+    <line x1="104" y1="112" x2="138" y2="88" stroke-width="2" marker-end="url(#arr11a)"/>
+    <line x1="236" y1="66" x2="260" y2="60" stroke-width="2" marker-end="url(#arr11a)"/>
+    <line x1="358" y1="60" x2="382" y2="66" stroke-width="2" marker-end="url(#arr11a)"/>
+    <line x1="484" y1="88" x2="514" y2="112" stroke-width="2" marker-end="url(#arr11a)"/>
+    <!-- self-regulation band underneath, present throughout -->
+    <rect x="8" y="176" width="604" height="40" rx="10" stroke-width="2" stroke-dasharray="2 3"/>
+    <text x="310" y="194" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">self-regulation &mdash; your own nervous system</text>
+    <text x="310" y="209" text-anchor="middle" font-size="10" fill="currentColor" stroke="none">present at every stage; when it goes, the process goes</text>
+  </svg>
+  <div class="dag-caption">The arc runs left to right, but the band beneath it is the load-bearing part: a facilitator who loses their own regulation cannot hold anyone else's — the room co-regulates to whoever is steadiest.</div>
+</div>
+
 <div class="callout callout-green">
   <div class="callout-icon"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Check_circle.svg" alt="" class="sargam-icon"></div>
   <div class="callout-content"><p><strong>Facilitator's self-check before you begin:</strong> Am I regulated? Am I neutral enough to hold every person's dignity, including the one who caused harm? Have I confused my need for a tidy resolution with their need for repair? Who is not in this room whose voice matters?</p></div>
 </div>
 
-<div class="coach-callout">
-  <img loading="lazy" src="https://www.impactmojo.in/assets/images/varna-photo.jpg" alt="Coach Varna" class="coach-photo">
-  <div class="coach-content">
-    <div class="coach-name">Varna</div>
-    <div class="coach-message">Facilitation is a motor skill, not a set of ideas — it changes only through rehearsal and honest feedback. Practise this arc in role-play first, then bring me a real anonymised case and we'll pressure-test where your process would hold or break.</div>
-    <div class="coach-links">
-      <a href="/coaching" class="coach-link">Book a coaching session</a>
-      <a href="lexicon.html" class="coach-link secondary">Open the lexicon</a>
-    </div>
-  </div>
-</div>$html$,
+<h3>Holding the space — and the four disciplines that make it possible</h3>
+<p>"Holding space" is one of those phrases that dissolves into vapour unless it is broken into observable behaviour. What follows are the concrete disciplines underneath it — each one a thing you can be seen to do, or fail to do, on a recording of the session.</p>
+
+<div class="definition">
+  <div class="definition-term">Holding the space</div>
+  <div class="definition-text">Not passivity, and not stage-managing an outcome. It is actively maintaining the conditions in which each person can stay present to their own experience and hear the other's — regulating the pace, protecting turns, naming feelings and needs out loud so they become sayable, and absorbing enough of the room's charge that no one has to flee or fight. You are the thermostat, not the furnace: you set the temperature at which honest speech is survivable.</div>
+</div>
+
+<div class="definition">
+  <div class="definition-term">Managing power asymmetry</div>
+  <div class="definition-text">Restorative process assumes rough parity of voice; most real conflicts do not have it — manager and report, husband and wife, teacher and student, dominant caste and marginalised. Left unattended, the more powerful party simply narrates reality and the process launders that narration as "dialogue". Managing the asymmetry means slowing the powerful speaker, expanding airtime for the quieter one, offering a private channel to signal distress, and being willing to <em>pause the joint session</em> the moment the weaker party is being re-silenced. Neutrality between unequal parties is not neutrality; it is a thumb on the heavier scale.</div>
+</div>
+
+<div class="concept-box"><div class="concept-box-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Alert.svg" alt="" class="sargam-icon"> Safety gating — when NOT to bring parties together</div>
+  <p>The most skilled facilitation move is sometimes the decision not to facilitate. Do <strong>not</strong> convene a joint process when any of these are present:</p>
+  <ul>
+    <li>Ongoing coercive control, intimate-partner violence, or credible fear of retaliation — a shared room can become an instrument of further control, and an "agreement" extracted under fear is worse than none.</li>
+    <li>A party who wants the process only to perform contrition, extract a confession, or re-litigate — i.e. to <em>weaponise</em> the container.</li>
+    <li>Active crisis: intoxication, acute mental-health emergency, or a person too flooded to speak from anything but the brain-stem.</li>
+    <li>Genuine unwillingness dressed as consent — someone attending because a boss, court, or parent made them, with no real freedom to say no.</li>
+  </ul>
+  <p>Gating is not abandonment. It means routing to what the situation actually needs first — separate support, a safety plan, shuttle (indirect) mediation, or simply time — and keeping the door to dialogue open for later, if and when it becomes safe.</p>
+</div>
+
+<div class="definition">
+  <div class="definition-term">The facilitator's self-regulation &amp; do-no-harm</div>
+  <div class="definition-text">Your nervous system is a piece of equipment in the room, as much as the chairs. When you flood — heart up, breath shallow, a flush of the urge to rescue, defend, or hurry to resolution — your capacity to track two people at once collapses, and the room borrows your dysregulation. <strong>Do-no-harm</strong> is the floor beneath every other aim: better to end a session early, intact, than to push through to a fragile "resolution" that re-injures. The measure of a good process is not that agreement was reached but that no one left more harmed, more silenced, or less safe than they arrived.</div>
+</div>
+
+<div class="worked-example"><div class="worked-example-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Clipboard.svg" alt="" class="sargam-icon"> Case &mdash; the apology that was a weapon</div>
+<p>An NGO in Ranchi runs a restorative circle between two field staff, Priya and Sunil, after Sunil publicly took credit for a report Priya wrote. Both agree to meet; the facilitator, Kamala, has prepped each separately. Ten minutes in, Sunil says smoothly, "Look, I'm <em>sorry</em> you <em>felt</em> that way — I never intended it, and honestly I think you're too sensitive about credit. Can we move on?" He leans back, arms open, having performed contrition while relocating the fault to Priya's feelings. Priya goes quiet and stares at the table. The clock is ticking toward the lunch break.</p>
+<p><strong>Approach A &mdash; the facilitator colludes with the tidy close.</strong> Kamala, relieved that an "apology" has landed and anxious to finish on time, says: "Thank you, Sunil, that's big of you. Priya, can you accept that and shake hands?" She has now used her authority to ratify a non-apology and to pressure the harmed party into absolution. Priya nods to escape the room. The agreement holds for exactly as long as it takes Sunil to do it again — and Priya has learned that the process, too, sides with the confident man. The container was weaponised, and the facilitator supplied the ammunition.</p>
+<p><strong>Approach B &mdash; the skilled recovery.</strong> Kamala notices her own quickening pulse and the pull to wrap up — her self-regulation cue — and takes one slow breath before speaking, deliberately not filling Priya's silence for her. She declines the tidy close and slows the room: "I want to pause before we move on. Sunil, I heard two things in that — an apology, and also a read on Priya's sensitivity. Those pull in different directions, so let's take them one at a time." She names the manoeuvre without attacking him. Then she reroutes to observation and impact, protecting Priya's turn: "Priya, you went quiet. You don't have to be over it. What actually happened, and what was the impact for you?" — restoring the airtime the asymmetry had eaten. When Priya says the report cost her three weekends and the credit cost her a promotion case, Kamala reflects the <em>need</em> underneath (recognition, fairness) rather than negotiating the feeling. She holds Sunil to a concrete obligation, not a sentiment: "An apology for how someone feels is about them; repair is about what you'll do. What would set the record straight — an email to the director correcting authorship?" And she names the exit that was always available: "And Priya, if at any point this stops being useful, we stop; you owe no one a handshake today." The session ends without a handshake but with one real, checkable action and a follow-up date. That is the better outcome. Kamala recovered by regulating herself first, refusing the counterfeit resolution, re-balancing airtime, and converting performed remorse into a specific obligation — concrete moves, in that order.</p>
+</div>
+
+<div class="reflection-prompt"><p><strong>Reflect.</strong> Bring to mind a process you have convened — a meeting, a mediation, a difficult one-to-one — where you steered toward a tidy ending. Which stage of the arc were you actually in, and whose need for closure was driving: theirs, or yours? Now the hardest question: in your last such room, if the quieter party had been re-silenced by the more powerful one, would your own nervous system have let you notice in time to stop — or would you have called it agreement and moved on?</p></div>$html$,
   NULL,
   false),
 ('nvc-rj', 12, 'Module 12: Capstone — Design a Nonviolent Response',
   'Assemble all three canons on one live case from your own practice: diagnose, apply the three lenses, critique your own plan, and write a facilitation script you could actually use.',
   $html$<h2>Module 12: Capstone &mdash; Design a Nonviolent Response</h2>
 <div class="section-intro"><p class="lead">Every module so far handed you one instrument &mdash; a way of speaking, a way of holding authority, a way of repairing harm. This capstone is where you assemble them. Choose <strong>one</strong> live conflict or harm from your own practice &mdash; a real one, suitably anonymised &mdash; and carry it through all three canons until you can hand a sceptic a plan that survives their hardest questions. The test is not recall; it is whether you can design a response that the person harmed, the person who caused harm, and a critical colleague would each recognise as honest.</p></div>
+
+<div class="dag-figure">
+  <svg viewBox="0 0 660 210" role="img" aria-label="Four-step design pathway: Diagnose the situation, then Apply the three lenses of NVC, NVR and RJ, then Critique your own plan for power, safety and culture, then Write the facilitation script. A dashed feedback loop runs from Critique back to Diagnose."
+       xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+    <defs>
+      <marker id="arr12a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+        <path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker>
+      <marker id="arr12b" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+        <path d="M0,0 L7,3 L0,6 z" fill="currentColor" stroke="none"/></marker>
+    </defs>
+    <!-- Step 1: Diagnose -->
+    <rect x="12" y="52" width="132" height="54" rx="8" stroke-width="2"/>
+    <text x="78" y="75" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Diagnose</text>
+    <text x="78" y="93" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">parties &middot; needs &middot; power</text>
+    <!-- Step 2: Apply lenses -->
+    <rect x="182" y="52" width="150" height="54" rx="8" stroke-width="2"/>
+    <text x="257" y="75" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Apply 3 lenses</text>
+    <text x="257" y="93" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">NVC / NVR / RJ</text>
+    <!-- Step 3: Critique -->
+    <rect x="370" y="52" width="132" height="54" rx="8" stroke-width="2"/>
+    <text x="436" y="75" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Critique it</text>
+    <text x="436" y="93" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">power &middot; safety &middot; culture</text>
+    <!-- Step 4: Write script -->
+    <rect x="540" y="52" width="108" height="54" rx="8" stroke-width="2"/>
+    <text x="594" y="75" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">Write the</text>
+    <text x="594" y="93" text-anchor="middle" font-size="14" fill="currentColor" stroke="none">script</text>
+    <!-- Forward arrows -->
+    <line x1="144" y1="79" x2="180" y2="79" stroke-width="2" marker-end="url(#arr12a)"/>
+    <line x1="332" y1="79" x2="368" y2="79" stroke-width="2" marker-end="url(#arr12a)"/>
+    <line x1="502" y1="79" x2="538" y2="79" stroke-width="2" marker-end="url(#arr12a)"/>
+    <!-- Dashed feedback loop: Critique back to Diagnose -->
+    <path d="M 436 106 L 436 172 L 78 172 L 78 108" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#arr12b)"/>
+    <text x="257" y="188" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">if the critique reopens the diagnosis, walk it again</text>
+  </svg>
+  <div class="dag-caption">The capstone is a designed sequence, not a menu: each step constrains the next, and an honest critique often sends you back to re-diagnose before you write a single line of script.</div>
+</div>
 
 <h3>The End-to-End Design Walk</h3>
 <p>A nonviolent response is designed in a sequence, and each step constrains the next. Work them in order &mdash; the discipline is refusing to reach for a technique before you have understood the conflict, and refusing to convene anyone before you have checked that it is safe to. Take your one case down this ladder.</p>
@@ -531,6 +1094,13 @@ VALUES
   <div class="capstone-phase"><div class="phase-number">3</div><div class="phase-content"><h5>Critique your own plan</h5><p>Name the risks: where could this replicate power, coerce, re-traumatise, or romanticise the community? What safeguards will you build? When would you <em>not</em> proceed? (Module 9)</p></div></div>
   <div class="capstone-phase"><div class="phase-number">4</div><div class="phase-content"><h5>Write the facilitation script</h5><p>Produce a one-page facilitation script or run-of-show you could actually use in the room, grounded in the Module&nbsp;11 arc. (Module 11)</p></div></div>
 </div>
+
+<div class="worked-example"><div class="worked-example-header"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Clipboard.svg" alt="" class="sargam-icon"> Exemplar capstone &mdash; a serious peer-harm incident in a residential hostel</div>
+<p><strong>The situation.</strong> In a residential hostel attached to a rural secondary school, an older student, Ravi, has for weeks been coercing a younger boy, Sameer, into handing over his food and pocket money, backing it with threats and one episode of physical intimidation witnessed by three others. A warden found out when Sameer stopped eating and a friend spoke up. The reflex response &mdash; expel Ravi, close the file &mdash; would remove one boy, teach the dormitory that the way to be safe is to have a warden who likes you, and leave Sameer carrying the shame with no repair. Here is the same case walked through the four steps.</p>
+<p><strong>Step 1 &mdash; Diagnose.</strong> Parties: Sameer (harmed), Ravi (caused harm), three student witnesses, the warden, and &mdash; in the background &mdash; both boys&rsquo; families and the wider dorm. Needs beneath positions: Sameer needs safety, restitution and to stop being seen as a victim; Ravi, on inquiry, is himself food-insecure and newly humiliated after failing a year. The power map is stark: an age-and-size gap between the boys, and a warden who holds punitive authority over both. Safety risk is real and immediate, so the <em>first</em> move is not a circle &mdash; it is separating the boys&rsquo; routines and confirming Sameer is eating and safe. Only then is a nonviolent process even on the table.</p>
+<p><strong>Step 2 &mdash; Apply the three lenses.</strong> <em>NVC</em> reframes the warden&rsquo;s opening to Ravi from &ldquo;you are a thief and a bully&rdquo; to an observation-feeling-need-request: <em>&ldquo;When I heard that Sameer&rsquo;s dinner went to you three nights this week, I felt alarmed, because every child here needs to be safe and fed. Would you be willing to tell me what has been going on for you?&rdquo;</em> &mdash; plus the empathic guess, &ldquo;My hunch is things have been hard since the exam results.&rdquo; <em>NVR</em> governs the warden&rsquo;s stance: a calm announcement to Ravi that the extortion will not continue and that the adults are now present and watching, held with self-control rather than a shouting match; two supporters recruited (a favourite teacher and an uncle) so authority is relational, not lonely; and a later reconciliation gesture that signals Ravi is not being discarded. <em>Restorative justice</em> shapes the repair itself: Sameer is centred, the format is a small facilitated conference (not a whole-dorm spectacle that would re-expose him), and the three questions structure it &mdash; what happened, who was affected and how, and what must now be done to put it right, including returning the money and a concrete plan for Ravi&rsquo;s own food security.</p>
+<p><strong>Step 3 &mdash; Critique your own plan.</strong> Where could this go wrong? A conference held too soon re-traumatises Sameer and lets the size-and-age power gap reassert itself in the room &mdash; so Sameer meets the facilitator alone first and holds a veto over whether he sits with Ravi at all. Restorative language can quietly become pressure on the harmed child to forgive; the script must never ask Sameer to reassure Ravi. The warden&rsquo;s authority could turn the &ldquo;announcement&rdquo; into a threat, so the two supporters are partly there to keep the adult honest. And there is a real romanticising risk in treating a hungry, humiliated boy&rsquo;s coercion as merely a &ldquo;misunderstanding&rdquo;: the harm is named plainly, restitution is non-negotiable, and if Ravi will not acknowledge it the process pauses rather than performs. <strong>When I would not proceed:</strong> if Sameer does not freely want a meeting, if there is any ongoing threat, or if a family insists on a punitive track &mdash; then this becomes a safeguarding referral, not a circle.</p>
+<p><strong>Step 4 &mdash; Write the facilitation script.</strong> The deliverable is a one-page run-of-show: a private safety check-in with Sameer; separate preparation meetings with each boy; the conference opening (facilitator names the purpose and the ground rules, confirms consent in the room); the three questions in order, with the money and food-security plan surfaced as the &ldquo;put it right&rdquo; step; an explicit close that assigns follow-up dates and a named adult Sameer can go to; and a written note of what would trigger a pause. It is short enough to hold in one hand and specific enough that a nervous facilitator could actually run it.</p></div>
 
 <div class="key-insight"><div class="key-insight-label"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Target.svg" alt="" class="sargam-icon"> The test of a nonviolent design</div><p>A good plan is not the one with the most technique in it &mdash; it is the one that survives the question <em>&ldquo;and where could this go wrong?&rdquo;</em> The strongest capstones we see spend as much ink on their safeguards and their &ldquo;I would not do this if&hellip;&rdquo; conditions as on the process itself. <strong>Designing for the failure case is the mark of a practitioner, not a technician.</strong></p></div>
 
