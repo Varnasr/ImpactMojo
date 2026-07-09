@@ -62,13 +62,16 @@
 '.im-sc-btn{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 11px;border-radius:8px;border:1px solid transparent;',
  'background:transparent;color:var(--sc-fg);font:600 12.5px/1 inherit;text-decoration:none;cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s}',
 '.im-sc-btn:hover{background:color-mix(in srgb,var(--sc-acc) 10%,transparent);border-color:color-mix(in srgb,var(--sc-acc) 30%,transparent);color:var(--sc-acc)}',
-'.im-sc-btn svg{width:15px;height:15px;flex:none}',
+'.im-sc-i{width:15px;height:15px;flex:none;filter:brightness(0) saturate(100%);opacity:.78}',
+'html[data-theme="dark"] .im-sc .im-sc-i,html.dark .im-sc .im-sc-i{filter:brightness(0) saturate(100%) invert(1);opacity:.85}',
+'@media(prefers-color-scheme:dark){html:not([data-theme]) .im-sc .im-sc-i{filter:brightness(0) saturate(100%) invert(1);opacity:.85}}',
+'.im-sc-btn:hover .im-sc-i{opacity:1}',
 '.im-sc-btn.im-sc-prem{background:linear-gradient(135deg,#F59E0B,#EF4444);color:#fff}',
 '.im-sc-btn.im-sc-prem:hover{opacity:.92;color:#fff}',
+'.im-sc-prem .im-sc-i,.im-sc-tbtn[aria-pressed="true"] .im-sc-i{filter:brightness(0) invert(1)!important;opacity:1}',
 '.im-sc-icon{width:34px;height:32px;padding:0;justify-content:center}',
 '.im-sc-theme{display:inline-flex;gap:2px;background:color-mix(in srgb,var(--sc-fg) 6%,transparent);border:1px solid var(--sc-bd);border-radius:9px;padding:3px}',
-'.im-sc-tbtn{width:26px;height:24px;border:0;border-radius:6px;background:transparent;color:var(--sc-mut);cursor:pointer;display:inline-flex;align-items:center;justify-content:center}',
-'.im-sc-tbtn svg{width:14px;height:14px}',
+'.im-sc-tbtn{width:26px;height:24px;border:0;border-radius:6px;background:transparent;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}',
 '.im-sc-tbtn[aria-pressed="true"]{background:var(--sc-grad);color:#fff}',
 '@media(max-width:720px){.im-sc-label{display:none}.im-sc-btn{padding:0 8px}.im-sc-icon{width:32px}.im-sc-path{display:none}}',
 // footer
@@ -92,15 +95,12 @@
     ].join('');
   }
 
-  // ── SVG icons ──────────────────────────────────────────────────────
+  // ── Icons: Sargam (site-standard), recoloured to the bar's fg via CSS filter ──
+  var SI = 'https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/';
+  function ic(name) { return '<img class="im-sc-i" src="' + SI + name + '.svg" alt="" width="15" height="15" loading="lazy" onerror="this.style.display=\'none\'">'; }
   var I = {
-    globe: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg>',
-    star: '<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.8 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"/></svg>',
-    info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
-    home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>',
-    sys: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>',
-    sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>',
-    moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>'
+    globe: ic('si_Globe_detailed'), star: ic('si_Star'), info: ic('si_Info'), home: ic('si_Home'),
+    sys: ic('si_Monitor'), sun: ic('si_Sun'), moon: ic('si_Moon')
   };
   var LOGO = SITE + '/assets/images/ImpactMojo%20Logo.png';
 
@@ -135,7 +135,7 @@
     bar.className = 'im-sc im-sc-bar'; bar.setAttribute('role', 'navigation'); bar.setAttribute('aria-label', 'Site');
     bar.innerHTML =
       '<a class="im-sc-crumb" href="/" aria-label="ImpactMojo home">' +
-        '<img src="' + LOGO + '" alt="" width="22" height="22">' +
+        '<img src="' + LOGO + '" alt="" width="22" height="22" onerror="this.style.display=\'none\'">' +
         '<span class="im-sc-site">impactmojo.in</span>' +
         '<span class="im-sc-path">/&nbsp;<b>' + escapeHtml(pageName()) + '</b></span>' +
       '</a>' +
