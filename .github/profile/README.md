@@ -6,7 +6,7 @@ We build open-source learning tools for NGOs, impact practitioners, researchers,
 
 ## What We Build
 
-- **[impactmojo.in](https://www.impactmojo.in)** — 62 courses, 134 games, 13 labs, 84 handouts, and 200 case studies
+- **[impactmojo.in](https://www.impactmojo.in)** — 64 courses, 134 games, 13 labs, 84 handouts, and 200 case studies
 - **[ImpactLex](https://www.impactmojo.in/impactlex/)** — 390+ development terms, formulas, and case studies (offline PWA, hosted on ImpactMojo)
 - **[PolicyDhara](https://github.com/Varnasr/PolicyDhara)** — Auto-updating Indian development policy tracker
 - **[Dev Case Studies](https://github.com/Varnasr/dev-case-studies)** — 200 evidence-based case studies from 117 countries
