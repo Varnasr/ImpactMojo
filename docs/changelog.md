@@ -10,7 +10,7 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 
 ### Added
 
-- New flagship course at `/courses/nvc-rj/` — a self-contained, offline-capable native HTML page with all module content authored inline, plus a companion `lexicon.html` (48 terms across NVC, NVR and Restorative Justice).
+- New flagship course at `/courses/nvc-rj/` — a native HTML shell whose 11 modules are served from Supabase (`course_content`, seed migration `20260709_seed_nvc_rj_content.sql`), matching the platform's fork-protection model. Includes a companion `lexicon.html` (48 terms across NVC, NVR and Restorative Justice), an inline orientation, capstone and "Assess Yourself" self-check.
 - Cross-linked with the Gandhi and Social-Emotional Learning flagships and the Conflict-Sensitive Programming Lab.
 - Flagship count updated across the site: 16 → 17.
 
