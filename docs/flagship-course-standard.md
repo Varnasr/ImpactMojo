@@ -158,6 +158,32 @@ Inline math uses `\( … \)`. Rendered by **KaTeX 0.16.11** — the shell must l
 courses (e.g. NVC/nonviolence) — a flagship earns parity through diagrams and
 worked examples there, not forced LaTeX.
 
+### 6b. Paper excerpts in popups (`js/paper-excerpt.js`)
+
+A flagship surfaces **real, detailed excerpts from key readings** in an accessible
+modal — reproduced only from **open-access / Creative-Commons / public-domain**
+text (never full copyrighted paper text). The feature is a self-contained script
+(`/js/paper-excerpt.js`, wired into every course shell) that injects its own modal
++ styles and uses event delegation, so it works on DB-injected module content.
+
+Authoring convention — a trigger button plus a hidden source block, both in the
+module content (the DB):
+
+```html
+<button class="excerpt-btn" data-excerpt="ex-<course>-mNN">
+  <svg …></svg> Read the passage &mdash; Author (Year) &rarr;</button>
+<div class="excerpt-source" id="ex-<course>-mNN" hidden>
+  <div class="excerpt-kicker">Key reading &middot; Open access (LICENSE)</div>
+  <h3>Title (Year)</h3>
+  <div class="excerpt-cite">Authors &middot; Publisher &middot; <a href="URL" target="_blank" rel="noopener">Source &rarr;</a></div>
+  <blockquote class="excerpt-quote"><p>…the open-access passage…</p></blockquote>
+  <p class="excerpt-note"><strong>Why it matters.</strong> Editorial gloss + which chapters to read.</p>
+</div>
+```
+
+The button's `data-excerpt` must equal the source div's `id`. Target ≈1 excerpt per
+module, always license-clean and attributed with a working source link.
+
 ### 7. Capstone (final module, `.capstone-timeline`)
 
 The last module is the capstone: intro `.lead` → `.capstone-timeline` of numbered
