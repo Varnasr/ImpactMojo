@@ -41,7 +41,7 @@ We provide accessible, high-quality educational materials grounded in South Asia
 
 | Category | Description |
 |----------|-------------|
-| **62 Courses** | 16 flagship + 47 foundational courses across 6 learning tracks (all foundational decks self-hosted as native HTML slide decks). Every flagship ends with an auto-graded "Assess Yourself" self-check (90 questions across the 15) |
+| **62 Courses** | 17 flagship + 47 foundational courses across 6 learning tracks (all foundational decks self-hosted as native HTML slide decks). Every flagship ends with an auto-graded "Assess Yourself" self-check (90 questions across the 15) |
 | **28 Interactive Labs** | Hands-on workbenches for MEL, policy, partnerships, budgeting, gender analysis, and more |
 | **135 Game Library** | 18 interactive simulations (MiroFish AI agents, Indian folk art — Warli, Madhubani, Gond, Kalamkari, Pichwai, Pattachitra) + 117 crosswords, quizzes & word searches |
 | **ImpactLex Dictionary** | 390+ development terms with contextual definitions, formulas, and case studies (PWA, hosted on ImpactMojo) |
@@ -300,7 +300,7 @@ Comprehensive ToC learning and building toolkit:
 - **Reading Lists** — Curated resource collections
 - **Course Comparison** — Compare courses side-by-side
 - **Interactive Assessments** — MCQ, multi-select, and T/F quizzes for MEL, DataViz, and DevAI courses with scoring, feedback, and localStorage persistence
-- **Offline PWA Support** — Service worker caches all 16 flagship courses for offline access with automatic background updates
+- **Offline PWA Support** — Service worker caches all 17 flagship courses for offline access with automatic background updates
 - **Certificate Generation** — Auto-issued on course completion with public verification and Open Badges 3.0 metadata
 - **Badge Wallet** — View, download, and share W3C verifiable credential badges
 - **Portfolio Builder** — Premium feature: curate certificates, projects & case studies with PDF export
