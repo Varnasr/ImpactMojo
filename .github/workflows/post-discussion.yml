@@ -1,0 +1,71 @@
+name: Post Announcement Discussion
+
+# Reusable: creates a GitHub Discussion from a title + body.
+# Trigger it via the API/MCP (workflow_dispatch) — no manual clicks needed.
+on:
+  workflow_dispatch:
+    inputs:
+      title:
+        description: 'Discussion title'
+        required: true
+      body:
+        description: 'Discussion body (Markdown)'
+        required: true
+      category:
+        description: 'Discussion category name'
+        required: false
+        default: 'Announcements'
+
+permissions:
+  contents: read
+  discussions: write
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create the discussion
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+          TITLE: ${{ inputs.title }}
+          BODY: ${{ inputs.body }}
+          CATEGORY: ${{ inputs.category }}
+        run: |
+          set -euo pipefail
+          echo "Looking up repository and categories…"
+          DATA=$(gh api graphql -f query='
+            query($owner:String!,$repo:String!){
+              repository(owner:$owner,name:$repo){
+                id
+                hasDiscussionsEnabled
+                discussionCategories(first:50){ nodes{ id name } }
+              }
+            }' -F owner="$OWNER" -F repo="$REPO")
+
+          ENABLED=$(echo "$DATA" | jq -r '.data.repository.hasDiscussionsEnabled')
+          if [ "$ENABLED" != "true" ]; then
+            echo "::error::Discussions are not enabled on $OWNER/$REPO. Enable them in Settings → General → Features."
+            exit 1
+          fi
+
+          REPO_ID=$(echo "$DATA" | jq -r '.data.repository.id')
+          CAT_ID=$(echo "$DATA" | jq -r --arg c "$CATEGORY" '.data.repository.discussionCategories.nodes[] | select(.name==$c) | .id' | head -n1)
+          if [ -z "$CAT_ID" ] || [ "$CAT_ID" = "null" ]; then
+            echo "Category '$CATEGORY' not found; falling back to the first category."
+            CAT_ID=$(echo "$DATA" | jq -r '.data.repository.discussionCategories.nodes[0].id')
+          fi
+
+          echo "Creating discussion…"
+          URL=$(gh api graphql -f query='
+            mutation($rid:ID!,$cid:ID!,$t:String!,$b:String!){
+              createDiscussion(input:{repositoryId:$rid,categoryId:$cid,title:$t,body:$b}){
+                discussion{ url }
+              }
+            }' -F rid="$REPO_ID" -F cid="$CAT_ID" -F t="$TITLE" -F b="$BODY" \
+            --jq '.data.createDiscussion.discussion.url')
+
+          echo "Created: $URL"
+          echo "### ✅ Discussion posted" >> "$GITHUB_STEP_SUMMARY"
+          echo "[$TITLE]($URL)" >> "$GITHUB_STEP_SUMMARY"
