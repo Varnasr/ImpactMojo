@@ -240,7 +240,10 @@
     // .nav-buttons is display:none on mobile, so only mount inline when the
     // target is actually visible — otherwise fall back to the floating globe
     // so the switcher is never hidden.
-    var navTarget = document.querySelector(".im-topbar-right") || document.querySelector(".nav-buttons");
+    // Prefer the standard site-chrome bar (present on all non-home pages), then
+    // the legacy content topbar, then the homepage nav buttons.
+    var scRight = document.querySelector(".im-sc-right");
+    var navTarget = scRight || document.querySelector(".im-topbar-right") || document.querySelector(".nav-buttons");
     var inNav = !!navTarget && navTarget.offsetParent !== null;
 
     var wrap = document.createElement("div");
@@ -301,8 +304,16 @@
     document.addEventListener("click", function () { if (isOpen) toggleMenu(false); });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape" && isOpen) toggleMenu(false); });
 
-    if (inNav) navTarget.insertBefore(wrap, navTarget.firstChild);
-    else document.body.appendChild(wrap);
+    if (inNav) {
+      navTarget.insertBefore(wrap, navTarget.firstChild);
+      // Mounted into the standard site-chrome bar: drop its placeholder Language
+      // button (avoid two globes) and restyle our fab to match the flat icon row.
+      if (scRight) {
+        var ph = document.querySelector(".im-sc-lang"); if (ph) ph.remove();
+        fab.style.width = "34px"; fab.style.height = "34px";
+        fab.style.background = "transparent"; fab.style.border = "none"; fab.style.boxShadow = "none";
+      }
+    } else document.body.appendChild(wrap);
   }
 
   // Translate content injected later (flagship Supabase module bodies, auth bar,
@@ -324,6 +335,20 @@
     var saved = null; try { saved = localStorage.getItem(KEY_LS); } catch (e) {}
     if (saved && saved !== "en" && LANGS[saved]) translateTo(saved); else markActive("en");
   }
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
-  else init();
+  // site-chrome.js (loaded after this script) builds the standard bar on
+  // DOMContentLoaded. Wait briefly for its .im-sc-right so we can mount the
+  // language switcher inside the bar instead of floating over content. On pages
+  // without site-chrome (the homepage opts out) we stop waiting and build as before.
+  function boot() {
+    var tries = 0;
+    (function w() {
+      var ready = document.querySelector(".im-sc-right")
+        || document.documentElement.hasAttribute("data-im-home")
+        || (document.body && document.body.hasAttribute("data-im-home"))
+        || tries++ > 15;
+      if (ready) init(); else setTimeout(w, 40);
+    })();
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+  else boot();
 })();
