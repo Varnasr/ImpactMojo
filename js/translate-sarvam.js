@@ -312,6 +312,11 @@
         var ph = document.querySelector(".im-sc-lang"); if (ph) ph.remove();
         fab.style.width = "34px"; fab.style.height = "34px";
         fab.style.background = "transparent"; fab.style.border = "none"; fab.style.boxShadow = "none";
+        // Match the site-chrome icon row: inherit the bar foreground instead of the
+        // standalone blue, so the globe reads as a control, not a stray domain glyph.
+        fab.style.color = "var(--sc-fg,#0F172A)";
+        var gsvg = fab.querySelector("svg");
+        if (gsvg) { gsvg.setAttribute("stroke", "currentColor"); gsvg.style.opacity = ".78"; }
       }
     } else document.body.appendChild(wrap);
   }
