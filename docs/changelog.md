@@ -2,6 +2,23 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.87.0 — July 10, 2026 (Flagship parity across all 17 — diagrams, readings, and printable Course Notes)
+
+### For Learners
+
+- **Every flagship module now opens a concept diagram** — a clean, theme-aware, hand-drawn-style figure that illuminates the module's core idea, across all 17 flagship courses and 224 modules.
+- **Every flagship module now carries an open-access key reading** — a real, verified passage from a public-domain classic, a World Development Report, Our World in Data, a free textbook, a UN/agency document or an Indian Act, with a note on why it matters, opened from a button in the module.
+- **Course Notes — printable PDF for every flagship (₹350).** Buy the complete notes for any of the 17 flagship courses as one print-ready PDF you own — every module's core ideas, diagrams, worked examples and key readings, laid out to annotate and work through offline. The courses themselves stay free to study online. Find them on the [Products page](https://www.impactmojo.in/products.html#course-notes) or from the "Course Notes" button on each course.
+- **AI for Impact** refreshed for 2026 — the NLP module now covers how large language models have reshaped qualitative coding and summarisation since 2023, alongside the classical methods, with the data-governance caveats spelled out.
+
+### Added
+
+- 17 new products at `/products/notes-<course>/` — one printable Course-Notes PDF per flagship, generated from the live course content, delivered on manual-UPI confirmation via the existing order → confirm → signed-download flow (files in the private `products` bucket; titles wired into `submission-created.mjs`). Listed on `products.html`, in `sitemap.xml` and the search index.
+
+### Changed
+
+- Content-freshness pass across all 17 flagships: time-sensitive figures year-stamped for durability (OBC/EWS ceiling, education-spend target) where they were stated as bare "currently".
+
 ## v10.86.0 — July 9, 2026 (Flagship parity — deeper NVC & Intervention modules)
 
 ### For Learners
