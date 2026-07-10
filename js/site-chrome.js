@@ -97,9 +97,12 @@
 
   // ── Icons: Sargam (site-standard), recoloured to the bar's fg via CSS filter ──
   var SI = 'https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/';
-  function ic(name) { return '<img class="im-sc-i" src="' + SI + name + '.svg" alt="" width="15" height="15" loading="lazy" onerror="this.style.display=\'none\'">'; }
+  // alt defaults to "" (decorative — the button carries a visible label or an aria-label
+  // on a <button>). Pass an explicit alt for icon-only <a> links: HTMLCS H30.2 requires the
+  // sole <img> content of a link to have non-empty alt text (a link's aria-label doesn't count).
+  function ic(name, alt) { return '<img class="im-sc-i" src="' + SI + name + '.svg" alt="' + (alt || '') + '" width="15" height="15" loading="lazy" onerror="this.style.display=\'none\'">'; }
   var I = {
-    globe: ic('si_Globe_detailed'), star: ic('si_Star'), info: ic('si_Info'), home: ic('si_Home'),
+    globe: ic('si_Globe_detailed'), star: ic('si_Star'), info: ic('si_Info'), home: ic('si_Home', 'Home'),
     sys: ic('si_Monitor'), sun: ic('si_Sun'), moon: ic('si_Moon')
   };
   var LOGO = SITE + '/assets/images/apple-touch-icon.png'; // 7KB vs the 599KB full logo
