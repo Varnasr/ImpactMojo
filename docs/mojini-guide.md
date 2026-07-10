@@ -44,7 +44,7 @@ Point participants to Mojini when they have platform questions during a workshop
 
 ### For Resource Discovery
 
-Mojini knows about all 64 courses, 135 games, 28 labs, 84 handouts, and premium tools. When participants need to find something specific, Mojini can direct them faster than browsing the catalog.
+Mojini knows about all 68 courses, 135 games, 28 labs, 84 handouts, and premium tools. When participants need to find something specific, Mojini can direct them faster than browsing the catalog.
 
 ### As a Navigation Aid
 

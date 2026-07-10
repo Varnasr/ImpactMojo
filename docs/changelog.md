@@ -2,6 +2,26 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.87.0 — July 10, 2026 (Flagship parity across all 17 — diagrams, readings, and printable Course Notes)
+
+### For Learners
+
+- **Every flagship module now opens a concept diagram** — a clean, theme-aware, hand-drawn-style figure that illuminates the module's core idea, across all 17 flagship courses and 224 modules.
+- **Every flagship module now carries an open-access key reading** — a real, verified passage from a public-domain classic, a World Development Report, Our World in Data, a free textbook, a UN/agency document or an Indian Act, with a note on why it matters, opened from a button in the module.
+- **Course Notes — printable PDF for every flagship (₹350).** Buy the complete notes for any of the 17 flagship courses as one print-ready PDF you own — every module's core ideas, diagrams, worked examples and key readings, laid out to annotate and work through offline. The courses themselves stay free to study online. Find them on the [Products page](https://www.impactmojo.in/products.html#course-notes) or from the "Course Notes" button on each course.
+- **AI for Impact** refreshed for 2026 — the NLP module now covers how large language models have reshaped qualitative coding and summarisation since 2023, alongside the classical methods, with the data-governance caveats spelled out.
+- **Four new 101 courses** — free, self-paced interactive slide decks: **GenAI for Practitioners** (using LLMs responsibly in development work), **Data Protection & the DPDP Act** (India's 2023 data-protection law for NGOs), **Safeguarding & PSEA** (protection from sexual exploitation, abuse and harassment), and **Disability Inclusion** (rights-based, twin-track inclusion). The foundational library grows from 47 to 51 courses.
+
+### Added
+
+- Four native-HTML 101 decks at `/101-courses/{genai-practitioners,data-protection-dpdp,safeguarding-psea,disability-inclusion}.html` (37–40 slides each), listed on the 101 index, in `catalog_data.json`, `sitemap.xml` and the search index. Foundational count 47 → 51; total courses 64 → 68.
+- 17 new products at `/products/notes-<course>/` — one printable Course-Notes PDF per flagship, generated from the live course content, delivered on manual-UPI confirmation via the existing order → confirm → signed-download flow (files in the private `products` bucket; titles wired into `submission-created.mjs`). Listed on `products.html`, in `sitemap.xml` and the search index.
+
+### Changed
+
+- Content-freshness pass across all 17 flagships: time-sensitive figures year-stamped for durability (OBC/EWS ceiling, education-spend target) where they were stated as bare "currently".
+- Architecture cleanup (anti-fork): all 17 flagship courses are now served exclusively from the database. Removed the last in-repo course content — `supabase/seed-content/` and the five stale seed migrations (causal, intervention, livelihoods, nvc-rj, powerBI) — so no flagship module content lives in the repository. Course shells and the `course_content` table schema are unchanged; content is edited directly in the DB.
+
 ## v10.86.0 — July 9, 2026 (Flagship parity — deeper NVC & Intervention modules)
 
 ### For Learners
@@ -1414,7 +1434,7 @@ A new content type: themed annotated reading lists curated by named scholars and
 - **Sitemap coverage** — added 87 missing URLs to `sitemap.xml`: 2 flagship courses (gender, pubpol), 35 foundational 101-courses, 23 BookSummaries, 18 blog posts, and 9 public pages (transparency, dataverse, bct-repository, challenges, climate-trace-india, portfolio, live-projects, toc-builder, verify-certificate). Total URLs: 84 → 171.
 - **Stale `101.impactmojo.in` links** — migrated ~100 legacy subdomain links to local paths across `js/faq-bank.js`, `js/bookmarks-compare.js`, `js/learning-tracks.js`, `js/game-agents.js`, and 4 docs files. All course links now point to `/101-courses/*.html`, all lab links to `/Labs/*.html`.
 - **Search index phantom labs** — removed 6 duplicate/phantom lab entries from `data/search-index.json` (survey-design-lab, sampling-lab, logframe-builder, data-cleaning-lab, indicator-design-lab, toc-workbench); added missing entries for design-thinking-lab, mel-design-lab, and community-lab. Lab count: 17 → 13 (13 labs + 2 BookCompanionTools).
-- **Content count drifts** — fixed `docs/content-guide.md` (flagship 9→11, labs 19→11, BookSummaries 27→28), `premium.html` ("47 foundational courses, labs & games" → "48 free courses, 13 labs & 17 games"), `catalog.html` JS comments (COURSES 39→38, LABS 10→11).
+- **Content count drifts** — fixed `docs/content-guide.md` (flagship 9→11, labs 19→11, BookSummaries 27→28), `premium.html` ("51 foundational courses, labs & games" → "48 free courses, 13 labs & 17 games"), `catalog.html` JS comments (COURSES 39→38, LABS 10→11).
 - **21 `.DS_Store` files** removed from git tracking (already in `.gitignore`).
 
 ## v10.17.0 — April 12, 2026

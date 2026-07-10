@@ -6,7 +6,7 @@ Common questions from educators, facilitators, and practitioners.
 
 ## Is ImpactMojo really free?
 
-Yes. All 17 flagship courses (13 modules each), 47 foundational courses, 135 learning games, 28 interactive labs, 84 handouts, the ImpactLex glossary (390+ terms), 200 Dev Case Studies, 500+ DevDiscourses papers, and interactive BookSummaries are completely free.
+Yes. All 17 flagship courses (13 modules each), 51 foundational courses, 135 learning games, 28 interactive labs, 84 handouts, the ImpactLex glossary (390+ terms), 200 Dev Case Studies, 500+ DevDiscourses papers, and interactive BookSummaries are completely free.
 
 There are paid tiers (Practitioner, Professional, and Organization) that unlock additional tools — things like advanced lab features, PDF/PNG export, AI-powered tools, and team dashboards. But the core learning experience is free and always will be.
 
@@ -102,7 +102,7 @@ Here is a straightforward comparison:
 
 | Feature | Explorer (Free) | Practitioner (₹399/mo) | Professional (₹999/mo) | Organization (₹1,499/user/mo) |
 |---------|----------------|------------------------|------------------------|-------------------------------|
-| All 64 courses | Yes | Yes | Yes | Yes |
+| All 68 courses | Yes | Yes | Yes | Yes |
 | 135 games | Yes | Yes | Yes | Yes |
 | 28 labs | Yes | Yes | Yes | Yes |
 | 84 handouts | Yes | Yes | Yes | Yes |
@@ -185,7 +185,7 @@ ImpactMojo works on any device with a modern web browser:
 - Quizzes and assessment components
 - Certificate eligibility on completion
 
-**Foundational courses** (47 courses) are comprehensive study decks — self-paced reading materials that cover a specific topic thoroughly. They are:
+**Foundational courses** (51 courses) are comprehensive study decks — self-paced reading materials that cover a specific topic thoroughly. They are:
 - Great for self-study and reference
 - Comprehensive in their coverage of a topic
 - Older in their technology — they don't include interactive features, assessments, or project components

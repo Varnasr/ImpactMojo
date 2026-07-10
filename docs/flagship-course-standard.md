@@ -14,10 +14,13 @@ taken from the current gold-standard flagships (`mel`, `devecon`, `gender`,
 >   resource buttons, `resources-cross`, KaTeX wiring, lexicon) live in
 >   `courses/<slug>/index.html`.
 > - **Per-module pedagogy** (prose, worked examples, coach/reflection prompts,
->   diagrams, formulae, capstone body) lives in
->   `supabase/seed-content/<slug>/content/mNN.html` and is bundled into a
->   migration `supabase/migrations/*_seed_<slug>_content.sql`. Editing module
->   depth means editing those seed files + re-seeding, **not** `index.html`.
+>   diagrams, formulae, capstone body) lives **only in the Supabase
+>   `course_content` table** and is injected at runtime by `js/course-loader.js`.
+>   There are no in-repo content copies or seed migrations (removed for
+>   anti-fork). Editing module depth means updating the `course_content` row
+>   directly in the DB (via the Management API SQL endpoint), **not**
+>   `index.html` and **not** any repo file. Keep an out-of-repo backup before
+>   bulk DB edits.
 
 ---
 
@@ -221,7 +224,7 @@ Tick every row before calling a course a flagship.
 - [ ] 4 hero resource buttons (Papers, AI Companion, Lexicon, Excel) — links live
 - [ ] `#resources-cross` with all 7 cards; `notebooklm` card has a real URL
 
-**Content depth** (per module, in the seed files)
+**Content depth** (per module, in the `course_content` DB rows)
 - [ ] Substantive prose (target **≥10 KB/module**; thin courses sit near 4 KB)
 - [ ] ≈1 `reflection-prompt` per module; `coach-callout` used sparingly
 - [ ] ≈1–2 `worked-example` per module
@@ -234,7 +237,7 @@ Tick every row before calling a course a flagship.
 
 ## Part D — Current gap snapshot (2026-07)
 
-Measured from the in-repo seed content.
+Measured from the live `course_content` DB rows (content is no longer stored in the repo).
 
 | Component | Gold ref (intervention / causal) | intervention | nvc-rj |
 |---|---|---|---|

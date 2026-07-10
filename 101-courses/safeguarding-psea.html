@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Safeguarding & PSEA 101 | ImpactMojo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Amaranth:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --cyan:#0EA5E9; --indigo:#6366F1; --green:#10B981; --amber:#F59E0B;
+  --red:#EF4444; --cream:#FDF8F2; --ink:#1C1917; --ink-mid:#44403C;
+  --ink-light:#78716C; --header-h:52px; --footer-h:36px;
+  --font-head:'Inter',sans-serif; --font-body:'Amaranth',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#111;font-family:var(--font-body);overflow:hidden}
+#deck{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+.slide-viewport{position:relative;flex-shrink:0;width:1280px;height:720px;transform-origin:center center}
+.slide{position:absolute;inset:0;background:var(--cream);overflow:hidden;display:none;flex-direction:column}
+.slide.active{display:flex}
+
+/* HEADER */
+.slide-header{position:absolute;top:0;left:0;right:0;height:var(--header-h);background:var(--ink);display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:10}
+.logo-mark{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-plane{width:28px;height:28px}
+.logo-wordmark{font-family:var(--font-head);font-weight:800;font-size:17px;background:linear-gradient(90deg,#0EA5E9,#6366F1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-0.3px}
+.header-center{font-family:var(--font-head);font-size:11px;font-weight:500;color:rgba(255,255,255,0.5);letter-spacing:1.5px;text-transform:uppercase}
+.header-url{font-family:var(--font-mono);font-size:10px;color:rgba(255,255,255,0.4)}
+
+/* FOOTER */
+.slide-footer{position:absolute;bottom:0;left:0;right:0;height:var(--footer-h);background:var(--ink);display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:10}
+.footer-left{font-family:var(--font-mono);font-size:9px;color:rgba(255,255,255,0.35);letter-spacing:1px;text-transform:uppercase}
+.footer-right{font-family:var(--font-mono);font-size:9px;color:rgba(255,255,255,0.35)}
+.slide-number{font-family:var(--font-mono);font-size:11px;font-weight:600;color:var(--cyan);background:rgba(14,165,233,0.1);padding:2px 8px;border-radius:3px}
+
+/* CONTENT */
+.slide-content{position:absolute;top:var(--header-h);bottom:var(--footer-h);left:0;right:0;padding:24px 40px 20px;overflow:hidden}
+
+/* SECTION LABEL */
+.section-label{font-family:var(--font-mono);font-size:9px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--cyan);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.section-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--cyan) 0%,transparent 100%);opacity:0.3}
+
+/* TYPOGRAPHY */
+.slide-title{font-family:var(--font-head);font-weight:800;line-height:1.1;color:var(--ink);letter-spacing:-0.5px}
+.slide-title.xl{font-size:48px}.slide-title.lg{font-size:34px}.slide-title.md{font-size:30px}.slide-title.sm{font-size:24px}
+.slide-body{font-family:var(--font-body);font-size:15px;line-height:1.65;color:var(--ink-mid)}
+.slide-body.sm{font-size:13px}
+
+/* BULLETS */
+.bullet-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.bullet-list li{position:relative;padding-left:19px;font-family:var(--font-body);font-size:15px;line-height:1.55;color:var(--ink-mid)}
+.bullet-list li::before{content:'';position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:50%;background:var(--cyan)}
+.bullet-list.green li::before{background:var(--green)}
+.bullet-list.amber li::before{background:var(--amber)}
+.bullet-list.indigo li::before{background:var(--indigo)}
+.bullet-list.red li::before{background:var(--red)}
+.bullet-list.sm li{font-size:14px}
+
+/* STAT CARDS */
+.stat-grid{display:grid;gap:14px;margin-top:16px}
+.stat-grid.c2{grid-template-columns:repeat(2,1fr)}.stat-grid.c3{grid-template-columns:repeat(3,1fr)}.stat-grid.c4{grid-template-columns:repeat(4,1fr)}
+.stat-card{background:white;border-radius:10px;padding:18px 20px;border-top:3px solid var(--cyan);box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.stat-card.green{border-top-color:var(--green)}.stat-card.amber{border-top-color:var(--amber)}.stat-card.indigo{border-top-color:var(--indigo)}.stat-card.red{border-top-color:var(--red)}
+.stat-number{font-family:var(--font-head);font-size:34px;font-weight:800;color:var(--ink);line-height:1;margin-bottom:4px}
+.stat-label{font-family:var(--font-body);font-size:13px;color:var(--ink-light);line-height:1.4}
+.stat-source{font-family:var(--font-mono);font-size:9px;color:var(--ink-light);margin-top:5px;opacity:0.7}
+
+/* TWO COLUMN */
+.two-col{display:grid;gap:28px;margin-top:14px}
+.two-col.half{grid-template-columns:1fr 1fr}
+.two-col.a32{grid-template-columns:3fr 2fr}
+.two-col.a23{grid-template-columns:2fr 3fr}
+
+/* PANELS */
+.col-panel{background:white;border-radius:10px;padding:20px 18px;border-left:3px solid var(--cyan);box-shadow:0 2px 6px rgba(0,0,0,0.05)}
+.col-panel.green{border-left-color:var(--green)}.col-panel.amber{border-left-color:var(--amber)}.col-panel.indigo{border-left-color:var(--indigo)}.col-panel.red{border-left-color:var(--red)}
+.col-panel-title{font-family:var(--font-head);font-size:12px;font-weight:700;color:var(--ink);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px}
+
+/* HIGHLIGHT BOX */
+.hbox{border-left:4px solid var(--cyan);background:rgba(14,165,233,0.06);border-radius:0 8px 8px 0;padding:14px 18px;margin-top:14px}
+.hbox.green{border-left-color:var(--green);background:rgba(16,185,129,0.06)}
+.hbox.amber{border-left-color:var(--amber);background:rgba(245,158,11,0.06)}
+.hbox.indigo{border-left-color:var(--indigo);background:rgba(99,102,241,0.06)}
+.hbox.red{border-left-color:var(--red);background:rgba(239,68,68,0.06)}
+.hbox-text{font-family:var(--font-body);font-size:14px;line-height:1.55;color:var(--ink-mid)}
+
+/* TERM BOX */
+.term-box{background:linear-gradient(135deg,#F0E6D6 0%,white 100%);border:1px solid #C4A882;border-radius:12px;padding:18px 22px;margin-top:14px}
+.term-word{font-family:var(--font-head);font-size:22px;font-weight:800;color:#4A3728;margin-bottom:6px}
+.term-def{font-family:var(--font-body);font-size:14px;line-height:1.6;color:var(--ink-mid)}
+
+/* QUOTE */
+.quote-block{background:var(--ink);border-radius:12px;padding:34px 40px;margin-top:16px;position:relative;overflow:hidden}
+.quote-block::before{content:'"';position:absolute;top:-10px;left:18px;font-size:100px;font-family:Georgia,serif;color:var(--cyan);opacity:0.12;line-height:1}
+.quote-text{font-family:var(--font-body);font-size:19px;line-height:1.7;color:white;font-style:italic;position:relative;z-index:1}
+.quote-attr{font-family:var(--font-mono);font-size:10px;color:var(--cyan);margin-top:14px;letter-spacing:0.5px}
+
+/* COMPARE TABLE */
+.ctable{width:100%;border-collapse:collapse;margin-top:12px;font-family:var(--font-body)}
+.ctable th{background:var(--ink);color:white;padding:10px 14px;text-align:left;font-family:var(--font-head);font-size:12px;font-weight:700;letter-spacing:0.5px}
+.ctable td{padding:10px 14px;font-size:13px;color:var(--ink-mid);border-bottom:1px solid #EDE8E0;line-height:1.4}
+.ctable tr:nth-child(even) td{background:white}
+.ctable tr:nth-child(odd) td{background:#F9F6F1}
+.ctable{border:1px solid #D9D2C5}
+.ctable th,.ctable td{vertical-align:top;border-right:1px solid #EDE8E0}
+.ctable th{border-right-color:rgba(255,255,255,0.18)}
+.ctable th:last-child,.ctable td:last-child{border-right:none}
+.ctable tr:last-child td{border-bottom:none}
+
+/* CHART */
+.chart-wrap{background:white;border-radius:10px;padding:14px 16px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.chart-wrap canvas{display:block;width:100%!important;height:220px!important;max-height:220px}
+.chart-title{font-family:var(--font-head);font-size:11px;font-weight:700;color:var(--ink-mid);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px}
+.chart-source{font-family:var(--font-mono);font-size:9px;color:var(--ink-light);margin-top:6px}
+
+/* DARK CARD */
+.dark-card{background:var(--ink);border-radius:12px;padding:22px 20px;color:white}
+.dark-card-label{font-family:var(--font-mono);font-size:9px;color:var(--cyan);letter-spacing:2px;margin-bottom:8px;text-transform:uppercase}
+.dark-card-title{font-family:var(--font-head);font-weight:800;font-size:17px;margin-bottom:8px;color:white}
+.dark-card-body{font-family:var(--font-body);font-size:13px;color:rgba(255,255,255,0.65);line-height:1.5}
+
+/* PROCESS FLOW */
+.flow{display:flex;align-items:center;gap:6px;margin-top:14px;flex-wrap:wrap}
+.flow-step{background:var(--ink);color:white;border-radius:8px;padding:10px 12px;flex:1;min-width:80px;text-align:center}
+.flow-num{font-family:var(--font-mono);font-size:9px;color:var(--cyan);letter-spacing:1px;margin-bottom:3px}
+.flow-label{font-family:var(--font-body);font-size:11px;line-height:1.3;color:white}
+.flow-arrow{font-size:16px;color:var(--cyan);flex-shrink:0}
+
+/* SECTION DIVIDER */
+.section-divider{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;background:var(--ink);text-align:center}
+.div-num{font-family:var(--font-mono);font-size:100px;font-weight:700;color:rgba(255,255,255,0.04);line-height:1;position:absolute}
+.div-label{font-family:var(--font-mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);margin-bottom:14px;position:relative}
+.div-title{font-family:var(--font-head);font-size:44px;font-weight:800;color:white;line-height:1.1;letter-spacing:-1px;max-width:700px;position:relative}
+.div-accent{width:60px;height:4px;background:linear-gradient(90deg,var(--cyan),var(--indigo));border-radius:2px;margin:18px auto 0;position:relative}
+
+/* TITLE SLIDE */
+.title-screen{position:absolute;inset:0;background:var(--ink);overflow:hidden}
+.title-bg{position:absolute;inset:0;opacity:0.04;background-image:repeating-linear-gradient(45deg,#fff 0,#fff 1px,transparent 0,transparent 50%);background-size:20px 20px}
+.title-bar{position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(180deg,#0EA5E9,#6366F1,#10B981)}
+.title-content{padding:0 72px;position:relative;z-index:2;margin-top:90px}
+.title-series{font-family:var(--font-mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);margin-bottom:18px}
+.title-main{font-family:var(--font-head);font-size:54px;font-weight:800;color:white;line-height:1.05;letter-spacing:-1.5px;margin-bottom:14px}
+.title-sub{font-family:var(--font-body);font-size:17px;color:rgba(255,255,255,0.55);line-height:1.5;max-width:600px;margin-bottom:30px}
+.title-tags{display:flex;gap:10px;flex-wrap:wrap}
+.title-tag{font-family:var(--font-mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border-radius:4px;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.55)}
+.title-geo{position:absolute;right:60px;top:var(--header-h);bottom:var(--footer-h);width:300px;overflow:hidden;opacity:0.06}
+
+/* TOC */
+.toc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.toc-item{background:white;border-radius:8px;padding:10px 12px;border-left:3px solid transparent;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.toc-item:nth-child(3n+1){border-left-color:var(--cyan)}.toc-item:nth-child(3n+2){border-left-color:var(--indigo)}.toc-item:nth-child(3n+3){border-left-color:var(--green)}
+.toc-num{font-family:var(--font-mono);font-size:9px;color:var(--ink-light);letter-spacing:1px;margin-bottom:3px}
+.toc-name{font-family:var(--font-head);font-size:13px;font-weight:700;color:var(--ink);line-height:1.3}
+.toc-slides{font-family:var(--font-mono);font-size:9px;color:var(--ink-light);margin-top:3px}
+
+/* THANK YOU */
+.ty-screen{position:absolute;inset:0;background:var(--ink);display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;overflow:hidden}
+.ty-title{font-family:var(--font-head);font-size:50px;font-weight:800;color:white;margin-bottom:10px;letter-spacing:-1px}
+.ty-sub{font-family:var(--font-body);font-size:15px;color:rgba(255,255,255,0.45);max-width:480px;line-height:1.6;margin-bottom:32px}
+.ty-ctas{display:flex;gap:12px}
+.cta-btn{font-family:var(--font-head);font-size:12px;font-weight:700;padding:11px 26px;border-radius:8px;text-decoration:none;letter-spacing:0.3px}
+.cta-btn.primary{background:linear-gradient(135deg,var(--cyan),var(--indigo));color:white}
+.cta-btn.secondary{border:1.5px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.75)}
+
+/* SARGAM INLINE ICON */
+.si{display:inline-block;vertical-align:middle}
+
+/* NAV */
+#nav{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);border-radius:40px;padding:7px 16px;z-index:1000;opacity:1}
+
+.nav-btn{background:rgba(255,255,255,0.1);border:none;cursor:pointer;color:white;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;transition:background 0.2s}
+.nav-btn:hover{background:rgba(255,255,255,0.25)}
+.nav-btn:disabled{opacity:0.3;cursor:default}
+#prog-text{font-family:var(--font-mono);font-size:11px;color:rgba(255,255,255,0.55);min-width:55px;text-align:center}
+#progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--indigo));z-index:2000;transition:width 0.3s}
+#fs-hint{position:fixed;top:10px;right:14px;font-family:var(--font-mono);font-size:9px;color:rgba(255,255,255,0.25);cursor:pointer;z-index:2000;letter-spacing:1px;text-transform:uppercase}
+
+/* SARGAM SPRITE (hidden) */
+svg.sprites{display:none}
+
+/* THEME SWITCHER */
+#theme-bar{position:fixed;top:58px;right:14px;display:flex;gap:4px;z-index:2000;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);border-radius:20px;padding:4px 6px}
+.theme-btn{font-family:var(--font-mono);font-size:9px;letter-spacing:0.5px;text-transform:uppercase;padding:4px 10px;border-radius:12px;border:none;cursor:pointer;color:rgba(255,255,255,0.55);background:transparent;transition:all 0.2s}
+.theme-btn.active{background:rgba(255,255,255,0.2);color:white}
+
+/* LIGHT MODE (default) */
+body.light .slide{background:#FDF8F2}
+body.light{background:#e8e2da}
+
+/* DARK MODE */
+body.dark .slide{background:#1C1917}
+body.dark .slide-content{color:#FDF8F2}
+body.dark .slide-title{color:#FDF8F2}
+body.dark .slide-body{color:rgba(255,255,255,0.7)}
+body.dark .stat-card{background:#2C2926;border-top-color:var(--cyan)}
+body.dark .stat-card.green{border-top-color:var(--green)}
+body.dark .stat-card.amber{border-top-color:var(--amber)}
+body.dark .stat-card.indigo{border-top-color:var(--indigo)}
+body.dark .stat-card.red{border-top-color:var(--red)}
+body.dark .stat-number{color:#FDF8F2}
+body.dark .stat-label{color:rgba(255,255,255,0.55)}
+body.dark .col-panel{background:#2C2926;border-left-color:var(--cyan)}
+body.dark .col-panel.green{border-left-color:var(--green)}
+body.dark .col-panel.amber{border-left-color:var(--amber)}
+body.dark .col-panel.indigo{border-left-color:var(--indigo)}
+body.dark .col-panel.red{border-left-color:var(--red)}
+body.dark .col-panel-title{color:rgba(255,255,255,0.8)}
+body.dark .chart-wrap{background:#2C2926}
+body.dark .chart-title{color:rgba(255,255,255,0.6)}
+body.dark .hbox{background:rgba(14,165,233,0.1);border-left-color:var(--cyan)}
+body.dark .hbox.green{background:rgba(16,185,129,0.1);border-left-color:var(--green)}
+body.dark .hbox.amber{background:rgba(245,158,11,0.1);border-left-color:var(--amber)}
+body.dark .hbox.indigo{background:rgba(99,102,241,0.1);border-left-color:var(--indigo)}
+body.dark .hbox.red{background:rgba(239,68,68,0.1);border-left-color:var(--red)}
+body.dark .hbox-text{color:rgba(255,255,255,0.7)}
+body.dark .term-box{background:linear-gradient(135deg,#2C2926 0%,#383230 100%);border-color:#5C4A3A}
+body.dark .term-word{color:#E8D5C0}
+body.dark .term-def{color:rgba(255,255,255,0.65)}
+body.dark .ctable th{background:#111}
+body.dark .ctable td{color:rgba(255,255,255,0.65);border-bottom-color:rgba(255,255,255,0.08)}
+body.dark .ctable tr:nth-child(even) td{background:#2C2926}
+body.dark .ctable tr:nth-child(odd) td{background:#242120}
+body.dark .ctable{border-color:rgba(255,255,255,0.1)}
+body.dark .ctable td{border-right-color:rgba(255,255,255,0.08)}
+body.dark .ctable th{border-right-color:rgba(255,255,255,0.18)}
+body.dark .toc-item{background:#2C2926}
+body.dark .toc-name{color:#FDF8F2}
+body.dark .toc-num,.toc-slides{color:rgba(255,255,255,0.4)}
+body.dark{background:#111}
+body.dark .bullet-list li{color:rgba(255,255,255,0.7)}
+body.dark .two-col .slide-body{color:rgba(255,255,255,0.7)}
+
+
+
+
+/* ── FILL RULES: make components use full slide area naturally ── */
+
+/* Tables: bigger rows, more breathing room */
+.ctable{margin-top:16px;margin-bottom:16px}
+.ctable td{padding:12px 16px;font-size:14px;line-height:1.5}
+.ctable th{padding:12px 16px;font-size:13px;letter-spacing:0.6px}
+
+/* Stat grids: cards breathe more */
+.stat-grid{gap:16px;margin-top:20px}
+.stat-card{padding:20px 22px;border-radius:12px}
+.stat-number{font-size:36px;margin-bottom:6px}
+.stat-label{font-size:14px;line-height:1.5}
+
+/* Highlight boxes: generous spacing */
+.hbox{padding:16px 20px;margin-top:16px;border-radius:0 10px 10px 0}
+.hbox-text{font-size:15px;line-height:1.6}
+
+/* Term boxes */
+.term-box{padding:20px 24px;margin-top:16px;border-radius:12px}
+.term-word{font-size:24px;margin-bottom:8px}
+.term-def{font-size:15px;line-height:1.65}
+
+/* Titles and body */
+.slide-title.md{font-size:32px}
+.slide-title.sm{font-size:26px}
+.slide-body{font-size:16px;line-height:1.7}
+.slide-body.sm{font-size:14px;line-height:1.65}
+
+/* Bullets: roomier */
+.bullet-list{gap:12px;margin-top:16px}
+.bullet-list li{font-size:16px;line-height:1.6}
+.bullet-list li::before{width:8px;height:8px;top:8px}
+.bullet-list.sm li{font-size:15px}
+
+/* Dark cards */
+.dark-card{padding:24px 22px;border-radius:14px}
+.dark-card-title{font-size:18px;margin-bottom:10px}
+.dark-card-body{font-size:14px;line-height:1.55}
+.dark-card-label{margin-bottom:10px}
+
+/* Panels */
+.col-panel{padding:22px 20px;border-radius:12px}
+.col-panel-title{font-size:13px;margin-bottom:12px}
+
+/* Quotes */
+.quote-block{padding:36px 44px;border-radius:14px;margin-top:20px}
+.quote-text{font-size:20px;line-height:1.75}
+.quote-attr{font-size:11px;margin-top:18px}
+
+/* Two-col layout */
+.two-col{gap:30px;margin-top:16px}
+
+/* Charts */
+.chart-wrap{padding:18px 20px;border-radius:12px}
+.chart-wrap canvas{height:230px!important;max-height:230px}
+.chart-title{font-size:12px;margin-bottom:12px}
+.chart-source{margin-top:8px}
+
+/* TOC */
+.toc-grid{gap:12px;margin-top:16px}
+.toc-item{padding:14px 16px;border-radius:10px}
+.toc-name{font-size:14px;line-height:1.35}
+.toc-num{font-size:10px;margin-bottom:4px}
+.toc-slides{margin-top:4px}
+
+/* Section dividers */
+.div-title{font-size:48px}
+.div-label{font-size:12px;margin-bottom:18px;letter-spacing:3.5px}
+.div-accent{width:70px;height:5px;margin-top:22px}
+
+/* Flow steps */
+.flow{gap:8px;margin-top:18px}
+.flow-step{padding:14px 16px;border-radius:10px}
+.flow-label{font-size:13px;line-height:1.35}
+.flow-num{margin-bottom:4px}
+
+/* Section label */
+.section-label{margin-bottom:12px;font-size:10px;letter-spacing:2.8px}
+
+/* Title slide */
+.title-main{font-size:58px}
+.title-sub{font-size:18px;line-height:1.55;margin-bottom:34px}
+.title-series{font-size:12px;margin-bottom:22px}
+.title-tag{font-size:11px;padding:6px 14px}
+
+/* Thank you slide */
+.ty-title{font-size:54px}
+.ty-sub{font-size:16px;line-height:1.65;margin-bottom:36px}
+
+
+/* === STANDARDISED END SLIDE === */
+.end-screen{position:absolute;inset:0;background:linear-gradient(135deg,#0F172A 0%,#1E293B 50%,#0F172A 100%);overflow:hidden;display:flex;align-items:center;justify-content:center;padding:60px 80px}
+.end-bar{position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(180deg,#0EA5E9,#6366F1,#10B981);z-index:3}
+.end-pattern{position:absolute;inset:0;opacity:0.05;background-image:radial-gradient(circle at 25% 30%,#fff 1px,transparent 1px),radial-gradient(circle at 75% 70%,#fff 1px,transparent 1px);background-size:60px 60px;z-index:1}
+.end-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(99,102,241,0.15) 0%,transparent 70%);top:-200px;right:-100px;z-index:1}
+.end-content{position:relative;z-index:2;max-width:880px;text-align:center}
+.end-eyebrow{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#0EA5E9;margin-bottom:24px}
+.end-headline{font-family:var(--font-head);font-size:84px;font-weight:800;color:white;line-height:0.95;letter-spacing:-2.5px;margin-bottom:28px;background:linear-gradient(135deg,#fff 0%,#CBD5E1 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.end-byline{font-family:var(--font-body);font-size:17px;color:rgba(255,255,255,0.72);line-height:1.6;margin:0 auto 36px;max-width:680px}
+.end-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:34px}
+.end-btn{font-family:var(--font-head);font-size:13px;font-weight:700;padding:13px 28px;border-radius:9px;text-decoration:none;letter-spacing:0.4px;transition:transform 0.15s ease,box-shadow 0.15s ease;display:inline-block}
+.end-btn-primary{background:linear-gradient(135deg,#0EA5E9 0%,#6366F1 100%);color:white;box-shadow:0 4px 14px rgba(14,165,233,0.32)}
+.end-btn-secondary{background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.18);color:rgba(255,255,255,0.95)}
+.end-btn-tertiary{background:transparent;border:1.5px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.7)}
+.end-btn:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(14,165,233,0.45)}
+.end-meta{display:flex;gap:10px;justify-content:center;align-items:center;font-family:var(--font-mono);font-size:11px;color:rgba(255,255,255,0.42);letter-spacing:1px;flex-wrap:wrap}
+.end-meta-divider{opacity:0.4}
+
+
+/* === COMPACT MODE for dense slides === */
+.slide.compact .bullet-list{gap:6px;margin-top:8px}
+.slide.compact .bullet-list li{font-size:12.5px;line-height:1.4}
+.slide.compact .bullet-list.sm li{font-size:11.5px;line-height:1.4}
+.slide.compact .bullet-list li::before{width:5px;height:5px;margin-top:5px}
+.slide.compact .col-panel{padding:14px 14px}
+.slide.compact .col-panel-title{font-size:11px;margin-bottom:6px}
+.slide.compact .slide-body{font-size:13px;line-height:1.5}
+.slide.compact .slide-title.md{font-size:24px;margin-bottom:6px !important}
+.slide.compact .hbox{padding:8px 12px;margin-top:8px !important}
+.slide.compact .hbox-text{font-size:12px;line-height:1.45}
+
+
+/* === ECHARTS CHART SLIDES === */
+.chart-slide-frame{display:flex;flex-direction:column;height:100%;padding:0 8px}
+.chart-context{font-family:var(--font-body);font-size:14px;color:var(--ink-mid);line-height:1.55;margin-bottom:10px}
+.chart-canvas{flex:1;min-height:0;width:100%;border:1px solid rgba(99,102,241,0.10);border-radius:8px;background:linear-gradient(135deg,rgba(14,165,233,0.02),rgba(99,102,241,0.02))}
+.chart-takeaway{font-family:var(--font-body);font-size:13px;color:var(--ink-mid);font-style:italic;margin-top:10px;padding:8px 12px;background:rgba(245,158,11,0.06);border-left:3px solid var(--amber);border-radius:4px}
+.chart-takeaway strong{color:var(--ink);font-style:normal}
+
+/* ========== POLISH FIX BLOCK (v10.23.19) ========== */
+#fs-hint{top:14px !important;right:18px !important;font-size:10px !important;color:rgba(255,255,255,0.85) !important;background:rgba(0,0,0,0.55);padding:6px 12px;border-radius:14px;letter-spacing:0.6px;z-index:3000 !important}
+body.dark #fs-hint{background:rgba(255,255,255,0.14)}
+#nav{opacity:0.18;transition:opacity 0.25s ease;bottom:18px}
+#nav:hover, body.nav-active #nav{opacity:1}
+.slide-content{padding-bottom:46px}
+.slide.compact .slide-content{padding-top:18px;padding-bottom:42px}
+.slide.compact .slide-body{font-size:12.5px;line-height:1.45}
+.slide.compact .ctable td{padding:6px 10px;font-size:12px;line-height:1.35}
+.slide.compact .ctable th{padding:7px 10px;font-size:11px}
+.slide.compact .hbox{padding:10px 14px;margin-top:8px}
+.slide.compact .hbox-text{font-size:12.5px;line-height:1.4}
+.slide.compact .two-col{gap:14px}
+/* fs-hint no longer covers header-url */
+.slide-header{padding-right:120px}
+/* spacious mode for slides with very little content */
+.slide.spacious .slide-title.sm{font-size:30px}
+.slide.spacious .slide-title.md{font-size:38px}
+.slide.spacious .slide-body{font-size:17px;line-height:1.7}
+.slide.spacious .bullet-list li{font-size:16px;line-height:1.6}
+.slide.spacious .hbox{padding:18px 22px;margin-top:14px}
+.slide.spacious .hbox-text{font-size:16px;line-height:1.6}
+.slide.spacious .slide-content{padding-top:42px}
+/* pseudo-table alignment: stat-grids + col-panels + inline grids */
+.stat-grid{align-items:start}
+.col-panel{display:flex;flex-direction:column}
+.col-panel-title{flex:0 0 auto}
+.two-col,.two-col.half,.two-col.a32,.two-col.a23{align-items:start}
+/* inline grids inside slide-content default to top-align */
+/* ultra-compact: applied at runtime if slide still overflows after .compact */
+.slide.ultra-compact .slide-content{padding-top:14px;padding-bottom:38px}
+.slide.ultra-compact .slide-title.sm{font-size:20px;margin-bottom:6px !important}
+.slide.ultra-compact .slide-title.md{font-size:22px;margin-bottom:6px !important}
+.slide.ultra-compact .slide-body,
+.slide.ultra-compact .slide-body.sm{font-size:11.5px;line-height:1.4}
+.slide.ultra-compact .bullet-list{gap:4px;margin-top:6px}
+.slide.ultra-compact .bullet-list li{font-size:11.5px;line-height:1.35}
+.slide.ultra-compact .ctable td{padding:4px 8px;font-size:11px;line-height:1.3}
+.slide.ultra-compact .ctable th{padding:5px 8px;font-size:10px}
+.slide.ultra-compact .hbox{padding:8px 12px;margin-top:6px}
+.slide.ultra-compact .hbox-text{font-size:11.5px;line-height:1.35}
+.slide.ultra-compact .term-box{padding:12px 16px;margin-top:8px}
+.slide.ultra-compact .term-word{font-size:18px}
+.slide.ultra-compact .term-def{font-size:12px;line-height:1.4}
+.slide.ultra-compact .stat-card{padding:12px 14px}
+.slide.ultra-compact .col-panel{padding:12px 14px}
+.slide.ultra-compact .col-panel-title{font-size:10px;margin-bottom:4px}
+.slide.ultra-compact .two-col{gap:10px}
+/* end polish fix block */
+
+/* ========== UNIVERSAL FIT TIGHTENING (v10.23.34) ========== */
+/* Apply consistent slightly-tighter spacing across all slides so most content
+   fits naturally. No font-size changes — only padding, margins, gaps. */
+.slide-content{padding:18px 36px 16px !important}
+.slide-title.md{margin-bottom:6px !important}
+.slide-title.sm{margin-bottom:4px !important}
+.bullet-list{gap:7px;margin-top:10px}
+.bullet-list li{line-height:1.5}
+.hbox{padding:11px 14px;margin-top:8px}
+.hbox-text{line-height:1.45}
+.term-box{padding:14px 18px;margin-top:10px}
+.term-def{line-height:1.5}
+.dark-card{padding:16px 16px;margin-bottom:8px}
+.dark-card-body{line-height:1.45}
+.col-panel{padding:14px 14px}
+.stat-card{padding:14px 16px}
+.section-label{margin-bottom:8px}
+.ctable td{padding:8px 12px;line-height:1.4}
+.ctable th{padding:9px 12px}
+/* ========== /UNIVERSAL FIT TIGHTENING ========== */
+
+/* ===== MOBILE READING MODE (v10.63) — reflow the fixed 16:9 stage into a
+   full-width vertical layout on phones/tablets so slides fill the screen
+   instead of letterboxing to a small centred rectangle. ===== */
+@media (max-width: 820px){
+  html,body{overflow-x:hidden;overflow-y:auto;height:auto;background:var(--cream)}
+  body.dark, body.dark html{background:#1C1917}
+  #deck{position:static;display:block;min-height:100svh}
+  .slide-viewport{width:100%!important;height:auto!important;transform:none!important;position:relative;left:auto;top:auto}
+  .slide{position:relative;inset:auto;display:none;height:auto;min-height:100svh;box-shadow:none}
+  .slide.active{display:flex;flex-direction:column}
+  .slide-header{position:relative;height:auto;min-height:var(--header-h);padding:10px 16px}
+  .header-url{display:none}
+  .slide-content{position:relative!important;top:auto!important;bottom:auto!important;left:auto!important;right:auto!important;height:auto!important;overflow:visible!important;padding:18px 16px 90px!important;zoom:1!important;flex:1}
+  .slide-footer{position:relative;height:auto;min-height:var(--footer-h);padding:8px 16px}
+  /* one column everywhere */
+  .two-col,.two-col.half,.two-col.a32,.two-col.a23{grid-template-columns:1fr!important;gap:14px!important}
+  .stat-grid.c3,.stat-grid.c4{grid-template-columns:1fr 1fr!important}
+  .toc-grid{grid-template-columns:1fr 1fr!important}
+  .flow{flex-direction:column;align-items:stretch}
+  .flow-arrow{transform:rotate(90deg);align-self:center}
+  .chart-wrap canvas,.chart-canvas{height:260px!important;max-height:260px!important}
+  /* readable type */
+  .section-label{font-size:11px!important}
+  .slide-title.xl{font-size:30px!important}.slide-title.lg{font-size:27px!important}
+  .slide-title.md{font-size:23px!important}.slide-title.sm{font-size:20px!important}
+  .slide-body{font-size:15.5px!important;line-height:1.6!important}
+  .slide-body.sm{font-size:14px!important}
+  .bullet-list li,.bullet-list.sm li{font-size:15px!important;line-height:1.55!important}
+  .stat-number{font-size:30px!important}.stat-label{font-size:13px!important}
+  .ctable td{font-size:13px!important}.ctable th{font-size:12px!important}
+  .hbox-text{font-size:14.5px!important}.term-word{font-size:21px!important}.term-def{font-size:14.5px!important}
+  .quote-text{font-size:18px!important}
+  /* full-screen slide types: give them height, not absolute fill */
+  .title-screen,.section-divider,.end-screen{position:relative!important;inset:auto!important;min-height:86svh;height:auto}
+  .title-content{padding:32px 20px!important;margin-top:0!important}
+  .title-main{font-size:40px!important}.title-sub{font-size:16px!important}
+  .title-geo{display:none}
+  .div-title{font-size:32px!important}.div-num{font-size:64px!important}
+  .end-headline{font-size:40px!important}.end-byline{font-size:15px!important}
+  .end-cta{flex-direction:column}.end-content{padding:28px 18px}
+  /* floating nav: keep clear of content */
+  #nav{bottom:14px;opacity:1}
+  #theme-bar{top:auto;bottom:60px;right:10px}
+  #fs-hint{display:none}
+}
+
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+<!-- SEO meta (autogenerated) -->
+<meta name="description" content="Data Literacy 101 — a free foundational course for development practitioners in South Asia. Read, question, visualise and use data responsibly: from India's data ecosystem to sampling, distributions, correlation, data quality and ethics. ImpactMojo, CC BY-NC-ND.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.impactmojo.in/101-courses/data-lit.html">
+<meta property="og:title" content="Data Literacy 101">
+<meta property="og:description" content="Data Literacy 101 — a free foundational course for development practitioners in South Asia. Read, question, visualise and use data responsibly: from India's data ecosystem to sampling, distributions, correlation, data quality and ethics. ImpactMojo, CC BY-NC-ND.">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:url" content="https://www.impactmojo.in/101-courses/data-lit.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ImpactMojo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Data Literacy 101">
+<meta name="twitter:description" content="Data Literacy 101 — a free foundational course for development practitioners in South Asia. Read, question, visualise and use data responsibly: from India's data ecosystem to sampling, distributions, correlation, data quality and ethics. ImpactMojo, CC BY-NC-ND.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+</head>
+<body>
+
+<!-- SARGAM ICON SPRITES -->
+<div id="theme-bar">
+ <button class="theme-btn" onclick="setTheme('system')">System</button>
+ <button class="theme-btn active" onclick="setTheme('light')">Light</button>
+ <button class="theme-btn" onclick="setTheme('dark')">Dark</button>
+</div>
+
+<svg class="sprites" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="si_Heart" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 21C12 21 3 14.5 3 8.5a4.5 4.5 0 0 1 9-0.5 4.5 4.5 0 0 1 9 .5C21 14.5 12 21 12 21Z"/></symbol>
+  <symbol id="si_Book" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 7.333C12 5.5 10.5 4 8.667 4H2v12h6.708C12 16 12 19.334 12 19.334m0-12C12 5.5 13.5 4 15.333 4H22v12h-6.667C12 16 12 19.334 12 19.334m0-12v12"/></symbol>
+  <symbol id="si_Wallet" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M2 8.4V17c0 1.657 1.343 3 3 3h14c1.657 0 3-1.343 3-3V11c0-1.657-1.343-3-3-3H5c-1.657 0-3-1.343-3-3V6c0-1.105.895-2 2-2h13c1.105 0 2 .895 2 2v2M16 15h2"/></symbol>
+  <symbol id="si_Flag" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M4 22V4m0 0 16 6-16 6"/></symbol>
+  <symbol id="si_Chat" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M19 16h-2.525a.99.99 0 0 0-.775.375l-2.925 3.65c-.4.5-1.162.5-1.562 0l-2.925-3.65A.99.99 0 0 0 7.512 16H5c-1.662 0-3-1.338-3-3V6c0-1.662 1.338-3 3-3h14c1.663 0 3 1.338 3 3v7c0 1.662-1.337 3-3 3Z"/></symbol>
+  <symbol id="si_Lightning" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 2 4 14h8l-1 8 9-12h-8l1-8Z"/></symbol>
+  <symbol id="si_Lock" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M7 10V7a5 5 0 0 1 10 0v3m-1.4 1H8.4A2.4 2.4 0 0 0 6 13.4v5.2A2.4 2.4 0 0 0 8.4 21h7.2a2.4 2.4 0 0 0 2.4-2.4v-5.2A2.4 2.4 0 0 0 15.6 11Z"/></symbol>
+  <symbol id="si_Activity" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M1 12h4l4 9 7-18 3 9h4"/></symbol>
+  <symbol id="si_Bar_chart" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M2 22h20M9 8.6A1.6 1.6 0 0 0 7.4 7H4.6A1.6 1.6 0 0 0 3 8.6V22m6 0V3.6A1.6 1.6 0 0 1 10.6 2h2.8A1.6 1.6 0 0 1 15 3.6V22m6 0v-8.4a1.6 1.6 0 0 0-1.6-1.6h-2.8a1.6 1.6 0 0 0-1.6 1.6"/></symbol>
+  <symbol id="si_Globe_detailed" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 22c-3 0-5-4.477-5-10S9 2 12 2s5 4.477 5 10-2 10-5 10ZM2 12h20"/></symbol>
+  <symbol id="si_Leaf" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 3c-8 0-14 4-16 12 4-2 8-3 11-1s4 6 4 10C22 14 19 7 21 3Z"/><path stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M5 15c2 2 3 4 2 7"/></symbol>
+  <symbol id="si_Target" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Zm0-5a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0-3a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></symbol>
+  <symbol id="si_Briefcase" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M15 21V4.8a.8.8 0 0 0-.8-.8H9.8a.8.8 0 0 0-.8.8V21M4.4 7h15.2A2.4 2.4 0 0 1 22 9.4v9.2a2.4 2.4 0 0 1-2.4 2.4H4.4A2.4 2.4 0 0 1 2 18.6V9.4A2.4 2.4 0 0 1 4.4 7"/></symbol>
+  <symbol id="si_Database" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 8c4.97 0 9-1.343 9-3S16.97 2 12 2 3 3.343 3 5s4.03 3 9 3Zm9 6c0 1.657-4.03 3-9 3s-9-1.343-9-3M3 5v14c0 1.657 4.03 3 9 3s9-1.343 9-3V5"/></symbol>
+  <symbol id="si_Info" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Zm0-6v-4m0-2V9"/></symbol>
+  <symbol id="si_Check_circle" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m8 13 3 3 5-7m6 3c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10"/></symbol>
+  <symbol id="si_Arrow_right" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m14 16 4-4m0 0-4-4m4 4H6"/></symbol>
+  <symbol id="si_Flare" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v2m0 14v2M3 12H5m14 0h2m-2.636-6.364-1.414 1.414M7.05 16.95l-1.414 1.414m0-11.314 1.414 1.414m9.9 9.9-1.414-1.414M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/></symbol>
+  <symbol id="si_Library_books" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M4 19V7.4A2.4 2.4 0 0 1 6.4 5H20v14H6.4A2.4 2.4 0 0 1 4 16.6ZM4 17H2M8 5V2m4 3V2m4 3V2"/></symbol>
+  <symbol id="si_Fact_check" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M9 12h6m-6 3h6m-6-6h2M5.4 3h13.2A2.4 2.4 0 0 1 21 5.4v13.2a2.4 2.4 0 0 1-2.4 2.4H5.4A2.4 2.4 0 0 1 3 18.6V5.4A2.4 2.4 0 0 1 5.4 3Z"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m7 15.5 1.5 1.5 3-3.5"/></symbol>
+</svg>
+
+<div id="progress-bar"></div>
+<div id="fs-hint" onclick="toggleFS()">fullscreen</div>
+<div id="deck">
+ <div class="slide-viewport" id="viewport">
+
+<div class="slide active" id="s1"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="title-screen"><div class="title-bg"></div><div class="title-bar"></div><div class="title-content"><div class="title-series">ImpactMojo 101 Series &middot; Free Forever</div><div class="title-main">Safeguarding<br>&amp; PSEA<br>101</div><div class="title-sub">Protection from Sexual Exploitation, Abuse and Harassment in Development and Humanitarian Work &mdash; Policy, Reporting and Survivor-Centred Response</div><div class="title-tags"><span class="title-tag">Do No Harm</span><span class="title-tag">South Asia Focus</span><span class="title-tag">Donor-Aligned</span><span class="title-tag">39 Slides</span><span class="title-tag">Free Access</span></div></div><div class="title-geo"><svg viewBox="0 0 300 620" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%"><defs><pattern id="hex" x="0" y="0" width="40" height="46" patternUnits="userSpaceOnUse"><polygon points="20,2 38,12 38,34 20,44 2,34 2,12" fill="none" stroke="white" stroke-width="1"/></pattern></defs><rect width="300" height="620" fill="url(#hex)"/></svg></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">01</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s2"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Orientation</div><div class="slide-title md">Safeguarding &amp; PSEA &mdash; what this course covers</div><div class="slide-body">Every organisation that delivers aid, runs programmes, or works with communities holds power over the people it serves. Safeguarding is how we make sure that power is never used to harm, exploit or abuse them &mdash; especially sexually.</div><ul class="bullet-list indigo"><li><strong>What we mean</strong> &mdash; safeguarding, PSEA, sexual exploitation, abuse and harassment, and the power imbalance at the centre of it all</li><li><strong>Why it matters</strong> &mdash; the sector&rsquo;s reckoning after Oxfam Haiti, donor rules, &ldquo;do no harm&rdquo;, and why abuse is so under-reported</li><li><strong>The standards</strong> &mdash; the IASC six core principles, the UN red lines, the Core Humanitarian Standard</li><li><strong>The red lines &amp; your conduct</strong> &mdash; the bright-line rules that apply to every staff member and volunteer</li><li><strong>Reporting &amp; survivor-centred response</strong> &mdash; safe channels, confidentiality, referral, protection from retaliation</li><li><strong>Building a culture</strong> &mdash; risk assessment, safe recruitment, focal points and community complaint mechanisms</li></ul><div class="hbox amber"><div class="hbox-text"><strong>A note on this topic.</strong> This is sensitive material. Throughout, we keep the survivor at the centre &mdash; their safety, dignity and choices come first.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">2</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s3"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="section-divider"><div class="div-num">01</div><div class="div-label">Part One</div><div class="div-title">What we mean</div><div class="div-accent"></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">3</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s4"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Definitions</div><div class="slide-title md">Safeguarding: the responsibility, not just a policy</div><div class="slide-body">Safeguarding is the set of measures an organisation takes to ensure its staff, operations and programmes do no harm to the people they work with &mdash; and that any harm that does occur is reported and responded to.</div><div class="term-box"><div class="term-word">Safeguarding</div><div class="term-def">Preventing and responding to harm caused &mdash; through action or inaction &mdash; to those an organisation comes into contact with: affected populations, communities, and staff. It covers sexual exploitation and abuse, sexual harassment, and wider forms of harm and abuse of power.</div></div><div class="hbox indigo"><div class="hbox-text"><strong>Not a paper exercise.</strong> A signed policy protects no one. Safeguarding lives in recruitment, training, reporting channels, and everyday behaviour &mdash; or it does not exist at all.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">4</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s5"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Definitions</div><div class="slide-title md">PSEA sits inside safeguarding</div><div class="slide-body">PSEA &mdash; Protection from Sexual Exploitation and Abuse &mdash; is the part of safeguarding focused on sexual harm to the <strong>affected population</strong>: the community members, beneficiaries and vulnerable people an organisation is there to serve.</div><div class="two-col half"><div class="col-panel indigo"><div class="col-panel-title">Safeguarding (the umbrella)</div><div class="slide-body sm">All harm to all people the organisation touches &mdash; children, adults, communities and staff.</div></div><div class="col-panel amber"><div class="col-panel-title">PSEA (a core part of it)</div><div class="slide-body sm">Sexual exploitation and abuse of the people we serve, by those with power over them. Increasingly written PSEAH to also cover harassment.</div></div></div><div class="slide-body sm">In the humanitarian and development sector the framing is now often <strong>PSEAH</strong> &mdash; Protection from Sexual Exploitation, Abuse and Harassment &mdash; folding staff-to-staff harassment into the same commitment.</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">5</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s6"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The Three Terms</div><div class="slide-title sm">Sexual exploitation, abuse and harassment &mdash; defined</div><div class="slide-body sm">The sector uses the definitions from the UN Secretary-General&rsquo;s Bulletin <em>ST/SGB/2003/13</em>. Learn the distinctions &mdash; they decide how a report is handled.</div><div class="term-box"><div class="term-word">Sexual Exploitation</div><div class="term-def">Any actual or attempted abuse of a position of vulnerability, differential power or trust, for sexual purposes &mdash; including, but not limited to, profiting monetarily, socially or politically.</div></div><div class="term-box"><div class="term-word">Sexual Abuse</div><div class="term-def">The actual or threatened physical intrusion of a sexual nature, whether by force or under unequal or coercive conditions.</div></div><div class="term-box"><div class="term-word">Sexual Harassment</div><div class="term-def">Any unwelcome sexual advance, request for sexual favour, or verbal or physical conduct of a sexual nature &mdash; typically in the workplace, between colleagues (ST/SGB/2008/5).</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">6</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s7"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The Core Idea</div><div class="slide-title md">The power imbalance is the whole point</div><div class="slide-body">An aid worker controls access to food, shelter, cash, a job, a referral, a place on a list. The person in front of them may have almost nothing. That gap in power is what makes &ldquo;consent&rdquo; unreliable and exploitation possible.</div><div class="dark-card"><div class="dark-card-label">Why the rules are strict</div><div class="dark-card-title">Where power is deeply unequal, apparent consent cannot make a sexual relationship acceptable.</div><div class="dark-card-body">A displaced widow in a relief camp who agrees to sex with the officer distributing rations is not freely consenting &mdash; she is responding to power over her survival. This is why the sector treats such relationships as prohibited or strongly discouraged, not as private matters.</div></div><div class="hbox red"><div class="hbox-text"><strong>Hold this thought.</strong> Nearly every red line in this course flows from one fact: we hold power over the people we serve.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">7</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s8"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Scope</div><div class="slide-title md">Who is protected &mdash; and who must comply</div><div class="two-col half"><div class="col-panel green"><div class="col-panel-title">Who is protected</div><div class="slide-body sm"><ul class="bullet-list green"><li>Beneficiaries and affected communities</li><li>Children (anyone under 18) &mdash; always</li><li>People in vulnerable or dependent situations: refugees, the displaced, disaster survivors, women, people with disabilities</li><li>Staff, from harassment by colleagues</li></ul></div></div><div class="col-panel amber"><div class="col-panel-title">Who must comply</div><div class="slide-body sm"><ul class="bullet-list amber"><li>All employees &mdash; national and international</li><li>Volunteers and interns</li><li>Consultants, contractors and suppliers</li><li>Partner organisations and their staff</li><li>Board members and visitors</li></ul></div></div></div><div class="hbox indigo"><div class="hbox-text"><strong>Everyone, everywhere.</strong> The standard does not change with your seniority, your location, or whether you are &ldquo;on the clock&rdquo;.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">8</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s9"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="section-divider"><div class="div-num">02</div><div class="div-label">Part Two</div><div class="div-title">Why it matters</div><div class="div-accent"></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">9</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s10"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The Reckoning</div><div class="slide-title md">Oxfam, Haiti, and the sector&rsquo;s wake-up call</div><div class="slide-body">In February 2018, reporting revealed that senior Oxfam staff had used sex workers while responding to the 2010 Haiti earthquake &mdash; and that the charity had failed to handle the cases properly. The story became the sector&rsquo;s reckoning.</div><ul class="bullet-list red"><li><strong>The failure</strong> &mdash; abuse of a position of power amid extreme vulnerability, and mishandled internal response</li><li><strong>The regulator</strong> &mdash; in 2019 the Charity Commission for England &amp; Wales found Oxfam GB had mismanaged its safeguarding response</li><li><strong>The shift</strong> &mdash; safeguarding moved from the margins to a board-level, donor-level priority across the whole sector</li></ul><div class="quote-block"><div class="quote-text">&ldquo;We must learn and change.&rdquo;</div><div class="quote-attr">&mdash; Oxfam, in the aftermath of the Haiti scandal, 2019</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">10</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s11"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The Reckoning</div><div class="slide-title md">What the scandal changed</div><div class="slide-body">The response reshaped how organisations recruit, train and are held to account. Oxfam alone created a Director of Safeguarding role and made safeguarding training mandatory for its staff worldwide; the sector built shared infrastructure.</div><ul class="bullet-list indigo"><li><strong>Shared reference checking</strong> &mdash; the inter-agency Misconduct Disclosure Scheme, to stop perpetrators moving quietly between agencies</li><li><strong>A UK Parliamentary inquiry</strong> and a global safeguarding summit put the sector under scrutiny</li><li><strong>Donor conditions tightened</strong> &mdash; safeguarding policies and reporting became a condition of funding</li><li><strong>Dedicated capacity</strong> &mdash; safeguarding leads, focal points and budgets, not add-on duties</li></ul><div class="hbox amber"><div class="hbox-text"><strong>The lesson.</strong> The harm was real, but the deeper failure was the system &mdash; weak vetting, no safe reporting, and a culture that protected the institution over the survivor.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">11</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s12"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The Mandate</div><div class="slide-title md">Donors now require it</div><div class="slide-body">Safeguarding is no longer optional good practice &mdash; it is a contractual condition. Major donors require partners to have policies, reporting mechanisms and the ability to act on allegations.</div><ul class="bullet-list green"><li><strong>Bilateral donors</strong> &mdash; the UK FCDO, USAID, EU and others make PSEAH capacity a due-diligence and grant requirement</li><li><strong>UN agencies</strong> &mdash; require implementing partners to be assessed against a PSEA capacity standard before funds flow</li><li><strong>Pooled funds</strong> &mdash; humanitarian country funds screen partners for safeguarding systems</li></ul><div class="hbox red"><div class="hbox-text"><strong>Practical stake.</strong> For a South Asian NGO, weak safeguarding is not just an ethical failing &mdash; it can disqualify you from funding and partnerships.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">12</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s13"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The Principle</div><div class="slide-title md">&ldquo;Do no harm&rdquo; &mdash; the ethical floor</div><div class="slide-body">Humanitarian and development work rests on a first duty: intervention must not leave people worse off. Sexual exploitation by aid workers is the most severe possible breach of that duty &mdash; harm inflicted by the very people sent to help.</div><div class="dark-card"><div class="dark-card-label">Do no harm</div><div class="dark-card-title">The people we serve came to us for protection. Betraying that trust is not a lapse &mdash; it is a fundamental violation of the mission.</div><div class="dark-card-body">Abuse also corrodes the wider effort: it destroys community trust, endangers other staff, and can shut down programmes that thousands depend on.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">13</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s14"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The Hidden Scale</div><div class="slide-title md">Why abuse is so under-reported</div><div class="slide-body">Recorded cases are the tip of the iceberg. The same power imbalance that enables abuse also silences it &mdash; so low report numbers signal broken systems, not safe programmes.</div><ul class="bullet-list amber"><li><strong>Fear of losing aid</strong> &mdash; a complaint may mean losing rations, a job, or a place in the programme</li><li><strong>Fear of retaliation</strong> &mdash; against the survivor or their family</li><li><strong>Shame and stigma</strong> &mdash; especially heavy for women and girls in many South Asian contexts</li><li><strong>No safe way to report</strong> &mdash; channels are unknown, inaccessible, or run through the very people implicated</li><li><strong>Disbelief</strong> &mdash; a belief that nothing will be done</li></ul><div class="hbox indigo"><div class="hbox-text"><strong>Read the silence.</strong> Zero reports usually means people do not feel safe to speak &mdash; not that nothing is happening.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">14</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s15"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="section-divider"><div class="div-num">03</div><div class="div-label">Part Three</div><div class="div-title">The standards &amp; framework</div><div class="div-accent"></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">15</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s16"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The Framework</div><div class="slide-title md">The IASC Six Core Principles</div><div class="slide-body">The Inter-Agency Standing Committee (IASC) &mdash; the coordination forum of UN and non-UN humanitarian agencies &mdash; set out six core principles on sexual exploitation and abuse (2002, revised 2019). They are the sector&rsquo;s shared baseline; most organisational codes of conduct are built on them.</div><div class="flow"><div class="flow-step"><div class="flow-num">01</div><div class="flow-label">Gross misconduct</div></div><div class="flow-arrow">&rarr;</div><div class="flow-step"><div class="flow-num">02</div><div class="flow-label">No sex with under-18s</div></div><div class="flow-arrow">&rarr;</div><div class="flow-step"><div class="flow-num">03</div><div class="flow-label">No exchange for sex</div></div><div class="flow-arrow">&rarr;</div><div class="flow-step"><div class="flow-num">04</div><div class="flow-label">No abuse of position</div></div></div><div class="slide-body sm">Source: IASC Six Core Principles Relating to Sexual Exploitation and Abuse, 2019.</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">16</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s17"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The Framework</div><div class="slide-title sm">IASC principles 1&ndash;3</div><ul class="bullet-list red"><li><strong>1 &middot; Grounds for dismissal</strong> &mdash; sexual exploitation and abuse by humanitarian workers constitute acts of gross misconduct and are grounds for termination of employment</li><li><strong>2 &middot; No sexual activity with children</strong> &mdash; sexual activity with anyone under 18 is prohibited regardless of the local age of majority or consent; mistaken belief about a child&rsquo;s age is no defence</li><li><strong>3 &middot; No exchange for sex</strong> &mdash; exchange of money, employment, goods or services for sex &mdash; including sexual favours or other humiliating, degrading or exploitative behaviour &mdash; is prohibited, including the exchange of assistance that is due to beneficiaries</li></ul><div class="hbox amber"><div class="hbox-text"><strong>Note.</strong> Principle 3 explicitly bans withholding or trading aid that people are already entitled to.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">17</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s18"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The Framework</div><div class="slide-title sm">IASC principles 4&ndash;6</div><ul class="bullet-list indigo"><li><strong>4 &middot; No abuse of position</strong> &mdash; sexual relationships between those delivering assistance and those benefiting from it that involve improper use of rank or position are prohibited; they undermine the credibility and integrity of the work</li><li><strong>5 &middot; Duty to report</strong> &mdash; where a worker has concerns or suspicions about sexual abuse or exploitation by a colleague &mdash; in their own agency or another &mdash; they must report through established mechanisms</li><li><strong>6 &middot; Duty to foster a safe environment</strong> &mdash; workers must help create and maintain an environment that prevents SEA; managers at all levels carry particular responsibility for the systems that sustain it</li></ul><div class="hbox indigo"><div class="hbox-text"><strong>Reporting is mandatory.</strong> Principle 5 makes staying silent a breach in itself &mdash; not a neutral choice.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">18</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s19"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The Framework</div><div class="slide-title sm">The UN red lines &mdash; ST/SGB/2003/13</div><div class="slide-body sm">The UN Secretary-General&rsquo;s Bulletin turned the principles into binding standards for UN staff and those working with the UN. Its bright lines:</div><ul class="bullet-list red"><li><strong>SEA is serious misconduct</strong> &mdash; grounds for disciplinary measures, including summary dismissal</li><li><strong>Under 18 &mdash; never</strong> &mdash; sexual activity with children is prohibited; mistaken belief about age is not a defence</li><li><strong>No exchange</strong> &mdash; money, employment, goods or services for sex is prohibited</li><li><strong>Relationships with beneficiaries</strong> &mdash; based on inherently unequal power, they undermine the work&rsquo;s integrity and are strongly discouraged</li><li><strong>Managers must act</strong> &mdash; create an environment that prevents SEA and act on concerns</li></ul><div class="slide-body sm">Source: UN Secretary-General&rsquo;s Bulletin, ST/SGB/2003/13 (2003).</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">19</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s20"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The Framework</div><div class="slide-title md">The Core Humanitarian Standard</div><div class="slide-body">The Core Humanitarian Standard (CHS) sets out commitments to quality and accountability toward people affected by crisis. Revised in 2024 after consultation with over 4,000 people across 90 countries, it now weaves protection from sexual exploitation, abuse and harassment (PSEAH) throughout its Nine Commitments.</div><div class="two-col half"><div class="col-panel green"><div class="col-panel-title">What CHS requires</div><div class="slide-body sm">Safe, accessible complaints handling; staff who behave ethically; and communities who know their rights and can hold responders to account.</div></div><div class="col-panel indigo"><div class="col-panel-title">The PSEAH Index</div><div class="slide-body sm">Sets out the safeguarding requirements embedded in the CHS, so an organisation can verify whether its policies and practices actually protect people.</div></div></div><div class="slide-body sm">Source: Core Humanitarian Standard on Quality and Accountability, 2024 edition; CHS Alliance.</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">20</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s21"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Two Tracks</div><div class="slide-title sm">PSEA and staff harassment &mdash; related but distinct</div><div class="slide-body sm">Both are sexual misconduct and both matter &mdash; but who is harmed differs, and so do the processes. Do not collapse them.</div><table class="ctable"><thead><tr><th>PSEA (external)</th><th>Sexual Harassment (internal)</th></tr></thead><tbody><tr><td>Harm to the affected population &mdash; beneficiaries, community members</td><td>Harm between staff &mdash; colleague to colleague, manager to junior</td></tr><tr><td>Rooted in the aid worker&rsquo;s power over vulnerable people</td><td>Rooted in workplace power and hierarchy</td></tr><tr><td>Sexual exploitation and sexual abuse</td><td>Unwelcome sexual conduct in the workplace</td></tr><tr><td>Handled via PSEA / community reporting channels</td><td>Handled via HR / workplace grievance channels</td></tr></tbody></table><div class="hbox amber"><div class="hbox-text"><strong>Why keep them separate.</strong> A beneficiary and an employee need different protections, referral routes and safeguards &mdash; even under the shared PSEAH banner.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">21</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s22"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="section-divider"><div class="div-num">04</div><div class="div-label">Part Four</div><div class="div-title">The red lines &amp; code of conduct</div><div class="div-accent"></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">22</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s23"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Code of Conduct</div><div class="slide-title md">Zero tolerance means action, not a slogan</div><div class="slide-body">&ldquo;Zero tolerance&rdquo; does not mean zero incidents &mdash; it means zero tolerance for inaction: every allegation is taken seriously, reported, and acted on, and confirmed misconduct ends employment.</div><ul class="bullet-list red"><li><strong>Every report is acted on</strong> &mdash; no allegation is buried, minimised or informally settled</li><li><strong>Confirmed SEA ends employment</strong> &mdash; it is gross misconduct</li><li><strong>No cover-ups</strong> &mdash; protecting the organisation&rsquo;s reputation over a survivor is itself a safeguarding failure</li><li><strong>Applies to everyone</strong> &mdash; including senior and high-performing staff</li></ul><div class="hbox indigo"><div class="hbox-text"><strong>Balance.</strong> Zero tolerance for abuse sits alongside due process &mdash; the accused have a right to a fair investigation, and the survivor to a safe, respectful one.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">23</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s24"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Red Line</div><div class="slide-title md">No sexual activity with anyone under 18</div><div class="dark-card"><div class="dark-card-label">Bright line &mdash; no exceptions</div><div class="dark-card-title">Sexual activity with a child &mdash; anyone under 18 &mdash; is prohibited, whatever the local age of consent.</div><div class="dark-card-body">In many South Asian settings a person may look older, be married, or the local age of majority may differ. None of that changes the rule.</div></div><ul class="bullet-list red"><li><strong>Mistaken belief about age is no defence</strong> &mdash; &ldquo;I thought they were older&rdquo; does not excuse it</li><li><strong>Local law does not lower the bar</strong> &mdash; the sector standard is 18, full stop</li><li><strong>Consent is irrelevant</strong> &mdash; a child cannot consent to sexual activity with an aid worker</li></ul></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">24</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s25"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Red Line</div><div class="slide-title md">No transactional or exchange sex</div><div class="slide-body">Trading anything of value &mdash; aid, cash, a job, a document, a referral, a place on a list &mdash; for sex is prohibited. It is exploitation of need, dressed up as a transaction.</div><ul class="bullet-list amber"><li><strong>Aid is never a currency for sex</strong> &mdash; including assistance people are already entitled to</li><li><strong>&ldquo;Favours&rdquo; count</strong> &mdash; speeding up a claim, adding a name, quiet preferential treatment</li><li><strong>Paying sex workers is prohibited too</strong> &mdash; this was central to the Oxfam Haiti case; the ban applies even where sex work is legal locally</li></ul><div class="hbox red"><div class="hbox-text"><strong>No grey zone.</strong> If a sexual interaction is entangled with your role, your resources or your authority, it is prohibited &mdash; regardless of what the other person appears to agree to.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">25</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s26"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Red Line</div><div class="slide-title md">Relationships with beneficiaries &amp; abuse of authority</div><div class="slide-body">Because the power gap between an aid worker and a beneficiary is inherently unequal, sexual relationships between them undermine the integrity of the work and are prohibited or strongly discouraged under most organisational codes.</div><div class="two-col half"><div class="col-panel amber"><div class="col-panel-title">Relationships with beneficiaries</div><div class="slide-body sm">The dependency makes genuine consent unreliable. Many organisations prohibit such relationships outright; all require they be disclosed and never involve improper use of position.</div></div><div class="col-panel red"><div class="col-panel-title">Abuse of authority</div><div class="slide-body sm">Using your rank, access or control &mdash; over aid, jobs, or a subordinate &mdash; to obtain sexual advantage is a defining feature of both SEA and workplace harassment.</div></div></div><div class="hbox indigo"><div class="hbox-text"><strong>When in doubt, disclose.</strong> Raise it with your safeguarding focal point &mdash; do not decide alone that a relationship is &ldquo;fine&rdquo;.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">26</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s27"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="section-divider"><div class="div-num">05</div><div class="div-label">Part Five</div><div class="div-title">Reporting &amp; survivor-centred response</div><div class="div-accent"></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">27</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s28"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Reporting</div><div class="slide-title md">Safe, accessible reporting channels</div><div class="slide-body">People can only report if a channel exists that is safe, known and usable for them. A hotline in English, run through the same office that employs the alleged perpetrator, is not a real channel for a woman in a remote camp.</div><ul class="bullet-list green"><li><strong>Multiple channels</strong> &mdash; phone, in-person, suggestion box, trusted focal point, partner organisations</li><li><strong>Accessible</strong> &mdash; in local languages, reachable by women, people with disabilities, and those who cannot read</li><li><strong>Independent</strong> &mdash; a route that does not pass through the person implicated</li><li><strong>Known</strong> &mdash; communities are told how to report, and what will happen when they do</li></ul><div class="hbox amber"><div class="hbox-text"><strong>Design with the community.</strong> Ask affected people how they would want to report &mdash; a channel they did not shape is a channel they will not use.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">28</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s29"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Reporting</div><div class="slide-title md">Confidentiality &amp; data protection</div><div class="slide-body">Mishandled information can put a survivor in danger. Details are shared strictly on a need-to-know basis, and only ever with the survivor&rsquo;s informed consent &mdash; with one exception.</div><ul class="bullet-list indigo"><li><strong>Need-to-know only</strong> &mdash; identifying details go no further than those who must act</li><li><strong>Informed consent to share</strong> &mdash; the survivor decides what is shared and with whom, wherever possible</li><li><strong>Secure records</strong> &mdash; access-controlled, not gossiped, emailed carelessly or left on a desk</li><li><strong>The child exception</strong> &mdash; where a child is at risk, mandatory child-protection reporting and their best interests may require action beyond a simple consent rule</li></ul><div class="hbox red"><div class="hbox-text"><strong>A breach can be lethal.</strong> In some communities, exposure of a survivor&rsquo;s identity risks violence, ostracism, or so-called &ldquo;honour&rdquo; retaliation.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">29</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s30"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Response</div><div class="slide-title md">The survivor-centred approach</div><div class="slide-body">When someone discloses, how you respond matters as much as any investigation. The survivor-centred approach rests on four principles that put the survivor&rsquo;s rights, dignity and wishes first.</div><div class="stat-grid c4"><div class="stat-card green"><div class="stat-number">Safety</div><div class="stat-label">The survivor&rsquo;s safety is the first priority in every decision</div></div><div class="stat-card indigo"><div class="stat-number">Confidentiality</div><div class="stat-label">Information protected and shared only with consent</div></div><div class="stat-card amber"><div class="stat-number">Respect</div><div class="stat-label">The survivor&rsquo;s choices and wishes guide the response</div></div><div class="stat-card red"><div class="stat-number">Non-discrimination</div><div class="stat-label">Fair, equal treatment for everyone who comes forward</div></div></div><div class="slide-body sm">Source: IASC / IFRC survivor-centred approach.</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">30</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s31"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Response</div><div class="slide-title md">How to receive a disclosure</div><div class="slide-body">You do not need to investigate &mdash; you need to receive the disclosure safely and pass it on. Your first job is to do no further harm.</div><div class="two-col half"><div class="col-panel green"><div class="col-panel-title">Do</div><div class="slide-body sm"><ul class="bullet-list green"><li>Listen, believe, stay calm</li><li>Ask what they need to be safe</li><li>Explain what you must do next, and get consent to refer where possible</li><li>Report through your safeguarding channel promptly</li></ul></div></div><div class="col-panel red"><div class="col-panel-title">Do not</div><div class="slide-body sm"><ul class="bullet-list red"><li>Interrogate or press for graphic detail</li><li>Promise to keep it entirely secret</li><li>Confront the alleged perpetrator yourself</li><li>Judge, blame, or share the story</li></ul></div></div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">31</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s32"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Response</div><div class="slide-title md">Referral pathways &mdash; connecting survivors to help</div><div class="slide-body">Reporting is not the same as support. A survivor may need care that no aid worker can provide alone &mdash; so every programme should map, in advance, where to refer, with the survivor&rsquo;s consent.</div><ul class="bullet-list indigo"><li><strong>Medical</strong> &mdash; time-sensitive care; some services (including post-rape care) matter most within the first hours and days</li><li><strong>Psychosocial</strong> &mdash; counselling and mental-health support</li><li><strong>Legal</strong> &mdash; advice on rights and options, without pressure to pursue any route</li><li><strong>Safety &amp; basic needs</strong> &mdash; safe shelter and protection where there is ongoing risk</li></ul><div class="hbox amber"><div class="hbox-text"><strong>Map it before you need it.</strong> Know your local referral network &mdash; women&rsquo;s organisations, One Stop Centres, health facilities &mdash; so support is ready the moment someone discloses.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">32</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s33"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Protection</div><div class="slide-title md">No retaliation &mdash; and safe whistleblowing</div><div class="slide-body">People will only come forward if speaking up is safe. Protecting survivors, witnesses and reporters from retaliation is a core obligation &mdash; and reporting good-faith concerns is a duty, not disloyalty.</div><ul class="bullet-list green"><li><strong>Protection from retaliation</strong> &mdash; no one is punished, demoted or excluded for reporting in good faith</li><li><strong>Good-faith reports are protected</strong> &mdash; even if an allegation is not ultimately substantiated</li><li><strong>The duty to report</strong> &mdash; staying silent about known abuse is itself a breach (IASC Principle 5)</li><li><strong>Whistleblower routes</strong> &mdash; a confidential channel, including outside the normal line manager, for raising concerns</li></ul><div class="hbox red"><div class="hbox-text"><strong>Retaliation is misconduct too.</strong> Punishing someone for reporting compounds the original harm and must be treated as a safeguarding violation in its own right.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">33</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s34"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="section-divider"><div class="div-num">06</div><div class="div-label">Part Six</div><div class="div-title">Building a safeguarding culture</div><div class="div-accent"></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">34</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s35"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Prevention</div><div class="slide-title md">Start with a safeguarding risk assessment</div><div class="slide-body">Prevention begins by asking where your own work could enable harm &mdash; then designing that risk out. Different activities carry very different exposure.</div><ul class="bullet-list amber"><li><strong>Contact with children</strong> &mdash; schools, child-focused or residential programmes</li><li><strong>Control over resources</strong> &mdash; cash transfers, distributions, beneficiary selection, job allocation</li><li><strong>Acute vulnerability</strong> &mdash; camps, disaster response, trafficking-prone or conflict-affected areas</li><li><strong>Isolated or unsupervised work</strong> &mdash; home visits, remote field sites, night operations</li></ul><div class="hbox indigo"><div class="hbox-text"><strong>Then mitigate.</strong> Two-person rules, transparent selection criteria, community oversight, and clear codes of conduct all reduce the opportunity for abuse.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">35</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s36"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Prevention</div><div class="slide-title md">Safe recruitment &mdash; keeping perpetrators out</div><div class="slide-body">Abusers move between organisations, exploiting weak checks and short deployments. Safe recruitment closes that door before someone is ever hired.</div><ul class="bullet-list green"><li><strong>Values-based screening</strong> &mdash; interviews and scenarios that probe attitudes to power and safeguarding</li><li><strong>Rigorous reference checks</strong> &mdash; verify history directly with past employers, not just named referees</li><li><strong>Background checks</strong> &mdash; where lawful and available, including for roles working with children</li></ul><div class="term-box"><div class="term-word">Misconduct Disclosure Scheme</div><div class="term-def">An inter-agency scheme (facilitated by SCHR, hosted by the CHS Alliance) where employers share, on request, whether a candidate was found to have committed sexual exploitation, abuse or harassment &mdash; so perpetrators cannot move between agencies undetected. Adopted by 170+ organisations, it has blocked hundreds of such hires.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">36</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s37"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Prevention</div><div class="slide-title md">Induction, focal points &amp; community mechanisms</div><div class="slide-body">Policy becomes culture through everyday structures &mdash; people trained to know the rules, someone clearly responsible, and communities equipped to hold the organisation to account.</div><div class="two-col half"><div class="col-panel indigo"><div class="col-panel-title">Inside the organisation</div><div class="slide-body sm"><ul class="bullet-list indigo"><li>Safeguarding in induction and regular refreshers</li><li>A signed, understood code of conduct</li><li>A named safeguarding focal point staff can approach</li></ul></div></div><div class="col-panel green"><div class="col-panel-title">With the community</div><div class="slide-body sm"><ul class="bullet-list green"><li>Community-based complaint mechanisms shaped with local people</li><li>Communities informed of their rights and how to report</li><li>Feedback taken seriously and acted on</li></ul></div></div></div><div class="hbox amber"><div class="hbox-text"><strong>Leaders set the tone.</strong> Where managers model accountability and act on reports, a speak-up culture follows &mdash; where they minimise, silence returns.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">37</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s38"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Wrap-Up</div><div class="slide-title md">Key takeaways</div><ul class="bullet-list green"><li><strong>Power is the heart of it</strong> &mdash; safeguarding exists because aid workers hold power over vulnerable people; every red line flows from that</li><li><strong>PSEA protects the community; SH protects staff</strong> &mdash; related tracks, distinct processes, together as PSEAH</li><li><strong>Know the bright lines</strong> &mdash; no sex with under-18s (age mistake is no defence), no exchange of aid for sex, no abuse of position with beneficiaries</li><li><strong>The standards are shared</strong> &mdash; IASC Six Core Principles, ST/SGB/2003/13, and the Core Humanitarian Standard</li><li><strong>Reporting is a duty</strong> &mdash; respond survivor-centred (safety, confidentiality, respect, non-discrimination), refer for care, and never retaliate</li><li><strong>Culture prevents harm</strong> &mdash; risk assessment, safe recruitment, focal points and community mechanisms turn policy into protection</li></ul><div class="hbox indigo"><div class="hbox-text"><strong>If you remember one thing.</strong> When someone discloses harm, keep them at the centre &mdash; and when in doubt, report. Silence protects abusers; safeguarding protects people.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">38</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s39"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Safeguarding & PSEA 101</span><span class="header-url">www.impactmojo.in</span></div><div class="end-screen"><div class="end-bar"></div><div class="end-pattern"></div><div class="end-glow"></div><div class="end-content"><div class="end-eyebrow">Safeguarding & PSEA 101 &middot; Complete</div><div class="end-headline">Everyone's business.<br>No exceptions.</div><div class="end-byline">Safeguarding works only when every staff member knows the standards, the red lines and how to report. Explore the rest of the ImpactMojo 101 Series, free forever.</div><div class="end-cta"><a class="end-btn end-btn-primary" href="https://www.impactmojo.in/101-courses/">More 101 Courses</a><a class="end-btn end-btn-secondary" href="https://www.impactmojo.in">Explore ImpactMojo</a><a class="end-btn end-btn-tertiary" href="https://www.impactmojo.in/dataverse.html">Dataverse</a></div><div class="end-meta"><span>CC BY-NC-ND 4.0</span><span class="end-meta-divider">&middot;</span><span>Free Forever</span><span class="end-meta-divider">&middot;</span><span>ImpactMojo 101 Series</span></div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">39</span><span class="footer-right">www.impactmojo.in</span></div></div>
+</div><!-- /slide-viewport -->
+</div><!-- /deck -->
+
+<div id="nav">
+ <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">&#8249;</button>
+ <span id="prog-text">1 / 39</span>
+ <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">&#8250;</button>
+</div>
+
+<script>
+const SLIDE_IDS = Array.from(document.querySelectorAll('.slide')).map(function(s){return s.id;});
+
+let cur = 0;
+const TOTAL = SLIDE_IDS.length;
+
+const chartsInit = {};
+
+function showSlide(n) {
+  document.getElementById(SLIDE_IDS[cur])?.classList.remove('active');
+  cur = Math.max(0, Math.min(n, TOTAL - 1));
+  document.getElementById(SLIDE_IDS[cur])?.classList.add('active');
+  document.getElementById('prog-text').textContent = (cur+1) + ' / ' + TOTAL;
+  document.getElementById('prevBtn').disabled = cur === 0;
+  document.getElementById('nextBtn').disabled = cur === TOTAL - 1;
+  document.getElementById('progress-bar').style.width = ((cur+1)/TOTAL*100) + '%';
+  if (!chartsInit[cur]) { initChart(cur); chartsInit[cur] = true; }
+  showNav();
+}
+
+function changeSlide(d) { showSlide(cur + d); }
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') changeSlide(-1);
+});
+
+let ts = 0;
+document.addEventListener('touchstart', e => ts = e.touches[0].clientX);
+document.addEventListener('touchend', e => {
+  const d = ts - e.changedTouches[0].clientX;
+  if (Math.abs(d) > 50) changeSlide(d > 0 ? 1 : -1);
+});
+
+function showNav() {}
+
+function toggleFS() {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
+}
+document.addEventListener('fullscreenchange', () => {
+  document.getElementById('fs-hint').textContent = document.fullscreenElement ? 'exit fullscreen' : 'fullscreen';
+});
+
+// Viewport scaling — fit the 1280x720 stage to any screen. Re-runs on load,
+// orientation change and visual-viewport resize so mobile (where innerHeight
+// can be ~0 during parse) settles to the correct full-width fit instead of a
+// shrunken sliver.
+function scaleViewport() {
+  const vp = document.getElementById('viewport');
+  if (!vp) return;
+  const s = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+  if (s > 0) vp.style.transform = 'scale(' + s + ')';
+}
+window.addEventListener('resize', scaleViewport);
+window.addEventListener('orientationchange', function(){ setTimeout(scaleViewport, 150); });
+window.addEventListener('load', scaleViewport);
+if (window.visualViewport) window.visualViewport.addEventListener('resize', scaleViewport);
+scaleViewport();
+[50, 200, 500, 1000].forEach(function(t){ setTimeout(scaleViewport, t); });
+
+// Charts
+const CHART_DEFAULTS = {
+  responsive: true, maintainAspectRatio: false,
+  plugins: { legend: { labels: { font: { family: 'JetBrains Mono', size: 10 }, color: '#78716C' } } },
+  scales: {
+    x: { ticks: { font: { family: 'JetBrains Mono', size: 9 }, color: '#78716C' }, grid: { color: 'rgba(0,0,0,0.05)' } },
+    y: { ticks: { font: { family: 'JetBrains Mono', size: 9 }, color: '#78716C' }, grid: { color: 'rgba(0,0,0,0.05)' } }
+  }
+};
+
+function initChart(slideIdx) {
+  const id = SLIDE_IDS[slideIdx];
+  const mk = (id, type, data, opts) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    new Chart(el, { type, data, options: { ...CHART_DEFAULTS, ...opts } });
+  };
+
+  if (id === 's32') {
+    mk('meanMedianChart', "bar", {"labels": ["H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H10", "H11"], "datasets": [{"label": "Income (₹000/month)", "data": [8, 9, 10, 11, 12, 12, 13, 14, 15, 16, 220], "backgroundColor": "#0EA5E9"}]}, { plugins:{ legend:{ display:false } } });
+  }
+  if (id === 's35') {
+    mk('distShapeChart', "line", {"labels": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], "datasets": [{"label": "Symmetric (e.g. height)", "data": [1, 3, 8, 16, 24, 28, 24, 16, 8, 3, 1], "borderColor": "#10B981", "tension": 0.4, "pointRadius": 0, "fill": false}, {"label": "Right-skewed (e.g. income)", "data": [2, 18, 28, 24, 16, 10, 6, 4, 2, 1, 0.5], "borderColor": "#EF4444", "tension": 0.4, "pointRadius": 0, "fill": false}]}, {});
+  }
+  if (id === 's43') {
+    mk('truncChart', "bar", {"labels": ["2019", "2021", "2023"], "datasets": [{"label": "Coverage %", "data": [92, 94, 96], "backgroundColor": "#EF4444"}]}, { plugins:{legend:{display:false}}, scales:{ y:{ min:90, max:97 } } });
+    mk('honestChart', "bar", {"labels": ["2019", "2021", "2023"], "datasets": [{"label": "Coverage %", "data": [92, 94, 96], "backgroundColor": "#10B981"}]}, { plugins:{legend:{display:false}}, scales:{ y:{ min:0, max:100 } } });
+  }
+  if (id === 's51') {
+    mk('litFertChart', "scatter", {"datasets": [{"label": "States", "data": [{"x": 92, "y": 1.8}, {"x": 84, "y": 1.7}, {"x": 76, "y": 1.8}, {"x": 73, "y": 2.1}, {"x": 70, "y": 2.0}, {"x": 66, "y": 2.1}, {"x": 64, "y": 2.4}, {"x": 60, "y": 2.5}, {"x": 59, "y": 2.7}, {"x": 53, "y": 3.0}, {"x": 50, "y": 3.0}, {"x": 57, "y": 2.6}], "backgroundColor": "#6366F1", "pointRadius": 6}]}, { plugins:{legend:{display:false}}, scales:{ x:{ title:{display:true,text:'Female literacy %'} }, y:{ title:{display:true,text:'Total fertility rate'}, min:1.5, max:3.2 } } });
+  }
+  if (id === 's64') {
+    mk('moeChart', "line", {"labels": ["100", "200", "400", "600", "1000", "1500", "2400", "4000"], "datasets": [{"label": "Margin of error (±%)", "data": [9.8, 6.9, 4.9, 4.0, 3.1, 2.5, 2.0, 1.5], "borderColor": "#0EA5E9", "backgroundColor": "rgba(14,165,233,0.08)", "fill": true, "tension": 0.3, "pointRadius": 4}]}, { plugins:{legend:{display:false}}, scales:{ y:{ title:{display:true,text:'± percentage points'} } } });
+  }
+  if (id === 's92') {
+    mk('disaggChart', "bar", {"labels": ["Overall", "Group A", "Group B", "Group C", "Group D"], "datasets": [{"label": "Outcome (%)", "data": [62, 78, 70, 55, 38], "backgroundColor": ["#6366F1", "#10B981", "#10B981", "#F59E0B", "#EF4444"]}]}, { plugins:{legend:{display:false}}, scales:{ y:{min:0,max:100} } });
+  }
+}
+
+
+// Theme
+function setTheme(t) {
+  document.body.classList.remove('light','dark');
+  if (t === 'light') document.body.classList.add('light');
+  else if (t === 'dark') document.body.classList.add('dark');
+  document.querySelectorAll('.theme-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent.toLowerCase() === t);
+  });
+  localStorage.setItem('im-theme', t);
+}
+(function(){
+  const saved = localStorage.getItem('im-theme') || 'light';
+  setTheme(saved);
+})();
+
+showSlide(0);
+
+// ========== CHART RESIZE-ON-ACTIVATE (v10.23.32) ==========
+// ECharts canvases initialize with 0 width when their parent slide is
+// display:none. When a slide first becomes active, the canvas now has
+// dimensions but the chart hasn't redrawn. Force resize on activation.
+(function chartResize(){
+  function resizeIn(slide){
+    if (!slide || !window.echarts) return;
+    slide.querySelectorAll(".chart-canvas").forEach(function(c){
+      var inst = echarts.getInstanceByDom(c);
+      if (inst) {
+        try { inst.resize(); } catch(e){}
+      }
+    });
+  }
+  function resizeActive(){
+    document.querySelectorAll(".slide.active").forEach(resizeIn);
+  }
+  var vp = document.getElementById("viewport") || document.querySelector(".slide-viewport");
+  if (vp && window.MutationObserver) {
+    new MutationObserver(resizeActive).observe(vp, {subtree:true, attributes:true, attributeFilter:["class"]});
+  }
+  // Initial pass after charts have had time to init
+  setTimeout(resizeActive, 400);
+})();
+// ========== /CHART RESIZE-ON-ACTIVATE ==========
+</script>
+
+<script>
+// Init ECharts on slide change (lazy init when slide becomes active)
+(function(){
+  const initECharts = () => {
+
+  };
+  // Defer until DOM ready + ECharts loaded
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    setTimeout(initECharts, 80);
+  } else {
+    document.addEventListener('DOMContentLoaded', () => setTimeout(initECharts, 80));
+  }
+})();
+
+// ========== POLISH FIX BLOCK (v10.23.22) — runtime overflow detection ==========
+(function ensureFit(){
+  // v10.23.29: auto-compact disabled per user — no font shrinking
+  // Original logic preserved below as comments for reference
+  /* DISABLED:
+
+  function checkSlide(slide){
+    if (!slide || slide.classList.contains("compact")) return;
+    if (slide.querySelector(".end-screen, .title-screen, .section-divider, .toc-grid")) return;
+    var content = slide.querySelector(".slide-content");
+    if (!content) return;
+    // Slide must be active (display:flex) to measure
+    if (slide.offsetHeight === 0) return;
+    if (content.scrollHeight > content.clientHeight + 4) {
+      slide.classList.add("compact");
+      // Re-check after compact applied; if still overflowing, escalate
+      requestAnimationFrame(function(){
+        if (content.scrollHeight > content.clientHeight + 4) {
+          slide.classList.add("ultra-compact");
+        }
+      });
+    }
+  }
+  function checkAll(){
+    document.querySelectorAll(".slide.active").forEach(checkSlide);
+  }
+  // Watch slide-viewport for class changes (new active slide)
+  var vp = document.getElementById("viewport") || document.querySelector(".slide-viewport");
+  if (vp && window.MutationObserver) {
+    new MutationObserver(checkAll).observe(vp, {subtree:true, attributes:true, attributeFilter:["class"]});
+  }
+  window.addEventListener("resize", function(){
+    setTimeout(checkAll, 50);
+  });
+  // Initial pass after a brief delay (let scaleViewport run first)
+  setTimeout(checkAll, 200);
+
+  */
+})();
+(function autoSpacious(){
+  document.querySelectorAll(".slide").forEach(function(slide){
+    if (slide.classList.contains("compact")) return;
+    if (slide.querySelector(".end-screen, .title-screen, .section-divider, .toc-grid, .chart-canvas, .chart-wrap, table, svg.diagram")) return;
+    var text = (slide.textContent||"").length;
+    if (text > 0 && text < 420) {
+      slide.classList.add("spacious");
+    }
+  });
+})();
+(function navIdle(){
+  var t;
+  function ping(){
+    document.body.classList.add("nav-active");
+    clearTimeout(t);
+    t = setTimeout(function(){document.body.classList.remove("nav-active");}, 2200);
+  }
+  ["mousemove","keydown","touchstart","click"].forEach(function(e){
+    document.addEventListener(e, ping, {passive:true});
+  });
+  ping();
+})();
+// end polish fix block
+
+// ========== SLIDE DEEP-LINKING (v10.23.30) ==========
+(function slideDeepLinking(){
+  function syncHashFromActive(){
+    var active = document.querySelector(".slide.active");
+    if (active && active.id) {
+      var newHash = "#" + active.id;
+      if (location.hash !== newHash) {
+        history.replaceState(null, "", newHash);
+      }
+    }
+  }
+  function jumpToHash(){
+    if (!location.hash || !/^#s\d+$/.test(location.hash)) return;
+    var targetId = location.hash.slice(1);
+    var target = document.getElementById(targetId);
+    if (!target || !target.classList.contains("slide")) return;
+    if (target.classList.contains("active")) return;
+    var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+    var idx = slides.indexOf(target);
+    if (idx < 0) return;
+    var success = false;
+    if (typeof showSlide === "function") {
+      try { showSlide(idx + 1); if (target.classList.contains("active")) success = true; } catch(e){}
+      if (!success) { try { showSlide(idx); if (target.classList.contains("active")) success = true; } catch(e){} }
+    }
+    if (!success && typeof show === "function") {
+      try { show(idx + 1); if (target.classList.contains("active")) success = true; } catch(e){}
+    }
+    if (!success) {
+      slides.forEach(function(s){ s.classList.remove("active"); });
+      target.classList.add("active");
+      var prog = document.getElementById("prog-text");
+      if (prog) prog.textContent = (idx + 1) + " / " + slides.length;
+      var bar = document.getElementById("progress-bar");
+      if (bar) bar.style.width = ((idx + 1) / slides.length * 100) + "%";
+      var pb = document.getElementById("prevBtn");
+      var nb = document.getElementById("nextBtn");
+      if (pb) pb.disabled = (idx === 0);
+      if (nb) nb.disabled = (idx === slides.length - 1);
+    }
+  }
+  var vp = document.getElementById("viewport") || document.querySelector(".slide-viewport");
+  if (vp && window.MutationObserver) {
+    new MutationObserver(syncHashFromActive).observe(vp, {subtree:true, attributes:true, attributeFilter:["class"]});
+  }
+  if (location.hash && /^#s\d+$/.test(location.hash)) {
+    setTimeout(jumpToHash, 250);
+  }
+  window.addEventListener("hashchange", jumpToHash);
+})();
+// ========== /SLIDE DEEP-LINKING ==========
+
+// ========== PROPORTIONAL AUTO-FIT (v10.23.34) ==========
+(function autoFit(){
+  function fit(slide){
+    if (!slide) return;
+    var content = slide.querySelector(".slide-content");
+    if (!content) return;
+    content.style.zoom = "";
+    if (slide.querySelector(".title-screen, .section-divider, .end-screen")) return;
+    var natural = content.scrollHeight;
+    var avail = content.clientHeight;
+    if (natural <= avail + 4) return;
+    var scale = avail / natural;
+    if (scale < 0.78) return;
+    content.style.zoom = scale;
+  }
+  function fitActive(){
+    document.querySelectorAll(".slide.active").forEach(fit);
+  }
+  var vp = document.getElementById("viewport") || document.querySelector(".slide-viewport");
+  if (vp && window.MutationObserver) {
+    new MutationObserver(fitActive).observe(vp, {subtree:true, attributes:true, attributeFilter:["class"]});
+  }
+  window.addEventListener("resize", function(){ setTimeout(fitActive, 50); });
+  setTimeout(fitActive, 250);
+})();
+// ========== /PROPORTIONAL AUTO-FIT ==========</script>
+
+<script src="/js/translate-sarvam.js" defer></script>
+  <script src="/js/site-chrome.js" defer></script>
+</body>
+</html>

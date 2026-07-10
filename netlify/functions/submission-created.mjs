@@ -49,6 +49,24 @@ const FILES = {
   "Evaluation & Research Costing Calculator": "ImpactMojo-Calculator-Evaluation-Costing.zip",
   "Programme Unit Economics & Pricing Calculator": "ImpactMojo-Calculator-Unit-Economics-Pricing.zip",
   "Evaluation Essentials Kit": "ImpactMojo-Evaluation-Essentials-Kit.zip",
+  // Flagship Course Notes (PDF) — ₹350 each
+  "Gandhi's Political Thought: Philosophy for Praxis — Course Notes": "ImpactMojo-Notes-gandhi.pdf",
+  "Understanding Development: An Economics Perspective — Course Notes": "ImpactMojo-Notes-devecon.pdf",
+  "Seeing Data: Visualization for Impact — Course Notes": "ImpactMojo-Notes-dataviz.pdf",
+  "AI for Impact: Data Monitoring & Evaluation — Course Notes": "ImpactMojo-Notes-devai.pdf",
+  "MEL for Development: Monitoring, Evaluation & Learning — Course Notes": "ImpactMojo-Notes-mel.pdf",
+  "Politics of Aspiration: Rights, Insurance & Social Mobility — Course Notes": "ImpactMojo-Notes-poa.pdf",
+  "Media for Development: Communication, Power & Practice — Course Notes": "ImpactMojo-Notes-media.pdf",
+  "Social-Emotional Learning for Development — Course Notes": "ImpactMojo-Notes-sel.pdf",
+  "Constitution & Law for Development Practice — Course Notes": "ImpactMojo-Notes-law.pdf",
+  "Public Policy: Process, Design & Governance — Course Notes": "ImpactMojo-Notes-pubpol.pdf",
+  "Gender Studies: Feminisms, Power & Social Change — Course Notes": "ImpactMojo-Notes-gender.pdf",
+  "Public Choice: Decisions, Incentives & Institutions — Course Notes": "ImpactMojo-Notes-pubchoice.pdf",
+  "Livelihoods in India: Rural, Urban & Skills — Course Notes": "ImpactMojo-Notes-livelihoods.pdf",
+  "Power BI for Practitioners — Course Notes": "ImpactMojo-Notes-powerBI.pdf",
+  "Causal Inference for Development — Course Notes": "ImpactMojo-Notes-causal.pdf",
+  "Designing What Works: Development Interventions from Model to Scale — Course Notes": "ImpactMojo-Notes-intervention.pdf",
+  "Nonviolence in Practice: NVC, NVR & Restorative Justice — Course Notes": "ImpactMojo-Notes-nvc-rj.pdf",
 };
 
 const sign = (parts) => crypto.createHmac("sha256", ADMIN_KEY).update(parts.join("|")).digest("hex").slice(0, 32);
