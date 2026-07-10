@@ -74,6 +74,11 @@
 '.im-sc-tbtn{width:26px;height:24px;border:0;border-radius:6px;background:transparent;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}',
 '.im-sc-tbtn[aria-pressed="true"]{background:var(--sc-grad);color:#fff}',
 '@media(max-width:720px){.im-sc-label{display:none}.im-sc-btn{padding:0 8px}.im-sc-icon{width:32px}.im-sc-path{display:none}}',
+// Phones: the full control row + wordmark overflow a narrow bar, which collapses
+// the flex spacer and jams the language globe against the "impactmojo.in" wordmark
+// (reads like "impactmojo.<globe>"). Drop the bar wordmark below 600px — the logo
+// stays as the brand/home link — so the bar fits and the spacer pushes controls right.
+'@media(max-width:600px){.im-sc-bar{gap:8px;padding:0 12px}.im-sc-bar .im-sc-site{display:none}.im-sc-theme{padding:2px}.im-sc-tbtn{width:24px}}',
 // footer
 '.im-sc-foot{background:var(--sc-bg);border-top:1px solid var(--sc-bd);color:var(--sc-fg);font-family:\'Inter\',system-ui,sans-serif;padding:40px clamp(16px,4vw,32px) 28px;margin-top:48px}',
 'html[data-theme="dark"] .im-sc-foot,html.dark .im-sc-foot{--sc-bg:#0B1120}',
