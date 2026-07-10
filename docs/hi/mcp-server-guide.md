@@ -18,7 +18,7 @@ ImpactMojo में एक **Model Context Protocol (MCP) server** है ज�
 | `search_dataverse` | dataverse आइटम्स में कीवर्ड खोज |
 | `list_challenges` | track/कठिनाई के अनुसार practice challenges सूचीबद्ध करें |
 | `get_challenge` | केस संदर्भ और रूब्रिक सहित पूरा challenge |
-| `list_courses` | 6 learning tracks में 64 courses |
+| `list_courses` | 6 learning tracks में 68 courses |
 | `get_game_info` | AI एजेंट पर्सोना सहित 16 economics games |
 | `query_climate_data` | Climate TRACE से भारत के GHG उत्सर्जन |
 
