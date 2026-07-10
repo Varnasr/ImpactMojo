@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Disability Inclusion 101 | ImpactMojo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Amaranth:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --cyan:#0EA5E9; --indigo:#6366F1; --green:#10B981; --amber:#F59E0B;
+  --red:#EF4444; --cream:#FDF8F2; --ink:#1C1917; --ink-mid:#44403C;
+  --ink-light:#78716C; --header-h:52px; --footer-h:36px;
+  --font-head:'Inter',sans-serif; --font-body:'Amaranth',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#111;font-family:var(--font-body);overflow:hidden}
+#deck{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+.slide-viewport{position:relative;flex-shrink:0;width:1280px;height:720px;transform-origin:center center}
+.slide{position:absolute;inset:0;background:var(--cream);overflow:hidden;display:none;flex-direction:column}
+.slide.active{display:flex}
+
+/* HEADER */
+.slide-header{position:absolute;top:0;left:0;right:0;height:var(--header-h);background:var(--ink);display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:10}
+.logo-mark{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-plane{width:28px;height:28px}
+.logo-wordmark{font-family:var(--font-head);font-weight:800;font-size:17px;background:linear-gradient(90deg,#0EA5E9,#6366F1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-0.3px}
+.header-center{font-family:var(--font-head);font-size:11px;font-weight:500;color:rgba(255,255,255,0.5);letter-spacing:1.5px;text-transform:uppercase}
+.header-url{font-family:var(--font-mono);font-size:10px;color:rgba(255,255,255,0.4)}
+
+/* FOOTER */
+.slide-footer{position:absolute;bottom:0;left:0;right:0;height:var(--footer-h);background:var(--ink);display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:10}
+.footer-left{font-family:var(--font-mono);font-size:9px;color:rgba(255,255,255,0.35);letter-spacing:1px;text-transform:uppercase}
+.footer-right{font-family:var(--font-mono);font-size:9px;color:rgba(255,255,255,0.35)}
+.slide-number{font-family:var(--font-mono);font-size:11px;font-weight:600;color:var(--cyan);background:rgba(14,165,233,0.1);padding:2px 8px;border-radius:3px}
+
+/* CONTENT */
+.slide-content{position:absolute;top:var(--header-h);bottom:var(--footer-h);left:0;right:0;padding:24px 40px 20px;overflow:hidden}
+
+/* SECTION LABEL */
+.section-label{font-family:var(--font-mono);font-size:9px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--cyan);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.section-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--cyan) 0%,transparent 100%);opacity:0.3}
+
+/* TYPOGRAPHY */
+.slide-title{font-family:var(--font-head);font-weight:800;line-height:1.1;color:var(--ink);letter-spacing:-0.5px}
+.slide-title.xl{font-size:48px}.slide-title.lg{font-size:34px}.slide-title.md{font-size:30px}.slide-title.sm{font-size:24px}
+.slide-body{font-family:var(--font-body);font-size:15px;line-height:1.65;color:var(--ink-mid)}
+.slide-body.sm{font-size:13px}
+
+/* BULLETS */
+.bullet-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.bullet-list li{position:relative;padding-left:19px;font-family:var(--font-body);font-size:15px;line-height:1.55;color:var(--ink-mid)}
+.bullet-list li::before{content:'';position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:50%;background:var(--cyan)}
+.bullet-list.green li::before{background:var(--green)}
+.bullet-list.amber li::before{background:var(--amber)}
+.bullet-list.indigo li::before{background:var(--indigo)}
+.bullet-list.red li::before{background:var(--red)}
+.bullet-list.sm li{font-size:14px}
+
+/* STAT CARDS */
+.stat-grid{display:grid;gap:14px;margin-top:16px}
+.stat-grid.c2{grid-template-columns:repeat(2,1fr)}.stat-grid.c3{grid-template-columns:repeat(3,1fr)}.stat-grid.c4{grid-template-columns:repeat(4,1fr)}
+.stat-card{background:white;border-radius:10px;padding:18px 20px;border-top:3px solid var(--cyan);box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.stat-card.green{border-top-color:var(--green)}.stat-card.amber{border-top-color:var(--amber)}.stat-card.indigo{border-top-color:var(--indigo)}.stat-card.red{border-top-color:var(--red)}
+.stat-number{font-family:var(--font-head);font-size:34px;font-weight:800;color:var(--ink);line-height:1;margin-bottom:4px}
+.stat-label{font-family:var(--font-body);font-size:13px;color:var(--ink-light);line-height:1.4}
+.stat-source{font-family:var(--font-mono);font-size:9px;color:var(--ink-light);margin-top:5px;opacity:0.7}
+
+/* TWO COLUMN */
+.two-col{display:grid;gap:28px;margin-top:14px}
+.two-col.half{grid-template-columns:1fr 1fr}
+.two-col.a32{grid-template-columns:3fr 2fr}
+.two-col.a23{grid-template-columns:2fr 3fr}
+
+/* PANELS */
+.col-panel{background:white;border-radius:10px;padding:20px 18px;border-left:3px solid var(--cyan);box-shadow:0 2px 6px rgba(0,0,0,0.05)}
+.col-panel.green{border-left-color:var(--green)}.col-panel.amber{border-left-color:var(--amber)}.col-panel.indigo{border-left-color:var(--indigo)}.col-panel.red{border-left-color:var(--red)}
+.col-panel-title{font-family:var(--font-head);font-size:12px;font-weight:700;color:var(--ink);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px}
+
+/* HIGHLIGHT BOX */
+.hbox{border-left:4px solid var(--cyan);background:rgba(14,165,233,0.06);border-radius:0 8px 8px 0;padding:14px 18px;margin-top:14px}
+.hbox.green{border-left-color:var(--green);background:rgba(16,185,129,0.06)}
+.hbox.amber{border-left-color:var(--amber);background:rgba(245,158,11,0.06)}
+.hbox.indigo{border-left-color:var(--indigo);background:rgba(99,102,241,0.06)}
+.hbox.red{border-left-color:var(--red);background:rgba(239,68,68,0.06)}
+.hbox-text{font-family:var(--font-body);font-size:14px;line-height:1.55;color:var(--ink-mid)}
+
+/* TERM BOX */
+.term-box{background:linear-gradient(135deg,#F0E6D6 0%,white 100%);border:1px solid #C4A882;border-radius:12px;padding:18px 22px;margin-top:14px}
+.term-word{font-family:var(--font-head);font-size:22px;font-weight:800;color:#4A3728;margin-bottom:6px}
+.term-def{font-family:var(--font-body);font-size:14px;line-height:1.6;color:var(--ink-mid)}
+
+/* QUOTE */
+.quote-block{background:var(--ink);border-radius:12px;padding:34px 40px;margin-top:16px;position:relative;overflow:hidden}
+.quote-block::before{content:'"';position:absolute;top:-10px;left:18px;font-size:100px;font-family:Georgia,serif;color:var(--cyan);opacity:0.12;line-height:1}
+.quote-text{font-family:var(--font-body);font-size:19px;line-height:1.7;color:white;font-style:italic;position:relative;z-index:1}
+.quote-attr{font-family:var(--font-mono);font-size:10px;color:var(--cyan);margin-top:14px;letter-spacing:0.5px}
+
+/* COMPARE TABLE */
+.ctable{width:100%;border-collapse:collapse;margin-top:12px;font-family:var(--font-body)}
+.ctable th{background:var(--ink);color:white;padding:10px 14px;text-align:left;font-family:var(--font-head);font-size:12px;font-weight:700;letter-spacing:0.5px}
+.ctable td{padding:10px 14px;font-size:13px;color:var(--ink-mid);border-bottom:1px solid #EDE8E0;line-height:1.4}
+.ctable tr:nth-child(even) td{background:white}
+.ctable tr:nth-child(odd) td{background:#F9F6F1}
+.ctable{border:1px solid #D9D2C5}
+.ctable th,.ctable td{vertical-align:top;border-right:1px solid #EDE8E0}
+.ctable th{border-right-color:rgba(255,255,255,0.18)}
+.ctable th:last-child,.ctable td:last-child{border-right:none}
+.ctable tr:last-child td{border-bottom:none}
+
+/* CHART */
+.chart-wrap{background:white;border-radius:10px;padding:14px 16px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.chart-wrap canvas{display:block;width:100%!important;height:220px!important;max-height:220px}
+.chart-title{font-family:var(--font-head);font-size:11px;font-weight:700;color:var(--ink-mid);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px}
+.chart-source{font-family:var(--font-mono);font-size:9px;color:var(--ink-light);margin-top:6px}
+
+/* DARK CARD */
+.dark-card{background:var(--ink);border-radius:12px;padding:22px 20px;color:white}
+.dark-card-label{font-family:var(--font-mono);font-size:9px;color:var(--cyan);letter-spacing:2px;margin-bottom:8px;text-transform:uppercase}
+.dark-card-title{font-family:var(--font-head);font-weight:800;font-size:17px;margin-bottom:8px;color:white}
+.dark-card-body{font-family:var(--font-body);font-size:13px;color:rgba(255,255,255,0.65);line-height:1.5}
+
+/* PROCESS FLOW */
+.flow{display:flex;align-items:center;gap:6px;margin-top:14px;flex-wrap:wrap}
+.flow-step{background:var(--ink);color:white;border-radius:8px;padding:10px 12px;flex:1;min-width:80px;text-align:center}
+.flow-num{font-family:var(--font-mono);font-size:9px;color:var(--cyan);letter-spacing:1px;margin-bottom:3px}
+.flow-label{font-family:var(--font-body);font-size:11px;line-height:1.3;color:white}
+.flow-arrow{font-size:16px;color:var(--cyan);flex-shrink:0}
+
+/* SECTION DIVIDER */
+.section-divider{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;background:var(--ink);text-align:center}
+.div-num{font-family:var(--font-mono);font-size:100px;font-weight:700;color:rgba(255,255,255,0.04);line-height:1;position:absolute}
+.div-label{font-family:var(--font-mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);margin-bottom:14px;position:relative}
+.div-title{font-family:var(--font-head);font-size:44px;font-weight:800;color:white;line-height:1.1;letter-spacing:-1px;max-width:700px;position:relative}
+.div-accent{width:60px;height:4px;background:linear-gradient(90deg,var(--cyan),var(--indigo));border-radius:2px;margin:18px auto 0;position:relative}
+
+/* TITLE SLIDE */
+.title-screen{position:absolute;inset:0;background:var(--ink);overflow:hidden}
+.title-bg{position:absolute;inset:0;opacity:0.04;background-image:repeating-linear-gradient(45deg,#fff 0,#fff 1px,transparent 0,transparent 50%);background-size:20px 20px}
+.title-bar{position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(180deg,#0EA5E9,#6366F1,#10B981)}
+.title-content{padding:0 72px;position:relative;z-index:2;margin-top:90px}
+.title-series{font-family:var(--font-mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);margin-bottom:18px}
+.title-main{font-family:var(--font-head);font-size:54px;font-weight:800;color:white;line-height:1.05;letter-spacing:-1.5px;margin-bottom:14px}
+.title-sub{font-family:var(--font-body);font-size:17px;color:rgba(255,255,255,0.55);line-height:1.5;max-width:600px;margin-bottom:30px}
+.title-tags{display:flex;gap:10px;flex-wrap:wrap}
+.title-tag{font-family:var(--font-mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border-radius:4px;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.55)}
+.title-geo{position:absolute;right:60px;top:var(--header-h);bottom:var(--footer-h);width:300px;overflow:hidden;opacity:0.06}
+
+/* TOC */
+.toc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.toc-item{background:white;border-radius:8px;padding:10px 12px;border-left:3px solid transparent;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.toc-item:nth-child(3n+1){border-left-color:var(--cyan)}.toc-item:nth-child(3n+2){border-left-color:var(--indigo)}.toc-item:nth-child(3n+3){border-left-color:var(--green)}
+.toc-num{font-family:var(--font-mono);font-size:9px;color:var(--ink-light);letter-spacing:1px;margin-bottom:3px}
+.toc-name{font-family:var(--font-head);font-size:13px;font-weight:700;color:var(--ink);line-height:1.3}
+.toc-slides{font-family:var(--font-mono);font-size:9px;color:var(--ink-light);margin-top:3px}
+
+/* THANK YOU */
+.ty-screen{position:absolute;inset:0;background:var(--ink);display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;overflow:hidden}
+.ty-title{font-family:var(--font-head);font-size:50px;font-weight:800;color:white;margin-bottom:10px;letter-spacing:-1px}
+.ty-sub{font-family:var(--font-body);font-size:15px;color:rgba(255,255,255,0.45);max-width:480px;line-height:1.6;margin-bottom:32px}
+.ty-ctas{display:flex;gap:12px}
+.cta-btn{font-family:var(--font-head);font-size:12px;font-weight:700;padding:11px 26px;border-radius:8px;text-decoration:none;letter-spacing:0.3px}
+.cta-btn.primary{background:linear-gradient(135deg,var(--cyan),var(--indigo));color:white}
+.cta-btn.secondary{border:1.5px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.75)}
+
+/* SARGAM INLINE ICON */
+.si{display:inline-block;vertical-align:middle}
+
+/* NAV */
+#nav{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);border-radius:40px;padding:7px 16px;z-index:1000;opacity:1}
+
+.nav-btn{background:rgba(255,255,255,0.1);border:none;cursor:pointer;color:white;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;transition:background 0.2s}
+.nav-btn:hover{background:rgba(255,255,255,0.25)}
+.nav-btn:disabled{opacity:0.3;cursor:default}
+#prog-text{font-family:var(--font-mono);font-size:11px;color:rgba(255,255,255,0.55);min-width:55px;text-align:center}
+#progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--indigo));z-index:2000;transition:width 0.3s}
+#fs-hint{position:fixed;top:10px;right:14px;font-family:var(--font-mono);font-size:9px;color:rgba(255,255,255,0.25);cursor:pointer;z-index:2000;letter-spacing:1px;text-transform:uppercase}
+
+/* SARGAM SPRITE (hidden) */
+svg.sprites{display:none}
+
+/* THEME SWITCHER */
+#theme-bar{position:fixed;top:58px;right:14px;display:flex;gap:4px;z-index:2000;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);border-radius:20px;padding:4px 6px}
+.theme-btn{font-family:var(--font-mono);font-size:9px;letter-spacing:0.5px;text-transform:uppercase;padding:4px 10px;border-radius:12px;border:none;cursor:pointer;color:rgba(255,255,255,0.55);background:transparent;transition:all 0.2s}
+.theme-btn.active{background:rgba(255,255,255,0.2);color:white}
+
+/* LIGHT MODE (default) */
+body.light .slide{background:#FDF8F2}
+body.light{background:#e8e2da}
+
+/* DARK MODE */
+body.dark .slide{background:#1C1917}
+body.dark .slide-content{color:#FDF8F2}
+body.dark .slide-title{color:#FDF8F2}
+body.dark .slide-body{color:rgba(255,255,255,0.7)}
+body.dark .stat-card{background:#2C2926;border-top-color:var(--cyan)}
+body.dark .stat-card.green{border-top-color:var(--green)}
+body.dark .stat-card.amber{border-top-color:var(--amber)}
+body.dark .stat-card.indigo{border-top-color:var(--indigo)}
+body.dark .stat-card.red{border-top-color:var(--red)}
+body.dark .stat-number{color:#FDF8F2}
+body.dark .stat-label{color:rgba(255,255,255,0.55)}
+body.dark .col-panel{background:#2C2926;border-left-color:var(--cyan)}
+body.dark .col-panel.green{border-left-color:var(--green)}
+body.dark .col-panel.amber{border-left-color:var(--amber)}
+body.dark .col-panel.indigo{border-left-color:var(--indigo)}
+body.dark .col-panel.red{border-left-color:var(--red)}
+body.dark .col-panel-title{color:rgba(255,255,255,0.8)}
+body.dark .chart-wrap{background:#2C2926}
+body.dark .chart-title{color:rgba(255,255,255,0.6)}
+body.dark .hbox{background:rgba(14,165,233,0.1);border-left-color:var(--cyan)}
+body.dark .hbox.green{background:rgba(16,185,129,0.1);border-left-color:var(--green)}
+body.dark .hbox.amber{background:rgba(245,158,11,0.1);border-left-color:var(--amber)}
+body.dark .hbox.indigo{background:rgba(99,102,241,0.1);border-left-color:var(--indigo)}
+body.dark .hbox.red{background:rgba(239,68,68,0.1);border-left-color:var(--red)}
+body.dark .hbox-text{color:rgba(255,255,255,0.7)}
+body.dark .term-box{background:linear-gradient(135deg,#2C2926 0%,#383230 100%);border-color:#5C4A3A}
+body.dark .term-word{color:#E8D5C0}
+body.dark .term-def{color:rgba(255,255,255,0.65)}
+body.dark .ctable th{background:#111}
+body.dark .ctable td{color:rgba(255,255,255,0.65);border-bottom-color:rgba(255,255,255,0.08)}
+body.dark .ctable tr:nth-child(even) td{background:#2C2926}
+body.dark .ctable tr:nth-child(odd) td{background:#242120}
+body.dark .ctable{border-color:rgba(255,255,255,0.1)}
+body.dark .ctable td{border-right-color:rgba(255,255,255,0.08)}
+body.dark .ctable th{border-right-color:rgba(255,255,255,0.18)}
+body.dark .toc-item{background:#2C2926}
+body.dark .toc-name{color:#FDF8F2}
+body.dark .toc-num,.toc-slides{color:rgba(255,255,255,0.4)}
+body.dark{background:#111}
+body.dark .bullet-list li{color:rgba(255,255,255,0.7)}
+body.dark .two-col .slide-body{color:rgba(255,255,255,0.7)}
+
+
+
+
+/* ── FILL RULES: make components use full slide area naturally ── */
+
+/* Tables: bigger rows, more breathing room */
+.ctable{margin-top:16px;margin-bottom:16px}
+.ctable td{padding:12px 16px;font-size:14px;line-height:1.5}
+.ctable th{padding:12px 16px;font-size:13px;letter-spacing:0.6px}
+
+/* Stat grids: cards breathe more */
+.stat-grid{gap:16px;margin-top:20px}
+.stat-card{padding:20px 22px;border-radius:12px}
+.stat-number{font-size:36px;margin-bottom:6px}
+.stat-label{font-size:14px;line-height:1.5}
+
+/* Highlight boxes: generous spacing */
+.hbox{padding:16px 20px;margin-top:16px;border-radius:0 10px 10px 0}
+.hbox-text{font-size:15px;line-height:1.6}
+
+/* Term boxes */
+.term-box{padding:20px 24px;margin-top:16px;border-radius:12px}
+.term-word{font-size:24px;margin-bottom:8px}
+.term-def{font-size:15px;line-height:1.65}
+
+/* Titles and body */
+.slide-title.md{font-size:32px}
+.slide-title.sm{font-size:26px}
+.slide-body{font-size:16px;line-height:1.7}
+.slide-body.sm{font-size:14px;line-height:1.65}
+
+/* Bullets: roomier */
+.bullet-list{gap:12px;margin-top:16px}
+.bullet-list li{font-size:16px;line-height:1.6}
+.bullet-list li::before{width:8px;height:8px;top:8px}
+.bullet-list.sm li{font-size:15px}
+
+/* Dark cards */
+.dark-card{padding:24px 22px;border-radius:14px}
+.dark-card-title{font-size:18px;margin-bottom:10px}
+.dark-card-body{font-size:14px;line-height:1.55}
+.dark-card-label{margin-bottom:10px}
+
+/* Panels */
+.col-panel{padding:22px 20px;border-radius:12px}
+.col-panel-title{font-size:13px;margin-bottom:12px}
+
+/* Quotes */
+.quote-block{padding:36px 44px;border-radius:14px;margin-top:20px}
+.quote-text{font-size:20px;line-height:1.75}
+.quote-attr{font-size:11px;margin-top:18px}
+
+/* Two-col layout */
+.two-col{gap:30px;margin-top:16px}
+
+/* Charts */
+.chart-wrap{padding:18px 20px;border-radius:12px}
+.chart-wrap canvas{height:230px!important;max-height:230px}
+.chart-title{font-size:12px;margin-bottom:12px}
+.chart-source{margin-top:8px}
+
+/* TOC */
+.toc-grid{gap:12px;margin-top:16px}
+.toc-item{padding:14px 16px;border-radius:10px}
+.toc-name{font-size:14px;line-height:1.35}
+.toc-num{font-size:10px;margin-bottom:4px}
+.toc-slides{margin-top:4px}
+
+/* Section dividers */
+.div-title{font-size:48px}
+.div-label{font-size:12px;margin-bottom:18px;letter-spacing:3.5px}
+.div-accent{width:70px;height:5px;margin-top:22px}
+
+/* Flow steps */
+.flow{gap:8px;margin-top:18px}
+.flow-step{padding:14px 16px;border-radius:10px}
+.flow-label{font-size:13px;line-height:1.35}
+.flow-num{margin-bottom:4px}
+
+/* Section label */
+.section-label{margin-bottom:12px;font-size:10px;letter-spacing:2.8px}
+
+/* Title slide */
+.title-main{font-size:58px}
+.title-sub{font-size:18px;line-height:1.55;margin-bottom:34px}
+.title-series{font-size:12px;margin-bottom:22px}
+.title-tag{font-size:11px;padding:6px 14px}
+
+/* Thank you slide */
+.ty-title{font-size:54px}
+.ty-sub{font-size:16px;line-height:1.65;margin-bottom:36px}
+
+
+/* === STANDARDISED END SLIDE === */
+.end-screen{position:absolute;inset:0;background:linear-gradient(135deg,#0F172A 0%,#1E293B 50%,#0F172A 100%);overflow:hidden;display:flex;align-items:center;justify-content:center;padding:60px 80px}
+.end-bar{position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(180deg,#0EA5E9,#6366F1,#10B981);z-index:3}
+.end-pattern{position:absolute;inset:0;opacity:0.05;background-image:radial-gradient(circle at 25% 30%,#fff 1px,transparent 1px),radial-gradient(circle at 75% 70%,#fff 1px,transparent 1px);background-size:60px 60px;z-index:1}
+.end-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(99,102,241,0.15) 0%,transparent 70%);top:-200px;right:-100px;z-index:1}
+.end-content{position:relative;z-index:2;max-width:880px;text-align:center}
+.end-eyebrow{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#0EA5E9;margin-bottom:24px}
+.end-headline{font-family:var(--font-head);font-size:84px;font-weight:800;color:white;line-height:0.95;letter-spacing:-2.5px;margin-bottom:28px;background:linear-gradient(135deg,#fff 0%,#CBD5E1 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.end-byline{font-family:var(--font-body);font-size:17px;color:rgba(255,255,255,0.72);line-height:1.6;margin:0 auto 36px;max-width:680px}
+.end-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:34px}
+.end-btn{font-family:var(--font-head);font-size:13px;font-weight:700;padding:13px 28px;border-radius:9px;text-decoration:none;letter-spacing:0.4px;transition:transform 0.15s ease,box-shadow 0.15s ease;display:inline-block}
+.end-btn-primary{background:linear-gradient(135deg,#0EA5E9 0%,#6366F1 100%);color:white;box-shadow:0 4px 14px rgba(14,165,233,0.32)}
+.end-btn-secondary{background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.18);color:rgba(255,255,255,0.95)}
+.end-btn-tertiary{background:transparent;border:1.5px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.7)}
+.end-btn:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(14,165,233,0.45)}
+.end-meta{display:flex;gap:10px;justify-content:center;align-items:center;font-family:var(--font-mono);font-size:11px;color:rgba(255,255,255,0.42);letter-spacing:1px;flex-wrap:wrap}
+.end-meta-divider{opacity:0.4}
+
+
+/* === COMPACT MODE for dense slides === */
+.slide.compact .bullet-list{gap:6px;margin-top:8px}
+.slide.compact .bullet-list li{font-size:12.5px;line-height:1.4}
+.slide.compact .bullet-list.sm li{font-size:11.5px;line-height:1.4}
+.slide.compact .bullet-list li::before{width:5px;height:5px;margin-top:5px}
+.slide.compact .col-panel{padding:14px 14px}
+.slide.compact .col-panel-title{font-size:11px;margin-bottom:6px}
+.slide.compact .slide-body{font-size:13px;line-height:1.5}
+.slide.compact .slide-title.md{font-size:24px;margin-bottom:6px !important}
+.slide.compact .hbox{padding:8px 12px;margin-top:8px !important}
+.slide.compact .hbox-text{font-size:12px;line-height:1.45}
+
+
+/* === ECHARTS CHART SLIDES === */
+.chart-slide-frame{display:flex;flex-direction:column;height:100%;padding:0 8px}
+.chart-context{font-family:var(--font-body);font-size:14px;color:var(--ink-mid);line-height:1.55;margin-bottom:10px}
+.chart-canvas{flex:1;min-height:0;width:100%;border:1px solid rgba(99,102,241,0.10);border-radius:8px;background:linear-gradient(135deg,rgba(14,165,233,0.02),rgba(99,102,241,0.02))}
+.chart-takeaway{font-family:var(--font-body);font-size:13px;color:var(--ink-mid);font-style:italic;margin-top:10px;padding:8px 12px;background:rgba(245,158,11,0.06);border-left:3px solid var(--amber);border-radius:4px}
+.chart-takeaway strong{color:var(--ink);font-style:normal}
+
+/* ========== POLISH FIX BLOCK (v10.23.19) ========== */
+#fs-hint{top:14px !important;right:18px !important;font-size:10px !important;color:rgba(255,255,255,0.85) !important;background:rgba(0,0,0,0.55);padding:6px 12px;border-radius:14px;letter-spacing:0.6px;z-index:3000 !important}
+body.dark #fs-hint{background:rgba(255,255,255,0.14)}
+#nav{opacity:0.18;transition:opacity 0.25s ease;bottom:18px}
+#nav:hover, body.nav-active #nav{opacity:1}
+.slide-content{padding-bottom:46px}
+.slide.compact .slide-content{padding-top:18px;padding-bottom:42px}
+.slide.compact .slide-body{font-size:12.5px;line-height:1.45}
+.slide.compact .ctable td{padding:6px 10px;font-size:12px;line-height:1.35}
+.slide.compact .ctable th{padding:7px 10px;font-size:11px}
+.slide.compact .hbox{padding:10px 14px;margin-top:8px}
+.slide.compact .hbox-text{font-size:12.5px;line-height:1.4}
+.slide.compact .two-col{gap:14px}
+/* fs-hint no longer covers header-url */
+.slide-header{padding-right:120px}
+/* spacious mode for slides with very little content */
+.slide.spacious .slide-title.sm{font-size:30px}
+.slide.spacious .slide-title.md{font-size:38px}
+.slide.spacious .slide-body{font-size:17px;line-height:1.7}
+.slide.spacious .bullet-list li{font-size:16px;line-height:1.6}
+.slide.spacious .hbox{padding:18px 22px;margin-top:14px}
+.slide.spacious .hbox-text{font-size:16px;line-height:1.6}
+.slide.spacious .slide-content{padding-top:42px}
+/* pseudo-table alignment: stat-grids + col-panels + inline grids */
+.stat-grid{align-items:start}
+.col-panel{display:flex;flex-direction:column}
+.col-panel-title{flex:0 0 auto}
+.two-col,.two-col.half,.two-col.a32,.two-col.a23{align-items:start}
+/* inline grids inside slide-content default to top-align */
+/* ultra-compact: applied at runtime if slide still overflows after .compact */
+.slide.ultra-compact .slide-content{padding-top:14px;padding-bottom:38px}
+.slide.ultra-compact .slide-title.sm{font-size:20px;margin-bottom:6px !important}
+.slide.ultra-compact .slide-title.md{font-size:22px;margin-bottom:6px !important}
+.slide.ultra-compact .slide-body,
+.slide.ultra-compact .slide-body.sm{font-size:11.5px;line-height:1.4}
+.slide.ultra-compact .bullet-list{gap:4px;margin-top:6px}
+.slide.ultra-compact .bullet-list li{font-size:11.5px;line-height:1.35}
+.slide.ultra-compact .ctable td{padding:4px 8px;font-size:11px;line-height:1.3}
+.slide.ultra-compact .ctable th{padding:5px 8px;font-size:10px}
+.slide.ultra-compact .hbox{padding:8px 12px;margin-top:6px}
+.slide.ultra-compact .hbox-text{font-size:11.5px;line-height:1.35}
+.slide.ultra-compact .term-box{padding:12px 16px;margin-top:8px}
+.slide.ultra-compact .term-word{font-size:18px}
+.slide.ultra-compact .term-def{font-size:12px;line-height:1.4}
+.slide.ultra-compact .stat-card{padding:12px 14px}
+.slide.ultra-compact .col-panel{padding:12px 14px}
+.slide.ultra-compact .col-panel-title{font-size:10px;margin-bottom:4px}
+.slide.ultra-compact .two-col{gap:10px}
+/* end polish fix block */
+
+/* ========== UNIVERSAL FIT TIGHTENING (v10.23.34) ========== */
+/* Apply consistent slightly-tighter spacing across all slides so most content
+   fits naturally. No font-size changes — only padding, margins, gaps. */
+.slide-content{padding:18px 36px 16px !important}
+.slide-title.md{margin-bottom:6px !important}
+.slide-title.sm{margin-bottom:4px !important}
+.bullet-list{gap:7px;margin-top:10px}
+.bullet-list li{line-height:1.5}
+.hbox{padding:11px 14px;margin-top:8px}
+.hbox-text{line-height:1.45}
+.term-box{padding:14px 18px;margin-top:10px}
+.term-def{line-height:1.5}
+.dark-card{padding:16px 16px;margin-bottom:8px}
+.dark-card-body{line-height:1.45}
+.col-panel{padding:14px 14px}
+.stat-card{padding:14px 16px}
+.section-label{margin-bottom:8px}
+.ctable td{padding:8px 12px;line-height:1.4}
+.ctable th{padding:9px 12px}
+/* ========== /UNIVERSAL FIT TIGHTENING ========== */
+
+/* ===== MOBILE READING MODE (v10.63) — reflow the fixed 16:9 stage into a
+   full-width vertical layout on phones/tablets so slides fill the screen
+   instead of letterboxing to a small centred rectangle. ===== */
+@media (max-width: 820px){
+  html,body{overflow-x:hidden;overflow-y:auto;height:auto;background:var(--cream)}
+  body.dark, body.dark html{background:#1C1917}
+  #deck{position:static;display:block;min-height:100svh}
+  .slide-viewport{width:100%!important;height:auto!important;transform:none!important;position:relative;left:auto;top:auto}
+  .slide{position:relative;inset:auto;display:none;height:auto;min-height:100svh;box-shadow:none}
+  .slide.active{display:flex;flex-direction:column}
+  .slide-header{position:relative;height:auto;min-height:var(--header-h);padding:10px 16px}
+  .header-url{display:none}
+  .slide-content{position:relative!important;top:auto!important;bottom:auto!important;left:auto!important;right:auto!important;height:auto!important;overflow:visible!important;padding:18px 16px 90px!important;zoom:1!important;flex:1}
+  .slide-footer{position:relative;height:auto;min-height:var(--footer-h);padding:8px 16px}
+  /* one column everywhere */
+  .two-col,.two-col.half,.two-col.a32,.two-col.a23{grid-template-columns:1fr!important;gap:14px!important}
+  .stat-grid.c3,.stat-grid.c4{grid-template-columns:1fr 1fr!important}
+  .toc-grid{grid-template-columns:1fr 1fr!important}
+  .flow{flex-direction:column;align-items:stretch}
+  .flow-arrow{transform:rotate(90deg);align-self:center}
+  .chart-wrap canvas,.chart-canvas{height:260px!important;max-height:260px!important}
+  /* readable type */
+  .section-label{font-size:11px!important}
+  .slide-title.xl{font-size:30px!important}.slide-title.lg{font-size:27px!important}
+  .slide-title.md{font-size:23px!important}.slide-title.sm{font-size:20px!important}
+  .slide-body{font-size:15.5px!important;line-height:1.6!important}
+  .slide-body.sm{font-size:14px!important}
+  .bullet-list li,.bullet-list.sm li{font-size:15px!important;line-height:1.55!important}
+  .stat-number{font-size:30px!important}.stat-label{font-size:13px!important}
+  .ctable td{font-size:13px!important}.ctable th{font-size:12px!important}
+  .hbox-text{font-size:14.5px!important}.term-word{font-size:21px!important}.term-def{font-size:14.5px!important}
+  .quote-text{font-size:18px!important}
+  /* full-screen slide types: give them height, not absolute fill */
+  .title-screen,.section-divider,.end-screen{position:relative!important;inset:auto!important;min-height:86svh;height:auto}
+  .title-content{padding:32px 20px!important;margin-top:0!important}
+  .title-main{font-size:40px!important}.title-sub{font-size:16px!important}
+  .title-geo{display:none}
+  .div-title{font-size:32px!important}.div-num{font-size:64px!important}
+  .end-headline{font-size:40px!important}.end-byline{font-size:15px!important}
+  .end-cta{flex-direction:column}.end-content{padding:28px 18px}
+  /* floating nav: keep clear of content */
+  #nav{bottom:14px;opacity:1}
+  #theme-bar{top:auto;bottom:60px;right:10px}
+  #fs-hint{display:none}
+}
+
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+<!-- SEO meta (autogenerated) -->
+<meta name="description" content="Data Literacy 101 — a free foundational course for development practitioners in South Asia. Read, question, visualise and use data responsibly: from India's data ecosystem to sampling, distributions, correlation, data quality and ethics. ImpactMojo, CC BY-NC-ND.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.impactmojo.in/101-courses/data-lit.html">
+<meta property="og:title" content="Data Literacy 101">
+<meta property="og:description" content="Data Literacy 101 — a free foundational course for development practitioners in South Asia. Read, question, visualise and use data responsibly: from India's data ecosystem to sampling, distributions, correlation, data quality and ethics. ImpactMojo, CC BY-NC-ND.">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:url" content="https://www.impactmojo.in/101-courses/data-lit.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ImpactMojo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Data Literacy 101">
+<meta name="twitter:description" content="Data Literacy 101 — a free foundational course for development practitioners in South Asia. Read, question, visualise and use data responsibly: from India's data ecosystem to sampling, distributions, correlation, data quality and ethics. ImpactMojo, CC BY-NC-ND.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+</head>
+<body>
+
+<!-- SARGAM ICON SPRITES -->
+<div id="theme-bar">
+ <button class="theme-btn" onclick="setTheme('system')">System</button>
+ <button class="theme-btn active" onclick="setTheme('light')">Light</button>
+ <button class="theme-btn" onclick="setTheme('dark')">Dark</button>
+</div>
+
+<svg class="sprites" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="si_Heart" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 21C12 21 3 14.5 3 8.5a4.5 4.5 0 0 1 9-0.5 4.5 4.5 0 0 1 9 .5C21 14.5 12 21 12 21Z"/></symbol>
+  <symbol id="si_Book" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 7.333C12 5.5 10.5 4 8.667 4H2v12h6.708C12 16 12 19.334 12 19.334m0-12C12 5.5 13.5 4 15.333 4H22v12h-6.667C12 16 12 19.334 12 19.334m0-12v12"/></symbol>
+  <symbol id="si_Wallet" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M2 8.4V17c0 1.657 1.343 3 3 3h14c1.657 0 3-1.343 3-3V11c0-1.657-1.343-3-3-3H5c-1.657 0-3-1.343-3-3V6c0-1.105.895-2 2-2h13c1.105 0 2 .895 2 2v2M16 15h2"/></symbol>
+  <symbol id="si_Flag" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M4 22V4m0 0 16 6-16 6"/></symbol>
+  <symbol id="si_Chat" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M19 16h-2.525a.99.99 0 0 0-.775.375l-2.925 3.65c-.4.5-1.162.5-1.562 0l-2.925-3.65A.99.99 0 0 0 7.512 16H5c-1.662 0-3-1.338-3-3V6c0-1.662 1.338-3 3-3h14c1.663 0 3 1.338 3 3v7c0 1.662-1.337 3-3 3Z"/></symbol>
+  <symbol id="si_Lightning" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 2 4 14h8l-1 8 9-12h-8l1-8Z"/></symbol>
+  <symbol id="si_Lock" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M7 10V7a5 5 0 0 1 10 0v3m-1.4 1H8.4A2.4 2.4 0 0 0 6 13.4v5.2A2.4 2.4 0 0 0 8.4 21h7.2a2.4 2.4 0 0 0 2.4-2.4v-5.2A2.4 2.4 0 0 0 15.6 11Z"/></symbol>
+  <symbol id="si_Activity" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M1 12h4l4 9 7-18 3 9h4"/></symbol>
+  <symbol id="si_Bar_chart" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M2 22h20M9 8.6A1.6 1.6 0 0 0 7.4 7H4.6A1.6 1.6 0 0 0 3 8.6V22m6 0V3.6A1.6 1.6 0 0 1 10.6 2h2.8A1.6 1.6 0 0 1 15 3.6V22m6 0v-8.4a1.6 1.6 0 0 0-1.6-1.6h-2.8a1.6 1.6 0 0 0-1.6 1.6"/></symbol>
+  <symbol id="si_Globe_detailed" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 22c-3 0-5-4.477-5-10S9 2 12 2s5 4.477 5 10-2 10-5 10ZM2 12h20"/></symbol>
+  <symbol id="si_Leaf" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 3c-8 0-14 4-16 12 4-2 8-3 11-1s4 6 4 10C22 14 19 7 21 3Z"/><path stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M5 15c2 2 3 4 2 7"/></symbol>
+  <symbol id="si_Target" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Zm0-5a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0-3a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></symbol>
+  <symbol id="si_Briefcase" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M15 21V4.8a.8.8 0 0 0-.8-.8H9.8a.8.8 0 0 0-.8.8V21M4.4 7h15.2A2.4 2.4 0 0 1 22 9.4v9.2a2.4 2.4 0 0 1-2.4 2.4H4.4A2.4 2.4 0 0 1 2 18.6V9.4A2.4 2.4 0 0 1 4.4 7"/></symbol>
+  <symbol id="si_Database" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 8c4.97 0 9-1.343 9-3S16.97 2 12 2 3 3.343 3 5s4.03 3 9 3Zm9 6c0 1.657-4.03 3-9 3s-9-1.343-9-3M3 5v14c0 1.657 4.03 3 9 3s9-1.343 9-3V5"/></symbol>
+  <symbol id="si_Info" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Zm0-6v-4m0-2V9"/></symbol>
+  <symbol id="si_Check_circle" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m8 13 3 3 5-7m6 3c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10"/></symbol>
+  <symbol id="si_Arrow_right" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m14 16 4-4m0 0-4-4m4 4H6"/></symbol>
+  <symbol id="si_Flare" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v2m0 14v2M3 12H5m14 0h2m-2.636-6.364-1.414 1.414M7.05 16.95l-1.414 1.414m0-11.314 1.414 1.414m9.9 9.9-1.414-1.414M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/></symbol>
+  <symbol id="si_Library_books" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M4 19V7.4A2.4 2.4 0 0 1 6.4 5H20v14H6.4A2.4 2.4 0 0 1 4 16.6ZM4 17H2M8 5V2m4 3V2m4 3V2"/></symbol>
+  <symbol id="si_Fact_check" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M9 12h6m-6 3h6m-6-6h2M5.4 3h13.2A2.4 2.4 0 0 1 21 5.4v13.2a2.4 2.4 0 0 1-2.4 2.4H5.4A2.4 2.4 0 0 1 3 18.6V5.4A2.4 2.4 0 0 1 5.4 3Z"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m7 15.5 1.5 1.5 3-3.5"/></symbol>
+</svg>
+
+<div id="progress-bar"></div>
+<div id="fs-hint" onclick="toggleFS()">fullscreen</div>
+<div id="deck">
+ <div class="slide-viewport" id="viewport">
+
+<div class="slide active" id="s1"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="title-screen"><div class="title-bg"></div><div class="title-bar"></div><div class="title-content"><div class="title-series">ImpactMojo 101 Series &middot; Free Forever</div><div class="title-main">Disability<br>Inclusion<br>101</div><div class="title-sub">Rights-Based, Twin-Track Disability Inclusion in Development &mdash; the CRPD, Accessible Programming and Data That Counts Everyone</div><div class="title-tags"><span class="title-tag">Rights-Based</span><span class="title-tag">South Asia Focus</span><span class="title-tag">Equity</span><span class="title-tag">38 Slides</span><span class="title-tag">Free Access</span></div></div><div class="title-geo"><svg viewBox="0 0 300 620" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%"><defs><pattern id="hex" x="0" y="0" width="40" height="46" patternUnits="userSpaceOnUse"><polygon points="20,2 38,12 38,34 20,44 2,34 2,12" fill="none" stroke="white" stroke-width="1"/></pattern></defs><rect width="300" height="620" fill="url(#hex)"/></svg></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">01</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s2"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Start Here</div><div class="slide-title md">What this course gives you</div><div class="slide-body">Persons with disabilities are the world&rsquo;s largest minority &mdash; and among the most excluded from development programmes. This course equips South Asian development staff to design and deliver work that includes them, as a matter of rights, not charity.</div><ul class="bullet-list indigo"><li><strong>See disability differently</strong> &mdash; as the interaction between an impairment and the barriers society builds.</li><li><strong>Know the rules</strong> &mdash; the UN CRPD and India&rsquo;s RPWD Act 2016, and what they require of programmes.</li><li><strong>Act on the twin-track approach</strong> &mdash; mainstream inclusion into everything, and support disability-specific empowerment.</li><li><strong>Count everyone</strong> &mdash; use the Washington Group Questions so your data does not leave people invisible.</li></ul><div class="hbox green"><div class="hbox-text"><strong>One principle runs through it all:</strong> &ldquo;Nothing about us without us.&rdquo; Persons with disabilities lead the decisions that affect their lives.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">2</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s3"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="section-divider"><div class="div-num">01</div><div class="div-label">Part One</div><div class="div-title">Understanding disability</div><div class="div-accent"></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">3</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s4"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Models</div><div class="slide-title md">Three ways of seeing disability</div><table class="ctable"><thead><tr><th>Model</th><th>Locates the &lsquo;problem&rsquo; in&hellip;</th><th>So the response is&hellip;</th></tr></thead><tbody><tr><td><strong>Charity</strong></td><td>The pitiable individual</td><td>Alms, special homes, doing &lsquo;for&rsquo; them</td></tr><tr><td><strong>Medical</strong></td><td>The body &mdash; a defect to be cured or fixed</td><td>Treatment, rehabilitation, institutions</td></tr><tr><td><strong>Social</strong></td><td>The barriers society builds</td><td>Remove barriers; change environments and attitudes</td></tr><tr><td><strong>Human&nbsp;rights</strong></td><td>Denial of equal rights and dignity</td><td>Entitlements, participation, accountability</td></tr></tbody></table><div class="hbox indigo"><div class="hbox-text">The CRPD and the RPWD Act embody the <strong>social</strong> and <strong>human-rights</strong> models. Development work should too &mdash; the person is not the problem to be fixed.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">4</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s5"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Core Idea</div><div class="slide-title md">Disability is an interaction, not a trait</div><div class="slide-body">A person using a wheelchair is not &lsquo;disabled&rsquo; by their legs. They are disabled by the flight of stairs with no ramp, the bus with no space, the form no one will read aloud. Change the environment and the disability shrinks.</div><div class="flow"><div class="flow-step"><div class="flow-num">01</div><div class="flow-label">Impairment (a body/mind difference)</div></div><div class="flow-arrow">+</div><div class="flow-step"><div class="flow-num">02</div><div class="flow-label">Barrier (physical, attitudinal, institutional)</div></div><div class="flow-arrow">&rarr;</div><div class="flow-step"><div class="flow-num">03</div><div class="flow-label">Disability (restricted participation)</div></div></div><div class="quote-block"><div class="quote-text">Disability results from the interaction between persons with impairments and attitudinal and environmental barriers that hinder their full and effective participation on an equal basis with others.</div><div class="quote-attr">&mdash; UN CRPD, Preamble (e)</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">5</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s6"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The Numbers</div><div class="slide-title md">How many people &mdash; globally and in India</div><div class="stat-grid c3"><div class="stat-card indigo"><div class="stat-number">1.3&nbsp;billion</div><div class="stat-label">people experience significant disability worldwide</div><div class="stat-source">WHO, 2023</div></div><div class="stat-card green"><div class="stat-number">~16%</div><div class="stat-label">of the world&rsquo;s population &mdash; about 1 in 6 people</div><div class="stat-source">WHO, 2023</div></div><div class="stat-card amber"><div class="stat-number">2.68&nbsp;crore</div><div class="stat-label">persons with disabilities in India (2.21% of population)</div><div class="stat-source">Census of India, 2011</div></div></div><div class="hbox amber"><div class="hbox-text"><strong>Under-counted.</strong> India&rsquo;s 2.21% sits far below the global ~16%. This gap is largely a measurement problem &mdash; narrow questions and stigma hide people &mdash; not a real difference in prevalence. Numbers here understate the true population.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">6</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s7"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Language</div><div class="slide-title md">Words carry the model &mdash; choose them well</div><table class="ctable"><thead><tr><th>Say this</th><th>Not this</th></tr></thead><tbody><tr><td>Persons with disabilities</td><td>The disabled, the handicapped, &lsquo;divyang&rsquo; as a label</td></tr><tr><td>Person with a visual impairment / who is blind</td><td>Suffers from blindness; the blind</td></tr><tr><td>Person who uses a wheelchair</td><td>Wheelchair-bound; confined to a wheelchair</td></tr><tr><td>Person without a disability</td><td>Normal, able-bodied, healthy</td></tr><tr><td>Has an intellectual disability / psychosocial disability</td><td>Mentally retarded, lunatic, mad, &lsquo;pagal&rsquo;</td></tr></tbody></table><div class="hbox green"><div class="hbox-text"><strong>Person-first, and led by choice.</strong> Default to &ldquo;persons with disabilities&rdquo; (the CRPD&rsquo;s own wording). Some communities prefer identity-first (&ldquo;Deaf person&rdquo;, &ldquo;autistic person&rdquo;) &mdash; ask, and follow how people describe themselves.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">7</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s8"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="section-divider"><div class="div-num">02</div><div class="div-label">Part Two</div><div class="div-title">The rights framework</div><div class="div-accent"></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">8</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s9"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The Treaty</div><div class="slide-title md">The UN CRPD &mdash; the global rulebook</div><div class="two-col half"><div class="col-panel indigo"><div class="col-panel-title">What it is</div><div class="slide-body sm">The Convention on the Rights of Persons with Disabilities &mdash; the first comprehensive human-rights treaty of the 21st century. It does not create new rights; it clarifies how existing rights apply to persons with disabilities.</div></div><div class="col-panel amber"><div class="col-panel-title">Key dates</div><div class="slide-body sm">Adopted by the UN General Assembly on <strong>13 December 2006</strong>; entered into force <strong>3 May 2008</strong>. India ratified it in 2007 &mdash; which is why India rewrote its national law as the RPWD Act 2016.</div></div></div><div class="hbox indigo"><div class="hbox-text">Ratifying states must <strong>respect, protect and fulfil</strong> these rights &mdash; and report to the UN CRPD Committee on progress.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">9</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s10"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Principles</div><div class="slide-title md">Eight principles that guide every action</div><ul class="bullet-list green"><li><strong>Dignity &amp; autonomy</strong> &mdash; respect for inherent worth and the freedom to make one&rsquo;s own choices.</li><li><strong>Non-discrimination</strong> &mdash; and <strong>full, effective participation</strong> in society.</li><li><strong>Respect for difference</strong> &mdash; disability as part of human diversity.</li><li><strong>Equality of opportunity</strong> and <strong>accessibility</strong>.</li><li><strong>Equality between men and women</strong>.</li><li><strong>Respect for the evolving capacities of children</strong> with disabilities and their right to identity.</li></ul><div class="hbox amber"><div class="hbox-text">Denying a <strong>reasonable accommodation</strong> is itself a form of discrimination under the Convention (Article 2).</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">10</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s11"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The Ethos</div><div class="slide-title md">Nothing about us without us</div><div class="quote-block"><div class="quote-text">Nothing about us without us.</div><div class="quote-attr">&mdash; The disability rights movement; the guiding call of the CRPD negotiations</div></div><div class="slide-body">Persons with disabilities and their representative organisations drafted the CRPD alongside governments &mdash; an unprecedented negotiation. The principle now binds implementation (Article 4.3): states must <strong>closely consult and actively involve</strong> persons with disabilities, through their organisations, in decisions that affect them.</div><div class="hbox green"><div class="hbox-text"><strong>For your programme:</strong> no needs assessment, design, or evaluation about persons with disabilities without persons with disabilities <em>at the table</em> &mdash; not merely consulted at the end.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">11</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s12"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The Law</div><div class="slide-title md">India&rsquo;s RPWD Act 2016</div><div class="two-col half"><div class="col-panel indigo"><div class="col-panel-title">What changed</div><div class="slide-body sm">The Rights of Persons with Disabilities Act, 2016 replaced the 1995 Act and brought Indian law in line with the CRPD. It came into force on <strong>19 April 2017</strong>.</div></div><div class="col-panel green"><div class="col-panel-title">What it guarantees</div><div class="slide-body sm">Non-discrimination, equal recognition before the law, accessibility duties, reservation in jobs and education, free education for children with benchmark disabilities aged 6&ndash;18, and grievance mechanisms.</div></div></div><div class="hbox amber"><div class="hbox-text">Companion laws exist across the region &mdash; e.g. Nepal&rsquo;s Act Relating to Rights of Persons with Disabilities (2017), Pakistan&rsquo;s ICT Rights of Persons with Disability Act (2020), and Bangladesh&rsquo;s Rights and Protection of Persons with Disabilities Act (2013).</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">12</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s13"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The Law</div><div class="slide-title sm">21 disabilities &mdash; and the &lsquo;benchmark&rsquo; threshold</div><div class="slide-body sm">The RPWD Act specifies <strong>21 categories</strong> of disability, a broader list than the old law. It spans physical, sensory, intellectual, psychosocial, neurological and blood disorders.</div><ul class="bullet-list indigo"><li><strong>Physical &amp; sensory</strong> &mdash; blindness, low vision, deaf, hard of hearing, locomotor disability, leprosy-cured, dwarfism, muscular dystrophy, cerebral palsy, acid-attack survivors.</li><li><strong>Intellectual &amp; developmental</strong> &mdash; intellectual disability, specific learning disabilities, autism spectrum disorder, speech &amp; language disability.</li><li><strong>Neurological &amp; psychosocial</strong> &mdash; mental illness, multiple sclerosis, Parkinson&rsquo;s disease, chronic neurological conditions.</li><li><strong>Blood disorders</strong> &mdash; thalassaemia, haemophilia, sickle-cell disease; plus multiple disabilities.</li></ul><div class="hbox green"><div class="hbox-text"><strong>&lsquo;Benchmark disability&rsquo;</strong> = certified at <strong>40% or more</strong> of a specified disability. Reservations and some entitlements attach to this threshold.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">13</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s14"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The Law</div><div class="slide-title md">Concrete duties the Act creates</div><div class="stat-grid c3"><div class="stat-card green"><div class="stat-number">4%</div><div class="stat-label">reservation in government jobs for benchmark disabilities</div><div class="stat-source">RPWD Act 2016, s.34</div></div><div class="stat-card indigo"><div class="stat-number">5%</div><div class="stat-label">seats reserved in government-aided higher education</div><div class="stat-source">RPWD Act 2016, s.32</div></div><div class="stat-card amber"><div class="stat-number">6&ndash;18</div><div class="stat-label">age range for the right to free education (benchmark disability)</div><div class="stat-source">RPWD Act 2016, s.31</div></div></div><ul class="bullet-list indigo"><li><strong>Accessibility</strong> &mdash; public buildings, transport, ICT and services must meet accessibility standards within set timelines.</li><li><strong>Non-discrimination in employment</strong> &mdash; and a duty to provide reasonable accommodation.</li><li><strong>Enforcement</strong> &mdash; State &amp; Chief Commissioners for Persons with Disabilities hear complaints.</li></ul></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">14</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s15"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The Method</div><div class="slide-title md">The twin-track approach</div><div class="two-col half"><div class="col-panel indigo"><div class="col-panel-title">Track 1 &mdash; Mainstream</div><div class="slide-body sm">Make <em>every</em> programme accessible and inclusive: the school, the clinic, the loan scheme, the water point. Inclusion is the default, not a separate project.</div></div><div class="col-panel green"><div class="col-panel-title">Track 2 &mdash; Disability-specific</div><div class="slide-body sm">Targeted support that closes the gap: assistive devices, sign-language interpretation, self-help groups of persons with disabilities, OPD strengthening, skills bridging.</div></div></div><div class="hbox amber"><div class="hbox-text"><strong>You need both.</strong> Mainstreaming alone leaves the furthest-behind out; specific projects alone create parallel silos. The most-cited approach across UN and NGO practice runs both tracks together.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">15</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s16"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="section-divider"><div class="div-num">03</div><div class="div-label">Part Three</div><div class="div-title">Barriers</div><div class="div-accent"></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">16</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s17"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Barriers</div><div class="slide-title md">Four kinds of barriers &mdash; most are ours to remove</div><table class="ctable"><thead><tr><th>Barrier</th><th>Looks like</th></tr></thead><tbody><tr><td><strong>Attitudinal</strong></td><td>Pity, low expectations, shame, believing a person &lsquo;can&rsquo;t&rsquo;; families hiding a child</td></tr><tr><td><strong>Environmental / physical</strong></td><td>Steps and no ramp, narrow doors, inaccessible toilets, no tactile paving, print-only notices</td></tr><tr><td><strong>Institutional / policy</strong></td><td>Rules, forms and eligibility criteria that exclude; budgets with no line for access</td></tr><tr><td><strong>Communication</strong></td><td>No sign language, no captions, no Braille or Easy Read, jargon-heavy materials</td></tr></tbody></table><div class="hbox green"><div class="hbox-text">Attitudinal barriers are often the deepest &mdash; they shape the other three. Fix the assumption (&ldquo;they can&rsquo;t participate&rdquo;) and the ramp, the form and the interpreter follow.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">17</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s18"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Barriers</div><div class="slide-title md">Attitudes do the most damage</div><div class="slide-body">Low expectations become self-fulfilling: a child kept home &lsquo;for safety&rsquo; never learns; a jobseeker assumed unproductive is never interviewed. Practitioners carry these assumptions too.</div><div class="dark-card"><div class="dark-card-label">Reframe</div><div class="dark-card-title">From &ldquo;What&rsquo;s wrong with this person?&rdquo; to &ldquo;What in our programme is blocking them?&rdquo;</div><div class="dark-card-body">The first question searches the person for a deficit. The second searches your design for a fixable barrier &mdash; and it usually finds one.</div></div><div class="hbox indigo"><div class="hbox-text"><strong>Contact changes minds.</strong> Persons with disabilities working <em>as staff, trainers and leaders</em> &mdash; not just beneficiaries &mdash; shifts attitudes faster than any awareness poster.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">18</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s19"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Intersectionality</div><div class="slide-title md">Disability rarely travels alone</div><div class="slide-body">Disability compounds with gender, poverty, caste, religion, age and location. A Dalit woman with a disability in a remote village faces stacked, interacting barriers &mdash; not one disadvantage but several reinforcing each other.</div><ul class="bullet-list amber"><li><strong>Poverty</strong> &mdash; disability and poverty drive each other: extra costs of living, lost household income, out-of-pocket health spending.</li><li><strong>Caste &amp; ethnicity</strong> &mdash; discrimination layers onto disability, shrinking access to services and land.</li><li><strong>Location</strong> &mdash; rural and remote areas have the fewest accessible services and assistive devices.</li></ul><div class="hbox green"><div class="hbox-text"><strong>Design for the intersection.</strong> A &lsquo;disability&rsquo; lens that ignores gender and caste will still miss the most excluded.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">19</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s20"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Gender</div><div class="slide-title sm">Women and girls with disabilities &mdash; double exclusion</div><div class="stat-grid c3"><div class="stat-card amber"><div class="stat-number">1.18&nbsp;crore</div><div class="stat-label">women &amp; girls with disabilities in India</div><div class="stat-source">Census of India, 2011</div></div><div class="stat-card red"><div class="stat-number">45%</div><div class="stat-label">literacy among disabled women, vs 62% among disabled men</div><div class="stat-source">Census of India, 2011</div></div><div class="stat-card indigo"><div class="stat-number">43%</div><div class="stat-label">of disabled girls aged 5&ndash;19 attending an institution</div><div class="stat-source">Census of India, 2011</div></div></div><ul class="bullet-list red"><li><strong>Heightened violence risk</strong> &mdash; women with disabilities face higher rates of gender-based and sexual violence, often by caregivers, with fewer escape routes.</li><li><strong>Reproductive rights denied</strong> &mdash; from forced sterilisation to exclusion from maternal health services.</li></ul><div class="hbox amber"><div class="hbox-text">The CRPD (Article 6) and RPWD Act both single out women and girls for specific measures &mdash; because a gender-blind disability programme reproduces the gap.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">20</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s21"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="section-divider"><div class="div-num">04</div><div class="div-label">Part Four</div><div class="div-title">Accessible &amp; inclusive programming</div><div class="div-accent"></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">21</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s22"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Design</div><div class="slide-title md">Universal design &mdash; build it in, not on</div><div class="term-box"><div class="term-word">Universal design</div><div class="term-def">Designing products, environments, programmes and services to be usable by all people, to the greatest extent possible, without the need for adaptation &mdash; CRPD, Article 2.</div></div><ul class="bullet-list green"><li><strong>Ramp + steps</strong> at every entrance helps wheelchair users, older people, porters and parents with prams.</li><li><strong>Captioned videos</strong> help Deaf viewers &mdash; and anyone in a noisy or silent room.</li><li><strong>Plain-language forms</strong> help people with intellectual disabilities &mdash; and everyone else.</li></ul><div class="hbox indigo"><div class="hbox-text"><strong>Cheaper up front.</strong> Designing access into a new building, form or app from day one costs a fraction of retrofitting it later.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">22</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s23"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Design</div><div class="slide-title md">Reasonable accommodation &mdash; the individual adjustment</div><div class="slide-body">Where universal design sets the accessible default, <strong>reasonable accommodation</strong> is the specific change one person needs to take part on an equal basis &mdash; provided unless it is a genuine, disproportionate burden.</div><div class="stat-grid c2"><div class="stat-card green"><div class="stat-number">Universal design</div><div class="stat-label">Systemic &amp; upfront &mdash; benefits everyone (a ramp, captions, a screen-reader-friendly site)</div></div><div class="stat-card indigo"><div class="stat-number">Reasonable accommodation</div><div class="stat-label">Individual &amp; on-request &mdash; a sign interpreter, flexible hours, a ground-floor desk, extra exam time</div></div></div><div class="hbox amber"><div class="hbox-text">Under the CRPD and RPWD Act, <strong>refusing a reasonable accommodation is discrimination</strong> &mdash; not a favour withheld.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">23</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s24"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Communication</div><div class="slide-title md">Make information reach everyone</div><ul class="bullet-list indigo"><li><strong>Sign language</strong> &mdash; interpreters at events; recognise regional sign languages (e.g. Indian Sign Language).</li><li><strong>Easy Read &amp; plain language</strong> &mdash; short sentences, one idea per line, supporting pictures for people with intellectual disabilities and low literacy.</li><li><strong>Captions &amp; transcripts</strong> for all video and audio.</li><li><strong>Braille, large print &amp; audio</strong> versions of key documents; screen-reader-friendly digital files (real text, tagged PDFs, alt text).</li><li><strong>Multiple formats by default</strong> &mdash; never rely on a single channel to reach the whole community.</li></ul><div class="hbox green"><div class="hbox-text"><strong>Test with users.</strong> Ask persons with disabilities to check your materials &mdash; the fastest way to find what doesn&rsquo;t work.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">24</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s25"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">In Practice</div><div class="slide-title md">Inclusion across sectors &mdash; worked examples</div><table class="ctable"><thead><tr><th>Sector</th><th>What inclusive looks like</th></tr></thead><tbody><tr><td><strong>Education</strong></td><td>Inclusive schools (not segregated), trained teachers, accessible toilets, ISL &amp; Braille, individualised support &mdash; children learn <em>together</em></td></tr><tr><td><strong>WASH</strong></td><td>Ramped, wide-door latrines with grab-rails; hand-pumps at reachable height; tactile &amp; pictorial signage at water points</td></tr><tr><td><strong>Livelihoods</strong></td><td>Self-help groups that include persons with disabilities; accessible skilling; loans without disability exclusions; links to the 4% job quota</td></tr><tr><td><strong>Health</strong></td><td>Accessible clinics &amp; exam tables; staff trained to communicate; no denial of maternal &amp; reproductive care</td></tr></tbody></table><div class="hbox indigo"><div class="hbox-text">In each, apply the twin track: an accessible mainstream service <em>plus</em> the specific support (device, interpreter, transport) that lets an individual use it.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">25</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s26"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">In Practice</div><div class="slide-title sm">Disaster &amp; humanitarian response</div><div class="slide-body">In disasters, persons with disabilities are disproportionately left behind &mdash; warnings they can&rsquo;t hear, shelters they can&rsquo;t enter, evacuation that forgets them. Inclusion is life-or-death, and it is a standard, not an add-on.</div><ul class="bullet-list amber"><li><strong>Accessible early warning</strong> &mdash; audio, visual and SMS; reach people who are Deaf, blind or isolated.</li><li><strong>Accessible shelters, WASH and distribution</strong> &mdash; ramps, priority queues, replacing lost assistive devices and medication.</li><li><strong>Identify &amp; involve</strong> persons with disabilities and OPDs in preparedness and response planning.</li></ul><div class="hbox green"><div class="hbox-text">Anchored in the <strong>IASC Guidelines on Inclusion of Persons with Disabilities in Humanitarian Action (2019)</strong> and the <strong>Sendai Framework</strong>&rsquo;s call for inclusive, all-of-society disaster risk reduction.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">26</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s27"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="section-divider"><div class="div-num">05</div><div class="div-label">Part Five</div><div class="div-title">Data that counts everyone</div><div class="div-accent"></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">27</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s28"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The Problem</div><div class="slide-title md">If you don&rsquo;t count them, you can&rsquo;t include them</div><div class="slide-body">Most routine programme data does not identify who has a disability &mdash; so persons with disabilities are invisible in enrolment, coverage and outcome figures. What is not measured is not managed, funded, or fixed.</div><ul class="bullet-list red"><li><strong>Wrong questions</strong> &mdash; asking &ldquo;Are you disabled?&rdquo; triggers stigma and undercounts; many say no.</li><li><strong>No disaggregation</strong> &mdash; totals hide whether persons with disabilities are being reached.</li><li><strong>Missed from sampling</strong> &mdash; people in institutions or kept at home never enter the frame.</li></ul><div class="hbox amber"><div class="hbox-text">India&rsquo;s recorded 2.21% versus the global ~16% is the clearest symptom: a data problem masquerading as a low prevalence.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">28</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s29"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The Tool</div><div class="slide-title sm">The Washington Group Short Set</div><div class="slide-body sm">Six short questions, about a minute to administer. They ask about <strong>functional difficulty</strong> &mdash; not whether someone &lsquo;is disabled&rsquo; &mdash; across six universal domains, with a graded scale (no difficulty &rarr; some &rarr; a lot &rarr; cannot do at all).</div><div class="stat-grid c3"><div class="stat-card indigo"><div class="stat-number">Seeing</div><div class="stat-label">even wearing glasses</div></div><div class="stat-card indigo"><div class="stat-number">Hearing</div><div class="stat-label">even with a hearing aid</div></div><div class="stat-card indigo"><div class="stat-number">Walking</div><div class="stat-label">or climbing steps</div></div><div class="stat-card green"><div class="stat-number">Remembering</div><div class="stat-label">or concentrating</div></div><div class="stat-card green"><div class="stat-number">Self-care</div><div class="stat-label">washing, dressing</div></div><div class="stat-card green"><div class="stat-number">Communicating</div><div class="stat-label">being understood</div></div></div><div class="hbox green"><div class="hbox-text">Recommended by the UN for SDG disability disaggregation. Add the WG-SS to your baselines, MIS and surveys &mdash; it is free and open.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">29</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s30"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The Commitment</div><div class="slide-title md">Disaggregate &mdash; and &lsquo;leave no one behind&rsquo;</div><div class="quote-block"><div class="quote-text">&hellip; data disaggregated by&hellip; disability&hellip; in national contexts.</div><div class="quote-attr">&mdash; SDG Target 17.18, on increasing availability of disaggregated data</div></div><div class="slide-body">The 2030 Agenda&rsquo;s promise to <strong>leave no one behind</strong> is measurable only if data is broken down by disability. Persons with disabilities are named explicitly across the SDGs &mdash; in education, work, inequality, cities and data.</div><div class="hbox indigo"><div class="hbox-text"><strong>Practical rule:</strong> every indicator you report by sex and age, also report by disability status (using WG questions). A total is not enough.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">30</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s31"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Whose Data</div><div class="slide-title md">Involve OPDs in the data itself</div><ul class="bullet-list green"><li><strong>Design questions with OPDs</strong> &mdash; so tools are respectful, accurate and locally worded.</li><li><strong>Recruit persons with disabilities as enumerators</strong> &mdash; builds trust and improves disclosure.</li><li><strong>Share findings back</strong> in accessible formats &mdash; data is a tool for communities, not just donors.</li><li><strong>Use the data to act</strong> &mdash; set targets, track reach, and adjust the programme.</li></ul><div class="hbox amber"><div class="hbox-text">&ldquo;Nothing about us without us&rdquo; applies to statistics too &mdash; people counted should help decide how, and why.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">31</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s32"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="section-divider"><div class="div-num">06</div><div class="div-label">Part Six</div><div class="div-title">Making your organisation inclusive</div><div class="div-accent"></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">32</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s33"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Partnership</div><div class="slide-title md">Partner with OPDs &mdash; and know what they are</div><div class="term-box"><div class="term-word">OPD &mdash; Organisation of Persons with Disabilities</div><div class="term-def">An organisation led, directed and governed <em>by</em> persons with disabilities themselves (a majority of members and leadership). Distinct from an NGO working <em>for</em> them.</div></div><ul class="bullet-list indigo"><li><strong>Partner early</strong> &mdash; involve OPDs in design, not just delivery; budget for their time and expertise.</li><li><strong>Fund and strengthen</strong> &mdash; core support, capacity, and a real seat in governance.</li><li><strong>Reach diversity</strong> &mdash; connect with women&rsquo;s, Deaf, blind, intellectual- and psychosocial-disability groups, not one umbrella body alone.</li></ul><div class="hbox green"><div class="hbox-text">The CRPD (Article 4.3) makes consulting OPDs an obligation &mdash; they are the primary experts on their own inclusion.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">33</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s34"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Workplace</div><div class="slide-title md">Accessible recruitment &amp; workplaces</div><ul class="bullet-list green"><li><strong>Reach</strong> &mdash; advertise through OPDs and disability job portals; state that accommodations are available.</li><li><strong>Accessible process</strong> &mdash; accessible application forms, venues and interviews; offer format choices; assess the job, not the impairment.</li><li><strong>Onboard &amp; accommodate</strong> &mdash; provide the adjustments people need; ask, don&rsquo;t assume.</li><li><strong>Retain &amp; promote</strong> &mdash; accessible offices, inclusive culture, and paths to leadership &mdash; not entry-level ceilings.</li></ul><div class="hbox indigo"><div class="hbox-text">Employing persons with disabilities is the strongest inclusion signal an organisation can send &mdash; internally and to the communities it serves.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">34</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s35"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Money</div><div class="slide-title md">Budgeting for inclusion &mdash; usually low-cost</div><div class="slide-body">The most persistent myth is that inclusion is expensive. Most accommodations cost little or nothing; the largest returns come from designing access in from the start rather than retrofitting.</div><div class="stat-grid c3"><div class="stat-card green"><div class="stat-number">Zero&ndash;low</div><div class="stat-label">cost of many accommodations: flexible hours, a moved desk, a plain-language form, seating priority</div></div><div class="stat-card indigo"><div class="stat-number">One line</div><div class="stat-label">add an accessibility &amp; accommodation line to every project budget</div></div><div class="stat-card amber"><div class="stat-number">Design-in</div><div class="stat-label">accessible-by-default is far cheaper than retrofitting later</div></div></div><div class="hbox amber"><div class="hbox-text">Budget for interpreters, accessible venues, transport support, assistive devices and accessible materials &mdash; small sums that unlock participation.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">35</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s36"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Events</div><div class="slide-title md">Accessible meetings &amp; events &mdash; a checklist</div><ul class="bullet-list indigo"><li><strong>Venue</strong> &mdash; step-free access, accessible toilet, room to move; ask access needs on the invite.</li><li><strong>Communication</strong> &mdash; sign-language interpreters, captions, a microphone always used, materials in advance and in accessible formats.</li><li><strong>Facilitation</strong> &mdash; describe visuals aloud, plain language, breaks, no reliance on colour or small print.</li><li><strong>Logistics</strong> &mdash; accessible transport, quiet space, and support for a personal assistant or guide to attend.</li></ul><div class="hbox green"><div class="hbox-text"><strong>Ask, then provide.</strong> A single question &mdash; &ldquo;What do you need to take part fully?&rdquo; &mdash; on every registration form does most of the work.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">36</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s37"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Takeaways</div><div class="slide-title sm">Key takeaways</div><ul class="bullet-list green"><li><strong>Disability is an interaction</strong> &mdash; impairment meeting barriers. Change the environment, not the person.</li><li><strong>It is a rights issue</strong> &mdash; the CRPD (2006) and India&rsquo;s RPWD Act 2016 make inclusion a legal duty, not charity.</li><li><strong>Run both tracks</strong> &mdash; mainstream inclusion into everything <em>and</em> support disability-specific empowerment.</li><li><strong>Remove the four barriers</strong> &mdash; attitudinal, physical, institutional and communication &mdash; and design for intersections of gender, poverty and caste.</li><li><strong>Count everyone</strong> &mdash; use the Washington Group Questions and disaggregate, so no one is left behind.</li><li><strong>Nothing about us without us</strong> &mdash; partner with OPDs and employ persons with disabilities in every stage.</li></ul><div class="hbox indigo"><div class="hbox-text"><strong>Start now, small.</strong> Add one WG question set, one budget line, one accessible-event checklist, and one OPD partnership &mdash; then build from there.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">37</span><span class="footer-right">www.impactmojo.in</span></div></div>
+<div class="slide" id="s38"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">Disability Inclusion 101</span><span class="header-url">www.impactmojo.in</span></div><div class="end-screen"><div class="end-bar"></div><div class="end-pattern"></div><div class="end-glow"></div><div class="end-content"><div class="end-eyebrow">Disability Inclusion 101 &middot; Complete</div><div class="end-headline">Nothing about us<br>without us.</div><div class="end-byline">Inclusion is a design choice you make at the start, not a fix you add at the end. Explore the rest of the ImpactMojo 101 Series, free forever.</div><div class="end-cta"><a class="end-btn end-btn-primary" href="https://www.impactmojo.in/101-courses/">More 101 Courses</a><a class="end-btn end-btn-secondary" href="https://www.impactmojo.in">Explore ImpactMojo</a><a class="end-btn end-btn-tertiary" href="https://www.impactmojo.in/dataverse.html">Dataverse</a></div><div class="end-meta"><span>CC BY-NC-ND 4.0</span><span class="end-meta-divider">&middot;</span><span>Free Forever</span><span class="end-meta-divider">&middot;</span><span>ImpactMojo 101 Series</span></div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">38</span><span class="footer-right">www.impactmojo.in</span></div></div>
+</div><!-- /slide-viewport -->
+</div><!-- /deck -->
+
+<div id="nav">
+ <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">&#8249;</button>
+ <span id="prog-text">1 / 38</span>
+ <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">&#8250;</button>
+</div>
+
+<script>
+const SLIDE_IDS = Array.from(document.querySelectorAll('.slide')).map(function(s){return s.id;});
+
+let cur = 0;
+const TOTAL = SLIDE_IDS.length;
+
+const chartsInit = {};
+
+function showSlide(n) {
+  document.getElementById(SLIDE_IDS[cur])?.classList.remove('active');
+  cur = Math.max(0, Math.min(n, TOTAL - 1));
+  document.getElementById(SLIDE_IDS[cur])?.classList.add('active');
+  document.getElementById('prog-text').textContent = (cur+1) + ' / ' + TOTAL;
+  document.getElementById('prevBtn').disabled = cur === 0;
+  document.getElementById('nextBtn').disabled = cur === TOTAL - 1;
+  document.getElementById('progress-bar').style.width = ((cur+1)/TOTAL*100) + '%';
+  if (!chartsInit[cur]) { initChart(cur); chartsInit[cur] = true; }
+  showNav();
+}
+
+function changeSlide(d) { showSlide(cur + d); }
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') changeSlide(-1);
+});
+
+let ts = 0;
+document.addEventListener('touchstart', e => ts = e.touches[0].clientX);
+document.addEventListener('touchend', e => {
+  const d = ts - e.changedTouches[0].clientX;
+  if (Math.abs(d) > 50) changeSlide(d > 0 ? 1 : -1);
+});
+
+function showNav() {}
+
+function toggleFS() {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
+}
+document.addEventListener('fullscreenchange', () => {
+  document.getElementById('fs-hint').textContent = document.fullscreenElement ? 'exit fullscreen' : 'fullscreen';
+});
+
+// Viewport scaling — fit the 1280x720 stage to any screen. Re-runs on load,
+// orientation change and visual-viewport resize so mobile (where innerHeight
+// can be ~0 during parse) settles to the correct full-width fit instead of a
+// shrunken sliver.
+function scaleViewport() {
+  const vp = document.getElementById('viewport');
+  if (!vp) return;
+  const s = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+  if (s > 0) vp.style.transform = 'scale(' + s + ')';
+}
+window.addEventListener('resize', scaleViewport);
+window.addEventListener('orientationchange', function(){ setTimeout(scaleViewport, 150); });
+window.addEventListener('load', scaleViewport);
+if (window.visualViewport) window.visualViewport.addEventListener('resize', scaleViewport);
+scaleViewport();
+[50, 200, 500, 1000].forEach(function(t){ setTimeout(scaleViewport, t); });
+
+// Charts
+const CHART_DEFAULTS = {
+  responsive: true, maintainAspectRatio: false,
+  plugins: { legend: { labels: { font: { family: 'JetBrains Mono', size: 10 }, color: '#78716C' } } },
+  scales: {
+    x: { ticks: { font: { family: 'JetBrains Mono', size: 9 }, color: '#78716C' }, grid: { color: 'rgba(0,0,0,0.05)' } },
+    y: { ticks: { font: { family: 'JetBrains Mono', size: 9 }, color: '#78716C' }, grid: { color: 'rgba(0,0,0,0.05)' } }
+  }
+};
+
+function initChart(slideIdx) {
+  const id = SLIDE_IDS[slideIdx];
+  const mk = (id, type, data, opts) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    new Chart(el, { type, data, options: { ...CHART_DEFAULTS, ...opts } });
+  };
+
+  if (id === 's32') {
+    mk('meanMedianChart', "bar", {"labels": ["H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H10", "H11"], "datasets": [{"label": "Income (₹000/month)", "data": [8, 9, 10, 11, 12, 12, 13, 14, 15, 16, 220], "backgroundColor": "#0EA5E9"}]}, { plugins:{ legend:{ display:false } } });
+  }
+  if (id === 's35') {
+    mk('distShapeChart', "line", {"labels": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], "datasets": [{"label": "Symmetric (e.g. height)", "data": [1, 3, 8, 16, 24, 28, 24, 16, 8, 3, 1], "borderColor": "#10B981", "tension": 0.4, "pointRadius": 0, "fill": false}, {"label": "Right-skewed (e.g. income)", "data": [2, 18, 28, 24, 16, 10, 6, 4, 2, 1, 0.5], "borderColor": "#EF4444", "tension": 0.4, "pointRadius": 0, "fill": false}]}, {});
+  }
+  if (id === 's43') {
+    mk('truncChart', "bar", {"labels": ["2019", "2021", "2023"], "datasets": [{"label": "Coverage %", "data": [92, 94, 96], "backgroundColor": "#EF4444"}]}, { plugins:{legend:{display:false}}, scales:{ y:{ min:90, max:97 } } });
+    mk('honestChart', "bar", {"labels": ["2019", "2021", "2023"], "datasets": [{"label": "Coverage %", "data": [92, 94, 96], "backgroundColor": "#10B981"}]}, { plugins:{legend:{display:false}}, scales:{ y:{ min:0, max:100 } } });
+  }
+  if (id === 's51') {
+    mk('litFertChart', "scatter", {"datasets": [{"label": "States", "data": [{"x": 92, "y": 1.8}, {"x": 84, "y": 1.7}, {"x": 76, "y": 1.8}, {"x": 73, "y": 2.1}, {"x": 70, "y": 2.0}, {"x": 66, "y": 2.1}, {"x": 64, "y": 2.4}, {"x": 60, "y": 2.5}, {"x": 59, "y": 2.7}, {"x": 53, "y": 3.0}, {"x": 50, "y": 3.0}, {"x": 57, "y": 2.6}], "backgroundColor": "#6366F1", "pointRadius": 6}]}, { plugins:{legend:{display:false}}, scales:{ x:{ title:{display:true,text:'Female literacy %'} }, y:{ title:{display:true,text:'Total fertility rate'}, min:1.5, max:3.2 } } });
+  }
+  if (id === 's64') {
+    mk('moeChart', "line", {"labels": ["100", "200", "400", "600", "1000", "1500", "2400", "4000"], "datasets": [{"label": "Margin of error (±%)", "data": [9.8, 6.9, 4.9, 4.0, 3.1, 2.5, 2.0, 1.5], "borderColor": "#0EA5E9", "backgroundColor": "rgba(14,165,233,0.08)", "fill": true, "tension": 0.3, "pointRadius": 4}]}, { plugins:{legend:{display:false}}, scales:{ y:{ title:{display:true,text:'± percentage points'} } } });
+  }
+  if (id === 's92') {
+    mk('disaggChart', "bar", {"labels": ["Overall", "Group A", "Group B", "Group C", "Group D"], "datasets": [{"label": "Outcome (%)", "data": [62, 78, 70, 55, 38], "backgroundColor": ["#6366F1", "#10B981", "#10B981", "#F59E0B", "#EF4444"]}]}, { plugins:{legend:{display:false}}, scales:{ y:{min:0,max:100} } });
+  }
+}
+
+
+// Theme
+function setTheme(t) {
+  document.body.classList.remove('light','dark');
+  if (t === 'light') document.body.classList.add('light');
+  else if (t === 'dark') document.body.classList.add('dark');
+  document.querySelectorAll('.theme-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent.toLowerCase() === t);
+  });
+  localStorage.setItem('im-theme', t);
+}
+(function(){
+  const saved = localStorage.getItem('im-theme') || 'light';
+  setTheme(saved);
+})();
+
+showSlide(0);
+
+// ========== CHART RESIZE-ON-ACTIVATE (v10.23.32) ==========
+// ECharts canvases initialize with 0 width when their parent slide is
+// display:none. When a slide first becomes active, the canvas now has
+// dimensions but the chart hasn't redrawn. Force resize on activation.
+(function chartResize(){
+  function resizeIn(slide){
+    if (!slide || !window.echarts) return;
+    slide.querySelectorAll(".chart-canvas").forEach(function(c){
+      var inst = echarts.getInstanceByDom(c);
+      if (inst) {
+        try { inst.resize(); } catch(e){}
+      }
+    });
+  }
+  function resizeActive(){
+    document.querySelectorAll(".slide.active").forEach(resizeIn);
+  }
+  var vp = document.getElementById("viewport") || document.querySelector(".slide-viewport");
+  if (vp && window.MutationObserver) {
+    new MutationObserver(resizeActive).observe(vp, {subtree:true, attributes:true, attributeFilter:["class"]});
+  }
+  // Initial pass after charts have had time to init
+  setTimeout(resizeActive, 400);
+})();
+// ========== /CHART RESIZE-ON-ACTIVATE ==========
+</script>
+
+<script>
+// Init ECharts on slide change (lazy init when slide becomes active)
+(function(){
+  const initECharts = () => {
+
+  };
+  // Defer until DOM ready + ECharts loaded
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    setTimeout(initECharts, 80);
+  } else {
+    document.addEventListener('DOMContentLoaded', () => setTimeout(initECharts, 80));
+  }
+})();
+
+// ========== POLISH FIX BLOCK (v10.23.22) — runtime overflow detection ==========
+(function ensureFit(){
+  // v10.23.29: auto-compact disabled per user — no font shrinking
+  // Original logic preserved below as comments for reference
+  /* DISABLED:
+
+  function checkSlide(slide){
+    if (!slide || slide.classList.contains("compact")) return;
+    if (slide.querySelector(".end-screen, .title-screen, .section-divider, .toc-grid")) return;
+    var content = slide.querySelector(".slide-content");
+    if (!content) return;
+    // Slide must be active (display:flex) to measure
+    if (slide.offsetHeight === 0) return;
+    if (content.scrollHeight > content.clientHeight + 4) {
+      slide.classList.add("compact");
+      // Re-check after compact applied; if still overflowing, escalate
+      requestAnimationFrame(function(){
+        if (content.scrollHeight > content.clientHeight + 4) {
+          slide.classList.add("ultra-compact");
+        }
+      });
+    }
+  }
+  function checkAll(){
+    document.querySelectorAll(".slide.active").forEach(checkSlide);
+  }
+  // Watch slide-viewport for class changes (new active slide)
+  var vp = document.getElementById("viewport") || document.querySelector(".slide-viewport");
+  if (vp && window.MutationObserver) {
+    new MutationObserver(checkAll).observe(vp, {subtree:true, attributes:true, attributeFilter:["class"]});
+  }
+  window.addEventListener("resize", function(){
+    setTimeout(checkAll, 50);
+  });
+  // Initial pass after a brief delay (let scaleViewport run first)
+  setTimeout(checkAll, 200);
+
+  */
+})();
+(function autoSpacious(){
+  document.querySelectorAll(".slide").forEach(function(slide){
+    if (slide.classList.contains("compact")) return;
+    if (slide.querySelector(".end-screen, .title-screen, .section-divider, .toc-grid, .chart-canvas, .chart-wrap, table, svg.diagram")) return;
+    var text = (slide.textContent||"").length;
+    if (text > 0 && text < 420) {
+      slide.classList.add("spacious");
+    }
+  });
+})();
+(function navIdle(){
+  var t;
+  function ping(){
+    document.body.classList.add("nav-active");
+    clearTimeout(t);
+    t = setTimeout(function(){document.body.classList.remove("nav-active");}, 2200);
+  }
+  ["mousemove","keydown","touchstart","click"].forEach(function(e){
+    document.addEventListener(e, ping, {passive:true});
+  });
+  ping();
+})();
+// end polish fix block
+
+// ========== SLIDE DEEP-LINKING (v10.23.30) ==========
+(function slideDeepLinking(){
+  function syncHashFromActive(){
+    var active = document.querySelector(".slide.active");
+    if (active && active.id) {
+      var newHash = "#" + active.id;
+      if (location.hash !== newHash) {
+        history.replaceState(null, "", newHash);
+      }
+    }
+  }
+  function jumpToHash(){
+    if (!location.hash || !/^#s\d+$/.test(location.hash)) return;
+    var targetId = location.hash.slice(1);
+    var target = document.getElementById(targetId);
+    if (!target || !target.classList.contains("slide")) return;
+    if (target.classList.contains("active")) return;
+    var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+    var idx = slides.indexOf(target);
+    if (idx < 0) return;
+    var success = false;
+    if (typeof showSlide === "function") {
+      try { showSlide(idx + 1); if (target.classList.contains("active")) success = true; } catch(e){}
+      if (!success) { try { showSlide(idx); if (target.classList.contains("active")) success = true; } catch(e){} }
+    }
+    if (!success && typeof show === "function") {
+      try { show(idx + 1); if (target.classList.contains("active")) success = true; } catch(e){}
+    }
+    if (!success) {
+      slides.forEach(function(s){ s.classList.remove("active"); });
+      target.classList.add("active");
+      var prog = document.getElementById("prog-text");
+      if (prog) prog.textContent = (idx + 1) + " / " + slides.length;
+      var bar = document.getElementById("progress-bar");
+      if (bar) bar.style.width = ((idx + 1) / slides.length * 100) + "%";
+      var pb = document.getElementById("prevBtn");
+      var nb = document.getElementById("nextBtn");
+      if (pb) pb.disabled = (idx === 0);
+      if (nb) nb.disabled = (idx === slides.length - 1);
+    }
+  }
+  var vp = document.getElementById("viewport") || document.querySelector(".slide-viewport");
+  if (vp && window.MutationObserver) {
+    new MutationObserver(syncHashFromActive).observe(vp, {subtree:true, attributes:true, attributeFilter:["class"]});
+  }
+  if (location.hash && /^#s\d+$/.test(location.hash)) {
+    setTimeout(jumpToHash, 250);
+  }
+  window.addEventListener("hashchange", jumpToHash);
+})();
+// ========== /SLIDE DEEP-LINKING ==========
+
+// ========== PROPORTIONAL AUTO-FIT (v10.23.34) ==========
+(function autoFit(){
+  function fit(slide){
+    if (!slide) return;
+    var content = slide.querySelector(".slide-content");
+    if (!content) return;
+    content.style.zoom = "";
+    if (slide.querySelector(".title-screen, .section-divider, .end-screen")) return;
+    var natural = content.scrollHeight;
+    var avail = content.clientHeight;
+    if (natural <= avail + 4) return;
+    var scale = avail / natural;
+    if (scale < 0.78) return;
+    content.style.zoom = scale;
+  }
+  function fitActive(){
+    document.querySelectorAll(".slide.active").forEach(fit);
+  }
+  var vp = document.getElementById("viewport") || document.querySelector(".slide-viewport");
+  if (vp && window.MutationObserver) {
+    new MutationObserver(fitActive).observe(vp, {subtree:true, attributes:true, attributeFilter:["class"]});
+  }
+  window.addEventListener("resize", function(){ setTimeout(fitActive, 50); });
+  setTimeout(fitActive, 250);
+})();
+// ========== /PROPORTIONAL AUTO-FIT ==========</script>
+
+<script src="/js/translate-sarvam.js" defer></script>
+  <script src="/js/site-chrome.js" defer></script>
+</body>
+</html>

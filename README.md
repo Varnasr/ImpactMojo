@@ -41,7 +41,7 @@ We provide accessible, high-quality educational materials grounded in South Asia
 
 | Category | Description |
 |----------|-------------|
-| **64 Courses** | 17 flagship + 47 foundational courses across 6 learning tracks (all foundational decks self-hosted as native HTML slide decks). Every flagship ends with an auto-graded "Assess Yourself" self-check (90 questions across the 15) |
+| **68 Courses** | 17 flagship + 51 foundational courses across 6 learning tracks (all foundational decks self-hosted as native HTML slide decks). Every flagship ends with an auto-graded "Assess Yourself" self-check (90 questions across the 15) |
 | **28 Interactive Labs** | Hands-on workbenches for MEL, policy, partnerships, budgeting, gender analysis, and more |
 | **135 Game Library** | 18 interactive simulations (MiroFish AI agents, Indian folk art — Warli, Madhubani, Gond, Kalamkari, Pichwai, Pattachitra) + 117 crosswords, quizzes & word searches |
 | **ImpactLex Dictionary** | 390+ development terms with contextual definitions, formulas, and case studies (PWA, hosted on ImpactMojo) |

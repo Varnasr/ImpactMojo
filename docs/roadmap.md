@@ -16,7 +16,7 @@ Full course content in regional languages. ([#29](https://github.com/ImpactMojo/
 These were previously listed as in progress and have now shipped:
 
 - **BookSummaries expansion** — the interactive reading companion library has grown to **55 companions** across development economics, statistics, research methods, communication, leadership, and productivity. ([#272](https://github.com/ImpactMojo/ImpactMojo/issues/272))
-- **Native 101 deck migration** — all **47 foundational course decks** are now self-hosted HTML with ~100 slides each, interactive charts, and keyboard/touch navigation. No third-party presentation embeds remain.
+- **Native 101 deck migration** — all **51 foundational course decks** are now self-hosted HTML with ~100 slides each, interactive charts, and keyboard/touch navigation. No third-party presentation embeds remain.
 - **Vernacular interface** — the UI and quality-audited page translations ship in 5 languages (Hindi, Tamil, Bengali, Marathi, Telugu); see "Currently In Progress" above for what's still open.
 
 ## Planned — Q2 2026 (April–June)
@@ -82,7 +82,7 @@ These were previously listed as in progress and have now shipped:
 - **Full accessibility audit** — axe-core + pa11y-ci CI pipeline, UserWay widget integration
 
 ### v10.15.0 — April 2026
-- **Content count corrections** sitewide — all files now show canonical 64 courses / 15 labs / 134 games
+- **Content count corrections** sitewide — all files now show canonical 68 courses / 15 labs / 134 games
 
 ### v10.14.0 — April 2026
 - **Device-mode default theme** on 70 pages — OS dark/light preference on first paint
