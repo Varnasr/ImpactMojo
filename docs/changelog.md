@@ -2,6 +2,17 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.88.0 — July 10, 2026 (Three new Assessed Tracks + a credential upgrade for free-pathway completers)
+
+### For Learners
+
+- **Three new Assessed Tracks (₹2,499 each), each capstone-reviewed with a verifiable credential** — **MEL** (the MEL flagship, the Theory of Change and MEL Planning labs, and the Donor Reporting pack), **Data & Technology** (Data Visualization and AI for Impact, plus the R & Python and Sampling Design labs) and **Policy & Economics** (Development Economics and Politics of Aspiration, the Policy Analysis lab and the Governance Evaluation pack). The courses themselves stay free to study online; the paid layer is the assessed capstone and the verified certificate. Find them on the [Products page](https://www.impactmojo.in/products.html#programs).
+- **Verified Credential Upgrade (₹2,499)** — already worked through one of the five free credential pathways? Add just the assessed capstone and a verifiable credential for the pathway you completed, without re-buying content. Pick your pathway at checkout on the [upgrade page](https://www.impactmojo.in/credential-upgrade.html).
+
+### Added
+
+- Four new pages — `mel-assessed-certificate.html`, `data-tech-assessed-certificate.html`, `policy-economics-assessed-certificate.html` and `credential-upgrade.html` — templated from the AI-for-M&E track, reusing the existing UPI order → confirm flow (Netlify `certificate-track-order` form; the `product` field distinguishes each, and the upgrade page adds a `pathway` selector). Per-track UPI QR images added under `assets/images/`. Listed on `products.html`, `catalog.html`, `premium.html`, in `sitemap.xml` and the search index, and surfaced as cards in the Learning Pathways rail (`js/learning-pathways.js`). Assessed Tracks 1 → 4, plus the credential upgrade.
+
 ## v10.87.0 — July 10, 2026 (Flagship parity across all 17 — diagrams, readings, and printable Course Notes)
 
 ### For Learners

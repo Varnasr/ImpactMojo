@@ -220,30 +220,48 @@
     '</div>';
   }
 
-  // ── Featured paid track (assessed, verifiable credential) ───────────
-  // A pre-built, paid journey shown alongside the free credential pathways.
-  // No progress UI — it links out to the product page.
-  function renderPaidCard() {
-    return '<a class="imx-pw-paid-card" href="/ai-for-me-certificate.html" ' +
+  // ── Featured paid tracks (assessed, verifiable credential) ──────────
+  // Pre-built, paid journeys shown alongside the free credential pathways.
+  // No progress UI — each links out to its product page.
+  var PAID_TRACKS = [
+    { href: '/ai-for-me-certificate.html', name: 'AI for M&E — Assessed Track', track: 'Monitoring, Evaluation & Learning',
+      desc: 'The AI for Impact course, the Counterfactual game, the Critiquing Evidence pack and the AI Agents module — capstone-reviewed, with a verifiable credential you can prove online.',
+      color: '#F59E0B', badge: '#B45309', tag: 'Paid · Verified', cta: 'View the track →' },
+    { href: '/mel-assessed-certificate.html', name: 'MEL — Assessed Track', track: 'Monitoring, Evaluation & Learning',
+      desc: 'The MEL flagship, the Theory of Change and MEL Planning labs and the Donor Reporting pack — capstone-reviewed, with a verifiable credential.',
+      color: '#F59E0B', badge: '#B45309', tag: 'Paid · Verified', cta: 'View the track →' },
+    { href: '/data-tech-assessed-certificate.html', name: 'Data & Technology — Assessed Track', track: 'Data & Technology',
+      desc: 'Data Visualization and AI for Impact, plus the R & Python and Sampling Design labs — capstone-reviewed, with a verifiable credential.',
+      color: '#F59E0B', badge: '#B45309', tag: 'Paid · Verified', cta: 'View the track →' },
+    { href: '/policy-economics-assessed-certificate.html', name: 'Policy & Economics — Assessed Track', track: 'Policy & Economics',
+      desc: 'Development Economics and Politics of Aspiration, the Policy Analysis lab and the Governance Evaluation pack — capstone-reviewed, with a verifiable credential.',
+      color: '#F59E0B', badge: '#B45309', tag: 'Paid · Verified', cta: 'View the track →' },
+    { href: '/credential-upgrade.html', name: 'Verified Credential Upgrade', track: 'Any completed free pathway',
+      desc: 'Already finished a free pathway? Add just the assessed capstone and a verifiable credential for the pathway you completed — no new content to buy.',
+      color: '#0EA5E9', badge: '#0369A1', tag: 'Add credential', cta: 'Add a credential →' },
+  ];
+  function renderPaidCard(t) {
+    return '<a class="imx-pw-paid-card" href="' + t.href + '" ' +
       'style="display:flex;flex-direction:column;text-decoration:none;color:var(--text-primary);' +
-      'background:var(--card-bg);border:1px solid #F59E0B;border-radius:14px;padding:1.25rem 1.5rem;position:relative;">' +
-      '<span style="position:absolute;top:1rem;right:1.1rem;font-size:0.58rem;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;background:#B45309;color:#fff;padding:0.2rem 0.55rem;border-radius:5px;">Paid · Verified</span>' +
-      '<div style="font-weight:700;font-size:1.05rem;margin-bottom:0.15rem;color:var(--text-primary);">AI for M&E — Assessed Track</div>' +
-      '<div style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:0.6rem;">Monitoring, Evaluation & Learning</div>' +
-      '<p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.5;margin:0 0 0.75rem;">A pre-built, assessed path — the AI for Impact course, the Counterfactual game, the Critiquing Evidence pack and the AI Agents module — capstone-reviewed, with a verifiable credential you can prove online.</p>' +
+      'background:var(--card-bg);border:1px solid ' + t.color + ';border-radius:14px;padding:1.25rem 1.5rem;position:relative;">' +
+      '<span style="position:absolute;top:1rem;right:1.1rem;font-size:0.58rem;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;background:' + t.badge + ';color:#fff;padding:0.2rem 0.55rem;border-radius:5px;">' + t.tag + '</span>' +
+      '<div style="font-weight:700;font-size:1.05rem;margin-bottom:0.15rem;color:var(--text-primary);padding-right:5.5rem;">' + t.name + '</div>' +
+      '<div style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:0.6rem;">' + t.track + '</div>' +
+      '<p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.5;margin:0 0 0.75rem;">' + t.desc + '</p>' +
       '<div style="margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:0.5rem;">' +
         '<span style="font-weight:700;color:var(--text-primary);">₹2,499 <span style="font-weight:400;font-size:0.75rem;color:var(--text-secondary);">one-time</span></span>' +
-        '<span style="font-size:0.8rem;font-weight:600;color:#fff;background:#B45309;padding:0.3rem 0.7rem;border-radius:6px;">View the track →</span>' +
+        '<span style="font-size:0.8rem;font-weight:600;color:#fff;background:' + t.badge + ';padding:0.3rem 0.7rem;border-radius:6px;">' + t.cta + '</span>' +
       '</div>' +
     '</a>';
   }
+  function renderPaidCards() { return PAID_TRACKS.map(renderPaidCard).join(''); }
 
   // ── Render All Pathways ─────────────────────────────────────────────
   function renderPathways(containerId) {
     var container = document.getElementById(containerId);
     if (!container) return;
 
-    var html = renderPaidCard();
+    var html = renderPaidCards();
     Object.keys(PATHWAYS).forEach(function (id) {
       html += renderPathwayCard(id);
     });
