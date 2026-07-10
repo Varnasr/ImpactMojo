@@ -20,6 +20,7 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 ### Changed
 
 - Content-freshness pass across all 17 flagships: time-sensitive figures year-stamped for durability (OBC/EWS ceiling, education-spend target) where they were stated as bare "currently".
+- Architecture cleanup (anti-fork): all 17 flagship courses are now served exclusively from the database. Removed the last in-repo course content — `supabase/seed-content/` and the five stale seed migrations (causal, intervention, livelihoods, nvc-rj, powerBI) — so no flagship module content lives in the repository. Course shells and the `course_content` table schema are unchanged; content is edited directly in the DB.
 
 ## v10.86.0 — July 9, 2026 (Flagship parity — deeper NVC & Intervention modules)
 
