@@ -55,12 +55,31 @@ jobs:
             sed '1{/^# Roadmap$/d}' ROADMAP.md
           } > wiki/Roadmap.md
 
+          # Refresh live counts on the narrative wiki pages (Content-Guide /
+          # Architecture / Home). These aren't full mirrors, so only the two
+          # UNAMBIGUOUS, purely-numeric phrases that drift with content are
+          # touched: the foundational-course count and the native-deck count
+          # (both equal the number of /101-courses/*.html decks). Deliberately
+          # NOT touching flagship / NotebookLM "X of Y" phrasings — a different
+          # metric that regex-replacing would corrupt.
+          FOUND=$(find 101-courses -maxdepth 1 -name '*.html' ! -name 'index.html' ! -name 'decks.html' 2>/dev/null | wc -l | tr -d ' ')
+          if [ "${FOUND:-0}" -gt 0 ]; then
+            for f in wiki/Content-Guide.md wiki/Architecture.md wiki/Home.md; do
+              [ -f "$f" ] || continue
+              sed -i -E \
+                -e "s/[0-9]+ (foundational courses)/${FOUND} \1/g" \
+                -e "s/[0-9]+ (native decks)/${FOUND} \1/g" \
+                "$f"
+            done
+            echo "Refreshed foundational/deck counts to ${FOUND} on narrative pages."
+          fi
+
           cd wiki
           if git diff --quiet; then
             echo "Wiki already up to date — nothing to push."
             exit 0
           fi
           git add -A
-          git commit -m "Sync wiki: changelog + roadmap from repo"
+          git commit -m "Sync wiki: changelog + roadmap + live counts from repo"
           git push
-          echo "### ✅ Wiki synced (Changelog + Roadmap)" >> "$GITHUB_STEP_SUMMARY"
+          echo "### ✅ Wiki synced (Changelog + Roadmap + narrative counts)" >> "$GITHUB_STEP_SUMMARY"
