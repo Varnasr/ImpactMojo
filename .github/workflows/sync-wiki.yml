@@ -1,0 +1,66 @@
+name: Sync Wiki
+
+# Mirrors the repo's changelog and roadmap into the GitHub Wiki.
+# Runs automatically when either source file changes on main, or on demand.
+# Needs a repo-scoped PAT stored as the WIKI_PAT secret (the default
+# GITHUB_TOKEN cannot push to wikis). Skips gracefully if the secret is absent.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/changelog.md'
+      - 'ROADMAP.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Mirror changelog + roadmap into the wiki
+        env:
+          WIKI_PAT: ${{ secrets.WIKI_PAT }}
+        run: |
+          set -euo pipefail
+          if [ -z "${WIKI_PAT:-}" ]; then
+            echo "::warning::WIKI_PAT secret is not set — skipping wiki sync. Add a repo-scoped PAT as the WIKI_PAT repository secret to enable it."
+            exit 0
+          fi
+
+          git config --global user.email "actions@users.noreply.github.com"
+          git config --global user.name "Wiki Sync Bot"
+
+          git clone --depth 1 "https://x-access-token:${WIKI_PAT}@github.com/${GITHUB_REPOSITORY}.wiki.git" wiki
+
+          REPO_URL="https://github.com/${GITHUB_REPOSITORY}/blob/main"
+
+          {
+            echo "# Changelog"
+            echo
+            echo "_Mirrored automatically from [docs/changelog.md](${REPO_URL}/docs/changelog.md) — edit the source, not this page._"
+            echo
+            sed '1{/^# Changelog$/d}' docs/changelog.md
+          } > wiki/Changelog.md
+
+          {
+            echo "# Roadmap"
+            echo
+            echo "_Mirrored automatically from [ROADMAP.md](${REPO_URL}/ROADMAP.md) — edit the source, not this page._"
+            echo
+            sed '1{/^# Roadmap$/d}' ROADMAP.md
+          } > wiki/Roadmap.md
+
+          cd wiki
+          if git diff --quiet; then
+            echo "Wiki already up to date — nothing to push."
+            exit 0
+          fi
+          git add -A
+          git commit -m "Sync wiki: changelog + roadmap from repo"
+          git push
+          echo "### ✅ Wiki synced (Changelog + Roadmap)" >> "$GITHUB_STEP_SUMMARY"
