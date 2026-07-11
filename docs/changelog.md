@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.98.0 — July 11, 2026 (Labs consolidation — no more duplicate tools)
+
+### Changed
+
+- **Retired 10 duplicate tool copies.** Several tools existed three times over — a rich interactive Lab, a thin "-pro" copy, and a bare template. Consolidated to one canonical home each: **Theory of Change, Stakeholder Mapping and Policy Analysis** now point to their comprehensive **Labs**; **Logframe, Empathy Map, AI Opportunity Canvas and Chart Selector** to their single tool. Old URLs 301-redirect, so no link breaks. (The premium/gated versions of these tools are unaffected — they run from a separate app.)
+
 ## v10.97.0 — July 11, 2026 (Cleaner navigation — Libraries, Specials, About)
 
 ### Changed
