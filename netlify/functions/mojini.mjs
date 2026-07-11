@@ -31,7 +31,7 @@ WHAT'S FREE (no sign-in):
 - 30 labs (/Labs/) and 135 games (/game-library.html) — 18 simulations + 117 puzzles
 - 105 reading companions (/BookSummaries/), 22 deep dives (/DeepDives/), 6 data dives (/DataDives/)
 - Field Radio — community voice notes (/field-radio.html)
-- 89 handouts (/handouts.html), 296 curated datasets in the Dataverse (/dataverse.html)
+- 89 handouts (/handouts.html), 320 curated datasets in the Dataverse (/dataverse.html)
 - BCT behaviour-change repository (/bct-repository.html), ImpactLex glossary (/impactlex/)
 - 13 libraries hub (/libraries.html); 56-session Dojo practice programme (/dojos.html)
 - Five pro tools that are FREE TO USE (Research Question Builder, ToR Builder, Qualitative Insights Lab, Code Converter, Sampling Studio) — only EXPORT + advanced modes are Premium.
