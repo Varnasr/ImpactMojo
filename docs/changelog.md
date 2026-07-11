@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.104.0 — July 11, 2026 (Data Dives — independent data investigations)
+
+### For Learners
+
+- **Data Dives** — a new kind of content: independent data investigations that take one public dataset, chart it, make an argument, and spell out what the numbers can't show. Browse them at [/DataDives/](https://www.impactmojo.in/DataDives/). The first, [**The states that spend most on welfare have the least to show for it**](https://www.impactmojo.in/DataDives/state-welfare-budgets.html), digs into the RBI's 2025-26 state budgets: India's biggest social-sector spenders record its worst welfare outcomes, while low-spending Kerala and Tamil Nadu lead — with three interactive charts and a plain-English guide to reading the data honestly. Distinct from our reading-list Deep Dives.
+
 ## v10.103.0 — July 11, 2026 (One comprehensive MEL Lab)
 
 ### For Learners

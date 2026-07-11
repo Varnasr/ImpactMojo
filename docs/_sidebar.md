@@ -15,6 +15,7 @@
   - [Research to Action Guide](research-to-action-guide.md)
   - [Practice Packs Guide](practice-packs-guide.md)
   - [Deep Dives Guide](deep-dives-guide.md)
+  - [Data Dives Guide](data-dives-guide.md)
   - [Dojos Guide](dojos-guide.md)
   - [Reading Companions Guide](book-summaries-guide.md)
   - [101 Course Decks](101-decks-guide.md)
