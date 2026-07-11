@@ -2,6 +2,17 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.95.0 — July 11, 2026 (Field Radio goes live — real voices + surfaced in nav)
+
+### For Learners
+
+- **Field Radio is live with real voices** — [/field-radio](https://www.impactmojo.in/field-radio.html) now streams 11 voice notes from the ImpactMojo Practitioner Learning Community: facilitator Vandana's weekly challenges and "Ask Me Anything" coaching on Theory of Change, indicators (SMART and CREAM), testing assumptions, and getting into the sector. Press play and it runs like a station; filter by learning track; every clip carries a transcript. (Video shorts follow shortly.)
+- **Easier to find what's new** — the homepage top nav now surfaces the **Libraries** hub and **Field Radio**, and the footer links them too.
+
+### Changed
+
+- **Podcast retired in favour of Field Radio** — the placeholder "Podcast / Between the Logframes" links (which redirected away) are replaced site-wide by Field Radio.
+
 ## v10.94.0 — July 11, 2026 (Field Radio — scaffold)
 
 ### Added
