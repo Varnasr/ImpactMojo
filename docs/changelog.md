@@ -2,6 +2,18 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.101.0 — July 11, 2026 (Teach with Us — more ways to contribute)
+
+### For Learners
+
+- **Teach with Us now invites more than course authors.** [/contribute](https://www.impactmojo.in/contribute.html) (renamed from "Contribute a Course" to **"Teach with Us"**) now spells out six ways to contribute — a flagship course, a 101 course, a Deep Dive, an interactive lab, a reading companion, or a handout — each with what it is and the level of effort. The proposal form now asks which format you have in mind, so we can route your idea to the right editor.
+
+## v10.100.0 — July 11, 2026 (Peer Review — see it in action)
+
+### For Learners
+
+- **Peer Review now shows what it's about before you sign in.** [/peer-review](https://www.impactmojo.in/peer-review.html) used to be a sign-in wall; it now opens with a "See peer review in action" showcase — three worked example submissions (an outcome indicator, a Theory-of-Change assumption test, a baseline sampling plan) each with model peer feedback and the three ratings (clarity, rigor, usefulness). Clearly marked as illustrative, it shows newcomers exactly what good looks like — and why reviewing others sharpens your own work — before they create a free account.
+
 ## v10.99.0 — July 11, 2026 (Pro Studio — one home for the tools)
 
 ### For Learners
