@@ -12,6 +12,7 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 
 ### Fixed
 
+- **The Handouts gallery now shows every handout.** It was truncating each track to the first 10 files, leaving ~30 handouts unreachable (rendered as a non-clickable "+N more"). Now every handout is a clickable link, and the gallery has a committed static index (`data/handouts-index.json`) it falls back to if GitHub's API is rate-limited — so [/handouts](https://www.impactmojo.in/handouts.html) never renders empty.
 - **Corrected stale/contradictory counts across the marketing surfaces.** A content-marketing graphic literally showed "9 Courses"; the press kit contradicted itself (62 vs 68 courses, 16 vs 17 flagship, 134 vs 135 games); the handouts page claimed "400+ resources." Standardised the public numbers to reality — **69 courses (17 flagship + 52 foundational), 135 games, 22 deep dives, 84 handouts, 12 AI study companions, 15 challenges** — across the homepage, press kit, content-marketing kit, handouts page, search index and the monthly-newsletter fallbacks. Also marked the site languages as "live" (they were still labelled "coming").
 
 ## v10.96.1 — July 11, 2026 (Field Radio — mobile polish + copy)
