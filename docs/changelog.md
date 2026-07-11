@@ -2,6 +2,14 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.97.0 — July 11, 2026 (Cleaner navigation — Libraries, Specials, About)
+
+### Changed
+
+- **The Libraries hub is now libraries-only** — [/libraries](https://www.impactmojo.in/libraries.html) lists the 12 reference collections you browse and read (Reading Companions, Deep Dives, Handouts, Timelines, Marginalia, Research to Action, Dataverse, BCT Repository, ImpactLex, PolicyDhara, DevDiscourses, FieldCases). Courses, labs and games moved out — they have their own homes in the menu.
+- **Tidier Specials menu** — the reading and reference-library items were removed from the Specials dropdown (they now live in the Libraries hub, which is one click away in the top nav), leaving Games, Practice & Programs, and Showcase.
+- **Shorter About Us menu** — the 12-item About dropdown is regrouped into three tidy sections (About · Get Involved · More).
+
 ## v10.96.1 — July 11, 2026 (Field Radio — mobile polish + copy)
 
 ### Fixed
