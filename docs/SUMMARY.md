@@ -23,6 +23,7 @@
 * [Reading Companions Guide](book-summaries-guide.md)
 * [101 Course Decks Guide](101-decks-guide.md)
 * [Podcast Guide](podcast-guide.md)
+* [Field Radio Guide](field-radio-guide.md)
 * [Certificates & Progress](certificates-and-progress.md)
 * [FAQ](faq.md)
 
@@ -59,6 +60,7 @@
 
 ## Reference
 
+* [The Freemium Model](freemium-and-premium-guide.md)
 * [Memberships & Services](premium.md)
 * [Content Guide](content-guide.md)
 * [Content Catalog](content-catalog.md)
