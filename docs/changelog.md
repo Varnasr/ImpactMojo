@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.105.0 — July 11, 2026 (Deep refresh: marketing kit, press kit, learner analytics)
+
+### Changed
+
+- **Content Marketing Kit + Press Kit refreshed to the 2026 platform.** Fixed stale counts throughout (games →135, labs →27, reading companions →105, Dataverse →296, ImpactLex →390+, libraries →12) and the press kit's internal contradiction (its Quick Facts said 62 courses / 16 flagship while its own offerings section said 69 / 17 — now consistently 69 / 17). Both now feature the genuinely-new offerings: Field Radio, Pro Studio, the single 8-tab MEL Lab, ₹350 Notes PDFs, Assessed Certificate Tracks, and Peer Review.
+- **Learner Analytics dashboard deepened** (`/admin/learner-analytics.html`, admin-only). Added Engaged-Learners and Avg-Progress summary cards, a Learners-by-Plan-Tier breakdown, a Submissions-per-Week trend, and a Top-Courses-by-Enrollment table — all computed live from the database.
+
 ## v10.104.0 — July 11, 2026 (Data Dives — independent data investigations)
 
 ### For Learners
