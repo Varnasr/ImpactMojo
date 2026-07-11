@@ -2,6 +2,16 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.89.0 — July 10, 2026 (Rebuilt Site Map)
+
+### For Learners
+
+- **A new, searchable Site Map** — [sitemap.html](https://www.impactmojo.in/sitemap.html) now lists every page on the platform (courses, 101 decks, labs, games, deep dives, practice packs, tools, credentials and more) in one filterable, theme-aware page. Type to filter 249 destinations; jump straight to any section.
+
+### Changed
+
+- Replaced the old static `sitemap.html` (84 links) with a filterable, brand-consistent map of 249 destinations across 15 sections, using the standard site chrome. The machine-readable `sitemap.xml` is unchanged.
+
 ## v10.88.0 — July 10, 2026 (Three new Assessed Tracks + a credential upgrade for free-pathway completers)
 
 ### For Learners
