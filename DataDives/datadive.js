@@ -166,7 +166,7 @@
       var data = opts.data;
       var H = Math.round(Math.max(300, Math.min(460, W * (compact ? 0.95 : 0.66))));
       var padL = compact ? 44 : 60, padR = 20, padT = 22, padB = 54;
-      var xMin = opts.xMin, xMax = opts.xMax, yMin = 0, yMax = opts.yMax;
+      var xMin = opts.xMin, xMax = opts.xMax, yMin = (opts.yMin != null ? opts.yMin : 0), yMax = opts.yMax;
       var xs = opts.xSuffix != null ? opts.xSuffix : '%';
       var px = function (v) { return padL + (v - xMin) / (xMax - xMin) * (W - padL - padR); };
       var py = function (v) { return H - padB - (v - yMin) / (yMax - yMin) * (H - padT - padB); };
@@ -183,26 +183,35 @@
       });
       svg.appendChild(el('line', { x1: padL, y1: padT, x2: padL, y2: H - padB, class: 'dv-axis-line' }));
       svg.appendChild(el('line', { x1: padL, y1: H - padB, x2: W - padR, y2: H - padB, class: 'dv-axis-line' }));
+      // zero baseline (when values cross zero) and optional vertical reference
+      if (yMin < 0) svg.appendChild(el('line', { x1: padL, y1: py(0), x2: W - padR, y2: py(0), class: 'dv-axis-line' }));
+      if (opts.xRef != null) {
+        var rx = px(opts.xRef);
+        svg.appendChild(el('line', { x1: rx, y1: padT, x2: rx, y2: H - padB, class: 'dv-ref-line' }));
+        if (opts.xRefLabel) svg.appendChild(el('text', { x: rx, y: padT - 6, 'text-anchor': 'middle', class: 'dv-ref-lbl' }, opts.xRefLabel));
+      }
       if (opts.xTitle) svg.appendChild(el('text', { x: (padL + W - padR) / 2, y: H - 10, 'text-anchor': 'middle', class: 'dv-axis-title' }, opts.xTitle));
       if (opts.yTitle) {
         var cy = (padT + H - padB) / 2;
         svg.appendChild(el('text', { x: 14, y: cy, 'text-anchor': 'middle', class: 'dv-axis-title', transform: 'rotate(-90 14 ' + cy + ')' }, opts.yTitle));
       }
 
+      var many = data.length > 20;
       data.forEach(function (d) {
         var cx = px(d.x), cy = py(d.y);
         var g = el('g');
-        var dot = el('circle', { cx: cx, cy: cy, r: 9, class: 'dv-dot dv-anim-dot' });
-        dot.style.fill = 'url(#' + gid + '-dotA)';
+        var dot = el('circle', { cx: cx, cy: cy, r: d.big ? 9 : (many ? 6 : 9), class: 'dv-dot dv-anim-dot' + (d.hl ? ' hl' : '') });
+        dot.style.fill = 'url(#' + gid + (d.hl ? '-dotB' : '-dotA') + ')';
         g.appendChild(dot);
-        var anchor = d.anchor || (d.x > (xMin + xMax) / 2 ? 'end' : 'start');
-        var lx = anchor === 'end' ? cx - 13 : cx + 13;
-        var nameY = d.vpos === 'down' ? cy + 19 : cy - 19;
-        var subY = d.vpos === 'down' ? cy + 33 : cy - 5;
-        g.appendChild(el('text', { x: lx, y: nameY, 'text-anchor': anchor, class: 'dv-dot-lbl' }, d.label));
-        if (!compact || d.sub !== false)
-          g.appendChild(el('text', { x: lx, y: subY, 'text-anchor': anchor, class: 'dv-dot-sub' }, fmt(d.x) + xs + ' · ' + fmt(d.y)));
-        attachTip(g, '<b>' + d.label + '</b><br>' + (opts.tipX || 'x') + ': ' + fmt(d.x) + xs + '<br>' + (opts.tipY || 'y') + ': ' + fmt(d.y));
+        if (d.label) {
+          var anchor = d.anchor || (d.x > (xMin + xMax) / 2 ? 'end' : 'start');
+          var lx = anchor === 'end' ? cx - 12 : cx + 12;
+          var nameY = d.vpos === 'down' ? cy + 18 : cy - 16;
+          g.appendChild(el('text', { x: lx, y: nameY, 'text-anchor': anchor, class: 'dv-dot-lbl' }, d.label));
+          if (d.sub !== false)
+            g.appendChild(el('text', { x: lx, y: d.vpos === 'down' ? cy + 31 : cy - 3, 'text-anchor': anchor, class: 'dv-dot-sub' }, fmt(d.x) + xs + ' · ' + fmt(d.y)));
+        }
+        attachTip(g, '<b>' + (d.name || d.label || '') + '</b><br>' + (opts.tipX || 'x') + ': ' + fmt(d.x) + xs + '<br>' + (opts.tipY || 'y') + ': ' + fmt(d.y));
         svg.appendChild(g);
       });
       return svg;
