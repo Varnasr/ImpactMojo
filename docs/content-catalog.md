@@ -182,8 +182,7 @@ Hands-on workbenches where you build, design, and practice real skills.
 | # | Lab | Track | Link |
 |---|-----|-------|------|
 | 1 | Theory of Change Lab | MEL | [Open](/Labs/toc-lab.html) |
-| 2 | MLE Design Lab | MEL | [Open](/Labs/mel-design-lab.html) |
-| 3 | MEL Plan Lab | MEL | [Open](/Labs/mel-plan-lab.html) |
+| 2 | MEL Lab | MEL | [Open](/Labs/mel-lab.html) |
 | 4 | Storytelling Lab | Health & Communication | [Open](/Labs/storytelling-lab.html) |
 | 5 | Design Thinking Lab | MEL | [Open](/Labs/design-thinking-lab.html) |
 | 6 | Community Development Lab | MEL | [Open](/Labs/community-lab.html) |
