@@ -2,6 +2,18 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.99.0 — July 11, 2026 (Pro Studio — one home for the tools)
+
+### For Learners
+
+- **Pro Studio** — a new home for ImpactMojo's professional tools at [/premium-tools](https://www.impactmojo.in/premium-tools/), grouped so it's finally clear what's what: **Pro Studio** builders (free to use, Premium only to export — research-question and ToR builders, logframe, empathy map, AI canvas, code converter, qualitative insights), **Free tools** (chart selector, DevData practice, viz cookbook, field notes), and **Premium** AI (AI Advisory Board, VaniScribe). Linked from the top nav and footer.
+
+## v10.98.1 — July 11, 2026 (Admin hardening)
+
+### Fixed
+
+- **Admin tooling hardened.** `robots.txt` now disallows `/admin/` and `/ops/` (previously only one file was blocked), so internal tools stay out of search results. The internal Bug Tracker (`admin/bugs.html`) — the one admin page that had no access gate — now requires an admin sign-in before it renders, matching the rest of the admin surface.
+
 ## v10.98.0 — July 11, 2026 (Labs consolidation — no more duplicate tools)
 
 ### Changed
