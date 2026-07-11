@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.93.0 — July 11, 2026 (Roadmap blog, rewritten as a mid-year scorecard)
+
+### For Learners
+
+- **"What We've Shipped in 2026 (So Far)"** — the December 2025 roadmap post is now an honest mid-year scorecard: each promise marked live, in progress, or still ahead, plus the unplanned wins (the Libraries hub, searchable Site Map, Course Notes PDFs, the content refresh). [Read it](https://www.impactmojo.in/blog/whats-coming-in-2026.html).
+
 ## v10.92.0 — July 11, 2026 (Content audit — round 2 refresh)
 
 A second data-refresh pass across the Deep Dives, a 101 deck and a landscape brief, bringing every headline figure to the latest published source.
