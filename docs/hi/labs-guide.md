@@ -15,8 +15,7 @@ ImpactMojo **11 इंटरैक्टिव labs** प्रदान कर�
 | Lab | आप क्या बनाते हैं | लिंक |
 |-----|---------------|------|
 | **Theory of Change Lab** | मान्यताओं, संकेतकों और कारणात्मक मार्गों के साथ एक संरचित ToC | [खोलें](/Labs/toc-lab.html) |
-| **MLE Design Lab** | आपके कार्यक्रम के लिए एक मॉनिटरिंग, लर्निंग और मूल्यांकन ढाँचा | [खोलें](/Labs/mel-design-lab.html) |
-| **MEL Plan Lab** | डेटा संग्रह कार्यक्रम, उपकरणों और जिम्मेदारियों के साथ एक संपूर्ण MEL योजना | [खोलें](/Labs/mel-plan-lab.html) |
+| **MEL Lab** | आपके कार्यक्रम के लिए एक मॉनिटरिंग, लर्निंग और मूल्यांकन ढाँचा | [खोलें](/Labs/mel-lab.html) |
 | **Design Thinking Lab** | सहानुभूति मानचित्रण से प्रोटोटाइपिंग तक एक मानव-केंद्रित डिज़ाइन प्रक्रिया | [खोलें](/Labs/design-thinking-lab.html) |
 | **Community Development Lab** | एक सहभागी सामुदायिक आकलन और कार्य योजना | [खोलें](/Labs/community-lab.html) |
 | **Risk and Mitigation Lab** | संभावना, प्रभाव और शमन रणनीतियों के साथ एक जोखिम रजिस्टर | [खोलें](/Labs/risk-mitigation-lab.html) |

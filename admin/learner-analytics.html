@@ -318,13 +318,15 @@ body {
             Admin · Analytics v2
         </div>
         <h1>Learner Analytics</h1>
-        <p>Completion funnels, engagement over time, and assessment outcomes across all ImpactMojo learners. All figures are computed live from the platform database.</p>
+        <p>Learners, engagement, plan mix, completion funnels, and assessment outcomes across all of ImpactMojo — computed live from the platform database on every load. Where a figure can't be measured directly (session time), the card note names the proxy used.</p>
     </div>
 
     <!-- 1. Summary cards -->
     <div class="stats-grid">
         <div class="stat-card"><div class="stat-value" id="statLearners">—</div><div class="stat-label">Total Learners</div></div>
+        <div class="stat-card"><div class="stat-value" id="statEngaged">—</div><div class="stat-label">Engaged Learners</div></div>
         <div class="stat-card"><div class="stat-value" id="statEnrollments">—</div><div class="stat-label">Course Enrollments</div></div>
+        <div class="stat-card"><div class="stat-value" id="statAvgProgress">—</div><div class="stat-label">Avg. Progress</div></div>
         <div class="stat-card"><div class="stat-value" id="statCompletions">—</div><div class="stat-label">Completions (100%)</div></div>
         <div class="stat-card"><div class="stat-value" id="statRate">—</div><div class="stat-label">Completion Rate</div></div>
     </div>
@@ -343,6 +345,36 @@ body {
                 <p class="card-note">Average progress per course (top 15 by enrollment). Bar length = avg % complete.</p>
                 <div class="chart-wrap"><canvas id="courseChart"></canvas></div>
                 <div class="chart-empty" id="courseEmpty" style="display:none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top courses table -->
+    <div class="section">
+        <div class="card">
+            <h2>Top Courses by Enrollment</h2>
+            <p class="card-note">The 15 most-enrolled courses, with completion counts and average progress. Course identifiers are shown as stored in <code>user_progress.course_id</code>.</p>
+            <table class="data-table">
+                <thead><tr><th>Course</th><th>Enrolled</th><th>Completed</th><th>Avg %</th></tr></thead>
+                <tbody id="topCoursesBody"><tr><td colspan="4" style="color:var(--text-muted);">Loading…</td></tr></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Plan mix + submissions trend -->
+    <div class="section">
+        <div class="section-grid">
+            <div class="card">
+                <h2>Learners by Plan Tier</h2>
+                <p class="card-note">Registered profiles grouped by <code>subscription_tier</code> — the free / paid / admin mix.</p>
+                <div class="chart-wrap"><canvas id="tierChart"></canvas></div>
+                <div class="chart-empty" id="tierEmpty" style="display:none;"></div>
+            </div>
+            <div class="card">
+                <h2>Submissions per Week</h2>
+                <p class="card-note">Challenge submissions over time, bucketed by <code>submitted_at</code> (Monday-anchored weeks).</p>
+                <div class="chart-wrap"><canvas id="subTimeChart"></canvas></div>
+                <div class="chart-empty" id="subTimeEmpty" style="display:none;"></div>
             </div>
         </div>
     </div>
@@ -470,8 +502,12 @@ body {
     } catch (e) {
       console.error('user_progress load failed:', e);
       document.getElementById('statEnrollments').textContent = '—';
+      document.getElementById('statEngaged').textContent = '—';
+      document.getElementById('statAvgProgress').textContent = '—';
       document.getElementById('statCompletions').textContent = '—';
       document.getElementById('statRate').textContent = '—';
+      var tcErr = document.getElementById('topCoursesBody');
+      if (tcErr) tcErr.innerHTML = '<tr><td colspan="4" style="color:var(--text-muted);">No data or insufficient permissions.</td></tr>';
       setChartEmpty('funnelChart', 'funnelEmpty', 'No data — or insufficient permissions to read progress.');
       setChartEmpty('courseChart', 'courseEmpty', 'No data — or insufficient permissions to read progress.');
       setChartEmpty('engagementChart', 'engagementEmpty', 'No data — or insufficient permissions to read progress.');
@@ -480,7 +516,17 @@ body {
 
     var enrollments = rows.length;
     var completions = rows.filter(function (r) { return Number(r.progress_percentage) >= 100; }).length;
+    // Engaged = distinct learners with any progress; avg = mean progress across enrollments.
+    var engagedSet = {}, progSum = 0;
+    rows.forEach(function (r) {
+      var p = Number(r.progress_percentage) || 0;
+      progSum += p;
+      if (p > 0 && r.user_id) engagedSet[r.user_id] = true;
+    });
     document.getElementById('statEnrollments').textContent = fmtNum(enrollments);
+    document.getElementById('statEngaged').textContent = fmtNum(Object.keys(engagedSet).length);
+    document.getElementById('statAvgProgress').textContent =
+      enrollments ? (Math.round((progSum / enrollments) * 10) / 10) + '%' : '0%';
     document.getElementById('statCompletions').textContent = fmtNum(completions);
     document.getElementById('statRate').textContent =
       enrollments ? (Math.round((completions / enrollments) * 1000) / 10) + '%' : '0%';
@@ -515,8 +561,10 @@ body {
     }
 
     // --- 3. Completion by course ---
+    var tcBody = document.getElementById('topCoursesBody');
     if (!enrollments) {
       setChartEmpty('courseChart', 'courseEmpty', 'No enrollments yet.');
+      if (tcBody) tcBody.innerHTML = '<tr><td colspan="4" style="color:var(--text-muted);">No enrollments yet.</td></tr>';
     } else {
       var byCourse = {};
       rows.forEach(function (r) {
@@ -529,6 +577,13 @@ body {
       var courseArr = Object.keys(byCourse).map(function (id) {
         return { id: id, avg: byCourse[id].sum / byCourse[id].n, n: byCourse[id].n, complete: byCourse[id].complete };
       }).sort(function (a, b) { return b.n - a.n; }).slice(0, 15);
+
+      if (tcBody) {
+        tcBody.innerHTML = courseArr.map(function (c) {
+          return '<tr><td>' + escHtml(c.id) + '</td><td>' + fmtNum(c.n) + '</td>' +
+                 '<td>' + fmtNum(c.complete) + '</td><td>' + (Math.round(c.avg * 10) / 10) + '%</td></tr>';
+        }).join('');
+      }
 
       renderChart('courseChart', {
         type: 'bar',
@@ -611,6 +666,43 @@ body {
     }
   }
 
+  // ---------- Plan-tier breakdown ----------
+  async function loadTierBreakdown() {
+    var rows;
+    try {
+      var res = await sb().from('profiles').select('subscription_tier');
+      if (res.error) throw res.error;
+      rows = res.data || [];
+    } catch (e) {
+      console.error('tier breakdown failed:', e);
+      setChartEmpty('tierChart', 'tierEmpty', 'No data — or insufficient permissions to read profiles.');
+      return;
+    }
+    if (!rows.length) { setChartEmpty('tierChart', 'tierEmpty', 'No profiles yet.'); return; }
+    var byTier = {};
+    rows.forEach(function (r) {
+      var t = (r.subscription_tier || 'free');
+      byTier[t] = (byTier[t] || 0) + 1;
+    });
+    var labels = Object.keys(byTier).sort(function (a, b) { return byTier[b] - byTier[a]; });
+    var tierColors = { free: '#94A3B8', practitioner: '#0EA5E9', professional: '#6366F1', team: '#10B981', admin: '#EF4444' };
+    renderChart('tierChart', {
+      type: 'doughnut',
+      data: {
+        labels: labels,
+        datasets: [{
+          data: labels.map(function (k) { return byTier[k]; }),
+          backgroundColor: labels.map(function (k, i) { return tierColors[k] || PALETTE[i % PALETTE.length]; }),
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, cutout: '60%',
+        plugins: { legend: { position: 'bottom', labels: { color: tickColor() } } }
+      }
+    });
+  }
+
   // ---------- 4. Assessments ----------
   async function loadAssessments() {
     var rows;
@@ -624,9 +716,51 @@ body {
     } catch (e) {
       console.error('challenge_submissions load failed:', e);
       setChartEmpty('assessChart', 'assessEmpty', 'No data — or insufficient permissions to read submissions.');
+      setChartEmpty('subTimeChart', 'subTimeEmpty', 'No data — or insufficient permissions to read submissions.');
       document.getElementById('submissionsTableBody').innerHTML =
         '<tr><td colspan="3" style="color:var(--text-muted);">No data or insufficient permissions.</td></tr>';
       return;
+    }
+
+    // Submissions per week (Monday-anchored, UTC)
+    var stRows = rows.filter(function (r) { return r.submitted_at; });
+    if (!stRows.length) {
+      setChartEmpty('subTimeChart', 'subTimeEmpty', 'No submissions yet.');
+    } else {
+      var sw = {};
+      stRows.forEach(function (r) {
+        var d = new Date(r.submitted_at);
+        if (isNaN(d)) return;
+        var day = (d.getUTCDay() + 6) % 7;
+        var monday = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() - day));
+        var key = monday.toISOString().slice(0, 10);
+        sw[key] = (sw[key] || 0) + 1;
+      });
+      var sk = Object.keys(sw).sort();
+      if (!sk.length) {
+        setChartEmpty('subTimeChart', 'subTimeEmpty', 'No submissions yet.');
+      } else {
+        renderChart('subTimeChart', {
+          type: 'line',
+          data: {
+            labels: sk,
+            datasets: [{
+              label: 'Submissions per week',
+              data: sk.map(function (k) { return sw[k]; }),
+              borderColor: '#6366F1', backgroundColor: 'rgba(99,102,241,0.12)',
+              fill: true, tension: 0.3, pointRadius: 3
+            }]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { labels: { color: tickColor() } } },
+            scales: {
+              x: { grid: { display: false }, ticks: { color: tickColor(), maxRotation: 60, autoSkip: true, maxTicksLimit: 12 } },
+              y: { beginAtZero: true, grid: { color: gridColor() }, ticks: { color: tickColor(), precision: 0 } }
+            }
+          }
+        });
+      }
     }
 
     // Doughnut by status
@@ -680,6 +814,7 @@ body {
     await Promise.all([
       loadLearnerCount(),
       loadProgressAnalytics(),
+      loadTierBreakdown(),
       loadAssessments()
     ]);
   }
