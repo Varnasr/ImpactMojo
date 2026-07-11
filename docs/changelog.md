@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.91.0 — July 11, 2026 (The Libraries hub)
+
+### For Learners
+
+- **ImpactMojo Libraries** — a new single home for every collection on the platform, at [/libraries](https://www.impactmojo.in/libraries.html). Browse all 15 collections in one place — flagship courses, 101 decks, labs, games, reading companions, deep dives, handouts, premium tools, the Dataverse and the behaviour-change technique repository — grouped into Learn · Practice · Read · Data, each with a live count and a one-line description.
+
 ## v10.90.0 — July 10, 2026 (Content audit — round 1 fixes)
 
 A page-by-page content audit (201 pages) surfaced a small set of real defects; this fixes them.
