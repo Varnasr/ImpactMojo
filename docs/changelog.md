@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.96.0 — July 11, 2026 (Field Radio — video shorts + universal MP3 audio)
+
+### For Learners
+
+- **Field Radio now has video, not just voice** — four video shorts join the station: **Varna welcoming the community and explaining what MEL really means**, plus talks on what makes a good indicator, building a learning culture, and baseline design. They play in a vertical frame and auto-advance alongside the voice notes. [Tune in](https://www.impactmojo.in/field-radio.html).
+- **Plays everywhere now** — the voice notes were re-encoded to MP3, so they play reliably across all browsers, including iPhone/Safari.
+
 ## v10.95.0 — July 11, 2026 (Field Radio goes live — real voices + surfaced in nav)
 
 ### For Learners
