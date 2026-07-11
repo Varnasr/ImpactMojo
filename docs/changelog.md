@@ -2,6 +2,14 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.92.0 — July 11, 2026 (Content audit — round 2 refresh)
+
+A second data-refresh pass across the Deep Dives, a 101 deck and a landscape brief, bringing every headline figure to the latest published source.
+
+### For Learners
+
+- **Fresher numbers across the Deep Dives and 101 decks** — the health-systems, informality, learning-crisis, stunting and female-labour deep dives, the Child Development 101 deck, and the South Asia landscape brief now carry the latest published figures: NFHS-6 (2023–24) stunting and immunisation, NHA 2022–23 out-of-pocket spending, the WHO/World Bank 2025 UHC monitoring report, e-Shram registrations past 30 crore, post-pandemic learning poverty, the 2025 female LFPR, and updated South Asia growth projections.
+
 ## v10.91.0 — July 11, 2026 (The Libraries hub)
 
 ### For Learners
