@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.94.0 — July 11, 2026 (Field Radio — scaffold)
+
+### Added
+
+- **Field Radio** (`/field-radio.html`) — a community "station" that plays PLC voice notes and shorts back-to-back (auto-advance), with a folk-art dial, cassette/vertical-video stage, learning-track filters and a transcript caption panel. Self-contained, brand-standard chrome, driven by `data/field-radio.json` (drop media into `/assets/field-radio/` and add an entry). Ships with placeholder sample tones so the dial works before real media is uploaded; not yet surfaced in nav or the Libraries hub, and no learner-facing announcement, pending real clips. Verified in headless Chromium: audio + (WebM) video both play and auto-advance, zero JS errors.
+
 ## v10.93.0 — July 11, 2026 (Roadmap blog, rewritten as a mid-year scorecard)
 
 ### For Learners
