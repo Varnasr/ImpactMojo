@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.99.0 — July 11, 2026 (Pro Studio — one home for the tools)
+
+### For Learners
+
+- **Pro Studio** — a new home for ImpactMojo's professional tools at [/premium-tools](https://www.impactmojo.in/premium-tools/), grouped so it's finally clear what's what: **Pro Studio** builders (free to use, Premium only to export — research-question and ToR builders, logframe, empathy map, AI canvas, code converter, qualitative insights), **Free tools** (chart selector, DevData practice, viz cookbook, field notes), and **Premium** AI (AI Advisory Board, VaniScribe). Linked from the top nav and footer.
+
 ## v10.98.1 — July 11, 2026 (Admin hardening)
 
 ### Fixed
