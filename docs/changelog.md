@@ -10,6 +10,10 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 - **Tidier Specials menu** — the reading and reference-library items were removed from the Specials dropdown (they now live in the Libraries hub, which is one click away in the top nav), leaving Games, Practice & Programs, and Showcase.
 - **Shorter About Us menu** — the 12-item About dropdown is regrouped into three tidy sections (About · Get Involved · More).
 
+### Fixed
+
+- **Corrected stale/contradictory counts across the marketing surfaces.** A content-marketing graphic literally showed "9 Courses"; the press kit contradicted itself (62 vs 68 courses, 16 vs 17 flagship, 134 vs 135 games); the handouts page claimed "400+ resources." Standardised the public numbers to reality — **69 courses (17 flagship + 52 foundational), 135 games, 22 deep dives, 84 handouts, 12 AI study companions, 15 challenges** — across the homepage, press kit, content-marketing kit, handouts page, search index and the monthly-newsletter fallbacks. Also marked the site languages as "live" (they were still labelled "coming").
+
 ## v10.96.1 — July 11, 2026 (Field Radio — mobile polish + copy)
 
 ### Fixed
