@@ -2,6 +2,23 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.90.0 — July 10, 2026 (Content audit — round 1 fixes)
+
+A page-by-page content audit (201 pages) surfaced a small set of real defects; this fixes them.
+
+### Fixed
+
+- **Homepage metadata reconciled** — the head carried three conflicting version strings and the JSON-LD course list declared 16 flagships but listed only 13 (while the copy said 17). Now a single version string and a complete 17-course structured-data list.
+- **MCP-server blog post** — removed a duplicated footer/share/newsletter block that rendered the end of the article twice.
+- **"Tools we use" blog post** — corrected a stale claim (said Formspree; the platform uses Netlify Forms).
+- **"Data & Power in the Global South" deep dive** — fixed a citation that linked to the wrong book, and updated "Personal Data Protection Bill" to the enacted Digital Personal Data Protection Act (2023).
+- **"Why ImpactMojo exists" blog post** — removed stale "beta phase" framing.
+- **"What's coming in 2026" blog post** — added a dated banner pointing to the current roadmap, since the original was written in Dec 2025 and its items have since shipped.
+
+### Changed
+
+- **Podcast unpublished** — the page was placeholder-only (no episodes, dead subscribe links). Removed its nav links site-wide, 301-redirected `/podcast.html` to the roadmap, and dropped it from the sitemap and search index.
+
 ## v10.89.0 — July 10, 2026 (Rebuilt Site Map)
 
 ### For Learners
