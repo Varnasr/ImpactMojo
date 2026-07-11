@@ -122,8 +122,7 @@ Specials के अंतर्गत इंटरैक्टिव बुक �
 | # | Lab | ट्रैक | लिंक |
 |---|-----|-------|------|
 | 1 | Theory of Change Lab | MEL | [खोलें](/Labs/toc-lab.html) |
-| 2 | MLE Design Lab | MEL | [खोलें](/Labs/mel-design-lab.html) |
-| 3 | MEL Plan Lab | MEL | [खोलें](/Labs/mel-plan-lab.html) |
+| 2 | MEL Lab | MEL | [खोलें](/Labs/mel-lab.html) |
 | 4 | Storytelling Lab | Health & Communication | [खोलें](/Labs/storytelling-lab.html) |
 | 5 | Design Thinking Lab | MEL | [खोलें](/Labs/design-thinking-lab.html) |
 | 6 | Community Development Lab | MEL | [खोलें](/Labs/community-lab.html) |
