@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.101.0 — July 11, 2026 (Teach with Us — more ways to contribute)
+
+### For Learners
+
+- **Teach with Us now invites more than course authors.** [/contribute](https://www.impactmojo.in/contribute.html) (renamed from "Contribute a Course" to **"Teach with Us"**) now spells out six ways to contribute — a flagship course, a 101 course, a Deep Dive, an interactive lab, a reading companion, or a handout — each with what it is and the level of effort. The proposal form now asks which format you have in mind, so we can route your idea to the right editor.
+
 ## v10.100.0 — July 11, 2026 (Peer Review — see it in action)
 
 ### For Learners
