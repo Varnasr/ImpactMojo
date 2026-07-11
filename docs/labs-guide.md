@@ -2,21 +2,20 @@
 
 ## What Are the ImpactMojo Labs?
 
-ImpactMojo offers **28 interactive labs** — hands-on workbenches where you build, design, and practice real development skills. Unlike courses (which teach concepts) or games (which simulate dynamics), labs produce **tangible outputs** — a Theory of Change diagram, a MEL plan, a policy brief — that you can export and use in your actual work.
+ImpactMojo offers **27 interactive labs** — hands-on workbenches where you build, design, and practice real development skills. Unlike courses (which teach concepts) or games (which simulate dynamics), labs produce **tangible outputs** — a Theory of Change diagram, a MEL plan, a policy brief — that you can export and use in your actual work.
 
 All labs are **free, browser-based, and require no login**.
 
 ---
 
-## The 28 Labs
+## The 27 Labs
 
 ### MEL & Research Labs
 
 | Lab | What You Build | Link |
 |-----|---------------|------|
 | **Theory of Change Lab** | A structured ToC with assumptions, indicators, and causal pathways | [Open](/Labs/toc-lab.html) |
-| **MLE Design Lab** | A monitoring, learning, and evaluation framework for your programme | [Open](/Labs/mel-design-lab.html) |
-| **MEL Plan Lab** | A complete MEL plan with data collection schedule, tools, and responsibilities | [Open](/Labs/mel-plan-lab.html) |
+| **MEL Lab** | A complete MEL system end to end — design the framework, indicators, data collection and analysis, then build the operational plan (indicator matrix, calendar & budget, reporting) | [Open](/Labs/mel-lab.html) |
 | **Sampling Basics (Primer)** | Plain-language grounding in the ideas — population vs sample, bias, margin of error, clusters — the Level 1 before the Studio | [Open](/Labs/sampling-basics-lab.html) |
 | **Sampling Design Studio** | A defensible sampling strategy (SRS, stratified, cluster or multistage) with sample sizes, design effect, and a printable plan | [Open](/Labs/sampling-design-lab.html) |
 | **Survey Design Lab** | A survey instrument that measures what it claims — question wording, scales, and bias testing | [Open](/Labs/survey-design-lab.html) |
@@ -91,7 +90,7 @@ Labs are ready-made workshop activities. Participants work through a lab using t
 Assign a lab as a graded deliverable. The exported output serves as the submission — it's a real work product, not an exam answer.
 
 **Good assignment pairings:**
-- MEL course → MEL Plan Lab
+- MEL course → MEL Lab
 - Policy course → Policy & Advocacy Lab
 - Programme design course → Theory of Change Lab + Risk and Mitigation Lab
 
@@ -110,7 +109,7 @@ Participants can collect lab outputs across multiple sessions to build a profess
 1. **Start with the Theory of Change Lab** — it's the most widely applicable and gives you a feel for how labs work
 2. **Use your own programme** as the case study — the output will be immediately useful
 3. **Export your work** — every lab produces a downloadable PDF or PNG
-4. **Try 2–3 labs** to see how they build on each other (e.g., ToC → MEL Design → MEL Plan is a natural progression)
+4. **Try 2–3 labs** to see how they build on each other (e.g., ToC → MEL Lab is a natural progression)
 
 ---
 
@@ -118,5 +117,5 @@ Participants can collect lab outputs across multiple sessions to build a profess
 
 - **Labs produce real outputs.** Unlike simulations, what you build in a lab is something you can include in a proposal or report. Treat it as real work, not practice.
 - **Facilitators should complete each lab first.** Know what the prompts ask and where participants might get stuck before running a workshop.
-- **Pair labs with courses.** The MEL course teaches concepts; the MEL Plan Lab applies them. Using both together reinforces learning.
+- **Pair labs with courses.** The MEL course teaches concepts; the MEL Lab applies them. Using both together reinforces learning.
 - **Group work is effective.** Have 2–3 participants collaborate on one lab output — the discussion about what to include is as valuable as the output itself.

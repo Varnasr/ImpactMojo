@@ -2,6 +2,16 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.103.0 — July 11, 2026 (One comprehensive MEL Lab)
+
+### For Learners
+
+- **The two MEL labs are now one.** The old **MEL Design Lab** and **MEL Plan Lab** overlapped and split a single workflow in half. They're merged into one [**MEL Lab**](https://www.impactmojo.in/Labs/mel-lab.html) with eight guided tabs across two phases — *Design* (framework, indicators, data collection, analysis) then *Plan* (project setup, indicator matrix, calendar & budget, reporting & learning). One progress bar, your work saved in the browser, and per-phase exports. Both old links 301-redirect, so nothing breaks.
+
+### Changed
+
+- Interactive Labs count updated from 28 to 27 across the site (the two MEL labs became one).
+
 ## v10.102.0 — July 11, 2026 (Impact page — the reach of free)
 
 ### For Learners
@@ -403,7 +413,7 @@ A page-by-page content audit (201 pages) surfaced a small set of real defects; t
 - **Six new Live Case Challenges — every flagship course now has one.** Stress-test an impact claim, spec a Power BI dashboard from messy data, design a graduation pathway for ultra-poor households, diagnose why textbook procurement keeps failing, manage a donor exit in Nepal, and draft a policy memo before a political window closes. That's 15 real-world challenges, one per flagship course.
 - **[Gender & Work in India, 1931–Today](https://www.impactmojo.in/timelines/gender-work-india.html)** — a new visual timeline of 18 landmark moments in how Indian women's work has been promised, protected, erased, counted, and contested — from the Karachi Resolution to SEWA, MGNREGA, the POSH Act, and today's care-economy debates. The sixth timeline in the collection.
 - **[R & Python for Development](https://www.impactmojo.in/labs/r-python-dev.html) — the full live-code course is here.** All seven modules now teach R and Python from absolute zero for development data work — wrangling, visualisation, and impact evaluation with real NFHS, ASER, PLFS and Budget data — with every line of code running live in your browser. Nothing to install.
-- **Twelve new Interactive Labs** — the labs collection has grown to 28 hands-on workbenches, now covering budget and fiscal analysis, climate risk and adaptation, conflict-sensitive programming, data feminism, digital public infrastructure, research ethics, grant writing, participatory methods, policy brief writing, stakeholder mapping, survey design, and systems thinking.
+- **Twelve new Interactive Labs** — the labs collection has grown to 27 hands-on workbenches, now covering budget and fiscal analysis, climate risk and adaptation, conflict-sensitive programming, data feminism, digital public infrastructure, research ethics, grant writing, participatory methods, policy brief writing, stakeholder mapping, survey design, and systems thinking.
 
 ### Fixed
 
