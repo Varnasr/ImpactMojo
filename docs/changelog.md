@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.102.0 — July 11, 2026 (Impact page — the reach of free)
+
+### For Learners
+
+- **The Impact page now leads with the scale of what's free.** [/impact-dashboard](https://www.impactmojo.in/impact-dashboard.html) adds a "The reach of free" band up top — 69 free courses, 135 learning games, 84 handouts, 105 reading companions, 296 datasets, 12 open libraries — alongside the existing community-logged real-world outcomes. Two kinds of impact in one place: what's within reach, and what learners do with it.
+
 ## v10.101.0 — July 11, 2026 (Teach with Us — more ways to contribute)
 
 ### For Learners
