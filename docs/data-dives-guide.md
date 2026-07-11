@@ -19,7 +19,7 @@ If you want to know *what to read* on a topic, use a [Deep Dive](deep-dives-guid
 
 | Data Dive | Topic | Dataset | Charts | Link |
 |-----------|-------|---------|--------|------|
-| **The Welfare Spending Paradox** | Public Finance | RBI State Finances 2025-26 | 3 | [Open](/DataDives/state-welfare-budgets.html) |
+| **The states that spend most on welfare have the least to show for it** | Public Finance | RBI State Finances 2025-26 | 3 | [Open](/DataDives/state-welfare-budgets.html) |
 
 Browse all Data Dives at [/DataDives/](/DataDives/).
 
@@ -48,7 +48,7 @@ Each Data Dive follows the same honest structure:
 ## For Educators
 
 - **As a data-literacy teaching case.** Walk students through the "What this data can and can't tell you" block — stocks vs flows, allocation vs delivery — as a live lesson in reading official statistics critically.
-- **To pair with courses and Deep Dives.** The Welfare Spending Paradox pairs with the [Politics of Targeting](/DeepDives/politics-of-targeting.html) and [Health Systems and UHC in South Asia](/DeepDives/health-systems-uhc-south-asia.html) Deep Dives, and with development-economics and MEL courses.
+- **To pair with courses and Deep Dives.** The state welfare-spending investigation pairs with the [Politics of Targeting](/DeepDives/politics-of-targeting.html) and [Health Systems and UHC in South Asia](/DeepDives/health-systems-uhc-south-asia.html) Deep Dives, and with development-economics and MEL courses.
 - **As a prompt for replication.** Point research assistants at the source dataset and ask them to reproduce a chart, then extend it (per-capita spending, trends over time) — the natural next questions each dive leaves open.
 
 ---
