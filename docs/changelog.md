@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.98.1 — July 11, 2026 (Admin hardening)
+
+### Fixed
+
+- **Admin tooling hardened.** `robots.txt` now disallows `/admin/` and `/ops/` (previously only one file was blocked), so internal tools stay out of search results. The internal Bug Tracker (`admin/bugs.html`) — the one admin page that had no access gate — now requires an admin sign-in before it renders, matching the rest of the admin surface.
+
 ## v10.98.0 — July 11, 2026 (Labs consolidation — no more duplicate tools)
 
 ### Changed
