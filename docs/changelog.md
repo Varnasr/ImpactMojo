@@ -24,7 +24,13 @@ The Interactive Labs library is now **30** and the handout library is **89**.
 
 ### For Learners
 
-- **Data Dives** — a new kind of content: independent data investigations that take one public dataset, chart it, make an argument, and spell out what the numbers can't show. Browse them at [/DataDives/](https://www.impactmojo.in/DataDives/). The first, [**The states that spend most on welfare have the least to show for it**](https://www.impactmojo.in/DataDives/state-welfare-budgets.html), digs into the RBI's 2025-26 state budgets: India's biggest social-sector spenders record its worst welfare outcomes, while low-spending Kerala and Tamil Nadu lead — with three interactive charts and a plain-English guide to reading the data honestly. Distinct from our reading-list Deep Dives.
+- **Data Dives** — a new kind of content: independent data investigations that take one public dataset, chart it, make an argument, and spell out what the numbers can't show. Browse them at [/DataDives/](https://www.impactmojo.in/DataDives/). Six to start, each with fancy interactive charts (that also work on your phone) and a plain-English "what this data can and can't tell you" guide:
+  - [**The states that spend most on welfare have the least to show for it**](https://www.impactmojo.in/DataDives/state-welfare-budgets.html) — India's biggest social-sector spenders record its worst welfare outcomes (RBI state budgets).
+  - [**The women dropping off the voter list**](https://www.impactmojo.in/DataDives/women-and-the-sir.html) — women deleted from the electoral rolls in far greater numbers than men.
+  - [**Whose name is on the house?**](https://www.impactmojo.in/DataDives/whose-name-on-the-house.html) — the gap between the housing scheme's women-ownership mandate and who actually owns a home.
+  - [**Paid an honorarium, not a wage**](https://www.impactmojo.in/DataDives/honorarium-not-a-wage.html) — the ~34 lakh women who run India's nutrition and health systems, paid below the wage floor.
+  - [**The safety fund nobody spends**](https://www.impactmojo.in/DataDives/the-safety-fund-nobody-spends.html) — how the Nirbhaya Fund is "76% spent" and "a fifth spent" at the same time.
+  - [**The pension that never got a raise**](https://www.impactmojo.in/DataDives/the-pension-that-never-got-a-raise.html) — the ₹200 old-age pension, unchanged since 2006, worth a third of what it was.
 
 ## v10.103.0 — July 11, 2026 (One comprehensive MEL Lab)
 
