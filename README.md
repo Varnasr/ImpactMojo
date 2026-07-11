@@ -42,7 +42,7 @@ We provide accessible, high-quality educational materials grounded in South Asia
 | Category | Description |
 |----------|-------------|
 | **68 Courses** | 17 flagship + 51 foundational courses across 6 learning tracks (all foundational decks self-hosted as native HTML slide decks). Every flagship ends with an auto-graded "Assess Yourself" self-check (90 questions across the 15) |
-| **27 Interactive Labs** | Hands-on workbenches for MEL, policy, partnerships, budgeting, gender analysis, and more |
+| **30 Interactive Labs** | Hands-on workbenches for MEL, policy, partnerships, budgeting, gender analysis, and more |
 | **135 Game Library** | 18 interactive simulations (MiroFish AI agents, Indian folk art — Warli, Madhubani, Gond, Kalamkari, Pichwai, Pattachitra) + 117 crosswords, quizzes & word searches |
 | **ImpactLex Dictionary** | 390+ development terms with contextual definitions, formulas, and case studies (PWA, hosted on ImpactMojo) |
 | **Dev Case Studies** | 200 evidence-based case studies from 117 countries |
@@ -52,7 +52,7 @@ We provide accessible, high-quality educational materials grounded in South Asia
 | **Dataverse** | 296 curated tools, datasets, APIs, MCP servers, and platforms across 22 categories — dark mode, category filters, responsive cards |
 | **106 Reading Companions** | Interactive study companions for development economics, political economy, statistics, leadership, and productivity texts |
 | **12 AI Study Companions** | NotebookLM-powered study notebooks covering the flagship courses |
-| **84 Handouts** | Downloadable resources across 6 learning tracks |
+| **89 Handouts** | Downloadable resources across 6 learning tracks |
 | **21 Deep Dives** | Curated, annotated reading guides — working syllabi on contested development questions |
 | **6 Timelines** | Citation-backed visual histories (113 nodes / 44 eras) — development thinking, Indian policy, MEL methods, climate, rights, gender & work |
 | **18 Practice Packs** | 4-module applied workbooks with capstone builders — 9 subject + 9 method packs |
@@ -249,7 +249,7 @@ Interactive simulations powered by **MiroFish AI agents** with **Indian folk art
 - [**PolicyDhara**](https://github.com/Varnasr/PolicyDhara) — Auto-updating tracker of Indian development policies across 22 sectors
 - **BCT Repository** — 203 behavior change techniques with definitions, examples, and evidence ratings
 - **Dataverse** — 296 curated tools, datasets, APIs, MCP servers, and platforms for social impact research
-- **84 Handouts** — Downloadable HTML resources across 6 learning tracks
+- **89 Handouts** — Downloadable HTML resources across 6 learning tracks
 - **Learning Loops Blog** — Articles, tutorials, case studies, platform updates
 - **Between the Logframes Podcast** — Development conversations on MEAL, ToC, and impact work
 

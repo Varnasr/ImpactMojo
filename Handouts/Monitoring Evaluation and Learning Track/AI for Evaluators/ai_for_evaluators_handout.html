@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI for Evaluators: Prompt Patterns & Guardrails | ImpactMojo</title>
+    <!-- ImpactMojo Fonts: Amaranth (body) + Inter (headings) + JetBrains Mono (code) -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+        @media print {
+            body { margin: 0.5in; }
+            .page-break { page-break-before: always; }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.4;
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 15px;
+            background: white;
+            font-size: 11px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            font-size: 18px;
+        }
+
+        h2 {
+            color: #8e44ad;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            border-left: 4px solid #9b59b6;
+            padding-left: 10px;
+        }
+
+        h3 {
+            color: #e74c3c;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+
+        h4 {
+            color: #34495e;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            font-size: 11px;
+        }
+
+        .method-section {
+            border: 2px solid #3498db;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            background-color: #f8f9ff;
+            page-break-inside: avoid;
+        }
+
+        .prompt-section {
+            border-color: #6366F1;
+            background-color: #f6f6ff;
+        }
+
+        .coding-section {
+            border-color: #27ae60;
+            background-color: #f8fff8;
+        }
+
+        .guardrail-section {
+            border-color: #e74c3c;
+            background-color: #fff8f8;
+        }
+
+        .ethics-section {
+            border-color: #f39c12;
+            background-color: #fffdf8;
+        }
+
+        .checklist {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .risk-box {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .good-box {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .warning-box {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .sa-context {
+            background-color: #e8f4f8;
+            border: 1px solid #bee5eb;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .prompt-example {
+            background-color: #f0f3ff;
+            border: 1px solid #6c757d;
+            border-left: 4px solid #6366F1;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 10px;
+            white-space: pre-wrap;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 10px;
+        }
+
+        th, td {
+            border: 1px solid #bdc3c7;
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #ecf0f1;
+            font-weight: bold;
+        }
+
+        .checkbox-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .checkbox-list li {
+            margin: 8px 0;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .checkbox-list li:before {
+            content: "\2610";
+            position: absolute;
+            left: 0;
+            font-size: 14px;
+            color: #3498db;
+        }
+
+        .two-column {
+            display: flex;
+            gap: 20px;
+            margin: 15px 0;
+        }
+
+        .column {
+            flex: 1;
+        }
+
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 4px;
+            border-radius: 2px;
+            font-weight: bold;
+        }
+
+        .critical {
+            background-color: #f8d7da;
+            padding: 2px 4px;
+            border-radius: 2px;
+            color: #721c24;
+            font-weight: bold;
+        }
+    </style>
+<style>
+/* ===== ImpactMojo Design System ===== */
+:root {
+    --im-primary-bg: #0F172A;
+    --im-secondary-bg: #1E293B;
+    --im-accent: #0EA5E9;
+    --im-accent-hover: #0284C7;
+    --im-secondary-accent: #6366F1;
+    --im-success: #10B981;
+    --im-text-primary: #F1F5F9;
+    --im-text-secondary: #94A3B8;
+    --im-text-muted: #64748B;
+    --im-card-bg: #1E293B;
+    --im-hover-bg: #334155;
+    --im-border: #334155;
+    --im-nav-bg: rgba(15, 23, 42, 0.95);
+    --im-gradient: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+}
+[data-theme="light"] {
+    --im-primary-bg: #F8FAFC;
+    --im-secondary-bg: #FFFFFF;
+    --im-accent: #0284C7;
+    --im-accent-hover: #0369A1;
+    --im-text-primary: #0F172A;
+    --im-text-secondary: #475569;
+    --im-text-muted: #64748B;
+    --im-card-bg: #FFFFFF;
+    --im-hover-bg: #F1F5F9;
+    --im-border: #E2E8F0;
+    --im-nav-bg: rgba(248, 250, 252, 0.95);
+}
+
+/* ImpactMojo Top Bar */
+.im-topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    background: var(--im-nav-bg, rgba(15, 23, 42, 0.95));
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--im-border, #334155);
+    padding: 0.5rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.75rem; flex-wrap: wrap;
+    font-family: 'Inter', sans-serif;
+}
+.im-topbar a { text-decoration: none; }
+.im-topbar-left {
+    display: flex; align-items: center; gap: 0.75rem;
+}
+.im-topbar-home {
+    display: flex; align-items: center; gap: 0.5rem;
+    color: var(--im-text-primary, #F1F5F9);
+    font-weight: 700; font-size: 1rem;
+    background: var(--im-gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.im-topbar-home svg { width: 24px; height: 24px; flex-shrink: 0; }
+.im-topbar-right {
+    display: flex; align-items: center; gap: 0.5rem;
+}
+.im-premium-btn {
+    background: var(--im-gradient);
+    color: #fff !important;
+    padding: 0.35rem 0.85rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: flex; align-items: center; gap: 0.35rem;
+    transition: opacity 0.2s;
+    -webkit-text-fill-color: #fff;
+}
+.im-premium-btn:hover { opacity: 0.9; }
+.im-premium-btn svg { width: 14px; height: 14px; }
+
+/* Theme Selector - 3 mode */
+.im-theme-selector {
+    display: flex; gap: 2px;
+    background: var(--im-card-bg, #1E293B);
+    border: 1px solid var(--im-border, #334155);
+    border-radius: 8px; padding: 2px;
+}
+.im-theme-btn {
+    background: transparent; border: none;
+    color: var(--im-text-secondary, #94A3B8);
+    padding: 6px; border-radius: 5px; cursor: pointer;
+    transition: all 0.2s; display: flex; align-items: center;
+    justify-content: center; width: 30px; height: 30px;
+}
+.im-theme-btn:hover {
+    background: var(--im-hover-bg, #334155);
+    color: var(--im-text-primary, #F1F5F9);
+}
+.im-theme-btn.active {
+    background: var(--im-accent, #0EA5E9);
+    color: #fff;
+}
+.im-theme-btn svg { width: 16px; height: 16px; }
+
+/* Paper Plane */
+.im-paper-plane {
+    position: fixed; top: 15%; right: 8%;
+    width: 120px; height: 120px;
+    opacity: 0.15; z-index: 0;
+    pointer-events: none;
+    animation: im-fly 25s ease-in-out infinite;
+}
+[data-theme="light"] .im-paper-plane { opacity: 0.2; }
+@keyframes im-fly {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    20% { transform: translate(60px, -40px) rotate(12deg); }
+    40% { transform: translate(120px, 30px) rotate(-8deg); }
+    60% { transform: translate(40px, 60px) rotate(15deg); }
+    80% { transform: translate(-30px, 20px) rotate(-5deg); }
+}
+
+/* ImpactMojo Footer */
+.im-footer {
+    background: var(--im-secondary-bg, #1E293B);
+    border-top: 1px solid var(--im-border, #334155);
+    padding: 2rem 1rem; margin-top: auto;
+    font-family: 'Inter', sans-serif;
+    color: var(--im-text-secondary, #94A3B8);
+}
+.im-footer-content {
+    max-width: 1100px; margin: 0 auto;
+}
+.im-footer-made {
+    text-align: center; margin-bottom: 1.5rem;
+    font-size: 0.9rem; color: var(--im-text-muted, #64748B);
+}
+.im-footer-made a { color: var(--im-accent, #0EA5E9); }
+.im-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem; margin-bottom: 1.5rem;
+}
+.im-footer-section h4 {
+    font-family: 'Inter', sans-serif;
+    color: var(--im-text-primary, #F1F5F9);
+    font-size: 0.9rem; margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+.im-footer-section ul { list-style: none; padding: 0; margin: 0; }
+.im-footer-section li { margin-bottom: 0.4rem; }
+.im-footer-section a {
+    color: var(--im-text-secondary, #94A3B8);
+    text-decoration: none; font-size: 0.85rem;
+    transition: color 0.2s;
+}
+.im-footer-section a:hover { color: var(--im-accent, #0EA5E9); }
+.im-footer-bottom {
+    text-align: center; padding-top: 1rem;
+    border-top: 1px solid var(--im-border, #334155);
+    font-size: 0.8rem; color: var(--im-text-muted, #64748B);
+}
+.im-footer-bottom p { margin: 0.25rem 0; }
+.im-footer-bottom a { color: var(--im-accent, #0EA5E9); text-decoration: none; }
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .im-topbar { padding: 0.4rem 0.75rem; gap: 0.5rem; }
+    .im-topbar-home { font-size: 0.85rem; }
+    .im-topbar-home svg { width: 20px; height: 20px; }
+    .im-premium-btn { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
+    .im-theme-btn { width: 26px; height: 26px; padding: 4px; }
+    .im-theme-btn svg { width: 14px; height: 14px; }
+    .im-paper-plane { width: 80px; height: 80px; top: 10%; right: 5%; }
+    .im-footer-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    .two-column { flex-direction: column; gap: 10px; }
+}
+@media (max-width: 480px) {
+    .im-footer-grid { grid-template-columns: 1fr; }
+    .im-topbar-home span { display: none; }
+}
+
+/* ImpactMojo Global Font Overrides */
+body { font-family: 'Amaranth', sans-serif !important; }
+h1, h2, h3, h4, h5, h6 { font-family: 'Inter', sans-serif !important; }
+code, pre, .monospace, kbd, samp, .prompt-example { font-family: 'JetBrains Mono', monospace !important; }
+</style>
+<style>
+/* Body clears fixed im-topbar (added by site-wide audit fix) */
+body { padding-top: 56px; }
+@media (max-width: 768px) { body { padding-top: 52px; } }
+</style>
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+<link rel="stylesheet" href="/assets/css/dark-mode-fallback.css">
+</head>
+<body>
+<!-- ImpactMojo Top Bar -->
+<div class="im-topbar" id="imTopbar">
+    <div class="im-topbar-left">
+        <a href="../../../index.html" class="im-topbar-home">
+            <img src="/assets/images/ImpactMojo%20Logo.png" alt="ImpactMojo" width="24" height="24" style="border-radius:4px;">
+            <span>ImpactMojo</span>
+        </a>
+    </div>
+    <div class="im-topbar-right">
+        <a href="../../../premium.html" class="im-premium-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Premium
+        </a>
+        <div class="im-theme-selector" aria-label="Theme selection">
+            <button class="im-theme-btn" data-imtheme="system" title="System theme" aria-label="Use system theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </button>
+            <button class="im-theme-btn" data-imtheme="light" title="Light theme" aria-label="Use light theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </button>
+            <button class="im-theme-btn" data-imtheme="dark" title="Dark theme" aria-label="Use dark theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<h1>AI for Evaluators: Prompt Patterns &amp; Guardrails</h1>
+<p style="text-align: center; font-style: italic; margin-bottom: 25px;">
+    A practitioner reference for using AI and large language models (LLMs) responsibly across the monitoring, evaluation &amp; learning (MEL) cycle
+</p>
+
+<div class="sa-context">
+    <h2>How to Use This Handout</h2>
+    <p>AI language tools can speed up parts of an evaluator's work, but they do not <em>do</em> evaluation. They generate plausible text; they do not judge evidence, understand context, or bear accountability. Treat every AI output as a rough draft from an over-confident junior colleague who has never met your respondents. This handout is a companion to the flagship course <strong>"AI for Impact: Data, Monitoring &amp; Evaluation."</strong></p>
+    <ul>
+        <li><strong>Vendor-neutral:</strong> The patterns apply to any general-purpose LLM assistant. No tool is endorsed; capabilities and limits shift with each model release.</li>
+        <li><strong>Human-in-the-loop by default:</strong> Everything here assumes a qualified evaluator reviews, corrects, and signs off on the output.</li>
+        <li><strong>Privacy first:</strong> Nothing that could identify a respondent should ever be pasted into a third-party tool. See the guardrails section.</li>
+    </ul>
+</div>
+
+<div class="method-section prompt-section">
+    <h2>1. Where AI Helps &mdash; and Where It Doesn't</h2>
+    <p>AI assistance is strongest for <em>drafting, restructuring, and first-pass processing</em> of text you already have. It is weakest &mdash; and most dangerous &mdash; where accuracy, judgment, representativeness, or accountability are at stake.</p>
+    <table>
+        <tr>
+            <th>MEL stage</th>
+            <th>Good uses (with human review)</th>
+            <th>Risky uses (avoid or heavily verify)</th>
+        </tr>
+        <tr>
+            <td><strong>Evaluation design</strong></td>
+            <td>Brainstorm evaluation questions; draft a theory-of-change narrative from your bullet points; suggest indicators to consider; outline a methods section</td>
+            <td>Letting AI choose the design or claim what is "rigorous"; generating sample sizes or power calculations without a statistician's check</td>
+        </tr>
+        <tr>
+            <td><strong>Instrument drafting</strong></td>
+            <td>Draft survey items or interview guide questions from your constructs; check items for double-barrelled or leading wording; suggest response scales</td>
+            <td>Assuming items are validated; skipping cognitive/pilot testing; generating "culturally appropriate" wording without local review</td>
+        </tr>
+        <tr>
+            <td><strong>Qualitative coding</strong></td>
+            <td>Propose a first-pass codebook; suggest themes across transcripts; flag candidate quotes for a theme &mdash; all as a <span class="highlight">starting point</span></td>
+            <td><span class="critical">Treating AI codes as final</span>; reporting AI-generated themes without human validation or inter-coder checks</td>
+        </tr>
+        <tr>
+            <td><strong>Transcription &amp; translation</strong></td>
+            <td>Rough transcripts and draft translations to speed a human transcriber/translator; glossary suggestions</td>
+            <td>Publishing machine transcripts/translations verbatim; trusting them for low-resource languages, dialects, code-switching, or technical terms</td>
+        </tr>
+        <tr>
+            <td><strong>Summarization &amp; synthesis</strong></td>
+            <td>Condense long documents you provide; produce a first synthesis of findings you supply; reformat notes into a matrix</td>
+            <td>Synthesizing sources the model wasn't given (it will invent them); losing minority/dissenting views; over-smoothing disagreement</td>
+        </tr>
+        <tr>
+            <td><strong>Report drafting</strong></td>
+            <td>Draft an executive summary from your findings; tighten prose; adjust register for different audiences; draft recommendations you then vet</td>
+            <td><span class="critical">Any factual claim, statistic, or citation generated by AI</span> &mdash; these must be traced to source data; passing AI text off as independently authored</td>
+        </tr>
+        <tr>
+            <td><strong>Data cleaning</strong></td>
+            <td>Draft cleaning/recode scripts (that you read and run yourself); explain an error message; suggest validation rules</td>
+            <td>Pasting raw datasets with PII into a tool; letting AI "clean" data invisibly; trusting generated numbers or aggregates</td>
+        </tr>
+    </table>
+    <div class="warning-box">
+        <strong>Rule of thumb:</strong> AI is useful when <em>you supply the substance and it reshapes the form</em>. It is hazardous when you ask it to <em>supply the substance</em> &mdash; facts, figures, citations, or judgments &mdash; because it will produce fluent, confident, and sometimes entirely fabricated content.
+    </div>
+</div>
+
+<div class="method-section prompt-section">
+    <h2>2. Prompt Patterns That Work</h2>
+    <p>A useful prompt is explicit about five things. Vague prompts get generic, hedged, or invented answers; structured prompts get usable drafts.</p>
+    <div class="checklist">
+        <h3>The five building blocks (Role &middot; Context &middot; Task &middot; Format &middot; Examples)</h3>
+        <ul class="checkbox-list">
+            <li><strong>Role:</strong> Tell the model who to act as ("You are assisting a program evaluator...").</li>
+            <li><strong>Context:</strong> Give the relevant background &mdash; sector, program, audience, constraints. Paste the source material rather than describing it.</li>
+            <li><strong>Task:</strong> State one clear job. Split multi-part work into separate prompts.</li>
+            <li><strong>Format:</strong> Specify the output shape &mdash; table, bullet list, word count, columns, tone.</li>
+            <li><strong>Examples (few-shot):</strong> Show one or two worked examples of the input-to-output mapping you want. This is the single biggest quality lever for coding and formatting tasks.</li>
+        </ul>
+    </div>
+
+    <div class="two-column">
+        <div class="column">
+            <div class="good-box">
+                <h4>Techniques that raise quality</h4>
+                <ul>
+                    <li><strong>Ask for reasoning:</strong> "Explain your reasoning step by step before giving the answer" &mdash; helps you spot where it went wrong.</li>
+                    <li><strong>Constrain the output:</strong> "Only use the text I provided. If the answer isn't there, say 'not stated'."</li>
+                    <li><strong>Iterate:</strong> Treat it as a conversation &mdash; critique the draft and ask for revisions rather than expecting one perfect answer.</li>
+                    <li><strong>Ask for uncertainty:</strong> "Flag anything you are unsure about" surfaces weak spots.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="column">
+            <div class="risk-box">
+                <h4>Anti-patterns to avoid</h4>
+                <ul>
+                    <li>Asking open-web questions expecting current facts &mdash; models can be outdated or wrong.</li>
+                    <li>Requesting citations or statistics "from the literature" &mdash; these are frequently fabricated.</li>
+                    <li>Bundling five tasks into one prompt &mdash; quality drops.</li>
+                    <li>Accepting the first answer without asking "what did you assume?"</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <h3>Concrete example prompts</h3>
+
+    <div class="prompt-example">Example A &mdash; First-pass thematic coding
+Role: You are assisting a program evaluator with qualitative analysis.
+Context: Below are 30 open-ended survey responses to the question
+"What changed for you after joining the livelihoods program?"
+Task: Propose an initial set of 5-8 themes. For each theme give a short
+label, a one-line definition, and 2 example response numbers.
+Constraints: Use ONLY the responses provided. Do not invent responses.
+Flag any response that fits no theme. This is a FIRST DRAFT for a human
+coder to review, not a final codebook.
+Format: A table with columns Theme | Definition | Example response #s.
+
+[paste the 30 de-identified responses here]</div>
+
+    <div class="prompt-example">Example B &mdash; Draft a TOR section
+Role: You are helping draft a Terms of Reference for an external evaluation.
+Context: Program = 3-year adolescent-girls education project, 4 districts.
+Audience = prospective evaluation consultants.
+Task: Draft the "Evaluation Objectives and Questions" section only.
+Base it on the theory of change and objectives I paste below.
+Format: 200-300 words plus a bulleted list of 5-7 evaluation questions
+grouped under relevance, effectiveness, and sustainability.
+Note: I will review and edit; do not invent program facts not given.
+
+[paste objectives and theory of change]</div>
+
+    <div class="prompt-example">Example C &mdash; Synthesize interviews, preserving disagreement
+Role: You are assisting an evaluator synthesizing key-informant interviews.
+Context: Below are notes from 12 KIIs (de-identified) on why uptake of the
+new referral system was uneven across facilities.
+Task: Summarize the main explanations. IMPORTANT: preserve points of
+DISAGREEMENT between informants rather than averaging them out. Note where
+only one or two informants raised a point, and where views conflict.
+Constraints: Use only the notes provided; attribute nothing beyond them.
+Format: (1) Areas of consensus, (2) Areas of disagreement with the competing
+views, (3) Outlier points raised by single informants.
+
+[paste 12 de-identified KII note sets]</div>
+
+    <div class="prompt-example">Example D &mdash; Reframe a finding for a lay audience
+Role: You are an editor helping make an evaluation finding accessible.
+Task: Rewrite the finding below for a community feedback meeting: plain
+language, no jargon, about 120 words, respectful and non-blaming tone.
+Constraint: Do not add, soften, or exaggerate any result. Keep every number.
+
+[paste the finding as written in the report]</div>
+</div>
+
+<div class="method-section coding-section">
+    <h2>3. AI-Assisted Qualitative Coding &mdash; A Disciplined Workflow</h2>
+    <p>AI can accelerate qualitative analysis, but it must sit <strong>inside</strong> a human coding process, never replace it. Use it for a first pass; the evaluator remains the analyst of record.</p>
+    <div class="checklist">
+        <h3>A defensible AI-assisted coding process</h3>
+        <ol>
+            <li><strong>Human frames the analysis.</strong> Define the research questions and any a-priori codes yourself before touching AI.</li>
+            <li><strong>AI first pass.</strong> Ask AI to propose themes/codes from a de-identified subset, as a <em>draft</em> only.</li>
+            <li><strong>Human validation (mandatory).</strong> Read the transcripts yourself. Accept, merge, rename, split, or reject every AI-suggested code. Confirm each example quote actually supports its code.</li>
+            <li><strong>Inter-coder check.</strong> Have a second human code a sample independently; compare and reconcile. AI does not count as the second coder.</li>
+            <li><strong>Re-code with the agreed book.</strong> Apply the human-agreed codebook to the full corpus; use AI only to speed clerical steps, spot-checking its output.</li>
+            <li><strong>Audit trail.</strong> Keep the prompts used, the AI drafts, and the human changes, so the analysis is reproducible and reviewable.</li>
+        </ol>
+    </div>
+    <div class="risk-box">
+        <strong>Never treat AI codes as ground truth.</strong> The model has no access to tone, context, or what the respondent meant. It can mislabel sarcasm, miss culturally specific meaning, drop minority voices, and confidently apply a code that the text does not support. Every code is a hypothesis for a human to confirm against the source.
+    </div>
+    <div class="sa-context">
+        <h4>South Asian context</h4>
+        <p>Multilingual data, code-switching (e.g. Hindi-English, Bangla-English), regional idioms, caste/gender-sensitive phrasing, and indirect speech are easily flattened or misread by models trained predominantly on other languages and contexts. Validate coding of translated material against the original language with someone fluent in it.</p>
+    </div>
+</div>
+
+<div class="page-break"></div>
+
+<div class="method-section guardrail-section">
+    <h2>4. Guardrails</h2>
+
+    <h3>4.1 Hallucination &amp; fabrication</h3>
+    <div class="risk-box">
+        <strong>The core failure mode.</strong> LLMs generate the most probable next words, not verified facts. They will invent statistics, study citations, quotes, and program details that never existed &mdash; fluently and confidently.
+    </div>
+    <div class="good-box">
+        <strong>Mitigation:</strong> Never accept an AI-generated fact, number, citation, or quote. Trace every one to your own source data or documents. Constrain prompts to supplied material ("use only the text I gave you; say 'not stated' otherwise"). Spot-check quotes against transcripts verbatim.
+    </div>
+
+    <h3>4.2 Bias &amp; representativeness</h3>
+    <div class="risk-box">
+        <strong>Skewed by training data.</strong> Models reflect the biases of their training data and can under-represent marginalized groups, minority views, and non-dominant languages. In synthesis, they tend to over-weight the majority and smooth away dissent.
+    </div>
+    <div class="good-box">
+        <strong>Mitigation:</strong> Explicitly prompt to preserve minority and dissenting views. Cross-check whose voices appear in the output against your sample. Have local experts review AI-shaped content for cultural and gender sensitivity. Do not let AI decide what is "representative."
+    </div>
+
+    <h3>4.3 Data privacy, consent &amp; confidentiality</h3>
+    <div class="risk-box">
+        <span class="critical">Do not paste personally identifiable or identifiable respondent data into third-party AI tools.</span> Names, phone numbers, exact locations, GPS, ID numbers, photos, rare-combination attributes, or any detail that could re-identify someone. Consent given for an evaluation almost never covers sending data to an external AI vendor, whose terms may retain or train on inputs.
+    </div>
+    <div class="good-box">
+        <strong>Mitigation:</strong>
+        <ul>
+            <li><strong>De-identify before you prompt:</strong> strip names and direct identifiers; generalize locations; remove rare-attribute combinations that enable re-identification.</li>
+            <li><strong>Check consent &amp; ethics approval:</strong> confirm your consent language and IRB/ethics clearance permit AI processing; if unsure, don't.</li>
+            <li><strong>Prefer safer channels:</strong> use enterprise/no-retention or self-hosted options where available; read the tool's data-retention and training terms.</li>
+            <li><strong>Honour confidentiality:</strong> commercially sensitive or embargoed program data is subject to the same caution as personal data.</li>
+        </ul>
+    </div>
+
+    <h3>4.4 Over-reliance</h3>
+    <div class="risk-box">
+        Fluent output invites automation bias &mdash; the temptation to trust it because it reads well. Skills atrophy and errors propagate when AI drafts go unchecked.
+    </div>
+    <div class="good-box">
+        <strong>Mitigation:</strong> Keep the human as analyst and author of record. Use AI to draft and speed, not to decide. Budget real review time; if you wouldn't have time to check it, don't generate it.
+    </div>
+
+    <h3>4.5 Transparency &amp; disclosure</h3>
+    <div class="good-box">
+        <strong>Disclose AI use.</strong> State in your methodology how AI was used (e.g. "AI assistance was used for first-pass coding and drafting; all outputs were reviewed and validated by the evaluation team"). Follow your commissioner's, employer's, and any professional evaluation association's guidance. Transparency lets others judge the reliability of the work.
+    </div>
+
+    <div class="warning-box">
+        <h3>Responsible-Use Checklist &mdash; run before and after every AI-assisted task</h3>
+        <ul class="checkbox-list">
+            <li>I removed all PII and identifiable respondent data before prompting.</li>
+            <li>Consent and ethics approval cover this use of the data.</li>
+            <li>I checked the tool's data-retention/training terms and used the safest available option.</li>
+            <li>I supplied the substance; I did not ask AI to invent facts, numbers, or citations.</li>
+            <li>I traced every factual claim, statistic, and quote in the output back to source.</li>
+            <li>A qualified human reviewed and corrected the output; AI codes/themes were validated, not accepted.</li>
+            <li>Minority and dissenting views were preserved, not averaged away.</li>
+            <li>Local/linguistic experts reviewed culturally or language-sensitive content.</li>
+            <li>I kept an audit trail of prompts, AI drafts, and my edits.</li>
+            <li>I disclosed how AI was used in the methodology.</li>
+            <li>A human remains accountable for the final findings and recommendations.</li>
+        </ul>
+    </div>
+</div>
+
+<div class="method-section ethics-section">
+    <h2>5. Limitations &amp; Ethics</h2>
+    <table>
+        <tr>
+            <th>Issue</th>
+            <th>What it means for evaluators</th>
+            <th>Practical response</th>
+        </tr>
+        <tr>
+            <td><strong>Reproducibility</strong></td>
+            <td>The same prompt can yield different outputs; results are not deterministic.</td>
+            <td>Don't rely on AI for anything that must be exactly reproducible. Record prompts and outputs; validate with human coding.</td>
+        </tr>
+        <tr>
+            <td><strong>Model drift &amp; versioning</strong></td>
+            <td>Models are updated or retired; behaviour changes over time, so a workflow may not replicate later.</td>
+            <td>Note the tool and approximate date in your methods. Re-validate workflows periodically.</td>
+        </tr>
+        <tr>
+            <td><strong>Opacity</strong></td>
+            <td>You usually cannot see why a model produced an output.</td>
+            <td>Require reasoning in the output where it helps; base conclusions on evidence you can inspect, not on the model's authority.</td>
+        </tr>
+        <tr>
+            <td><strong>Context limits</strong></td>
+            <td>Very long documents may be truncated or partially "read."</td>
+            <td>Chunk inputs; confirm the model actually used all material; spot-check coverage.</td>
+        </tr>
+        <tr>
+            <td><strong>Equity of access</strong></td>
+            <td>Tool cost and language coverage can advantage some teams and languages over others.</td>
+            <td>Be mindful when comparing AI-assisted and non-assisted work; don't let tooling shape whose evidence counts.</td>
+        </tr>
+    </table>
+    <div class="sa-context">
+        <h3>The human-accountability principle</h3>
+        <p>AI is a tool, not an evaluator. It cannot be accountable to communities, commissioners, or professional standards. A named human must own the design decisions, the interpretation of evidence, and the final judgments. When AI is used, accountability does not transfer to the tool &mdash; it stays with the evaluator. Use AI to work faster and see more, never to decide what is true or what should be done.</p>
+    </div>
+</div>
+
+<div style="text-align: center; margin-top: 25px; padding: 15px; background-color: #d1ecf1; border-radius: 5px;">
+    <h3>Bottom Line</h3>
+    <p>Used with discipline, AI can save an evaluator hours of drafting and first-pass processing. Used carelessly, it fabricates evidence, leaks respondents' data, and launders bias into findings. The difference is a human who supplies the substance, verifies every claim, protects respondents, and signs their name to the result.</p>
+</div>
+
+
+<!-- ImpactMojo Theme Toggle JS -->
+<script src="/js/theme.js"></script>
+<div class="print-note" style="max-width:800px;margin:48px auto 32px;padding:20px 24px;border-top:1px solid rgba(148,163,184,0.25);font-size:0.9rem;text-align:center;color:var(--im-text-muted,#64748B);line-height:1.6;">
+<p style="margin:0 0 8px;"><em>This handout is part of the ImpactMojo 101 Knowledge Series</em><br>
+<strong>Licensed under CC BY-NC-ND 4.0</strong> &bull; Free to use with attribution &bull; <a href="https://www.impactmojo.in" style="color:inherit;">www.impactmojo.in</a></p>
+</div>
+<!-- ImpactMojo Paper Plane -->
+<svg class="im-paper-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M80,130 L150,50" stroke="#10B981" stroke-width="2" stroke-dasharray="4,4"/>
+    <circle cx="150" cy="50" r="4" fill="#6366F1"/>
+    <circle cx="40" cy="155" r="2" fill="#0EA5E9" opacity="0.6"/>
+    <circle cx="35" cy="165" r="1.5" fill="#6366F1" opacity="0.4"/>
+    <circle cx="45" cy="170" r="1" fill="#10B981" opacity="0.5"/>
+</svg>
+<!-- ImpactMojo Footer -->
+<footer class="im-footer" role="contentinfo">
+<div class="im-footer-content">
+<p class="im-footer-made">Made with &#10084; by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+<div class="im-footer-grid">
+<div class="im-footer-section">
+<h4>About ImpactMojo</h4>
+<ul>
+<li><a href="../../../about.html">About Us</a></li>
+<li><a href="../../../contact.html">Contact</a></li>
+<li><a href="https://github.com/ImpactMojo/ImpactMojo" rel="noopener noreferrer" target="_blank">GitHub</a></li>
+<li><a href="../../../transparency.html">Transparency</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4>Legal</h4>
+<ul>
+<li><a href="../../../privacy-policy.html">Privacy Policy</a></li>
+<li><a href="../../../terms-of-service.html">Terms of Service</a></li>
+<li><a href="../../../disclaimer.html">Disclaimer</a></li>
+<li><a href="../../../data-protection.html">Data Protection</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4>Quick Links</h4>
+<ul>
+<li><a href="../../../catalog.html">All Courses</a></li>
+<li><a href="../../../premium.html">Premium Content</a></li>
+<li><a href="../../../coaching.html">Coaching</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4>Resources</h4>
+<ul>
+<li><a href="../../../handouts.html">Handouts</a></li>
+<li><a href="../../../blog.html">Blog</a></li>
+<li><a href="../../../faq.html">FAQ</a></li>
+<li><a href="../../../sitemap.html">Sitemap</a></li>
+<li><a href="/docs/" rel="noopener noreferrer" target="_blank">Documentation</a></li>
+</ul>
+</div>
+</div>
+<div class="im-footer-bottom">
+<p>&copy; 2026 ImpactMojo. All content for educational purposes only.</p>
+<p>Released under <strong>MIT License</strong> | Supported by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+</div>
+</div>
+</footer>
+
+<!-- Supabase Auth -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="/js/state-manager.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/translate-sarvam.js" defer></script>
+  <script src="/js/site-chrome.js" defer></script>
+</body>
+</html>

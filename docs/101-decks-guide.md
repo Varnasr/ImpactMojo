@@ -167,7 +167,7 @@ The 60-slide format maps well to a **90-minute workshop session**:
 
 ### Combining with Handouts
 
-ImpactMojo offers 84 handouts in `/Handouts/` that pair well with the decks. For example:
+ImpactMojo offers 89 handouts in `/Handouts/` that pair well with the decks. For example:
 
 - Use the **Data Literacy deck** alongside the Data & Technology track handouts for a full-day workshop
 - Distribute the **MEL Fundamentals handouts** as pre-reading before presenting the deck
