@@ -2,6 +2,19 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.97.0 — July 11, 2026 (Cleaner navigation — Libraries, Specials, About)
+
+### Changed
+
+- **The Libraries hub is now libraries-only** — [/libraries](https://www.impactmojo.in/libraries.html) lists the 12 reference collections you browse and read (Reading Companions, Deep Dives, Handouts, Timelines, Marginalia, Research to Action, Dataverse, BCT Repository, ImpactLex, PolicyDhara, DevDiscourses, FieldCases). Courses, labs and games moved out — they have their own homes in the menu.
+- **Tidier Specials menu** — the reading and reference-library items were removed from the Specials dropdown (they now live in the Libraries hub, which is one click away in the top nav), leaving Games, Practice & Programs, and Showcase.
+- **Shorter About Us menu** — the 12-item About dropdown is regrouped into three tidy sections (About · Get Involved · More).
+
+### Fixed
+
+- **The Handouts gallery now shows every handout.** It was truncating each track to the first 10 files, leaving ~30 handouts unreachable (rendered as a non-clickable "+N more"). Now every handout is a clickable link, and the gallery has a committed static index (`data/handouts-index.json`) it falls back to if GitHub's API is rate-limited — so [/handouts](https://www.impactmojo.in/handouts.html) never renders empty.
+- **Corrected stale/contradictory counts across the marketing surfaces.** A content-marketing graphic literally showed "9 Courses"; the press kit contradicted itself (62 vs 68 courses, 16 vs 17 flagship, 134 vs 135 games); the handouts page claimed "400+ resources." Standardised the public numbers to reality — **69 courses (17 flagship + 52 foundational), 135 games, 22 deep dives, 84 handouts, 12 AI study companions, 15 challenges** — across the homepage, press kit, content-marketing kit, handouts page, search index and the monthly-newsletter fallbacks. Also marked the site languages as "live" (they were still labelled "coming").
+
 ## v10.96.1 — July 11, 2026 (Field Radio — mobile polish + copy)
 
 ### Fixed

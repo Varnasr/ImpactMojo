@@ -17,7 +17,7 @@
     ║  ✓ Theme Toggle (Sun/Moon) with localStorage sync                             ║
     ║  ✓ Auto-refresh on back/forward navigation                                    ║
     ║  ✓ Mojini Chatbot                                                              ║
-    ║  ✓ Dynamic GitHub handouts loader (400+ files)                                 ║
+    ║  ✓ Dynamic GitHub handouts loader (84 files)                                 ║
     ╚══════════════════════════════════════════════════════════════════════════════╝
 -->
 <html lang="en">
@@ -53,7 +53,7 @@ window.addEventListener('pageshow', function(event) {
 </script>
 
 <!-- SEO Meta Tags -->
-<meta name="description" content="Free educational handouts and resources for development professionals. 6 learning tracks covering data, gender, policy, MEL, governance, and health. 400+ HTML resources.">
+<meta name="description" content="Free educational handouts and resources for development professionals. 6 learning tracks covering data, gender, policy, MEL, governance, and health. 84 handouts.">
 <meta property="og:title" content="Learning Tracks &amp; Handouts | ImpactMojo">
 <meta property="og:description" content="Free educational handouts and resources for development professionals - MEAL, ToC, research methods, and more.">
 <meta property="og:type" content="website">
@@ -1318,7 +1318,7 @@ body.dark-mode .badge-free, body.dark-mode .badge-status-live, body.dark-mode .s
             <section class="ib-hero"><div class="ib-hero-in">
             <span class="ib-eyebrow">Learning Tracks</span>
             <h1 class="page-title">Learning Tracks & Handouts</h1>
-            <p class="ib-tagline">400+ free, downloadable resources for development professionals, organised into 6 learning tracks.</p>
+            <p class="ib-tagline">84 free, downloadable resources for development professionals, organised into 6 learning tracks.</p>
             </div></section>
 
             <!-- Track jump-nav (WCAG AA: darker brand text on tinted bgs;
@@ -1785,12 +1785,12 @@ function renderCards(groups) {
         const htmlFiles = g.files.filter(f => f.type === 'html');
         const otherCount = g.files.length - htmlFiles.length;
 
-        // Create file links - show first 10 files
+        // Create file links - show ALL files (every handout must be reachable)
         let filesHTML = '';
         if (htmlFiles.length > 0) {
-            const displayFiles = htmlFiles.slice(0, 10);
-            const moreCount = htmlFiles.length - 10;
-            
+            const displayFiles = htmlFiles;
+            const moreCount = 0;
+
             filesHTML = `<div class="category-files">
                 ${displayFiles.map(f => `
                     <a href="${getHandoutURL(f.path)}" target="_blank" rel="noopener" class="file-link">
@@ -1843,22 +1843,52 @@ function renderCards(groups) {
 
 // Load handouts from GitHub API
 async function loadHandouts() {
+    // Group a {path} file list into track cards and render. Shared by the live
+    // GitHub-API path and the static fallback below.
+    function groupAndRender(files) {
+        const groups = {};
+        let totalFileCount = 0;
+        files.forEach(node => {
+            const type = getFileType(node.path);
+            const fileName = node.path.split('/').pop();
+            const relativePath = node.path.replace(`${GITHUB_CONFIG.rootDir}/`, '');
+            const parts = relativePath.split('/');
+            if (parts.length <= 1) return;
+            const categoryKey = parts[0];
+            if (!groups[categoryKey]) groups[categoryKey] = { title: categoryKey, subs: new Set(), files: [] };
+            parts.slice(1, -1).forEach(s => groups[categoryKey].subs.add(s));
+            groups[categoryKey].files.push({
+                title: fileName.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' '),
+                path: node.path,
+                type: type
+            });
+            totalFileCount++;
+        });
+        Object.values(groups).forEach(g => { g.subs = [...g.subs]; });
+        totalCategories.textContent = Object.keys(groups).length;
+        totalFiles.textContent = totalFileCount;
+        allGroups = groups;
+        renderCards(groups);
+    }
+
+    // Static fallback (committed data/handouts-index.json) so the gallery never
+    // renders empty when the unauthenticated GitHub API is rate-limited/offline.
+    async function loadStaticFallback() {
+        const res = await fetch('/data/handouts-index.json', { cache: 'no-cache' });
+        if (!res.ok) throw new Error('static fallback ' + res.status);
+        const idx = await res.json();
+        groupAndRender((idx.paths || []).map(p => ({ path: p })));
+    }
+
     try {
-        // Step 1: Get branch info to find tree SHA
         const branchRes = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/branches/${GITHUB_CONFIG.branch}`);
         if (!branchRes.ok) throw new Error('Failed to fetch branch: ' + branchRes.status);
-        
         const branchData = await branchRes.json();
         const treeSha = branchData.commit?.commit?.tree?.sha || branchData.commit?.sha;
         if (!treeSha) throw new Error('Could not find tree SHA');
-
-        // Step 2: Get full tree recursively (this gets ALL files)
         const treeRes = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/git/trees/${treeSha}?recursive=1`);
         if (!treeRes.ok) throw new Error('Failed to fetch tree: ' + treeRes.status);
-        
         const treeData = await treeRes.json();
-        
-        // Step 3: Filter for files in Handouts folder
         const systemFiles = /\.(ds_store|gitkeep|gitignore)$/i;
         const files = (treeData.tree || []).filter(node => {
             if (node.type !== 'blob') return false;
@@ -1867,68 +1897,22 @@ async function loadHandouts() {
             if (systemFiles.test(name) || name.startsWith('.') || name.toLowerCase() === 'thumbs.db') return false;
             return true;
         });
-
-        // Step 4: Group files by first-level folder (category)
-        const groups = {};
-        let totalFileCount = 0;
-        
-        files.forEach(node => {
-            const type = getFileType(node.path);
-            const fileName = node.path.split('/').pop();
-            const relativePath = node.path.replace(`${GITHUB_CONFIG.rootDir}/`, '');
-            const parts = relativePath.split('/');
-            
-            // Skip files directly in root Handouts folder (no category)
-            if (parts.length <= 1) return;
-            
-            const categoryKey = parts[0];
-            
-            if (!groups[categoryKey]) {
-                groups[categoryKey] = {
-                    title: categoryKey,
-                    subs: new Set(),
-                    files: []
-                };
-            }
-            
-            // Add subcategories (folders within the category)
-            const subParts = parts.slice(1, -1);
-            subParts.forEach(s => groups[categoryKey].subs.add(s));
-            
-            // Add file
-            groups[categoryKey].files.push({
-                title: fileName.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' '),
-                path: node.path,
-                type: type
-            });
-            
-            totalFileCount++;
-        });
-
-        // Convert Sets to Arrays
-        Object.values(groups).forEach(g => {
-            g.subs = [...g.subs];
-        });
-
-        // Update stats display
-        totalCategories.textContent = Object.keys(groups).length;
-        totalFiles.textContent = totalFileCount;
-
-        // Store and render
-        allGroups = groups;
-        renderCards(groups);
-
+        if (!files.length) throw new Error('empty tree');
+        groupAndRender(files);
     } catch (error) {
-        console.error('Error loading handouts:', error);
-        loadingState.innerHTML = `
+        console.warn('Handouts: GitHub API unavailable, using static fallback —', error.message);
+        try {
+            await loadStaticFallback();
+        } catch (e2) {
+            loadingState.innerHTML = `
             <svg viewBox="0 0 24 24" style="width: 48px; height: 48px; stroke: var(--danger-color); fill: none; margin-bottom: 16px;">
                 <circle cx="12" cy="12" r="10"></circle>
                 <line x1="12" y1="8" x2="12" y2="12"></line>
                 <line x1="12" y1="16" x2="12.01" y2="16"></line>
             </svg>
-            <p>Error loading handouts: ${error.message}</p>
-            <p style="margin-top: 8px;"><a href="https://github.com/ImpactMojo/ImpactMojo/tree/main/Handouts" target="_blank" style="color: #0369A1;">View on GitHub directly &rarr;</a></p>
-        `;
+            <p>Couldn't load the handouts index right now.</p>
+            <p style="margin-top: 8px;"><a href="https://github.com/ImpactMojo/ImpactMojo/tree/main/Handouts" target="_blank" style="color: #0369A1;">View on GitHub directly &rarr;</a></p>`;
+        }
     }
 }
 
