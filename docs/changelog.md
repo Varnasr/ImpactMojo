@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.96.1 — July 11, 2026 (Field Radio — mobile polish + copy)
+
+### Fixed
+
+- **Field Radio is now properly mobile-friendly** — fixed a horizontal-overflow bug (long clip titles were forcing the page wider than the screen), so it fits phones cleanly: the transport controls wrap, the playlist flows with the page, tap targets are sized, and there's no sideways scroll.
+- **Copy** — the station now reads "Voices from practitioners across South Asia"; internal community shorthand removed from the page, titles and metadata.
+
 ## v10.96.0 — July 11, 2026 (Field Radio — video shorts + universal MP3 audio)
 
 ### For Learners
