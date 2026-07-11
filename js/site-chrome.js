@@ -179,8 +179,9 @@
           '<a href="' + SITE + '/courses/">Flagship Courses</a><a href="' + SITE + '/101-courses/">101 Series</a>' +
           '<a href="' + SITE + '/Labs/">Labs</a><a href="' + SITE + '/catalog.html">Full Catalog</a></div>' +
         '<div class="im-sc-foot-col"><h4>Explore</h4>' +
-          '<a href="' + SITE + '/dataverse.html">Dataverse</a><a href="' + SITE + '/dojos.html">Dojos &amp; Practice</a>' +
-          '<a href="' + SITE + '/BookSummaries/">Reading Companions</a><a href="' + SITE + '/blog.html">Blog</a></div>' +
+          '<a href="' + SITE + '/libraries.html"><b>All Libraries</b></a><a href="' + SITE + '/dataverse.html">Dataverse</a>' +
+          '<a href="' + SITE + '/BookSummaries/">Reading Companions</a><a href="' + SITE + '/dojos.html">Dojos &amp; Practice</a>' +
+          '<a href="' + SITE + '/blog.html">Blog</a></div>' +
         '<div class="im-sc-foot-col"><h4>ImpactMojo</h4>' +
           '<a href="' + SITE + '/about.html">About</a><a href="' + SITE + '/premium.html">Premium</a>' +
           '<a href="' + SITE + '/community.html">Community</a><a href="https://github.com/ImpactMojo/ImpactMojo">GitHub</a></div>' +
