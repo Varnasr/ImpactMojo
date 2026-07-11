@@ -2,6 +2,17 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.93.0 — July 11, 2026 (Roadmap blog, rewritten as a mid-year scorecard)
+
+### For Learners
+
+- **"What We've Shipped in 2026 (So Far)"** — the December 2025 roadmap post is now an honest mid-year scorecard: each promise marked live, in progress, or still ahead, plus the unplanned wins (the Libraries hub, searchable Site Map, Course Notes PDFs, the content refresh). [Read it](https://www.impactmojo.in/blog/whats-coming-in-2026.html).
+- **Two interactive reading companions now carry the full site chrome** — the *History of Economic Thought* and *Beyond Developmentality* interactive companions now have the standard ImpactMojo top bar, language switcher, theme toggle and footer, matching every other companion in the library.
+
+### Fixed
+
+- **Brand consistency — the last gaps closed.** Added favicon links to the NVC-RJ and SEL flagship course indexes, the GA4 tag to the seven standalone `/templates/` tool pages, and wrapped the two remaining compiled book-companion bundles (History of Economic Thought, Beyond Developmentality) in the standard site shell — fixing their placeholder `<title>`s in the process. Every content and tool page on the platform now meets the brand pre-flight checklist.
+
 ## v10.92.0 — July 11, 2026 (Content audit — round 2 refresh)
 
 A second data-refresh pass across the Deep Dives, a 101 deck and a landscape brief, bringing every headline figure to the latest published source.
