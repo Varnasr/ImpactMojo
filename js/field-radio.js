@@ -1,4 +1,4 @@
-/* Field Radio — a community station for ImpactMojo PLC voice notes & shorts.
+/* Field Radio — a community station for ImpactMojo community voice notes & shorts.
    Streams clips back-to-back (auto-advance), supports audio (cassette + waveform)
    and video (vertical short frame), tag filtering, and a transcript caption panel.
    Driven by /data/field-radio.json. No external dependencies. */
