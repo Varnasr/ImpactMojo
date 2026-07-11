@@ -20,6 +20,11 @@ If you want to know *what to read* on a topic, use a [Deep Dive](deep-dives-guid
 | Data Dive | Topic | Dataset | Charts | Link |
 |-----------|-------|---------|--------|------|
 | **The states that spend most on welfare have the least to show for it** | Public Finance | RBI State Finances 2025-26 | 3 | [Open](/DataDives/state-welfare-budgets.html) |
+| **The women dropping off the voter list** | Democracy & Data | ECI · The Hindu · NFHS-5 | 2 | [Open](/DataDives/women-and-the-sir.html) |
+| **Whose name is on the house?** | Gender & Assets | PMAY · NFHS-5 | 3 | [Open](/DataDives/whose-name-on-the-house.html) |
+| **Paid an honorarium, not a wage** | Care & Work | MWCD · NHM · Supreme Court | 2 | [Open](/DataDives/honorarium-not-a-wage.html) |
+| **The safety fund nobody spends** | Public Money | MWCD · Parliament · CAG | 2 | [Open](/DataDives/the-safety-fund-nobody-spends.html) |
+| **The pension that never got a raise** | Social Security | NSAP · Labour Bureau CPI | 2 | [Open](/DataDives/the-pension-that-never-got-a-raise.html) |
 
 Browse all Data Dives at [/DataDives/](/DataDives/).
 
