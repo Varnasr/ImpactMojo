@@ -2,6 +2,17 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.106.0 — July 11, 2026 (3 new Labs + 5 new Handouts — filling the gaps)
+
+### For Learners
+
+- **Impact Evaluation Designer** — a new interactive lab to design a credible impact evaluation end to end: frame the question and estimand, choose an identification strategy (RCT, difference-in-differences, regression discontinuity, matching, synthetic control, interrupted time series) with its assumptions, size the sample and power you need, and work through validity threats. Pairs with the Causal Inference flagship. [/Labs/impact-evaluation-lab.html](https://www.impactmojo.in/Labs/impact-evaluation-lab.html)
+- **NVC & Mediation Practice** — a new lab to practise Nonviolent Communication and restorative dialogue: build Observation-Feeling-Need-Request statements, use feelings & needs inventories, plan a restorative circle, and rehearse real conflict scenarios. Pairs with the Nonviolence in Practice flagship. [/Labs/nvc-mediation-lab.html](https://www.impactmojo.in/Labs/nvc-mediation-lab.html)
+- **Livelihoods & Value-Chain** — a new lab to analyse a livelihood system and design what to do about it: map the sustainable-livelihoods capitals, build the value chain node by node, diagnose constraints and leverage points, and design interventions linked to real Indian programmes (NRLM, FPOs, PMKVY, MGNREGA). Pairs with the Livelihoods in India flagship. [/Labs/livelihoods-value-chain-lab.html](https://www.impactmojo.in/Labs/livelihoods-value-chain-lab.html)
+- **Five new practitioner handouts** — Rights-Based Approach (RTI, PIL & legal empowerment), Measuring Social-Emotional Learning, AI for Evaluators (prompt patterns & guardrails), an SBCC Campaign Planner, and Institutional & Collective-Action Analysis. Each fills a thin handout track and reinforces a flagship course.
+
+The Interactive Labs library is now **30** and the handout library is **89**.
+
 ## v10.105.0 — July 11, 2026 (Deep refresh: marketing kit, press kit, learner analytics)
 
 ### Changed

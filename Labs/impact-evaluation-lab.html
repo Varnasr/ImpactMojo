@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0F172A">
+    <title>Impact Evaluation Designer | ImpactMojo</title>
+    <meta name="description" content="Interactive Impact Evaluation Designer — frame a causal question, choose a design (RCT, Difference-in-Differences, Regression Discontinuity, Propensity Score Matching, Synthetic Control, Interrupted Time Series), size your sample and power, and stress-test internal and external validity. A hands-on ImpactMojo lab for development practitioners in South Asia.">
+    <meta name="keywords" content="impact evaluation, causal inference, RCT, difference-in-differences, regression discontinuity, propensity score matching, synthetic control, interrupted time series, potential outcomes, Rubin causal model, ATE, ATT, ITT, parallel trends, power calculation, minimum detectable effect, intra-cluster correlation, NREGA, PROGRESA, J-PAL, South Asia, ImpactMojo">
+    <link rel="canonical" href="https://www.impactmojo.in/Labs/impact-evaluation-lab.html">
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JRCMEB9TBW');
+</script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-bg: #FFFFFF; --secondary-bg: #F8FAFC; --accent-color: #0EA5E9; --accent-hover: #0284C7;
+            --secondary-accent: #6366F1; --success-color: #10B981; --warning-color: #F59E0B; --danger-color: #EF4444;
+            --text-primary: #0F172A; --text-secondary: #475569; --text-muted: #52627A;
+            --card-bg: #FFFFFF; --hover-bg: #F1F5F9; --border-color: #E2E8F0;
+            --gradient-primary: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+            --font-sans: 'Amaranth', sans-serif; --font-heading: 'Inter', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+        }
+@media (prefers-color-scheme: dark) { :root {
+            --primary-bg: #0F172A; --secondary-bg: #1E293B; --accent-color: #0EA5E9; --accent-hover: #0284C7;
+            --secondary-accent: #6366F1; --success-color: #10B981; --warning-color: #F59E0B; --danger-color: #EF4444;
+            --text-primary: #F1F5F9; --text-secondary: #CBD5E1; --text-muted: #94A3B8;
+            --card-bg: #1E293B; --hover-bg: #334155; --border-color: #334155;
+            --gradient-primary: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+            --font-sans: 'Amaranth', sans-serif; --font-heading: 'Inter', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+        } }
+body.light-mode, [data-theme="light"] {
+            --primary-bg: #FFFFFF; --secondary-bg: #F8FAFC; --accent-color: #0EA5E9; --accent-hover: #0284C7;
+            --secondary-accent: #6366F1; --success-color: #10B981; --warning-color: #F59E0B; --danger-color: #EF4444;
+            --text-primary: #0F172A; --text-secondary: #475569; --text-muted: #52627A;
+            --card-bg: #FFFFFF; --hover-bg: #F1F5F9; --border-color: #E2E8F0;
+            --gradient-primary: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+            --font-sans: 'Amaranth', sans-serif; --font-heading: 'Inter', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+        }
+body.dark-mode, [data-theme="dark"] {
+            --primary-bg: #0F172A; --secondary-bg: #1E293B; --accent-color: #0EA5E9; --accent-hover: #0284C7;
+            --secondary-accent: #6366F1; --success-color: #10B981; --warning-color: #F59E0B; --danger-color: #EF4444;
+            --text-primary: #F1F5F9; --text-secondary: #CBD5E1; --text-muted: #94A3B8;
+            --card-bg: #1E293B; --hover-bg: #334155; --border-color: #334155;
+            --gradient-primary: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+            --font-sans: 'Amaranth', sans-serif; --font-heading: 'Inter', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-sans); background: var(--primary-bg); color: var(--text-primary); line-height: 1.6; min-height: 100vh; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 2rem; position: relative; z-index: 1; }
+        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--accent-color); text-decoration: none; font-size: 0.9rem; margin-bottom: 2rem; }
+        .back-link:hover { color: var(--accent-hover); }
+        .back-link svg { width: 18px; height: 18px; }
+        .header { text-align: center; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); }
+        .header-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 1rem; background: rgba(14, 165, 233, 0.15); color: var(--accent-color); border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-bottom: 1rem; font-family: var(--font-heading); }
+        .header h1 { font-family: var(--font-heading); font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 0.5rem; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .header p { color: var(--text-secondary); font-size: 1.05rem; max-width: 720px; margin: 0 auto; }
+        .top-controls { display: flex; justify-content: flex-end; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+        .ctrl-btn { padding: 0.6rem 0.9rem; background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-sans); transition: all 0.2s; }
+        .ctrl-btn:hover { border-color: var(--accent-color); background: var(--hover-bg); }
+        .theme-selector { display: flex; gap: 4px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 4px; }
+        .theme-btn { background: transparent; border: none; color: var(--text-secondary); padding: 8px; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; }
+        .theme-btn:hover { background: var(--hover-bg); color: var(--text-primary); }
+        .theme-btn.active { background: var(--accent-color); color: white; }
+        .theme-btn svg { width: 18px; height: 18px; }
+        .progress-bar { width: 100%; height: 6px; background: var(--border-color); border-radius: 3px; margin-bottom: 2rem; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: var(--gradient-primary); border-radius: 3px; transition: width 0.4s; width: 25%; }
+        .tabs { display: flex; gap: 0; margin-bottom: 2rem; border-bottom: 2px solid var(--border-color); overflow-x: auto; }
+        .tab-btn { padding: 0.85rem 1.1rem; background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -2px; color: var(--text-muted); font-size: 0.9rem; font-family: var(--font-sans); cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 0.4rem; transition: all 0.2s; }
+        .tab-btn:hover { color: var(--text-secondary); }
+        .tab-btn.active { color: var(--accent-color); border-bottom-color: var(--accent-color); }
+        .tab-btn .tab-num { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: var(--border-color); font-size: 0.7rem; font-weight: 700; font-family: var(--font-heading); }
+        .tab-btn.active .tab-num { background: var(--accent-color); color: #fff; }
+        .tab-btn.completed .tab-num { background: var(--success-color); color: #fff; }
+        .tab-panel { display: none; animation: fadeIn 0.3s ease; }
+        .tab-panel.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .section-title { font-family: var(--font-heading); font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary); }
+        .section-desc { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem; }
+        h3.block-title { font-family: var(--font-heading); font-size: 1.1rem; margin: 1.75rem 0 0.75rem; color: var(--text-primary); }
+        p.body-text { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 0.75rem; }
+
+        /* Info boxes */
+        .info-box { background: rgba(14,165,233,0.08); border-left: 4px solid var(--accent-color); padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin: 1rem 0; font-size: 0.92rem; color: var(--text-secondary); }
+        .info-box strong { color: var(--text-primary); }
+        .info-box.warning { background: rgba(245,158,11,0.10); border-left-color: var(--warning-color); }
+        .info-box.success { background: rgba(16,185,129,0.10); border-left-color: var(--success-color); }
+        .illustrative-tag { display: inline-block; font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.5px; text-transform: uppercase; font-weight: 600; padding: 2px 8px; border-radius: 5px; background: rgba(245,158,11,0.15); color: var(--warning-color); border: 1px solid rgba(245,158,11,0.35); margin-left: 6px; vertical-align: middle; }
+
+        /* Tables */
+        .budget-table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: 0.92rem; }
+        .budget-table th, .budget-table td { padding: 0.7rem 0.85rem; text-align: left; border-bottom: 1px solid var(--border-color); color: var(--text-secondary); }
+        .budget-table th { background: var(--secondary-bg); font-family: var(--font-heading); font-weight: 600; color: var(--accent-color); }
+        .budget-table td strong { color: var(--text-primary); }
+        .budget-table tr:hover td { background: var(--hover-bg); }
+        .budget-table .total-row td { font-weight: 700; background: var(--secondary-bg); color: var(--text-primary); }
+        .table-scroll { overflow-x: auto; }
+
+        /* Result / chart box */
+        .result-box { background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem 1.5rem; margin: 1.25rem 0; }
+        .result-box h4 { font-family: var(--font-heading); font-size: 1rem; margin-bottom: 0.75rem; color: var(--text-primary); }
+        .result-box p { color: var(--text-secondary); font-size: 0.92rem; margin-bottom: 0.35rem; }
+        .result-box strong { color: var(--text-primary); }
+        .big-figure { font-size: 2rem; font-weight: 700; font-family: var(--font-heading); color: var(--accent-color); }
+
+        /* Reveal / choice cards */
+        .scheme-card { border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; margin: 0.75rem 0; background: var(--card-bg); cursor: pointer; transition: all 0.2s; }
+        .scheme-card:hover { border-color: var(--accent-color); box-shadow: 0 4px 14px rgba(15,23,42,0.08); }
+        .scheme-card.selected { border-color: var(--accent-color); background: rgba(14,165,233,0.06); }
+        .scheme-card h4 { font-family: var(--font-heading); color: var(--accent-color); margin-bottom: 0.4rem; font-size: 1rem; }
+        .scheme-card p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.35rem; }
+        .scheme-card .meta { font-size: 0.82rem; color: var(--text-muted); }
+
+        /* Tags */
+        .tag { display: inline-block; padding: 4px 12px; background: rgba(14,165,233,0.12); color: var(--accent-color); border-radius: 12px; font-size: 0.78rem; font-family: var(--font-heading); font-weight: 600; margin: 4px 4px 4px 0; }
+
+        /* Completion */
+        .completion-badge { text-align: center; padding: 2.5rem 1.5rem; background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 16px; margin: 1rem 0; }
+        .completion-badge .tick { width: 72px; height: 72px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; }
+        .completion-badge .tick svg { width: 38px; height: 38px; stroke: #fff; }
+        .completion-badge h2 { font-family: var(--font-heading); color: var(--text-primary); font-size: 1.6rem; margin-bottom: 0.75rem; }
+        .completion-badge p { color: var(--text-secondary); max-width: 560px; margin: 0 auto; }
+        .takeaway-list { text-align: left; max-width: 620px; margin: 1.25rem auto; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.9; padding-left: 1.25rem; }
+        .next-steps { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
+
+        /* Buttons + nav */
+        .btn { padding: 0.7rem 1.5rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--secondary-bg); color: var(--text-primary); font-size: 0.9rem; font-family: var(--font-sans); cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.4rem; text-decoration: none; }
+        .btn:hover { border-color: var(--accent-color); background: var(--hover-bg); }
+        .btn-primary { background: var(--accent-color); border-color: var(--accent-color); color: #fff; font-weight: 600; }
+        .btn-primary:hover { background: var(--accent-hover); color: #fff; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .nav-row { display: flex; justify-content: space-between; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); gap: 1rem; }
+        ul.body-list { margin: 0.5rem 0 0.75rem 1.5rem; color: var(--text-secondary); font-size: 0.92rem; line-height: 1.8; }
+
+        /* ===== Form fields (ImpactMojo variables only) ===== */
+        .field-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin: 1rem 0; }
+        .field { display: flex; flex-direction: column; gap: 0.35rem; }
+        .field.full { grid-column: 1 / -1; }
+        .field label { font-family: var(--font-heading); font-size: 0.82rem; font-weight: 600; color: var(--text-secondary); }
+        .field .hint { font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-sans); }
+        input[type="text"], input[type="number"], textarea, select { width: 100%; padding: 0.6rem 0.8rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--secondary-bg); color: var(--text-primary); font-family: var(--font-sans); font-size: 0.9rem; }
+        textarea { min-height: 68px; resize: vertical; }
+        input:focus, textarea:focus, select:focus { outline: 2px solid var(--accent-color); outline-offset: 1px; }
+        input::placeholder, textarea::placeholder { color: var(--text-muted); }
+
+        /* Design chooser cards */
+        .design-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; margin: 1.25rem 0; }
+        .design-card { background: var(--card-bg); border: 2px solid var(--border-color); border-radius: 12px; padding: 1rem 1.1rem; cursor: pointer; transition: all 0.2s; }
+        .design-card:hover { border-color: var(--accent-color); }
+        .design-card.selected { border-color: var(--accent-color); background: rgba(14,165,233,0.06); box-shadow: 0 4px 14px rgba(15,23,42,0.08); }
+        .design-card h4 { font-family: var(--font-heading); font-size: 0.98rem; margin-bottom: 0.3rem; color: var(--text-primary); }
+        .design-card .abbr { font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent-color); letter-spacing: 0.5px; }
+        .design-card p { font-size: 0.82rem; color: var(--text-muted); margin: 0.35rem 0 0; }
+        .design-detail dt { font-family: var(--font-heading); font-size: 0.82rem; font-weight: 700; color: var(--accent-color); margin-top: 0.85rem; text-transform: uppercase; letter-spacing: 0.4px; }
+        .design-detail dd { margin: 0.25rem 0 0; color: var(--text-secondary); font-size: 0.92rem; }
+        .assumption-flag { background: rgba(99,102,241,0.10); border-left: 4px solid var(--secondary-accent); padding: 0.85rem 1.1rem; border-radius: 0 8px 8px 0; margin: 0.75rem 0; font-size: 0.9rem; color: var(--text-secondary); }
+        .assumption-flag strong { color: var(--text-primary); }
+
+        /* Checklists */
+        .threat-checklist { list-style: none; margin: 0.75rem 0; }
+        .threat-checklist li { padding: 0.85rem 0; border-bottom: 1px solid var(--border-color); }
+        .threat-checklist li:last-child { border-bottom: none; }
+        .threat-row { display: flex; align-items: flex-start; gap: 0.7rem; font-size: 0.9rem; color: var(--text-secondary); }
+        .threat-row strong { color: var(--text-primary); }
+        .threat-checklist input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent-color); margin-top: 3px; flex-shrink: 0; }
+        .threat-checklist label { cursor: pointer; }
+        .threat-note { width: 100%; margin-top: 0.5rem; margin-left: 1.9rem; max-width: calc(100% - 1.9rem); font-size: 0.85rem; }
+
+        /* Score circle */
+        .score-circle { width: 120px; height: 120px; border-radius: 50%; border: 6px solid var(--accent-color); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.7rem; font-weight: 700; color: var(--accent-color); font-family: var(--font-heading); }
+
+        .v3-inline-icon { width: 16px; height: 16px; vertical-align: middle; display: inline-block; }
+        .v3-paper-plane { position: fixed; top: 15%; right: 6%; width: 130px; height: 130px; opacity: 0.18; z-index: 0; pointer-events: none; animation: v3-float-plane 25s ease-in-out infinite; }
+        @keyframes v3-float-plane { 0% { transform: translate(0,0) rotate(0deg);} 20% { transform: translate(-50px,40px) rotate(10deg);} 40% { transform: translate(100px,30px) rotate(-8deg);} 60% { transform: translate(40px,60px) rotate(15deg);} 80% { transform: translate(-30px,-40px) rotate(-12deg);} 100% { transform: translate(0,0) rotate(0deg);} }
+        @media (prefers-reduced-motion: reduce) { .v3-paper-plane { animation: none !important; } .tab-panel { animation: none; } }
+
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            .v3-paper-plane { width: 90px; height: 90px; opacity: 0.12; }
+            .budget-table { font-size: 0.82rem; }
+            .budget-table th, .budget-table td { padding: 0.5rem 0.55rem; }
+        }
+        @media print {
+            body { background: #fff; color: #000; }
+            .top-controls, .back-link, .tabs, .nav-row, .btn, .im-topbar, .v3-paper-plane { display: none !important; }
+            .tab-panel { display: block !important; page-break-inside: avoid; margin-bottom: 2rem; }
+        }
+    </style>
+<style>
+/* ===== ImpactMojo Design System (topbar / footer) ===== */
+:root {
+    --im-primary-bg: #0F172A; --im-secondary-bg: #1E293B; --im-accent: #0EA5E9; --im-accent-hover: #0284C7;
+    --im-secondary-accent: #6366F1; --im-success: #10B981; --im-text-primary: #F1F5F9; --im-text-secondary: #94A3B8;
+    --im-text-muted: #64748B; --im-card-bg: #1E293B; --im-hover-bg: #334155; --im-border: #334155;
+    --im-nav-bg: rgba(15, 23, 42, 0.95); --im-gradient: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+}
+[data-theme="light"] {
+    --im-primary-bg: #F8FAFC; --im-secondary-bg: #FFFFFF; --im-accent: #0284C7; --im-accent-hover: #0369A1;
+    --im-text-primary: #0F172A; --im-text-secondary: #475569; --im-text-muted: #64748B; --im-card-bg: #FFFFFF;
+    --im-hover-bg: #F1F5F9; --im-border: #E2E8F0; --im-nav-bg: rgba(248, 250, 252, 0.95);
+}
+.im-topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 9999; background: var(--im-nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--im-border); padding: 0.5rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; font-family: 'Inter', sans-serif; }
+.im-topbar a { text-decoration: none; }
+.im-topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+.im-topbar-home { display: flex; align-items: center; gap: 0.5rem; color: var(--im-text-primary); font-weight: 700; font-size: 1rem; background: var(--im-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.im-topbar-home svg { width: 24px; height: 24px; flex-shrink: 0; }
+.im-topbar-right { display: flex; align-items: center; gap: 0.5rem; }
+.im-premium-btn { background: var(--im-gradient); color: #fff !important; padding: 0.35rem 0.85rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 0.35rem; transition: opacity 0.2s; -webkit-text-fill-color: #fff; }
+.im-premium-btn:hover { opacity: 0.9; }
+.im-premium-btn svg { width: 14px; height: 14px; }
+.im-browse-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--im-text-primary); background: var(--im-card-bg); border: 1.5px solid var(--im-border); padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; transition: all 0.18s ease; }
+.im-browse-btn:hover { background: var(--im-accent); color: #FFFFFF; border-color: var(--im-accent); transform: translateY(-1px); }
+.im-browse-btn svg { width: 14px; height: 14px; }
+.im-theme-selector { display: flex; gap: 2px; background: var(--im-card-bg); border: 1px solid var(--im-border); border-radius: 8px; padding: 2px; }
+.im-theme-btn { background: transparent; border: none; color: var(--im-text-secondary); padding: 6px; border-radius: 5px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; }
+.im-theme-btn:hover { background: var(--im-hover-bg); color: var(--im-text-primary); }
+.im-theme-btn.active { background: var(--im-accent); color: #fff; }
+.im-theme-btn svg { width: 16px; height: 16px; }
+.im-footer { background: var(--im-secondary-bg); border-top: 1px solid var(--im-border); padding: 2rem 1rem; margin-top: 3rem; font-family: 'Inter', sans-serif; color: var(--im-text-secondary); }
+.im-footer-content { max-width: 1100px; margin: 0 auto; }
+.im-footer-made { text-align: center; margin-bottom: 1.5rem; font-size: 0.9rem; color: var(--im-text-muted); }
+.im-footer-made a { color: var(--im-accent); }
+.im-footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem; }
+.im-footer-section h4 { color: var(--im-text-primary); font-size: 0.9rem; margin-bottom: 0.75rem; font-weight: 600; }
+.im-footer-section ul { list-style: none; padding: 0; margin: 0; }
+.im-footer-section li { margin-bottom: 0.4rem; }
+.im-footer-section a { color: var(--im-text-secondary); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+.im-footer-section a:hover { color: var(--im-accent); }
+.im-footer-bottom { text-align: center; padding-top: 1rem; border-top: 1px solid var(--im-border); font-size: 0.8rem; color: var(--im-text-muted); }
+.im-footer-bottom p { margin: 0.25rem 0; }
+.im-footer-bottom a { color: var(--im-accent); text-decoration: none; }
+@media (max-width: 768px) {
+    .im-topbar { padding: 0.4rem 0.75rem; gap: 0.5rem; }
+    .im-topbar-home span { display: inline; font-size: 0.85rem; }
+    .im-footer-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+}
+@media (max-width: 480px) { .im-footer-grid { grid-template-columns: 1fr; } .im-topbar-home span { display: none; } }
+body { font-family: 'Amaranth', sans-serif; }
+h1, h2, h3, h4, h5, h6 { font-family: 'Inter', sans-serif; }
+code, pre, .monospace, kbd, samp { font-family: 'JetBrains Mono', monospace; }
+/* Body clears fixed im-topbar */
+body { padding-top: 56px; }
+@media (max-width: 768px) { body { padding-top: 52px; } }
+</style>
+<!-- SEO / social -->
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Impact Evaluation Designer">
+<meta property="og:description" content="Frame a causal question, choose a design (RCT, DiD, RDD, PSM, Synthetic Control, ITS), size your sample and power, and stress-test validity. A hands-on ImpactMojo lab for development practitioners in South Asia.">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:url" content="https://www.impactmojo.in/Labs/impact-evaluation-lab.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ImpactMojo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Impact Evaluation Designer">
+<meta name="twitter:description" content="Hands-on ImpactMojo lab: design an impact evaluation end-to-end — question, counterfactual, design choice, power, and validity threats — for development work in South Asia.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+</head>
+<body>
+<!-- ImpactMojo Top Bar -->
+<div class="im-topbar" id="imTopbar">
+    <div class="im-topbar-left">
+        <a href="../index.html" class="im-topbar-home">
+            <img src="/assets/images/ImpactMojo%20Logo.png" alt="ImpactMojo" width="24" height="24" style="border-radius:4px;">
+            <span>ImpactMojo</span>
+        </a>
+    </div>
+    <div class="im-topbar-right">
+        <a href="/catalog.html" class="im-browse-btn" title="Browse all content"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Browse</a>
+        <a href="../premium.html" class="im-premium-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Premium
+        </a>
+        <div class="im-theme-selector" aria-label="Theme selection">
+            <button class="im-theme-btn" data-theme="system" title="System theme" aria-label="Use system theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </button>
+            <button class="im-theme-btn" data-theme="light" title="Light theme" aria-label="Use light theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </button>
+            <button class="im-theme-btn" data-theme="dark" title="Dark theme" aria-label="Use dark theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<a href="#main" class="back-link" style="position:absolute;left:-9999px;top:0;">Skip to content</a>
+<div class="container" id="main">
+    <svg class="v3-paper-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M80,130 L150,50" stroke="#10B981" stroke-width="2" stroke-dasharray="4,4"/>
+        <circle cx="150" cy="50" r="4" fill="#6366F1"/>
+    </svg>
+
+    <a href="../index.html" class="back-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+        Back to ImpactMojo
+    </a>
+
+    <div class="header">
+        <div class="header-badge"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Target.svg" alt="" class="v3-inline-icon" loading="lazy" style="filter:brightness(0) saturate(100%) invert(56%) sepia(72%) saturate(2840%) hue-rotate(177deg) brightness(97%) contrast(93%)"> Interactive Lab</div>
+        <h1>Impact Evaluation Designer</h1>
+        <p>Move from "did our programme work?" to a defensible causal claim. Frame the question and counterfactual, choose an identification strategy, size your sample and power, and stress-test the threats to validity — the companion tool to the Causal Inference for Development course.</p>
+    </div>
+
+    <div class="top-controls">
+        <button class="ctrl-btn" onclick="exportMemo()">Export design memo</button>
+        <button class="ctrl-btn" onclick="window.print()">Print</button>
+    </div>
+
+    <div class="progress-bar"><div class="progress-bar-fill" id="progressFill"></div></div>
+
+    <div class="tabs" id="tabs">
+        <button class="tab-btn active" onclick="switchTab(0)"><span class="tab-num">1</span> Question &amp; Setup</button>
+        <button class="tab-btn" onclick="switchTab(1)"><span class="tab-num">2</span> Choose a Design</button>
+        <button class="tab-btn" onclick="switchTab(2)"><span class="tab-num">3</span> Sample &amp; Power</button>
+        <button class="tab-btn" onclick="switchTab(3)"><span class="tab-num">4</span> Threats &amp; Validity</button>
+    </div>
+
+    <!-- ===== TAB 1: Question & Setup ===== -->
+    <div class="tab-panel active" data-panel="0">
+        <h2 class="section-title">Frame the Causal Question</h2>
+        <p class="section-desc">Impact is a comparison against a <strong>counterfactual</strong> — what would have happened to the same units <em>without</em> the intervention. Since we never observe both states for one unit (the fundamental problem of causal inference), the whole job is to build a credible stand-in for that missing counterfactual.</p>
+
+        <div class="info-box">
+            <strong>Potential outcomes (the Rubin causal model).</strong> Each unit has two potential outcomes: Y(1) if treated and Y(0) if not. The individual treatment effect is Y(1) &minus; Y(0), but only one is ever observed. Evaluation designs differ mainly in <em>how</em> they estimate the average of the unobserved side.
+        </div>
+
+        <div class="field-grid">
+            <div class="field full">
+                <label for="ieQuestion">Research / evaluation question</label>
+                <span class="hint">State it as a causal question about an effect on an outcome for a population.</span>
+                <textarea id="ieQuestion" placeholder="e.g., What is the effect of a conditional cash transfer on secondary-school enrolment among adolescent girls in low-income districts?" oninput="saveState()"></textarea>
+            </div>
+            <div class="field">
+                <label for="ieOutcome">Primary outcome</label>
+                <span class="hint">The single measurable variable your claim rests on.</span>
+                <input type="text" id="ieOutcome" placeholder="e.g., Secondary-school enrolment (0/1)" oninput="saveState()">
+            </div>
+            <div class="field">
+                <label for="ieUnit">Unit of analysis</label>
+                <select id="ieUnit" onchange="saveState()">
+                    <option value="">Select...</option>
+                    <option>Individual</option>
+                    <option>Household</option>
+                    <option>Village / hamlet</option>
+                    <option>School / classroom</option>
+                    <option>Health facility</option>
+                    <option>Gram panchayat / block</option>
+                    <option>District / state</option>
+                    <option>Self-help group / cooperative</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="ieTreatment">Treatment / intervention</label>
+                <span class="hint">What exactly is delivered, to whom, at what dose?</span>
+                <input type="text" id="ieTreatment" placeholder="e.g., Monthly cash transfer conditional on 80% attendance" oninput="saveState()">
+            </div>
+            <div class="field">
+                <label for="iePopulation">Target population</label>
+                <input type="text" id="iePopulation" placeholder="e.g., Girls aged 13–16 in 200 low-income villages" oninput="saveState()">
+            </div>
+            <div class="field full">
+                <label for="ieComparison">Comparison-group idea (your counterfactual)</label>
+                <span class="hint">Who or what will stand in for the untreated state? Be honest about how comparable they really are.</span>
+                <textarea id="ieComparison" placeholder="e.g., Eligible girls in villages not yet reached by the phased rollout; or those just below the eligibility score cutoff." oninput="saveState()"></textarea>
+            </div>
+            <div class="field full">
+                <label for="ieEstimand">Target estimand — which average effect do you actually want?</label>
+                <select id="ieEstimand" onchange="onEstimandChange()">
+                    <option value="">Select...</option>
+                    <option value="ate">ATE — Average Treatment Effect (effect if everyone were treated)</option>
+                    <option value="att">ATT — Average Treatment effect on the Treated (effect for those who actually got it)</option>
+                    <option value="itt">ITT — Intention-to-Treat (effect of being offered / assigned, regardless of take-up)</option>
+                    <option value="late">LATE / CACE — Complier / local effect (effect among those whose take-up responds to assignment)</option>
+                </select>
+            </div>
+        </div>
+        <div id="estimandNote"></div>
+
+        <div class="info-box success">
+            <strong>ITT vs treatment-on-the-treated.</strong> In real programmes not everyone offered the treatment takes it up. <em>Intention-to-treat</em> answers the policy-relevant question "what happens if we offer this?" and is protected by randomisation. The <em>effect of treatment on the treated</em> (via ATT or an instrumental-variables LATE) answers "what happens to those who actually comply?" — a larger number, but one that leans on stronger assumptions. Decide which your decision-maker needs <em>before</em> collecting data.
+        </div>
+
+        <div class="nav-row">
+            <span></span>
+            <button class="btn btn-primary" onclick="switchTab(1)">Next: Choose a Design &rarr;</button>
+        </div>
+    </div>
+
+    <!-- ===== TAB 2: Choose a Design ===== -->
+    <div class="tab-panel" data-panel="1">
+        <h2 class="section-title">Choose an Identification Strategy</h2>
+        <p class="section-desc">There is no universally "best" design — each buys its counterfactual with a different, testable assumption. Pick the one whose key assumption is most plausible in <em>your</em> setting. Tap a card to see when to use it, what it assumes, and how it can break.</p>
+
+        <div class="design-grid" id="designGrid"></div>
+        <div id="designDetail"></div>
+
+        <div class="info-box warning">
+            <strong>The credibility test:</strong> for whichever design you pick, ask "what would have to be true for this to recover the real counterfactual — and can I test or defend that?" If the key assumption is untestable and implausible in your context, a bigger sample will not save the estimate.
+        </div>
+
+        <div class="nav-row">
+            <button class="btn" onclick="switchTab(0)">&larr; Back</button>
+            <button class="btn btn-primary" onclick="switchTab(2)">Next: Sample &amp; Power &rarr;</button>
+        </div>
+    </div>
+
+    <!-- ===== TAB 3: Sample & Power ===== -->
+    <div class="tab-panel" data-panel="2">
+        <h2 class="section-title">Sample Size &amp; Statistical Power</h2>
+        <p class="section-desc">An under-powered study can miss a real effect and wrongly conclude "no impact". Before fielding, work out how many units you need to detect the smallest effect worth acting on — the <strong>minimum detectable effect (MDE)</strong>.</p>
+
+        <div class="field-grid">
+            <div class="field">
+                <label for="ieOutcomeType">Outcome type</label>
+                <select id="ieOutcomeType" onchange="toggleOutcomeInputs()">
+                    <option value="continuous">Continuous (mean &amp; SD)</option>
+                    <option value="proportion">Binary / proportion</option>
+                </select>
+            </div>
+            <div class="field" id="mdeField">
+                <label for="ieMDE">Minimum detectable effect (MDE, &Delta;)</label>
+                <span class="hint" id="mdeHint">Absolute change in the outcome mean you want to detect.</span>
+                <input type="number" id="ieMDE" step="any" placeholder="e.g., 0.2" oninput="saveState()">
+            </div>
+            <div class="field" id="meanField">
+                <label for="ieBaselineMean">Baseline mean</label>
+                <input type="number" id="ieBaselineMean" step="any" placeholder="e.g., 2.5" oninput="saveState()">
+            </div>
+            <div class="field" id="sdField">
+                <label for="ieSD">Baseline SD (&sigma;)</label>
+                <input type="number" id="ieSD" step="any" placeholder="e.g., 1.0" oninput="saveState()">
+            </div>
+            <div class="field" id="propField" style="display:none;">
+                <label for="ieBaselineProp">Baseline proportion (p, 0–1)</label>
+                <span class="hint">Control-group rate of the outcome. MDE above is the absolute change in this rate.</span>
+                <input type="number" id="ieBaselineProp" step="any" min="0" max="1" placeholder="e.g., 0.40" oninput="saveState()">
+            </div>
+            <div class="field">
+                <label for="ieAlpha">Significance level (&alpha;)</label>
+                <select id="ieAlpha" onchange="saveState()">
+                    <option value="0.05" selected>0.05 (two-sided)</option>
+                    <option value="0.10">0.10 (two-sided)</option>
+                    <option value="0.01">0.01 (two-sided)</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="iePower">Power (1 &minus; &beta;)</label>
+                <select id="iePower" onchange="saveState()">
+                    <option value="0.70">0.70</option>
+                    <option value="0.80" selected>0.80</option>
+                    <option value="0.90">0.90</option>
+                    <option value="0.95">0.95</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="ieClustered">Cluster-randomised?</label>
+                <select id="ieClustered" onchange="toggleClusterInputs()">
+                    <option value="no">No (individual randomisation)</option>
+                    <option value="yes">Yes (randomise groups)</option>
+                </select>
+            </div>
+            <div class="field" id="clusterSizeField" style="display:none;">
+                <label for="ieClusterSize">Average cluster size (m)</label>
+                <span class="hint">Individuals measured per cluster (e.g. pupils per school).</span>
+                <input type="number" id="ieClusterSize" step="1" min="1" placeholder="e.g., 30" oninput="saveState()">
+            </div>
+            <div class="field" id="iccField" style="display:none;">
+                <label for="ieICC">Intra-cluster correlation (&rho;)</label>
+                <span class="hint">0 = no clustering; 0.05–0.20 is common for education/health outcomes.</span>
+                <input type="number" id="ieICC" step="any" min="0" max="1" placeholder="e.g., 0.10" oninput="saveState()">
+            </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="calcPower()">Estimate required sample size</button>
+        <div id="powerResult" style="margin-top:1rem;"></div>
+
+        <div class="info-box">
+            <strong>The formula (two-arm comparison of means).</strong> Required sample <em>per arm</em> is
+            <span class="monospace">n &approx; (z<sub>1&minus;&alpha;/2</sub> + z<sub>1&minus;&beta;</sub>)&sup2; &middot; 2&sigma;&sup2; / &Delta;&sup2;</span>,
+            where &Delta; is the MDE, &sigma; the outcome SD, and the z-values come from the chosen &alpha; and power. For a binary outcome, 2&sigma;&sup2; is replaced by p<sub>1</sub>(1&minus;p<sub>1</sub>) + p<sub>2</sub>(1&minus;p<sub>2</sub>). For cluster designs the per-arm figure is inflated by the <em>design effect</em> <span class="monospace">DEFF = 1 + (m &minus; 1)&rho;</span>.
+        </div>
+        <div class="info-box warning">
+            <strong>What this estimate assumes.</strong> It is a normal-approximation, equal-allocation, single-outcome, two-sided formula — a defensible first-pass number, not a substitute for a statistician. It ignores expected attrition (inflate for it), covariate adjustment / baseline controls (which can shrink it), multiple hypotheses (which raise it), and unequal group sizes. Treat &sigma; and &rho; as assumptions drawn from a pilot or comparable published study, and revisit them against your own baseline. <span class="illustrative-tag">First-draft sizing</span>
+        </div>
+
+        <div class="nav-row">
+            <button class="btn" onclick="switchTab(1)">&larr; Back</button>
+            <button class="btn btn-primary" onclick="switchTab(3)">Next: Threats &amp; Validity &rarr;</button>
+        </div>
+    </div>
+
+    <!-- ===== TAB 4: Threats & Validity ===== -->
+    <div class="tab-panel" data-panel="3">
+        <h2 class="section-title">Threats to Validity</h2>
+        <p class="section-desc"><strong>Internal validity</strong> asks whether your estimate is really the causal effect in your sample. <strong>External validity</strong> asks whether it will hold elsewhere or at scale. Tick each threat you have a credible plan for, and note that plan — the notes flow into your exported memo.</p>
+
+        <h3 class="block-title">Internal validity</h3>
+        <ul class="threat-checklist" id="internalChecklist"></ul>
+
+        <h3 class="block-title">External validity</h3>
+        <ul class="threat-checklist" id="externalChecklist"></ul>
+
+        <h3 class="block-title">Robustness score</h3>
+        <p class="body-text">Tick the threats you have addressed, then score your design's coverage.</p>
+        <button class="btn btn-primary" onclick="calcRobustness()">Score my design</button>
+        <div id="robustnessResult" style="margin-top:1rem;"></div>
+
+        <div class="info-box success">
+            <strong>Design is a set of trade-offs, not a checklist to ace.</strong> Some threats are unavoidable given your context — the goal is to <em>know</em> which ones bite, address what you can, and be transparent about the rest in your report. A credible evaluation names its own weaknesses.
+        </div>
+
+        <h3 class="block-title">Export your evaluation design memo</h3>
+        <p class="body-text">Download a plain-text memo summarising your question, chosen design and its assumptions, power calculation, and validity plan — ready to share with your team or a reviewing statistician.</p>
+        <button class="btn btn-primary" onclick="exportMemo()">Download Evaluation Design Memo</button>
+
+        <div class="completion-badge" style="margin-top:2rem;">
+            <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <h2>You have a design on paper</h2>
+            <p>A written question, a named identification strategy with its key assumption, a power target, and an honest list of threats — that is the backbone of a pre-analysis plan.</p>
+            <div style="margin-top:1rem;">
+                <span class="tag">Causal Inference</span>
+                <span class="tag">Counterfactual</span>
+                <span class="tag">Identification</span>
+                <span class="tag">Power</span>
+                <span class="tag">Validity</span>
+            </div>
+            <div class="next-steps">
+                <a href="index.html" class="btn btn-primary">Explore more Labs &rarr;</a>
+                <a href="../index.html" class="btn">Explore more on ImpactMojo</a>
+            </div>
+        </div>
+
+        <div class="nav-row">
+            <button class="btn" onclick="switchTab(2)">&larr; Back</button>
+            <button class="btn" onclick="window.print()">Print / save as PDF</button>
+        </div>
+    </div>
+</div>
+
+<!-- ImpactMojo Footer -->
+<footer class="im-footer" role="contentinfo">
+<div class="im-footer-content">
+<p class="im-footer-made">Made with &#10084; by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+<div class="im-footer-grid">
+<div class="im-footer-section">
+<h4>Learn</h4>
+<ul>
+<li><a href="../courses.html">Courses</a></li>
+<li><a href="index.html">Interactive Labs</a></li>
+<li><a href="../Games/">Games</a></li>
+<li><a href="../catalog.html">Full Catalog</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4>Explore</h4>
+<ul>
+<li><a href="../index.html">Home</a></li>
+<li><a href="../blog.html">Blog</a></li>
+<li><a href="../BookSummaries/">Book Summaries</a></li>
+<li><a href="../premium.html">Premium</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4>About</h4>
+<ul>
+<li><a href="../about.html">About ImpactMojo</a></li>
+<li><a href="../contact.html">Contact</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4>Connect</h4>
+<ul>
+<li><a href="https://www.impactmojo.in">impactmojo.in</a></li>
+</ul>
+</div>
+</div>
+<div class="im-footer-bottom">
+<p>&copy; 2026 ImpactMojo. Free development education for South Asia.</p>
+<p><a href="../index.html">Home</a> &middot; <a href="index.html">Labs</a> &middot; <a href="../catalog.html">Catalog</a></p>
+</div>
+</div>
+</footer>
+
+<script>
+/* THEME (3-button: system / light / dark) */
+(function initTheme() {
+    var saved = localStorage.getItem('impactmojo-theme') || 'system';
+    applyTheme(saved);
+    document.querySelectorAll('.im-theme-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var theme = btn.dataset.theme;
+            localStorage.setItem('impactmojo-theme', theme);
+            applyTheme(theme);
+        });
+    });
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+        if ((localStorage.getItem('impactmojo-theme') || 'system') === 'system') applyTheme('system');
+    });
+})();
+function applyTheme(theme) {
+    var root = document.documentElement;
+    if (theme === 'light') { root.setAttribute('data-theme', 'light'); }
+    else if (theme === 'dark') { root.removeAttribute('data-theme'); }
+    else { if (window.matchMedia('(prefers-color-scheme: light)').matches) root.setAttribute('data-theme', 'light'); else root.removeAttribute('data-theme'); }
+    document.querySelectorAll('.im-theme-btn').forEach(function(b) { b.classList.toggle('active', b.dataset.theme === theme); });
+}
+
+/* ===== STATE ===== */
+var STORAGE_KEY = 'impactmojo-impact-eval';
+var state = {
+    question: '', outcome: '', unit: '', treatment: '', population: '', comparison: '', estimand: '',
+    design: '',
+    outcomeType: 'continuous', mde: '', baselineMean: '', sd: '', baselineProp: '',
+    alpha: '0.05', power: '0.80', clustered: 'no', clusterSize: '', icc: '',
+    powerResult: null,
+    threats: {}, threatNotes: {}
+};
+function loadState() {
+    try {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) { var parsed = JSON.parse(raw); for (var k in parsed) { state[k] = parsed[k]; } }
+    } catch (e) { /* ignore corrupt state */ }
+}
+function persist() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {} }
+
+function saveState() {
+    var g = function(id) { var el = document.getElementById(id); return el ? el.value : ''; };
+    state.question = g('ieQuestion'); state.outcome = g('ieOutcome'); state.unit = g('ieUnit');
+    state.treatment = g('ieTreatment'); state.population = g('iePopulation'); state.comparison = g('ieComparison');
+    state.estimand = g('ieEstimand');
+    state.outcomeType = g('ieOutcomeType') || 'continuous';
+    state.mde = g('ieMDE'); state.baselineMean = g('ieBaselineMean'); state.sd = g('ieSD'); state.baselineProp = g('ieBaselineProp');
+    state.alpha = g('ieAlpha') || '0.05'; state.power = g('iePower') || '0.80';
+    state.clustered = g('ieClustered') || 'no'; state.clusterSize = g('ieClusterSize'); state.icc = g('ieICC');
+    persist();
+    updateProgress();
+}
+
+/* ===== TABS + PROGRESS ===== */
+var TOTAL_TABS = 4;
+var visited = { 0: true };
+function switchTab(idx) {
+    visited[idx] = true;
+    document.querySelectorAll('.tab-btn').forEach(function(b, i) {
+        b.classList.toggle('active', i === idx);
+    });
+    document.querySelectorAll('.tab-panel').forEach(function(p, i) { p.classList.toggle('active', i === idx); });
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* progress = completed milestones across the four tabs */
+function updateProgress() {
+    var milestones = [
+        !!(state.question && state.question.trim()) && !!(state.outcome && state.outcome.trim()), /* tab 1 */
+        !!state.design,                                                                            /* tab 2 */
+        !!state.powerResult,                                                                        /* tab 3 */
+        Object.keys(state.threats).some(function(k) { return state.threats[k]; })                  /* tab 4 */
+    ];
+    var done = milestones.filter(Boolean).length;
+    /* floor at visited-tab share so early navigation still shows movement */
+    var visitedShare = Object.keys(visited).length / TOTAL_TABS;
+    var pct = Math.max(done / TOTAL_TABS, visitedShare) * 100;
+    var fill = document.getElementById('progressFill');
+    if (fill) fill.style.width = pct + '%';
+    document.querySelectorAll('.tab-btn').forEach(function(b, i) {
+        if (!b.classList.contains('active')) b.classList.toggle('completed', !!milestones[i]);
+    });
+}
+
+/* ===== TAB 1: ESTIMAND ===== */
+var estimandNotes = {
+    ate: 'ATE is the effect averaged over the whole population — the right target when the policy question is "should everyone get this?" It is what a well-run RCT with full compliance recovers.',
+    att: 'ATT is the effect for those who actually received treatment. It is the natural target for matching, DiD and synthetic-control designs, which compare treated units to a constructed counterfactual for those same units.',
+    itt: 'ITT compares everyone assigned/offered treatment regardless of take-up. It is conservative, policy-relevant, and protected by randomisation — the default reported estimate in most RCTs.',
+    late: 'LATE (a.k.a. CACE) is the effect among "compliers" — units whose take-up is moved by assignment. Instrumental-variables / randomised-encouragement designs recover it; it is not the effect for always-takers or never-takers.'
+};
+function onEstimandChange() {
+    saveState();
+    var v = document.getElementById('ieEstimand').value;
+    var box = document.getElementById('estimandNote');
+    box.innerHTML = v ? '<div class="info-box"><strong>' + v.toUpperCase() + '.</strong> ' + estimandNotes[v] + '</div>' : '';
+}
+
+/* ===== TAB 2: DESIGN CHOOSER ===== */
+var designs = [
+    {
+        id: 'rct', name: 'Randomised Controlled Trial', abbr: 'RCT',
+        blurb: 'You can randomly assign who gets the programme.',
+        when: 'You can ethically and practically randomise units (or an offer of the programme) to treatment and control — including phased rollouts and lotteries for over-subscribed programmes.',
+        assumption: 'Randomisation balances treatment and control in expectation on all characteristics, observed and unobserved, so treatment is independent of potential outcomes. Check with a baseline balance table.',
+        data: 'Randomisation/assignment records, baseline and endline outcomes on both arms, and take-up/compliance data to separate ITT from treatment-on-the-treated.',
+        threats: 'Attrition (differential drop-out), non-compliance, spillovers between arms, and Hawthorne effects. Example: many J-PAL / evaluation-partner RCTs across India randomise at the village or school level.'
+    },
+    {
+        id: 'did', name: 'Difference-in-Differences', abbr: 'DiD',
+        blurb: 'A policy rolled out to some groups, not others, over time.',
+        when: 'No randomisation, but you observe a treated and a comparison group both before and after the intervention — classic for staggered policy rollouts.',
+        assumption: 'Parallel trends: absent treatment, the treated and comparison groups would have moved in parallel. Support it with multiple pre-periods showing matching trends.',
+        data: 'Panel or repeated cross-sections with at least one pre- and one post-period; ideally several pre-periods to test for differential trends.',
+        threats: 'Differential pre-trends, time-varying confounders hitting one group, compositional change, and "bad controls". Example: the phased district rollout of NREGA has been studied with DiD.'
+    },
+    {
+        id: 'rdd', name: 'Regression Discontinuity', abbr: 'RDD',
+        blurb: 'Eligibility is set by a cutoff on a score.',
+        when: 'Treatment is assigned by a threshold on a continuous running variable — a poverty score, test mark, age, or population cutoff for a scheme.',
+        assumption: 'Continuity at the cutoff: potential outcomes vary smoothly through the threshold, and units cannot precisely manipulate their score to land on the favourable side.',
+        data: 'The running variable and outcome for many units densely packed near the cutoff; more data close to the threshold matters more than far from it.',
+        threats: 'Manipulation/sorting at the cutoff (test with a density check), functional-form misspecification, and limited external validity — you recover a local effect at the cutoff only. Example: eligibility-score thresholds such as BPL/poverty-scorecard cutoffs.'
+    },
+    {
+        id: 'psm', name: 'Propensity Score Matching', abbr: 'PSM',
+        blurb: 'Observational data with rich background covariates.',
+        when: 'You only have observational data with no cutoff or clean rollout, but you do have extensive baseline covariates and want to compare treated units to similar untreated ones.',
+        assumption: 'Conditional independence (selection on observables): once you condition on the measured covariates, treatment is as good as random. Plus common support / overlap — treated and comparison units span the same covariate range.',
+        data: 'A rich set of pre-treatment covariates that drive both programme participation and the outcome, measured the same way for both groups.',
+        threats: 'Unobserved confounding is the central, untestable risk; also poor overlap and model dependence. Matching cannot fix selection on things you did not measure. Example: PROGRESA/Oportunidades-style conditional cash transfers have been examined with matching as a comparison approach.'
+    },
+    {
+        id: 'synth', name: 'Synthetic Control', abbr: 'SCM',
+        blurb: 'One treated unit (a state/district) and many untreated donors.',
+        when: 'A policy affects a single or a few aggregate units — a state or district — and you have many untreated units to serve as a donor pool.',
+        assumption: 'A weighted combination of donor units can reproduce the treated unit’s pre-treatment trajectory. Needs a good donor pool and close pre-period fit; the weighted "synthetic" unit then proxies the counterfactual.',
+        data: 'A long pre-treatment series for the treated unit and the donor pool, plus predictor variables used to build the weights.',
+        threats: 'Poor pre-treatment fit, interpolation bias, contamination of donors by the same or similar policy, and few post-periods. Inference relies on placebo/permutation tests rather than large samples.'
+    },
+    {
+        id: 'its', name: 'Interrupted Time Series', abbr: 'ITS',
+        blurb: 'One series, a clear start date, many time points.',
+        when: 'There is a well-defined intervention date and you have many equally spaced observations of the outcome both before and after it, for the treated unit(s).',
+        assumption: 'No concurrent shocks: nothing else changed at the same time as the intervention, and the pre-intervention trend would have continued unchanged in its absence.',
+        data: 'Many regularly spaced pre- and post-intervention measurements of the outcome (monthly/quarterly administrative series work well).',
+        threats: 'History (co-occurring events/policies), autocorrelation, seasonality, and regression to the mean when the intervention was triggered by an unusual spike. A comparison series (controlled ITS) strengthens it.'
+    }
+];
+
+function renderDesigns() {
+    var grid = document.getElementById('designGrid');
+    grid.innerHTML = designs.map(function(d) {
+        return '<div class="design-card' + (state.design === d.id ? ' selected' : '') + '" data-id="' + d.id +
+            '" onclick="selectDesign(\'' + d.id + '\')">' +
+            '<div class="abbr">' + d.abbr + '</div>' +
+            '<h4>' + d.name + '</h4>' +
+            '<p>' + d.blurb + '</p></div>';
+    }).join('');
+    if (state.design) renderDesignDetail(state.design);
+}
+function selectDesign(id) {
+    state.design = id;
+    persist();
+    document.querySelectorAll('.design-card').forEach(function(c) { c.classList.toggle('selected', c.dataset.id === id); });
+    renderDesignDetail(id);
+    updateProgress();
+}
+function renderDesignDetail(id) {
+    var d = designs.filter(function(x) { return x.id === id; })[0];
+    if (!d) return;
+    document.getElementById('designDetail').innerHTML =
+        '<div class="result-box design-detail">' +
+        '<h4>' + d.name + ' (' + d.abbr + ')</h4>' +
+        '<div class="assumption-flag"><strong>Key identifying assumption:</strong> ' + d.assumption + '</div>' +
+        '<dl>' +
+        '<dt>When to use</dt><dd>' + d.when + '</dd>' +
+        '<dt>Data requirements</dt><dd>' + d.data + '</dd>' +
+        '<dt>Main threats</dt><dd>' + d.threats + '</dd>' +
+        '</dl></div>';
+}
+
+/* ===== TAB 3: POWER ===== */
+var Z_ALPHA = { '0.10': 1.645, '0.05': 1.960, '0.01': 2.576 }; /* two-sided -> z_{1-alpha/2} */
+var Z_POWER = { '0.70': 0.5244, '0.80': 0.8416, '0.90': 1.2816, '0.95': 1.6449 };
+
+function toggleOutcomeInputs() {
+    saveState();
+    var t = document.getElementById('ieOutcomeType').value;
+    var cont = (t === 'continuous');
+    document.getElementById('meanField').style.display = cont ? '' : 'none';
+    document.getElementById('sdField').style.display = cont ? '' : 'none';
+    document.getElementById('propField').style.display = cont ? 'none' : '';
+    document.getElementById('mdeHint').textContent = cont
+        ? 'Absolute change in the outcome mean you want to detect.'
+        : 'Absolute change in the proportion you want to detect (e.g. 0.10 = 10 pts).';
+}
+function toggleClusterInputs() {
+    saveState();
+    var on = (document.getElementById('ieClustered').value === 'yes');
+    document.getElementById('clusterSizeField').style.display = on ? '' : 'none';
+    document.getElementById('iccField').style.display = on ? '' : 'none';
+}
+
+function calcPower() {
+    saveState();
+    var out = document.getElementById('powerResult');
+    var za = Z_ALPHA[state.alpha], zb = Z_POWER[state.power];
+    var delta = parseFloat(state.mde);
+    if (!isFinite(delta) || delta === 0) {
+        out.innerHTML = '<div class="result-box"><p style="color:var(--danger-color);"><strong>Enter a non-zero minimum detectable effect (MDE).</strong></p></div>';
+        return;
+    }
+    var varTerm; /* the numerator variance term: 2*sigma^2 (continuous) or p1(1-p1)+p2(1-p2) (binary) */
+    var detail = '';
+    if (state.outcomeType === 'continuous') {
+        var sd = parseFloat(state.sd);
+        if (!isFinite(sd) || sd <= 0) {
+            out.innerHTML = '<div class="result-box"><p style="color:var(--danger-color);"><strong>Enter a positive baseline SD.</strong></p></div>';
+            return;
+        }
+        varTerm = 2 * sd * sd;
+        detail = 'Continuous outcome, &sigma; = ' + sd + ', &Delta; = ' + delta + '. Standardised effect (Cohen’s d) &approx; ' + (delta / sd).toFixed(2) + '.';
+    } else {
+        var p1 = parseFloat(state.baselineProp);
+        if (!isFinite(p1) || p1 <= 0 || p1 >= 1) {
+            out.innerHTML = '<div class="result-box"><p style="color:var(--danger-color);"><strong>Enter a baseline proportion strictly between 0 and 1.</strong></p></div>';
+            return;
+        }
+        var p2 = p1 + delta;
+        if (p2 <= 0 || p2 >= 1) {
+            out.innerHTML = '<div class="result-box"><p style="color:var(--danger-color);"><strong>Baseline proportion + MDE must stay between 0 and 1.</strong></p></div>';
+            return;
+        }
+        varTerm = p1 * (1 - p1) + p2 * (1 - p2);
+        detail = 'Binary outcome, control rate p&#8321; = ' + p1 + ', treatment rate p&#8322; = ' + p2.toFixed(3) + '.';
+    }
+    var nPerArm = Math.pow(za + zb, 2) * varTerm / Math.pow(delta, 2);
+    var deff = 1, clusterLine = '';
+    if (state.clustered === 'yes') {
+        var m = parseInt(state.clusterSize, 10);
+        var rho = parseFloat(state.icc);
+        if (isFinite(m) && m >= 1 && isFinite(rho) && rho >= 0) {
+            deff = 1 + (m - 1) * rho;
+            nPerArm = nPerArm * deff;
+            var clustersPerArm = Math.ceil(nPerArm / m);
+            clusterLine = 'Design effect DEFF = 1 + (' + m + ' &minus; 1) &times; ' + rho + ' = <strong>' + deff.toFixed(2) +
+                '</strong>. That is about <strong>' + clustersPerArm + ' clusters per arm</strong> (' + (clustersPerArm * 2) + ' clusters total).';
+        }
+    }
+    var nPerArmR = Math.ceil(nPerArm);
+    var total = nPerArmR * 2;
+    state.powerResult = {
+        nPerArm: nPerArmR, total: total, deff: deff,
+        za: za, zb: zb, alpha: state.alpha, power: state.power,
+        outcomeType: state.outcomeType, mde: delta
+    };
+    persist();
+    updateProgress();
+    out.innerHTML =
+        '<div class="result-box">' +
+        '<h4>Required sample size</h4>' +
+        '<p class="big-figure">' + nPerArmR + ' <span style="font-size:1rem;font-weight:400;color:var(--text-secondary);">per arm</span></p>' +
+        '<p><strong>' + total + '</strong> units total across treatment + control.</p>' +
+        '<p style="margin-top:0.5rem;">' + detail + '</p>' +
+        '<p>z<sub>1&minus;&alpha;/2</sub> = ' + za + ' (&alpha; = ' + state.alpha + '), z<sub>1&minus;&beta;</sub> = ' + zb + ' (power = ' + state.power + ').</p>' +
+        (clusterLine ? '<p style="margin-top:0.5rem;">' + clusterLine + '</p>' : '') +
+        '<p style="margin-top:0.5rem;font-size:0.82rem;color:var(--text-muted);">Normal-approximation, equal allocation, single outcome. Inflate for expected attrition; a statistician should confirm before fielding.</p>' +
+        '</div>';
+}
+
+/* ===== TAB 4: THREATS ===== */
+var internalThreats = [
+    { id: 'selection', name: 'Selection bias', desc: 'Treated and comparison units differ systematically before treatment, so the difference is not caused by the programme.' },
+    { id: 'attrition', name: 'Attrition / differential attrition', desc: 'Units drop out of measurement — and if drop-out differs by arm, the surviving groups are no longer comparable.' },
+    { id: 'spillover', name: 'Spillover / SUTVA violation', desc: 'Treatment of one unit affects the outcomes of others (information, markets, contagion), breaking the stable-unit assumption.' },
+    { id: 'hawthorne', name: 'Hawthorne / John Henry effects', desc: 'Being observed changes behaviour: the treated try harder because watched (Hawthorne); controls compete to catch up (John Henry).' },
+    { id: 'contamination', name: 'Contamination', desc: 'The control group gets the treatment or a close substitute from another source, shrinking the measured contrast.' },
+    { id: 'noncompliance', name: 'Non-compliance', desc: 'Assigned-treated units do not take up, or assigned-controls find a way in — separating ITT from the effect on the treated.' },
+    { id: 'rtm', name: 'Regression to the mean', desc: 'Selecting units on an extreme baseline value (worst-performing schools/districts) means they drift toward average anyway.' }
+];
+var externalThreats = [
+    { id: 'site', name: 'Site selection bias', desc: 'The study sites (or implementing partner) are unusually favourable, so results may not travel to typical settings.' },
+    { id: 'scaleup', name: 'Scale-up / implementation', desc: 'A tightly supervised pilot may not survive delivery by an over-stretched government system at national scale.' },
+    { id: 'genequilibrium', name: 'General-equilibrium effects', desc: 'A small trial holds prices, wages and markets fixed; at scale the intervention can move them, changing the effect.' }
+];
+
+function renderThreats() {
+    document.getElementById('internalChecklist').innerHTML = internalThreats.map(threatItem).join('');
+    document.getElementById('externalChecklist').innerHTML = externalThreats.map(threatItem).join('');
+}
+function threatItem(t) {
+    var checked = state.threats[t.id] ? ' checked' : '';
+    var note = state.threatNotes[t.id] ? state.threatNotes[t.id].replace(/"/g, '&quot;') : '';
+    return '<li>' +
+        '<div class="threat-row">' +
+        '<input type="checkbox" id="th_' + t.id + '"' + checked + ' onchange="toggleThreat(\'' + t.id + '\')">' +
+        '<label for="th_' + t.id + '"><strong>' + t.name + '.</strong> ' + t.desc + '</label>' +
+        '</div>' +
+        '<input type="text" class="threat-note" id="note_' + t.id + '" placeholder="Your mitigation plan (optional)..." value="' + note + '" oninput="noteThreat(\'' + t.id + '\')">' +
+        '</li>';
+}
+function toggleThreat(id) {
+    state.threats[id] = document.getElementById('th_' + id).checked;
+    persist();
+    updateProgress();
+}
+function noteThreat(id) {
+    state.threatNotes[id] = document.getElementById('note_' + id).value;
+    persist();
+}
+
+function calcRobustness() {
+    var all = internalThreats.concat(externalThreats);
+    var addressed = all.filter(function(t) { return state.threats[t.id]; }).length;
+    var totalT = all.length;
+    var out = document.getElementById('robustnessResult');
+    var pct = Math.round(addressed / totalT * 100);
+    var msg;
+    if (pct >= 80) msg = '<strong>Robust.</strong> You have a plan for most known threats — document the residual ones honestly.';
+    else if (pct >= 50) msg = '<strong>Reasonable.</strong> The core threats are covered; work through the remaining boxes before fielding.';
+    else if (pct >= 25) msg = '<strong>Fragile.</strong> Several major threats are unaddressed — revisit the design or the data plan.';
+    else msg = '<strong>High risk.</strong> Most threats are unhandled; the estimate would be hard to defend.';
+    var colour = pct >= 50 ? 'var(--success-color)' : 'var(--warning-color)';
+    out.innerHTML = '<div class="result-box" style="text-align:center;">' +
+        '<div class="score-circle" style="border-color:' + colour + ';color:' + colour + ';">' + addressed + '/' + totalT + '</div>' +
+        '<p style="color:var(--text-secondary);">' + msg + '</p></div>';
+}
+
+/* ===== EXPORT MEMO ===== */
+function estimandLabel(v) {
+    var m = { ate: 'ATE (Average Treatment Effect)', att: 'ATT (effect on the treated)', itt: 'ITT (Intention-to-Treat)', late: 'LATE / CACE (complier effect)' };
+    return m[v] || '(not selected)';
+}
+function exportMemo() {
+    saveState();
+    var d = designs.filter(function(x) { return x.id === state.design; })[0];
+    var L = [];
+    L.push('ImpactMojo — Evaluation Design Memo');
+    L.push('=====================================');
+    L.push('Generated: ' + new Date().toISOString().slice(0, 10));
+    L.push('');
+    L.push('1. QUESTION & SETUP');
+    L.push('-------------------');
+    L.push('Research question : ' + (state.question || '(not set)'));
+    L.push('Primary outcome   : ' + (state.outcome || '(not set)'));
+    L.push('Unit of analysis  : ' + (state.unit || '(not set)'));
+    L.push('Intervention      : ' + (state.treatment || '(not set)'));
+    L.push('Target population : ' + (state.population || '(not set)'));
+    L.push('Comparison idea   : ' + (state.comparison || '(not set)'));
+    L.push('Target estimand   : ' + estimandLabel(state.estimand));
+    L.push('');
+    L.push('2. IDENTIFICATION STRATEGY');
+    L.push('--------------------------');
+    if (d) {
+        L.push('Design            : ' + d.name + ' (' + d.abbr + ')');
+        L.push('Key assumption    : ' + d.assumption);
+        L.push('Data requirements : ' + d.data);
+        L.push('Main threats      : ' + d.threats);
+    } else {
+        L.push('Design            : (not selected)');
+    }
+    L.push('');
+    L.push('3. SAMPLE & POWER');
+    L.push('-----------------');
+    if (state.powerResult) {
+        var pr = state.powerResult;
+        L.push('Outcome type      : ' + pr.outcomeType);
+        L.push('MDE (Delta)       : ' + pr.mde);
+        L.push('alpha / power     : ' + pr.alpha + ' / ' + pr.power + '  (z_a=' + pr.za + ', z_b=' + pr.zb + ')');
+        if (pr.deff && pr.deff !== 1) L.push('Design effect     : ' + pr.deff.toFixed(2) + ' (cluster size ' + state.clusterSize + ', ICC ' + state.icc + ')');
+        L.push('Required n        : ' + pr.nPerArm + ' per arm  (' + pr.total + ' total)');
+        L.push('Formula           : n/arm = (z_a + z_b)^2 * [2*sigma^2 or p1(1-p1)+p2(1-p2)] / Delta^2, x DEFF for clusters');
+    } else {
+        L.push('(power not yet calculated)');
+    }
+    L.push('');
+    L.push('4. THREATS TO VALIDITY (addressed = [x])');
+    L.push('----------------------------------------');
+    L.push('Internal validity:');
+    internalThreats.forEach(function(t) {
+        L.push('  [' + (state.threats[t.id] ? 'x' : ' ') + '] ' + t.name + (state.threatNotes[t.id] ? '  -> ' + state.threatNotes[t.id] : ''));
+    });
+    L.push('External validity:');
+    externalThreats.forEach(function(t) {
+        L.push('  [' + (state.threats[t.id] ? 'x' : ' ') + '] ' + t.name + (state.threatNotes[t.id] ? '  -> ' + state.threatNotes[t.id] : ''));
+    });
+    L.push('');
+    L.push('Note: This is an educational first-draft design aid, not a substitute for a statistician or an IRB/ethics review.');
+    L.push('Sample-size figures use a normal-approximation, equal-allocation, single-outcome formula; inflate for attrition.');
+
+    var blob = new Blob([L.join('\n')], { type: 'text/plain' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'evaluation-design-memo.txt';
+    a.click();
+    URL.revokeObjectURL(a.href);
+}
+
+/* ===== RESTORE FIELDS FROM STATE ===== */
+function restoreFields() {
+    var set = function(id, v) { var el = document.getElementById(id); if (el != null && v != null && v !== '') el.value = v; };
+    set('ieQuestion', state.question); set('ieOutcome', state.outcome); set('ieUnit', state.unit);
+    set('ieTreatment', state.treatment); set('iePopulation', state.population); set('ieComparison', state.comparison);
+    set('ieEstimand', state.estimand);
+    set('ieOutcomeType', state.outcomeType); set('ieMDE', state.mde); set('ieBaselineMean', state.baselineMean);
+    set('ieSD', state.sd); set('ieBaselineProp', state.baselineProp);
+    set('ieAlpha', state.alpha); set('iePower', state.power);
+    set('ieClustered', state.clustered); set('ieClusterSize', state.clusterSize); set('ieICC', state.icc);
+    if (state.estimand) onEstimandChange();
+    toggleOutcomeInputs();
+    toggleClusterInputs();
+}
+
+/* ===== INIT ===== */
+loadState();
+renderDesigns();
+renderThreats();
+restoreFields();
+updateProgress();
+</script>
+  <script src="/js/theme.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+  <script src="/js/state-manager.js"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/translate-sarvam.js" defer></script>
+  <script src="/js/site-chrome.js" defer></script>
+</body>
+</html>

@@ -87,7 +87,7 @@ These were previously listed as in progress and have now shipped:
 ### v10.14.0 — April 2026
 - **Device-mode default theme** on 70 pages — OS dark/light preference on first paint
 - **WCAG AA link underlines** across 74 content pages
-- **CC BY-NC-ND 4.0 attribution** backfilled into all 84 handouts
+- **CC BY-NC-ND 4.0 attribution** backfilled into all 89 handouts
 
 ### v10.13.0 — April 2026
 - **4 native 101 slide decks** — Dev Econ, MEL, Climate, Inequality migrated from Gamma to self-hosted HTML (100 slides each, interactive charts, light/dark theme)

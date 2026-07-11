@@ -92,7 +92,7 @@ Here are tested combinations that reinforce each other:
 
 ## Using Handouts in Facilitation
 
-ImpactMojo's 84 handouts are designed to be printed and distributed. Here are tips for using them well:
+ImpactMojo's 89 handouts are designed to be printed and distributed. Here are tips for using them well:
 
 - **Before a session:** Give participants a handout as pre-reading. This levels the playing field so everyone starts with shared vocabulary.
 - **During a session:** Use handouts as worksheets. Participants can write notes, fill in frameworks, and refer back to definitions.
