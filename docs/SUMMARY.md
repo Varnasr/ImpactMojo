@@ -43,6 +43,7 @@
 * [Visualization Cookbook Guide](visualization-cookbook-guide.md)
 * [Qual Insights Guide](qual-insights-guide.md)
 * [Code Converter Guide](code-converter-guide.md)
+* [Sampling Studio](sampling-studio-guide.md)
 * [PolicyDhara](policydhara-guide.md)
 
 ## Programmes & Services
