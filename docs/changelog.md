@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.116.0 — July 12, 2026 (Quality — final 3 companions rebuilt & a mislabelled one corrected)
+
+### Changed
+
+- **Three more Reading Companions rebuilt from the complete source text**, completing the full-fidelity pass: *Mahatma Gandhi: His Life & Times* (Louis Fischer, 1951), *Causality in Policy Studies* (Damonte & Negri, eds.), and the corrected *Wages for Housework in India?*.
+- **Corrected a mislabelled companion.** The "Wages for Housework" companion had been built with the wrong book's details — it described a non-existent 6-chapter cash-transfers book by Prabha Kotiswaran (2026). Its actual source is a short 2021 essay, *Wages for Housework in India?* by Rohini Hensman; the companion, title, author and description are now corrected to match.
+
 ## v10.115.0 — July 12, 2026 (Quality — 10 companions rebuilt at full fidelity)
 
 ### Changed
