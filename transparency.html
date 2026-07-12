@@ -1199,24 +1199,18 @@ function hexToRgba(hex, alpha) {
     return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
 }
 
-function drawLineChart(canvasId, data, colorKey) {
+// Horizontal bar chart for CATEGORICAL data (courses, games, tools).
+// These are discrete categories, not a time series — so bars, not a line
+// (a connected line would imply a trend that doesn't exist). Zero-based
+// x-axis so bar length is honestly proportional to the value.
+function drawBarChart(canvasId, data, colorKey) {
     var canvas = document.getElementById(canvasId);
     if (!canvas) return;
     var ctx = canvas.getContext('2d');
     var dpr = window.devicePixelRatio || 1;
 
-    var rect = canvas.parentElement.getBoundingClientRect();
-    var w = rect.width - 48; // padding
-    var h = parseInt(canvas.getAttribute('height')) || 340;
-
-    canvas.width = (w + 48) * dpr;
-    canvas.height = h * dpr;
-    canvas.style.width = (w + 48) + 'px';
-    canvas.style.height = h + 'px';
-    ctx.scale(dpr, dpr);
-
     var colors = getChartColors();
-    var lineColor = colors[colorKey] || colors.accent;
+    var barColor = colors[colorKey] || colors.accent;
 
     var entries = Object.entries(data).sort(function(a, b) { return b[1] - a[1]; });
     var labels = entries.map(function(e) { return e[0]; });
@@ -1225,132 +1219,91 @@ function drawLineChart(canvasId, data, colorKey) {
     if (n === 0) return;
 
     var maxVal = Math.max.apply(null, values);
-    var minVal = Math.min.apply(null, values);
-    var range = maxVal - minVal || 1;
 
-    // Layout
-    var padLeft = 60;
-    var padRight = 20;
-    var padTop = 24;
-    var padBottom = 80;
-    var chartW = w + 48 - padLeft - padRight;
-    var chartH = h - padTop - padBottom;
+    // Layout — adaptive height so every category is shown (no truncation).
+    var rect = canvas.parentElement.getBoundingClientRect();
+    var w = Math.max(280, rect.width - 48);
+    var padLeft = 168;   // room for category names
+    var padRight = 54;   // room for the value at the bar end
+    var padTop = 14;
+    var padBottom = 30;
+    var rowH = 26;
+    var barH = 15;
+    var h = padTop + padBottom + n * rowH;
+    var chartW = w - padLeft - padRight;
 
-    // Clear
-    ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+    canvas.setAttribute('height', h);
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, w, h);
 
-    // Grid lines
-    var gridSteps = 5;
-    ctx.strokeStyle = colors.grid;
-    ctx.lineWidth = 0.5;
-    ctx.font = '11px Amaranth, system-ui, sans-serif';
-    ctx.fillStyle = colors.muted;
-    ctx.textAlign = 'right';
+    function X(v) { return padLeft + (v / maxVal) * chartW; }
 
+    // Vertical gridlines + axis values (0-based)
+    var gridSteps = 4;
+    ctx.font = '10px Amaranth, system-ui, sans-serif';
+    ctx.textAlign = 'center';
     for (var g = 0; g <= gridSteps; g++) {
-        var gy = padTop + chartH - (g / gridSteps) * chartH;
-        var gv = minVal + (g / gridSteps) * range;
-        ctx.beginPath();
+        var gv = (g / gridSteps) * maxVal;
+        var gx = X(gv);
+        ctx.strokeStyle = colors.grid;
+        ctx.lineWidth = 0.5;
         ctx.setLineDash([4, 4]);
-        ctx.moveTo(padLeft, gy);
-        ctx.lineTo(padLeft + chartW, gy);
+        ctx.beginPath();
+        ctx.moveTo(gx, padTop);
+        ctx.lineTo(gx, padTop + n * rowH);
         ctx.stroke();
         ctx.setLineDash([]);
-        ctx.fillText(formatNum(Math.round(gv)), padLeft - 8, gy + 4);
+        ctx.fillStyle = colors.muted;
+        ctx.fillText(formatNum(Math.round(gv)), gx, padTop + n * rowH + 18);
     }
 
-    // Data points
-    var points = [];
+    // Bars
     for (var i = 0; i < n; i++) {
-        var px = padLeft + (i / (n - 1 || 1)) * chartW;
-        var py = padTop + chartH - ((values[i] - minVal) / range) * chartH;
-        points.push({ x: px, y: py });
-    }
+        var cy = padTop + i * rowH + rowH / 2;
+        var bx = X(values[i]);
 
-    // Smooth curve helper (Catmull-Rom to Bezier)
-    function getControlPoints(p0, p1, p2, tension) {
-        var t = tension || 0.3;
-        return {
-            cp1x: p1.x + (p2.x - p0.x) * t / 3,
-            cp1y: p1.y + (p2.y - p0.y) * t / 3,
-            cp2x: p2.x - (p2.x - p0.x) * t / 3,
-            cp2y: p2.y - (p2.y - p0.y) * t / 3
-        };
-    }
+        // track
+        ctx.fillStyle = hexToRgba(barColor, 0.08);
+        roundRect(ctx, padLeft, cy - barH / 2, chartW, barH, 4);
+        ctx.fill();
 
-    // Draw area gradient
+        // bar (subtle gradient along its length)
+        var grad = ctx.createLinearGradient(padLeft, 0, bx, 0);
+        grad.addColorStop(0, hexToRgba(barColor, 0.85));
+        grad.addColorStop(1, barColor);
+        ctx.fillStyle = grad;
+        roundRect(ctx, padLeft, cy - barH / 2, Math.max(2, bx - padLeft), barH, 4);
+        ctx.fill();
+
+        // category label (right-aligned to the bar start)
+        ctx.font = '11px Amaranth, system-ui, sans-serif';
+        ctx.fillStyle = colors.muted;
+        ctx.textAlign = 'right';
+        var lbl = labels[i].length > 24 ? labels[i].substring(0, 22) + '…' : labels[i];
+        ctx.fillText(lbl, padLeft - 10, cy + 3.5);
+
+        // value at the bar end
+        ctx.font = '11px Amaranth, system-ui, sans-serif';
+        ctx.fillStyle = colors.text || colors.muted;
+        ctx.textAlign = 'left';
+        ctx.fillText(formatNum(values[i]), bx + 8, cy + 3.5);
+    }
+}
+
+// small rounded-rect helper (older canvases lack ctx.roundRect)
+function roundRect(ctx, x, y, w, h, r) {
+    r = Math.min(r, h / 2, w / 2);
     ctx.beginPath();
-    ctx.moveTo(points[0].x, points[0].y);
-    for (var i = 0; i < points.length - 1; i++) {
-        var p0 = points[Math.max(0, i - 1)];
-        var p1 = points[i];
-        var p2 = points[i + 1];
-        var p3 = points[Math.min(points.length - 1, i + 2)];
-        var cp = getControlPoints(p0, p1, p2, 0.35);
-        ctx.bezierCurveTo(cp.cp1x, cp.cp1y, cp.cp2x, cp.cp2y, p2.x, p2.y);
-    }
-    // Close area
-    ctx.lineTo(points[n - 1].x, padTop + chartH);
-    ctx.lineTo(points[0].x, padTop + chartH);
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
     ctx.closePath();
-
-    var grad = ctx.createLinearGradient(0, padTop, 0, padTop + chartH);
-    grad.addColorStop(0, hexToRgba(lineColor, 0.25));
-    grad.addColorStop(0.7, hexToRgba(lineColor, 0.05));
-    grad.addColorStop(1, hexToRgba(lineColor, 0));
-    ctx.fillStyle = grad;
-    ctx.fill();
-
-    // Draw line
-    ctx.beginPath();
-    ctx.moveTo(points[0].x, points[0].y);
-    for (var i = 0; i < points.length - 1; i++) {
-        var p0 = points[Math.max(0, i - 1)];
-        var p1 = points[i];
-        var p2 = points[i + 1];
-        var p3 = points[Math.min(points.length - 1, i + 2)];
-        var cp = getControlPoints(p0, p1, p2, 0.35);
-        ctx.bezierCurveTo(cp.cp1x, cp.cp1y, cp.cp2x, cp.cp2y, p2.x, p2.y);
-    }
-    ctx.strokeStyle = lineColor;
-    ctx.lineWidth = 2.5;
-    ctx.lineJoin = 'round';
-    ctx.lineCap = 'round';
-    ctx.stroke();
-
-    // Draw dots
-    for (var i = 0; i < points.length; i++) {
-        // Outer glow
-        ctx.beginPath();
-        ctx.arc(points[i].x, points[i].y, 5, 0, Math.PI * 2);
-        ctx.fillStyle = hexToRgba(lineColor, 0.2);
-        ctx.fill();
-        // Inner dot
-        ctx.beginPath();
-        ctx.arc(points[i].x, points[i].y, 3, 0, Math.PI * 2);
-        ctx.fillStyle = lineColor;
-        ctx.fill();
-        ctx.strokeStyle = colors.grid;
-        ctx.lineWidth = 1;
-        ctx.stroke();
-    }
-
-    // X-axis labels (rotated)
-    ctx.save();
-    ctx.font = '10px Amaranth, system-ui, sans-serif';
-    ctx.fillStyle = colors.muted;
-    ctx.textAlign = 'right';
-    for (var i = 0; i < n; i++) {
-        // Show every label for small datasets, every other for large
-        if (n > 20 && i % 2 !== 0 && i !== n - 1) continue;
-        ctx.save();
-        ctx.translate(points[i].x, padTop + chartH + 10);
-        ctx.rotate(-Math.PI / 4);
-        var lbl = labels[i].length > 18 ? labels[i].substring(0, 16) + '..' : labels[i];
-        ctx.fillText(lbl, 0, 0);
-        ctx.restore();
-    }
-    ctx.restore();
 }
 
 // ============================================================
@@ -1359,9 +1312,9 @@ function drawLineChart(canvasId, data, colorKey) {
 function render() {
     renderKPIs();
     renderPlatformTable();
-    drawLineChart('courseChart', LEGACY.courseUsers, 'accent');
-    drawLineChart('gameChart', LEGACY.gameUsers, 'green');
-    drawLineChart('toolChart', LEGACY.toolUsers, 'purple');
+    drawBarChart('courseChart', LEGACY.courseUsers, 'accent');
+    drawBarChart('gameChart', LEGACY.gameUsers, 'green');
+    drawBarChart('toolChart', LEGACY.toolUsers, 'purple');
     renderFeatureTable();
 }
 
@@ -1450,9 +1403,9 @@ var resizeTimer;
 window.addEventListener('resize', function() {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function() {
-        drawLineChart('courseChart', LEGACY.courseUsers, 'accent');
-        drawLineChart('gameChart', LEGACY.gameUsers, 'green');
-        drawLineChart('toolChart', LEGACY.toolUsers, 'purple');
+        drawBarChart('courseChart', LEGACY.courseUsers, 'accent');
+        drawBarChart('gameChart', LEGACY.gameUsers, 'green');
+        drawBarChart('toolChart', LEGACY.toolUsers, 'purple');
     }, 150);
 });
 </script>
