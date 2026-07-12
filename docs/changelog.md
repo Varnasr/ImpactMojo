@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.109.0 — July 12, 2026 (Reading Companions landing — search & pagination)
+
+### For Learners
+
+- **The Reading Companions library is easier to browse.** With 128 companions, the page now has an instant **search box** (find any companion by title, author or topic), shows results **24 at a time** with a **"Load more"** button instead of one endless scroll, and displays a live count of what you're seeing — all working together with the existing category filters.
+
 ## v10.108.0 — July 12, 2026 (New Lab — Before We Fall Apart)
 
 ### For Learners
