@@ -5683,7 +5683,7 @@ footer::before {
     }
     .v3-hero-content { max-width: 100%; }
     .v3-hero-cta-wrapper { margin-top: 1.5rem; }
-    .v3-benefits-callout { max-width: 560px; transform: rotate(0deg); }
+    .v3-benefits-callout { max-width: 640px; transform: rotate(0deg); }
 }
 /* Mobile: compact the trust strip into a single scrollable row so the H1
    reaches the viewport fast, and shrink hero padding further. */
@@ -5821,8 +5821,8 @@ footer::before {
     background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(16, 185, 129, 0.06) 100%);
     border: 2px dashed #10B981;
     border-radius: 20px;
-    padding: 1.25rem 1.75rem;
-    max-width: 560px;
+    padding: 1.25rem 1.9rem;
+    max-width: 720px;
     width: 100%;
     transform: rotate(1deg);
     box-shadow: 5px 5px 0 rgba(16, 185, 129, 0.15);
@@ -5872,24 +5872,39 @@ footer::before {
 }
 
 .v3-callout-content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem 1.5rem;
-    justify-content: center;
+    /* 2x2 benefit grid so the bubble reads landscape (wider than tall),
+       with the intro line spanning both columns above it. */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.55rem 1.75rem;
+    align-items: start;
+    text-align: left;
+}
+.v3-callout-content > div:first-child {
+    grid-column: 1 / -1;
+    text-align: center;
 }
 
 .v3-benefit-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.45rem;
     font-size: 0.9rem;
     font-weight: 600;
     color: var(--text-primary, #0F172A);
 }
 
+/* Narrow screens: single-column benefit list (2 columns would be cramped). */
+@media (max-width: 620px) {
+    .v3-callout-content { grid-template-columns: 1fr; gap: 0.5rem; }
+    .v3-callout-content > div:first-child { text-align: left; }
+}
+
 .v3-benefit-icon {
     width: 18px;
     height: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
     filter: brightness(0) saturate(100%) invert(53%) sepia(89%) saturate(399%) hue-rotate(112deg) brightness(96%) contrast(92%);
 }
 
