@@ -1015,6 +1015,30 @@ main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) 
         <!-- TAB: Overview -->
         <div id="tab-overview" class="tab-content active">
 
+        <!-- Platform at a glance -->
+        <div class="section-header">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+            Platform at a Glance
+        </div>
+        <div class="um-summary-grid" id="ovSummaryGrid">
+            <div class="um-summary-card blue">
+                <div class="um-summary-label">Registered Users</div>
+                <div class="um-summary-value" id="ovUsers">&mdash;</div>
+            </div>
+            <div class="um-summary-card green">
+                <div class="um-summary-label">Free Courses</div>
+                <div class="um-summary-value">68</div>
+            </div>
+            <div class="um-summary-card purple">
+                <div class="um-summary-label">Games</div>
+                <div class="um-summary-value">135</div>
+            </div>
+            <div class="um-summary-card amber">
+                <div class="um-summary-label">Dataverse Sources</div>
+                <div class="um-summary-value">320</div>
+            </div>
+        </div>
+
         <!-- Quick Links -->
         <div class="section-header">
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
@@ -2438,6 +2462,19 @@ function ssShowToast(message) {
 // ============================================================
 // ADMIN GATE
 // ============================================================
+// Overview: live registered-user count from Supabase (RLS already allows the read).
+async function ovInit() {
+    var el = document.getElementById('ovUsers');
+    if (!el) return;
+    try {
+        if (typeof supabaseClient !== 'undefined') {
+            var res = await supabaseClient.from('profiles').select('id', { count: 'exact', head: true });
+            if (!res.error && typeof res.count === 'number') { el.textContent = res.count.toLocaleString('en-IN'); return; }
+        }
+    } catch (e) { /* fall through */ }
+    el.textContent = 'n/a';
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     renderIdeas();
     AdminGate.protect({
@@ -2447,6 +2484,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('adminApp').style.display = 'block';
             ImpactMojoAuth.updateUI();
             if (typeof DashboardTabs !== 'undefined') DashboardTabs.init('admin', profile);
+            ovInit();
         },
         onDenied: function(reason) {
             document.getElementById('loadingOverlay').style.display = 'none';
