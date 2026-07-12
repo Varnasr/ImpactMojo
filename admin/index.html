@@ -1285,7 +1285,7 @@ main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) 
                     <div class="um-summary-value" id="umNewWeek">--</div>
                 </div>
                 <div class="um-summary-card amber">
-                    <div class="um-summary-label">Premium</div>
+                    <div class="um-summary-label">Paid (Pro / Org)</div>
                     <div class="um-summary-value" id="umPremium">--</div>
                 </div>
             </div>
@@ -2054,19 +2054,26 @@ async function umInit() {
         if (typeof supabaseClient !== 'undefined') {
             var { data, error } = await supabaseClient
                 .from('profiles')
-                .select('id, full_name, email, role, status, tier, created_at, last_sign_in_at')
+                .select('id, full_name, email, role, subscription_status, subscription_tier, created_at, last_active_at')
                 .order('created_at', { ascending: false });
+            if (error) console.warn('User Management: profiles query error:', error.message);
             if (!error && data && data.length > 0) {
                 umAllUsers = data.map(function(u) {
+                    // Some rows carry a corrupted role (e.g. the literal "'admin'::text" a bad
+                    // write left behind). Only trust exact, clean enum values; anything else —
+                    // quoted, cast, or unknown — falls back to the least-privileged 'learner'
+                    // rather than silently displaying a spurious admin.
+                    var role = u.role;
+                    if (role !== 'admin' && role !== 'instructor' && role !== 'learner') role = 'learner';
                     return {
                         id: u.id,
                         full_name: u.full_name || 'Unnamed',
                         email: u.email || '',
-                        role: u.role || 'learner',
-                        status: u.status || 'active',
-                        tier: u.tier || 'free',
+                        role: role,
+                        status: u.subscription_status || 'active',
+                        tier: u.subscription_tier || 'explorer',
                         created_at: u.created_at || '',
-                        last_sign_in_at: u.last_sign_in_at || ''
+                        last_sign_in_at: u.last_active_at || ''
                     };
                 });
                 loaded = true;
@@ -2096,8 +2103,9 @@ function umRenderSummary() {
     var newWeek = umAllUsers.filter(function(u) {
         return u.created_at && u.created_at >= weekAgo;
     }).length;
+    // Paid = anything above the free "explorer" tier (professional, organization, premium…).
     var premium = umAllUsers.filter(function(u) {
-        return u.tier === 'premium';
+        return u.tier && u.tier !== 'explorer' && u.tier !== 'free';
     }).length;
 
     document.getElementById('umTotalUsers').textContent = total;
@@ -2249,7 +2257,7 @@ async function umToggleStatus(userId) {
 
     if (!umUsingMock) {
         try {
-            var { error } = await supabaseClient.from('profiles').update({ status: newStatus }).eq('id', userId);
+            var { error } = await supabaseClient.from('profiles').update({ subscription_status: newStatus }).eq('id', userId);
             if (error) { alert('Failed to update status: ' + error.message); return; }
         } catch (e) { alert('Error: ' + e.message); return; }
     }

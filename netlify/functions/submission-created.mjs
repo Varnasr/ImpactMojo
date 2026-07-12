@@ -67,6 +67,11 @@ const FILES = {
   "Causal Inference for Development — Course Notes": "ImpactMojo-Notes-causal.pdf",
   "Designing What Works: Development Interventions from Model to Scale — Course Notes": "ImpactMojo-Notes-intervention.pdf",
   "Nonviolence in Practice: NVC, NVR & Restorative Justice — Course Notes": "ImpactMojo-Notes-nvc-rj.pdf",
+  // Assessment Series — 500-MCQ question banks with answer keys (PDF)
+  "MEL Assessment — 500-Question Bank": "assessments/mel-500-assessment.pdf",
+  "Data & Technology Assessment — 500-Question Bank": "assessments/data-tech-500-assessment.pdf",
+  "Policy & Economics Assessment — 500-Question Bank": "assessments/policy-econ-500-assessment.pdf",
+  "AI for M&E Assessment — 500-Question Bank": "assessments/ai-for-me-500-assessment.pdf",
 };
 
 const sign = (parts) => crypto.createHmac("sha256", ADMIN_KEY).update(parts.join("|")).digest("hex").slice(0, 32);

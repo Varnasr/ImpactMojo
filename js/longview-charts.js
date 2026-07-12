@@ -926,6 +926,34 @@ window.LV = (function() {
 
     climateChart('c-climate');
 
+    lineChart('c-le',
+      [{x:1960,y:45.2},{x:1970,y:49.3},{x:1980,y:53.9},{x:1990,y:58.6},{x:2000,y:62.6},{x:2010,y:66.7},{x:2019,y:70.9}],
+      { yMax: 78, color: '#0d9488', area: true, valfmt: function(v){return Math.round(v);}, xfmt: function(x){return "'"+String(x).slice(2);} });
+
+    lineChart('c-solar',
+      [{x:2014,y:2.6},{x:2016,y:9.0},{x:2018,y:21.7},{x:2020,y:34.6},{x:2022,y:54.0},{x:2024,y:87.2}],
+      { yMax: 95, color: '#f59e0b', area: true, valfmt: function(v){return Math.round(v)+' GW';}, xfmt: function(x){return "'"+String(x).slice(2);} });
+
+    lineChart('c-urban',
+      [{x:1960,y:17.9},{x:1980,y:23.1},{x:2000,y:27.7},{x:2010,y:30.9},{x:2020,y:34.9},{x:2023,y:36.4}],
+      { yMax: 42, color: '#6366f1', area: true, valfmt: function(v){return v.toFixed(1)+'%';}, xfmt: function(x){return "'"+String(x).slice(2);} });
+
+    donut('c-gdp',
+      [{label:'Services',v:54,color:'#0d9488'},{label:'Industry',v:27,color:'#475569'},{label:'Agriculture',v:19,color:'#22a06b'}],
+      { centerBig: '54%', centerSub: 'services' });
+
+    hbarChart('c-literacy',
+      [{label:'Kerala',y:96.2,color:'#0d9488'},{label:'Delhi',y:88.7,color:'#22a06b'},{label:'Maharashtra',y:84.8,color:'#4f46e5'},{label:'Tamil Nadu',y:82.9,color:'#6366f1'},{label:'Rajasthan',y:71.6,color:'#f97316'},{label:'Bihar',y:61.8,color:'#e11d48'}],
+      { xMax: 100, valfmt: function(v){return v+'%';}, refLine: { value: 80.2, label: 'national 80%' } });
+
+    beeswarm('c-womenparl',
+      [{n:'Rwanda',v:61.3,label:'Rwanda'},{n:'Cuba',v:55.7},{n:'Nicaragua',v:53.9},{n:'Mexico',v:50.4},
+       {n:'South Africa',v:44.7},{n:'UK',v:34.6},{n:'USA',v:29.0},{n:'China',v:26.5},
+       {n:'Bangladesh',v:20.9},{n:'Japan',v:16.0},{n:'India',v:13.6,hl:true,label:'India'},
+       {n:'Sri Lanka',v:5.3},{n:'Nigeria',v:4.4}],
+      { vMax: 65, ticks: [0,20,40,60], dotColor: '#94a3b8', hlColor: '#d6336c',
+        ref: { v: 26.9, label: 'world avg' }, axisLabel: 'women in the lower house of parliament, 2024 (%)' });
+
     smallMultiples('c-decline',
       { yMax: 215, cols: 4, color: '#64748b', hlColor: '#0d9488', axisLabel: 'under-5 deaths per 1,000 · 1990 → 2022',
         series: [
@@ -1285,7 +1313,7 @@ window.LV = (function() {
 
   function drawMasters(){ drawRose(); drawMinard(); drawSnow(); drawDuBois(); }
 
-  var ORDER = ['c-bump','c-gapminder','c-monsoon','c-gender','c-wealth','c-caste','c-co2','c-energy','c-nfhs','c-forest','c-decline','c-transition','c-migration','c-where','c-ghg','c-ghg3','c-waffle','c-stream','c-pyramid','c-states','c-poverty','c-u5mr','c-flfp','c-pipeline','c-climate'];
+  var ORDER = ['c-bump','c-gapminder','c-monsoon','c-gender','c-wealth','c-caste','c-co2','c-energy','c-nfhs','c-forest','c-decline','c-transition','c-migration','c-where','c-ghg','c-ghg3','c-waffle','c-stream','c-pyramid','c-states','c-poverty','c-u5mr','c-flfp','c-pipeline','c-climate','c-le','c-solar','c-urban','c-gdp','c-literacy','c-womenparl'];
   var DETAILS = {
     'c-bump': { tag:'Population', title:'The new giants',
       takeaway:"India passed China to become the world's most populous country in 2023. Look further out and the order keeps shifting — the UN projects Nigeria to climb past the United States by 2050.",
@@ -1436,7 +1464,43 @@ window.LV = (function() {
       source:"India Meteorological Department gridded data (1901–2024), via Data for India.",
       why:"This one is closer to a single-number readout than a chart — the point is one figure and how the choice of baseline changes it. The colour band is a schematic of the trend, not per-year data.",
       how:"A coloured gradient with the headline anomaly, and the same year shown against three different baselines.",
-      look:"How the same warming reads as +0.65, +0.78 or +0.98 depending on the comparison period." }
+      look:"How the same warming reads as +0.65, +0.78 or +0.98 depending on the comparison period." },
+    'c-le': { tag:'Health', title:'Living longer',
+      takeaway:"A child born in India in 1960 could expect to live to about 45. By 2019 that had reached nearly 71 — a full human generation added in six decades.",
+      source:"World Bank Open Data — life expectancy at birth, India (SP.DYN.LE00.IN), 1960–2019. The series stops at 2019 to keep the pandemic dip from distorting the trend.",
+      why:"A line over time is the clearest way to read a long, steady climb. The filled area gives the gain some weight without adding any new information; the axis starts near the earliest value so the rise is neither exaggerated nor hidden.",
+      how:"A smooth line through decadal values, ending in 2019, with each point plotted on a shared vertical scale.",
+      look:"The steady, almost straight climb — and how much of it came before 2000." },
+    'c-solar': { tag:'Energy', title:'The solar surge',
+      takeaway:"India's installed solar capacity has grown more than thirty-fold in a decade — from under 3 GW in 2014 to about 87 GW in 2024.",
+      source:"Ministry of New & Renewable Energy (MNRE) — installed grid-connected solar capacity, 2014–2024 (approximate).",
+      why:"A line makes an exponential-looking climb legible, and the area beneath it conveys the sheer scale of build-out. Gigawatts on a zero-based axis keep the steepness honest.",
+      how:"Installed capacity in gigawatts plotted every two years and joined into a line, area filled beneath.",
+      look:"How the curve steepens after 2018 — the build-out is accelerating, not just continuing." },
+    'c-urban': { tag:'Population', title:'India goes urban',
+      takeaway:"In 1960 fewer than one in five Indians lived in a town or city. By 2023 it was more than one in three, and a majority-urban India is now in sight.",
+      source:"World Bank — urban population as a share of total, India (SP.URB.TOTL.IN.ZS), 1960–2023.",
+      why:"A share over time is best read as a line: the slope is the pace of urbanisation. A zero-based percentage axis keeps a slow-but-relentless shift from looking either flat or dramatic.",
+      how:"Urban share of population plotted at intervals from 1960 to 2023 and joined into a filled line.",
+      look:"The unbroken upward slope — India has never de-urbanised, only slowed or sped up." },
+    'c-gdp': { tag:'Economy', title:'What India produces',
+      takeaway:"Services make up over half of everything India produces, yet agriculture — under a fifth of output — still employs the largest share of workers. That gap is the heart of the jobs debate.",
+      source:"MoSPI / National Accounts Statistics — gross value added by broad sector, 2023–24 (approximate shares).",
+      why:"For a part-to-whole split with three pieces, a ring reads cleanly and the centre can carry the headline share. It answers one question — how the economy divides — without pretending to more precision than three round numbers.",
+      how:"Each sector is an arc sized to its share of gross value added, with the services share called out in the centre.",
+      look:"How large the services arc is next to agriculture — and remember that employment splits almost the opposite way." },
+    'c-literacy': { tag:'Education', title:'Literacy, state by state',
+      takeaway:"The national average hides a wide spread: Kerala is near-universal at 96%, while Bihar sits around 62% — the same country, a generation apart in schooling.",
+      source:"NSO Household Social Consumption / Periodic Labour Force Survey estimates, 2022–23 (adult literacy, approximate).",
+      why:"A bar chart is the honest choice for comparing a handful of places — length is easy to judge — and a dashed line at the national average lets each state read as above or below it at a glance.",
+      how:"Horizontal bars from zero, ordered high to low, with a dashed line marking the national average.",
+      look:"The distance between the top and bottom bars, and which side of the national line each state falls on." },
+    'c-womenparl': { tag:'Gender & Power', title:'Women in parliament',
+      takeaway:"Women hold about 14% of seats in India's Lok Sabha — below the world average of 27%, and a fraction of Rwanda's 61%. The Women's Reservation Act, once in force, would lift it toward a third.",
+      source:"Inter-Parliamentary Union (IPU) — women in the lower or single house of parliament, 2024 (%).",
+      why:"A beeswarm shows every country as a dot on one axis, so the whole spread is visible — the cluster of low shares and the lonely leaders — rather than a single average. India is highlighted against the pack.",
+      how:"Each country is placed at its value and nudged to avoid overlap; India is coloured, with a dashed line at the world average.",
+      look:"How far below the world-average line India sits, and how alone Rwanda is on the right." }
   };
 
   return {

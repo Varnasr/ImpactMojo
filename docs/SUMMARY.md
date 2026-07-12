@@ -19,10 +19,14 @@
 * [Practice Packs Guide](practice-packs-guide.md)
 * [Deep Dives Guide](deep-dives-guide.md)
 * [Data Dives Guide](data-dives-guide.md)
+* [The Long View](long-view-guide.md)
+* [Marginalia](marginalia-guide.md)
 * [Dojos Guide](dojos-guide.md)
+* [Peer Review](peer-review-guide.md)
 * [Reading Companions Guide](book-summaries-guide.md)
 * [101 Course Decks Guide](101-decks-guide.md)
 * [Podcast Guide](podcast-guide.md)
+* [Field Radio Guide](field-radio-guide.md)
 * [Certificates & Progress](certificates-and-progress.md)
 * [FAQ](faq.md)
 
@@ -39,6 +43,13 @@
 * [Visualization Cookbook Guide](visualization-cookbook-guide.md)
 * [Qual Insights Guide](qual-insights-guide.md)
 * [Code Converter Guide](code-converter-guide.md)
+* [PolicyDhara](policydhara-guide.md)
+
+## Programmes & Services
+
+* [Coaching](coaching-guide.md)
+* [Build Circles](build-circles-guide.md)
+* [Assessment Series](assessment-series-guide.md)
 
 ## About
 
@@ -59,6 +70,7 @@
 
 ## Reference
 
+* [The Freemium Model](freemium-and-premium-guide.md)
 * [Memberships & Services](premium.md)
 * [Content Guide](content-guide.md)
 * [Content Catalog](content-catalog.md)

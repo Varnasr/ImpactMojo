@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Webinars | ImpactMojo</title>
-<meta name="description" content="Free, live online webinars and clinics from ImpactMojo — monitoring & evaluation, data, gender, and policy. Register, add to your calendar, and join on the day.">
+<meta name="description" content="Free, live online webinars and clinics from ImpactMojo — monitoring & evaluation, data, gender, AI, and policy. Every session is capped at 10 seats — request a seat and we email the exact date and join link.">
 
 <!-- Google tag (gtag.js) - G-JRCMEB9TBW -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
@@ -155,6 +155,7 @@ body {
 .event-host strong { color: var(--text-primary); }
 .event-desc { font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 0.9rem; flex: 1; }
 .event-capacity { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.9rem; }
+.event-capacity.seats-scarce { font-family: 'Inter', sans-serif; font-weight: 700; color: var(--danger-color); background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.18); border-radius: 8px; padding: 0.35rem 0.6rem; display: inline-flex; align-items: center; gap: 0.3rem; width: fit-content; }
 .event-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 
 .empty-state { text-align: center; padding: 3rem 2rem; color: var(--text-muted); background: var(--card-bg); border: 1px dashed var(--border-color); border-radius: 14px; }
@@ -319,16 +320,14 @@ body {
 
 <header class="hero">
     <h1>Webinars &amp; Events</h1>
-    <p>Free, live online sessions &mdash; register, add to your calendar, and join on the day.</p>
+    <p>Free, live online sessions &mdash; small by design. Every session is capped at <strong>10 seats</strong> so it stays a working room, not a lecture. Request a seat and we&rsquo;ll confirm the exact date and join link by email.</p>
 </header>
 
 <main id="pageContent">
     <div class="wrap">
-        <h2 class="section-head">Upcoming sessions</h2>
-        <p class="section-sub">All times shown in your local timezone. Sessions are free; registration reserves your spot and gets you the join link.</p>
-        <div id="eventsList" class="event-grid" aria-live="polite">
-            <div class="empty-state"><p>Loading sessions&hellip;</p></div>
-        </div>
+        <h2 class="section-head">Request a seat</h2>
+        <p class="section-sub">Sessions run in a set week each month &mdash; we email the exact date and link once your seat is confirmed. Each room holds just 10 people, so they fill fast.</p>
+        <div id="eventsList" class="event-grid" aria-live="polite"></div>
     </div>
 </main>
 
@@ -336,7 +335,7 @@ body {
 <div class="modal-overlay" id="regOverlay" role="dialog" aria-modal="true" aria-labelledby="regModalTitle">
     <div class="modal">
         <button class="modal-close" id="regClose" aria-label="Close registration">&times;</button>
-        <h2 id="regModalTitle">Register for this session</h2>
+        <h2 id="regModalTitle">Request a seat</h2>
         <p class="modal-when" id="regModalWhen"></p>
 
         <form class="reg-form" id="regForm" name="event-registration" method="POST" data-netlify="true" netlify-honeypot="bot-field">
@@ -358,14 +357,14 @@ body {
             <textarea id="regHope" name="hopes" maxlength="800"></textarea>
 
             <div class="reg-actions">
-                <button type="submit" class="btn btn-primary" id="regSubmit">Register</button>
+                <button type="submit" class="btn btn-primary" id="regSubmit">Request my seat</button>
             </div>
         </form>
 
         <div class="reg-success" id="regSuccess">
             <div class="tick">&#10003;</div>
-            <h3>You're registered</h3>
-            <p>We've noted your spot. Add it to your calendar and we'll email the join link.</p>
+            <h3>Seat requested</h3>
+            <p>We&rsquo;ve noted your request. Because seats are limited to 10, we confirm each one by hand &mdash; watch your inbox for the exact date and join link.</p>
             <div class="join-box" id="regJoinBox"></div>
         </div>
     </div>
@@ -459,44 +458,81 @@ body {
 <script>
 // ===== Webinars page logic =====
 (function() {
-    var EVENTS = [];          // upcoming events, sorted
-    var activeEvent = null;   // event currently in the register modal
+    // Sessions run in a fixed week each month. We publish the recurring window
+    // (e.g. "2nd week of the month"), not an exact date — the confirmed date and
+    // join link go out by email once a seat is granted. Every room is 10 seats.
+    var EVENTS = [
+        {
+            id: 'toc-clinic', track: 'MEL', level: 'All levels', host: 'Dr. Varna Sri Raman',
+            title: 'Theory of Change, without the jargon',
+            when: '2nd week of the month', duration: '90 min',
+            description: 'Bring a real programme and build its theory of change live. We map outcomes, name the assumptions, and stress-test the causal logic together — you leave with a ToC you can defend.'
+        },
+        {
+            id: 'indicators', track: 'MEL', level: 'Beginner', host: 'Dr. Varna Sri Raman',
+            title: 'Building an indicator that actually measures something',
+            when: '3rd week of the month', duration: '60 min',
+            description: 'Most indicators measure activity, not change. A working session on writing outcome indicators with clear numerators, denominators and a means of verification you can afford.'
+        },
+        {
+            id: 'dataviz', track: 'Data', level: 'Intermediate', host: 'Vandana Soni',
+            title: 'From survey to dashboard: honest data visualisation',
+            when: '1st week of the month', duration: '90 min',
+            description: 'Turn a messy survey extract into a dashboard that tells the truth — chart choice, the lie-factor traps to avoid, and how to show uncertainty instead of hiding it.'
+        },
+        {
+            id: 'gender-data', track: 'Gender', level: 'All levels', host: 'Dr. Varna Sri Raman',
+            title: 'Gender-disaggregated data beyond the checkbox',
+            when: '4th week of the month', duration: '60 min',
+            description: 'Disaggregating by sex is the floor, not the ceiling. How to design questions, cuts and visuals that surface gendered patterns your programme can actually act on.'
+        },
+        {
+            id: 'sampling', track: 'Methods', level: 'Intermediate', host: 'Vandana Soni',
+            title: 'Sampling for real-world baselines',
+            when: '2nd week of the month', duration: '90 min',
+            description: 'Sample size without the panic. Power, clustering, non-response and the practical trade-offs when your frame is imperfect and your budget is fixed. Bring a baseline you are planning.'
+        },
+        {
+            id: 'ai-mel', track: 'AI', level: 'All levels', host: 'Dr. Varna Sri Raman',
+            title: 'AI for M&E: what works, what’s hype',
+            when: '3rd week of the month', duration: '60 min',
+            description: 'A clear-eyed tour of where AI genuinely helps an M&E workflow (coding, transcription, drafting) and where it quietly harms it. Live demos, honest limits, no vendor pitch.'
+        },
+        {
+            id: 'qual-coding', track: 'Qualitative', level: 'Beginner', host: 'Vandana Soni',
+            title: 'Qualitative coding in an afternoon',
+            when: '1st week of the month', duration: '90 min',
+            description: 'From raw transcripts to a defensible codebook. Inductive vs deductive coding, keeping an audit trail, and reaching a theme you can stand behind — worked on real interview text.'
+        },
+        {
+            id: 'policy-reading', track: 'Policy', level: 'All levels', host: 'Dr. Varna Sri Raman',
+            title: 'Reading a policy like a practitioner',
+            when: '4th week of the month', duration: '60 min',
+            description: 'How to read a scheme or Act fast and find what matters — the entitlement, the exclusions, the money trail and the gap between what is written and what reaches people.'
+        },
+        {
+            id: 'tor-writing', track: 'Practice', level: 'Intermediate', host: 'Vandana Soni',
+            title: 'Writing a Terms of Reference that gets good bids',
+            when: '2nd week of the month', duration: '60 min',
+            description: 'A vague ToR gets vague proposals. Scoping the questions, deliverables, methods and budget so serious evaluators can respond — the companion clinic to our ToR Practice Pack.'
+        },
+        {
+            id: 'dev-econ', track: 'Economics', level: 'Beginner', host: 'Dr. Varna Sri Raman',
+            title: 'Development economics for non-economists',
+            when: '3rd week of the month', duration: '90 min',
+            description: 'The ideas that quietly shape every programme — incentives, externalities, poverty traps, cash vs kind — explained without equations, with examples from South Asian practice.'
+        }
+    ];
+
+    var activeEvent = null;
 
     function esc(s) {
         return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
             return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c];
         });
     }
-    function fmtDateTime(iso) {
-        try {
-            var d = new Date(iso);
-            return d.toLocaleString(undefined, {
-                weekday: 'short', year: 'numeric', month: 'short', day: 'numeric',
-                hour: 'numeric', minute: '2-digit'
-            });
-        } catch (e) { return String(iso); }
-    }
-    function fmtDuration(mins) {
-        mins = parseInt(mins, 10) || 0;
-        if (mins < 60) return mins + ' min';
-        var h = Math.floor(mins / 60), m = mins % 60;
-        return m ? (h + 'h ' + m + 'm') : (h + ' hour' + (h > 1 ? 's' : ''));
-    }
-    function endDate(ev) {
-        var start = new Date(ev.starts_at);
-        return new Date(start.getTime() + (parseInt(ev.duration_mins, 10) || 60) * 60000);
-    }
-
-    function emptyState(msg, sub) {
-        return '<div class="empty-state">' +
-            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' +
-            '<p><strong>' + esc(msg) + '</strong></p>' +
-            (sub ? '<p>' + esc(sub) + '</p>' : '') +
-            '</div>';
-    }
 
     function eventCard(ev) {
-        var capacity = ev.capacity ? ('Limited to ' + esc(ev.capacity) + ' seats') : '';
         return '<div class="event-card">' +
             '<div class="event-meta-top">' +
                 (ev.track ? '<span class="tag">' + esc(ev.track) + '</span>' : '') +
@@ -504,15 +540,14 @@ body {
             '</div>' +
             '<div class="event-title">' + esc(ev.title) + '</div>' +
             '<div class="event-when">' +
-                '<span class="date">' + esc(fmtDateTime(ev.starts_at)) + '</span>' +
-                '<span class="sub">' + esc(fmtDuration(ev.duration_mins)) + ' &middot; ' + esc(ev.timezone || 'IST') + ' &middot; online</span>' +
+                '<span class="date">' + esc(ev.when) + '</span>' +
+                '<span class="sub">' + esc(ev.duration) + ' &middot; online &middot; exact date emailed on confirmation</span>' +
             '</div>' +
             (ev.host ? '<div class="event-host">Hosted by <strong>' + esc(ev.host) + '</strong></div>' : '') +
             '<div class="event-desc">' + esc(ev.description) + '</div>' +
-            (capacity ? '<div class="event-capacity">' + capacity + '</div>' : '') +
+            '<div class="event-capacity seats-scarce">&#9888; Only 10 seats &mdash; request early</div>' +
             '<div class="event-actions">' +
-                '<button class="btn btn-outline btn-sm" data-cal="' + esc(ev.id) + '">Add to calendar</button>' +
-                '<button class="btn btn-primary btn-sm" data-register="' + esc(ev.id) + '">Register</button>' +
+                '<button class="btn btn-primary btn-sm" data-register="' + esc(ev.id) + '">Request a seat</button>' +
             '</div>' +
         '</div>';
     }
@@ -522,54 +557,6 @@ body {
         return null;
     }
 
-    // ---------- .ics generation ----------
-    function icsDate(d) {
-        // UTC, basic format: YYYYMMDDTHHMMSSZ
-        function p(n) { return (n < 10 ? '0' : '') + n; }
-        return d.getUTCFullYear() + p(d.getUTCMonth() + 1) + p(d.getUTCDate()) + 'T' +
-            p(d.getUTCHours()) + p(d.getUTCMinutes()) + p(d.getUTCSeconds()) + 'Z';
-    }
-    function icsEscape(s) {
-        return String(s == null ? '' : s)
-            .replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,')
-            .replace(/\r?\n/g, '\\n');
-    }
-    function downloadIcs(ev) {
-        var start = new Date(ev.starts_at);
-        var end = endDate(ev);
-        var uid = (ev.id || 'event') + '@impactmojo.in';
-        var desc = (ev.description || '') +
-            (ev.host ? '\\n\\nHosted by ' + ev.host : '') +
-            (ev.join_url ? '\\n\\nJoin link: ' + ev.join_url : '');
-        var lines = [
-            'BEGIN:VCALENDAR',
-            'VERSION:2.0',
-            'PRODID:-//ImpactMojo//Webinars//EN',
-            'CALSCALE:GREGORIAN',
-            'METHOD:PUBLISH',
-            'BEGIN:VEVENT',
-            'UID:' + uid,
-            'DTSTAMP:' + icsDate(new Date()),
-            'DTSTART:' + icsDate(start),
-            'DTEND:' + icsDate(end),
-            'SUMMARY:' + icsEscape(ev.title),
-            'DESCRIPTION:' + icsEscape(desc),
-            'URL:' + icsEscape(ev.join_url || 'https://www.impactmojo.in/events.html'),
-            'LOCATION:Online',
-            'END:VEVENT',
-            'END:VCALENDAR'
-        ];
-        var blob = new Blob([lines.join('\r\n')], { type: 'text/calendar;charset=utf-8' });
-        var url = URL.createObjectURL(blob);
-        var a = document.createElement('a');
-        a.href = url;
-        a.download = (ev.id || 'impactmojo-event') + '.ics';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
-    }
-
     // ---------- registration modal ----------
     var overlay = document.getElementById('regOverlay');
     var form = document.getElementById('regForm');
@@ -577,14 +564,12 @@ body {
 
     function openRegister(ev) {
         activeEvent = ev;
-        document.getElementById('regEventId').value = ev.id || '';
-        document.getElementById('regEventTitle').value = ev.title || '';
-        document.getElementById('regModalTitle').textContent = 'Register: ' + ev.title;
-        document.getElementById('regModalWhen').textContent =
-            fmtDateTime(ev.starts_at) + ' · ' + fmtDuration(ev.duration_mins) + ' · ' + (ev.timezone || 'IST');
         form.reset();
         document.getElementById('regEventId').value = ev.id || '';
         document.getElementById('regEventTitle').value = ev.title || '';
+        document.getElementById('regModalTitle').textContent = 'Request a seat: ' + ev.title;
+        document.getElementById('regModalWhen').textContent =
+            ev.when + ' · ' + ev.duration + ' · online · 10 seats only';
         form.style.display = '';
         successEl.style.display = 'none';
         overlay.classList.add('open');
@@ -601,68 +586,33 @@ body {
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         var btn = document.getElementById('regSubmit');
-        btn.disabled = true; btn.textContent = 'Registering…';
+        btn.disabled = true; btn.textContent = 'Sending…';
         var data = new URLSearchParams(new FormData(form)).toString();
-        function showSuccess() {
+        function done() {
             form.style.display = 'none';
-            var joinBox = document.getElementById('regJoinBox');
-            if (activeEvent && activeEvent.join_url) {
-                joinBox.innerHTML = 'Join link: <a href="' + esc(activeEvent.join_url) + '" target="_blank" rel="noopener">' + esc(activeEvent.join_url) + '</a>';
-                joinBox.style.display = 'block';
-            } else {
-                joinBox.style.display = 'none';
-            }
+            document.getElementById('regJoinBox').style.display = 'none';
             successEl.style.display = 'block';
-            btn.disabled = false; btn.textContent = 'Register';
+            btn.disabled = false; btn.textContent = 'Request my seat';
         }
         fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: data })
-            .then(showSuccess)
-            .catch(showSuccess); // still confirm to the learner; submission is best-effort
+            .then(done)
+            .catch(done); // still confirm to the learner; submission is best-effort
     });
 
-    // ---------- load + render ----------
-    function bindCardActions(container) {
-        container.querySelectorAll('[data-register]').forEach(function(b) {
-            b.addEventListener('click', function() { var ev = findEvent(b.getAttribute('data-register')); if (ev) openRegister(ev); });
-        });
-        container.querySelectorAll('[data-cal]').forEach(function(b) {
-            b.addEventListener('click', function() { var ev = findEvent(b.getAttribute('data-cal')); if (ev) downloadIcs(ev); });
-        });
-    }
-
+    // ---------- render ----------
     function render() {
         var listEl = document.getElementById('eventsList');
-        if (!EVENTS.length) {
-            listEl.className = '';
-            listEl.innerHTML = emptyState('No sessions scheduled right now', 'Check back soon — we add new free workshops regularly.');
-            return;
-        }
         listEl.className = 'event-grid';
         listEl.innerHTML = EVENTS.map(eventCard).join('');
-        bindCardActions(listEl);
-    }
-
-    function load() {
-        var listEl = document.getElementById('eventsList');
-        fetch('/data/events.json', { cache: 'no-cache' })
-            .then(function(r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
-            .then(function(arr) {
-                var now = Date.now();
-                EVENTS = (Array.isArray(arr) ? arr : [])
-                    .filter(function(ev) { return ev && ev.starts_at && new Date(ev.starts_at).getTime() > now; })
-                    .sort(function(a, b) { return new Date(a.starts_at) - new Date(b.starts_at); });
-                render();
-            })
-            .catch(function() {
-                listEl.className = '';
-                listEl.innerHTML = emptyState('No sessions scheduled right now', 'Check back soon — we add new free workshops regularly.');
-            });
+        listEl.querySelectorAll('[data-register]').forEach(function(b) {
+            b.addEventListener('click', function() { var ev = findEvent(b.getAttribute('data-register')); if (ev) openRegister(ev); });
+        });
     }
 
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', load);
+        document.addEventListener('DOMContentLoaded', render);
     } else {
-        load();
+        render();
     }
 })();
 </script>

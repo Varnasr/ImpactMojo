@@ -164,6 +164,104 @@ function closeModal(modalId) {
     var el = document.getElementById(modalId);
     if (el) el.style.display = 'none';
 }
+// Track-quiz scoring: tally each answer's data-track, recommend a starting track + key decks.
+var TRACK_QUIZ_MAP = {
+    data: {
+        label: 'Data & Technology',
+        blurb: 'You lean towards data, dashboards, and turning numbers into clear arguments.',
+        hub: '/handouts#data-technology',
+        picks: [
+            ['Data Literacy 101', '/101-courses/data-lit.html'],
+            ['Seeing Data: Visualization for Impact (flagship)', '/courses/dataviz/'],
+            ['Power BI for Practitioners (flagship)', '/courses/powerBI/powerbi.html']
+        ]
+    },
+    methods: {
+        label: 'Monitoring, Evaluation & Learning',
+        blurb: 'You want stronger MEL systems — theories of change, indicators, and evidence you can trust.',
+        hub: '/handouts#monitoring-evaluation-learning',
+        picks: [
+            ['MEL Basics 101', '/101-courses/mel-basics.html'],
+            ['Theory of Change 101', '/101-courses/toc-workbench.html'],
+            ['MEL for Development (flagship)', '/courses/mel/']
+        ]
+    },
+    gender: {
+        label: 'Gender, Equity & Inclusion',
+        blurb: 'You care about how gender, caste, and structural inequality shape programmes and outcomes.',
+        hub: '/handouts#gender-equity-inclusion',
+        picks: [
+            ['Gender Mainstreaming 101', '/101-courses/gender-mainstreaming.html'],
+            ['Social Margins 101', '/101-courses/social-margins.html'],
+            ['Gender Studies: Feminisms, Power & Social Change (flagship)', '/courses/gender/']
+        ]
+    },
+    policy: {
+        label: 'Policy & Economics',
+        blurb: 'You connect field realities to budgets, schemes, growth, and political economy.',
+        hub: '/handouts#policy-economics',
+        picks: [
+            ['Development Economics 101', '/101-courses/dev-economics.html'],
+            ['Political Economy 101', '/101-courses/pol-economy.html'],
+            ['Public Policy: Process, Design & Governance (flagship)', '/courses/pubpol/']
+        ]
+    },
+    philosophy: {
+        label: 'Philosophy, Law & Governance',
+        blurb: 'You ground your work in constitutional rights, ethics, and political ideas.',
+        hub: '/handouts#philosophy-law-governance',
+        picks: [
+            ['Indian Constitution 101', '/101-courses/ind-constitution.html'],
+            ['Constitution & Law for Development Practice (flagship)', '/courses/law/'],
+            ["Gandhi's Political Thought (flagship)", '/courses/gandhi/']
+        ]
+    },
+    health: {
+        label: 'Health, Communication & Wellbeing',
+        blurb: 'You build better health, communications, and wellbeing interventions.',
+        hub: '/handouts#health-communication-wellbeing',
+        picks: [
+            ['Public Health 101', '/101-courses/pub-health-basics.html'],
+            ['Behaviour Change Communication 101', '/101-courses/bcc-comms.html'],
+            ['Media for Development (flagship)', '/courses/media/']
+        ]
+    }
+};
+function saveTrackQuiz(event) {
+    if (event && event.preventDefault) event.preventDefault();
+    var form = document.getElementById('trackQuizForm');
+    var checked = form.querySelectorAll('input[type="radio"]:checked');
+    if (checked.length < 5) return false;
+    var tally = {};
+    var order = [];
+    for (var i = 0; i < checked.length; i++) {
+        var t = checked[i].getAttribute('data-track') || checked[i].value;
+        if (!(t in tally)) { tally[t] = 0; order.push(t); }
+        tally[t]++;
+    }
+    // winner = highest tally; ties broken by earliest answered (order of appearance)
+    var winner = order[0];
+    for (var j = 0; j < order.length; j++) {
+        if (tally[order[j]] > tally[winner]) winner = order[j];
+    }
+    var rec = TRACK_QUIZ_MAP[winner] || TRACK_QUIZ_MAP.methods;
+    try { localStorage.setItem('impactmojo-track', winner); } catch (e) {}
+
+    var resultBox = document.getElementById('trackQuizResult');
+    var textEl = document.getElementById('trackQuizResultText');
+    var linkEl = document.getElementById('trackQuizResultLink');
+    textEl.innerHTML = '<strong>' + rec.label + '.</strong> ' + rec.blurb;
+    var picks = rec.picks.map(function (p) {
+        return '<li><a href="' + p[1] + '" style="color: var(--accent-color);">' + p[0] + '</a></li>';
+    }).join('');
+    linkEl.innerHTML =
+        '<p style="margin:0.75rem 0 0.35rem;font-weight:600;">Start here:</p>' +
+        '<ul style="margin:0 0 0.75rem 1.1rem;padding:0;line-height:1.8;">' + picks + '</ul>' +
+        '<a class="imx-btn" href="' + rec.hub + '" style="margin-top:0.25rem;">Explore the full ' + rec.label + ' track →</a>';
+    resultBox.style.display = 'block';
+    resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    return false;
+}
 // Close modal when clicking outside content
 window.addEventListener('click', function(e) {
     if (e.target.classList && e.target.classList.contains('modal')) {
@@ -515,17 +613,6 @@ window.addEventListener('click', function(e) {
 <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#spr-1"/></svg>
 </a>
 <ul class="dropdown-menu specials-grouped" id="specials-dropdown">
-<li class="dropdown-section" id="nav-games-group">
-  <button type="button" class="dropdown-section-toggle" onclick="toggleSpecialsSection(event, this)" aria-expanded="false">
-    <span data-i18n="nav.games">Game Library</span>
-    <svg class="dropdown-section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#spr-1"/></svg>
-  </button>
-  <ul class="dropdown-section-items">
-    <li id="nav-games-all"><a href="/game-library.html">All Games</a></li>
-    <li id="nav-puzzles"><a href="/game-library.html?type=crossword"><span data-i18n="nav.puzzles">Puzzles &amp; Crosswords</span></a></li>
-    <li id="nav-games-simulations"><a href="/game-library.html?type=simulation">Simulations</a></li>
-  </ul>
-</li>
 <li class="dropdown-section">
   <button type="button" class="dropdown-section-toggle" onclick="toggleSpecialsSection(event, this)" aria-expanded="false">
     <span>Practice &amp; Programs</span>
@@ -536,7 +623,6 @@ window.addEventListener('click', function(e) {
     <li id="nav-sampling-toolkit"><a href='/labs/sampling-toolkit.html' style='color: #0EA5E9; font-weight: 600;'><svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="v3-inline-icon"><use href="#si_Bar_chart"/></svg> Sampling Toolkit <span style="background:#0EA5E9;color:#fff;font-size:0.55rem;padding:0.1rem 0.35rem;border-radius:4px;margin-left:0.3rem;text-transform:uppercase;letter-spacing:0.5px;vertical-align:middle">New</span></a></li>
     <li id="nav-prostudio"><a href='/premium-tools/' style='color: #6366F1; font-weight: 600;'><svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="v3-inline-icon"><use href="#si_Flare"/></svg> Pro Studio</a></li>
     <li id="nav-practicepacks"><a href='/practice-packs/' style='color: #0EA5E9; font-weight: 600;'><svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="v3-inline-icon"><use href="#si_Flare"/></svg> Practice Packs <span style="background:#0EA5E9;color:#fff;font-size:0.55rem;padding:0.1rem 0.35rem;border-radius:4px;margin-left:0.3rem;text-transform:uppercase;letter-spacing:0.5px;vertical-align:middle">New</span></a></li>
-    <li id="nav-flagship"><a href="/courses/" style="color: #6366F1; font-weight: 600;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="v3-inline-icon"><use href="#si_Flare"/></svg> Flagship Courses</a></li>
   </ul>
 </li>
 <li class="dropdown-section">
@@ -546,6 +632,8 @@ window.addEventListener('click', function(e) {
   </button>
   <ul class="dropdown-section-items">
     <li id="nav-live-projects"><a href='/live-projects.html' style='color: #0EA5E9; font-weight: 600;'><svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="v3-inline-icon"><use href="#si_Bar_chart"/></svg> Live Projects</a></li>
+    <li id="nav-datadives"><a href='/DataDives/' style='color: #10B981; font-weight: 600;'><svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="v3-inline-icon"><use href="#si_Bar_chart"/></svg> Data Dives</a></li>
+    <li id="nav-deepdives"><a href='/DeepDives/' style='color: #6366F1; font-weight: 600;'><svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="v3-inline-icon"><use href="#si_Article"/></svg> Deep Dives</a></li>
     <li id="nav-longview"><a href='/the-long-view.html' style='color: #764ba2; font-weight: 600;'><svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="v3-inline-icon"><use href="#si_Flare"/></svg> The Long View <span style="background:#764ba2;color:#fff;font-size:0.55rem;padding:0.1rem 0.35rem;border-radius:4px;margin-left:0.3rem;text-transform:uppercase;letter-spacing:0.5px;vertical-align:middle">New</span></a></li>
   </ul>
 </li>
@@ -576,7 +664,7 @@ window.addEventListener('click', function(e) {
     <svg class="dropdown-section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#spr-1"/></svg>
   </button>
   <ul class="dropdown-section-items">
-    <li id="nav-contribute"><a href="/contribute.html">Teach with Us</a></li>
+    <li id="nav-contribute"><a href="/contribute.html">Contribute</a></li>
     <li id="nav-community"><a href='/community'>Community</a></li>
     <li id="nav-support"><a href="#support-us">Support Us</a></li>
     <li id="nav-contact"><a href='/contact'>Contact</a></li>
@@ -797,6 +885,10 @@ window.addEventListener('authStateChanged', function(e) {
     <div class="v3-benefits-callout">
         <div class="v3-callout-arrow"></div>
         <div class="v3-callout-content">
+            <div style="font-weight:700;font-size:0.82rem;line-height:1.45;margin-bottom:8px;">
+                <span data-i18n="benefits.content_lead">68 free courses &middot; 135 games &middot; 30 labs &amp; more</span>
+                <span style="display:block;font-weight:600;opacity:.75;font-size:0.76rem;" data-i18n="benefits.plus_account">&mdash; plus a free account to:</span>
+            </div>
             <span class="v3-benefit-item">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="v3-benefit-icon"><use href="#si_Check_circle"/></svg>
                 <span data-i18n="benefits.track_progress">Track Progress</span>
@@ -3093,17 +3185,13 @@ window.addEventListener('authStateChanged', function(e) {
 <!-- Premium Section -->
 <span id="premium" aria-hidden="true"></span><section class="imx-libraries-grid-section" id="pro-studio">
 <h2 class="section-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="vertical-align: middle; margin-right: 0.4rem;"><use href="#si_Flare"/></svg>Freemium Pro Studio</h2>
-<p class="section-subtitle">Free to build — no sign-in needed. Only exporting your finished work and advanced modes are Premium.</p>
-<div class="imx-premium-tiers">
-    <div style="padding: 1.25rem 1.5rem; border-radius: 12px; background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.15);">
-        <div style="font-weight: 700; font-size: 0.88rem; color: #4338CA; margin-bottom: 0.4rem;">Practitioner Tier</div>
-        <div style="font-size: 0.8rem; color: var(--text-secondary, #475569); line-height: 1.5;">Theory of Change Workbench, completion certificates, and community access</div>
-    </div>
-    <div style="padding: 1.25rem 1.5rem; border-radius: 12px; background: rgba(139, 92, 246, 0.08); border: 1px solid rgba(139, 92, 246, 0.15);">
-        <div style="font-weight: 700; font-size: 0.88rem; color: #6D28D9; margin-bottom: 0.4rem;">Professional Tier</div>
-        <div style="font-size: 0.8rem; color: var(--text-secondary, #475569); line-height: 1.5;">Advisory Board, VaniScribe AI, DevData Practice, Viz Cookbook, DevEcon Toolkit, Field Notes, 7 workshop tools (ToC, LogFrame, Chart Selector, Stakeholder Map, Empathy Map, Policy Canvas, AI Canvas), and priority coaching</div>
-    </div>
-</div>
+<style>
+/* WCAG 2.1 AA (1.4.3): accent link needs >=4.5:1 on the section background in both themes. */
+.pro-compare-link{color:#0369A1;text-decoration:underline;text-underline-offset:2px;font-weight:600;white-space:nowrap}
+[data-theme="dark"] .pro-compare-link{color:#7DD3FC}
+@media (prefers-color-scheme:dark){html:not([data-theme="light"]) .pro-compare-link{color:#7DD3FC}}
+</style>
+<p class="section-subtitle">Every tool below is free to build with — no sign-in needed. Only exporting your finished work and advanced modes are Premium. <a href="/premium.html" class="pro-compare-link">Compare plans &rarr;</a></p>
 <div class="cards-grid">
 <div class="card">
 <a href="/labs/sampling-toolkit.html" rel="noopener noreferrer" target="_blank">
@@ -3592,7 +3680,7 @@ window.addEventListener('authStateChanged', function(e) {
                 </div>
                 <div class="support-option-title">Pay What You Think Is Fair</div>
                 <div class="support-option-desc">
-                    Get our curated resource pack "" cheatsheets, checklists, and guides for development professionals.
+                    Get our curated resource pack &mdash; cheatsheets, checklists, and guides for development professionals.
                 </div>
                 <button class="support-option-action support-option-action-green" onclick="openModal('supportModal')">
                     Support & Get Resources
@@ -4549,83 +4637,50 @@ window.addEventListener('authStateChanged', function(e) {
 </p>
 <div class="footer-links">
 <div class="footer-section">
-<h4>About ImpactMojo</h4>
-<ul>
-<li><a href='/about'>About Us</a></li>
-<li><a href='/community'>Community</a></li>
-<li><a href="#support-us">Support Us</a></li>
-<li><a href='/contact'>Contact</a></li>
-<li><a href="https://github.com/ImpactMojo/ImpactMojo" rel="noopener noreferrer" target="_blank">GitHub (Open Source)</a></li>
-<li><a href="/transparency">Transparency</a></li>
-<li><a href="/ImpactMojo_PressKit.html">Press Kit</a></li>
-</ul>
-</div>
-<div class="footer-section">
-<h4>Legal (IT Act Compliance)</h4>
-<ul>
-<li><a href='/privacy-policy'>Privacy Policy</a></li>
-<li><a href='/terms-of-service'>Terms of Service</a></li>
-<li><a href='/accessibility.html'>Accessibility Statement</a></li>
-<li><a href='/disclaimer'>Disclaimer</a></li>
-<li><a href='/grievance'>Grievance Redressal</a></li>
-<li><a href='/refund-policy'>Refund Policy</a></li>
-<li><a href='/data-protection'>Data Protection</a></li>
-<li><a href='/ai-policy'>AI Policy</a></li>
-</ul>
-</div>
-<div class="footer-section">
-<h4>Quick Links</h4>
+<h4>Learn</h4>
 <ul>
 <li><a href="/courses/">Flagship Courses</a></li>
 <li><a href="/101-courses/">101 Course Decks</a></li>
 <li><a href="/labs/">All Labs</a></li>
-<li><a href="/game-library.html">All Games</a></li>
 <li><a href="/BookSummaries/">Reading Companions</a></li>
-<li><a href="/DataDives/">Data Dives</a></li>
-<li><a href="/DeepDives/">Deep Dives</a></li>
-<li><a href='/premium'>Premium Content</a></li>
-<li><a href="/build-circles.html">Build Circles</a></li>
-<li><a href="/ai-for-me-certificate.html">AI for M&amp;E &mdash; Assessed Track</a></li>
-<li><a href="/ai-agents-for-evaluators.html">AI Agents for Evaluators</a></li>
-<li><a href='/coaching'>Coaching Services</a></li>
-<li><a href="/peer-review.html">Peer Review</a></li>
-<li><a href="/verify.html">Verify a Certificate</a></li>
-<li><a href="/impact-dashboard.html">Impact Dashboard</a></li>
-<li><a href="/events.html">Webinars</a></li>
-<li><a href="/contribute.html">Teach with Us</a></li>
+<li><a href="/catalog.html">Full Catalog</a></li>
 </ul>
 </div>
 <div class="footer-section">
-<h4>Resources</h4>
-<ul><li><a href="/status.html">System Status</a></li>
+<h4>Explore</h4>
+<ul>
 <li><a href="/libraries">All Libraries</a></li>
-<li><a href="/premium-tools/">Pro Studio (tools)</a></li>
-<li><a href="/products.html">Products &amp; Kits</a></li>
-<li><a href='/handouts'>Educational Handouts</a></li>
-<li><a href="/research-to-action/">Research to Action (Posters)</a></li>
-<li><a href='/blog'>Learning Loops Blog</a></li>
+<li><a href="/game-library.html">Games</a></li>
+<li><a href="/dataverse.html">Dataverse</a></li>
 <li><a href='/field-radio'>Field Radio</a></li>
-<li><a href="https://varna.substack.com" rel="noopener noreferrer" target="_blank">Research Newsletter</a></li>
+<li><a href='/premium'>Premium</a></li>
+<li><a href='/blog'>Blog</a></li>
+</ul>
+</div>
+<div class="footer-section">
+<h4>ImpactMojo</h4>
+<ul>
+<li><a href='/about'>About</a></li>
+<li><a href='/community'>Community</a></li>
+<li><a href="/contribute.html">Contribute</a></li>
 <li><a href='/faq'>FAQ</a></li>
-<li><a href='/sitemap'>Sitemap</a></li>
-<li><a href="/docs/" rel="noopener noreferrer" target="_blank">Documentation</a></li>
-<li><a href="/api-docs.html">Developer API</a></li>
+<li><a href="/transparency">Transparency</a></li>
+<li><a href="https://github.com/ImpactMojo/ImpactMojo" rel="noopener noreferrer" target="_blank">GitHub</a></li>
 </ul>
 </div>
 </div>
 <div class="footer-bottom">
-<p>© 2026 ImpactMojo. All content for educational purposes only. Code under MIT; content under CC BY-NC-ND 4.0.</p>
-<p style="margin-top: 0.5rem;">
-<strong>DISCLAIMER:</strong> ImpactMojo is an educational resource platform focused on learning, not credentialing. 
-                        We provide certificates of course completion, but not formal degrees or accredited credentials. Content is for learning purposes only and does not constitute professional advice.
-                    </p>
-<p style="margin-top: 0.5rem;">
-                        Released under <strong>MIT License</strong> - Free and Open Source Educational Platform | 
-                        Supported by <a href="https://www.pinpointventures.in" style="color: #075985; text-decoration: underline;" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a>
-</p>
-<p style="margin-top: 0.5rem; font-size: 0.875rem;">
-                        Registered in India | Compliant with Information Technology Act, 2000 and IT Rules, 2011
-                    </p>
+<nav class="footer-legal" aria-label="Legal and policies">
+<a href='/privacy-policy'>Privacy</a>
+<a href='/terms-of-service'>Terms</a>
+<a href='/accessibility.html'>Accessibility</a>
+<a href='/disclaimer'>Disclaimer</a>
+<a href='/grievance'>Grievance</a>
+<a href='/refund-policy'>Refund</a>
+<a href='/data-protection'>Data Protection</a>
+<a href='/ai-policy'>AI Policy</a>
+</nav>
+<p>© 2026 ImpactMojo — free &amp; open source. Code under MIT; content under CC BY-NC-ND 4.0. An educational platform (learning, not credentialing); certificates mark completion, not accreditation. Registered in India · IT Act 2000 compliant.</p>
 </div>
 </div>
 </footer>
@@ -6052,5 +6107,6 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 })();
 </script>
+<script src="/js/mojini-ai.js" defer></script>
 </body>
 </html>
