@@ -2,6 +2,16 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.112.0 — July 12, 2026 (4 new Reading Companions — 128 → 132)
+
+### For Learners
+
+- **Four new interactive Reading Companions**, each grounded in the full text:
+  - **The Backstage of Democracy: India's Election Campaigns and the People Who Manage Them** (Amogh Dhar Sharma) — how professional campaign consultants and IT cells reshape Indian elections.
+  - **Make Me a Man! Masculinity, Hinduism, and Nationalism in India** (Sikata Banerjee) — how nationalist movements construct gender and masculinity.
+  - **The Many Lives of Syeda X: The Story of an Unknown Indian** (Neha Dixit) — thirty years and fifty jobs in the life of a Muslim woman informal worker, a window into women's home-based labour, migration and survival.
+  - **Negotiating the Urban Margins** (Dhiren Swain) — slum-dweller committees and in-situ land titling in Odisha's basti settlements (JAGA Mission).
+
 ## v10.111.0 — July 12, 2026 (Fix — returning visitors now get the latest content)
 
 ### Fixed
