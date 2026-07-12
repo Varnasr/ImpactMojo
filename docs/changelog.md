@@ -7,6 +7,7 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 ### Fixed
 
 - **Returning visitors were being served stale, cached copies of the site.** The offline cache version hadn't been rotated in six days, so recent updates (new reading companions, the new lab, the browse/search improvements) didn't appear for people whose browsers had cached the old assets. Bumping the service-worker version forces a clean cache refresh on next visit, so everyone now receives the current site.
+- **This will no longer recur.** Each deploy now automatically stamps both the in-page refresh signal *and* the service-worker cache version (previously only the former), so the offline cache rotates on every release without anyone remembering to bump it by hand.
 
 ## v10.110.0 — July 12, 2026 (Fix — homepage tour)
 

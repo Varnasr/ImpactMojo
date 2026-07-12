@@ -1,6 +1,8 @@
 [build]
-  # Update version.json on every deploy so auto-refresh detects changes
-  command = "echo '{\"v\":\"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'\"}' > version.json"
+  # Stamp version.json (in-page auto-refresh) AND the service-worker cache
+  # VERSION (rotates the runtime cache so returning visitors get fresh assets)
+  # on every deploy. See scripts/stamp-version.sh.
+  command = "bash scripts/stamp-version.sh"
   publish = "."
   functions = "netlify/functions"
 
