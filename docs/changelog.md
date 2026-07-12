@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.114.0 — July 12, 2026 (Fix — no more empty companion tabs)
+
+### Fixed
+
+- **Reading Companion tabs that had no content no longer show as blank pages.** A companion's "Pathways" tab (and occasionally "Toolkit" or "Context") is optional and was left empty for many books, but the tab still appeared and opened to an empty panel. Tabs now appear only when they have content, so every tab you can click has something in it.
+
 ## v10.113.0 — July 12, 2026 (New Reading Companion — Realising Rights)
 
 ### For Learners

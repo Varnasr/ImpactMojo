@@ -455,7 +455,7 @@ html.dark .im-ethics-disclaimer, body.dark-mode .im-ethics-disclaimer { backgrou
 const DATA = {"title": "Handbook for IPCC Authors on Climate Communications", "dayBadge": "Climate · Communication", "author": "Adam Corner, Chris Shaw & Jamie Clarke · Climate Outreach, 2018", "tagline": "An interactive companion for Ipcc Climate Communication.", "pills": ["Climate", "Science Communication", "Policy"], "stats": [{"n": "6", "l": "Chapters"}, {"n": "6", "l": "South Asia lenses"}], "argument": ["This companion page distils the core arguments and applications of the book for development practitioners and researchers."], "accent": "#0EA5E9", "accent_light": "#E0F2FE", "pathways": [], "sections": [{"title": "Be a Confident Communicator", "subtitle": "Ch 1", "summary": "", "ideas": [], "quotes": [], "devEcon": ""}, {"title": "Talk About the Real World, Not Abstract Ideas", "subtitle": "Ch 2", "summary": "", "ideas": [], "quotes": [], "devEcon": ""}, {"title": "Connect With What Matters to Your Audience", "subtitle": "Ch 3", "summary": "", "ideas": [], "quotes": [], "devEcon": ""}, {"title": "Tell a Human Story", "subtitle": "Ch 4", "summary": "", "ideas": [], "quotes": [], "devEcon": ""}, {"title": "Lead With What You Know", "subtitle": "Ch 5", "summary": "", "ideas": [], "quotes": [], "devEcon": ""}, {"title": "Use the Most Effective Visual Communication", "subtitle": "Ch 6", "summary": "", "ideas": [], "quotes": [], "devEcon": ""}], "concepts": [], "tools": [{"label": "Reflection Journal", "intro": "Use these prompts to connect this book to your own practice.", "html": "<label class=\"fld-label\">What is the single most important idea in this book for your current work?</label>\n<textarea class=\"fld\" id=\"r1\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<label class=\"fld-label\">Where do you see this book's core argument playing out in a specific programme or research challenge you face?</label>\n<textarea class=\"fld\" id=\"r2\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<label class=\"fld-label\">What is one concrete change you will make this week based on reading this?</label>\n<textarea class=\"fld\" id=\"r3\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<div style=\"margin-top:12px;font-family:Inter,sans-serif;font-size:13px;color:var(--muted)\">Reflections stay in your browser only and are not sent anywhere.</div>"}], "connections": [], "southAsia": [{"title": "Avoiding Wastefulness", "body": "Emphasise efficiency, reducing waste, and common-sense resource management. Resonates with right-of-centre values without requiring acceptance of 'climate crisis' language. Especially powerful for energy efficiency narratives.", "tags": []}, {"title": "Health Benefits", "body": "Cleaner air, reduced traffic, more walking and cycling. US research shows this frame generates positive responses across political identities. Especially effective in urban and high-pollution contexts.", "tags": []}, {"title": "Balance", "body": "Avoiding extremes, maintaining stability, a 'common sense middle road.' Also works as a metaphor: the natural world being 'out of balance.' Positions climate action as conservative rather than radical.", "tags": []}, {"title": "Community Resilience", "body": "Emphasise local livelihoods, community self-reliance, and protecting what people love locally. Start with what the audience cares about that is threatened by climate impacts.", "tags": []}, {"title": "Stewardship", "body": "Responsibility for creation, care for the natural world as a moral obligation. Research shows stewardship language resonates across major faith traditions including evangelical Christian, Islamic, and Buddhist communities.", "tags": []}, {"title": "Economic Opportunity", "body": "Jobs in the clean energy transition, competitive advantages of early movers, risk management for physical and transition climate risks. Avoids values framing; uses market logic.", "tags": []}], "critiques": [], "suggested": [], "systemPrompt": "You are an expert reading companion for 'Handbook for IPCC Authors on Climate Communications' by Adam Corner, Chris Shaw & Jamie Clarke. Your audience is development practitioners, programme managers, and ImpactMojo users. Answer questions about the book's framework, its application to development contexts, and its relevance for South Asian practitioners."};
 
 // Tab management
-const TABS = [
+const ALL_TABS = [
   {id:"overview",label:"Overview"},
   {id:"pathways",label:"Pathways"},
   {id:"sections",label:"Sections"},
@@ -464,6 +464,19 @@ const TABS = [
   {id:"context",label:"Context"},
   {id:"ask",label:"Ask"},
 ];
+function __hasTab(id){
+  const has = a => Array.isArray(a) && a.length > 0;
+  switch(id){
+    case "pathways": return has(DATA.pathways);
+    case "sections": return has(DATA.sections);
+    case "concepts": return has(DATA.concepts);
+    case "toolkit":  return has(DATA.tools);
+    case "context":  return has(DATA.southAsia)||has(DATA.critiques)||has(DATA.connections)||has(DATA.suggested);
+    case "ask":      return !!DATA.systemPrompt;
+    default: return true;
+  }
+}
+const TABS = ALL_TABS.filter(t => __hasTab(t.id));
 
 const tabbar = document.getElementById("tabbar");
 TABS.forEach(t => {
@@ -505,7 +518,7 @@ function switchTab(id) {
     </div>
     <div class="h1" style="margin-top:24px">What's in this companion</div>
     <div class="nav-grid">
-      ${[["pathways","Learning Pathways","Structured reading routes by role"],["sections","Section by Section","Full analysis with dev econ connections"],["concepts","Concepts & Frameworks","Key terms with practitioner notes"],["toolkit","Practitioner Toolkit","Interactive tools"],["context","Book in Context","Connections and assessment"],["ask","Ask the Book","Gemini-powered Q&A"]].map(([id,label,desc])=>`<button class="nav-card" onclick="switchTab('${id}')" ><div class="nav-card-label">${label}</div><div class="nav-card-desc">${desc}</div></button>`).join("")}
+      ${[["pathways","Learning Pathways","Structured reading routes by role"],["sections","Section by Section","Full analysis with dev econ connections"],["concepts","Concepts & Frameworks","Key terms with practitioner notes"],["toolkit","Practitioner Toolkit","Interactive tools"],["context","Book in Context","Connections and assessment"],["ask","Ask the Book","Gemini-powered Q&A"]].filter(([id])=>__hasTab(id)).map(([id,label,desc])=>`<button class="nav-card" onclick="switchTab('${id}')" ><div class="nav-card-label">${label}</div><div class="nav-card-desc">${desc}</div></button>`).join("")}
     </div>
   `;
 })();

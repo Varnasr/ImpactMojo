@@ -755,7 +755,7 @@ const DATA = {
 };
 
 // Tab management
-const TABS = [
+const ALL_TABS = [
   {id:"overview",label:"Overview"},
   {id:"pathways",label:"Pathways"},
   {id:"sections",label:"Sections"},
@@ -764,6 +764,19 @@ const TABS = [
   {id:"context",label:"Context"},
   {id:"ask",label:"Ask"},
 ];
+function __hasTab(id){
+  const has = a => Array.isArray(a) && a.length > 0;
+  switch(id){
+    case "pathways": return has(DATA.pathways);
+    case "sections": return has(DATA.sections);
+    case "concepts": return has(DATA.concepts);
+    case "toolkit":  return has(DATA.tools);
+    case "context":  return has(DATA.southAsia)||has(DATA.critiques)||has(DATA.connections)||has(DATA.suggested);
+    case "ask":      return !!DATA.systemPrompt;
+    default: return true;
+  }
+}
+const TABS = ALL_TABS.filter(t => __hasTab(t.id));
 
 const tabbar = document.getElementById("tabbar");
 TABS.forEach(t => {
@@ -801,7 +814,7 @@ function switchTab(id) {
     </div>
     <div class="h1" style="margin-top:24px">What's in this companion</div>
     <div class="nav-grid">
-      ${[["pathways","Learning Pathways","Structured reading routes by role"],["sections","Theme by Theme","Full analysis with practitioner takeaways"],["concepts","Concepts & Frameworks","Key terms with practitioner notes"],["toolkit","Practitioner Toolkit","Interactive diagnostic and journal"],["context","Book in Context","Connections and honest assessment"],["ask","Ask the Book","Gemini-powered Q&A"]].map(([id,label,desc])=>`<button class="nav-card" onclick="switchTab('${id}')" ><div class="nav-card-label">${label}</div><div class="nav-card-desc">${desc}</div></button>`).join("")}
+      ${[["pathways","Learning Pathways","Structured reading routes by role"],["sections","Theme by Theme","Full analysis with practitioner takeaways"],["concepts","Concepts & Frameworks","Key terms with practitioner notes"],["toolkit","Practitioner Toolkit","Interactive diagnostic and journal"],["context","Book in Context","Connections and honest assessment"],["ask","Ask the Book","Gemini-powered Q&A"]].filter(([id])=>__hasTab(id)).map(([id,label,desc])=>`<button class="nav-card" onclick="switchTab('${id}')" ><div class="nav-card-label">${label}</div><div class="nav-card-desc">${desc}</div></button>`).join("")}
     </div>
   `;
 })();
