@@ -21,7 +21,7 @@
  */
 
 var PROPERTY_ID  = '514001382';
-var INGEST_URL   = 'https://impactmojo.in/api/ga4-ingest';
+var INGEST_URL   = 'https://www.impactmojo.in/api/ga4-ingest';
 var INGEST_TOKEN = 'PASTE_YOUR_TOKEN_HERE';   // <-- replace with the token Claude gives you
 
 function pushGA4Snapshot() {
