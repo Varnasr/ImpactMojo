@@ -2,6 +2,27 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.107.0 — July 12, 2026 (22 new Reading Companions — South Asian politics, history & society)
+
+### For Learners
+
+- **Twenty-two new interactive Reading Companions** on South Asian politics, history, religion, caste, gender and society — each grounded in the full text, with chapter navigation, key concepts, a practitioner toolkit and an AI Q&A:
+  - **Shadows at Noon** (Joya Chatterji) and **India: 5,000 Years of History on the Subcontinent** (Audrey Truschke) — sweeping histories of the South Asian twentieth century and the subcontinent.
+  - **Islam in South Asia** (Jamal Malik), **Jinnealogy** (Anand Vivek Taneja) and **Muslim Zion** (Faisal Devji) — histories of Islam, memory and the idea of Pakistan.
+  - **Empire's Backyard** (Kailash C. Baral) — colonial modernity and Northeast India.
+  - **Majoritarianism in India** (Javed Gaya), **Hindutva and Violence: V. D. Savarkar** (Vinayak Chaturvedi), **Fascism in India** (Luna Sabastian) and **Violent Fraternity** (Shruti Kapila) — the intellectual history and politics of majoritarianism.
+  - **Prophets Facing Backward** (Meera Nanda), **Anti-Muslim Violence in India's Religious Ethnocracy** and **Bulldozer Justice** — science, religious nationalism, and punitive urban politics.
+  - **The Limits of Tolerance** (C. S. Adcock) and **Meat-eating in India** (C. Sathyamala) — secularism, religious freedom and food politics.
+  - **Panthers in Parliament** (Hugo Gorringe), **Bhima Koregaon: Challenging Caste** (Ajaz Ashraf) and **Rules for Radicals** (Saul Alinsky) — Dalit politics, caste and community organizing.
+  - **Women in India: Exploring Work, Life, and Freedom** and **Queering Digital India** — gender, work and queer digital life.
+  - **The Sea, Subalternity, and the Sundarbans** (Sneha Roy) — environmental anthropology of the delta.
+  - **Encyclopedia of New Populism and Responses in the 21st Century** — a reference work on populism worldwide.
+
+### Changed
+
+- Reading Companions count updated across the site: 106 → 128.
+- Refreshed the Reading Companions count (→128) in the Hindi, Tamil, Bengali and Marathi documentation.
+
 ## v10.106.0 — July 11, 2026 (3 new Labs + 5 new Handouts — filling the gaps)
 
 ### For Learners
