@@ -164,6 +164,104 @@ function closeModal(modalId) {
     var el = document.getElementById(modalId);
     if (el) el.style.display = 'none';
 }
+// Track-quiz scoring: tally each answer's data-track, recommend a starting track + key decks.
+var TRACK_QUIZ_MAP = {
+    data: {
+        label: 'Data & Technology',
+        blurb: 'You lean towards data, dashboards, and turning numbers into clear arguments.',
+        hub: '/handouts#data-technology',
+        picks: [
+            ['Data Literacy 101', '/101-courses/data-lit.html'],
+            ['Seeing Data: Visualization for Impact (flagship)', '/courses/dataviz/'],
+            ['Power BI for Practitioners (flagship)', '/courses/powerBI/powerbi.html']
+        ]
+    },
+    methods: {
+        label: 'Monitoring, Evaluation & Learning',
+        blurb: 'You want stronger MEL systems — theories of change, indicators, and evidence you can trust.',
+        hub: '/handouts#monitoring-evaluation-learning',
+        picks: [
+            ['MEL Basics 101', '/101-courses/mel-basics.html'],
+            ['Theory of Change 101', '/101-courses/toc-workbench.html'],
+            ['MEL for Development (flagship)', '/courses/mel/']
+        ]
+    },
+    gender: {
+        label: 'Gender, Equity & Inclusion',
+        blurb: 'You care about how gender, caste, and structural inequality shape programmes and outcomes.',
+        hub: '/handouts#gender-equity-inclusion',
+        picks: [
+            ['Gender Mainstreaming 101', '/101-courses/gender-mainstreaming.html'],
+            ['Social Margins 101', '/101-courses/social-margins.html'],
+            ['Gender Studies: Feminisms, Power & Social Change (flagship)', '/courses/gender/']
+        ]
+    },
+    policy: {
+        label: 'Policy & Economics',
+        blurb: 'You connect field realities to budgets, schemes, growth, and political economy.',
+        hub: '/handouts#policy-economics',
+        picks: [
+            ['Development Economics 101', '/101-courses/dev-economics.html'],
+            ['Political Economy 101', '/101-courses/pol-economy.html'],
+            ['Public Policy: Process, Design & Governance (flagship)', '/courses/pubpol/']
+        ]
+    },
+    philosophy: {
+        label: 'Philosophy, Law & Governance',
+        blurb: 'You ground your work in constitutional rights, ethics, and political ideas.',
+        hub: '/handouts#philosophy-law-governance',
+        picks: [
+            ['Indian Constitution 101', '/101-courses/ind-constitution.html'],
+            ['Constitution & Law for Development Practice (flagship)', '/courses/law/'],
+            ["Gandhi's Political Thought (flagship)", '/courses/gandhi/']
+        ]
+    },
+    health: {
+        label: 'Health, Communication & Wellbeing',
+        blurb: 'You build better health, communications, and wellbeing interventions.',
+        hub: '/handouts#health-communication-wellbeing',
+        picks: [
+            ['Public Health 101', '/101-courses/pub-health-basics.html'],
+            ['Behaviour Change Communication 101', '/101-courses/bcc-comms.html'],
+            ['Media for Development (flagship)', '/courses/media/']
+        ]
+    }
+};
+function saveTrackQuiz(event) {
+    if (event && event.preventDefault) event.preventDefault();
+    var form = document.getElementById('trackQuizForm');
+    var checked = form.querySelectorAll('input[type="radio"]:checked');
+    if (checked.length < 5) return false;
+    var tally = {};
+    var order = [];
+    for (var i = 0; i < checked.length; i++) {
+        var t = checked[i].getAttribute('data-track') || checked[i].value;
+        if (!(t in tally)) { tally[t] = 0; order.push(t); }
+        tally[t]++;
+    }
+    // winner = highest tally; ties broken by earliest answered (order of appearance)
+    var winner = order[0];
+    for (var j = 0; j < order.length; j++) {
+        if (tally[order[j]] > tally[winner]) winner = order[j];
+    }
+    var rec = TRACK_QUIZ_MAP[winner] || TRACK_QUIZ_MAP.methods;
+    try { localStorage.setItem('impactmojo-track', winner); } catch (e) {}
+
+    var resultBox = document.getElementById('trackQuizResult');
+    var textEl = document.getElementById('trackQuizResultText');
+    var linkEl = document.getElementById('trackQuizResultLink');
+    textEl.innerHTML = '<strong>' + rec.label + '.</strong> ' + rec.blurb;
+    var picks = rec.picks.map(function (p) {
+        return '<li><a href="' + p[1] + '" style="color: var(--accent-color);">' + p[0] + '</a></li>';
+    }).join('');
+    linkEl.innerHTML =
+        '<p style="margin:0.75rem 0 0.35rem;font-weight:600;">Start here:</p>' +
+        '<ul style="margin:0 0 0.75rem 1.1rem;padding:0;line-height:1.8;">' + picks + '</ul>' +
+        '<a class="imx-btn" href="' + rec.hub + '" style="margin-top:0.25rem;">Explore the full ' + rec.label + ' track →</a>';
+    resultBox.style.display = 'block';
+    resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    return false;
+}
 // Close modal when clicking outside content
 window.addEventListener('click', function(e) {
     if (e.target.classList && e.target.classList.contains('modal')) {
