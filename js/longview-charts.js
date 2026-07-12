@@ -206,7 +206,7 @@ window.LV = (function() {
     var hl = data.filter(function(d){ return d.hl; })[0];
     if (hl) {
       svg.appendChild(mk('circle', { cx: mL + 5, cy: 14, r: 6, fill: o.hlColor }));
-      svg.appendChild(mk('text', { x: mL + 16, y: 18, 'font-size': 11, 'font-weight': 800, fill: o.hlColor, 'font-family': 'Inter, sans-serif' }, hl.label + ' — ' + hl.v + ' t' ));
+      svg.appendChild(mk('text', { x: mL + 16, y: 18, 'font-size': 11, 'font-weight': 800, fill: o.hlColor, 'font-family': 'Inter, sans-serif' }, hl.label + ' — ' + hl.v + (o.hlUnit !== undefined ? o.hlUnit : ' t') ));
     }
     svg.appendChild(mk('text', { x: (mL + W - mR) / 2, y: vh - 6, 'text-anchor': 'middle', 'font-size': 9.5, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, o.axisLabel));
   }
@@ -951,7 +951,7 @@ window.LV = (function() {
        {n:'South Africa',v:44.7},{n:'UK',v:34.6},{n:'USA',v:29.0},{n:'China',v:26.5},
        {n:'Bangladesh',v:20.9},{n:'Japan',v:16.0},{n:'India',v:13.6,hl:true,label:'India'},
        {n:'Sri Lanka',v:5.3},{n:'Nigeria',v:4.4}],
-      { vMax: 65, ticks: [0,20,40,60], dotColor: '#94a3b8', hlColor: '#d6336c',
+      { vMax: 65, ticks: [0,20,40,60], dotColor: '#94a3b8', hlColor: '#d6336c', hlUnit: '%',
         ref: { v: 26.9, label: 'world avg' }, axisLabel: 'women in the lower house of parliament, 2024 (%)' });
 
     smallMultiples('c-decline',
