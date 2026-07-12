@@ -13,7 +13,7 @@ If you work at an NGO, a think tank, or a university department focused on devel
 ImpactMojo was built to close that gap. Everything here is:
 
 - **Rooted in South Asian realities** — examples from India, Bangladesh, Nepal, and Sri Lanka, not textbook cases from other contexts
-- **Free at the core** — all 68 courses, 135 simulation games, 30 interactive labs, and hundreds of handouts are available without paying a rupee
+- **Free at the core** — all 68 courses, 135 simulation games, 31 interactive labs, and hundreds of handouts are available without paying a rupee
 - **Designed for practitioners** — not abstract theory, but content you can use in your next workshop, field visit, or strategy meeting
 - **Available offline** — because we know internet connections in the field aren't always reliable
 - **Multilingual** — available in English, Hindi, Tamil, Bengali, Telugu, and Marathi

@@ -13,7 +13,7 @@ This page explains exactly what is free, what is paid, and why the line is drawn
 No sign-in, no card, no trial clock:
 
 - **All 17 flagship courses** and **51 foundational (101) courses**
-- **30 labs** and **135 games** (18 simulations + 117 puzzles)
+- **31 labs** and **135 games** (18 simulations + 117 puzzles)
 - **128 reading companions** and **22 deep dives**
 - **6 data dives** and **Field Radio** (community voice notes)
 - **200 case studies**, **500+ Dev Discourses**, and the **ImpactLex** glossary
