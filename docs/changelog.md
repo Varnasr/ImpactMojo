@@ -2,6 +2,22 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.117.0 — July 12, 2026 (Fact-check audit — corrections across companions & a 101 deck)
+
+### Fixed
+
+- **Fact-check audit of the Reading Companions and 101 decks — 10 factual corrections.** A systematic review (automated known-error checks + a parallel deep review of every companion built this session) surfaced and fixed:
+  - *MEL Basics (101)* — the Logical Framework was developed **for** USAID by Practical Concepts Inc. (1969), not "by USAID".
+  - *Majoritarianism in India* — the *S.R. Bommai* case was a **nine-judge** bench (not seven).
+  - *Indian Political Thought* — Har Dayal died in **1939** (not 1938).
+  - *Realising Rights (Welfare Handbook)* — the RTE 25% reservation was upheld by the Supreme Court in **2012** (not 2013).
+  - *Mahatma Gandhi: His Life & Times* — the 1906 satyagraha meeting was at Johannesburg's **Empire Theatre** (not "Imperial").
+  - *Bhima Koregaon (Ajaz Ashraf)* — Stan Swamy was **84** at his death (not 83).
+  - *Queering Digital India* — Mudasir Kamran was a student at **EFLU**, Hyderabad (not the University of Hyderabad).
+  - *Hindutva and Violence (Savarkar)* — corrected a mislabel ("An Impossible History" is the book's Part IV / thesis, not its title).
+  - *Python Cookbook* — the GIL is released roughly every **100** bytecodes (not ~10).
+  - *A Primer for Spatial Econometrics* — corrected the model-nesting claim (SARAR nests SLM/SEM/OLS; the SLX/SDM-nesting model is the GNS).
+
 ## v10.116.0 — July 12, 2026 (Quality — final 3 companions rebuilt & a mislabelled one corrected)
 
 ### Changed
