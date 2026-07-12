@@ -2,13 +2,13 @@
 
 ## What Are the ImpactMojo Labs?
 
-ImpactMojo offers **30 interactive labs** — hands-on workbenches where you build, design, and practice real development skills. Unlike courses (which teach concepts) or games (which simulate dynamics), labs produce **tangible outputs** — a Theory of Change diagram, a MEL plan, a policy brief — that you can export and use in your actual work.
+ImpactMojo offers **31 interactive labs** — hands-on workbenches where you build, design, and practice real development skills. Unlike courses (which teach concepts) or games (which simulate dynamics), labs produce **tangible outputs** — a Theory of Change diagram, a MEL plan, a policy brief — that you can export and use in your actual work.
 
 All labs are **free, browser-based, and require no login**.
 
 ---
 
-## The 30 Labs
+## The 31 Labs
 
 ### MEL & Research Labs
 

@@ -2,6 +2,16 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.108.0 — July 12, 2026 (New Lab — Before We Fall Apart)
+
+### For Learners
+
+- **Before We Fall Apart — a group conflict-preparedness studio.** A new interactive Lab and the capstone practicum for the *Nonviolence in Practice* flagship. Work through it with your collective, team or organisation to build the capacity to repair *before* you rupture: draft shared agreements, name each person's tripwires and the needs beneath them, agree a rupture-to-repair protocol in advance, map accountability pods, and export a shared relational charter. Everything stays in your browser.
+
+### Changed
+
+- Interactive Labs count updated across the site: 30 → 31. (Also corrected pre-existing filter-count drift on the Labs page.)
+
 ## v10.107.0 — July 12, 2026 (22 new Reading Companions — South Asian politics, history & society)
 
 ### For Learners
