@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.115.0 — July 12, 2026 (Quality — 10 companions rebuilt at full fidelity)
+
+### Changed
+
+- **Ten Reading Companions were rebuilt from the complete source text.** These had originally been generated from partial (truncated) extracts, so their later chapters were summarised from general knowledge rather than the book itself. They now cover every chapter faithfully, grounded in the actual text: *Introducing Python* (3rd ed.), *Python Cookbook*, *Machine Learning Systems*, *Introductory Statistics*, *Beginning Statistics*, *A Primer for Spatial Econometrics*, *Doing Qualitative Data Analysis with NVivo*, *Health Inequality Monitoring* (WHO 2024), *The Open Handbook of Experience Sampling Methodology*, and *A Guide to Responsible Research*.
+
 ## v10.114.0 — July 12, 2026 (Fix — no more empty companion tabs)
 
 ### Fixed
