@@ -1605,6 +1605,7 @@ function switchAdminTab(tabId) {
     if (tabId === 'analytics' && !window._analyticsRendered) {
         loadCachedGA4Data();
         render();
+        loadServerGA4();   // try the server-side (service-account) feed; silent no-op if not configured
         window._analyticsRendered = true;
         if (window.location.search.indexOf('admin') > -1) {
             var jps = document.getElementById('jsonPasteSection');
@@ -1965,6 +1966,27 @@ function signInWithGoogle() {
         callback: function(response) { if (response.access_token) fetchGA4Data(response.access_token); }
     });
     tokenClient.requestAccessToken();
+}
+
+// Server-side GA4 (service-account) — no per-admin Google sign-in.
+// If netlify/functions/ga4.mjs has a service-account key configured, this loads
+// live data straight away. If not (configured:false) it stays silent and the
+// one-click Google sign-in remains available as the fallback.
+async function loadServerGA4() {
+    try {
+        var res = await fetch('/api/ga4', { headers: { 'Accept': 'application/json' } });
+        if (!res.ok) return;
+        var data = await res.json();
+        if (!data || data.configured !== true || data.error) return;
+        ga4Data = { overview: data.overview || {}, geography: data.geography || [] };
+        try { localStorage.setItem(GA4_CONFIG.CACHE_KEY, JSON.stringify({ data: ga4Data, timestamp: Date.now() })); } catch (e) {}
+        render();
+        updateGA4Status('live', 'Live data (server) — auto-updated');
+        var btn = document.getElementById('ga4SignIn');
+        if (btn) btn.style.display = 'none';
+        var msg = document.getElementById('ga4Message');
+        if (msg) msg.textContent = 'Live GA4 analytics are connected via a service account — no sign-in needed.';
+    } catch (e) { /* network/parse — keep the sign-in fallback */ }
 }
 
 function fetchGA4Data(accessToken) {
