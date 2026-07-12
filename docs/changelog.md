@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.113.0 — July 12, 2026 (New Reading Companion — Realising Rights)
+
+### For Learners
+
+- **Realising Rights: A Handbook of Welfare in India** (Centre for the Study of the Indian Economy, Azim Premji University, 2026) — a new interactive Reading Companion mapping India's major welfare laws and schemes across 18 chapters: from the constitutional Directive Principles through the rights-based era (food, work, education) to Direct Benefit Transfers and "New Welfarism" — covering ICDS, PM POSHAN, RTE, PDS/NFSA, MGNREGA, pensions, PM-KISAN, PMJAY, women's cash transfers, social accountability and the digital state.
+
 ## v10.112.0 — July 12, 2026 (4 new Reading Companions — 128 → 132)
 
 ### For Learners

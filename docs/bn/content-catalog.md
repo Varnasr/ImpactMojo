@@ -22,7 +22,7 @@
 
 ---
 
-## BookSummaries (132)
+## BookSummaries (133)
 
 Specials-এর অধীনে ইন্টারঅ্যাক্টিভ বই সঙ্গী — ডেটা টুল এবং AI-চালিত প্রশ্নোত্তরসহ গভীর, অধ্যায়-ভিত্তিক অন্বেষণ। বিস্তারিত জানতে [Book Companions Guide](book-summaries-guide.md) দেখুন।
 
