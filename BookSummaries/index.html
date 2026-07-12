@@ -628,6 +628,90 @@ body:not(.dark-mode) .im-topbar-home {
     background: rgba(255,255,255,0.25);
 }
 
+/* Search box */
+.books-search-wrap {
+    position: relative;
+    max-width: 520px;
+    margin: 0 auto 1.25rem;
+}
+.books-search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    pointer-events: none;
+}
+.books-search {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.75rem;
+    border-radius: 50px;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    color: var(--text-primary);
+    font-family: 'Amaranth', sans-serif;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.books-search::placeholder { color: var(--text-secondary); opacity: 0.8; }
+.books-search:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(14,165,233,0.15);
+}
+.books-search::-webkit-search-cancel-button { cursor: pointer; }
+
+/* Result count */
+.books-count {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    min-height: 1.2em;
+}
+.books-count strong { color: var(--text-primary); font-weight: 700; }
+
+/* No results */
+.no-results {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    padding: 2.5rem 1rem;
+}
+.link-btn {
+    background: none;
+    border: none;
+    color: var(--accent-color);
+    font-family: 'Amaranth', sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+}
+
+/* Load more */
+.load-more-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 2.5rem;
+}
+.load-more-btn {
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    border: 1px solid var(--accent-color);
+    background: var(--card-bg);
+    color: var(--accent-color);
+    font-family: 'Amaranth', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.load-more-btn:hover {
+    background: var(--accent-color);
+    color: #fff;
+}
+
 .book-card[data-hidden="true"] {
     display: none;
 }
@@ -933,6 +1017,11 @@ code, pre, .monospace, kbd, samp { font-family: 'JetBrains Mono', monospace !imp
     <h2 class="section-title">Available Summaries</h2>
     <p class="section-subtitle">Click on a book to explore its interactive companion</p>
 
+    <div class="books-search-wrap">
+        <svg class="books-search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="search" id="booksSearch" class="books-search" placeholder="Search by title, author or topic&hellip;" aria-label="Search reading companions" autocomplete="off">
+    </div>
+
     <div class="category-filters">
         <button class="filter-btn active" data-category="all">All <span class="count">128</span></button>
         <button class="filter-btn" data-category="data-viz">Data Visualization <span class="count">17</span></button>
@@ -942,6 +1031,8 @@ code, pre, .monospace, kbd, samp { font-family: 'JetBrains Mono', monospace !imp
         <button class="filter-btn" data-category="policy">Policy & Social Protection <span class="count">52</span></button>
         <button class="filter-btn" data-category="design">Design & Innovation <span class="count">1</span></button>
     </div>
+
+    <p class="books-count" id="booksCount" aria-live="polite"></p>
 
     <div class="books-grid">
         <!-- Bhima Koregaon: Challenging Caste -->
@@ -3651,6 +3742,12 @@ code, pre, .monospace, kbd, samp { font-family: 'JetBrains Mono', monospace !imp
         </a>
 
     </div>
+
+    <p class="no-results" id="noResults" hidden>No companions match your search. <button type="button" class="link-btn" id="clearSearch">Clear filters</button></p>
+
+    <div class="load-more-wrap">
+        <button type="button" class="load-more-btn" id="loadMoreBtn" hidden>Load more companions</button>
+    </div>
 </section>
 
 <!-- About -->
@@ -3737,24 +3834,89 @@ code, pre, .monospace, kbd, samp { font-family: 'JetBrains Mono', monospace !imp
 
 <!-- Legacy theme script removed — unified into the IM theme system below -->
 <script>
-// Category filter
+// Search + category filter + "load more" pagination
 document.addEventListener('DOMContentLoaded', function() {
+    var PAGE_SIZE = 24;
+    var cards = Array.prototype.slice.call(document.querySelectorAll('.book-card'));
+    var searchInput = document.getElementById('booksSearch');
+    var countEl = document.getElementById('booksCount');
+    var loadMoreBtn = document.getElementById('loadMoreBtn');
+    var noResults = document.getElementById('noResults');
+    var clearBtn = document.getElementById('clearSearch');
+
+    var activeCat = 'all';
+    var query = '';
+    var shown = PAGE_SIZE;
+
+    // Cache each card's searchable text once
+    cards.forEach(function(card) { card.dataset.search = (card.textContent || '').toLowerCase().replace(/\s+/g, ' ').trim(); });
+
+    function matches(card) {
+        if (activeCat !== 'all' && card.dataset.category !== activeCat) return false;
+        if (query && card.dataset.search.indexOf(query) === -1) return false;
+        return true;
+    }
+
+    function apply() {
+        var total = 0, rendered = 0;
+        cards.forEach(function(card) {
+            if (matches(card)) {
+                total++;
+                if (rendered < shown) { card.style.display = ''; rendered++; }
+                else { card.style.display = 'none'; }
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        noResults.hidden = total !== 0;
+        loadMoreBtn.hidden = rendered >= total;
+
+        if (total === 0) {
+            countEl.textContent = '';
+        } else if (rendered >= total) {
+            countEl.innerHTML = 'Showing all <strong>' + total + '</strong> ' + (total === 1 ? 'companion' : 'companions');
+        } else {
+            countEl.innerHTML = 'Showing <strong>' + rendered + '</strong> of <strong>' + total + '</strong> companions';
+        }
+    }
+
     document.querySelectorAll('.filter-btn').forEach(function(btn) {
         btn.addEventListener('click', function() {
             document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
             btn.classList.add('active');
-            var cat = btn.dataset.category;
-            document.querySelectorAll('.book-card').forEach(function(card) {
-                if (cat === 'all' || card.dataset.category === cat) {
-                    card.setAttribute('data-hidden', 'false');
-                    card.style.display = '';
-                } else {
-                    card.setAttribute('data-hidden', 'true');
-                    card.style.display = 'none';
-                }
-            });
+            activeCat = btn.dataset.category;
+            shown = PAGE_SIZE;
+            apply();
         });
     });
+
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            query = this.value.toLowerCase().replace(/\s+/g, ' ').trim();
+            shown = PAGE_SIZE;
+            apply();
+        });
+    }
+
+    loadMoreBtn.addEventListener('click', function() {
+        shown += PAGE_SIZE;
+        apply();
+        // keep focus flow sensible after expanding
+        loadMoreBtn.hidden || loadMoreBtn.focus();
+    });
+
+    if (clearBtn) {
+        clearBtn.addEventListener('click', function() {
+            query = ''; activeCat = 'all'; shown = PAGE_SIZE;
+            if (searchInput) searchInput.value = '';
+            document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.toggle('active', b.dataset.category === 'all'); });
+            apply();
+            if (searchInput) searchInput.focus();
+        });
+    }
+
+    apply();
 });
 </script>
 <script defer src="/js/state-manager.js"></script>
