@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.111.0 — July 12, 2026 (Fix — returning visitors now get the latest content)
+
+### Fixed
+
+- **Returning visitors were being served stale, cached copies of the site.** The offline cache version hadn't been rotated in six days, so recent updates (new reading companions, the new lab, the browse/search improvements) didn't appear for people whose browsers had cached the old assets. Bumping the service-worker version forces a clean cache refresh on next visit, so everyone now receives the current site.
+
 ## v10.110.0 — July 12, 2026 (Fix — homepage tour)
 
 ### Fixed
