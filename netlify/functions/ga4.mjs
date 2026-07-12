@@ -21,12 +21,31 @@ import crypto from "node:crypto";
 const PROPERTY_ID = process.env.GA4_PROPERTY_ID || "514001382";
 const TOKEN_URL = "https://oauth2.googleapis.com/token";
 const SCOPE = "https://www.googleapis.com/auth/analytics.readonly";
+const SUPABASE_URL = (process.env.SUPABASE_URL || "https://ddyszmfffyedolkcugld.supabase.co").replace(/\/$/, "");
+const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 function json(obj, status = 200, cache = "no-store") {
   return new Response(JSON.stringify(obj), {
     status,
     headers: { "Content-Type": "application/json", "Cache-Control": cache },
   });
+}
+
+// Preferred source (org has no service-account keys): a daily snapshot pushed by
+// the Apps Script bridge into Supabase. Returns the stored report if present.
+async function readSnapshot() {
+  if (!SERVICE_KEY) return null;
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/ga4_snapshot?id=eq.latest&select=data,updated_at`, {
+      headers: { apikey: SERVICE_KEY, Authorization: "Bearer " + SERVICE_KEY },
+    });
+    if (!res.ok) return null;
+    const rows = await res.json();
+    if (Array.isArray(rows) && rows[0] && rows[0].data) {
+      return { ...rows[0].data, updatedAt: rows[0].updated_at };
+    }
+  } catch (e) { /* fall through */ }
+  return null;
 }
 
 function b64url(buf) {
@@ -93,8 +112,16 @@ async function runReport(token, body) {
 }
 
 export default async (req) => {
+  // 1. Preferred: the daily snapshot from the Apps Script bridge (no keys needed).
+  const snap = await readSnapshot();
+  if (snap && snap.overview && Object.keys(snap.overview).length) {
+    return json({ configured: true, source: "snapshot", updatedAt: snap.updatedAt,
+                  overview: snap.overview, geography: snap.geography || [] }, 200, "public, max-age=1800");
+  }
+
+  // 2. Optional fallback: a service account, if one is ever configured.
   const sa = readServiceAccount();
-  if (!sa) return json({ configured: false, reason: "GA4_SERVICE_ACCOUNT not set" }, 200, "no-store");
+  if (!sa) return json({ configured: false, reason: "no snapshot yet and GA4_SERVICE_ACCOUNT not set" }, 200, "no-store");
 
   try {
     const token = await getAccessToken(sa);

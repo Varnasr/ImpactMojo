@@ -1981,11 +1981,13 @@ async function loadServerGA4() {
         ga4Data = { overview: data.overview || {}, geography: data.geography || [] };
         try { localStorage.setItem(GA4_CONFIG.CACHE_KEY, JSON.stringify({ data: ga4Data, timestamp: Date.now() })); } catch (e) {}
         render();
-        updateGA4Status('live', 'Live data (server) — auto-updated');
+        var when = '';
+        if (data.updatedAt) { try { when = ' · updated ' + new Date(data.updatedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }); } catch (e) {} }
+        updateGA4Status('live', 'GA4 connected (auto)' + when);
         var btn = document.getElementById('ga4SignIn');
         if (btn) btn.style.display = 'none';
         var msg = document.getElementById('ga4Message');
-        if (msg) msg.textContent = 'Live GA4 analytics are connected via a service account — no sign-in needed.';
+        if (msg) msg.textContent = 'GA4 analytics are connected automatically (refreshed daily) — no sign-in needed.';
     } catch (e) { /* network/parse — keep the sign-in fallback */ }
 }
 
