@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.110.0 — July 12, 2026 (Fix — homepage tour)
+
+### Fixed
+
+- **The homepage guided tour no longer hangs.** The tour would stall on the "101 Course Decks" step — that item lives inside the Learn dropdown, and the tour wasn't actually expanding the menu, so Intro.js got stuck highlighting a hidden, zero-height element and the tour exited early. The tour now opens the dropdown properly (using the nav's own reveal mechanism) and runs through every step.
+
 ## v10.109.0 — July 12, 2026 (Reading Companions landing — search & pagination)
 
 ### For Learners
