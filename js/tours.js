@@ -33,7 +33,10 @@
     if (dropdownMenu) {
       var parentLi = dropdownMenu.closest('li.has-dropdown');
       if (parentLi) {
-        parentLi.classList.add('tour-dropdown-open');
+        // `.open` is the nav's own reveal class (releases max-height and the
+        // specials-grouped grid layout); `.tour-dropdown-open` adds the tour
+        // z-index overrides on top so the menu sits above the Intro.js overlay.
+        parentLi.classList.add('tour-dropdown-open', 'open');
         return true;
       }
     }
@@ -43,7 +46,7 @@
   /** Close all tour-opened dropdowns */
   function closeAllTourDropdowns() {
     document.querySelectorAll('.tour-dropdown-open').forEach(function (el) {
-      el.classList.remove('tour-dropdown-open');
+      el.classList.remove('tour-dropdown-open', 'open');
     });
   }
 
@@ -92,7 +95,7 @@
         if (dropdownMenu) {
           var parentLi = dropdownMenu.closest('li.has-dropdown');
           if (parentLi) {
-            parentLi.classList.add('tour-dropdown-open');
+            parentLi.classList.add('tour-dropdown-open', 'open');
           }
         }
       }
