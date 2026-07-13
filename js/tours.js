@@ -147,10 +147,11 @@
     ],
 
     premium: [
-      { intro: '<strong>Premium Membership</strong><br>Unlock advanced AI tools, templates, and expert support.' },
-      { element: '.pricing-grid', intro: '<strong>Choose Your Tier</strong><br>Compare what each membership level includes.' },
-      { element: '.pricing-card.featured', intro: '<strong>Most Popular</strong><br>The Practitioner tier unlocks RQ Builder Pro for just ₹399/month.' },
-      { element: '.pricing-card.org-tier', intro: '<strong>Team Plan</strong><br>Organizations get all tools plus team management and analytics.' }
+      { intro: '<strong>Premium Membership</strong><br>Unlock advanced AI tools, exports and expert support &mdash; while the core platform stays free forever.' },
+      { element: '.tiers', intro: '<strong>Choose your tier</strong><br>Compare what each level includes. Explorer is free forever; the paid tiers add tool exports, AI tools and certificates.' },
+      { element: '.t-pr', intro: '<strong>Most popular</strong><br>Practitioner (&#8377;399/month) unlocks all 18 Practice Packs, tool exports, the Theory of Change Workbench Pro and shareable certificates.' },
+      { element: '.t-pro', intro: '<strong>Professional</strong><br>&#8377;999/month adds the AI toolkit &mdash; Advisory Board Pro, VaniScribe, DevData (840K+ rows), the Viz Cookbook and priority coaching.' },
+      { element: '.t-team', intro: '<strong>Team Plan</strong><br>Full Professional access for your whole team, plus a dashboard, branded certificates, invoice billing and an account manager.' }
     ],
 
     transparency: [

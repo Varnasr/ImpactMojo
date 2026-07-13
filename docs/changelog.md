@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.119.0 — July 13, 2026 (Fix — the Premium page tour)
+
+### Fixed
+
+- **The guided tour on the Premium page works again.** It had been pointing at an old page layout (from before the tiers were renamed Explorer / Practitioner / Professional / Team), so it silently never started. It now walks through each tier with accurate, up-to-date descriptions.
+
+
 ## v10.118.0 — July 13, 2026 (New Reading Companion — Dalit Feminist Discourse)
 
 ### For Learners
