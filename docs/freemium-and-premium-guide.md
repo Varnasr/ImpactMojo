@@ -15,7 +15,7 @@ No sign-in, no card, no trial clock:
 - **All 17 flagship courses** and **51 foundational (101) courses**
 - **31 labs** and **135 games** (18 simulations + 117 puzzles)
 - **133 reading companions** and **22 deep dives**
-- **6 data dives** and **Field Radio** (community voice notes)
+- **7 data dives** and **Field Radio** (community voice notes)
 - **200 case studies**, **500+ Dev Discourses**, and the **ImpactLex** glossary
 - **AI study companions** (NotebookLM notebooks)
 - **Five pro tools that are free to *use*** — Research Question Builder, ToR Builder, Qualitative Insights Lab, Code Converter, and the Sampling Studio

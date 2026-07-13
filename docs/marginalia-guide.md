@@ -24,14 +24,15 @@ The drawings are blue-ink cartoons on a notebook-paper palette; the whole series
 
 ## The Essays
 
-The series currently collects **four essays** — forty drawings in all, ten cartoons per essay, every one cited:
+The series currently collects **five essays** — fifty drawings in all, ten cartoons per essay, every one cited:
 
 - **Capacity for Irony** *(Essay 1)* — The language of help meets the people it claims to help. Capacity-building, scale, pilots, logframes, "mainstreamed" gender, the last mile — each cliché answered by the frontline worker who already knew better.
 - **The Fine Print** *(Essay 2)* — Every promise has a clause the slide leaves out: inclusion with stairs, ownership without the budget, evidence that never reaches the allocation, resilience without reducing the shock. The headline, and the small type underneath.
 - **The Indicator Ate the Village** *(Essay 3)* — Monitoring & evaluation meets the people it measures: the baseline that learns nothing, the dashboard at 87% beside an empty clinic, real-time data for whom, the endline that never saw the year after exit, and accountability that only points up.
-- **The Beneficiary Is Not a Job Title** *(Essay 4, newest)* — The sector's vocabulary meets the people it files under it — sensitised, hard-to-reach, vulnerable, captured, amplified, people-centred. Each label is answered by the person wearing it, and footnoted with the evidence behind the reply.
+- **The Beneficiary Is Not a Job Title** *(Essay 4)* — The sector's vocabulary meets the people it files under it — sensitised, hard-to-reach, vulnerable, captured, amplified, people-centred. Each label is answered by the person wearing it, and footnoted with the evidence behind the reply.
+- **The Theory of Change** *(Essay 5, newest)* — The logic-model industry meets the district it diagrams: the theory of change drawn after the plan, the logframe built for control, the arrows that don't survive the field, the assumptions in six-point font, attribution vs the monsoon, the measurable displacing the meaningful, systems change in a two-year grant, and adaptation the contract won't allow. Each planning-tool cliché answered by the field.
 
-Each lives at its own page under `/specials/` (e.g. [/specials/capacity-for-irony/](/specials/capacity-for-irony/)), and all four are linked from the series index.
+Each lives at its own page under `/specials/` (e.g. [/specials/capacity-for-irony/](/specials/capacity-for-irony/)), and all five are linked from the series index.
 
 ---
 

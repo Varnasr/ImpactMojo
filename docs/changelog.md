@@ -2,6 +2,18 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.118.0 — July 13, 2026 (New Data Dive, Deep Dive & a Marginalia essay)
+
+### For Learners
+
+- **The wage that ran to stand still** — a new Data Dive on India's MGNREGA wage: roughly quadrupled on paper since 2006, yet barely moved in real terms because it rises only with prices — and now below the state minimum wage across much of the country. Two original charts, with the numbers and their caveats laid out honestly.
+- **Water, Sanitation, and the Behaviour Gap** — a new Deep Dive reading list on WASH in South Asia: why toilets get built and not used, why open defecation persisted even where people could afford not to, what actually changes behaviour, and how to read the Swachh Bharat Mission's claims. 14 annotated readings across four sections.
+
+### Added
+
+- **Marginalia essay 5 — "The Theory of Change."** The logic-model industry meets the district it diagrams: the theory of change drawn after the plan, the logframe built for control, the arrows that don't survive the field, systems change in a two-year grant. The full essay — ten cited exchanges, commentary and footnotes — is published; the ten cartoon illustrations are pending (placeholder image paths under `/assets/images/the-theory-of-change/`). The series index now lists five essays.
+- Registered all three in `data/search-index.json`, `sitemap.xml`, the `data/data-dives.json` / `data/deep-dives.json` registries, and the Marginalia guide.
+
 ## v10.117.0 — July 12, 2026 (Fact-check audit — corrections across companions & a 101 deck)
 
 ### Fixed
