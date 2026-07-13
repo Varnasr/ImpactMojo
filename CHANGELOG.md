@@ -5,6 +5,16 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.83.0] - 2026-07-13
+
+### For Learners
+
+- **LogFrame Builder — a new free lab that turns your Theory of Change into a donor-ready Logical Framework.** Climb the results ladder from Goal to Activities, attach SMART indicators and their means of verification, surface the assumptions that hold your logic together, then print or export the classic 4×4 LogFrame matrix. It imports directly from the Theory of Change Builder, so you don't start from a blank page — and there's a worked example to learn from. No sign-in; your work saves to your own browser and works offline. Open it at /Labs/logframe-builder-lab.html.
+
+### Added
+
+- **`Labs/logframe-builder-lab.html`**: a self-contained interactive LogFrame builder. Five guided steps (Problem & Goal → Results Ladder → Indicators → Means of Verification → Assumptions) assemble a 4×4 matrix (Goal / Outcomes / Outputs / Activities × Narrative / Indicators / MoV / Assumptions). One-click import from the Theory of Change Builder (reads the saved `impactmojo_toc_builder` state and maps impact→Goal, outcome→Outcome, output→Output, activity→Activity, assumption nodes→assumptions). Export to Markdown, JSON (re-importable), or print/PDF in landscape. Auto-saves to `localStorage`; brand-consistent styling with light/dark support. Registered in `data/search-index.json`, `sitemap.xml`, `Labs/index.html`, and `docs/labs-guide.md`. Lab count updated 31 → 32.
+
 ## [10.82.2] - 2026-07-06
 
 ### For Learners
