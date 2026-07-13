@@ -2,6 +2,18 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.120.0 — July 13, 2026 (Interactive Maps — Content Map & Funding Map)
+
+### For Learners
+
+- **Content Map** (`/maps/content-map.html`) — an interactive topic constellation of the whole platform, built live from the search index. Drag, zoom, and click any theme to see the courses, dives, games, and readings behind it.
+- **Funding Map: Indian School Education** (`/maps/funding-map.html`) — an illustrative, interactive map of who funds and runs what in India's school-education ecosystem — corporate foundations, philanthropies, NGOs, and the government systems they converge on. A first proof of concept built from publicly documented relationships (no rupee figures; honest about what it can and can't show).
+
+### Added
+
+- New `/maps/` section with a landing page and a lightweight, dependency-free force-directed graph engine (`maps/graph.js`) shared by both maps — canvas-rendered, theme-aware, with zoom/pan, drag, hover highlighting, and click-through side panels. Verified rendering in a real browser (headless Chromium).
+- Homepage "Maps" card, plus `search-index.json` and `sitemap.xml` entries.
+
 ## v10.119.0 — July 13, 2026 (Fix — the Premium page tour)
 
 ### Fixed
