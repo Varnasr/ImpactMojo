@@ -8,7 +8,7 @@ All labs are **free, browser-based, and require no login**.
 
 ---
 
-## The 31 Labs
+## The 32 Labs
 
 ### MEL & Research Labs
 
@@ -16,6 +16,7 @@ All labs are **free, browser-based, and require no login**.
 |-----|---------------|------|
 | **Theory of Change Lab** | A structured ToC with assumptions, indicators, and causal pathways | [Open](/Labs/toc-lab.html) |
 | **MEL Lab** | A complete MEL system end to end — design the framework, indicators, data collection and analysis, then build the operational plan (indicator matrix, calendar & budget, reporting) | [Open](/Labs/mel-lab.html) |
+| **LogFrame Builder** | A donor-ready Logical Framework — climb the results ladder (Goal → Outcomes → Outputs → Activities), add SMART indicators and their means of verification, surface the assumptions, then print or export the classic 4×4 matrix. Imports straight from the Theory of Change Builder | [Open](/Labs/logframe-builder-lab.html) |
 | **Sampling Basics (Primer)** | Plain-language grounding in the ideas — population vs sample, bias, margin of error, clusters — the Level 1 before the Studio | [Open](/Labs/sampling-basics-lab.html) |
 | **Sampling Design Studio** | A defensible sampling strategy (SRS, stratified, cluster or multistage) with sample sizes, design effect, and a printable plan | [Open](/Labs/sampling-design-lab.html) |
 | **Survey Design Lab** | A survey instrument that measures what it claims — question wording, scales, and bias testing | [Open](/Labs/survey-design-lab.html) |

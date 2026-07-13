@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0F172A">
+    <title>LogFrame Builder | ImpactMojo</title>
+    <meta name="description" content="Interactive Logical Framework (LogFrame) Builder — walk the results ladder from Goal to Activities, add SMART indicators, means of verification, and assumptions, then export a printable donor-ready 4x4 LogFrame matrix. Imports directly from the ImpactMojo Theory of Change Builder.">
+    <meta name="keywords" content="logframe, logical framework, LFA, logical framework approach, logframe matrix, results ladder, means of verification, assumptions, SMART indicators, DAC, MEL, theory of change, ImpactMojo">
+    <link rel="canonical" href="https://www.impactmojo.in/Labs/logframe-builder-lab.html">
+
+    <meta property="og:title" content="LogFrame Builder — ImpactMojo">
+    <meta property="og:description" content="Build a complete donor-ready Logical Framework matrix, step by step. Free, no account, works offline. Imports from your Theory of Change.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.impactmojo.in/Labs/logframe-builder-lab.html">
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JRCMEB9TBW');
+</script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-bg: #FFFFFF; --secondary-bg: #F8FAFC; --accent-color: #0EA5E9; --accent-hover: #0284C7;
+            --secondary-accent: #6366F1; --success-color: #10B981; --warning-color: #F59E0B; --danger-color: #EF4444;
+            --text-primary: #0F172A; --text-secondary: #475569; --text-muted: #52627A;
+            --card-bg: #FFFFFF; --hover-bg: #F1F5F9; --border-color: #E2E8F0;
+            --gradient-primary: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+            --font-sans: 'Amaranth', sans-serif; --font-heading: 'Inter', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+            --goal: #EC4899; --outcome: #10B981; --output: #F59E0B; --activity: #6366F1;
+        }
+        @media (prefers-color-scheme: dark) { :root {
+            --primary-bg: #0F172A; --secondary-bg: #1E293B; --accent-color: #0EA5E9; --accent-hover: #38BDF8;
+            --secondary-accent: #818CF8; --text-primary: #F1F5F9; --text-secondary: #CBD5E1; --text-muted: #94A3B8;
+            --card-bg: #1E293B; --hover-bg: #334155; --border-color: #334155;
+        } }
+        body.light-mode, [data-theme="light"] {
+            --primary-bg: #FFFFFF; --secondary-bg: #F8FAFC; --text-primary: #0F172A; --text-secondary: #475569;
+            --text-muted: #52627A; --card-bg: #FFFFFF; --hover-bg: #F1F5F9; --border-color: #E2E8F0;
+        }
+        [data-theme="dark"] {
+            --primary-bg: #0F172A; --secondary-bg: #1E293B; --text-primary: #F1F5F9; --text-secondary: #CBD5E1;
+            --text-muted: #94A3B8; --card-bg: #1E293B; --hover-bg: #334155; --border-color: #334155;
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0; font-family: var(--font-sans); background: var(--primary-bg); color: var(--text-primary);
+            line-height: 1.6; -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.2; }
+        a { color: var(--accent-color); }
+
+        .wrap { max-width: 1120px; margin: 0 auto; padding: 0 1.25rem; }
+
+        /* Hero */
+        .hero { background: var(--gradient-primary); color: #fff; padding: 2.5rem 0 2rem; }
+        .hero .wrap { display: flex; flex-direction: column; gap: 0.75rem; }
+        .hero .eyebrow { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.9; }
+        .hero h1 { margin: 0; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 800; }
+        .hero p { margin: 0; max-width: 62ch; opacity: 0.95; }
+        .hero-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.5rem; }
+
+        .btn {
+            font-family: var(--font-heading); font-weight: 600; font-size: 0.9rem; border: none; cursor: pointer;
+            padding: 0.6rem 1rem; border-radius: 8px; display: inline-flex; align-items: center; gap: 0.4rem;
+            transition: transform 0.08s ease, box-shadow 0.15s ease, background 0.15s ease; text-decoration: none;
+        }
+        .btn:active { transform: translateY(1px); }
+        .btn-primary { background: #fff; color: #0F172A; }
+        .btn-primary:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.18); }
+        .btn-ghost { background: rgba(255,255,255,0.16); color: #fff; border: 1px solid rgba(255,255,255,0.35); }
+        .btn-ghost:hover { background: rgba(255,255,255,0.26); }
+        .btn-solid { background: var(--accent-color); color: #fff; }
+        .btn-solid:hover { background: var(--accent-hover); }
+        .btn-outline { background: transparent; color: var(--text-primary); border: 1px solid var(--border-color); }
+        .btn-outline:hover { background: var(--hover-bg); }
+        .btn-sm { padding: 0.35rem 0.6rem; font-size: 0.8rem; }
+
+        /* Stepper */
+        .stepper { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 1.25rem 0 0.5rem; position: sticky; top: 0; background: var(--primary-bg); z-index: 20; }
+        .step-tab {
+            flex: 1 1 auto; min-width: 120px; text-align: left; background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 10px; padding: 0.55rem 0.75rem; cursor: pointer; color: var(--text-secondary); font-family: var(--font-heading);
+            display: flex; align-items: center; gap: 0.55rem; font-size: 0.85rem; transition: all 0.15s ease;
+        }
+        .step-tab:hover { border-color: var(--accent-color); }
+        .step-tab.active { border-color: var(--accent-color); background: var(--hover-bg); color: var(--text-primary); box-shadow: 0 0 0 2px rgba(14,165,233,0.15); }
+        .step-tab .num { width: 22px; height: 22px; flex: 0 0 22px; border-radius: 50%; background: var(--border-color); color: var(--text-primary);
+            display: grid; place-items: center; font-size: 0.75rem; font-weight: 700; font-family: var(--font-mono); }
+        .step-tab.active .num { background: var(--accent-color); color: #fff; }
+        .step-tab.done .num { background: var(--success-color); color: #fff; }
+
+        /* Panels */
+        .panel { display: none; padding: 1.25rem 0 2.5rem; }
+        .panel.active { display: block; animation: fade 0.2s ease; }
+        @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+        .panel h2 { font-size: 1.35rem; margin: 0.25rem 0 0.35rem; }
+        .lead { color: var(--text-secondary); max-width: 66ch; margin: 0 0 1.25rem; }
+        .callout {
+            background: var(--secondary-bg); border-left: 3px solid var(--accent-color); border-radius: 0 8px 8px 0;
+            padding: 0.75rem 1rem; margin: 0 0 1.25rem; font-size: 0.9rem; color: var(--text-secondary);
+        }
+        .callout strong { color: var(--text-primary); }
+
+        label.fld { display: block; margin-bottom: 1rem; }
+        label.fld > span { display: block; font-family: var(--font-heading); font-weight: 600; font-size: 0.85rem; margin-bottom: 0.3rem; color: var(--text-primary); }
+        label.fld small { display: block; font-weight: 400; color: var(--text-muted); font-size: 0.78rem; margin-bottom: 0.35rem; }
+        input[type=text], textarea {
+            width: 100%; font-family: var(--font-sans); font-size: 0.92rem; color: var(--text-primary);
+            background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.55rem 0.7rem; resize: vertical;
+        }
+        input[type=text]:focus, textarea:focus { outline: none; border-color: var(--accent-color); box-shadow: 0 0 0 3px rgba(14,165,233,0.15); }
+        textarea { min-height: 68px; line-height: 1.5; }
+
+        /* Level cards */
+        .level-group { margin-bottom: 1.5rem; }
+        .level-head { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.6rem; }
+        .level-title { display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-heading); font-weight: 700; font-size: 1rem; }
+        .chip { font-family: var(--font-mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; color: #fff; padding: 0.15rem 0.5rem; border-radius: 999px; }
+        .chip.goal { background: var(--goal); } .chip.outcome { background: var(--outcome); }
+        .chip.output { background: var(--output); } .chip.activity { background: var(--activity); }
+        .level-desc { color: var(--text-muted); font-size: 0.82rem; margin: -0.25rem 0 0.6rem; }
+
+        .item-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 0.9rem; margin-bottom: 0.7rem; }
+        .item-card.border-goal { border-left: 4px solid var(--goal); }
+        .item-card.border-outcome { border-left: 4px solid var(--outcome); }
+        .item-card.border-output { border-left: 4px solid var(--output); }
+        .item-card.border-activity { border-left: 4px solid var(--activity); }
+        .item-card .row { display: flex; gap: 0.6rem; align-items: flex-start; }
+        .item-card .row .grow { flex: 1; }
+        .item-label { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.3rem; }
+        .icon-btn { background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); border-radius: 7px; cursor: pointer;
+            width: 30px; height: 30px; display: grid; place-items: center; font-size: 1rem; flex: 0 0 30px; }
+        .icon-btn:hover { border-color: var(--danger-color); color: var(--danger-color); }
+        .add-row { margin-top: 0.2rem; }
+
+        .empty-hint { color: var(--text-muted); font-size: 0.85rem; font-style: italic; padding: 0.4rem 0; }
+
+        .nav-row { display: flex; justify-content: space-between; gap: 0.75rem; margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1.25rem; }
+
+        /* Matrix */
+        .matrix-toolbar { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+        .matrix-scroll { overflow-x: auto; border: 1px solid var(--border-color); border-radius: 12px; }
+        table.logframe { border-collapse: collapse; width: 100%; min-width: 860px; font-size: 0.85rem; }
+        table.logframe th, table.logframe td { border: 1px solid var(--border-color); padding: 0.6rem 0.7rem; vertical-align: top; text-align: left; }
+        table.logframe thead th { background: var(--secondary-bg); font-family: var(--font-heading); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-secondary); position: sticky; top: 0; }
+        table.logframe .lvl-cell { font-family: var(--font-heading); font-weight: 700; white-space: nowrap; }
+        table.logframe .lvl-cell .chip { display: inline-block; margin-bottom: 0.25rem; }
+        table.logframe td ul { margin: 0; padding-left: 1.1rem; }
+        table.logframe td ul li { margin-bottom: 0.2rem; }
+        table.logframe tr.row-goal td:first-child { border-left: 4px solid var(--goal); }
+        table.logframe tr.row-outcome td:first-child { border-left: 4px solid var(--outcome); }
+        table.logframe tr.row-output td:first-child { border-left: 4px solid var(--output); }
+        table.logframe tr.row-activity td:first-child { border-left: 4px solid var(--activity); }
+        .muted-cell { color: var(--text-muted); font-style: italic; }
+        .matrix-meta { margin-bottom: 1rem; }
+        .matrix-meta h3 { margin: 0 0 0.2rem; }
+        .matrix-meta p { margin: 0; color: var(--text-secondary); font-size: 0.9rem; }
+
+        /* Toast */
+        #toast { position: fixed; left: 50%; bottom: 1.5rem; transform: translateX(-50%) translateY(200%); background: #0F172A; color: #fff;
+            padding: 0.7rem 1.1rem; border-radius: 10px; font-size: 0.88rem; box-shadow: 0 8px 30px rgba(0,0,0,0.3); z-index: 100; transition: transform 0.25s ease; max-width: 90vw; }
+        #toast.show { transform: translateX(-50%) translateY(0); }
+
+        .save-note { font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-mono); }
+
+        /* Footer */
+        .im-footer { background: var(--secondary-bg); border-top: 1px solid var(--border-color); margin-top: 2rem; padding: 2rem 0 1.5rem; color: var(--text-secondary); }
+        .im-footer-content { max-width: 1120px; margin: 0 auto; padding: 0 1.25rem; }
+        .im-footer-made { text-align: center; margin: 0 0 1.25rem; }
+        .im-footer-made a { color: var(--accent-color); }
+        .im-footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+        .im-footer-section h4 { margin: 0 0 0.6rem; font-size: 0.9rem; color: var(--text-primary); }
+        .im-footer-section ul { list-style: none; padding: 0; margin: 0; }
+        .im-footer-section li { margin-bottom: 0.4rem; }
+        .im-footer-section a { color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; }
+        .im-footer-section a:hover { color: var(--accent-color); }
+        .im-footer-bottom { text-align: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-color); font-size: 0.8rem; }
+        .im-footer-bottom a { color: var(--accent-color); text-decoration: none; }
+
+        @media (max-width: 640px) { .im-footer-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; } .stepper { position: static; } }
+
+        /* Print — only the matrix */
+        @media print {
+            .hero, .stepper, .im-footer, .matrix-toolbar, #toast, .no-print { display: none !important; }
+            body { background: #fff; color: #000; }
+            .panel { display: none !important; }
+            #panel-matrix { display: block !important; padding: 0; }
+            .matrix-scroll { border: none; overflow: visible; }
+            table.logframe { min-width: 0; width: 100%; font-size: 10pt; }
+            table.logframe th, table.logframe td { border: 1px solid #333; }
+            table.logframe thead th { background: #eee !important; color: #000; -webkit-print-color-adjust: exact; }
+            .matrix-meta h3 { color: #000; }
+            @page { size: landscape; margin: 12mm; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="hero">
+    <div class="wrap">
+        <span class="eyebrow">ImpactMojo Lab &middot; MEL</span>
+        <h1>LogFrame Builder</h1>
+        <p>Turn your Theory of Change into a donor-ready <strong>Logical Framework</strong>. Climb the results ladder from Goal to Activities, attach SMART indicators and their means of verification, surface the assumptions that hold your logic together &mdash; then print or export the classic 4&times;4 matrix. Free, no account, saved to your device, works offline.</p>
+        <div class="hero-actions">
+            <button class="btn btn-primary" id="btnImport">&#8681; Import from ToC Builder</button>
+            <button class="btn btn-ghost" id="btnExample">Load worked example</button>
+            <button class="btn btn-ghost" id="btnReset">Start fresh</button>
+        </div>
+    </div>
+</header>
+
+<div class="wrap">
+    <nav class="stepper" id="stepper" aria-label="LogFrame steps">
+        <button class="step-tab active" data-step="0"><span class="num">1</span> Problem &amp; Goal</button>
+        <button class="step-tab" data-step="1"><span class="num">2</span> Results Ladder</button>
+        <button class="step-tab" data-step="2"><span class="num">3</span> Indicators</button>
+        <button class="step-tab" data-step="3"><span class="num">4</span> Verification</button>
+        <button class="step-tab" data-step="4"><span class="num">5</span> Assumptions</button>
+        <button class="step-tab" data-step="5"><span class="num">&#9707;</span> Matrix</button>
+    </nav>
+
+    <!-- STEP 1: Problem & Goal -->
+    <section class="panel active" id="panel-0">
+        <h2>1 &middot; Frame the problem, name the Goal</h2>
+        <p class="lead">Every LogFrame starts with a problem worth solving and a long-term Goal (sometimes called <em>Impact</em>) your project contributes to &mdash; but does not achieve alone.</p>
+        <div class="callout"><strong>Results ladder:</strong> Goal &rarr; Outcomes &rarr; Outputs &rarr; Activities. Read it top-down as "we want <em>this</em>, so we need <em>these outcomes</em>, which need <em>these outputs</em>, produced by <em>these activities</em>." Read bottom-up with "if&hellip;then" to test your logic.</div>
+        <label class="fld"><span>Project / programme name</span>
+            <input type="text" id="f-project" placeholder="e.g. Girls' Secondary Education Retention, Koraput"></label>
+        <label class="fld"><span>The development problem</span>
+            <small>What situation are you trying to change? Who is affected, and how?</small>
+            <textarea id="f-problem" placeholder="e.g. Adolescent girls in Koraput district drop out of secondary school at 3x the rate of boys, driven by distance, cost, and safety concerns."></textarea></label>
+        <label class="fld"><span>Goal / Impact statement</span>
+            <small>The higher-level change your project contributes to. One sentence.</small>
+            <textarea id="f-goal" placeholder="e.g. Adolescent girls in Koraput complete secondary education and transition to further study or dignified work."></textarea></label>
+        <div class="nav-row">
+            <span></span>
+            <button class="btn btn-solid" data-go="1">Next: Results Ladder &rarr;</button>
+        </div>
+    </section>
+
+    <!-- STEP 2: Results Ladder -->
+    <section class="panel" id="panel-1">
+        <h2>2 &middot; Build the results ladder</h2>
+        <p class="lead">Add the <strong>vertical logic</strong>: the Outcomes that deliver your Goal, the Outputs that deliver each Outcome, and the Activities that produce those Outputs. Write summaries only &mdash; indicators come next.</p>
+        <div class="callout"><strong>Test as you go:</strong> read upward with "if&hellip;then". <em>If</em> we run these activities, <em>then</em> we deliver these outputs; <em>if</em> the outputs land, <em>then</em> the outcome follows. If a jump feels like a leap of faith, that gap is really an <em>assumption</em> (Step 5).</div>
+        <div id="ladder"></div>
+        <div class="nav-row">
+            <button class="btn btn-outline" data-go="0">&larr; Back</button>
+            <button class="btn btn-solid" data-go="2">Next: Indicators &rarr;</button>
+        </div>
+    </section>
+
+    <!-- STEP 3: Indicators -->
+    <section class="panel" id="panel-2">
+        <h2>3 &middot; Add SMART indicators</h2>
+        <p class="lead">How will you <em>know</em> each result happened? Add one or more indicators per result &mdash; <strong>S</strong>pecific, <strong>M</strong>easurable, <strong>A</strong>chievable, <strong>R</strong>elevant, <strong>T</strong>ime-bound.</p>
+        <div class="callout"><strong>Good indicator = number + noun + qualifier + timeframe.</strong> "% of enrolled girls attending &ge;80% of school days, by end of Year 2" beats "improved attendance". One line per indicator.</div>
+        <div id="indicators"></div>
+        <div class="nav-row">
+            <button class="btn btn-outline" data-go="1">&larr; Back</button>
+            <button class="btn btn-solid" data-go="3">Next: Verification &rarr;</button>
+        </div>
+    </section>
+
+    <!-- STEP 4: Means of Verification -->
+    <section class="panel" id="panel-3">
+        <h2>4 &middot; Means of verification</h2>
+        <p class="lead">For each result, where does the evidence come from? Name the <strong>data source, method, and who collects it</strong>. An indicator you can't measure affordably isn't done yet.</p>
+        <div class="callout"><strong>Means of Verification (MoV)</strong> examples: school attendance registers (monthly, by field officer); baseline &amp; endline household survey; MIS export; FGD transcripts. One line per source.</div>
+        <div id="mov"></div>
+        <div class="nav-row">
+            <button class="btn btn-outline" data-go="2">&larr; Back</button>
+            <button class="btn btn-solid" data-go="4">Next: Assumptions &rarr;</button>
+        </div>
+    </section>
+
+    <!-- STEP 5: Assumptions -->
+    <section class="panel" id="panel-4">
+        <h2>5 &middot; Assumptions &amp; risks</h2>
+        <p class="lead">The <strong>horizontal logic</strong>: what must hold true &mdash; outside your control &mdash; for each level to lead to the next? These are the conditions that, if they fail, break the chain.</p>
+        <div class="callout"><strong>Assumption vs. risk:</strong> state it as a positive condition you're counting on ("families continue to permit girls' school travel"). If an assumption is both critical <em>and</em> shaky, it's a risk &mdash; flag it and plan a mitigation. One line per assumption.</div>
+        <div id="assumptions"></div>
+        <div class="nav-row">
+            <button class="btn btn-outline" data-go="3">&larr; Back</button>
+            <button class="btn btn-solid" data-go="5">See the Matrix &rarr;</button>
+        </div>
+    </section>
+
+    <!-- STEP 6: Matrix -->
+    <section class="panel" id="panel-matrix">
+        <h2>Your Logical Framework</h2>
+        <p class="lead no-print">The classic 4&times;4 LogFrame. Print it (landscape) or export to reuse in a proposal. Everything auto-saves to this device.</p>
+        <div class="matrix-toolbar no-print">
+            <button class="btn btn-solid btn-sm" id="btnPrint">&#128424; Print / Save PDF</button>
+            <button class="btn btn-outline btn-sm" id="btnCopyMd">Copy as Markdown</button>
+            <button class="btn btn-outline btn-sm" id="btnExportJson">Export JSON</button>
+            <button class="btn btn-outline btn-sm" id="btnImportJson">Import JSON</button>
+            <input type="file" id="fileJson" accept="application/json" style="display:none">
+        </div>
+        <div class="matrix-meta" id="matrixMeta"></div>
+        <div class="matrix-scroll">
+            <table class="logframe">
+                <thead>
+                    <tr>
+                        <th style="width:24%">Results chain<br><small style="font-weight:400">(narrative summary)</small></th>
+                        <th style="width:28%">Indicators</th>
+                        <th style="width:24%">Means of verification</th>
+                        <th style="width:24%">Assumptions</th>
+                    </tr>
+                </thead>
+                <tbody id="matrixBody"></tbody>
+            </table>
+        </div>
+        <div class="nav-row no-print">
+            <button class="btn btn-outline" data-go="4">&larr; Back to editing</button>
+            <span class="save-note" id="saveNote"></span>
+        </div>
+    </section>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<!-- ImpactMojo Footer -->
+<footer class="im-footer" role="contentinfo">
+<div class="im-footer-content">
+<p class="im-footer-made">Made with &#10084; by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+<div class="im-footer-grid">
+<div class="im-footer-section"><h4>About ImpactMojo</h4><ul>
+<li><a href="/about.html">About Us</a></li>
+<li><a href="/contact.html">Contact</a></li>
+<li><a href="https://github.com/ImpactMojo/ImpactMojo" rel="noopener noreferrer" target="_blank">GitHub</a></li>
+<li><a href="/transparency.html">Transparency</a></li></ul></div>
+<div class="im-footer-section"><h4>MEL Tools</h4><ul>
+<li><a href="/toc-builder.html">Theory of Change Builder</a></li>
+<li><a href="/Labs/mel-lab.html">MEL Lab</a></li>
+<li><a href="/Labs/impact-evaluation-lab.html">Impact Evaluation Lab</a></li>
+<li><a href="/practice-packs/logframe-building/">LogFrame Practice Pack</a></li></ul></div>
+<div class="im-footer-section"><h4>Quick Links</h4><ul>
+<li><a href="/Labs/">All Labs</a></li>
+<li><a href="/catalog.html">All Courses</a></li>
+<li><a href="/faq.html">FAQ</a></li></ul></div>
+<div class="im-footer-section"><h4>Legal</h4><ul>
+<li><a href="/privacy-policy.html">Privacy Policy</a></li>
+<li><a href="/terms-of-service.html">Terms of Service</a></li>
+<li><a href="/disclaimer.html">Disclaimer</a></li></ul></div>
+</div>
+<div class="im-footer-bottom">
+<p>&copy; 2026 ImpactMojo. All content for educational purposes only. A LogFrame is a planning aid, not a substitute for a qualified MEL specialist.</p>
+<p>Released under <strong>MIT License</strong> | Supported by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+</div>
+</div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var STORAGE_KEY = 'impactmojo_logframe_builder';
+  var TOC_KEY = 'impactmojo_toc_builder';
+
+  var LEVELS = [
+    { key:'goal',     label:'Goal', plural:'Goal',     single:true,  desc:'The long-term change you contribute to. Usually one statement.' },
+    { key:'outcome',  label:'Outcome', plural:'Outcomes', single:false, desc:'The change in behaviour, systems, or conditions your project is accountable for.' },
+    { key:'output',   label:'Output', plural:'Outputs',  single:false, desc:'The tangible products and services you deliver.' },
+    { key:'activity', label:'Activity', plural:'Activities', single:false, desc:'The tasks you carry out to produce the outputs.' }
+  ];
+
+  function blankItem(summary){ return { summary: summary||'', indicators:'', mov:'', assumptions:'' }; }
+
+  function freshState(){
+    return {
+      project: '', problem: '', goalStatement: '',
+      levels: {
+        goal:     [ blankItem('') ],
+        outcome:  [ blankItem('') ],
+        output:   [ blankItem('') ],
+        activity: [ blankItem('') ]
+      }
+    };
+  }
+
+  var state = load() || freshState();
+
+  // ---- persistence ----
+  function save(){
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e){}
+    updateSaveNote();
+  }
+  function load(){
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw) return null;
+      var d = JSON.parse(raw);
+      if(!d || !d.levels) return null;
+      // normalise
+      LEVELS.forEach(function(L){ if(!Array.isArray(d.levels[L.key]) || !d.levels[L.key].length) d.levels[L.key] = [blankItem('')]; });
+      return d;
+    } catch(e){ return null; }
+  }
+  function updateSaveNote(){
+    var el = document.getElementById('saveNote');
+    if(el) el.textContent = 'Saved to this device';
+  }
+
+  // ---- helpers ----
+  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function lines(s){ return String(s==null?'':s).split('\n').map(function(x){ return x.trim(); }).filter(Boolean); }
+  function toast(msg){
+    var t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    clearTimeout(toast._t); toast._t = setTimeout(function(){ t.classList.remove('show'); }, 2600);
+  }
+
+  // ---- step navigation ----
+  function goStep(n){
+    document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+    document.querySelectorAll('.step-tab').forEach(function(t){ t.classList.remove('active'); });
+    var panelId = (n===5) ? 'panel-matrix' : 'panel-'+n;
+    var panel = document.getElementById(panelId);
+    if(panel) panel.classList.add('active');
+    var tab = document.querySelector('.step-tab[data-step="'+n+'"]');
+    if(tab) tab.classList.add('active');
+    if(n===5) renderMatrix();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    refreshDone();
+  }
+  function refreshDone(){
+    // Step 1 done if goal statement present; ladder done if any outcome/output/activity summary
+    var tabs = document.querySelectorAll('.step-tab');
+    var s1 = !!(state.goalStatement && state.goalStatement.trim());
+    var hasLadder = ['outcome','output','activity'].some(function(k){ return state.levels[k].some(function(it){ return it.summary.trim(); }); });
+    var hasInd = allItems().some(function(o){ return o.item.indicators.trim(); });
+    var hasMov = allItems().some(function(o){ return o.item.mov.trim(); });
+    var hasAss = allItems().some(function(o){ return o.item.assumptions.trim(); });
+    setDone(tabs[0], s1); setDone(tabs[1], hasLadder); setDone(tabs[2], hasInd); setDone(tabs[3], hasMov); setDone(tabs[4], hasAss);
+  }
+  function setDone(tab, done){ if(!tab) return; if(done && !tab.classList.contains('active')) tab.classList.add('done'); else tab.classList.remove('done'); }
+
+  function allItems(){
+    var out = [];
+    LEVELS.forEach(function(L){ state.levels[L.key].forEach(function(item, i){ out.push({ level:L, item:item, i:i }); }); });
+    return out;
+  }
+
+  // ---- STEP 1 bindings ----
+  function bindStep1(){
+    var p = document.getElementById('f-project'), pr = document.getElementById('f-problem'), g = document.getElementById('f-goal');
+    p.value = state.project; pr.value = state.problem; g.value = state.goalStatement;
+    p.addEventListener('input', function(){ state.project = p.value; save(); });
+    pr.addEventListener('input', function(){ state.problem = pr.value; save(); });
+    g.addEventListener('input', function(){ state.goalStatement = g.value; state.levels.goal[0].summary = g.value; save(); refreshDone(); });
+  }
+
+  // ---- STEP 2: Results ladder (summaries) ----
+  function renderLadder(){
+    var host = document.getElementById('ladder');
+    host.innerHTML = '';
+    LEVELS.forEach(function(L){
+      if(L.key === 'goal') return; // goal comes from step 1
+      var group = document.createElement('div');
+      group.className = 'level-group';
+      group.innerHTML =
+        '<div class="level-head"><div class="level-title"><span class="chip '+L.key+'">'+esc(L.label)+'</span> '+esc(L.plural)+'</div>'+
+        '<button class="btn btn-outline btn-sm" data-add="'+L.key+'">+ Add '+esc(L.label.toLowerCase())+'</button></div>'+
+        '<div class="level-desc">'+esc(L.desc)+'</div>';
+      var listWrap = document.createElement('div');
+      listWrap.dataset.list = L.key;
+      state.levels[L.key].forEach(function(item, i){
+        listWrap.appendChild(ladderCard(L, item, i));
+      });
+      group.appendChild(listWrap);
+      host.appendChild(group);
+    });
+    // bind add buttons
+    host.querySelectorAll('[data-add]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var k = btn.dataset.add;
+        state.levels[k].push(blankItem(''));
+        save(); renderLadder(); refreshDone();
+      });
+    });
+  }
+  function ladderCard(L, item, i){
+    var card = document.createElement('div');
+    card.className = 'item-card border-'+L.key;
+    card.innerHTML =
+      '<div class="item-label">'+esc(L.label)+' '+(i+1)+'</div>'+
+      '<div class="row"><div class="grow"><textarea data-lvl="'+L.key+'" data-i="'+i+'" placeholder="Summarise this '+esc(L.label.toLowerCase())+'&hellip;">'+esc(item.summary)+'</textarea></div>'+
+      (state.levels[L.key].length>1 ? '<button class="icon-btn" title="Remove" data-del="'+L.key+'" data-di="'+i+'">&times;</button>' : '')+'</div>';
+    var ta = card.querySelector('textarea');
+    ta.addEventListener('input', function(){ state.levels[L.key][i].summary = ta.value; save(); refreshDone(); });
+    var del = card.querySelector('[data-del]');
+    if(del) del.addEventListener('click', function(){ state.levels[L.key].splice(i,1); save(); renderLadder(); refreshDone(); });
+    return card;
+  }
+
+  // ---- STEPS 3/4/5: per-result field editors ----
+  function renderFieldStep(hostId, field, placeholder){
+    var host = document.getElementById(hostId);
+    host.innerHTML = '';
+    LEVELS.forEach(function(L){
+      var items = state.levels[L.key].filter(function(it){ return it.summary.trim(); });
+      if(!items.length && L.key !== 'goal') return;
+      var group = document.createElement('div');
+      group.className = 'level-group';
+      group.innerHTML = '<div class="level-head"><div class="level-title"><span class="chip '+L.key+'">'+esc(L.label)+'</span> '+esc(L.plural)+'</div></div>';
+      state.levels[L.key].forEach(function(item, i){
+        if(!item.summary.trim()) return;
+        var card = document.createElement('div');
+        card.className = 'item-card border-'+L.key;
+        card.innerHTML =
+          '<div class="item-label">'+esc(L.label)+' '+(i+1)+' &mdash; '+esc(item.summary)+'</div>'+
+          '<textarea placeholder="'+esc(placeholder)+'">'+esc(item[field])+'</textarea>';
+        var ta = card.querySelector('textarea');
+        ta.addEventListener('input', function(){ state.levels[L.key][i][field] = ta.value; save(); refreshDone(); });
+        group.appendChild(card);
+      });
+      host.appendChild(group);
+    });
+    if(!host.children.length){
+      host.innerHTML = '<p class="empty-hint">Add some outcomes, outputs, or activities in Step 2 first &mdash; then come back here.</p>';
+    }
+  }
+
+  // ---- Matrix ----
+  function cellList(str){
+    var ls = lines(str);
+    if(!ls.length) return '<span class="muted-cell">&mdash;</span>';
+    return '<ul>'+ls.map(function(x){ return '<li>'+esc(x)+'</li>'; }).join('')+'</ul>';
+  }
+  function renderMatrix(){
+    var meta = document.getElementById('matrixMeta');
+    meta.innerHTML = '<h3>'+esc(state.project || 'Untitled project')+'</h3>'+
+      (state.problem ? '<p><strong>Problem:</strong> '+esc(state.problem)+'</p>' : '');
+    var body = document.getElementById('matrixBody');
+    body.innerHTML = '';
+    LEVELS.forEach(function(L){
+      var items = state.levels[L.key].filter(function(it){ return it.summary.trim() || it.indicators.trim() || it.mov.trim() || it.assumptions.trim(); });
+      if(!items.length) return;
+      items.forEach(function(item, idx){
+        var tr = document.createElement('tr');
+        tr.className = 'row-'+L.key;
+        var label = L.single ? L.label : (L.label+' '+(idx+1));
+        tr.innerHTML =
+          '<td class="lvl-cell"><span class="chip '+L.key+'">'+esc(L.label)+'</span><br>'+esc(item.summary || '('+label+')')+'</td>'+
+          '<td>'+cellList(item.indicators)+'</td>'+
+          '<td>'+cellList(item.mov)+'</td>'+
+          '<td>'+cellList(item.assumptions)+'</td>';
+        body.appendChild(tr);
+      });
+    });
+    if(!body.children.length){
+      body.innerHTML = '<tr><td colspan="4" class="muted-cell" style="text-align:center;padding:1.5rem">Nothing yet. Work through steps 1&ndash;5, or load the worked example.</td></tr>';
+    }
+    updateSaveNote();
+  }
+
+  // ---- Export / Import ----
+  function toMarkdown(){
+    var out = [];
+    out.push('# LogFrame — ' + (state.project || 'Untitled project'));
+    out.push('');
+    if(state.problem){ out.push('**Problem:** ' + state.problem); out.push(''); }
+    out.push('| Results chain | Indicators | Means of verification | Assumptions |');
+    out.push('|---|---|---|---|');
+    LEVELS.forEach(function(L){
+      state.levels[L.key].forEach(function(item){
+        if(!(item.summary.trim()||item.indicators.trim()||item.mov.trim()||item.assumptions.trim())) return;
+        function cell(s){ var l = lines(s); return l.length ? l.join('<br>') : '—'; }
+        out.push('| **'+L.label+':** '+(item.summary.replace(/\n/g,' ')||'—')+' | '+cell(item.indicators)+' | '+cell(item.mov)+' | '+cell(item.assumptions)+' |');
+      });
+    });
+    out.push('');
+    out.push('_Built with the ImpactMojo LogFrame Builder — impactmojo.in_');
+    return out.join('\n');
+  }
+  function download(filename, text, mime){
+    var blob = new Blob([text], { type: mime || 'text/plain' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = filename; document.body.appendChild(a); a.click();
+    document.body.removeChild(a); URL.revokeObjectURL(url);
+  }
+  function slug(){ return (state.project || 'logframe').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') || 'logframe'; }
+
+  // ---- Import from ToC Builder ----
+  function importFromToC(){
+    var raw;
+    try { raw = localStorage.getItem(TOC_KEY); } catch(e){}
+    if(!raw){
+      toast('No saved Theory of Change found on this device. Open the ToC Builder, add nodes, then return.');
+      return;
+    }
+    var data;
+    try { data = JSON.parse(raw); } catch(e){ toast('Could not read the saved Theory of Change.'); return; }
+    var nodes = (data && data.nodes) || [];
+    if(!nodes.length){ toast('Your Theory of Change has no nodes yet.'); return; }
+
+    var map = { impact:'goal', outcome:'outcome', output:'output', activity:'activity', input:'activity' };
+    var next = { goal:[], outcome:[], output:[], activity:[] };
+    var carriedAssumptions = [];
+    nodes.forEach(function(n){
+      if(n.type === 'assumption'){
+        var a = (n.title||'').trim(); if(n.desc && n.desc.trim()) a += (a?' — ':'') + n.desc.trim();
+        if(a) carriedAssumptions.push(a);
+        return;
+      }
+      var lvl = map[n.type];
+      if(!lvl) return;
+      var it = blankItem((n.title||'').trim());
+      if(n.desc && n.desc.trim()) it.summary = (it.summary ? it.summary + ' — ' : '') + n.desc.trim();
+      if(n.indicator && n.indicator.trim()) it.indicators = n.indicator.trim();
+      next[lvl].push(it);
+    });
+
+    // Ensure at least one goal
+    if(!next.goal.length) next.goal.push(blankItem(state.goalStatement || ''));
+    // Park any loose assumptions on the goal row so nothing is lost
+    if(carriedAssumptions.length){ next.goal[0].assumptions = (next.goal[0].assumptions ? next.goal[0].assumptions+'\n' : '') + carriedAssumptions.join('\n'); }
+    // Guarantee non-empty arrays for editing
+    LEVELS.forEach(function(L){ if(!next[L.key].length) next[L.key] = [blankItem('')]; });
+
+    state.levels = next;
+    state.goalStatement = next.goal[0].summary || state.goalStatement;
+    if(!state.project) state.project = 'Imported from Theory of Change';
+    save();
+    renderAll();
+    goStep(1);
+    var imported = nodes.filter(function(n){ return map[n.type]; }).length;
+    toast('Imported ' + imported + ' result' + (imported===1?'':'s') + ' from your Theory of Change. Review the ladder, then add indicators.');
+  }
+
+  // ---- Worked example ----
+  function loadExample(){
+    state = {
+      project: "Girls' Secondary Education Retention, Koraput",
+      problem: "Adolescent girls in Koraput drop out of secondary school at nearly 3x the rate of boys, driven by distance to school, direct and opportunity costs, and safety concerns on the commute.",
+      goalStatement: "Adolescent girls in Koraput complete secondary education and transition to further study or dignified work.",
+      levels: {
+        goal: [ { summary: "Adolescent girls in Koraput complete secondary education and transition to further study or dignified work.",
+          indicators: "Secondary completion rate for girls in target blocks rises from 41% to 60% by end of Year 3",
+          mov: "District education MIS (U-DISE+), annual; independent endline tracer survey",
+          assumptions: "State secondary schooling remains free and available within the district" } ],
+        outcome: [ { summary: "Enrolled girls stay in and regularly attend secondary school.",
+          indicators: "% of enrolled girls attending ≥80% of school days rises from 55% to 85% by end of Year 2\nDropout rate among supported girls falls below 8% per year",
+          mov: "School attendance registers (monthly, field officer); cohort tracking database",
+          assumptions: "Families continue to permit girls' travel to secondary school\nNo major climate or security shock displaces households" } ],
+        output: [
+          { summary: "Safe, subsidised transport to secondary schools is operating in target villages.",
+            indicators: "12 village-to-school transport routes running 6 days/week by end of Year 1\n900 girls hold valid transport passes",
+            mov: "Transport operator logs; pass issuance records",
+            assumptions: "Reliable local transport operators can be contracted at planned cost" },
+          { summary: "Girls and families receive conditional education stipends.",
+            indicators: "900 girls receive quarterly stipend conditional on ≥80% attendance",
+            mov: "Stipend disbursement MIS reconciled with attendance data",
+            assumptions: "Banking / DBT rails reach target households" }
+        ],
+        activity: [
+          { summary: "Contract and route safe transport; issue passes.",
+            indicators: "Procurement completed and routes mapped in Q1",
+            mov: "Signed contracts; route maps",
+            assumptions: "Roads remain passable across seasons" },
+          { summary: "Enrol girls, verify attendance, disburse stipends.",
+            indicators: "Enrolment drive reaches 1,000 eligible girls in Q1–Q2",
+            mov: "Enrolment forms; attendance-linked disbursement logs",
+            assumptions: "Community mobilisers retain trust of families" }
+        ]
+      }
+    };
+    save(); renderAll(); goStep(5);
+    toast('Loaded a worked example. Edit any cell, or start fresh to clear it.');
+  }
+
+  // ---- render all inputs from state ----
+  function renderAll(){
+    document.getElementById('f-project').value = state.project;
+    document.getElementById('f-problem').value = state.problem;
+    document.getElementById('f-goal').value = state.goalStatement;
+    renderLadder();
+    renderFieldStep('indicators', 'indicators', 'One indicator per line (SMART)…');
+    renderFieldStep('mov', 'mov', 'One data source / method per line…');
+    renderFieldStep('assumptions', 'assumptions', 'One assumption per line…');
+    renderMatrix();
+    refreshDone();
+  }
+
+  // Re-render dependent steps when their panel opens (summaries may have changed)
+  function reRenderOnOpen(n){
+    if(n===2) renderFieldStep('indicators', 'indicators', 'One indicator per line (SMART)…');
+    if(n===3) renderFieldStep('mov', 'mov', 'One data source / method per line…');
+    if(n===4) renderFieldStep('assumptions', 'assumptions', 'One assumption per line…');
+    if(n===1) renderLadder();
+  }
+
+  // ---- wire up ----
+  function init(){
+    bindStep1();
+    renderAll();
+
+    document.querySelectorAll('.step-tab').forEach(function(tab){
+      tab.addEventListener('click', function(){ var n = parseInt(tab.dataset.step,10); reRenderOnOpen(n); goStep(n); });
+    });
+    document.querySelectorAll('[data-go]').forEach(function(btn){
+      btn.addEventListener('click', function(){ var n = parseInt(btn.dataset.go,10); reRenderOnOpen(n); goStep(n); });
+    });
+
+    document.getElementById('btnImport').addEventListener('click', importFromToC);
+    document.getElementById('btnExample').addEventListener('click', loadExample);
+    document.getElementById('btnReset').addEventListener('click', function(){
+      if(confirm('Clear everything and start a fresh LogFrame? This cannot be undone.')){
+        state = freshState(); save(); renderAll(); goStep(0); toast('Cleared. Fresh LogFrame ready.');
+      }
+    });
+
+    document.getElementById('btnPrint').addEventListener('click', function(){ renderMatrix(); window.print(); });
+    document.getElementById('btnCopyMd').addEventListener('click', function(){
+      var md = toMarkdown();
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(md).then(function(){ toast('LogFrame copied as a Markdown table.'); },
+          function(){ download(slug()+'.md', md, 'text/markdown'); toast('Clipboard blocked — downloaded as .md instead.'); });
+      } else { download(slug()+'.md', md, 'text/markdown'); toast('Downloaded as Markdown.'); }
+    });
+    document.getElementById('btnExportJson').addEventListener('click', function(){
+      download(slug()+'-logframe.json', JSON.stringify(state, null, 2), 'application/json');
+      toast('Exported. Keep the JSON to re-import later or share with a colleague.');
+    });
+    document.getElementById('btnImportJson').addEventListener('click', function(){ document.getElementById('fileJson').click(); });
+    document.getElementById('fileJson').addEventListener('change', function(e){
+      var file = e.target.files && e.target.files[0]; if(!file) return;
+      var reader = new FileReader();
+      reader.onload = function(){
+        try {
+          var d = JSON.parse(reader.result);
+          if(!d || !d.levels) throw new Error('bad');
+          LEVELS.forEach(function(L){ if(!Array.isArray(d.levels[L.key]) || !d.levels[L.key].length) d.levels[L.key] = [blankItem('')]; });
+          state = d; save(); renderAll(); goStep(5); toast('Imported LogFrame from file.');
+        } catch(err){ toast('That file is not a valid LogFrame export.'); }
+      };
+      reader.readAsText(file);
+      e.target.value = '';
+    });
+
+    updateSaveNote();
+  }
+
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
+<!-- Theme -->
+<script src="/js/theme.js"></script>
+<script defer src="js/auto-refresh.js"></script>
+<script src="/js/site-chrome.js" defer></script>
+</body>
+</html>

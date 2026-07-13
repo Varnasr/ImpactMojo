@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.123.0 — July 13, 2026 (LogFrame Builder — a new MEL lab)
+
+### For Learners
+
+- **LogFrame Builder** (`/Labs/logframe-builder-lab.html`) — a new free lab that turns your Theory of Change into a donor-ready **Logical Framework**. Climb the results ladder from Goal to Activities, attach SMART indicators and their means of verification, name the assumptions that hold your logic together, then print or export the classic 4×4 matrix. It **imports directly from the Theory of Change Builder** so you never start from a blank page, and ships with a worked example. No sign-in; saves to your browser; works offline. Brings the Labs collection to **32**.
+
 ## v10.122.0 — July 13, 2026 (Marginalia — The Theory of Change is now illustrated)
 
 ### For Learners
