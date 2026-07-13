@@ -25,6 +25,7 @@ If you want to know *what to read* on a topic, use a [Deep Dive](deep-dives-guid
 | **Paid an honorarium, not a wage** | Care & Work | MWCD · NHM · Supreme Court | 2 | [Open](/DataDives/honorarium-not-a-wage.html) |
 | **The safety fund nobody spends** | Public Money | MWCD · Parliament · CAG | 2 | [Open](/DataDives/the-safety-fund-nobody-spends.html) |
 | **The pension that never got a raise** | Social Security | NSAP · Labour Bureau CPI | 2 | [Open](/DataDives/the-pension-that-never-got-a-raise.html) |
+| **The wage that ran to stand still** | Rural Employment | MoRD MGNREGA · CPI-AL | 2 | [Open](/DataDives/the-wage-that-ran-to-stand-still.html) |
 
 Browse all Data Dives at [/DataDives/](/DataDives/).
 
