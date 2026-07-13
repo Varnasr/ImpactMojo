@@ -2,6 +2,17 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.121.0 — July 13, 2026 (CSR in India map — real data + a site-wide share button)
+
+### For Learners
+
+- **CSR in India: The Money and Where It Goes** (`/maps/csr-india.html`) — a new interactive map built from **real figures**: India's ₹34,909 crore of corporate CSR in FY2023-24, the sectors it flows into (health & sanitation, education, environment, rural), and the ten biggest corporate spenders — every node sized by actual rupees. The companion school-education funding map now also carries the real education-CSR total (~₹11,300 cr).
+
+### Added
+
+- A shared, prefilled **"Share ImpactMojo on WhatsApp"** button now appears on every page (injected via `site-chrome.js`, homepage included).
+- **Timelines** and **Research to Action** added to the Specials → Showcase navigation.
+
 ## v10.120.0 — July 13, 2026 (Interactive Maps — Content Map & Funding Map)
 
 ### For Learners
