@@ -22,7 +22,7 @@
 
 ---
 
-## BookSummaries (133)
+## BookSummaries (134)
 
 Specials के अंतर्गत इंटरैक्टिव बुक कम्पैनियन — डेटा टूल और AI-संचालित प्रश्नोत्तर के साथ अध्याय-दर-अध्याय गहन अन्वेषण। पूरी जानकारी के लिए [Book Companions Guide](book-summaries-guide.md) देखें।
 
