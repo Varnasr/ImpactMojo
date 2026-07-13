@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.118.0 — July 13, 2026 (New Reading Companion — Dalit Feminist Discourse)
+
+### For Learners
+
+- **Dalit Feminist Discourse: Voices in Dalit Writings** (eds. Charu Arya & Nabanita Deka, Routledge, 2025) — a new interactive Reading Companion to this 15-chapter anthology on Dalit feminist thought and women's writing: the "difference" debate with savarna feminism, Brahmanical patriarchy, Dalit women's autobiography and poetry, and the aesthetics of testimonio — connected throughout to gender-justice practice in South Asia.
+
 ## v10.118.0 — July 13, 2026 (New Data Dive, Deep Dive & a Marginalia essay)
 
 ### For Learners
