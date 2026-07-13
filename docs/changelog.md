@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.122.0 — July 13, 2026 (Marginalia — The Theory of Change is now illustrated)
+
+### For Learners
+
+- **The Theory of Change** Marginalia essay now has its hand-drawn cartoons — nine of the ten blue-ink panels are in (the logframe panel is still to come). The essay reads as intended: drawn joke on top, cited footnotes underneath. Images are web-optimised (~350 KB each) so the page stays light on mobile.
+
 ## v10.121.0 — July 13, 2026 (CSR in India map — real data + a site-wide share button)
 
 ### For Learners
