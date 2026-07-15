@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.126.0 — July 15, 2026 (Indian Data Navigator moves into the Dataverse)
+
+### For Learners
+
+- **Indian Data Navigator** now lives in the **Dataverse** at [`/dataverse-india.html`](/dataverse-india.html) instead of Labs. It's a guide to India's data *sources* — which is exactly what the Dataverse is for — rather than a build-something workbench, so it's a better fit there. Same tool, same features (search, filter, shortlist, export a data-sourcing plan); the old link redirects automatically. It's now featured at the top of the Dataverse.
+
 ## v10.125.0 — July 15, 2026 (Two data-literacy labs — Indian Data Navigator & Why City Boundaries Lie)
 
 ### For Learners

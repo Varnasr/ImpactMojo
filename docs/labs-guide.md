@@ -2,13 +2,13 @@
 
 ## What Are the ImpactMojo Labs?
 
-ImpactMojo offers **35 interactive labs** — hands-on workbenches where you build, design, and practice real development skills. Unlike courses (which teach concepts) or games (which simulate dynamics), labs produce **tangible outputs** — a Theory of Change diagram, a MEL plan, a policy brief — that you can export and use in your actual work.
+ImpactMojo offers **34 interactive labs** — hands-on workbenches where you build, design, and practice real development skills. Unlike courses (which teach concepts) or games (which simulate dynamics), labs produce **tangible outputs** — a Theory of Change diagram, a MEL plan, a policy brief — that you can export and use in your actual work.
 
 All labs are **free, browser-based, and require no login**.
 
 ---
 
-## The 35 Labs
+## The 34 Labs
 
 ### MEL & Research Labs
 
@@ -59,8 +59,9 @@ All labs are **free, browser-based, and require no login**.
 | Lab | What You Build | Link |
 |-----|---------------|------|
 | **R & Python for Development** | Live-code fluency in R and Python for development data work, from absolute zero | [Open](/Labs/r-python-dev.html) |
-| **Indian Data Navigator** | A shortlist and exportable data-sourcing plan from India's major public datasets (Census, NSS, PLFS, HCES, NFHS, ASER, U-DISE+, SRS, HMIS, SECC, IHDS, SHRUG…) — with each source's granularity, frequency, access and caveats, and a primer on matching a question to the right dataset | [Open](/Labs/indian-data-guide-lab.html) |
-| **Why City Boundaries Lie** | Data literacy on administrative vs economic city boundaries — an interactive boundary-toggle map, India's Census urban-undercount explained, and a 2-of-3 satellite-rule classifier, with a handoff to Development Data Lab's open Global Urban Boundaries dataset | [Open](/Labs/urban-boundaries-lab.html) |
+| **Why City Boundaries Lie** | Data literacy on administrative vs economic city boundaries — an interactive boundary-toggle map, India's Census urban-undercount explained, a 2-of-3 satellite-rule classifier, and an exportable boundary-decision note, with a handoff to Development Data Lab's open Global Urban Boundaries dataset | [Open](/Labs/urban-boundaries-lab.html) |
+
+> The **Indian Data Navigator** — a guided field-guide to India's major public datasets — now lives in the [Dataverse](/dataverse-india.html), not Labs, since it's a guide to data sources rather than a build-something workbench.
 
 ---
 
