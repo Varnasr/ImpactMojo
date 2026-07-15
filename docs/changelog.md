@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.127.0 — July 15, 2026 (Disability-Inclusive MEL Lab — disability, made countable)
+
+### For Learners
+
+- **Disability-Inclusive MEL Lab** (`/Labs/disability-inclusive-mel-lab.html`) — a new free lab that turns disability inclusion from a value into something you can actually measure. Ground your MEL in the social model and the twin-track approach; count disability the right way with the **Washington Group Short Set** (six functional-difficulty questions and the standard cut-off, with an interactive walk-through); draft **disability-inclusive and disability-specific SMART indicators**; and score whether your data collection is genuinely accessible (formats, accommodations, inclusive sampling, "nothing about us without us", safeguarding). Exports a disability-inclusive MEL plan. The hands-on companion to Disability Inclusion 101, and ImpactMojo's first interactive tool dedicated to disability. Brings the Labs collection to **35**.
+
 ## v10.126.0 — July 15, 2026 (Indian Data Navigator moves into the Dataverse)
 
 ### For Learners
