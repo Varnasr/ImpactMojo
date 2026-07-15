@@ -277,6 +277,7 @@ body { padding-top: 56px; }
     </div>
 
     <div class="top-controls">
+        <button class="ctrl-btn" onclick="exportNote()">Export boundary note</button>
         <button class="ctrl-btn" onclick="window.print()">Print</button>
     </div>
 
@@ -486,6 +487,39 @@ body { padding-top: 56px; }
         </div>
         <p class="body-text" style="font-size:0.82rem;color:var(--text-muted);">The Global Urban Boundaries dataset, the interactive explorer, and SHRUG are the work of Development Data Lab, not ImpactMojo. This lab is an independent teaching companion; all credit for the data and method is theirs.</p>
 
+        <h3 class="block-title">Now make the call for your own work</h3>
+        <p class="body-text">Turn the lesson into a decision you can defend. Record which boundary <em>your</em> analysis will use and why, then export a short <strong>boundary-decision note</strong> to paste into a concept note, proposal, or methods section.</p>
+        <div class="result-box">
+            <div style="display:flex;flex-direction:column;gap:0.9rem;">
+                <div>
+                    <label for="ubProject" style="font-family:var(--font-heading);font-size:0.82rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:0.3rem;">Your project or analysis</label>
+                    <input type="text" id="ubProject" placeholder="e.g., Mapping service gaps across Bengaluru's periphery" oninput="saveNote()" style="width:100%;padding:0.6rem 0.8rem;border:1px solid var(--border-color);border-radius:8px;background:var(--secondary-bg);color:var(--text-primary);font-family:var(--font-sans);font-size:0.9rem;">
+                </div>
+                <div>
+                    <label for="ubCity" style="font-family:var(--font-heading);font-size:0.82rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:0.3rem;">The city / place in question</label>
+                    <input type="text" id="ubCity" placeholder="e.g., Bengaluru urban agglomeration" oninput="saveNote()" style="width:100%;padding:0.6rem 0.8rem;border:1px solid var(--border-color);border-radius:8px;background:var(--secondary-bg);color:var(--text-primary);font-family:var(--font-sans);font-size:0.9rem;">
+                </div>
+                <div>
+                    <label style="font-family:var(--font-heading);font-size:0.82rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:0.4rem;">Which boundary will your analysis use?</label>
+                    <div class="seg" id="ubBoundarySeg" role="group" aria-label="boundary choice" style="flex-wrap:wrap;">
+                        <button type="button" data-v="admin" onclick="setBoundary('admin')">Administrative</button>
+                        <button type="button" data-v="econ" onclick="setBoundary('econ')">Economic (built-up)</button>
+                        <button type="button" data-v="both" onclick="setBoundary('both')">Both, compared</button>
+                        <button type="button" data-v="undecided" onclick="setBoundary('undecided')">Still deciding</button>
+                    </div>
+                </div>
+                <div>
+                    <label for="ubWhy" style="font-family:var(--font-heading);font-size:0.82rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:0.3rem;">Why — and what is your unit of analysis?</label>
+                    <textarea id="ubWhy" placeholder="e.g., Using the economic (built-up) boundary because our question is about the functional labour market, not the municipal area; unit = built-up grid cells aggregated to the agglomeration." oninput="saveNote()" style="width:100%;min-height:68px;resize:vertical;padding:0.6rem 0.8rem;border:1px solid var(--border-color);border-radius:8px;background:var(--secondary-bg);color:var(--text-primary);font-family:var(--font-sans);font-size:0.9rem;"></textarea>
+                </div>
+                <div>
+                    <label for="ubBlind" style="font-family:var(--font-heading);font-size:0.82rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:0.3rem;">A blind spot you'll flag in your write-up</label>
+                    <input type="text" id="ubBlind" placeholder="e.g., Snapshot in time — can't separate densification from annexation without a second year" oninput="saveNote()" style="width:100%;padding:0.6rem 0.8rem;border:1px solid var(--border-color);border-radius:8px;background:var(--secondary-bg);color:var(--text-primary);font-family:var(--font-sans);font-size:0.9rem;">
+                </div>
+                <button class="btn btn-primary" onclick="exportNote()" style="align-self:flex-start;">Download boundary-decision note</button>
+            </div>
+        </div>
+
         <div class="completion-badge" style="margin-top:2rem;">
             <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
             <h2>You'll never trust a city border blindly again</h2>
@@ -585,6 +619,53 @@ function switchTab(idx) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+/* ===== BOUNDARY-DECISION NOTE (the lab's takeaway output) ===== */
+var NOTE_KEY = 'impactmojo-urban-boundaries';
+var note = { project: '', city: '', boundary: '', why: '', blind: '' };
+function loadNote() {
+    try { var r = localStorage.getItem(NOTE_KEY); if (r) { var p = JSON.parse(r); for (var k in p) note[k] = p[k]; } } catch (e) {}
+}
+function persistNote() { try { localStorage.setItem(NOTE_KEY, JSON.stringify(note)); } catch (e) {} }
+function saveNote() {
+    var g = function(id) { var e = el(id); return e ? e.value : ''; };
+    note.project = g('ubProject'); note.city = g('ubCity'); note.why = g('ubWhy'); note.blind = g('ubBlind');
+    persistNote();
+}
+function setBoundary(v) {
+    note.boundary = v; persistNote();
+    document.querySelectorAll('#ubBoundarySeg button').forEach(function(b) { b.classList.toggle('active', b.getAttribute('data-v') === v); });
+}
+function restoreNote() {
+    var s = function(id, v) { var e = el(id); if (e && v) e.value = v; };
+    s('ubProject', note.project); s('ubCity', note.city); s('ubWhy', note.why); s('ubBlind', note.blind);
+    if (note.boundary) setBoundary(note.boundary);
+}
+function exportNote() {
+    saveNote();
+    var map = { admin: 'Administrative / statutory border', econ: 'Economic (built-up) boundary', both: 'Both, compared side by side', undecided: 'Still deciding' };
+    var L = [];
+    L.push('ImpactMojo — City Boundary Decision Note');
+    L.push('=========================================');
+    L.push('Generated: ' + new Date().toISOString().slice(0, 10));
+    L.push('');
+    L.push('Project / analysis : ' + (note.project || '(not set)'));
+    L.push('City / place       : ' + (note.city || '(not set)'));
+    L.push('Boundary chosen    : ' + (map[note.boundary] || '(not chosen)'));
+    L.push('Unit & rationale   : ' + (note.why || '(not set)'));
+    L.push('Blind spot to flag : ' + (note.blind || '(not set)'));
+    L.push('');
+    L.push('Reminder: state your boundary choice explicitly in your method. If a different boundary');
+    L.push('would change your headline number, that is a finding, not a footnote.');
+    L.push('For economic city boundaries, see Development Data Lab\'s open Global Urban Boundaries');
+    L.push('dataset (cities.devdatalab.org) and SHRUG (devdatalab.org/shrug).');
+    var blob = new Blob([L.join('\n')], { type: 'text/plain' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'boundary-decision-note.txt';
+    a.click();
+    URL.revokeObjectURL(a.href);
+}
+
 /* ===== TAB 1: MAP TOGGLE ===== */
 function el(id) { return document.getElementById(id); }
 function setOpacity(id, v) { var e = el(id); if (e) e.setAttribute('opacity', v); }
@@ -627,6 +708,8 @@ function classifyCell() {
 /* ===== INIT ===== */
 setMap('admin');
 classifyCell();
+loadNote();
+restoreNote();
 </script>
   <script src="/js/theme.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
