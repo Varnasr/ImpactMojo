@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0F172A">
+    <title>Why City Boundaries Lie | ImpactMojo</title>
+    <meta name="description" content="Administrative city borders don't match the real, economic city — Noida thrives on Delhi's edge but is officially separate; Dhaka's limits include farmland but miss dense settlements. This interactive ImpactMojo lab shows how economic city boundaries are drawn from satellite data, why India undercounts its urban population, and why it matters for research and services. Links to Development Data Lab's open Global Urban Boundaries dataset.">
+    <meta name="keywords" content="urban boundaries, economic geography, agglomeration, city definition, census town, statutory town, India urbanisation, urban undercount, GHSL, WorldPop, VIIRS night lights, built-up area, Development Data Lab, SHRUG, functional urban area, metropolitan area, Delhi NCR, Dhaka, ImpactMojo, South Asia">
+    <link rel="canonical" href="https://www.impactmojo.in/Labs/urban-boundaries-lab.html">
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JRCMEB9TBW');
+</script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-bg: #FFFFFF; --secondary-bg: #F8FAFC; --accent-color: #0EA5E9; --accent-hover: #0284C7;
+            --secondary-accent: #6366F1; --success-color: #10B981; --warning-color: #F59E0B; --danger-color: #EF4444;
+            --text-primary: #0F172A; --text-secondary: #475569; --text-muted: #52627A;
+            --card-bg: #FFFFFF; --hover-bg: #F1F5F9; --border-color: #E2E8F0;
+            --gradient-primary: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+            --font-sans: 'Amaranth', sans-serif; --font-heading: 'Inter', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+        }
+@media (prefers-color-scheme: dark) { :root {
+            --primary-bg: #0F172A; --secondary-bg: #1E293B; --accent-color: #0EA5E9; --accent-hover: #0284C7;
+            --secondary-accent: #6366F1; --success-color: #10B981; --warning-color: #F59E0B; --danger-color: #EF4444;
+            --text-primary: #F1F5F9; --text-secondary: #CBD5E1; --text-muted: #94A3B8;
+            --card-bg: #1E293B; --hover-bg: #334155; --border-color: #334155;
+            --gradient-primary: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+            --font-sans: 'Amaranth', sans-serif; --font-heading: 'Inter', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+        } }
+body.light-mode, [data-theme="light"] {
+            --primary-bg: #FFFFFF; --secondary-bg: #F8FAFC; --accent-color: #0EA5E9; --accent-hover: #0284C7;
+            --secondary-accent: #6366F1; --success-color: #10B981; --warning-color: #F59E0B; --danger-color: #EF4444;
+            --text-primary: #0F172A; --text-secondary: #475569; --text-muted: #52627A;
+            --card-bg: #FFFFFF; --hover-bg: #F1F5F9; --border-color: #E2E8F0;
+            --gradient-primary: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+            --font-sans: 'Amaranth', sans-serif; --font-heading: 'Inter', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+        }
+body.dark-mode, [data-theme="dark"] {
+            --primary-bg: #0F172A; --secondary-bg: #1E293B; --accent-color: #0EA5E9; --accent-hover: #0284C7;
+            --secondary-accent: #6366F1; --success-color: #10B981; --warning-color: #F59E0B; --danger-color: #EF4444;
+            --text-primary: #F1F5F9; --text-secondary: #CBD5E1; --text-muted: #94A3B8;
+            --card-bg: #1E293B; --hover-bg: #334155; --border-color: #334155;
+            --gradient-primary: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+            --font-sans: 'Amaranth', sans-serif; --font-heading: 'Inter', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-sans); background: var(--primary-bg); color: var(--text-primary); line-height: 1.6; min-height: 100vh; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 2rem; position: relative; z-index: 1; }
+        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--accent-color); text-decoration: none; font-size: 0.9rem; margin-bottom: 2rem; }
+        .back-link:hover { color: var(--accent-hover); }
+        .back-link svg { width: 18px; height: 18px; }
+        .header { text-align: center; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); }
+        .header-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 1rem; background: rgba(14, 165, 233, 0.15); color: var(--accent-color); border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-bottom: 1rem; font-family: var(--font-heading); }
+        .header h1 { font-family: var(--font-heading); font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 0.5rem; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .header p { color: var(--text-secondary); font-size: 1.05rem; max-width: 720px; margin: 0 auto; }
+        .top-controls { display: flex; justify-content: flex-end; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+        .ctrl-btn { padding: 0.6rem 0.9rem; background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-sans); transition: all 0.2s; }
+        .ctrl-btn:hover { border-color: var(--accent-color); background: var(--hover-bg); }
+        .tabs { display: flex; gap: 0; margin-bottom: 2rem; border-bottom: 2px solid var(--border-color); overflow-x: auto; }
+        .tab-btn { padding: 0.85rem 1.1rem; background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -2px; color: var(--text-muted); font-size: 0.9rem; font-family: var(--font-sans); cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 0.4rem; transition: all 0.2s; }
+        .tab-btn:hover { color: var(--text-secondary); }
+        .tab-btn.active { color: var(--accent-color); border-bottom-color: var(--accent-color); }
+        .tab-btn .tab-num { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: var(--border-color); font-size: 0.7rem; font-weight: 700; font-family: var(--font-heading); }
+        .tab-btn.active .tab-num { background: var(--accent-color); color: #fff; }
+        .tab-panel { display: none; animation: fadeIn 0.3s ease; }
+        .tab-panel.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .section-title { font-family: var(--font-heading); font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary); }
+        .section-desc { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem; }
+        h3.block-title { font-family: var(--font-heading); font-size: 1.1rem; margin: 1.75rem 0 0.75rem; color: var(--text-primary); }
+        p.body-text { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 0.75rem; }
+
+        .info-box { background: rgba(14,165,233,0.08); border-left: 4px solid var(--accent-color); padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin: 1rem 0; font-size: 0.92rem; color: var(--text-secondary); }
+        .info-box strong { color: var(--text-primary); }
+        .info-box.warning { background: rgba(245,158,11,0.10); border-left-color: var(--warning-color); }
+        .info-box.success { background: rgba(16,185,129,0.10); border-left-color: var(--success-color); }
+
+        .budget-table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: 0.92rem; }
+        .budget-table th, .budget-table td { padding: 0.7rem 0.85rem; text-align: left; border-bottom: 1px solid var(--border-color); color: var(--text-secondary); vertical-align: top; }
+        .budget-table th { background: var(--secondary-bg); font-family: var(--font-heading); font-weight: 600; color: var(--accent-color); }
+        .budget-table td strong { color: var(--text-primary); }
+        .table-scroll { overflow-x: auto; }
+
+        .result-box { background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem 1.5rem; margin: 1.25rem 0; }
+        .result-box h4 { font-family: var(--font-heading); font-size: 1rem; margin-bottom: 0.75rem; color: var(--text-primary); }
+        .result-box p { color: var(--text-secondary); font-size: 0.92rem; margin-bottom: 0.35rem; }
+        .big-figure { font-size: 2rem; font-weight: 700; font-family: var(--font-heading); color: var(--accent-color); }
+
+        .tag { display: inline-block; padding: 4px 12px; background: rgba(14,165,233,0.12); color: var(--accent-color); border-radius: 12px; font-size: 0.78rem; font-family: var(--font-heading); font-weight: 600; margin: 4px 4px 4px 0; }
+
+        .btn { padding: 0.7rem 1.5rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--secondary-bg); color: var(--text-primary); font-size: 0.9rem; font-family: var(--font-sans); cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.4rem; text-decoration: none; }
+        .btn:hover { border-color: var(--accent-color); background: var(--hover-bg); }
+        .btn-primary { background: var(--accent-color); border-color: var(--accent-color); color: #fff; font-weight: 600; }
+        .btn-primary:hover { background: var(--accent-hover); color: #fff; }
+        .nav-row { display: flex; justify-content: space-between; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); gap: 1rem; }
+        ul.body-list { margin: 0.5rem 0 0.75rem 1.5rem; color: var(--text-secondary); font-size: 0.92rem; line-height: 1.8; }
+
+        /* Map toggle */
+        .map-wrap { border: 1px solid var(--border-color); border-radius: 14px; overflow: hidden; background: var(--card-bg); margin: 1.25rem 0; }
+        .map-controls { display: flex; gap: 0.4rem; padding: 0.75rem; border-bottom: 1px solid var(--border-color); flex-wrap: wrap; align-items: center; }
+        .seg { display: inline-flex; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; }
+        .seg button { padding: 0.45rem 1rem; background: var(--secondary-bg); border: none; border-right: 1px solid var(--border-color); color: var(--text-secondary); font-family: var(--font-sans); font-size: 0.85rem; cursor: pointer; transition: all 0.15s; }
+        .seg button:last-child { border-right: none; }
+        .seg button.active { background: var(--accent-color); color: #fff; }
+        .map-svg { width: 100%; height: auto; display: block; background: var(--secondary-bg); }
+        .map-legend { display: flex; gap: 1rem; flex-wrap: wrap; padding: 0.75rem 1rem; font-size: 0.82rem; color: var(--text-secondary); border-top: 1px solid var(--border-color); }
+        .map-legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+        .swatch { width: 14px; height: 14px; border-radius: 3px; display: inline-block; }
+
+        .example-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 1.25rem 0; }
+        .example-card { border: 1px solid var(--border-color); border-radius: 12px; padding: 1rem 1.15rem; background: var(--card-bg); }
+        .example-card h4 { font-family: var(--font-heading); font-size: 1rem; color: var(--accent-color); margin-bottom: 0.35rem; }
+        .example-card p { font-size: 0.88rem; color: var(--text-secondary); }
+
+        /* Classifier */
+        .cell-slider { margin: 1rem 0; }
+        .cell-slider label { font-family: var(--font-heading); font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); display: flex; justify-content: space-between; margin-bottom: 0.3rem; }
+        .cell-slider input[type=range] { width: 100%; accent-color: var(--accent-color); }
+        .cell-slider .thresh { font-size: 0.75rem; color: var(--text-muted); }
+        .criterion-row { display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0; font-size: 0.9rem; color: var(--text-secondary); }
+        .dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+        .dot.yes { background: var(--success-color); }
+        .dot.no { background: var(--danger-color); }
+
+        .completion-badge { text-align: center; padding: 2.5rem 1.5rem; background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 16px; margin: 1rem 0; }
+        .completion-badge .tick { width: 72px; height: 72px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; }
+        .completion-badge .tick svg { width: 38px; height: 38px; stroke: #fff; }
+        .completion-badge h2 { font-family: var(--font-heading); color: var(--text-primary); font-size: 1.5rem; margin-bottom: 0.75rem; }
+        .completion-badge p { color: var(--text-secondary); max-width: 560px; margin: 0 auto; }
+        .next-steps { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
+
+        .v3-inline-icon { width: 16px; height: 16px; vertical-align: middle; display: inline-block; }
+        .v3-paper-plane { position: fixed; top: 15%; right: 6%; width: 130px; height: 130px; opacity: 0.16; z-index: 0; pointer-events: none; animation: v3-float-plane 25s ease-in-out infinite; }
+        @keyframes v3-float-plane { 0% { transform: translate(0,0) rotate(0deg);} 20% { transform: translate(-50px,40px) rotate(10deg);} 40% { transform: translate(100px,30px) rotate(-8deg);} 60% { transform: translate(40px,60px) rotate(15deg);} 80% { transform: translate(-30px,-40px) rotate(-12deg);} 100% { transform: translate(0,0) rotate(0deg);} }
+        @media (prefers-reduced-motion: reduce) { .v3-paper-plane { animation: none !important; } .tab-panel { animation: none; } }
+
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            .v3-paper-plane { width: 90px; height: 90px; opacity: 0.1; }
+            .budget-table { font-size: 0.82rem; }
+            .budget-table th, .budget-table td { padding: 0.5rem 0.55rem; }
+        }
+        @media print {
+            body { background: #fff; color: #000; }
+            .top-controls, .back-link, .tabs, .nav-row, .btn, .im-topbar, .v3-paper-plane { display: none !important; }
+            .tab-panel { display: block !important; page-break-inside: avoid; margin-bottom: 2rem; }
+        }
+    </style>
+<style>
+/* ===== ImpactMojo Design System (topbar / footer) ===== */
+:root {
+    --im-primary-bg: #0F172A; --im-secondary-bg: #1E293B; --im-accent: #0EA5E9; --im-accent-hover: #0284C7;
+    --im-secondary-accent: #6366F1; --im-success: #10B981; --im-text-primary: #F1F5F9; --im-text-secondary: #94A3B8;
+    --im-text-muted: #64748B; --im-card-bg: #1E293B; --im-hover-bg: #334155; --im-border: #334155;
+    --im-nav-bg: rgba(15, 23, 42, 0.95); --im-gradient: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+}
+[data-theme="light"] {
+    --im-primary-bg: #F8FAFC; --im-secondary-bg: #FFFFFF; --im-accent: #0284C7; --im-accent-hover: #0369A1;
+    --im-text-primary: #0F172A; --im-text-secondary: #475569; --im-text-muted: #64748B; --im-card-bg: #FFFFFF;
+    --im-hover-bg: #F1F5F9; --im-border: #E2E8F0; --im-nav-bg: rgba(248, 250, 252, 0.95);
+}
+.im-topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 9999; background: var(--im-nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--im-border); padding: 0.5rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; font-family: 'Inter', sans-serif; }
+.im-topbar a { text-decoration: none; }
+.im-topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+.im-topbar-home { display: flex; align-items: center; gap: 0.5rem; color: var(--im-text-primary); font-weight: 700; font-size: 1rem; background: var(--im-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.im-topbar-home svg { width: 24px; height: 24px; flex-shrink: 0; }
+.im-topbar-right { display: flex; align-items: center; gap: 0.5rem; }
+.im-premium-btn { background: var(--im-gradient); color: #fff !important; padding: 0.35rem 0.85rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 0.35rem; transition: opacity 0.2s; -webkit-text-fill-color: #fff; }
+.im-premium-btn:hover { opacity: 0.9; }
+.im-premium-btn svg { width: 14px; height: 14px; }
+.im-browse-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--im-text-primary); background: var(--im-card-bg); border: 1.5px solid var(--im-border); padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; transition: all 0.18s ease; }
+.im-browse-btn:hover { background: var(--im-accent); color: #FFFFFF; border-color: var(--im-accent); transform: translateY(-1px); }
+.im-browse-btn svg { width: 14px; height: 14px; }
+.im-theme-selector { display: flex; gap: 2px; background: var(--im-card-bg); border: 1px solid var(--im-border); border-radius: 8px; padding: 2px; }
+.im-theme-btn { background: transparent; border: none; color: var(--im-text-secondary); padding: 6px; border-radius: 5px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; }
+.im-theme-btn:hover { background: var(--im-hover-bg); color: var(--im-text-primary); }
+.im-theme-btn.active { background: var(--im-accent); color: #fff; }
+.im-theme-btn svg { width: 16px; height: 16px; }
+.im-footer { background: var(--im-secondary-bg); border-top: 1px solid var(--im-border); padding: 2rem 1rem; margin-top: 3rem; font-family: 'Inter', sans-serif; color: var(--im-text-secondary); }
+.im-footer-content { max-width: 1100px; margin: 0 auto; }
+.im-footer-made { text-align: center; margin-bottom: 1.5rem; font-size: 0.9rem; color: var(--im-text-muted); }
+.im-footer-made a { color: var(--im-accent); }
+.im-footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem; }
+.im-footer-section h4 { color: var(--im-text-primary); font-size: 0.9rem; margin-bottom: 0.75rem; font-weight: 600; }
+.im-footer-section ul { list-style: none; padding: 0; margin: 0; }
+.im-footer-section li { margin-bottom: 0.4rem; }
+.im-footer-section a { color: var(--im-text-secondary); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+.im-footer-section a:hover { color: var(--im-accent); }
+.im-footer-bottom { text-align: center; padding-top: 1rem; border-top: 1px solid var(--im-border); font-size: 0.8rem; color: var(--im-text-muted); }
+.im-footer-bottom p { margin: 0.25rem 0; }
+.im-footer-bottom a { color: var(--im-accent); text-decoration: none; }
+@media (max-width: 768px) {
+    .im-topbar { padding: 0.4rem 0.75rem; gap: 0.5rem; }
+    .im-topbar-home span { display: inline; font-size: 0.85rem; }
+    .im-footer-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+}
+@media (max-width: 480px) { .im-footer-grid { grid-template-columns: 1fr; } .im-topbar-home span { display: none; } }
+body { font-family: 'Amaranth', sans-serif; }
+h1, h2, h3, h4, h5, h6 { font-family: 'Inter', sans-serif; }
+code, pre, .monospace, kbd, samp { font-family: 'JetBrains Mono', monospace; }
+body { padding-top: 56px; }
+@media (max-width: 768px) { body { padding-top: 52px; } }
+</style>
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Why City Boundaries Lie">
+<meta property="og:description" content="Administrative borders don't match the real, economic city. See how economic city boundaries are built from satellite data, why India undercounts its urban population, and why it matters — an interactive ImpactMojo lab, with a handoff to Development Data Lab's open dataset.">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:url" content="https://www.impactmojo.in/Labs/urban-boundaries-lab.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ImpactMojo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Why City Boundaries Lie">
+<meta name="twitter:description" content="An interactive lesson on administrative vs economic city boundaries, India's urban undercount, and how satellite data redraws the map.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+</head>
+<body>
+<!-- ImpactMojo Top Bar -->
+<div class="im-topbar" id="imTopbar">
+    <div class="im-topbar-left">
+        <a href="../index.html" class="im-topbar-home">
+            <img src="/assets/images/ImpactMojo%20Logo.png" alt="ImpactMojo" width="24" height="24" style="border-radius:4px;">
+            <span>ImpactMojo</span>
+        </a>
+    </div>
+    <div class="im-topbar-right">
+        <a href="/catalog.html" class="im-browse-btn" title="Browse all content"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Browse</a>
+        <a href="../premium.html" class="im-premium-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Premium
+        </a>
+        <div class="im-theme-selector" aria-label="Theme selection">
+            <button class="im-theme-btn" data-theme="system" title="System theme" aria-label="Use system theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </button>
+            <button class="im-theme-btn" data-theme="light" title="Light theme" aria-label="Use light theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </button>
+            <button class="im-theme-btn" data-theme="dark" title="Dark theme" aria-label="Use dark theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<a href="#main" class="back-link" style="position:absolute;left:-9999px;top:0;">Skip to content</a>
+<div class="container" id="main">
+    <svg class="v3-paper-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M80,130 L150,50" stroke="#10B981" stroke-width="2" stroke-dasharray="4,4"/>
+        <circle cx="150" cy="50" r="4" fill="#6366F1"/>
+    </svg>
+
+    <a href="../index.html" class="back-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+        Back to ImpactMojo
+    </a>
+
+    <div class="header">
+        <div class="header-badge"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Map.svg" alt="" class="v3-inline-icon" loading="lazy" style="filter:brightness(0) saturate(100%) invert(56%) sepia(72%) saturate(2840%) hue-rotate(177deg) brightness(97%) contrast(93%)"> Interactive Lab</div>
+        <h1>Why City Boundaries Lie</h1>
+        <p>The lines on the map are political, not economic. A city's official border was drawn by administration and rarely redrawn since — so it swallows farmland it shouldn't, and cuts off dense neighbourhoods it should contain. When your unit of analysis is "a city," that mismatch quietly distorts every comparison you make. This lab shows the problem, how satellite data fixes it, and why India in particular undercounts how urban it really is.</p>
+    </div>
+
+    <div class="top-controls">
+        <button class="ctrl-btn" onclick="window.print()">Print</button>
+    </div>
+
+    <div class="tabs" id="tabs">
+        <button class="tab-btn active" onclick="switchTab(0)"><span class="tab-num">1</span> The Problem</button>
+        <button class="tab-btn" onclick="switchTab(1)"><span class="tab-num">2</span> India's Undercount</button>
+        <button class="tab-btn" onclick="switchTab(2)"><span class="tab-num">3</span> Redraw with Satellites</button>
+        <button class="tab-btn" onclick="switchTab(3)"><span class="tab-num">4</span> Why It Matters</button>
+    </div>
+
+    <!-- ===== TAB 1: THE PROBLEM ===== -->
+    <div class="tab-panel active" data-panel="0">
+        <h2 class="section-title">The administrative city vs the economic city</h2>
+        <p class="section-desc">Economists define a city by <strong>agglomeration</strong> — a contiguous patch of built-up density where people and firms benefit from being close together. Administrations define it by whatever line was last drawn in a gazette. The two rarely match. Toggle the map to see the gap.</p>
+
+        <div class="map-wrap">
+            <div class="map-controls">
+                <span style="font-family:var(--font-heading);font-size:0.82rem;font-weight:600;color:var(--text-secondary);">View:</span>
+                <div class="seg" role="group" aria-label="boundary view">
+                    <button id="btnAdmin" class="active" onclick="setMap('admin')">Administrative border</button>
+                    <button id="btnEcon" onclick="setMap('econ')">Economic (built-up) city</button>
+                    <button id="btnBoth" onclick="setMap('both')">Both</button>
+                </div>
+            </div>
+            <svg class="map-svg" viewBox="0 0 600 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schematic city: administrative border vs built-up economic city">
+                <!-- built-up density blobs -->
+                <g id="builtup">
+                    <rect x="0" y="0" width="600" height="380" fill="transparent"/>
+                    <circle cx="250" cy="180" r="95" fill="#0EA5E9" opacity="0.28"/>
+                    <circle cx="250" cy="180" r="60" fill="#0EA5E9" opacity="0.38"/>
+                    <circle cx="360" cy="150" r="55" fill="#0EA5E9" opacity="0.30"/>
+                    <circle cx="360" cy="150" r="30" fill="#0EA5E9" opacity="0.42"/>
+                    <circle cx="180" cy="270" r="42" fill="#0EA5E9" opacity="0.26"/>
+                    <text x="250" y="184" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#0369A1">Old core</text>
+                    <text x="360" y="153" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" fill="#0369A1">New suburb</text>
+                    <text x="180" y="274" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#0369A1">Satellite town</text>
+                </g>
+                <!-- farmland marker inside admin border -->
+                <g id="farm" opacity="0">
+                    <text x="120" y="110" font-family="Inter,sans-serif" font-size="22">🌾</text>
+                    <text x="120" y="140" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#F59E0B">farmland, counted "urban"</text>
+                </g>
+                <!-- administrative border: a rigid rectangle offset from the density -->
+                <rect id="adminBorder" x="70" y="70" width="230" height="230" fill="none" stroke="#EF4444" stroke-width="3" stroke-dasharray="9,6" opacity="0"/>
+                <text id="adminLabel" x="185" y="60" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#EF4444" opacity="0">Administrative border (fixed decades ago)</text>
+                <!-- economic boundary: hugs the density -->
+                <path id="econBorder" d="M250,80 Q330,80 355,105 Q400,120 405,155 Q415,200 360,205 Q345,255 285,255 Q250,285 200,272 Q140,285 150,235 Q150,180 175,150 Q185,95 250,80 Z" fill="none" stroke="#10B981" stroke-width="3" opacity="0"/>
+                <text id="econLabel" x="430" y="250" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#10B981" opacity="0">Economic city (follows the density)</text>
+                <!-- excluded suburb marker -->
+                <g id="excluded" opacity="0">
+                    <circle cx="360" cy="150" r="6" fill="none" stroke="#10B981" stroke-width="2"/>
+                    <text x="360" y="112" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#10B981">dense, but outside the official line</text>
+                </g>
+            </svg>
+            <div class="map-legend">
+                <span><span class="swatch" style="background:#0EA5E9;opacity:0.4;"></span> Built-up density (where people actually are)</span>
+                <span><span class="swatch" style="background:#EF4444;"></span> Administrative border</span>
+                <span><span class="swatch" style="background:#10B981;"></span> Economic city boundary</span>
+            </div>
+        </div>
+
+        <div id="mapNote" class="info-box">Toggle between the views above. Notice how the rigid administrative rectangle both <strong>includes</strong> farmland in one corner and <strong>excludes</strong> a dense new suburb — while the economic boundary hugs the actual built-up area.</div>
+
+        <h3 class="block-title">This isn't hypothetical</h3>
+        <div class="example-grid">
+            <div class="example-card">
+                <h4>Delhi &amp; its edge</h4>
+                <p>Noida, Gurugram and Ghaziabad are functionally part of one economic city with Delhi — shared labour markets, commutes and firms — yet sit in different states and administrations. Study "Delhi" by its border and you miss a huge chunk of the actual city.</p>
+            </div>
+            <div class="example-card">
+                <h4>Dhaka's mismatch</h4>
+                <p>Dhaka's official limits reach out over farmland while dense, unplanned settlements at the fringe fall outside them. The border counts fields as city and leaves people out.</p>
+            </div>
+            <div class="example-card">
+                <h4>Every country, differently</h4>
+                <p>"City" means something different in each country's law, so cross-country comparisons of "urban" are often comparing incomparable units — one reason global urban research is so hard.</p>
+            </div>
+        </div>
+
+        <div class="nav-row">
+            <span></span>
+            <button class="btn btn-primary" onclick="switchTab(1)">Next: India's Undercount &rarr;</button>
+        </div>
+    </div>
+
+    <!-- ===== TAB 2: INDIA'S UNDERCOUNT ===== -->
+    <div class="tab-panel" data-panel="1">
+        <h2 class="section-title">How India undercounts its own cities</h2>
+        <p class="section-desc">India's Census uses a strict, decades-old rule to decide what counts as "urban". Many places that are city-like in every practical sense stay classified as rural — so the official urbanisation rate is almost certainly an undercount.</p>
+
+        <div class="info-box">
+            <strong>The Census definition of "urban".</strong> A place is urban if it is either (a) a <em>statutory town</em> — has a municipality, corporation or cantonment board — or (b) a <em>census town</em>, which must meet <strong>all three</strong> of:
+            <ul class="body-list">
+                <li>a population of at least <strong>5,000</strong>;</li>
+                <li>a density of at least <strong>400 persons per km&sup2;</strong>; and</li>
+                <li>at least <strong>75% of the male main workforce</strong> in non-agricultural work.</li>
+            </ul>
+        </div>
+
+        <div class="info-box warning">
+            <strong>Why this misses real urbanisation.</strong> The rule is gendered (it looks only at <em>male</em> non-farm work), it requires a place to be re-examined and re-classified (which lags reality), and a settlement can be dense, market-connected and effectively urban while a slice of male workers still report agriculture. The result: a fast-growing category of "census towns" and peri-urban settlements that live like towns but are governed and counted as villages — with rural budgets, rural schemes and no urban planning.
+        </div>
+
+        <div class="table-scroll">
+        <table class="budget-table">
+            <thead><tr><th>Boundary logic</th><th>What it counts as a city</th><th>Blind spot</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Statutory (administrative)</strong></td><td>Places a government chose to give an urban local body.</td><td>Politics and lag decide the line, not density.</td></tr>
+                <tr><td><strong>Census town (India)</strong></td><td>Meets the 5,000 / 400-per-km&sup2; / 75%-male-non-farm rule.</td><td>Gendered, agriculture-anchored, re-classified slowly.</td></tr>
+                <tr><td><strong>Economic / built-up</strong></td><td>A contiguous patch of built-up density, from satellite data.</td><td>Needs calibration; a snapshot in time; some manual tuning.</td></tr>
+            </tbody>
+        </table>
+        </div>
+
+        <div class="info-box success">
+            <strong>Why it's not just pedantry.</strong> How you draw the line decides who gets urban infrastructure, which government (rural or urban) is responsible, how big "urban India" looks to a planner or investor, and whether a comparison of "cities" across states or countries means anything at all.
+        </div>
+
+        <div class="nav-row">
+            <button class="btn" onclick="switchTab(0)">&larr; Back</button>
+            <button class="btn btn-primary" onclick="switchTab(2)">Next: Redraw with Satellites &rarr;</button>
+        </div>
+    </div>
+
+    <!-- ===== TAB 3: REDRAW WITH SATELLITES ===== -->
+    <div class="tab-panel" data-panel="2">
+        <h2 class="section-title">Redrawing the city from space</h2>
+        <p class="section-desc">Instead of trusting an administrative line, you can build a boundary from what the land actually looks like. The approach behind Development Data Lab's Global Urban Boundaries combines three satellite-derived signals and asks: does this small grid cell look urban?</p>
+
+        <div class="example-grid">
+            <div class="example-card"><h4>Population density</h4><p>How many people live in the cell — from gridded datasets like <span class="monospace">WorldPop</span>.</p></div>
+            <div class="example-card"><h4>Built-up area</h4><p>How much of the cell is buildings and pavement — from <span class="monospace">GHSL</span> (Global Human Settlement Layer).</p></div>
+            <div class="example-card"><h4>Night-time lights</h4><p>How brightly the cell glows after dark, a proxy for activity — from <span class="monospace">VIIRS</span>.</p></div>
+        </div>
+
+        <div class="info-box">
+            <strong>The 2-of-3 rule.</strong> A cell is flagged urban if it clears the threshold on <strong>at least two of the three</strong> signals. Requiring two guards against false positives — a single bright highway or one dense but rural cell won't tip it. Crucially, the thresholds are <strong>calibrated country by country</strong>, not fixed globally, so the same method works in Manhattan and in densely-populated rural Bangladesh (where a single global density cutoff wrongly labels farmland as city). Contiguous urban cells are then stitched into one city.
+        </div>
+
+        <h3 class="block-title">Try it: classify a grid cell</h3>
+        <p class="body-text">Drag each signal relative to its (illustrative) threshold and watch the 2-of-3 rule decide. This is a simplified teaching model, not the production algorithm.</p>
+
+        <div class="result-box">
+            <div class="cell-slider">
+                <label>Population density <span id="popVal">50</span></label>
+                <input type="range" id="popSlider" min="0" max="100" value="50" oninput="classifyCell()">
+                <div class="thresh">Threshold: 55 &nbsp;·&nbsp; <span id="popState">below</span></div>
+            </div>
+            <div class="cell-slider">
+                <label>Built-up share <span id="builtVal">50</span></label>
+                <input type="range" id="builtSlider" min="0" max="100" value="50" oninput="classifyCell()">
+                <div class="thresh">Threshold: 50 &nbsp;·&nbsp; <span id="builtState">at/above</span></div>
+            </div>
+            <div class="cell-slider">
+                <label>Night-time lights <span id="lightVal">50</span></label>
+                <input type="range" id="lightSlider" min="0" max="100" value="50" oninput="classifyCell()">
+                <div class="thresh">Threshold: 45 &nbsp;·&nbsp; <span id="lightState">at/above</span></div>
+            </div>
+            <div style="border-top:1px solid var(--border-color);margin-top:0.75rem;padding-top:0.75rem;">
+                <div class="criterion-row"><span class="dot" id="dotPop"></span> Population density clears threshold</div>
+                <div class="criterion-row"><span class="dot" id="dotBuilt"></span> Built-up share clears threshold</div>
+                <div class="criterion-row"><span class="dot" id="dotLight"></span> Night lights clear threshold</div>
+                <div id="cellVerdict" style="margin-top:0.75rem;font-family:var(--font-heading);font-weight:700;font-size:1.1rem;"></div>
+            </div>
+        </div>
+
+        <div class="info-box warning">
+            <strong>Honest about the limits.</strong> The method isn't fully automatic — some cities need manual fine-tuning, and thresholds for some countries are still uncalibrated. It's a <em>single point in time</em>, so it's a snapshot, not a film of growth. But as its authors argue, a semi-automated, density-based boundary reflects the real city far better than a decades-old administrative line.
+        </div>
+
+        <div class="nav-row">
+            <button class="btn" onclick="switchTab(1)">&larr; Back</button>
+            <button class="btn btn-primary" onclick="switchTab(3)">Next: Why It Matters &rarr;</button>
+        </div>
+    </div>
+
+    <!-- ===== TAB 4: WHY IT MATTERS ===== -->
+    <div class="tab-panel" data-panel="3">
+        <h2 class="section-title">Why any of this matters for your work</h2>
+        <p class="section-desc">Boundaries are not neutral bookkeeping. The line you use silently shapes what you measure, who is served, and whether your comparisons hold up.</p>
+
+        <h3 class="block-title">The line changes the finding</h3>
+        <ul class="body-list">
+            <li><strong>Per-capita anything.</strong> Include farmland and the denominator swells, so income, density and service coverage per person all look lower than the real city's.</li>
+            <li><strong>Comparisons across cities or countries.</strong> If "city" means different things in each place, a ranking of "most productive cities" may just be ranking how boundaries were drawn.</li>
+            <li><strong>Who is responsible.</strong> A dense settlement classified rural gets rural governance and budgets — no urban planning, no municipal services — even as it fills with people.</li>
+            <li><strong>Growth vs annexation.</strong> A city can "grow" on paper simply because its border was redrawn. A fixed-boundary, satellite snapshot lets you separate real densification from administrative expansion.</li>
+        </ul>
+
+        <div class="info-box">
+            <strong>The practitioner's habit.</strong> Whenever a claim rests on "the city," ask: <em>which boundary — administrative or economic — and who drew it?</em> State it explicitly in your method. If the answer changes your number, that's not a footnote; it's a finding.
+        </div>
+
+        <h3 class="block-title">Get the real data</h3>
+        <p class="body-text">This lab teaches the idea. For the actual boundaries and the tools to work with them, go to the source — <strong>Development Data Lab</strong>, an independent research group whose datasets are open and free:</p>
+        <div class="example-grid">
+            <div class="example-card">
+                <h4>Global Urban Boundaries 2026</h4>
+                <p>Economic city boundaries for 5,000+ cities worldwide, with an interactive explorer comparing them to older definitions, and downloadable data.</p>
+                <p style="margin-top:0.5rem;"><a class="btn btn-primary" href="https://cities.devdatalab.org/articles/urban-boundaries-2026" target="_blank" rel="noopener noreferrer">Open DDL Urban Boundaries ↗</a></p>
+            </div>
+            <div class="example-card">
+                <h4>SHRUG (for India)</h4>
+                <p>DDL's open, village/town-level platform linking Census, night-lights and more — the finest-grained way to study urbanisation in India. Also in our Indian Data Navigator.</p>
+                <p style="margin-top:0.5rem;"><a class="btn" href="https://www.devdatalab.org/shrug" target="_blank" rel="noopener noreferrer">Open SHRUG ↗</a></p>
+            </div>
+        </div>
+        <p class="body-text" style="font-size:0.82rem;color:var(--text-muted);">The Global Urban Boundaries dataset, the interactive explorer, and SHRUG are the work of Development Data Lab, not ImpactMojo. This lab is an independent teaching companion; all credit for the data and method is theirs.</p>
+
+        <div class="completion-badge" style="margin-top:2rem;">
+            <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <h2>You'll never trust a city border blindly again</h2>
+            <p>Administrative vs economic boundaries, India's urban undercount, and how satellites redraw the map — enough to read urban statistics critically and pick the right unit for your own analysis.</p>
+            <div style="margin-top:1rem;">
+                <span class="tag">Urban Geography</span>
+                <span class="tag">Agglomeration</span>
+                <span class="tag">Census Towns</span>
+                <span class="tag">Satellite Data</span>
+                <span class="tag">Data Literacy</span>
+            </div>
+            <div class="next-steps">
+                <a href="indian-data-guide-lab.html" class="btn btn-primary">Indian Data Navigator &rarr;</a>
+                <a href="index.html" class="btn">Explore more Labs</a>
+            </div>
+        </div>
+
+        <div class="nav-row">
+            <button class="btn" onclick="switchTab(2)">&larr; Back</button>
+            <button class="btn" onclick="window.print()">Print / save as PDF</button>
+        </div>
+    </div>
+</div>
+
+<!-- ImpactMojo Footer -->
+<footer class="im-footer" role="contentinfo">
+<div class="im-footer-content">
+<p class="im-footer-made">Made with &#10084; by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+<div class="im-footer-grid">
+<div class="im-footer-section">
+<h4>Learn</h4>
+<ul>
+<li><a href="../courses.html">Courses</a></li>
+<li><a href="index.html">Interactive Labs</a></li>
+<li><a href="../Games/">Games</a></li>
+<li><a href="../catalog.html">Full Catalog</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4>Explore</h4>
+<ul>
+<li><a href="../index.html">Home</a></li>
+<li><a href="../blog.html">Blog</a></li>
+<li><a href="../BookSummaries/">Book Summaries</a></li>
+<li><a href="../premium.html">Premium</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4>About</h4>
+<ul>
+<li><a href="../about.html">About ImpactMojo</a></li>
+<li><a href="../contact.html">Contact</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4>Connect</h4>
+<ul>
+<li><a href="https://www.impactmojo.in">impactmojo.in</a></li>
+</ul>
+</div>
+</div>
+<div class="im-footer-bottom">
+<p>&copy; 2026 ImpactMojo. Free development education for South Asia.</p>
+<p><a href="../index.html">Home</a> &middot; <a href="index.html">Labs</a> &middot; <a href="../catalog.html">Catalog</a></p>
+</div>
+</div>
+</footer>
+
+<script>
+/* THEME */
+(function initTheme() {
+    var saved = localStorage.getItem('impactmojo-theme') || 'system';
+    applyTheme(saved);
+    document.querySelectorAll('.im-theme-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var theme = btn.dataset.theme;
+            localStorage.setItem('impactmojo-theme', theme);
+            applyTheme(theme);
+        });
+    });
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+        if ((localStorage.getItem('impactmojo-theme') || 'system') === 'system') applyTheme('system');
+    });
+})();
+function applyTheme(theme) {
+    var root = document.documentElement;
+    if (theme === 'light') { root.setAttribute('data-theme', 'light'); }
+    else if (theme === 'dark') { root.removeAttribute('data-theme'); }
+    else { if (window.matchMedia('(prefers-color-scheme: light)').matches) root.setAttribute('data-theme', 'light'); else root.removeAttribute('data-theme'); }
+    document.querySelectorAll('.im-theme-btn').forEach(function(b) { b.classList.toggle('active', b.dataset.theme === theme); });
+}
+
+/* ===== TABS ===== */
+function switchTab(idx) {
+    document.querySelectorAll('.tab-btn').forEach(function(b, i) { b.classList.toggle('active', i === idx); });
+    document.querySelectorAll('.tab-panel').forEach(function(p, i) { p.classList.toggle('active', i === idx); });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ===== TAB 1: MAP TOGGLE ===== */
+function el(id) { return document.getElementById(id); }
+function setOpacity(id, v) { var e = el(id); if (e) e.setAttribute('opacity', v); }
+function setMap(mode) {
+    ['btnAdmin','btnEcon','btnBoth'].forEach(function(b){ el(b).classList.remove('active'); });
+    var showAdmin = (mode === 'admin' || mode === 'both');
+    var showEcon = (mode === 'econ' || mode === 'both');
+    setOpacity('adminBorder', showAdmin ? 1 : 0);
+    setOpacity('adminLabel', showAdmin ? 1 : 0);
+    setOpacity('farm', showAdmin ? 1 : 0);
+    setOpacity('econBorder', showEcon ? 1 : 0);
+    setOpacity('econLabel', showEcon ? 1 : 0);
+    setOpacity('excluded', showEcon ? 1 : 0);
+    var note = el('mapNote');
+    if (mode === 'admin') { el('btnAdmin').classList.add('active'); note.innerHTML = '<strong>Administrative border.</strong> A rigid rectangle drawn (and rarely redrawn) by administration. See how it swallows <strong>farmland</strong> in the top-left corner, while the dense new suburb on the right sits partly outside it.'; }
+    else if (mode === 'econ') { el('btnEcon').classList.add('active'); note.innerHTML = '<strong>Economic city.</strong> The green boundary hugs the actual built-up density — it drops the farmland and reaches out to include the dense suburb the official line cut off.'; }
+    else { el('btnBoth').classList.add('active'); note.innerHTML = '<strong>Both, overlaid.</strong> The gap between the red administrative line and the green economic boundary <em>is</em> the measurement error: farmland wrongly counted as city, real city wrongly counted as outside.'; }
+}
+
+/* ===== TAB 3: CELL CLASSIFIER ===== */
+var TH = { pop: 55, built: 50, light: 45 };
+function classifyCell() {
+    var pop = parseInt(el('popSlider').value, 10);
+    var built = parseInt(el('builtSlider').value, 10);
+    var light = parseInt(el('lightSlider').value, 10);
+    el('popVal').textContent = pop; el('builtVal').textContent = built; el('lightVal').textContent = light;
+    var pPop = pop >= TH.pop, pBuilt = built >= TH.built, pLight = light >= TH.light;
+    el('popState').textContent = pPop ? 'at/above' : 'below';
+    el('builtState').textContent = pBuilt ? 'at/above' : 'below';
+    el('lightState').textContent = pLight ? 'at/above' : 'below';
+    el('dotPop').className = 'dot ' + (pPop ? 'yes' : 'no');
+    el('dotBuilt').className = 'dot ' + (pBuilt ? 'yes' : 'no');
+    el('dotLight').className = 'dot ' + (pLight ? 'yes' : 'no');
+    var count = (pPop ? 1 : 0) + (pBuilt ? 1 : 0) + (pLight ? 1 : 0);
+    var v = el('cellVerdict');
+    if (count >= 2) { v.textContent = '🏙️ URBAN — ' + count + ' of 3 signals cleared'; v.style.color = 'var(--success-color)'; }
+    else { v.textContent = '🌾 Not urban — only ' + count + ' of 3 signals cleared'; v.style.color = 'var(--text-muted)'; }
+}
+
+/* ===== INIT ===== */
+setMap('admin');
+classifyCell();
+</script>
+  <script src="/js/theme.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+  <script src="/js/state-manager.js"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/translate-sarvam.js" defer></script>
+  <script src="/js/site-chrome.js" defer></script>
+</body>
+</html>
