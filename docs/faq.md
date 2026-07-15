@@ -104,7 +104,7 @@ Here is a straightforward comparison:
 |---------|----------------|------------------------|------------------------|-------------------------------|
 | All 68 courses | Yes | Yes | Yes | Yes |
 | 135 games | Yes | Yes | Yes | Yes |
-| 33 labs | Yes | Yes | Yes | Yes |
+| 35 labs | Yes | Yes | Yes | Yes |
 | 89 handouts | Yes | Yes | Yes | Yes |
 | ImpactLex, DevDiscourses, Case Studies | Yes | Yes | Yes | Yes |
 | Progress tracking and certificates | — | Yes | Yes | Yes |

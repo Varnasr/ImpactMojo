@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.125.0 — July 15, 2026 (Two data-literacy labs — Indian Data Navigator & Why City Boundaries Lie)
+
+### For Learners
+
+- **Indian Data Navigator** (`/Labs/indian-data-guide-lab.html`) — a new free lab that helps you find the right Indian dataset for your question instead of guessing. A searchable, filterable field-guide to India's major public data — Census, NSS, PLFS, HCES, NFHS, ASER, U-DISE+, SRS, HMIS, SECC, IHDS, SHRUG, NCRB and more — with, for each source, what it actually measures, its unit and geographic granularity, how often it comes out, where to get it (free or paid), and the caveats that will trip you up. Shortlist the sources you'll use and **export a data-sourcing plan**, plus a primer on matching a question to the right dataset and triangulating across sources. No sign-in; saves to your browser.
+- **Why City Boundaries Lie** (`/Labs/urban-boundaries-lab.html`) — a new free interactive lesson on why administrative city borders don't match the real, economic city (Noida is functionally Delhi yet officially separate; Dhaka's limits swallow farmland while missing dense settlements). Toggle a schematic map between administrative and economic boundaries, see how India's Census rule **undercounts** its urban population, and use a mini-classifier to apply the 2-of-3 satellite rule (population, built-up area, night-lights) that redraws cities from space — with a handoff to Development Data Lab's open Global Urban Boundaries dataset. Brings the Labs collection to **35**.
+
 ## v10.124.0 — July 15, 2026 (RCT Readiness Diagnostic — should you even run a trial?)
 
 ### For Learners
