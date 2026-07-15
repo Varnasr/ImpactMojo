@@ -105,6 +105,8 @@ body.dark-mode, [data-theme="dark"] {
         .btn:hover { border-color: var(--accent-color); background: var(--hover-bg); }
         .btn-primary { background: var(--accent-color); border-color: var(--accent-color); color: #fff; font-weight: 600; }
         .btn-primary:hover { background: var(--accent-hover); color: #fff; }
+        .pro-pill { display:inline-flex; align-items:center; gap:0.25rem; background:linear-gradient(135deg,#F59E0B,#EF4444); color:#fff; font-family:var(--font-heading); font-weight:700; font-size:0.6rem; text-transform:uppercase; letter-spacing:0.4px; padding:0.12rem 0.45rem; border-radius:5px; vertical-align:middle; }
+        .export-note { font-size:0.8rem; color:var(--text-muted); margin-top:0.5rem; }
         .nav-row { display: flex; justify-content: space-between; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); gap: 1rem; }
         ul.body-list { margin: 0.5rem 0 0.75rem 1.5rem; color: var(--text-secondary); font-size: 0.92rem; line-height: 1.8; }
 
@@ -516,7 +518,8 @@ body { padding-top: 56px; }
                     <label for="ubBlind" style="font-family:var(--font-heading);font-size:0.82rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:0.3rem;">A blind spot you'll flag in your write-up</label>
                     <input type="text" id="ubBlind" placeholder="e.g., Snapshot in time — can't separate densification from annexation without a second year" oninput="saveNote()" style="width:100%;padding:0.6rem 0.8rem;border:1px solid var(--border-color);border-radius:8px;background:var(--secondary-bg);color:var(--text-primary);font-family:var(--font-sans);font-size:0.9rem;">
                 </div>
-                <button class="btn btn-primary" onclick="exportNote()" style="align-self:flex-start;">Download boundary-decision note</button>
+                <button class="btn btn-primary" onclick="exportNote()" style="align-self:flex-start;">Download boundary-decision note <span class="pro-pill">★ Premium</span></button>
+                <p class="export-note">The lesson and making the call are free. Exporting the note is a Premium feature (Practitioner plan and up).</p>
             </div>
         </div>
 
@@ -640,7 +643,18 @@ function restoreNote() {
     s('ubProject', note.project); s('ubCity', note.city); s('ubWhy', note.why); s('ubBlind', note.blind);
     if (note.boundary) setBoundary(note.boundary);
 }
+/* Freemium gate: the lesson and the decision step are free; exporting the
+   boundary-decision note is Premium (practitioner+). Fails open if the premium
+   module is absent, so the tool never breaks. */
+function gateOK() {
+    if (!window.IMXPremium || typeof window.IMXPremium.hasAccess !== 'function') return true;
+    if (window.IMXPremium.hasAccess('practitioner')) return true;
+    if (typeof window.IMXPremium.showUpgradeModal === 'function') window.IMXPremium.showUpgradeModal('practitioner');
+    else window.location.href = '/premium';
+    return false;
+}
 function exportNote() {
+    if (!gateOK()) return;
     saveNote();
     var map = { admin: 'Administrative / statutory border', econ: 'Economic (built-up) boundary', both: 'Both, compared side by side', undecided: 'Still deciding' };
     var L = [];
@@ -716,6 +730,7 @@ restoreNote();
   <script src="/js/state-manager.js"></script>
   <script src="/js/config.js"></script>
   <script src="/js/auth.js"></script>
+  <script src="/js/premium.js"></script>
   <script src="/js/translate-sarvam.js" defer></script>
   <script src="/js/site-chrome.js" defer></script>
 </body>

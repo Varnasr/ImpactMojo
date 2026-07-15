@@ -104,6 +104,8 @@ body.dark-mode, [data-theme="dark"] {
         .btn:hover { border-color: var(--accent-color); background: var(--hover-bg); }
         .btn-primary { background: var(--accent-color); border-color: var(--accent-color); color: #fff; font-weight: 600; }
         .btn-primary:hover { background: var(--accent-hover); color: #fff; }
+        .pro-pill { display:inline-flex; align-items:center; gap:0.25rem; background:linear-gradient(135deg,#F59E0B,#EF4444); color:#fff; font-family:var(--font-heading); font-weight:700; font-size:0.6rem; text-transform:uppercase; letter-spacing:0.4px; padding:0.12rem 0.45rem; border-radius:5px; vertical-align:middle; }
+        .export-note { font-size:0.8rem; color:var(--text-muted); margin-top:0.5rem; }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .nav-row { display: flex; justify-content: space-between; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); gap: 1rem; }
         ul.body-list { margin: 0.5rem 0 0.75rem 1.5rem; color: var(--text-secondary); font-size: 0.92rem; line-height: 1.8; }
@@ -345,7 +347,8 @@ body { padding-top: 56px; }
             <strong>Good practice: triangulate.</strong> No single source is the whole truth. Pair a large representative survey (for the level and trend) with routine administrative data (for frequency and coverage) and, where you can, your own primary data (for the specifics of your population). When two independent sources agree, your claim is far harder to dismiss.
         </div>
 
-        <button class="btn btn-primary" onclick="exportPlan()">Download data plan</button>
+        <button class="btn btn-primary" onclick="exportPlan()">Download data plan <span class="pro-pill">★ Premium</span></button>
+        <p class="export-note">Browsing, filtering and shortlisting are free. Exporting the data plan is a Premium feature (Practitioner plan and up).</p>
 
         <div class="nav-row">
             <button class="btn" onclick="switchTab(0)">&larr; Back to datasets</button>
@@ -675,7 +678,18 @@ function renderPlan() {
 }
 
 /* ===== EXPORT ===== */
+/* Freemium gate: browsing and shortlisting are free; exporting the data-sourcing
+   plan is Premium (practitioner+). Fails open if the premium module is absent, so
+   the tool never breaks. */
+function gateOK() {
+    if (!window.IMXPremium || typeof window.IMXPremium.hasAccess !== 'function') return true;
+    if (window.IMXPremium.hasAccess('practitioner')) return true;
+    if (typeof window.IMXPremium.showUpgradeModal === 'function') window.IMXPremium.showUpgradeModal('practitioner');
+    else window.location.href = '/premium';
+    return false;
+}
 function exportPlan() {
+    if (!gateOK()) return;
     saveState();
     var L = [];
     L.push('ImpactMojo — Data-Sourcing Plan');
@@ -723,6 +737,7 @@ updatePlanCount();
   <script src="/js/state-manager.js"></script>
   <script src="/js/config.js"></script>
   <script src="/js/auth.js"></script>
+  <script src="/js/premium.js"></script>
   <script src="/js/translate-sarvam.js" defer></script>
   <script src="/js/site-chrome.js" defer></script>
 </body>
