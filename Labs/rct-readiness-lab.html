@@ -131,6 +131,8 @@ body.dark-mode, [data-theme="dark"] {
         .btn:hover { border-color: var(--accent-color); background: var(--hover-bg); }
         .btn-primary { background: var(--accent-color); border-color: var(--accent-color); color: #fff; font-weight: 600; }
         .btn-primary:hover { background: var(--accent-hover); color: #fff; }
+        .pro-pill { display:inline-flex; align-items:center; gap:0.25rem; background:linear-gradient(135deg,#F59E0B,#EF4444); color:#fff; font-family:var(--font-heading); font-weight:700; font-size:0.6rem; text-transform:uppercase; letter-spacing:0.4px; padding:0.12rem 0.45rem; border-radius:5px; vertical-align:middle; }
+        .export-note { font-size:0.8rem; color:var(--text-muted); margin-top:0.5rem; }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .nav-row { display: flex; justify-content: space-between; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); gap: 1rem; }
         ul.body-list { margin: 0.5rem 0 0.75rem 1.5rem; color: var(--text-secondary); font-size: 0.92rem; line-height: 1.8; }
@@ -536,7 +538,8 @@ body { padding-top: 56px; }
 
         <h3 class="block-title">Export your readiness memo</h3>
         <p class="body-text">Download a plain-text summary of your stage, gate answers, baseline check and verdict — to share with your team, board or funder before anyone commits a budget.</p>
-        <button class="btn btn-primary" onclick="exportMemo()">Download RCT Readiness Memo</button>
+        <button class="btn btn-primary" onclick="exportMemo()">Download RCT Readiness Memo <span class="pro-pill">★ Premium</span></button>
+        <p class="export-note">Working through the whole diagnostic is free. Exporting the memo is a Premium feature (Practitioner plan and up).</p>
 
         <div class="completion-badge" style="margin-top:2rem;">
             <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
@@ -912,7 +915,18 @@ function calcVerdict() {
 
 /* ===== EXPORT MEMO ===== */
 function ans(v) { return v === 'yes' ? 'Yes' : v === 'partly' ? 'Partly' : v === 'no' ? 'No/unsure' : '(unanswered)'; }
+/* Freemium gate: the diagnostic is free to use; exporting the memo is Premium
+   (practitioner+). Soft gate that fails open if the premium module is absent, so
+   the tool never breaks. */
+function gateOK() {
+    if (!window.IMXPremium || typeof window.IMXPremium.hasAccess !== 'function') return true;
+    if (window.IMXPremium.hasAccess('practitioner')) return true;
+    if (typeof window.IMXPremium.showUpgradeModal === 'function') window.IMXPremium.showUpgradeModal('practitioner');
+    else window.location.href = '/premium';
+    return false;
+}
 function exportMemo() {
+    if (!gateOK()) return;
     var stageObj = stages.filter(function(s){ return s.id === state.stage; })[0];
     var L = [];
     L.push('ImpactMojo — RCT Readiness Memo');
@@ -984,6 +998,7 @@ updateProgress();
   <script src="/js/state-manager.js"></script>
   <script src="/js/config.js"></script>
   <script src="/js/auth.js"></script>
+  <script src="/js/premium.js"></script>
   <script src="/js/translate-sarvam.js" defer></script>
   <script src="/js/site-chrome.js" defer></script>
 </body>
