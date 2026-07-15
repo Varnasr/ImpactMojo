@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.124.0 — July 15, 2026 (RCT Readiness Diagnostic — should you even run a trial?)
+
+### For Learners
+
+- **RCT Readiness Diagnostic** (`/Labs/rct-readiness-lab.html`) — a new free lab that answers the question NGOs rarely get to ask out loud: *should we commit to an expensive randomised trial at all — and are we ready?* It walks through five honest checks — where your evidence really sits on the hierarchy (and why an RCT isn't the summit you must climb to), whether your intervention and theory of change are stress-tested, whether your rollout can support **ethical** randomisation, whether your **baseline even has room to detect the change** (the ceiling/floor trap that quietly sinks trials), and whether an RCT is the right tool at all. Includes a baseline detectability and power calculator, a go/no-go readiness verdict, an honest cost-and-ethics ledger, and a table of cheaper, faster alternatives (evaluability assessment, process tracing, contribution analysis, quasi-experimental designs) for when you're not ready. The gate that belongs *before* the Impact Evaluation Designer. No sign-in; saves to your browser; works offline. Brings the Labs collection to **33**.
+
 ## v10.123.0 — July 13, 2026 (LogFrame Builder — a new MEL lab)
 
 ### For Learners
