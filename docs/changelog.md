@@ -2,6 +2,14 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.132.0 — July 16, 2026 (All flagships standardized — mini-projects, coaching & capstones)
+
+### For Learners
+
+- **Every flagship module now ends with a "Try it in your work" mini-project** — 203 new hands-on tasks across all 17 remaining flagship courses (MEL, Gender, Public Policy, Development Economics, Gandhi, Law, Media, SEL, NVC & Restorative Justice, Livelihoods, Causal Inference, Data Visualization, Power BI, Public Choice, Interventions, Dev-AI and more), each a concrete step you apply to your own programme or context — matching the depth the disability flagship reached last release.
+- **More coaching, evenly spread** — 50 additional coaching prompts (Vandana and Varna) fill the modules that had none, so every flagship carries the same alternating 1:1 coaching cues throughout.
+- **Two new capstone projects** — the Development Economics AI (Dev-AI) and Livelihoods flagships now close with a full capstone that synthesizes the whole course into one deliverable, bringing every flagship to the same end-to-end standard.
+
 ## v10.131.0 — July 16, 2026 (Disability flagship depth + Dataverse polish)
 
 ### For Learners
