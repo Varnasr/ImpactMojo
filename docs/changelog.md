@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.130.0 — July 16, 2026 (Competency & Learning Rubrics in the Dataverse)
+
+### For Learners
+
+- **Competency & Learning Rubrics** (`/dataverse-rubrics.html`) — a new interactive Dataverse tool: 16 competencies that development work runs on (critical thinking, ethical reasoning, quantitative & information literacy, communication, teamwork, intercultural & global learning, and more), each with criteria scored across four performance levels. Explore any rubric, self-assess a person, proposal or programme, and export the assessment. Adapted for development practice from the AAC&U VALUE Rubrics.
+
 ## v10.129.0 — July 16, 2026 (Course notes for the disability flagship)
 
 ### For Learners
