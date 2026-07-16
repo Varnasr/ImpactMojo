@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.128.0 — July 15, 2026 (New flagship — Nothing About Us Without Us: Disability, Justice & Development)
+
+### For Learners
+
+- **Nothing About Us Without Us: Disability, Justice & Development** (`/courses/nothing-about-us/`) — ImpactMojo's **18th flagship course** and its first full course dedicated to disability. Nine modules, South-Asia-centred: models and history (medical → social → disability justice); the CRPD and disability law across the region (India's RPwD Act 2016, plus Bangladesh, Nepal, Pakistan and Sri Lanka); counting disability with the Washington Group questions and the politics of data; barriers and accessibility; disability and development across sectors; intersectionality (gender, caste, invisible disabilities); inclusive programming and MEL; the region's disability movements and culture; and ethics and allyship. It foregrounds South Asian scholars and activists (Anita Ghai, Renu Addlakha, Nandini Ghosh, Javed Abidi, Nidhi Goyal, Malini Chib and others) and draws on the global canon as complement. Module 1 is free; the rest are free with a sign-in. Pairs with the **Disability-Inclusive MEL Lab** and **Disability Inclusion 101**. Built with, not just about, disabled people.
+
 ## v10.127.0 — July 15, 2026 (Disability-Inclusive MEL Lab — disability, made countable)
 
 ### For Learners
@@ -275,7 +281,7 @@ The Interactive Labs library is now **30** and the handout library is **89**.
 ### Fixed
 
 - **The Handouts gallery now shows every handout.** It was truncating each track to the first 10 files, leaving ~30 handouts unreachable (rendered as a non-clickable "+N more"). Now every handout is a clickable link, and the gallery has a committed static index (`data/handouts-index.json`) it falls back to if GitHub's API is rate-limited — so [/handouts](https://www.impactmojo.in/handouts.html) never renders empty.
-- **Corrected stale/contradictory counts across the marketing surfaces.** A content-marketing graphic literally showed "9 Courses"; the press kit contradicted itself (62 vs 68 courses, 16 vs 17 flagship, 134 vs 135 games); the handouts page claimed "400+ resources." Standardised the public numbers to reality — **69 courses (17 flagship + 52 foundational), 135 games, 22 deep dives, 84 handouts, 12 AI study companions, 15 challenges** — across the homepage, press kit, content-marketing kit, handouts page, search index and the monthly-newsletter fallbacks. Also marked the site languages as "live" (they were still labelled "coming").
+- **Corrected stale/contradictory counts across the marketing surfaces.** A content-marketing graphic literally showed "9 Courses"; the press kit contradicted itself (62 vs 69 courses, 16 vs 18 flagship, 134 vs 135 games); the handouts page claimed "400+ resources." Standardised the public numbers to reality — **69 courses (18 flagship + 52 foundational), 135 games, 22 deep dives, 84 handouts, 12 AI study companions, 15 challenges** — across the homepage, press kit, content-marketing kit, handouts page, search index and the monthly-newsletter fallbacks. Also marked the site languages as "live" (they were still labelled "coming").
 
 ## v10.96.1 — July 11, 2026 (Field Radio — mobile polish + copy)
 
@@ -375,9 +381,9 @@ A page-by-page content audit (201 pages) surfaced a small set of real defects; t
 
 ### For Learners
 
-- **Every flagship module now opens a concept diagram** — a clean, theme-aware, hand-drawn-style figure that illuminates the module's core idea, across all 17 flagship courses and 224 modules.
+- **Every flagship module now opens a concept diagram** — a clean, theme-aware, hand-drawn-style figure that illuminates the module's core idea, across all 18 flagship courses and 224 modules.
 - **Every flagship module now carries an open-access key reading** — a real, verified passage from a public-domain classic, a World Development Report, Our World in Data, a free textbook, a UN/agency document or an Indian Act, with a note on why it matters, opened from a button in the module.
-- **Course Notes — printable PDF for every flagship (₹350).** Buy the complete notes for any of the 17 flagship courses as one print-ready PDF you own — every module's core ideas, diagrams, worked examples and key readings, laid out to annotate and work through offline. The courses themselves stay free to study online. Find them on the [Products page](https://www.impactmojo.in/products.html#course-notes) or from the "Course Notes" button on each course.
+- **Course Notes — printable PDF for every flagship (₹350).** Buy the complete notes for any of the 18 flagship courses as one print-ready PDF you own — every module's core ideas, diagrams, worked examples and key readings, laid out to annotate and work through offline. The courses themselves stay free to study online. Find them on the [Products page](https://www.impactmojo.in/products.html#course-notes) or from the "Course Notes" button on each course.
 - **AI for Impact** refreshed for 2026 — the NLP module now covers how large language models have reshaped qualitative coding and summarisation since 2023, alongside the classical methods, with the data-governance caveats spelled out.
 - **Four new 101 courses** — free, self-paced interactive slide decks: **GenAI for Practitioners** (using LLMs responsibly in development work), **Data Protection & the DPDP Act** (India's 2023 data-protection law for NGOs), **Safeguarding & PSEA** (protection from sexual exploitation, abuse and harassment), and **Disability Inclusion** (rights-based, twin-track inclusion). The foundational library grows from 47 to 51 courses.
 
@@ -388,8 +394,8 @@ A page-by-page content audit (201 pages) surfaced a small set of real defects; t
 
 ### Changed
 
-- Content-freshness pass across all 17 flagships: time-sensitive figures year-stamped for durability (OBC/EWS ceiling, education-spend target) where they were stated as bare "currently".
-- Architecture cleanup (anti-fork): all 17 flagship courses are now served exclusively from the database. Removed the last in-repo course content — `supabase/seed-content/` and the five stale seed migrations (causal, intervention, livelihoods, nvc-rj, powerBI) — so no flagship module content lives in the repository. Course shells and the `course_content` table schema are unchanged; content is edited directly in the DB.
+- Content-freshness pass across all 18 flagships: time-sensitive figures year-stamped for durability (OBC/EWS ceiling, education-spend target) where they were stated as bare "currently".
+- Architecture cleanup (anti-fork): all 18 flagship courses are now served exclusively from the database. Removed the last in-repo course content — `supabase/seed-content/` and the five stale seed migrations (causal, intervention, livelihoods, nvc-rj, powerBI) — so no flagship module content lives in the repository. Course shells and the `course_content` table schema are unchanged; content is edited directly in the DB.
 
 ## v10.86.0 — July 9, 2026 (Flagship parity — deeper NVC & Intervention modules)
 
