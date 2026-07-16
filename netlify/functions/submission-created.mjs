@@ -67,6 +67,7 @@ const FILES = {
   "Causal Inference for Development — Course Notes": "ImpactMojo-Notes-causal.pdf",
   "Designing What Works: Development Interventions from Model to Scale — Course Notes": "ImpactMojo-Notes-intervention.pdf",
   "Nonviolence in Practice: NVC, NVR & Restorative Justice — Course Notes": "ImpactMojo-Notes-nvc-rj.pdf",
+  "Nothing About Us Without Us: Disability, Justice & Development — Course Notes": "ImpactMojo-Notes-nothing-about-us.pdf",
   // Assessment Series — 500-MCQ question banks with answer keys (PDF)
   "MEL Assessment — 500-Question Bank": "assessments/mel-500-assessment.pdf",
   "Data & Technology Assessment — 500-Question Bank": "assessments/data-tech-500-assessment.pdf",
