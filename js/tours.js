@@ -124,43 +124,11 @@
       { element: '#nav-labs', intro: '<strong>Labs</strong><br>Hands-on interactive tools — build a Theory of Change, design MEL frameworks, and more.' },
       { element: '#nav-games', intro: '<strong>Games</strong><br>Learn behavioral economics, game theory, and policy concepts through play.' },
       { element: '#nav-specials', intro: '<strong>Explore</strong><br>The Game Library, reference tools (Dataverse, ImpactLex), Book Companions, Deep Dives, the Research to Action poster series, Dojos, and more.' },
-      { element: '#nav-dataverse', intro: '<strong>Dataverse</strong><br>320 curated data tools, APIs, and datasets for development research.' },
+      { element: '#nav-dataverse', intro: '<strong>Dataverse</strong><br>321 curated data tools, APIs, and datasets for development research.' },
       { element: '.theme-selector', intro: '<strong>Theme</strong><br>Switch between light, dark, and system themes.' },
       { element: '#pro-studio', intro: '<strong>Pro Studio</strong><br>Professional-grade tools like VaniScribe AI, Code Convert Pro, and Qual Insights Lab.' }
-    ],
-
-    catalog: [
-      { intro: '<strong>Course Catalog</strong><br>Browse all courses, labs, games, and premium tools in one place.' },
-      { element: '#searchInput', intro: '<strong>Search</strong><br>Find courses by name, topic, or keyword.' },
-      { element: '.filter-tabs', intro: '<strong>Filter by Type</strong><br>Narrow down to Flagship courses, Labs, Games, or Premium tools.' },
-      { element: '.track-filters', intro: '<strong>Filter by Track</strong><br>Focus on a specific topic like MEL, Economics, or Gender Studies.' },
-      { element: '#cardsGrid', intro: '<strong>Content Cards</strong><br>Click any card to open the course, lab, or game.' }
-    ],
-
-    dataverse: [
-      { intro: '<strong>ImpactMojo Dataverse</strong><br>A curated collection of 320 data tools, APIs, datasets, and MCP servers for development work.' },
-      { element: '#searchInput', intro: '<strong>Search</strong><br>Search across all resources by name, description, or tag.' },
-      { element: '#typeFilters', intro: '<strong>Filter by Type</strong><br>Show only APIs, datasets, tools, or MCP servers.' },
-      { element: '#categoryFilters', intro: '<strong>Browse Categories</strong><br>Explore resources by domain — government data, health, climate, legal, and more.' },
-      { element: '#cardGrid', intro: '<strong>Resource Cards</strong><br>Click any card for details, links, and tags.' },
-      { element: '#statTotal', intro: '<strong>Stats</strong><br>See how many resources are available and what percentage are free.' }
-    ],
-
-    premium: [
-      { intro: '<strong>Premium Membership</strong><br>Unlock advanced AI tools, exports and expert support &mdash; while the core platform stays free forever.' },
-      { element: '.tiers', intro: '<strong>Choose your tier</strong><br>Compare what each level includes. Explorer is free forever; the paid tiers add tool exports, AI tools and certificates.' },
-      { element: '.t-pr', intro: '<strong>Most popular</strong><br>Practitioner (&#8377;399/month) unlocks all 18 Practice Packs, tool exports, the Theory of Change Workbench Pro and shareable certificates.' },
-      { element: '.t-pro', intro: '<strong>Professional</strong><br>&#8377;999/month adds the AI toolkit &mdash; Advisory Board Pro, VaniScribe, DevData (840K+ rows), the Viz Cookbook and priority coaching.' },
-      { element: '.t-team', intro: '<strong>Team Plan</strong><br>Full Professional access for your whole team, plus a dashboard, branded certificates, invoice billing and an account manager.' }
-    ],
-
-    transparency: [
-      { intro: '<strong>Transparency Dashboard</strong><br>See exactly how ImpactMojo is used — all numbers, all public.' },
-      { element: '.tier-grid', intro: '<strong>Revenue Model</strong><br>Our free vs paid tier structure and pricing.' },
-      { element: '#kpiGrid', intro: '<strong>Platform Numbers</strong><br>Cumulative users, sessions, and engagement across the platform.' },
-      { element: '#courseChart', intro: '<strong>Course Engagement</strong><br>See how each course performs over time.' },
-      { element: '#platformTable', intro: '<strong>Content Library</strong><br>Full breakdown of everything on the platform.' }
     ]
+    // Tours run on the homepage only. Do not add per-page tours here.
   };
 
   // ── Detect current page and auto-start tour ───────────────────────
