@@ -218,7 +218,7 @@
     if (!document.body || document.getElementById('im-wa-fab')) return;
     var a = document.createElement('a');
     a.id = 'im-wa-fab';
-    a.href = 'https://wa.me/?text=%F0%9F%8E%93%20I%27ve%20been%20learning%20with%20ImpactMojo%20-%20a%20fantastic%20FREE%20platform%20for%20development%20professionals!%0A%0A%E2%9C%85%2050%2B%20courses%2C%20labs%20%26%20tools%20for%20development%20professionals%0A%E2%9C%85%20Interactive%20labs%20and%20economics%20games%0A%E2%9C%85%20Perfect%20for%20NGO%20teams%2C%20students%20%26%20researchers%0A%0AIf%20you%20work%20in%20the%20development%20sector%2C%20check%20it%20out%3A%20https%3A%2F%2Fwww.impactmojo.in';
+    a.href = 'https://wa.me/?text=%F0%9F%8E%93%20I%27ve%20been%20learning%20with%20ImpactMojo%20%E2%80%94%20a%20free%2C%20open-source%20learning%20platform%20for%20the%20development%20sector%2C%20made%20in%20South%20Asia.%0A%0A%F0%9F%93%9A%2069%20free%20courses%20%E2%80%94%20economics%2C%20gender%2C%20policy%2C%20MEL%20%26%20more%0A%F0%9F%A7%AA%2035%20hands-on%20labs%20%2B%20playable%20economics%20games%0A%F0%9F%93%8A%20A%20321-tool%20data%20library%2C%20book%20companions%20%26%20lexicons%0A%F0%9F%94%93%20No%20paywalls%2C%20no%20sign-up%20walls%20%E2%80%94%20genuinely%20free%2C%20forever%0A%0AIf%20you%20work%20in%20development%20%28or%20want%20to%29%2C%20take%20a%20look%20%F0%9F%91%87%0Ahttps%3A%2F%2Fwww.impactmojo.in';
     a.target = '_blank'; a.rel = 'noopener noreferrer';
     a.setAttribute('aria-label', 'Share ImpactMojo on WhatsApp');
     a.title = 'Share ImpactMojo on WhatsApp';
