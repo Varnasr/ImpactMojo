@@ -52,7 +52,7 @@ These were previously listed as in progress and have now shipped:
 ## Recently Completed
 
 ### v10.82.2 — July 2026
-- **Interactive assessments on every flagship** — all 17 flagship courses now end with a six-question auto-graded "Assess Yourself" self-check (90 questions in total), each grounded in the course's own material, with instant feedback and explanations.
+- **Interactive assessments on every flagship** — all 18 flagship courses now end with a six-question auto-graded "Assess Yourself" self-check (90 questions in total), each grounded in the course's own material, with instant feedback and explanations.
 - **Build Circles & the AI for M&E Certificate Track** — a four-week AI build-cohort programme and a self-paced, assessed certificate track, plus the free **AI Agents for Evaluators** module.
 
 ### v10.80.0 — July 2026
@@ -82,7 +82,7 @@ These were previously listed as in progress and have now shipped:
 - **Full accessibility audit** — axe-core + pa11y-ci CI pipeline, UserWay widget integration
 
 ### v10.15.0 — April 2026
-- **Content count corrections** sitewide — all files now show canonical 68 courses / 15 labs / 134 games
+- **Content count corrections** sitewide — all files now show canonical 69 courses / 15 labs / 134 games
 
 ### v10.14.0 — April 2026
 - **Device-mode default theme** on 70 pages — OS dark/light preference on first paint

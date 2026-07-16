@@ -1,7 +1,9 @@
 # Nothing About Us Without Us: Disability, Justice & Development
 ## Flagship curriculum — DRAFT for review
 
-**Status:** draft for review before the module bodies are written into Supabase (`course_content`, `course_id = nothing-about-us`, modules 1–9). Built from standard public frameworks (social model, CRPD, RPwD Act 2016, Washington Group, disability justice) — **not** from any third party's proprietary workshop material.
+**Status:** reviewed and published. The module bodies now live in Supabase (`course_content`, `course_id = nothing-about-us`, modules 1–9). Built from standard public frameworks (social model, CRPD, RPwD Act 2016, Washington Group, disability justice) — **not** from any third party's proprietary workshop material.
+
+**Post-review revision (South Asia centring):** following review, the published modules were revised to **centre South Asian scholarship, activists, movements, laws and examples** — Anita Ghai, Renu Addlakha, Nandini Ghosh, Nidhi Goyal, Malini Chib, Javed Abidi and others, plus disability law across Bangladesh, Nepal, Pakistan and Sri Lanka — with the Western canon retained as *complement*, not primary authority. The outline below is the pre-revision draft; the live modules lead with South Asia throughout.
 
 **Please review for:** accuracy, tone/voice, language choices (identity-first vs person-first), South Asia grounding, and anything that a reviewer with lived experience of disability would flag. This is deliberately reviewable *before* publication, in keeping with the course's own principle — nothing about us without us.
 

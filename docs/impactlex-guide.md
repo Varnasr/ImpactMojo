@@ -4,7 +4,7 @@
 
 ImpactLex is ImpactMojo's **searchable glossary of development terms** — acronyms, concepts, formulas, frameworks, case studies, and institutions that development professionals encounter daily.
 
-It lives at [impactmojo.in/impactlex](https://www.impactmojo.in/impactlex/), installs as a Progressive Web App (PWA) for offline use, and draws on the same term pool as the 17 flagship ImpactMojo course lexicons — so what you learn in the MEL course shows up consistently wherever that term appears.
+It lives at [impactmojo.in/impactlex](https://www.impactmojo.in/impactlex/), installs as a Progressive Web App (PWA) for offline use, and draws on the same term pool as the 18 flagship ImpactMojo course lexicons — so what you learn in the MEL course shows up consistently wherever that term appears.
 
 **Access:** Free — [Open ImpactLex](https://www.impactmojo.in/impactlex/)
 

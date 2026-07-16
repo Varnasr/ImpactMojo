@@ -13,7 +13,7 @@ If you work at an NGO, a think tank, or a university department focused on devel
 ImpactMojo was built to close that gap. Everything here is:
 
 - **Rooted in South Asian realities** — examples from India, Bangladesh, Nepal, and Sri Lanka, not textbook cases from other contexts
-- **Free at the core** — all 68 courses, 135 simulation games, 31 interactive labs, and hundreds of handouts are available without paying a rupee
+- **Free at the core** — all 69 courses, 135 simulation games, 31 interactive labs, and hundreds of handouts are available without paying a rupee
 - **Designed for practitioners** — not abstract theory, but content you can use in your next workshop, field visit, or strategy meeting
 - **Available offline** — because we know internet connections in the field aren't always reliable
 - **Multilingual** — available in English, Hindi, Tamil, Bengali, Telugu, and Marathi
@@ -38,7 +38,7 @@ No login is required to start learning. Just open the website and begin.
 ImpactMojo is much more than a course library. Here's what's available:
 
 ### Courses
-**17 flagship courses** (each with ~13 in-depth modules) covering topics like MEL for Development, Theory of Change, and Development Economics. Plus **51 foundational courses** — shorter, focused lessons on specific skills and concepts. All organized across 6 learning tracks.
+**18 flagship courses** (each with ~13 in-depth modules) covering topics like MEL for Development, Theory of Change, and Development Economics. Plus **51 foundational courses** — shorter, focused lessons on specific skills and concepts. All organized across 6 learning tracks.
 
 ### Economics Simulation Games
 **135 interactive games** that let you experience economic and development concepts by making decisions — budget allocations, market dynamics, policy trade-offs, and more. Ideal for workshops and classrooms.
