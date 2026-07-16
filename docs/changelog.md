@@ -2,6 +2,18 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.131.0 — July 16, 2026 (Disability flagship depth + Dataverse polish)
+
+### For Learners
+
+- **Nothing About Us Without Us — richer modules** — every module of the disability flagship now carries a "Try it in your work" mini-project (a concrete, apply-it-to-your-programme task) and two coaching prompts (both Vandana and Varna), bringing it to the same depth as the other flagship courses.
+
+### Changed
+
+- **Dataverse** — centered the hero, featured the new Competency & Learning Rubrics tool, and updated the resource count (320 → 321).
+- **Tours** now run on the homepage only (removed from the Dataverse, Premium, and Transparency pages).
+- **Libraries landing** — removed items that already have a Showcase-menu home (Deep Dives, Timelines, Marginalia, Research to Action); gave the Data Dives and Live Projects nav items distinct icons.
+
 ## v10.130.0 — July 16, 2026 (Competency & Learning Rubrics in the Dataverse)
 
 ### For Learners
