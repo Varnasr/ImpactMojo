@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.129.0 — July 16, 2026 (Course notes for the disability flagship)
+
+### For Learners
+
+- **Nothing About Us Without Us — Course Notes (PDF)** (`/products/notes-nothing-about-us/`) — the complete 9-module disability flagship as one printable PDF you can keep, print and annotate. The course itself stays free to study online; the notes are the optional keep-and-print version, ₹350. This completes course notes for all 18 flagships.
+
 ## v10.128.0 — July 15, 2026 (New flagship — Nothing About Us Without Us: Disability, Justice & Development)
 
 ### For Learners
