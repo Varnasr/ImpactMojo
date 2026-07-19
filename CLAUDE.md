@@ -24,7 +24,7 @@ Free development education platform for South Asia. Static HTML/CSS/JS, Supabase
 
 - Games: single self-contained HTML (inline CSS + JS, Indian folk art illustrations)
 - Forms use Netlify Forms (`data-netlify="true"` with `netlify-honeypot="bot-field"`)
-- Content counts hardcoded in multiple places — grep before updating
+- Content counts: canonical values in `data/counts.json` — update there first, then `python3 scripts/check-counts.py` lists every stale occurrence (CI-enforced)
 
 ## Watch out for
 
