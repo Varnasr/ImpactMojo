@@ -1,0 +1,792 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Encyclopedia of Tourism — ImpactMojo Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+/* === ImpactMojo Design System === */
+:root {
+    --im-gradient: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+    --im-accent: #0EA5E9;
+    --im-nav-bg: rgba(15, 23, 42, 0.95);
+    --im-border: #334155;
+    --im-text-primary: #F1F5F9;
+    --im-text-secondary: #94A3B8;
+    --im-text-muted: #64748B;
+    --im-card-bg: #1E293B;
+    --im-hover-bg: #334155;
+    --im-secondary-bg: #1E293B;
+}
+body { padding-top: 56px !important; }
+.im-topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    background: var(--im-nav-bg);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--im-border);
+    padding: 0.5rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.75rem; flex-wrap: wrap;
+    font-family: 'Inter', 'Amaranth', sans-serif;
+}
+.im-topbar a { text-decoration: none; }
+.im-topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+.im-topbar-home {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-weight: 700; font-size: 1rem;
+    background: var(--im-gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.im-topbar-home svg { width: 24px; height: 24px; flex-shrink: 0; stroke: #0EA5E9; }
+.im-topbar-right { display: flex; align-items: center; gap: 0.5rem; }
+.im-premium-btn {
+    background: var(--im-gradient);
+    color: #fff !important; -webkit-text-fill-color: #fff;
+    padding: 0.35rem 0.85rem; border-radius: 6px;
+    font-size: 0.8rem; font-weight: 600;
+    display: flex; align-items: center; gap: 0.35rem;
+    transition: opacity 0.2s; border: none; cursor: pointer;
+}
+.im-browse-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--im-text, #1C1917); background: var(--im-surface, #FFFFFF); border: 1.5px solid var(--im-border, #E2E8F0); padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; transition: background 0.18s ease, border-color 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease; }
+.im-browse-btn:hover { background: var(--im-accent, #0EA5E9); color: #FFFFFF; border-color: var(--im-accent, #0EA5E9); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25); }
+.im-browse-btn svg { width: 14px; height: 14px; }
+@media (prefers-color-scheme: dark) { .im-browse-btn { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.18); } .im-browse-btn:hover { background: var(--im-accent, #0EA5E9); border-color: var(--im-accent, #0EA5E9); color: #FFFFFF; } }
+.im-premium-btn:hover { opacity: 0.9; }
+.im-premium-btn svg { width: 14px; height: 14px; }
+.im-theme-selector {
+    display: flex; gap: 2px;
+    background: var(--im-card-bg);
+    border: 1px solid var(--im-border);
+    border-radius: 8px; padding: 2px;
+}
+.im-theme-btn {
+    background: transparent; border: none;
+    color: var(--im-text-secondary);
+    padding: 6px; border-radius: 5px; cursor: pointer;
+    transition: all 0.2s; display: flex; align-items: center;
+    justify-content: center; width: 30px; height: 30px;
+}
+.im-theme-btn:hover { background: var(--im-hover-bg); color: var(--im-text-primary); }
+.im-theme-btn.active { background: var(--im-accent); color: #fff; }
+.im-theme-btn svg { width: 16px; height: 16px; }
+.im-footer {
+    background: var(--im-secondary-bg);
+    border-top: 1px solid var(--im-border);
+    padding: 2rem 1rem; margin-top: auto;
+    font-family: 'Inter', 'Amaranth', sans-serif;
+    color: var(--im-text-secondary);
+}
+.im-footer-content { max-width: 1100px; margin: 0 auto; }
+.im-footer-made {
+    text-align: center; margin-bottom: 1.5rem;
+    font-size: 0.9rem; color: var(--im-text-muted);
+}
+.im-footer-made a { color: var(--im-accent); text-decoration: none; }
+.im-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem; margin-bottom: 1.5rem;
+}
+.im-footer-section h4 {
+    font-family: 'Inter', 'Amaranth', sans-serif;
+    color: var(--im-text-primary);
+    font-size: 0.9rem; margin-bottom: 0.75rem; font-weight: 600;
+}
+.im-footer-section ul { list-style: none; padding: 0; margin: 0; }
+.im-footer-section li { margin-bottom: 0.4rem; }
+.im-footer-section a {
+    color: var(--im-text-secondary);
+    text-decoration: none; font-size: 0.85rem; transition: color 0.2s;
+}
+.im-footer-section a:hover { color: var(--im-accent); }
+.im-footer-bottom {
+    text-align: center; padding-top: 1rem;
+    border-top: 1px solid var(--im-border);
+    font-size: 0.8rem; color: var(--im-text-muted);
+}
+.im-footer-bottom p { margin: 0.25rem 0; }
+.im-footer-bottom a { color: var(--im-accent); text-decoration: none; }
+@media (max-width: 640px) {
+    .im-topbar { padding: 0.4rem 0.75rem; gap: 0.5rem; }
+    .im-topbar-home { font-size: 0.85rem; }
+    .im-topbar-home svg { width: 20px; height: 20px; }
+    .im-topbar-home span { display: none; }
+    .im-premium-btn { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
+    .im-theme-btn { width: 26px; height: 26px; padding: 4px; }
+    .im-theme-btn svg { width: 14px; height: 14px; }
+    .im-footer-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+}
+@media (max-width: 400px) {
+    .im-footer-grid { grid-template-columns: 1fr; }
+}
+/* === End ImpactMojo Design System === */
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F8F5F0;--card:#fff;--border:#E8E0D5;--text:#1C1C1C;--muted:#6B6560;
+  --accent:#1A3C34;--accent-light:#EBF5F2;--teal:#1A6B5A;--teal-light:#EBF5F2;
+  --radius:8px;
+}
+body{background:var(--bg);font-family:'Amaranth','Inter',system-ui,sans-serif;color:var(--text);padding-top:52px}
+.app{min-height:100vh;display:flex;flex-direction:column}
+nav{background:#1C1C1C;display:flex;align-items:center;gap:20px;padding:0 20px;min-height:52px;flex-wrap:wrap;position:sticky;top:52px;z-index:99}
+.brand{display:flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.brand-name{font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:#fff;letter-spacing:.05em;text-transform:uppercase}
+.tabs{display:flex;gap:2px;flex-wrap:wrap}
+.tab-btn{background:none;border:none;padding:6px 13px;font-family:Inter,sans-serif;font-size:11px;font-weight:600;color:rgba(255,255,255,.5);cursor:pointer;border-radius:4px;text-transform:uppercase;letter-spacing:.04em;transition:all .15s}
+.tab-btn:hover{color:rgba(255,255,255,.85)}
+.tab-btn.active{color:#fff;background:var(--accent)}
+main{flex:1;padding:32px 20px;max-width:860px;margin:44px auto 0;width:100%}
+.h1{font-family:Inter,sans-serif;font-size:22px;font-weight:700;margin-bottom:8px}
+.sub{color:var(--muted);font-size:15px;margin-bottom:24px;font-family:Inter,sans-serif;line-height:1.5}
+.panel{display:none}.panel.active{display:block}
+
+/* HERO */
+.hero{background:#1C1C1C;color:#fff;border-radius:12px;padding:32px;margin-bottom:20px}
+.day-badge{display:inline-block;background:var(--accent);font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 10px;border-radius:4px;margin-bottom:14px}
+.hero h1{font-size:34px;font-weight:700;margin-bottom:4px}
+.hero .auth{font-family:Inter,sans-serif;font-size:13px;color:rgba(255,255,255,.5);margin-bottom:14px}
+.hero .tagline{font-size:15px;color:rgba(255,255,255,.8);line-height:1.6;max-width:620px;margin-bottom:18px}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-family:Inter,sans-serif;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.8)}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:18px 14px;text-align:center}
+.stat-n{font-size:30px;font-weight:700;color:var(--accent);font-family:Inter,sans-serif}
+.stat-l{font-family:Inter,sans-serif;font-size:12px;color:var(--muted);margin-top:4px}
+.arg{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:22px;margin-bottom:24px}
+.arg p{font-size:15px;line-height:1.75}
+.arg p+p{margin-top:1rem}
+.nav-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.nav-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:left;cursor:pointer;transition:all .15s}
+.nav-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.nav-card-label{font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
+.nav-card-desc{font-family:Inter,sans-serif;font-size:12px;color:var(--muted)}
+
+/* PATHWAYS */
+.pw-tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.pw-btn{font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:6px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s}
+.pw-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.pw-desc{font-family:Inter,sans-serif;font-size:14px;color:var(--muted);padding:12px 14px;background:var(--accent-light);border-radius:6px;margin-bottom:20px;line-height:1.5}
+.pw-steps{display:flex;flex-direction:column;gap:10px}
+.pw-step{display:flex;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px}
+.step-n{width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-family:Inter,sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-title{font-family:Inter,sans-serif;font-size:14px;font-weight:700;margin-bottom:3px}
+.step-focus{font-family:Inter,sans-serif;font-size:13px;color:var(--muted);line-height:1.5}
+
+/* SECTIONS */
+.sec-card{background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.sec-header{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;cursor:pointer;background:none;border:none;text-align:left;width:100%}
+.sec-num{font-family:Inter,sans-serif;font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;min-width:24px;padding-top:2px}
+.sec-title{font-family:Inter,sans-serif;font-size:15px;font-weight:700;margin-bottom:2px}
+.sec-sub{font-family:Inter,sans-serif;font-size:12px;color:var(--muted)}
+.sec-chev{font-size:16px;color:var(--muted);padding-top:2px;margin-left:auto}
+.sec-body{padding:0 18px 18px 56px;border-top:1px solid var(--border)}
+.sec-summary{font-size:15px;line-height:1.75;padding-top:14px;margin-bottom:18px}
+.ideas-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
+.idea-item{display:flex;gap:8px;margin-bottom:7px;font-family:Inter,sans-serif;font-size:13px;line-height:1.55}
+.idea-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:6px}
+blockquote{font-style:italic;font-size:14px;color:var(--muted);border-left:3px solid var(--accent);padding-left:12px;margin-bottom:8px;line-height:1.6}
+.dev-toggle{font-family:Inter,sans-serif;font-size:12px;font-weight:600;color:var(--teal);background:var(--teal-light);border:none;padding:7px 12px;border-radius:4px;cursor:pointer;margin-top:10px}
+.dev-text{margin-top:10px;font-family:Inter,sans-serif;font-size:13px;line-height:1.65;background:var(--teal-light);padding:12px;border-radius:6px}
+
+/* CONCEPTS */
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+.concept-card:hover,.concept-card.open{border-color:var(--accent)}
+.concept-term{font-family:Inter,sans-serif;font-size:15px;font-weight:700}
+.concept-def{font-family:Inter,sans-serif;font-size:14px;line-height:1.7;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.prac-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-top:10px;margin-bottom:4px}
+.prac-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65;color:var(--muted)}
+
+/* TOOLKIT */
+.tool-tabs{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+.tool-btn{font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:6px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s}
+.tool-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tool-panel{display:none;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:22px}
+.tool-panel.active{display:block}
+.tool-intro{font-family:Inter,sans-serif;font-size:14px;color:var(--muted);margin-bottom:20px;line-height:1.5}
+.fld-label{font-family:Inter,sans-serif;font-size:13px;font-weight:600;margin-bottom:5px;display:block}
+.fld{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;outline:none;background:var(--bg);margin-bottom:12px}
+.fld:focus{border-color:var(--accent)}
+.output-box{background:var(--accent-light);padding:14px;border-radius:6px;margin-top:16px;font-family:Inter,sans-serif;font-size:14px;line-height:1.65}
+.output-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:8px}
+
+/* CONTEXT */
+.conn-card{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:16px 18px;margin-bottom:10px}
+.conn-book{font-family:Inter,sans-serif;font-size:14px;font-weight:700;margin-bottom:5px}
+.conn-text{font-family:Inter,sans-serif;font-size:13px;color:var(--muted);line-height:1.65}
+.crit-item{display:flex;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:8px}
+.crit-n{width:24px;height:24px;border-radius:50%;background:#FFF8E6;color:#C8910A;font-family:Inter,sans-serif;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.crit-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65}
+.context-h{font-family:Inter,sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;margin-top:6px}
+
+/* ASK */
+.ask-setup{}
+.setup-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+.setup-step{display:flex;gap:12px;font-family:Inter,sans-serif;font-size:14px;line-height:1.5}
+.setup-num{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.setup-step a{color:var(--accent)}
+.key-row{display:flex;gap:10px}
+.key-input{flex:1;max-width:400px;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;outline:none}
+.key-btn{padding:9px 22px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:Inter,sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.key-btn:disabled{opacity:.4;cursor:not-allowed}
+.ask-ui{display:flex;flex-direction:column;height:calc(100vh - 180px)}
+.ask-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.ask-hdr-title{font-family:Inter,sans-serif;font-size:18px;font-weight:700}
+.ask-reset{background:none;border:1px solid var(--border);border-radius:4px;padding:4px 10px;font-family:Inter,sans-serif;font-size:12px;color:var(--muted);cursor:pointer}
+.msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px;margin-bottom:10px}
+.suggested-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px}
+.sug-btn{display:block;width:100%;text-align:left;padding:9px 12px;background:var(--card);border:1px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;cursor:pointer;margin-bottom:6px;transition:all .15s}
+.sug-btn:hover{border-color:var(--accent);background:var(--accent-light)}
+.msg{max-width:85%}
+.msg.user{align-self:flex-end}
+.msg.assistant{align-self:flex-start}
+.msg-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65;padding:10px 14px;border-radius:8px;white-space:pre-wrap}
+.msg.user .msg-text{background:var(--accent);color:#fff}
+.msg.assistant .msg-text{background:var(--card);border:1px solid var(--border)}
+.typing{display:flex;gap:4px;padding:12px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px}
+.typing span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:bounce 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.ask-input-row{display:flex;gap:8px;border-top:1px solid var(--border);padding-top:10px}
+.ask-input{flex:1;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;resize:none;outline:none;background:var(--bg)}
+.ask-input:focus{border-color:var(--accent)}
+.ask-send{padding:9px 18px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:Inter,sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.ask-send:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:640px){.stat-grid{grid-template-columns:repeat(2,1fr)}.nav-grid{grid-template-columns:1fr 1fr}.sec-body{padding-left:18px}}
+
+/* WCAG 2.1 AA (1.4.1 Use of Color): inline anchors in content paragraphs must be distinguishable without relying on color alone. Scoped to <main> so nav/footer button-links are unaffected. */
+main p a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]),
+main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
+/* === Dark Mode === */
+html.dark body { background: #0f172a; color: #e2e8f0; }
+html.dark #root,
+html.dark main,
+html.dark .app,
+html.dark [id^="p-"],
+html.dark .panel { filter: invert(0.88) hue-rotate(180deg); }
+html.dark #root img,
+html.dark #root svg:not([class*="im-"]),
+html.dark main img,
+html.dark main svg:not([class*="im-"]) { filter: invert(1) hue-rotate(180deg); }
+html.dark .im-topbar, html.dark .im-footer { filter: none; }
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+<!-- SEO meta (autogenerated) -->
+<meta name="description" content="Jafar Jafari & Honggen Xiao (Editors) · Springer Nature, 2024 (2nd ed.) — ImpactMojo Companion. A navigational companion to the field-defining reference work — 771 entries by 874 authors — that maps tourism as both a multidisciplinary field of study and a multi-sector industry, and hands practitione">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.impactmojo.in/BookSummaries/encyclopedia-of-tourism-companion.html">
+<meta property="og:title" content="Encyclopedia of Tourism — ImpactMojo Companion">
+<meta property="og:description" content="Jafar Jafari & Honggen Xiao (Editors) · Springer Nature, 2024 (2nd ed.) — ImpactMojo Companion. A navigational companion to the field-defining reference work — 771 entries by 874 authors — that maps tourism as both a multidisciplinary field of study and a multi-sector industry, and hands practitione">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:url" content="https://www.impactmojo.in/BookSummaries/encyclopedia-of-tourism-companion.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ImpactMojo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Encyclopedia of Tourism — ImpactMojo Companion">
+<meta name="twitter:description" content="Hayre, Canning, Pearce, Khera & Ford (BMC Public Health, 2026) — ImpactMojo Companion. An umbrella review of 35 systematic reviews ranking which macro-level policies most reduce health inequity, organised by 'agentic demand'.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<!-- Favicons -->
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<!-- Translate -->
+<style>
+/* Skip link (WCAG 2.4.1) */
+.im-skip-link { position:absolute; top:-40px; left:0; background:#0EA5E9; color:#fff; padding:8px 16px; z-index:10000; text-decoration:none; font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600; }
+.im-skip-link:focus { top:0; }
+/* Floating paper plane */
+.im-paper-plane { position:fixed; bottom:2rem; right:2rem; width:60px; height:60px; opacity:0.14; pointer-events:none; z-index:0; animation: imFloat 6s ease-in-out infinite; }
+@keyframes imFloat { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-15px) rotate(3deg);} }
+html.dark .im-paper-plane { opacity:0.22; }
+/* Interactive companion CTA */
+.im-interactive-cta { display:inline-flex; align-items:center; gap:0.5rem; background:var(--im-gradient); color:#fff !important; -webkit-text-fill-color:#fff; padding:0.5rem 1rem; border-radius:6px; font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600; text-decoration:none; margin-top:14px; transition:opacity 0.2s; }
+.im-interactive-cta:hover { opacity:0.9; }
+
+/* === ImpactMojo Brand Override (fonts + dark mode) — v10.21 === */
+html body, html body .app, html body main, html body .panel,
+html body p, html body li, html body blockquote, html body .sec-summary, html body .arg p,
+html body .sub, html body .tagline, html body .hero, html body .hero h1 {
+  font-family: 'Amaranth', Arial, sans-serif !important;
+}
+html body h1, html body h2, html body h3, html body h4, html body h5, html body h6,
+html body .h1, html body .brand-name, html body .day-badge, html body .pill,
+html body .stat-n, html body .stat-l, html body .sec-title, html body .sec-sub, html body .sec-num,
+html body .concept-term, html body .step-title, html body .step-focus, html body .conn-book,
+html body .book-title, html body .tab-btn, html body .pw-btn, html body .tool-btn,
+html body .im-topbar, html body .im-topbar *, html body .im-footer, html body .im-footer * {
+  font-family: 'Inter', 'Amaranth', Helvetica, sans-serif !important;
+}
+html body code, html body pre, html body .mono, html body kbd, html body samp {
+  font-family: 'JetBrains Mono', ui-monospace, monospace !important;
+}
+
+/* Replace filter-invert dark mode with proper token-based dark mode */
+html.dark body { background: #0F172A !important; color: #E2E8F0 !important; }
+html.dark #root, html.dark main, html.dark .app, html.dark [id^="p-"], html.dark .panel,
+html.dark .arg, html.dark .hero, html.dark .stat, html.dark .nav-card, html.dark .pw-step,
+html.dark .sec-card, html.dark .sec-body, html.dark .concept-card, html.dark .tool-panel,
+html.dark .conn-card, html.dark .crit-item, html.dark .msg.assistant .msg-text,
+html.dark .output-box, html.dark .typing, html.dark .ask-input, html.dark .key-input,
+html.dark .fld, html.dark .tool-btn, html.dark .pw-btn, html.dark .sug-btn, html.dark .pw-desc {
+  filter: none !important;
+}
+html.dark { color-scheme: dark; }
+html.dark body,
+html.dark body .app,
+html.dark body main { background: #0F172A !important; color: #E2E8F0 !important; }
+html.dark .hero { background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%) !important; color: #F1F5F9 !important; border: 1px solid #334155; }
+html.dark .hero .auth, html.dark .hero .tagline { color: #CBD5E1 !important; }
+html.dark .stat, html.dark .arg, html.dark .nav-card, html.dark .sec-card, html.dark .pw-step,
+html.dark .concept-card, html.dark .tool-panel, html.dark .conn-card, html.dark .crit-item,
+html.dark .msg.assistant .msg-text { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .sec-header, html.dark .sec-body { background: transparent !important; color: #E2E8F0 !important; }
+html.dark .sec-body { border-top-color: #334155 !important; }
+html.dark .stat-n { color: #38BDF8 !important; }
+html.dark .stat-l, html.dark .sec-sub, html.dark .sub, html.dark .nav-card-desc,
+html.dark .step-focus, html.dark .pw-desc, html.dark .prac-text, html.dark .conn-text,
+html.dark .ideas-label, html.dark .prac-label, html.dark .output-label, html.dark .suggested-label,
+html.dark .dev-text, html.dark .fld-label { color: #94A3B8 !important; }
+html.dark .h1, html.dark .sec-title, html.dark .concept-term, html.dark .step-title,
+html.dark .nav-card-label, html.dark .conn-book, html.dark .context-h, html.dark .ask-hdr-title { color: #F1F5F9 !important; }
+html.dark blockquote { color: #CBD5E1 !important; border-left-color: #38BDF8 !important; }
+html.dark .pill { background: rgba(56, 189, 248, 0.15) !important; color: #7DD3FC !important; }
+html.dark .day-badge { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .tab-btn { color: rgba(226, 232, 240, 0.6) !important; }
+html.dark .tab-btn.active { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .tab-btn:hover { color: #F1F5F9 !important; }
+html.dark nav { background: #0F172A !important; border-bottom: 1px solid #334155; }
+html.dark .pw-btn, html.dark .tool-btn { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .pw-btn.active, html.dark .tool-btn.active { background: #0EA5E9 !important; border-color: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .pw-desc { background: rgba(14, 165, 233, 0.1) !important; color: #CBD5E1 !important; }
+html.dark .output-box { background: rgba(14, 165, 233, 0.1) !important; color: #E2E8F0 !important; }
+html.dark .step-n, html.dark .setup-num { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .sec-num { color: #38BDF8 !important; }
+html.dark .ideas-label, html.dark .prac-label, html.dark .output-label { color: #38BDF8 !important; }
+html.dark .dev-toggle { background: rgba(56, 189, 248, 0.1) !important; color: #7DD3FC !important; }
+html.dark .dev-text { background: rgba(56, 189, 248, 0.08) !important; color: #CBD5E1 !important; }
+html.dark .fld, html.dark .key-input, html.dark .ask-input { background: #0F172A !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .msg.user .msg-text { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .sug-btn { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .sug-btn:hover { background: rgba(14, 165, 233, 0.15) !important; border-color: #0EA5E9 !important; }
+html.dark .crit-n { background: rgba(251, 191, 36, 0.15) !important; color: #FCD34D !important; }
+html.dark #root img, html.dark #root svg:not([class*="im-"]),
+html.dark main img, html.dark main svg:not([class*="im-"]) { filter: none !important; }
+html.dark .im-topbar, html.dark .im-footer { filter: none !important; }
+/* === End ImpactMojo Brand Override === */
+
+/* Ethics disclaimer heading — readable in both modes */
+.im-ethics-disclaimer .im-ethics-heading { color: #0F172A !important; }
+html.dark .im-ethics-disclaimer .im-ethics-heading, body.dark-mode .im-ethics-disclaimer .im-ethics-heading { color: #F1F5F9 !important; }
+html.dark .im-ethics-disclaimer, body.dark-mode .im-ethics-disclaimer { background: rgba(56,189,248,0.08) !important; border-left-color: #38BDF8 !important; color: #CBD5E1 !important; }
+</style>
+<link rel="stylesheet" href="/assets/css/booksummary-dark.css">
+</head>
+<body>
+<a href="#main-content" class="im-skip-link">Skip to content</a>
+<header class="im-topbar" role="banner">
+  <div class="im-topbar-left">
+    <a class="im-topbar-home" href="/" aria-label="ImpactMojo home">
+      <img src="/assets/images/ImpactMojo%20Logo.png" alt="ImpactMojo" width="24" height="24" style="border-radius:4px;">
+      <span>ImpactMojo</span>
+    </a>  </div>
+  <div class="im-topbar-right">
+    <a href="/catalog.html" class="im-browse-btn" title="Browse all content"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Browse</a>
+    
+    <a class="im-premium-btn" href="/premium.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Premium
+    </a>
+    <div class="im-theme-selector" role="group" aria-label="Theme">
+      <button class="im-theme-btn" data-imtheme="system" title="System theme" aria-label="System theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </button>
+      <button class="im-theme-btn" data-imtheme="light" title="Light theme" aria-label="Light theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <button class="im-theme-btn" data-imtheme="dark" title="Dark theme" aria-label="Dark theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="app">
+<nav>
+  <div class="brand"><div class="dot"></div><span class="brand-name">ImpactMojo</span></div>
+  <div class="tabs" id="tabbar"></div>
+</nav>
+<main id="main-content">
+  <div class="panel active" id="p-overview"></div>
+  <div class="panel" id="p-pathways"></div>
+  <div class="panel" id="p-sections"></div>
+  <div class="panel" id="p-concepts"></div>
+  <div class="panel" id="p-toolkit"></div>
+  <div class="panel" id="p-context"></div>
+  <div class="panel" id="p-ask"></div>
+</main>
+</div>
+
+<!-- Sargam Icon Sprites -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+<symbol id="si_Direction_alt" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m3 3 18 7.92-7.987 2.093L10.92 21z"/></symbol>
+<symbol id="si_Flare" viewBox="0 0 24 24" fill="none"><g clip-path="url(#clip_si_Flare)"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M7 12H1m22 0h-6m-5 5v6m3.536-7.464 1.414 1.414m-9.9-9.9 1.414 1.414m7.072 0L16.95 7.05m-9.9 9.9 1.414-1.414M12 1v6m2 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0"/></g><defs><clipPath id="clip_si_Flare"><path fill="#fff" d="M0 0h24v24H0z"/></clipPath></defs></symbol>
+<symbol id="si_Info" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 8h.008M12 16v-5m10 1c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10"/></symbol>
+<symbol id="si_Lock" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M8 10V7c0-2.21 1.79-4 4-4s4 1.79 4 4v3m-4 5a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 0v3m-5.4-8h10.8c.88 0 1.6.72 1.6 1.6v7c0 1.32-1.08 2.4-2.4 2.4H7.4C6.08 21 5 19.92 5 18.6v-7c0-.88.72-1.6 1.6-1.6"/></symbol>
+<symbol id="si_Lightning" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m12.667 10.5 1.25-7.5L6 13h5l-1.25 7.5 7.917-10z" clip-rule="evenodd"/></symbol>
+<symbol id="si_Library_books" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M10 11h8m-8 3h4m-4-6h8m2 14H8.4C5.42 22 3 19.58 3 16.6V5m5.4-2h11.2A2.4 2.4 0 0 1 22 5.4v11.2a2.4 2.4 0 0 1-2.4 2.4H8.4A2.4 2.4 0 0 1 6 16.6V5.4A2.4 2.4 0 0 1 8.4 3"/></symbol>
+<symbol id="si_Book" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 7.333C12 5.5 10.5 4 8.667 4H2v12h6.708C12 16 12 19.334 12 19.334m0-12C12 5.5 13.5 4 15.333 4H22v12h-6.667C12 16 12 19.334 12 19.334m0-12v12m1.875 1.124A2.58 2.58 0 0 1 16.167 19H21m-10.875 1.458A2.54 2.54 0 0 0 7.833 19H3"/></symbol>
+<symbol id="si_Article" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M8 12h8m-8 3h4M8 9h8M4.4 4h15.2A2.4 2.4 0 0 1 22 6.4v11.2a2.4 2.4 0 0 1-2.4 2.4H4.4A2.4 2.4 0 0 1 2 17.6V6.4A2.4 2.4 0 0 1 4.4 4"/></symbol>
+<symbol id="si_Mail" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m5 7.06 6.87 5.89c.07.06.19.06.26 0L19 7.06M3.2 4h17.6c.66 0 1.2.54 1.2 1.2v12.4c0 1.32-1.08 2.4-2.4 2.4H4.4C3.08 20 2 18.92 2 17.6V5.2C2 4.54 2.54 4 3.2 4"/></symbol>
+<symbol id="si_Help" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M11.83 14v-.621a2.33 2.33 0 0 1 1.164-2.02c1.126-.66 1.514-2.057.854-3.183s-2.057-1.514-3.183-.854C9.965 7.75 9.5 8.487 9.5 9.341M12 17h-.008M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12s4.477 10 10 10 10-4.477 10-10"/></symbol>
+<symbol id="si_Heart" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.696 3C14.652 3 12.887 4.197 12 5.943 11.113 4.197 9.348 3 7.304 3 4.374 3 2 5.457 2 8.481s1.817 5.796 4.165 8.073S12 21 12 21s3.374-2.133 5.835-4.446C20.46 14.088 22 11.514 22 8.481S19.626 3 16.696 3"/></symbol>
+<symbol id="si_Globe_detailed" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M22 12c0 5.523-4.477 10-10 10m10-10c0-5.523-4.477-10-10-10m10 10H2m10 10C6.477 22 2 17.523 2 12m10 10 .66-.31c2.1-2.71 3.34-6.14 3.34-9.78s-1.22-7-3.27-9.69L12 2m0 20-.73-.31A15.94 15.94 0 0 1 8 12c0-3.64 1.24-7.07 3.34-9.78L12 2M2 12C2 6.477 6.477 2 12 2m7.14 17c-1.82-1.85-4.34-3-7.14-3s-5.33 1.15-7.14 3M19.14 5C17.33 6.85 14.8 8 12 8S6.68 6.85 4.86 5"/></symbol>
+</svg>
+
+
+<div id="root"></div>
+<script>
+const DATA = {"slug": "encyclopedia-of-tourism-companion", "title": "Encyclopedia of Tourism (Second Edition)", "metaTitle": "Encyclopedia of Tourism — Companion", "dayBadge": "Tourism & Development", "author": "Jafar Jafari & Honggen Xiao (Editors) · Springer Nature, 2024 (2nd ed.)", "tagline": "A navigational companion to the field-defining reference work — 771 entries by 874 authors — that maps tourism as both a multidisciplinary field of study and a multi-sector industry, and hands practitioners the vocabulary to judge whether tourism develops a place or extracts from it.", "pills": ["Tourism Studies", "Sustainable Tourism", "Community-Based Tourism", "Tourism & Development", "Host & Guest", "Indigenous Tourism", "Reference Work", "Tourism Economics"], "stats": [{"n": "771", "l": "Entries"}, {"n": "874", "l": "Contributing authors"}, {"n": "115", "l": "Countries of authorship"}], "argument": ["This is a companion and study guide, not a reproduction. The source is a large copyrighted reference work: 'Encyclopedia of Tourism', Second Edition, edited by Jafar Jafari (University of Wisconsin-Stout) and Honggen Xiao (The Hong Kong Polytechnic University), published by Springer Nature Switzerland, 2024 (ISBN 978-3-030-74923-1; https://doi.org/10.1007/978-3-030-74923-1). It contains 771 entries written by 874 authors from 115 countries, with 217 figures and 5 tables. Its lineage runs from the first-ever edition (Routledge, 2000) through the first Springer edition (2016, recipient of the 2017 UNWTO Ulysses Award) to this substantially restructured second edition. This companion summarises its architecture and key concepts so you can navigate the work; it does not stand in for reading the entries themselves.", "An encyclopedia has no single thesis in the way a monograph does; its 'argument' is its architecture. The organising claim of this one is that tourism is simultaneously a multidisciplinary field of study and a multi-sector industry — in the editors' words 'a mélange of theory and practice.' The 771 alphabetical entries deliberately blend both registers: abstract concepts and theories (authenticity, the tourist gaze, dependency), analytical methods (Delphi technique, contingent valuation, data envelopment analysis), tourism types (eco-, community-based, dark, adventure, diaspora, slum), industry sectors (accommodation, air transport, distribution channels), academic disciplines (anthropology, economics, ecology, psychology), and a country entry for essentially every UN member state. The editors are explicit that closing the widening gap between theory and practice — as fields like medicine and engineering do — is part of the project's purpose.", "The intellectual spine beneath the alphabet is the maturation of tourism scholarship itself. Jafari's well-known sequence of research 'platforms' — advocacy (tourism as unqualified good), cautionary (its social, cultural and environmental costs), adaptancy (designing alternative, softer forms), knowledge-based (systematic, theory-driven study), and most recently public (tourism claiming its legitimate seat among institutions and industries) — runs through the entries as an implicit history of how the field learned to see tourism clearly. Reading across the entries, you watch boosterism give way to critique, critique give way to balanced knowledge, and knowledge reach outward to public engagement.", "For a development practitioner, the value of this reference work is a shared, precise vocabulary for appraising tourism as a development intervention. Whether a resort corridor, a heritage circuit or a community homestay actually leaves wealth and dignity in local hands turns on concepts the Encyclopedia defines carefully: enclave development and economic leakage, the demonstration effect and acculturation, carrying capacity and overtourism, dependency and comparative advantage, host-and-guest relations and authenticity, community-based, pro-poor, sustainable and eco-tourism. These terms are the diagnostic instruments; the Encyclopedia is where their agreed meanings live.", "A note on scope: because the source is very large, this companion is built from its Introduction to the Second Edition, its complete List of Topics (all 771 headwords), and the fully available substantive entries in the 'A' section (Aboriginal and Indigenous Tourism, Accessibility, Accommodation, Acculturation, Alternative Tourism, Authenticity and their neighbours). Thematic clusters beyond the A-entries are described at the level the topic list and the field's settled definitions support. Treat this as a map into the reference work, calibrated for South Asian development practice, rather than a substitute for the entries."], "accent": "#0E7490", "accent_light": "#CFFAFE", "sections": [{"title": "What the Encyclopedia Is — Genre, Scope and Editorial Method", "subtitle": "Introduction to the Second Edition", "summary": "The opening frames the work as a curated, peer-reviewed reflection of tourism knowledge assembled over seven years between editions. It explains what was kept, split, consolidated and newly added, and sets the ground rules that shape every entry.", "ideas": ["The second edition retained most 2016 contributions but consolidated some, split many, and added new topics reflecting technological change (e.g., Big Data Analytics, ChatGPT), specialised experiences, and shifting consumer-business relations.", "Entries come in three deliberate lengths — roughly 500, 1000, or 2000 words — and every entry closes with a 'See Also' cross-reference list and a References list, so the book is designed to be traversed by association, not read cover to cover.", "Editorial choices favour durability: pre-COVID-19 tourism statistics were used for country updates 'to provide a realistic assessment,' and authors were asked to keep subjective and political views in the background so the constructed knowledge 'stands the test of time.'", "The work is explicitly about knowledge, not knowledge-makers: cited scholars are parenthesised rather than profiled, a stylistic choice that centres concepts over personalities.", "Provenance and authority are foregrounded — a reviewed, invited-authorship encyclopedia is positioned against editable open platforms like Wikipedia as a mark of quality control.", "The headword list was built from the 2000 Routledge edition (1024 headwords), the cumulative subject index of 'Annals of Tourism Research,' and community input via the TRINET scholarly network."], "quotes": ["Tourism—ultimately a multidisciplinary field of study and, at the same time, a multi-sector industry—is a mélange of theory and practice unfolded in Encyclopedia of Tourism.", "The gap between theory and practice is real and unfortunately expanding; a blended coverage in this reference source would pave the way to bridge the two, like fields such as medicine and engineering."], "devEcon": "For MEL and policy work, the design lesson is that a reference tool is only useful if its terms are stable and cross-linked. Practitioners writing tourism strategies or bid documents can anchor definitions here to avoid the vocabulary drift that lets 'ecotourism' or 'community-based' mean anything a brochure wants."}, {"title": "How the Field Learned to See Tourism — Jafari's Platforms", "subtitle": "The evolution of tourism research", "summary": "The Encyclopedia's implicit history is the maturation of tourism studies from a promotional afterthought into a self-critical, theory-driven and increasingly public field. Jafari's platform sequence is the lens for that arc.", "ideas": ["Tourism's formal academic establishment among anglophone scholars traces only to the twentieth century; the 1970s framed it as the study of the traveller, the industry that serves them, and the impacts both have on host societies, economies and environments.", "The advocacy platform saw tourism as an unqualified economic good; the cautionary platform surfaced its social, cultural and environmental costs; the adaptancy platform designed softer 'alternative' forms; the knowledge-based platform pursued systematic theory.", "The most recent 'public' platform calls for tourism to take its legitimate place beside other institutions and industries in local and global debate — a move from studying tourism to arguing for its responsible standing.", "A 2009 symposium of the International Academy for the Study of Tourism found the field growing by accretion — an expanding, fragmented body of knowledge marked by 'continuity and incremental change' rather than paradigm shifts.", "New research networks — the mobilities paradigm, critical tourism studies, and the tourism education futures initiative — signal a field still contesting its own foundations.", "Tourism research is now conducted across the social sciences, business and economics, humanities, natural sciences and even engineering — the multidisciplinarity the Encyclopedia's entry list mirrors."], "quotes": ["a study of man away from his usual habitat, of the industry which responds to his needs, and of the impacts that both he and the industry have on the host sociocultural, economic, and physical environments"], "devEcon": "The platform sequence is a ready-made maturity model for any tourism programme. Ask which platform a given plan sits on: pure advocacy (arrivals and revenue only) is a warning sign; cautionary and adaptancy thinking (impacts, alternatives, host welfare) is where equitable development planning belongs."}, {"title": "The Socio-Cultural Core — Host, Guest and What Encounter Does", "subtitle": "Anthropology · Acculturation · Authenticity · Culture Shock", "summary": "A dense cluster of entries treats what actually happens when travellers and residents meet. These are the concepts that decide whether tourism dignifies a host culture or hollows it out.", "ideas": ["'Host and guest' is the foundational relational frame: tourism is an encounter, and its outcomes depend on the terms of exchange, reciprocity and power between visitor and resident.", "Acculturation — cultural change through sustained contact — is treated with its full lineage (Redfield, Linton and Herskovits' 1936 memorandum; later two-way, non-assimilationist models), reminding practitioners that hosts change too, not just guests.", "The demonstration effect names how residents, especially the young, imitate visitors' consumption and lifestyles — a mechanism by which tourism can quietly reshape local aspirations and inequality.", "Authenticity is contested territory: the entry engages the staged/negotiated authenticity debates, where what is sold as 'real' local culture is often a performance produced for the market.", "Alternative tourism markets itself on 'culture,' 'experience,' 'responsibility,' 'exoticism,' 'primitivism,' 'authenticity' and 'sustainability' — terms the Encyclopedia flags as relative and rhetorically slippery, a real problem for honest analysis.", "Culture shock, cultural conflict and commodification entries round out the register of costs that the cautionary platform first surfaced."], "quotes": [], "devEcon": "These concepts are the early-warning system for cultural harm in tourism projects. Community-tourism designs should ask: who defines what counts as 'authentic,' who performs it, who profits, and is the demonstration effect widening local inequality? These are diagnosable, not merely rhetorical, questions."}, {"title": "Tourism as Development — and as Extraction", "subtitle": "Development · Dependency · Enclave · Leakage · Comparative Advantage", "summary": "The economics entries hold the field's central development tension: tourism can earn foreign exchange and jobs, or it can entrench dependency and channel wealth back out. The vocabulary here is the appraisal toolkit.", "ideas": ["'Development' and 'Economic Development' entries connect tourism to jobs, foreign-exchange earnings, infrastructure and the balance of payments — the classic case for tourism-led growth in lower-income economies.", "Dependency theory supplies the counter-case: tourism can lock a destination into a subordinate, demand-taking position relative to metropolitan source markets and foreign-owned firms.", "Enclave tourism — the self-contained resort where guests rarely leave and rarely buy locally — and economic leakage — the share of tourist spending that exits via imports, expatriated profits and foreign staff — name the mechanisms by which headline arrivals fail to translate into local prosperity.", "Comparative and competitive advantage, elasticity of tourism demand, the multiplier and balance-of-payment entries give the formal economic machinery for modelling whether a destination captures value.", "Pro-poor tourism and community development entries reframe the goal: not maximising arrivals but maximising net benefit to poor households — a distinct and measurable objective.", "'Developing Country Tourism' is treated as its own topic, acknowledging that the dynamics differ structurally from high-income destinations."], "quotes": [], "devEcon": "Leakage and enclave are the two numbers every tourism-for-development appraisal should estimate: how much of each visitor dollar stays local, and how physically and economically enclosed is the product. A high-arrivals, high-leakage, enclave model is growth on paper and extraction in practice — the exact failure mode South Asian coastal and heritage projects must guard against."}, {"title": "Sustainability, Environment and the Limits of a Place", "subtitle": "Sustainable Tourism · Ecotourism · Carrying Capacity · Climate Change", "summary": "This cluster carries the adaptancy platform's central project: forms of tourism that respect ecological and social limits. It is also where the field is most exposed to greenwashing.", "ideas": ["Sustainable tourism links the standard three pillars — environmental, economic and socio-cultural — and connects explicitly to the UN Sustainable Development Goals via dedicated entries.", "Carrying capacity — the physical, ecological, social and psychological ceiling a destination can absorb before degradation — is the quantitative backbone of limits-based planning.", "Ecotourism is defined against its ideals (conservation funding, environmental education, local benefit) and its frequent betrayals (nature branding attached to conventional mass tourism).", "Climate change appears both as impact-on-tourism (shifting seasons, threatened coasts and mountains) and tourism-as-cause (aviation and cruise emissions), pulling the field into the emissions debate.", "Conservation, biological diversity, circular economy and energy entries situate tourism inside broader environmental governance rather than treating it as a standalone sector.", "The recurring caution: sustainability labels are 'very relative in nature,' and their loose application is a genuine analytical problem, not just marketing noise."], "quotes": [], "devEcon": "Carrying capacity converts vague sustainability talk into a planning number — visitor caps, permit systems, seasonal spreading. For fragile South Asian sites (Himalayan trails, coral reefs, heritage cores), a defensible carrying-capacity estimate is the difference between managed tourism and slow ruin."}, {"title": "Alternative and Special-Interest Tourisms", "subtitle": "Alternative · Community-Based · Adventure · Dark · Diaspora · Slum", "summary": "The Encyclopedia catalogues the proliferation of niche tourisms that the adaptancy platform produced — softer alternatives to mass tourism, though the entries warn that 'alternative' is drifting toward mainstream.", "ideas": ["Alternative tourism is defined by antagonism to mass tourism, yet the entry cautions that its very success — 'market penetration... adjusting to demand and diversification' — is pushing it 'on its way to becoming mainstream as another modality.'", "Community-based tourism centres local ownership, control and benefit-sharing; it is the form most aligned with development goals but also the most operationally fragile (governance, market access, elite capture).", "The special-interest catalogue is vast — adventure, dark, diaspora, creative, cultural, slum, volunteer, culinary, agritourism, backpacker, casino and dozens more — each with its own ethics and impact profile.", "Slum tourism and dark tourism entries mark the field's confrontation with the ethics of consuming poverty, death and disaster as experience.", "Diaspora tourism connects to South Asia's enormous overseas populations returning to ancestral places — a distinctive and under-leveraged development flow.", "Volunteer tourism ('voluntourism') sits under scrutiny for whether it serves hosts or mainly the self-development of guests."], "quotes": ["Market penetration of the various forms of alternative tourism, adjusting to demand and diversification, means that this pioneering form of tourism is on its way to becoming mainstream as another modality."], "devEcon": "The 'alternative-becomes-mainstream' warning is crucial for practitioners: a homestay network or eco-lodge that succeeds attracts imitators and volume until it reproduces the very mass-tourism harms it was meant to escape. Design in ownership rules and caps from the start, before scale erodes them."}, {"title": "Communities, Rights and Who Controls Tourism", "subtitle": "Aboriginal & Indigenous Tourism · Accessibility · Equity · Decolonization", "summary": "Some of the second edition's most developed entries concern justice — Indigenous rights, disability access, and the decolonisation of both the industry and its scholarship.", "ideas": ["Aboriginal and Indigenous tourism is framed around self-determination: bodies like the World Indigenous Tourism Alliance (founded 2012) and the Larrakia Declaration assert 'Indigenous control,' 'equitable partnerships,' and protection of culture and territory.", "The entry is candid that 'not all Indigenous people are in favor of tourism' and that impacts run both ways — disruption of cultural practice, fickle markets and thin returns against employment, cultural maintenance and marginalisation-reduction.", "Structural barriers are named directly: difficulty 'entering industry value chains and networks,' limited capacity-building access, and the challenges of small, family-operated enterprises.", "Accessibility applies universal design and non-exclusion so that heterogeneous tourists — by age, disability, mobility, vision, hearing — can participate; it is a rights and market-inclusion agenda at once.", "Decolonization and critical tourism studies entries push the field to interrogate whose knowledge and whose gaze define 'the tourist' — including embracing Indigenous researchers and critique.", "Gender, equity, community perception and community development entries complete the distributional lens: not just how much tourism earns, but for whom and on whose terms."], "quotes": [], "devEcon": "The Indigenous-tourism entry is a template for rights-based design anywhere: prior consent, community control of narrative, equitable value-chain entry, and long-term commitment over quick returns. For India's tribal (Adivasi) and Northeast community tourism, it is a direct reference for avoiding extractive 'ethnic tourism.'"}, {"title": "The Analytical Toolkit — Methods and Measurement", "subtitle": "Delphi · Contingent Valuation · DEA · Content Analysis · Big Data", "summary": "A large share of entries are research methods, reflecting the knowledge-based platform's insistence that tourism be studied rigorously, not merely promoted. This is the Encyclopedia's quiet contribution to evaluation practice.", "ideas": ["Qualitative and design methods appear as standalone entries — case study, content analysis, discourse analysis, autoethnography, cross-cultural and comparative study, the Delphi technique for expert consensus.", "Economic and valuation methods are heavily represented — contingent valuation and cost-benefit analysis for non-market values, computable general equilibrium models, econometrics, elasticity and error-correction models.", "Multivariate and efficiency techniques — cluster analysis, conjoint analysis, correspondence and discriminant analysis, data envelopment analysis, causal models — give the statistical vocabulary of destination research.", "Emerging methods — big data analytics, decision support systems — mark the field's turn toward computational and real-time evidence.", "Each method entry defines the tool and points, via 'See Also,' to the tourism problems it is used on, making the book a compact methods primer.", "The methods density is itself an argument: tourism claims scientific standing by borrowing and adapting the full social-science and econometric toolkit."], "quotes": [], "devEcon": "For MEL practitioners, the methods entries are a shortlist of techniques already validated in tourism impact work: contingent valuation and cost-benefit analysis for valuing a heritage site or beach; Delphi for stakeholder scenario planning; cluster analysis for visitor segmentation. The Encyclopedia is a fast on-ramp to picking the right instrument."}, {"title": "The Industry and Its Sectors", "subtitle": "Accommodation · Air Transport · Airlines · Distribution · DMOs", "summary": "Alongside concepts and methods, the Encyclopedia treats tourism as a working industry with sectors, systems and intermediaries — the supply side that development plans must actually build and regulate.", "ideas": ["Accommodation is treated as a major economic sector in its own right (the entry cites 5.3 million US properties adding US$660 billion to GDP and 8.3 million jobs in 2019), tracing lodging from Silk Road caravanserais to global hotel brands.", "Air transport, airlines and aviation entries cover the connectivity that makes long-haul tourism possible — and the emissions and access questions that come with it.", "Distribution channels, computer reservation systems, eCommerce and destination websites map how supply reaches demand, increasingly through platform intermediaries.", "Destination marketing organisations, convention and visitor bureaus, branding and destination competitiveness entries cover how places are positioned and sold.", "Entrepreneurship, employment, career and corporate social responsibility entries connect the industry to livelihoods and its social obligations.", "The sector entries ground the abstract debates: development strategy is ultimately about which of these sectors a place builds, owns and taxes."], "quotes": [], "devEcon": "Supply-side literacy matters because leakage lives in the sector detail — who owns the hotels, where the airline profits land, which booking platform takes the commission. A development plan that grows arrivals without local ownership of accommodation and distribution simply enlarges the leak."}, {"title": "Geographies — Every Country, Region by Region", "subtitle": "Country entries · Africa · Asia and the Pacific · Regions", "summary": "The Encyclopedia includes a tourism entry for essentially every UN member state plus regional overviews, making it a global gazetteer of tourism structures, arrivals and market position.", "ideas": ["Country entries were among the easiest to revise, updating arrivals, market share and structural change — and deliberately use pre-pandemic statistics for realistic comparison.", "Coverage is genuinely global: from Afghanistan, Bangladesh and Bhutan through to the small-island and least-visited states, tourism is documented as a near-universal phenomenon.", "Regional entries — Africa, Americas, Asia and the Pacific, Caribbean — give the macro patterns that individual country entries sit within.", "Only UN-member countries were profiled; aspirants to membership were left out, a deliberate boundary condition.", "The geographic breadth lets practitioners benchmark a country against peers and regional trends within a single reference frame.", "Because statistics are pre-COVID and reference works date, the country data is best used for structure and relative position rather than current numbers."], "quotes": [], "devEcon": "The country entries are a quick comparative baseline for a national tourism strategy — how does a destination's arrivals, seasonality and market concentration compare with regional peers? For South Asia, reading the India, Bhutan, Nepal, Sri Lanka, Bangladesh and Maldives entries side by side reveals sharply different development models on one subcontinent."}, {"title": "Overtourism, Crisis and the Post-Pandemic Field", "subtitle": "Overtourism · Crisis Management · Disaster · Anti-tourism", "summary": "The newest entries register tourism's contemporary reckonings — too many visitors, resident backlash, and the COVID-19 shock that placed the whole industry, in the editors' phrase, in a three-year hibernation.", "ideas": ["Overtourism names the tipping point where visitor volume degrades a destination's ecology, heritage and residents' quality of life — the cautionary platform's most public modern expression.", "Anti-tourism and resident hostility entries document backlash movements, reframing 'the host' as a political actor who can resist, not just receive, tourism.", "Crisis management, disaster and risk entries were sharpened by COVID-19, which the Introduction notes 'halted almost everything' and placed tourism in a three-year hibernation.", "The pandemic, cost-of-living crisis, job losses and trade tensions are named as forces reshaping the industry, though authors were asked to keep such events in balanced perspective.", "New technology entries (Big Data Analytics, ChatGPT) show the field racing to absorb digital transformation and automation.", "The editors' verdict is resilience: despite the shocks, 'tourism as a phenomenon and as an industry is here to stay.'"], "quotes": [], "devEcon": "Overtourism and resident-backlash concepts arm local planners to defend caps, tourist taxes and visitor-dispersal policies against pure growth pressure. Post-COVID, the crisis-management entries also argue for diversified local economies so a tourism-dependent district is not devastated by the next external shock."}], "concepts": [{"term": "Encyclopedia / Reviewed Reference Work", "definition": "A curated, peer-reviewed, invited-authorship compendium of a field's knowledge — here 771 alphabetical entries — positioned against openly editable sources by the authority conferred through expert authorship and editorial review.", "practitionerNote": "When you need a defensible definition for a report, funder or policy note, a reviewed reference entry carries more evidentiary weight than a web search or brochure."}, {"term": "Jafari's Platforms", "definition": "The five-stage account of how tourism scholarship matured — advocacy (tourism as good), cautionary (its costs), adaptancy (softer alternatives), knowledge-based (systematic theory), and public (tourism claiming its civic standing).", "practitionerNote": "Use it as a maturity check: a plan stuck on the advocacy platform (arrivals and revenue only) is a red flag for extractive, unbalanced tourism development."}, {"term": "Host and Guest", "definition": "The foundational relational frame of tourism studies: tourism is an encounter between residents (hosts) and visitors (guests) whose outcomes depend on the terms, reciprocity and power of that exchange.", "practitionerNote": "Community tourism succeeds or fails on the host-guest terms — who sets prices, who performs culture, who keeps the money."}, {"term": "Demonstration Effect", "definition": "The process by which residents, especially the young, imitate the consumption patterns, dress and lifestyles of tourists, reshaping local aspirations and sometimes deepening inequality.", "practitionerNote": "A subtle social cost to monitor: tourism can shift a community's wants faster than its incomes, straining households and cultural continuity."}, {"term": "Acculturation", "definition": "Cultural change arising from sustained contact between groups; modern models stress it is two-way and need not mean assimilation of the weaker culture into the dominant one.", "practitionerNote": "Reminds planners that hosts change too — tourism is not a one-way impact on visitors but a mutual transformation to be managed."}, {"term": "Authenticity", "definition": "The contested question of what counts as a 'real' cultural experience; debates centre on staged and negotiated authenticity, where the 'genuine' local is often a performance produced for the tourist market.", "practitionerNote": "Ask who authors and profits from the 'authentic' on offer — commodified culture can enrich outsiders while alienating the community it depicts."}, {"term": "Carrying Capacity", "definition": "The maximum use a destination can sustain — physically, ecologically, socially and psychologically — before unacceptable degradation of the resource or the experience occurs.", "practitionerNote": "The single most useful planning number for fragile sites: it converts 'sustainability' into enforceable visitor caps, permits and seasonal management."}, {"term": "Economic Leakage", "definition": "The share of tourist expenditure that exits the destination economy through imported goods, foreign-owned firms' repatriated profits, and expatriate staffing, rather than circulating locally.", "practitionerNote": "The core diagnostic of who actually benefits — high leakage means impressive arrivals with little local development."}, {"term": "Enclave Tourism", "definition": "Self-contained resort or cruise development where visitors remain inside a bounded facility and rarely engage the surrounding local economy.", "practitionerNote": "Enclaves maximise leakage and minimise linkage; spotting an enclave model early lets planners require local sourcing and open access."}, {"term": "Dependency Theory", "definition": "The view that tourism can lock a destination into a subordinate position — a demand-taker reliant on metropolitan source markets and foreign capital — reproducing core-periphery inequality.", "practitionerNote": "A structural counterweight to boosterism: it asks whether tourism builds local autonomy or entrenches external control."}, {"term": "Pro-Poor Tourism", "definition": "An approach that judges tourism not by total arrivals or revenue but by the net benefit that reaches poor households — through jobs, enterprise, and local supply chains.", "practitionerNote": "Reframes the objective function of a tourism project to a measurable equity target, aligning it with development rather than growth alone."}, {"term": "Community-Based Tourism (CBT)", "definition": "Tourism owned and controlled by the host community with benefits shared collectively; the form most aligned with development goals and the most vulnerable to elite capture and weak market access.", "practitionerNote": "Design in governance and benefit-sharing rules up front — CBT's promise collapses when a local elite or an external operator captures the value."}, {"term": "Sustainable Tourism", "definition": "Tourism that balances environmental, economic and socio-cultural pillars over the long term, formally linked to the UN Sustainable Development Goals.", "practitionerNote": "Powerful but slippery — the label is 'very relative' and easily greenwashed, so demand specific, verifiable indicators behind any sustainability claim."}, {"term": "Ecotourism", "definition": "Nature-based tourism intended to fund conservation, educate visitors, and benefit local communities — frequently diluted into mere nature-branding on conventional mass tourism.", "practitionerNote": "Test ecotourism against its three claims (conservation funding, education, local benefit); if any is absent, it is nature marketing, not ecotourism."}, {"term": "Indigenous Tourism & the Larrakia Declaration", "definition": "Tourism led by and centred on Indigenous peoples; the 2012 World Indigenous Tourism Alliance and its Larrakia Declaration assert Indigenous control, equitable partnerships, and protection of culture and territory.", "practitionerNote": "A rights-based template for any tribal or ethnic tourism: prior consent, community control of narrative, and equitable value-chain entry over quick returns."}, {"term": "Overtourism", "definition": "The condition where visitor volume exceeds a destination's tolerance, degrading its environment, heritage and residents' quality of life and provoking anti-tourism backlash.", "practitionerNote": "Justifies caps, tourist taxes and dispersal policies against pure-growth pressure — resident welfare, not just visitor satisfaction, becomes the metric."}], "southAsia": ["South Asia is covered directly through country entries — Afghanistan, Bangladesh and Bhutan appear in the topic list, and the full work profiles India, Nepal, Pakistan, Sri Lanka and the Maldives — letting practitioners benchmark six very different national tourism models on one subcontinent within a single reference frame.", "Bhutan's 'High Value, Low Volume' policy is effectively carrying capacity and pro-poor tourism made into state doctrine — the Encyclopedia's concepts give the analytical vocabulary for why a deliberate visitor cap and daily fee can protect culture and environment while still earning revenue.", "The Maldives is a textbook case of the enclave-and-leakage entries: one-island-one-resort development concentrates high revenue while much of it leaks to foreign owners and imports — exactly the gap between arrivals and local development the economics entries diagnose.", "Kerala's Responsible Tourism and Kumarakom-style community initiatives, and homestay networks across the Himalaya and Northeast, are live experiments in the community-based tourism the Encyclopedia treats — including its warnings about elite capture, weak market access and 'alternative' forms sliding back toward mass tourism.", "Heritage and pilgrimage crowding at sites like Agra, Varanasi and the Kumbh Mela is the overtourism and carrying-capacity debate in Indian form — the entries supply the case for visitor management, dispersal and caps rather than uncapped growth.", "South Asia's vast diaspora makes diaspora tourism a distinctive, under-leveraged development flow, while the Indigenous/Aboriginal tourism entry offers a rights-based blueprint for Adivasi and Northeast community tourism that avoids extractive 'ethnic tourism.'"], "critiques": ["Despite 874 authors from 115 countries, tourism studies and this Encyclopedia remain anglophone-dominant; the editors themselves date the field's formal establishment to 'anglophone scholars,' and Western theoretical frames (the gaze, authenticity, dependency) still set the terms even for Global South cases.", "It is a costly, largely paywalled Springer reference work — precisely the Global South practitioners and community organisations who could most use its vocabulary are least likely to afford institutional access, limiting its reach in the settings it describes.", "The editors deliberately used pre-COVID-19 statistics and asked authors to keep 'political' views in the background; the result is durable but can read as depoliticised and already dated on numbers, even as fast-moving entries (ChatGPT, big data) risk obsolescence.", "An alphabetical encyclopedia fragments knowledge by design — the 2009 symposium it cites found tourism studies an 'unstructured and fragmented body of knowledge' — so the work catalogues the field without synthesising it into a coherent theory of tourism and development.", "Country entries are necessarily brief and descriptive (arrivals, market share, structural change), offering benchmarking baselines rather than the critical political-economy analysis a development strategist actually needs.", "The editors concede the theory-practice gap is 'real and unfortunately expanding' and that the board and most authors are 'rooted in academia'; industry and frontline-practitioner voices, while beginning to enter, remain under-represented relative to scholarly ones."], "systemPrompt": "You are an expert reading companion for the 'Encyclopedia of Tourism', Second Edition, edited by Jafar Jafari and Honggen Xiao (Springer Nature, 2024; ISBN 978-3-030-74923-1). It is a large, peer-reviewed reference work of 771 entries by 874 authors from 115 countries, spanning tourism concepts, theories, research methods, tourism types, industry sectors, academic disciplines, and country/regional profiles; its first edition won the 2017 UNWTO Ulysses Award. Your audience is development practitioners, students and policymakers in South Asia. Explain the field faithfully — the framing of tourism as both a multidisciplinary field of study and a multi-sector industry, Jafari's platforms (advocacy, cautionary, adaptancy, knowledge-based, public), and the key concepts a development lens needs: host and guest, demonstration effect, acculturation, authenticity, carrying capacity, economic leakage, enclave tourism, dependency, pro-poor tourism, community-based, sustainable and eco-tourism, Indigenous tourism and the Larrakia Declaration, and overtourism. This is a copyrighted reference work; you are a companion and study guide, not a reproduction — do not fabricate entry text, statistics or quotes. Be candid about limitations: anglophone dominance, paywalled access, pre-COVID statistics, alphabetical fragmentation over synthesis, and thin critical political economy in country entries. Wherever useful, bridge concepts honestly to South Asian contexts — Bhutan's high-value low-volume model, Maldives enclave-and-leakage, Kerala responsible tourism, Himalayan and Northeast community-based tourism, heritage and pilgrimage overtourism, and diaspora tourism — while noting where a bridge is your interpretation rather than the text's claim."};
+
+// Tab management
+const ALL_TABS = [
+  {id:"overview",label:"Overview"},
+  {id:"pathways",label:"Pathways"},
+  {id:"sections",label:"Sections"},
+  {id:"concepts",label:"Concepts"},
+  {id:"toolkit",label:"Toolkit"},
+  {id:"context",label:"Context"},
+  {id:"ask",label:"Ask"},
+];
+function __hasTab(id){
+  const has = a => Array.isArray(a) && a.length > 0;
+  switch(id){
+    case "pathways": return has(DATA.pathways);
+    case "sections": return has(DATA.sections);
+    case "concepts": return has(DATA.concepts);
+    case "toolkit":  return has(DATA.tools);
+    case "context":  return has(DATA.southAsia)||has(DATA.critiques)||has(DATA.connections)||has(DATA.suggested);
+    case "ask":      return !!DATA.systemPrompt;
+    default: return true;
+  }
+}
+const TABS = ALL_TABS.filter(t => __hasTab(t.id));
+
+const tabbar = document.getElementById("tabbar");
+TABS.forEach(t => {
+  const btn = document.createElement("button");
+  btn.className = "tab-btn" + (t.id === "overview" ? " active" : "");
+  btn.textContent = t.label;
+  btn.onclick = () => switchTab(t.id);
+  tabbar.appendChild(btn);
+});
+
+function switchTab(id) {
+  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById("p-" + id).classList.add("active");
+  tabbar.querySelectorAll(".tab-btn")[TABS.findIndex(t=>t.id===id)].classList.add("active");
+}
+
+// OVERVIEW
+(function() {
+  const el = document.getElementById("p-overview");
+  el.innerHTML = `
+    <div class="hero">
+      <div class="day-badge">${DATA.dayBadge}</div>
+      <h1>${DATA.title}</h1>
+      <div class="auth">${DATA.author}</div>
+      <div class="tagline">${DATA.tagline}</div>
+      <div class="pills">${DATA.pills.map(p=>`<span class="pill">${p}</span>`).join("")}</div>
+    </div>
+    <div class="stat-grid">
+      ${DATA.stats.map(s=>`<div class="stat"><div class="stat-n">${s.n}</div><div class="stat-l">${s.l}</div></div>`).join("")}
+    </div>
+    <div class="arg">
+      <div class="h1">The central argument</div>
+      ${DATA.argument.map(p=>`<p>${p}</p>`).join("")}
+    </div>
+    <div class="h1" style="margin-top:24px">What's in this companion</div>
+    <div class="nav-grid">
+      ${[["pathways","Learning Pathways","Structured reading routes by role"],["sections","Section by Section","Full analysis with dev econ connections"],["concepts","Concepts & Frameworks","Key terms with practitioner notes"],["toolkit","Practitioner Toolkit","Interactive tools"],["context","Book in Context","Connections and assessment"],["ask","Ask the Book","Gemini-powered Q&A"]].filter(([id])=>__hasTab(id)).map(([id,label,desc])=>`<button class="nav-card" onclick="switchTab('${id}')" ><div class="nav-card-label">${label}</div><div class="nav-card-desc">${desc}</div></button>`).join("")}
+    </div>
+  `;
+})();
+
+// PATHWAYS
+(function() {
+  const el = document.getElementById("p-pathways");
+  let active = 0;
+  function render() {
+    const pw = DATA.pathways[active];
+    if (!pw) { el.innerHTML = ""; return; }
+    el.innerHTML = `
+      <div class="h1">Learning Pathways</div>
+      <div class="sub">Three structured routes through the book based on your role.</div>
+      <div class="pw-tabs">
+        ${DATA.pathways.map((p,i)=>`<button class="pw-btn ${i===active?"active":""}" onclick="__pw(${i})">${p.label}</button>`).join("")}
+      </div>
+      <div class="pw-desc">${pw.desc}</div>
+      <div class="pw-steps">
+        ${pw.steps.map((s,i)=>`<div class="pw-step"><div class="step-n">${i+1}</div><div><div class="step-title">${s.section}</div><div class="step-focus">${s.focus}</div></div></div>`).join("")}
+      </div>
+    `;
+  }
+  window.__pw = (i) => { active = i; render(); };
+  render();
+})();
+
+// SECTIONS
+(function() {
+  const el = document.getElementById("p-sections");
+  let openId = null;
+  let showDev = {};
+  function render() {
+    el.innerHTML = `
+      <div class="h1">Section by Section</div>
+      <div class="sub">All sections with full analysis and development economics connections.</div>
+      ${DATA.sections.map((s,i)=>`
+        <div class="sec-card">
+          <button class="sec-header" onclick="__sec(${i})">
+            <div class="sec-num">§${i+1}</div>
+            <div class="sec-title-block"><div class="sec-title">${s.title}</div><div class="sec-sub">${s.subtitle}</div></div>
+            <div class="sec-chev">${openId===i?"−":"+"}</div>
+          </button>
+          ${openId===i?`<div class="sec-body">
+            <div class="sec-summary">${s.summary}</div>
+            <div class="ideas-label">Key ideas</div>
+            ${s.ideas.map(idea=>`<div class="idea-item"><span class="idea-dot"></span><span>${idea}</span></div>`).join("")}
+            <div class="ideas-label" style="margin-top:14px">Key quotes</div>
+            ${s.quotes.map(q=>`<blockquote>${q}</blockquote>`).join("")}
+            <button class="dev-toggle" onclick="__dev(${i})">${showDev[i]?"Hide":"Show"} development economics connection</button>
+            ${showDev[i]?`<div class="dev-text">${s.devEcon}</div>`:""}
+          </div>`:""}
+        </div>
+      `).join("")}
+    `;
+  }
+  window.__sec = (i) => { openId = openId===i?null:i; render(); };
+  window.__dev = (i) => { showDev[i]=!showDev[i]; render(); };
+  render();
+})();
+
+// CONCEPTS
+(function() {
+  const el = document.getElementById("p-concepts");
+  let open = null;
+  function render() {
+    el.innerHTML = `
+      <div class="h1">Concepts & Frameworks</div>
+      <div class="sub">Key terms with definitions and practitioner notes. Click to expand.</div>
+      ${DATA.concepts.map((c,i)=>`
+        <div class="concept-card ${open===i?"open":""}" onclick="__con(${i})">
+          <div class="concept-term">${c.term}</div>
+          ${open===i?`<div class="concept-def">${c.definition}</div><div class="prac-label">Practitioner note</div><div class="prac-text">${c.practitionerNote}</div>`:""}
+        </div>
+      `).join("")}
+    `;
+  }
+  window.__con = (i) => { open = open===i?null:i; render(); };
+  render();
+})();
+
+// TOOLKIT  
+(function() {
+  const el = document.getElementById("p-toolkit");
+  el.innerHTML = `
+    <div class="h1">Practitioner Toolkit</div>
+    <div class="sub">Interactive tools derived from the book. Use for personal practice or programme design.</div>
+    <div class="tool-tabs">
+      ${DATA.tools.map((t,i)=>`<button class="tool-btn ${i===0?"active":""}" onclick="__tool(${i})">${t.label}</button>`).join("")}
+    </div>
+    ${DATA.tools.map((t,i)=>`
+      <div class="tool-panel ${i===0?"active":""}" id="toolp-${i}">
+        <div class="tool-intro">${t.intro}</div>
+        ${t.html}
+      </div>
+    `).join("")}
+  `;
+  window.__tool = (i) => {
+    document.querySelectorAll(".tool-btn").forEach((b,j)=>b.classList.toggle("active",i===j));
+    document.querySelectorAll(".tool-panel").forEach((p,j)=>p.classList.toggle("active",i===j));
+  };
+})();
+
+// CONTEXT
+(function() {
+  const el = document.getElementById("p-context");
+  el.innerHTML = `
+    <div class="h1">Book in Context</div>
+    <div class="sub">How this book fits within the broader literature, and an honest assessment of its limits.</div>
+    <div class="context-h">Connected works</div>
+    ${DATA.connections.map(c=>`<div class="conn-card"><div class="conn-book">${c.book}</div><div class="conn-text">${c.text}</div></div>`).join("")}
+    <div class="context-h" style="margin-top:24px">Honest assessment</div>
+    <div class="sub">Limits and qualifications for the ImpactMojo context:</div>
+    ${DATA.critiques.map((c,i)=>`<div class="crit-item"><div class="crit-n">${i+1}</div><div class="crit-text">${c}</div></div>`).join("")}
+  `;
+})();
+
+// ASK
+(function() {
+  const el = document.getElementById("p-ask");
+  let apiKey = "", msgs = [], loading = false;
+  
+  function renderSetup() {
+    el.innerHTML = `
+      <div class="ask-setup">
+        <div class="h1">Ask the Book</div>
+        <div class="sub">AI-powered Q&A using Gemini 2.0 Flash (free). Requires a Google AI Studio API key.</div>
+        <div class="setup-steps">
+          <div class="setup-step"><span class="setup-num">1</span><span>Go to <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com/app/apikey</a> and create a free API key.</span></div>
+          <div class="setup-step"><span class="setup-num">2</span><span>Paste it below. The key stays in your browser only and is never stored.</span></div>
+        </div>
+        <div class="key-row">
+          <input class="key-input" type="password" id="key-in" placeholder="AIza..." oninput="document.getElementById('key-submit').disabled=!this.value.trim()"/>
+          <button class="key-btn" id="key-submit" disabled onclick="__setKey()">Connect</button>
+        </div>
+      </div>
+    `;
+  }
+  
+  function renderChat() {
+    el.innerHTML = `
+      <div class="ask-ui">
+        <div class="ask-hdr"><span class="ask-hdr-title">Ask the Book</span><button class="ask-reset" onclick="__resetKey()">Change key</button></div>
+        <div class="msgs" id="msgs-box">
+          ${msgs.length===0?`<div><div class="suggested-label">Suggested questions</div>${DATA.suggested.map(q=>`<button class="sug-btn" onclick="__ask('${q.replace(/'/g,"\'")}')">${q}</button>`).join("")}</div>`:""}
+          ${msgs.map(m=>`<div class="msg ${m.role}"><div class="msg-text">${m.content}</div></div>`).join("")}
+          ${loading?`<div class="msg assistant"><div class="typing"><span></span><span></span><span></span></div></div>`:""}
+        </div>
+        <div class="ask-input-row">
+          <textarea class="ask-input" id="ask-in" rows="2" placeholder="Ask about the book..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();__sendAsk()}"></textarea>
+          <button class="ask-send" id="ask-send" onclick="__sendAsk()">Send</button>
+        </div>
+      </div>
+    `;
+    const box = document.getElementById("msgs-box");
+    if(box) box.scrollTop = box.scrollHeight;
+  }
+  
+  window.__setKey = () => {
+    const v = document.getElementById("key-in").value.trim();
+    if(v) { apiKey = v; renderChat(); }
+  };
+  window.__resetKey = () => { apiKey=""; msgs=[]; renderSetup(); };
+  window.__ask = (q) => {
+    document.getElementById("ask-in").value = q;
+    __sendAsk();
+  };
+  window.__sendAsk = async () => {
+    const inp = document.getElementById("ask-in");
+    if(!inp) return;
+    const q = inp.value.trim();
+    if(!q || loading) return;
+    inp.value = "";
+    msgs.push({role:"user",content:q});
+    loading = true; renderChat();
+    try {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,{
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({
+          system_instruction:{parts:[{text:DATA.systemPrompt}]},
+          contents: msgs.map(m=>{return{role:m.role==="assistant"?"model":"user",parts:[{text:m.content}]}}).slice(0,-1).concat([{role:"user",parts:[{text:q}]}]),
+          generationConfig:{maxOutputTokens:1200,temperature:0.3}
+        })
+      });
+      const data = await res.json();
+      if(!res.ok) throw new Error(data.error?.message||"API error");
+      const reply = data?.candidates?.[0]?.content?.parts?.map(p=>p.text).join("")||"No response.";
+      msgs.push({role:"assistant",content:reply});
+    } catch(e) {
+      msgs.push({role:"assistant",content:"Error: "+e.message});
+    }
+    loading = false; renderChat();
+  };
+  
+  renderSetup();
+})();
+</script>
+
+<!-- ImpactMojo Footer -->
+<!-- Ethics & Copyright Disclaimer -->
+<section class="im-ethics-disclaimer" style="max-width:1100px;margin:2rem auto 1rem;padding:1.25rem 1.5rem;background:rgba(14,165,233,0.06);border-left:4px solid #0EA5E9;border-radius:8px;font-family:'Inter','Amaranth',sans-serif;font-size:0.85rem;line-height:1.65;color:var(--im-text-secondary,#64748B);">
+  <p class="im-ethics-heading" style="margin:0 0 0.5rem;font-weight:600;">A note on books, authors, and intellectual labour</p>
+  <p style="margin:0;">All books companioned on ImpactMojo have been duly purchased with real money and form part of a personal collection. None of the source texts have been obtained by any illegal means — we deeply respect the intellectual labour of authors, editors, and publishers. These reading companions are offered free of charge as educational aids; ImpactMojo does not sell reading companions as a paid service and therefore does not violate any commercial licensing agreement or copyright. Nothing here reproduces the full text of any book — each companion is an interpretive study guide.</p>
+</section>
+
+<footer class="im-footer" role="contentinfo">
+<div class="im-footer-content">
+<p class="im-footer-made">Made with <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;color:#EF4444;"><use href="#si_Heart"/></svg> by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+<div class="im-footer-grid">
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Info"/></svg> About ImpactMojo</h4>
+<ul>
+<li><a href="../about.html">About Us</a></li>
+<li><a href="../contact.html">Contact</a></li>
+<li><a href="https://github.com/ImpactMojo/ImpactMojo" rel="noopener noreferrer" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Globe_detailed"/></svg> GitHub</a></li>
+<li><a href="../transparency.html">Transparency</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Lock"/></svg> Legal</h4>
+<ul>
+<li><a href="../privacy-policy.html">Privacy Policy</a></li>
+<li><a href="../terms-of-service.html">Terms of Service</a></li>
+<li><a href="../disclaimer.html">Disclaimer</a></li>
+<li><a href="../data-protection.html">Data Protection</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Lightning"/></svg> Quick Links</h4>
+<ul>
+<li><a href="../catalog.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Library_books"/></svg> All Courses</a></li>
+<li><a href="../premium.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Flare"/></svg> Premium Content</a></li>
+<li><a href="../coaching.html">Coaching</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Book"/></svg> Resources</h4>
+<ul>
+<li><a href="../handouts.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Article"/></svg> Handouts</a></li>
+<li><a href="../blog.html">Blog</a></li>
+<li><a href="../faq.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Help"/></svg> FAQ</a></li>
+<li><a href="../sitemap.html">Sitemap</a></li>
+<li><a href="/docs/" rel="noopener noreferrer" target="_blank">Documentation</a></li>
+</ul>
+</div>
+</div>
+<div class="im-footer-bottom">
+<p>&copy; 2026 ImpactMojo. All content for educational purposes only.</p>
+<p>Released under <strong>MIT License</strong> | Supported by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+</div>
+</div>
+</footer>
+
+<script src="/js/theme.js"></script>
+
+
+<!-- Supabase Auth -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="/js/state-manager.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+
+<!-- Floating paper plane (ImpactMojo decorative element) -->
+<svg class="im-paper-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M80,130 L150,50" stroke="#10B981" stroke-width="2" stroke-dasharray="4,4"/>
+  <circle cx="150" cy="50" r="4" fill="#6366F1"/>
+  <circle cx="40" cy="155" r="2" fill="#0EA5E9" opacity="0.6"/>
+  <circle cx="35" cy="165" r="1.5" fill="#6366F1" opacity="0.4"/>
+  <circle cx="45" cy="170" r="1" fill="#10B981" opacity="0.5"/>
+</svg>
+<script src="/js/translate-sarvam.js" defer></script>
+  <script src="/js/site-chrome.js" defer></script>
+</body>
+</html>
