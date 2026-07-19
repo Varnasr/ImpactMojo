@@ -2,6 +2,24 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.133.0 — July 19, 2026 (See your progress, know the time, pick up where you left off)
+
+### For Learners
+
+- **Course progress is now visible on every flagship** — the module progress bar, sidebar checkmarks and completion celebration now appear on all 18 flagship courses as you answer each module's questions, whichever course you're studying.
+- **Know the time before you start** — every flagship module now shows a reading-time estimate (~minutes) in the course sidebar, with a whole-course total next to the progress bar, so you can plan a session before you dive in.
+- **Pick up where you left off** — if you've started a flagship course, the homepage now greets you with a one-line "Continue where you left off" shortcut straight back to it, showing how many modules you've completed.
+- **Three newest flagships now work offline** — Designing What Works, Nothing About Us Without Us, and Nonviolence in Practice joined the courses you can download and read without a connection.
+
+### Changed
+
+- **A calmer first visit** — on your very first view of the homepage, the floating tool buttons stay out of the way so the page lands clean; they appear from your next page onward.
+- **Homepage polish** — the "Development Know-How" badge no longer hides behind the header on desktop, and the Start Exploring button now wears the site's own indigo colours.
+
+### Fixed
+
+- Stale content counts corrected across the site (catalog description, transparency page, README, FAQ and platform overview) — all now consistent at 69 courses · 18 flagship · 35 labs · 22 Deep Dives.
+
 ## v10.132.0 — July 16, 2026 (All flagships standardized — mini-projects, coaching & capstones)
 
 ### For Learners
