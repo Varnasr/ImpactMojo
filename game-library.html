@@ -432,6 +432,10 @@ section.section { padding: 1.5rem 0 2.5rem; }
       <div class="filter-group" id="trackFilters" role="group" aria-label="Filter by track"></div>
       <div class="filter-divider" aria-hidden="true"></div>
       <div class="filter-group" id="typeFilters" role="group" aria-label="Filter by game type"></div>
+      <div class="filter-divider" aria-hidden="true"></div>
+      <div class="filter-group" id="diffFilters" role="group" aria-label="Filter by difficulty"></div>
+      <input type="search" id="gameSearch" placeholder="Search 135 games&hellip;" aria-label="Search games by title or topic"
+             style="margin-left:auto;min-width:180px;padding:0.45rem 0.8rem;border:1px solid var(--border);border-radius:100px;background:var(--color-bg);color:inherit;font-size:0.85rem;">
     </div>
   </div>
   <section class="section">
@@ -525,7 +529,13 @@ section.section { padding: 1.5rem 0 2.5rem; }
   var TYPE_ORDER = ['simulation', 'crossword', 'wordsearch', 'quiz', 'matching', 'sequence', 'categorize', 'cloze'];
 
   var DATA = null, TRACKS = {}, PUZZLES = [];
-  var activeTrack = 'all', activeType = 'all';
+  var activeTrack = 'all', activeType = 'all', activeDiff = 'all', searchQ = '';
+  function diffTier(d) {
+    d = String(d || '').toLowerCase();
+    if (d === 'easy' || d === 'beginner') return 'easy';
+    if (d === 'advanced') return 'advanced';
+    return 'medium';
+  }
   var PROGRESS = loadProgress();
 
   function loadProgress() {
@@ -1138,13 +1148,24 @@ section.section { padding: 1.5rem 0 2.5rem; }
       if (n) typeChips += '<button class="chip' + (activeType === t ? ' active' : '') + '" data-type="' + t + '">' + ICONS[t] + TYPE_LABEL[t] + ' <b>' + n + '</b></button>';
     });
     document.getElementById('typeFilters').innerHTML = typeChips;
+    var DIFFS = [['all','Any level'],['easy','Easy'],['medium','Medium'],['advanced','Advanced']];
+    document.getElementById('diffFilters').innerHTML = DIFFS.map(function (d) {
+      return '<button class="chip' + (activeDiff === d[0] ? ' active' : '') + '" data-diff="' + d[0] + '">' + d[1] + '</button>';
+    }).join('');
 
     tf.addEventListener('click', function (e) {
       var b = e.target.closest('.chip'); if (!b) return;
       tf.querySelectorAll('.chip').forEach(function (x) { x.classList.remove('active'); });
       b.classList.add('active'); activeTrack = b.dataset.track; renderCards();
     });
-    document.getElementById('typeFilters').addEventListener('click', function (e) {
+  document.getElementById('diffFilters').addEventListener('click', function (e) {
+    var b = e.target.closest('.chip'); if (!b) return;
+    document.getElementById('diffFilters').querySelectorAll('.chip').forEach(function (x) { x.classList.remove('active'); });
+    b.classList.add('active'); activeDiff = b.dataset.diff; renderCards();
+  });
+  var _gs = document.getElementById('gameSearch');
+  if (_gs) _gs.addEventListener('input', function () { searchQ = _gs.value.trim().toLowerCase(); renderCards(); });
+  document.getElementById('typeFilters').addEventListener('click', function (e) {
       var b = e.target.closest('.chip'); if (!b) return;
       document.getElementById('typeFilters').querySelectorAll('.chip').forEach(function (x) { x.classList.remove('active'); });
       b.classList.add('active'); activeType = b.dataset.type; renderCards();
@@ -1170,7 +1191,13 @@ section.section { padding: 1.5rem 0 2.5rem; }
     var html = '', shown = 0;
     trackKeys.forEach(function (k) {
       var tr = TRACKS[k];
-      var list = PUZZLES.filter(function (p) { return p.track === k && (activeType === 'all' || p.type === activeType); });
+      var list = PUZZLES.filter(function (p) {
+        if (p.track !== k) return false;
+        if (activeType !== 'all' && p.type !== activeType) return false;
+        if (activeDiff !== 'all' && diffTier(p.difficulty) !== activeDiff) return false;
+        if (searchQ && (p.title + ' ' + (p.blurb || '') + ' ' + (p.course || '')).toLowerCase().indexOf(searchQ) === -1) return false;
+        return true;
+      });
       if (!list.length) return;
       shown += list.length;
       var done = list.filter(function (p) { return PROGRESS[p.id] && PROGRESS[p.id].done; }).length;
