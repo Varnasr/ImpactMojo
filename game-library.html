@@ -26,9 +26,7 @@
 <meta property="og:image" content="https://www.impactmojo.in/assets/images/og-card.png">
 
 <!-- Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect">
-<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/impact-bold.css">
 
 <style>
@@ -1225,18 +1223,27 @@ section.section { padding: 1.5rem 0 2.5rem; }
     (renderers[puzzle.type] || function () { area.innerHTML = '<p class="play-intro">Unsupported puzzle type.</p>'; })(puzzle, area);
     document.getElementById('overlay').classList.add('open');
     document.body.style.overflow = 'hidden';
-    if (history.replaceState) history.replaceState(null, '', '#' + id);
+    if (history.pushState) history.pushState({ imPuzzle: id }, '', '#' + id);
     document.getElementById('backBtn').focus();
   }
-  function closePuzzle() {
+  function closePuzzle(fromPopstate) {
     document.getElementById('overlay').classList.remove('open');
     document.body.style.overflow = '';
     document.getElementById('playArea').innerHTML = '';
-    if (history.replaceState) history.replaceState(null, '', location.pathname);
+    // If we pushed a history entry on open, consume it; popstate path skips this.
+    if (!fromPopstate && history.state && history.state.imPuzzle) {
+      history.back();
+    } else if (!fromPopstate && history.replaceState) {
+      history.replaceState(null, '', location.pathname);
+    }
   }
 
-  document.getElementById('backBtn').addEventListener('click', closePuzzle);
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && document.getElementById('overlay').classList.contains('open')) closePuzzle(); });
+  window.addEventListener('popstate', function () {
+    if (document.getElementById('overlay').classList.contains('open')) closePuzzle(true);
+  });
+
+  document.getElementById('backBtn').addEventListener('click', function () { closePuzzle(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && document.getElementById('overlay').classList.contains('open')) closePuzzle(false); });
 
   function showError(msg) {
     document.getElementById('trackSections').innerHTML = '<p class="no-results">' + esc(msg) + '</p>';
