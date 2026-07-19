@@ -175,38 +175,38 @@ Single-page courses covering essential development topics — all self-hosted na
 
 ---
 
-## Interactive Labs (28)
+## Interactive Studios (28)
 
 Hands-on workbenches where you build, design, and practice real skills.
 
-| # | Lab | Track | Link |
+| # | Studio | Track | Link |
 |---|-----|-------|------|
-| 1 | Theory of Change Lab | MEL | [Open](/Labs/toc-lab.html) |
-| 2 | MEL Lab | MEL | [Open](/Labs/mel-lab.html) |
-| 4 | Storytelling Lab | Health & Communication | [Open](/Labs/storytelling-lab.html) |
-| 5 | Design Thinking Lab | MEL | [Open](/Labs/design-thinking-lab.html) |
-| 6 | Community Development Lab | MEL | [Open](/Labs/community-lab.html) |
-| 7 | Policy & Advocacy Lab | Philosophy & Governance | [Open](/Labs/policy-advocacy-lab.html) |
-| 8 | Risk and Mitigation Lab | MEL | [Open](/Labs/risk-mitigation-lab.html) |
-| 9 | Resource and Sustainability Lab | MEL | [Open](/Labs/resource-sustainability-lab.html) |
-| 10 | Impact and Partnerships Lab | MEL | [Open](/Labs/impact-partnerships-lab.html) |
-| 11 | Gender Analysis Lab | Gender & Equity | [Open](/Labs/gender-studies-lab.html) |
+| 1 | Theory of Change Studio | MEL | [Open](/Labs/toc-lab.html) |
+| 2 | MEL Studio | MEL | [Open](/Labs/mel-lab.html) |
+| 4 | Storytelling Studio | Health & Communication | [Open](/Labs/storytelling-lab.html) |
+| 5 | Design Thinking Studio | MEL | [Open](/Labs/design-thinking-lab.html) |
+| 6 | Community Development Studio | MEL | [Open](/Labs/community-lab.html) |
+| 7 | Policy & Advocacy Studio | Philosophy & Governance | [Open](/Labs/policy-advocacy-lab.html) |
+| 8 | Risk and Mitigation Studio | MEL | [Open](/Labs/risk-mitigation-lab.html) |
+| 9 | Resource and Sustainability Studio | MEL | [Open](/Labs/resource-sustainability-lab.html) |
+| 10 | Impact and Partnerships Studio | MEL | [Open](/Labs/impact-partnerships-lab.html) |
+| 11 | Gender Analysis Studio | Gender & Equity | [Open](/Labs/gender-studies-lab.html) |
 | 12 | Teacher Evidence Explorer | Research & Methods | [Open](/Labs/teacher-evidence-lab.html) |
-| 13 | Policy Analysis Lab | Philosophy & Governance | [Open](/Labs/policy-analysis-lab.html) |
+| 13 | Policy Analysis Studio | Philosophy & Governance | [Open](/Labs/policy-analysis-lab.html) |
 | 14 | Sampling Basics (Primer) | Research & Methods | [Open](/Labs/sampling-basics-lab.html) |
 | 15 | Sampling Design Studio | Research & Methods | [Open](/Labs/sampling-design-lab.html) |
-| 16 | Budget & Fiscal Analysis Lab | Governance & Digital | [Open](/Labs/budget-fiscal-lab.html) |
-| 17 | Climate Risk & Adaptation Lab | Climate & Environment | [Open](/Labs/climate-adaptation-lab.html) |
-| 18 | Conflict-Sensitive Programming Lab | Governance & Digital | [Open](/Labs/conflict-sensitive-lab.html) |
-| 19 | Data Feminism & Intersectional Analysis Lab | Gender & Equity | [Open](/Labs/data-feminism-lab.html) |
-| 20 | Digital Public Infrastructure Lab | Governance & Digital | [Open](/Labs/dpi-lab.html) |
-| 21 | Ethics & Research Integrity Lab | Research & Methods | [Open](/Labs/ethics-research-lab.html) |
-| 22 | Grant Writing & Proposal Lab | Research & Methods | [Open](/Labs/grant-writing-lab.html) |
-| 23 | Participatory Methods Lab | Research & Methods | [Open](/Labs/participatory-methods-lab.html) |
-| 24 | Policy Brief Writing Lab | Philosophy & Governance | [Open](/Labs/policy-brief-lab.html) |
-| 25 | Stakeholder Mapping & Power Analysis Lab | Governance & Digital | [Open](/Labs/stakeholder-mapping-lab.html) |
-| 26 | Survey Design Lab | Research & Methods | [Open](/Labs/survey-design-lab.html) |
-| 27 | Systems Thinking & Complexity Lab | Research & Methods | [Open](/Labs/systems-thinking-lab.html) |
+| 16 | Budget & Fiscal Analysis Studio | Governance & Digital | [Open](/Labs/budget-fiscal-lab.html) |
+| 17 | Climate Risk & Adaptation Studio | Climate & Environment | [Open](/Labs/climate-adaptation-lab.html) |
+| 18 | Conflict-Sensitive Programming Studio | Governance & Digital | [Open](/Labs/conflict-sensitive-lab.html) |
+| 19 | Data Feminism & Intersectional Analysis Studio | Gender & Equity | [Open](/Labs/data-feminism-lab.html) |
+| 20 | Digital Public Infrastructure Studio | Governance & Digital | [Open](/Labs/dpi-lab.html) |
+| 21 | Ethics & Research Integrity Studio | Research & Methods | [Open](/Labs/ethics-research-lab.html) |
+| 22 | Grant Writing & Proposal Studio | Research & Methods | [Open](/Labs/grant-writing-lab.html) |
+| 23 | Participatory Methods Studio | Research & Methods | [Open](/Labs/participatory-methods-lab.html) |
+| 24 | Policy Brief Writing Studio | Philosophy & Governance | [Open](/Labs/policy-brief-lab.html) |
+| 25 | Stakeholder Mapping & Power Analysis Studio | Governance & Digital | [Open](/Labs/stakeholder-mapping-lab.html) |
+| 26 | Survey Design Studio | Research & Methods | [Open](/Labs/survey-design-lab.html) |
+| 27 | Systems Thinking & Complexity Studio | Research & Methods | [Open](/Labs/systems-thinking-lab.html) |
 | 28 | R & Python for Development | Data & Technology | [Open](/Labs/r-python-dev.html) |
 
 ---
@@ -448,7 +448,7 @@ Advanced tools and products for researchers and practitioners — 30 in all, inc
 | 1 | RQ Builder Pro | Practitioner | Guided research question builder with PICO/SPIDER framing (free to use, Premium to export) | [Premium](/premium.html) |
 | 2 | TOC Workbench Pro | Practitioner | Advanced ToC building with assumption mapping and PDF/PNG export | [Premium](/premium.html) |
 | 3 | Field Notes from a Development Economist | Professional | Behind-the-scenes analysis of real programs and trade-offs | [Open](https://impactmojo-field-notes-pro.netlify.app/) |
-| 4 | Qualitative Research Lab | Professional | AI-assisted thematic coding and memo generation (free to use, Premium to export) | [Premium](/premium.html) |
+| 4 | Qualitative Research Studio | Professional | AI-assisted thematic coding and memo generation (free to use, Premium to export) | [Premium](/premium.html) |
 | 5 | Statistical Code Converter Pro | Professional | Translate code between R, Stata, SPSS & Python with regression diagnostics and power analysis (free to use, Premium to export) | [Premium](/premium.html) |
 | 6 | DevData Practice | Professional | 36 dataset generators with 840k+ rows of realistic development data | [Open](https://impactmojo-devdata-pro.netlify.app/) |
 | 7 | VaniScribe: AI Transcription | Professional | Transcribe interviews in 10+ South Asian languages | [Premium](/premium.html) |
@@ -482,7 +482,7 @@ Advanced tools and products for researchers and practitioners — 30 in all, inc
 |----------|-------|
 | Flagship courses | 16 |
 | Foundational courses | 47 |
-| Interactive labs | 28 |
+| Interactive studios | 28 |
 | Game Library | 135 (18 simulations + 117 puzzles) |
 | BookSummaries | 55 |
 | Deep Dives | 20 |
