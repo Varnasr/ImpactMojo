@@ -5,6 +5,16 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.135.1] - 2026-07-19
+
+### Fixed
+
+- **PR #817's stash-pop conflict markers** also corrupted `data/search-index.json` (invalid JSON — live site search was broken), `docs/changelog.md`, and `sitemap.xml`. All three resolved as proper merges: search index = Studios-renamed entries + the 15 new companions (921 total); changelog keeps both sides (their companion entry renumbered v10.134.2); sitemap = union of URL entries.
+
+### Added
+
+- `scripts/check-conflict-markers.py` + `conflict-markers` CI job — fails on `<<<<<<< `/`>>>>>>> ` markers in any tracked file. The pre-commit hook already checked this but hooks can be bypassed (`--no-verify`) or absent (unset hooksPath); CI cannot.
+
 ## [10.135.0] - 2026-07-19
 
 ### Changed
