@@ -5,6 +5,17 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.143.0] - 2026-07-19
+
+### Fixed
+
+- **Transparency page on mobile**: the Course Engagement chart's x-axis numbers no longer collide (fewer ticks + collision-avoidance on narrow screens, tighter left margin); the Feature Adoption table no longer overflows the card (dropped the always-"Active" Status column); the legacy "Platform Numbers" cards no longer label Dec-2025 figures with today's course/game/studio counts (now "across courses live in 2025 · Legacy estimate, to Dec 2025").
+
+### Changed
+
+- **Three developer blog posts rewritten for a general audience**: "Behind the Scenes: The Tools That Power ImpactMojo" → "Why ImpactMojo Works on Any Phone, on Any Connection"; the MCP-server post → "Now You Can Ask an AI Assistant to Search ImpactMojo"; the GitHub-ecosystem post → "How Open Tools Change What a Small NGO Can Do". Kept the ideas, translated the engineer-only detail; titles synced across JSON-LD, related-post cards, and the search index.
+- **New maintenance routine**: monthly plain-language sweep keeps tech jargon out of user-facing copy (reads the keep/strip rules from memory).
+
 ## [10.142.0] - 2026-07-19
 
 ### Changed
