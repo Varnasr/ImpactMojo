@@ -54,14 +54,16 @@
 }
 
 body.dark-mode {
-    --primary-bg: #0F172A;
-    --secondary-bg: #1E293B;
-    --text-primary: #F1F5F9;
-    --text-secondary: #CBD5E1;
-    --text-muted: #94A3B8;
-    --card-bg: #1E293B;
-    --hover-bg: #334155;
-    --border-color: #334155;
+    --primary-bg: #14161F;
+    --secondary-bg: #181B26;
+    --text-primary: #E8EAF2;
+    --text-secondary: #C0C7D8;
+    --text-muted: #9BA3B8;
+    --card-bg: #1C1F2B;
+    --hover-bg: #262B3A;
+    --border-color: #2E3345;
+    --accent-color: #38BDF8;
+    --accent-hover: #7DD3FC;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -774,6 +776,82 @@ body.user-authenticated .auth-logged-out { display: none !important; }
 
 @media (prefers-reduced-motion: reduce) {
     }
+
+/* ===== Dark mode (colors only) =====
+   The site theme toggle (/js/theme.js) sets html.dark + html[data-theme="dark"]
+   (and body.dark-mode). Everything below only re-points the custom properties
+   defined on :root above — no layout changes. */
+html.dark,
+html[data-theme="dark"],
+html.dark body,
+html[data-theme="dark"] body {
+    --primary-bg: #14161F;
+    --secondary-bg: #181B26;
+    --text-primary: #E8EAF2;
+    --text-secondary: #C0C7D8;
+    --text-muted: #9BA3B8;
+    --card-bg: #1C1F2B;
+    --hover-bg: #262B3A;
+    --border-color: #2E3345;
+    --accent-color: #38BDF8;
+    --accent-hover: #7DD3FC;
+}
+/* Hardcoded light values that variables don't reach */
+html.dark .im-topbar,
+html[data-theme="dark"] .im-topbar {
+    background: rgba(20, 22, 31, 0.95);
+    border-bottom-color: #2E3345;
+}
+html.dark .filter-btn .count,
+html[data-theme="dark"] .filter-btn .count {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* OS preference, unless the user explicitly picked light */
+@media (prefers-color-scheme: dark) {
+    html:not([data-theme="light"]),
+    html:not([data-theme="light"]) body:not(.light-mode) {
+        --primary-bg: #14161F;
+        --secondary-bg: #181B26;
+        --text-primary: #E8EAF2;
+        --text-secondary: #C0C7D8;
+        --text-muted: #9BA3B8;
+        --card-bg: #1C1F2B;
+        --hover-bg: #262B3A;
+        --border-color: #2E3345;
+        --accent-color: #38BDF8;
+        --accent-hover: #7DD3FC;
+    }
+    html:not([data-theme="light"]) body:not(.light-mode) .im-topbar {
+        background: rgba(20, 22, 31, 0.95);
+        border-bottom-color: #2E3345;
+    }
+    html:not([data-theme="light"]) body:not(.light-mode) .filter-btn .count {
+        background: rgba(255, 255, 255, 0.12);
+    }
+}
+
+/* Explicit light choice always wins */
+html[data-theme="light"],
+html[data-theme="light"] body {
+    --primary-bg: #FFFFFF;
+    --secondary-bg: #F8FAFC;
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #52627A;
+    --card-bg: #FFFFFF;
+    --hover-bg: #F1F5F9;
+    --border-color: #E2E8F0;
+    --accent-color: #0EA5E9;
+    --accent-hover: #0284C7;
+}
+html[data-theme="light"] .im-topbar {
+    background: rgba(248, 250, 252, 0.95);
+    border-bottom-color: #E2E8F0;
+}
+html[data-theme="light"] .filter-btn .count {
+    background: rgba(0, 0, 0, 0.1);
+}
 </style>
 <style>
 /* ===== ImpactMojo Design System ===== */
@@ -948,14 +1026,14 @@ code, pre, .monospace, kbd, samp { font-family: 'JetBrains Mono', monospace !imp
 <link rel="canonical" href="https://www.impactmojo.in/BookSummaries/index.html">
 <meta property="og:title" content="Reading Companions">
 <meta property="og:description" content="Interactive Reading Companions — free development education from ImpactMojo. Chapter-by-chapter reading companions for essential development texts.">
-<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/og-card.png">
 <meta property="og:url" content="https://www.impactmojo.in/BookSummaries/index.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ImpactMojo">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Reading Companions">
 <meta name="twitter:description" content="Interactive Reading Companions — free development education from ImpactMojo. Chapter-by-chapter reading companions for essential development texts.">
-<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/og-card.png">
 <link rel="stylesheet" href="/assets/css/booksummary-dark.css">
 </head>
 <body>
@@ -998,11 +1076,11 @@ code, pre, .monospace, kbd, samp { font-family: 'JetBrains Mono', monospace !imp
     <p>Deep-dive, interactive summaries of essential texts in development economics, data visualisation, productivity, and public policy. Navigate chapters, explore key concepts, and build real understanding.</p>
     <div class="hero-stats">
         <div class="stat-item">
-            <div class="stat-number">134</div>
+            <div class="stat-number" id="statBooks">149</div>
             <div class="stat-label">Books Available</div>
         </div>
         <div class="stat-item">
-            <div class="stat-number">7</div>
+            <div class="stat-number" id="statCategories">6</div>
             <div class="stat-label">Categories</div>
         </div>
         <div class="stat-item">
@@ -1023,13 +1101,13 @@ code, pre, .monospace, kbd, samp { font-family: 'JetBrains Mono', monospace !imp
     </div>
 
     <div class="category-filters">
-        <button class="filter-btn active" data-category="all">All <span class="count">134</span></button>
+        <button class="filter-btn active" data-category="all">All <span class="count">149</span></button>
         <button class="filter-btn" data-category="data-viz">Data Visualization <span class="count">17</span></button>
-        <button class="filter-btn" data-category="dev-econ">Development Economics <span class="count">41</span></button>
-        <button class="filter-btn" data-category="productivity">Productivity <span class="count">8</span></button>
-        <button class="filter-btn" data-category="leadership">Leadership & Communication <span class="count">9</span></button>
-        <button class="filter-btn" data-category="policy">Policy & Social Protection <span class="count">58</span></button>
-        <button class="filter-btn" data-category="design">Design & Innovation <span class="count">1</span></button>
+        <button class="filter-btn" data-category="dev-econ">Development Economics <span class="count">44</span></button>
+        <button class="filter-btn" data-category="productivity">Productivity <span class="count">10</span></button>
+        <button class="filter-btn" data-category="leadership">Leadership & Communication <span class="count">11</span></button>
+        <button class="filter-btn" data-category="policy">Policy & Social Protection <span class="count">65</span></button>
+        <button class="filter-btn" data-category="design">Design & Innovation <span class="count">2</span></button>
     </div>
 
     <p class="books-count" id="booksCount" aria-live="polite"></p>
@@ -4271,6 +4349,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache each card's searchable text once
     cards.forEach(function(card) { card.dataset.search = (card.textContent || '').toLowerCase().replace(/\s+/g, ' ').trim(); });
+
+    // Self-computing counts: derive the hero stats and every filter-pill count
+    // from the actual .book-card elements so they can never go stale.
+    (function() {
+        var catCounts = {};
+        cards.forEach(function(card) {
+            var cat = card.dataset.category || 'uncategorised';
+            catCounts[cat] = (catCounts[cat] || 0) + 1;
+        });
+        document.querySelectorAll('.filter-btn').forEach(function(btn) {
+            var countEl = btn.querySelector('.count');
+            if (!countEl) return;
+            countEl.textContent = btn.dataset.category === 'all' ? cards.length : (catCounts[btn.dataset.category] || 0);
+        });
+        var statBooks = document.getElementById('statBooks');
+        if (statBooks) statBooks.textContent = cards.length;
+        var statCategories = document.getElementById('statCategories');
+        if (statCategories) statCategories.textContent = Object.keys(catCounts).length;
+    })();
 
     function matches(card) {
         if (activeCat !== 'all' && card.dataset.category !== activeCat) return false;

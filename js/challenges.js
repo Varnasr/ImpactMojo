@@ -204,7 +204,7 @@
                 '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> ' + ch.durationMinutes + ' min</span>' +
                 '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><rect x="3" y="3" width="18" height="18" rx="2"/></svg> ' + ch.rubric.length + ' criteria</span>' +
             '</div>' +
-            (ch.partnerOrg ? '<div class="ch-card-partner">Partner: ' + escapeHTML(ch.partnerOrg) + '</div>' : '') +
+            (ch.partnerOrg ? '<div class="ch-card-partner">Case setting: ' + escapeHTML(ch.partnerOrg) + '</div>' : '') +
         '</div>';
     }
 
@@ -268,8 +268,10 @@
             submissionHtml =
                 '<div class="ch-submit-section">' +
                     '<h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg> Your Response</h3>' +
-                    '<textarea class="ch-textarea" id="challengeResponse" placeholder="' + escapeHTML(ch.submissionTemplate || 'Write your response here...') + '">' + escapeHTML(draft) + '</textarea>' +
-                    '<div class="ch-char-count"><span id="charCount">' + (draft ? draft.length : 0) + '</span> characters (min 200)</div>' +
+                    // Prefill the scaffold as the textarea's value (not placeholder) so learners
+                    // can fill it in directly — but only when there is no saved draft to preserve.
+                    '<textarea class="ch-textarea" id="challengeResponse" placeholder="Write your response here...">' + escapeHTML(draft || ch.submissionTemplate || '') + '</textarea>' +
+                    '<div class="ch-char-count"><span id="charCount">' + ((draft || ch.submissionTemplate || '').length) + '</span> characters (min 200)</div>' +
                     '<div class="ch-submit-actions">' +
                         '<button class="ch-btn ch-btn-primary" id="submitChallengeBtn" onclick="window._challengeSubmit(\'' + ch.id + '\')">' +
                             '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg> Submit Response' +
@@ -288,7 +290,7 @@
                     '<span class="ch-badge ' + (ch.requiredTier === 'explorer' ? 'ch-badge-free' : 'ch-badge-practitioner') + '">' + tierLabel + '</span>' +
                 '</div>' +
                 '<div class="ch-detail-title">' + escapeHTML(ch.title) + '</div>' +
-                (ch.partnerOrg ? '<div class="ch-card-partner" style="margin-top:0.25rem">Partner: ' + escapeHTML(ch.partnerOrg) + '</div>' : '') +
+                (ch.partnerOrg ? '<div class="ch-card-partner" style="margin-top:0.25rem">Case setting: ' + escapeHTML(ch.partnerOrg) + '</div>' : '') +
                 '<div class="ch-card-meta" style="margin-top:0.75rem;border:none;padding:0">' +
                     '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> ' + ch.durationMinutes + ' min</span>' +
                     '<span>' + ch.rubric.length + ' evaluation criteria</span>' +

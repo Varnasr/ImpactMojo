@@ -137,7 +137,7 @@ export default async () => {
   const gameCount = stats.counts.game || 135;
   const labCount = stats.counts.lab || 28;
   const courseCount = stats.counts.courseTotal || 69;
-  const intro = `Here's your monthly update from ImpactMojo. The platform now has <strong>${gameCount} games</strong>, <strong>${labCount} labs</strong>, <strong>${courseCount} courses</strong>, and <strong>${stats.total}+ resources</strong> — all free, as always.`;
+  const intro = `Here's your monthly update from ImpactMojo. The platform now has <strong>${gameCount} games</strong>, <strong>${labCount} studios</strong>, <strong>${courseCount} courses</strong>, and <strong>${stats.total}+ resources</strong> — all free, as always.`;
 
   // Build highlights from changelog + evergreen content
   const highlights = [];

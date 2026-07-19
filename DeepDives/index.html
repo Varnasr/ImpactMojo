@@ -12,7 +12,7 @@
 <meta property="og:title" content="Deep Dives — Curated Reading Lists | ImpactMojo">
 <meta property="og:description" content="Themed annotated reading lists from invited scholars and practitioners.">
 <meta property="og:url" content="https://impactmojo.in/DeepDives/">
-<meta property="og:image" content="https://impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/og-card.png">
 <meta property="og:site_name" content="ImpactMojo">
 <meta name="twitter:card" content="summary_large_image">
 
@@ -178,12 +178,13 @@ html.dark .im-paper-plane { opacity: 0.18; }
   <p class="dd-inspired">Each list is curated by a named author with an editorial point of view. We start with foundations, follow recent debates, surface practitioner voices, and link out to ImpactMojo courses where they exist. New lists every few weeks.</p>
 
   <div class="dd-filter-bar" role="group" aria-label="Filter Deep Dives by topic">
-    <button class="dd-filter active" data-filter="all">All</button>
-    <button class="dd-filter" data-filter="political-economy">Political Economy</button>
-    <button class="dd-filter" data-filter="evaluation">Evaluation</button>
-    <button class="dd-filter" data-filter="climate">Climate</button>
-    <button class="dd-filter" data-filter="caste">Caste & Inequality</button>
-    <button class="dd-filter" data-filter="data">Data & Society</button>
+    <button class="dd-filter active" data-filter="all" aria-pressed="true">All</button>
+    <button class="dd-filter" data-filter="india,south-asia" aria-pressed="false">India &amp; South Asia</button>
+    <button class="dd-filter" data-filter="policy,social-policy" aria-pressed="false">Policy</button>
+    <button class="dd-filter" data-filter="methods,evaluation,mel,measurement" aria-pressed="false">Methods &amp; Evaluation</button>
+    <button class="dd-filter" data-filter="economics,labour" aria-pressed="false">Economics &amp; Labour</button>
+    <button class="dd-filter" data-filter="climate" aria-pressed="false">Climate</button>
+    <button class="dd-filter" data-filter="gender,caste" aria-pressed="false">Gender &amp; Caste</button>
   </div>
 
   <div class="dd-grid" id="ddGrid"></div>
@@ -251,7 +252,8 @@ html.dark .im-paper-plane { opacity: 0.18; }
     }
 
     function render(filter) {
-        const subset = filter === 'all' ? dives : dives.filter(d => d.tags && d.tags.includes(filter));
+        const wanted = filter.split(',');
+        const subset = filter === 'all' ? dives : dives.filter(d => d.tags && wanted.some(w => d.tags.includes(w)));
         if (!subset.length) {
             grid.innerHTML = '<p class="dd-empty">No Deep Dives match that filter yet.</p>';
             return;
@@ -275,8 +277,9 @@ html.dark .im-paper-plane { opacity: 0.18; }
 
     document.querySelectorAll('.dd-filter').forEach(btn => {
         btn.addEventListener('click', function() {
-            document.querySelectorAll('.dd-filter').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.dd-filter').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
             this.classList.add('active');
+            this.setAttribute('aria-pressed', 'true');
             render(this.getAttribute('data-filter'));
         });
     });

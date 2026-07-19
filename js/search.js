@@ -26,8 +26,20 @@
     dataverse: { icon: sargamImg('si_Bar_chart'),   label: 'Dataverse',     color: '#6366F1' },
     course:    { icon: sargamImg('si_Book'),         label: 'Course',        color: '#0EA5E9' },
     game:      { icon: sargamImg('si_Activity'),     label: 'Game',          color: '#F59E0B' },
-    lab:       { icon: sargamImg('si_Wrench'),          label: 'Lab',           color: '#10B981' },
-    page:      { icon: sargamImg('si_Article'),      label: 'Page',          color: '#8B5CF6' }
+    lab:       { icon: sargamImg('si_Wrench'),          label: 'Studio',           color: '#10B981' },
+    page:      { icon: sargamImg('si_Article'),      label: 'Page',          color: '#8B5CF6' },
+    'book-summary':  { icon: sargamImg('si_Book'),          label: 'Reading Companion', color: '#D97706' },
+    blog:            { icon: sargamImg('si_Article'),       label: 'Blog Post',         color: '#0891B2' },
+    'deep-dive':     { icon: sargamImg('si_Library_books'), label: 'Deep Dive',         color: '#7C3AED' },
+    product:         { icon: sargamImg('si_Bag'),           label: 'Product',           color: '#DB2777' },
+    'practice-pack': { icon: sargamImg('si_Fact_check'),    label: 'Practice Pack',     color: '#059669' },
+    tool:            { icon: sargamImg('si_Wrench'),        label: 'Tool',              color: '#2563EB' },
+    'data-dive':     { icon: sargamImg('si_Bar_chart'),     label: 'Data Dive',         color: '#4F46E5' },
+    timeline:        { icon: sargamImg('si_Timer'),         label: 'Timeline',          color: '#B45309' },
+    poster:          { icon: sargamImg('si_Image'),         label: 'Poster',            color: '#BE185D' },
+    reference:       { icon: sargamImg('si_Library_books'), label: 'Reference',         color: '#0D9488' },
+    handout:         { icon: sargamImg('si_File_download'), label: 'Handout',           color: '#65A30D' },
+    challenge:       { icon: sargamImg('si_Flag'),          label: 'Challenge',         color: '#DC2626' }
   };
 
   /* ---- Load Fuse.js ---- */
@@ -151,8 +163,8 @@
       resultsList.innerHTML =
         '<div class="ims-empty">' +
           '<div class="ims-empty-icon">🔍</div>' +
-          '<div class="ims-empty-text">Search 463 resources across ImpactMojo</div>' +
-          '<div class="ims-empty-hint">Courses, BCT techniques, datasets, games, labs, and more</div>' +
+          '<div class="ims-empty-text">Search ' + (searchData ? searchData.length : 'all') + ' resources across ImpactMojo</div>' +
+          '<div class="ims-empty-hint">Courses, BCT techniques, datasets, games, studios, and more</div>' +
         '</div>';
       document.getElementById('ims-count').textContent = '';
       selectedIndex = -1;

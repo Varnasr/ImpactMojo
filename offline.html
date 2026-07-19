@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0F172A">
     <title>Offline - ImpactMojo</title>
+<meta name="robots" content="noindex">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -407,15 +408,13 @@ body { padding-top: 56px; }
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
-<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/og-card.png">
 <meta property="og:site_name" content="ImpactMojo">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Offline - ImpactMojo">
-<meta name="twitter:description" content="Offline - ImpactMojo - ImpactMojo">
-<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
-</head>
-<link rel="canonical" href="https://www.impactmojo.in/offline.html">
-<body>
+<meta name="twitter:description" content="You are offline. Courses you downloaded are still available.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/og-card.png">
+</head><body>
 <!-- ImpactMojo Top Bar -->
 <div class="im-topbar" id="imTopbar">
     <div class="im-topbar-left">
@@ -482,7 +481,45 @@ body { padding-top: 56px; }
             <button class="btn btn-primary" onclick="window.location.reload()">Try again</button>
             <a class="btn btn-secondary" href="/">Go to homepage</a>
         </div>
+        <div id="dlCourses" style="display:none; margin-top:1.25rem; text-align:left;">
+            <h2 style="font-size:1rem; margin-bottom:0.5rem;">Your downloaded courses</h2>
+            <ul id="dlCoursesList" style="list-style:none; padding:0; margin:0;"></ul>
+        </div>
         <p class="hint">Tip: Use the "Download for Offline" button on any course page to make it available without internet.</p>
+        <script>
+        // Enumerate impactmojo-course-* caches (the SW preserves them across
+        // deploys) and link straight to each cached course entry page.
+        (function () {
+            if (!('caches' in window)) return;
+            caches.keys().then(function (keys) {
+                var courseKeys = keys.filter(function (k) { return k.indexOf('impactmojo-course-') === 0; });
+                if (!courseKeys.length) return;
+                var list = document.getElementById('dlCoursesList');
+                var box = document.getElementById('dlCourses');
+                Promise.all(courseKeys.map(function (k) {
+                    return caches.open(k).then(function (c) { return c.keys(); }).then(function (reqs) {
+                        var entry = null;
+                        reqs.forEach(function (r) {
+                            var u = new URL(r.url);
+                            if (!entry || u.pathname.length < entry.length) entry = u.pathname;
+                        });
+                        return { slug: k.replace('impactmojo-course-', ''), url: entry };
+                    });
+                })).then(function (courses) {
+                    courses.forEach(function (co) {
+                        if (!co.url) return;
+                        var li = document.createElement('li');
+                        var a = document.createElement('a');
+                        a.href = co.url;
+                        a.textContent = co.slug.replace(/[-_]/g, ' ').replace(/\b\w/g, function (m) { return m.toUpperCase(); });
+                        a.style.cssText = 'display:block;padding:0.5rem 0.75rem;margin:0.25rem 0;border:1px solid rgba(128,128,128,0.35);border-radius:8px;text-decoration:none;color:inherit;';
+                        li.appendChild(a); list.appendChild(li);
+                    });
+                    if (list.children.length) box.style.display = 'block';
+                });
+            });
+        })();
+        </script>
     </div>
 
     <footer class="offline-footer">
@@ -494,12 +531,6 @@ body { padding-top: 56px; }
 <!-- ImpactMojo Theme Toggle JS -->
 
 
-<!-- Supabase Auth -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
-<script src="/js/state-manager.js"></script>
-<script src="/js/config.js"></script>
-<script src="/js/auth.js"></script>
-<script src="/js/translate-sarvam.js" defer></script>
-  <script src="/js/site-chrome.js" defer></script>
+
 </body>
 </html>

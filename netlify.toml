@@ -26,6 +26,55 @@
 # HTML pages — short edge cache so TTFB drops from ~1.4s to <100ms on
 # repeat hits. must-revalidate + Netlify's auto-cache-purge on deploy
 # means visitors still see fresh content within seconds of a push.
+# Security headers — site serves auth flows (login/account/Supabase tokens).
+# HSTS is safe (site is HTTPS-only behind Netlify); Permissions-Policy keeps
+# microphone for VaniScribe (self) and disables sensors no page uses.
+# frame-ancestors is scoped to the auth/account/admin surface below so
+# educators can still embed games/decks in an LMS.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(self), geolocation=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+
+[[headers]]
+  for = "/login.html"
+  [headers.values]
+    Content-Security-Policy = "frame-ancestors 'none'"
+
+[[headers]]
+  for = "/signup.html"
+  [headers.values]
+    Content-Security-Policy = "frame-ancestors 'none'"
+
+[[headers]]
+  for = "/forgot-password.html"
+  [headers.values]
+    Content-Security-Policy = "frame-ancestors 'none'"
+
+[[headers]]
+  for = "/reset-password.html"
+  [headers.values]
+    Content-Security-Policy = "frame-ancestors 'none'"
+
+[[headers]]
+  for = "/account.html"
+  [headers.values]
+    Content-Security-Policy = "frame-ancestors 'none'"
+
+[[headers]]
+  for = "/org-dashboard.html"
+  [headers.values]
+    Content-Security-Policy = "frame-ancestors 'none'"
+
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    Content-Security-Policy = "frame-ancestors 'none'"
+    X-Robots-Tag = "noindex, nofollow"
+
 [[headers]]
   for = "/*.html"
   [headers.values]

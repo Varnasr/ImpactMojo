@@ -109,7 +109,7 @@
   function ic(name, alt) { return '<img class="im-sc-i" src="' + SI + name + '.svg" alt="' + (alt || '') + '" width="15" height="15" loading="lazy" onerror="this.style.display=\'none\'">'; }
   var I = {
     globe: ic('si_Globe_detailed'), star: ic('si_Star'), info: ic('si_Info'), home: ic('si_Home', 'Home'),
-    sys: ic('si_Monitor'), sun: ic('si_Sun'), moon: ic('si_Moon')
+    sys: ic('si_Monitor'), sun: ic('si_Sun'), moon: ic('si_Moon'), search: ic('si_Search')
   };
   var LOGO = SITE + '/assets/images/apple-touch-icon.png'; // 7KB vs the 599KB full logo
 
@@ -157,6 +157,7 @@
       '</a>' +
       '<span class="im-sc-spacer"></span>' +
       '<div class="im-sc-right">' +
+        '<button class="im-sc-btn im-sc-search" type="button" aria-label="Search the site">' + I.search + '<span class="im-sc-label">Search</span></button>' +
         '<button class="im-sc-btn im-sc-lang" type="button" aria-label="Language">' + I.globe + '<span class="im-sc-label">Language</span></button>' +
         '<a class="im-sc-btn im-sc-prem" href="' + SITE + '/premium.html">' + I.star + '<span class="im-sc-label">Premium</span></a>' +
         '<a class="im-sc-btn" href="' + SITE + '/about.html">' + I.info + '<span class="im-sc-label">About</span></a>' +
@@ -202,6 +203,16 @@
     });
 
     // 6. language: reuse translate-sarvam if present, else open a language page
+    bar.querySelector('.im-sc-search').addEventListener('click', function () {
+      // search.js ships on a minority of pages; lazy-load it on demand
+      if (window.ImpactMojoSearch && window.ImpactMojoSearch.open) return window.ImpactMojoSearch.open();
+      var s = document.createElement('script');
+      s.src = '/js/search.js';
+      s.onload = function () {
+        if (window.ImpactMojoSearch && window.ImpactMojoSearch.open) window.ImpactMojoSearch.open();
+      };
+      document.head.appendChild(s);
+    });
     bar.querySelector('.im-sc-lang').addEventListener('click', function () {
       if (typeof window.ImpactMojoTranslate === 'function') return window.ImpactMojoTranslate();
       var w = document.querySelector('[data-sarvam-widget],.sarvam-translate,#sarvam-translate,.translate-widget');
@@ -239,7 +250,17 @@
     document.body.appendChild(wrap);
   }
 
-  function boot() { injectWhatsApp(); if (!isHome) build(); }
+  // Register the service worker everywhere the chrome loads. js/pwa.js only
+  // ships on ~23 pages; without this, most entry points never get offline
+  // support or CDN caching. Guarded so pages that DO load pwa.js don't
+  // double-register (register() with the same scope is idempotent anyway).
+  function registerSW() {
+    if (!('serviceWorker' in navigator)) return;
+    if (location.protocol !== 'https:' && location.hostname !== 'localhost') return;
+    try { navigator.serviceWorker.register('/service-worker.js'); } catch (e) { /* non-fatal */ }
+  }
+
+  function boot() { injectWhatsApp(); registerSW(); if (!isHome) build(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 })();

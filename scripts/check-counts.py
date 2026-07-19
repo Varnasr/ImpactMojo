@@ -37,6 +37,7 @@ FILES = [
     "index.html",
     "catalog.html",
     "about.html",
+    "faq.html",
     "404.html",
     "podcast.html",
     "transparency.html",

@@ -15,14 +15,14 @@
 <!-- Open Graph -->
 <meta property="og:title" content="Build Circles — 4-Week AI Build Cohorts for M&E | ImpactMojo">
 <meta property="og:description" content="Four weeks. One real M&E problem. A working AI workflow you demo. Refundable ₹1,000 deposit — demo on Demo Day and it all comes back.">
-<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/og-card.png">
 <meta property="og:url" content="https://www.impactmojo.in/build-circles.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ImpactMojo">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Build Circles — 4-Week AI Build Cohorts for M&E | ImpactMojo">
 <meta name="twitter:description" content="Four weeks. One real M&E problem. A working AI workflow you demo. Join the free waitlist.">
-<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/og-card.png">
 
 <!-- Favicons -->
 <link href="/assets/images/favicon.png" rel="icon" type="image/png">
@@ -354,7 +354,7 @@ details.faq .faq-body { padding: 0 1.1rem 1rem 2.3rem; color: var(--text-2); fon
     <section class="section signup" id="signup">
         <h2>Join the waitlist</h2>
         <p class="sub">Free to join. When enough builders at your level are ready, we'll schedule your circle and get in touch on WhatsApp.</p>
-        <form name="build-circle-waitlist" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/build-circles.html">
+        <form name="build-circle-waitlist" id="waitlistForm" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/build-circles.html">
             <input type="hidden" name="form-name" value="build-circle-waitlist">
             <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
             <div class="form-row">
@@ -429,6 +429,14 @@ details.faq .faq-body { padding: 0 1.1rem 1rem 2.3rem; color: var(--text-2); fon
                 Join the waitlist &mdash; it's free
             </button>
         </form>
+        <div id="waitlistSuccess" hidden style="text-align:center; padding:2rem; border:1px solid var(--border); border-radius:12px; background:var(--card);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:64px; height:64px; margin-bottom:1rem;">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <h3 style="color:var(--green); margin-bottom:0.5rem;">You're on the waitlist!</h3>
+            <p style="color:var(--muted);">Thanks for joining. When enough builders at your level are ready, we'll schedule your circle and get in touch on WhatsApp.</p>
+        </div>
     </section>
 
     <section class="section" id="more" style="margin-top:3rem;">
@@ -512,6 +520,25 @@ details.faq .faq-body { padding: 0 1.1rem 1rem 2.3rem; color: var(--text-2); fon
     }
     problem.addEventListener('change', toggleOwn);
     toggleOwn();
+})();
+
+// Waitlist form submission (Netlify Forms via AJAX — same pattern as contact.html)
+(function () {
+    var form = document.getElementById('waitlistForm');
+    if (!form) return;
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(new FormData(form)).toString()
+        }).then(function () {
+            form.style.display = 'none';
+            document.getElementById('waitlistSuccess').hidden = false;
+        }).catch(function () {
+            alert('Something went wrong. Please try again or email us at hello@impactmojo.in');
+        });
+    });
 })();
 </script>
 <!-- ImpactMojo Theme Toggle JS -->
