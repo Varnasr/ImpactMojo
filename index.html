@@ -252,10 +252,13 @@ function saveTrackQuiz(event) {
     if (event && event.preventDefault) event.preventDefault();
     var form = document.getElementById('trackQuizForm');
     var checked = form.querySelectorAll('input[type="radio"]:checked');
-    if (checked.length < 5) return false;
+    if (checked.length < 6) return false;
     var tally = {};
     var order = [];
+    var exp = 'new';
     for (var i = 0; i < checked.length; i++) {
+        var e = checked[i].getAttribute('data-exp');
+        if (e) { exp = e; continue; } // experience question — not a track vote
         var t = checked[i].getAttribute('data-track') || checked[i].value;
         if (!(t in tally)) { tally[t] = 0; order.push(t); }
         tally[t]++;
@@ -266,19 +269,38 @@ function saveTrackQuiz(event) {
         if (tally[order[j]] > tally[winner]) winner = order[j];
     }
     var rec = TRACK_QUIZ_MAP[winner] || TRACK_QUIZ_MAP.methods;
-    try { localStorage.setItem('impactmojo-track', winner); } catch (e) {}
+
+    // ONE primary next step: foundations (101) for newcomers, the full
+    // flagship for everyone else. Remaining picks demote to "also on your path".
+    var flagshipPick = null, first101 = null;
+    for (var k = 0; k < rec.picks.length; k++) {
+        if (rec.picks[k][0].indexOf('(flagship)') !== -1) { if (!flagshipPick) flagshipPick = rec.picks[k]; }
+        else if (!first101) { first101 = rec.picks[k]; }
+    }
+    var primary = (exp === 'new' ? (first101 || flagshipPick) : (flagshipPick || first101)) || rec.picks[0];
+    var secondary = rec.picks.filter(function (p) { return p !== primary; });
+
+    try {
+        localStorage.setItem('impactmojo-track', winner);
+        localStorage.setItem('im-quiz-path', JSON.stringify({
+            track: winner, label: rec.label, exp: exp,
+            primary: primary, updatedAt: new Date().toISOString()
+        }));
+    } catch (e2) {}
 
     var resultBox = document.getElementById('trackQuizResult');
     var textEl = document.getElementById('trackQuizResultText');
     var linkEl = document.getElementById('trackQuizResultLink');
     textEl.innerHTML = '<strong>' + rec.label + '.</strong> ' + rec.blurb;
-    var picks = rec.picks.map(function (p) {
+    var alsoItems = secondary.map(function (p) {
         return '<li><a href="' + p[1] + '" style="color: var(--accent-color);">' + p[0] + '</a></li>';
     }).join('');
     linkEl.innerHTML =
-        '<p style="margin:0.75rem 0 0.35rem;font-weight:600;">Start here:</p>' +
-        '<ul style="margin:0 0 0.75rem 1.1rem;padding:0;line-height:1.8;">' + picks + '</ul>' +
-        '<a class="imx-btn" href="' + rec.hub + '" style="margin-top:0.25rem;">Explore the full ' + rec.label + ' track →</a>';
+        '<a class="imx-btn" href="' + primary[1] + '" style="display:inline-block;margin:0.75rem 0 0.5rem;">Start now: ' + primary[0].replace(' (flagship)', '') + ' →</a>' +
+        '<p style="margin:0.5rem 0 0.25rem;font-weight:600;">Also on your path:</p>' +
+        '<ul style="margin:0 0 0.75rem 1.1rem;padding:0;line-height:1.8;">' + alsoItems + '</ul>' +
+        '<a href="' + rec.hub + '" style="color: var(--accent-color);">Explore the full ' + rec.label + ' track →</a>' +
+        '<p style="margin:0.6rem 0 0;font-size:0.85rem;color:var(--text-secondary,#475569);">Saved — the homepage will remember your path.</p>';
     resultBox.style.display = 'block';
     resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     return false;
@@ -1615,6 +1637,24 @@ window.addEventListener('authStateChanged', function(e) {
             <label class="quiz-option">
               <input type="radio" name="q5" value="health" data-track="health">
               <span>Applied content I can use for health, comms, or SEL programming.</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="quiz-question-group">
+          <h3>6. How much have you worked with this area before?</h3>
+          <div class="quiz-options">
+            <label class="quiz-option">
+              <input type="radio" name="q6" value="new" data-exp="new" required>
+              <span>I'm new to it — start me from the foundations.</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q6" value="some" data-exp="some">
+              <span>I've done some of this — I want structured depth.</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q6" value="experienced" data-exp="experienced">
+              <span>I'm experienced — challenge me with the full course.</span>
             </label>
           </div>
         </div>
@@ -3582,26 +3622,45 @@ document.addEventListener('click', function(e) {
             }
         }
     } catch (e) { return; }
-    if (!best) return;
+
+    // No course in progress? Fall back to the saved quiz path ("Your path")
+    var quizPath = null;
+    if (!best) {
+        try { quizPath = JSON.parse(localStorage.getItem('im-quiz-path')); } catch (e) {}
+        if (!quizPath || !quizPath.primary || !quizPath.primary[1]) return;
+    }
 
     function render() {
         var hero = document.querySelector('.v3-hero');
         if (!hero || document.getElementById('im-continue-strip')) return;
-        var course = COURSES[best.id];
-        var done = best.data.completed.length;
-        var total = best.data.totalModules;
-        var pct = Math.min(100, Math.round((done / total) * 100));
 
         var strip = document.createElement('a');
         strip.id = 'im-continue-strip';
-        strip.href = course[1];
-        strip.setAttribute('aria-label', 'Continue ' + course[0] + ', ' + done + ' of ' + total + ' modules complete');
-        strip.innerHTML =
-            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>' +
-            '<span class="im-cs-text">Continue where you left off: <strong></strong></span>' +
-            '<span class="im-cs-meta">' + done + '/' + total + ' modules · ' + pct + '%</span>' +
-            '<span class="im-cs-arrow" aria-hidden="true">→</span>';
-        strip.querySelector('strong').textContent = course[0];
+
+        if (best) {
+            var course = COURSES[best.id];
+            var done = best.data.completed.length;
+            var total = best.data.totalModules;
+            var pct = Math.min(100, Math.round((done / total) * 100));
+            strip.href = course[1];
+            strip.setAttribute('aria-label', 'Continue ' + course[0] + ', ' + done + ' of ' + total + ' modules complete');
+            strip.innerHTML =
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>' +
+                '<span class="im-cs-text">Continue where you left off: <strong></strong></span>' +
+                '<span class="im-cs-meta">' + done + '/' + total + ' modules · ' + pct + '%</span>' +
+                '<span class="im-cs-arrow" aria-hidden="true">→</span>';
+            strip.querySelector('strong').textContent = course[0];
+        } else {
+            var title = String(quizPath.primary[0]).replace(' (flagship)', '');
+            strip.href = quizPath.primary[1];
+            strip.setAttribute('aria-label', 'Your path: start ' + title);
+            strip.innerHTML =
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>' +
+                '<span class="im-cs-text">Your path — ' + (quizPath.label || 'your track') + ': <strong></strong></span>' +
+                '<span class="im-cs-meta">from your quiz</span>' +
+                '<span class="im-cs-arrow" aria-hidden="true">→</span>';
+            strip.querySelector('strong').textContent = title;
+        }
 
         var style = document.createElement('style');
         style.textContent =
