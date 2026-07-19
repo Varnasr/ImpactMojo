@@ -5,6 +5,23 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.139.0] - 2026-07-19
+
+### Added
+
+- **Challenges feedback loop** — after submitting, learners score themselves against the challenge's weighted rubric (saved per device, browser-verified), and signed-in learners see their submission recorded to their account.
+- **Verified-testimonials system** — `data/testimonials.json` + renderer with hidden mounts on premium/coaching/workshops/dojos (renders nothing while empty; verified, consented quotes only) and a consent-first "Share your experience" Netlify form on the premium page.
+- **Dark mode on all 51 decks** — each deck already shipped a complete dark theme that was never wired to the site toggle or OS preference; the retrofit mirrors each deck's own dark rules under `html.dark`/`data-theme`/`prefers-color-scheme` (explicit light always wins), makes "System" actually follow the OS, and defaults first-time visitors to system preference. Verified in real Chromium across four scenarios; also fixed public-finance-budgeting's theme buttons, which threw a ReferenceError.
+
+### Changed
+
+- BookSummaries taxonomy re-cut: the 65-book "Policy & Social Protection" bucket split into Politics & Democracy (23), Caste, Gender & Society (15), Policy & Public Administration (11), History & Biography (10), Social Protection & Welfare (6); Design folded into Data & Design — 9 balanced, browsable shelves.
+- Org dashboard's locked state now leads signed-out visitors to Sign In (was "buy a plan"); signed-in non-org users get an honest team-plan pitch.
+
+### Fixed
+
+- Two reading companions that ended mid-document (dalio-big-debt-crises, storytelling-climate-solutions) are properly closed and carry the library back-link footer.
+
 ## [10.138.0] - 2026-07-19
 
 ### Security & Critical Fixes
