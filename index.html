@@ -6,6 +6,27 @@
 <!-- index.html is fully responsive; mobile-index.html has been removed -->
 
 <script>
+/* First-visit calm: on a visitor's very first pageview, hide the floating
+   tool widgets (speed dial, WhatsApp share, floating language globe) so the
+   hero lands uncluttered. The flag is set immediately, so every later page
+   view — and every existing visitor — sees everything exactly as before.
+   If storage is unavailable the class is never added and nothing changes. */
+try {
+    if (!localStorage.getItem('im-visited')) {
+        document.documentElement.classList.add('im-first-visit');
+        localStorage.setItem('im-visited', '1');
+    }
+} catch (e) { /* storage blocked — show everything */ }
+</script>
+<style>
+html.im-first-visit .imx-speed-dial,
+html.im-first-visit #imxSpeedDial, /* ID variant outranks the mobile "force visible" #imxSpeedDial rule */
+html.im-first-visit #im-wa-fab,
+html.im-first-visit #im-lang-switch.im-lang-floating {
+    display: none !important; /* overrides JS-injected inline styles */
+}
+</style>
+<script>
 /* ============================================================
    MOBILE MENU FUNCTIONS - MUST BE DEFINED EARLY
    These functions are called via onclick in the HTML
