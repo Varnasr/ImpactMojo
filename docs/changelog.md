@@ -2,6 +2,15 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.134.1 — July 19, 2026 (Findability follow-ups)
+
+### Changed
+
+- **Teach with ImpactMojo is now easy to find** — linked from the shared footer on every page and the homepage footer's Learn column, alongside the existing Services → For Instructors menu entry.
+- **Footer says Studios** — the shared footer's "Labs" link label updated to the new name.
+- **Sampling Toolkit left the navigation** — it's one of the 35 studios, so it now lives with the rest of them (Studios page, catalog, and search) instead of holding a top-level menu slot.
+- **Handouts page counts agree with themselves** — the stat tile now counts the same 89 HTML handouts the hero describes.
+
 ## v10.134.0 — July 19, 2026 (Studios, a fixed catalog, and a smarter starting quiz)
 
 ### For Learners

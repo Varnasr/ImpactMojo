@@ -178,7 +178,8 @@
           '<p>Free, open-source development education for South Asia &mdash; flagship courses, 101 decks, labs, games and research tools.</p></div>' +
         '<div class="im-sc-foot-col"><h4>Learn</h4>' +
           '<a href="' + SITE + '/courses/">Flagship Courses</a><a href="' + SITE + '/101-courses/">101 Series</a>' +
-          '<a href="' + SITE + '/Labs/">Labs</a><a href="' + SITE + '/catalog.html">Full Catalog</a></div>' +
+          '<a href="' + SITE + '/Labs/">Studios</a><a href="' + SITE + '/teach.html">Teach with ImpactMojo</a>' +
+          '<a href="' + SITE + '/catalog.html">Full Catalog</a></div>' +
         '<div class="im-sc-foot-col"><h4>Explore</h4>' +
           '<a href="' + SITE + '/libraries.html"><b>All Libraries</b></a><a href="' + SITE + '/dataverse.html">Dataverse</a>' +
           '<a href="' + SITE + '/BookSummaries/">Reading Companions</a><a href="' + SITE + '/dojos.html">Dojos &amp; Practice</a>' +
