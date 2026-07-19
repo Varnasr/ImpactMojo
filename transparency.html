@@ -770,9 +770,9 @@ main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) 
                 <strong>Practitioners reached</strong> follows our documented methodology — the April 2026
                 legacy baseline (Google-Sheets records + GA4) plus every learner who registered after it,
                 stored in a public <code>public_stats_baseline</code> table so the site can never drift
-                from the source. The other tiles count <strong>signed-in learners only</strong> — most
-                visitors browse without an account — and database tracking began in 2026, so they start
-                small and honest.
+                from the source. Engagement tiles show <strong>all-time totals</strong> — legacy records plus the live
+                database — and appear only once a metric has real data behind it; we don&rsquo;t show
+                zeros that reflect missing instrumentation rather than reality.
             </p>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;" id="liveStatsGrid">
                 <div style="text-align:center;padding:18px 10px;background:var(--hover-bg);border-radius:12px;">
@@ -818,12 +818,23 @@ main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) 
                 body: '{}'
             }).then(function (r) { return r.json(); }).then(function (s) {
                 var set = function (id, v) { var el = document.getElementById(id); if (el) el.textContent = (v == null ? '—' : v.toLocaleString('en-IN')); };
+                // Tiles other than the two headline counts render only when the
+                // combined (legacy baseline + live) total is a real number > 0 —
+                // a zero here means the metric isn't instrumented/backfilled yet,
+                // and showing it as "0" would be wrong, not honest.
+                var setOrHide = function (id, v) {
+                    var el = document.getElementById(id);
+                    if (!el) return;
+                    var tile = el.parentElement;
+                    if (typeof v === 'number' && v > 0) { el.textContent = v.toLocaleString('en-IN'); tile.style.display = ''; }
+                    else if (tile) tile.style.display = 'none';
+                };
                 set('ls-total', s.practitioners_total);
                 set('ls-learners', s.registered_learners);
-                set('ls-active', s.active_learners_30d);
-                set('ls-started', s.courses_started);
-                set('ls-completed', s.courses_completed);
-                set('ls-certs', s.certificates_issued);
+                setOrHide('ls-active', s.active_learners_30d);
+                setOrHide('ls-started', s.courses_started_total);
+                setOrHide('ls-completed', s.courses_completed_total);
+                setOrHide('ls-certs', s.certificates_issued_total);
                 var asof = document.getElementById('ls-asof');
                 if (asof && s.as_of) asof.textContent = 'As of ' + new Date(s.as_of).toLocaleString('en-IN') + ' — refreshed on every page load.';
             }).catch(function () { /* leave dashes */ });

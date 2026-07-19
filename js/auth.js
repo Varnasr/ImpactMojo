@@ -171,6 +171,7 @@ const ImpactMojoAuth = {
                         this.syncFromCloud().catch(function (e) {
                             console.error('Background sync failed:', e);
                         });
+                        this.pingActivity(session.user.id);
                     }
                 } else if (event === 'SIGNED_IN' && session?.user) {
                     // Skip redundant work if INITIAL_SESSION already handled this user
@@ -979,6 +980,21 @@ const ImpactMojoAuth = {
     },
 
     // Reset password
+    // Keep profiles.last_active_at truthful (feeds the transparency page's
+    // "Active in last 30 days"). Fire-and-forget, throttled to once per day.
+    pingActivity(userId) {
+        try {
+            var key = 'im-activity-ping';
+            var last = localStorage.getItem(key);
+            var today = new Date().toISOString().slice(0, 10);
+            if (last === today) return;
+            supabaseClient.from('profiles')
+                .update({ last_active_at: new Date().toISOString() })
+                .eq('id', userId)
+                .then(function () { try { localStorage.setItem(key, today); } catch (e) {} });
+        } catch (e) { /* best-effort */ }
+    },
+
     async resetPassword(email) {
         try {
             const { data, error } = await supabaseClient.auth.resetPasswordForEmail(email, {
