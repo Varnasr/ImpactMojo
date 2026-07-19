@@ -6,13 +6,13 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 
 ### For Learners
 
-- **The transparency page now shows true all-time numbers** — 120,700 courses started, 727 completed, 468 certificates earned, and ~13,000 learning hours across the platform's whole history, combined from our legacy records and the live database. If a metric has no reliable data yet, we hide it rather than show a misleading zero.
+- **The transparency page now shows true all-time numbers** — 120,700 courses started, 727 completed, 468 certificates earned, and ~13,000 learning hours across the platform's whole history, combined from our legacy records and our live numbers. If a metric has no reliable data yet, we hide it rather than show a misleading zero.
 
 ## v10.141.0 — July 19, 2026 (Faster everywhere, safer sources, honest numbers)
 
 ### For Learners
 
-- **Pages load faster and look right everywhere** — the site's typefaces now come from impactmojo.in itself instead of Google, so pages render quicker on slow connections and keep their look even on networks where Google services are blocked.
+- **Pages load faster and look right everywhere** — pages load quicker on slow connections and keep their look even on networks where Google services are blocked.
 - **Course downloads are complete** — "Download for offline" now saves the whole course including its lexicon, and it stays free for everyone.
 - **The Back button behaves in the game library** — closing a game takes you back to the library, not out of the site.
 - **Livelihoods course numbers are current** — female labour-force participation updated to the latest PLFS 2023–24 figure (41.7%), with sources named on the page.
@@ -44,13 +44,13 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 - **Search and offline everywhere** — every page's top bar now has a Search button, and offline support works site-wide; the offline page even lists the courses you've downloaded.
 - **Finish what you start** — decks now point you to the matching Studio, course, or game when you finish; games remember completion in the library; and reading companions link back to the collection.
 - **Faster decks on slow connections** — 42 of the 101 decks were carrying about 1MB of JavaScript they never used; it's gone.
-- **Live, honest numbers** — the practitioners-reached figure across the site now comes from the database (April 2026 baseline + everyone who registered since) and updates itself.
+- **Live, honest numbers** — the practitioners-reached figure across the site now comes from our live records (April 2026 baseline + everyone who registered since) and updates itself.
 
 ## v10.137.0 — July 19, 2026 (Every link works, and the numbers are live)
 
 ### For Learners
 
-- **Live platform numbers on the transparency page** — registered learners, active learners, courses started and completed, and certificates issued now come straight from the platform database, updated on every visit, with an honest note about what the numbers do and don't cover.
+- **Live platform numbers on the transparency page** — registered learners, active learners, courses started and completed, and certificates issued now come straight from our live records, updated on every visit, with an honest note about what the numbers do and don't cover.
 - **78 broken links fixed across the site** — games, studios, blog posts and lexicons that pointed at moved or renamed pages now land where they should, and an automatic guard keeps every internal link working from now on.
 - **Sharing your certificate looks the part** — paste a certificate verification link into LinkedIn or WhatsApp and the preview now shows your course name and a branded certificate card instead of a generic page title.
 
@@ -59,7 +59,7 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 ### For Learners
 
 - **Three new course lexicons** — Livelihoods (53 terms), Media & Communication (50 terms), and Power BI (51 terms) join the flagship lexicon family: searchable, filterable glossaries with definitions and worked examples. Every one of the 18 flagships now has an annotated lexicon.
-- **The site got noticeably lighter** — images across the platform were compressed by nearly half (15MB saved) with no visible quality change, and smarter caching makes repeat visits render instantly. Biggest wins on slow connections.
+- **The site got noticeably lighter** — images across the platform were compressed by nearly half (15MB saved) with no visible quality change, and repeat visits now load instantly. Biggest wins on slow connections.
 - **Menus are shorter and consistent** — every menu label is now at most two words (Events, Products, Flagships, Workshops, Teach, Dojos, Posters…), with brand names like Deep Dives and Build Circles untouched.
 - **Hindi, Bengali, Tamil, Telugu and Marathi caught up** — the Studios naming, the new menu labels, and the instructor page are now translated instead of falling back to English.
 
@@ -1373,7 +1373,7 @@ The Interactive Labs collection grows from 16 to 27, with three new tracks — R
 ### For Learners
 
 - **The Causal Inference for Development course is rebuilt to a gold standard.** All thirteen modules — from the counterfactual and potential outcomes through matching, instrumental variables, regression discontinuity, difference-in-differences, synthetic control and causal machine learning, to reading evaluations, theory-based methods when there is no counterfactual, and a capstone — now carry **properly typeset equations**, **causal-graph diagrams**, a **worked example from a real Indian programme with a results table**, **runnable R and Stata code**, a **common-pitfalls box**, and a **practice problem set with worked solutions** in every module. The writing was rebuilt for rigour and clarity throughout, with current references (Imbens & Rubin, Angrist & Pischke, Cunningham, Cattaneo, Callaway & Sant'Anna, Chernozhukov, and more).
-- **Course content now loads reliably.** Lessons that could previously hang on a slow connection now time out and retry automatically, and the maths renders cleanly on phones as well as desktops.
+- **Course content now loads reliably.** Lessons that could previously hang on a slow connection now time out and retry automatically, and the maths displays cleanly on phones as well as desktops.
 
 ## v10.53.0 — June 4, 2026 (Marginalia series + second essay: The Fine Print)
 
@@ -1573,7 +1573,7 @@ The Interactive Labs collection grows from 16 to 27, with three new tracks — R
 ### For Learners
 
 - **Practice Packs are now interactive.** Every pack works like a lab: in-browser forms auto-save, the capstone builds itself when you click "Build my brief," export as markdown or print as PDF. Nothing transmitted; data stays in your browser.
-- **PP01 SEL Evaluation retrofitted** with the new interactive pattern (form editor, localStorage, MCQ self-checks, live capstone, progress bar).
+- **PP01 SEL Evaluation retrofitted** with the new interactive pattern (form editor, saved answers, self-check quizzes, live capstone, progress bar).
 - **New PP02 Livelihoods Evaluation Design (Subject Pack)** — first livelihoods-specific practice pack. SLF-grounded, PLFS/NRLM/SECC-aligned, with seasonal calendar + migration coding.
 - **Landing restructured into two tracks**: Subject Packs (9 — per-domain) + Method Packs (9 — cross-cutting toolkit).
 
@@ -1636,7 +1636,7 @@ Adds a single blog post answering one of the most common cofounder/client questi
 
 ### For Learners
 
-- **How to Write a ToR That Gets You Useful Research** — Practical, opinionated guide covering the nine ingredients of a good ToR, five common anti-patterns, India 2026 budget benchmarks (₹2L / ₹10L / ₹40L tiers with what each actually buys), and a pre-send checklist. Includes three inline diagrams (anatomy of a ToR, budget tiers, pipeline + failure points).
+- **How to Write a ToR That Gets You Useful Research** — Practical, opinionated guide covering the nine ingredients of a good ToR, five common anti-patterns, India 2026 budget benchmarks (₹2L / ₹10L / ₹40L tiers with what each actually buys), and a pre-send checklist. Includes three diagrams (anatomy of a ToR, budget tiers, pipeline + failure points).
 
 ### Notes
 

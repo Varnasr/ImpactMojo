@@ -5,6 +5,13 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.142.0] - 2026-07-19
+
+### Changed
+
+- **Plain-language sweep**: removed engineering/tech jargon from user-facing copy sitewide (transparency, index, about, faq, premium, and the changelog "For Learners" sections). "Live numbers from our Supabase database", "GA4", "axe-core / pa11y on every pull request", "service worker", "localStorage", "structured formats / API key" and similar were rewritten to what the reader actually gets, or removed where they only described plumbing. Meaningful terms kept (WCAG 2.1 AA standard, open-source, CC BY-NC-ND). Three deliberately-technical developer blog posts left intact (owner decision pending).
+- **Transparency chart honesty**: the Course Engagement chart names its real basis — "the 12 most-used of the 41 courses that existed when this snapshot was taken (December 2025)" — so courses created after the legacy count aren't represented.
+
 ## [10.141.2] - 2026-07-19
 
 ### Fixed
