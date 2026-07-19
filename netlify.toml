@@ -37,23 +37,27 @@
     Cache-Control = "public, max-age=300, must-revalidate"
 
 # Long cache for static assets — images, logos, favicons rarely change.
-# Browsers will still revalidate via ETag if Netlify regenerates them.
+# 7-day browser cache + a day of serve-stale-while-refreshing. Not
+# `immutable` because filenames aren't content-hashed; ETag revalidation
+# keeps a redesigned asset from sticking for a week.
 [[headers]]
   for = "/assets/*"
   [headers.values]
-    Cache-Control = "public, max-age=86400, must-revalidate"
+    Cache-Control = "public, max-age=604800, stale-while-revalidate=86400"
 
-# CSS files (custom stylesheets, not inline) — same revalidation pattern as JS
+# CSS/JS — still revalidated after 5 min, but stale-while-revalidate lets
+# the browser render instantly from cache and refresh in the background,
+# so repeat visits never block on the network. The service worker's
+# deploy-versioned cache handles SW clients; this covers everyone else.
 [[headers]]
   for = "/css/*"
   [headers.values]
-    Cache-Control = "public, max-age=300, must-revalidate"
+    Cache-Control = "public, max-age=300, stale-while-revalidate=86400"
 
-# Short cache for JS/CSS so updates propagate quickly
 [[headers]]
   for = "/js/*"
   [headers.values]
-    Cache-Control = "public, max-age=300, must-revalidate"
+    Cache-Control = "public, max-age=300, stale-while-revalidate=86400"
 
 [[headers]]
   for = "/Games/*"
