@@ -2,6 +2,22 @@
 
 No formal test framework — static HTML site with no build step.
 
+## Ship checklist — post-merge deploy verification (MANDATORY)
+
+Netlify's git webhook can silently drop a merge event: deploy previews build,
+production stays on the previous release, nothing errors (this happened to
+v10.141.0 on 2026-07-19). After EVERY merge to main:
+
+```bash
+set -a; . .claude/.env.keys 2>/dev/null; set +a
+python3 scripts/verify-deploy.py        # polls production; auto-triggers a
+                                        # manual build if the webhook was missed
+```
+
+Must print `PASS — production deploy ready`. Then spot-check 1-2 live markers
+from the release (curl with -L; remember Netlify's lowercase/pretty-URL
+redirects). Never announce a release as live on version.json age alone.
+
 ## Manual verification checklist
 
 Before considering any change complete:

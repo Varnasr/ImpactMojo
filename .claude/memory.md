@@ -25,6 +25,7 @@ Persistent context that carries across Claude Code sessions. Updated automatical
 ## Recent Decisions
 
 <!-- Append new decisions at the top -->
+- **2026-07-19 — Post-merge deploy verification is mandatory**: Netlify dropped the v10.141.0 merge webhook (previews built, production silently stale). `scripts/verify-deploy.py` polls for the production deploy of origin/main HEAD and auto-triggers a manual build via the API if none starts within the grace window. Run it after every merge (documented in rules/testing.md ship checklist).
 - **2026-07-19 — Offline course downloads stay FREE (user decision)**: no premium gating; matches FAQ/offline-page promises. Also: papers stay on Dropbox (copyright/size), lexicon xlsx now first-party in courses/*/.
 - **2026-07-19 — NO AUTOMATED PAYMENTS, EVER (user decision)**: gateway fees too expensive; manual UPI + email reconciliation is permanent. Never re-suggest payment gateways, webhooks, or "instant fulfilment" automation.
 - **2026-07-19 — Live stats architecture (user decision)**: headline learner numbers come from Supabase, never hardcoded. `public_stats_baseline` table (practitioners_reached=13000 as of 2026-04-30, per legacy Sheets+GA4; user confirmed) + `get_public_stats()` returns `practitioners_total` = baseline + profiles created after as_of (auto-grow: user chose). Pages use `[data-live-stat]` + js/live-stats.js. To update legacy numbers: UPDATE public_stats_baseline row — site follows.
