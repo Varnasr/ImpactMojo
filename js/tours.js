@@ -123,7 +123,7 @@
       { element: '#nav-learn', intro: '<strong>Learn</strong><br>The heart of the platform: 69 courses (18 flagship + 51 foundational), interactive studios, and practice packs.' },
       { element: '#nav-flagships', intro: '<strong>Flagship courses</strong><br>Semester-depth courses with progress tracking, self-assessments, and free certificates — MEL, development economics, gender studies, causal inference, and more.' },
       { element: '#nav-labs', intro: '<strong>Studios</strong><br>35 studios where you build real artefacts — a Theory of Change, a LogFrame, a sampling plan, a survey instrument.' },
-      { element: '#nav-specials', intro: '<strong>Explore</strong><br>The 135-game library, 134 reading companions, 22 deep dives, citation-backed timelines, and daily practice dojos.' },
+      { element: '#nav-specials', intro: '<strong>Explore</strong><br>The 135-game library, 149 reading companions, 22 deep dives, citation-backed timelines, and daily practice dojos.' },
       { element: '#nav-libraries', intro: '<strong>Libraries &amp; data</strong><br>Reference collections: the Dataverse of data tools, the ImpactLex glossary, NudgeKit behaviour-change techniques, and Indian policy documents.' },
       { element: '.ims-nav-btn', intro: '<strong>Search everything</strong><br>Press <kbd>Ctrl</kbd>+<kbd>K</kbd> anywhere to search across every course, studio, game and companion.' },
       { element: '#quiz', intro: '<strong>Not sure where to start?</strong><br>Six quick questions give you a personal starting path — and the homepage remembers it.' },
