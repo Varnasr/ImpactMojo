@@ -71,6 +71,24 @@ TERMS = [
 
 SKIP_LINE = re.compile(r"→|->|count-ignore")
 
+# Homepage tile markup puts the number AFTER the label:
+#   <span class="tp-n">Courses <span class="tp-cnt tp-mono">69</span></span>
+TILE_TERMS = {
+    "courses": "courses",
+    "games": "games",
+    "labs": "labs",
+    "reading companions": "reading-companions",
+    "deep dives": "deep-dives",
+    "handouts": "handouts",
+    "timelines": "timelines",
+    "practice packs": "practice-packs",
+}
+TILE_RE = re.compile(
+    r"(" + "|".join(re.escape(t) for t in TILE_TERMS) + r")\s*"
+    r"<span class=\"tp-cnt[^\"]*\">(\d+)",
+    re.IGNORECASE,
+)
+
 
 def build_pattern():
     alts = "|".join(f"(?P<t{i}>{rx})" for i, (rx, _) in enumerate(TERMS))
@@ -108,6 +126,15 @@ def main():
                 if expected is not None and number != expected:
                     failures.append(
                         f"{rel}:{lineno}: found \"{m.group(0).strip()}\" "
+                        f"but canonical {key} = {expected}"
+                    )
+            for m in TILE_RE.finditer(line):
+                key = TILE_TERMS[m.group(1).lower()]
+                number = int(m.group(2))
+                expected = counts.get(key)
+                if expected is not None and number != expected:
+                    failures.append(
+                        f"{rel}:{lineno}: tile \"{m.group(1)} … {number}\" "
                         f"but canonical {key} = {expected}"
                     )
 
