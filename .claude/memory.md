@@ -25,6 +25,7 @@ Persistent context that carries across Claude Code sessions. Updated automatical
 ## Recent Decisions
 
 <!-- Append new decisions at the top -->
+- **2026-07-19 — Legacy baseline is OWNER-CONFIRMED (do not re-derive)**: public_stats_baseline now holds courses_started=120,700 (legacy cumulative course users), courses_completed=727, certificates_issued=468 (both from owner's Excel), learning_minutes=785,160 (owner-approved estimate: 727×~18h×60). Corrections = UPDATE the table row, NO redeploy. Rule: transparency tiles HIDE when total=0 (uninstrumented ≠ zero). auth.js pings profiles.last_active_at daily (key im-activity-ping).
 - **2026-07-19 — Post-merge deploy verification is mandatory**: Netlify dropped the v10.141.0 merge webhook (previews built, production silently stale). `scripts/verify-deploy.py` polls for the production deploy of origin/main HEAD and auto-triggers a manual build via the API if none starts within the grace window. Run it after every merge (documented in rules/testing.md ship checklist).
 - **2026-07-19 — Offline course downloads stay FREE (user decision)**: no premium gating; matches FAQ/offline-page promises. Also: papers stay on Dropbox (copyright/size), lexicon xlsx now first-party in courses/*/.
 - **2026-07-19 — NO AUTOMATED PAYMENTS, EVER (user decision)**: gateway fees too expensive; manual UPI + email reconciliation is permanent. Never re-suggest payment gateways, webhooks, or "instant fulfilment" automation.
