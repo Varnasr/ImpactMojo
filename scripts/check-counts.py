@@ -47,6 +47,7 @@ FILES = [
     "docs/content-catalog.md",
     "docs/games-guide.md",
     "docs/labs-guide.md",
+    "js/tours.js",
 ]
 
 # Ordered: longer/more specific phrases first. Each maps a phrase regex to a
