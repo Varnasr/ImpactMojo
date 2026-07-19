@@ -5,6 +5,23 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.141.0] - 2026-07-19
+
+### Added
+
+- **Self-hosted web fonts** — 59 woff2 files (variable where possible, latin+latin-ext) in `assets/fonts/` + `css/fonts.css`; 753 pages swapped off fonts.googleapis.com (845 links, 1,336 preconnects removed); Chromium-verified zero Google requests on 6 page types; Indic scripts keep system/on-demand fonts.
+- **Per-page i18n dictionaries for intervention, nothing-about-us, nvc-rj** (5 languages) — the last three flagships without curated translations.
+
+### Changed
+
+- Course downloads cache the full course (entry + lexicon + shared render assets); offline downloads confirmed **free for everyone** (owner decision — matches all existing promises).
+- 7 lexicon .xlsx files pulled from Dropbox into course dirs and repointed (openpyxl-validated) — external share links no longer a single point of failure; papers folders remain on Dropbox (all 19 links verified alive) under weekly link-rot watch.
+- Game library: browser Back closes the game overlay instead of leaving the site.
+
+### Fixed
+
+- Livelihoods hero stats: FLFPR 32.8% (stale PLFS 2022–23) → 41.7% (PLFS 2023–24); informal-employment figure recited to ILO India Employment Report 2024. The Real Middle game now carries an honest sources note (PRICE ICE 360°, WID; stylised for gameplay).
+
 ## [10.140.0] - 2026-07-19
 
 ### Added

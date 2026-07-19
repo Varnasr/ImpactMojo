@@ -2,11 +2,14 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
-## Unreleased
+## v10.141.0 — July 19, 2026 (Faster everywhere, safer sources, honest numbers)
 
-### Changed
+### For Learners
 
-- **Self-hosted web fonts** — all ~750 pages now load Inter, Amaranth, JetBrains Mono (and every other typeface in use) from `/assets/fonts/` instead of fonts.googleapis.com. Pages render faster on slow connections (no third-party TLS handshakes) and keep their typography even where Google is blocked. Non-Latin scripts continue to use system fonts.
+- **Pages load faster and look right everywhere** — the site's typefaces now come from impactmojo.in itself instead of Google, so pages render quicker on slow connections and keep their look even on networks where Google services are blocked.
+- **Course downloads are complete** — "Download for offline" now saves the whole course including its lexicon, and it stays free for everyone.
+- **The Back button behaves in the game library** — closing a game takes you back to the library, not out of the site.
+- **Livelihoods course numbers are current** — female labour-force participation updated to the latest PLFS 2023–24 figure (41.7%), with sources named on the page.
 
 ## v10.140.0 — July 19, 2026 (Findable games, honest hours, connected reading)
 
