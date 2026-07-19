@@ -2,6 +2,24 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.136.0 — July 19, 2026 (Faster, findable, and fully lexiconed)
+
+### For Learners
+
+- **Three new course lexicons** — Livelihoods (53 terms), Media & Communication (50 terms), and Power BI (51 terms) join the flagship lexicon family: searchable, filterable glossaries with definitions and worked examples. Every one of the 18 flagships now has an annotated lexicon.
+- **The site got noticeably lighter** — images across the platform were compressed by nearly half (15MB saved) with no visible quality change, and smarter caching makes repeat visits render instantly. Biggest wins on slow connections.
+- **Menus are shorter and consistent** — every menu label is now at most two words (Events, Products, Flagships, Workshops, Teach, Dojos, Posters…), with brand names like Deep Dives and Build Circles untouched.
+- **Hindi, Bengali, Tamil, Telugu and Marathi caught up** — the Studios naming, the new menu labels, and the instructor page are now translated instead of falling back to English.
+
+### Added
+
+- Structured data for search engines on 230 pages: every foundational deck (Course), reading companion (LearningResource), and blog post (BlogPosting).
+- Email notifications wired for seven forms that previously collected submissions silently — including product orders, event registrations, and instructor-kit requests.
+
+### Fixed
+
+- Accessibility audits now run clean: heading order corrected on the homepage, about page and shared footer, and the skip links and share button sit in proper landmarks.
+
 ## v10.135.1 — July 19, 2026 (Search fixed + a guard against conflict markers)
 
 ### Fixed

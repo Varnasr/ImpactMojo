@@ -5,6 +5,25 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.136.0] - 2026-07-19
+
+### Added
+
+- **3 course lexicons** (livelihoods 53 / media 50 / powerBI 51 terms) from the mel lexicon template — all 18 flagships now have one; sitemap entries added; flagship tile updated.
+- **JSON-LD at scale**: Course on 51 decks, LearningResource on 146 companions, BlogPosting on 33 posts (230 blocks, all validated).
+- **Netlify email hooks** for 7 unwired forms (instructor-kit, product-order, event-registration, certificate-track-order, course-contribution, build-circle-waitlist, subscription-payment) → info@impactmojo.in.
+- **i18n**: 9 Studios-era strings + 15 new menu labels translated in hi/bn/ta/te/mr.
+
+### Changed
+
+- **Images**: 105 files >100KB compressed in place (34MB → 18MB, 47%); logo 588KB → 56KB. Same filenames/formats.
+- **Cache headers**: /assets/ 7d + SWR; /css/ /js/ 5min + SWR (no immutable — unhashed filenames).
+- **Menus**: consistent ≤2-word labels across all menus; catalog premium labels unified as "Pro Studio".
+
+### Fixed
+
+- **a11y zeroed**: h4→h3 (founder/team/footer), skip links wrapped in nav landmarks (32 pages), WA FAB in aside landmark.
+
 ## [10.135.1] - 2026-07-19
 
 ### Fixed
