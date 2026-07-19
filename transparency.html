@@ -757,6 +757,70 @@ main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) 
     </div>
 
     <!-- ============================================================ -->
+    <!-- LIVE DATABASE NUMBERS -->
+    <!-- ============================================================ -->
+    <div class="card" id="live-stats-card">
+        <h2>Live Database Numbers</h2>
+        <div class="card-body">
+            <p style="margin-bottom:16px;color:var(--text-secondary);">
+                Unlike the cumulative estimates above, these come straight from our database at the moment
+                you loaded this page. They count <strong>signed-in learners only</strong> — most visitors
+                browse without an account — and our database began tracking in 2026, so they start small
+                and honest.
+            </p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;" id="liveStatsGrid">
+                <div style="text-align:center;padding:18px 10px;background:var(--hover-bg);border-radius:12px;">
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:700;color:var(--accent-color);" id="ls-learners">—</div>
+                    <div style="font-size:0.8rem;color:var(--text-muted);">Registered learners</div>
+                </div>
+                <div style="text-align:center;padding:18px 10px;background:var(--hover-bg);border-radius:12px;">
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:700;color:var(--accent-color);" id="ls-active">—</div>
+                    <div style="font-size:0.8rem;color:var(--text-muted);">Active in last 30 days</div>
+                </div>
+                <div style="text-align:center;padding:18px 10px;background:var(--hover-bg);border-radius:12px;">
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:700;color:var(--accent-color);" id="ls-started">—</div>
+                    <div style="font-size:0.8rem;color:var(--text-muted);">Courses started</div>
+                </div>
+                <div style="text-align:center;padding:18px 10px;background:var(--hover-bg);border-radius:12px;">
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:700;color:var(--accent-color);" id="ls-completed">—</div>
+                    <div style="font-size:0.8rem;color:var(--text-muted);">Courses completed</div>
+                </div>
+                <div style="text-align:center;padding:18px 10px;background:var(--hover-bg);border-radius:12px;">
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:700;color:var(--accent-color);" id="ls-certs">—</div>
+                    <div style="font-size:0.8rem;color:var(--text-muted);">Certificates issued</div>
+                </div>
+            </div>
+            <p style="margin-top:12px;font-size:0.75rem;color:var(--text-muted);" id="ls-asof"></p>
+        </div>
+    </div>
+    <script>
+    (function () {
+        function ready(fn) {
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn);
+            else fn();
+        }
+        ready(function () {
+            var cfg = window.ImpactMojoConfig;
+            if (!cfg || !cfg.SUPABASE_URL) return;
+            fetch(cfg.SUPABASE_URL + '/rest/v1/rpc/get_public_stats', {
+                method: 'POST',
+                headers: { 'apikey': cfg.SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + cfg.SUPABASE_ANON_KEY, 'Content-Type': 'application/json' },
+                body: '{}'
+            }).then(function (r) { return r.json(); }).then(function (s) {
+                var set = function (id, v) { var el = document.getElementById(id); if (el) el.textContent = (v == null ? '—' : v.toLocaleString('en-IN')); };
+                set('ls-learners', s.registered_learners);
+                set('ls-active', s.active_learners_30d);
+                set('ls-started', s.courses_started);
+                set('ls-completed', s.courses_completed);
+                set('ls-certs', s.certificates_issued);
+                var asof = document.getElementById('ls-asof');
+                if (asof && s.as_of) asof.textContent = 'As of ' + new Date(s.as_of).toLocaleString('en-IN') + ' — refreshed on every page load.';
+            }).catch(function () { /* leave dashes */ });
+        });
+    })();
+    </script>
+
+    <!-- ============================================================ -->
     <!-- METHODOLOGY & DATA SOURCES -->
     <!-- ============================================================ -->
     <div class="card">
