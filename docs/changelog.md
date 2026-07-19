@@ -11,6 +11,7 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 ### Added
 
 - **A permanent guard** — the build now fails automatically if git conflict markers ever appear in any file, so this class of accident can't reach the live site again.
+- **One quiz, one place** — the mid-page "Not sure where to start?" band is gone; the quiz now lives solely in the hero and opens in one click.
 
 ## v10.135.0 — July 19, 2026 (No more walls of cards)
 
