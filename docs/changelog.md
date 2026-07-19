@@ -2,6 +2,14 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.139.0 — July 19, 2026 (Feedback, night reading, and browsable shelves)
+
+### For Learners
+
+- **Score yourself after a challenge** — every Live Case Challenge now lets you rate your submission against the same weighted rubric an evaluator would use, and your submissions show as recorded to your account.
+- **Dark mode works on all 51 decks** — the 101 decks now follow your theme choice and your device's night setting, so late-night reading no longer means a blinding white screen.
+- **Reading companions are easier to browse** — the giant "Policy" shelf is now six real shelves: Politics & Democracy, Caste, Gender & Society, History & Biography, Social Protection, Policy & Public Administration, and Data & Design.
+
 ## v10.138.0 — July 19, 2026 (The everything-fixed release)
 
 ### For Learners
