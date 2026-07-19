@@ -142,7 +142,31 @@
             return;
         }
 
-        grid.innerHTML = filtered.map(renderCard).join('');
+        // On the unfiltered view, group by difficulty with section headers so
+        // the page reads as a laddered path instead of one uniform card wall.
+        if (currentFilter === 'all') {
+            var LEVELS = [
+                ['beginner', 'Start here', 'Scoped, confidence-building cases — a first rep for each skill.'],
+                ['intermediate', 'Build range', 'Messier briefs with competing constraints, like the real thing.'],
+                ['advanced', 'Test yourself', 'High-ambiguity cases that reward judgement, not templates.']
+            ];
+            var html = '';
+            LEVELS.forEach(function (lv) {
+                var group = filtered.filter(function (ch) { return ch.difficulty === lv[0]; });
+                if (!group.length) return;
+                html += '<div class="ch-group-head ch-group-' + lv[0] + '">' +
+                    '<h2>' + lv[1] + ' <span class="ch-group-count">' + group.length + '</span></h2>' +
+                    '<p>' + lv[2] + '</p></div>' +
+                    '<div class="ch-group-grid">' + group.map(renderCard).join('') + '</div>';
+            });
+            var rest = filtered.filter(function (ch) {
+                return ['beginner', 'intermediate', 'advanced'].indexOf(ch.difficulty) === -1;
+            });
+            if (rest.length) html += '<div class="ch-group-grid">' + rest.map(renderCard).join('') + '</div>';
+            grid.innerHTML = html;
+        } else {
+            grid.innerHTML = '<div class="ch-group-grid">' + filtered.map(renderCard).join('') + '</div>';
+        }
 
         // Bind click handlers
         grid.querySelectorAll('.ch-card').forEach(function (card) {

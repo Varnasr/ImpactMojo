@@ -2,6 +2,24 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.134.0 — July 19, 2026 (Studios, a fixed catalog, and a smarter starting quiz)
+
+### For Learners
+
+- **Labs are now Studios** — the 35 free hands-on workbenches have a new name across the site. Same tools, same links, clearer identity: studios are where you build real artefacts — a Theory of Change, a LogFrame, a sampling plan, a survey instrument.
+- **The catalog works again** — a bug had silently emptied the full catalog page; it now shows all 320+ items with filter counts that update themselves, including eight items that had never been listed (the four newest 101 courses, the LogFrame Builder, the Sampling Toolkit, and two Deep Dives).
+- **A smarter starting quiz** — the homepage quiz now asks how experienced you are and recommends one clear next step: foundations first if you're new, the full flagship if you're not. The homepage remembers your path and greets you with it until you start a course.
+- **Live Case Challenges, organized as a ladder** — the challenges page now reads Start here → Build range → Test yourself instead of one long wall of cards.
+- **Teach with ImpactMojo** (`/teach.html`) — a new page for professors, trainers and team leads: three ways to run ImpactMojo in a classroom or cohort, what's in a teaching kit, plain-language licensing, and a form to request a syllabus-mapped instructor kit.
+- **A refreshed homepage tour** — up-to-date content, new stops for search (Ctrl+K) and the starting quiz, and the site's indigo look.
+
+### Fixed
+
+- Certificates earned on the nine newer flagship courses now appear in the badge wallet with Add-to-LinkedIn buttons (they were silently skipped before).
+- The founder cards at the bottom of the homepage are properly sized on desktop.
+- Page-template headings were invisible in light mode on template-derived pages (missing gradient definition) — fixed in the template.
+- Search results and structured data updated for the Studios naming; five top studios now carry rich structured data for search engines.
+
 ## v10.133.0 — July 19, 2026 (See your progress, know the time, pick up where you left off)
 
 ### For Learners

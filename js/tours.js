@@ -115,18 +115,20 @@
 
   // ── Page-specific tour definitions ────────────────────────────────
 
+  // NOTE: content counts below are scanned by scripts/check-counts.py —
+  // keep the "<number> <type>" phrasing when editing.
   var TOURS = {
     index: [
-      { intro: '<strong>Welcome to ImpactMojo!</strong><br>A free learning platform for MEAL, development economics, and impact research. Let us show you around.' },
-      { element: '#navLinks', intro: '<strong>Navigation Bar</strong><br>Everything is organized under these menus — courses, labs, games, data tools, and more.' },
-      { element: '#nav-learn', intro: '<strong>Learn</strong><br>Open this menu for 68 free Courses, hands-on Labs, and learning Games.' },
-      { element: '#nav-courses', intro: '<strong>Courses</strong><br>68 free courses (17 flagship + 51 foundational) covering econometrics, gender studies, MEL frameworks, and more.' },
-      { element: '#nav-labs', intro: '<strong>Labs</strong><br>Hands-on interactive tools — build a Theory of Change, design MEL frameworks, and more.' },
-      { element: '#nav-games', intro: '<strong>Games</strong><br>Learn behavioral economics, game theory, and policy concepts through play.' },
-      { element: '#nav-specials', intro: '<strong>Explore</strong><br>The Game Library, reference tools (Dataverse, ImpactLex), Book Companions, Deep Dives, the Research to Action poster series, Dojos, and more.' },
-      { element: '#nav-dataverse', intro: '<strong>Dataverse</strong><br>321 curated data tools, APIs, and datasets for development research.' },
-      { element: '.theme-selector', intro: '<strong>Theme</strong><br>Switch between light, dark, and system themes.' },
-      { element: '#pro-studio', intro: '<strong>Pro Studio</strong><br>Professional-grade tools like VaniScribe AI, Code Convert Pro, and Qual Insights Lab.' }
+      { intro: '<strong>Welcome to ImpactMojo!</strong><br>Development know-how for South Asia — 69 courses, 135 games and 35 studios, all free, built by practitioners. Here’s a quick lay of the land.' },
+      { element: '#nav-learn', intro: '<strong>Learn</strong><br>The heart of the platform: 69 courses (18 flagship + 51 foundational), interactive studios, and practice packs.' },
+      { element: '#nav-flagships', intro: '<strong>Flagship courses</strong><br>Semester-depth courses with progress tracking, self-assessments, and free certificates — MEL, development economics, gender studies, causal inference, and more.' },
+      { element: '#nav-labs', intro: '<strong>Studios</strong><br>35 studios where you build real artefacts — a Theory of Change, a LogFrame, a sampling plan, a survey instrument.' },
+      { element: '#nav-specials', intro: '<strong>Explore</strong><br>The 135-game library, 134 reading companions, 22 deep dives, citation-backed timelines, and daily practice dojos.' },
+      { element: '#nav-libraries', intro: '<strong>Libraries &amp; data</strong><br>Reference collections: the Dataverse of data tools, the ImpactLex glossary, NudgeKit behaviour-change techniques, and Indian policy documents.' },
+      { element: '.ims-nav-btn', intro: '<strong>Search everything</strong><br>Press <kbd>Ctrl</kbd>+<kbd>K</kbd> anywhere to search across every course, studio, game and companion.' },
+      { element: '#quiz', intro: '<strong>Not sure where to start?</strong><br>Six quick questions give you a personal starting path — and the homepage remembers it.' },
+      { element: '.theme-selector', intro: '<strong>Theme</strong><br>Light, dark, or follow your device.' },
+      { element: '#pro-studio', intro: '<strong>Pro Studio</strong><br>Professional tools for subscribers — and everything you’ve seen so far stays free, forever.' }
     ]
     // Tours run on the homepage only. Do not add per-page tours here.
   };

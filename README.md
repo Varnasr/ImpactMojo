@@ -42,7 +42,7 @@ We provide accessible, high-quality educational materials grounded in South Asia
 | Category | Description |
 |----------|-------------|
 | **69 Courses** | 18 flagship + 51 foundational courses across 6 learning tracks (all foundational decks self-hosted as native HTML slide decks). Every flagship ends with an auto-graded "Assess Yourself" self-check |
-| **35 Interactive Labs** | Hands-on workbenches for MEL, policy, partnerships, budgeting, gender analysis, and more |
+| **35 Interactive Studios** | Hands-on workbenches for MEL, policy, partnerships, budgeting, gender analysis, and more |
 | **135 Game Library** | 18 interactive simulations (MiroFish AI agents, Indian folk art — Warli, Madhubani, Gond, Kalamkari, Pichwai, Pattachitra) + 117 crosswords, quizzes & word searches |
 | **ImpactLex Dictionary** | 390+ development terms with contextual definitions, formulas, and case studies (PWA, hosted on ImpactMojo) |
 | **Dev Case Studies** | 200 evidence-based case studies from 117 countries |
@@ -113,9 +113,9 @@ Structured, outcome-focused paths that combine courses, games, and practice into
 
 | Tier | Price | Key Features |
 |------|-------|-------------|
-| **Explorer** | Free | All courses, games, labs, DevDiscourses, Telegram channel |
-| **Practitioner** | ₹399/mo · ₹3,990/yr | Advanced ToC Lab, PDF/PNG export, certificates, full community |
-| **Professional** | ₹999/mo · ₹9,990/yr | + Qual Lab, VaniScribe AI, DevData Practice, DevEconomics Toolkit, Code Converter, priority coaching |
+| **Explorer** | Free | All courses, games, studios, DevDiscourses, Telegram channel |
+| **Practitioner** | ₹399/mo · ₹3,990/yr | Advanced ToC Studio, PDF/PNG export, certificates, full community |
+| **Professional** | ₹999/mo · ₹9,990/yr | + Qual Studio, VaniScribe AI, DevData Practice, DevEconomics Toolkit, Code Converter, priority coaching |
 | **Organization** | ₹1,499/user/mo | + Team dashboards, bulk licensing, dedicated support, team training packages, cohort management |
 
 #### Premium Tools
@@ -128,7 +128,7 @@ Available to Practitioner and Professional tier subscribers:
 | **RQ Builder Pro** | Practitioner | Guided research question formulation (PICO/SPIDER) |
 | **TOC Workbench Pro** | Practitioner | Publication-ready theories of change with export |
 | **Code Convert Pro** | Professional | Translate scripts between Stata, R, Python, SPSS |
-| **Qual Insights Lab Pro** | Professional | AI-assisted qualitative analysis for transcripts |
+| **Qual Insights Studio Pro** | Professional | AI-assisted qualitative analysis for transcripts |
 | **VaniScribe AI** | Professional | Transcription in 10+ South Asian languages |
 | **DevData Practice** | Professional | 36 dataset generators, 840K+ rows modeled on DHS/NFHS/ASER |
 | **Visualization Cookbook** | Professional | 14 chart types with question-driven recipes |
@@ -173,31 +173,31 @@ Shorter introductory courses covering the breadth of development practice:
 | **Health & Wellbeing** | Public Health 101, Climate Essentials, Social Emotional Learning, **Work, Labour & Livelihoods 101** (replaces Decent Work + Livelihoods Fundamentals) |
 | **Communication & Data** | English for Development, Visual Ethnography, Data Literacy for Development, BCC and Communications, Advocacy Fundamentals, Digital Development Ethics, Education and Pedagogy |
 
-### Interactive Labs (28)
+### Interactive Studios (28)
 
-- **Theory of Change Lab** — Guided ToC builder with real-time flowchart diagram and PNG export
-- **MEL Design Lab** — Monitoring, evaluation, and learning framework builder
-- **MEL Plan Lab** — Complete MEL implementation plan with data collection schedule
-- **Design Thinking Lab** — Human-centred design process: empathy maps, ideation, prototyping
-- **Storytelling Lab** — Impact narrative builder with 4 format adapters and ethical checklist
-- **Risk Mitigation Lab** — Risk register with 5×5 heatmap and mitigation strategies
-- **Policy Advocacy Lab** — Policy brief generator with stakeholder mapping
-- **Resource Sustainability Lab** — Resource mobilisation and sustainability planning
-- **Impact Partnerships Lab** — Partnership mapping and collaboration framework
-- **Community Engagement Lab** — Participatory assessment and action planning
-- **Gender Studies Lab** — Gender analysis frameworks and assessment tools
-- **Budget & Fiscal Analysis Lab** — Read Union/State budgets (BE/RE/actuals), fund-flow simulator, per-capita calculator, fiscal federalism
-- **Climate Risk & Adaptation Lab** — Vulnerability assessment, risk matrix, adaptation cost-benefit analysis
-- **Conflict-Sensitive Programming Lab** — Do No Harm framework, conflict analysis, adapt/suspend/exit decisions
-- **Data Feminism & Intersectional Analysis Lab** — Disaggregation, bias detection, intersectional visualisation
-- **Digital Public Infrastructure Lab** — Aadhaar, UPI, DigiLocker, ABHA, ONDC and the DPDP Act 2023
-- **Ethics & Research Integrity Lab** — Consent, data privacy, positionality, ethics review, field dilemmas
-- **Grant Writing & Proposal Lab** — Donor matching, theory of change, narrative, budgeting
-- **Participatory Methods Lab** — PRA, community mapping, focus groups, participatory M&E
-- **Policy Brief Writing Lab** — Two-page briefs with audience targeting and structure
-- **Stakeholder Mapping & Power Analysis Lab** — Power–interest grid, actor and influence mapping
-- **Survey Design Lab** — Question wording, scales, bias tests, translation, piloting
-- **Systems Thinking & Complexity Lab** — Causal loop diagrams, iceberg model, leverage points
+- **Theory of Change Studio** — Guided ToC builder with real-time flowchart diagram and PNG export
+- **MEL Design Studio** — Monitoring, evaluation, and learning framework builder
+- **MEL Plan Studio** — Complete MEL implementation plan with data collection schedule
+- **Design Thinking Studio** — Human-centred design process: empathy maps, ideation, prototyping
+- **Storytelling Studio** — Impact narrative builder with 4 format adapters and ethical checklist
+- **Risk Mitigation Studio** — Risk register with 5×5 heatmap and mitigation strategies
+- **Policy Advocacy Studio** — Policy brief generator with stakeholder mapping
+- **Resource Sustainability Studio** — Resource mobilisation and sustainability planning
+- **Impact Partnerships Studio** — Partnership mapping and collaboration framework
+- **Community Engagement Studio** — Participatory assessment and action planning
+- **Gender Studies Studio** — Gender analysis frameworks and assessment tools
+- **Budget & Fiscal Analysis Studio** — Read Union/State budgets (BE/RE/actuals), fund-flow simulator, per-capita calculator, fiscal federalism
+- **Climate Risk & Adaptation Studio** — Vulnerability assessment, risk matrix, adaptation cost-benefit analysis
+- **Conflict-Sensitive Programming Studio** — Do No Harm framework, conflict analysis, adapt/suspend/exit decisions
+- **Data Feminism & Intersectional Analysis Studio** — Disaggregation, bias detection, intersectional visualisation
+- **Digital Public Infrastructure Studio** — Aadhaar, UPI, DigiLocker, ABHA, ONDC and the DPDP Act 2023
+- **Ethics & Research Integrity Studio** — Consent, data privacy, positionality, ethics review, field dilemmas
+- **Grant Writing & Proposal Studio** — Donor matching, theory of change, narrative, budgeting
+- **Participatory Methods Studio** — PRA, community mapping, focus groups, participatory M&E
+- **Policy Brief Writing Studio** — Two-page briefs with audience targeting and structure
+- **Stakeholder Mapping & Power Analysis Studio** — Power–interest grid, actor and influence mapping
+- **Survey Design Studio** — Question wording, scales, bias tests, translation, piloting
+- **Systems Thinking & Complexity Studio** — Causal loop diagrams, iceberg model, leverage points
 - **R & Python for Development** — Learn R and Python from zero with live in-browser code (WebR + Pyodide), no install _(early access)_
 
 ### Tools & Calculators
@@ -211,7 +211,7 @@ Shorter introductory courses covering the breadth of development practice:
 
 - **RQ Builder Pro** — Guided research question formulation with PICO/SPIDER framing (Practitioner)
 - **TOC Workbench Pro** — Publication-ready theories of change with assumption mapping (Practitioner)
-- **Qual Insights Lab Pro** — AI-assisted qualitative analysis for transcripts (Professional)
+- **Qual Insights Studio Pro** — AI-assisted qualitative analysis for transcripts (Professional)
 - **Code Convert Pro** — Script translation between Stata, R, Python, SPSS (Professional)
 - **VaniScribe** — AI transcription for 10+ South Asian languages (Professional)
 
@@ -277,7 +277,7 @@ W3C Open Badges 3.0 verifiable credentials system:
 Structured credential tracks with milestone progression:
 
 - **5 pathways**: MEL Practitioner, Data Analyst, Development Economist, Governance Scholar, Health & Communications
-- Ordered steps combining courses, labs, and games
+- Ordered steps combining courses, studios, and games
 - Progress tracking connected to existing localStorage course progress
 - Milestone badges at key checkpoints
 - Pathway recommendation engine (prioritizes in-progress pathways)
@@ -304,7 +304,7 @@ Comprehensive ToC learning and building toolkit:
 - **Certificate Generation** — Auto-issued on course completion with public verification and Open Badges 3.0 metadata
 - **Badge Wallet** — View, download, and share W3C verifiable credential badges
 - **Portfolio Builder** — Premium feature: curate certificates, projects & case studies with PDF export
-- **Full-Text Search** — Ctrl+K / Cmd+K fuzzy search across all courses, labs, games, and resources via Fuse.js
+- **Full-Text Search** — Ctrl+K / Cmd+K fuzzy search across all courses, studios, games, and resources via Fuse.js
 
 ### Account System
 
@@ -342,7 +342,7 @@ Main site (impactmojo.in)
 ├── Premium flow ──► Supabase Edge Fn (mint JWT) ──► Netlify resource sites
 │                     └── auth-gate.ts verifies JWT, sets session cookie
 ├── Games ──► Supabase Edge Fn (game-agent) ──► Groq/Gemini/DeepSeek LLMs
-├── Static content ──► Courses, Labs, ImpactLex
+├── Static content ──► Courses, Studios, ImpactLex
 └── Community ──► WhatsApp PLC, Discord, Telegram
 ```
 
@@ -526,7 +526,7 @@ Each premium tool is a separate Netlify site with a JWT auth-gate edge function:
 | RQ Builder Pro | `rq-builder` |
 | TOC Workbench Pro | `toc-workbench-pro` |
 | Code Convert Pro | `code-convert-pro` |
-| Qual Insights Lab | `qual-insights` |
+| Qual Insights Studio | `qual-insights` |
 | VaniScribe AI | `vaniscribe` |
 | DevData Practice | `devdata-practice` |
 | Visualization Cookbook | `visualization-cookbook` |
@@ -588,7 +588,7 @@ The authentication system requires a Supabase project with:
 
 The `_redirects` file enables clean URLs:
 - `/courses` → Opens Courses modal
-- `/labs` → Opens Labs modal
+- `/labs` → Opens Studios modal
 - `/about` → Scrolls to About section
 - `/testimonials` → Scrolls to Wall of Love
 
@@ -621,7 +621,7 @@ This repo enforces consistent standards via git hooks and configuration files. T
 
 We welcome contributions! Whether improving content, fixing bugs, enhancing accessibility, or adding translations. See **[CONTRIBUTING.md](CONTRIBUTING.md)** for full guidelines.
 
-**Quick ideas:** Content improvements, South Asian case studies, translations (Hindi, Tamil, Bengali, Telugu, Marathi), accessibility fixes, UI/UX enhancements, bug reports, new tools & labs.
+**Quick ideas:** Content improvements, South Asian case studies, translations (Hindi, Tamil, Bengali, Telugu, Marathi), accessibility fixes, UI/UX enhancements, bug reports, new tools & studios.
 
 ---
 
@@ -666,7 +666,7 @@ This platform is supported by a family of open-source repositories:
 
 | Repository | Description |
 |---|---|
-| [**ImpactMojo**](https://github.com/ImpactMojo/ImpactMojo) | Main platform — courses, games, labs, case challenges |
+| [**ImpactMojo**](https://github.com/ImpactMojo/ImpactMojo) | Main platform — courses, games, studios, case challenges |
 | [**PolicyDhara**](https://github.com/Varnasr/PolicyDhara) | Auto-updating Indian development policy tracker (Astro + Python) |
 | [**development-discourses**](https://github.com/Varnasr/development-discourses) | 500+ curated research papers and grey literature |
 | [**dev-case-studies**](https://github.com/Varnasr/dev-case-studies) | 200 development case studies from 117 countries |

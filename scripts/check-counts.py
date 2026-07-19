@@ -47,6 +47,7 @@ FILES = [
     "docs/content-catalog.md",
     "docs/games-guide.md",
     "docs/labs-guide.md",
+    "js/tours.js",
 ]
 
 # Ordered: longer/more specific phrases first. Each maps a phrase regex to a
@@ -61,6 +62,8 @@ TERMS = [
     (r"games", "games"),
     (r"interactive\s+labs", "labs"),
     (r"labs", "labs"),
+    (r"interactive\s+studios", "labs"),
+    (r"studios", "labs"),
     (r"reading\s+companions", "reading-companions"),
     (r"deep\s+dives", "deep-dives"),
     (r"handouts", "handouts"),
@@ -77,6 +80,7 @@ TILE_TERMS = {
     "courses": "courses",
     "games": "games",
     "labs": "labs",
+    "studios": "labs",
     "reading companions": "reading-companions",
     "deep dives": "deep-dives",
     "handouts": "handouts",

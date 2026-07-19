@@ -6,9 +6,9 @@ Common questions from educators, facilitators, and practitioners.
 
 ## Is ImpactMojo really free?
 
-Yes. All 18 flagship courses (13 modules each), 51 foundational courses, 135 learning games, 35 interactive labs, 89 handouts, the ImpactLex glossary (390+ terms), 200 Dev Case Studies, 500+ DevDiscourses papers, and interactive BookSummaries are completely free.
+Yes. All 18 flagship courses (13 modules each), 51 foundational courses, 135 learning games, 35 interactive studios, 89 handouts, the ImpactLex glossary (390+ terms), 200 Dev Case Studies, 500+ DevDiscourses papers, and interactive BookSummaries are completely free.
 
-There are paid tiers (Practitioner, Professional, and Organization) that unlock additional tools — things like advanced lab features, PDF/PNG export, AI-powered tools, and team dashboards. But the core learning experience is free and always will be.
+There are paid tiers (Practitioner, Professional, and Organization) that unlock additional tools — things like advanced studio features, PDF/PNG export, AI-powered tools, and team dashboards. But the core learning experience is free and always will be.
 
 We believe development education should not be locked behind a paywall.
 
@@ -16,7 +16,7 @@ We believe development education should not be locked behind a paywall.
 
 ## Do I need to create an account?
 
-No. You can access every course, game, lab, and handout without signing up or logging in.
+No. You can access every course, game, studio, and handout without signing up or logging in.
 
 However, creating a free account unlocks useful features:
 
@@ -48,7 +48,7 @@ This is especially useful for practitioners working in field locations with unre
 
 Yes — and we encourage it. ImpactMojo content is licensed under **Creative Commons BY-NC-ND 4.0**. In plain language, that means:
 
-- **Use freely.** You can use any course, handout, game, or lab in your workshop, classroom, or training program.
+- **Use freely.** You can use any course, handout, game, or studio in your workshop, classroom, or training program.
 - **Credit ImpactMojo.** Include a credit line (for example: "Content from ImpactMojo — impactmojo.com") in your slides, handouts, or materials.
 - **Do not sell it.** You cannot charge money for ImpactMojo content itself. (You can, of course, charge for your facilitation — just not for our materials.)
 - **Do not modify and redistribute.** You cannot alter the content and distribute the altered version. Use it as-is, or contact us to discuss adaptations.
@@ -104,18 +104,18 @@ Here is a straightforward comparison:
 |---------|----------------|------------------------|------------------------|-------------------------------|
 | All 69 courses | Yes | Yes | Yes | Yes |
 | 135 games | Yes | Yes | Yes | Yes |
-| 35 labs | Yes | Yes | Yes | Yes |
+| 35 studios | Yes | Yes | Yes | Yes |
 | 89 handouts | Yes | Yes | Yes | Yes |
 | ImpactLex, DevDiscourses, Case Studies | Yes | Yes | Yes | Yes |
 | Progress tracking and certificates | — | Yes | Yes | Yes |
-| Advanced lab features (PDF/PNG export) | — | Yes | Yes | Yes |
-| AI-powered tools (VaniScribe, Qual Lab Pro) | — | — | Yes | Yes |
+| Advanced studio features (PDF/PNG export) | — | Yes | Yes | Yes |
+| AI-powered tools (VaniScribe, Qual Studio Pro) | — | — | Yes | Yes |
 | DevEconomics Toolkit, Code Converter | — | — | Yes | Yes |
 | Priority coaching | — | — | Yes | Yes |
 | Team dashboards | — | — | — | Yes |
 | Bulk licensing and dedicated support | — | — | — | Yes |
 
-**The key point:** The free tier is not a trial. It contains the full curriculum — every course, every game, every lab, every handout. Paid tiers add professional tools and organizational features on top of that foundation.
+**The key point:** The free tier is not a trial. It contains the full curriculum — every course, every game, every studio, every handout. Paid tiers add professional tools and organizational features on top of that foundation.
 
 ---
 
@@ -166,7 +166,7 @@ ImpactMojo works on any device with a modern web browser:
 
 - **Phones** (Android or iPhone) — the platform is mobile-first, so it works well on small screens.
 - **Tablets** — a good option for workshop settings.
-- **Laptops and desktops** — for extended study sessions and lab work.
+- **Laptops and desktops** — for extended study sessions and studio work.
 
 **Browser compatibility:** Chrome, Firefox, Safari, and Edge all work. We recommend keeping your browser updated to the latest version.
 

@@ -97,8 +97,82 @@
       competencies: ['Political Economy', 'Aspiration Theory', 'Development Politics', 'Policy Analysis'],
       color: '#6366F1',
       icon: 'trending-up'
+    },
+    gender: {
+      name: 'Gender & Equity Analyst',
+      description: 'Grounded in feminist theory, intersectionality, and the political economy of gender in South Asia.',
+      track: 'Gender, Equity & Inclusion',
+      competencies: ['Feminist Frameworks', 'Intersectionality', 'Gender Analysis', 'Political Economy of Gender'],
+      color: '#D53F8C',
+      icon: 'heart'
+    },
+    pubchoice: {
+      name: 'Public Choice Analyst',
+      description: 'Applies decisions, incentives and institutional analysis to collective action and governance.',
+      track: 'Policy & Economics',
+      competencies: ['Incentive Analysis', 'Collective Action', 'Institutional Economics', 'Rent-Seeking & Reform'],
+      color: '#6366F1',
+      icon: 'scale'
+    },
+    pubpol: {
+      name: 'Public Policy Practitioner',
+      description: 'Skilled in policy process, design, and governance in the Indian context.',
+      track: 'Policy & Economics',
+      competencies: ['Policy Process', 'Policy Design', 'Governance', 'Implementation Analysis'],
+      color: '#6366F1',
+      icon: 'globe'
+    },
+    causal: {
+      name: 'Causal Inference Practitioner',
+      description: 'Competent in evaluation designs, estimators, and the judgement calls behind credible causal claims.',
+      track: 'Monitoring, Evaluation & Learning',
+      competencies: ['Counterfactual Reasoning', 'Experimental Design', 'Quasi-Experimental Methods', 'Evidence Appraisal'],
+      color: '#10B981',
+      icon: 'crosshair'
+    },
+    livelihoods: {
+      name: 'Livelihoods Specialist',
+      description: 'Understands rural and urban livelihoods, skills, and labour-market realities in India.',
+      track: 'Policy & Economics',
+      competencies: ['Livelihood Frameworks', 'Rural & Urban Labour', 'Skills & Employment', 'Programme Evidence'],
+      color: '#6366F1',
+      icon: 'trending-up'
+    },
+    powerBI: {
+      name: 'Power BI Practitioner',
+      description: 'Builds honest, working dashboards — Power Query, data models, DAX, and visualisation ethics.',
+      track: 'Data & Technology',
+      competencies: ['Power Query', 'Data Modelling', 'DAX', 'Dashboard Ethics'],
+      color: '#0EA5E9',
+      icon: 'bar-chart'
+    },
+    intervention: {
+      name: 'Intervention Design Practitioner',
+      description: 'Designs development interventions from model to scale with evidence and implementation judgement.',
+      track: 'Monitoring, Evaluation & Learning',
+      competencies: ['Programme Theory', 'Design Choices', 'Piloting & Iteration', 'Scale & Sustainability'],
+      color: '#10B981',
+      icon: 'crosshair'
+    },
+    'nothing-about-us': {
+      name: 'Disability-Inclusive Development Practitioner',
+      description: 'Grounded in disability models, the CRPD and RPwD Act, inclusive programming and MEL.',
+      track: 'Gender, Equity & Inclusion',
+      competencies: ['Disability Models & Justice', 'CRPD & Disability Law', 'Washington Group Questions', 'Inclusive Programming'],
+      color: '#D53F8C',
+      icon: 'heart'
+    },
+    'nvc-rj': {
+      name: 'Nonviolent Practice Facilitator',
+      description: 'Practices nonviolent communication, principled resistance, and restorative repair.',
+      track: 'Philosophy, Law & Governance',
+      competencies: ['Nonviolent Communication', 'Conflict Transformation', 'Restorative Justice', 'Repair & Accountability'],
+      color: '#8B5CF6',
+      icon: 'message'
     }
   };
+  // URL slug for the SEL course is lowercase; keep both ids valid.
+  BADGE_CLASSES.sel = BADGE_CLASSES.SEL;
 
   // ── Track-level badges (earned by completing all courses in a track) ──
   var TRACK_BADGES = {

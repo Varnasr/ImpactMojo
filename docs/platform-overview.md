@@ -77,22 +77,22 @@ Each game:
 
 ---
 
-## Interactive Labs (35 labs)
+## Interactive Studios (35 studios)
 
-Labs are browser-based workbenches where you build something. Unlike courses (where you read and reflect), labs are hands-on — you follow a guided workflow and produce a real output.
+Studios are browser-based workbenches where you build something. Unlike courses (where you read and reflect), studios are hands-on — you follow a guided workflow and produce a real output.
 
-**Example labs:**
+**Example studios:**
 - *Theory of Change Builder* — construct a visual theory of change step by step
 - *Research Question Builder* — refine a vague idea into a focused, researchable question
-- *Qualitative Coding Lab* — practise coding qualitative data with guided exercises
+- *Qualitative Coding Studio* — practise coding qualitative data with guided exercises
 
-Each lab:
+Each studio:
 - Walks you through the process **step by step**
 - Produces a **usable output** — a framework, a plan, a diagram
 - Can **export results** as PDF or PNG (export is available in premium tiers)
 - Requires **no server or installation** — everything runs in your browser
 
-**How to use them:** Use a lab as the practical component of a workshop. Have students complete a lab as an assignment. Use one to jumpstart your own work — build your theory of change in the lab instead of staring at a blank PowerPoint.
+**How to use them:** Use a studio as the practical component of a workshop. Have students complete a studio as an assignment. Use one to jumpstart your own work — build your theory of change in the studio instead of staring at a blank PowerPoint.
 
 ---
 
@@ -106,7 +106,7 @@ A seven-module interactive course that teaches R and Python from absolute zero f
 
 ## Timelines (6)
 
-Visual, citation-backed histories of the ideas, policies, and struggles that shape development practice — six timelines with **113 nodes across 44 eras**, covering development thinking, climate policy and justice, Indian policy and the welfare state, Indian rights and social margins, MEL and research methods, and gender and work in India. Each node explains what was argued, why it mattered, and what the critiques were, with cross-links to related courses and labs.
+Visual, citation-backed histories of the ideas, policies, and struggles that shape development practice — six timelines with **113 nodes across 44 eras**, covering development thinking, climate policy and justice, Indian policy and the welfare state, Indian rights and social margins, MEL and research methods, and gender and work in India. Each node explains what was argued, why it mattered, and what the critiques were, with cross-links to related courses and studios.
 
 **How to use them:** Assign a timeline as pre-reading so a course's ideas land with their historical context. Use individual nodes as discussion prompts — "what changed after this moment?" Browse one to orient yourself in a new topic before diving into a full course.
 
@@ -284,7 +284,7 @@ Certificates are available for free-tier courses when you have a Practitioner (o
 
 ## Learning Paths
 
-Learning paths are curated sequences of courses, labs, and resources designed around a specific role or goal. Instead of figuring out what to take next, a learning path gives you a structured journey.
+Learning paths are curated sequences of courses, studios, and resources designed around a specific role or goal. Instead of figuring out what to take next, a learning path gives you a structured journey.
 
 You can follow the platform's recommended paths or create your own — useful if you're designing a training programme for your team.
 
@@ -306,9 +306,9 @@ Switch languages from the platform interface. This makes ImpactMojo usable for t
 
 ## What's Free vs. Premium?
 
-The vast majority of ImpactMojo is **completely free** — this is a genuine commitment, not a marketing strategy. All 69 courses, 135 games, 35 labs, handouts, ImpactLex, case studies, DevDiscourses, and Dataverse are available at no cost.
+The vast majority of ImpactMojo is **completely free** — this is a genuine commitment, not a marketing strategy. All 69 courses, 135 games, 35 studios, handouts, ImpactLex, case studies, DevDiscourses, and Dataverse are available at no cost.
 
-Premium memberships (starting at ₹399/month) unlock additional tools, PDF/PNG export from labs, certificates, and priority access to coaching and workshops.
+Premium memberships (starting at ₹399/month) unlock additional tools, PDF/PNG export from studios, certificates, and priority access to coaching and workshops.
 
 For full details on tiers and pricing, see [Premium & Memberships](premium.md).
 
