@@ -5,6 +5,32 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.133.0] - 2026-07-19
+
+### For Learners
+
+- **Course progress is now visible on every flagship** — progress bar, sidebar checkmarks and the completion flow now work across all 18 flagship courses.
+- **Reading-time estimates** — each flagship module shows a ~minutes chip in the sidebar plus a whole-course total, computed from the actual module text.
+- **Pick up where you left off** — a homepage shortcut back to your most recently touched unfinished flagship, with modules completed.
+- **Offline downloads for the three newest flagships** — Designing What Works, Nothing About Us Without Us, and Nonviolence in Practice.
+
+### Added
+
+- **Content-count drift guard**: `data/counts.json` is now the single source of truth for content counts; `scripts/check-counts.py` lists every stale `"<n> <type>"` occurrence across 13 user-facing files (arrow-prose and `count-ignore` lines skipped) and is enforced in CI via the new `counts` job in `ci.yml`.
+
+### Fixed
+
+- **`js/course-progress.js` never initialized on DB-served courses**: it scanned for quiz modules at `DOMContentLoaded`, before `course-loader.js` had injected the content, and returned — so the progress bar, checkmarks and completion → certificate flow silently never appeared. It now re-attempts on the loader's `courseContentLoaded` event and exposes the `reinit()` hook the loader was already calling.
+- **Progress disabled on 10 of 18 flagships**: `COURSE_NAMES` covered only 9 course ids (and `SEL` didn't match the lowercase `/courses/sel/` path). All 18 now covered.
+- **Three flagships missing from offline downloads**: `intervention`, `nothing-about-us`, `nvc-rj` added to `js/offline.js` + `service-worker.js` (SW `VERSION` bumped v2 → v3).
+- **Hero badge clipped under the fixed two-row desktop header** on the homepage; hero now clears it on ≥769px viewports.
+- **Stale counts** across catalog meta (27→35 labs), transparency (68→69 courses, 31→35 labs), README (courses/flagship/labs/Deep Dives), FAQ and platform overview (16→18 flagship).
+
+### Changed
+
+- **First-visit calm on the homepage**: floating tool widgets (speed dial, share button, floating language globe) are hidden on a visitor's very first pageview only; all later pageviews are unchanged.
+- **`.v3-btn-primary`** recolored from off-palette magenta to the brand primary gradient (`#667eea → #764ba2`) with matching border/shadow.
+
 ## [10.83.0] - 2026-07-13
 
 ### For Learners

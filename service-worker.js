@@ -22,7 +22,7 @@
 
 'use strict';
 
-const VERSION = 'v2-2026-07-12';
+const VERSION = 'v3-2026-07-19';
 const RUNTIME = 'im-runtime-' + VERSION;
 const OFFLINE_URL = '/offline.html';
 const COURSE_PREFIX = 'impactmojo-course-';
@@ -43,7 +43,10 @@ const COURSE_URLS = {
   pubpol: '/courses/pubpol/',
   causal: '/courses/causal/',
   livelihoods: '/courses/livelihoods/',
-  powerBI: '/courses/powerBI/powerbi.html'
+  powerBI: '/courses/powerBI/powerbi.html',
+  intervention: '/courses/intervention/',
+  'nothing-about-us': '/courses/nothing-about-us/',
+  'nvc-rj': '/courses/nvc-rj/'
 };
 
 const STATIC_RE = /\.(?:css|js|mjs|png|jpe?g|gif|svg|webp|ico|woff2?|ttf|eot|json)$/i;

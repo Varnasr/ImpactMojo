@@ -38,7 +38,17 @@
         law: 'Law & Development',
         media: 'Media, Communication & Development',
         SEL: 'Social & Emotional Learning',
-        poa: 'Politics of Aspiration'
+        sel: 'Social-Emotional Learning for Development Practice',
+        poa: 'Politics of Aspiration',
+        gender: 'Gender Studies: Feminisms, Power & Social Change',
+        pubchoice: 'Public Choice: Decisions, Incentives & Institutions',
+        pubpol: 'Public Policy: Process, Design & Governance in India',
+        causal: 'Causal Inference for Development',
+        livelihoods: 'Livelihoods in India: Rural, Urban, and Skills',
+        powerBI: 'Power BI for Practitioners',
+        intervention: 'Designing What Works: Development Interventions from Model to Scale',
+        'nothing-about-us': 'Nothing About Us Without Us: Disability, Justice & Development',
+        'nvc-rj': 'Nonviolence in Practice: Communication, Resistance & Repair'
     };
 
     // =========================================================
@@ -564,6 +574,13 @@
                 'color: #10B981; flex-shrink: 0;' +
             '}' +
 
+            /* Reading-time estimates */
+            '.cpb-time {' +
+                'margin-left: 8px; font-size: 0.68rem; font-family: "JetBrains Mono", monospace;' +
+                'opacity: 0.65; white-space: nowrap; flex-shrink: 0;' +
+            '}' +
+            '.cpb-total-time { font-weight: 500; opacity: 0.85; white-space: nowrap; }' +
+
             /* Toast */
             '.cpb-toast {' +
                 'position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);' +
@@ -648,12 +665,69 @@
     }
 
     // =========================================================
-    // BOOT
+    // UI: READING-TIME ESTIMATES
+    // Computed from the actual injected module text (200 wpm), so they
+    // stay correct as content changes. Locked modules are estimated at
+    // the median of the readable ones.
     // =========================================================
-    function init() {
-        scanModules();
-        if (totalModules === 0) return;
+    function computeReadingTimes() {
+        var sections = document.querySelectorAll('section[id^="module"]');
+        var minutes = [];
+        var lockedCount = 0;
 
+        sections.forEach(function (section) {
+            var content = document.getElementById(section.id + '-content') || section;
+            if (content.querySelector('.module-locked')) { lockedCount++; return; }
+            if (content.querySelector('.content-loading')) return; // still loading
+            var words = (content.innerText || '').trim().split(/\s+/).length;
+            if (words < 50) return; // empty shell — no estimate
+            var mins = Math.max(3, Math.round(words / 200));
+            minutes.push(mins);
+
+            var link = document.querySelector('a.nav-link[href="#' + section.id + '"]');
+            if (link && !link.querySelector('.cpb-time')) {
+                var chip = document.createElement('span');
+                chip.className = 'cpb-time';
+                chip.textContent = '~' + mins + ' min';
+                link.appendChild(chip);
+            }
+        });
+
+        if (minutes.length === 0) return;
+
+        var total = minutes.reduce(function (a, b) { return a + b; }, 0);
+        if (lockedCount > 0) {
+            var sorted = minutes.slice().sort(function (a, b) { return a - b; });
+            total += lockedCount * sorted[Math.floor(sorted.length / 2)];
+        }
+        var label = total >= 60
+            ? '~' + (Math.round(total / 30) / 2) + ' hrs'
+            : '~' + total + ' min';
+
+        var labelEl = document.querySelector('.cpb-label');
+        if (labelEl && !labelEl.querySelector('.cpb-total-time')) {
+            var totalEl = document.createElement('span');
+            totalEl.className = 'cpb-total-time';
+            totalEl.textContent = '· ' + label + ' total';
+            labelEl.appendChild(totalEl);
+        }
+    }
+
+    // =========================================================
+    // BOOT
+    // Module content (incl. the graded quizzes scanModules needs) is
+    // injected asynchronously by course-loader.js, so the DOMContentLoaded
+    // pass usually finds nothing. We boot on whichever comes last:
+    // DOM ready or the loader's courseContentLoaded event — and also
+    // expose the reinit() hook course-loader.js already tries to call.
+    // =========================================================
+    var booted = false;
+    function init() {
+        if (booted) { computeReadingTimes(); return; }
+        scanModules();
+        if (totalModules === 0) return; // content not injected yet — wait for courseContentLoaded
+
+        booted = true;
         injectStyles();
         loadProgress();
         createProgressBar();
@@ -662,6 +736,7 @@
         restoreQuizState();
         enhanceCheckAnswer();
         listenForAuthChanges();
+        computeReadingTimes();
 
         // Migrate progress & sync for authenticated users
         setTimeout(migrateProgressOnLogin, 2000);
@@ -673,4 +748,9 @@
     } else {
         init();
     }
+
+    // Re-attempt once the dynamic course content lands
+    document.addEventListener('courseContentLoaded', init);
+    window.ImpactMojoCourseProgress = window.ImpactMojoCourseProgress || {};
+    window.ImpactMojoCourseProgress.reinit = init;
 })();

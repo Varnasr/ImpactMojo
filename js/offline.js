@@ -8,7 +8,8 @@
   const FLAGSHIP_COURSES = [
     'gandhi', 'devecon', 'devai', 'dataviz',
     'mel', 'poa', 'media', 'law', 'SEL',
-    'gender', 'pubchoice', 'pubpol', 'causal', 'livelihoods', 'powerBI'
+    'gender', 'pubchoice', 'pubpol', 'causal', 'livelihoods', 'powerBI',
+    'intervention', 'nothing-about-us', 'nvc-rj'
   ];
 
   // ─── Toast notification helper ───
