@@ -5,6 +5,13 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.141.1] - 2026-07-19
+
+### Fixed
+
+- **Transparency live numbers corrected** (owner report: only "40 registered" was right). Root causes: engagement metrics were never backfilled into `public_stats_baseline`, and nothing wrote `profiles.last_active_at`. Now: `get_public_stats()` v3 returns all-time totals (baseline + live DB) per the documented methodology; owner's legacy numbers backfilled live (courses started 120,700; completed 727; certificates 468; learning minutes 785,160 — owner-approved estimate of 727 × ~18h); the card hides any metric whose total is 0 instead of presenting an uninstrumented zero as fact; `auth.js` pings `last_active_at` daily so "Active in last 30 days" measures something real.
+- **Deploy webhook fallback** — `scripts/verify-deploy.py` polls for the production deploy of the merged commit and auto-triggers a manual Netlify build if the webhook is dropped (as happened to v10.141.0). Mandatory ship-checklist step in `rules/testing.md`.
+
 ## [10.141.0] - 2026-07-19
 
 ### Added

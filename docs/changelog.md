@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.141.1 — July 19, 2026 (The numbers are right now)
+
+### For Learners
+
+- **The transparency page now shows true all-time numbers** — 120,700 courses started, 727 completed, 468 certificates earned, and ~13,000 learning hours across the platform's whole history, combined from our legacy records and the live database. If a metric has no reliable data yet, we hide it rather than show a misleading zero.
+
 ## v10.141.0 — July 19, 2026 (Faster everywhere, safer sources, honest numbers)
 
 ### For Learners
