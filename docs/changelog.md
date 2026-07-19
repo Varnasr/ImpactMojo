@@ -3,6 +3,18 @@
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
 <<<<<<< Updated upstream
+## v10.135.0 — July 19, 2026 (No more walls of cards)
+
+### For Learners
+
+- **The catalog opens as a browsable overview** — instead of one 328-card wall, the default view now shows each content type as its own section (six-card preview + "See all →"), so you can see the whole platform at a glance and dive into any type with one click. Filters, search and tracks work exactly as before.
+- **The 101 library is organised by learning track** — the 51 foundational decks now sit under six labelled track sections (MEL & Research, Data & Technology, Policy & Economics, Gender, Philosophy & Law, Health & Communication) instead of one long list.
+- **Buttons out of each other's way** — the WhatsApp share button now stacks above the Mojini chat button on pages that have both, instead of covering it.
+
+### Fixed
+
+- Stale counts corrected: flagship landing stat tiles (17→18 courses, 224→233 modules, lexicons now the verified 15), the libraries page's Reading Companions badge (105→149), and the 101 page's footer (16→18 flagships).
+
 ## v10.134.1 — July 19, 2026 (Findability follow-ups)
 
 ### Changed

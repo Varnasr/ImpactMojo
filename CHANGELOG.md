@@ -5,6 +5,20 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.135.0] - 2026-07-19
+
+### Changed
+
+- **catalog.html**: default "All" view is now a grouped overview — one section per content type (6-card preview + "See all N →" that activates the type's filter tab). Card template extracted to `renderCardHTML`; filtered/search views unchanged.
+- **101-courses/index.html**: 51 deck cards grouped under 6 learning-track headers (track mapping derived from catalog data); headers hide while filtering/searching (`body.deck-filtering`).
+- **site-chrome.js**: WhatsApp share FAB stacks above the Mojini chat FAB (`bottom: 92px`) when a page has one — they previously overlapped bottom-right.
+
+### Fixed
+
+- courses/index.html hero tiles: 17→18 flagships, 224→233 modules, lexicons set to the verified 15.
+- libraries.html: Reading Companions badge 105→149.
+- 101-courses/index.html foot-cta: 16→18 flagships.
+
 ## [10.134.1] - 2026-07-19
 
 ### Changed
