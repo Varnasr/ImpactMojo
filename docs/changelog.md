@@ -8,6 +8,7 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 
 - **Live platform numbers on the transparency page** — registered learners, active learners, courses started and completed, and certificates issued now come straight from the platform database, updated on every visit, with an honest note about what the numbers do and don't cover.
 - **78 broken links fixed across the site** — games, studios, blog posts and lexicons that pointed at moved or renamed pages now land where they should, and an automatic guard keeps every internal link working from now on.
+- **Sharing your certificate looks the part** — paste a certificate verification link into LinkedIn or WhatsApp and the preview now shows your course name and a branded certificate card instead of a generic page title.
 
 ## v10.136.0 — July 19, 2026 (Faster, findable, and fully lexiconed)
 

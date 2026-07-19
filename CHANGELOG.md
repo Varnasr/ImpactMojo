@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Live Database Numbers on the transparency page** — five tiles (registered learners, active 30d, courses started/completed, certificates) fed by a new anon-callable `get_public_stats()` Supabase RPC (aggregate-only, no row data), with honest framing that database tracking covers signed-in learners from 2026 onward. RPC SQL versioned in `supabase/migrations/20260719_public_stats_rpc.sql`.
 - **Internal-link guard** — `scripts/check-internal-links.py` resolves every internal href/src across ~800 tracked pages the way Netlify does (pretty URLs, directory indexes, case-insensitivity, `netlify.toml` redirects, edge-function routes) and fails CI on rot. New `internal-links` job in `ci.yml`.
+- **Certificate shares now unfurl properly** — a new `cert-og.ts` edge function rewrites the og:/twitter: tags on `/verify-certificate?cert=…` with the course name and recipient (same anon REST lookup the page makes), and a branded 1200×630 share card replaces the plain logo as the page's social image.
 
 ### Fixed
 
