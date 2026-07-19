@@ -330,7 +330,7 @@ body {
 /* Tables */
 .data-table-wrap {
     background: var(--card-bg); border: 1px solid var(--border-color);
-    border-radius: var(--radius-md); overflow: hidden; margin-bottom: 32px;
+    border-radius: var(--radius-md); overflow-x: auto; margin-bottom: 32px;
 }
 .data-table {
     width: 100%; border-collapse: collapse; font-size: 0.85rem;
@@ -981,7 +981,7 @@ main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) 
     </div>
     <div class="data-table-wrap">
         <table class="data-table" id="featureTable">
-            <thead><tr><th>Feature</th><th>Type</th><th>Users</th><th>Status</th></tr></thead>
+            <thead><tr><th>Feature</th><th>Type</th><th>Users</th></tr></thead>
             <tbody></tbody>
         </table>
     </div>
@@ -1318,7 +1318,7 @@ function drawBarChart(canvasId, data, colorKey, maxBars) {
     // Layout — adaptive height so every category is shown (no truncation).
     var rect = canvas.parentElement.getBoundingClientRect();
     var w = Math.max(280, rect.width - 48);
-    var padLeft = 168;   // room for category names
+    var padLeft = w < 420 ? 118 : 168;   // room for category names (tighter on mobile)
     var padRight = 54;   // room for the value at the bar end
     var padTop = 14;
     var padBottom = 30;
@@ -1337,10 +1337,12 @@ function drawBarChart(canvasId, data, colorKey, maxBars) {
 
     function X(v) { return padLeft + (v / maxVal) * chartW; }
 
-    // Vertical gridlines + axis values (0-based)
-    var gridSteps = 4;
+    // Vertical gridlines + axis values (0-based). Fewer ticks on a narrow
+    // canvas so the number labels never collide (mobile fix).
+    var gridSteps = chartW < 260 ? 2 : 4;
     ctx.font = '10px Amaranth, system-ui, sans-serif';
     ctx.textAlign = 'center';
+    var lastLabelX = -999;
     for (var g = 0; g <= gridSteps; g++) {
         var gv = (g / gridSteps) * maxVal;
         var gx = X(gv);
@@ -1352,8 +1354,12 @@ function drawBarChart(canvasId, data, colorKey, maxBars) {
         ctx.lineTo(gx, padTop + n * rowH);
         ctx.stroke();
         ctx.setLineDash([]);
-        ctx.fillStyle = colors.muted;
-        ctx.fillText(formatNum(Math.round(gv)), gx, padTop + n * rowH + 18);
+        // only draw a label if it clears the previous one by ~38px
+        if (gx - lastLabelX >= 38) {
+            ctx.fillStyle = colors.muted;
+            ctx.fillText(formatNum(Math.round(gv)), gx, padTop + n * rowH + 18);
+            lastLabelX = gx;
+        }
     }
 
     // Bars
@@ -1422,9 +1428,9 @@ function renderKPIs() {
 
     var kpis = [
         { label: 'Total Interactions', value: formatNum(totalAll), sub: 'Legacy + current analytics', source: 'Combined data sources', color: 'blue' },
-        { label: 'Course Interactions', value: formatNum(totalCourseUsers), sub: '69 courses', source: 'Legacy records', color: 'purple' },
-        { label: 'Game Interactions', value: formatNum(totalGameUsers), sub: '135 games', source: 'Legacy records', color: 'green' },
-        { label: 'Tool Interactions', value: formatNum(totalToolUsers), sub: '36 interactive studios', source: 'Legacy records', color: 'amber' }
+        { label: 'Course Interactions', value: formatNum(totalCourseUsers), sub: 'across courses live in 2025', source: 'Legacy estimate, to Dec 2025', color: 'purple' },
+        { label: 'Game Interactions', value: formatNum(totalGameUsers), sub: 'across games live in 2025', source: 'Legacy estimate, to Dec 2025', color: 'green' },
+        { label: 'Tool Interactions', value: formatNum(totalToolUsers), sub: 'across studios live in 2025', source: 'Legacy estimate, to Dec 2025', color: 'amber' }
     ];
 
     grid.innerHTML = kpis.map(function(k) {
@@ -1454,8 +1460,7 @@ function renderFeatureTable() {
     tbody.innerHTML = withData.map(function(f) {
         return '<tr><td style="font-weight:500;color:var(--text-primary);">' + f.name + '</td>' +
             '<td>' + f.type + '</td>' +
-            '<td class="num">' + formatNum(f.users) + '</td>' +
-            '<td>' + dot + f.status + '</td></tr>';
+            '<td class="num">' + formatNum(f.users) + '</td></tr>';
     }).join('');
     // Newer features (no legacy count) listed compactly beneath the table.
     var note = document.getElementById('featureAlsoLive');
