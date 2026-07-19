@@ -2,6 +2,7 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+<<<<<<< Updated upstream
 ## v10.134.1 — July 19, 2026 (Findability follow-ups)
 
 ### Changed
@@ -46,6 +47,25 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 ### Fixed
 
 - Stale content counts corrected across the site (catalog description, transparency page, README, FAQ and platform overview) — all now consistent at 69 courses · 18 flagship · 35 labs · 22 Deep Dives.
+=======
+## v10.133.0 — July 19, 2026 (15 new reading companions)
+
+### For Learners
+
+- **15 new interactive Reading Companions** — chapter-by-chapter study guides (each with key concepts, a South-Asia lens, critiques and an AI Q&A), bringing the library to 149:
+  - **Free Robot Labour: Marx, Automation & the Future of AI** (Jamie Kelly) — could an AI ever be a *capitalist*, not just a worker? A short, sharp open-access read on labour, law and power.
+  - **Education for Social Purpose** (Azim Premji University) — a decade of reflections on teaching development for justice, equity and critical practice.
+  - **The Design of Everyday Things** (Don Norman) — why good design is invisible, and how to build things people can actually use.
+  - **Indian Polity** (M. Laxmikanth) — the standard companion to the Constitution, institutions and governance of India.
+  - **The Let Them Theory** (Mel Robbins) — a simple tool for letting go of what you can't control.
+  - **Institutionalizing Health Technology Assessment** (WHO) and **Assessing Innovative Health Technologies for Low-Resource Settings** (WHO) — how health systems decide what to fund.
+  - **A Framework for the Economic Evaluation of Digital Health Interventions** (World Bank) — putting a value on digital health.
+  - **Assessing Gender & Child Budget Statements of Indian States** and **A Decade of Subnational Gender Budgeting in India** — does gender-responsive budgeting actually change outcomes?
+  - **The Gastropoetics of the South Asian Diaspora** (Parama Roy) — food, memory and belonging across migration.
+  - **Reading Backwards: AI & the Death of the Author** — what AI does to authorship, trust and writing-as-thinking.
+  - **The Encyclopedia of Tourism** — a reference companion to tourism as a development and livelihoods field.
+  - **Busy Idiots** (productivity & brain science) and **Suddenly Hybrid** (managing modern hybrid meetings) — practical companions for how we work now.
+>>>>>>> Stashed changes
 
 ## v10.132.0 — July 16, 2026 (All flagships standardized — mini-projects, coaching & capstones)
 

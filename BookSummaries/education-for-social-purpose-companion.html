@@ -1,0 +1,792 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Education for Social Purpose — ImpactMojo Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+/* === ImpactMojo Design System === */
+:root {
+    --im-gradient: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+    --im-accent: #0EA5E9;
+    --im-nav-bg: rgba(15, 23, 42, 0.95);
+    --im-border: #334155;
+    --im-text-primary: #F1F5F9;
+    --im-text-secondary: #94A3B8;
+    --im-text-muted: #64748B;
+    --im-card-bg: #1E293B;
+    --im-hover-bg: #334155;
+    --im-secondary-bg: #1E293B;
+}
+body { padding-top: 56px !important; }
+.im-topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    background: var(--im-nav-bg);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--im-border);
+    padding: 0.5rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.75rem; flex-wrap: wrap;
+    font-family: 'Inter', 'Amaranth', sans-serif;
+}
+.im-topbar a { text-decoration: none; }
+.im-topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+.im-topbar-home {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-weight: 700; font-size: 1rem;
+    background: var(--im-gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.im-topbar-home svg { width: 24px; height: 24px; flex-shrink: 0; stroke: #0EA5E9; }
+.im-topbar-right { display: flex; align-items: center; gap: 0.5rem; }
+.im-premium-btn {
+    background: var(--im-gradient);
+    color: #fff !important; -webkit-text-fill-color: #fff;
+    padding: 0.35rem 0.85rem; border-radius: 6px;
+    font-size: 0.8rem; font-weight: 600;
+    display: flex; align-items: center; gap: 0.35rem;
+    transition: opacity 0.2s; border: none; cursor: pointer;
+}
+.im-browse-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--im-text, #1C1917); background: var(--im-surface, #FFFFFF); border: 1.5px solid var(--im-border, #E2E8F0); padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; transition: background 0.18s ease, border-color 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease; }
+.im-browse-btn:hover { background: var(--im-accent, #0EA5E9); color: #FFFFFF; border-color: var(--im-accent, #0EA5E9); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25); }
+.im-browse-btn svg { width: 14px; height: 14px; }
+@media (prefers-color-scheme: dark) { .im-browse-btn { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.18); } .im-browse-btn:hover { background: var(--im-accent, #0EA5E9); border-color: var(--im-accent, #0EA5E9); color: #FFFFFF; } }
+.im-premium-btn:hover { opacity: 0.9; }
+.im-premium-btn svg { width: 14px; height: 14px; }
+.im-theme-selector {
+    display: flex; gap: 2px;
+    background: var(--im-card-bg);
+    border: 1px solid var(--im-border);
+    border-radius: 8px; padding: 2px;
+}
+.im-theme-btn {
+    background: transparent; border: none;
+    color: var(--im-text-secondary);
+    padding: 6px; border-radius: 5px; cursor: pointer;
+    transition: all 0.2s; display: flex; align-items: center;
+    justify-content: center; width: 30px; height: 30px;
+}
+.im-theme-btn:hover { background: var(--im-hover-bg); color: var(--im-text-primary); }
+.im-theme-btn.active { background: var(--im-accent); color: #fff; }
+.im-theme-btn svg { width: 16px; height: 16px; }
+.im-footer {
+    background: var(--im-secondary-bg);
+    border-top: 1px solid var(--im-border);
+    padding: 2rem 1rem; margin-top: auto;
+    font-family: 'Inter', 'Amaranth', sans-serif;
+    color: var(--im-text-secondary);
+}
+.im-footer-content { max-width: 1100px; margin: 0 auto; }
+.im-footer-made {
+    text-align: center; margin-bottom: 1.5rem;
+    font-size: 0.9rem; color: var(--im-text-muted);
+}
+.im-footer-made a { color: var(--im-accent); text-decoration: none; }
+.im-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem; margin-bottom: 1.5rem;
+}
+.im-footer-section h4 {
+    font-family: 'Inter', 'Amaranth', sans-serif;
+    color: var(--im-text-primary);
+    font-size: 0.9rem; margin-bottom: 0.75rem; font-weight: 600;
+}
+.im-footer-section ul { list-style: none; padding: 0; margin: 0; }
+.im-footer-section li { margin-bottom: 0.4rem; }
+.im-footer-section a {
+    color: var(--im-text-secondary);
+    text-decoration: none; font-size: 0.85rem; transition: color 0.2s;
+}
+.im-footer-section a:hover { color: var(--im-accent); }
+.im-footer-bottom {
+    text-align: center; padding-top: 1rem;
+    border-top: 1px solid var(--im-border);
+    font-size: 0.8rem; color: var(--im-text-muted);
+}
+.im-footer-bottom p { margin: 0.25rem 0; }
+.im-footer-bottom a { color: var(--im-accent); text-decoration: none; }
+@media (max-width: 640px) {
+    .im-topbar { padding: 0.4rem 0.75rem; gap: 0.5rem; }
+    .im-topbar-home { font-size: 0.85rem; }
+    .im-topbar-home svg { width: 20px; height: 20px; }
+    .im-topbar-home span { display: none; }
+    .im-premium-btn { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
+    .im-theme-btn { width: 26px; height: 26px; padding: 4px; }
+    .im-theme-btn svg { width: 14px; height: 14px; }
+    .im-footer-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+}
+@media (max-width: 400px) {
+    .im-footer-grid { grid-template-columns: 1fr; }
+}
+/* === End ImpactMojo Design System === */
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F8F5F0;--card:#fff;--border:#E8E0D5;--text:#1C1C1C;--muted:#6B6560;
+  --accent:#1A3C34;--accent-light:#EBF5F2;--teal:#1A6B5A;--teal-light:#EBF5F2;
+  --radius:8px;
+}
+body{background:var(--bg);font-family:'Amaranth','Inter',system-ui,sans-serif;color:var(--text);padding-top:52px}
+.app{min-height:100vh;display:flex;flex-direction:column}
+nav{background:#1C1C1C;display:flex;align-items:center;gap:20px;padding:0 20px;min-height:52px;flex-wrap:wrap;position:sticky;top:52px;z-index:99}
+.brand{display:flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.brand-name{font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:#fff;letter-spacing:.05em;text-transform:uppercase}
+.tabs{display:flex;gap:2px;flex-wrap:wrap}
+.tab-btn{background:none;border:none;padding:6px 13px;font-family:Inter,sans-serif;font-size:11px;font-weight:600;color:rgba(255,255,255,.5);cursor:pointer;border-radius:4px;text-transform:uppercase;letter-spacing:.04em;transition:all .15s}
+.tab-btn:hover{color:rgba(255,255,255,.85)}
+.tab-btn.active{color:#fff;background:var(--accent)}
+main{flex:1;padding:32px 20px;max-width:860px;margin:44px auto 0;width:100%}
+.h1{font-family:Inter,sans-serif;font-size:22px;font-weight:700;margin-bottom:8px}
+.sub{color:var(--muted);font-size:15px;margin-bottom:24px;font-family:Inter,sans-serif;line-height:1.5}
+.panel{display:none}.panel.active{display:block}
+
+/* HERO */
+.hero{background:#1C1C1C;color:#fff;border-radius:12px;padding:32px;margin-bottom:20px}
+.day-badge{display:inline-block;background:var(--accent);font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 10px;border-radius:4px;margin-bottom:14px}
+.hero h1{font-size:34px;font-weight:700;margin-bottom:4px}
+.hero .auth{font-family:Inter,sans-serif;font-size:13px;color:rgba(255,255,255,.5);margin-bottom:14px}
+.hero .tagline{font-size:15px;color:rgba(255,255,255,.8);line-height:1.6;max-width:620px;margin-bottom:18px}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-family:Inter,sans-serif;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.8)}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:18px 14px;text-align:center}
+.stat-n{font-size:30px;font-weight:700;color:var(--accent);font-family:Inter,sans-serif}
+.stat-l{font-family:Inter,sans-serif;font-size:12px;color:var(--muted);margin-top:4px}
+.arg{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:22px;margin-bottom:24px}
+.arg p{font-size:15px;line-height:1.75}
+.arg p+p{margin-top:1rem}
+.nav-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.nav-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:left;cursor:pointer;transition:all .15s}
+.nav-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.nav-card-label{font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
+.nav-card-desc{font-family:Inter,sans-serif;font-size:12px;color:var(--muted)}
+
+/* PATHWAYS */
+.pw-tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.pw-btn{font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:6px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s}
+.pw-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.pw-desc{font-family:Inter,sans-serif;font-size:14px;color:var(--muted);padding:12px 14px;background:var(--accent-light);border-radius:6px;margin-bottom:20px;line-height:1.5}
+.pw-steps{display:flex;flex-direction:column;gap:10px}
+.pw-step{display:flex;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px}
+.step-n{width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-family:Inter,sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-title{font-family:Inter,sans-serif;font-size:14px;font-weight:700;margin-bottom:3px}
+.step-focus{font-family:Inter,sans-serif;font-size:13px;color:var(--muted);line-height:1.5}
+
+/* SECTIONS */
+.sec-card{background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.sec-header{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;cursor:pointer;background:none;border:none;text-align:left;width:100%}
+.sec-num{font-family:Inter,sans-serif;font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;min-width:24px;padding-top:2px}
+.sec-title{font-family:Inter,sans-serif;font-size:15px;font-weight:700;margin-bottom:2px}
+.sec-sub{font-family:Inter,sans-serif;font-size:12px;color:var(--muted)}
+.sec-chev{font-size:16px;color:var(--muted);padding-top:2px;margin-left:auto}
+.sec-body{padding:0 18px 18px 56px;border-top:1px solid var(--border)}
+.sec-summary{font-size:15px;line-height:1.75;padding-top:14px;margin-bottom:18px}
+.ideas-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
+.idea-item{display:flex;gap:8px;margin-bottom:7px;font-family:Inter,sans-serif;font-size:13px;line-height:1.55}
+.idea-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:6px}
+blockquote{font-style:italic;font-size:14px;color:var(--muted);border-left:3px solid var(--accent);padding-left:12px;margin-bottom:8px;line-height:1.6}
+.dev-toggle{font-family:Inter,sans-serif;font-size:12px;font-weight:600;color:var(--teal);background:var(--teal-light);border:none;padding:7px 12px;border-radius:4px;cursor:pointer;margin-top:10px}
+.dev-text{margin-top:10px;font-family:Inter,sans-serif;font-size:13px;line-height:1.65;background:var(--teal-light);padding:12px;border-radius:6px}
+
+/* CONCEPTS */
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+.concept-card:hover,.concept-card.open{border-color:var(--accent)}
+.concept-term{font-family:Inter,sans-serif;font-size:15px;font-weight:700}
+.concept-def{font-family:Inter,sans-serif;font-size:14px;line-height:1.7;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.prac-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-top:10px;margin-bottom:4px}
+.prac-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65;color:var(--muted)}
+
+/* TOOLKIT */
+.tool-tabs{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+.tool-btn{font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:6px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s}
+.tool-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tool-panel{display:none;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:22px}
+.tool-panel.active{display:block}
+.tool-intro{font-family:Inter,sans-serif;font-size:14px;color:var(--muted);margin-bottom:20px;line-height:1.5}
+.fld-label{font-family:Inter,sans-serif;font-size:13px;font-weight:600;margin-bottom:5px;display:block}
+.fld{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;outline:none;background:var(--bg);margin-bottom:12px}
+.fld:focus{border-color:var(--accent)}
+.output-box{background:var(--accent-light);padding:14px;border-radius:6px;margin-top:16px;font-family:Inter,sans-serif;font-size:14px;line-height:1.65}
+.output-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:8px}
+
+/* CONTEXT */
+.conn-card{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:16px 18px;margin-bottom:10px}
+.conn-book{font-family:Inter,sans-serif;font-size:14px;font-weight:700;margin-bottom:5px}
+.conn-text{font-family:Inter,sans-serif;font-size:13px;color:var(--muted);line-height:1.65}
+.crit-item{display:flex;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:8px}
+.crit-n{width:24px;height:24px;border-radius:50%;background:#FFF8E6;color:#C8910A;font-family:Inter,sans-serif;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.crit-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65}
+.context-h{font-family:Inter,sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;margin-top:6px}
+
+/* ASK */
+.ask-setup{}
+.setup-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+.setup-step{display:flex;gap:12px;font-family:Inter,sans-serif;font-size:14px;line-height:1.5}
+.setup-num{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.setup-step a{color:var(--accent)}
+.key-row{display:flex;gap:10px}
+.key-input{flex:1;max-width:400px;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;outline:none}
+.key-btn{padding:9px 22px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:Inter,sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.key-btn:disabled{opacity:.4;cursor:not-allowed}
+.ask-ui{display:flex;flex-direction:column;height:calc(100vh - 180px)}
+.ask-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.ask-hdr-title{font-family:Inter,sans-serif;font-size:18px;font-weight:700}
+.ask-reset{background:none;border:1px solid var(--border);border-radius:4px;padding:4px 10px;font-family:Inter,sans-serif;font-size:12px;color:var(--muted);cursor:pointer}
+.msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px;margin-bottom:10px}
+.suggested-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px}
+.sug-btn{display:block;width:100%;text-align:left;padding:9px 12px;background:var(--card);border:1px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;cursor:pointer;margin-bottom:6px;transition:all .15s}
+.sug-btn:hover{border-color:var(--accent);background:var(--accent-light)}
+.msg{max-width:85%}
+.msg.user{align-self:flex-end}
+.msg.assistant{align-self:flex-start}
+.msg-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65;padding:10px 14px;border-radius:8px;white-space:pre-wrap}
+.msg.user .msg-text{background:var(--accent);color:#fff}
+.msg.assistant .msg-text{background:var(--card);border:1px solid var(--border)}
+.typing{display:flex;gap:4px;padding:12px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px}
+.typing span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:bounce 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.ask-input-row{display:flex;gap:8px;border-top:1px solid var(--border);padding-top:10px}
+.ask-input{flex:1;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;resize:none;outline:none;background:var(--bg)}
+.ask-input:focus{border-color:var(--accent)}
+.ask-send{padding:9px 18px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:Inter,sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.ask-send:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:640px){.stat-grid{grid-template-columns:repeat(2,1fr)}.nav-grid{grid-template-columns:1fr 1fr}.sec-body{padding-left:18px}}
+
+/* WCAG 2.1 AA (1.4.1 Use of Color): inline anchors in content paragraphs must be distinguishable without relying on color alone. Scoped to <main> so nav/footer button-links are unaffected. */
+main p a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]),
+main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
+/* === Dark Mode === */
+html.dark body { background: #0f172a; color: #e2e8f0; }
+html.dark #root,
+html.dark main,
+html.dark .app,
+html.dark [id^="p-"],
+html.dark .panel { filter: invert(0.88) hue-rotate(180deg); }
+html.dark #root img,
+html.dark #root svg:not([class*="im-"]),
+html.dark main img,
+html.dark main svg:not([class*="im-"]) { filter: invert(1) hue-rotate(180deg); }
+html.dark .im-topbar, html.dark .im-footer { filter: none; }
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+<!-- SEO meta (autogenerated) -->
+<meta name="description" content="School of Development, Azim Premji University · Bengaluru, 2026 — ImpactMojo Companion. An interactive companion to Azim Premji University's decade of reflection on how you teach development to a diverse cohort — where pedagogy is treated not as classroom technique but as intent, and the classroom i">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.impactmojo.in/BookSummaries/education-for-social-purpose-companion.html">
+<meta property="og:title" content="Education for Social Purpose — ImpactMojo Companion">
+<meta property="og:description" content="School of Development, Azim Premji University · Bengaluru, 2026 — ImpactMojo Companion. An interactive companion to Azim Premji University's decade of reflection on how you teach development to a diverse cohort — where pedagogy is treated not as classroom technique but as intent, and the classroom i">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:url" content="https://www.impactmojo.in/BookSummaries/education-for-social-purpose-companion.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ImpactMojo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Education for Social Purpose — ImpactMojo Companion">
+<meta name="twitter:description" content="Hayre, Canning, Pearce, Khera & Ford (BMC Public Health, 2026) — ImpactMojo Companion. An umbrella review of 35 systematic reviews ranking which macro-level policies most reduce health inequity, organised by 'agentic demand'.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<!-- Favicons -->
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<!-- Translate -->
+<style>
+/* Skip link (WCAG 2.4.1) */
+.im-skip-link { position:absolute; top:-40px; left:0; background:#0EA5E9; color:#fff; padding:8px 16px; z-index:10000; text-decoration:none; font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600; }
+.im-skip-link:focus { top:0; }
+/* Floating paper plane */
+.im-paper-plane { position:fixed; bottom:2rem; right:2rem; width:60px; height:60px; opacity:0.14; pointer-events:none; z-index:0; animation: imFloat 6s ease-in-out infinite; }
+@keyframes imFloat { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-15px) rotate(3deg);} }
+html.dark .im-paper-plane { opacity:0.22; }
+/* Interactive companion CTA */
+.im-interactive-cta { display:inline-flex; align-items:center; gap:0.5rem; background:var(--im-gradient); color:#fff !important; -webkit-text-fill-color:#fff; padding:0.5rem 1rem; border-radius:6px; font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600; text-decoration:none; margin-top:14px; transition:opacity 0.2s; }
+.im-interactive-cta:hover { opacity:0.9; }
+
+/* === ImpactMojo Brand Override (fonts + dark mode) — v10.21 === */
+html body, html body .app, html body main, html body .panel,
+html body p, html body li, html body blockquote, html body .sec-summary, html body .arg p,
+html body .sub, html body .tagline, html body .hero, html body .hero h1 {
+  font-family: 'Amaranth', Arial, sans-serif !important;
+}
+html body h1, html body h2, html body h3, html body h4, html body h5, html body h6,
+html body .h1, html body .brand-name, html body .day-badge, html body .pill,
+html body .stat-n, html body .stat-l, html body .sec-title, html body .sec-sub, html body .sec-num,
+html body .concept-term, html body .step-title, html body .step-focus, html body .conn-book,
+html body .book-title, html body .tab-btn, html body .pw-btn, html body .tool-btn,
+html body .im-topbar, html body .im-topbar *, html body .im-footer, html body .im-footer * {
+  font-family: 'Inter', 'Amaranth', Helvetica, sans-serif !important;
+}
+html body code, html body pre, html body .mono, html body kbd, html body samp {
+  font-family: 'JetBrains Mono', ui-monospace, monospace !important;
+}
+
+/* Replace filter-invert dark mode with proper token-based dark mode */
+html.dark body { background: #0F172A !important; color: #E2E8F0 !important; }
+html.dark #root, html.dark main, html.dark .app, html.dark [id^="p-"], html.dark .panel,
+html.dark .arg, html.dark .hero, html.dark .stat, html.dark .nav-card, html.dark .pw-step,
+html.dark .sec-card, html.dark .sec-body, html.dark .concept-card, html.dark .tool-panel,
+html.dark .conn-card, html.dark .crit-item, html.dark .msg.assistant .msg-text,
+html.dark .output-box, html.dark .typing, html.dark .ask-input, html.dark .key-input,
+html.dark .fld, html.dark .tool-btn, html.dark .pw-btn, html.dark .sug-btn, html.dark .pw-desc {
+  filter: none !important;
+}
+html.dark { color-scheme: dark; }
+html.dark body,
+html.dark body .app,
+html.dark body main { background: #0F172A !important; color: #E2E8F0 !important; }
+html.dark .hero { background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%) !important; color: #F1F5F9 !important; border: 1px solid #334155; }
+html.dark .hero .auth, html.dark .hero .tagline { color: #CBD5E1 !important; }
+html.dark .stat, html.dark .arg, html.dark .nav-card, html.dark .sec-card, html.dark .pw-step,
+html.dark .concept-card, html.dark .tool-panel, html.dark .conn-card, html.dark .crit-item,
+html.dark .msg.assistant .msg-text { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .sec-header, html.dark .sec-body { background: transparent !important; color: #E2E8F0 !important; }
+html.dark .sec-body { border-top-color: #334155 !important; }
+html.dark .stat-n { color: #38BDF8 !important; }
+html.dark .stat-l, html.dark .sec-sub, html.dark .sub, html.dark .nav-card-desc,
+html.dark .step-focus, html.dark .pw-desc, html.dark .prac-text, html.dark .conn-text,
+html.dark .ideas-label, html.dark .prac-label, html.dark .output-label, html.dark .suggested-label,
+html.dark .dev-text, html.dark .fld-label { color: #94A3B8 !important; }
+html.dark .h1, html.dark .sec-title, html.dark .concept-term, html.dark .step-title,
+html.dark .nav-card-label, html.dark .conn-book, html.dark .context-h, html.dark .ask-hdr-title { color: #F1F5F9 !important; }
+html.dark blockquote { color: #CBD5E1 !important; border-left-color: #38BDF8 !important; }
+html.dark .pill { background: rgba(56, 189, 248, 0.15) !important; color: #7DD3FC !important; }
+html.dark .day-badge { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .tab-btn { color: rgba(226, 232, 240, 0.6) !important; }
+html.dark .tab-btn.active { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .tab-btn:hover { color: #F1F5F9 !important; }
+html.dark nav { background: #0F172A !important; border-bottom: 1px solid #334155; }
+html.dark .pw-btn, html.dark .tool-btn { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .pw-btn.active, html.dark .tool-btn.active { background: #0EA5E9 !important; border-color: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .pw-desc { background: rgba(14, 165, 233, 0.1) !important; color: #CBD5E1 !important; }
+html.dark .output-box { background: rgba(14, 165, 233, 0.1) !important; color: #E2E8F0 !important; }
+html.dark .step-n, html.dark .setup-num { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .sec-num { color: #38BDF8 !important; }
+html.dark .ideas-label, html.dark .prac-label, html.dark .output-label { color: #38BDF8 !important; }
+html.dark .dev-toggle { background: rgba(56, 189, 248, 0.1) !important; color: #7DD3FC !important; }
+html.dark .dev-text { background: rgba(56, 189, 248, 0.08) !important; color: #CBD5E1 !important; }
+html.dark .fld, html.dark .key-input, html.dark .ask-input { background: #0F172A !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .msg.user .msg-text { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .sug-btn { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .sug-btn:hover { background: rgba(14, 165, 233, 0.15) !important; border-color: #0EA5E9 !important; }
+html.dark .crit-n { background: rgba(251, 191, 36, 0.15) !important; color: #FCD34D !important; }
+html.dark #root img, html.dark #root svg:not([class*="im-"]),
+html.dark main img, html.dark main svg:not([class*="im-"]) { filter: none !important; }
+html.dark .im-topbar, html.dark .im-footer { filter: none !important; }
+/* === End ImpactMojo Brand Override === */
+
+/* Ethics disclaimer heading — readable in both modes */
+.im-ethics-disclaimer .im-ethics-heading { color: #0F172A !important; }
+html.dark .im-ethics-disclaimer .im-ethics-heading, body.dark-mode .im-ethics-disclaimer .im-ethics-heading { color: #F1F5F9 !important; }
+html.dark .im-ethics-disclaimer, body.dark-mode .im-ethics-disclaimer { background: rgba(56,189,248,0.08) !important; border-left-color: #38BDF8 !important; color: #CBD5E1 !important; }
+</style>
+<link rel="stylesheet" href="/assets/css/booksummary-dark.css">
+</head>
+<body>
+<a href="#main-content" class="im-skip-link">Skip to content</a>
+<header class="im-topbar" role="banner">
+  <div class="im-topbar-left">
+    <a class="im-topbar-home" href="/" aria-label="ImpactMojo home">
+      <img src="/assets/images/ImpactMojo%20Logo.png" alt="ImpactMojo" width="24" height="24" style="border-radius:4px;">
+      <span>ImpactMojo</span>
+    </a>  </div>
+  <div class="im-topbar-right">
+    <a href="/catalog.html" class="im-browse-btn" title="Browse all content"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Browse</a>
+    
+    <a class="im-premium-btn" href="/premium.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Premium
+    </a>
+    <div class="im-theme-selector" role="group" aria-label="Theme">
+      <button class="im-theme-btn" data-imtheme="system" title="System theme" aria-label="System theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </button>
+      <button class="im-theme-btn" data-imtheme="light" title="Light theme" aria-label="Light theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <button class="im-theme-btn" data-imtheme="dark" title="Dark theme" aria-label="Dark theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="app">
+<nav>
+  <div class="brand"><div class="dot"></div><span class="brand-name">ImpactMojo</span></div>
+  <div class="tabs" id="tabbar"></div>
+</nav>
+<main id="main-content">
+  <div class="panel active" id="p-overview"></div>
+  <div class="panel" id="p-pathways"></div>
+  <div class="panel" id="p-sections"></div>
+  <div class="panel" id="p-concepts"></div>
+  <div class="panel" id="p-toolkit"></div>
+  <div class="panel" id="p-context"></div>
+  <div class="panel" id="p-ask"></div>
+</main>
+</div>
+
+<!-- Sargam Icon Sprites -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+<symbol id="si_Direction_alt" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m3 3 18 7.92-7.987 2.093L10.92 21z"/></symbol>
+<symbol id="si_Flare" viewBox="0 0 24 24" fill="none"><g clip-path="url(#clip_si_Flare)"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M7 12H1m22 0h-6m-5 5v6m3.536-7.464 1.414 1.414m-9.9-9.9 1.414 1.414m7.072 0L16.95 7.05m-9.9 9.9 1.414-1.414M12 1v6m2 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0"/></g><defs><clipPath id="clip_si_Flare"><path fill="#fff" d="M0 0h24v24H0z"/></clipPath></defs></symbol>
+<symbol id="si_Info" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 8h.008M12 16v-5m10 1c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10"/></symbol>
+<symbol id="si_Lock" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M8 10V7c0-2.21 1.79-4 4-4s4 1.79 4 4v3m-4 5a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 0v3m-5.4-8h10.8c.88 0 1.6.72 1.6 1.6v7c0 1.32-1.08 2.4-2.4 2.4H7.4C6.08 21 5 19.92 5 18.6v-7c0-.88.72-1.6 1.6-1.6"/></symbol>
+<symbol id="si_Lightning" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m12.667 10.5 1.25-7.5L6 13h5l-1.25 7.5 7.917-10z" clip-rule="evenodd"/></symbol>
+<symbol id="si_Library_books" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M10 11h8m-8 3h4m-4-6h8m2 14H8.4C5.42 22 3 19.58 3 16.6V5m5.4-2h11.2A2.4 2.4 0 0 1 22 5.4v11.2a2.4 2.4 0 0 1-2.4 2.4H8.4A2.4 2.4 0 0 1 6 16.6V5.4A2.4 2.4 0 0 1 8.4 3"/></symbol>
+<symbol id="si_Book" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 7.333C12 5.5 10.5 4 8.667 4H2v12h6.708C12 16 12 19.334 12 19.334m0-12C12 5.5 13.5 4 15.333 4H22v12h-6.667C12 16 12 19.334 12 19.334m0-12v12m1.875 1.124A2.58 2.58 0 0 1 16.167 19H21m-10.875 1.458A2.54 2.54 0 0 0 7.833 19H3"/></symbol>
+<symbol id="si_Article" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M8 12h8m-8 3h4M8 9h8M4.4 4h15.2A2.4 2.4 0 0 1 22 6.4v11.2a2.4 2.4 0 0 1-2.4 2.4H4.4A2.4 2.4 0 0 1 2 17.6V6.4A2.4 2.4 0 0 1 4.4 4"/></symbol>
+<symbol id="si_Mail" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m5 7.06 6.87 5.89c.07.06.19.06.26 0L19 7.06M3.2 4h17.6c.66 0 1.2.54 1.2 1.2v12.4c0 1.32-1.08 2.4-2.4 2.4H4.4C3.08 20 2 18.92 2 17.6V5.2C2 4.54 2.54 4 3.2 4"/></symbol>
+<symbol id="si_Help" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M11.83 14v-.621a2.33 2.33 0 0 1 1.164-2.02c1.126-.66 1.514-2.057.854-3.183s-2.057-1.514-3.183-.854C9.965 7.75 9.5 8.487 9.5 9.341M12 17h-.008M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12s4.477 10 10 10 10-4.477 10-10"/></symbol>
+<symbol id="si_Heart" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.696 3C14.652 3 12.887 4.197 12 5.943 11.113 4.197 9.348 3 7.304 3 4.374 3 2 5.457 2 8.481s1.817 5.796 4.165 8.073S12 21 12 21s3.374-2.133 5.835-4.446C20.46 14.088 22 11.514 22 8.481S19.626 3 16.696 3"/></symbol>
+<symbol id="si_Globe_detailed" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M22 12c0 5.523-4.477 10-10 10m10-10c0-5.523-4.477-10-10-10m10 10H2m10 10C6.477 22 2 17.523 2 12m10 10 .66-.31c2.1-2.71 3.34-6.14 3.34-9.78s-1.22-7-3.27-9.69L12 2m0 20-.73-.31A15.94 15.94 0 0 1 8 12c0-3.64 1.24-7.07 3.34-9.78L12 2M2 12C2 6.477 6.477 2 12 2m7.14 17c-1.82-1.85-4.34-3-7.14-3s-5.33 1.15-7.14 3M19.14 5C17.33 6.85 14.8 8 12 8S6.68 6.85 4.86 5"/></symbol>
+</svg>
+
+
+<div id="root"></div>
+<script>
+const DATA = {"slug": "education-for-social-purpose-companion", "title": "Education for Social Purpose: A Reflective Booklet on Pedagogical Approaches and Practices", "metaTitle": "Education for Social Purpose — Companion", "dayBadge": "Development Pedagogy", "author": "School of Development, Azim Premji University · Bengaluru, 2026", "tagline": "An interactive companion to Azim Premji University's decade of reflection on how you teach development to a diverse cohort — where pedagogy is treated not as classroom technique but as intent, and the classroom itself becomes a site of equity, democracy and lived knowledge.", "pills": ["Development Pedagogy", "Critical Education", "Field Practice", "Equity & Inclusion", "Experiential Learning", "Higher Education", "South Asia", "Reflexive Practice"], "stats": [{"n": "18", "l": "Practice notes"}, {"n": "~225", "l": "Graduates/year"}, {"n": "~70%", "l": "From marginalised communities"}], "argument": ["This is an open-access reflective booklet, not a copyrighted trade book. Full citation: School of Development (2026) Education for Social Purpose: A Reflective Booklet on Pedagogical Approaches and Practices, Azim Premji University, Bengaluru. It is released under a Creative Commons Attribution-NonCommercial-ShareAlike licence and may be reproduced for teaching or non-profit purposes. The framing essay is written by Awanish Kumar, Arima Mishra and Amalendu Jyotishi; the second half collects 18 first-person pedagogical practice notes from School of Development faculty. This companion is a study guide to that booklet, not a reproduction of it.", "The central argument is a claim about what pedagogy actually is. Against a 'technocratic' view that treats pedagogy as a toolkit of classroom strategies, the booklet insists that pedagogy has three inseparable layers — the intent behind it, the substance or curriculum, and the classroom process — and that most conversations wrongly collapse pedagogy into the last one. For a university built with an explicit social purpose, the intent is primary: teaching is understood through Giroux's 'teachers as transformative intellectuals' and Du Bois's goals of 'truth, beauty and goodness', and it is guided by four principles — that education is fundamentally a social object and relation; that classrooms must be democratic not just in composition but in functioning; that the experiences of all participants are a valid form of knowledge; and that learning must be reflexive and iterative, complementing classroom with field and field with classroom.", "The booklet's distinctive context is who sits in the room. The MA in Development programme, roughly 15 years old and now graduating about 225 students a year, deliberately recruits a cohort where about 70 percent belong to scheduled castes, tribes, backward classes and minority communities, about 75 percent come from low-income households, 40 percent studied in vernacular medium, and many are first-generation learners. This makes abstract concepts — caste, poverty, vulnerability, patriarchy — not 'topics happening somewhere outside' but the lived experience of the students themselves. The teaching challenge the booklet returns to again and again is how to make such a classroom genuinely democratic: how to help students value their own experience as knowledge, find a voice across languages and worldviews, and relate to each other's experiences, without singling anyone out or reducing them to their disadvantage.", "The second half turns reflection into method. Eighteen faculty notes document concrete experiments — teaching gender through cultural expression and a hypothetical family; using a shared meal of Northeast delicacies to build 'radical empathy'; running Self-Help Groups, a rural livelihood simulation (Janata Express), a survey-methods village (Surveypura) and an equity-based climate negotiation game inside the classroom; using visual archives to humanise economic policy, images and infographics to include non-textual learners, and prompt-driven freewriting to unlock public writing. Running through them is a shared grammar: experiential and simulation-based learning, the field as an epistemological standpoint rather than a place, affect as legitimate pedagogy, and ethics and accountability learned through community-building rather than prescription.", "Crucially, the booklet refuses a tidy prognosis. It ends 'in lieu of a conclusion', arguing that teachers of development must stop seeing themselves as 'sole torchbearers of knowledge', and calls not for a formula but for further theorisation of how the changing social composition of universities can heal the centuries-old divide between theory and practice. It is honest about failure — group motivation collapsing once grading ends, the difficulty of assessing empathy or ethical sensibility, the tension between valuing a student's language and holding a standard in English. It reads less as a manual than as an invitation to fellow teachers across the Global South to join a shared, unfinished journey."], "accent": "#7C3AED", "accent_light": "#EDE9FE", "sections": [{"title": "Pedagogy as Intent, Not Technique", "subtitle": "Prologue & framing essay · What the booklet is arguing", "summary": "The booklet opens by rejecting a 'technocratic' reading of pedagogy as a set of classroom tools. Drawing on Hickey-Moody, Savage and Windle (2010), it distinguishes three layers — intent, substance (curriculum) and classroom process — and argues that a socially purposed university must lead with intent. Pedagogy becomes a set of principles and values, not strategies.", "ideas": ["Pedagogy is not a skill acquired through classroom strategies; it has three layers — intent, curricular substance, and process — and most discussions wrongly reduce it to the third.", "For a university with a social purpose, intent is primary: teaching is framed via Giroux's 'teachers as transformative intellectuals' and Du Bois's 'truth, beauty and goodness'.", "Four guiding principles: education is a social object and relation; classrooms must be democratic in essence not just composition; all participants' experiences count as knowledge; learning is reflexive and iterative between classroom and field.", "Development itself is defined as a 'transformative agenda of social change' anchored in equity, social justice, democracy and pluralism — not as growth in per-capita income.", "The booklet is explicitly collective and unfinished — 'we end the note not with a firm prognosis, rather urging for theorisation.'"], "quotes": ["Contrary to popular belief and a rather technocratic understanding, pedagogy is not a set of tools and practices, nor is it a skill to be acquired through adopting certain strategies in the classroom only.", "pedagogy is primarily a set of principles, values and ideas that underpin the act of teaching"], "devEcon": "For anyone designing training for the social sector — NGO capacity-building, government official orientation, fellowship programmes — the core move is transferable: decide the intent and values first, because a 'toolkit' delivered without them reproduces the hierarchies it claims to challenge."}, {"title": "The Social Purpose of Education", "subtitle": "Framing essay · An Indian genealogy of education-as-democracy", "summary": "The booklet grounds its philosophy in a specifically Indian lineage. Education is 'a social process' first, not individual achievement or marketable skill. It threads Phule, Ambedkar, Tagore and Gandhi together with Dewey, Freire and Illich to argue that education is one of the few avenues through which a democratic, associational society becomes possible.", "ideas": ["Jotiba Phule called education 'Trutiya Ratna' (the third jewel) — the prime enabler of liberation for exploited sections; his 1882 Hunter Commission submission demanded broadening the social base of teaching.", "B. R. Ambedkar reconstructed the 'social' function of education as an associational form of living — democracy — and coined 'social endosmosis' for the fluid exchange between social groups that education makes possible.", "Tagore's Santiniketan and Sriniketan, and Gandhi's Nai Talim / Wardha Scheme (a 'silent social revolution' of head, heart and hand), are read as models of education tied to society and nature, not just intellect.", "Dewey's 'democracy as a way of life' and Freire's 'culture of silence' frame the risk that education reproduces hierarchy through material, ideological and pedagogical practice.", "Education today is critiqued for being 'reduced to individual achievements, attaining prevailing notions of excellence, and learning marketable skills'."], "quotes": ["This 'social function' of education was further clarified by B R Ambedkar, where the 'social' was not given but reconstructed as an associational form of living or in other words democracy."], "devEcon": "The Phule-Ambedkarite framing is a reminder for South Asian development practice that access to quality higher education is 'both a means and an end to social justice' — a lens that reframes education programmes as democratic infrastructure, not human-capital pipelines."}, {"title": "Development Knowledge(s): Navigating Vocabularies", "subtitle": "Framing essay · Interdisciplinarity and translating worldviews", "summary": "Development is treated as an interdisciplinary, even transdisciplinary, enterprise that works better bottom-up than through 'aggregative macro-prescriptive models'. The hard problem is 'translation' — not between languages but between worldviews, especially those historically sidelined — and building new vocabularies of development that include the languages and perspectives of the most marginal.", "ideas": ["Students ground themselves in disciplines first (Economy, Sociology, Environment in Semester I) but the persistent challenge is helping them synthesise disciplinary insights on a real development problem.", "'Translation' means translating worldviews, not words — bringing sidelined perspectives into the developmental discourse a university produces.", "Concepts like caste, vulnerability and poverty are 'in the lived experience of the students in the classroom space itself', making the classroom an uneasy but generative space.", "Students actively challenge the canon — asking why patriarchy readings omit Dalit feminists, or why Middle Eastern literature is absent from the history of mental health.", "A mental-health elective critically engages the dominant frame of psychiatry to build a societal lens sensitive to language, power and community realities."], "quotes": ["The social and economic concepts such as caste, vulnerability or poverty discussed in the classroom are not alien topics happening somewhere outside, rather they are in the lived experience of the students in the classroom space itself."], "devEcon": "The 'navigating vocabularies' idea is directly useful for participatory development and MEL: the categories practitioners import (vulnerability, empowerment, resilience) often fail to match how communities name their own realities, and good practice requires translating worldviews, not just terms."}, {"title": "Field in the Classroom, Classroom in the Field", "subtitle": "Framing essay · The architecture of field practice", "summary": "The programme's signature is a reflexive, iterative relationship between field and classroom, adapted from Sharmila Rege (2010). The 'field' is treated as an epistemological standpoint, not a place — a source of complexity, uncertainty and moral dilemma central to understanding development. Field learning is sequenced across three components with explicit learning outcomes.", "ideas": ["Reflexivity means 'the field is not a place but an epistemological standpoint' — every text occurs in a context, and every small field observation should link to larger development issues (invoking Geertz and Hirschman) without exoticising the field.", "Three sequenced field components: Community Learning and Reflection (2 weeks of immersion in groups of ten or fewer), Field Internship (6 weeks of learning-by-doing in an organisation), and an independent Field Project (8-10 weeks of research, action or documentation).", "Field practice is designed to cultivate affective learning — empathy, ethical sensibility, reflexivity — and to make students 'look within' to confront their privileges, assumptions and emotions.", "Student field journals surface real dilemmas: a Dalit student's discomfort disclosing caste to gain community access; a religious-minority student advised to use a pseudonym for safety; confronting one's assumptions about transgender identity and 'transition'.", "The hardest unresolved problem is assessment: what assignment reliably shows a student has reflected, developed empathy, or grown in ethical sensibility?"], "quotes": ["Reflexivity here simply means that the 'field' is not a place but an epistemological standpoint.", "I wanted children to love books not fear them."], "devEcon": "The three-stage immersion-internship-project ladder is a portable design for practitioner training and fellowships: it structures the move from observing communities, to working inside an organisation, to leading an independent intervention — with reflection built in at every stage rather than bolted on at the end."}, {"title": "Finding a Voice: The Representative Classroom", "subtitle": "Framing essay · Equity, diversity and the democratic classroom", "summary": "A socially representative classroom is treated as central to democracy, not an abstraction. The section gives concrete diversity figures and confronts the daily work of making a diverse room genuinely inclusive — helping first-generation learners value their own experience as knowledge, find a voice across languages, and relate to one another's very different lives.", "ideas": ["Deliberate cohort composition: ~40% female (plus other genders), ~75% low-income, ~70% from scheduled/backward castes, tribes and minorities, ~40% vernacular-medium schooling, ~45% from agricultural-labour or informal-sector families, students from ~25 states.", "Representation is engineered, not automatic — through outreach in non-metropolitan and mofussil centres, an inclusive admissions process focused on disposition rather than elimination, a bridge programme, financial assistance, and no ranking or public display of grades.", "Experiential equity tools — Power Walks, Gender Games, Climate Games — let students feel different social locations and distinguish inequity from inequality.", "Assignments can 'reverse the gaze': students research invisible menstrual isolation in their own community, or upper-caste peers' engagement with caste — making assignments a liberating, democratic act.", "Real dilemmas of language and power: a student asks to be graded on what he means, not his English; another admits 'I have never faced any of these, so I don't know how caste really matters.'"], "quotes": ["Ma'am spoke... I kept thinking I did not belong here... But now (in his last semester) I feel I really belong to this university. This is my space.", "Democratising classrooms is important, not in the sense of numerical representation alone, but in its manner of enabling every voice to participate and flourish."], "devEcon": "The distinction the classroom teaches — inequity (unfair, avoidable) versus inequality (mere difference) — is foundational for equity-focused programme design and evaluation, and the booklet's honest account of the cost of inclusion (bridge support, no ranking, financial aid) is a realistic budget line for any inclusive institution."}, {"title": "Affect, Empathy and Belonging as Pedagogy", "subtitle": "Practice notes 1, 2 & 4 · Emotion as a legitimate tool", "summary": "Several faculty treat affect — emotion, belonging, empathy — as central rather than incidental to learning. Cultural expression, a shared meal, and programmatically designed field practice are used to build 'radical empathy' and a felt sense of belonging, especially for students learning about lives unlike their own.", "ideas": ["Gender teaching (Sengupta) opens with cultural expressions — poems, folk songs, resistance songs in regional languages — as a bridge to critical discourse, and uses skits, zines, documentary film and posters as assessment so every student contributes from their strengths.", "A hypothetical family (wife Kalidasi, husband Pintu, two children) is followed through the gender course to make macro concepts like global value chains and informality concrete and human.", "In a Northeast democracy course (Saikia), a shared meal of regional delicacies plus a student-made zine created 'radical empathy' (Givens 2021) — holding others' stories and reflecting on one's own biases — that ordinary discussion could not.", "Field Practice courses (Siddiqui, Pinto, Ranjan) deliberately locate empathy in curricular objectives, cultivating it through a cyclical blend of cognitive, affective and experiential learning and a 'triangular relationship' between university, host organisation and community.", "Faculty name the risks candidly: emotional exposure can cause fatigue, and empathy work can become 'tokenistic learning without ethical internalisation'."], "quotes": ["teaching and learning is as much an affective activity, as it is a cognitive or disciplinary one", "I believe this activity came close to creating a space of 'radical empathy'... a space not only to hold the stories of others... but also a space to reflect on one's own possible biases."], "devEcon": "Empathy and belonging are exactly the 'soft' capacities that donor logframes struggle to measure yet that determine whether a practitioner engages communities ethically — the booklet models cultivating them deliberately while staying honest that they resist neat indicators."}, {"title": "Simulation and Learning by Doing", "subtitle": "Practice notes 8, 9, 10, 11 & 17 · Building the world inside the room", "summary": "A cluster of notes uses simulation-based and experiential pedagogy to reproduce real-world dynamics that lectures and even fieldwork cannot safely or feasibly create. Students don't study institutions — they become them, running Self-Help Groups, a rural livelihood economy, a survey village, a project team and a climate negotiation.", "ideas": ["Self-Help Groups (Neti, Joseph): students form SHGs of 6-8 for 8-10 weeks — writing bylaws, setting savings and loan terms, keeping ledgers — and learn first-hand that 'real transformative power comes from the collective itself,' not just credit.", "Janata Express (Shome, Paik, Joseph): a day-long simulation where participants take rural roles (landless households, cultivators, traders, moneylenders, officials, panchayat) and navigate production, market monopoly, caste-class-gender stratification and crises using dummy currency.", "Surveypura (Pradyumna, Gundi): a fictional 155-house village with per-household data cards makes quantitative research 'non-intimidating, engaging and fun', letting students move from abstraction to clarity — 'which houses have the lowest percentage of toilets and why?'", "Project Management (Neti, Sharma et al.): a two-session weekly rhythm — concept demonstration, then hands-on group application — walks heterogeneous groups through the full project lifecycle via Project-Based and Collaborative Learning.", "Equity climate game (Nagarajan): rejects alarmist zero-sum 'climate games' and instead has students negotiate a fair share of the carbon budget from a developing-country standpoint, foregrounding historical responsibility and differential action."], "quotes": ["Credit is important, real transformative power comes from the collective itself.", "a simulated experience where students can 'see', 'think' and 'feel' doing a field-based survey within a classroom space can overcome some of these challenges"], "devEcon": "These simulations are ready-made models for practitioner and official training on SHGs, financial inclusion, livelihoods and climate negotiation — but the booklet flags a real limit for MEL: motivation and engagement 'tapered once graded assignments were completed,' a caution for anyone relying on gamified learning."}, {"title": "Teaching the 'Fear' Subjects: Economics, Data & Statistics", "subtitle": "Practice notes 6, 12 & 14 · Numbers for a diverse cohort", "summary": "Three notes tackle the challenge that many students arrive afraid of numbers. The response is to slow down, scaffold, and re-embed abstract quantitative material in social and political reality — treating statistics not as neutral technique but as socially constructed public goods.", "ideas": ["Economics (Bose, Guha, Jyotishi et al.): handouts, customised graphs, tactile materials for visually-impaired students, and ungraded worksheets bridge the gap for students new to or afraid of the discipline, while visual archives (postcards, budget-speech word clouds, One-District-One-Product maps) put a human face on five-year-plan statistics.", "The Harrod-Domar savings model is taught alongside a postal archive showing the 'invisible subsidiary effort' — national-savings promotion — that made such policy work on the ground.", "Data course (Anand, Bose, Kumar et al.): each session pairs a development challenge, a statistical concept and a tool, and uses a 'whole-of-institution' approach where Knowledge Resource Centre staff help students struggling with software — bridging the faculty-administration divide.", "Data teaching deliberately ends each thread by examining the limitations of data and techniques, so students grasp 'the mutually constitutive nature of data and development.'", "Government statistics (V. Kumar): archives and 'data about data' teach students to see official numbers as social constructs, public goods and 'collective self-portraits' with lifecycles and afterlives — beyond a technocratic, legalistic fix-the-numbers view."], "quotes": ["The course tries to help students overcome their fear of numbers and challenges the self-image of students who believe they cannot handle numbers.", "government statistics as social constructs that have their own lifecycles and afterlives"], "devEcon": "For a sector saturated with dashboards and results frameworks, the 'politics of numbers' stance is essential MEL literacy: it trains practitioners to read official statistics as socially and politically embedded artefacts rather than transparent facts, and to combine large datasets with field engagement."}, {"title": "Seeing, Making and Writing: Non-Textual Pedagogies", "subtitle": "Practice notes 7, 15, 16 & 18 · Beyond the written word", "summary": "For a cohort where 'the textual form is not the dominant mode of articulation,' several faculty deliberately move beyond text — using active learning, images, infographics and freewriting to include reticent and vernacular-medium students and to open abstract concepts to multiple ways of seeing.", "ideas": ["Active learning (Dutta, Ganapathy, Manjula, Pandya, Ramesh): skits, songs, debates and quiz shows on environment-development themes let students co-produce knowledge, personify nature, and draw out reticent voices — with the 'unintended' gain that students appreciate the effort of teaching.", "Images (Ganapathy, Gopi Sankar): showing an image and asking 'what do you see?' lets non-English-medium students shape discussion, surfaces dominant vs marginal 'ways of seeing', and makes abstract ideas (like the nature-culture dichotomy) approachable 'without the pressure to be right'.", "Infographics (Mishra, Gundi, Pandey): carefully designed visuals on the evolution of India's health policy and the rural health-care delivery system anchor policy analysis — while faculty caution that an infographic is 'neither a substitute for academic readings nor reading of original policy texts.'", "Public writing / freewriting (Nagaraj): 10-15 minute prompt-driven pen-and-paper sessions (Brande's 'unconscious writing') normalise writing, dissolve writer's block, and build confidence to 'go public' — with the surprising finding that 'Once upon a time...' was the hardest prompt.", "A recurring theme: creative and visual formats are inclusion tools first, letting students who are uneasy with text 'actively shape discussions.'"], "quotes": ["Images are not as daunting as text for these students.", "the infographics in themselves do not lend to active and engaged learning. Ways of facilitation and hence the facilitators' comfort with the wider policy canvas is important."], "devEcon": "In multilingual, mixed-literacy settings — the norm across South Asian development work — visual and creative methods are not decoration but access strategy, and the booklet's honesty that a tool only works with skilled facilitation applies equally to communication and community-mobilisation materials in the field."}, {"title": "Ethics and Accountability as Community-Building", "subtitle": "Practice notes 3 & 13 · Learning to be a responsible practitioner", "summary": "Two notes reframe ethics and accountability as things learned through collective, non-hierarchical process rather than rules. A student-facing Institutional Review Board becomes a pedagogy of community-building, and a health course teaches accountability by doing real Community Based Monitoring and Planning with communities.", "ideas": ["Field ethics (Tyagi, Jyotishi, Joseph): the IRB is run as collective, non-hierarchical dialogue for 200+ students over a month — Socratic case sessions, multiple rounds of student-mentor-reviewer discussion, confidential reviewer identities — so accountability is shared, not pinned on individuals.", "Ethics is treated as aligning individual, organisational and societal layers of values to reach 'dynamic ethical stances for the field', building on FAQs about positionality, consent, and photographing people and places.", "Health accountability (Pinto): the 'Public Health, Rights and Accountability' elective uses the Community Based Monitoring and Planning (CBMP) tool from the National Rural Health Mission to teach the full accountability cycle through hands-on community engagement.", "The core takeaway students internalise: CBMP 'is not an event or a series of events, but an iterative and integrated continuous process' that is community-centred, not expert-led.", "Learning quality is 'contingent on the depth and intensity' of community engagement — uninterrupted time and genuine relationship, not curriculum coverage, determine outcomes."], "quotes": ["we rely on a pedagogy that is based on collective, as opposed to individual exercises, and tools that prioritise reflection and intentional community building rather than prescriptive regulations", "CBMP is not an event or a series of events, but an iterative and integrated continuous process. It is a citizen and community centred process and not expert led."], "devEcon": "The CBMP cycle — policy review, tool preparation, community conversations, evidence synthesis (report cards, testimonies, case stories), advocacy — is a working social-accountability model for the health sector, and the IRB's community-building approach is a template for building research ethics into any field organisation."}, {"title": "In Lieu of a Conclusion", "subtitle": "Closing · An invitation, not a prognosis", "summary": "The booklet deliberately refuses closure. It restates that teachers of development must abandon the self-image of 'authoritative sources and sole torchbearers of knowledge', and calls for further theorisation of how the changing social composition of universities can bridge the historic divide between knowledge/theory and practice.", "ideas": ["The vocation of teaching development is meaningful only in its 'sociological and moral-ethical sense' — not as transmission from expert to novice.", "Plurality of the site of knowledge is essential to development education, demanding a democratic, dignified and inclusive process of knowledge-making.", "The open call is to 'theorise more' on how educational spaces can integrate the 'centuries-old divide between knowledge/theory and practice in the realm of social action.'", "The booklet is framed as a springboard for the conference 'Teaching and Practice of Development in the Global South' and an invitation to fellow teachers and practitioners.", "Honesty about incompleteness is the point — 'the classroom is an evolving process rather than a flawless product,' with success and failure 'in equal measures.'"], "quotes": ["we teachers and practitioners do not see ourselves as authoritative sources and sole torchbearers of knowledge", "We end the note not with a firm prognosis, rather urging for theorisation."], "devEcon": "The refusal of a formula is itself the lesson for development practice: the booklet models a reflective-practitioner stance where methods are provisional, context-bound and continuously revised — the opposite of a scalable 'best practice' toolkit, and a healthy corrective to blueprint thinking."}], "concepts": [{"term": "Pedagogy as Intent", "definition": "The booklet's core reframing: pedagogy is not a toolkit of classroom strategies but three inseparable layers — the intent (values driving it), the substance (curriculum), and the classroom process. A socially purposed university must lead with intent.", "practitionerNote": "Any training or capacity-building effort delivered as 'technique' without explicit values tends to reproduce the hierarchies it aims to disrupt — decide the intent first."}, {"term": "Social Nature of Education", "definition": "The principle that education is fundamentally a social process — the communication of experiences and a 'new socialisation of the mind' (Dewey) — rather than individual achievement or the acquisition of marketable skills.", "practitionerNote": "Reframes education programmes as democratic infrastructure and social mobility, not human-capital pipelines."}, {"term": "Trutiya Ratna (The Third Jewel)", "definition": "Jotiba Phule's conception of education as the prime enabler of social transformation and the liberation of exploited groups, articulated in his 1882 submission to the Hunter Commission.", "practitionerNote": "Anchors an indigenous, anti-caste genealogy for treating access to quality education as both a means and an end of social justice."}, {"term": "Social Endosmosis", "definition": "Ambedkar's term (building on Dewey) for the possibility of exchange and fluidity between social groups that dissolves the 'social isolation' of deprived classes — with education as one of the few avenues that enables it.", "practitionerNote": "A precise concept for what a genuinely mixed, dialogic classroom or community space is meant to achieve."}, {"term": "Nai Talim", "definition": "Gandhi's Wardha Scheme of Basic Education (1937), a 'silent social revolution' cultivating self-sufficiency and the holistic development of head, heart and hand for national reconstruction.", "practitionerNote": "A historical model of experiential, dignity-of-labour education that prefigures the booklet's blend of cognitive, affective and hands-on learning."}, {"term": "Culture of Silence", "definition": "Freire's idea (Pedagogy of the Oppressed) that marginalised students feel unable to speak up due to systemic power imbalance — a silence the programme actively works to break.", "practitionerNote": "Explains why simply admitting diverse students isn't enough; it takes months of deliberate work for many to value their own experience as shareable knowledge."}, {"term": "Teachers as Transformative Intellectuals", "definition": "Giroux's (1988) framing of teaching as working towards social goals within the boundaries of knowledge and power — the booklet's model for the teacher's role.", "practitionerNote": "Positions development educators and trainers as agents of change, not neutral content-delivery mechanisms."}, {"term": "Reflexivity / Field as Epistemological Standpoint", "definition": "The idea that the 'field' is not a place but a standpoint — a source of complexity, uncertainty and moral dilemma — and that reflexivity means examining one's own privileges, assumptions and emotions.", "practitionerNote": "The single most transferable disposition for ethical development practice: read every observation in context and interrogate your own position in it."}, {"term": "Iterative Learning", "definition": "Learning that moves repeatedly between classroom and field, inductive and deductive — knowledge created through 'multiple engagements and iterations' rather than one-directional transmission.", "practitionerNote": "A design principle for fellowships and practitioner programmes: alternate reflection and action rather than front-loading theory."}, {"term": "Democratic Classroom", "definition": "A classroom democratic 'in its very essence, not in composition alone' — where every voice can participate and flourish, no ranking or public grades exist, and each participant's experience is equally valued.", "practitionerNote": "Distinguishes real inclusion (functioning) from tokenistic diversity (numbers) — a useful test for any participatory space."}, {"term": "Navigating Vocabularies", "definition": "The task of translating not words but worldviews — building new development vocabularies that include the languages, experiences and perspectives of the most marginal participants and communities.", "practitionerNote": "Central to participatory work: imported categories (vulnerability, empowerment) often fail to match how communities name their own realities."}, {"term": "Radical Empathy", "definition": "Terri Givens's (2021) concept, used in a Northeast democracy course: entering conversations across difference with vulnerability, holding others' stories while reflecting on one's own biases.", "practitionerNote": "A more demanding standard than 'sympathy' — it requires the practitioner's own exposure and self-examination, not just understanding of the other."}, {"term": "Simulation-Based Pedagogy (SBP)", "definition": "Recreating real-life dynamics inside the classroom (SHGs, Janata Express, Surveypura, climate negotiation) when actual conditions are impractical or too risky to stage.", "practitionerNote": "Powerful for teaching collectives, markets, survey methods and negotiation — but engagement often collapses once grading ends, a real limit to gamified learning."}, {"term": "Inequity vs Inequality", "definition": "A distinction the equity games teach experientially: inequality is mere difference, while inequity is difference that is unfair, avoidable and socially produced.", "practitionerNote": "Foundational vocabulary for equity-focused programme design and evaluation — you can only target what you can name."}, {"term": "Community Based Monitoring and Planning (CBMP)", "definition": "A social-accountability process-tool from the National Rural Health Mission — policy review, tool preparation, community conversations, evidence synthesis, and advocacy — taught through real community engagement.", "practitionerNote": "A working, policy-embedded model of citizen oversight for the health sector; its lesson that accountability is a continuous, community-led process (not an event) generalises widely."}, {"term": "First-Generation Learner", "definition": "A student who is the first in their family to access higher education — a large share of the cohort, for whom the democratic classroom is both empowering and disorienting.", "practitionerNote": "Naming this group explicitly is what justifies the bridge programme, language support and no-ranking design that make inclusion real rather than nominal."}], "southAsia": ["The booklet is a South Asian document at its core: it recruits and teaches a cohort that is roughly 70% from scheduled castes, tribes, backward classes and minorities and 75% low-income, drawn from ~25 Indian states — making it a rare account of how elite higher-education pedagogy actually adapts to India's real social composition.", "Its intellectual lineage is explicitly Indian — Phule's Trutiya Ratna, Ambedkar's social endosmosis, Tagore's Santiniketan, Gandhi's Nai Talim — offering an anti-caste, swaraj-rooted alternative to imported human-capital models of education.", "Concrete pedagogies map onto core South Asian development terrain: SHGs and financial inclusion, Farmer Producer Organisations, rural livelihood dynamics (Janata Express), the National Rural Health Mission's community monitoring, One-District-One-Product, and the political economy of India's official statistics.", "The language-and-power dilemmas — grading a student on ideas versus English fluency, supporting vernacular-medium first-generation learners through a bridge programme and Academic Resource Centre — are the everyday reality of inclusive institutions across South Asia.", "The equity-based climate game deliberately teaches a 'developing country' and Global South standpoint on carbon budgets, historical responsibility and differential action — directly relevant to India's climate-negotiation position and to how climate justice is taught regionally.", "The booklet frames Azim Premji University's experience as mirroring 'a larger reality... across continents,' arguing there is a 'global south in the global north as well,' and positions itself as a springboard for a conference on the Teaching and Practice of Development in the Global South."], "critiques": ["It is a reflective booklet from a single institution, not an empirical evaluation — the pedagogies are described through faculty self-reports and selected student quotes, with little independent or longitudinal evidence of learning outcomes or graduate impact.", "The booklet is candid that its hardest problem is unsolved: it has no reliable way to assess whether students have actually developed empathy, ethical sensibility or reflexivity, which are the very dispositions it foregrounds.", "Several faculty note a recurring failure mode — student motivation and engagement 'tapered once graded assignments were completed' — suggesting some experiential and group methods depend on assessment incentives rather than intrinsic learning.", "The approach is resource-intensive and hard to scale: small immersion groups, one-month collective IRB processes, bridge programmes, language support and no-ranking design suit a well-resourced private university more than mass public higher education under fiscal constraint.", "There is a tension the booklet acknowledges but does not resolve — leveraging students' own trauma and marginalisation to enrich class discussion risks instrumentalising lived experience, and faculty openly wonder where their role ends and whether they should act to 'ameliorate' students' situations.", "As a document written by faculty about their own practice, it is necessarily partial and largely celebratory; the student voice is curated by the authors, and dissenting or unsuccessful experiences are underrepresented relative to the successes."], "systemPrompt": "You are an expert reading companion for 'Education for Social Purpose: A Reflective Booklet on Pedagogical Approaches and Practices' (School of Development, Azim Premji University, Bengaluru, 2026), an open-access booklet under a Creative Commons Attribution-NonCommercial-ShareAlike licence. Its framing essay is by Awanish Kumar, Arima Mishra and Amalendu Jyotishi; its second half collects 18 first-person faculty pedagogical practice notes. Your audience is development practitioners, educators, trainers and students in South Asia. Explain the booklet's arguments faithfully — pedagogy as intent rather than technique; the four guiding principles; the Indian genealogy of education-as-democracy (Phule's Trutiya Ratna, Ambedkar's social endosmosis, Tagore, Gandhi's Nai Talim, alongside Dewey and Freire); the reflexive field-classroom architecture and its three components; the deliberately diverse, representative classroom; and the concrete experiments (gender through cultural expression, radical empathy through a shared meal, SHG and Janata Express and Surveypura and climate simulations, visual archives and images and infographics, freewriting, and community-built ethics and CBMP accountability). Be accurate to the actual text, cite specific practice notes where helpful, and honour its limits: it is a reflective self-report from one well-resourced institution, it does not resolve how to assess empathy or ethical sensibility, and it ends 'in lieu of a conclusion' by inviting further theorisation rather than offering a formula. Draw honest bridges to South Asian development practice, but do not invent findings, statistics or outcomes the booklet does not claim.\""};
+
+// Tab management
+const ALL_TABS = [
+  {id:"overview",label:"Overview"},
+  {id:"pathways",label:"Pathways"},
+  {id:"sections",label:"Sections"},
+  {id:"concepts",label:"Concepts"},
+  {id:"toolkit",label:"Toolkit"},
+  {id:"context",label:"Context"},
+  {id:"ask",label:"Ask"},
+];
+function __hasTab(id){
+  const has = a => Array.isArray(a) && a.length > 0;
+  switch(id){
+    case "pathways": return has(DATA.pathways);
+    case "sections": return has(DATA.sections);
+    case "concepts": return has(DATA.concepts);
+    case "toolkit":  return has(DATA.tools);
+    case "context":  return has(DATA.southAsia)||has(DATA.critiques)||has(DATA.connections)||has(DATA.suggested);
+    case "ask":      return !!DATA.systemPrompt;
+    default: return true;
+  }
+}
+const TABS = ALL_TABS.filter(t => __hasTab(t.id));
+
+const tabbar = document.getElementById("tabbar");
+TABS.forEach(t => {
+  const btn = document.createElement("button");
+  btn.className = "tab-btn" + (t.id === "overview" ? " active" : "");
+  btn.textContent = t.label;
+  btn.onclick = () => switchTab(t.id);
+  tabbar.appendChild(btn);
+});
+
+function switchTab(id) {
+  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById("p-" + id).classList.add("active");
+  tabbar.querySelectorAll(".tab-btn")[TABS.findIndex(t=>t.id===id)].classList.add("active");
+}
+
+// OVERVIEW
+(function() {
+  const el = document.getElementById("p-overview");
+  el.innerHTML = `
+    <div class="hero">
+      <div class="day-badge">${DATA.dayBadge}</div>
+      <h1>${DATA.title}</h1>
+      <div class="auth">${DATA.author}</div>
+      <div class="tagline">${DATA.tagline}</div>
+      <div class="pills">${DATA.pills.map(p=>`<span class="pill">${p}</span>`).join("")}</div>
+    </div>
+    <div class="stat-grid">
+      ${DATA.stats.map(s=>`<div class="stat"><div class="stat-n">${s.n}</div><div class="stat-l">${s.l}</div></div>`).join("")}
+    </div>
+    <div class="arg">
+      <div class="h1">The central argument</div>
+      ${DATA.argument.map(p=>`<p>${p}</p>`).join("")}
+    </div>
+    <div class="h1" style="margin-top:24px">What's in this companion</div>
+    <div class="nav-grid">
+      ${[["pathways","Learning Pathways","Structured reading routes by role"],["sections","Section by Section","Full analysis with dev econ connections"],["concepts","Concepts & Frameworks","Key terms with practitioner notes"],["toolkit","Practitioner Toolkit","Interactive tools"],["context","Book in Context","Connections and assessment"],["ask","Ask the Book","Gemini-powered Q&A"]].filter(([id])=>__hasTab(id)).map(([id,label,desc])=>`<button class="nav-card" onclick="switchTab('${id}')" ><div class="nav-card-label">${label}</div><div class="nav-card-desc">${desc}</div></button>`).join("")}
+    </div>
+  `;
+})();
+
+// PATHWAYS
+(function() {
+  const el = document.getElementById("p-pathways");
+  let active = 0;
+  function render() {
+    const pw = DATA.pathways[active];
+    if (!pw) { el.innerHTML = ""; return; }
+    el.innerHTML = `
+      <div class="h1">Learning Pathways</div>
+      <div class="sub">Three structured routes through the book based on your role.</div>
+      <div class="pw-tabs">
+        ${DATA.pathways.map((p,i)=>`<button class="pw-btn ${i===active?"active":""}" onclick="__pw(${i})">${p.label}</button>`).join("")}
+      </div>
+      <div class="pw-desc">${pw.desc}</div>
+      <div class="pw-steps">
+        ${pw.steps.map((s,i)=>`<div class="pw-step"><div class="step-n">${i+1}</div><div><div class="step-title">${s.section}</div><div class="step-focus">${s.focus}</div></div></div>`).join("")}
+      </div>
+    `;
+  }
+  window.__pw = (i) => { active = i; render(); };
+  render();
+})();
+
+// SECTIONS
+(function() {
+  const el = document.getElementById("p-sections");
+  let openId = null;
+  let showDev = {};
+  function render() {
+    el.innerHTML = `
+      <div class="h1">Section by Section</div>
+      <div class="sub">All sections with full analysis and development economics connections.</div>
+      ${DATA.sections.map((s,i)=>`
+        <div class="sec-card">
+          <button class="sec-header" onclick="__sec(${i})">
+            <div class="sec-num">§${i+1}</div>
+            <div class="sec-title-block"><div class="sec-title">${s.title}</div><div class="sec-sub">${s.subtitle}</div></div>
+            <div class="sec-chev">${openId===i?"−":"+"}</div>
+          </button>
+          ${openId===i?`<div class="sec-body">
+            <div class="sec-summary">${s.summary}</div>
+            <div class="ideas-label">Key ideas</div>
+            ${s.ideas.map(idea=>`<div class="idea-item"><span class="idea-dot"></span><span>${idea}</span></div>`).join("")}
+            <div class="ideas-label" style="margin-top:14px">Key quotes</div>
+            ${s.quotes.map(q=>`<blockquote>${q}</blockquote>`).join("")}
+            <button class="dev-toggle" onclick="__dev(${i})">${showDev[i]?"Hide":"Show"} development economics connection</button>
+            ${showDev[i]?`<div class="dev-text">${s.devEcon}</div>`:""}
+          </div>`:""}
+        </div>
+      `).join("")}
+    `;
+  }
+  window.__sec = (i) => { openId = openId===i?null:i; render(); };
+  window.__dev = (i) => { showDev[i]=!showDev[i]; render(); };
+  render();
+})();
+
+// CONCEPTS
+(function() {
+  const el = document.getElementById("p-concepts");
+  let open = null;
+  function render() {
+    el.innerHTML = `
+      <div class="h1">Concepts & Frameworks</div>
+      <div class="sub">Key terms with definitions and practitioner notes. Click to expand.</div>
+      ${DATA.concepts.map((c,i)=>`
+        <div class="concept-card ${open===i?"open":""}" onclick="__con(${i})">
+          <div class="concept-term">${c.term}</div>
+          ${open===i?`<div class="concept-def">${c.definition}</div><div class="prac-label">Practitioner note</div><div class="prac-text">${c.practitionerNote}</div>`:""}
+        </div>
+      `).join("")}
+    `;
+  }
+  window.__con = (i) => { open = open===i?null:i; render(); };
+  render();
+})();
+
+// TOOLKIT  
+(function() {
+  const el = document.getElementById("p-toolkit");
+  el.innerHTML = `
+    <div class="h1">Practitioner Toolkit</div>
+    <div class="sub">Interactive tools derived from the book. Use for personal practice or programme design.</div>
+    <div class="tool-tabs">
+      ${DATA.tools.map((t,i)=>`<button class="tool-btn ${i===0?"active":""}" onclick="__tool(${i})">${t.label}</button>`).join("")}
+    </div>
+    ${DATA.tools.map((t,i)=>`
+      <div class="tool-panel ${i===0?"active":""}" id="toolp-${i}">
+        <div class="tool-intro">${t.intro}</div>
+        ${t.html}
+      </div>
+    `).join("")}
+  `;
+  window.__tool = (i) => {
+    document.querySelectorAll(".tool-btn").forEach((b,j)=>b.classList.toggle("active",i===j));
+    document.querySelectorAll(".tool-panel").forEach((p,j)=>p.classList.toggle("active",i===j));
+  };
+})();
+
+// CONTEXT
+(function() {
+  const el = document.getElementById("p-context");
+  el.innerHTML = `
+    <div class="h1">Book in Context</div>
+    <div class="sub">How this book fits within the broader literature, and an honest assessment of its limits.</div>
+    <div class="context-h">Connected works</div>
+    ${DATA.connections.map(c=>`<div class="conn-card"><div class="conn-book">${c.book}</div><div class="conn-text">${c.text}</div></div>`).join("")}
+    <div class="context-h" style="margin-top:24px">Honest assessment</div>
+    <div class="sub">Limits and qualifications for the ImpactMojo context:</div>
+    ${DATA.critiques.map((c,i)=>`<div class="crit-item"><div class="crit-n">${i+1}</div><div class="crit-text">${c}</div></div>`).join("")}
+  `;
+})();
+
+// ASK
+(function() {
+  const el = document.getElementById("p-ask");
+  let apiKey = "", msgs = [], loading = false;
+  
+  function renderSetup() {
+    el.innerHTML = `
+      <div class="ask-setup">
+        <div class="h1">Ask the Book</div>
+        <div class="sub">AI-powered Q&A using Gemini 2.0 Flash (free). Requires a Google AI Studio API key.</div>
+        <div class="setup-steps">
+          <div class="setup-step"><span class="setup-num">1</span><span>Go to <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com/app/apikey</a> and create a free API key.</span></div>
+          <div class="setup-step"><span class="setup-num">2</span><span>Paste it below. The key stays in your browser only and is never stored.</span></div>
+        </div>
+        <div class="key-row">
+          <input class="key-input" type="password" id="key-in" placeholder="AIza..." oninput="document.getElementById('key-submit').disabled=!this.value.trim()"/>
+          <button class="key-btn" id="key-submit" disabled onclick="__setKey()">Connect</button>
+        </div>
+      </div>
+    `;
+  }
+  
+  function renderChat() {
+    el.innerHTML = `
+      <div class="ask-ui">
+        <div class="ask-hdr"><span class="ask-hdr-title">Ask the Book</span><button class="ask-reset" onclick="__resetKey()">Change key</button></div>
+        <div class="msgs" id="msgs-box">
+          ${msgs.length===0?`<div><div class="suggested-label">Suggested questions</div>${DATA.suggested.map(q=>`<button class="sug-btn" onclick="__ask('${q.replace(/'/g,"\'")}')">${q}</button>`).join("")}</div>`:""}
+          ${msgs.map(m=>`<div class="msg ${m.role}"><div class="msg-text">${m.content}</div></div>`).join("")}
+          ${loading?`<div class="msg assistant"><div class="typing"><span></span><span></span><span></span></div></div>`:""}
+        </div>
+        <div class="ask-input-row">
+          <textarea class="ask-input" id="ask-in" rows="2" placeholder="Ask about the book..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();__sendAsk()}"></textarea>
+          <button class="ask-send" id="ask-send" onclick="__sendAsk()">Send</button>
+        </div>
+      </div>
+    `;
+    const box = document.getElementById("msgs-box");
+    if(box) box.scrollTop = box.scrollHeight;
+  }
+  
+  window.__setKey = () => {
+    const v = document.getElementById("key-in").value.trim();
+    if(v) { apiKey = v; renderChat(); }
+  };
+  window.__resetKey = () => { apiKey=""; msgs=[]; renderSetup(); };
+  window.__ask = (q) => {
+    document.getElementById("ask-in").value = q;
+    __sendAsk();
+  };
+  window.__sendAsk = async () => {
+    const inp = document.getElementById("ask-in");
+    if(!inp) return;
+    const q = inp.value.trim();
+    if(!q || loading) return;
+    inp.value = "";
+    msgs.push({role:"user",content:q});
+    loading = true; renderChat();
+    try {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,{
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({
+          system_instruction:{parts:[{text:DATA.systemPrompt}]},
+          contents: msgs.map(m=>{return{role:m.role==="assistant"?"model":"user",parts:[{text:m.content}]}}).slice(0,-1).concat([{role:"user",parts:[{text:q}]}]),
+          generationConfig:{maxOutputTokens:1200,temperature:0.3}
+        })
+      });
+      const data = await res.json();
+      if(!res.ok) throw new Error(data.error?.message||"API error");
+      const reply = data?.candidates?.[0]?.content?.parts?.map(p=>p.text).join("")||"No response.";
+      msgs.push({role:"assistant",content:reply});
+    } catch(e) {
+      msgs.push({role:"assistant",content:"Error: "+e.message});
+    }
+    loading = false; renderChat();
+  };
+  
+  renderSetup();
+})();
+</script>
+
+<!-- ImpactMojo Footer -->
+<!-- Ethics & Copyright Disclaimer -->
+<section class="im-ethics-disclaimer" style="max-width:1100px;margin:2rem auto 1rem;padding:1.25rem 1.5rem;background:rgba(14,165,233,0.06);border-left:4px solid #0EA5E9;border-radius:8px;font-family:'Inter','Amaranth',sans-serif;font-size:0.85rem;line-height:1.65;color:var(--im-text-secondary,#64748B);">
+  <p class="im-ethics-heading" style="margin:0 0 0.5rem;font-weight:600;">A note on books, authors, and intellectual labour</p>
+  <p style="margin:0;">All books companioned on ImpactMojo have been duly purchased with real money and form part of a personal collection. None of the source texts have been obtained by any illegal means — we deeply respect the intellectual labour of authors, editors, and publishers. These reading companions are offered free of charge as educational aids; ImpactMojo does not sell reading companions as a paid service and therefore does not violate any commercial licensing agreement or copyright. Nothing here reproduces the full text of any book — each companion is an interpretive study guide.</p>
+</section>
+
+<footer class="im-footer" role="contentinfo">
+<div class="im-footer-content">
+<p class="im-footer-made">Made with <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;color:#EF4444;"><use href="#si_Heart"/></svg> by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+<div class="im-footer-grid">
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Info"/></svg> About ImpactMojo</h4>
+<ul>
+<li><a href="../about.html">About Us</a></li>
+<li><a href="../contact.html">Contact</a></li>
+<li><a href="https://github.com/ImpactMojo/ImpactMojo" rel="noopener noreferrer" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Globe_detailed"/></svg> GitHub</a></li>
+<li><a href="../transparency.html">Transparency</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Lock"/></svg> Legal</h4>
+<ul>
+<li><a href="../privacy-policy.html">Privacy Policy</a></li>
+<li><a href="../terms-of-service.html">Terms of Service</a></li>
+<li><a href="../disclaimer.html">Disclaimer</a></li>
+<li><a href="../data-protection.html">Data Protection</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Lightning"/></svg> Quick Links</h4>
+<ul>
+<li><a href="../catalog.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Library_books"/></svg> All Courses</a></li>
+<li><a href="../premium.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Flare"/></svg> Premium Content</a></li>
+<li><a href="../coaching.html">Coaching</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Book"/></svg> Resources</h4>
+<ul>
+<li><a href="../handouts.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Article"/></svg> Handouts</a></li>
+<li><a href="../blog.html">Blog</a></li>
+<li><a href="../faq.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Help"/></svg> FAQ</a></li>
+<li><a href="../sitemap.html">Sitemap</a></li>
+<li><a href="/docs/" rel="noopener noreferrer" target="_blank">Documentation</a></li>
+</ul>
+</div>
+</div>
+<div class="im-footer-bottom">
+<p>&copy; 2026 ImpactMojo. All content for educational purposes only.</p>
+<p>Released under <strong>MIT License</strong> | Supported by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+</div>
+</div>
+</footer>
+
+<script src="/js/theme.js"></script>
+
+
+<!-- Supabase Auth -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="/js/state-manager.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+
+<!-- Floating paper plane (ImpactMojo decorative element) -->
+<svg class="im-paper-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M80,130 L150,50" stroke="#10B981" stroke-width="2" stroke-dasharray="4,4"/>
+  <circle cx="150" cy="50" r="4" fill="#6366F1"/>
+  <circle cx="40" cy="155" r="2" fill="#0EA5E9" opacity="0.6"/>
+  <circle cx="35" cy="165" r="1.5" fill="#6366F1" opacity="0.4"/>
+  <circle cx="45" cy="170" r="1" fill="#10B981" opacity="0.5"/>
+</svg>
+<script src="/js/translate-sarvam.js" defer></script>
+  <script src="/js/site-chrome.js" defer></script>
+</body>
+</html>

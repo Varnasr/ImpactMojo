@@ -1,0 +1,792 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Busy Idiots — ImpactMojo Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+/* === ImpactMojo Design System === */
+:root {
+    --im-gradient: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+    --im-accent: #0EA5E9;
+    --im-nav-bg: rgba(15, 23, 42, 0.95);
+    --im-border: #334155;
+    --im-text-primary: #F1F5F9;
+    --im-text-secondary: #94A3B8;
+    --im-text-muted: #64748B;
+    --im-card-bg: #1E293B;
+    --im-hover-bg: #334155;
+    --im-secondary-bg: #1E293B;
+}
+body { padding-top: 56px !important; }
+.im-topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    background: var(--im-nav-bg);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--im-border);
+    padding: 0.5rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.75rem; flex-wrap: wrap;
+    font-family: 'Inter', 'Amaranth', sans-serif;
+}
+.im-topbar a { text-decoration: none; }
+.im-topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+.im-topbar-home {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-weight: 700; font-size: 1rem;
+    background: var(--im-gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.im-topbar-home svg { width: 24px; height: 24px; flex-shrink: 0; stroke: #0EA5E9; }
+.im-topbar-right { display: flex; align-items: center; gap: 0.5rem; }
+.im-premium-btn {
+    background: var(--im-gradient);
+    color: #fff !important; -webkit-text-fill-color: #fff;
+    padding: 0.35rem 0.85rem; border-radius: 6px;
+    font-size: 0.8rem; font-weight: 600;
+    display: flex; align-items: center; gap: 0.35rem;
+    transition: opacity 0.2s; border: none; cursor: pointer;
+}
+.im-browse-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--im-text, #1C1917); background: var(--im-surface, #FFFFFF); border: 1.5px solid var(--im-border, #E2E8F0); padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; transition: background 0.18s ease, border-color 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease; }
+.im-browse-btn:hover { background: var(--im-accent, #0EA5E9); color: #FFFFFF; border-color: var(--im-accent, #0EA5E9); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25); }
+.im-browse-btn svg { width: 14px; height: 14px; }
+@media (prefers-color-scheme: dark) { .im-browse-btn { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.18); } .im-browse-btn:hover { background: var(--im-accent, #0EA5E9); border-color: var(--im-accent, #0EA5E9); color: #FFFFFF; } }
+.im-premium-btn:hover { opacity: 0.9; }
+.im-premium-btn svg { width: 14px; height: 14px; }
+.im-theme-selector {
+    display: flex; gap: 2px;
+    background: var(--im-card-bg);
+    border: 1px solid var(--im-border);
+    border-radius: 8px; padding: 2px;
+}
+.im-theme-btn {
+    background: transparent; border: none;
+    color: var(--im-text-secondary);
+    padding: 6px; border-radius: 5px; cursor: pointer;
+    transition: all 0.2s; display: flex; align-items: center;
+    justify-content: center; width: 30px; height: 30px;
+}
+.im-theme-btn:hover { background: var(--im-hover-bg); color: var(--im-text-primary); }
+.im-theme-btn.active { background: var(--im-accent); color: #fff; }
+.im-theme-btn svg { width: 16px; height: 16px; }
+.im-footer {
+    background: var(--im-secondary-bg);
+    border-top: 1px solid var(--im-border);
+    padding: 2rem 1rem; margin-top: auto;
+    font-family: 'Inter', 'Amaranth', sans-serif;
+    color: var(--im-text-secondary);
+}
+.im-footer-content { max-width: 1100px; margin: 0 auto; }
+.im-footer-made {
+    text-align: center; margin-bottom: 1.5rem;
+    font-size: 0.9rem; color: var(--im-text-muted);
+}
+.im-footer-made a { color: var(--im-accent); text-decoration: none; }
+.im-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem; margin-bottom: 1.5rem;
+}
+.im-footer-section h4 {
+    font-family: 'Inter', 'Amaranth', sans-serif;
+    color: var(--im-text-primary);
+    font-size: 0.9rem; margin-bottom: 0.75rem; font-weight: 600;
+}
+.im-footer-section ul { list-style: none; padding: 0; margin: 0; }
+.im-footer-section li { margin-bottom: 0.4rem; }
+.im-footer-section a {
+    color: var(--im-text-secondary);
+    text-decoration: none; font-size: 0.85rem; transition: color 0.2s;
+}
+.im-footer-section a:hover { color: var(--im-accent); }
+.im-footer-bottom {
+    text-align: center; padding-top: 1rem;
+    border-top: 1px solid var(--im-border);
+    font-size: 0.8rem; color: var(--im-text-muted);
+}
+.im-footer-bottom p { margin: 0.25rem 0; }
+.im-footer-bottom a { color: var(--im-accent); text-decoration: none; }
+@media (max-width: 640px) {
+    .im-topbar { padding: 0.4rem 0.75rem; gap: 0.5rem; }
+    .im-topbar-home { font-size: 0.85rem; }
+    .im-topbar-home svg { width: 20px; height: 20px; }
+    .im-topbar-home span { display: none; }
+    .im-premium-btn { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
+    .im-theme-btn { width: 26px; height: 26px; padding: 4px; }
+    .im-theme-btn svg { width: 14px; height: 14px; }
+    .im-footer-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+}
+@media (max-width: 400px) {
+    .im-footer-grid { grid-template-columns: 1fr; }
+}
+/* === End ImpactMojo Design System === */
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F8F5F0;--card:#fff;--border:#E8E0D5;--text:#1C1C1C;--muted:#6B6560;
+  --accent:#1A3C34;--accent-light:#EBF5F2;--teal:#1A6B5A;--teal-light:#EBF5F2;
+  --radius:8px;
+}
+body{background:var(--bg);font-family:'Amaranth','Inter',system-ui,sans-serif;color:var(--text);padding-top:52px}
+.app{min-height:100vh;display:flex;flex-direction:column}
+nav{background:#1C1C1C;display:flex;align-items:center;gap:20px;padding:0 20px;min-height:52px;flex-wrap:wrap;position:sticky;top:52px;z-index:99}
+.brand{display:flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.brand-name{font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:#fff;letter-spacing:.05em;text-transform:uppercase}
+.tabs{display:flex;gap:2px;flex-wrap:wrap}
+.tab-btn{background:none;border:none;padding:6px 13px;font-family:Inter,sans-serif;font-size:11px;font-weight:600;color:rgba(255,255,255,.5);cursor:pointer;border-radius:4px;text-transform:uppercase;letter-spacing:.04em;transition:all .15s}
+.tab-btn:hover{color:rgba(255,255,255,.85)}
+.tab-btn.active{color:#fff;background:var(--accent)}
+main{flex:1;padding:32px 20px;max-width:860px;margin:44px auto 0;width:100%}
+.h1{font-family:Inter,sans-serif;font-size:22px;font-weight:700;margin-bottom:8px}
+.sub{color:var(--muted);font-size:15px;margin-bottom:24px;font-family:Inter,sans-serif;line-height:1.5}
+.panel{display:none}.panel.active{display:block}
+
+/* HERO */
+.hero{background:#1C1C1C;color:#fff;border-radius:12px;padding:32px;margin-bottom:20px}
+.day-badge{display:inline-block;background:var(--accent);font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 10px;border-radius:4px;margin-bottom:14px}
+.hero h1{font-size:34px;font-weight:700;margin-bottom:4px}
+.hero .auth{font-family:Inter,sans-serif;font-size:13px;color:rgba(255,255,255,.5);margin-bottom:14px}
+.hero .tagline{font-size:15px;color:rgba(255,255,255,.8);line-height:1.6;max-width:620px;margin-bottom:18px}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-family:Inter,sans-serif;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.8)}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:18px 14px;text-align:center}
+.stat-n{font-size:30px;font-weight:700;color:var(--accent);font-family:Inter,sans-serif}
+.stat-l{font-family:Inter,sans-serif;font-size:12px;color:var(--muted);margin-top:4px}
+.arg{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:22px;margin-bottom:24px}
+.arg p{font-size:15px;line-height:1.75}
+.arg p+p{margin-top:1rem}
+.nav-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.nav-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:left;cursor:pointer;transition:all .15s}
+.nav-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.nav-card-label{font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
+.nav-card-desc{font-family:Inter,sans-serif;font-size:12px;color:var(--muted)}
+
+/* PATHWAYS */
+.pw-tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.pw-btn{font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:6px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s}
+.pw-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.pw-desc{font-family:Inter,sans-serif;font-size:14px;color:var(--muted);padding:12px 14px;background:var(--accent-light);border-radius:6px;margin-bottom:20px;line-height:1.5}
+.pw-steps{display:flex;flex-direction:column;gap:10px}
+.pw-step{display:flex;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px}
+.step-n{width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-family:Inter,sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-title{font-family:Inter,sans-serif;font-size:14px;font-weight:700;margin-bottom:3px}
+.step-focus{font-family:Inter,sans-serif;font-size:13px;color:var(--muted);line-height:1.5}
+
+/* SECTIONS */
+.sec-card{background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.sec-header{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;cursor:pointer;background:none;border:none;text-align:left;width:100%}
+.sec-num{font-family:Inter,sans-serif;font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;min-width:24px;padding-top:2px}
+.sec-title{font-family:Inter,sans-serif;font-size:15px;font-weight:700;margin-bottom:2px}
+.sec-sub{font-family:Inter,sans-serif;font-size:12px;color:var(--muted)}
+.sec-chev{font-size:16px;color:var(--muted);padding-top:2px;margin-left:auto}
+.sec-body{padding:0 18px 18px 56px;border-top:1px solid var(--border)}
+.sec-summary{font-size:15px;line-height:1.75;padding-top:14px;margin-bottom:18px}
+.ideas-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
+.idea-item{display:flex;gap:8px;margin-bottom:7px;font-family:Inter,sans-serif;font-size:13px;line-height:1.55}
+.idea-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:6px}
+blockquote{font-style:italic;font-size:14px;color:var(--muted);border-left:3px solid var(--accent);padding-left:12px;margin-bottom:8px;line-height:1.6}
+.dev-toggle{font-family:Inter,sans-serif;font-size:12px;font-weight:600;color:var(--teal);background:var(--teal-light);border:none;padding:7px 12px;border-radius:4px;cursor:pointer;margin-top:10px}
+.dev-text{margin-top:10px;font-family:Inter,sans-serif;font-size:13px;line-height:1.65;background:var(--teal-light);padding:12px;border-radius:6px}
+
+/* CONCEPTS */
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+.concept-card:hover,.concept-card.open{border-color:var(--accent)}
+.concept-term{font-family:Inter,sans-serif;font-size:15px;font-weight:700}
+.concept-def{font-family:Inter,sans-serif;font-size:14px;line-height:1.7;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.prac-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-top:10px;margin-bottom:4px}
+.prac-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65;color:var(--muted)}
+
+/* TOOLKIT */
+.tool-tabs{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+.tool-btn{font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:6px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s}
+.tool-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tool-panel{display:none;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:22px}
+.tool-panel.active{display:block}
+.tool-intro{font-family:Inter,sans-serif;font-size:14px;color:var(--muted);margin-bottom:20px;line-height:1.5}
+.fld-label{font-family:Inter,sans-serif;font-size:13px;font-weight:600;margin-bottom:5px;display:block}
+.fld{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;outline:none;background:var(--bg);margin-bottom:12px}
+.fld:focus{border-color:var(--accent)}
+.output-box{background:var(--accent-light);padding:14px;border-radius:6px;margin-top:16px;font-family:Inter,sans-serif;font-size:14px;line-height:1.65}
+.output-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:8px}
+
+/* CONTEXT */
+.conn-card{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:16px 18px;margin-bottom:10px}
+.conn-book{font-family:Inter,sans-serif;font-size:14px;font-weight:700;margin-bottom:5px}
+.conn-text{font-family:Inter,sans-serif;font-size:13px;color:var(--muted);line-height:1.65}
+.crit-item{display:flex;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:8px}
+.crit-n{width:24px;height:24px;border-radius:50%;background:#FFF8E6;color:#C8910A;font-family:Inter,sans-serif;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.crit-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65}
+.context-h{font-family:Inter,sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;margin-top:6px}
+
+/* ASK */
+.ask-setup{}
+.setup-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+.setup-step{display:flex;gap:12px;font-family:Inter,sans-serif;font-size:14px;line-height:1.5}
+.setup-num{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.setup-step a{color:var(--accent)}
+.key-row{display:flex;gap:10px}
+.key-input{flex:1;max-width:400px;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;outline:none}
+.key-btn{padding:9px 22px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:Inter,sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.key-btn:disabled{opacity:.4;cursor:not-allowed}
+.ask-ui{display:flex;flex-direction:column;height:calc(100vh - 180px)}
+.ask-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.ask-hdr-title{font-family:Inter,sans-serif;font-size:18px;font-weight:700}
+.ask-reset{background:none;border:1px solid var(--border);border-radius:4px;padding:4px 10px;font-family:Inter,sans-serif;font-size:12px;color:var(--muted);cursor:pointer}
+.msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px;margin-bottom:10px}
+.suggested-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px}
+.sug-btn{display:block;width:100%;text-align:left;padding:9px 12px;background:var(--card);border:1px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;cursor:pointer;margin-bottom:6px;transition:all .15s}
+.sug-btn:hover{border-color:var(--accent);background:var(--accent-light)}
+.msg{max-width:85%}
+.msg.user{align-self:flex-end}
+.msg.assistant{align-self:flex-start}
+.msg-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65;padding:10px 14px;border-radius:8px;white-space:pre-wrap}
+.msg.user .msg-text{background:var(--accent);color:#fff}
+.msg.assistant .msg-text{background:var(--card);border:1px solid var(--border)}
+.typing{display:flex;gap:4px;padding:12px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px}
+.typing span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:bounce 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.ask-input-row{display:flex;gap:8px;border-top:1px solid var(--border);padding-top:10px}
+.ask-input{flex:1;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;resize:none;outline:none;background:var(--bg)}
+.ask-input:focus{border-color:var(--accent)}
+.ask-send{padding:9px 18px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:Inter,sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.ask-send:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:640px){.stat-grid{grid-template-columns:repeat(2,1fr)}.nav-grid{grid-template-columns:1fr 1fr}.sec-body{padding-left:18px}}
+
+/* WCAG 2.1 AA (1.4.1 Use of Color): inline anchors in content paragraphs must be distinguishable without relying on color alone. Scoped to <main> so nav/footer button-links are unaffected. */
+main p a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]),
+main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
+/* === Dark Mode === */
+html.dark body { background: #0f172a; color: #e2e8f0; }
+html.dark #root,
+html.dark main,
+html.dark .app,
+html.dark [id^="p-"],
+html.dark .panel { filter: invert(0.88) hue-rotate(180deg); }
+html.dark #root img,
+html.dark #root svg:not([class*="im-"]),
+html.dark main img,
+html.dark main svg:not([class*="im-"]) { filter: invert(1) hue-rotate(180deg); }
+html.dark .im-topbar, html.dark .im-footer { filter: none; }
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+<!-- SEO meta (autogenerated) -->
+<meta name="description" content="Brad Marshall & Joff Outlaw · John Wiley & Sons Australia, 2025 — ImpactMojo Companion. An interactive companion to the trade book that argues our obsession with busyness — not laziness — is the great unspoken sickness of the modern workplace, and offers a brain-science toolkit to harvest technology">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.impactmojo.in/BookSummaries/busy-idiots-companion.html">
+<meta property="og:title" content="Busy Idiots — ImpactMojo Companion">
+<meta property="og:description" content="Brad Marshall & Joff Outlaw · John Wiley & Sons Australia, 2025 — ImpactMojo Companion. An interactive companion to the trade book that argues our obsession with busyness — not laziness — is the great unspoken sickness of the modern workplace, and offers a brain-science toolkit to harvest technology">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:url" content="https://www.impactmojo.in/BookSummaries/busy-idiots-companion.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ImpactMojo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Busy Idiots — ImpactMojo Companion">
+<meta name="twitter:description" content="Hayre, Canning, Pearce, Khera & Ford (BMC Public Health, 2026) — ImpactMojo Companion. An umbrella review of 35 systematic reviews ranking which macro-level policies most reduce health inequity, organised by 'agentic demand'.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<!-- Favicons -->
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<!-- Translate -->
+<style>
+/* Skip link (WCAG 2.4.1) */
+.im-skip-link { position:absolute; top:-40px; left:0; background:#0EA5E9; color:#fff; padding:8px 16px; z-index:10000; text-decoration:none; font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600; }
+.im-skip-link:focus { top:0; }
+/* Floating paper plane */
+.im-paper-plane { position:fixed; bottom:2rem; right:2rem; width:60px; height:60px; opacity:0.14; pointer-events:none; z-index:0; animation: imFloat 6s ease-in-out infinite; }
+@keyframes imFloat { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-15px) rotate(3deg);} }
+html.dark .im-paper-plane { opacity:0.22; }
+/* Interactive companion CTA */
+.im-interactive-cta { display:inline-flex; align-items:center; gap:0.5rem; background:var(--im-gradient); color:#fff !important; -webkit-text-fill-color:#fff; padding:0.5rem 1rem; border-radius:6px; font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600; text-decoration:none; margin-top:14px; transition:opacity 0.2s; }
+.im-interactive-cta:hover { opacity:0.9; }
+
+/* === ImpactMojo Brand Override (fonts + dark mode) — v10.21 === */
+html body, html body .app, html body main, html body .panel,
+html body p, html body li, html body blockquote, html body .sec-summary, html body .arg p,
+html body .sub, html body .tagline, html body .hero, html body .hero h1 {
+  font-family: 'Amaranth', Arial, sans-serif !important;
+}
+html body h1, html body h2, html body h3, html body h4, html body h5, html body h6,
+html body .h1, html body .brand-name, html body .day-badge, html body .pill,
+html body .stat-n, html body .stat-l, html body .sec-title, html body .sec-sub, html body .sec-num,
+html body .concept-term, html body .step-title, html body .step-focus, html body .conn-book,
+html body .book-title, html body .tab-btn, html body .pw-btn, html body .tool-btn,
+html body .im-topbar, html body .im-topbar *, html body .im-footer, html body .im-footer * {
+  font-family: 'Inter', 'Amaranth', Helvetica, sans-serif !important;
+}
+html body code, html body pre, html body .mono, html body kbd, html body samp {
+  font-family: 'JetBrains Mono', ui-monospace, monospace !important;
+}
+
+/* Replace filter-invert dark mode with proper token-based dark mode */
+html.dark body { background: #0F172A !important; color: #E2E8F0 !important; }
+html.dark #root, html.dark main, html.dark .app, html.dark [id^="p-"], html.dark .panel,
+html.dark .arg, html.dark .hero, html.dark .stat, html.dark .nav-card, html.dark .pw-step,
+html.dark .sec-card, html.dark .sec-body, html.dark .concept-card, html.dark .tool-panel,
+html.dark .conn-card, html.dark .crit-item, html.dark .msg.assistant .msg-text,
+html.dark .output-box, html.dark .typing, html.dark .ask-input, html.dark .key-input,
+html.dark .fld, html.dark .tool-btn, html.dark .pw-btn, html.dark .sug-btn, html.dark .pw-desc {
+  filter: none !important;
+}
+html.dark { color-scheme: dark; }
+html.dark body,
+html.dark body .app,
+html.dark body main { background: #0F172A !important; color: #E2E8F0 !important; }
+html.dark .hero { background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%) !important; color: #F1F5F9 !important; border: 1px solid #334155; }
+html.dark .hero .auth, html.dark .hero .tagline { color: #CBD5E1 !important; }
+html.dark .stat, html.dark .arg, html.dark .nav-card, html.dark .sec-card, html.dark .pw-step,
+html.dark .concept-card, html.dark .tool-panel, html.dark .conn-card, html.dark .crit-item,
+html.dark .msg.assistant .msg-text { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .sec-header, html.dark .sec-body { background: transparent !important; color: #E2E8F0 !important; }
+html.dark .sec-body { border-top-color: #334155 !important; }
+html.dark .stat-n { color: #38BDF8 !important; }
+html.dark .stat-l, html.dark .sec-sub, html.dark .sub, html.dark .nav-card-desc,
+html.dark .step-focus, html.dark .pw-desc, html.dark .prac-text, html.dark .conn-text,
+html.dark .ideas-label, html.dark .prac-label, html.dark .output-label, html.dark .suggested-label,
+html.dark .dev-text, html.dark .fld-label { color: #94A3B8 !important; }
+html.dark .h1, html.dark .sec-title, html.dark .concept-term, html.dark .step-title,
+html.dark .nav-card-label, html.dark .conn-book, html.dark .context-h, html.dark .ask-hdr-title { color: #F1F5F9 !important; }
+html.dark blockquote { color: #CBD5E1 !important; border-left-color: #38BDF8 !important; }
+html.dark .pill { background: rgba(56, 189, 248, 0.15) !important; color: #7DD3FC !important; }
+html.dark .day-badge { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .tab-btn { color: rgba(226, 232, 240, 0.6) !important; }
+html.dark .tab-btn.active { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .tab-btn:hover { color: #F1F5F9 !important; }
+html.dark nav { background: #0F172A !important; border-bottom: 1px solid #334155; }
+html.dark .pw-btn, html.dark .tool-btn { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .pw-btn.active, html.dark .tool-btn.active { background: #0EA5E9 !important; border-color: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .pw-desc { background: rgba(14, 165, 233, 0.1) !important; color: #CBD5E1 !important; }
+html.dark .output-box { background: rgba(14, 165, 233, 0.1) !important; color: #E2E8F0 !important; }
+html.dark .step-n, html.dark .setup-num { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .sec-num { color: #38BDF8 !important; }
+html.dark .ideas-label, html.dark .prac-label, html.dark .output-label { color: #38BDF8 !important; }
+html.dark .dev-toggle { background: rgba(56, 189, 248, 0.1) !important; color: #7DD3FC !important; }
+html.dark .dev-text { background: rgba(56, 189, 248, 0.08) !important; color: #CBD5E1 !important; }
+html.dark .fld, html.dark .key-input, html.dark .ask-input { background: #0F172A !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .msg.user .msg-text { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .sug-btn { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .sug-btn:hover { background: rgba(14, 165, 233, 0.15) !important; border-color: #0EA5E9 !important; }
+html.dark .crit-n { background: rgba(251, 191, 36, 0.15) !important; color: #FCD34D !important; }
+html.dark #root img, html.dark #root svg:not([class*="im-"]),
+html.dark main img, html.dark main svg:not([class*="im-"]) { filter: none !important; }
+html.dark .im-topbar, html.dark .im-footer { filter: none !important; }
+/* === End ImpactMojo Brand Override === */
+
+/* Ethics disclaimer heading — readable in both modes */
+.im-ethics-disclaimer .im-ethics-heading { color: #0F172A !important; }
+html.dark .im-ethics-disclaimer .im-ethics-heading, body.dark-mode .im-ethics-disclaimer .im-ethics-heading { color: #F1F5F9 !important; }
+html.dark .im-ethics-disclaimer, body.dark-mode .im-ethics-disclaimer { background: rgba(56,189,248,0.08) !important; border-left-color: #38BDF8 !important; color: #CBD5E1 !important; }
+</style>
+<link rel="stylesheet" href="/assets/css/booksummary-dark.css">
+</head>
+<body>
+<a href="#main-content" class="im-skip-link">Skip to content</a>
+<header class="im-topbar" role="banner">
+  <div class="im-topbar-left">
+    <a class="im-topbar-home" href="/" aria-label="ImpactMojo home">
+      <img src="/assets/images/ImpactMojo%20Logo.png" alt="ImpactMojo" width="24" height="24" style="border-radius:4px;">
+      <span>ImpactMojo</span>
+    </a>  </div>
+  <div class="im-topbar-right">
+    <a href="/catalog.html" class="im-browse-btn" title="Browse all content"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Browse</a>
+    
+    <a class="im-premium-btn" href="/premium.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Premium
+    </a>
+    <div class="im-theme-selector" role="group" aria-label="Theme">
+      <button class="im-theme-btn" data-imtheme="system" title="System theme" aria-label="System theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </button>
+      <button class="im-theme-btn" data-imtheme="light" title="Light theme" aria-label="Light theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <button class="im-theme-btn" data-imtheme="dark" title="Dark theme" aria-label="Dark theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="app">
+<nav>
+  <div class="brand"><div class="dot"></div><span class="brand-name">ImpactMojo</span></div>
+  <div class="tabs" id="tabbar"></div>
+</nav>
+<main id="main-content">
+  <div class="panel active" id="p-overview"></div>
+  <div class="panel" id="p-pathways"></div>
+  <div class="panel" id="p-sections"></div>
+  <div class="panel" id="p-concepts"></div>
+  <div class="panel" id="p-toolkit"></div>
+  <div class="panel" id="p-context"></div>
+  <div class="panel" id="p-ask"></div>
+</main>
+</div>
+
+<!-- Sargam Icon Sprites -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+<symbol id="si_Direction_alt" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m3 3 18 7.92-7.987 2.093L10.92 21z"/></symbol>
+<symbol id="si_Flare" viewBox="0 0 24 24" fill="none"><g clip-path="url(#clip_si_Flare)"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M7 12H1m22 0h-6m-5 5v6m3.536-7.464 1.414 1.414m-9.9-9.9 1.414 1.414m7.072 0L16.95 7.05m-9.9 9.9 1.414-1.414M12 1v6m2 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0"/></g><defs><clipPath id="clip_si_Flare"><path fill="#fff" d="M0 0h24v24H0z"/></clipPath></defs></symbol>
+<symbol id="si_Info" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 8h.008M12 16v-5m10 1c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10"/></symbol>
+<symbol id="si_Lock" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M8 10V7c0-2.21 1.79-4 4-4s4 1.79 4 4v3m-4 5a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 0v3m-5.4-8h10.8c.88 0 1.6.72 1.6 1.6v7c0 1.32-1.08 2.4-2.4 2.4H7.4C6.08 21 5 19.92 5 18.6v-7c0-.88.72-1.6 1.6-1.6"/></symbol>
+<symbol id="si_Lightning" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m12.667 10.5 1.25-7.5L6 13h5l-1.25 7.5 7.917-10z" clip-rule="evenodd"/></symbol>
+<symbol id="si_Library_books" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M10 11h8m-8 3h4m-4-6h8m2 14H8.4C5.42 22 3 19.58 3 16.6V5m5.4-2h11.2A2.4 2.4 0 0 1 22 5.4v11.2a2.4 2.4 0 0 1-2.4 2.4H8.4A2.4 2.4 0 0 1 6 16.6V5.4A2.4 2.4 0 0 1 8.4 3"/></symbol>
+<symbol id="si_Book" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 7.333C12 5.5 10.5 4 8.667 4H2v12h6.708C12 16 12 19.334 12 19.334m0-12C12 5.5 13.5 4 15.333 4H22v12h-6.667C12 16 12 19.334 12 19.334m0-12v12m1.875 1.124A2.58 2.58 0 0 1 16.167 19H21m-10.875 1.458A2.54 2.54 0 0 0 7.833 19H3"/></symbol>
+<symbol id="si_Article" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M8 12h8m-8 3h4M8 9h8M4.4 4h15.2A2.4 2.4 0 0 1 22 6.4v11.2a2.4 2.4 0 0 1-2.4 2.4H4.4A2.4 2.4 0 0 1 2 17.6V6.4A2.4 2.4 0 0 1 4.4 4"/></symbol>
+<symbol id="si_Mail" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m5 7.06 6.87 5.89c.07.06.19.06.26 0L19 7.06M3.2 4h17.6c.66 0 1.2.54 1.2 1.2v12.4c0 1.32-1.08 2.4-2.4 2.4H4.4C3.08 20 2 18.92 2 17.6V5.2C2 4.54 2.54 4 3.2 4"/></symbol>
+<symbol id="si_Help" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M11.83 14v-.621a2.33 2.33 0 0 1 1.164-2.02c1.126-.66 1.514-2.057.854-3.183s-2.057-1.514-3.183-.854C9.965 7.75 9.5 8.487 9.5 9.341M12 17h-.008M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12s4.477 10 10 10 10-4.477 10-10"/></symbol>
+<symbol id="si_Heart" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.696 3C14.652 3 12.887 4.197 12 5.943 11.113 4.197 9.348 3 7.304 3 4.374 3 2 5.457 2 8.481s1.817 5.796 4.165 8.073S12 21 12 21s3.374-2.133 5.835-4.446C20.46 14.088 22 11.514 22 8.481S19.626 3 16.696 3"/></symbol>
+<symbol id="si_Globe_detailed" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M22 12c0 5.523-4.477 10-10 10m10-10c0-5.523-4.477-10-10-10m10 10H2m10 10C6.477 22 2 17.523 2 12m10 10 .66-.31c2.1-2.71 3.34-6.14 3.34-9.78s-1.22-7-3.27-9.69L12 2m0 20-.73-.31A15.94 15.94 0 0 1 8 12c0-3.64 1.24-7.07 3.34-9.78L12 2M2 12C2 6.477 6.477 2 12 2m7.14 17c-1.82-1.85-4.34-3-7.14-3s-5.33 1.15-7.14 3M19.14 5C17.33 6.85 14.8 8 12 8S6.68 6.85 4.86 5"/></symbol>
+</svg>
+
+
+<div id="root"></div>
+<script>
+const DATA = {"slug": "busy-idiots-companion", "title": "Busy Idiots: Learn the Brain Science and Productivity Hacks to Get Ahead without the Stress", "metaTitle": "Busy Idiots — Reading Companion", "dayBadge": "Productivity", "author": "Brad Marshall & Joff Outlaw · John Wiley & Sons Australia, 2025", "tagline": "An interactive companion to the trade book that argues our obsession with busyness — not laziness — is the great unspoken sickness of the modern workplace, and offers a brain-science toolkit to harvest technology instead of letting it harvest you.", "pills": ["Productivity", "Attention & Focus", "Persuasive Design", "Remote & Hybrid Work", "Team Management", "Digital Wellbeing", "Work-Life Balance", "Neuroscience of Work"], "stats": [{"n": "8", "l": "Sections"}, {"n": "15", "l": "Key concepts"}, {"n": "9.5 hrs", "l": "Daily teen recreational screen use"}], "accent": "#EA580C", "accent_light": "#FFEDD5", "argument": ["This is a companion and study guide to a copyrighted trade book, not a reproduction of it. Busy Idiots: Learn the Brain Science and Productivity Hacks to Get Ahead without the Stress was written by Brad Marshall (psychologist and director of a Sydney screens-and-gaming disorder clinic) and Joff Outlaw (a digital and management consultant), and published by John Wiley & Sons Australia in 2025 (ISBN 978-1-394-28272-2). Please buy or borrow the original for the full text, the questionnaires, decision trees and templates; this page only summarises and contextualises its ideas for practitioners.", "The book's central claim is that a 'Busy Idiot' is not lazy — they are frantically, visibly, exhaustingly busy, yet produce little of value. Like 'a hamster on a treadmill, running at breathtaking speed but going nowhere fast,' they mistake activity for achievement: back-to-back meetings without agendas, instant replies to every ping, constant reprioritisation, and long hours that yield poor results and high team attrition. Marshall and Outlaw argue that busyness itself — our cultural worship of it — is 'the biggest, yet still unspoken issue in the modern workplace,' hiding in plain sight while organisations obsess over engagement, burnout and hybrid-work policy.", "Their diagnosis has two engines. The first is technology built on persuasive design: apps and platforms deliberately engineered (using Bartle's player profiles, Flow, anticipatory dopamine, the near-miss effect, the Zeigarnik effect and social comparison) to capture and hold attention, because in the attention economy your time is the commodity — attention plus focus equals revenue. The second is human and organisational: busy bosses who fly by the seat of their pants, meeting overload, the collapse of face-to-face connection, and a neuroscience of loneliness in which we are more 'connected' yet lonelier than ever.", "The prescription is a set of practical, repeatable tools rather than a philosophy. Manage your tech with the five-step Sustainable Tech Blueprint (awaken, know, audit, harvest, ground) and 'harvest trees' that push you toward hardware solutions over easily-circumvented software ones. Manage your boss by controlling your calendar (a must-do / might-do / won't-do triage), budgeting your time, saying no with grace, and communicating via a Think Straight, Talk Straight meeting plan. Build productive teams with the 3B kick-off (basics, behaviours, banter), Lencioni's five dysfunctions, lion-time/tiger-time, a one-page Team Pact, and a 4D test (Dear, Dangerous, Dull, Deletable) for when to let AI in. Finally, protect home life by treating your home as a castle with a moat around work.", "The through-line is a reframing of productivity: doing a few things with intention beats doing many things mindlessly; 'the less I do, the more I achieve.' The authors are candid that they too are busy idiots 'some of the time,' and that the goal is not a productivity hack for its own sake but the recovery of time, human connection and a life outside work."], "sections": [{"title": "Introduction — What (and Who) Is a Busy Idiot?", "subtitle": "Naming the unspoken problem", "summary": "The authors define the 'Busy Idiot' through a week in the life of 'Busy Idiot Jon,' a bank customer-experience manager whose job is to serve customers yet who spends a frantic week never once touching a customer or doing anything for them. The introduction establishes the core provocation: western societies champion busyness, and most of us are busy idiots at least some of the time. It sketches the two culprits the book will tackle — persuasive technology and dysfunctional organisations — and previews the six chapters.", "ideas": ["A Busy Idiot is defined by motion without progress — agenda-less meetings, instant email replies, constant reprioritisation, multitasking as long as nothing takes more than 30 minutes, and rising hours with falling results.", "The label is deliberately abrasive: it is 'a call to arms' aimed at everyone, including the authors, not a diagnosis you pin only on your boss.", "Technology promised efficiency and connection but delivered an always-on culture, burnout and loneliness — we still work 40+ hour weeks and are lonelier than ever.", "The book positions busyness as taboo: workplaces will openly discuss burnout, wellbeing and inclusion, but never busyness, because being busy is treated as a virtue.", "The stated goal is 'the gift of time' — hours reclaimed for meaningful work, family and rest."], "quotes": ["Busyness, or rather our obsession with busyness, is the biggest, yet still unspoken issue in the modern workplace.", "A Busy Idiot is like a hamster on a treadmill, running at breathtaking speed but going nowhere fast."], "devEcon": "The 'Busy Idiot Jon' archetype maps almost exactly onto the reporting-and-meeting overload of development organisations: MEL officers who spend the week formatting logframes, dashboards and donor updates without once meeting a programme participant. The book's framing gives practitioners language to name activity-versus-outcome drift in NGOs, where 'busywork' (endless coordination calls, duplicate reporting templates) crowds out the field contact that actually generates value."}, {"title": "Chapter 1 — How Did We Get So Goddamn Busy?", "subtitle": "Persuasive design and the Sustainable Tech Blueprint", "summary": "This chapter argues technology is a major (not sole) driver of busyness, citing rising attention problems in young children since the 2007 smartphone and a survey finding Australian teens average 9.5 hours of daily recreational screen use. It introduces the five-step Sustainable Tech Blueprint and then a plain-language tour of the persuasive-design techniques used to capture attention. The message: knowledge is power — you cannot resist mechanisms you do not understand.", "ideas": ["The Sustainable Tech Blueprint has five stages: Awakening, Knowing, Audit, Harvest and Grounding — a repeatable cycle, not a one-time fix.", "Bartle's taxonomy sorts users into Achievers, Killers, Socialites and Explorers; app and conference-app design exploits these profiles to drive engagement.", "'Flow' keeps difficulty and skill in a sweet spot that distorts time, so we stay in an app far longer than intended (the Candy Crush commuter who keeps missing her stop).", "Anticipatory dopamine is delivered in small, constant, never-cresting hits — a loop of craving without satisfaction; making an activity social raises the dopamine payoff.", "The near-miss effect (from gambling/slot machines), the hyperpersonal effect (online words hit harder than in-person ones), social comparison theory, and the Zeigarnik effect (craving a conclusion to unfinished interactions) all keep us hooked.", "The endgame, per whistle-blowers Tristan Harris and Aza Raskin, is simple: attention + focus = revenue — your attention is the commodity."], "quotes": ["We need to learn how to harvest technology, and not let technology harvest us.", "Show me the incentive and I'll show you the outcome."], "devEcon": "Persuasive-design literacy is directly transferable to digital-development and behaviour-change programming. The same mechanics (streaks, notifications, near-miss rewards, social comparison) power both harmful doom-scrolling and pro-social 'nudge' interventions in health, finance and education apps. Practitioners designing or evaluating mHealth or ed-tech in South Asia should read this chapter as both a warning and a design brief — the tools are ethically neutral, the incentives are not."}, {"title": "Chapter 2 — How to Stop Bouncing Around Like a Busy Idiot", "subtitle": "Auditing and harvesting your own tech use", "summary": "The chapter turns diagnosis into individual action with a self-scored tech-use audit and a set of 'harvest trees' — decision flowcharts for email, social media, messaging, doomscrolling, smartwatches and streaming. Its blunt insight is that built-in phone features (Focus, Do Not Disturb, Screentime, Greyscale) mostly fail because they are hard to find, easy to circumvent, and run by an industry that profits from your attention. The authors therefore favour harder-to-defeat hardware solutions.", "ideas": ["Do a 'sustainable audit' honestly against how you actually want to live — there is no magic number, only a net-gain-or-net-loss judgement.", "Software controls fail because 'the lock doesn't work if you have the key' — Screentime is circumvented with a passcode, so Marshall hands his to his wife as a pre-commitment device.", "Hardware solutions are the 'sledgehammer': a stripped-back smartwatch, a 'dumb phone' on weekends, or simply leaving the phone at home create friction that software cannot.", "Like cybersecurity, use layers — combine hardware and software defences rather than relying on any single tool.", "Re-audit at least once a year, because the technology (and its persuasive design) keeps changing."], "quotes": ["Screentime: the lock doesn't work if you have the key.", "Learn how to harvest technology, rather than letting technology harvest you."], "devEcon": "The pre-commitment logic here — deliberately adding friction because willpower predictably fails — is the same behavioural-economics insight behind commitment savings products, default enrolment and SMS reminders in development finance. It also cautions programme designers against assuming that giving people a self-control 'setting' is enough; structural friction and social accountability outperform individual willpower."}, {"title": "Chapter 3 — How to Manage Your Busy Boss", "subtitle": "Seven techniques to defend your time", "summary": "Anchored by the story of Natalie — bullied into a doomed two-week government tender, then later blowing up at a new boss over a project she gained nothing from — this long chapter offers seven tools to survive a busy boss. Its heart is calendar control: prioritising ruthlessly, budgeting time, scheduling breaks, and treating your diary as the 'defender of your time.' It also teaches saying no with grace, choosing communication channels deliberately, and the Think Straight, Talk Straight meeting plan.", "ideas": ["Managers account for at least 70 per cent of the variance in employee engagement (Gallup) — people usually leave a boss, not a company.", "Prioritise with must-do / might-do / won't-do lists on Post-it notes; you should have only one or two 'must do' items, and allocate at least 90 minutes of deep-work time to each.", "Budget your calendar like money: audit last month's meetings, kill recurring catch-ups, and remember 'when you prioritise everything, you prioritise nothing.'", "Handle conflict with grace — use the 'fives' grounding technique and Dale Carnegie's counsel to 'control the space between the stimulus and your action.'", "Be careful with 'yes': start with the heart, 'marry a can't with a can,' tie your no to the other person's objectives, and decline agenda-less meetings by default.", "Think Straight, Talk Straight (TSTS): a one-page meeting plan (desired outcome, supporting data, what NOT to say, key points) — 'if you remember only four words from this book, make it these.'", "'Stay in holiday mode and do nothing' — resist reflexive responses; roughly 80 per cent of issues resolve without you, so 'your lack of planning is not my emergency.'"], "quotes": ["When you prioritise everything, you prioritise nothing.", "Your lack of planning is not my emergency!", "It's not personal, it's just business — always ladder up to actual business problems or opportunities."], "devEcon": "This is the most operationally useful chapter for anyone in a hierarchical, deadline-driven organisation — including under-resourced NGOs and government departments where a single overloaded manager sets the tempo for a whole team. The calendar-budget and 'won't do' discipline translate into concrete protections against scope creep and donor-driven urgency, while TSTS is essentially a stakeholder-communication template that reduces the meeting churn endemic to coalition and consortium work."}, {"title": "Chapter 4 — The Challenges of Loneliness and Disconnection", "subtitle": "The neuroscience behind busyness", "summary": "The book's most explicitly science-led chapter, drawing on Marshall's research partner Professor Wayne Warburton, explains neural pruning ('use 'em or lose 'em'), the role of oxytocin in trust, Zoom fatigue, and the rising loneliness epidemic. Its argument: real-world, face-to-face interaction builds neural pathways and delivers oxytocin that video and messaging cannot fully replicate, and losing that practice erodes the 'soft skills' organisations depend on.", "ideas": ["Neural pruning means unused pathways are lost; if we stop practising in-real-life social micro-skills (reading faces, tone, body language) we lose both the skill and its neural wiring.", "Oxytocin — driven by physical proximity and touch — builds trust and calms stress; teams with higher oxytocin tend to be happier and more productive (citing Susan Pinker's The Village Effect).", "Zoom fatigue hits newcomers hardest and eases when cameras are off — but turning cameras off sacrifices the social cues soft skills need; group belonging buffers the fatigue.", "Face-to-face groups outperformed Zoom, WhatsApp and solo work on collective-intelligence tasks (Kordova & Hirschprung 2023); online teams show more conflict from weaker cohesion and trust.", "Loneliness is a subjective feeling of being alone, not objective isolation (John Cacioppo); the 'loneliness loop' is a vicious cycle where feeling lonely drives withdrawal.", "The verdict on WFH vs hybrid vs office: science says we need both — remote models work if trust, social cohesion, group norms and leadership are actively protected."], "quotes": ["Poor-quality social connections do not fulfil our social needs and will not reduce loneliness.", "Nobody cares how much you know until they know how much you care."], "devEcon": "The loneliness-and-oxytocin framing is a useful counterweight to the uncritical enthusiasm for remote and 'virtual-first' development work that accelerated after 2020. For distributed teams — a norm in international development, with headquarters, country offices and field staff — the chapter argues that periodic in-person team-building is not a perk but a productivity and trust protective factor. It also connects to mental-health-in-the-workplace agendas increasingly relevant to South Asia's fast-growing services and IT sectors."}, {"title": "Chapter 5 — You Can't Go It Alone: Forming Productive Teams", "subtitle": "A practical toolkit for team leadership", "summary": "Framed by 'Mike,' a rising star who fails leading a distributed onshore-London / offshore-Pune project, this chapter builds a full team-leadership toolkit. It rejects tick-box kick-offs in favour of a 3B framework (Basics, Behaviours, Banter), uses Lencioni's five dysfunctions as ready-made team norms, introduces lion-time/tiger-time and a one-page Team Pact, and gives a 4D test for AI. It closes with five leadership traits — judgement, communication, inspiration, empathy and consistency.", "ideas": ["Replace the banal 60-minute kick-off with a longer kick-off discussion built on 3B: Basics (goals, plan, risks as co-creation), Behaviours (Lencioni's five dysfunctions), and Banter (real time to gel and have fun).", "Lencioni's five dysfunctions — absence of trust, fear of conflict, lack of commitment, avoidance of accountability, inattention to results — become five functions the team explicitly commits to.", "'Avoid hybrid hell' with a team planner mapping everyone's real-life commitments, then delineate 'lion time' (social, collaborative) from 'tiger time' (solitary deep work).", "Don't make AI your 'busy accomplice': use the 4D framework — is a task Dear, Dangerous, Dull, or can we Delete it — and remember AI is a tool, not a team member.", "The Team Pact is a one-page document answering: who is responsible for what (control + accountability), what do we collectively believe (behaviours + goals), and what will we physically do (scope + milestones).", "Five leadership traits: Judgement (learn from a project 'hotwash' / the four Ls; Herbert Simon's 'satisficing'), Communication (active listening, 70-80% of a 1v1 spent listening), Inspiration (curiosity + confidence), Empathy (Genchi Genbutsu — 'go see for yourself'), and Consistency ('you get what you repeat')."], "quotes": ["Blame is the final refuge of the beaten scoundrel.", "You shouldn't confuse speed with progress.", "AI is a tool, not a team member.", "Genchi Genbutsu — go see for yourself."], "devEcon": "The Mike-in-Pune story squarely engages the offshore/onshore, multi-timezone reality of much globalised knowledge work, including India's role as a delivery hub. The Team Pact and lines-of-control/accountability tools address exactly the ambiguity that plagues consortium and partner-led development projects. Genchi Genbutsu — 'you can't build empathy from stats, go see for yourself' — is a near-perfect articulation of why quantitative MEL must be paired with qualitative field immersion."}, {"title": "Chapter 6 — Family Life: Work to Live or Live to Work", "subtitle": "Sustainable grounding — making your home your castle", "summary": "The final chapter (the 'grounding' step of the Blueprint) uses the story of Chris and Courtney — a dual-career couple whose 'unlimited leave' and always-on jobs blur work into every corner of home — to argue for hard boundaries. It offers eight steps to 'build your castle,' from building a physical or ritual 'moat' around work to protecting downtime, meals, sleep and exercise, and closes with a candid section on children and screens.", "ideas": ["Blurred work-home boundaries damage wellbeing; 'unlimited leave' and hybrid work can worsen this when there is no one to cover your role and the inbox never stops.", "Build a 'moat': leave work devices at the office, designate a single work-only space, or (as Marshall did) a garden pod — physical separation as a pre-commitment.", "Protect downtime, meals ('table safe' phone box), friendships (the phone-stacking wager), sleep (guard against late-night 'focus overtime' cortisol spikes) and exercise (skipping it forfeits mood-lifting serotonin — a bad trade).", "Mindfulness is demystified as 'doing any activity while giving it your full and undivided attention' using your five senses — the dog-walk that decayed into doomscrolling is the cautionary tale.", "Children's developing brains are hit hardest: fMRI evidence links 3-5 hours daily to cognitive decline and 7+ hours to premature cortical thinning (Paulus et al. 2019); the prefrontal cortex isn't mature until the 20s, so expecting tweens to 'self-regulate' is unrealistic.", "Favour hardware controls for families too — mesh-router WiFi profiles that switch off children's access at bedtime — over easily-bypassed software parental controls."], "quotes": ["A man's home is his castle!", "Do as I say, not as I do has never been an effective parenting strategy.", "You only get 18 summers, make them count."], "devEcon": "The screen-time and child-development material intersects with growing South Asian policy debate over phones in schools and minimum ages for social media. The 'castle and moat' framing also speaks to the informal-economy and gig-work reality where physical separation of work and home is a luxury; the chapter's assumption of a spare room or garden pod is precisely where a development-equity lens must adapt the advice for households without such space."}, {"title": "Conclusion — Imagine a World Free of Busy Idiots?", "subtitle": "Busyness as a badge of honour we should retire", "summary": "The conclusion widens the lens with unhappiness data (72 per cent of Australians unhappy at work over the prior year; 80 per cent of Americans dissatisfied 'across the board') and argues that leaders chase red herrings — return-to-office mandates, more team-building — while ignoring the real, decades-old cause: our worship of busyness. It reframes productivity around intention and human connection, and imagines a workplace where not being busy is applauded rather than punished.", "ideas": ["Employee-engagement dashboards take a short-term, hypothesis-led view and miss the structural problem; leaders rarely follow qualitative 'go and see' interviews to learn what's really wrong.", "Humans crave control and safety; busyness robs us of both, which is why it drives stress, burnout and unhappiness.", "Progress can be incremental — 'every hour you get back from unwanted screen usage is an hour you can spend doing meaningful work' or with people you love.", "Recognising you are the busy boss is a sign of self-awareness and empathy, both leadership strengths — not a reason for shame.", "The closing provocation: picture telling your boss 'I'm fantastic thanks, not busy at all' in a world where that is a marker of competence, not a red flag."], "quotes": ["Happiness is only real when shared.", "The less I do, the more I achieve.", "What if there was a world where it was not only acceptable but applauded to not be busy?"], "devEcon": "The conclusion's critique of vanity metrics — celebrating an engagement score while ignoring the underlying malaise — is a direct parallel to the development sector's own accountability theatre, where output counts and dashboard greens can substitute for genuine outcomes and staff wellbeing. Its call to pair quantitative surveys with qualitative 'go-see' inquiry is a MEL principle worth carrying into any organisational-health assessment."}], "concepts": [{"term": "Busy Idiot", "definition": "Someone who is frantically, visibly busy yet produces little of value — mistaking motion (meetings, instant replies, multitasking) for genuine achievement. The authors insist everyone is a busy idiot at least some of the time.", "practitionerNote": "A sharp, memorable label for activity-versus-outcome drift — useful for naming the reporting-and-meeting overload that quietly hollows out programme delivery."}, {"term": "Persuasive Design", "definition": "The deliberate application of social and psychological principles to influence behaviour, used by the tech industry for ~20 years to capture and hold attention, because in the attention economy your time is the commodity.", "practitionerNote": "The same mechanics power both harmful doom-scrolling and pro-social nudges — essential literacy for anyone designing or evaluating mHealth, ed-tech or behaviour-change apps."}, {"term": "Sustainable Tech Blueprint", "definition": "The book's five-step cycle for taking control of technology: Awakening, Knowing, Audit, Harvest and Grounding — repeated periodically rather than done once.", "practitionerNote": "A ready-made facilitation structure for a digital-wellbeing workshop with staff or communities."}, {"term": "Bartle's Taxonomy", "definition": "Richard Bartle's four player profiles — Achievers, Killers, Socialites, Explorers — describing the core motivation that keeps someone engaged in a game or app.", "practitionerNote": "Explains why gamified apps (including development and health apps) feel differently compelling to different users; a lens for segmenting engagement design."}, {"term": "Flow", "definition": "The design of keeping difficulty and required skill in a sweet spot that distorts our sense of time, so we stay engaged far longer than we consciously intend.", "practitionerNote": "Names the mechanism behind 'I only meant to check for a minute' — the enemy of deep work and protected field time."}, {"term": "Anticipatory Dopamine", "definition": "The small, constant, never-cresting dopamine hits tech delivers — we get the anticipation high but never full satisfaction, producing a perpetual craving loop; social features amplify the effect.", "practitionerNote": "Reframes 'phone addiction' as a designed neurochemical loop rather than a personal failing — important for non-judgemental digital-wellbeing messaging."}, {"term": "Near-Miss Effect", "definition": "Borrowed from slot-machine design: coming just short of a goal still triggers a reward response, so you keep trying without becoming discouraged.", "practitionerNote": "A caution when designing progress bars and completion prompts — they can manufacture compulsive engagement, not just motivation."}, {"term": "Zeigarnik Effect", "definition": "Our tendency to remember and be pulled back to unfinished tasks and unresolved social interactions — the neurological reason 'read receipts' and pending messages are so hard to ignore.", "practitionerNote": "Explains why open-loop communication (agenda-less threads, ambiguous asks) generates anxiety and busywork across a team."}, {"term": "Think Straight, Talk Straight (TSTS)", "definition": "A one-page meeting-planning template — desired outcome, supporting data, what NOT to say, and key points — designed to make you communicate succinctly and ladder up to business problems rather than personalities.", "practitionerNote": "The single most portable tool in the book for reducing follow-up meetings; effectively a stakeholder-communication brief."}, {"term": "Must-do / Might-do / Won't-do", "definition": "A ruthless weekly triage: one or two genuine 'must do' deep-work tasks (90+ minutes each), a few 'might do,' and a long, deliberate 'won't do' list.", "practitionerNote": "A concrete antidote to scope creep and donor-driven urgency — the 'won't do' list is where boundary-setting lives."}, {"term": "Oxytocin", "definition": "The neurochemical of social connection, driven especially by physical proximity and touch; it builds trust within teams and calms stress, and cannot be fully replicated over video.", "practitionerNote": "The scientific case for why distributed development teams still need periodic in-person contact — trust is a chemical as well as a management fact."}, {"term": "Neural Pruning", "definition": "The brain's 'use it or lose it' consolidation: unused pathways (including social micro-skills like reading faces and tone) are shed if not practised in real life.", "practitionerNote": "Grounds the 'soft skills erosion' concern in neuroscience — relevant to remote-first workplaces and to debates about children's screen exposure."}, {"term": "The Loneliness Loop", "definition": "John Cacioppo's vicious cycle in which feeling lonely (a subjective state, not objective isolation) drives social withdrawal, which deepens loneliness.", "practitionerNote": "A useful frame for workplace mental-health and community-cohesion programming, where 'more connectivity' does not automatically mean less loneliness."}, {"term": "Five Dysfunctions of a Team", "definition": "Patrick Lencioni's model — absence of trust, fear of conflict, lack of commitment, avoidance of accountability, inattention to results — which the authors flip into five functions a team explicitly commits to at kick-off.", "practitionerNote": "A quick, credible set of team norms for consortium and partner-led work, where trust and accountability ambiguity are chronic."}, {"term": "Lion Time / Tiger Time", "definition": "A deliberate distinction between social, collaborative work ('lion time' — lions live in a pride) and solitary deep work ('tiger time' — tigers are solitary), used to structure hybrid schedules.", "practitionerNote": "A simple vocabulary that legitimises deep-work blocks and protects introverts and extroverts alike from all-day meetings."}, {"term": "Team Pact", "definition": "A one-page team charter answering three questions — who is responsible for what (control and accountability), what we collectively believe (behaviours and goals), and what we will physically do (scope and milestones).", "practitionerNote": "A lightweight alternative to bloated project charters; forces explicit decision rights and accountability up front."}, {"term": "The 4D Framework for AI", "definition": "A test for when to let AI take a task: is it Dear (costly), Dangerous, Dull, or can we Delete it entirely? The last question is the most important — automate nothing you could remove.", "practitionerNote": "A disciplined filter against 'AI theatre' — it centres the question of whether a task should exist at all, not just whether a tool can do it."}, {"term": "Genchi Genbutsu", "definition": "A Toyota Way / Zen-derived principle meaning 'go and see for yourself' — you cannot build empathy from statistics; you must observe people in their real context.", "practitionerNote": "A crisp justification for pairing quantitative MEL dashboards with qualitative field immersion; empathy is gathered, not computed."}], "southAsia": ["The book's flagship failure story — Mike leading a London-onshore, Pune-offshore delivery team across time zones — puts India's role as a global delivery and IT-services hub at the centre of the busyness problem, and the Team Pact and lines-of-control tools speak directly to the coordination overhead of that model.", "South Asia's fast-growing IT, BPO and startup sectors are prime terrain for exactly the always-on, meeting-saturated culture the book critiques; its calendar-budgeting and 'won't do' discipline are practical imports for organisations where long hours are still worn as a badge of honour.", "The critique of persuasive design and screen-time is highly salient in a region with explosive smartphone and short-video adoption (and low-cost data), where the digital divide runs both ways — some households over-exposed, others under-connected — complicating any one-size-fits-all 'harvest' advice.", "WhatsApp-group and instant-messaging culture is arguably even more central to South Asian professional and family life than in the Australian workplace the book describes, making the Zeigarnik-effect and 'weapons of mass distraction' sections especially resonant.", "The 'meals as oxytocin' and family-table chapters align with strong South Asian traditions of communal eating and joint-family life, but the 'home is your castle / build a moat' advice assumes spare rooms or garden pods that are unavailable to the many households and informal-sector workers for whom home and workplace are the same crowded space.", "For the development sector specifically, the book's central move — distinguishing genuine outcomes from performative busyness, and pairing quantitative surveys with 'go-and-see' qualitative inquiry — mirrors long-standing South Asian debates about participatory MEL versus donor-driven reporting theatre."], "critiques": ["It is a self-help trade book, not a rigorous study: much of the evidence is anecdotal (Brad's train commute, Joff's 19 bosses, invented composite characters like Jon, Natalie and Mike), and the genuine research it cites is thinly referenced and used illustratively rather than systematically.", "The world it describes is overwhelmingly white-collar, knowledge-economy and relatively privileged — office jobs, hybrid work, unlimited leave, Apple Watches, garden office pods. Frontline, informal, gig and manual workers, who dominate South Asian labour markets, have little control over their calendars and cannot 'build a moat,' so the advice often presumes autonomy many workers simply lack.", "The neuroscience is presented in deliberately simplified, sometimes speculative terms (the authors admit as much), and some claims — correlations between smartphones and children's attention, screen-time and cortical thinning — are asserted more confidently than the contested underlying literature supports.", "The individual-responsibility framing risks under-weighting structural causes: much busyness is imposed by understaffing, surveillance, precarious employment and management incentives, not by personal willpower or phone settings, and 'just say no to your boss' is far easier advice for the secure than the vulnerable.", "The tone is jokey and Anglo-Australian-centric (nineties pop culture, Ramsay's Kitchen Nightmares, football tragics), which aids readability but can feel culturally narrow and occasionally trivialises serious mental-health and burnout issues.", "Gender and care work are largely invisible: the 'do nothing,' 'stay in holiday mode' and 'leave your devices at the office' prescriptions assume a life where someone else can absorb the dropped tasks — a blind spot given how unevenly domestic and care labour is distributed."], "systemPrompt": "You are an expert reading companion for the trade book 'Busy Idiots: Learn the Brain Science and Productivity Hacks to Get Ahead without the Stress' by Brad Marshall and Joff Outlaw (John Wiley & Sons Australia, 2025). Your audience is development practitioners, managers, and knowledge workers, especially in South Asia. Explain the book's ideas faithfully and specifically: the definition of a 'Busy Idiot' (busy but unproductive); the persuasive-design mechanisms in chapter 1 (Bartle's taxonomy, Flow, anticipatory dopamine, the near-miss, hyperpersonal and Zeigarnik effects, social comparison); the Sustainable Tech Blueprint and 'harvest trees' with their hardware-over-software logic; the busy-boss toolkit (calendar control, must-do/might-do/won't-do, time budgeting, saying no with grace, Think Straight Talk Straight); the loneliness-and-oxytocin neuroscience of chapter 4; the team-building toolkit of chapter 5 (3B kick-off, Lencioni's five dysfunctions, lion/tiger time, the Team Pact, the 4D test for AI, and the five leadership traits); and the 'home is your castle' family chapter. Be candid about the book's limits: it is anecdotal self-help, aimed at privileged knowledge workers, light on rigorous evidence, and centred on individual responsibility over structural causes. When useful, draw honest bridges to development practice and the South Asian context — reporting overload and MEL, distributed and offshore teams, WhatsApp culture, screen-time policy debates, and the fact that much of the advice presumes an autonomy that informal and frontline workers lack. This is a copyrighted book; summarise and discuss its ideas, but do not reproduce long passages, and encourage readers to buy or borrow the original for the questionnaires, decision trees and templates."};
+
+// Tab management
+const ALL_TABS = [
+  {id:"overview",label:"Overview"},
+  {id:"pathways",label:"Pathways"},
+  {id:"sections",label:"Sections"},
+  {id:"concepts",label:"Concepts"},
+  {id:"toolkit",label:"Toolkit"},
+  {id:"context",label:"Context"},
+  {id:"ask",label:"Ask"},
+];
+function __hasTab(id){
+  const has = a => Array.isArray(a) && a.length > 0;
+  switch(id){
+    case "pathways": return has(DATA.pathways);
+    case "sections": return has(DATA.sections);
+    case "concepts": return has(DATA.concepts);
+    case "toolkit":  return has(DATA.tools);
+    case "context":  return has(DATA.southAsia)||has(DATA.critiques)||has(DATA.connections)||has(DATA.suggested);
+    case "ask":      return !!DATA.systemPrompt;
+    default: return true;
+  }
+}
+const TABS = ALL_TABS.filter(t => __hasTab(t.id));
+
+const tabbar = document.getElementById("tabbar");
+TABS.forEach(t => {
+  const btn = document.createElement("button");
+  btn.className = "tab-btn" + (t.id === "overview" ? " active" : "");
+  btn.textContent = t.label;
+  btn.onclick = () => switchTab(t.id);
+  tabbar.appendChild(btn);
+});
+
+function switchTab(id) {
+  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById("p-" + id).classList.add("active");
+  tabbar.querySelectorAll(".tab-btn")[TABS.findIndex(t=>t.id===id)].classList.add("active");
+}
+
+// OVERVIEW
+(function() {
+  const el = document.getElementById("p-overview");
+  el.innerHTML = `
+    <div class="hero">
+      <div class="day-badge">${DATA.dayBadge}</div>
+      <h1>${DATA.title}</h1>
+      <div class="auth">${DATA.author}</div>
+      <div class="tagline">${DATA.tagline}</div>
+      <div class="pills">${DATA.pills.map(p=>`<span class="pill">${p}</span>`).join("")}</div>
+    </div>
+    <div class="stat-grid">
+      ${DATA.stats.map(s=>`<div class="stat"><div class="stat-n">${s.n}</div><div class="stat-l">${s.l}</div></div>`).join("")}
+    </div>
+    <div class="arg">
+      <div class="h1">The central argument</div>
+      ${DATA.argument.map(p=>`<p>${p}</p>`).join("")}
+    </div>
+    <div class="h1" style="margin-top:24px">What's in this companion</div>
+    <div class="nav-grid">
+      ${[["pathways","Learning Pathways","Structured reading routes by role"],["sections","Section by Section","Full analysis with dev econ connections"],["concepts","Concepts & Frameworks","Key terms with practitioner notes"],["toolkit","Practitioner Toolkit","Interactive tools"],["context","Book in Context","Connections and assessment"],["ask","Ask the Book","Gemini-powered Q&A"]].filter(([id])=>__hasTab(id)).map(([id,label,desc])=>`<button class="nav-card" onclick="switchTab('${id}')" ><div class="nav-card-label">${label}</div><div class="nav-card-desc">${desc}</div></button>`).join("")}
+    </div>
+  `;
+})();
+
+// PATHWAYS
+(function() {
+  const el = document.getElementById("p-pathways");
+  let active = 0;
+  function render() {
+    const pw = DATA.pathways[active];
+    if (!pw) { el.innerHTML = ""; return; }
+    el.innerHTML = `
+      <div class="h1">Learning Pathways</div>
+      <div class="sub">Three structured routes through the book based on your role.</div>
+      <div class="pw-tabs">
+        ${DATA.pathways.map((p,i)=>`<button class="pw-btn ${i===active?"active":""}" onclick="__pw(${i})">${p.label}</button>`).join("")}
+      </div>
+      <div class="pw-desc">${pw.desc}</div>
+      <div class="pw-steps">
+        ${pw.steps.map((s,i)=>`<div class="pw-step"><div class="step-n">${i+1}</div><div><div class="step-title">${s.section}</div><div class="step-focus">${s.focus}</div></div></div>`).join("")}
+      </div>
+    `;
+  }
+  window.__pw = (i) => { active = i; render(); };
+  render();
+})();
+
+// SECTIONS
+(function() {
+  const el = document.getElementById("p-sections");
+  let openId = null;
+  let showDev = {};
+  function render() {
+    el.innerHTML = `
+      <div class="h1">Section by Section</div>
+      <div class="sub">All sections with full analysis and development economics connections.</div>
+      ${DATA.sections.map((s,i)=>`
+        <div class="sec-card">
+          <button class="sec-header" onclick="__sec(${i})">
+            <div class="sec-num">§${i+1}</div>
+            <div class="sec-title-block"><div class="sec-title">${s.title}</div><div class="sec-sub">${s.subtitle}</div></div>
+            <div class="sec-chev">${openId===i?"−":"+"}</div>
+          </button>
+          ${openId===i?`<div class="sec-body">
+            <div class="sec-summary">${s.summary}</div>
+            <div class="ideas-label">Key ideas</div>
+            ${s.ideas.map(idea=>`<div class="idea-item"><span class="idea-dot"></span><span>${idea}</span></div>`).join("")}
+            <div class="ideas-label" style="margin-top:14px">Key quotes</div>
+            ${s.quotes.map(q=>`<blockquote>${q}</blockquote>`).join("")}
+            <button class="dev-toggle" onclick="__dev(${i})">${showDev[i]?"Hide":"Show"} development economics connection</button>
+            ${showDev[i]?`<div class="dev-text">${s.devEcon}</div>`:""}
+          </div>`:""}
+        </div>
+      `).join("")}
+    `;
+  }
+  window.__sec = (i) => { openId = openId===i?null:i; render(); };
+  window.__dev = (i) => { showDev[i]=!showDev[i]; render(); };
+  render();
+})();
+
+// CONCEPTS
+(function() {
+  const el = document.getElementById("p-concepts");
+  let open = null;
+  function render() {
+    el.innerHTML = `
+      <div class="h1">Concepts & Frameworks</div>
+      <div class="sub">Key terms with definitions and practitioner notes. Click to expand.</div>
+      ${DATA.concepts.map((c,i)=>`
+        <div class="concept-card ${open===i?"open":""}" onclick="__con(${i})">
+          <div class="concept-term">${c.term}</div>
+          ${open===i?`<div class="concept-def">${c.definition}</div><div class="prac-label">Practitioner note</div><div class="prac-text">${c.practitionerNote}</div>`:""}
+        </div>
+      `).join("")}
+    `;
+  }
+  window.__con = (i) => { open = open===i?null:i; render(); };
+  render();
+})();
+
+// TOOLKIT  
+(function() {
+  const el = document.getElementById("p-toolkit");
+  el.innerHTML = `
+    <div class="h1">Practitioner Toolkit</div>
+    <div class="sub">Interactive tools derived from the book. Use for personal practice or programme design.</div>
+    <div class="tool-tabs">
+      ${DATA.tools.map((t,i)=>`<button class="tool-btn ${i===0?"active":""}" onclick="__tool(${i})">${t.label}</button>`).join("")}
+    </div>
+    ${DATA.tools.map((t,i)=>`
+      <div class="tool-panel ${i===0?"active":""}" id="toolp-${i}">
+        <div class="tool-intro">${t.intro}</div>
+        ${t.html}
+      </div>
+    `).join("")}
+  `;
+  window.__tool = (i) => {
+    document.querySelectorAll(".tool-btn").forEach((b,j)=>b.classList.toggle("active",i===j));
+    document.querySelectorAll(".tool-panel").forEach((p,j)=>p.classList.toggle("active",i===j));
+  };
+})();
+
+// CONTEXT
+(function() {
+  const el = document.getElementById("p-context");
+  el.innerHTML = `
+    <div class="h1">Book in Context</div>
+    <div class="sub">How this book fits within the broader literature, and an honest assessment of its limits.</div>
+    <div class="context-h">Connected works</div>
+    ${DATA.connections.map(c=>`<div class="conn-card"><div class="conn-book">${c.book}</div><div class="conn-text">${c.text}</div></div>`).join("")}
+    <div class="context-h" style="margin-top:24px">Honest assessment</div>
+    <div class="sub">Limits and qualifications for the ImpactMojo context:</div>
+    ${DATA.critiques.map((c,i)=>`<div class="crit-item"><div class="crit-n">${i+1}</div><div class="crit-text">${c}</div></div>`).join("")}
+  `;
+})();
+
+// ASK
+(function() {
+  const el = document.getElementById("p-ask");
+  let apiKey = "", msgs = [], loading = false;
+  
+  function renderSetup() {
+    el.innerHTML = `
+      <div class="ask-setup">
+        <div class="h1">Ask the Book</div>
+        <div class="sub">AI-powered Q&A using Gemini 2.0 Flash (free). Requires a Google AI Studio API key.</div>
+        <div class="setup-steps">
+          <div class="setup-step"><span class="setup-num">1</span><span>Go to <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com/app/apikey</a> and create a free API key.</span></div>
+          <div class="setup-step"><span class="setup-num">2</span><span>Paste it below. The key stays in your browser only and is never stored.</span></div>
+        </div>
+        <div class="key-row">
+          <input class="key-input" type="password" id="key-in" placeholder="AIza..." oninput="document.getElementById('key-submit').disabled=!this.value.trim()"/>
+          <button class="key-btn" id="key-submit" disabled onclick="__setKey()">Connect</button>
+        </div>
+      </div>
+    `;
+  }
+  
+  function renderChat() {
+    el.innerHTML = `
+      <div class="ask-ui">
+        <div class="ask-hdr"><span class="ask-hdr-title">Ask the Book</span><button class="ask-reset" onclick="__resetKey()">Change key</button></div>
+        <div class="msgs" id="msgs-box">
+          ${msgs.length===0?`<div><div class="suggested-label">Suggested questions</div>${DATA.suggested.map(q=>`<button class="sug-btn" onclick="__ask('${q.replace(/'/g,"\'")}')">${q}</button>`).join("")}</div>`:""}
+          ${msgs.map(m=>`<div class="msg ${m.role}"><div class="msg-text">${m.content}</div></div>`).join("")}
+          ${loading?`<div class="msg assistant"><div class="typing"><span></span><span></span><span></span></div></div>`:""}
+        </div>
+        <div class="ask-input-row">
+          <textarea class="ask-input" id="ask-in" rows="2" placeholder="Ask about the book..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();__sendAsk()}"></textarea>
+          <button class="ask-send" id="ask-send" onclick="__sendAsk()">Send</button>
+        </div>
+      </div>
+    `;
+    const box = document.getElementById("msgs-box");
+    if(box) box.scrollTop = box.scrollHeight;
+  }
+  
+  window.__setKey = () => {
+    const v = document.getElementById("key-in").value.trim();
+    if(v) { apiKey = v; renderChat(); }
+  };
+  window.__resetKey = () => { apiKey=""; msgs=[]; renderSetup(); };
+  window.__ask = (q) => {
+    document.getElementById("ask-in").value = q;
+    __sendAsk();
+  };
+  window.__sendAsk = async () => {
+    const inp = document.getElementById("ask-in");
+    if(!inp) return;
+    const q = inp.value.trim();
+    if(!q || loading) return;
+    inp.value = "";
+    msgs.push({role:"user",content:q});
+    loading = true; renderChat();
+    try {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,{
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({
+          system_instruction:{parts:[{text:DATA.systemPrompt}]},
+          contents: msgs.map(m=>{return{role:m.role==="assistant"?"model":"user",parts:[{text:m.content}]}}).slice(0,-1).concat([{role:"user",parts:[{text:q}]}]),
+          generationConfig:{maxOutputTokens:1200,temperature:0.3}
+        })
+      });
+      const data = await res.json();
+      if(!res.ok) throw new Error(data.error?.message||"API error");
+      const reply = data?.candidates?.[0]?.content?.parts?.map(p=>p.text).join("")||"No response.";
+      msgs.push({role:"assistant",content:reply});
+    } catch(e) {
+      msgs.push({role:"assistant",content:"Error: "+e.message});
+    }
+    loading = false; renderChat();
+  };
+  
+  renderSetup();
+})();
+</script>
+
+<!-- ImpactMojo Footer -->
+<!-- Ethics & Copyright Disclaimer -->
+<section class="im-ethics-disclaimer" style="max-width:1100px;margin:2rem auto 1rem;padding:1.25rem 1.5rem;background:rgba(14,165,233,0.06);border-left:4px solid #0EA5E9;border-radius:8px;font-family:'Inter','Amaranth',sans-serif;font-size:0.85rem;line-height:1.65;color:var(--im-text-secondary,#64748B);">
+  <p class="im-ethics-heading" style="margin:0 0 0.5rem;font-weight:600;">A note on books, authors, and intellectual labour</p>
+  <p style="margin:0;">All books companioned on ImpactMojo have been duly purchased with real money and form part of a personal collection. None of the source texts have been obtained by any illegal means — we deeply respect the intellectual labour of authors, editors, and publishers. These reading companions are offered free of charge as educational aids; ImpactMojo does not sell reading companions as a paid service and therefore does not violate any commercial licensing agreement or copyright. Nothing here reproduces the full text of any book — each companion is an interpretive study guide.</p>
+</section>
+
+<footer class="im-footer" role="contentinfo">
+<div class="im-footer-content">
+<p class="im-footer-made">Made with <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;color:#EF4444;"><use href="#si_Heart"/></svg> by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+<div class="im-footer-grid">
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Info"/></svg> About ImpactMojo</h4>
+<ul>
+<li><a href="../about.html">About Us</a></li>
+<li><a href="../contact.html">Contact</a></li>
+<li><a href="https://github.com/ImpactMojo/ImpactMojo" rel="noopener noreferrer" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Globe_detailed"/></svg> GitHub</a></li>
+<li><a href="../transparency.html">Transparency</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Lock"/></svg> Legal</h4>
+<ul>
+<li><a href="../privacy-policy.html">Privacy Policy</a></li>
+<li><a href="../terms-of-service.html">Terms of Service</a></li>
+<li><a href="../disclaimer.html">Disclaimer</a></li>
+<li><a href="../data-protection.html">Data Protection</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Lightning"/></svg> Quick Links</h4>
+<ul>
+<li><a href="../catalog.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Library_books"/></svg> All Courses</a></li>
+<li><a href="../premium.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Flare"/></svg> Premium Content</a></li>
+<li><a href="../coaching.html">Coaching</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Book"/></svg> Resources</h4>
+<ul>
+<li><a href="../handouts.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Article"/></svg> Handouts</a></li>
+<li><a href="../blog.html">Blog</a></li>
+<li><a href="../faq.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Help"/></svg> FAQ</a></li>
+<li><a href="../sitemap.html">Sitemap</a></li>
+<li><a href="/docs/" rel="noopener noreferrer" target="_blank">Documentation</a></li>
+</ul>
+</div>
+</div>
+<div class="im-footer-bottom">
+<p>&copy; 2026 ImpactMojo. All content for educational purposes only.</p>
+<p>Released under <strong>MIT License</strong> | Supported by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+</div>
+</div>
+</footer>
+
+<script src="/js/theme.js"></script>
+
+
+<!-- Supabase Auth -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="/js/state-manager.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+
+<!-- Floating paper plane (ImpactMojo decorative element) -->
+<svg class="im-paper-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M80,130 L150,50" stroke="#10B981" stroke-width="2" stroke-dasharray="4,4"/>
+  <circle cx="150" cy="50" r="4" fill="#6366F1"/>
+  <circle cx="40" cy="155" r="2" fill="#0EA5E9" opacity="0.6"/>
+  <circle cx="35" cy="165" r="1.5" fill="#6366F1" opacity="0.4"/>
+  <circle cx="45" cy="170" r="1" fill="#10B981" opacity="0.5"/>
+</svg>
+<script src="/js/translate-sarvam.js" defer></script>
+  <script src="/js/site-chrome.js" defer></script>
+</body>
+</html>
