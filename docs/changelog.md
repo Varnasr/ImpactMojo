@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## Unreleased
+
+### Changed
+
+- **Self-hosted web fonts** — all ~750 pages now load Inter, Amaranth, JetBrains Mono (and every other typeface in use) from `/assets/fonts/` instead of fonts.googleapis.com. Pages render faster on slow connections (no third-party TLS handshakes) and keep their typography even where Google is blocked. Non-Latin scripts continue to use system fonts.
+
 ## v10.140.0 — July 19, 2026 (Findable games, honest hours, connected reading)
 
 ### For Learners

@@ -9,18 +9,13 @@
 (function() {
   'use strict';
 
-  // ── Load ImpactMojo Fonts ──────────────────────────────────
-  var fontLink = document.createElement('link');
-  fontLink.rel = 'stylesheet';
-  fontLink.href = 'https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap';
-  document.head.appendChild(fontLink);
-
-  // Preconnect for font performance
-  var preconnect = document.createElement('link');
-  preconnect.rel = 'preconnect';
-  preconnect.href = 'https://fonts.gstatic.com';
-  preconnect.crossOrigin = '';
-  document.head.insertBefore(preconnect, document.head.firstChild);
+  // ── Load ImpactMojo Fonts (self-hosted, /assets/fonts/) ────
+  if (!document.querySelector('link[href="/css/fonts.css"]')) {
+    var fontLink = document.createElement('link');
+    fontLink.rel = 'stylesheet';
+    fontLink.href = '/css/fonts.css';
+    document.head.appendChild(fontLink);
+  }
 
   // ── Sargam Icon helper ─────────────────────────────────────
   // Usage: IMXIcon('Flare') returns an <img> tag string

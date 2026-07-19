@@ -51,7 +51,9 @@ const COURSE_URLS = {
 };
 
 const STATIC_RE = /\.(?:css|js|mjs|png|jpe?g|gif|svg|webp|ico|woff2?|ttf|eot|json)$/i;
-const CDN_RE = /(?:fonts\.gstatic\.com|fonts\.googleapis\.com|cdn\.jsdelivr\.net)/;
+// Fonts are self-hosted under /assets/fonts/ (same-origin, matched by STATIC_RE);
+// only the Sargam icon CDN remains cross-origin cacheable.
+const CDN_RE = /(?:cdn\.jsdelivr\.net)/;
 
 // ── Install: precache only the offline fallback, then take over. ──
 self.addEventListener('install', (event) => {
