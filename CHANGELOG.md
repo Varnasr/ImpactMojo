@@ -5,6 +5,18 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.137.0] - 2026-07-19
+
+### Added
+
+- **Live Database Numbers on the transparency page** — five tiles (registered learners, active 30d, courses started/completed, certificates) fed by a new anon-callable `get_public_stats()` Supabase RPC (aggregate-only, no row data), with honest framing that database tracking covers signed-in learners from 2026 onward. RPC SQL versioned in `supabase/migrations/20260719_public_stats_rpc.sql`.
+- **Internal-link guard** — `scripts/check-internal-links.py` resolves every internal href/src across ~800 tracked pages the way Netlify does (pretty URLs, directory indexes, case-insensitivity, `netlify.toml` redirects, edge-function routes) and fails CI on rot. New `internal-links` job in `ci.yml`.
+- **Certificate shares now unfurl properly** — a new `cert-og.ts` edge function rewrites the og:/twitter: tags on `/verify-certificate?cert=…` with the course name and recipient (same anon REST lookup the page makes), and a branded 1200×630 share card replaces the plain logo as the page's social image.
+
+### Fixed
+
+- **78 broken internal links** found by the new guard: 28 game/studio pages linked the non-existent `/Games/` directory instead of `/game-library.html`; 11 blog + course pages linked retired lab filenames (`toc-builder-lab` → `/Labs/toc-lab.html`, `sample-size-lab` → `/Labs/sampling-design-lab.html`); cookie-banner "Learn More" on about/faq/forgot-password navigated to a non-existent `privacy.html`; `Labs/toc-lab.html` back-links pointed at a non-existent `Labs/mel/`; `r-python-dev` linked the pre-move `code-converter-pro` path; the legacy Handouts pathways page linked bare track directories (now points at the handouts hub's track anchors); powerBI lexicon back-link targeted a non-existent `index.html`; dead "Download Excel" links removed from law/sel/media lexicons; `/deepdives.html` → `/DeepDives/`.
+
 ## [10.136.0] - 2026-07-19
 
 ### Added
