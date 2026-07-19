@@ -938,6 +938,7 @@ main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) 
             <thead><tr><th>Content Type</th><th>Count</th></tr></thead>
             <tbody></tbody>
         </table>
+        <p id="featureAlsoLive" style="font-size:0.82rem;color:var(--text-muted);margin-top:12px;line-height:1.5;"></p>
     </div>
 
     <!-- ============================================================ -->
@@ -952,6 +953,7 @@ main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) 
     </p>
     <div class="chart-container">
         <canvas id="courseChart" height="340"></canvas>
+        <p style="font-size:0.78rem;color:var(--text-muted);text-align:center;margin-top:8px;">Top 12 of 69 courses by estimated legacy reach. Figures are rounded Google-Sheets-era estimates &mdash; the differences between courses are within the rounding, so the story is simply that each course reached a few thousand learners.</p>
     </div>
 
     <div class="two-col">
@@ -1296,7 +1298,7 @@ function hexToRgba(hex, alpha) {
 // These are discrete categories, not a time series — so bars, not a line
 // (a connected line would imply a trend that doesn't exist). Zero-based
 // x-axis so bar length is honestly proportional to the value.
-function drawBarChart(canvasId, data, colorKey) {
+function drawBarChart(canvasId, data, colorKey, maxBars) {
     var canvas = document.getElementById(canvasId);
     if (!canvas) return;
     var ctx = canvas.getContext('2d');
@@ -1306,6 +1308,8 @@ function drawBarChart(canvasId, data, colorKey) {
     var barColor = colors[colorKey] || colors.accent;
 
     var entries = Object.entries(data).sort(function(a, b) { return b[1] - a[1]; });
+    var totalEntries = entries.length;
+    if (maxBars && entries.length > maxBars) entries = entries.slice(0, maxBars);
     var labels = entries.map(function(e) { return e[0]; });
     var values = entries.map(function(e) { return e[1]; });
     var n = values.length;
@@ -1405,7 +1409,7 @@ function roundRect(ctx, x, y, w, h, r) {
 function render() {
     renderKPIs();
     renderPlatformTable();
-    drawBarChart('courseChart', LEGACY.courseUsers, 'accent');
+    drawBarChart('courseChart', LEGACY.courseUsers, 'accent', 12);
     drawBarChart('gameChart', LEGACY.gameUsers, 'green');
     drawBarChart('toolChart', LEGACY.toolUsers, 'purple');
     renderFeatureTable();
@@ -1445,15 +1449,22 @@ function renderPlatformTable() {
 
 function renderFeatureTable() {
     var tbody = document.querySelector('#featureTable tbody');
-    tbody.innerHTML = LEGACY.features.map(function(f) {
-        var dot = f.status === 'Active'
-            ? '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--success-color);margin-right:6px;"></span>'
-            : '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--text-muted);margin-right:6px;"></span>';
+    // Only features with a legacy usage estimate belong in this (Dec-2025) table.
+    var withData = LEGACY.features.filter(function(f) { return f.users; });
+    var rest = LEGACY.features.filter(function(f) { return !f.users; });
+    var dot = '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--success-color);margin-right:6px;"></span>';
+    tbody.innerHTML = withData.map(function(f) {
         return '<tr><td style="font-weight:500;color:var(--text-primary);">' + f.name + '</td>' +
             '<td>' + f.type + '</td>' +
-            '<td class="num">' + (f.users ? formatNum(f.users) : '-') + '</td>' +
+            '<td class="num">' + formatNum(f.users) + '</td>' +
             '<td>' + dot + f.status + '</td></tr>';
     }).join('');
+    // Newer features (no legacy count) listed compactly beneath the table.
+    var note = document.getElementById('featureAlsoLive');
+    if (note && rest.length) {
+        note.innerHTML = '<strong>Also live</strong> (launched after the Dec 2025 snapshot, so no legacy usage figure): '
+            + rest.map(function(f) { return f.name; }).join(' &middot; ') + '.';
+    }
 }
 
 // ============================================================
@@ -1496,7 +1507,7 @@ var resizeTimer;
 window.addEventListener('resize', function() {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function() {
-        drawBarChart('courseChart', LEGACY.courseUsers, 'accent');
+        drawBarChart('courseChart', LEGACY.courseUsers, 'accent', 12);
         drawBarChart('gameChart', LEGACY.gameUsers, 'green');
         drawBarChart('toolChart', LEGACY.toolUsers, 'purple');
     }, 150);

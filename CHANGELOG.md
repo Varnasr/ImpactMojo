@@ -5,6 +5,12 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.141.2] - 2026-07-19
+
+### Fixed
+
+- **Transparency page readability**: the Course Engagement chart (41 near-identical bars of rounded legacy estimates) now shows the top 12 with a caption explaining the numbers cluster because they're rounded; the Feature Adoption table drops its column of empty dashes (features that postdate the Dec 2025 snapshot move to an "Also live" line); "Active in last 30 days" now reads the real figure via `get_public_stats` v4 = `GREATEST(live 30-day count, owner floor 35)` — `last_active_at` only began being written on 2026-07-19, so the live count needed a floor until daily pings accumulate.
+
 ## [10.141.1] - 2026-07-19
 
 ### Fixed
