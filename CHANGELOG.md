@@ -5,6 +5,30 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.134.0] - 2026-07-19
+
+### For Learners
+
+- **Labs → Studios** — the 35 free workbenches renamed across the site (URLs unchanged).
+- **Catalog fixed** — a JS syntax error had emptied the catalog page entirely; now renders all items, with self-deriving filter counts and 8 previously unlisted items added.
+- **Smarter quiz** — a 6th experience question picks ONE primary next step (101 vs flagship); result persists and shows on the homepage.
+- **Challenges as a difficulty ladder** — Start here / Build range / Test yourself sections.
+- **Teach with ImpactMojo** — new instructor page (`/teach.html`) with kit-request form.
+
+### Fixed
+
+- **catalog.html**: unescaped apostrophe in a book-summary title broke the whole inline script → zero cards rendered. Filter-tab counts now computed from `allContent` at runtime.
+- **open-badges.js**: `BADGE_CLASSES` covered 9/18 flagships — certificates for newer courses were skipped entirely in the badge wallet (no badge, no LinkedIn). All 18 + lowercase `sel` alias added; plain-list fallback in `account.js` also gets Add-to-LinkedIn.
+- **PAGE-TEMPLATE.html**: `--gradient-primary` was only defined in dark-theme blocks → `.page-hero h1` invisible in light mode on template pages.
+- Homepage founder cards enlarged (60→96px avatars, roomier layout).
+- `101-courses/decks.html` hub: 47 → 51 native decks.
+- Homepage tour: dead anchors replaced, stale counts fixed, indigo restyle; quiz copy 5→6 questions incl. i18n keys (5 languages).
+
+### Changed
+
+- **Sitewide display rename Labs → Studios** (37 Labs/ pages, index, catalog, tour, search-index, README, docs, press kit; URLs/ids/classes untouched). `check-counts.py` recognises the new phrasing and the homepage tile markup pattern. i18n note: renamed strings fall back to English pending the next translation pass.
+- SEO: WebApplication + FAQPage JSON-LD on 5 high-intent studios.
+
 ## [10.133.0] - 2026-07-19
 
 ### For Learners
