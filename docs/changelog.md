@@ -2,6 +2,18 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.138.0 — July 19, 2026 (The everything-fixed release)
+
+### For Learners
+
+- **Forgot your password? It works now.** The reset link in your email leads to a real page where you set a new password — previously it went nowhere, and we're sorry.
+- **Your details are private again** — we closed a gap that could have exposed account phone numbers and addresses; only your display name is visible, and only for certificate verification.
+- **Law and SEL courses have their real glossaries** — 52 legal terms with landmark cases, and 54 SEL terms across frameworks and classroom practice; Media and Power BI lexicons grew too.
+- **Search and offline everywhere** — every page's top bar now has a Search button, and offline support works site-wide; the offline page even lists the courses you've downloaded.
+- **Finish what you start** — decks now point you to the matching Studio, course, or game when you finish; games remember completion in the library; and reading companions link back to the collection.
+- **Faster decks on slow connections** — 42 of the 101 decks were carrying about 1MB of JavaScript they never used; it's gone.
+- **Live, honest numbers** — the practitioners-reached figure across the site now comes from the database (April 2026 baseline + everyone who registered since) and updates itself.
+
 ## v10.137.0 — July 19, 2026 (Every link works, and the numbers are live)
 
 ### For Learners

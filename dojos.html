@@ -13,7 +13,7 @@
     <meta property="og:description" content="Practice-based skill sessions for development practitioners. Build thinking skills through doing, not just learning.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.impactmojo.in/dojos">
-<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/og-card.png">
 <meta property="og:site_name" content="ImpactMojo">
 
 <!-- Google Analytics -->
@@ -1438,8 +1438,8 @@ body.dark-mode .badge-free, body.dark-mode .badge-status-live, body.dark-mode .s
 <meta name="robots" content="index, follow">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Dojos">
-<meta name="twitter:description" content="Dojos — free development education from ImpactMojo. Browse courses, games, labs, and resources for practitioners across South Asia.">
-<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta name="twitter:description" content="Dojos — paid small-group practice sessions (₹1,500/session, sliding scale available) for development practitioners in Delhi, Bangalore, and online. 56 hands-on 90-minute sessions from ImpactMojo.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/og-card.png">
 <style>
 /* Body clears fixed im-topbar (added by site-wide audit fix) */
 body { padding-top: 70px; }
@@ -1845,8 +1845,8 @@ body { padding-top: 70px; }
 
     <!-- Modal -->
     <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
-        <div class="modal" onclick="event.stopPropagation()">
-            <h3>Express Interest in Dojos</h3>
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="dojoModalTitle" onclick="event.stopPropagation()">
+            <h3 id="dojoModalTitle">Express Interest in Dojos</h3>
             <form name="dojo-interest" method="POST" id="interestForm" data-netlify="true" netlify-honeypot="bot-field">
                 <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
                 <div class="form-group">
@@ -1991,6 +1991,7 @@ body { padding-top: 70px; }
             const seriesLabels = { pre: 'PRE', s01: 'S01', s02: 'S02', s03: 'S03', s04: 'S04', s05: 'S05', s06: 'S06' };
             grid.innerHTML = filtered.map(skill => `
                 <div class="skill-card ${selectedSkills.has(skill.name) ? 'selected' : ''}"
+                     tabindex="0" role="button" aria-pressed="${selectedSkills.has(skill.name)}"
                      onclick="toggleSkill('${skill.name.replace(/'/g, "\\'")}')" data-category="${skill.category}">
                     <div class="skill-icon ${skill.category}">
                         <img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/${skill.icon}.svg" alt="">
@@ -2036,6 +2037,15 @@ body { padding-top: 70px; }
                 input.value = '';
             }
         }
+
+        // Keyboard activation for skill cards (Enter/Space triggers the click handler)
+        document.getElementById('skillsGrid').addEventListener('keydown', function (e) {
+            if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
+            const card = e.target.closest('.skill-card');
+            if (!card) return;
+            e.preventDefault();
+            card.click();
+        });
 
         // Filter buttons
         document.querySelectorAll('.filter-btn').forEach(btn => {
@@ -2089,6 +2099,7 @@ body { padding-top: 70px; }
 <script src="/js/state-manager.js"></script>
 <script src="/js/config.js"></script>
 <script src="/js/auth.js"></script>
+<script src="/js/theme.js"></script>
 <script>
 // Standard three-way theme + mobile menu (sets data-theme attr AND body class so
 // both paired (impact-bold.css) and standalone [data-theme] rules resolve)

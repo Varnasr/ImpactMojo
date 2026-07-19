@@ -23,6 +23,10 @@ import os, re, sys
 # (label, regex) — each pattern matches ONLY corruption, never legitimate text.
 # Codepoints are spelled with \u escapes so the patterns stay readable/reliable.
 PATTERNS = [
+    ("A-tilde + em-dash (corrupted multiplication sign, e.g. a \u00d7 close button)",
+     re.compile('\u00c3\u2014')),
+    ("eth + Latin-cap-Y mojibake (corrupted 4-byte emoji, e.g. \U0001f9ed)",
+     re.compile('\u00f0\u0178')),
     ("U+FFFD replacement char",
      re.compile('�')),
     ("C1 control char (U+0080-U+009F)",

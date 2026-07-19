@@ -5,6 +5,39 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.138.0] - 2026-07-19
+
+### Security & Critical Fixes
+
+- **Password reset works again** — recovery emails pointed at a non-existent `/reset-password.html`; the page now exists (recovery-session gate → new-password form → confirmation, with an honest expired-link state).
+- **Closed public PII exposure on `profiles`** — the certificate-verification RLS policy allowed anonymous reads of every column (phone, address, email). Replaced with a column-limited anon grant (id + name fields only), an org-peers policy for dashboards, admin read/update policies (admin updates were silently broken before), and a minimal invite-by-email RPC. Applied live and probe-verified; migration at `supabase/migrations/20260719_fix_profiles_public_exposure.sql`. Certificate queries now request explicit columns instead of `select=*`.
+- **`/labs/` no longer serves the homepage** — lowercase studio URLs now 301 to `/Labs/`, the hub canonical is fixed, and 26 lowercase hub hrefs + homepage links normalized.
+- **Law and SEL lexicons are real** — both were MEL-lexicon clones; replaced with authored Constitution & Law (52 terms) and Social-Emotional Learning (54 terms) lexicons. Media (66) and Power BI (64) lexicons de-duplicated to one canonical file each, old files removed, all links/redirects updated; MEL's Excel link now serves the local file instead of Dropbox.
+
+### Added
+
+- **Permanent live stats system** — `public_stats_baseline` table (seeded: 13,000 practitioners reached as of April 2026, per legacy Sheets + GA4 backfill) + upgraded `get_public_stats()` returning baseline, live counts, and an auto-growing `practitioners_total` (baseline + post-April registrations, no double-count). New `js/live-stats.js` fills any `[data-live-stat]` element; wired on the homepage, impact dashboard, and transparency page. Update the table row → the whole site follows.
+- **Five maintenance Routines** (scheduled fresh-session agents): weekly backend/repo upkeep, weekly i18n maintenance, monthly page-by-page fact check, daily Supabase health + PII probe (with one allowed remediation), daily count-drift + analytics check.
+- **Sitemap generator** — `scripts/build-sitemap.py` regenerates `sitemap.xml` from tracked files (738 URLs, up from 606; Handouts family included for the first time), honoring per-page noindex.
+- **Site-wide search + offline** — the injected topbar now has a Search button (lazy-loads `js/search.js` everywhere) and registers the service worker on all ~775 chrome pages (was 23). The offline page is now self-contained and lists downloaded courses from the Cache API.
+- **Conversion plumbing** — homepage email capture (prefills signup), mid-course sign-in nudge for signed-out learners with progress, phone now optional at signup, and step-2 profile extras survive the verification-email tab switch.
+- **Security headers** — `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, HSTS site-wide; `frame-ancestors 'none'` on auth/account/admin pages (games/decks stay embeddable for classrooms).
+- **Social cards** — branded 1200×630 default OG card replacing the square logo on 570 pages, plus per-course cards for all 18 flagships (16 had broken or generic images).
+
+### Fixed
+
+- Catalog, BookSummaries hub, and game-library counts are now **computed from their own data** (no more contradictory hardcoded numbers); Studios naming corrected in catalog stats/tabs; `aria-pressed` on all filter tabs; ItemList JSON-LD on the catalog.
+- About page stats grid undersold the platform by half (48/11/16 → 69/35/135) and marked all five shipped languages "Coming Soon" — both corrected. FAQ numbers refreshed and the file added to the counts guard; FAQPage JSON-LD added.
+- Legal pages corrected: Netlify Forms (not Formspree), Supabase/Netlify named as processors, children's age harmonized to 18 (DPDP), push notifications covered, dates bumped.
+- 42 of 51 decks shipped a ~1MB ECharts bundle they never used — removed; Chart.js deferred on all 51. Every deck's end screen now has a "Continue your learning" block linking its matching Studio/flagship/game.
+- Games: 16 boilerplate (8 truncated) meta descriptions rewritten, 13 dead-end games got back-to-library links, all 18 report completion to the game library (progress can finally reach 135/135), JSON-LD added, game-library error path fixed (`#cardGrid` → `#trackSections`).
+- 166 reading companions got footer back-links (were dead ends); BookSummaries hub gained dark mode; off-template companions got missing metadata.
+- Deep Dives filters rebuilt from actual tags (three filters used to show one card each); timelines + dataverse now honor the manual theme toggle; ImpactLex course stat de-hardcoded.
+- 404 page: visible mojibake fixed, orphaned topbar fragment removed, stale count fixed; the mojibake guard learned the two signatures it was missing.
+- Challenges copy is honest (realistic composite cases, self-assessment — no more unkept "expert feedback/badges/partner organizations" promises); "Partner:" labels → "Case setting:"; duplicate script loads removed; submission template prefills the textarea.
+- Commercial pages: dojos theme buttons work (theme.js was never loaded) and skill cards are keyboard-accessible; coaching booking has a fallback link when Google's widget fails to load (plus chat XSS footgun fixed); workshops form labels associated; build-circles shows a real success message; teach.html got a canonical and lost 130 lines of template dead weight; account + org dashboards are `noindex`; org dashboard escapes user-supplied descriptions.
+- Homepage JSON-LD said 17 flagships (now 18) and gained a SearchAction; gender course metadata de-boilerplated; blog JSON-LD gained `datePublished`/`dateModified` on all 33 posts; podcast's dead subscribe buttons replaced with honest copy; community page got canonical/OG tags.
+
 ## [10.137.0] - 2026-07-19
 
 ### Added

@@ -120,6 +120,15 @@
     $('stat-terms').textContent = state.terms.length;
     $('stat-formulae').textContent = state.formulae.length;
     $('stat-cases').textContent = state.caseStudies.length;
+    // course count derived from the data, not hardcoded in the hero markup
+    var courseEl = $('stat-courses');
+    if (courseEl) {
+      var courses = new Set();
+      state.terms.forEach(function (t) {
+        (t.courses || (t.course ? [t.course] : [])).forEach(function (c) { courses.add(c); });
+      });
+      if (courses.size) courseEl.textContent = courses.size;
+    }
   }
 
   function renderFilters() {

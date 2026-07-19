@@ -312,6 +312,11 @@ body {
     text-transform: uppercase; letter-spacing: 0.03em;
 }
 .badge-total { background: rgba(14,165,233,0.15); color: #0EA5E9; }
+.badge-legacy { background: rgba(245,158,11,0.15); color: #D97706; }
+.legacy-note {
+    font-size: 0.85rem; color: var(--text-secondary); margin: -8px 0 20px;
+    line-height: 1.6;
+}
 
 /* Chart container */
 .chart-container {
@@ -602,14 +607,14 @@ main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) 
 <link rel="canonical" href="https://www.impactmojo.in/transparency.html">
 <meta property="og:title" content="Transparency">
 <meta property="og:description" content="Transparency — free development education from ImpactMojo. Browse courses, games, studios, and resources for practitioners across South Asia.">
-<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/og-card.png">
 <meta property="og:url" content="https://www.impactmojo.in/transparency.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ImpactMojo">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Transparency">
 <meta name="twitter:description" content="Transparency — free development education from ImpactMojo. Browse courses, games, studios, and resources for practitioners across South Asia.">
-<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/og-card.png">
 </head>
 <body class="ib">
 <a href="#main-content" class="im-skip-link">Skip to content</a><style>.im-skip-link{position:absolute;left:-9999px;top:0;background:#0EA5E9;color:#fff;padding:8px 16px;z-index:100000;border-radius:0 0 6px 0;font:600 .85rem/1.2 Inter,system-ui,sans-serif;text-decoration:none}.im-skip-link:focus{left:0}</style>
@@ -763,12 +768,19 @@ main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) 
         <h2>Live Database Numbers</h2>
         <div class="card-body">
             <p style="margin-bottom:16px;color:var(--text-secondary);">
-                Unlike the cumulative estimates above, these come straight from our database at the moment
-                you loaded this page. They count <strong>signed-in learners only</strong> — most visitors
-                browse without an account — and our database began tracking in 2026, so they start small
-                and honest.
+                These come straight from our database at the moment you loaded this page.
+                <strong>Practitioners reached</strong> follows our documented methodology — the April 2026
+                legacy baseline (Google-Sheets records + GA4) plus every learner who registered after it,
+                stored in a public <code>public_stats_baseline</code> table so the site can never drift
+                from the source. The other tiles count <strong>signed-in learners only</strong> — most
+                visitors browse without an account — and database tracking began in 2026, so they start
+                small and honest.
             </p>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;" id="liveStatsGrid">
+                <div style="text-align:center;padding:18px 10px;background:var(--hover-bg);border-radius:12px;">
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:700;color:var(--accent-color);" id="ls-total">—</div>
+                    <div style="font-size:0.8rem;color:var(--text-muted);">Practitioners reached (all-time)</div>
+                </div>
                 <div style="text-align:center;padding:18px 10px;background:var(--hover-bg);border-radius:12px;">
                     <div style="font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:700;color:var(--accent-color);" id="ls-learners">—</div>
                     <div style="font-size:0.8rem;color:var(--text-muted);">Registered learners</div>
@@ -808,6 +820,7 @@ main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) 
                 body: '{}'
             }).then(function (r) { return r.json(); }).then(function (s) {
                 var set = function (id, v) { var el = document.getElementById(id); if (el) el.textContent = (v == null ? '—' : v.toLocaleString('en-IN')); };
+                set('ls-total', s.practitioners_total);
                 set('ls-learners', s.registered_learners);
                 set('ls-active', s.active_learners_30d);
                 set('ls-started', s.courses_started);
@@ -904,7 +917,7 @@ main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) 
     <!-- PLATFORM CONTENT TABLE -->
     <!-- ============================================================ -->
     <div class="section-header">
-        <h2 class="section-title">Content Library</h2>
+        <h2 class="section-title">Content Library <span class="section-badge badge-legacy">Legacy data as of December 2025</span></h2>
     </div>
     <div class="data-table-wrap">
         <table class="data-table" id="platformTable">
@@ -917,8 +930,12 @@ main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) 
     <!-- CHARTS — beautiful line/area charts on canvas -->
     <!-- ============================================================ -->
     <div class="section-header">
-        <h2 class="section-title">Course Engagement</h2>
+        <h2 class="section-title">Course Engagement <span class="section-badge badge-legacy">Legacy data as of December 2025</span></h2>
     </div>
+    <p class="legacy-note">
+        The engagement figures in the charts below are <strong>indicative estimates from Google-Sheets era tracking</strong>
+        (rounded to the nearest hundred), not precise analytics. They are shown for transparency about our historical reach.
+    </p>
     <div class="chart-container">
         <canvas id="courseChart" height="340"></canvas>
     </div>
@@ -946,7 +963,7 @@ main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) 
     <!-- FEATURE ADOPTION TABLE -->
     <!-- ============================================================ -->
     <div class="section-header">
-        <h2 class="section-title">Feature Adoption</h2>
+        <h2 class="section-title">Feature Adoption <span class="section-badge badge-legacy">Legacy data as of December 2025</span></h2>
     </div>
     <div class="data-table-wrap">
         <table class="data-table" id="featureTable">
@@ -1112,12 +1129,12 @@ main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) 
 // ============================================================
 var LEGACY = {
     platform: {
-        'Flagship Courses': 17,
-        'Total Free Courses': 68,
-        'Interactive Labs': 31,
+        'Flagship Courses': 18,
+        'Total Free Courses': 69,
+        'Interactive Studios': 35,
         'Educational Games': 135,
-        'Premium Tools': 7,
-        'Live Case Challenges': 9,
+        'Premium Tools': 13,
+        'Live Case Challenges': 15,
         'Handouts': 89,
         'Dataverse Tools': 321,
         'Case Studies': 200,
@@ -1202,9 +1219,9 @@ var LEGACY = {
         'VaniScribe': 280
     },
     features: [
-        { name: 'Courses (68 total)', type: 'Learning', users: 120700, status: 'Active' },
+        { name: 'Courses (69 total)', type: 'Learning', users: 120700, status: 'Active' },
         { name: 'Games (135 total)', type: 'Engagement', users: 35400, status: 'Active' },
-        { name: 'Labs & Tools (19)', type: 'Hands-on', users: 43880, status: 'Active' },
+        { name: 'Interactive Studios (35)', type: 'Hands-on', users: 43880, status: 'Active' },
         { name: 'Live Challenges', type: 'Assessment', users: '', status: 'Active' },
         { name: 'Portfolio Builder', type: 'Credentialing', users: '', status: 'Active' },
         { name: 'Certificate Verify', type: 'Credentialing', users: '', status: 'Active' },
@@ -1391,7 +1408,7 @@ function renderKPIs() {
         { label: 'Total Interactions', value: formatNum(totalAll), sub: 'Legacy + current analytics', source: 'Combined data sources', color: 'blue' },
         { label: 'Course Interactions', value: formatNum(totalCourseUsers), sub: '69 courses', source: 'Legacy records', color: 'purple' },
         { label: 'Game Interactions', value: formatNum(totalGameUsers), sub: '135 games', source: 'Legacy records', color: 'green' },
-        { label: 'Tool Interactions', value: formatNum(totalToolUsers), sub: '19 tools & labs', source: 'Legacy records', color: 'amber' }
+        { label: 'Tool Interactions', value: formatNum(totalToolUsers), sub: '35 interactive studios', source: 'Legacy records', color: 'amber' }
     ];
 
     grid.innerHTML = kpis.map(function(k) {

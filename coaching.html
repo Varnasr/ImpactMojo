@@ -51,7 +51,7 @@ window.addEventListener('pageshow', function(event) {
 <meta property="og:description" content="Professional coaching for development careers, research design, and data analysis. Led by Varna Sri Raman, Development Economist.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.impactmojo.in/coaching.html">
-<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/og-card.png">
 <meta property="og:site_name" content="ImpactMojo">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Coaching & Consultation | ImpactMojo">
@@ -1651,14 +1651,16 @@ function sendMessage() {
     
     const messagesContainer = document.getElementById('chatMessages');
     
-    // Add user message
-    messagesContainer.innerHTML += `
-        <div class="message" style="text-align: right;">
-            <div class="bot-bubble" style="background: var(--accent-color); color: white; margin-left: auto; border-radius: 12px; border-top-right-radius: 4px;">
-                ${message}
-            </div>
-        </div>
-    `;
+    // Add user message (textContent — never inject user input via innerHTML)
+    const userMessageEl = document.createElement('div');
+    userMessageEl.className = 'message';
+    userMessageEl.style.textAlign = 'right';
+    const userBubble = document.createElement('div');
+    userBubble.className = 'bot-bubble';
+    userBubble.style.cssText = 'background: var(--accent-color); color: white; margin-left: auto; border-radius: 12px; border-top-right-radius: 4px;';
+    userBubble.textContent = message;
+    userMessageEl.appendChild(userBubble);
+    messagesContainer.appendChild(userMessageEl);
     
     input.value = '';
     
@@ -1734,17 +1736,37 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Initialize Google Calendar booking buttons
+    const SCHEDULING_URL = 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ2DlCV8HgdkAK-Oyzi9PhKJ45eKo6026Ix1nEEH8Vcx_lxfaCAZlzkcBvptD2sZm1P4fvHjU_Cq?gv=true';
     if (window.calendar && window.calendar.schedulingButton) {
         const bookingContainers = document.querySelectorAll('.booking-container');
         bookingContainers.forEach((container) => {
             window.calendar.schedulingButton.load({
-                url: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ2DlCV8HgdkAK-Oyzi9PhKJ45eKo6026Ix1nEEH8Vcx_lxfaCAZlzkcBvptD2sZm1P4fvHjU_Cq?gv=true',
+                url: SCHEDULING_URL,
                 color: '#039BE5',
                 label: 'Book an appointment',
                 target: container,
             });
         });
     }
+
+    // Fallback: if the async Google Calendar script hasn't rendered a button
+    // (slow network, blocked script, or it loaded after DOMContentLoaded),
+    // insert a plain link to the same scheduling page so booking always works.
+    setTimeout(function() {
+        document.querySelectorAll('.booking-container').forEach(function(container) {
+            // Google's script may insert the button inside the target or as its
+            // next sibling — treat either as "rendered fine".
+            var sib = container.nextElementSibling;
+            if (container.childElementCount > 0 || (sib && sib.tagName === 'BUTTON')) return;
+            const link = document.createElement('a');
+            link.href = SCHEDULING_URL;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.textContent = 'Book a session';
+            link.style.cssText = 'display: inline-block; background: #039BE5; color: #fff; padding: 0.6rem 1.25rem; border-radius: 6px; font-weight: 600; text-decoration: none;';
+            container.appendChild(link);
+        });
+    }, 3000);
 });
 </script>
 

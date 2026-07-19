@@ -740,6 +740,32 @@
 
         // Migrate progress & sync for authenticated users
         setTimeout(migrateProgressOnLogin, 2000);
+
+        // Pre-completion account nudge: signed-out learners with real progress
+        // were never asked to create an account until the 100% modal.
+        setTimeout(maybeShowSignupNudge, 3000);
+    }
+
+    function maybeShowSignupNudge() {
+        try {
+            if (localStorage.getItem('im-nudge-dismissed')) return;
+            if (window.ImpactMojoAuth && ImpactMojoAuth.user) return;
+            var pct = totalModules ? (completedModules.size / totalModules) : 0;
+            if (pct < 0.15 || pct >= 1) return; // only mid-course, signed out
+            if (document.getElementById('cpb-nudge')) return;
+            var bar = document.createElement('div');
+            bar.id = 'cpb-nudge';
+            bar.setAttribute('role', 'note');
+            bar.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:9990;background:var(--card-bg,#fff);color:var(--text-primary,#1a202c);border-top:1px solid var(--border-color,#e2e8f0);box-shadow:0 -4px 16px rgba(0,0,0,0.08);padding:10px 14px;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;font-size:0.9rem;';
+            bar.innerHTML = '<span>You’re making progress — sign in free to save it across devices and earn a verifiable certificate.</span>' +
+                '<a href="/signup.html" style="font-weight:700;color:#4C51BF;text-decoration:none;white-space:nowrap;">Create free account →</a>' +
+                '<button type="button" aria-label="Dismiss" style="background:none;border:none;cursor:pointer;font-size:1.1rem;color:inherit;opacity:0.6;">&times;</button>';
+            bar.querySelector('button').addEventListener('click', function () {
+                try { localStorage.setItem('im-nudge-dismissed', '1'); } catch (e) {}
+                bar.remove();
+            });
+            document.body.appendChild(bar);
+        } catch (e) { /* nudge is best-effort */ }
     }
 
     // Run when DOM is ready

@@ -102,7 +102,7 @@ window.addEventListener('pageshow', function(event) {
 <meta property="og:description" content="Join ImpactMojo for free access to MEAL courses, development tools, and resources for social impact professionals.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.impactmojo.in/signup.html">
-<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/og-card.png">
 <meta property="og:site_name" content="ImpactMojo">
 
 <title>Create Account | ImpactMojo</title>
@@ -1693,7 +1693,7 @@ body.dark-mode .badge-free, body.dark-mode .badge-status-live, body.dark-mode .s
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Create Account">
 <meta name="twitter:description" content="Create Account — free development education from ImpactMojo. Browse courses, games, labs, and resources for practitioners across South Asia.">
-<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/og-card.png">
 </head>
 <body>
 <!-- ImpactMojo Top Bar -->
@@ -1918,8 +1918,8 @@ body.dark-mode .badge-free, body.dark-mode .badge-status-live, body.dark-mode .s
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label" for="phone">Phone Number</label>
-                            <input type="tel" id="phone" name="phone" class="form-input" placeholder="+91 98765 43210" required autocomplete="tel">
+                            <label class="form-label" for="phone">Phone Number <span style="font-weight:400;opacity:0.7;">(optional)</span></label>
+                            <input type="tel" id="phone" name="phone" class="form-input" placeholder="+91 98765 43210" autocomplete="tel">
                         </div>
 
                         <label class="terms-checkbox">
@@ -2221,12 +2221,6 @@ function validateStep1() {
         return false;
     }
 
-    if (!phone) {
-        showAlert('Please enter your phone number.');
-        document.getElementById('phone').focus();
-        return false;
-    }
-
     if (!terms) {
         showAlert('Please accept the Terms of Service and Privacy Policy.');
         return false;
@@ -2298,6 +2292,15 @@ function getExtras() {
 // =====================================================
 // Submit (from Step 2 or Skip)
 // =====================================================
+
+// Prefill email when arriving from the homepage capture strip (?email=...)
+document.addEventListener('DOMContentLoaded', function () {
+    try {
+        var qe = new URLSearchParams(window.location.search).get('email');
+        if (qe && !document.getElementById('email').value) document.getElementById('email').value = qe;
+    } catch (e) {}
+});
+
 async function submitSignup(includeExtras) {
     const fullName = document.getElementById('fullName').value.trim();
     const email = document.getElementById('email').value.trim();
@@ -2313,7 +2316,7 @@ async function submitSignup(includeExtras) {
         // Store extra fields in sessionStorage for account.html to pick up
         const extras = getExtras();
         if (Object.keys(extras).length > 0) {
-            sessionStorage.setItem('impactmojo_signup_extras', JSON.stringify(extras));
+            localStorage.setItem('impactmojo_signup_extras', JSON.stringify(extras));
         }
 
         showAlert(result.message, 'success');

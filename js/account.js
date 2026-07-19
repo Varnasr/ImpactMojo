@@ -549,11 +549,11 @@
     if (!ImpactMojoAuth.isAuthReady) return;
     if (e.detail && e.detail.isLoggedIn) {
       // Check for signup extras stored during registration
-      var signupExtras = sessionStorage.getItem('impactmojo_signup_extras');
+      var signupExtras = localStorage.getItem('impactmojo_signup_extras') || sessionStorage.getItem('impactmojo_signup_extras');
       if (signupExtras) {
         try {
           var extras = JSON.parse(signupExtras);
-          sessionStorage.removeItem('impactmojo_signup_extras');
+          localStorage.removeItem('impactmojo_signup_extras'); sessionStorage.removeItem('impactmojo_signup_extras');
           ImpactMojoAuth.updateProfile(extras).then(function () { updatePageData(); });
         } catch (err) {
           console.error('Failed to apply signup extras:', err);
