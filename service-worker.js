@@ -28,29 +28,32 @@ const OFFLINE_URL = '/offline.html';
 const COURSE_PREFIX = 'impactmojo-course-';
 
 // Flagship course id → entry URL (mirrors FLAGSHIP_COURSES in js/offline.js).
+// Per-course URL lists: entry page + lexicon; shared assets appended in cacheCourse.
 const COURSE_URLS = {
-  gandhi: '/courses/gandhi/',
-  devecon: '/courses/devecon/',
-  devai: '/courses/devai/',
-  dataviz: '/courses/dataviz/',
-  mel: '/courses/mel/',
-  poa: '/courses/poa/',
-  media: '/courses/media/',
-  law: '/courses/law/',
-  SEL: '/courses/sel/',
-  gender: '/courses/gender/',
-  pubchoice: '/courses/pubchoice/',
-  pubpol: '/courses/pubpol/',
-  causal: '/courses/causal/',
-  livelihoods: '/courses/livelihoods/',
-  powerBI: '/courses/powerBI/powerbi.html',
-  intervention: '/courses/intervention/',
-  'nothing-about-us': '/courses/nothing-about-us/',
-  'nvc-rj': '/courses/nvc-rj/'
+  causal: ['/courses/causal/', '/courses/causal/lexicon.html'],
+  dataviz: ['/courses/dataviz/', '/courses/dataviz/lexicon.html'],
+  devai: ['/courses/devai/', '/courses/devai/lexicon.html'],
+  devecon: ['/courses/devecon/', '/courses/devecon/lexicon.html'],
+  gandhi: ['/courses/gandhi/', '/courses/gandhi/lexicon.html'],
+  gender: ['/courses/gender/', '/courses/gender/lexicon.html'],
+  intervention: ['/courses/intervention/', '/courses/intervention/lexicon.html'],
+  law: ['/courses/law/', '/courses/law/lexicon.html'],
+  livelihoods: ['/courses/livelihoods/', '/courses/livelihoods/lexicon.html'],
+  media: ['/courses/media/', '/courses/media/lexicon.html'],
+  mel: ['/courses/mel/', '/courses/mel/lexicon.html'],
+  "nothing-about-us": ['/courses/nothing-about-us/', '/courses/nothing-about-us/lexicon.html'],
+  "nvc-rj": ['/courses/nvc-rj/', '/courses/nvc-rj/lexicon.html'],
+  poa: ['/courses/poa/', '/courses/poa/lexicon.html'],
+  powerBI: ['/courses/powerBI/powerbi.html', '/courses/powerBI/lexicon.html'],
+  pubchoice: ['/courses/pubchoice/', '/courses/pubchoice/lexicon.html'],
+  pubpol: ['/courses/pubpol/', '/courses/pubpol/lexicon.html'],
+  sel: ['/courses/sel/', '/courses/sel/lexicon.html'],
 };
 
 const STATIC_RE = /\.(?:css|js|mjs|png|jpe?g|gif|svg|webp|ico|woff2?|ttf|eot|json)$/i;
-const CDN_RE = /(?:fonts\.gstatic\.com|fonts\.googleapis\.com|cdn\.jsdelivr\.net)/;
+// Fonts are self-hosted under /assets/fonts/ (same-origin, matched by STATIC_RE);
+// only the Sargam icon CDN remains cross-origin cacheable.
+const CDN_RE = /(?:cdn\.jsdelivr\.net)/;
 
 // ── Install: precache only the offline fallback, then take over. ──
 self.addEventListener('install', (event) => {
@@ -156,13 +159,16 @@ function postAll(message) {
 // Download a course's entry page for offline reading. Shared CSS/JS are picked
 // up by stale-while-revalidate while the user browses online, and caches.match
 // in networkFirst searches every cache (including this one) when offline.
+const COURSE_SHARED_ASSETS = ["/js/course-loader.js", "/js/course-progress.js", "/js/site-chrome.js", "/js/theme.js", "/js/config.js", "/js/offline.js", "/css/fonts.css"];
+
 function cacheCourse(courseId) {
   const base = COURSE_URLS[courseId];
   if (!base) {
     return postAll({ type: 'COURSE_CACHE_ERROR', courseId: courseId, error: 'Unknown course' });
   }
   return caches.open(COURSE_PREFIX + courseId).then((cache) => {
-    const urls = [base, OFFLINE_URL];
+    const courseUrls = Array.isArray(base) ? base : [base];
+    const urls = courseUrls.concat(COURSE_SHARED_ASSETS, [OFFLINE_URL]);
     let completed = 0;
     return urls.reduce((chain, u) => chain.then(() =>
       fetch(u, { cache: 'reload' })
