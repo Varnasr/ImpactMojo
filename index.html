@@ -3540,6 +3540,93 @@ document.addEventListener('click', function(e) {
 <script src="/js/search.js" defer></script>
 <script defer src="js/auto-refresh.js"></script>
 <script defer src="js/learning-pathways.js"></script>
+<script>
+/* "Continue where you left off" — if course-progress.js has saved progress
+   in localStorage, surface the most recently touched unfinished flagship as
+   a slim strip right under the hero. Renders nothing for fresh visitors. */
+(function () {
+    var COURSES = {
+        mel: ['Monitoring, Evaluation & Learning', '/courses/mel/'],
+        dataviz: ['Seeing Data: Visualization for Impact', '/courses/dataviz/'],
+        devai: ['AI for Impact: Data, Monitoring & Evaluation', '/courses/devai/'],
+        devecon: ['Development Economics', '/courses/devecon/'],
+        gandhi: ["Gandhi's Political Thought", '/courses/gandhi/'],
+        law: ['Law & Development', '/courses/law/'],
+        media: ['Media, Communication & Development', '/courses/media/'],
+        SEL: ['Social-Emotional Learning', '/courses/sel/'],
+        sel: ['Social-Emotional Learning', '/courses/sel/'],
+        poa: ['Politics of Aspiration', '/courses/poa/'],
+        gender: ['Gender Studies: Feminisms, Power & Social Change', '/courses/gender/'],
+        pubchoice: ['Public Choice: Decisions, Incentives & Institutions', '/courses/pubchoice/'],
+        pubpol: ['Public Policy: Process, Design & Governance in India', '/courses/pubpol/'],
+        causal: ['Causal Inference for Development', '/courses/causal/'],
+        livelihoods: ['Livelihoods in India: Rural, Urban, and Skills', '/courses/livelihoods/'],
+        powerBI: ['Power BI for Practitioners', '/courses/powerBI/powerbi.html'],
+        intervention: ['Designing What Works', '/courses/intervention/'],
+        'nothing-about-us': ['Nothing About Us Without Us', '/courses/nothing-about-us/'],
+        'nvc-rj': ['Nonviolence in Practice', '/courses/nvc-rj/']
+    };
+    var PREFIX = 'impactmojo_course_progress_';
+    var best = null;
+    try {
+        for (var i = 0; i < localStorage.length; i++) {
+            var key = localStorage.key(i);
+            if (!key || key.indexOf(PREFIX) !== 0) continue;
+            var id = key.slice(PREFIX.length);
+            if (!COURSES[id]) continue;
+            var data = JSON.parse(localStorage.getItem(key));
+            if (!data || !data.completed || !data.totalModules) continue;
+            if (data.completed.length >= data.totalModules) continue; // finished
+            if (!best || String(data.updatedAt || '') > String(best.data.updatedAt || '')) {
+                best = { id: id, data: data };
+            }
+        }
+    } catch (e) { return; }
+    if (!best) return;
+
+    function render() {
+        var hero = document.querySelector('.v3-hero');
+        if (!hero || document.getElementById('im-continue-strip')) return;
+        var course = COURSES[best.id];
+        var done = best.data.completed.length;
+        var total = best.data.totalModules;
+        var pct = Math.min(100, Math.round((done / total) * 100));
+
+        var strip = document.createElement('a');
+        strip.id = 'im-continue-strip';
+        strip.href = course[1];
+        strip.setAttribute('aria-label', 'Continue ' + course[0] + ', ' + done + ' of ' + total + ' modules complete');
+        strip.innerHTML =
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>' +
+            '<span class="im-cs-text">Continue where you left off: <strong></strong></span>' +
+            '<span class="im-cs-meta">' + done + '/' + total + ' modules · ' + pct + '%</span>' +
+            '<span class="im-cs-arrow" aria-hidden="true">→</span>';
+        strip.querySelector('strong').textContent = course[0];
+
+        var style = document.createElement('style');
+        style.textContent =
+            '#im-continue-strip{display:flex;align-items:center;gap:0.6rem;max-width:720px;margin:1.1rem auto 0;padding:0.7rem 1.1rem;' +
+            'background:var(--card-bg,#fff);border:2px solid var(--color-primary,#667eea);border-radius:12px;' +
+            'box-shadow:4px 4px 0 rgba(102,126,234,.18);text-decoration:none;color:var(--text-primary,#0F172A);' +
+            'font-size:0.92rem;transition:transform .15s ease,box-shadow .15s ease}' +
+            '#im-continue-strip:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 rgba(102,126,234,.25)}' +
+            '#im-continue-strip svg{color:var(--color-primary,#667eea);flex-shrink:0}' +
+            '#im-continue-strip .im-cs-text{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}' +
+            '#im-continue-strip .im-cs-meta{font-family:"JetBrains Mono",monospace;font-size:0.78rem;color:var(--text-muted,#52627A);white-space:nowrap}' +
+            '#im-continue-strip .im-cs-arrow{color:var(--color-primary,#667eea);font-weight:700}' +
+            'body.dark-mode #im-continue-strip,[data-theme="dark"] #im-continue-strip{background:var(--card-bg,#1E293B);color:var(--text-primary,#E2E8F0)}' +
+            '@media(max-width:600px){#im-continue-strip{margin-left:1rem;margin-right:1rem;flex-wrap:wrap}#im-continue-strip .im-cs-text{white-space:normal}}';
+        document.head.appendChild(style);
+        hero.insertAdjacentElement('beforeend', strip);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', render);
+    } else {
+        render();
+    }
+})();
+</script>
 <script src="/js/daily-spotlight.js"></script>
 <script>
 (function(){ if(!window.IMXSpotlight) return; var POOL=[{"type": "Flagship Course", "title": "Power BI for Practitioners", "desc": "Build honest dashboards from real survey data \u2014 Power Query, star schemas, DAX and visualisation ethics, free-tier friendly.", "url": "/courses/powerBI/powerbi.html"}, {"type": "Deep Dive", "title": "Cash Transfers and the Evidence", "desc": "UCT vs CCT, cash vs in-kind, and India's DBT \u2014 what the evidence really shows.", "url": "/DeepDives/cash-transfers-evidence.html"}, {"type": "Game", "title": "Prisoner's Dilemma", "desc": "The classic cooperation-vs-defection standoff, iterated and strategised.", "url": "/Games/prisoners-dilemma-game.html"}, {"type": "Interactive Lab", "title": "Theory of Change Workbench", "desc": "Build, test and iterate a Theory of Change with structured prompts.", "url": "/labs/toc-lab.html"}, {"type": "Flagship Course", "title": "Livelihoods in India: Rural, Urban & Skills", "desc": "Evidence on NRLM, the gig economy and Skill India \u2014 for both sides of the commissioning table.", "url": "/courses/livelihoods/"}, {"type": "Reading Companion", "title": "Development Economics \u2014 Debraj Ray", "desc": "An interactive companion to the classic textbook.", "url": "/BookSummaries/debraj-ray-companion.html"}, {"type": "Timeline", "title": "Climate Policy", "desc": "Trace the milestones of climate policy and the politics behind them.", "url": "/timelines/climate-policy.html"}, {"type": "Deep Dive", "title": "Randomista Economics and Its Critics", "desc": "The RCT revolution and the debate it provoked.", "url": "/DeepDives/randomista-economics.html"}, {"type": "Reference Library", "title": "ImpactLex", "desc": "A searchable glossary of 490+ development terms, formulas and cases.", "url": "/impactlex/"}, {"type": "Flagship Course", "title": "Gender Studies: Feminisms, Power & Social Change", "desc": "Feminist theory and the political economy of gender, grounded in South Asia.", "url": "/courses/gender/"}, {"type": "Game", "title": "Commons Crisis", "desc": "Share a finite resource and watch the commons collapse \u2014 or cooperate.", "url": "/Games/commons-crisis-game.html"}, {"type": "Interactive Lab", "title": "MEL Lab", "desc": "Design a full MEL system, then build the operational plan — eight guided tabs.", "url": "/Labs/mel-lab.html"}, {"type": "Flagship Course", "title": "Monitoring, Evaluation & Learning", "desc": "Design evaluations that actually inform decisions \u2014 the working MEL toolkit.", "url": "/courses/mel/"}, {"type": "Deep Dive", "title": "India's Female Labour-Force Puzzle", "desc": "Why women's workforce participation fell as India grew.", "url": "/DeepDives/india-female-labour-force-participation.html"}, {"type": "Flagship Course", "title": "Development Economics", "desc": "From colonial legacies to coalition capitalism \u2014 how markets and the state co-evolve.", "url": "/courses/devecon/"}, {"type": "Reading Companion", "title": "Atomic Habits", "desc": "The habit-formation playbook, made interactive.", "url": "/BookSummaries/atomic-habits-companion.html"}, {"type": "Timeline", "title": "Development Thinking", "desc": "How development ideas evolved \u2014 the schools, the turns, the critiques.", "url": "/timelines/development-thinking.html"}, {"type": "Deep Dive", "title": "Decolonising Development Knowledge", "desc": "Whose evidence counts, and what localisation actually demands.", "url": "/DeepDives/decolonising-development-knowledge.html"}, {"type": "Flagship Course", "title": "Gandhi's Political Thought", "desc": "From Swaraj to Sarvodaya \u2014 Gandhian philosophy as praxis.", "url": "/courses/gandhi/"}, {"type": "Game", "title": "Climate Action", "desc": "Negotiate emissions and equity under a warming budget.", "url": "/Games/climate-action-game.html"}, {"type": "Interactive Lab", "title": "Policy Analysis Lab", "desc": "Structured tools for reasoning through a policy problem.", "url": "/labs/policy-analysis-lab.html"}, {"type": "Flagship Course", "title": "Law & Development", "desc": "Constitution, rights and justice as engines of development.", "url": "/courses/law/"}, {"type": "Deep Dive", "title": "The Learning Crisis", "desc": "Schooling without learning \u2014 diagnosis and what works.", "url": "/DeepDives/the-learning-crisis.html"}, {"type": "Reference Library", "title": "NudgeKit", "desc": "203 behaviour-change techniques with South Asian context.", "url": "/bct-repository.html"}, {"type": "Flagship Course", "title": "AI for Impact: Data, Monitoring & Evaluation", "desc": "Use AI responsibly across the monitoring and evaluation workflow.", "url": "/courses/devai/"}, {"type": "Reading Companion", "title": "Damned Lies and Statistics", "desc": "How numbers mislead \u2014 and how to read them honestly.", "url": "/BookSummaries/damned-lies-companion.html"}, {"type": "Timeline", "title": "Indian Policy", "desc": "Key milestones in India's policy history.", "url": "/timelines/indian-policy.html"}, {"type": "Game", "title": "The Externality Game", "desc": "Price the costs that markets quietly ignore.", "url": "/Games/externality-game.html"}, {"type": "Interactive Lab", "title": "Gender Analysis Lab", "desc": "Apply gender-analysis frameworks to your programme.", "url": "/labs/gender-studies-lab.html"}, {"type": "Deep Dive", "title": "Reading Indian Political Economy", "desc": "A guided syllabus through India's political economy.", "url": "/DeepDives/indian-political-economy.html"}, {"type": "Flagship Course", "title": "Seeing Data: Visualization for Impact", "desc": "From Tufte principles to honest dashboards for M&E.", "url": "/courses/dataviz/"}]; var pick=IMXSpotlight.pick(POOL), box=document.getElementById("imxTodaySpot"); if(pick&&box){ box.href=pick.url; box.querySelector(".imx-today-type").textContent=pick.type; box.querySelector(".imx-today-title").textContent=pick.title; box.querySelector(".imx-today-desc").textContent=pick.desc; box.style.display="flex"; } })();
