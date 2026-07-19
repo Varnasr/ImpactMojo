@@ -11,6 +11,7 @@
     var SUPABASE_ANON_KEY = window.ImpactMojoConfig.SUPABASE_ANON_KEY;
     var STORAGE_KEY = 'impactmojo_challenge_submissions';
     var DRAFT_KEY = 'impactmojo_challenge_drafts';
+    var SELF_ASSESS_KEY = 'impactmojo_challenge_selfassess';
 
     var challenges = [];
     var submissions = {};
@@ -93,6 +94,12 @@
             submissions = {};
             drafts = {};
         }
+    }
+
+    var selfAssessments = {};
+    try { selfAssessments = JSON.parse(localStorage.getItem(SELF_ASSESS_KEY)) || {}; } catch (e) { selfAssessments = {}; }
+    function saveSelfAssessments() {
+        try { localStorage.setItem(SELF_ASSESS_KEY, JSON.stringify(selfAssessments)); } catch (e) { /* quota */ }
     }
 
     function saveSubmissions() {
@@ -257,12 +264,32 @@
 
         var submissionHtml = '';
         if (isSubmitted) {
+            var sa = selfAssessments[ch.id];
+            var saRows = ch.rubric.map(function (r, i) {
+                var current = sa && sa.levels ? (sa.levels[i] || 0) : 0;
+                var opts = ['Not yet addressed', 'Partially addressed', 'Addressed well', 'Addressed excellently'].map(function (label, v) {
+                    return '<option value="' + v + '"' + (v === current ? ' selected' : '') + '>' + label + '</option>';
+                }).join('');
+                return '<tr><td>' + escapeHTML(r.criterion) + '</td><td style="white-space:nowrap">' + r.weight + '%</td>' +
+                    '<td><select class="ch-sa-select" data-idx="' + i + '" aria-label="Self-rating for ' + escapeHTML(r.criterion) + '">' + opts + '</select></td></tr>';
+            }).join('');
+            var saScoreHtml = sa && typeof sa.score === 'number'
+                ? '<p class="ch-sa-score" id="chSaScore">Your self-assessment: <strong>' + sa.score + '/100</strong> (saved on this device)</p>'
+                : '<p class="ch-sa-score" id="chSaScore" style="display:none"></p>';
             submissionHtml =
                 '<div class="ch-submitted-state">' +
                     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>' +
                     '<h4>Challenge Submitted!</h4>' +
                     '<p>Your response was submitted on ' + escapeHTML(submissions[ch.id].submittedAt) + '.</p>' +
+                    '<p id="chCloudStatus" style="font-size:0.85rem;opacity:0.8"></p>' +
                     '<button class="ch-btn ch-btn-secondary" style="margin-top:1rem" onclick="window._challengeViewSubmission(\'' + ch.id + '\')">View My Submission</button>' +
+                '</div>' +
+                '<div class="ch-detail-section" id="chSelfAssess">' +
+                    '<h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg> Score Yourself Against the Rubric</h3>' +
+                    '<p style="font-size:0.9rem;opacity:0.85;margin:0 0 0.75rem">Re-read your submission with the evaluator’s eyes. Honest self-scoring is the fastest feedback loop there is — it saves to this device so you can compare attempts.</p>' +
+                    '<table class="ch-rubric-table"><thead><tr><th>Criterion</th><th>Weight</th><th>Your rating</th></tr></thead><tbody>' + saRows + '</tbody></table>' +
+                    saScoreHtml +
+                    '<button class="ch-btn ch-btn-primary" style="margin-top:0.75rem" onclick="window._challengeSelfAssess(\'' + ch.id + '\')">Save Self-Assessment</button>' +
                 '</div>';
         } else {
             submissionHtml =
@@ -319,6 +346,32 @@
 
         overlay.classList.add('open');
         document.body.style.overflow = 'hidden';
+
+        // Cloud read-back: show that the submission is recorded to the account
+        if (isSubmitted) {
+            (async function () {
+                var el = document.getElementById('chCloudStatus');
+                if (!el) return;
+                var sb = getSupabase();
+                if (!sb) return;
+                var user = await getUser();
+                if (!user) {
+                    el.textContent = 'Saved on this device. Sign in to record it to your account.';
+                    return;
+                }
+                try {
+                    var res = await sb.from('challenge_submissions')
+                        .select('submission_status, submitted_at')
+                        .eq('challenge_id', ch.id).eq('user_id', user.id).maybeSingle();
+                    if (res && res.data) {
+                        var when = res.data.submitted_at ? new Date(res.data.submitted_at).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
+                        el.textContent = 'Recorded to your account' + (when ? ' on ' + when : '') + ' — part of your challenge portfolio.';
+                    } else {
+                        el.textContent = 'Saved on this device (not yet synced to your account).';
+                    }
+                } catch (e) { /* status line is best-effort */ }
+            })();
+        }
 
         // Bind textarea autosave
         var textarea = document.getElementById('challengeResponse');
@@ -466,6 +519,24 @@
 
     // ---- Global Handlers ----
     window._challengeClose = closeDetail;
+    window._challengeSelfAssess = function (challengeId) {
+        var ch = challenges.find(function (c) { return c.id === challengeId; });
+        if (!ch) return;
+        var selects = document.querySelectorAll('#chSelfAssess .ch-sa-select');
+        var levels = [];
+        selects.forEach(function (s) { levels[parseInt(s.getAttribute('data-idx'), 10)] = parseInt(s.value, 10) || 0; });
+        var score = 0;
+        ch.rubric.forEach(function (r, i) { score += r.weight * ((levels[i] || 0) / 3); });
+        score = Math.round(score);
+        selfAssessments[challengeId] = { levels: levels, score: score, at: new Date().toISOString() };
+        saveSelfAssessments();
+        var el = document.getElementById('chSaScore');
+        if (el) {
+            el.style.display = '';
+            el.innerHTML = 'Your self-assessment: <strong>' + score + '/100</strong> (saved on this device)';
+        }
+    };
+
     window._challengeSubmit = submitChallenge;
     window._challengeSaveDraft = saveDraft;
     window._challengeViewSubmission = viewSubmission;
