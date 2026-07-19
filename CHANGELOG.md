@@ -5,6 +5,26 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.140.0] - 2026-07-19
+
+### Added
+
+- **Game library search + difficulty filter** — search 135 games by title/topic, filter by Easy/Medium/Advanced (browser-verified).
+- **Time-to-complete on all 18 flagships** — hero chips (modules × 1.5h) and `timeRequired` in every Course JSON-LD.
+- **Structured data at the tail**: WebApplication JSON-LD on 31 studios, Article JSON-LD on all 22 Deep Dives + CollectionPage on the hub, CollectionPage on libraries.html.
+- **libraries.html now shows what its description promised** — Deep Dives, Timelines, and Practice Packs cards plus a search affordance.
+- **Blog conversion path** — honest, topic-matched course/catalog links on all 28 posts that had none.
+
+### Changed
+
+- Homepage: 13 nav accent links moved to WCAG-AA-passing shades (originals restored in dark mode); "New" badges legible (0.65rem) and capped at the two newest features; homepage stylesheet minified (225KB → 141KB).
+- Duplicate 101 hub removed: decks.html deleted, 95 inbound links repointed, 301s in place; deck cards' "Includes quiz" overclaim reworded to "Self-check drills".
+- Skip links on 28 studio/dive pages; hub back-links on the 12 studios missing them; mel-lab tab bar has real tab semantics.
+
+### Decided
+
+- No automated payment system, ever (owner decision — fees) — manual UPI remains the flow; "instant fulfilment" removed from the roadmap.
+
 ## [10.139.0] - 2026-07-19
 
 ### Added

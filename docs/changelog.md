@@ -2,6 +2,15 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.140.0 — July 19, 2026 (Findable games, honest hours, connected reading)
+
+### For Learners
+
+- **Search the game library** — find any of the 135 games by name or topic, and filter by difficulty to match your level.
+- **Every course tells you how long it takes** — all 18 flagship courses now show an honest hours estimate up front.
+- **Blog posts point you to the course** — every post now links the free course or deck that teaches its topic properly.
+- **The Libraries page shows everything** — Deep Dives, Timelines, and Practice Packs now have their own cards there.
+
 ## v10.139.0 — July 19, 2026 (Feedback, night reading, and browsable shelves)
 
 ### For Learners
