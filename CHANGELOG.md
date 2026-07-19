@@ -5,6 +5,14 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.134.1] - 2026-07-19
+
+### Changed
+
+- teach.html linked from site-chrome shared footer (every page) + homepage footer Learn column; site-chrome footer "Labs" label -> "Studios".
+- Removed `nav-sampling-toolkit` from the homepage Specials menu (reachable via Studios/catalog/search).
+- handouts.html stat tile counts HTML handouts only (89), matching the hero and canonical counts.
+
 ## [10.134.0] - 2026-07-19
 
 ### For Learners
