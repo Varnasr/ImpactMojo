@@ -425,10 +425,20 @@
         container.style.display = 'flex';
         container.innerHTML = certs.map(function (cert) {
           var date = new Date(cert.issued_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+          var issued = new Date(cert.issued_at);
+          var certUrl = cert.verification_url || ('https://www.impactmojo.in/verify-certificate.html?cert=' + cert.certificate_number);
+          var linkedInUrl = 'https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME' +
+            '&name=' + encodeURIComponent((cert.course_name || cert.course_id) + ' — ImpactMojo') +
+            '&organizationName=' + encodeURIComponent('ImpactMojo') +
+            '&issueYear=' + issued.getFullYear() +
+            '&issueMonth=' + (issued.getMonth() + 1) +
+            '&certUrl=' + encodeURIComponent(certUrl) +
+            '&certId=' + encodeURIComponent(cert.certificate_number);
           return '<div style="display:flex;align-items:center;gap:1rem;padding:0.75rem;background:var(--hover-bg);border-radius:8px;">' +
             '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#10B981" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' +
             '<div style="flex:1;"><div style="font-weight:500;font-size:0.9rem;">' + (cert.course_name || cert.course_id) + '</div>' +
             '<div style="font-size:0.75rem;color:var(--text-muted);">Issued ' + date + ' &middot; #' + cert.certificate_number + '</div></div>' +
+            '<a href="' + linkedInUrl + '" target="_blank" rel="noopener" style="font-size:0.75rem;color:var(--accent-color);white-space:nowrap;">Add to LinkedIn</a>' +
             (cert.verification_url ? '<a href="' + cert.verification_url + '" target="_blank" style="font-size:0.75rem;color:var(--accent-color);">Verify</a>' : '') +
             '</div>';
         }).join('');
