@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.144.0 — July 20, 2026 (Livelihoods lexicon now reachable)
+
+### For Learners
+
+- **The Livelihoods course lexicon is linked at last** — the 53-term interactive glossary has existed since v10.136.0, but the course page never linked to it. It's now in the sidebar and resource bar, same as every other flagship.
+
 ## v10.141.1 — July 19, 2026 (The numbers are right now)
 
 ### For Learners
