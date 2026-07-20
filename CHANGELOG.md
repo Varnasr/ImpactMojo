@@ -5,6 +5,12 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.144.0] - 2026-07-20
+
+### Fixed
+
+- **Livelihoods lexicon was unreachable from the course page**: `courses/livelihoods/lexicon.html` (53 terms) shipped in v10.136.0 alongside the Media and Power BI lexicons, but only those two got linked — the Livelihoods course sidebar, hero resource row, and its `courses/index.html` card never pointed to it. Added all three links; card-meta now shows "53 lexicon terms" like the other 17 flagships.
+
 ## [10.143.0] - 2026-07-19
 
 ### Fixed
