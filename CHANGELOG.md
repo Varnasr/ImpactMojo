@@ -5,6 +5,13 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.144.0] - 2026-07-20
+
+### Changed
+
+- **Weekly backend & repo upkeep — safe dependency refresh**: `@supabase/supabase-js` CDN pin bumped `2.49.1` → `2.110.7` across all 528 HTML/JS references (plus 2 page-generator templates) — release notes show only fixes/features, no breaking changes within the 2.x line. npm lockfiles refreshed within existing semver ranges: `@axe-core/cli`/`@axe-core/puppeteer`/`axe-core` `4.11.x` → `4.12.1` (root), `@playwright/test` `1.56.1` → `1.61.1` (`tests/visual`), `@modelcontextprotocol/sdk` `1.28.0` → `1.29.0` and `@types/node` `22.19.15` → `22.20.1` (`mcp-server`). All guard scripts (mojibake, i18n-quality, conflict-markers, internal-links, counts, book-companions, service-worker) re-verified PASS after the bump; `mcp-server` typechecks clean.
+- **Recommended, not applied** (major-version bumps, held for a deliberate upgrade + testing pass): Node 22 → 24 (Active LTS; `netlify.toml` + `package.json` engines), `actions/checkout@v4` → `@v7` on `post-discussion.yml`/`sync-wiki.yml` (rest of the workflows already on v7), `puppeteer` 24 → 25, `typescript` 5.9 → 7.0.
+
 ## [10.143.0] - 2026-07-19
 
 ### Fixed
