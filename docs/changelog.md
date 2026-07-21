@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.145.0 — July 21, 2026 (NFHS District Explorer)
+
+### For Learners
+
+- **NFHS District Explorer** — a new interactive data studio mapping how every one of India's 707 districts changed between the last two National Family Health Surveys (2015-16 → 2019-21). Pick from 105 real indicators — child stunting, anaemia, institutional births, immunisation, women's schooling, child marriage, sanitation and more — see the district map recolour, and read the best and worst movers. Every figure is sourced to the official district fact sheets, works on your phone, and reads offline once loaded.
+
 ## v10.144.0 — July 20, 2026 (Livelihoods lexicon now reachable)
 
 ### For Learners
