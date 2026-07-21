@@ -1,0 +1,1047 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NFHS District Explorer — India Health & Development Map | ImpactMojo</title>
+<meta name="description" content="An interactive, accessible choropleth of all 706 Indian districts across 105 National Family Health Survey indicators. See how child stunting, anaemia, sanitation, women's literacy and more changed between NFHS-4 (2015-16) and NFHS-5 (2019-21).">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://impactmojo.in/nfhs.html">
+
+<!-- Open Graph / social -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ImpactMojo">
+<meta property="og:title" content="NFHS District Explorer — India Health & Development Map">
+<meta property="og:description" content="Explore all 706 Indian districts across 105 NFHS indicators. See the change between NFHS-4 (2015-16) and NFHS-5 (2019-21) on an accessible, mobile-first map.">
+<meta property="og:url" content="https://impactmojo.in/nfhs.html">
+<meta property="og:image" content="https://impactmojo.in/assets/og-default.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="NFHS District Explorer — India Health & Development Map">
+<meta name="twitter:description" content="706 districts · 105 indicators · NFHS-4 → NFHS-5 change. A teaching-first, accessible data explorer from ImpactMojo.">
+
+<link rel="stylesheet" href="/css/fonts.css">
+<link rel="stylesheet" href="/css/imx-main.css">
+
+<!-- JSON-LD structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "NFHS District Explorer — India (NFHS-4 & NFHS-5)",
+  "description": "District-level values for 105 National Family Health Survey indicators across 706 Indian districts, comparing NFHS-4 (2015-16) and NFHS-5 (2019-21), visualised as an interactive choropleth map.",
+  "url": "https://impactmojo.in/nfhs.html",
+  "keywords": ["NFHS", "India", "public health", "districts", "child nutrition", "anaemia", "development"],
+  "creator": {"@type": "Organization", "name": "ImpactMojo", "url": "https://impactmojo.in"},
+  "isBasedOn": "https://rchiips.org",
+  "spatialCoverage": {"@type": "Place", "name": "India"},
+  "temporalCoverage": "2015-01-01/2021-12-31",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "citation": "IIPS/MoHFW National Family Health Survey (NFHS-4 2015-16 & NFHS-5 2019-21) district fact sheets, rchiips.org. Boundaries: 2011 Census districts (udit-001/india-maps-data, CC-BY)."
+}
+</script>
+
+<style>
+/* ============================================================
+   NFHS District Explorer — self-contained styles.
+   Own --nf-* tokens map to the site's imx-main.css vars and
+   also respond to prefers-color-scheme so the page works
+   standalone (light + dark) whether or not the site's theme
+   toggle JS is present.
+   ============================================================ */
+:root{
+  --nf-ink: var(--text-primary, #0F172A);
+  --nf-ink-soft: var(--text-secondary, #475569);
+  --nf-muted: var(--text-muted, #52627A);
+  --nf-paper: var(--primary-bg, #FFFFFF);
+  --nf-paper-soft: var(--secondary-bg, #F8FAFC);
+  --nf-card: var(--card-bg, #FFFFFF);
+  --nf-border: var(--border-color, #E2E8F0);
+  --nf-accent: var(--accent-color, #0EA5E9);
+  --nf-accent-strong: #0369A1;
+  --nf-hover: var(--hover-bg, #F1F5F9);
+  --nf-good: #0d9488;
+  --nf-bad: #e11d48;
+  --nf-nodata: #d7dde3;
+  --nf-grid: rgba(15,23,42,.08);
+  --nf-focus: #0EA5E9;
+  --nf-shadow: 0 1px 3px rgba(15,23,42,.10), 0 8px 24px rgba(15,23,42,.06);
+  --nf-radius: 12px;
+}
+/* Standalone dark (no site theme JS present) */
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]):not(.im-force-light){
+    --nf-ink:#F1F5F9; --nf-ink-soft:#CBD5E1; --nf-muted:#94A3B8;
+    --nf-paper:#0F172A; --nf-paper-soft:#1E293B; --nf-card:#1E293B;
+    --nf-border:#334155; --nf-hover:#334155; --nf-nodata:#3a4759;
+    --nf-grid:rgba(226,232,240,.12); --nf-accent-strong:#38BDF8;
+    --nf-shadow:0 1px 3px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+  }
+}
+/* Site-driven dark (class or attribute) always wins */
+body.dark-mode, [data-theme="dark"]{
+  --nf-ink:#F1F5F9; --nf-ink-soft:#CBD5E1; --nf-muted:#94A3B8;
+  --nf-paper:#0F172A; --nf-paper-soft:#1E293B; --nf-card:#1E293B;
+  --nf-border:#334155; --nf-hover:#334155; --nf-nodata:#3a4759;
+  --nf-grid:rgba(226,232,240,.12); --nf-accent-strong:#38BDF8;
+  --nf-shadow:0 1px 3px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body.nf-body{
+  margin:0; background:var(--nf-paper); color:var(--nf-ink);
+  font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  font-size:1rem; line-height:1.55; overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+@media (max-width:768px){ body.nf-body{ font-size:.94rem; } }
+
+.nf-wrap{ max-width:1240px; margin:0 auto; padding:0 clamp(14px,3vw,28px); }
+
+a{ color:var(--nf-accent-strong); }
+:focus-visible{ outline:3px solid var(--nf-focus); outline-offset:2px; border-radius:6px; }
+
+/* ---- Skip link ---- */
+.nf-skip{ position:absolute; left:-999px; top:0; background:var(--nf-accent);
+  color:#fff; padding:10px 16px; z-index:50; border-radius:0 0 8px 0; font-weight:600; }
+.nf-skip:focus{ left:0; }
+
+/* ---- Header ---- */
+.nf-top{ border-bottom:1px solid var(--nf-border); background:var(--nf-paper);
+  position:sticky; top:0; z-index:20; }
+.nf-top .nf-wrap{ display:flex; align-items:center; justify-content:space-between;
+  gap:12px; min-height:60px; }
+.nf-brand{ font-family:'Amaranth','Inter',sans-serif; font-weight:700;
+  font-size:1.15rem; color:var(--nf-ink); text-decoration:none; letter-spacing:.2px; }
+.nf-brand span{ color:var(--nf-accent-strong); }
+.nf-back{ font-size:.9rem; font-weight:600; text-decoration:none; color:var(--nf-ink-soft);
+  padding:8px 12px; border:1px solid var(--nf-border); border-radius:8px; min-height:40px;
+  display:inline-flex; align-items:center; gap:6px; }
+.nf-back:hover{ background:var(--nf-hover); color:var(--nf-ink); }
+
+/* ---- Hero ---- */
+.nf-hero{ padding:clamp(22px,4vw,40px) 0 8px; }
+.nf-eyebrow{ font-family:'Amaranth',sans-serif; text-transform:uppercase; letter-spacing:1.5px;
+  font-size:.75rem; font-weight:700; color:var(--nf-accent-strong); margin:0 0 8px; }
+.nf-hero h1{ font-family:'Amaranth','Inter',sans-serif; font-weight:700; margin:0 0 10px;
+  font-size:clamp(1.6rem,4.4vw,2.5rem); line-height:1.12; letter-spacing:-.5px; }
+.nf-hero p.lede{ margin:0; max-width:70ch; color:var(--nf-ink-soft); font-size:1.02rem; }
+.nf-stats{ display:flex; flex-wrap:wrap; gap:10px 22px; margin:16px 0 0; padding:0; list-style:none; }
+.nf-stats li{ font-size:.88rem; color:var(--nf-muted); }
+.nf-stats b{ color:var(--nf-ink); font-weight:700; font-size:1.05rem; display:block; }
+
+/* ---- How-to callout (persistent) ---- */
+.nf-howto{ margin:18px 0 6px; border:1px solid var(--nf-border);
+  border-left:4px solid var(--nf-accent); background:var(--nf-paper-soft);
+  border-radius:var(--nf-radius); padding:14px 16px; }
+.nf-howto h2{ font-size:.98rem; margin:0 0 6px; font-family:'Amaranth',sans-serif;
+  display:flex; align-items:center; gap:8px; }
+.nf-howto ul{ margin:6px 0 0; padding-left:20px; color:var(--nf-ink-soft); font-size:.9rem; }
+.nf-howto li{ margin:3px 0; }
+
+/* ---- Controls ---- */
+.nf-controls{ margin:16px 0; display:grid; gap:14px; }
+.nf-field label{ display:block; font-weight:700; font-size:.82rem; margin:0 0 6px;
+  color:var(--nf-ink); text-transform:uppercase; letter-spacing:.5px; }
+.nf-modes{ display:inline-flex; flex-wrap:wrap; gap:0; border:1px solid var(--nf-border);
+  border-radius:10px; overflow:hidden; background:var(--nf-card); }
+.nf-modes button{ appearance:none; border:0; background:transparent; color:var(--nf-ink-soft);
+  font:inherit; font-weight:600; font-size:.9rem; padding:11px 16px; min-height:44px; cursor:pointer;
+  border-right:1px solid var(--nf-border); }
+.nf-modes button:last-child{ border-right:0; }
+.nf-modes button[aria-pressed="true"]{ background:var(--nf-accent); color:#fff; }
+.nf-modes button:hover{ background:var(--nf-hover); }
+.nf-modes button[aria-pressed="true"]:hover{ background:var(--nf-accent-strong); }
+
+.nf-row{ display:flex; flex-wrap:wrap; gap:14px; align-items:flex-end; }
+.nf-row .nf-field{ flex:1 1 260px; min-width:0; }
+select.nf-select, input.nf-input{ width:100%; font:inherit; font-size:.95rem;
+  padding:11px 12px; min-height:44px; border:1px solid var(--nf-border); border-radius:10px;
+  background:var(--nf-card); color:var(--nf-ink); }
+select.nf-select{ cursor:pointer; }
+
+/* ---- Hero chips ---- */
+.nf-chips{ display:flex; flex-wrap:wrap; gap:8px; }
+.nf-chip{ appearance:none; border:1px solid var(--nf-border); background:var(--nf-card);
+  color:var(--nf-ink-soft); font:inherit; font-weight:600; font-size:.82rem; padding:8px 13px;
+  min-height:38px; border-radius:999px; cursor:pointer; white-space:nowrap; }
+.nf-chip:hover{ background:var(--nf-hover); color:var(--nf-ink); border-color:var(--nf-accent); }
+.nf-chip[aria-pressed="true"]{ background:var(--nf-accent-strong); border-color:var(--nf-accent-strong); color:#fff; }
+
+/* ---- Indicator meaning line ---- */
+.nf-meaning{ margin:14px 0 0; padding:14px 16px; border:1px solid var(--nf-border);
+  border-radius:var(--nf-radius); background:var(--nf-card); box-shadow:var(--nf-shadow); }
+.nf-meaning .nf-mtitle{ font-family:'Amaranth',sans-serif; font-weight:700; font-size:1.05rem;
+  margin:0 0 4px; }
+.nf-meaning .nf-mwhy{ margin:0 0 6px; color:var(--nf-ink-soft); font-size:.95rem; }
+.nf-meaning .nf-mmeta{ font-size:.8rem; color:var(--nf-muted); margin:0; }
+.nf-links{ margin:10px 0 0; display:flex; flex-wrap:wrap; gap:8px; }
+.nf-links a{ font-size:.8rem; font-weight:600; text-decoration:none; padding:6px 11px;
+  border:1px solid var(--nf-border); border-radius:8px; background:var(--nf-paper-soft);
+  color:var(--nf-accent-strong); min-height:34px; display:inline-flex; align-items:center; }
+.nf-links a:hover{ background:var(--nf-hover); }
+
+/* ---- Main grid ---- */
+.nf-grid{ display:grid; grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);
+  gap:20px; margin:20px 0; align-items:start; }
+@media (max-width:900px){ .nf-grid{ grid-template-columns:1fr; } }
+
+.nf-panel{ background:var(--nf-card); border:1px solid var(--nf-border);
+  border-radius:var(--nf-radius); box-shadow:var(--nf-shadow); padding:16px; }
+.nf-panel h2{ font-family:'Amaranth',sans-serif; font-size:1.1rem; margin:0 0 10px; }
+.nf-panel h3{ font-size:.95rem; margin:14px 0 8px; }
+
+/* ---- Map ---- */
+.nf-maphead{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px; margin-bottom:10px; }
+.nf-mapwrap{ position:relative; }
+svg.nf-map{ width:100%; max-width:100%; height:auto; display:block;
+  background:var(--nf-paper-soft); border-radius:8px; }
+svg.nf-map path{ stroke:var(--nf-border); stroke-width:.4; cursor:pointer;
+  transition:opacity .12s ease, stroke-width .12s ease; }
+svg.nf-map path:hover, svg.nf-map path:focus{ stroke:var(--nf-ink); stroke-width:1.4; outline:none; }
+svg.nf-map path.nf-selected{ stroke:var(--nf-ink); stroke-width:1.8; }
+svg.nf-map path.nf-dim{ opacity:.28; }
+
+/* ---- Tooltip ---- */
+.nf-tip{ position:fixed; z-index:40; pointer-events:none; max-width:240px;
+  background:var(--nf-ink); color:var(--nf-paper); padding:9px 11px; border-radius:8px;
+  font-size:.8rem; line-height:1.4; box-shadow:0 6px 20px rgba(0,0,0,.3); opacity:0;
+  transition:opacity .1s ease; }
+.nf-tip.on{ opacity:1; }
+.nf-tip b{ display:block; font-size:.85rem; margin-bottom:2px; }
+.nf-tip .nf-tstate{ opacity:.75; font-size:.72rem; }
+.nf-tip dl{ margin:6px 0 0; display:grid; grid-template-columns:auto auto; gap:1px 10px; }
+.nf-tip dt{ opacity:.7; } .nf-tip dd{ margin:0; text-align:right; font-variant-numeric:tabular-nums; }
+
+/* ---- Legend ---- */
+.nf-legend{ margin:12px 0 0; }
+.nf-legend .nf-lgtitle{ font-size:.78rem; font-weight:700; color:var(--nf-muted);
+  text-transform:uppercase; letter-spacing:.5px; margin:0 0 6px; }
+.nf-legbar{ display:flex; flex-wrap:wrap; gap:2px; }
+.nf-legbar .nf-swatch{ display:flex; flex-direction:column; align-items:stretch; min-width:44px; flex:1 1 44px; }
+.nf-legbar .nf-sw{ height:16px; border:1px solid rgba(0,0,0,.06); }
+.nf-legbar .nf-sl{ font-size:.66rem; color:var(--nf-muted); text-align:center; margin-top:3px;
+  font-variant-numeric:tabular-nums; }
+.nf-legnote{ font-size:.76rem; color:var(--nf-muted); margin:6px 0 0; display:flex; align-items:center; gap:6px; }
+.nf-legnote .nf-nd{ width:14px; height:14px; display:inline-block; border-radius:3px;
+  background:var(--nf-nodata); border:1px solid var(--nf-border); }
+
+/* ---- Search ---- */
+.nf-search{ margin:0 0 10px; }
+
+/* ---- Detail panel ---- */
+.nf-detail .nf-dempty{ color:var(--nf-muted); font-size:.9rem; margin:6px 0 0; }
+.nf-dhead b{ font-size:1.05rem; } .nf-dhead .nf-dstate{ color:var(--nf-muted); font-size:.85rem; }
+.nf-dnote{ font-size:.78rem; color:var(--nf-bad); margin:4px 0 0; font-weight:600; }
+.nf-bars{ margin:12px 0 0; display:grid; gap:9px; }
+.nf-bar{ font-size:.8rem; }
+.nf-bar .nf-blabel{ display:flex; justify-content:space-between; gap:8px; margin-bottom:3px; }
+.nf-bar .nf-blabel .nf-bn{ color:var(--nf-ink-soft); }
+.nf-bar .nf-blabel .nf-bv{ font-variant-numeric:tabular-nums; font-weight:600; white-space:nowrap; }
+.nf-track{ position:relative; height:16px; background:var(--nf-paper-soft);
+  border-radius:5px; overflow:hidden; border:1px solid var(--nf-border); }
+.nf-fill4{ position:absolute; left:0; top:0; height:50%; background:var(--nf-muted); opacity:.55; }
+.nf-fill5{ position:absolute; left:0; bottom:0; height:50%; }
+.nf-updown{ font-weight:700; }
+.nf-up{ color:var(--nf-good); } .nf-down{ color:var(--nf-bad); } .nf-flat{ color:var(--nf-muted); }
+.nf-blegend{ font-size:.72rem; color:var(--nf-muted); margin:8px 0 0; display:flex; gap:14px; flex-wrap:wrap; }
+.nf-blegend span{ display:inline-flex; align-items:center; gap:5px; }
+.nf-swk{ width:12px; height:8px; display:inline-block; border-radius:2px; }
+
+/* ---- Rankings ---- */
+.nf-ranks{ display:grid; gap:16px; }
+.nf-ranklist{ list-style:none; margin:6px 0 0; padding:0; }
+.nf-ranklist li{ display:flex; align-items:center; gap:8px; padding:7px 8px; border-radius:7px;
+  border:1px solid transparent; cursor:pointer; font-size:.85rem; }
+.nf-ranklist li:hover{ background:var(--nf-hover); border-color:var(--nf-border); }
+.nf-ranklist .nf-rk{ width:22px; text-align:right; color:var(--nf-muted); font-variant-numeric:tabular-nums; }
+.nf-ranklist .nf-rn{ flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.nf-ranklist .nf-rn small{ color:var(--nf-muted); }
+.nf-ranklist .nf-rv{ font-variant-numeric:tabular-nums; font-weight:700; white-space:nowrap; }
+
+/* ---- Data table (accessible alternative) ---- */
+.nf-tableview{ margin:6px 0 20px; }
+.nf-tablewrap{ overflow-x:auto; border:1px solid var(--nf-border); border-radius:var(--nf-radius); }
+table.nf-table{ border-collapse:collapse; width:100%; min-width:520px; font-size:.86rem; }
+table.nf-table caption{ text-align:left; padding:10px 12px; font-weight:600; color:var(--nf-ink-soft); }
+table.nf-table th, table.nf-table td{ padding:8px 12px; text-align:left; border-bottom:1px solid var(--nf-border); }
+table.nf-table th{ background:var(--nf-paper-soft); position:sticky; top:0; cursor:pointer; white-space:nowrap; }
+table.nf-table td.num{ text-align:right; font-variant-numeric:tabular-nums; }
+table.nf-table tbody tr:hover{ background:var(--nf-hover); }
+
+.nf-toggle{ appearance:none; border:1px solid var(--nf-border); background:var(--nf-card);
+  color:var(--nf-ink); font:inherit; font-weight:600; font-size:.82rem; padding:9px 13px;
+  min-height:40px; border-radius:8px; cursor:pointer; }
+.nf-toggle:hover{ background:var(--nf-hover); }
+.nf-toggle[aria-expanded="true"]{ background:var(--nf-accent); border-color:var(--nf-accent); color:#fff; }
+
+/* ---- Footer / caveats ---- */
+.nf-foot{ border-top:1px solid var(--nf-border); background:var(--nf-paper-soft);
+  margin-top:26px; padding:22px 0 40px; }
+.nf-foot h2{ font-size:1rem; font-family:'Amaranth',sans-serif; margin:0 0 8px; }
+.nf-foot p, .nf-foot li{ font-size:.82rem; color:var(--nf-muted); }
+.nf-foot ul{ margin:6px 0; padding-left:20px; }
+.nf-foot .nf-cred{ margin-top:14px; font-size:.78rem; }
+
+.nf-sr{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden;
+  clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+[hidden]{ display:none !important; }
+
+@media (prefers-reduced-motion:reduce){
+  *{ transition:none !important; scroll-behavior:auto !important; }
+}
+</style>
+
+<body class="nf-body">
+<a class="nf-skip" href="#nf-main">Skip to the explorer</a>
+
+<header class="nf-top">
+  <div class="nf-wrap">
+    <a class="nf-brand" href="/">Impact<span>Mojo</span></a>
+    <a class="nf-back" href="/Labs/" aria-label="Back to Studios and Labs">← Studios &amp; Labs</a>
+  </div>
+</header>
+
+<main id="nf-main">
+  <div class="nf-wrap">
+
+    <section class="nf-hero">
+      <p class="nf-eyebrow">ImpactMojo Studio</p>
+      <h1>NFHS District Explorer</h1>
+      <p class="lede">How did India's districts change between two national health surveys? Explore
+        <strong>105 indicators</strong> across <strong>706 districts</strong> — child nutrition, anaemia,
+        sanitation, women's literacy, immunisation and more — and see where things got better or worse
+        between <strong>NFHS-4 (2015-16)</strong> and <strong>NFHS-5 (2019-21)</strong>.</p>
+      <ul class="nf-stats" aria-hidden="true">
+        <li><b id="nf-stat-d">706</b> districts</li>
+        <li><b>105</b> indicators</li>
+        <li><b>19</b> themes</li>
+        <li><b>2</b> survey rounds</li>
+      </ul>
+    </section>
+
+    <div class="nf-howto">
+      <h2>▸ How to read this map</h2>
+      <ul>
+        <li><strong>Each shape is a district.</strong> Its colour shows the value of the indicator you pick.</li>
+        <li id="nf-howto-mode"><strong>Change mode (default):</strong> <span class="nf-good" style="font-weight:700">teal</span> = the district <em>improved</em> since NFHS-4; <span class="nf-bad" style="font-weight:700">coral</span> = it <em>worsened</em>. Deeper colour = bigger change.</li>
+        <li><strong>Hover, tap, or keyboard-focus</strong> a district for its numbers; <strong>click</strong> it to open a detailed before/after panel on the right.</li>
+        <li>Grey districts have <strong>no data</strong> for this indicator. Prefer text? Use <em>View as table</em>.</li>
+      </ul>
+    </div>
+
+    <!-- Controls -->
+    <div class="nf-controls">
+      <div class="nf-field">
+        <label id="nf-modelabel">Compare</label>
+        <div class="nf-modes" role="group" aria-labelledby="nf-modelabel">
+          <button type="button" data-mode="change" aria-pressed="true">Change since NFHS-4</button>
+          <button type="button" data-mode="n5" aria-pressed="false">NFHS-5 (2019-21)</button>
+          <button type="button" data-mode="n4" aria-pressed="false">NFHS-4 (2015-16)</button>
+        </div>
+        <p id="nf-modenote" class="nf-mmeta" style="margin:8px 0 0;color:var(--nf-warning,#b45309);font-weight:600;" hidden></p>
+      </div>
+
+      <div class="nf-row">
+        <div class="nf-field">
+          <label for="nf-indicator">Indicator</label>
+          <select id="nf-indicator" class="nf-select" aria-describedby="nf-meaning-why"></select>
+        </div>
+      </div>
+
+      <div class="nf-field">
+        <label id="nf-chiplabel">Quick picks — 12 headline indicators</label>
+        <div class="nf-chips" role="group" aria-labelledby="nf-chiplabel" id="nf-chips"></div>
+      </div>
+    </div>
+
+    <!-- Indicator meaning -->
+    <div class="nf-meaning" aria-live="polite">
+      <p class="nf-mtitle" id="nf-meaning-title">—</p>
+      <p class="nf-mwhy" id="nf-meaning-why">—</p>
+      <p class="nf-mmeta" id="nf-meaning-meta">—</p>
+      <nav class="nf-links" id="nf-links" aria-label="Related ImpactMojo courses"></nav>
+    </div>
+
+    <!-- Main grid -->
+    <div class="nf-grid">
+      <!-- MAP -->
+      <section class="nf-panel" aria-labelledby="nf-map-h">
+        <div class="nf-maphead">
+          <h2 id="nf-map-h" style="margin:0;">District map</h2>
+          <button type="button" class="nf-toggle" id="nf-tabletoggle" aria-expanded="false" aria-controls="nf-tableview">View as table</button>
+        </div>
+        <div class="nf-mapwrap">
+          <svg class="nf-map" id="nf-svg" role="img" aria-labelledby="nf-svg-title nf-svg-desc" preserveAspectRatio="xMidYMid meet">
+            <title id="nf-svg-title">Choropleth map of Indian districts</title>
+            <desc id="nf-svg-desc">Colour-coded map. Use View as table for an accessible text alternative of every district value.</desc>
+          </svg>
+        </div>
+
+        <!-- Legend -->
+        <div class="nf-legend">
+          <p class="nf-lgtitle" id="nf-legtitle">Legend</p>
+          <div class="nf-legbar" id="nf-legbar"></div>
+          <p class="nf-legnote"><span class="nf-nd" aria-hidden="true"></span> No data for this indicator</p>
+        </div>
+
+        <!-- Accessible table alternative -->
+        <div class="nf-tableview" id="nf-tableview" hidden>
+          <div class="nf-tablewrap">
+            <table class="nf-table" id="nf-table">
+              <caption id="nf-table-cap">District values</caption>
+              <thead>
+                <tr>
+                  <th scope="col" data-sort="name" aria-sort="ascending">District</th>
+                  <th scope="col" data-sort="state">State/UT</th>
+                  <th scope="col" data-sort="n4" class="num">NFHS-4</th>
+                  <th scope="col" data-sort="n5" class="num">NFHS-5</th>
+                  <th scope="col" data-sort="chg" class="num">Change</th>
+                </tr>
+              </thead>
+              <tbody id="nf-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- SIDE: search + detail + rankings -->
+      <aside>
+        <section class="nf-panel nf-detail" aria-labelledby="nf-detail-h" style="margin-bottom:20px;">
+          <h2 id="nf-detail-h">District detail</h2>
+          <div class="nf-search">
+            <label for="nf-searchbox" class="nf-sr">Search for a district</label>
+            <input type="text" id="nf-searchbox" class="nf-input" list="nf-districts"
+                   placeholder="Search a district… e.g. Lucknow, Uttar Pradesh"
+                   autocomplete="off" aria-describedby="nf-detail-h">
+            <datalist id="nf-districts"></datalist>
+          </div>
+          <div id="nf-detail-body">
+            <p class="nf-dempty">Click a district on the map, search above, or pick one from the rankings to see its
+              12 headline indicators change from NFHS-4 to NFHS-5.</p>
+          </div>
+        </section>
+
+        <section class="nf-panel" aria-labelledby="nf-rank-h">
+          <h2 id="nf-rank-h">Rankings</h2>
+          <p style="font-size:.82rem;color:var(--nf-muted);margin:0 0 4px;" id="nf-rank-sub">Across all 706 districts</p>
+          <div class="nf-ranks">
+            <div>
+              <h3 id="nf-top-h">Top 10 — best</h3>
+              <ol class="nf-ranklist" id="nf-top" aria-labelledby="nf-top-h"></ol>
+            </div>
+            <div>
+              <h3 id="nf-bot-h">Bottom 10 — needs attention</h3>
+              <ol class="nf-ranklist" id="nf-bot" aria-labelledby="nf-bot-h"></ol>
+            </div>
+          </div>
+        </section>
+      </aside>
+    </div>
+
+  </div>
+
+  <!-- Footer: caveats + source (always visible) -->
+  <footer class="nf-foot">
+    <div class="nf-wrap">
+      <h2>Sources &amp; caveats</h2>
+      <ul>
+        <li><strong>Data:</strong> <span id="nf-src">IIPS/MoHFW NFHS district fact sheets</span>. NFHS-5 was fielded in <strong>2019-21</strong>; NFHS-4 in <strong>2015-16</strong>. Where a district reports only one round, the change cannot be shown.</li>
+        <li><strong>Boundaries:</strong> <span id="nf-geo">2011 Census district boundaries</span>. Districts created or split after 2011 are matched to their parent where possible.</li>
+        <li><strong>12 districts are table-only:</strong> Delhi's 11 sub-districts and Mumbai Suburban have survey data but no 2011 map polygon, so they appear in the rankings, search and table — but not shaded on the map.</li>
+        <li><strong>Read colours with the indicator's direction in mind.</strong> For some indicators a higher number is good (literacy, sanitation); for others it is bad (stunting, child marriage). The map already flips the palette so that better outcomes read the same way — but a few indicators (e.g. sex ratio) are "direction not evaluated" and shown on a neutral diverging scale.</li>
+        <li>Values are survey estimates with sampling error; small district-to-district differences may not be meaningful. Use this as a teaching and screening tool, not a definitive ranking.</li>
+      </ul>
+      <p class="nf-cred">Built by <a href="/">ImpactMojo</a> · a free development-education platform for South Asia · data is
+        offline-capable once loaded · <a href="/Labs/">More Studios &amp; Labs</a></p>
+    </div>
+  </footer>
+</main>
+
+<div class="nf-tip" id="nf-tip" role="status" aria-live="off"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------------- constants / teaching content ---------------- */
+// Short labels + plain-language "why it matters" for the 12 hero indicators (by catalog id)
+var HERO_INFO = {
+  72:{short:"Child stunting", why:"Share of under-5 children too short for their age — a marker of chronic undernutrition in the first 1,000 days of life. Lower is better."},
+  73:{short:"Child wasting",  why:"Share of under-5 children too thin for their height — a sign of acute, recent undernutrition or illness. Lower is better."},
+  75:{short:"Underweight",    why:"Share of under-5 children weighing too little for their age — a combined signal of chronic and acute undernutrition."},
+  80:{short:"Child anaemia",  why:"Share of children 6-59 months with low blood haemoglobin, which slows growth and impairs learning. Lower is better."},
+  83:{short:"Women's anaemia",why:"Share of women 15-49 who are anaemic — linked to fatigue, poor pregnancy outcomes and lost productivity. Lower is better."},
+  41:{short:"Institutional births", why:"Share of births in a health facility, where obstetric emergencies can be managed — a key driver of lower maternal deaths. Higher is better."},
+  48:{short:"Full immunisation",   why:"Share of 1-2 year-olds who received all basic childhood vaccines — the frontline defence against preventable disease."},
+  14:{short:"Women's schooling",   why:"Share of women with 10 or more years of schooling — secondary education is one of the strongest predictors of later marriage, better family health and higher household income. Higher is better."},
+  15:{short:"Child marriage",      why:"Share of women 20-24 married before 18 — child marriage cuts short schooling and raises health risks. Lower is better."},
+  8: {short:"Sanitation",          why:"Share of people living in households with an improved toilet — central to preventing disease and protecting dignity. Higher is better."},
+  9: {short:"Clean cooking fuel",  why:"Share of households cooking with clean fuel rather than wood or dung, cutting deadly household air pollution. Higher is better."},
+  11:{short:"Health insurance",    why:"Share of households with any member covered by a health scheme — a buffer against catastrophic medical bills. Higher is better."}
+};
+// Which ImpactMojo course each hero indicator links to
+var COURSE_MAP = {
+  72:["gender","mel"], 73:["mel"], 75:["gender","mel"], 80:["nothing-about-us","mel"],
+  83:["gender","nothing-about-us"], 41:["nothing-about-us","gender"], 48:["nothing-about-us","mel"],
+  14:["gender"], 15:["gender"], 8:["devecon"], 9:["devecon"], 11:["devecon","nothing-about-us"]
+};
+var COURSE_LABEL = {
+  gender:"Gender & Development", devecon:"Development Economics",
+  mel:"Monitoring, Evaluation & Learning", "nothing-about-us":"Disability & Health"
+};
+// Category -> a course, for non-hero indicators
+var CAT_COURSE = {
+  "Anaemia among Children and Women":["nothing-about-us"],
+  "Child Feeding Practices and Nutritional Status of Children":["gender","mel"],
+  "Nutritional Status of Women":["gender"],
+  "Characteristics of Women":["gender"], "Marriage and Fertility":["gender"],
+  "Population and Household Profile":["devecon"], "Delivery Care":["nothing-about-us"],
+  "Maternal and Child Health":["nothing-about-us"], "Child Vaccinations and Vitamin A Supplementation":["nothing-about-us"],
+  "Current Use of Family Planning Methods":["gender"], "Unmet Need for Family Planning":["gender"],
+  "Quality of Family Planning Services":["mel"], "Screening for Cancer among Women":["nothing-about-us"],
+  "Tobacco Use and Alcohol Consumption among Adults":["nothing-about-us"],
+  "Hypertension among women":["nothing-about-us"], "Hypertension among men":["nothing-about-us"],
+  "Blood Sugar Level among women":["nothing-about-us"], "Blood Sugar Level among men":["nothing-about-us"],
+  "Treatment of Childhood Diseases":["nothing-about-us"]
+};
+
+// Sequential ramps (light -> dark). dark end = high raw value.
+var RAMP_BAD  = ["#fee5d3","#fdc196","#fb9a5b","#f4703a","#d84420","#a52309"]; // high = bad (reds)
+var RAMP_GOOD = ["#e3f5ef","#b5e5d5","#7fd0b6","#45b393","#1c8f70","#0a6b4f"]; // high = good (teal-green)
+var RAMP_NEUTRAL = ["#eaf1fb","#c9dcf3","#9dc0e8","#6a9bd8","#3f74c0","#26538f"]; // neutral (blue)
+// Diverging change ramps: [worse... , neutral, ...better]
+var DIV_VAL = ["#9f1239","#e11d48","#fb7185","#fecdd3","#e9edf1","#99f6e4","#2dd4bf","#0d9488","#115e59"];
+var DIV_RAW = ["#9a3412","#ea580c","#fdba74","#fed7aa","#e9edf1","#bfdbfe","#60a5fa","#2563eb","#1e3a8a"];
+
+var NODATA = "#d7dde3";
+
+/* ---------------- state ---------------- */
+var CAT, HERO, DATA, GEO, records, byGeoKey, indicatorId, mode="change";
+var pathEls = {}; // geoKey -> <path>
+var scale = null;
+var svgNS = "http://www.w3.org/2000/svg";
+
+/* ---------------- fetch ---------------- */
+Promise.all([
+  fetch("/data/nfhs/nfhs-districts.json").then(function(r){ if(!r.ok) throw new Error("nfhs data "+r.status); return r.json(); }),
+  fetch("/data/nfhs/india-districts-geo.json").then(function(r){ if(!r.ok) throw new Error("geo "+r.status); return r.json(); })
+]).then(function(res){
+  var nf=res[0]; GEO=res[1];
+  CAT=nf.catalog; HERO=nf.hero; DATA=nf.data;
+  document.getElementById("nf-src").textContent = nf.meta.source;
+  document.getElementById("nf-geo").textContent = nf.meta.geometry;
+  document.getElementById("nf-stat-d").textContent = nf.meta.districts;
+  init();
+}).catch(function(err){
+  var m=document.getElementById("nf-main");
+  var d=document.createElement("div"); d.className="nf-wrap";
+  d.style.padding="30px 0";
+  d.innerHTML="<p style='color:#e11d48;font-weight:600'>Sorry — the NFHS data could not be loaded ("+
+    (err&&err.message?err.message:"unknown error")+"). Please refresh.</p>";
+  m.insertBefore(d, m.firstChild);
+  if(window.console) console.error(err);
+});
+
+/* ---------------- init ---------------- */
+function init(){
+  // Build record list + geoKey index
+  records = [];
+  byGeoKey = {};
+  for(var key in DATA){
+    var rec = DATA[key]; rec._key = key; records.push(rec);
+    if(rec.m) byGeoKey[rec.m] = rec;
+  }
+  indicatorId = HERO[0]; // stunting
+
+  buildIndicatorSelect();
+  buildChips();
+  buildDatalist();
+  buildMapPaths();
+  bindControls();
+
+  render(); // colours + legend + meaning + rankings + table
+}
+
+/* ---------------- value helpers ---------------- */
+function valueFor(rec, catId, m){
+  var pair = rec.v[catId]; if(!pair) return null;
+  var n5=pair[0], n4=pair[1];
+  if(m==="n5") return (n5==null?null:n5);
+  if(m==="n4") return (n4==null?null:n4);
+  // change: improvement-oriented
+  if(n5==null||n4==null) return null;
+  var dir=CAT[catId].dir;
+  if(dir===0) return n5-n4;              // raw change, not valenced
+  return dir===-1 ? (n4-n5) : (n5-n4);   // positive = improvement
+}
+// value used for colouring the map (raw level, or improvement for change)
+function colorValue(rec, catId, m){ return valueFor(rec, catId, m); }
+// score for ranking: higher = better outcome
+function rankScore(rec, catId, m){
+  var v = valueFor(rec, catId, m); if(v===null) return null;
+  if(m==="change") return v; // improvement (dir=0 raw)
+  var dir=CAT[catId].dir;
+  return dir===-1 ? -v : v;
+}
+// raw NFHS-5 / NFHS-4 numbers regardless of mode
+function raw(rec, catId){ var p=rec.v[catId]; return p?{n5:p[0],n4:p[1]}:{n5:null,n4:null}; }
+
+function unitOf(catId){ return CAT[catId].unit || ""; }
+function fmt(v, catId){
+  if(v==null||isNaN(v)) return "—";
+  var u=unitOf(catId);
+  if(u==="ratio") return Math.round(v).toLocaleString("en-IN");
+  var s=(Math.abs(v)>=100?Math.round(v):Math.round(v*10)/10);
+  return s + (u==="%"?"%":"");
+}
+function fmtChange(v, catId){
+  if(v==null||isNaN(v)) return "—";
+  var u=unitOf(catId);
+  var sign=v>0?"+":"";
+  if(u==="ratio") return sign+Math.round(v).toLocaleString("en-IN");
+  return sign+(Math.round(v*10)/10)+(u==="%"?" pp":"");
+}
+
+/* ---------------- scale ---------------- */
+function quantiles(sorted, n){
+  var b=[];
+  for(var i=1;i<n;i++){ b.push(sorted[Math.min(sorted.length-1, Math.floor(i/n*sorted.length))]); }
+  return b;
+}
+function buildScale(){
+  var dir=CAT[indicatorId].dir;
+  var vals=[];
+  for(var i=0;i<records.length;i++){
+    var v=colorValue(records[i], indicatorId, mode);
+    if(v!=null && !isNaN(v)) vals.push(v);
+  }
+  vals.sort(function(a,b){return a-b;});
+
+  if(mode==="change"){
+    // diverging, symmetric around 0
+    var ramp = dir===0 ? DIV_RAW : DIV_VAL;
+    var abs=vals.map(Math.abs).sort(function(a,b){return a-b;});
+    var t = abs.length? abs[Math.floor(0.90*(abs.length-1))] : 1;
+    if(t<=0) t = abs.length? (abs[abs.length-1]||1) : 1;
+    // breakpoints for 9-colour diverging ramp (8 boundaries)
+    var bp=[-t*0.66,-t*0.33,-t*0.10,-1e-9,1e-9,t*0.10,t*0.33,t*0.66];
+    scale={ type:"div", ramp:ramp, bp:bp, t:t, dir:dir,
+      color:function(v){ if(v==null||isNaN(v)) return NODATA;
+        for(var k=0;k<bp.length;k++){ if(v<=bp[k]) return ramp[k]; } return ramp[ramp.length-1]; }
+    };
+  } else {
+    var ramp2 = dir===-1?RAMP_BAD : (dir===1?RAMP_GOOD:RAMP_NEUTRAL);
+    var breaks = vals.length? quantiles(vals, ramp2.length) : [];
+    scale={ type:"seq", ramp:ramp2, breaks:breaks, dir:dir,
+      color:function(v){ if(v==null||isNaN(v)) return NODATA;
+        for(var k=0;k<breaks.length;k++){ if(v<=breaks[k]) return ramp2[k]; } return ramp2[ramp2.length-1]; }
+    };
+  }
+}
+
+/* ---------------- build UI ---------------- */
+function buildIndicatorSelect(){
+  var sel=document.getElementById("nf-indicator");
+  var groups={};
+  for(var i=0;i<CAT.length;i++){ (groups[CAT[i].cat]=groups[CAT[i].cat]||[]).push(CAT[i]); }
+  var cats=Object.keys(groups).sort();
+  cats.forEach(function(c){
+    var og=document.createElement("optgroup"); og.label=c;
+    groups[c].forEach(function(item){
+      var o=document.createElement("option"); o.value=item.id; o.textContent=item.name;
+      og.appendChild(o);
+    });
+    sel.appendChild(og);
+  });
+  sel.value=String(indicatorId);
+}
+function buildChips(){
+  var wrap=document.getElementById("nf-chips");
+  HERO.forEach(function(id){
+    var b=document.createElement("button");
+    b.type="button"; b.className="nf-chip"; b.dataset.id=id;
+    b.setAttribute("aria-pressed", id===indicatorId?"true":"false");
+    b.textContent=(HERO_INFO[id]&&HERO_INFO[id].short)||CAT[id].name.slice(0,20);
+    b.addEventListener("click", function(){ setIndicator(id); });
+    wrap.appendChild(b);
+  });
+}
+function buildDatalist(){
+  var dl=document.getElementById("nf-districts");
+  var frag=document.createDocumentFragment();
+  var list=records.slice().sort(function(a,b){ return a.d.localeCompare(b.d); });
+  list.forEach(function(rec){
+    var o=document.createElement("option");
+    o.value=rec.d+", "+rec.s;
+    frag.appendChild(o);
+  });
+  dl.appendChild(frag);
+}
+function buildMapPaths(){
+  var svg=document.getElementById("nf-svg");
+  svg.setAttribute("viewBox","0 0 "+GEO.vb[0]+" "+GEO.vb[1]);
+  var frag=document.createDocumentFragment();
+  for(var gk in GEO.d){
+    var p=document.createElementNS(svgNS,"path");
+    p.setAttribute("d", GEO.d[gk]);
+    p.setAttribute("fill", NODATA);
+    var rec=byGeoKey[gk];
+    if(rec){
+      p.setAttribute("tabindex","0");
+      p.setAttribute("role","button");
+      p.dataset.geo=gk;
+      // events
+      p.addEventListener("mouseenter", onEnter);
+      p.addEventListener("mousemove", onMove);
+      p.addEventListener("mouseleave", onLeave);
+      p.addEventListener("focus", onFocus);
+      p.addEventListener("blur", onLeave);
+      p.addEventListener("click", function(e){ var g=e.currentTarget.dataset.geo; var r=byGeoKey[g]; if(r) selectDistrict(r); });
+      p.addEventListener("keydown", function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); var r=byGeoKey[e.currentTarget.dataset.geo]; if(r) selectDistrict(r); } });
+    }
+    pathEls[gk]=p;
+    frag.appendChild(p);
+  }
+  svg.appendChild(frag);
+}
+
+function bindControls(){
+  // modes
+  var mbtns=document.querySelectorAll(".nf-modes button");
+  mbtns.forEach(function(b){
+    b.addEventListener("click", function(){
+      if(b.disabled) return;
+      mode=b.dataset.mode;
+      render();
+    });
+  });
+  // indicator select
+  document.getElementById("nf-indicator").addEventListener("change", function(e){
+    setIndicator(parseInt(e.target.value,10));
+  });
+  // search
+  var sb=document.getElementById("nf-searchbox");
+  sb.addEventListener("change", function(){ trySearch(sb.value); });
+  sb.addEventListener("keydown", function(e){ if(e.key==="Enter"){ trySearch(sb.value); } });
+  // table toggle
+  var tt=document.getElementById("nf-tabletoggle");
+  tt.addEventListener("click", function(){
+    var tv=document.getElementById("nf-tableview");
+    var open=tv.hasAttribute("hidden");
+    if(open){ tv.removeAttribute("hidden"); tt.setAttribute("aria-expanded","true"); tt.textContent="Hide table"; renderTable(); }
+    else { tv.setAttribute("hidden",""); tt.setAttribute("aria-expanded","false"); tt.textContent="View as table"; }
+  });
+  // table sorting
+  document.querySelectorAll("#nf-table th[data-sort]").forEach(function(th){
+    th.addEventListener("click", function(){ sortTable(th.dataset.sort, th); });
+  });
+}
+
+function setIndicator(id){
+  indicatorId=id;
+  document.getElementById("nf-indicator").value=String(id);
+  document.querySelectorAll(".nf-chip").forEach(function(c){
+    c.setAttribute("aria-pressed", parseInt(c.dataset.id,10)===id?"true":"false");
+  });
+  render();
+}
+
+/* ---------------- render ---------------- */
+function syncModes(){
+  var noN4 = CAT[indicatorId].n4===0;   // NFHS-5-only indicator
+  if(noN4 && (mode==="change"||mode==="n4")) mode="n5"; // never fabricate a change
+  var note=document.getElementById("nf-modenote");
+  document.querySelectorAll(".nf-modes button").forEach(function(b){
+    var isN4dep = (b.dataset.mode==="change"||b.dataset.mode==="n4");
+    var disabled = noN4 && isN4dep;
+    b.disabled = disabled;
+    b.setAttribute("aria-disabled", disabled?"true":"false");
+    b.style.opacity = disabled?".45":"";
+    b.style.cursor = disabled?"not-allowed":"";
+    b.setAttribute("aria-pressed", (!disabled && b.dataset.mode===mode)?"true":"false");
+  });
+  if(noN4){
+    note.hidden=false;
+    note.textContent="NFHS-5 only — this indicator was not measured at district level in NFHS-4, so change and NFHS-4 views are unavailable.";
+  } else { note.hidden=true; }
+}
+
+function render(){
+  syncModes();
+  buildScale();
+  paintMap();
+  renderLegend();
+  renderMeaning();
+  renderRankings();
+  updateHowto();
+  if(!document.getElementById("nf-tableview").hasAttribute("hidden")) renderTable();
+  // refresh open detail panel (values depend on mode indirectly for map highlight only; panel is hero-based)
+}
+
+function paintMap(){
+  for(var gk in pathEls){
+    var rec=byGeoKey[gk];
+    var v = rec ? colorValue(rec, indicatorId, mode) : null;
+    pathEls[gk].setAttribute("fill", scale.color(v));
+  }
+  // update aria-label summary
+  var svg=document.getElementById("nf-svg");
+  svg.setAttribute("aria-label", "Map of India shaded by "+CAT[indicatorId].name+", "+modeLabel()+
+    ". Teal shades mark improvement or better outcomes, coral marks worsening or worse outcomes, grey marks no data. Use View as table for the full values.");
+}
+function modeLabel(){ return mode==="change"?"change since NFHS-4":(mode==="n5"?"NFHS-5 (2019-21) level":"NFHS-4 (2015-16) level"); }
+
+function renderLegend(){
+  var bar=document.getElementById("nf-legbar");
+  var title=document.getElementById("nf-legtitle");
+  bar.innerHTML="";
+  var u=unitOf(indicatorId);
+  if(scale.type==="div"){
+    var dir=CAT[indicatorId].dir;
+    title.textContent = dir===0
+      ? "Change (direction not evaluated) — "+(u||"pts")
+      : "Change since NFHS-4 — worse ◄ ► better ("+(u==="%"?"pp":u||"pts")+")";
+    var bp=scale.bp;
+    // labels aligned under boundaries; ends open
+    var labels=["", fmtChange(bp[0],indicatorId), fmtChange(bp[1],indicatorId), "", "0", "",
+                fmtChange(bp[6],indicatorId), fmtChange(bp[7],indicatorId), ""];
+    scale.ramp.forEach(function(col,i){
+      bar.appendChild(swatch(col, labels[i]||""));
+    });
+  } else {
+    var dir2=CAT[indicatorId].dir;
+    var val=dir2===-1?"lower is better":(dir2===1?"higher is better":"neutral");
+    title.textContent = modeLabel()+" — "+(u||"value")+" ("+val+")";
+    var br=scale.breaks;
+    scale.ramp.forEach(function(col,i){
+      var lab = i<br.length ? "≤"+fmt(br[i],indicatorId) : "max";
+      bar.appendChild(swatch(col, lab));
+    });
+  }
+}
+function swatch(color, label){
+  var w=document.createElement("div"); w.className="nf-swatch";
+  var s=document.createElement("div"); s.className="nf-sw"; s.style.background=color;
+  var l=document.createElement("div"); l.className="nf-sl"; l.textContent=label;
+  w.appendChild(s); w.appendChild(l); return w;
+}
+
+function renderMeaning(){
+  var c=CAT[indicatorId];
+  document.getElementById("nf-meaning-title").textContent=c.name;
+  var info=HERO_INFO[indicatorId];
+  var why = info ? info.why
+    : ("A "+c.cat+" indicator. "+(c.dir===-1?"For this measure, lower values are better.":c.dir===1?"For this measure, higher values are better.":"Direction not evaluated — read the number itself rather than a 'good/bad' colour.")+" Compare districts and track the NFHS-4 → NFHS-5 change.");
+  document.getElementById("nf-meaning-why").textContent=why;
+  var dirTxt = c.dir===-1?"lower is better":(c.dir===1?"higher is better":"direction not evaluated");
+  document.getElementById("nf-meaning-meta").textContent="Theme: "+c.cat+" · Unit: "+(c.unit||"—")+" · "+dirTxt;
+  // course links
+  var links=document.getElementById("nf-links"); links.innerHTML="";
+  var slugs = COURSE_MAP[indicatorId] || CAT_COURSE[c.cat] || ["mel"];
+  var seen={};
+  slugs.forEach(function(sl){
+    if(seen[sl]) return; seen[sl]=1;
+    var a=document.createElement("a");
+    a.href="/courses/"+sl+"/";
+    a.textContent="Learn: "+(COURSE_LABEL[sl]||sl);
+    links.appendChild(a);
+  });
+}
+
+function updateHowto(){
+  var el=document.getElementById("nf-howto-mode");
+  if(mode==="change"){
+    el.innerHTML='<strong>Change mode (default):</strong> <span class="nf-good" style="font-weight:700">teal</span> = the district <em>improved</em> since NFHS-4; <span class="nf-bad" style="font-weight:700">coral</span> = it <em>worsened</em>. Deeper colour = bigger change.';
+  } else {
+    var dir=CAT[indicatorId].dir;
+    var end = dir===-1?'darker <span style="color:#d84420;font-weight:700">red</span> = higher (worse)'
+            : dir===1?'darker <span style="color:#0a6b4f;font-weight:700">teal</span> = higher (better)'
+            : 'darker <span style="color:#26538f;font-weight:700">blue</span> = higher value';
+    el.innerHTML='<strong>Level mode ('+(mode==="n5"?"NFHS-5":"NFHS-4")+'):</strong> shade shows the raw value — '+end+'. Switch to <em>Change since NFHS-4</em> to see who improved.';
+  }
+}
+
+/* ---------------- rankings ---------------- */
+function renderRankings(){
+  var scored=[];
+  for(var i=0;i<records.length;i++){
+    var s=rankScore(records[i], indicatorId, mode);
+    if(s!=null) scored.push({rec:records[i], score:s});
+  }
+  scored.sort(function(a,b){ return b.score-a.score; });
+  var top=scored.slice(0,10);
+  var bot=scored.slice(-10).reverse();
+  document.getElementById("nf-rank-sub").textContent =
+    "Across "+scored.length+" districts with data · "+ (mode==="change"?"by improvement since NFHS-4":modeLabel());
+  fillRank("nf-top", top);
+  fillRank("nf-bot", bot);
+}
+function fillRank(elId, arr){
+  var ol=document.getElementById(elId); ol.innerHTML="";
+  arr.forEach(function(item, idx){
+    var rec=item.rec;
+    var dispV = mode==="change" ? fmtChange(valueFor(rec,indicatorId,mode),indicatorId)
+                                : fmt(valueFor(rec,indicatorId,mode),indicatorId);
+    var li=document.createElement("li");
+    li.tabIndex=0; li.setAttribute("role","button");
+    li.innerHTML='<span class="nf-rk">'+(idx+1)+'</span>'+
+      '<span class="nf-rn">'+esc(rec.d)+' <small>'+esc(rec.s)+'</small></span>'+
+      '<span class="nf-rv">'+dispV+'</span>';
+    li.addEventListener("click", function(){ selectDistrict(rec); });
+    li.addEventListener("keydown", function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); selectDistrict(rec); } });
+    ol.appendChild(li);
+  });
+}
+
+/* ---------------- detail panel ---------------- */
+function selectDistrict(rec){
+  // highlight on map
+  document.querySelectorAll("#nf-svg path.nf-selected").forEach(function(p){ p.classList.remove("nf-selected"); });
+  if(rec.m && pathEls[rec.m]){ pathEls[rec.m].classList.add("nf-selected"); }
+  renderDetail(rec);
+  // scroll detail into view on small screens
+  if(window.innerWidth<=900){ document.querySelector(".nf-detail").scrollIntoView({behavior:"smooth", block:"start"}); }
+}
+function renderDetail(rec){
+  var body=document.getElementById("nf-detail-body");
+  var html='<div class="nf-dhead"><b>'+esc(rec.d)+'</b> <span class="nf-dstate">'+esc(rec.s)+'</span></div>';
+  if(!rec.m){ html+='<p class="nf-dnote">Not shown on the map (no 2011 boundary) — listed in rankings &amp; table.</p>'; }
+  html+='<div class="nf-bars">';
+  HERO.forEach(function(id){
+    var r=raw(rec,id); var c=CAT[id];
+    var name=(HERO_INFO[id]&&HERO_INFO[id].short)||c.name.slice(0,22);
+    if(r.n5==null && r.n4==null){
+      html+='<div class="nf-bar"><div class="nf-blabel"><span class="nf-bn">'+esc(name)+'</span><span class="nf-bv nf-flat">no data</span></div></div>';
+      return;
+    }
+    var isRatio=c.unit==="ratio";
+    var maxRef = isRatio ? Math.max(r.n5||0,r.n4||0)*1.1 : 100;
+    if(maxRef<=0) maxRef=1;
+    var w4=r.n4==null?0:Math.max(0,Math.min(100,(r.n4/maxRef)*100));
+    var w5=r.n5==null?0:Math.max(0,Math.min(100,(r.n5/maxRef)*100));
+    // improvement marker
+    var mark='<span class="nf-updown nf-flat">→</span>', chgTxt="";
+    if(r.n5!=null && r.n4!=null){
+      var improved = c.dir===0 ? null : (c.dir===-1 ? r.n5<r.n4 : r.n5>r.n4);
+      var delta = c.dir===-1 ? (r.n4-r.n5) : (r.n5-r.n4);
+      if(c.dir===0){ mark='<span class="nf-updown nf-flat">→</span>'; chgTxt=fmtChange(r.n5-r.n4,id); }
+      else if(improved){ mark='<span class="nf-updown nf-up">▲</span>'; chgTxt=fmtChange(delta,id)+" better"; }
+      else { mark='<span class="nf-updown nf-down">▼</span>'; chgTxt=fmtChange(delta,id)+" worse"; }
+    }
+    var fill5col = (r.n5!=null && r.n4!=null && c.dir!==0)
+        ? ((c.dir===-1? r.n5<r.n4 : r.n5>r.n4) ? "var(--nf-good)" : "var(--nf-bad)")
+        : "var(--nf-accent)";
+    html+='<div class="nf-bar">'+
+      '<div class="nf-blabel"><span class="nf-bn">'+esc(name)+' '+mark+'</span>'+
+        '<span class="nf-bv">'+fmt(r.n4,id)+' → '+fmt(r.n5,id)+'</span></div>'+
+      '<div class="nf-track" role="img" aria-label="'+esc(name)+': NFHS-4 '+fmt(r.n4,id)+', NFHS-5 '+fmt(r.n5,id)+'. '+esc(chgTxt||"")+'">'+
+        '<div class="nf-fill4" style="width:'+w4.toFixed(1)+'%"></div>'+
+        '<div class="nf-fill5" style="width:'+w5.toFixed(1)+'%;background:'+fill5col+'"></div>'+
+      '</div></div>';
+  });
+  html+='</div>';
+  html+='<p class="nf-blegend"><span><span class="nf-swk" style="background:var(--nf-muted);opacity:.55"></span> NFHS-4 (top)</span>'+
+        '<span><span class="nf-swk" style="background:var(--nf-good)"></span> NFHS-5 improved</span>'+
+        '<span><span class="nf-swk" style="background:var(--nf-bad)"></span> NFHS-5 worsened</span></p>';
+  body.innerHTML=html;
+}
+
+/* ---------------- search ---------------- */
+function trySearch(val){
+  if(!val) return;
+  val=val.trim().toLowerCase();
+  var found=null;
+  for(var i=0;i<records.length;i++){
+    var r=records[i];
+    var full=(r.d+", "+r.s).toLowerCase();
+    if(full===val){ found=r; break; }
+  }
+  if(!found){ // fuzzy: startsWith on district
+    for(var j=0;j<records.length;j++){
+      if(records[j].d.toLowerCase()===val || records[j].d.toLowerCase().indexOf(val)===0){ found=records[j]; break; }
+    }
+  }
+  if(found){ selectDistrict(found); }
+}
+
+/* ---------------- table ---------------- */
+var tableSort={key:"name", dir:1};
+function renderTable(){
+  var cap=document.getElementById("nf-table-cap");
+  cap.textContent = CAT[indicatorId].name+" — "+modeLabel()+" (all districts)";
+  var rows=records.map(function(rec){
+    var r=raw(rec,indicatorId);
+    var chg = (r.n5!=null&&r.n4!=null)? valueFor(rec,indicatorId,"change") : null;
+    return {name:rec.d, state:rec.s, n4:r.n4, n5:r.n5, chg:chg, rec:rec};
+  });
+  sortRows(rows);
+  var tb=document.getElementById("nf-tbody");
+  var html="";
+  rows.forEach(function(x){
+    html+='<tr tabindex="0" data-key="'+esc(x.rec._key)+'">'+
+      '<th scope="row" style="text-align:left;font-weight:600">'+esc(x.name)+'</th>'+
+      '<td>'+esc(x.state)+'</td>'+
+      '<td class="num">'+fmt(x.n4,indicatorId)+'</td>'+
+      '<td class="num">'+fmt(x.n5,indicatorId)+'</td>'+
+      '<td class="num">'+(x.chg==null?"—":fmtChange(x.chg,indicatorId))+'</td></tr>';
+  });
+  tb.innerHTML=html;
+  // row click -> detail
+  tb.querySelectorAll("tr").forEach(function(tr){
+    tr.addEventListener("click", function(){ var r=DATA[tr.dataset.key]; if(r){r._key=tr.dataset.key; selectDistrict(r);} });
+    tr.addEventListener("keydown", function(e){ if(e.key==="Enter"){ var r=DATA[tr.dataset.key]; if(r){r._key=tr.dataset.key; selectDistrict(r);} } });
+  });
+}
+function sortRows(rows){
+  var k=tableSort.key, d=tableSort.dir;
+  rows.sort(function(a,b){
+    var av,bv;
+    if(k==="name"){ av=a.name; bv=b.name; return d*av.localeCompare(bv); }
+    if(k==="state"){ av=a.state; bv=b.state; return d*(av.localeCompare(bv)|| a.name.localeCompare(b.name)); }
+    av=(k==="n4"?a.n4:k==="n5"?a.n5:a.chg); bv=(k==="n4"?b.n4:k==="n5"?b.n5:b.chg);
+    if(av==null && bv==null) return 0; if(av==null) return 1; if(bv==null) return -1;
+    return d*(av-bv);
+  });
+}
+function sortTable(key, th){
+  if(tableSort.key===key){ tableSort.dir*=-1; } else { tableSort.key=key; tableSort.dir = (key==="name"||key==="state")?1:-1; }
+  document.querySelectorAll("#nf-table th[data-sort]").forEach(function(h){ h.removeAttribute("aria-sort"); });
+  th.setAttribute("aria-sort", tableSort.dir===1?"ascending":"descending");
+  renderTable();
+}
+
+/* ---------------- tooltip ---------------- */
+var tip=document.getElementById("nf-tip");
+function tipContent(rec){
+  var r=raw(rec,indicatorId); var c=CAT[indicatorId];
+  var html='<b>'+esc(rec.d)+'</b><span class="nf-tstate">'+esc(rec.s)+'</span>';
+  if(r.n5==null && r.n4==null){ html+='<dl><dt>Data</dt><dd>none for this indicator</dd></dl>'; return html; }
+  var chg=(r.n5!=null&&r.n4!=null)?valueFor(rec,indicatorId,"change"):null;
+  html+='<dl>'+
+    '<dt>NFHS-5</dt><dd>'+fmt(r.n5,indicatorId)+'</dd>'+
+    '<dt>NFHS-4</dt><dd>'+fmt(r.n4,indicatorId)+'</dd>'+
+    '<dt>Change</dt><dd>'+(chg==null?"—":fmtChange(chg,indicatorId))+'</dd></dl>';
+  return html;
+}
+function onEnter(e){ var r=byGeoKey[e.currentTarget.dataset.geo]; if(!r) return; tip.innerHTML=tipContent(r); tip.classList.add("on"); positionTip(e.clientX,e.clientY); }
+function onMove(e){ positionTip(e.clientX,e.clientY); }
+function onLeave(){ tip.classList.remove("on"); }
+function onFocus(e){
+  var r=byGeoKey[e.currentTarget.dataset.geo]; if(!r) return;
+  tip.innerHTML=tipContent(r); tip.classList.add("on");
+  var bb=e.currentTarget.getBoundingClientRect();
+  positionTip(bb.left+bb.width/2, bb.top);
+}
+function positionTip(x,y){
+  var pad=14, w=tip.offsetWidth||220, h=tip.offsetHeight||90;
+  var left=x+pad, top=y+pad;
+  if(left+w>window.innerWidth-8) left=x-w-pad;
+  if(top+h>window.innerHeight-8) top=y-h-pad;
+  if(left<8) left=8; if(top<8) top=8;
+  tip.style.left=left+"px"; tip.style.top=top+"px";
+}
+
+/* ---------------- util ---------------- */
+function esc(s){ return String(s).replace(/[&<>"']/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m];}); }
+
+})();
+</script>
+</body>
