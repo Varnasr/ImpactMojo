@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.146.0 — July 21, 2026 (New flagship: Social Movements & Protests)
+
+### For Learners
+
+- **Social Movements & Protests** — a new 13-module flagship on how movements form, act, and change society, taught South Asia-first: from collective action and contentious politics through framing, repertoires, and nonviolent resistance, grounded in real cases from Chipko to the 2024–26 Gen Z wave. Comes with a 48-term interactive lexicon, an auto-graded self-check quiz at the end of every module, and a capstone project.
+
 ## v10.145.0 — July 21, 2026 (NFHS District Explorer)
 
 ### For Learners
