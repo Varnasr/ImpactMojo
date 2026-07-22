@@ -81,3 +81,7 @@ notebooklm audio <notebook-id>           # Generate audio overview
 - **Interactive auth** — `notebooklm login` requires a browser, cannot run in CI/headless
 - **Per-machine credentials** — auth tokens are stored locally, not in the repo
 - **Rate limits** — Google may throttle requests; avoid rapid-fire operations
+
+## Study-companion kit (prompts + source packs)
+
+Reusable prompts and cited-readings lists for every flagship live in `notebooklm/` (built by `scripts/notebooklm-build-pack.py`). See `notebooklm/README.md`. Full source packs are generated locally and git-ignored (course content is DB-backed / anti-fork).
