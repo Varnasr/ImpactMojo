@@ -241,7 +241,7 @@ function populateLegacyData() {
   var totalToolUsers = toolUsers.reduce(function(sum, row) { return sum + row[2]; }, 0);
 
   featureData.push(
-    ['Courses (39 total)', 'Learning', totalCourseUsers, '', '', 'Active'],
+    ['Courses (70 total)', 'Learning', totalCourseUsers, '', '', 'Active'],
     ['Games (16 total)', 'Engagement', totalGameUsers, '', '', 'Active'],
     ['Labs & Tools (15 total)', 'Hands-on', totalToolUsers, '', '', 'Active'],
     ['Live Case Challenges', 'Assessment', '', '', '', 'Active'],

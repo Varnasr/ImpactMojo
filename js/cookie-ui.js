@@ -162,7 +162,7 @@
         // Theme Toggle
         // Theme Selection System
         //
-        // Canonical localStorage key is 'im-theme' (matches the 84 handout pages
+        // Canonical localStorage key is 'im-theme' (matches the 89 handout pages
         // and the handout template). On first read we migrate any value set by
         // the older keys ('theme', 'impactmojo-theme', 'imx_theme') so existing
         // users keep their preference when the site updates.
