@@ -6,7 +6,7 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 
 ### For Learners
 
-- **ASER Learning Explorer** (`/Labs/aser-learning-explorer.html`) — a new interactive data studio built on India's Annual Status of Education Report (ASER). See what share of government-school children can read a Std II text or do basic arithmetic, ranked across every state, with trends from 2018 to 2024 and a comparison to the All-India average. Switch subject (reading / arithmetic), grade (Std III / V / VIII), year and view (state ranking, trend line, or full table). Source-linked to ASER Centre / Pratham.
+- **ASER Learning Explorer** (`/aser.html`) — a new interactive data product in the Showcase, built on India's Annual Status of Education Report (ASER). See what share of government-school children can read a Std II text or do basic arithmetic, ranked across every state, with trends from 2018 to 2024 and a comparison to the All-India average. Switch subject (reading / arithmetic), grade (Std III / V / VIII), year and view (state ranking, trend line, or full table). Source-linked to ASER Centre / Pratham.
 
 ## v10.146.0 — July 21, 2026 (New flagship: Social Movements & Protests)
 
