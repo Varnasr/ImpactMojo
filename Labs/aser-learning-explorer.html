@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#0F172A">
+<title>ASER Learning Explorer — foundational reading &amp; arithmetic across India | ImpactMojo</title>
+<meta name="description" content="Explore ASER (Annual Status of Education Report) foundational-learning data — the share of government-school children who can read a Std II text or do basic arithmetic — ranked and trended across Indian states, 2018–2024. Source: ASER Centre / Pratham.">
+<link rel="canonical" href="https://www.impactmojo.in/Labs/aser-learning-explorer.html">
+<meta property="og:title" content="ASER Learning Explorer — ImpactMojo">
+<meta property="og:description" content="Foundational reading &amp; arithmetic across Indian states, 2018–2024, from ASER data. Rank states, see trends, and read the skill gap. Source: ASER Centre / Pratham.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.impactmojo.in/Labs/aser-learning-explorer.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="/assets/images/favicon.png" rel="icon" type="image/png">
+<style>
+:root{
+  --bg:#F6F8FB; --panel:#FFFFFF; --ink:#0F172A; --mut:#5A6B82; --faint:#8595AB;
+  --bd:#E4EAF1; --acc:#0EA5E9; --acc2:#6366F1; --good:#10B981; --bad:#EF4444;
+  --grad:linear-gradient(135deg,#0EA5E9,#6366F1);
+  --chip:#EEF3F9; --chipactive:#0EA5E9;
+  --barlo:#BAE6FD; --barhi:#0369A1;
+}
+html[data-theme="dark"]{
+  --bg:#0B1120; --panel:#131C2E; --ink:#F1F5F9; --mut:#9DB0C7; --faint:#64748B;
+  --bd:#25314A; --chip:#1C2740; --chipactive:#0EA5E9;
+  --barlo:#0C4A6E; --barhi:#38BDF8;
+}
+@media(prefers-color-scheme:dark){html:not([data-theme]){
+  --bg:#0B1120; --panel:#131C2E; --ink:#F1F5F9; --mut:#9DB0C7; --faint:#64748B;
+  --bd:#25314A; --chip:#1C2740; --barlo:#0C4A6E; --barhi:#38BDF8;
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Amaranth',system-ui,-apple-system,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.ui{font-family:'Inter',system-ui,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:0 clamp(14px,3vw,26px)}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* Hero */
+.hero{padding:34px 0 8px}
+.eyebrow{font-family:'Inter';font-size:11.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--acc)}
+.hero h1{font-family:'Inter';font-weight:800;letter-spacing:-.7px;font-size:clamp(1.7rem,4.6vw,2.5rem);margin:.35rem 0 .5rem;line-height:1.08}
+.hero p{color:var(--mut);max-width:70ch;margin:0;font-size:1.02rem}
+.srcbadge{display:inline-flex;gap:7px;align-items:center;margin-top:14px;font-family:'Inter';font-size:12px;font-weight:600;color:var(--mut);background:var(--chip);border:1px solid var(--bd);padding:5px 11px;border-radius:99px}
+.srcbadge b{color:var(--ink)}
+
+/* Controls */
+.controls{background:var(--panel);border:1px solid var(--bd);border-radius:16px;padding:16px 18px;margin:20px 0;display:flex;flex-wrap:wrap;gap:18px 26px;box-shadow:0 1px 3px rgba(16,24,40,.04)}
+.ctl{display:flex;flex-direction:column;gap:7px}
+.ctl>label{font-family:'Inter';font-size:10.5px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;color:var(--faint)}
+.seg{display:inline-flex;background:var(--chip);border:1px solid var(--bd);border-radius:10px;padding:3px;gap:2px}
+.seg button{font-family:'Inter';font-weight:600;font-size:13px;color:var(--mut);background:transparent;border:0;padding:7px 13px;border-radius:8px;cursor:pointer;transition:.14s;white-space:nowrap}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--grad);color:#fff;box-shadow:0 2px 6px rgba(14,165,233,.3)}
+select.statepick{font-family:'Inter';font-weight:600;font-size:13px;color:var(--ink);background:var(--chip);border:1px solid var(--bd);border-radius:10px;padding:8px 11px;cursor:pointer;min-width:180px}
+
+/* Indicator caption */
+.caption{background:var(--panel);border:1px solid var(--bd);border-left:4px solid var(--acc);border-radius:12px;padding:14px 18px;margin-bottom:16px}
+.caption .q{font-family:'Inter';font-weight:700;font-size:1.08rem;color:var(--ink)}
+.caption .sub{color:var(--mut);font-size:.92rem;margin-top:3px}
+.caption .allindia{margin-top:9px;font-family:'Inter';font-size:13px;color:var(--mut)}
+.caption .allindia b{color:var(--acc);font-size:15px}
+
+/* Chart panel */
+.panel{background:var(--panel);border:1px solid var(--bd);border-radius:16px;padding:18px;box-shadow:0 1px 3px rgba(16,24,40,.04)}
+.chart-svg{width:100%;height:auto;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-family:'Inter';font-size:12px;color:var(--mut)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.dot{width:11px;height:11px;border-radius:3px;display:inline-block}
+
+/* Table */
+table.data{width:100%;border-collapse:collapse;font-family:'Inter';font-size:13.5px}
+table.data th,table.data td{padding:9px 10px;text-align:right;border-bottom:1px solid var(--bd)}
+table.data th{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--faint);font-weight:700;cursor:pointer;user-select:none}
+table.data td:first-child,table.data th:first-child{text-align:left}
+table.data tbody tr:hover{background:var(--chip)}
+table.data tr.ai td{font-weight:800;color:var(--acc);border-top:2px solid var(--acc)}
+.up{color:var(--good);font-weight:700}.down{color:var(--bad);font-weight:700}.flat{color:var(--faint)}
+
+.foot{margin:26px 0 60px;color:var(--mut);font-size:13px;line-height:1.6}
+.foot a{color:var(--acc)}
+.note{background:var(--chip);border:1px solid var(--bd);border-radius:12px;padding:13px 16px;margin:18px 0;font-size:13px;color:var(--mut)}
+.note b{color:var(--ink)}
+@media(max-width:640px){.controls{gap:14px 18px;padding:14px}.seg button{padding:6px 10px;font-size:12px}}
+</style>
+</head>
+<body>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="eyebrow">Data Lab · Foundational Learning</div>
+    <h1>ASER Learning Explorer</h1>
+    <p>How many children in rural India can actually read and do basic arithmetic — and how it varies by state, grade and year. Drawn from the <b>Annual Status of Education Report (ASER)</b>, India's largest citizen-led survey of children's learning.</p>
+    <div class="srcbadge">Source: <b>ASER 2024</b>, Table 15 · ASER Centre / Pratham</div>
+  </section>
+
+  <section class="controls ui" aria-label="Explorer controls">
+    <div class="ctl"><label>Subject</label>
+      <div class="seg" id="segSubject" role="group" aria-label="Subject">
+        <button data-v="read" aria-pressed="true">Reading</button>
+        <button data-v="arith" aria-pressed="false">Arithmetic</button>
+      </div>
+    </div>
+    <div class="ctl"><label>Grade</label>
+      <div class="seg" id="segGrade" role="group" aria-label="Grade">
+        <button data-v="3" aria-pressed="true">Std III</button>
+        <button data-v="5" aria-pressed="false">Std V</button>
+        <button data-v="8" aria-pressed="false">Std VIII</button>
+      </div>
+    </div>
+    <div class="ctl"><label>Year</label>
+      <div class="seg" id="segYear" role="group" aria-label="Year">
+        <button data-v="2018" aria-pressed="false">2018</button>
+        <button data-v="2022" aria-pressed="false">2022</button>
+        <button data-v="2024" aria-pressed="true">2024</button>
+      </div>
+    </div>
+    <div class="ctl"><label>View</label>
+      <div class="seg" id="segView" role="group" aria-label="View">
+        <button data-v="rank" aria-pressed="true">Rank states</button>
+        <button data-v="trend" aria-pressed="false">Trend</button>
+        <button data-v="table" aria-pressed="false">Table</button>
+      </div>
+    </div>
+    <div class="ctl" id="stateCtl" style="display:none"><label>State (trend)</label>
+      <select class="statepick" id="statePick" aria-label="State for trend"></select>
+    </div>
+  </section>
+
+  <div class="caption" id="caption" aria-live="polite"></div>
+
+  <section class="panel" id="panel"></section>
+
+  <div class="note">
+    <b>What v1 covers:</b> government-school children, survey years 2018 · 2022 · 2024 (ASER 2024's own comparison window), all 27 major states + All-India, for reading and arithmetic in Std III, V and VIII.
+    <b>Coming next:</b> private &amp; all-school figures, the full skill ladder (letter → word → Std I → Std II text), and earlier survey rounds (2012–2016) — extended the same way from ASER's public reports.
+  </div>
+
+  <div class="foot">
+    <p><b>Reading</b> = the child can read a Std II-level "story" comfortably. <b>Arithmetic</b> = Std III &amp; V measure basic subtraction / division as ASER reports them (Std III: at least subtraction; Std V &amp; VIII: division). All figures are for children <b>enrolled in government schools</b>, tested one-on-one in the household. The assessment method is unchanged since 2006, so years are comparable.</p>
+    <p>Data compiled from the <a href="https://asercentre.org/aser-2024/" target="_blank" rel="noopener">Annual Status of Education Report (Rural) 2024</a>, Table 15 (ASER Centre, facilitated by Pratham). This is an independent, source-linked interface for learning and discussion — for methodology and authoritative interpretation, always consult the original ASER reports. ImpactMojo is not affiliated with ASER Centre or Pratham.</p>
+  </div>
+</main>
+
+<script>
+window.ASER_DATA={"years":[2018,2022,2024],"states":["Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Gujarat","Haryana","Himachal Pradesh","Jammu and Kashmir","Jharkhand","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Meghalaya","Mizoram","Nagaland","Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura","Uttar Pradesh","Uttarakhand","West Bengal"],"data":{"Andhra Pradesh":{"read":{"3":{"2018":22.4,"2022":10.4,"2024":15.7},"5":{"2018":59.7,"2022":36.4,"2024":37.7},"8":{"2018":78.2,"2022":66.4,"2024":56.2}},"arith":{"3":{"2018":38.4,"2022":33.7,"2024":44.1},"5":{"2018":39.3,"2022":29.6,"2024":36.2},"8":{"2018":47.6,"2022":51.7,"2024":48.4}},"enroll":{"2018":63.2,"2022":70.8,"2024":61.8},"oos":{"2018":9.0,"2022":2.1,"2024":1.3}},"Arunachal Pradesh":{"read":{"3":{"2018":18.8,"2022":10.7,"2024":19.4},"5":{"2018":37.1,"2022":37.8,"2024":41.0},"8":{"2018":70.5,"2022":73.4,"2024":76.0}},"arith":{"3":{"2018":33.9,"2022":35.8,"2024":39.8},"5":{"2018":27.3,"2022":22.9,"2024":30.8},"8":{"2018":50.1,"2022":46.7,"2024":47.7}},"enroll":{"2018":60.1,"2022":62.2,"2024":56.3},"oos":{"2018":10.1,"2022":7.2,"2024":10.0}},"Assam":{"read":{"3":{"2018":19.9,"2022":17.9,"2024":18.2},"5":{"2018":40.1,"2022":36.5,"2024":38.3},"8":{"2018":60.8,"2022":68.8,"2024":65.9}},"arith":{"3":{"2018":29.7,"2022":24.4,"2024":29.2},"5":{"2018":17.8,"2022":15.2,"2024":16.7},"8":{"2018":31.2,"2022":27.8,"2024":29.2}},"enroll":{"2018":71.7,"2022":71.9,"2024":69.9},"oos":{"2018":13.7,"2022":7.0,"2024":5.0}},"Bihar":{"read":{"3":{"2018":23.5,"2022":19.8,"2024":26.1},"5":{"2018":41.3,"2022":42.4,"2024":43.6},"8":{"2018":71.2,"2022":71.2,"2024":72.8}},"arith":{"3":{"2018":28.4,"2022":28.7,"2024":37.4},"5":{"2018":29.9,"2022":35.4,"2024":36.0},"8":{"2018":56.9,"2022":59.4,"2024":63.6}},"enroll":{"2018":78.1,"2022":82.2,"2024":80.1},"oos":{"2018":10.8,"2022":6.4,"2024":8.6}},"Chhattisgarh":{"read":{"3":{"2018":29.8,"2022":24.4,"2024":25.0},"5":{"2018":59.5,"2022":55.4,"2024":54.4},"8":{"2018":78.7,"2022":82.0,"2024":76.0}},"arith":{"3":{"2018":19.3,"2022":19.7,"2024":23.3},"5":{"2018":26.9,"2022":24.8,"2024":25.7},"8":{"2018":31.1,"2022":40.7,"2024":36.7}},"enroll":{"2018":76.4,"2022":81.7,"2024":80.6},"oos":{"2018":21.7,"2022":13.5,"2024":11.8}},"Gujarat":{"read":{"3":{"2018":33.1,"2022":23.9,"2024":25.8},"5":{"2018":53.7,"2022":34.2,"2024":46.3},"8":{"2018":73.2,"2022":52.4,"2024":75.9}},"arith":{"3":{"2018":25.6,"2022":23.2,"2024":19.1},"5":{"2018":20.1,"2022":14.7,"2024":14.3},"8":{"2018":35.6,"2022":31.8,"2024":30.5}},"enroll":{"2018":85.6,"2022":90.9,"2024":86.5},"oos":{"2018":19.8,"2022":6.2,"2024":10.0}},"Haryana":{"read":{"3":{"2018":46.2,"2022":31.5,"2024":44.0},"5":{"2018":69.1,"2022":57.6,"2024":63.5},"8":{"2018":81.2,"2022":80.3,"2024":82.7}},"arith":{"3":{"2018":53.7,"2022":41.7,"2024":51.5},"5":{"2018":50.9,"2022":41.6,"2024":43.2},"8":{"2018":63.2,"2022":62.6,"2024":56.4}},"enroll":{"2018":42.6,"2022":51.9,"2024":46.0},"oos":{"2018":6.8,"2022":4.6,"2024":3.5}},"Himachal Pradesh":{"read":{"3":{"2018":47.8,"2022":28.5,"2024":50.6},"5":{"2018":76.9,"2022":61.4,"2024":71.3},"8":{"2018":89.9,"2022":87.9,"2024":88.3}},"arith":{"3":{"2018":50.2,"2022":41.5,"2024":57.9},"5":{"2018":56.6,"2022":42.5,"2024":50.5},"8":{"2018":61.0,"2022":52.3,"2024":54.4}},"enroll":{"2018":58.9,"2022":66.3,"2024":58.6},"oos":{"2018":2.2,"2022":2.8,"2024":3.0}},"Jammu and Kashmir":{"read":{"3":{"2018":22.3,"2022":19.1,"2024":16.6},"5":{"2018":41.9,"2022":35.1,"2024":37.7},"8":{"2018":64.8,"2022":60.9,"2024":58.5}},"arith":{"3":{"2018":36.2,"2022":38.7,"2024":36.4},"5":{"2018":25.0,"2022":22.3,"2024":25.1},"8":{"2018":32.9,"2022":35.7,"2024":35.8}},"enroll":{"2018":58.3,"2022":55.5,"2024":57.2},"oos":{"2018":9.9,"2022":4.8,"2024":3.8}},"Jharkhand":{"read":{"3":{"2018":18.8,"2022":14.2,"2024":19.6},"5":{"2018":34.4,"2022":35.6,"2024":45.3},"8":{"2018":66.4,"2022":64.9,"2024":69.5}},"arith":{"3":{"2018":22.5,"2022":22.6,"2024":31.7},"5":{"2018":19.0,"2022":24.5,"2024":30.4},"8":{"2018":44.0,"2022":45.3,"2024":50.9}},"enroll":{"2018":78.0,"2022":83.3,"2024":77.4},"oos":{"2018":13.2,"2022":6.1,"2024":6.6}},"Karnataka":{"read":{"3":{"2018":19.2,"2022":8.6,"2024":15.9},"5":{"2018":46.0,"2022":30.2,"2024":34.0},"8":{"2018":70.3,"2022":59.9,"2024":62.1}},"arith":{"3":{"2018":26.3,"2022":22.2,"2024":25.9},"5":{"2018":20.5,"2022":13.3,"2024":20.9},"8":{"2018":39.0,"2022":36.0,"2024":37.9}},"enroll":{"2018":69.9,"2022":76.3,"2024":71.1},"oos":{"2018":7.4,"2022":2.2,"2024":2.8}},"Kerala":{"read":{"3":{"2018":52.3,"2022":38.8,"2024":45.6},"5":{"2018":77.3,"2022":64.7,"2024":66.0},"8":{"2018":89.6,"2022":83.7,"2024":84.5}},"arith":{"3":{"2018":47.7,"2022":38.9,"2024":32.6},"5":{"2018":43.5,"2022":26.8,"2024":21.3},"8":{"2018":51.8,"2022":44.3,"2024":38.2}},"enroll":{"2018":48.0,"2022":64.5,"2024":44.5},"oos":{"2018":0.9,"2022":0.4,"2024":0.3}},"Madhya Pradesh":{"read":{"3":{"2018":17.6,"2022":12.1,"2024":18.8},"5":{"2018":41.6,"2022":35.6,"2024":43.7},"8":{"2018":64.4,"2022":64.4,"2024":66.9}},"arith":{"3":{"2018":13.9,"2022":15.1,"2024":17.6},"5":{"2018":19.8,"2022":19.1,"2024":21.7},"8":{"2018":36.6,"2022":41.9,"2024":38.0}},"enroll":{"2018":69.6,"2022":70.0,"2024":66.9},"oos":{"2018":23.4,"2022":14.9,"2024":14.3}},"Maharashtra":{"read":{"3":{"2018":42.0,"2022":26.6,"2024":37.0},"5":{"2018":66.4,"2022":55.5,"2024":59.6},"8":{"2018":80.2,"2022":76.2,"2024":74.2}},"arith":{"3":{"2018":27.2,"2022":18.7,"2024":31.3},"5":{"2018":30.2,"2022":19.6,"2024":27.7},"8":{"2018":40.5,"2022":34.6,"2024":36.3}},"enroll":{"2018":61.6,"2022":67.4,"2024":60.9},"oos":{"2018":4.3,"2022":1.4,"2024":1.9}},"Meghalaya":{"read":{"3":{"2018":24.6,"2022":16.2,"2024":19.5},"5":{"2018":50.1,"2022":39.2,"2024":42.7},"8":{"2018":82.8,"2022":75.5,"2024":75.4}},"arith":{"3":{"2018":19.2,"2022":18.0,"2024":22.8},"5":{"2018":7.2,"2022":11.8,"2024":16.0},"8":{"2018":28.1,"2022":28.2,"2024":19.2}},"enroll":{"2018":35.7,"2022":43.7,"2024":38.4},"oos":{"2018":12.3,"2022":9.2,"2024":13.9}},"Mizoram":{"read":{"3":{"2018":25.6,"2022":19.8,"2024":29.6},"5":{"2018":64.3,"2022":51.2,"2024":67.5},"8":{"2018":89.4,"2022":85.6,"2024":90.7}},"arith":{"3":{"2018":58.9,"2022":41.8,"2024":57.2},"5":{"2018":40.2,"2022":20.9,"2024":44.7},"8":{"2018":71.0,"2022":44.7,"2024":60.9}},"enroll":{"2018":72.4,"2022":64.7,"2024":59.3},"oos":{"2018":5.3,"2022":7.6,"2024":15.4}},"Nagaland":{"read":{"3":{"2018":22.6,"2022":21.2,"2024":20.3},"5":{"2018":48.0,"2022":48.4,"2024":49.2},"8":{"2018":83.6,"2022":86.2,"2024":79.6}},"arith":{"3":{"2018":36.9,"2022":33.8,"2024":37.9},"5":{"2018":25.8,"2022":15.3,"2024":20.6},"8":{"2018":51.3,"2022":50.2,"2024":40.2}},"enroll":{"2018":49.3,"2022":50.8,"2024":45.6},"oos":{"2018":9.2,"2022":9.4,"2024":12.6}},"Odisha":{"read":{"3":{"2018":38.7,"2022":29.7,"2024":40.0},"5":{"2018":58.7,"2022":52.5,"2024":59.5},"8":{"2018":72.5,"2022":73.4,"2024":76.7}},"arith":{"3":{"2018":30.7,"2022":29.3,"2024":37.7},"5":{"2018":25.4,"2022":28.2,"2024":32.6},"8":{"2018":42.3,"2022":43.0,"2024":48.5}},"enroll":{"2018":88.0,"2022":92.1,"2024":88.6},"oos":{"2018":12.8,"2022":7.4,"2024":6.5}},"Punjab":{"read":{"3":{"2018":39.4,"2022":33.0,"2024":36.5},"5":{"2018":71.6,"2022":66.2,"2024":66.6},"8":{"2018":85.1,"2022":85.4,"2024":82.2}},"arith":{"3":{"2018":49.7,"2022":44.8,"2024":53.3},"5":{"2018":53.0,"2022":41.1,"2024":53.1},"8":{"2018":62.4,"2022":53.7,"2024":63.9}},"enroll":{"2018":46.7,"2022":58.8,"2024":58.0},"oos":{"2018":6.2,"2022":5.2,"2024":3.3}},"Rajasthan":{"read":{"3":{"2018":20.4,"2022":14.2,"2024":18.6},"5":{"2018":49.1,"2022":38.2,"2024":47.6},"8":{"2018":78.3,"2022":71.6,"2024":69.1}},"arith":{"3":{"2018":17.3,"2022":11.8,"2024":20.0},"5":{"2018":23.3,"2022":13.3,"2024":21.9},"8":{"2018":41.6,"2022":35.6,"2024":33.3}},"enroll":{"2018":60.0,"2022":68.5,"2024":59.3},"oos":{"2018":15.7,"2022":8.8,"2024":11.3}},"Sikkim":{"read":{"3":{"2018":29.4,"2022":16.7,"2024":30.4},"5":{"2018":41.7,"2022":31.5,"2024":53.5},"8":{"2018":79.0,"2022":66.8,"2024":76.5}},"arith":{"3":{"2018":41.0,"2022":43.3,"2024":40.3},"5":{"2018":12.5,"2022":19.2,"2024":18.9},"8":{"2018":44.6,"2022":45.1,"2024":27.6}},"enroll":{"2018":68.6,"2022":75.2,"2024":69.0},"oos":{"2018":4.9,"2022":3.6,"2024":3.3}},"Tamil Nadu":{"read":{"3":{"2018":10.2,"2022":4.8,"2024":12.0},"5":{"2018":40.7,"2022":25.2,"2024":35.6},"8":{"2018":73.2,"2022":63.0,"2024":64.2}},"arith":{"3":{"2018":26.0,"2022":11.2,"2024":27.7},"5":{"2018":25.4,"2022":14.9,"2024":20.8},"8":{"2018":50.2,"2022":44.4,"2024":40.0}},"enroll":{"2018":67.4,"2022":75.7,"2024":68.7},"oos":{"2018":2.3,"2022":1.9,"2024":1.8}},"Telangana":{"read":{"3":{"2018":18.0,"2022":5.1,"2024":6.2},"5":{"2018":43.7,"2022":31.7,"2024":31.6},"8":{"2018":69.0,"2022":61.8,"2024":56.4}},"arith":{"3":{"2018":34.3,"2022":28.5,"2024":30.9},"5":{"2018":27.1,"2022":22.7,"2024":25.2},"8":{"2018":48.3,"2022":44.6,"2024":41.1}},"enroll":{"2018":57.4,"2022":70.1,"2024":59.8},"oos":{"2018":5.1,"2022":2.5,"2024":2.5}},"Tripura":{"read":{"3":{"2018":25.6,"2022":20.3,"2024":20.9},"5":{"2018":45.0,"2022":46.7,"2024":40.7},"8":{"2018":68.3,"2022":66.4,"2024":68.8}},"arith":{"3":{"2018":34.8,"2022":31.6,"2024":33.2},"5":{"2018":19.2,"2022":17.2,"2024":22.0},"8":{"2018":30.7,"2022":43.8,"2024":39.4}},"enroll":{"2018":85.2,"2022":86.1,"2024":73.8},"oos":{"2018":4.9,"2022":4.6,"2024":3.4}},"Uttar Pradesh":{"read":{"3":{"2018":28.1,"2022":24.0,"2024":34.3},"5":{"2018":52.0,"2022":46.3,"2024":56.4},"8":{"2018":73.7,"2022":70.6,"2024":75.1}},"arith":{"3":{"2018":26.6,"2022":28.7,"2024":40.5},"5":{"2018":29.6,"2022":31.6,"2024":39.4},"8":{"2018":44.4,"2022":49.4,"2024":55.2}},"enroll":{"2018":44.3,"2022":59.6,"2024":49.1},"oos":{"2018":19.1,"2022":12.3,"2024":13.0}},"Uttarakhand":{"read":{"3":{"2018":34.5,"2022":27.8,"2024":39.4},"5":{"2018":64.3,"2022":53.6,"2024":63.9},"8":{"2018":83.8,"2022":82.2,"2024":82.2}},"arith":{"3":{"2018":32.3,"2022":23.6,"2024":36.0},"5":{"2018":37.5,"2022":30.6,"2024":39.8},"8":{"2018":48.6,"2022":44.4,"2024":52.5}},"enroll":{"2018":55.0,"2022":61.5,"2024":62.8},"oos":{"2018":6.9,"2022":3.8,"2024":4.3}},"West Bengal":{"read":{"3":{"2018":39.9,"2022":33.0,"2024":36.3},"5":{"2018":50.7,"2022":47.3,"2024":54.6},"8":{"2018":61.8,"2022":69.2,"2024":71.3}},"arith":{"3":{"2018":38.6,"2022":34.2,"2024":40.9},"5":{"2018":29.7,"2022":27.5,"2024":35.0},"8":{"2018":28.7,"2022":31.8,"2024":33.7}},"enroll":{"2018":88.1,"2022":92.2,"2024":89.6},"oos":{"2018":11.7,"2022":4.9,"2024":5.4}},"All India":{"read":{"3":{"2018":27.2,"2022":20.5,"2024":27.0},"5":{"2018":50.4,"2022":42.8,"2024":48.7},"8":{"2018":72.8,"2022":69.5,"2024":71.1}},"arith":{"3":{"2018":28.1,"2022":25.9,"2024":33.7},"5":{"2018":27.8,"2022":25.6,"2024":30.7},"8":{"2018":43.9,"2022":44.6,"2024":45.7}},"enroll":{"2018":65.6,"2022":72.9,"2024":66.8},"oos":{"2018":13.1,"2022":7.5,"2024":7.9}}}};
+(function(){
+  "use strict";
+  var D=window.ASER_DATA, STATES=D.states, YEARS=D.years;
+  var S={subject:"read",grade:"3",year:"2024",view:"rank",state:"Bihar"};
+  var GLABEL={"3":"Std III","5":"Std V","8":"Std VIII"};
+  var SUBLABEL={read:"read a Std II-level text",arith:"do grade-level arithmetic"};
+  function arithVerb(g){return g==="3"?"do at least subtraction":"do division";}
+  function taskPhrase(){
+    if(S.subject==="read") return "can read a Std II-level text";
+    return "can "+arithVerb(S.grade);
+  }
+  function val(state,sub,g,y){ try{return D.data[state][sub][g][String(y)];}catch(e){return null;} }
+  function esc(s){return String(s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
+
+  // ── wire segmented controls ──
+  function seg(id,key,cb){
+    var el=document.getElementById(id);
+    el.addEventListener("click",function(e){
+      var b=e.target.closest("button"); if(!b)return;
+      [].forEach.call(el.querySelectorAll("button"),function(x){x.setAttribute("aria-pressed", x===b?"true":"false");});
+      S[key]=b.dataset.v; if(cb)cb(); render();
+    });
+  }
+  seg("segSubject","subject"); seg("segGrade","grade"); seg("segYear","year");
+  seg("segView","view",function(){ document.getElementById("stateCtl").style.display = S.view==="trend"?"":"none"; });
+
+  var sp=document.getElementById("statePick");
+  STATES.concat(["All India"]).forEach(function(s){ var o=document.createElement("option"); o.value=s;o.textContent=s; if(s===S.state)o.selected=true; sp.appendChild(o); });
+  sp.addEventListener("change",function(){S.state=sp.value;render();});
+
+  // ── colour scale (value 0–100 → barlo..barhi) ──
+  function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+  function mix(a,b,t){ // hex mix
+    function h(x){x=x.replace('#','');return [parseInt(x.slice(0,2),16),parseInt(x.slice(2,4),16),parseInt(x.slice(4,6),16)];}
+    var A=h(a),B=h(b),o=A.map(function(c,i){return Math.round(c+(B[i]-c)*t);});
+    return "rgb("+o.join(",")+")";
+  }
+  function barColor(v,max){ var t=Math.max(0,Math.min(1,v/Math.max(max,1))); return mix(css('--barlo'),css('--barhi'),0.15+0.85*t); }
+
+  // ── caption ──
+  function renderCaption(){
+    var ai=val("All India",S.subject,S.grade,S.year);
+    var prev=val("All India",S.subject,S.grade,2022);
+    var d=(ai!=null&&prev!=null)?(ai-prev):null;
+    var dtxt = d==null?"":(" <span class='"+(d>0.05?"up":d<-0.05?"down":"flat")+"'>"+(d>0?"▲ +":d<0?"▼ ":"")+d.toFixed(1)+" pts vs 2022</span>");
+    document.getElementById("caption").innerHTML =
+      "<div class='q'>Share of "+GLABEL[S.grade]+" children in government schools who "+taskPhrase()+"</div>"+
+      "<div class='sub'>Rural India · "+S.year+" · ASER assessment (tested one-on-one at home)</div>"+
+      "<div class='allindia'>All-India: <b>"+(ai!=null?ai.toFixed(1)+"%":"—")+"</b>"+dtxt+"</div>";
+  }
+
+  // ── RANK view (horizontal bars) ──
+  function renderRank(){
+    var rows=STATES.map(function(s){return {s:s,v:val(s,S.subject,S.grade,S.year),p:val(s,S.subject,S.grade,2022)};})
+                   .filter(function(r){return r.v!=null;})
+                   .sort(function(a,b){return b.v-a.v;});
+    var ai=val("All India",S.subject,S.grade,S.year);
+    var max=Math.max.apply(null,rows.map(function(r){return r.v;}).concat([ai||0]));
+    var W=760, padL=132, padR=82, rowH=26, top=14, bot=10;
+    var H=top+bot+rows.length*rowH;
+    var innerW=W-padL-padR;
+    var sc=function(v){return padL+innerW*(v/Math.max(max,1));};
+    var svg=['<svg class="chart-svg" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMinYMin meet" role="img" aria-label="State ranking">'];
+    // All-India reference line
+    if(ai!=null){var x=sc(ai);
+      svg.push('<line x1="'+x+'" y1="'+(top-6)+'" x2="'+x+'" y2="'+(H-bot)+'" stroke="'+css('--acc2')+'" stroke-width="1.4" stroke-dasharray="4 3" opacity="0.9"/>');
+      svg.push('<text x="'+x+'" y="'+(top-8)+'" text-anchor="middle" font-family="Inter" font-size="10.5" font-weight="700" fill="'+css('--acc2')+'">All-India '+ai.toFixed(1)+'%</text>');
+    }
+    rows.forEach(function(r,i){
+      var y=top+i*rowH, bw=Math.max(2,sc(r.v)-padL), col=barColor(r.v,max);
+      var d=(r.p!=null)?(r.v-r.p):null;
+      var dtag=d==null?"":'<tspan fill="'+(d>0.05?css('--good'):d<-0.05?css('--bad'):css('--faint'))+'" font-size="10">  '+(d>0?'▲':d<0?'▼':'–')+Math.abs(d).toFixed(1)+'</tspan>';
+      svg.push('<text x="'+(padL-8)+'" y="'+(y+rowH/2+4)+'" text-anchor="end" font-family="Inter" font-size="12" fill="'+css('--ink')+'">'+esc(r.s)+'</text>');
+      svg.push('<rect x="'+padL+'" y="'+(y+3)+'" width="'+bw+'" height="'+(rowH-8)+'" rx="3" fill="'+col+'"><title>'+esc(r.s)+': '+r.v.toFixed(1)+'%</title></rect>');
+      svg.push('<text x="'+(padL+bw+7)+'" y="'+(y+rowH/2+4)+'" font-family="JetBrains Mono" font-size="11.5" font-weight="600" fill="'+css('--ink')+'">'+r.v.toFixed(1)+dtag+'</text>');
+    });
+    svg.push('</svg>');
+    document.getElementById("panel").innerHTML=svg.join("")+
+      '<div class="legend"><span><span class="dot" style="background:'+css('--barhi')+'"></span>higher = more children at grade level</span>'+
+      '<span><span class="dot" style="background:'+css('--acc2')+'"></span>dashed line = All-India average</span>'+
+      '<span>▲▼ = change since 2022</span></div>';
+  }
+
+  // ── TREND view (line, state vs All-India) ──
+  function renderTrend(){
+    var st=S.state, W=760,H=340,padL=52,padR=120,padT=24,padB=40;
+    var series=[{name:st,color:css('--acc'),vals:YEARS.map(function(y){return val(st,S.subject,S.grade,y);})},
+                {name:"All India",color:css('--acc2'),vals:YEARS.map(function(y){return val("All India",S.subject,S.grade,y);})}];
+    var innerW=W-padL-padR, innerH=H-padT-padB;
+    var xs=function(i){return padL+innerW*(i/(YEARS.length-1));};
+    var ys=function(v){return padT+innerH*(1-v/100);};
+    var svg=['<svg class="chart-svg" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Trend">'];
+    for(var g=0;g<=100;g+=25){var y=ys(g);svg.push('<line x1="'+padL+'" y1="'+y+'" x2="'+(W-padR)+'" y2="'+y+'" stroke="'+css('--bd')+'" stroke-width="1"/>');
+      svg.push('<text x="'+(padL-8)+'" y="'+(y+4)+'" text-anchor="end" font-family="Inter" font-size="10.5" fill="'+css('--faint')+'">'+g+'%</text>');}
+    YEARS.forEach(function(yr,i){svg.push('<text x="'+xs(i)+'" y="'+(H-14)+'" text-anchor="middle" font-family="Inter" font-size="12" font-weight="600" fill="'+css('--mut')+'">'+yr+'</text>');});
+    series.forEach(function(se){
+      var pts=se.vals.map(function(v,i){return v==null?null:[xs(i),ys(v)];});
+      var dpath=pts.filter(Boolean).map(function(p,i){return (i?'L':'M')+p[0]+' '+p[1];}).join(' ');
+      svg.push('<path d="'+dpath+'" fill="none" stroke="'+se.color+'" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"'+(se.name==="All India"?' stroke-dasharray="5 4"':'')+'/>');
+      pts.forEach(function(p,i){if(!p)return;svg.push('<circle cx="'+p[0]+'" cy="'+p[1]+'" r="4.5" fill="'+se.color+'"/>');
+        svg.push('<text x="'+p[0]+'" y="'+(p[1]-10)+'" text-anchor="middle" font-family="JetBrains Mono" font-size="10.5" font-weight="600" fill="'+se.color+'">'+se.vals[i].toFixed(1)+'</text>');});
+      var last=pts[pts.length-1];
+      if(last)svg.push('<text x="'+(last[0]+10)+'" y="'+(last[1]+4)+'" font-family="Inter" font-size="12" font-weight="700" fill="'+se.color+'">'+esc(se.name)+'</text>');
+    });
+    svg.push('</svg>');
+    document.getElementById("panel").innerHTML=svg.join("");
+  }
+
+  // ── TABLE view ──
+  var sortKey="2024", sortDir=-1;
+  function renderTable(){
+    var rows=STATES.map(function(s){return {s:s,v2018:val(s,S.subject,S.grade,2018),v2022:val(s,S.subject,S.grade,2022),v2024:val(s,S.subject,S.grade,2024)};});
+    rows.sort(function(a,b){var k="v"+sortKey; if(sortKey==="s")return sortDir*a.s.localeCompare(b.s); return sortDir*((a[k]||0)-(b[k]||0));});
+    function cell(v){return v==null?"—":v.toFixed(1);}
+    function delta(a,b){if(a==null||b==null)return"";var d=b-a;var c=d>0.05?"up":d<-0.05?"down":"flat";return '<span class="'+c+'">'+(d>0?"+":"")+d.toFixed(1)+"</span>";}
+    var h='<table class="data"><thead><tr>'+
+      '<th data-k="s">State</th><th data-k="2018">2018</th><th data-k="2022">2022</th><th data-k="2024">2024</th><th>Δ 18→24</th></tr></thead><tbody>';
+    rows.forEach(function(r){h+='<tr><td>'+esc(r.s)+'</td><td>'+cell(r.v2018)+'</td><td>'+cell(r.v2022)+'</td><td>'+cell(r.v2024)+'</td><td>'+delta(r.v2018,r.v2024)+'</td></tr>';});
+    var ai={s:"All India",v2018:val("All India",S.subject,S.grade,2018),v2022:val("All India",S.subject,S.grade,2022),v2024:val("All India",S.subject,S.grade,2024)};
+    h+='<tr class="ai"><td>All India</td><td>'+cell(ai.v2018)+'</td><td>'+cell(ai.v2022)+'</td><td>'+cell(ai.v2024)+'</td><td>'+delta(ai.v2018,ai.v2024)+'</td></tr>';
+    h+='</tbody></table>';
+    document.getElementById("panel").innerHTML=h;
+    [].forEach.call(document.querySelectorAll("th[data-k]"),function(th){th.addEventListener("click",function(){var k=th.dataset.k;if(sortKey===k)sortDir*=-1;else{sortKey=k;sortDir=k==="s"?1:-1;}renderTable();});});
+  }
+
+  function render(){
+    renderCaption();
+    if(S.view==="rank")renderRank();
+    else if(S.view==="trend")renderTrend();
+    else renderTable();
+  }
+  // re-render on theme change (colours are theme-dependent)
+  new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+  render();
+})();
+</script>
+<script src="/js/translate-sarvam.js" defer></script>
+<script src="/js/site-chrome.js" defer></script>
+</body>
+</html>

@@ -2,13 +2,13 @@
 
 ## What Are the ImpactMojo Studios?
 
-ImpactMojo offers **36 interactive studios** — hands-on workbenches where you build, design, and practice real development skills. Unlike courses (which teach concepts) or games (which simulate dynamics), studios produce **tangible outputs** — a Theory of Change diagram, a MEL plan, a policy brief — that you can export and use in your actual work.
+ImpactMojo offers **37 interactive studios** — hands-on workbenches where you build, design, and practice real development skills. Unlike courses (which teach concepts) or games (which simulate dynamics), studios produce **tangible outputs** — a Theory of Change diagram, a MEL plan, a policy brief — that you can export and use in your actual work.
 
 All studios are **free, browser-based, and require no login**.
 
 ---
 
-## The 36 Studios
+## The 37 Studios
 
 ### MEL & Research Studios
 
