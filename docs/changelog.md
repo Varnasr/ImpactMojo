@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.149.0 — July 26, 2026 (ASER Explorer — full time series back to 2012)
+
+### For Learners
+
+- **ASER Explorer now goes back to 2012.** The state Rank, Table and Trend views cover six survey rounds &mdash; **2012, 2014, 2016, 2018, 2022, 2024** &mdash; so you can see the full arc, including the pandemic dip and the 2024 recovery, for reading and arithmetic in Std III/V/VIII across 25 of 27 states (Jammu &amp; Kashmir and Sikkim from 2018). Compiled from the ASER 2016 state pages and the ASER 2024 report, with every value cross-checked against the reports&rsquo; All-India figures.
+
 ## v10.148.0 — July 26, 2026 (Ask-the-data question composers)
 
 ### For Learners
