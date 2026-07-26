@@ -91,6 +91,18 @@ body.nf-body{
   font-size:1rem; line-height:1.55; overflow-x:hidden;
   -webkit-font-smoothing:antialiased;
 }
+.nf-question{background:var(--nf-panel,#fff);border:1px solid var(--nf-line,#E4EAF1);border-radius:16px;padding:20px 22px;margin:0 0 16px}
+.nf-qlead{font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--nf-muted,#8595AB);margin:0 0 10px}
+.nf-qline{font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:clamp(1.1rem,2.5vw,1.45rem);line-height:1.75;color:var(--nf-ink);margin:0;letter-spacing:-.2px}
+.nf-qhint{font-family:'Inter',system-ui,sans-serif;font-size:12.5px;color:var(--nf-muted,#8595AB);margin:14px 0 0}
+.nf-blankdemo{color:var(--nf-accent);border-bottom:2px dashed var(--nf-accent);font-weight:700}
+select.nf-blank{-webkit-appearance:none;-moz-appearance:none;appearance:none;font-family:inherit;font-weight:800;font-size:inherit;color:var(--nf-accent-strong);
+  background-color:color-mix(in srgb,var(--nf-accent) 10%,transparent);border:0;border-bottom:2.5px solid var(--nf-accent);border-radius:6px 6px 0 0;
+  padding:1px 26px 3px 9px;margin:2px;cursor:pointer;line-height:1.35;max-width:100%;
+  background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230369A1' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 7px center}
+select.nf-blank:hover{background-color:color-mix(in srgb,var(--nf-accent) 20%,transparent)}
+select.nf-blank:focus-visible{outline:2px solid var(--nf-accent);outline-offset:2px}
 @media (max-width:768px){ body.nf-body{ font-size:.94rem; } }
 
 .nf-wrap{ max-width:1240px; margin:0 auto; padding:0 clamp(14px,3vw,28px); }
@@ -328,6 +340,19 @@ table.nf-table tbody tr:hover{ background:var(--nf-hover); }
     </div>
 
     <!-- Controls -->
+    <div class="nf-question" aria-label="Compose your question">
+      <p class="nf-qlead">Ask the data a question</p>
+      <p class="nf-qline">Across India's 706 districts, show
+        <select id="nf-q-ind" class="nf-blank" aria-label="Indicator"></select>
+        <select id="nf-q-mode" class="nf-blank" aria-label="Survey comparison">
+          <option value="change">and how it changed since NFHS-4</option>
+          <option value="n5">as it stood in NFHS-5 (2019-21)</option>
+          <option value="n4">as it stood in NFHS-4 (2015-16)</option>
+        </select>.
+      </p>
+      <p class="nf-qhint">Tap either <span class="nf-blankdemo">underlined</span> choice to ask about a different indicator or survey. Prefer knobs? Use the detailed controls below.</p>
+    </div>
+
     <div class="nf-controls">
       <div class="nf-field">
         <label id="nf-modelabel">Compare</label>
@@ -552,6 +577,7 @@ function init(){
   indicatorId = HERO[0]; // stunting
 
   buildIndicatorSelect();
+  buildQuestion();
   buildChips();
   buildDatalist();
   buildMapPaths();
@@ -652,6 +678,33 @@ function buildIndicatorSelect(){
     sel.appendChild(og);
   });
   sel.value=String(indicatorId);
+}
+function buildQuestion(){
+  // Fill-in-the-blanks composer that drives the detailed controls below.
+  var qi=document.getElementById("nf-q-ind");
+  if(qi){
+    var groups={};
+    for(var i=0;i<CAT.length;i++){ (groups[CAT[i].cat]=groups[CAT[i].cat]||[]).push(CAT[i]); }
+    Object.keys(groups).sort().forEach(function(c){
+      var og=document.createElement("optgroup"); og.label=c;
+      groups[c].forEach(function(item){ var o=document.createElement("option"); o.value=item.id; o.textContent=item.name; og.appendChild(o); });
+      qi.appendChild(og);
+    });
+    qi.value=String(indicatorId);
+    qi.addEventListener("change", function(){ setIndicator(parseInt(qi.value,10)); });
+  }
+  var qm=document.getElementById("nf-q-mode");
+  if(qm){
+    qm.addEventListener("change", function(){
+      var b=document.querySelector('.nf-modes button[data-mode="'+qm.value+'"]');
+      if(b && !b.disabled){ b.click(); } else { qm.value=mode; }
+    });
+  }
+}
+// keep the composer's blanks in step with the detailed controls
+function syncQuestion(){
+  var qi=document.getElementById("nf-q-ind"); if(qi) qi.value=String(indicatorId);
+  var qm=document.getElementById("nf-q-mode"); if(qm) qm.value=mode;
 }
 function buildChips(){
   var wrap=document.getElementById("nf-chips");
@@ -766,6 +819,7 @@ function syncModes(){
 
 function render(){
   syncModes();
+  syncQuestion();
   buildScale();
   paintMap();
   renderLegend();
