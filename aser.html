@@ -47,7 +47,22 @@ h1,h2,h3,.ui{font-family:'Inter',system-ui,sans-serif}
 .srcbadge{display:inline-flex;gap:7px;align-items:center;margin-top:14px;font-family:'Inter';font-size:12px;font-weight:600;color:var(--mut);background:var(--chip);border:1px solid var(--bd);padding:5px 11px;border-radius:99px}
 .srcbadge b{color:var(--ink)}
 
-/* Controls */
+/* Fill-in-the-blanks question composer */
+.qbar{background:var(--panel);border:1px solid var(--bd);border-radius:16px;padding:20px 22px;margin:20px 0;box-shadow:0 1px 3px rgba(16,24,40,.04)}
+.qlead{font-family:'Inter';font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--faint);margin:0 0 10px}
+.qline{font-family:'Inter';font-weight:600;font-size:clamp(1.15rem,2.6vw,1.5rem);line-height:1.7;color:var(--ink);margin:0;letter-spacing:-.2px}
+.qhint{font-family:'Inter';font-size:12.5px;color:var(--faint);margin:14px 0 0}
+.blankdemo{color:var(--acc);border-bottom:2px dashed var(--acc);font-weight:700}
+select.blank{-webkit-appearance:none;-moz-appearance:none;appearance:none;font-family:'Inter';font-weight:800;font-size:inherit;color:var(--acc);
+  background:linear-gradient(var(--chip),var(--chip)) padding-box;border:0;border-bottom:2.5px solid var(--acc);border-radius:6px 6px 0 0;
+  padding:1px 26px 3px 9px;margin:0 2px;cursor:pointer;line-height:1.35;
+  background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230EA5E9' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 7px center}
+select.blank:hover{background-color:color-mix(in srgb,var(--acc) 16%,transparent)}
+select.blank:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+html[data-theme="dark"] select.blank{color:#7DD3FC;border-bottom-color:#38BDF8}
+@media(prefers-color-scheme:dark){html:not([data-theme]) select.blank{color:#7DD3FC;border-bottom-color:#38BDF8}}
+/* legacy segmented controls (retained, unused) */
 .controls{background:var(--panel);border:1px solid var(--bd);border-radius:16px;padding:16px 18px;margin:20px 0;display:flex;flex-wrap:wrap;gap:18px 26px;box-shadow:0 1px 3px rgba(16,24,40,.04)}
 .ctl{display:flex;flex-direction:column;gap:7px}
 .ctl>label{font-family:'Inter';font-size:10.5px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;color:var(--faint)}
@@ -97,38 +112,10 @@ table.data tr.ai td{font-weight:800;color:var(--acc);border-top:2px solid var(--
     <div class="srcbadge">Source: <b>ASER 2024</b> (Rural), Tables 1–9 &amp; 15 · ASER Centre / Pratham</div>
   </section>
 
-  <section class="controls ui" aria-label="Explorer controls">
-    <div class="ctl"><label>Subject</label>
-      <div class="seg" id="segSubject" role="group" aria-label="Subject">
-        <button data-v="read" aria-pressed="true">Reading</button>
-        <button data-v="arith" aria-pressed="false">Arithmetic</button>
-      </div>
-    </div>
-    <div class="ctl"><label>Grade</label>
-      <div class="seg" id="segGrade" role="group" aria-label="Grade">
-        <button data-v="3" aria-pressed="true">Std III</button>
-        <button data-v="5" aria-pressed="false">Std V</button>
-        <button data-v="8" aria-pressed="false">Std VIII</button>
-      </div>
-    </div>
-    <div class="ctl"><label>Year</label>
-      <div class="seg" id="segYear" role="group" aria-label="Year">
-        <button data-v="2018" aria-pressed="false">2018</button>
-        <button data-v="2022" aria-pressed="false">2022</button>
-        <button data-v="2024" aria-pressed="true">2024</button>
-      </div>
-    </div>
-    <div class="ctl"><label>View</label>
-      <div class="seg" id="segView" role="group" aria-label="View">
-        <button data-v="rank" aria-pressed="true">Rank states</button>
-        <button data-v="trend" aria-pressed="false">Trend</button>
-        <button data-v="ladder" aria-pressed="false">Skill ladder</button>
-        <button data-v="table" aria-pressed="false">Table</button>
-      </div>
-    </div>
-    <div class="ctl" id="stateCtl" style="display:none"><label>State (trend)</label>
-      <select class="statepick" id="statePick" aria-label="State for trend"></select>
-    </div>
+  <section class="qbar ui" aria-label="Compose your question">
+    <p class="qlead">Ask the data a question</p>
+    <p class="qline" id="qline"></p>
+    <p class="qhint">Tap any <span class="blankdemo">underlined</span> word to ask something different.</p>
   </section>
 
   <div class="caption" id="caption" aria-live="polite"></div>
@@ -153,7 +140,7 @@ window.ASER_EXTRA={"national":{"years":[2014,2016,2018,2022,2024],"read":{"3":{"
   "use strict";
   var D=window.ASER_DATA, STATES=D.states, YEARS=D.years;
   var X=window.ASER_EXTRA, NAT=X.national, LAD=X.ladder;
-  var S={subject:"read",grade:"3",year:"2024",view:"rank",state:"Bihar"};
+  var S={subject:"read",grade:"3",year:"2024",view:"rank",state:"All India"};
   var GLABEL={"3":"Std III","5":"Std V","8":"Std VIII"};
   var SUBLABEL={read:"read a Std II-level text",arith:"do grade-level arithmetic"};
   function arithVerb(g){return g==="3"?"do at least subtraction":"do division";}
@@ -164,21 +151,30 @@ window.ASER_EXTRA={"national":{"years":[2014,2016,2018,2022,2024],"read":{"3":{"
   function val(state,sub,g,y){ try{return D.data[state][sub][g][String(y)];}catch(e){return null;} }
   function esc(s){return String(s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
 
-  // ── wire segmented controls ──
-  function seg(id,key,cb){
-    var el=document.getElementById(id);
-    el.addEventListener("click",function(e){
-      var b=e.target.closest("button"); if(!b)return;
-      [].forEach.call(el.querySelectorAll("button"),function(x){x.setAttribute("aria-pressed", x===b?"true":"false");});
-      S[key]=b.dataset.v; if(cb)cb(); render();
+  // ── fill-in-the-blanks question composer ──
+  var GRADE_OPTS=[["3","Std III"],["5","Std V"],["8","Std VIII"]];
+  var YEAR_OPTS=[["2018","2018"],["2022","2022"],["2024","2024"]];
+  var VIEW_OPTS=[["rank","Rank the states"],["trend","Track the trend"],["ladder","Show the skill ladder"],["table","List a table"]];
+  function taskOpts(){ return [["read","read a Std II-level text"],["arith", S.grade==="3"?"do at least subtraction":"do division"]]; }
+  function whoOpts(){ return [["All India","all of India, split by school type"]].concat(STATES.map(function(s){return [s,s];})); }
+  function blank(key,cur,opts){
+    return '<select class="blank" data-key="'+key+'" aria-label="'+key+'">'+
+      opts.map(function(p){return '<option value="'+esc(p[0])+'"'+(String(p[0])===String(cur)?' selected':'')+'>'+esc(p[1])+'</option>';}).join('')+
+      '</select>';
+  }
+  function renderQuestion(){
+    var q=document.getElementById("qline"), h="";
+    var V=blank("view",S.view,VIEW_OPTS), G=blank("grade",S.grade,GRADE_OPTS),
+        T=blank("subject",S.subject,taskOpts()), Y=blank("year",S.year,YEAR_OPTS);
+    if(S.view==="rank")       h=V+" by the share of "+G+" children who can "+T+" in "+Y+".";
+    else if(S.view==="table") h=V+" of the share of "+G+" children who can "+T+" in "+Y+", state by state.";
+    else if(S.view==="trend") h=V+" for "+blank("state",S.state,whoOpts())+" — "+G+" children who can "+T+", 2014&ndash;2024.";
+    else /* ladder */         h=V+" for "+blank("subject",S.subject,[["read","reading"],["arith","arithmetic"]])+", grade by grade, in 2024.";
+    q.innerHTML=h;
+    [].forEach.call(q.querySelectorAll("select.blank"),function(sel){
+      sel.addEventListener("change",function(){ S[sel.dataset.key]=sel.value; renderQuestion(); render(); });
     });
   }
-  seg("segSubject","subject"); seg("segGrade","grade"); seg("segYear","year");
-  seg("segView","view",function(){ document.getElementById("stateCtl").style.display = S.view==="trend"?"":"none"; });
-
-  var sp=document.getElementById("statePick");
-  STATES.concat(["All India"]).forEach(function(s){ var o=document.createElement("option"); o.value=s;o.textContent=s; if(s===S.state)o.selected=true; sp.appendChild(o); });
-  sp.addEventListener("change",function(){S.state=sp.value;render();});
 
   // ── colour scale (value 0–100 → barlo..barhi) ──
   function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
@@ -335,6 +331,7 @@ window.ASER_EXTRA={"national":{"years":[2014,2016,2018,2022,2024],"read":{"3":{"
   }
   // re-render on theme change (colours are theme-dependent)
   new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+  renderQuestion();
   render();
 })();
 </script>

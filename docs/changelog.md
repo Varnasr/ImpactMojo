@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.148.0 — July 26, 2026 (Ask-the-data question composers)
+
+### For Learners
+
+- **Ask a question in plain language** — the **ASER Explorer** and the **NFHS District Explorer** now open with a fill-in-the-blanks sentence you complete to drive the data. Tap the underlined words to change what you're asking — e.g. "Rank the states by the share of Std III children who can read a Std II-level text in 2024", or "Across India's 706 districts, show child stunting and how it changed since NFHS-4". A friendlier way in than knobs and menus (the detailed controls are still there underneath).
+
 ## v10.147.0 — July 26, 2026 (ASER Learning Explorer)
 
 ### For Learners
