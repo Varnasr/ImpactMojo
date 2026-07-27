@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.159.0 — July 27, 2026 (The Data Room — one home for all 8 explorers)
+
+### For Learners
+
+- **The Data Room** (`/explorers.html`) — the eight data explorers now have a single front door. One page gathers all of them, grouped by theme — *Education* (ASER, UDISE+, NAS, AISHE), *Health & the household* (NFHS), *Work & movement* (PLFS, Migration) and *Democracy & voice* (Election Turnout) — each card leading with the plain question it answers. The navigation menu's eight separate links collapse into one tidy **Data Room** entry, and the page is a clean, shareable link for teaching. Same promise as every explorer: the government's own numbers, validated and source-linked, down to your district where the data allows.
+
 ## v10.158.0 — July 27, 2026 (NAS Explorer — district drill-down + skill breakdown)
 
 ### For Learners
