@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.158.0 — July 27, 2026 (NAS Explorer — district drill-down + skill breakdown)
+
+### For Learners
+
+- **The NAS Learning Explorer now goes down to the district — and the individual skill.** Two new views: **Zoom into the districts** ranks all of a state's districts on any class and subject (720 districts in all), and **Break down the skills** shows, for a single district, the exact learning outcomes its students struggle with most — *"solves problems involving rational numbers," "interprets bar charts and pie charts"* — each against the national average. The district ranking is transparently derived from the official district learning-outcome data (it reproduces the official subject scores within about half a point); the skill breakdown is the exact, official competency figure. Now you can find your own district and see precisely where its children are being left behind.
+
 ## v10.157.0 — July 27, 2026 (New: NAS + Election Turnout Explorers — the suite is complete)
 
 ### For Learners
