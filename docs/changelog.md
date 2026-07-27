@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.156.0 — July 27, 2026 (New: Migration Explorer)
+
+### For Learners
+
+- **Migration Explorer** (`/migration.html`) — how many Indians live somewhere other than where they usually lived. Explore the **migration rate** (people whose last usual residence differs from their current home) across 36 states, split **rural and urban** — from Chandigarh and the metros (high in-migration) to the low-mobility north-east. The headline: **nearly three in ten Indians are migrants**, highest in cities, and led overall by **women moving at marriage** while men move mainly for work. National rate (29.1%) validated against the published *Migration in India 2020-21* report. Source: MoSPI (NSS 78th round).
+
 ## v10.155.0 — July 27, 2026 (New: PLFS Workforce Explorer)
 
 ### For Learners

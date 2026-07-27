@@ -838,3 +838,9 @@ Lifecycle arc: **early learning** — ASER (outcomes, LIVE) + UDISE+ (inputs, LI
   - **VALIDATION passed exactly:** LFPR 2023-24 15+ PS+SS All-India = male 78.8, female 41.7, person 60.1; UR 3.2 — all match published PLFS 2023-24. 36 states (Dadra&NH, Daman&Diu returned no value → omitted). Scratchpad `scratchpad/plfs/` (pull.py, states.json, plfs_raw.json, plfs_data.js, legacy.cnf).
 - Wired: search-index, sitemap, homepage card + `#nav-plfs`.
 - **SUITE STATUS:** ASER✓ NFHS✓ UDISE+✓ AISHE✓ PLFS✓(this) · NAS⏸(down) · **NEXT: Migration** (Census 2011 D-series district OR PLFS 2020-21 migration module state; note `edu-migration-highlights` on UDISE API too), then ECI.
+
+## Session 2026-07-27 (cont.) — Migration Explorer (PR pending, v10.156.0)
+- **`/migration.html`** — 6th explorer (mobility), state-level. Views: rank states (area toggle All/Rural/Urban) + table. Migration rate = last usual residence ≠ current.
+- **DATA SOURCE:** MoSPI eSankhyiki **NSS-78 (Multiple Indicator Survey 2020-21)** via `https://api.mospi.gov.in/api/nss-78/` (legacy-TLS as PLFS). Endpoints: `getIndicatorList?viz_status=Active` (11=migration rate, 12=reason leaving, 13=income change, 14=main reason for migration); `getNSS78Records?indicator_code=11&survey_code=1&limit=1000` (MUST pass survey_code=1 + limit; do NOT pass state_code=99 → "Database error"; returns all states, sector Rural/Urban/All, some by gender). Validated: All-India migration rate All=29.1% (Rural 26.8, Urban 34.6) ≈ published 28.9%. 36 states. Reasons (ind 14) are granular sub-categories split by sector/gender → described in prose, NOT charted (avoid mis-aggregation). Scratchpad `scratchpad/migration/`.
+- Wired: search-index, sitemap, homepage Data Explorers strip + `#nav-migration` (updated intro to "Six interactive tools").
+- **SUITE:** ASER✓ NFHS✓ UDISE+✓ AISHE✓ PLFS✓ Migration✓(this) · NAS⏸(down) · **NEXT: ECI** (turnout, women electors/candidates/winners — try eci.gov.in / results.eci.gov.in).

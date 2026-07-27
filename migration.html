@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#0F172A">
+<title>Migration Explorer — how many Indians live away from where they were born | ImpactMojo</title>
+<meta name="description" content="Explore India's internal migration — the share of people whose usual residence differs from their current home, ranked across states and split rural/urban. Source: Migration in India 2020-21 (NSS 78th round), MoSPI.">
+<link rel="canonical" href="https://www.impactmojo.in/migration.html">
+<meta property="og:title" content="Migration Explorer — ImpactMojo">
+<meta property="og:description" content="How many Indians have moved from where they usually lived? Internal migration rates by state, rural and urban, from official NSS data.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.impactmojo.in/migration.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="/assets/images/favicon.png" rel="icon" type="image/png">
+<style>
+:root{
+  --bg:#F6F8FB; --panel:#FFFFFF; --ink:#0F172A; --mut:#5A6B82; --faint:#8595AB;
+  --bd:#E4EAF1; --acc:#0EA5E9; --acc2:#6366F1; --good:#10B981; --bad:#EF4444;
+  --grad:linear-gradient(135deg,#0EA5E9,#6366F1);
+  --chip:#EEF3F9; --chipactive:#0EA5E9; --barlo:#BAE6FD; --barhi:#0369A1;
+}
+html[data-theme="dark"]{
+  --bg:#0B1120; --panel:#131C2E; --ink:#F1F5F9; --mut:#9DB0C7; --faint:#64748B;
+  --bd:#25314A; --chip:#1C2740; --chipactive:#0EA5E9; --barlo:#0C4A6E; --barhi:#38BDF8;
+}
+@media(prefers-color-scheme:dark){html:not([data-theme]){
+  --bg:#0B1120; --panel:#131C2E; --ink:#F1F5F9; --mut:#9DB0C7; --faint:#64748B;
+  --bd:#25314A; --chip:#1C2740; --barlo:#0C4A6E; --barhi:#38BDF8;
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Amaranth',system-ui,-apple-system,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.ui{font-family:'Inter',system-ui,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:0 clamp(14px,3vw,26px)}
+.mono{font-family:'JetBrains Mono',monospace}
+.hero{padding:clamp(22px,4vw,40px) 0 8px}
+.eyebrow{font-family:'Amaranth',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--acc)}
+.hero h1{font-family:'Amaranth','Inter',sans-serif;font-weight:700;letter-spacing:-.5px;font-size:clamp(1.6rem,4.4vw,2.5rem);margin:.35rem 0 .5rem;line-height:1.12}
+.hero p.lede{color:var(--mut);max-width:70ch;margin:0;font-size:1.02rem}
+.srcbadge{display:inline-flex;gap:7px;align-items:center;margin-top:14px;font-family:'Inter';font-size:12px;font-weight:600;color:var(--mut);background:var(--chip);border:1px solid var(--bd);padding:5px 11px;border-radius:99px}
+.srcbadge b{color:var(--ink)}
+.hstats{display:flex;flex-wrap:wrap;gap:10px 22px;margin:16px 0 0;padding:0;list-style:none}
+.hstats li{font-size:.88rem;color:var(--faint)}
+.hstats b{color:var(--ink);font-weight:700;font-size:1.05rem;display:block}
+.about{margin:18px 0 6px;border:1px solid var(--bd);border-left:4px solid var(--acc2);background:var(--chip);border-radius:12px;padding:15px 18px;font-size:.94rem;color:var(--mut)}
+.about h2{font-family:'Amaranth',sans-serif;font-size:1rem;margin:0 0 6px;color:var(--ink)}
+.about b{color:var(--ink)}
+.howto{margin:14px 0 6px;border:1px solid var(--bd);border-left:4px solid var(--acc);background:var(--chip);border-radius:12px;padding:14px 16px}
+.howto h2{font-family:'Amaranth',sans-serif;font-size:.98rem;margin:0 0 6px;display:flex;align-items:center;gap:8px;color:var(--ink)}
+.howto ul{margin:6px 0 0;padding-left:20px;color:var(--mut);font-size:.9rem}
+.howto li{margin:3px 0}
+.qbar{background:var(--panel);border:1px solid var(--bd);border-radius:16px;padding:20px 22px;margin:20px 0;box-shadow:0 1px 3px rgba(16,24,40,.04)}
+.qlead{font-family:'Inter';font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--faint);margin:0 0 10px}
+.qline{font-family:'Inter';font-weight:600;font-size:clamp(1.15rem,2.6vw,1.5rem);line-height:1.7;color:var(--ink);margin:0;letter-spacing:-.2px}
+.qhint{font-family:'Inter';font-size:12.5px;color:var(--faint);margin:14px 0 0}
+.blankdemo{color:var(--acc);border-bottom:2px dashed var(--acc);font-weight:700}
+select.blank{-webkit-appearance:none;-moz-appearance:none;appearance:none;font-family:'Inter';font-weight:800;font-size:inherit;color:var(--acc);
+  background:linear-gradient(var(--chip),var(--chip)) padding-box;border:0;border-bottom:2.5px solid var(--acc);border-radius:6px 6px 0 0;
+  padding:1px 26px 3px 9px;margin:0 2px;cursor:pointer;line-height:1.35;max-width:100%;
+  background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230EA5E9' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 7px center}
+select.blank:hover{background-color:color-mix(in srgb,var(--acc) 16%,transparent)}
+select.blank:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+html[data-theme="dark"] select.blank{color:#7DD3FC;border-bottom-color:#38BDF8}
+@media(prefers-color-scheme:dark){html:not([data-theme]) select.blank{color:#7DD3FC;border-bottom-color:#38BDF8}}
+.caption{background:var(--panel);border:1px solid var(--bd);border-left:4px solid var(--acc);border-radius:12px;padding:14px 18px;margin-bottom:16px}
+.caption .q{font-family:'Inter';font-weight:700;font-size:1.08rem;color:var(--ink)}
+.caption .sub{color:var(--mut);font-size:.92rem;margin-top:3px}
+.caption .allindia{margin-top:9px;font-family:'Inter';font-size:13px;color:var(--mut)}
+.caption .allindia b{color:var(--acc);font-size:15px}
+.caption .why{margin-top:8px;font-size:.9rem;color:var(--mut);font-style:italic}
+.panel{background:var(--panel);border:1px solid var(--bd);border-radius:16px;padding:18px;box-shadow:0 1px 3px rgba(16,24,40,.04)}
+.chart-svg{width:100%;height:auto;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-family:'Inter';font-size:12px;color:var(--mut)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.dot{width:11px;height:11px;border-radius:3px;display:inline-block}
+table.data{width:100%;border-collapse:collapse;font-family:'Inter';font-size:13.5px}
+table.data th,table.data td{padding:9px 10px;text-align:right;border-bottom:1px solid var(--bd)}
+table.data th{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--faint);font-weight:700;cursor:pointer;user-select:none}
+table.data td:first-child,table.data th:first-child{text-align:left}
+table.data tbody tr:hover{background:var(--chip)}
+table.data tr.ai td{font-weight:800;color:var(--acc);border-top:2px solid var(--acc)}
+.method{margin:26px 0 60px;color:var(--mut);font-size:13px;line-height:1.6}
+.method h2{font-family:'Amaranth',sans-serif;font-size:1rem;color:var(--ink);margin:0 0 8px}
+.method a{color:var(--acc)}
+.note{background:var(--chip);border:1px solid var(--bd);border-radius:12px;padding:13px 16px;margin:18px 0;font-size:13px;color:var(--mut)}
+.note b{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="eyebrow">ImpactMojo Studio · Migration &amp; Mobility</div>
+    <h1>Migration Explorer</h1>
+    <p class="lede">How many Indians live somewhere other than where they usually lived — and where is movement highest? The <b>migration rate</b> (people whose last usual residence differs from their current home) across every state, split rural and urban. Drawn from India's official <b>Migration in India 2020-21</b> survey. Movement is the thread that runs through the whole life-course — from a school-leaver chasing work to a bride moving at marriage.</p>
+    <ul class="hstats" aria-hidden="true">
+      <li><b>29.1%</b> all-India migration rate</li>
+      <li><b>34.6%</b> urban</li>
+      <li><b>26.8%</b> rural</li>
+      <li><b>36</b> states &amp; UTs</li>
+    </ul>
+    <div class="srcbadge">Source: <b>Migration in India 2020-21</b> (NSS 78th round) · MoSPI</div>
+  </section>
+
+  <section class="about">
+    <h2>What this measures — and why it matters</h2>
+    <p>The <b>migration rate</b> is the share of people whose <em>last usual place of residence</em> is different from where they live now — India's official count of internal migrants. It is one of the least-understood big numbers in the country: nearly <b>three in ten</b> Indians are migrants, yet policy, welfare and political representation are still overwhelmingly tied to where people were born. Two patterns dominate: migration is far higher in <b>cities</b> (drawing workers in), and the single largest reason overall is <b>marriage</b> — because most women in India move to their husband's household — while for men <b>employment</b> leads. This explorer maps the <em>rate</em>; the reasons are described below.</p>
+  </section>
+
+  <div class="howto">
+    <h2>▸ How to read this explorer</h2>
+    <ul>
+      <li><b>Start with the question.</b> Tap any <span style="border-bottom:2px dashed var(--acc);color:var(--acc);font-weight:700">underlined</span> word to change the area or the view.</li>
+      <li><b>The migration rate is a percentage</b> — migrants as a share of the population. The dashed line marks the <b>All-India</b> rate. A high rate can mean a place people move <em>to</em> (cities) or move <em>within</em>.</li>
+      <li><b>Two views:</b> <b>Rank</b> the states (choose all areas, rural or urban), or <b>List</b> the table.</li>
+      <li><b>State-level</b> — the survey is designed for state and national estimates, not districts.</li>
+    </ul>
+  </div>
+
+  <section class="qbar ui" aria-label="Compose your question">
+    <p class="qlead">Ask the data a question</p>
+    <p class="qline" id="qline"></p>
+    <p class="qhint">Tap any <span class="blankdemo">underlined</span> word to ask something different.</p>
+  </section>
+
+  <div class="caption" id="caption" aria-live="polite"></div>
+  <section class="panel" id="panel"></section>
+
+  <div class="method">
+    <h2>Making sense of the numbers</h2>
+    <p><b>What "migrant" means here.</b> A migrant is anyone whose <em>last usual place of residence</em> differs from the place they were enumerated — so it counts moves within a district, between districts and between states, for any reason. That is why the rate is high (29.1% all-India) and why it is dominated by women moving at marriage. It is <em>not</em> a measure of only work-driven or long-distance migration.</p>
+    <p><b>Why cities read high.</b> Urban areas (34.6%) rank above rural (26.8%) because cities are net destinations — they pull in workers and families. A high state rate like Chandigarh's or the metros' reflects in-migration; it does not mean the local-born population is unusually mobile.</p>
+    <p><b>The reasons behind the rate.</b> In the same survey, <b>marriage</b> is the leading reason for migration overall (driven by women, the overwhelming majority of whom migrate for marriage), while among men the leading reasons are <b>employment</b> and moving with an <b>earning family member</b>. Reasons are collected in granular sub-categories and split by rural/urban, so they are described here rather than charted, to avoid over-simplifying the mix.</p>
+    <p>Data pulled from the official <a href="https://esankhyiki.mospi.gov.in/" target="_blank" rel="noopener">MoSPI eSankhyiki</a> service for the <b>Migration in India 2020-21</b> survey (NSS 78th round / Multiple Indicator Survey), Ministry of Statistics &amp; Programme Implementation. The all-India migration rate here (29.1%) matches the published report (~28.9%). This is an independent, source-linked interface for learning and discussion — for methodology and authoritative interpretation, consult MoSPI directly. ImpactMojo is not affiliated with MoSPI.</p>
+  </div>
+</main>
+
+<script>
+window.MIG_DATA={"meta":{"src":"Migration in India 2020-21 (NSS 78th round, MIS), MoSPI","natRate":29.1},"national":{"Rural":26.8,"Urban":34.6,"All":29.1},"states":{"Delhi":{"Rural":32.7,"Urban":32.5,"All":32.5},"Goa":{"Rural":19.3,"Urban":26.2,"All":23.5},"Gujarat":{"Rural":21.9,"Urban":31.1,"All":25.6},"Haryana":{"Rural":22.1,"Urban":31.5,"All":25.5},"Himachal Pradesh":{"Rural":43.9,"Urban":64.0,"All":45.7},"Jharkhand":{"Rural":29.4,"Urban":39.3,"All":31.6},"Karnataka":{"Rural":20.0,"Urban":26.1,"All":22.3},"Kerala":{"Rural":38.6,"Urban":38.2,"All":38.4},"Madhya Pradesh":{"Rural":23.1,"Urban":28.5,"All":24.6},"Maharashtra":{"Rural":32.4,"Urban":40.4,"All":35.6},"Manipur":{"Rural":0.2,"Urban":0.2,"All":0.2},"Meghalaya":{"Rural":0.7,"Urban":5.8,"All":1.5},"Mizoram":{"Rural":10.6,"Urban":17.4,"All":13.6},"Nagaland":{"Rural":15.4,"Urban":30.6,"All":19.6},"Odisha":{"Rural":32.0,"Urban":37.5,"All":32.8},"Punjab":{"Rural":32.8,"Urban":40.6,"All":35.8},"Rajasthan":{"Rural":27.3,"Urban":27.0,"All":27.2},"Sikkim":{"Rural":11.4,"Urban":8.9,"All":10.8},"Tamil Nadu":{"Rural":29.7,"Urban":38.4,"All":33.7},"Telangana":{"Rural":31.6,"Urban":45.2,"All":37.1},"Tripura":{"Rural":26.7,"Urban":34.3,"All":28.4},"Uttarakhand":{"Rural":33.0,"Urban":40.1,"All":34.7},"Uttar Pradesh":{"Rural":26.3,"Urban":30.8,"All":27.2},"West Bengal":{"Rural":31.9,"Urban":38.2,"All":33.7},"Andaman & Nicobar Islands":{"Rural":43.4,"Urban":52.7,"All":47.0},"Chandigarh":{"Rural":62.7,"Urban":52.5,"All":53.1},"Dadra & Nagar Haveli and Daman & Diu":{"Rural":30.0,"Urban":63.2,"All":48.4},"Jammu & Kashmir":{"Rural":16.3,"Urban":29.9,"All":19.2},"Ladakh":{"Rural":12.6,"Urban":35.1,"All":14.9},"Lakshadweep":{"Rural":21.6,"Urban":32.2,"All":29.4},"Puducherry":{"Rural":10.9,"Urban":9.5,"All":10.0},"Andhra Pradesh":{"Rural":33.3,"Urban":38.9,"All":35.0},"Arunachal Pradesh":{"Rural":1.4,"Urban":1.4,"All":1.4},"Assam":{"Rural":21.1,"Urban":33.3,"All":22.4},"Bihar":{"Rural":18.5,"Urban":24.7,"All":19.1},"Chhattisgarh":{"Rural":28.8,"Urban":36.9,"All":30.7}},"reasons":{}};
+</script>
+<script>
+(function(){
+  "use strict";
+  var D=window.MIG_DATA, ST=D.states, NAT=D.national, M=D.meta;
+  var NAMES=Object.keys(ST).sort(function(a,b){return a.localeCompare(b);});
+  var AREA={All:"all areas",Rural:"rural areas",Urban:"urban areas"};
+  var S={view:"rank", area:"All"};
+
+  function esc(s){return String(s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
+  function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+  function mix(a,b,t){function h(x){x=x.replace('#','');return[parseInt(x.slice(0,2),16),parseInt(x.slice(2,4),16),parseInt(x.slice(4,6),16)];}
+    var A=h(a),B=h(b),o=A.map(function(c,i){return Math.round(c+(B[i]-c)*t);});return"rgb("+o.join(",")+")";}
+  function barColor(v,max){var t=Math.max(0,Math.min(1,v/Math.max(max,1)));return mix(css('--barlo'),css('--barhi'),0.15+0.85*t);}
+  function val(o,a){var x=o?o[a]:null;return (x===undefined?null:x);}
+
+  var VIEW_OPTS=[["rank","Rank the states"],["table","List a table"]];
+  var AREA_OPTS=[["All","all areas"],["Rural","rural areas"],["Urban","urban areas"]];
+  function blank(key,cur,opts){
+    return '<select class="blank" data-key="'+key+'" aria-label="'+key+'">'+
+      opts.map(function(p){return '<option value="'+esc(p[0])+'"'+(String(p[0])===String(cur)?' selected':'')+'>'+esc(p[1])+'</option>';}).join('')+'</select>';
+  }
+  function renderQuestion(){
+    var q=document.getElementById("qline"),h="";
+    var V=blank("view",S.view,VIEW_OPTS);
+    if(S.view==="rank") h=V+" by migration rate in "+blank("area",S.area,AREA_OPTS)+".";
+    else h=V+" of every state's migration rate, rural &amp; urban.";
+    q.innerHTML=h;
+    [].forEach.call(q.querySelectorAll("select.blank"),function(sel){
+      sel.addEventListener("change",function(){S[sel.dataset.key]=sel.value;renderQuestion();render();});
+    });
+  }
+  function fmt(v){return v==null?"—":v.toFixed(1)+"%";}
+
+  function renderCaption(){
+    var cap=document.getElementById("caption");
+    if(S.view==="table"){cap.innerHTML="<div class='q'>Every state's migration rate</div><div class='sub'>Migration in India 2020-21 · rural, urban &amp; all · tap a column to sort</div>";return;}
+    var a=S.area,ref=NAT[a];
+    cap.innerHTML="<div class='q'>States ranked by migration rate — "+AREA[a]+"</div>"+
+      "<div class='sub'>Migration in India 2020-21 · migrants as a share of population</div>"+
+      "<div class='allindia'>All-India ("+AREA[a]+"): <b>"+fmt(ref)+"</b></div>"+
+      "<div class='why'>Nearly three in ten Indians are migrants — highest in cities, and led overall by women moving at marriage.</div>";
+  }
+  function renderRank(){
+    var a=S.area;
+    var rows=NAMES.map(function(n){return {n:n,v:val(ST[n],a)};}).filter(function(r){return r.v!=null;}).sort(function(x,y){return y.v-x.v;});
+    var ref=NAT[a];
+    var W=760,padL=210,padR=56,rowH=22,top=16,bot=10,H=top+bot+rows.length*rowH,innerW=W-padL-padR;
+    var max=Math.max.apply(null,rows.map(function(r){return r.v;}).concat([ref]));
+    var sc=function(v){return padL+innerW*(v/Math.max(max,1));};
+    var svg=['<svg class="chart-svg" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMinYMin meet" role="img" aria-label="State migration ranking">'];
+    var xr=sc(ref);
+    svg.push('<line x1="'+xr+'" y1="'+(top-6)+'" x2="'+xr+'" y2="'+(H-bot)+'" stroke="'+css('--acc2')+'" stroke-width="1.4" stroke-dasharray="4 3" opacity="0.9"/>');
+    svg.push('<text x="'+xr+'" y="'+(top-8)+'" text-anchor="middle" font-family="Inter" font-size="10.5" font-weight="700" fill="'+css('--acc2')+'">All-India '+ref.toFixed(1)+'%</text>');
+    rows.forEach(function(r,i){
+      var y=top+i*rowH,bw=Math.max(2,sc(r.v)-padL),col=barColor(r.v,max);
+      svg.push('<text x="'+(padL-8)+'" y="'+(y+rowH/2+4)+'" text-anchor="end" font-family="Inter" font-size="11" fill="'+css('--ink')+'">'+esc(r.n)+'</text>');
+      svg.push('<rect x="'+padL+'" y="'+(y+3)+'" width="'+bw+'" height="'+(rowH-7)+'" rx="2.5" fill="'+col+'"><title>'+esc(r.n)+': '+r.v.toFixed(1)+'%</title></rect>');
+      svg.push('<text x="'+(padL+bw+6)+'" y="'+(y+rowH/2+4)+'" font-family="JetBrains Mono" font-size="10.5" font-weight="600" fill="'+css('--ink')+'">'+r.v.toFixed(1)+'</text>');
+    });
+    svg.push('</svg>');
+    document.getElementById("panel").innerHTML=svg.join("")+
+      '<div class="legend"><span><span class="dot" style="background:'+css('--barhi')+'"></span>higher = more migrants</span>'+
+      '<span><span class="dot" style="background:'+css('--acc2')+'"></span>dashed = All-India</span></div>';
+  }
+  var sortKey="All",sortDir=-1;
+  function renderTable(){
+    var cols=[["Rural","Rural"],["Urban","Urban"],["All","All"]];
+    var rows=NAMES.slice().sort(function(a,b){ if(sortKey==="n")return sortDir*a.localeCompare(b);
+      var va=val(ST[a],sortKey),vb=val(ST[b],sortKey);va=va==null?-1:va;vb=vb==null?-1:vb;return sortDir*(va-vb);});
+    var h='<div style="overflow-x:auto"><table class="data"><thead><tr><th data-k="n">State / UT</th>'+
+      cols.map(function(c){return '<th data-k="'+c[0]+'">'+c[1]+'</th>';}).join('')+'</tr></thead><tbody>';
+    rows.forEach(function(n){h+='<tr><td>'+esc(n)+'</td>'+cols.map(function(c){return '<td>'+fmt(val(ST[n],c[0]))+'</td>';}).join('')+'</tr>';});
+    h+='<tr class="ai"><td>All India</td>'+cols.map(function(c){return '<td>'+fmt(NAT[c[0]])+'</td>';}).join('')+'</tr>';
+    h+='</tbody></table></div>';
+    document.getElementById("panel").innerHTML=h;
+    [].forEach.call(document.querySelectorAll("th[data-k]"),function(th){th.addEventListener("click",function(){var k=th.dataset.k;if(sortKey===k)sortDir*=-1;else{sortKey=k;sortDir=k==="n"?1:-1;}renderTable();});});
+  }
+  function render(){renderCaption();if(S.view==="rank")renderRank();else renderTable();}
+  new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+  renderQuestion();
+  render();
+})();
+</script>
+<script src="/js/translate-sarvam.js" defer></script>
+<script src="/js/site-chrome.js" defer></script>
+</body>
+</html>
