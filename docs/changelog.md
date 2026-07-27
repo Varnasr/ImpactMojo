@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.154.0 — July 27, 2026 (New: AISHE Higher-Education Explorer)
+
+### For Learners
+
+- **AISHE Higher-Education Explorer** (`/aishe.html`) — the final rung of the learning-ladder suite (after ASER and UDISE+): how many young Indians actually reach college. Explore the **Gross Enrolment Ratio (GER)** — enrolment as a share of the 18–23 age group — **ranked across 35 states and by gender**, plus the **national climb from 2011-12 to 2021-22** and the striking **gender-parity crossover**: women now enrol in higher education at a higher rate than men (GPI passed 1.0 in 2018-19). Ask your question in plain language and compare a state's college-going rate with how its children read (ASER) and how its schools are equipped (UDISE+). Source: AISHE, Ministry of Education.
+
 ## v10.153.0 — July 27, 2026 (New: UDISE+ School Inputs Explorer)
 
 ### For Learners
