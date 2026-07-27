@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.152.0 — July 27, 2026 (Data explorers — shared look + more context)
+
+### For Learners
+
+- **The ASER and NFHS explorers now feel like one product family.** Both open the same way — a shared header, hero, "how to read" guide and question composer — instead of looking like two unrelated tools. The **ASER Explorer** gained a plain-language *"What is ASER — and why it matters"* primer, a *"How to read this explorer"* box, an at-a-glance stats strip, and a fuller *"Making sense of the numbers"* section that explains what a "pass" means, how to read the 2022 dip and the private-vs-government gap responsibly, and where every figure comes from. (It also fixes a bug that had been hiding ASER's sources and methodology on the live page.)
+
 ## v10.151.0 — July 27, 2026 (ASER Explorer — district drill-down)
 
 ### For Learners
