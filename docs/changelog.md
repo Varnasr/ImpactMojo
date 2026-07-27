@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.151.0 — July 27, 2026 (ASER Explorer — district drill-down)
+
+### For Learners
+
+- **Zoom into the districts.** The ASER Explorer has a new **district** view: pick a state and rank every one of its surveyed districts for 2024, by the share of children who can read a Std II text or do arithmetic. It follows ASER&rsquo;s own bands &mdash; **Std III&ndash;V** and **Std VI&ndash;VIII** &mdash; with the state average marked, and it names any district whose sample was too small to report. **605 districts across 27 states**, compiled from ASER 2024&rsquo;s district &ldquo;Performance of districts&rdquo; estimates and cross-checked against each state total.
+
 ## v10.150.0 — July 26, 2026 (ASER Explorer — by school type, every state, every round)
 
 ### For Learners
