@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.150.0 — July 26, 2026 (ASER Explorer — by school type, every state, every round)
+
+### For Learners
+
+- **The ASER Explorer now splits every state by school type.** Ask for **government**, **private**, or **all** children and rank the states, read a table, or trace one state&rsquo;s **government-vs-private-vs-all** trend across all six rounds (**2012 &rarr; 2024**), for reading and arithmetic in Std III/V/VIII. Compiled and cross-validated from the ASER 2016 and 2024 state pages &mdash; e.g. All-India government Std III reading in 2024 (23.4%) matches ASER&rsquo;s own figure exactly.
+
 ## v10.149.0 — July 26, 2026 (ASER Explorer — full time series back to 2012)
 
 ### For Learners
