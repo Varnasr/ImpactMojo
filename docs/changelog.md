@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.153.0 — July 27, 2026 (New: UDISE+ School Inputs Explorer)
+
+### For Learners
+
+- **UDISE+ School Inputs Explorer** (`/udise.html`) — a new interactive data product, and the companion to the ASER explorer: ASER asks *did children learn*, this asks *was the school even equipped to teach them*. See the share of schools with electricity, drinking water, a functional girls' toilet, a library, a computer, internet and disabled-access ramps — plus pupil-teacher ratios, enrolment and dropout — **ranked across states, drilled into 782 districts, and tracked from 2021-22 to 2024-25**. Ask your question in plain language, zoom into your own state's districts, and watch what has (and hasn't) improved. Every figure is pulled live from the official UDISE+ open data (Ministry of Education) and cross-checked so district numbers sum to state totals.
+
 ## v10.152.0 — July 27, 2026 (Data explorers — shared look + more context)
 
 ### For Learners
