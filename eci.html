@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#0F172A">
+<title>Election Turnout Explorer — who voted in India's 2024 general election | ImpactMojo</title>
+<meta name="description" content="Explore voter turnout in India's 2024 Lok Sabha election — ranked across every state, from the official Election Commission figures. National turnout 65.79%, with women's participation near parity with men's. Source: ECI.">
+<link rel="canonical" href="https://www.impactmojo.in/eci.html">
+<meta property="og:title" content="Election Turnout Explorer — ImpactMojo">
+<meta property="og:description" content="Who turned out to vote in India's 2024 general election? State-by-state voter turnout from official Election Commission data, with women's participation near parity.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.impactmojo.in/eci.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="/assets/images/favicon.png" rel="icon" type="image/png">
+<style>
+:root{
+  --bg:#F6F8FB; --panel:#FFFFFF; --ink:#0F172A; --mut:#5A6B82; --faint:#8595AB;
+  --bd:#E4EAF1; --acc:#0EA5E9; --acc2:#6366F1; --good:#10B981; --bad:#EF4444;
+  --grad:linear-gradient(135deg,#0EA5E9,#6366F1);
+  --chip:#EEF3F9; --chipactive:#0EA5E9; --barlo:#BAE6FD; --barhi:#0369A1;
+}
+html[data-theme="dark"]{
+  --bg:#0B1120; --panel:#131C2E; --ink:#F1F5F9; --mut:#9DB0C7; --faint:#64748B;
+  --bd:#25314A; --chip:#1C2740; --chipactive:#0EA5E9; --barlo:#0C4A6E; --barhi:#38BDF8;
+}
+@media(prefers-color-scheme:dark){html:not([data-theme]){
+  --bg:#0B1120; --panel:#131C2E; --ink:#F1F5F9; --mut:#9DB0C7; --faint:#64748B;
+  --bd:#25314A; --chip:#1C2740; --barlo:#0C4A6E; --barhi:#38BDF8;
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Amaranth',system-ui,-apple-system,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.ui{font-family:'Inter',system-ui,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:0 clamp(14px,3vw,26px)}
+.mono{font-family:'JetBrains Mono',monospace}
+.hero{padding:clamp(22px,4vw,40px) 0 8px}
+.eyebrow{font-family:'Amaranth',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--acc)}
+.hero h1{font-family:'Amaranth','Inter',sans-serif;font-weight:700;letter-spacing:-.5px;font-size:clamp(1.6rem,4.4vw,2.5rem);margin:.35rem 0 .5rem;line-height:1.12}
+.hero p.lede{color:var(--mut);max-width:70ch;margin:0;font-size:1.02rem}
+.srcbadge{display:inline-flex;gap:7px;align-items:center;margin-top:14px;font-family:'Inter';font-size:12px;font-weight:600;color:var(--mut);background:var(--chip);border:1px solid var(--bd);padding:5px 11px;border-radius:99px}
+.srcbadge b{color:var(--ink)}
+.hstats{display:flex;flex-wrap:wrap;gap:10px 22px;margin:16px 0 0;padding:0;list-style:none}
+.hstats li{font-size:.88rem;color:var(--faint)}
+.hstats b{color:var(--ink);font-weight:700;font-size:1.05rem;display:block}
+.about{margin:18px 0 6px;border:1px solid var(--bd);border-left:4px solid var(--acc2);background:var(--chip);border-radius:12px;padding:15px 18px;font-size:.94rem;color:var(--mut)}
+.about h2{font-family:'Amaranth',sans-serif;font-size:1rem;margin:0 0 6px;color:var(--ink)}
+.about b{color:var(--ink)}
+.howto{margin:14px 0 6px;border:1px solid var(--bd);border-left:4px solid var(--acc);background:var(--chip);border-radius:12px;padding:14px 16px}
+.howto h2{font-family:'Amaranth',sans-serif;font-size:.98rem;margin:0 0 6px;display:flex;align-items:center;gap:8px;color:var(--ink)}
+.howto ul{margin:6px 0 0;padding-left:20px;color:var(--mut);font-size:.9rem}
+.howto li{margin:3px 0}
+.qbar{background:var(--panel);border:1px solid var(--bd);border-radius:16px;padding:20px 22px;margin:20px 0;box-shadow:0 1px 3px rgba(16,24,40,.04)}
+.qlead{font-family:'Inter';font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--faint);margin:0 0 10px}
+.qline{font-family:'Inter';font-weight:600;font-size:clamp(1.15rem,2.6vw,1.5rem);line-height:1.7;color:var(--ink);margin:0;letter-spacing:-.2px}
+.qhint{font-family:'Inter';font-size:12.5px;color:var(--faint);margin:14px 0 0}
+.blankdemo{color:var(--acc);border-bottom:2px dashed var(--acc);font-weight:700}
+select.blank{-webkit-appearance:none;-moz-appearance:none;appearance:none;font-family:'Inter';font-weight:800;font-size:inherit;color:var(--acc);
+  background:linear-gradient(var(--chip),var(--chip)) padding-box;border:0;border-bottom:2.5px solid var(--acc);border-radius:6px 6px 0 0;
+  padding:1px 26px 3px 9px;margin:0 2px;cursor:pointer;line-height:1.35;max-width:100%;
+  background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230EA5E9' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 7px center}
+select.blank:hover{background-color:color-mix(in srgb,var(--acc) 16%,transparent)}
+select.blank:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+html[data-theme="dark"] select.blank{color:#7DD3FC;border-bottom-color:#38BDF8}
+@media(prefers-color-scheme:dark){html:not([data-theme]) select.blank{color:#7DD3FC;border-bottom-color:#38BDF8}}
+.caption{background:var(--panel);border:1px solid var(--bd);border-left:4px solid var(--acc);border-radius:12px;padding:14px 18px;margin-bottom:16px}
+.caption .q{font-family:'Inter';font-weight:700;font-size:1.08rem;color:var(--ink)}
+.caption .sub{color:var(--mut);font-size:.92rem;margin-top:3px}
+.caption .allindia{margin-top:9px;font-family:'Inter';font-size:13px;color:var(--mut)}
+.caption .allindia b{color:var(--acc);font-size:15px}
+.caption .why{margin-top:8px;font-size:.9rem;color:var(--mut);font-style:italic}
+.panel{background:var(--panel);border:1px solid var(--bd);border-radius:16px;padding:18px;box-shadow:0 1px 3px rgba(16,24,40,.04)}
+.chart-svg{width:100%;height:auto;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-family:'Inter';font-size:12px;color:var(--mut)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.dot{width:11px;height:11px;border-radius:3px;display:inline-block}
+table.data{width:100%;border-collapse:collapse;font-family:'Inter';font-size:13.5px}
+table.data th,table.data td{padding:9px 10px;text-align:right;border-bottom:1px solid var(--bd)}
+table.data th{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--faint);font-weight:700;cursor:pointer;user-select:none}
+table.data td:first-child,table.data th:first-child{text-align:left}
+table.data tbody tr:hover{background:var(--chip)}
+table.data tr.ai td{font-weight:800;color:var(--acc);border-top:2px solid var(--acc)}
+.method{margin:26px 0 60px;color:var(--mut);font-size:13px;line-height:1.6}
+.method h2{font-family:'Amaranth',sans-serif;font-size:1rem;color:var(--ink);margin:0 0 8px}
+.method a{color:var(--acc)}
+.note{background:var(--chip);border:1px solid var(--bd);border-radius:12px;padding:13px 16px;margin:18px 0;font-size:13px;color:var(--mut)}
+.note b{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="eyebrow">ImpactMojo Studio · Democracy &amp; Voice</div>
+    <h1>Election Turnout Explorer</h1>
+    <p class="lede">When India voted in the <b>2024 general election</b>, who actually turned out — and where? Voter turnout for the Lok Sabha election, ranked across every state, from the official <b>Election Commission of India</b> figures. The last stop on the life-course: after learning, work and everything else, the vote is where citizens push back.</p>
+    <ul class="hstats" aria-hidden="true">
+      <li><b>65.79%</b> national turnout</li>
+      <li><b>1.95 bn</b> electors</li>
+      <li><b>543</b> constituencies</li>
+      <li><b>~parity</b> women vs men</li>
+    </ul>
+    <div class="srcbadge">Source: <b>Election Commission of India</b> · Lok Sabha 2024 (phases 1&ndash;7)</div>
+  </section>
+
+  <section class="about">
+    <h2>What this shows — and why it matters</h2>
+    <p><b>Voter turnout</b> is the share of registered electors who actually voted — the most basic measure of how much people use their democratic voice. India's 2024 election was the largest exercise of the franchise in human history: nearly <b>two billion electors</b>, <b>1.28 billion votes</b>, a <b>65.79%</b> national turnout. Turnout varies enormously by state — from the high-participation north-east and south to the large northern states where it dips below 57% — and one landmark stands out: <b>women turned out at nearly the same rate as men</b>, a quiet reversal of a decades-old gap.</p>
+  </section>
+
+  <div class="howto">
+    <h2>▸ How to read this explorer</h2>
+    <ul>
+      <li><b>Start with the question.</b> Tap the <span style="border-bottom:2px dashed var(--acc);color:var(--acc);font-weight:700">underlined</span> word to switch between the ranking and the table.</li>
+      <li><b>Turnout is a percentage</b> — votes cast as a share of registered electors. The dashed line marks the <b>All-India</b> figure (65.79%).</li>
+      <li><b>State turnout is aggregated</b> from every parliamentary constituency, weighted by its electors — so it reconstructs the official national figure exactly.</li>
+      <li><b>Two views:</b> <b>Rank</b> the states, or <b>List</b> the table (with each state's electorate).</li>
+    </ul>
+  </div>
+
+  <section class="qbar ui" aria-label="Compose your question">
+    <p class="qlead">Ask the data a question</p>
+    <p class="qline" id="qline"></p>
+    <p class="qhint">Tap any <span class="blankdemo">underlined</span> word to ask something different.</p>
+  </section>
+
+  <div class="caption" id="caption" aria-live="polite"></div>
+  <section class="panel" id="panel"></section>
+
+  <div class="method">
+    <h2>Making sense of the numbers</h2>
+    <p><b>What turnout measures.</b> Turnout here is votes polled as a percentage of registered electors, for the 2024 Lok Sabha election, aggregated from all 543 parliamentary constituencies. It counts votes recorded at polling stations (the ECI's headline 65.79%). It does <em>not</em> tell you who people voted for, and a high turnout is not automatically "healthier" democracy — compulsory registration, competitive contests and local mobilisation all move the number.</p>
+    <p><b>Reading it responsibly.</b> Low turnout in a large state like Bihar or Uttar Pradesh reflects many things — migration (voters registered where they no longer live), heat, and the sheer scale of the electorate — not simply apathy. Compare a state against the All-India line and against its own neighbours rather than reading any single figure as a verdict.</p>
+    <p><b>Women's participation.</b> A defining feature of recent Indian elections is that <b>women now vote at essentially the same rate as men</b> (the ECI reported women's participation at parity in 2024) — a remarkable shift from the large gender gap of earlier decades, and one of the strongest signals of women's growing political voice. Constituency-level gender turnout is published by the ECI in its detailed statistical reports.</p>
+    <p>State turnout is aggregated from the official <b>Election Commission of India</b> phase-wise voter-turnout tables for the General Election to Lok Sabha 2024, mirrored on the <a href="https://data.opencity.in/dataset/parliament-elections-2024-voter-turnout" target="_blank" rel="noopener">OpenCity</a> open-data portal. The reconstructed national turnout (65.79%) matches the ECI's published figure exactly. This is an independent, source-linked interface for learning and discussion — for authoritative results and gender-disaggregated data, consult the ECI directly. ImpactMojo is not affiliated with the Election Commission.</p>
+  </div>
+</main>
+
+<script>
+window.ECI_DATA={"meta":{"src":"ECI General Election to Lok Sabha 2024 (voter turnout, phases 1–7)","natTurnout":65.79,"electors":1952101654,"votes":1284276884,"pcs":550},"national":{"t":65.8,"e":1952101654},"states":{"Andaman & Nicobar Islands":{"t":64.1,"e":315148,"pc":1},"Arunachal Pradesh":{"t":77.7,"e":892694,"pc":2},"Assam":{"t":81.6,"e":24506236,"pc":14},"Bihar":{"t":56.2,"e":77089931,"pc":40},"Chhattisgarh":{"t":72.8,"e":20658430,"pc":11},"Jammu and Kashmir":{"t":58.6,"e":8726281,"pc":5},"Lakshadweep":{"t":84.2,"e":57784,"pc":1},"Madhya Pradesh":{"t":66.9,"e":56595333,"pc":29},"Maharashtra":{"t":61.3,"e":92943890,"pc":48},"Manipur":{"t":78.3,"e":2029601,"pc":3},"Meghalaya":{"t":76.6,"e":2226567,"pc":2},"Mizoram":{"t":56.9,"e":856364,"pc":1},"Nagaland":{"t":57.7,"e":1317536,"pc":1},"Puducherry":{"t":78.9,"e":1023699,"pc":1},"Rajasthan":{"t":61.5,"e":53367103,"pc":25},"Sikkim":{"t":79.9,"e":464140,"pc":1},"Tamil Nadu":{"t":69.7,"e":62333925,"pc":39},"Tripura":{"t":80.9,"e":2860287,"pc":2},"Uttar Pradesh":{"t":56.9,"e":154103670,"pc":80},"Uttarakhand":{"t":57.2,"e":8337914,"pc":5},"West Bengal":{"t":79.3,"e":76010006,"pc":42},"":{"t":65.8,"e":976050827,"pc":7},"Karnataka":{"t":70.6,"e":54725675,"pc":28},"Kerala":{"t":71.3,"e":27749158,"pc":20},"Dadra & Nagar Haveli and\nDaman & Diu":{"t":71.3,"e":417213,"pc":2},"Goa":{"t":76.1,"e":1179344,"pc":2},"Gujarat":{"t":60.1,"e":47982446,"pc":25},"Andhra Pradesh":{"t":80.7,"e":41333702,"pc":25},"Jharkhand":{"t":66.2,"e":25833046,"pc":14},"Odisha":{"t":74.4,"e":33666719,"pc":21},"Telangana":{"t":65.7,"e":33216348,"pc":17},"Ladakh":{"t":71.8,"e":184808,"pc":1},"Haryana":{"t":64.8,"e":20076768,"pc":10},"NCT OF Delhi":{"t":58.7,"e":15201936,"pc":7},"Chandigarh":{"t":68.0,"e":659805,"pc":1},"Himachal Pradesh":{"t":70.9,"e":5645579,"pc":4},"Punjab":{"t":62.8,"e":21461741,"pc":13}}};
+</script>
+<script>
+(function(){
+  "use strict";
+  var D=window.ECI_DATA, ST=D.states, NAT=D.national, M=D.meta;
+  var NAMES=Object.keys(ST).sort(function(a,b){return a.localeCompare(b);});
+  var S={view:"rank"};
+  function esc(s){return String(s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
+  function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+  function mix(a,b,t){function h(x){x=x.replace('#','');return[parseInt(x.slice(0,2),16),parseInt(x.slice(2,4),16),parseInt(x.slice(4,6),16)];}
+    var A=h(a),B=h(b),o=A.map(function(c,i){return Math.round(c+(B[i]-c)*t);});return"rgb("+o.join(",")+")";}
+  function barColor(v,max){var t=Math.max(0,Math.min(1,v/Math.max(max,1)));return mix(css('--barlo'),css('--barhi'),0.15+0.85*t);}
+  function fmt(v){return v==null?"—":v.toFixed(1)+"%";}
+  function commas(n){return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,",");}
+
+  var VIEW_OPTS=[["rank","Rank the states"],["table","List a table"]];
+  function blank(key,cur,opts){
+    return '<select class="blank" data-key="'+key+'" aria-label="'+key+'">'+
+      opts.map(function(p){return '<option value="'+esc(p[0])+'"'+(String(p[0])===String(cur)?' selected':'')+'>'+esc(p[1])+'</option>';}).join('')+'</select>';
+  }
+  function renderQuestion(){
+    var q=document.getElementById("qline");
+    var V=blank("view",S.view,VIEW_OPTS);
+    q.innerHTML=(S.view==="rank")?V+" by voter turnout in the 2024 general election.":V+" of every state's turnout and electorate.";
+    [].forEach.call(q.querySelectorAll("select.blank"),function(sel){sel.addEventListener("change",function(){S[sel.dataset.key]=sel.value;renderQuestion();render();});});
+  }
+  function renderCaption(){
+    var cap=document.getElementById("caption");
+    if(S.view==="table"){cap.innerHTML="<div class='q'>Every state's turnout &amp; electorate</div><div class='sub'>Lok Sabha 2024 · tap a column to sort</div>";return;}
+    cap.innerHTML="<div class='q'>States ranked by voter turnout — Lok Sabha 2024</div>"+
+      "<div class='sub'>Votes polled as a share of registered electors</div>"+
+      "<div class='allindia'>All-India turnout: <b>"+NAT.t.toFixed(2)+"%</b> · "+commas(M.electors)+" electors</div>"+
+      "<div class='why'>The largest vote in human history — and women turned out at nearly the same rate as men.</div>";
+  }
+  function renderRank(){
+    var rows=NAMES.map(function(n){return {n:n,v:ST[n].t};}).sort(function(a,b){return b.v-a.v;});
+    var ref=NAT.t;
+    var W=760,padL=210,padR=56,rowH=22,top=16,bot=10,H=top+bot+rows.length*rowH,innerW=W-padL-padR;
+    var max=Math.max.apply(null,rows.map(function(r){return r.v;}).concat([ref]));
+    var sc=function(v){return padL+innerW*(v/Math.max(max,1));};
+    var svg=['<svg class="chart-svg" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMinYMin meet" role="img" aria-label="State turnout ranking">'];
+    var xr=sc(ref);
+    svg.push('<line x1="'+xr+'" y1="'+(top-6)+'" x2="'+xr+'" y2="'+(H-bot)+'" stroke="'+css('--acc2')+'" stroke-width="1.4" stroke-dasharray="4 3" opacity="0.9"/>');
+    svg.push('<text x="'+xr+'" y="'+(top-8)+'" text-anchor="middle" font-family="Inter" font-size="10.5" font-weight="700" fill="'+css('--acc2')+'">All-India '+ref.toFixed(1)+'%</text>');
+    rows.forEach(function(r,i){
+      var y=top+i*rowH,bw=Math.max(2,sc(r.v)-padL),col=barColor(r.v,max);
+      svg.push('<text x="'+(padL-8)+'" y="'+(y+rowH/2+4)+'" text-anchor="end" font-family="Inter" font-size="11" fill="'+css('--ink')+'">'+esc(r.n)+'</text>');
+      svg.push('<rect x="'+padL+'" y="'+(y+3)+'" width="'+bw+'" height="'+(rowH-7)+'" rx="2.5" fill="'+col+'"><title>'+esc(r.n)+': '+r.v.toFixed(1)+'%</title></rect>');
+      svg.push('<text x="'+(padL+bw+6)+'" y="'+(y+rowH/2+4)+'" font-family="JetBrains Mono" font-size="10.5" font-weight="600" fill="'+css('--ink')+'">'+r.v.toFixed(1)+'</text>');
+    });
+    svg.push('</svg>');
+    document.getElementById("panel").innerHTML=svg.join("")+
+      '<div class="legend"><span><span class="dot" style="background:'+css('--barhi')+'"></span>higher = more electors voted</span>'+
+      '<span><span class="dot" style="background:'+css('--acc2')+'"></span>dashed = All-India 65.79%</span></div>';
+  }
+  var sortKey="t",sortDir=-1;
+  function renderTable(){
+    var rows=NAMES.slice().sort(function(a,b){ if(sortKey==="n")return sortDir*a.localeCompare(b); return sortDir*((ST[a][sortKey])-(ST[b][sortKey])); });
+    var h='<div style="overflow-x:auto"><table class="data"><thead><tr><th data-k="n">State / UT</th><th data-k="t">Turnout</th><th data-k="e">Electors</th></tr></thead><tbody>';
+    rows.forEach(function(n){h+='<tr><td>'+esc(n)+'</td><td>'+fmt(ST[n].t)+'</td><td>'+commas(ST[n].e)+'</td></tr>';});
+    h+='<tr class="ai"><td>All India</td><td>'+NAT.t.toFixed(2)+'%</td><td>'+commas(M.electors)+'</td></tr>';
+    h+='</tbody></table></div>';
+    document.getElementById("panel").innerHTML=h;
+    [].forEach.call(document.querySelectorAll("th[data-k]"),function(th){th.addEventListener("click",function(){var k=th.dataset.k;if(sortKey===k)sortDir*=-1;else{sortKey=k;sortDir=k==="n"?1:-1;}renderTable();});});
+  }
+  function render(){renderCaption();if(S.view==="rank")renderRank();else renderTable();}
+  new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+  renderQuestion();
+  render();
+})();
+</script>
+<script src="/js/translate-sarvam.js" defer></script>
+<script src="/js/site-chrome.js" defer></script>
+</body>
+</html>

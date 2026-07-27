@@ -2,6 +2,14 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.157.0 — July 27, 2026 (New: NAS + Election Turnout Explorers — the suite is complete)
+
+### For Learners
+
+- **NAS Learning Explorer** (`/nas.html`) — the curriculum-aligned companion to ASER: where ASER asks whether a child can read *at all*, the **National Achievement Survey** asks how much of the actual *syllabus* government-school students have mastered, in Classes 3, 5, 8 and 10, across language, maths, science and social science. Rank every state and switch classes to watch mastery slide from ~60% correct in Class 3 to the mid-30s by Class 10. National averages validated against the published NAS 2021 report. Source: NCERT.
+- **Election Turnout Explorer** (`/eci.html`) — the last stop on the life-course: after learning, health, work and migration, the vote. See **voter turnout in the 2024 Lok Sabha election** ranked across every state — from Lakshadweep's 84% to the low-50s in the big northern states — reconstructing the official **65.79%** national figure exactly, with women turning out at near parity with men. Source: Election Commission of India (via OpenCity).
+- **Eight explorers, one story.** The homepage now has a dedicated **Data Explorers** section gathering all eight — ASER, UDISE+, NAS, NFHS, AISHE, PLFS, Migration and Election Turnout — a continuous, source-linked arc from a child's first reading test to the ballot box.
+
 ## v10.156.0 — July 27, 2026 (New: Migration Explorer)
 
 ### For Learners
