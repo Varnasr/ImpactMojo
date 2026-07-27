@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.155.0 — July 27, 2026 (New: PLFS Workforce Explorer)
+
+### For Learners
+
+- **PLFS Workforce Explorer** (`/plfs.html`) — where the learning ladder (ASER → UDISE+ → AISHE) finally meets the economy. Explore India's official employment data — **labour-force participation, worker ratio and unemployment**, ranked across 36 states and by gender, plus the national trend since 2017-18. The story it leads with is the **women's-participation gap and its fast closing**: female labour-force participation has climbed from about **23% in 2017-18 to nearly 42% in 2023-24**, even as it still trails men's ~79%. Ask your question in plain language and see which states pull women into the workforce and which leave them out. National figures validated against the published PLFS 2023-24 report. Source: MoSPI.
+
 ## v10.154.0 — July 27, 2026 (New: AISHE Higher-Education Explorer)
 
 ### For Learners
