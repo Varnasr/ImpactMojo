@@ -2,6 +2,28 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.160.0 — July 28, 2026 (14 new Reading Companions — 149 → 163)
+
+### For Learners
+
+Fourteen new interactive Reading Companions, each grounded in the full text of the book — chapter navigation, key concepts, a practitioner toolkit and AI Q&A:
+
+- **From Dictatorship to Democracy** (Gene Sharp) — the classic field manual of strategic nonviolent struggle.
+- **The Technique of Nonviolent Action** (Gene Sharp) — the consent theory of power and the taxonomy of nonviolent methods.
+- **Walking with the Comrades** (Arundhati Roy) — reportage from the forests of central India's Maoist conflict.
+- **Who Owns the Past?** (Shaan Kashyap) — how historians rewrote India's past, 1870–2020.
+- **The Range of the River** (Iftekhar Iqbal) — a riverine history of empire across China, India and Southeast Asia.
+- **The Monster in Your Path** (Sharika Thiranagama) — the private life of caste in Kerala.
+- **Fantasy and the Politics of Subversion** (Mayurika Chakravorty) — speculative writing in colonial India.
+- **First Helpings** (Deborah Albon & Amy Palmer) — a social history of children and food.
+- **The Body Electric** (Becker & Selden) — electromagnetism and the biology of regeneration (contested claims framed as argument).
+- **The WHO Framework for Health Tech in Low-Resource Settings** — appraising innovative technologies for low- and middle-income countries.
+- **The Science of Learning** (Deans for Impact) — the cognitive-science principles every teacher should know.
+- **Understanding Memory and Learning** (Evidence Based Education) — how attention, working memory and long-term memory shape learning.
+- **Cognitive Load Theory in Practice** (CESE, NSW) — seven classroom strategies grounded in Sweller's work.
+- **The Science and Application of Positive Psychology** (Cheavens & Feldman) — hope theory, well-being and what the evidence supports.
+- Plus a full-text upgrade to the **Education for Social Purpose** companion (Azim Premji University), now covering all 18 faculty pedagogy notes.
+
 ## v10.159.0 — July 27, 2026 (The Data Room — one home for all 8 explorers)
 
 ### For Learners
