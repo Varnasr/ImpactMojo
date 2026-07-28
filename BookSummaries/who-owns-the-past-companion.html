@@ -1,0 +1,793 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Who Owns the Past? — ImpactMojo Companion</title>
+<link rel="stylesheet" href="/css/fonts.css">
+<style>
+/* === ImpactMojo Design System === */
+:root {
+    --im-gradient: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+    --im-accent: #0EA5E9;
+    --im-nav-bg: rgba(15, 23, 42, 0.95);
+    --im-border: #334155;
+    --im-text-primary: #F1F5F9;
+    --im-text-secondary: #94A3B8;
+    --im-text-muted: #64748B;
+    --im-card-bg: #1E293B;
+    --im-hover-bg: #334155;
+    --im-secondary-bg: #1E293B;
+}
+body { padding-top: 56px !important; }
+.im-topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    background: var(--im-nav-bg);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--im-border);
+    padding: 0.5rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.75rem; flex-wrap: wrap;
+    font-family: 'Inter', 'Amaranth', sans-serif;
+}
+.im-topbar a { text-decoration: none; }
+.im-topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+.im-topbar-home {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-weight: 700; font-size: 1rem;
+    background: var(--im-gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.im-topbar-home svg { width: 24px; height: 24px; flex-shrink: 0; stroke: #0EA5E9; }
+.im-topbar-right { display: flex; align-items: center; gap: 0.5rem; }
+.im-premium-btn {
+    background: var(--im-gradient);
+    color: #fff !important; -webkit-text-fill-color: #fff;
+    padding: 0.35rem 0.85rem; border-radius: 6px;
+    font-size: 0.8rem; font-weight: 600;
+    display: flex; align-items: center; gap: 0.35rem;
+    transition: opacity 0.2s; border: none; cursor: pointer;
+}
+.im-browse-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--im-text, #1C1917); background: var(--im-surface, #FFFFFF); border: 1.5px solid var(--im-border, #E2E8F0); padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; transition: background 0.18s ease, border-color 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease; }
+.im-browse-btn:hover { background: var(--im-accent, #0EA5E9); color: #FFFFFF; border-color: var(--im-accent, #0EA5E9); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25); }
+.im-browse-btn svg { width: 14px; height: 14px; }
+@media (prefers-color-scheme: dark) { .im-browse-btn { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.18); } .im-browse-btn:hover { background: var(--im-accent, #0EA5E9); border-color: var(--im-accent, #0EA5E9); color: #FFFFFF; } }
+.im-premium-btn:hover { opacity: 0.9; }
+.im-premium-btn svg { width: 14px; height: 14px; }
+.im-theme-selector {
+    display: flex; gap: 2px;
+    background: var(--im-card-bg);
+    border: 1px solid var(--im-border);
+    border-radius: 8px; padding: 2px;
+}
+.im-theme-btn {
+    background: transparent; border: none;
+    color: var(--im-text-secondary);
+    padding: 6px; border-radius: 5px; cursor: pointer;
+    transition: all 0.2s; display: flex; align-items: center;
+    justify-content: center; width: 30px; height: 30px;
+}
+.im-theme-btn:hover { background: var(--im-hover-bg); color: var(--im-text-primary); }
+.im-theme-btn.active { background: var(--im-accent); color: #fff; }
+.im-theme-btn svg { width: 16px; height: 16px; }
+.im-footer {
+    background: var(--im-secondary-bg);
+    border-top: 1px solid var(--im-border);
+    padding: 2rem 1rem; margin-top: auto;
+    font-family: 'Inter', 'Amaranth', sans-serif;
+    color: var(--im-text-secondary);
+}
+.im-footer-content { max-width: 1100px; margin: 0 auto; }
+.im-footer-made {
+    text-align: center; margin-bottom: 1.5rem;
+    font-size: 0.9rem; color: var(--im-text-muted);
+}
+.im-footer-made a { color: var(--im-accent); text-decoration: none; }
+.im-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem; margin-bottom: 1.5rem;
+}
+.im-footer-section h4 {
+    font-family: 'Inter', 'Amaranth', sans-serif;
+    color: var(--im-text-primary);
+    font-size: 0.9rem; margin-bottom: 0.75rem; font-weight: 600;
+}
+.im-footer-section ul { list-style: none; padding: 0; margin: 0; }
+.im-footer-section li { margin-bottom: 0.4rem; }
+.im-footer-section a {
+    color: var(--im-text-secondary);
+    text-decoration: none; font-size: 0.85rem; transition: color 0.2s;
+}
+.im-footer-section a:hover { color: var(--im-accent); }
+.im-footer-bottom {
+    text-align: center; padding-top: 1rem;
+    border-top: 1px solid var(--im-border);
+    font-size: 0.8rem; color: var(--im-text-muted);
+}
+.im-footer-bottom p { margin: 0.25rem 0; }
+.im-footer-bottom a { color: var(--im-accent); text-decoration: none; }
+@media (max-width: 640px) {
+    .im-topbar { padding: 0.4rem 0.75rem; gap: 0.5rem; }
+    .im-topbar-home { font-size: 0.85rem; }
+    .im-topbar-home svg { width: 20px; height: 20px; }
+    .im-topbar-home span { display: none; }
+    .im-premium-btn { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
+    .im-theme-btn { width: 26px; height: 26px; padding: 4px; }
+    .im-theme-btn svg { width: 14px; height: 14px; }
+    .im-footer-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+}
+@media (max-width: 400px) {
+    .im-footer-grid { grid-template-columns: 1fr; }
+}
+/* === End ImpactMojo Design System === */
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F8F5F0;--card:#fff;--border:#E8E0D5;--text:#1C1C1C;--muted:#6B6560;
+  --accent:#1A3C34;--accent-light:#EBF5F2;--teal:#1A6B5A;--teal-light:#EBF5F2;
+  --radius:8px;
+}
+body{background:var(--bg);font-family:'Amaranth','Inter',system-ui,sans-serif;color:var(--text);padding-top:52px}
+.app{min-height:100vh;display:flex;flex-direction:column}
+nav{background:#1C1C1C;display:flex;align-items:center;gap:20px;padding:0 20px;min-height:52px;flex-wrap:wrap;position:sticky;top:52px;z-index:99}
+.brand{display:flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.brand-name{font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:#fff;letter-spacing:.05em;text-transform:uppercase}
+.tabs{display:flex;gap:2px;flex-wrap:wrap}
+.tab-btn{background:none;border:none;padding:6px 13px;font-family:Inter,sans-serif;font-size:11px;font-weight:600;color:rgba(255,255,255,.5);cursor:pointer;border-radius:4px;text-transform:uppercase;letter-spacing:.04em;transition:all .15s}
+.tab-btn:hover{color:rgba(255,255,255,.85)}
+.tab-btn.active{color:#fff;background:var(--accent)}
+main{flex:1;padding:32px 20px;max-width:860px;margin:44px auto 0;width:100%}
+.h1{font-family:Inter,sans-serif;font-size:22px;font-weight:700;margin-bottom:8px}
+.sub{color:var(--muted);font-size:15px;margin-bottom:24px;font-family:Inter,sans-serif;line-height:1.5}
+.panel{display:none}.panel.active{display:block}
+
+/* HERO */
+.hero{background:#1C1C1C;color:#fff;border-radius:12px;padding:32px;margin-bottom:20px}
+.day-badge{display:inline-block;background:var(--accent);font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 10px;border-radius:4px;margin-bottom:14px}
+.hero h1{font-size:34px;font-weight:700;margin-bottom:4px}
+.hero .auth{font-family:Inter,sans-serif;font-size:13px;color:rgba(255,255,255,.5);margin-bottom:14px}
+.hero .tagline{font-size:15px;color:rgba(255,255,255,.8);line-height:1.6;max-width:620px;margin-bottom:18px}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-family:Inter,sans-serif;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.8)}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:18px 14px;text-align:center}
+.stat-n{font-size:30px;font-weight:700;color:var(--accent);font-family:Inter,sans-serif}
+.stat-l{font-family:Inter,sans-serif;font-size:12px;color:var(--muted);margin-top:4px}
+.arg{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:22px;margin-bottom:24px}
+.arg p{font-size:15px;line-height:1.75}
+.arg p+p{margin-top:1rem}
+.nav-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.nav-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:left;cursor:pointer;transition:all .15s}
+.nav-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.nav-card-label{font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
+.nav-card-desc{font-family:Inter,sans-serif;font-size:12px;color:var(--muted)}
+
+/* PATHWAYS */
+.pw-tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.pw-btn{font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:6px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s}
+.pw-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.pw-desc{font-family:Inter,sans-serif;font-size:14px;color:var(--muted);padding:12px 14px;background:var(--accent-light);border-radius:6px;margin-bottom:20px;line-height:1.5}
+.pw-steps{display:flex;flex-direction:column;gap:10px}
+.pw-step{display:flex;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px}
+.step-n{width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-family:Inter,sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-title{font-family:Inter,sans-serif;font-size:14px;font-weight:700;margin-bottom:3px}
+.step-focus{font-family:Inter,sans-serif;font-size:13px;color:var(--muted);line-height:1.5}
+
+/* SECTIONS */
+.sec-card{background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.sec-header{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;cursor:pointer;background:none;border:none;text-align:left;width:100%}
+.sec-num{font-family:Inter,sans-serif;font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;min-width:24px;padding-top:2px}
+.sec-title{font-family:Inter,sans-serif;font-size:15px;font-weight:700;margin-bottom:2px}
+.sec-sub{font-family:Inter,sans-serif;font-size:12px;color:var(--muted)}
+.sec-chev{font-size:16px;color:var(--muted);padding-top:2px;margin-left:auto}
+.sec-body{padding:0 18px 18px 56px;border-top:1px solid var(--border)}
+.sec-summary{font-size:15px;line-height:1.75;padding-top:14px;margin-bottom:18px}
+.ideas-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
+.idea-item{display:flex;gap:8px;margin-bottom:7px;font-family:Inter,sans-serif;font-size:13px;line-height:1.55}
+.idea-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:6px}
+blockquote{font-style:italic;font-size:14px;color:var(--muted);border-left:3px solid var(--accent);padding-left:12px;margin-bottom:8px;line-height:1.6}
+.dev-toggle{font-family:Inter,sans-serif;font-size:12px;font-weight:600;color:var(--teal);background:var(--teal-light);border:none;padding:7px 12px;border-radius:4px;cursor:pointer;margin-top:10px}
+.dev-text{margin-top:10px;font-family:Inter,sans-serif;font-size:13px;line-height:1.65;background:var(--teal-light);padding:12px;border-radius:6px}
+
+/* CONCEPTS */
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+.concept-card:hover,.concept-card.open{border-color:var(--accent)}
+.concept-term{font-family:Inter,sans-serif;font-size:15px;font-weight:700}
+.concept-def{font-family:Inter,sans-serif;font-size:14px;line-height:1.7;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.prac-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-top:10px;margin-bottom:4px}
+.prac-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65;color:var(--muted)}
+
+/* TOOLKIT */
+.tool-tabs{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+.tool-btn{font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:6px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s}
+.tool-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tool-panel{display:none;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:22px}
+.tool-panel.active{display:block}
+.tool-intro{font-family:Inter,sans-serif;font-size:14px;color:var(--muted);margin-bottom:20px;line-height:1.5}
+.fld-label{font-family:Inter,sans-serif;font-size:13px;font-weight:600;margin-bottom:5px;display:block}
+.fld{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;outline:none;background:var(--bg);margin-bottom:12px}
+.fld:focus{border-color:var(--accent)}
+.output-box{background:var(--accent-light);padding:14px;border-radius:6px;margin-top:16px;font-family:Inter,sans-serif;font-size:14px;line-height:1.65}
+.output-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:8px}
+
+/* CONTEXT */
+.conn-card{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:16px 18px;margin-bottom:10px}
+.conn-book{font-family:Inter,sans-serif;font-size:14px;font-weight:700;margin-bottom:5px}
+.conn-text{font-family:Inter,sans-serif;font-size:13px;color:var(--muted);line-height:1.65}
+.crit-item{display:flex;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:8px}
+.crit-n{width:24px;height:24px;border-radius:50%;background:#FFF8E6;color:#C8910A;font-family:Inter,sans-serif;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.crit-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65}
+.context-h{font-family:Inter,sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;margin-top:6px}
+
+/* ASK */
+.ask-setup{}
+.setup-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+.setup-step{display:flex;gap:12px;font-family:Inter,sans-serif;font-size:14px;line-height:1.5}
+.setup-num{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.setup-step a{color:var(--accent)}
+.key-row{display:flex;gap:10px}
+.key-input{flex:1;max-width:400px;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;outline:none}
+.key-btn{padding:9px 22px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:Inter,sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.key-btn:disabled{opacity:.4;cursor:not-allowed}
+.ask-ui{display:flex;flex-direction:column;height:calc(100vh - 180px)}
+.ask-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.ask-hdr-title{font-family:Inter,sans-serif;font-size:18px;font-weight:700}
+.ask-reset{background:none;border:1px solid var(--border);border-radius:4px;padding:4px 10px;font-family:Inter,sans-serif;font-size:12px;color:var(--muted);cursor:pointer}
+.msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px;margin-bottom:10px}
+.suggested-label{font-family:Inter,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px}
+.sug-btn{display:block;width:100%;text-align:left;padding:9px 12px;background:var(--card);border:1px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;cursor:pointer;margin-bottom:6px;transition:all .15s}
+.sug-btn:hover{border-color:var(--accent);background:var(--accent-light)}
+.msg{max-width:85%}
+.msg.user{align-self:flex-end}
+.msg.assistant{align-self:flex-start}
+.msg-text{font-family:Inter,sans-serif;font-size:13px;line-height:1.65;padding:10px 14px;border-radius:8px;white-space:pre-wrap}
+.msg.user .msg-text{background:var(--accent);color:#fff}
+.msg.assistant .msg-text{background:var(--card);border:1px solid var(--border)}
+.typing{display:flex;gap:4px;padding:12px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px}
+.typing span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:bounce 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.ask-input-row{display:flex;gap:8px;border-top:1px solid var(--border);padding-top:10px}
+.ask-input{flex:1;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:Inter,sans-serif;font-size:13px;resize:none;outline:none;background:var(--bg)}
+.ask-input:focus{border-color:var(--accent)}
+.ask-send{padding:9px 18px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:Inter,sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.ask-send:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:640px){.stat-grid{grid-template-columns:repeat(2,1fr)}.nav-grid{grid-template-columns:1fr 1fr}.sec-body{padding-left:18px}}
+
+/* WCAG 2.1 AA (1.4.1 Use of Color): inline anchors in content paragraphs must be distinguishable without relying on color alone. Scoped to <main> so nav/footer button-links are unaffected. */
+main p a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]),
+main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
+/* === Dark Mode === */
+html.dark body { background: #0f172a; color: #e2e8f0; }
+html.dark #root,
+html.dark main,
+html.dark .app,
+html.dark [id^="p-"],
+html.dark .panel { filter: invert(0.88) hue-rotate(180deg); }
+html.dark #root img,
+html.dark #root svg:not([class*="im-"]),
+html.dark main img,
+html.dark main svg:not([class*="im-"]) { filter: invert(1) hue-rotate(180deg); }
+html.dark .im-topbar, html.dark .im-footer { filter: none; }
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+<!-- SEO meta (autogenerated) -->
+<meta name="description" content="Who Owns the Past? (Shaan Kashyap, 2026) — ImpactMojo Companion. A social history of how Indian historians rewrote the nation's past and present, 1870–2020.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.impactmojo.in/BookSummaries/who-owns-the-past-companion.html">
+<meta property="og:title" content="Who Owns the Past? — ImpactMojo Companion">
+<meta property="og:description" content="Who Owns the Past? (Shaan Kashyap, 2026) — ImpactMojo Companion. A social history of how Indian historians rewrote the nation's past and present, 1870–2020.">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/og-card.png">
+<meta property="og:url" content="https://www.impactmojo.in/BookSummaries/who-owns-the-past-companion.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ImpactMojo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Who Owns the Past? — ImpactMojo Companion">
+<meta name="twitter:description" content="Who Owns the Past? (Shaan Kashyap, 2026) — ImpactMojo Companion. A social history of how Indian historians rewrote the nation's past and present, 1870–2020.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/og-card.png">
+<!-- Favicons -->
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<!-- Translate -->
+<style>
+/* Skip link (WCAG 2.4.1) */
+.im-skip-link { position:absolute; top:-40px; left:0; background:#0EA5E9; color:#fff; padding:8px 16px; z-index:10000; text-decoration:none; font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600; }
+.im-skip-link:focus { top:0; }
+/* Floating paper plane */
+.im-paper-plane { position:fixed; bottom:2rem; right:2rem; width:60px; height:60px; opacity:0.14; pointer-events:none; z-index:0; animation: imFloat 6s ease-in-out infinite; }
+@keyframes imFloat { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-15px) rotate(3deg);} }
+html.dark .im-paper-plane { opacity:0.22; }
+/* Interactive companion CTA */
+.im-interactive-cta { display:inline-flex; align-items:center; gap:0.5rem; background:var(--im-gradient); color:#fff !important; -webkit-text-fill-color:#fff; padding:0.5rem 1rem; border-radius:6px; font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600; text-decoration:none; margin-top:14px; transition:opacity 0.2s; }
+.im-interactive-cta:hover { opacity:0.9; }
+
+/* === ImpactMojo Brand Override (fonts + dark mode) — v10.21 === */
+html body, html body .app, html body main, html body .panel,
+html body p, html body li, html body blockquote, html body .sec-summary, html body .arg p,
+html body .sub, html body .tagline, html body .hero, html body .hero h1 {
+  font-family: 'Amaranth', Arial, sans-serif !important;
+}
+html body h1, html body h2, html body h3, html body h4, html body h5, html body h6,
+html body .h1, html body .brand-name, html body .day-badge, html body .pill,
+html body .stat-n, html body .stat-l, html body .sec-title, html body .sec-sub, html body .sec-num,
+html body .concept-term, html body .step-title, html body .step-focus, html body .conn-book,
+html body .book-title, html body .tab-btn, html body .pw-btn, html body .tool-btn,
+html body .im-topbar, html body .im-topbar *, html body .im-footer, html body .im-footer * {
+  font-family: 'Inter', 'Amaranth', Helvetica, sans-serif !important;
+}
+html body code, html body pre, html body .mono, html body kbd, html body samp {
+  font-family: 'JetBrains Mono', ui-monospace, monospace !important;
+}
+
+/* Replace filter-invert dark mode with proper token-based dark mode */
+html.dark body { background: #0F172A !important; color: #E2E8F0 !important; }
+html.dark #root, html.dark main, html.dark .app, html.dark [id^="p-"], html.dark .panel,
+html.dark .arg, html.dark .hero, html.dark .stat, html.dark .nav-card, html.dark .pw-step,
+html.dark .sec-card, html.dark .sec-body, html.dark .concept-card, html.dark .tool-panel,
+html.dark .conn-card, html.dark .crit-item, html.dark .msg.assistant .msg-text,
+html.dark .output-box, html.dark .typing, html.dark .ask-input, html.dark .key-input,
+html.dark .fld, html.dark .tool-btn, html.dark .pw-btn, html.dark .sug-btn, html.dark .pw-desc {
+  filter: none !important;
+}
+html.dark { color-scheme: dark; }
+html.dark body,
+html.dark body .app,
+html.dark body main { background: #0F172A !important; color: #E2E8F0 !important; }
+html.dark .hero { background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%) !important; color: #F1F5F9 !important; border: 1px solid #334155; }
+html.dark .hero .auth, html.dark .hero .tagline { color: #CBD5E1 !important; }
+html.dark .stat, html.dark .arg, html.dark .nav-card, html.dark .sec-card, html.dark .pw-step,
+html.dark .concept-card, html.dark .tool-panel, html.dark .conn-card, html.dark .crit-item,
+html.dark .msg.assistant .msg-text { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .sec-header, html.dark .sec-body { background: transparent !important; color: #E2E8F0 !important; }
+html.dark .sec-body { border-top-color: #334155 !important; }
+html.dark .stat-n { color: #38BDF8 !important; }
+html.dark .stat-l, html.dark .sec-sub, html.dark .sub, html.dark .nav-card-desc,
+html.dark .step-focus, html.dark .pw-desc, html.dark .prac-text, html.dark .conn-text,
+html.dark .ideas-label, html.dark .prac-label, html.dark .output-label, html.dark .suggested-label,
+html.dark .dev-text, html.dark .fld-label { color: #94A3B8 !important; }
+html.dark .h1, html.dark .sec-title, html.dark .concept-term, html.dark .step-title,
+html.dark .nav-card-label, html.dark .conn-book, html.dark .context-h, html.dark .ask-hdr-title { color: #F1F5F9 !important; }
+html.dark blockquote { color: #CBD5E1 !important; border-left-color: #38BDF8 !important; }
+html.dark .pill { background: rgba(56, 189, 248, 0.15) !important; color: #7DD3FC !important; }
+html.dark .day-badge { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .tab-btn { color: rgba(226, 232, 240, 0.6) !important; }
+html.dark .tab-btn.active { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .tab-btn:hover { color: #F1F5F9 !important; }
+html.dark nav { background: #0F172A !important; border-bottom: 1px solid #334155; }
+html.dark .pw-btn, html.dark .tool-btn { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .pw-btn.active, html.dark .tool-btn.active { background: #0EA5E9 !important; border-color: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .pw-desc { background: rgba(14, 165, 233, 0.1) !important; color: #CBD5E1 !important; }
+html.dark .output-box { background: rgba(14, 165, 233, 0.1) !important; color: #E2E8F0 !important; }
+html.dark .step-n, html.dark .setup-num { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .sec-num { color: #38BDF8 !important; }
+html.dark .ideas-label, html.dark .prac-label, html.dark .output-label { color: #38BDF8 !important; }
+html.dark .dev-toggle { background: rgba(56, 189, 248, 0.1) !important; color: #7DD3FC !important; }
+html.dark .dev-text { background: rgba(56, 189, 248, 0.08) !important; color: #CBD5E1 !important; }
+html.dark .fld, html.dark .key-input, html.dark .ask-input { background: #0F172A !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .msg.user .msg-text { background: #0EA5E9 !important; color: #FFFFFF !important; }
+html.dark .sug-btn { background: #1E293B !important; border-color: #334155 !important; color: #E2E8F0 !important; }
+html.dark .sug-btn:hover { background: rgba(14, 165, 233, 0.15) !important; border-color: #0EA5E9 !important; }
+html.dark .crit-n { background: rgba(251, 191, 36, 0.15) !important; color: #FCD34D !important; }
+html.dark #root img, html.dark #root svg:not([class*="im-"]),
+html.dark main img, html.dark main svg:not([class*="im-"]) { filter: none !important; }
+html.dark .im-topbar, html.dark .im-footer { filter: none !important; }
+/* === End ImpactMojo Brand Override === */
+
+/* Ethics disclaimer heading — readable in both modes */
+.im-ethics-disclaimer .im-ethics-heading { color: #0F172A !important; }
+html.dark .im-ethics-disclaimer .im-ethics-heading, body.dark-mode .im-ethics-disclaimer .im-ethics-heading { color: #F1F5F9 !important; }
+html.dark .im-ethics-disclaimer, body.dark-mode .im-ethics-disclaimer { background: rgba(56,189,248,0.08) !important; border-left-color: #38BDF8 !important; color: #CBD5E1 !important; }
+</style>
+<link rel="stylesheet" href="/assets/css/booksummary-dark.css">
+</head>
+<body>
+<a href="#main-content" class="im-skip-link">Skip to content</a>
+<header class="im-topbar" role="banner">
+  <div class="im-topbar-left">
+    <a class="im-topbar-home" href="/" aria-label="ImpactMojo home">
+      <img src="/assets/images/ImpactMojo%20Logo.png" alt="ImpactMojo" width="24" height="24" style="border-radius:4px;">
+      <span>ImpactMojo</span>
+    </a>  </div>
+  <div class="im-topbar-right">
+    <a href="/catalog.html" class="im-browse-btn" title="Browse all content"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Browse</a>
+    
+    <a class="im-premium-btn" href="/premium.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Premium
+    </a>
+    <div class="im-theme-selector" role="group" aria-label="Theme">
+      <button class="im-theme-btn" data-imtheme="system" title="System theme" aria-label="System theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </button>
+      <button class="im-theme-btn" data-imtheme="light" title="Light theme" aria-label="Light theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <button class="im-theme-btn" data-imtheme="dark" title="Dark theme" aria-label="Dark theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="app">
+<nav>
+  <div class="brand"><div class="dot"></div><span class="brand-name">ImpactMojo</span></div>
+  <div class="tabs" id="tabbar"></div>
+</nav>
+<main id="main-content">
+  <div class="panel active" id="p-overview"></div>
+  <div class="panel" id="p-pathways"></div>
+  <div class="panel" id="p-sections"></div>
+  <div class="panel" id="p-concepts"></div>
+  <div class="panel" id="p-toolkit"></div>
+  <div class="panel" id="p-context"></div>
+  <div class="panel" id="p-ask"></div>
+</main>
+</div>
+
+<!-- Sargam Icon Sprites -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+<symbol id="si_Direction_alt" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m3 3 18 7.92-7.987 2.093L10.92 21z"/></symbol>
+<symbol id="si_Flare" viewBox="0 0 24 24" fill="none"><g clip-path="url(#clip_si_Flare)"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M7 12H1m22 0h-6m-5 5v6m3.536-7.464 1.414 1.414m-9.9-9.9 1.414 1.414m7.072 0L16.95 7.05m-9.9 9.9 1.414-1.414M12 1v6m2 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0"/></g><defs><clipPath id="clip_si_Flare"><path fill="#fff" d="M0 0h24v24H0z"/></clipPath></defs></symbol>
+<symbol id="si_Info" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 8h.008M12 16v-5m10 1c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10"/></symbol>
+<symbol id="si_Lock" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M8 10V7c0-2.21 1.79-4 4-4s4 1.79 4 4v3m-4 5a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 0v3m-5.4-8h10.8c.88 0 1.6.72 1.6 1.6v7c0 1.32-1.08 2.4-2.4 2.4H7.4C6.08 21 5 19.92 5 18.6v-7c0-.88.72-1.6 1.6-1.6"/></symbol>
+<symbol id="si_Lightning" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m12.667 10.5 1.25-7.5L6 13h5l-1.25 7.5 7.917-10z" clip-rule="evenodd"/></symbol>
+<symbol id="si_Library_books" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M10 11h8m-8 3h4m-4-6h8m2 14H8.4C5.42 22 3 19.58 3 16.6V5m5.4-2h11.2A2.4 2.4 0 0 1 22 5.4v11.2a2.4 2.4 0 0 1-2.4 2.4H8.4A2.4 2.4 0 0 1 6 16.6V5.4A2.4 2.4 0 0 1 8.4 3"/></symbol>
+<symbol id="si_Book" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 7.333C12 5.5 10.5 4 8.667 4H2v12h6.708C12 16 12 19.334 12 19.334m0-12C12 5.5 13.5 4 15.333 4H22v12h-6.667C12 16 12 19.334 12 19.334m0-12v12m1.875 1.124A2.58 2.58 0 0 1 16.167 19H21m-10.875 1.458A2.54 2.54 0 0 0 7.833 19H3"/></symbol>
+<symbol id="si_Article" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M8 12h8m-8 3h4M8 9h8M4.4 4h15.2A2.4 2.4 0 0 1 22 6.4v11.2a2.4 2.4 0 0 1-2.4 2.4H4.4A2.4 2.4 0 0 1 2 17.6V6.4A2.4 2.4 0 0 1 4.4 4"/></symbol>
+<symbol id="si_Mail" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m5 7.06 6.87 5.89c.07.06.19.06.26 0L19 7.06M3.2 4h17.6c.66 0 1.2.54 1.2 1.2v12.4c0 1.32-1.08 2.4-2.4 2.4H4.4C3.08 20 2 18.92 2 17.6V5.2C2 4.54 2.54 4 3.2 4"/></symbol>
+<symbol id="si_Help" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M11.83 14v-.621a2.33 2.33 0 0 1 1.164-2.02c1.126-.66 1.514-2.057.854-3.183s-2.057-1.514-3.183-.854C9.965 7.75 9.5 8.487 9.5 9.341M12 17h-.008M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12s4.477 10 10 10 10-4.477 10-10"/></symbol>
+<symbol id="si_Heart" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.696 3C14.652 3 12.887 4.197 12 5.943 11.113 4.197 9.348 3 7.304 3 4.374 3 2 5.457 2 8.481s1.817 5.796 4.165 8.073S12 21 12 21s3.374-2.133 5.835-4.446C20.46 14.088 22 11.514 22 8.481S19.626 3 16.696 3"/></symbol>
+<symbol id="si_Globe_detailed" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M22 12c0 5.523-4.477 10-10 10m10-10c0-5.523-4.477-10-10-10m10 10H2m10 10C6.477 22 2 17.523 2 12m10 10 .66-.31c2.1-2.71 3.34-6.14 3.34-9.78s-1.22-7-3.27-9.69L12 2m0 20-.73-.31A15.94 15.94 0 0 1 8 12c0-3.64 1.24-7.07 3.34-9.78L12 2M2 12C2 6.477 6.477 2 12 2m7.14 17c-1.82-1.85-4.34-3-7.14-3s-5.33 1.15-7.14 3M19.14 5C17.33 6.85 14.8 8 12 8S6.68 6.85 4.86 5"/></symbol>
+</svg>
+
+
+<div id="root"></div>
+<script>
+const DATA = {"title": "Who Owns the Past? How Historians [re]wrote India's Past & Present 1870–2020", "dayBadge": "History & Politics", "author": "Shaan Kashyap · Vintage / Penguin Random House India, 2026", "tagline": "An interactive companion to Shaan Kashyap's social history of how Indians have fought over, rewritten and owned their past.", "pills": ["Historiography", "History Wars", "Textbooks & NCERT", "Secularism", "Indian Nationalism", "South Asia"], "stats": [{"n": "11", "l": "Chapters"}, {"n": "14", "l": "Key concepts"}], "argument": ["This is not a history of India but a history of how Indians have argued over, contested and reimagined history itself. Kashyap traces the public lives of professional historians across nearly 150 years — from Sir Syed Ahmad Khan's 1872 objection to a colonial textbook, to the writing of the nation's 'official' freedom-struggle history, through the Babri Masjid–Ramjanmabhoomi dispute, to the 'saffron' and Modi years. His method is a 'sociology of historiography': he follows the moments when historians left the cloistered university and became entangled in the public sphere.", "The book's organising idea is the 'Textbook Nation' — the modern Indian state's project of tempering a nation on constitutional patriotism alone, using uniform textbooks and 'official knowledge' to fabricate national integration while forgoing civilizational diversity and conflict. Kashyap shows that history-textbook controversies are neither new nor uniquely Indian; they have a global history (China, Japan, Pakistan) and recur every time political power shifts.", "Crucially, Kashyap writes against the villainisation of professional historians AND against their self-appointed monopoly. He argues that figures like Romila Thapar, Irfan Habib, R.S. Sharma and Bipan Chandra were often politically aligned, near-silent during the Emergency yet vocal against non-Congress governments, and that by entering disputes like Ayodhya strictly 'as historians' they risked eroding their own public legitimacy. He extends an invitation to conversation — insisting history writing 'cannot be left to trained historians alone.'", "For practitioners, the book is a case study in a problem far larger than India's classrooms: what happens to evidence-based expertise when the past becomes a matter of public grievance, and one side of politics deeply distrusts intellectuals. It is essential reading on the limits of technocratic authority in divided, majoritarian democracies."], "accent": "#B45309", "accent_light": "#FEF3C7", "pathways": [], "sections": [{"title": "What Is a Textbook Nation?", "subtitle": "Intro · Framing", "summary": "", "ideas": ["Opens with the Chinese Communist Party's repeatedly rewritten 'Brief History' (2021 edition shrinking the Cultural Revolution to a page) to show textbook controversy has a global history, not a uniquely Indian one", "History writing is a form of storytelling that both unites and divides — if people pick sides between the Avengers and Thanos, they will pick sides between Aurangzeb and Shivaji, or Gandhi and Savarkar", "Defines the book's project as a 'social history of historiography' — tracing when historians stepped beyond the university into public controversy, from Sir Syed Ahmad Khan (1872) to Modi's India (2020)", "The 'Textbook Nation': the state uses uniform, nationalized textbooks and 'official knowledge' to manufacture national integration; uniform textbooks historically established themselves mainly under authoritarian regimes", "Engages Dipesh Chakrabarty's dilemma — the secular historian can bring reasoning to the public, but there is no guarantee the public will bring their attention; what prevents historians from realizing this aspiration?", "Rejects both extremes: neither the taunt of 'eminent historians'/'distorians' nor the historians' self-defence as purely 'secular' and 'scientific' — the book walks the middle path and builds a bridge to non-professionals"], "quotes": ["this book is not a history of India—it is the history of how Indians have argued over, contested and reimagined history itself.", "Our traditional version of history was focused on ideology and national identity. The new history is less ideological, and that suits the political goals of today."], "devEcon": "Curricula and textbooks are development terrain, not peripheral culture: understanding how states weaponize 'official knowledge' for national integration helps practitioners read NEP-era pedagogy, textbook policy and identity debates across South Asia."}, {"title": "History Controversies and Colonialism", "subtitle": "Ch 1 · 1870–1947", "summary": "", "ideas": ["Syed Ahmad Khan's 14 September 1872 letter objecting to Shiv Prasad's textbook Itihas Timir Nashak is identified as the first modern Indian history-textbook controversy", "The 1877 Committee to Examine Textbooks (secretary E. Lethbridge; members incl. E.C. Bayley, Kristodas Pal) surveyed colonial school texts; DPI Matthew Kempson defended Shiv Prasad by citing Froude, Carlyle, Guizot and Gibbon", "A lesser-known Odisha case: Pyari Mohan Acharya's prize-winning 'European-style' Odisara Itihasa (1879) was withdrawn after Kalipada Banerjee's public campaign over its depiction of Lord Jagannath's idol being burnt", "Argues against Krishna Kumar's 'Textbook Culture' thesis: colonial textbooks were layered, heterogeneous and many-authored, so teachers actually had MORE freedom to choose than teachers in contemporary India", "Marshman (1873), G.U. Pope (1880) and Roper Lethbridge broke James Mill's rigid Hindu/Muslim/British chronology; by the late 1920s the 'spectre of James Mill' had been exorcised by many Indian authors", "The 1935 founding of the Indian History Congress marks the professionalization of history in India"], "quotes": ["the objection to the 'tone' of Baboo Siva Prasad's little book arises from ignorance of the literature of world history."], "devEcon": "Reveals that the 'demand for the past' is bottom-up and vernacular, not merely elite manipulation — useful for practitioners working on regional language politics, education federalism and community grievance in South Asia."}, {"title": "The Freedom Struggle: Official and Non-Official", "subtitle": "Ch 2 · 1947–61", "summary": "", "ideas": ["R.C. Majumdar proposed an official history of the freedom struggle (IHRC Jaipur, 1948); the new state co-opted professional historians to write 'national histories' and nationalize the past", "Majumdar was appointed director of the project but sidelined; Tara Chand's official History of the Freedom Movement in India (1961) erased Majumdar's role entirely", "The core clash was over 1857: Tara Chand read it as an organized national uprising, Majumdar as a mere 'Sepoy Mutiny'; the state preferred 'synthesis and mutual adjustment' (Ashoka's Dhamma, Akbar's Sulh-e Kul) over 'conflict'", "The divergence extends to Moplah (1921): Majumdar called it a 'rebellion' by 'fanatic Muslims', while Tara Chand softened it into a 'Rising' of the 'backward' — the same event narrated to opposite ends", "The first history-textbook controversy in independent India was Kerala 1957–59: E.M.S. Namboodiripad's CPI government was accused of 'communist propaganda' in nationalized textbooks (portraits of Marx, Lenin, Mao; the omission of Gandhi)", "Textbooks are 'official knowledge' (Apple and Christian-Smith): the state sponsors only the single history it validates and sweeps uncomfortable facts under the rug"], "quotes": ["the present draft Vol. I . . . could not be regarded as a historical text at all", "There is no doubt that here and there the books have overrated the case of communism and understated the achievements of the non-communistic countries of the world."], "devEcon": "The Kerala episode shows how nationalizing textbook production concentrates state power over knowledge and collides with centre–state education federalism — a live issue for minority rights and education governance across South Asia."}, {"title": "Nehruvian Consensus, National Integration", "subtitle": "Ch 3 · 1961–77", "summary": "", "ideas": ["By the early 1960s national integration was Nehru's paramount concern; NCERT was founded in 1961 and a National Integration Committee set up under Indira Gandhi", "The 'Textbook Nation' thesis: schools and textbooks were assigned the task of fabricating national integration, defining religion, caste, language and nationality as manageable sociopolitical categories", "The first NCERT history textbooks were authored by Romila Thapar (Ancient India, 1966), R.S. Sharma, Satish Chandra, Bipan Chandra and Arjun Dev, under a Board of Editors chaired by S. Gopal", "Uses the 1970 NCERT Screening Record Booklet as a microhistorical 'event' — it first gave precise definitions of casteism, communalism and regionalism to screen textbooks for national integration", "A running tension: historians (Thapar) framed the project as historiographic correction, while education ministers (M.C. Chagla) framed it as nation-building to 'influence the minds of the students'", "Historians were near-silent during the Emergency (1975–77) — the IHC passed no forceful resolution — a silence the book contrasts sharply with their animated reaction to the Janata years"], "quotes": ["a totally banal narrative and predictable illustrations of a poor quality", "reaffirms the commitment of Indian historians to the scientific and secular approach to the study of history"], "devEcon": "The institutional origins of NCERT and its screening apparatus illuminate how curriculum machinery is deliberately built for social engineering — directly relevant to practitioners analyzing education governance and NEP-era centralization."}, {"title": "The Janata Interregnum", "subtitle": "Ch 4 · 1977–80", "summary": "", "ideas": ["The Shah Commission documented Emergency excesses (34,988 detentions under MISA, 75,818 under DISIR); Indira Gandhi later recalled its reports, and the document was rediscovered only in 2010", "The 'first' NCERT textbook controversy (1977) began with a mysterious note routed through V. Shankar to withdraw four books by Thapar, Bipan Chandra, Tripathi/De and the booklet Communalism and the Writing of Indian History; R.S. Sharma's Ancient India became a fifth", "The attack targeted historians as individuals — R.S. Sharma's USSR visit was cancelled and ICHR funding of 'Marxist' projects was questioned; Ashis Nandy noted the 'poetic justice' of it", "Sumanta Banerjee's EPW critique (1978) charged that Marxist historians de-emphasized religion, courted Indira Gandhi and ran the CHS, ICHR and IHC as 'academic entrepreneurs'; Bipan Chandra's rejoinder deflected rather than answered", "A telling pattern: the IHC, silent during the Emergency, swiftly passed resolutions reaffirming a 'scientific and secular approach' the moment a non-Congress government took power", "At the 1978 IHC session, S. Gopal warned that the 'shadow of politicians and bureaucrats' looming over the discipline could be catastrophic"], "quotes": ["not so much a school of Marxist historians as a school of, what an observer has called, courtier historians.", "Were this shadow of politicians and bureaucrats looming over our disciplines to become a major reality, the consequence could be catastrophic."], "devEcon": "A candid look at how research councils and universities (ICHR, UGC, IHC) become political battlegrounds and patronage networks — cautionary for anyone building or reforming public knowledge institutions in the region."}, {"title": "In the Turbulent Eighties", "subtitle": "Ch 5 · 1981–89", "summary": "", "ideas": ["Irfan Habib's 1981 suspension at Aligarh Muslim University amid a Students' Islamic Movement agitation ('Communist dog', 'Roos ka naukar') exposes minority communalism as well as Habib's own radical, activist politics", "Maharashtra 1982: Christian and Muslim communities protested and burned the Standard VIII history textbook (the government admitted 117 errors); 'India, that is, Bharat' was mistranslated as 'Hindustan'", "Bombay teachers issued a prescient warning that a history palatable to all sections would be worthless — you can burn a history book but cannot obliterate historical facts", "Historians remained largely confined to the 'republic of letters'; the 1986 Thapar–Muzaffar Alam–S. Gopal letter on Mathura/Krishna's birthplace anticipated the whole temple–mosque logic", "N.N. Kalia's study of sexist textbook bias, plus Shah Bano (1985), Roop Kanwar's sati (1987) and the Rushdie affair (1988), expose the selective and uneven public voice of historians and intellectuals", "With the rising Ramjanmabhoomi movement and the televised Ramayana, historians were reduced to reactive 'firefighters' with little structural insight to offer"], "quotes": ["If books of history are to be palatable to all sections of society, not one worth the name can be brought out.", "How far back do we go? Can we push this to the restoration of Buddhist and Jain monuments destroyed by Hindus?"], "devEcon": "Demonstrates how history education intersects with gender (Shah Bano, sati), minority rights and mass media — an intersectional lens practitioners need whenever curriculum touches identity and belief."}, {"title": "Ram, Allah and the Illegitimacy of History", "subtitle": "Ch 6 · 1989–96", "summary": "", "ideas": ["The JNU historians' booklet 'The Political Abuse of History: Babri Masjid–Ramjanmabhoomi Dispute' (1989) tried to draw a firm line between historical evidence and reasons of faith", "Majid Hayat Siddiqi's dissent (a JNU historian who did NOT sign) argued historians should intervene as citizens, not as historians — 'the historian's truth is never the social truth' — and must resist playing the role of the judiciary", "Over forty historians (R.S. Sharma, Thapar, K.N. Panikkar, Suraj Bhan) issued statements; some served as Babri Masjid Action Committee 'experts', blurring the line between scholar and partisan", "Thapar's sharp riposte to archaeologist S.P. Gupta (who had once sought to do his PhD under her); Irfan Habib countered the temple claim by dismissing 'Muslim communalist' writers and the texts Arun Shourie cited", "The book documents a parallel Urdu/Arabic communal print culture (Nasim Hijazi's novels, the 'Aurangzeb Alamgeer' historical fiction) to argue historians confronted Hindu communalism but underplayed its Muslim counterpart", "International parallels of historians-as-court-experts: Richard Evans versus David Irving (Holocaust denial), and Carlo Ginzburg's The Judge and the Historian — Kashyap asks why Indian historians did not engage the 2010/2019 verdicts with comparable rigour"], "quotes": ["historians must discard their personae as historians if they are to intervene in the dispute without at the same time endangering the very basis of their intellectual stand.", "Faith and myth represent the two major threats to scholarly integrity."], "devEcon": "The book's central case study of how professional expertise loses public legitimacy when it aligns with one political side — essential reading on the limits of technocratic authority in divided democracies."}, {"title": "In the Saffron Years", "subtitle": "Ch 7 · 1997–2004", "summary": "", "ideas": ["Kesavan Veluthat (1997) argued that classrooms still taught dynastic, hero-based history and the tripartite ancient/medieval/modern periodization that (per Thapar and Mukhia, 1968) lends itself to a communal reading", "The Vajpayee–Murli Manohar Joshi era (1998–2004) was dubbed 'saffronization' and even 'Talibanization'; the RSS-linked Vidya Bharati's Sanskriti Gyan booklets carried an expanded map of Bharat, renamed oceans and unique civilizational claims", "The ICHR's Memorandum of Association was quietly amended, changing 'rational' and 'scientific' to 'national'; Panikkar and Bipan Chandra protested that 'History is the main ideology of the RSS'", "New NCERT textbooks (2002) by Makkhan Lal, Meenakshi Jain and Hari Om; Joshi's 'holy test' proposed vetting by religious leaders — for the first time two rival groups of historians battled over one set of facts", "The IHC's 129-page 'Index of Errors' (Habib, Jaiswal, Aditya Mukherjee, 2003) was met by a 246-page NCERT rebuttal ('Fallacies in the IHC Report') — a spectacle of accusation and counter-accusation", "Krishna Kumar's proposal to 'de-nationalize' textbook production offered a way out — undercut, the author notes, by Kumar's own later role steering the NCERT textbook regime under the UPA"], "quotes": ["History is the main ideology of the RSS.", "If history is one-sided, we should change it. We are ready for a debate in Parliament on this issue."], "devEcon": "The saffronization decade is a case study in how curriculum becomes a proxy for state ideology — vital background for understanding the politics behind India's ongoing NCERT revisions under NEP 2020."}, {"title": "Back to the New Secular", "subtitle": "Ch 8 · 2004–14", "summary": "", "ideas": ["The UPA's Arjun Singh launched a 'detox drive' reversing NDA changes across NCERT, ICHR, NMML and IIAS — an 'action and reaction' that mirrored what the BJP had earlier done to Left historians", "Eric Hobsbawm's observation that 'historians have become central to politics' is used to map Thapar's transnational Marxist networks; the decades-long Towards Freedom project is a saga of institutional politics", "New NCERT textbooks (2005) under chief adviser Neeladri Bhattacharya reorganized history by themes and everyday life — forest dwellers, pastoralists, cricket, clothing — championing 'criticality' and historical thinking", "A Bihar reality check: history education had collapsed on the ground (teachers unsure who built the Grand Trunk Road, or of Lal Bahadur Shastri's birthday) even as Delhi fought its textbook wars", "The 'revolutionary terrorism' / Bhagat Singh row (2007) and the NCERT 'Cartoon Controversy' (2012) over Shankar's 1949 Ambedkar cartoon show controversies driven by personalities and politics, not content", "The NMML controversy — 57 scholars led by Ramachandra Guha versus director Mridula Mukherjee — reveals intellectuals' own institutional politics and the enduring exclusivity of India's knowledge institutions"], "quotes": ["We historians are the monopoly suppliers of the past.", "Once we learn to ask historical questions about all that is around us, history in fact acquires a new meaning."], "devEcon": "Shows that 'secular' regimes also politicize history, and that access to knowledge institutions (NMML, archives, libraries) remains an elite inheritance — key for debates on democratizing education and archives in South Asia."}, {"title": "History in the Modi Era", "subtitle": "Ch 9 · 2014–20", "summary": "", "ideas": ["The era opens with Mahatma Gandhi's grandsons — Rajmohan and Gopalkrishna Gandhi — contesting Modi's claim to Sardar Patel and to the very idea of the 'Desh'", "A methodological caution: contemporary history needs a generation's distance, so for 2014–20 the author adopts a journalistic rather than a historical approach, reading The Wire and Frontline against Organiser and Panchjanya", "Award Wapsi (2015), triggered by the killings of Kalburgi, Pansare and Dabholkar and the Dadri lynching of Mohammed Akhlaq; the government reframed it as a 'manufactured rebellion' and deployed whataboutery (1984, Kashmiri Pandits)", "Edward Said and Romila Thapar on the 'public intellectual' — and the core dilemma of intervening when one side of politics deeply distrusts intellectuals", "Cow vigilantism has a deep Modern-India history (Nehru's 1955 threat to resign, Akbar's slaughter bans, Vinoba Bhave's fasts) that historians tend to ignore in favour of the politics of the moment", "Sets up the closing question — who counts as a historian — as new non-professional voices (Sanjeev Sanyal, Vikram Sampath) claim the authority of history"], "quotes": ["There is no such thing as a private intellectual, since the moment you set down words and then publish them you have entered the public world.", "the cow is just a political animal"], "devEcon": "Analyzes how polarization forecloses the mediating role of expertise — directly relevant to practitioners whose evidence-based work must land in a distrustful, majoritarian public sphere."}, {"title": "The Birth of Historians: Some Reflections", "subtitle": "Ch 10 · Who is a historian?", "summary": "", "ideas": ["A personal reflection sparked by a journalist flattening the author's nuanced claim into the bare line 'history writing cannot be left to trained historians alone'", "Many eminent historians were never formally 'trained': D.D. Kosambi (mathematics), Jadunath Sarkar (English literature), Sanjay Subrahmanyam (economics), Dipesh Chakrabarty (physics), Ramachandra Guha (anthropology)", "History writing long happened outside academia — a striking South Asian pattern; the professional category of the 'historian' emerged in India only from the 1930s (Indian History Congress 1935; a scientific-history committee proposed in 1938)", "Traces early amateur historians: Amos Sutton and Pyari Mohan Acharya in Odisha, John Malcolm on Ahalya Bai (using 'legends' and 'anecdotes'), John Clark Marshman and G.U. Pope", "The real test is method — Rankean source criticism (after Leopold von Ranke, 1795–1886) and critical engagement with evidence — not credentials or academic training", "Concludes ecumenically: post-2014 popular authors should be met 'not with suspicion but with openness' if they follow historical method — 'Let a hundred flowers bloom'"], "quotes": ["History writing cannot be left to trained historians alone.", "Let a hundred flowers bloom; let a hundred schools of thought contend."], "devEcon": "Reframes expertise and gatekeeping — who counts as a legitimate knowledge producer — a productive provocation for participatory research, indigenous knowledge and the democratization of scholarship in development."}], "concepts": [{"term": "Textbook Nation", "definition": "Kashyap's coinage for the modern Indian state's project of tempering a nation-state on constitutional patriotism alone — through uniform textbooks and 'official knowledge' — while forgoing the diversities and complexities of civilization.", "practitionerNote": ""}, {"term": "Social History of Historiography", "definition": "The study, after Sumit Sarkar's lament that Indians 'lack a social history of historiography', of the social location of historians themselves — their public lives, silences, institutions and politics — rather than only the histories they write.", "practitionerNote": ""}, {"term": "Official Knowledge / Official History", "definition": "Government-commissioned or state-approved historical narrative (after Michael Apple): textbooks and official histories that bear the state's stamp, construct realities and transform the subjectivities of those who read them, rather than merely delivering facts.", "practitionerNote": ""}, {"term": "Textbook Culture", "definition": "Krishna Kumar's thesis that Indian schooling is textbook-centred — a single prescribed text as the sole teaching instrument, curtailing teacher freedom. Kashyap contests it, showing colonial textbooks were heterogeneous and teachers then had more choice.", "practitionerNote": ""}, {"term": "History Wars", "definition": "Recurring public battles over the interpretation, ownership and writing of the past — who owns it, how it should be interpreted and who may write it — reinventing themselves with each change of political power, in India and globally.", "practitionerNote": ""}, {"term": "Synthesis and Mutual Adjustment", "definition": "The Nehruvian-era doctrine (Tara Chand, Humayun Kabir) that Indian culture is defined by continuity, fusion and 'mutual adjustment' of diverse cultures — modelled on Ashoka's Dhamma and Akbar's Sulh-e Kul — preferred by the state over narratives of sectarian 'conflict'.", "practitionerNote": ""}, {"term": "National Integration", "definition": "The postcolonial state project (institutionalized via the National Integration Committee and NCERT, 1961) of using education to check 'separatist tendencies' of religion, caste, language and region and cultivate a pan-Indian secular outlook.", "practitionerNote": ""}, {"term": "Scientific and Secular History", "definition": "The self-description invoked by the Indian History Congress and its Marxist historians — a claim to rational, evidence-based, non-communal history — which Kashyap notes surfaced most insistently whenever a non-Congress government held power in New Delhi.", "practitionerNote": ""}, {"term": "Communal Historiography", "definition": "History writing (in colonial and 'Muslim/Hindu communalist' variants alike) that frames the past through religious antagonism; the charge historians leveled at figures from R.C. Majumdar to the 2002 NCERT authors — and, Kashyap argues, one they applied unevenly.", "practitionerNote": ""}, {"term": "Saffronization", "definition": "The term for the BJP–RSS reshaping of education and history (sharpest under Murli Manohar Joshi, 1998–2004) toward a Hindu-nationalist worldview, from Vidya Bharati's Sanskriti Gyan booklets to rewritten NCERT and state-board textbooks.", "practitionerNote": ""}, {"term": "The Political Abuse of History", "definition": "The 1989 JNU historians' booklet on the Babri Masjid–Ramjanmabhoomi dispute that sought to demarcate historical evidence from faith — and the emblem of historians entering a public dispute strictly in their professional capacity.", "practitionerNote": ""}, {"term": "Historical Thinking / Criticality", "definition": "The pedagogic goal — advanced most fully in Neeladri Bhattacharya's 2005 NCERT textbooks — of teaching students to ask historical questions, weigh evidence and historicize everyday life, rather than memorize dynasties; Kashyap notes its paradoxical drift toward a sameness of 'critical' consensus.", "practitionerNote": ""}, {"term": "Screening Record Booklet (1970)", "definition": "The NCERT instrument that, for the first time, gave precise official definitions of casteism, communalism and regionalism to screen textbook passages 'prejudicial to national integration' — a document Kashyap reads as an 'event' in the social history of knowledge.", "practitionerNote": ""}, {"term": "James Mill's Periodization", "definition": "The tripartite division of Indian history into Hindu, Muslim and British periods — later renamed ancient, medieval and modern — whose unexamined logic, Thapar and Mukhia warned in 1968, lends itself easily to a communal reading of the past.", "practitionerNote": ""}], "tools": [{"label": "Reflection Journal", "intro": "Use these prompts to connect this book to your own practice.", "html": "<label class=\"fld-label\">Where in your own field do you see 'official knowledge' — a single state-sanctioned narrative — crowding out other legitimate accounts?</label>\n<textarea class=\"fld\" id=\"r1\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<label class=\"fld-label\">Kashyap argues experts lose public legitimacy when they align with one political side. Has your own evidence-based work ever been dismissed as partisan — and how did you respond?</label>\n<textarea class=\"fld\" id=\"r2\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<label class=\"fld-label\">Should professionals 'discard their personae' and intervene as citizens rather than as experts in charged public disputes? Where would you draw that line in your work?</label>\n<textarea class=\"fld\" id=\"r3\" rows=\"3\" placeholder=\"Your reflection...\"></textarea>\n<div style=\"margin-top:12px;font-family:Inter,sans-serif;font-size:13px;color:var(--muted)\">Reflections stay in your browser only and are not sent anywhere.</div>"}], "connections": [], "southAsia": ["Textbook and curriculum control is a core arena of state-building across South Asia — India, Pakistan and Bangladesh alike — not a peripheral cultural matter.", "The book explicitly mirrors India against Pakistan's Zia-era Islamization of textbooks (Nasim Hijazi's novels; the scholarship of K.K. Aziz, Tariq Rahman and Pervez Hoodbhoy) and against China's serially rewritten party histories.", "The Kerala 1957–59 episode shows how education federalism and centre–state tension shape the production of knowledge — a recurring fault line in the region's politics.", "Vernacular contestations (Odisha, Maharashtra, Gujarat, Bihar) remind practitioners that regional-language education politics differ sharply from the debates of Delhi's scholarly elite.", "Unequal access to archives and libraries (the NMML case) underscores how knowledge remains an elite inheritance rather than a public good in South Asia."], "critiques": ["The book is stronger as narrative reconstruction than as sustained theory; its promised 'sociology of historiography' is more asserted and illustrated than systematically built.", "Its even-handed 'both sides' framing sometimes flattens genuine asymmetries of power between state-backed majoritarian mobilization and its critics.", "Reliance on newspaper reportage — openly acknowledged by the author for the Modi era — limits evidentiary depth for the most recent and contested period.", "Its sympathetic reading of 'amateur' popular historians underplays how some post-2014 popular history advances demonstrably tendentious or unsupported claims.", "Coverage is weighted toward North Indian and Delhi-centric institutions (NCERT, JNU, AMU, ICHR, IHC); several vernacular episodes remain vivid vignettes rather than deep studies."], "suggested": [], "systemPrompt": "You are an expert reading companion for 'Who Owns the Past? How Historians [re]wrote India's Past & Present 1870–2020' by Shaan Kashyap (Vintage/Penguin Random House India, 2026). Your audience is development practitioners, researchers and students in South Asia. Explain the book's arguments faithfully — its 'Textbook Nation' thesis, the social history of Indian historians, the sequence of textbook and history controversies from Sir Syed Ahmad Khan (1872) to the Modi era, and its central provocation that history writing 'cannot be left to trained historians alone'. Note major critiques, distinguish the book's claims from your own, and connect it to contemporary debates on education policy, secularism, expertise and majoritarian politics. Be accurate to the actual text and its named historians (Romila Thapar, Irfan Habib, R.S. Sharma, Bipan Chandra, R.C. Majumdar, Tara Chand, Neeladri Bhattacharya, and others)."};
+
+// Tab management
+const ALL_TABS = [
+  {id:"overview",label:"Overview"},
+  {id:"pathways",label:"Pathways"},
+  {id:"sections",label:"Sections"},
+  {id:"concepts",label:"Concepts"},
+  {id:"toolkit",label:"Toolkit"},
+  {id:"context",label:"Context"},
+  {id:"ask",label:"Ask"},
+];
+// Only show a tab when it actually has content — otherwise it opens to a blank
+// panel (e.g. pathways is left empty for most books). Overview and Ask always show.
+function __hasTab(id){
+  const has = a => Array.isArray(a) && a.length > 0;
+  switch(id){
+    case "pathways": return has(DATA.pathways);
+    case "sections": return has(DATA.sections);
+    case "concepts": return has(DATA.concepts);
+    case "toolkit":  return has(DATA.tools);
+    case "context":  return has(DATA.southAsia)||has(DATA.critiques)||has(DATA.connections)||has(DATA.suggested);
+    case "ask":      return !!DATA.systemPrompt;
+    default: return true;
+  }
+}
+const TABS = ALL_TABS.filter(t => __hasTab(t.id));
+
+const tabbar = document.getElementById("tabbar");
+TABS.forEach(t => {
+  const btn = document.createElement("button");
+  btn.className = "tab-btn" + (t.id === "overview" ? " active" : "");
+  btn.textContent = t.label;
+  btn.onclick = () => switchTab(t.id);
+  tabbar.appendChild(btn);
+});
+
+function switchTab(id) {
+  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById("p-" + id).classList.add("active");
+  tabbar.querySelectorAll(".tab-btn")[TABS.findIndex(t=>t.id===id)].classList.add("active");
+}
+
+// OVERVIEW
+(function() {
+  const el = document.getElementById("p-overview");
+  el.innerHTML = `
+    <div class="hero">
+      <div class="day-badge">${DATA.dayBadge}</div>
+      <h1>${DATA.title}</h1>
+      <div class="auth">${DATA.author}</div>
+      <div class="tagline">${DATA.tagline}</div>
+      <div class="pills">${DATA.pills.map(p=>`<span class="pill">${p}</span>`).join("")}</div>
+    </div>
+    <div class="stat-grid">
+      ${DATA.stats.map(s=>`<div class="stat"><div class="stat-n">${s.n}</div><div class="stat-l">${s.l}</div></div>`).join("")}
+    </div>
+    <div class="arg">
+      <div class="h1">The central argument</div>
+      ${DATA.argument.map(p=>`<p>${p}</p>`).join("")}
+    </div>
+    <div class="h1" style="margin-top:24px">What's in this companion</div>
+    <div class="nav-grid">
+      ${[["pathways","Learning Pathways","Structured reading routes by role"],["sections","Section by Section","Full analysis with dev econ connections"],["concepts","Concepts & Frameworks","Key terms with practitioner notes"],["toolkit","Practitioner Toolkit","Interactive tools"],["context","Book in Context","Connections and assessment"],["ask","Ask the Book","Gemini-powered Q&A"]].filter(([id])=>__hasTab(id)).map(([id,label,desc])=>`<button class="nav-card" onclick="switchTab('${id}')" ><div class="nav-card-label">${label}</div><div class="nav-card-desc">${desc}</div></button>`).join("")}
+    </div>
+  `;
+})();
+
+// PATHWAYS
+(function() {
+  const el = document.getElementById("p-pathways");
+  let active = 0;
+  function render() {
+    const pw = DATA.pathways[active];
+    if (!pw) { el.innerHTML = ""; return; }
+    el.innerHTML = `
+      <div class="h1">Learning Pathways</div>
+      <div class="sub">Three structured routes through the book based on your role.</div>
+      <div class="pw-tabs">
+        ${DATA.pathways.map((p,i)=>`<button class="pw-btn ${i===active?"active":""}" onclick="__pw(${i})">${p.label}</button>`).join("")}
+      </div>
+      <div class="pw-desc">${pw.desc}</div>
+      <div class="pw-steps">
+        ${pw.steps.map((s,i)=>`<div class="pw-step"><div class="step-n">${i+1}</div><div><div class="step-title">${s.section}</div><div class="step-focus">${s.focus}</div></div></div>`).join("")}
+      </div>
+    `;
+  }
+  window.__pw = (i) => { active = i; render(); };
+  render();
+})();
+
+// SECTIONS
+(function() {
+  const el = document.getElementById("p-sections");
+  let openId = null;
+  let showDev = {};
+  function render() {
+    el.innerHTML = `
+      <div class="h1">Section by Section</div>
+      <div class="sub">All sections with full analysis and development economics connections.</div>
+      ${DATA.sections.map((s,i)=>`
+        <div class="sec-card">
+          <button class="sec-header" onclick="__sec(${i})">
+            <div class="sec-num">§${i+1}</div>
+            <div class="sec-title-block"><div class="sec-title">${s.title}</div><div class="sec-sub">${s.subtitle}</div></div>
+            <div class="sec-chev">${openId===i?"−":"+"}</div>
+          </button>
+          ${openId===i?`<div class="sec-body">
+            <div class="sec-summary">${s.summary}</div>
+            <div class="ideas-label">Key ideas</div>
+            ${s.ideas.map(idea=>`<div class="idea-item"><span class="idea-dot"></span><span>${idea}</span></div>`).join("")}
+            <div class="ideas-label" style="margin-top:14px">Key quotes</div>
+            ${s.quotes.map(q=>`<blockquote>${q}</blockquote>`).join("")}
+            <button class="dev-toggle" onclick="__dev(${i})">${showDev[i]?"Hide":"Show"} development economics connection</button>
+            ${showDev[i]?`<div class="dev-text">${s.devEcon}</div>`:""}
+          </div>`:""}
+        </div>
+      `).join("")}
+    `;
+  }
+  window.__sec = (i) => { openId = openId===i?null:i; render(); };
+  window.__dev = (i) => { showDev[i]=!showDev[i]; render(); };
+  render();
+})();
+
+// CONCEPTS
+(function() {
+  const el = document.getElementById("p-concepts");
+  let open = null;
+  function render() {
+    el.innerHTML = `
+      <div class="h1">Concepts & Frameworks</div>
+      <div class="sub">Key terms with definitions and practitioner notes. Click to expand.</div>
+      ${DATA.concepts.map((c,i)=>`
+        <div class="concept-card ${open===i?"open":""}" onclick="__con(${i})">
+          <div class="concept-term">${c.term}</div>
+          ${open===i?`<div class="concept-def">${c.definition}</div><div class="prac-label">Practitioner note</div><div class="prac-text">${c.practitionerNote}</div>`:""}
+        </div>
+      `).join("")}
+    `;
+  }
+  window.__con = (i) => { open = open===i?null:i; render(); };
+  render();
+})();
+
+// TOOLKIT  
+(function() {
+  const el = document.getElementById("p-toolkit");
+  el.innerHTML = `
+    <div class="h1">Practitioner Toolkit</div>
+    <div class="sub">Interactive tools derived from the book. Use for personal practice or programme design.</div>
+    <div class="tool-tabs">
+      ${DATA.tools.map((t,i)=>`<button class="tool-btn ${i===0?"active":""}" onclick="__tool(${i})">${t.label}</button>`).join("")}
+    </div>
+    ${DATA.tools.map((t,i)=>`
+      <div class="tool-panel ${i===0?"active":""}" id="toolp-${i}">
+        <div class="tool-intro">${t.intro}</div>
+        ${t.html}
+      </div>
+    `).join("")}
+  `;
+  window.__tool = (i) => {
+    document.querySelectorAll(".tool-btn").forEach((b,j)=>b.classList.toggle("active",i===j));
+    document.querySelectorAll(".tool-panel").forEach((p,j)=>p.classList.toggle("active",i===j));
+  };
+})();
+
+// CONTEXT
+(function() {
+  const el = document.getElementById("p-context");
+  el.innerHTML = `
+    <div class="h1">Book in Context</div>
+    <div class="sub">How this book fits within the broader literature, and an honest assessment of its limits.</div>
+    <div class="context-h">Connected works</div>
+    ${DATA.connections.map(c=>`<div class="conn-card"><div class="conn-book">${c.book}</div><div class="conn-text">${c.text}</div></div>`).join("")}
+    <div class="context-h" style="margin-top:24px">Honest assessment</div>
+    <div class="sub">Limits and qualifications for the ImpactMojo context:</div>
+    ${DATA.critiques.map((c,i)=>`<div class="crit-item"><div class="crit-n">${i+1}</div><div class="crit-text">${c}</div></div>`).join("")}
+  `;
+})();
+
+// ASK
+(function() {
+  const el = document.getElementById("p-ask");
+  let apiKey = "", msgs = [], loading = false;
+  
+  function renderSetup() {
+    el.innerHTML = `
+      <div class="ask-setup">
+        <div class="h1">Ask the Book</div>
+        <div class="sub">AI-powered Q&A using Gemini 2.0 Flash (free). Requires a Google AI Studio API key.</div>
+        <div class="setup-steps">
+          <div class="setup-step"><span class="setup-num">1</span><span>Go to <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com/app/apikey</a> and create a free API key.</span></div>
+          <div class="setup-step"><span class="setup-num">2</span><span>Paste it below. The key stays in your browser only and is never stored.</span></div>
+        </div>
+        <div class="key-row">
+          <input class="key-input" type="password" id="key-in" placeholder="AIza..." oninput="document.getElementById('key-submit').disabled=!this.value.trim()"/>
+          <button class="key-btn" id="key-submit" disabled onclick="__setKey()">Connect</button>
+        </div>
+      </div>
+    `;
+  }
+  
+  function renderChat() {
+    el.innerHTML = `
+      <div class="ask-ui">
+        <div class="ask-hdr"><span class="ask-hdr-title">Ask the Book</span><button class="ask-reset" onclick="__resetKey()">Change key</button></div>
+        <div class="msgs" id="msgs-box">
+          ${msgs.length===0?`<div><div class="suggested-label">Suggested questions</div>${DATA.suggested.map(q=>`<button class="sug-btn" onclick="__ask('${q.replace(/'/g,"\'")}')">${q}</button>`).join("")}</div>`:""}
+          ${msgs.map(m=>`<div class="msg ${m.role}"><div class="msg-text">${m.content}</div></div>`).join("")}
+          ${loading?`<div class="msg assistant"><div class="typing"><span></span><span></span><span></span></div></div>`:""}
+        </div>
+        <div class="ask-input-row">
+          <textarea class="ask-input" id="ask-in" rows="2" placeholder="Ask about the book..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();__sendAsk()}"></textarea>
+          <button class="ask-send" id="ask-send" onclick="__sendAsk()">Send</button>
+        </div>
+      </div>
+    `;
+    const box = document.getElementById("msgs-box");
+    if(box) box.scrollTop = box.scrollHeight;
+  }
+  
+  window.__setKey = () => {
+    const v = document.getElementById("key-in").value.trim();
+    if(v) { apiKey = v; renderChat(); }
+  };
+  window.__resetKey = () => { apiKey=""; msgs=[]; renderSetup(); };
+  window.__ask = (q) => {
+    document.getElementById("ask-in").value = q;
+    __sendAsk();
+  };
+  window.__sendAsk = async () => {
+    const inp = document.getElementById("ask-in");
+    if(!inp) return;
+    const q = inp.value.trim();
+    if(!q || loading) return;
+    inp.value = "";
+    msgs.push({role:"user",content:q});
+    loading = true; renderChat();
+    try {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,{
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({
+          system_instruction:{parts:[{text:DATA.systemPrompt}]},
+          contents: msgs.map(m=>{return{role:m.role==="assistant"?"model":"user",parts:[{text:m.content}]}}).slice(0,-1).concat([{role:"user",parts:[{text:q}]}]),
+          generationConfig:{maxOutputTokens:1200,temperature:0.3}
+        })
+      });
+      const data = await res.json();
+      if(!res.ok) throw new Error(data.error?.message||"API error");
+      const reply = data?.candidates?.[0]?.content?.parts?.map(p=>p.text).join("")||"No response.";
+      msgs.push({role:"assistant",content:reply});
+    } catch(e) {
+      msgs.push({role:"assistant",content:"Error: "+e.message});
+    }
+    loading = false; renderChat();
+  };
+  
+  renderSetup();
+})();
+</script>
+
+<!-- ImpactMojo Footer -->
+<!-- Ethics & Copyright Disclaimer -->
+<section class="im-ethics-disclaimer" style="max-width:1100px;margin:2rem auto 1rem;padding:1.25rem 1.5rem;background:rgba(14,165,233,0.06);border-left:4px solid #0EA5E9;border-radius:8px;font-family:'Inter','Amaranth',sans-serif;font-size:0.85rem;line-height:1.65;color:var(--im-text-secondary,#64748B);">
+  <p class="im-ethics-heading" style="margin:0 0 0.5rem;font-weight:600;">A note on books, authors, and intellectual labour</p>
+  <p style="margin:0;">All books companioned on ImpactMojo have been duly purchased with real money and form part of a personal collection. None of the source texts have been obtained by any illegal means — we deeply respect the intellectual labour of authors, editors, and publishers. These reading companions are offered free of charge as educational aids; ImpactMojo does not sell reading companions as a paid service and therefore does not violate any commercial licensing agreement or copyright. Nothing here reproduces the full text of any book — each companion is an interpretive study guide.</p>
+</section>
+
+<footer class="im-footer" role="contentinfo">
+<div class="im-footer-content">
+<p class="im-footer-made">Made with <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;color:#EF4444;"><use href="#si_Heart"/></svg> by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+<div class="im-footer-grid">
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Info"/></svg> About ImpactMojo</h4>
+<ul>
+<li><a href="../about.html">About Us</a></li>
+<li><a href="../contact.html">Contact</a></li>
+<li><a href="https://github.com/ImpactMojo/ImpactMojo" rel="noopener noreferrer" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Globe_detailed"/></svg> GitHub</a></li>
+<li><a href="../transparency.html">Transparency</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Lock"/></svg> Legal</h4>
+<ul>
+<li><a href="../privacy-policy.html">Privacy Policy</a></li>
+<li><a href="../terms-of-service.html">Terms of Service</a></li>
+<li><a href="../disclaimer.html">Disclaimer</a></li>
+<li><a href="../data-protection.html">Data Protection</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Lightning"/></svg> Quick Links</h4>
+<ul>
+<li><a href="../catalog.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Library_books"/></svg> All Courses</a></li>
+<li><a href="../premium.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Flare"/></svg> Premium Content</a></li>
+<li><a href="../coaching.html">Coaching</a></li>
+</ul>
+</div>
+<div class="im-footer-section">
+<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#si_Book"/></svg> Resources</h4>
+<ul>
+<li><a href="../handouts.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Article"/></svg> Handouts</a></li>
+<li><a href="../blog.html">Blog</a></li>
+<li><a href="../faq.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px;"><use href="#si_Help"/></svg> FAQ</a></li>
+<li><a href="../sitemap.html">Sitemap</a></li>
+<li><a href="/docs/" rel="noopener noreferrer" target="_blank">Documentation</a></li>
+</ul>
+</div>
+</div>
+<div class="im-footer-bottom">
+<p>&copy; 2026 ImpactMojo. All content for educational purposes only.</p>
+<p>Released under <strong>MIT License</strong> | Supported by <a href="https://www.pinpointventures.in" rel="noopener noreferrer" target="_blank">PinPoint Ventures</a></p>
+</div>
+</div>
+</footer>
+
+<script src="/js/theme.js"></script>
+
+
+<!-- Supabase Auth -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="/js/state-manager.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+
+<!-- Floating paper plane (ImpactMojo decorative element) -->
+<svg class="im-paper-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M80,130 L150,50" stroke="#10B981" stroke-width="2" stroke-dasharray="4,4"/>
+  <circle cx="150" cy="50" r="4" fill="#6366F1"/>
+  <circle cx="40" cy="155" r="2" fill="#0EA5E9" opacity="0.6"/>
+  <circle cx="35" cy="165" r="1.5" fill="#6366F1" opacity="0.4"/>
+  <circle cx="45" cy="170" r="1" fill="#10B981" opacity="0.5"/>
+</svg>
+<script src="/js/translate-sarvam.js" defer></script>
+  <script src="/js/site-chrome.js" defer></script>
+</body>
+</html>
