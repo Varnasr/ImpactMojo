@@ -183,7 +183,8 @@
           '<a href="' + SITE + '/catalog.html">Full Catalog</a></div>' +
         '<div class="im-sc-foot-col"><h3>Explore</h3>' +
           '<a href="' + SITE + '/libraries.html"><b>All Libraries</b></a><a href="' + SITE + '/dataverse.html">Dataverse</a>' +
-          '<a href="' + SITE + '/BookSummaries/">Reading Companions</a><a href="' + SITE + '/dojos.html">Dojos &amp; Practice</a>' +
+          '<a href="' + SITE + '/BookSummaries/">Reading Companions</a><a href="' + SITE + '/law-guides/">Law Guides</a>' +
+          '<a href="' + SITE + '/dojos.html">Dojos &amp; Practice</a>' +
           '<a href="' + SITE + '/blog.html">Blog</a></div>' +
         '<div class="im-sc-foot-col"><h3>ImpactMojo</h3>' +
           '<a href="' + SITE + '/about.html">About</a><a href="' + SITE + '/premium.html">Premium</a>' +

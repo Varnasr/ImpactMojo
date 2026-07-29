@@ -2,6 +2,19 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.161.0 — July 29, 2026 (New: Law Guides — Indian laws for the social sector)
+
+### For Learners
+
+A new content category: **Law Guides** (`/law-guides/`) — plain-English explainers of the Indian laws that shape development work, written for practitioners rather than lawyers. Each guide covers who the law applies to, what it obliges you to do, the gray areas nobody resolves for you, collapsible FAQs, and an interactive compliance checklist that remembers your progress.
+
+- **The FCRA for the Social Sector** — foreign funding rules: registration vs prior permission, the SBI Delhi account, the sub-granting ban, and how organisations actually lose their licence.
+- **CSR Law for the Social Sector** — Section 135's 2% obligation, Schedule VII, CSR-1 registration for NGOs, unspent-funds timelines, and statutory impact assessment.
+- **The POSH Act for the Social Sector** — Internal Committees, the "workplace" that follows field work, statutory timelines, and what small NGOs must do.
+- **The RTI Act for the Social Sector** — using RTI as an advocacy and evidence tool, filing applications that work, and when your own NGO counts as a "public authority."
+- **Child Protection Laws for the Social Sector** — POCSO and the JJ Act: the mandatory reporting duty on every staff member, CCI registration, and the CWC/Childline machinery.
+- **The RPwD Act for the Social Sector** — disability rights: employer duties, reasonable accommodation, accessibility standards, and inclusive programming.
+
 ## v10.160.0 — July 28, 2026 (14 new Reading Companions — 149 → 163)
 
 ### For Learners

@@ -67,6 +67,7 @@ TERMS = [
     (r"studios", "labs"),
     (r"reading\s+companions", "reading-companions"),
     (r"deep\s+dives", "deep-dives"),
+    (r"law\s+guides", "law-guides"),
     (r"handouts", "handouts"),
     (r"timelines", "timelines"),
     (r"practice\s+packs", "practice-packs"),
