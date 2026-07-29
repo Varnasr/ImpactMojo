@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.167.0 — July 29, 2026 (Annotated Bare Acts — 12A, 12AB & 80G Tax Exemption)
+
+### For Learners
+
+- **12A, 12AB & 80G — Tax Exemption for NGOs, Annotated** (`/products/tax-exemption-annotated/`) — the fifth Annotated Bare Act: the three Income-tax Act provisions that decide whether your NGO, and the people who fund it, pay tax. **§ 12A** and **§ 12AB** make your organisation's own income exempt; **§ 80G** gives your donors a deduction. Covers the 2020–21 registration overhaul (provisional vs regular registration, Forms 10A and 10AB, the six-months-before renewal deadline), the **Finance Act 2025** change extending validity to ten years for smaller trusts, the 80G deduction and its ₹2,000 cash cap, and the annual **Form 10BD/10BE** donation return your donors' deductions now depend on. A practitioner compliance digest with a development-sector note per provision. 3-page print-ready PDF, ₹350.
+
 ## v10.166.0 — July 29, 2026 (Annotated Bare Acts — Labour Laws for NGOs)
 
 ### For Learners
