@@ -299,6 +299,8 @@
                     // can fill it in directly — but only when there is no saved draft to preserve.
                     '<textarea class="ch-textarea" id="challengeResponse" placeholder="Write your response here...">' + escapeHTML(draft || ch.submissionTemplate || '') + '</textarea>' +
                     '<div class="ch-char-count"><span id="charCount">' + ((draft || ch.submissionTemplate || '').length) + '</span> characters (min 200)</div>' +
+                    '<label class="ch-email-label" for="challengeEmail">Want feedback on your response? Leave an email <span>(optional — we only use it to reply)</span></label>' +
+                    '<input type="email" class="ch-email-input" id="challengeEmail" placeholder="you@example.org" autocomplete="email" value="' + escapeHTML(getSavedEmail()) + '">' +
                     '<div class="ch-submit-actions">' +
                         '<button class="ch-btn ch-btn-primary" id="submitChallengeBtn" onclick="window._challengeSubmit(\'' + ch.id + '\')">' +
                             '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg> Submit Response' +
@@ -346,6 +348,17 @@
 
         overlay.classList.add('open');
         document.body.style.overflow = 'hidden';
+
+        // Prefill the optional feedback email from the signed-in account
+        // (only when the field is empty — never overwrite a typed/saved value)
+        if (!isSubmitted) {
+            (async function () {
+                var input = document.getElementById('challengeEmail');
+                if (!input || input.value) return;
+                var user = await getUser();
+                if (user && user.email && input && !input.value) input.value = user.email;
+            })();
+        }
 
         // Cloud read-back: show that the submission is recorded to the account
         if (isSubmitted) {
@@ -396,6 +409,11 @@
 
     // ---- Submit ----
     var NETLIFY_FORM_NAME = 'challenge-submission';
+    var EMAIL_STORAGE_KEY = 'im-challenge-email';
+
+    function getSavedEmail() {
+        try { return localStorage.getItem(EMAIL_STORAGE_KEY) || ''; } catch (e) { return ''; }
+    }
 
     function submitChallenge(challengeId) {
         var textarea = document.getElementById('challengeResponse');
@@ -405,6 +423,16 @@
         if (text.length < 200) {
             alert('Please write at least 200 characters before submitting.');
             return;
+        }
+
+        var emailInput = document.getElementById('challengeEmail');
+        var email = emailInput ? emailInput.value.trim() : '';
+        if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            alert('That email address doesn\'t look right — fix it or leave the field empty.');
+            return;
+        }
+        if (email) {
+            try { localStorage.setItem(EMAIL_STORAGE_KEY, email); } catch (e) { /* private mode */ }
         }
 
         var ch = challenges.find(function (c) { return c.id === challengeId; });
@@ -434,6 +462,9 @@
         formData.append('challenge_track', ch ? ch.trackLabel : '');
         formData.append('challenge_difficulty', ch ? ch.difficulty : '');
         formData.append('submission_text', text);
+        // Netlify sets the notification's Reply-To from a field named "email",
+        // so replies from the inbox reach the submitter directly.
+        formData.append('email', email);
         formData.append('submitted_at', new Date().toISOString());
 
         fetch('/', {

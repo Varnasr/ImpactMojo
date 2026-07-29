@@ -5,6 +5,12 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.162.0] - 2026-07-29
+
+### Fixed
+
+- **Challenge submissions had no reply path**: the `challenge-submission` Netlify form captured no contact field, so notification emails couldn't be answered. Added an optional email input to the submit section (`challenges.html` + `js/challenges.js`) — validated loosely, remembered in `localStorage` (`im-challenge-email`), pre-filled from the Supabase session for signed-in users, and sent as the `email` field so Netlify sets it as the notification's Reply-To. Site-wide form audit: all 19 other Netlify form types already collect email; the only remaining email-less form is the deliberately anonymous `chatbot-feedback` widget.
+
 ## [10.161.0] - 2026-07-29
 
 ### Added
