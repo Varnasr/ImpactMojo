@@ -5,6 +5,12 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.161.0] - 2026-07-29
+
+### Added
+
+- **Law Guides — a new content category** (`/law-guides/`): six plain-English guides to Indian laws relevant to social-sector work, modelled on the practitioner-explainer format (role definitions, obligations, gray areas, collapsible FAQs, interactive compliance checklists persisted via `localStorage`). Covers FCRA 2010, CSR (Companies Act §135 + CSR Rules), POSH Act 2013, RTI Act 2005, child protection (POCSO 2012 + JJ Act 2015), and RPwD Act 2016, plus a hub page cross-linking the existing DPDP 101 course. Shared styling in `law-guides/lg-shared.css` (own visual identity, full brand chrome: topbar, theme toggle, footer, GA, auth scripts) and checklist logic in `law-guides/lg-shared.js`. Wired into search index (`LAW001`–`LAW007`, new `law-guide` type), sitemap, homepage Showcase strip, `data/counts.json` (`law-guides: 6`), and the counts guard (`law guides` term in `check-counts.py`).
+
 ## [10.144.0] - 2026-07-20
 
 ### Fixed
