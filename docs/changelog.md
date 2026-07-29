@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.165.0 — July 29, 2026 (Annotated Bare Acts — How Your NGO Exists)
+
+### For Learners
+
+- **How Your NGO Exists — Trusts, Societies & Section 8, Annotated** (`/products/ngo-formation-annotated/`) — the third Annotated Bare Act, and the first spanning several statutes: the three legal vehicles an Indian NGO can take. The core provisions of the **Indian Trusts Act 1882** (s. 6), the **Societies Registration Act 1860** (ss. 1, 4, 5, 6) and the **Companies Act 2013** (s. 8), reproduced verbatim from India Code, each with a development-sector practitioner's note — the "three certainties" of a trust deed (and the crucial caveat that the 1882 Act doesn't govern public charitable trusts), the society's seven-member floor and life-keeping annual filing, and the Section 8 company's credibility-and-compliance trade-off. A 7-page print-ready PDF, ₹350.
+
 ## v10.164.0 — July 29, 2026 (Annotated Bare Acts — DPDP Act 2023)
 
 ### For Learners
