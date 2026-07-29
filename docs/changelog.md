@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.168.0 — July 29, 2026 (New Data Room explorer — IHDS: untouchability, still practised)
+
+### For Learners
+
+- **IHDS Explorer — untouchability, still practised** (`/ihds.html`) — the ninth explorer in the Data Room, and the first on caste and social exclusion. Drawing on the India Human Development Survey (IHDS-II 2011-12, via Thorat & Joshi in EPW), it shows one of the survey's most-cited findings: **more than one in four households (27%)** said someone in the home practises untouchability. The explorer maps the national figure, the regional pattern (highest in central and north India, lowest in the east and far south), and the states the study named, highest to lowest. Because the complete 36-state table sits in the paywalled paper, the explorer shows only the publicly and consistently reported figures — and says so plainly: in-between states are omitted, not estimated.
+
 ## v10.167.0 — July 29, 2026 (Annotated Bare Acts — 12A, 12AB & 80G Tax Exemption)
 
 ### For Learners
