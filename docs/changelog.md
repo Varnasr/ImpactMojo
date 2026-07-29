@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.169.0 — July 29, 2026 (Products page: dedicated Annotated Bare Acts section + consistent pricing)
+
+### Changed
+
+- **Products page** — the five Annotated Bare Acts (RTI, DPDP, How Your NGO Exists, Labour Laws, 12A/12AB/80G) now have their **own "Annotated Bare Acts" section** instead of being mixed into the flagship course-notes grid, so the legal guides are easy to find.
+- **Consistent price labelling** — every section title is now price-free; the price sits only in the small grey sub-heading tier (e.g. "Course notes · PDF · ₹350 each") and on each product card, matching the rest of the page. Removes the one section ("Flagship Course Notes") that had baked the price into its large heading.
+
 ## v10.168.0 — July 29, 2026 (New Data Room explorer — IHDS: untouchability, still practised)
 
 ### For Learners
