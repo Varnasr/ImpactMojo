@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.164.0 — July 29, 2026 (Annotated Bare Acts — DPDP Act 2023)
+
+### For Learners
+
+- **The DPDP Act, 2023 — Annotated for the Development Sector** (`/products/dpdp-annotated/`) — the second Annotated Bare Act: the Digital Personal Data Protection Act reproduced word-for-word from India Code (illustrations and all), with a development-sector practitioner's note beside each of seven core sections (§§ 4, 5, 6, 8, 9, 11, 33). Written for NGOs that hold beneficiary lists, run consent forms, take photographs, or work with children — consent that actually holds up, the verifiable parental consent now required for a child's data, vendor and breach duties, and the erasure obligation. A 9-page print-ready PDF, ₹350.
+
 ## v10.163.0 — July 29, 2026 (New paid product: Annotated Bare Acts — RTI Act)
 
 ### For Learners
