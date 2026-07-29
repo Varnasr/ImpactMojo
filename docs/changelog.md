@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.166.0 — July 29, 2026 (Annotated Bare Acts — Labour Laws for NGOs)
+
+### For Learners
+
+- **Labour Laws for NGOs, Annotated** (`/products/labour-laws-annotated/`) — the fourth Annotated Bare Act, and the one that completes the compliance set: every employment-law duty that lands the moment your NGO has staff, in one place. **EPF** (20-employee threshold, 12% match), **ESI** (10 employees / ₹21,000 wage ceiling), **Gratuity** (five-year rule, 15 days' wages a year), **Maternity Benefit** (26 weeks paid, anti-dismissal protection), state **Shops & Establishments** registration, **Contract Labour** (when you become a "principal employer"), and the **volunteers-vs-employees** classification test that is the sector's most common labour risk. Written as a practitioner compliance digest — who each law applies to, the core duty, and a development-sector note — with the four Labour Codes (2019–2020) clearly flagged. A 3-page print-ready PDF, ₹350.
+
 ## v10.165.0 — July 29, 2026 (Annotated Bare Acts — How Your NGO Exists)
 
 ### For Learners
