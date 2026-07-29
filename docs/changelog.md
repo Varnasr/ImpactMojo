@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.163.0 — July 29, 2026 (New paid product: Annotated Bare Acts — RTI Act)
+
+### For Learners
+
+- **The RTI Act, 2005 — Annotated for the Development Sector** (`/products/rti-annotated/`) — a new kind of ImpactMojo product: the actual statute, reproduced word-for-word from the authoritative India Code text, with a plain-language reading and a **development-sector practitioner's note** beside each of the seven core sections (§§ 3, 4, 6, 7, 8, 19, 20) — RTI as the spine of a social audit, the "no reason required" shield, the public-interest override, the penalty clause as leverage. A 10-page print-ready PDF, ₹350. The first in an Annotated Bare Acts line — the paid companion to the free [RTI Act for the Social Sector](/law-guides/) explainer.
+- **Related free courses on the law notes page** — the Constitution & Law course-notes product now cross-links the free courses that pair with it (Indian Constitution 101, Public Policy, Public Choice, Nothing About Us Without Us, Environmental Justice 101, Social Movements).
+
 ## v10.162.0 — July 29, 2026 (Challenge submissions: optional feedback email)
 
 ### For Learners
@@ -42,7 +49,6 @@ Fourteen new interactive Reading Companions, each grounded in the full text of t
 - **Cognitive Load Theory in Practice** (CESE, NSW) — seven classroom strategies grounded in Sweller's work.
 - **The Science and Application of Positive Psychology** (Cheavens & Feldman) — hope theory, well-being and what the evidence supports.
 - Plus a full-text upgrade to the **Education for Social Purpose** companion (Azim Premji University), now covering all 18 faculty pedagogy notes.
-
 ## v10.159.0 — July 27, 2026 (The Data Room — one home for all 8 explorers)
 
 ### For Learners
