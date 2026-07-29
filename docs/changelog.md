@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.162.0 — July 29, 2026 (Challenge submissions: optional feedback email)
+
+### For Learners
+
+- **Get feedback on your challenge responses** — when you submit a Live Case Challenge you can now leave your email (optional) so we can reply with personal feedback. Signed-in learners get the field pre-filled automatically; leave it blank to stay anonymous as before.
+
 ## v10.161.0 — July 29, 2026 (New: Law Guides — Indian laws for the social sector)
 
 ### For Learners
