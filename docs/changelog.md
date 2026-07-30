@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.172.0 — July 30, 2026 (DPI studio reframed build-first — pilot)
+
+### Changed
+
+- **Digital Public Infrastructure studio** (`/labs/dpi-lab`) now **opens straight into building** — you land on "Build: design a DPI-enabled programme" (a worked scholarship case study + a design-your-own maternal-health exercise) instead of five explainer tabs first. The concept tabs (What is DPI, Aadhaar, UPI, the DPDP Act) become on-demand reference. A pilot for a broader "lead with making, not explaining" pass across the studios.
+
 ## v10.171.0 — July 30, 2026 (Studios count corrected to 34; two mis-filed items rehomed)
 
 ### Changed
