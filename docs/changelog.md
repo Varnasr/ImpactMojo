@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.178.0 — July 30, 2026 (Data Room: new Energy Explorer — the 10th explorer)
+
+### For Learners
+
+- **Energy Explorer** — a new Data Room explorer on India's power system, by state: the **renewable energy each state could generate**, the renewables it has **actually built**, and the **coal still under its ground** — plus a decade of the national picture (installed capacity, electricity generation and coal production). Rank the states, track the national trend, or read the full table. Every figure is transcribed verbatim from *Energy Statistics India 2025* (MoSPI), with the demand-side gaps (no state-level consumption in this source) disclosed plainly. The Data Room is now **10 explorers**.
+
 ## v10.177.0 — July 30, 2026 (Fix: ToC blog graphic — pathway labels were on the wrong sides)
 
 ### Fixed
