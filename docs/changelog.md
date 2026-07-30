@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.170.0 — July 29, 2026 (Products page: one consistent header level for every category)
+
+### Changed
+
+- **Products page** — every product category now uses the same large section heading. Previously seven categories (Assessment Banks, Templates, Workbooks, Trainer Decks, Refresher Sheets, Formulae Posters, Checklists) sat as *small* sub-headings under one "Templates, Workbooks, Decks & Quick References" umbrella, while every other category (Course Notes, Annotated Bare Acts, Programs, Calculators…) had a large heading — a visibly uneven mix. They're now all first-class sections with a large heading and a short one-line intro that states the format and price. The only remaining small headings are the two genuine sub-groups *inside* Practice Packs (Method Packs / Subject Packs).
+
 ## v10.169.0 — July 29, 2026 (Products page: dedicated Annotated Bare Acts section + consistent pricing)
 
 ### Changed
