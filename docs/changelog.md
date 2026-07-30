@@ -2,6 +2,20 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.174.0 — July 30, 2026 (Studios: build-first pass across the course-like ones)
+
+### Changed
+
+- **Seven more Interactive Studios now open on the build**, not an explainer — the same "Build is tab 1" treatment piloted on DPI, applied where the audit found studios leading with concept tabs:
+  - **Systems Thinking** → opens on *Designing Systems Interventions*
+  - **Policy Brief** → opens on *Write a Complete Policy Brief*
+  - **Conflict-Sensitive Programming** → opens on *Designing a Conflict-Sensitive Programme*
+  - **Ethics in Research** → opens on *building an informed-consent form*
+  - **Participatory Methods** → opens on *Community Mapping*
+  - **Data Feminism** → opens on the *re-analysis case study*
+  - **Urban Boundaries** → opens on *Redraw with Satellites*
+- In each, the make-something tab is now tab 1 with the concept tabs following as reference, and tab-switching resolves panels by a stable id so navigation stays intact. **NVC** and **Sampling Design** already opened on their builders and were left as-is.
+
 ## v10.173.0 — July 30, 2026 (DPI studio: Build is now literally tab 1)
 
 ### Changed

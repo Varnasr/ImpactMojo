@@ -381,17 +381,17 @@ body { padding-top: 56px; }
     <div class="progress-bar"><div class="progress-bar-fill" id="progressFill"></div></div>
 
     <div class="tabs" id="tabs">
-        <button class="tab-btn active" onclick="switchTab(0)"><span class="tab-num">1</span> Why Ethics</button>
-        <button class="tab-btn" onclick="switchTab(1)"><span class="tab-num">2</span> Informed Consent</button>
-        <button class="tab-btn" onclick="switchTab(2)"><span class="tab-num">3</span> Field Dilemmas</button>
-        <button class="tab-btn" onclick="switchTab(3)"><span class="tab-num">4</span> Data Privacy</button>
-        <button class="tab-btn" onclick="switchTab(4)"><span class="tab-num">5</span> Positionality</button>
-        <button class="tab-btn" onclick="switchTab(5)"><span class="tab-num">6</span> Ethics Review</button>
-        <button class="tab-btn" onclick="switchTab(6)"><span class="tab-num">7</span> Done</button>
+        <button class="tab-btn active" data-target="0" onclick="switchTab(0)"><span class="tab-num">1</span> Informed Consent</button>
+        <button class="tab-btn" data-target="1" onclick="switchTab(1)"><span class="tab-num">2</span> Why Ethics</button>
+        <button class="tab-btn" data-target="2" onclick="switchTab(2)"><span class="tab-num">3</span> Field Dilemmas</button>
+        <button class="tab-btn" data-target="3" onclick="switchTab(3)"><span class="tab-num">4</span> Data Privacy</button>
+        <button class="tab-btn" data-target="4" onclick="switchTab(4)"><span class="tab-num">5</span> Positionality</button>
+        <button class="tab-btn" data-target="5" onclick="switchTab(5)"><span class="tab-num">6</span> Ethics Review</button>
+        <button class="tab-btn" data-target="6" onclick="switchTab(6)"><span class="tab-num">7</span> Done</button>
     </div>
 
     <!-- ===== TAB 1: Why Ethics ===== -->
-    <div class="tab-panel active" data-panel="0">
+    <div class="tab-panel" data-panel="1">
         <h2 class="section-title">Why Ethics Matters in Development Research</h2>
         <p class="section-desc">Research ethics is not a checkbox. It is about respecting the dignity, autonomy, and safety of the people who make your work possible.</p>
 
@@ -446,12 +446,12 @@ body { padding-top: 56px; }
 
         <div class="nav-row">
             <span></span>
-            <button class="btn btn-primary" onclick="switchTab(1)">Next: Informed Consent &rarr;</button>
+            <button class="btn btn-primary" onclick="switchTab(0)">Next: Informed Consent &rarr;</button>
         </div>
     </div>
 
     <!-- ===== TAB 2: Informed Consent ===== -->
-    <div class="tab-panel" data-panel="1">
+    <div class="tab-panel active" data-panel="0">
         <h2 class="section-title">Informed Consent — Beyond the Signature</h2>
         <p class="section-desc">Informed consent is not a form. It is a <strong>process</strong> of communication that ensures participants understand what they are agreeing to and can refuse without penalty.</p>
 
@@ -485,7 +485,7 @@ body { padding-top: 56px; }
         </div>
 
         <div class="nav-row">
-            <button class="btn" onclick="switchTab(0)">&larr; Back</button>
+            <button class="btn" onclick="switchTab(1)">&larr; Back</button>
             <button class="btn btn-primary" id="q2next" onclick="switchTab(2)" disabled>Next: Field Dilemmas &rarr;</button>
         </div>
     </div>
@@ -518,7 +518,7 @@ body { padding-top: 56px; }
         <div class="feedback" id="dilemmaFeedback"></div>
 
         <div class="nav-row">
-            <button class="btn" onclick="switchTab(1)">&larr; Back</button>
+            <button class="btn" onclick="switchTab(0)">&larr; Back</button>
             <button class="btn btn-primary" id="q3next" onclick="switchTab(3)" disabled>Next: Data Privacy &rarr;</button>
         </div>
     </div>
@@ -807,11 +807,11 @@ var TOTAL_TABS = 7;
 var visited = { 0: true };
 function switchTab(idx) {
     visited[idx] = true;
-    document.querySelectorAll('.tab-btn').forEach(function(b, i) {
+    document.querySelectorAll('.tab-btn').forEach(function(b, i) { i = parseInt(b.getAttribute('data-target'),10);
         b.classList.toggle('active', i === idx);
         b.classList.toggle('completed', i < idx || (visited[i] && i !== idx));
     });
-    document.querySelectorAll('.tab-panel').forEach(function(p, i) { p.classList.toggle('active', i === idx); });
+    document.querySelectorAll('.tab-panel').forEach(function(p, i) { i = parseInt(p.getAttribute('data-panel'),10); p.classList.toggle('active', i === idx); });
     document.getElementById('progressFill').style.width = ((idx + 1) / TOTAL_TABS * 100) + '%';
     window.scrollTo({ top: 0, behavior: 'smooth' });
     if (idx === 1) renderConsentQuiz();
