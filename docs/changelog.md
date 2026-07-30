@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.176.0 — July 30, 2026 (Products page: alphabetical order within each section)
+
+### Changed
+
+- **Products page** — items within each section (course notes, templates, annotated bare acts, and the rest) are now listed **alphabetically** instead of insertion order, so the long lists (18 course notes especially) are easy to scan. No products, prices or links changed — only order.
+
 ## v10.175.0 — July 30, 2026 (Dataverse: added Indian Open Maps)
 
 ### For Learners
