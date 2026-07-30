@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#0F172A">
+<title>Energy Explorer — what India runs on, and where the transition stands | ImpactMojo</title>
+<meta name="description" content="Explore India's power system by state — the renewable energy each state could generate, what it has actually built, and the coal still under its ground — plus a decade of national capacity, generation and coal-production trends. Source: Energy Statistics India 2025, MoSPI.">
+<link rel="canonical" href="https://www.impactmojo.in/energy.html">
+<meta property="og:title" content="Energy Explorer — ImpactMojo">
+<meta property="og:description" content="Where does India's power come from? Renewable potential, installed renewables and coal reserves by state, and a decade of the national picture — from Energy Statistics India 2025.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.impactmojo.in/energy.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="/assets/images/favicon.png" rel="icon" type="image/png">
+<style>
+:root{
+  --bg:#F6F8FB; --panel:#FFFFFF; --ink:#0F172A; --mut:#5A6B82; --faint:#8595AB;
+  --bd:#E4EAF1; --acc:#0EA5E9; --acc2:#6366F1; --good:#10B981; --bad:#EF4444;
+  --grad:linear-gradient(135deg,#0EA5E9,#6366F1);
+  --chip:#EEF3F9; --chipactive:#0EA5E9; --barlo:#BAE6FD; --barhi:#0369A1;
+}
+html[data-theme="dark"]{
+  --bg:#0B1120; --panel:#131C2E; --ink:#F1F5F9; --mut:#9DB0C7; --faint:#64748B;
+  --bd:#25314A; --chip:#1C2740; --chipactive:#0EA5E9; --barlo:#0C4A6E; --barhi:#38BDF8;
+}
+@media(prefers-color-scheme:dark){html:not([data-theme]){
+  --bg:#0B1120; --panel:#131C2E; --ink:#F1F5F9; --mut:#9DB0C7; --faint:#64748B;
+  --bd:#25314A; --chip:#1C2740; --barlo:#0C4A6E; --barhi:#38BDF8;
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Amaranth',system-ui,-apple-system,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.ui{font-family:'Inter',system-ui,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:0 clamp(14px,3vw,26px)}
+.mono{font-family:'JetBrains Mono',monospace}
+.hero{padding:clamp(22px,4vw,40px) 0 8px}
+.eyebrow{font-family:'Amaranth',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--acc)}
+.hero h1{font-family:'Amaranth','Inter',sans-serif;font-weight:700;letter-spacing:-.5px;font-size:clamp(1.6rem,4.4vw,2.5rem);margin:.35rem 0 .5rem;line-height:1.12}
+.hero p.lede{color:var(--mut);max-width:70ch;margin:0;font-size:1.02rem}
+.srcbadge{display:inline-flex;gap:7px;align-items:center;margin-top:14px;font-family:'Inter';font-size:12px;font-weight:600;color:var(--mut);background:var(--chip);border:1px solid var(--bd);padding:5px 11px;border-radius:99px}
+.srcbadge b{color:var(--ink)}
+.hstats{display:flex;flex-wrap:wrap;gap:10px 22px;margin:16px 0 0;padding:0;list-style:none}
+.hstats li{font-size:.88rem;color:var(--faint)}
+.hstats b{color:var(--ink);font-weight:700;font-size:1.05rem;display:block}
+.about{margin:18px 0 6px;border:1px solid var(--bd);border-left:4px solid var(--acc2);background:var(--chip);border-radius:12px;padding:15px 18px;font-size:.94rem;color:var(--mut)}
+.about h2{font-family:'Amaranth',sans-serif;font-size:1rem;margin:0 0 6px;color:var(--ink)}
+.about b{color:var(--ink)}
+.howto{margin:14px 0 6px;border:1px solid var(--bd);border-left:4px solid var(--acc);background:var(--chip);border-radius:12px;padding:14px 16px}
+.howto h2{font-family:'Amaranth',sans-serif;font-size:.98rem;margin:0 0 6px;display:flex;align-items:center;gap:8px;color:var(--ink)}
+.howto ul{margin:6px 0 0;padding-left:20px;color:var(--mut);font-size:.9rem}
+.howto li{margin:3px 0}
+.qbar{background:var(--panel);border:1px solid var(--bd);border-radius:16px;padding:20px 22px;margin:20px 0;box-shadow:0 1px 3px rgba(16,24,40,.04)}
+.qlead{font-family:'Inter';font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--faint);margin:0 0 10px}
+.qline{font-family:'Inter';font-weight:600;font-size:clamp(1.15rem,2.6vw,1.5rem);line-height:1.7;color:var(--ink);margin:0;letter-spacing:-.2px}
+.qhint{font-family:'Inter';font-size:12.5px;color:var(--faint);margin:14px 0 0}
+.blankdemo{color:var(--acc);border-bottom:2px dashed var(--acc);font-weight:700}
+select.blank{-webkit-appearance:none;-moz-appearance:none;appearance:none;font-family:'Inter';font-weight:800;font-size:inherit;color:var(--acc);
+  background:linear-gradient(var(--chip),var(--chip)) padding-box;border:0;border-bottom:2.5px solid var(--acc);border-radius:6px 6px 0 0;
+  padding:1px 26px 3px 9px;margin:0 2px;cursor:pointer;line-height:1.35;max-width:100%;
+  background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230EA5E9' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 7px center}
+select.blank:hover{background-color:color-mix(in srgb,var(--acc) 16%,transparent)}
+select.blank:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+html[data-theme="dark"] select.blank{color:#7DD3FC;border-bottom-color:#38BDF8}
+@media(prefers-color-scheme:dark){html:not([data-theme]) select.blank{color:#7DD3FC;border-bottom-color:#38BDF8}}
+.caption{background:var(--panel);border:1px solid var(--bd);border-left:4px solid var(--acc);border-radius:12px;padding:14px 18px;margin-bottom:16px}
+.caption .q{font-family:'Inter';font-weight:700;font-size:1.08rem;color:var(--ink)}
+.caption .sub{color:var(--mut);font-size:.92rem;margin-top:3px}
+.caption .allindia{margin-top:9px;font-family:'Inter';font-size:13px;color:var(--mut)}
+.caption .allindia b{color:var(--acc);font-size:15px}
+.caption .why{margin-top:8px;font-size:.9rem;color:var(--mut);font-style:italic}
+.panel{background:var(--panel);border:1px solid var(--bd);border-radius:16px;padding:18px;box-shadow:0 1px 3px rgba(16,24,40,.04)}
+.chart-svg{width:100%;height:auto;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-family:'Inter';font-size:12px;color:var(--mut)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.dot{width:11px;height:11px;border-radius:3px;display:inline-block}
+table.data{width:100%;border-collapse:collapse;font-family:'Inter';font-size:13.5px}
+table.data th,table.data td{padding:9px 10px;text-align:right;border-bottom:1px solid var(--bd)}
+table.data th{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--faint);font-weight:700;cursor:pointer;user-select:none}
+table.data td:first-child,table.data th:first-child{text-align:left}
+table.data tbody tr:hover{background:var(--chip)}
+table.data tr.ai td{font-weight:800;color:var(--acc);border-top:2px solid var(--acc)}
+.method{margin:26px 0 60px;color:var(--mut);font-size:13px;line-height:1.6}
+.method h2{font-family:'Amaranth',sans-serif;font-size:1rem;color:var(--ink);margin:0 0 8px}
+.method a{color:var(--acc)}
+.note{background:var(--chip);border:1px solid var(--bd);border-radius:12px;padding:13px 16px;margin:18px 0;font-size:13px;color:var(--mut)}
+.note b{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="eyebrow">ImpactMojo Studio · Energy &amp; the transition</div>
+    <h1>Energy Explorer</h1>
+    <p class="lede">Where does India's power come from — and where is the clean-energy transition actually happening? Three things, side by side, for every state: the <b>renewable energy it could generate</b>, the renewables it has <b>actually built</b>, and the <b>coal still under its ground</b>. Plus the national picture — a power system that has nearly doubled in a decade. Drawn from <b>Energy Statistics India 2025</b>, the government's official energy account.</p>
+    <ul class="hstats" aria-hidden="true">
+      <li><b>35</b> states &amp; UTs</li>
+      <li><b>5,21,310 MW</b> installed capacity (2023-24)</li>
+      <li><b>1,106 kWh</b> per person <span style="font-weight:400">(was 748 in 2014-15)</span></li>
+      <li><b>21,09,655 MW</b> renewable potential</li>
+    </ul>
+    <div class="srcbadge">Source: <b>Energy Statistics India 2025</b> (FY 2023-24, provisional) · MoSPI</div>
+  </section>
+
+  <section class="about">
+    <h2>What this shows — and what it can't</h2>
+    <p>This explorer sits on the <b>supply and resource</b> side of India's energy account: what each state <em>could</em> produce from renewables, what it has <em>installed</em>, and its <em>coal reserves</em>. Read together they tell the transition story — some states are rich in potential but have built little; some have almost no fossil base and are going straight to solar and wind. What this report does <b>not</b> break down by state is the <em>demand</em> side — electricity consumption, per-capita use and village electrification are published as national figures only, so you won't find "per-capita power by state" here. The national headline numbers (like the jump from 748 to 1,106 kWh per person) are shown as India-wide figures, honestly labelled.</p>
+  </section>
+
+  <div class="howto">
+    <h2>▸ How to read this explorer</h2>
+    <ul>
+      <li><b>Start with the question.</b> Tap any <span style="border-bottom:2px dashed var(--acc);color:var(--acc);font-weight:700">underlined</span> word to change the measure or the view.</li>
+      <li><b>Three state measures:</b> <b>renewable potential</b> and <b>installed renewables</b> are in megawatts (MW); <b>coal reserves</b> are in million tonnes (MT). Each is a single snapshot dated <b>31 March / 1 April 2024</b>.</li>
+      <li><b>Three views:</b> <b>Rank</b> the states, <b>Track</b> a decade of the national total (capacity, generation or coal), or <b>List</b> the full table.</li>
+      <li><b>State figures are a snapshot</b>, not a trend — this source gives one year by state. Only the national series runs year on year.</li>
+    </ul>
+  </div>
+
+  <section class="qbar ui" aria-label="Compose your question">
+    <p class="qlead">Ask the data a question</p>
+    <p class="qline" id="qline"></p>
+    <p class="qhint">Tap any <span class="blankdemo">underlined</span> word to ask something different.</p>
+  </section>
+
+  <div class="caption" id="caption" aria-live="polite"></div>
+  <section class="panel" id="panel"></section>
+
+  <div class="method">
+    <h2>Making sense of the numbers</h2>
+    <p><b>What the measures mean.</b> <b>Renewable-energy potential</b> is the maximum capacity a state could install across wind, solar, small hydro, biomass and bagasse cogeneration (plus large hydro), as estimated by MNRE — a ceiling, not a plan. <b>Installed renewable capacity</b> is what is actually connected to the grid today (solar, wind, bio-power, small hydro, waste-to-energy). <b>Coal reserves</b> are the geological estimate of coal in the ground (proved + indicated + inferred), not what is being mined. Comparing the first two shows how much of a state's clean-energy headroom has been used; the third shows the fossil base the transition has to move away from.</p>
+    <p><b>Reading it responsibly.</b> A big-potential state that has built little (Rajasthan, Maharashtra) is not "behind" in any moral sense — potential reflects land, wind and sun, while build-out reflects investment, grid access and policy. Coal-rich states (Odisha, Jharkhand, Chhattisgarh) face a genuinely harder transition because coal is also jobs and state revenue. Read a state against the national total, and read the three measures together rather than any one alone.</p>
+    <p><b>The national shift to watch.</b> India's total installed power capacity rose from about <b>2.9 lakh MW (31.03.2014) to 5.21 lakh MW (31.03.2024)</b>, and per-capita electricity use from <b>748 to 1,106 kWh</b> — the transition is happening on top of a system that is still growing fast, which is why coal production also kept climbing (to a provisional 997.83 MT in 2023-24). Growth and greening are happening at once.</p>
+    <p>Data transcribed verbatim from <a href="https://mospi.gov.in/" target="_blank" rel="noopener">Energy Statistics India 2025</a> (Ministry of Statistics &amp; Programme Implementation, Government of India): state tables 1.1 (coal reserves), 1.4 (renewable potential) and 2.5 (installed renewable capacity), all dated 31.03.2024 / 01.04.2024; national series from tables 2.3A, 3.6A and 3.1. All FY 2023-24 figures are <b>provisional (P)</b>. Ladakh is combined with Jammu &amp; Kashmir (as the renewable-potential table does); an unallocated "Others" row and inter-state central-sector stations are excluded from the state rows, so state values may not sum exactly to the published All-India total shown. This is an independent, source-linked interface for learning and discussion — for methodology and authoritative interpretation, consult MoSPI directly. ImpactMojo is not affiliated with MoSPI.</p>
+  </div>
+</main>
+
+<script>
+window.ENERGY_DATA={
+ "meta":{"src":"Energy Statistics India 2025 (FY 2023-24, provisional), MoSPI","snap":"31 March 2024","trendYears":["2014-15","2015-16","2016-17","2017-18","2018-19","2019-20","2020-21","2021-22","2022-23","2023-24"]},
+ "national":{"cap":521310,"gen":1734375,"reCap":143645,"rePot":2109655,"percapElec":1106,"percapElec0":748},
+ "metrics":{
+   "pot":{"nat":2109655},
+   "reinst":{"nat":143645},
+   "coal":{"nat":389421}
+ },
+ "states":{
+   "1":{"n":"Andhra Pradesh","pot":167060,"reinst":9419,"coal":4172},
+   "2":{"n":"Arunachal Pradesh","pot":61373,"reinst":145,"coal":90},
+   "3":{"n":"Assam","pot":15386,"reinst":192,"coal":525},
+   "4":{"n":"Bihar","pot":17191,"reinst":450,"coal":5398},
+   "5":{"n":"Chhattisgarh","pot":23782,"reinst":1563,"coal":82666},
+   "6":{"n":"Goa","pot":932,"reinst":45,"coal":null},
+   "7":{"n":"Gujarat","pot":220505,"reinst":25472,"coal":null},
+   "8":{"n":"Haryana","pot":6976,"reinst":1833,"coal":null},
+   "9":{"n":"Himachal Pradesh","pot":55914,"reinst":1075,"coal":null},
+   "10":{"n":"Jammu & Kashmir (incl. Ladakh)","pot":125813,"reinst":286,"coal":null},
+   "11":{"n":"Jharkhand","pot":18870,"reinst":186,"coal":91812},
+   "12":{"n":"Karnataka","pot":205648,"reinst":17753,"coal":null},
+   "13":{"n":"Kerala","pot":12629,"reinst":1365,"coal":null},
+   "14":{"n":"Madhya Pradesh","pot":123239,"reinst":7098,"coal":32815},
+   "15":{"n":"Maharashtra","pot":248665,"reinst":14483,"coal":13352},
+   "16":{"n":"Manipur","pot":11407,"reinst":18,"coal":null},
+   "17":{"n":"Meghalaya","pot":8240,"reinst":73,"coal":583},
+   "18":{"n":"Mizoram","pot":11189,"reinst":76,"coal":null},
+   "19":{"n":"Nagaland","pot":7851,"reinst":36,"coal":478},
+   "20":{"n":"Odisha","pot":41318,"reinst":670,"coal":99204},
+   "21":{"n":"Punjab","pot":8554,"reinst":2068,"coal":null},
+   "22":{"n":"Rajasthan","pot":428322,"reinst":26693,"coal":null},
+   "23":{"n":"Sikkim","pot":11262,"reinst":62,"coal":101},
+   "24":{"n":"Tamil Nadu","pot":117366,"reinst":19983,"coal":null},
+   "25":{"n":"Telangana","pot":78327,"reinst":5199,"coal":23206},
+   "26":{"n":"Tripura","pot":2161,"reinst":34,"coal":null},
+   "27":{"n":"Uttar Pradesh","pot":32028,"reinst":5196,"coal":1062},
+   "28":{"n":"Uttarakhand","pot":32303,"reinst":937,"coal":null},
+   "29":{"n":"West Bengal","pot":10484,"reinst":641,"coal":33958},
+   "30":{"n":"Andaman & Nicobar","pot":1270,"reinst":35,"coal":null},
+   "31":{"n":"Chandigarh","pot":0,"reinst":66,"coal":null},
+   "32":{"n":"Dadra & Nagar Haveli & Daman & Diu","pot":19,"reinst":46,"coal":null},
+   "33":{"n":"Delhi","pot":2050,"reinst":341,"coal":null},
+   "34":{"n":"Lakshadweep","pot":32,"reinst":5,"coal":null},
+   "35":{"n":"Puducherry","pot":413,"reinst":50,"coal":null}
+ },
+ "trend":{
+   "cap":[319561,353442,378362,398935,431307,446346,460659,476229,494459,521310],
+   "gen":[1116850,1167584,1235358,1303455,1371779,1383417,1373187,1484463,1617904,1734375],
+   "coalp":[609.18,639.23,657.87,675.40,728.72,730.87,716.08,778.21,893.19,997.83]
+ }
+};
+</script>
+<script>
+(function(){
+  "use strict";
+  var D=window.ENERGY_DATA, ST=D.states, MET=D.metrics, TR=D.trend, M=D.meta;
+  var CODES=Object.keys(ST).sort(function(a,b){return ST[a].n.localeCompare(ST[b].n);});
+  var METRIC={
+    pot:{L:"renewable-energy potential",short:"RE potential",unit:"MW",nat:MET.pot.nat},
+    reinst:{L:"installed renewable capacity",short:"RE installed",unit:"MW",nat:MET.reinst.nat},
+    coal:{L:"coal reserves",short:"Coal reserves",unit:"MT",nat:MET.coal.nat}
+  };
+  var TREND={
+    cap:{L:"total installed power capacity",unit:"MW"},
+    gen:{L:"electricity generation",unit:"GWh"},
+    coalp:{L:"coal production",unit:"MT"}
+  };
+  var S={view:"rank", metric:"pot", series:"cap"};
+
+  function esc(s){return String(s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
+  function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+  function mix(a,b,t){function h(x){x=x.replace('#','');return[parseInt(x.slice(0,2),16),parseInt(x.slice(2,4),16),parseInt(x.slice(4,6),16)];}
+    var A=h(a),B=h(b),o=A.map(function(c,i){return Math.round(c+(B[i]-c)*t);});return"rgb("+o.join(",")+")";}
+  function grp(v){return v==null?"—":Number(v).toLocaleString('en-IN');}
+  function fmt(v,unit){return v==null?"—":grp(v)+(unit?" "+unit:"");}
+
+  var VIEW_OPTS=[["rank","Rank the states"],["trend","Track the national trend"],["table","List the full table"]];
+  var METRIC_OPTS=[["pot","renewable-energy potential"],["reinst","installed renewable capacity"],["coal","coal reserves"]];
+  var SERIES_OPTS=[["cap","total installed power capacity"],["gen","electricity generation"],["coalp","coal production"]];
+  function blank(key,cur,opts){
+    return '<select class="blank" data-key="'+key+'" aria-label="'+key+'">'+
+      opts.map(function(p){return '<option value="'+esc(p[0])+'"'+(String(p[0])===String(cur)?' selected':'')+'>'+esc(p[1])+'</option>';}).join('')+'</select>';
+  }
+  function renderQuestion(){
+    var q=document.getElementById("qline"),h="";
+    var V=blank("view",S.view,VIEW_OPTS);
+    if(S.view==="rank") h=V+" by "+blank("metric",S.metric,METRIC_OPTS)+", as on 31 March 2024.";
+    else if(S.view==="trend") h=V+" in "+blank("series",S.series,SERIES_OPTS)+", 2014&ndash;15 to 2023&ndash;24.";
+    else h=V+" — every state's renewable potential, installed renewables and coal reserves.";
+    q.innerHTML=h;
+    [].forEach.call(q.querySelectorAll("select.blank"),function(sel){
+      sel.addEventListener("change",function(){S[sel.dataset.key]=sel.value;renderQuestion();render();});
+    });
+  }
+
+  function renderCaption(){
+    var cap=document.getElementById("caption");
+    if(S.view==="trend"){
+      var se=S.series, v=TR[se], first=v[0], last=v[v.length-1], T=TREND[se];
+      var chg=Math.round((last/first-1)*100);
+      cap.innerHTML="<div class='q'>India's "+T.L+", 2014-15 to 2023-24</div>"+
+        "<div class='sub'>National total · "+(se==="cap"?"as on 31 March each year":"financial year")+" · "+T.unit+"</div>"+
+        "<div class='allindia'>"+grp(first)+" ("+M.trendYears[0]+") → <b>"+grp(last)+" "+T.unit+"</b> ("+M.trendYears[M.trendYears.length-1]+"P) · <b>+"+chg+"%</b> over the decade</div>";
+      return;
+    }
+    if(S.view==="table"){cap.innerHTML="<div class='q'>Every state's energy profile at a glance</div><div class='sub'>Energy Statistics India 2025 · as on 31 March 2024 · tap a column to sort</div>";return;}
+    var k=S.metric,mt=METRIC[k];
+    var rows=CODES.map(function(c){return {n:ST[c].n,v:ST[c][k]};}).filter(function(r){return r.v!=null;})
+      .sort(function(a,b){return b.v-a.v;});
+    var top=rows[0], share=Math.round(top.v/mt.nat*1000)/10;
+    var nWith = k==="coal" ? (" · "+rows.length+" states hold India's coal") : "";
+    cap.innerHTML="<div class='q'>States ranked by "+mt.L+"</div>"+
+      "<div class='sub'>"+mt.unit+" · as on 31 March 2024"+nWith+"</div>"+
+      "<div class='allindia'>All-India total: <b>"+grp(mt.nat)+" "+mt.unit+"</b></div>"+
+      "<div class='why'>"+esc(top.n)+" alone holds "+share+"% of the national "+(k==="coal"?"reserves":(k==="pot"?"potential":"installed renewables"))+".</div>";
+  }
+
+  function renderRank(){
+    var k=S.metric,mt=METRIC[k];
+    var rows=CODES.map(function(c){return {n:ST[c].n,v:ST[c][k]};}).filter(function(r){return r.v!=null && r.v>0;})
+      .sort(function(a,b){return b.v-a.v;});
+    var W=760,padL=178,padR=92,rowH=22,top=14,bot=10,H=top+bot+rows.length*rowH,innerW=W-padL-padR;
+    var max=Math.max.apply(null,rows.map(function(r){return r.v;}));
+    var sc=function(v){return innerW*(v/Math.max(max,1));};
+    var svg=['<svg class="chart-svg" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMinYMin meet" role="img" aria-label="State ranking by '+esc(mt.L)+'">'];
+    rows.forEach(function(r,i){
+      var y=top+i*rowH,bw=Math.max(2,sc(r.v)),col=mix(css('--barlo'),css('--barhi'),0.15+0.85*(r.v/max));
+      svg.push('<text x="'+(padL-8)+'" y="'+(y+rowH/2+4)+'" text-anchor="end" font-family="Inter" font-size="11" fill="'+css('--ink')+'">'+esc(r.n)+'</text>');
+      svg.push('<rect x="'+padL+'" y="'+(y+3)+'" width="'+bw+'" height="'+(rowH-7)+'" rx="2.5" fill="'+col+'"><title>'+esc(r.n)+': '+grp(r.v)+' '+mt.unit+'</title></rect>');
+      svg.push('<text x="'+(padL+bw+6)+'" y="'+(y+rowH/2+4)+'" font-family="JetBrains Mono" font-size="10" font-weight="600" fill="'+css('--ink')+'">'+grp(r.v)+'</text>');
+    });
+    svg.push('</svg>');
+    document.getElementById("panel").innerHTML=svg.join("")+
+      '<div class="legend"><span><span class="dot" style="background:'+css('--barhi')+'"></span>darker = larger '+esc(mt.short)+'</span>'+
+      '<span>values in '+mt.unit+', as on 31 March 2024</span></div>';
+  }
+
+  function renderTrend(){
+    var se=S.series, T=TREND[se], vals=TR[se].slice(), years=M.trendYears;
+    var W=760,H=340,padL=64,padR=24,padT=26,padB=40;
+    var innerW=W-padL-padR,innerH=H-padT-padB;
+    var maxv=Math.max.apply(null,vals)*1.08, minv=0;
+    var xs=function(i){return padL+innerW*(i/(years.length-1));};
+    var ys=function(v){return padT+innerH*(1-(v-minv)/(maxv-minv));};
+    var svg=['<svg class="chart-svg" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="National trend in '+esc(T.L)+'">'];
+    var gl=4;
+    for(var g=0;g<=gl;g++){var gv=maxv*g/gl,y=ys(gv);
+      svg.push('<line x1="'+padL+'" y1="'+y+'" x2="'+(W-padR)+'" y2="'+y+'" stroke="'+css('--bd')+'" stroke-width="1"/>');
+      svg.push('<text x="'+(padL-8)+'" y="'+(y+4)+'" text-anchor="end" font-family="Inter" font-size="10" fill="'+css('--faint')+'">'+grp(Math.round(gv))+'</text>');}
+    years.forEach(function(yr,i){svg.push('<text x="'+xs(i)+'" y="'+(H-14)+'" text-anchor="middle" font-family="Inter" font-size="9.5" font-weight="600" fill="'+css('--mut')+'">'+yr.slice(2)+'</text>');});
+    var pts=vals.map(function(v,i){return [xs(i),ys(v)];});
+    var area='M'+pts[0][0].toFixed(1)+' '+ys(0).toFixed(1)+' '+pts.map(function(p){return 'L'+p[0].toFixed(1)+' '+p[1].toFixed(1);}).join(' ')+' L'+pts[pts.length-1][0].toFixed(1)+' '+ys(0).toFixed(1)+' Z';
+    svg.push('<path d="'+area+'" fill="'+css('--acc')+'" opacity="0.10"/>');
+    var dp=pts.map(function(p,i){return (i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1);}).join(' ');
+    svg.push('<path d="'+dp+'" fill="none" stroke="'+css('--acc')+'" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>');
+    pts.forEach(function(p,i){svg.push('<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="3.4" fill="'+css('--acc')+'"/>');
+      if(i===0||i===pts.length-1)svg.push('<text x="'+p[0].toFixed(1)+'" y="'+(p[1]-9).toFixed(1)+'" text-anchor="'+(i===0?'start':'end')+'" font-family="JetBrains Mono" font-size="10.5" font-weight="600" fill="'+css('--acc')+'">'+grp(vals[i])+'</text>');});
+    svg.push('</svg>');
+    document.getElementById("panel").innerHTML=svg.join("")+
+      '<div class="legend"><span>'+esc(T.L.charAt(0).toUpperCase()+T.L.slice(1))+', national total ('+T.unit+')</span><span><b style="color:'+css('--acc')+'">'+grp(vals[0])+' → '+grp(vals[vals.length-1])+' '+T.unit+'</b></span></div>';
+  }
+
+  var sortKey="pot",sortDir=-1;
+  function renderTable(){
+    var cols=[["pot","RE potential (MW)"],["reinst","RE installed (MW)"],["coal","Coal reserves (MT)"]];
+    var rows=CODES.slice().sort(function(a,b){ if(sortKey==="n")return sortDir*ST[a].n.localeCompare(ST[b].n);
+      var va=ST[a][sortKey],vb=ST[b][sortKey];va=va==null?-1:va;vb=vb==null?-1:vb;return sortDir*(va-vb);});
+    var h='<div style="overflow-x:auto"><table class="data"><thead><tr><th data-k="n">State / UT</th>'+
+      cols.map(function(c){return '<th data-k="'+c[0]+'">'+c[1]+'</th>';}).join('')+'</tr></thead><tbody>';
+    rows.forEach(function(c){h+='<tr><td>'+esc(ST[c].n)+'</td>'+cols.map(function(col){return '<td>'+grp(ST[c][col[0]])+'</td>';}).join('')+'</tr>';});
+    h+='<tr class="ai"><td>All India</td>'+cols.map(function(col){return '<td>'+grp(METRIC[col[0]].nat)+'</td>';}).join('')+'</tr>';
+    h+='</tbody></table></div>';
+    document.getElementById("panel").innerHTML=h;
+    [].forEach.call(document.querySelectorAll("th[data-k]"),function(th){th.addEventListener("click",function(){var k=th.dataset.k;if(sortKey===k)sortDir*=-1;else{sortKey=k;sortDir=k==="n"?1:-1;}renderTable();});});
+  }
+
+  function render(){
+    renderCaption();
+    if(S.view==="rank")renderRank();
+    else if(S.view==="trend")renderTrend();
+    else renderTable();
+  }
+  new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+  renderQuestion();
+  render();
+})();
+</script>
+<script src="/js/translate-sarvam.js" defer></script>
+<script src="/js/site-chrome.js" defer></script>
+</body>
+</html>
