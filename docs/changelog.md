@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.175.0 — July 30, 2026 (Dataverse: added Indian Open Maps)
+
+### For Learners
+
+- **Indian Open Maps** added to the Dataverse (Geospatial & Mapping) — free, open geospatial data for India: vector layers (administrative boundaries, roads, buildings) and raster (topographic maps, satellite imagery), for GIS and mapping work. Brings the catalogue to 322 sources.
+
 ## v10.174.0 — July 30, 2026 (Studios: build-first pass across the course-like ones)
 
 ### Changed
