@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.179.0 — July 30, 2026 (Energy Explorer: deeper — 5 state measures, 7 national trends)
+
+### For Learners
+
+- **Energy Explorer, expanded** — the new explorer now goes much deeper. **Five state measures** (renewable potential, installed renewables, total installed capacity, coal reserves, and a derived *"how much of its potential each state has actually built"* view — Punjab leads at 24%, Rajasthan sits at just 6% of its vast headroom). **Seven national trends** across the decade: capacity, generation, consumption, coal production, per-capita electricity (748→1,106 kWh), energy intensity (efficiency rising), and the renewable share of power (6%→12%). Now cross-checked against the Central Electricity Authority, with the two official per-capita figures (MoSPI 1,106 kWh vs CEA ~1,395 kWh) explained rather than hidden.
+
 ## v10.178.0 — July 30, 2026 (Data Room: new Energy Explorer — the 10th explorer)
 
 ### For Learners
