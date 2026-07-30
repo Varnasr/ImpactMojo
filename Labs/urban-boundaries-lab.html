@@ -285,14 +285,14 @@ body { padding-top: 56px; }
     </div>
 
     <div class="tabs" id="tabs">
-        <button class="tab-btn active" onclick="switchTab(0)"><span class="tab-num">1</span> The Problem</button>
-        <button class="tab-btn" onclick="switchTab(1)"><span class="tab-num">2</span> India's Undercount</button>
-        <button class="tab-btn" onclick="switchTab(2)"><span class="tab-num">3</span> Redraw with Satellites</button>
-        <button class="tab-btn" onclick="switchTab(3)"><span class="tab-num">4</span> Why It Matters</button>
+        <button class="tab-btn active" data-target="0" onclick="switchTab(0)"><span class="tab-num">1</span> Redraw with Satellites</button>
+        <button class="tab-btn" data-target="1" onclick="switchTab(1)"><span class="tab-num">2</span> The Problem</button>
+        <button class="tab-btn" data-target="2" onclick="switchTab(2)"><span class="tab-num">3</span> India's Undercount</button>
+        <button class="tab-btn" data-target="3" onclick="switchTab(3)"><span class="tab-num">4</span> Why It Matters</button>
     </div>
 
     <!-- ===== TAB 1: THE PROBLEM ===== -->
-    <div class="tab-panel active" data-panel="0">
+    <div class="tab-panel" data-panel="1">
         <h2 class="section-title">The administrative city vs the economic city</h2>
         <p class="section-desc">Economists define a city by <strong>agglomeration</strong> — a contiguous patch of built-up density where people and firms benefit from being close together. Administrations define it by whatever line was last drawn in a gazette. The two rarely match. Toggle the map to see the gap.</p>
 
@@ -362,12 +362,12 @@ body { padding-top: 56px; }
 
         <div class="nav-row">
             <span></span>
-            <button class="btn btn-primary" onclick="switchTab(1)">Next: India's Undercount &rarr;</button>
+            <button class="btn btn-primary" onclick="switchTab(2)">Next: India's Undercount &rarr;</button>
         </div>
     </div>
 
     <!-- ===== TAB 2: INDIA'S UNDERCOUNT ===== -->
-    <div class="tab-panel" data-panel="1">
+    <div class="tab-panel" data-panel="2">
         <h2 class="section-title">How India undercounts its own cities</h2>
         <p class="section-desc">India's Census uses a strict, decades-old rule to decide what counts as "urban". Many places that are city-like in every practical sense stay classified as rural — so the official urbanisation rate is almost certainly an undercount.</p>
 
@@ -400,13 +400,13 @@ body { padding-top: 56px; }
         </div>
 
         <div class="nav-row">
-            <button class="btn" onclick="switchTab(0)">&larr; Back</button>
-            <button class="btn btn-primary" onclick="switchTab(2)">Next: Redraw with Satellites &rarr;</button>
+            <button class="btn" onclick="switchTab(1)">&larr; Back</button>
+            <button class="btn btn-primary" onclick="switchTab(0)">Next: Redraw with Satellites &rarr;</button>
         </div>
     </div>
 
     <!-- ===== TAB 3: REDRAW WITH SATELLITES ===== -->
-    <div class="tab-panel" data-panel="2">
+    <div class="tab-panel active" data-panel="0">
         <h2 class="section-title">Redrawing the city from space</h2>
         <p class="section-desc">Instead of trusting an administrative line, you can build a boundary from what the land actually looks like. The approach behind Development Data Studio's Global Urban Boundaries combines three satellite-derived signals and asks: does this small grid cell look urban?</p>
 
@@ -452,7 +452,7 @@ body { padding-top: 56px; }
         </div>
 
         <div class="nav-row">
-            <button class="btn" onclick="switchTab(1)">&larr; Back</button>
+            <button class="btn" onclick="switchTab(2)">&larr; Back</button>
             <button class="btn btn-primary" onclick="switchTab(3)">Next: Why It Matters &rarr;</button>
         </div>
     </div>
@@ -542,7 +542,7 @@ body { padding-top: 56px; }
         </div>
 
         <div class="nav-row">
-            <button class="btn" onclick="switchTab(2)">&larr; Back</button>
+            <button class="btn" onclick="switchTab(0)">&larr; Back</button>
             <button class="btn" onclick="window.print()">Print / save as PDF</button>
         </div>
     </div>
@@ -618,8 +618,8 @@ function applyTheme(theme) {
 
 /* ===== TABS ===== */
 function switchTab(idx) {
-    document.querySelectorAll('.tab-btn').forEach(function(b, i) { b.classList.toggle('active', i === idx); });
-    document.querySelectorAll('.tab-panel').forEach(function(p, i) { p.classList.toggle('active', i === idx); });
+    document.querySelectorAll('.tab-btn').forEach(function(b, i) { i = parseInt(b.getAttribute('data-target'),10); b.classList.toggle('active', i === idx); });
+    document.querySelectorAll('.tab-panel').forEach(function(p, i) { i = parseInt(p.getAttribute('data-panel'),10); p.classList.toggle('active', i === idx); });
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
