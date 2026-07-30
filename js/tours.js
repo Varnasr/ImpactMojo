@@ -119,10 +119,10 @@
   // keep the "<number> <type>" phrasing when editing.
   var TOURS = {
     index: [
-      { intro: '<strong>Welcome to ImpactMojo!</strong><br>Development know-how for South Asia — 70 courses, 135 games and 36 studios, all free, built by practitioners. Here’s a quick lay of the land.' },
+      { intro: '<strong>Welcome to ImpactMojo!</strong><br>Development know-how for South Asia — 70 courses, 135 games and 34 studios, all free, built by practitioners. Here’s a quick lay of the land.' },
       { element: '#nav-learn', intro: '<strong>Learn</strong><br>The heart of the platform: 70 courses (19 flagship + 51 foundational), interactive studios, and practice packs.' },
       { element: '#nav-flagships', intro: '<strong>Flagship courses</strong><br>Semester-depth courses with progress tracking, self-assessments, and free certificates — MEL, development economics, gender studies, causal inference, and more.' },
-      { element: '#nav-labs', intro: '<strong>Studios</strong><br>36 studios where you build real artefacts — a Theory of Change, a LogFrame, a sampling plan, a survey instrument.' },
+      { element: '#nav-labs', intro: '<strong>Studios</strong><br>34 studios where you build real artefacts — a Theory of Change, a LogFrame, a sampling plan, a survey instrument.' },
       { element: '#nav-specials', intro: '<strong>Explore</strong><br>The 135-game library, 163 reading companions, 22 deep dives, citation-backed timelines, and daily practice dojos.' },
       { element: '#nav-libraries', intro: '<strong>Libraries &amp; data</strong><br>Reference collections: the Dataverse of data tools, the ImpactLex glossary, NudgeKit behaviour-change techniques, and Indian policy documents.' },
       { element: '.ims-nav-btn', intro: '<strong>Search everything</strong><br>Press <kbd>Ctrl</kbd>+<kbd>K</kbd> anywhere to search across every course, studio, game and companion.' },

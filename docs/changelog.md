@@ -2,6 +2,14 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.171.0 — July 30, 2026 (Studios count corrected to 34; two mis-filed items rehomed)
+
+### Changed
+
+- **Interactive Studios count corrected from 36 to 34.** The "36" had quietly included two things that aren't hands-on studios: **R & Python for Development** (an early-access *course* — 7 modules, its button already said "Open course") and the **Sampling Toolkit** (a thin "which one do I need?" chooser fronting the existing Sampling Basics and Sampling Design studios). The real number of build-a-thing studios is **34**, now consistent across the studios page, homepage, catalogue, docs and counts.
+- **R & Python** is reclassified as a course (removed from the studio grid; catalogue and search index now list it as a course).
+- **Sampling Toolkit retired** — it held no unique content, so `/labs/sampling-toolkit` now redirects to the **Sampling Design** studio it fronted. Nothing is lost; both sampling studios remain.
+
 ## v10.170.0 — July 29, 2026 (Products page: one consistent header level for every category)
 
 ### Changed
