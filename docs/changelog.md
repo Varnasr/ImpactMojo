@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.173.0 — July 30, 2026 (DPI studio: Build is now literally tab 1)
+
+### Changed
+
+- **Digital Public Infrastructure studio** — the tab bar is now physically reordered so **"Build a programme" is tab 1**, with the concept tabs (What is DPI, Aadhaar, UPI, Governance) following as steps 2–6 and Done last. Tab switching was rewritten to resolve panels by a stable id rather than DOM position, and the Next/Back flow now reads build-first end to end (Build → learn the rails → … → Done).
+
 ## v10.172.0 — July 30, 2026 (DPI studio reframed build-first — pilot)
 
 ### Changed
