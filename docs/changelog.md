@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.177.0 — July 30, 2026 (Fix: ToC blog graphic — pathway labels were on the wrong sides)
+
+### Fixed
+
+- **"Theory of Change for Complex Programmes" blog graphic** — a reader (thank you, Jim) spotted that the balance illustration had the two "pathways" labels swapped: Linear Theory of Change was mislabelled *Emergent Pathways* and Systems Theory of Change *Predictable Pathways*. Corrected so **Linear → Predictable Pathways** and **Systems → Emergent Pathways** (each icon moved with its label).
+
 ## v10.176.0 — July 30, 2026 (Products page: alphabetical order within each section)
 
 ### Changed
