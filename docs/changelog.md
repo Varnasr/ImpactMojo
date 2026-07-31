@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.180.0 — July 30, 2026 (Data Room: new Scheme Tracker — the claim and the audit)
+
+### For Learners
+
+- **Scheme Tracker** — a new, neutral accountability reference in the Data Room. For **33 major government schemes**, it sets the **official claim** (what a ministry announced) beside the **official finding** (what the government's own auditor — the Comptroller & Auditor General — parliamentary committees, NITI Aayog, or official statistics reported) — side by side, both cited, no commentary. Search by name, filter by sector. Every finding is labelled *national* or *state audit*, and *audit* or *official record*, so nothing is overstated. Built for practitioners who work with these schemes and need both the announcement and the audit.
+
 ## v10.179.0 — July 30, 2026 (Energy Explorer: deeper — 5 state measures, 7 national trends)
 
 ### For Learners
