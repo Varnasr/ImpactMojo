@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.181.0 — July 31, 2026 (Scheme Tracker: explorer-style "compose a question" bar)
+
+### Changed
+
+- **Scheme Tracker** now opens with the Data Room's signature **fill-in-the-blank** interaction: *"Show me schemes in [sector], reviewed by [the CAG / a parliamentary committee / NITI / official statistics], [nationally / in a state audit]."* Tap the underlined words to narrow the list — a friendlier, guided way in than a bare search box, matching the explorers. The claim-vs-audit cards are unchanged (no ranking or scoring — the findings stay qualitative and sourced).
+
 ## v10.180.0 — July 30, 2026 (Data Room: new Scheme Tracker — the claim and the audit)
 
 ### For Learners

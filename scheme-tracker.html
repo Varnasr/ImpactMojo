@@ -51,6 +51,20 @@ h1,h2,h3,.ui{font-family:'Inter',system-ui,sans-serif}
 .fbtn{font-family:'Inter';font-size:12.5px;font-weight:600;color:var(--mut);background:var(--panel);border:1px solid var(--bd);border-radius:99px;padding:6px 13px;cursor:pointer;transition:all .15s}
 .fbtn:hover{border-color:var(--acc);color:var(--acc)}
 .fbtn.active{background:var(--acc);color:#fff;border-color:var(--acc)}
+.qbar{background:var(--panel);border:1px solid var(--bd);border-radius:14px;padding:16px 18px;margin-bottom:12px;box-shadow:0 1px 3px rgba(16,24,40,.04)}
+.qlead{font-family:'Inter';font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--faint);margin:0 0 8px}
+.qline{font-family:'Inter';font-weight:600;font-size:clamp(1.02rem,2.3vw,1.3rem);line-height:1.95;color:var(--ink);margin:0;letter-spacing:-.1px}
+.qhint{font-family:'Inter';font-size:12px;color:var(--faint);margin:12px 0 0}
+.blankdemo{color:var(--acc);border-bottom:2px dashed var(--acc);font-weight:700}
+select.blank{-webkit-appearance:none;-moz-appearance:none;appearance:none;font-family:'Inter';font-weight:800;font-size:inherit;color:var(--acc);
+  background:linear-gradient(var(--chip),var(--chip)) padding-box;border:0;border-bottom:2.5px solid var(--acc);border-radius:6px 6px 0 0;
+  padding:1px 26px 3px 9px;margin:0 2px;cursor:pointer;line-height:1.35;max-width:100%;
+  background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230EA5E9' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 7px center}
+select.blank:hover{background-color:color-mix(in srgb,var(--acc) 16%,transparent)}
+select.blank:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+html[data-theme="dark"] select.blank{color:#7DD3FC;border-bottom-color:#38BDF8}
+@media(prefers-color-scheme:dark){html:not([data-theme]) select.blank{color:#7DD3FC;border-bottom-color:#38BDF8}}
 .count{font-family:'Inter';font-size:12.5px;color:var(--faint);margin:10px 0 4px}
 .card{background:var(--panel);border:1px solid var(--bd);border-radius:16px;padding:18px 20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.04)}
 .chead{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 12px;margin-bottom:4px}
@@ -97,8 +111,12 @@ html[data-theme="dark"] .badge.national{color:#4ADE80}
   </section>
 
   <div class="controls">
-    <input class="search" id="search" type="search" placeholder="Search a scheme — Ayushman, MGNREGA, Ujjwala, Skill India…" aria-label="Search schemes">
-    <div class="filters" id="filters"></div>
+    <div class="qbar ui" aria-label="Compose your question">
+      <p class="qlead">Compose your question</p>
+      <p class="qline" id="qline"></p>
+      <p class="qhint">Tap any <span class="blankdemo">underlined</span> word to narrow the list — or type in the search box.</p>
+    </div>
+    <input class="search" id="search" type="search" placeholder="…or search a scheme — Ayushman, MGNREGA, Ujjwala, Skill India" aria-label="Search schemes">
   </div>
   <div class="count" id="count"></div>
   <div id="list"></div>
@@ -155,24 +173,37 @@ window.SCHEMES=[
   var DATA=window.SCHEMES.filter(function(s){return s.sector!=="_drop";});
   var SECTORS=[["all","All"],["health","Health"],["watsan","Water & Sanitation"],["urban","Urban"],["edu","Education & Skills"],["nutrition","Nutrition & Child"],["rural","Rural & Livelihoods"],["agri","Agriculture"],["economy","Economy & Industry"],["energy","Energy & Infrastructure"],["finance","Finance"]];
   var SECLABEL={}; SECTORS.forEach(function(p){SECLABEL[p[0]]=p[1];});
-  var state={sector:"all",q:""};
+  var BODY_OPTS=[["all","any official body"],["cag","the CAG"],["committee","a parliamentary committee"],["niti","NITI Aayog"],["official","official statistics"]];
+  var SCOPE_OPTS=[["all","at any scope"],["national","nationally"],["state","in a state audit"]];
+  var state={sector:"all",body:"all",scope:"all",q:""};
   function esc(s){return String(s==null?"":s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
   function isAudit(body){return /CAG|Committee|NITI|PAC|Audit/i.test(body);}
-
-  function renderFilters(){
-    var present={}; DATA.forEach(function(s){present[s.sector]=1;});
-    var f=document.getElementById("filters"); f.innerHTML="";
-    SECTORS.forEach(function(p){
-      if(p[0]!=="all" && !present[p[0]]) return;
-      var b=document.createElement("button");
-      b.className="fbtn"+(state.sector===p[0]?" active":"");
-      b.textContent=p[1]; b.setAttribute("aria-pressed",state.sector===p[0]);
-      b.onclick=function(){state.sector=p[0];render();};
-      f.appendChild(b);
+  function bmatch(body,sel){
+    if(sel==="all")return true;
+    if(sel==="cag")return /CAG/.test(body);
+    if(sel==="committee")return /Committee|PAC/.test(body);
+    if(sel==="niti")return /NITI/.test(body);
+    if(sel==="official")return /Official|RBI|Parliament data/.test(body);
+    return true;
+  }
+  function secOpts(){return SECTORS.map(function(p){return [p[0], p[0]==="all"?"every sector":p[1]];});}
+  function blank(key,cur,opts){
+    return '<select class="blank" data-key="'+key+'" aria-label="'+key+'">'+
+      opts.map(function(p){return '<option value="'+p[0]+'"'+(String(p[0])===String(cur)?' selected':'')+'>'+esc(p[1])+'</option>';}).join('')+'</select>';
+  }
+  function renderQuestion(){
+    var q=document.getElementById("qline");
+    q.innerHTML="Show me schemes in "+blank("sector",state.sector,secOpts())+
+      ", reviewed by "+blank("body",state.body,BODY_OPTS)+
+      ", "+blank("scope",state.scope,SCOPE_OPTS)+".";
+    [].forEach.call(q.querySelectorAll("select.blank"),function(sel){
+      sel.addEventListener("change",function(){state[sel.dataset.key]=sel.value;render();});
     });
   }
   function match(s){
     if(state.sector!=="all" && s.sector!==state.sector) return false;
+    if(!bmatch(s.body,state.body)) return false;
+    if(state.scope!=="all" && s.scope!==state.scope) return false;
     if(state.q){var q=state.q.toLowerCase();
       return (s.scheme+" "+s.min+" "+s.about+" "+s.claim+" "+s.finding).toLowerCase().indexOf(q)>=0;}
     return true;
@@ -200,7 +231,7 @@ window.SCHEMES=[
       '</div></article>';
   }
   function render(){
-    renderFilters();
+    renderQuestion();
     var rows=DATA.filter(match).sort(function(a,b){return a.scheme.localeCompare(b.scheme);});
     document.getElementById("count").textContent=rows.length+" scheme"+(rows.length===1?"":"s")+" · claim beside audit, every finding sourced";
     document.getElementById("list").innerHTML = rows.length ? rows.map(card).join("")
