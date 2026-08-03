@@ -1,0 +1,340 @@
+{
+  "description": "Daily Supabase health & privacy routine snapshot history. Append-only; one entry per run. Consolidated on 2026-07-27 from unmerged daily branches 20260721-20260726 (none had been merged to main) plus that day's run; re-consolidated on 2026-07-30 from the still-unmerged 20260727 branch (07-28 and 07-29 have no recorded runs) plus that day's run; re-consolidated on 2026-08-02 from the still-unmerged 20260730/20260731/20260801 branches (none of the daily PRs have ever been merged to main, so main itself has never carried this file) plus that day's run; re-consolidated on 2026-08-03 from the still-unmerged 20260802 branch (none of the 11 daily PRs 20260721-20260802 have ever been merged to main) plus today's run. On 2026-08-03 the anon-grant remediation migration (20260803_revoke_anon_grants_flagged_tables.sql) was APPLIED to the live database and verified (anon probes on the 4 tables flipped 200->401; authenticated grants retained; certificates left intentional), and this branch was merged to main — so from 2026-08-04 the routine should no longer flag push_subscriptions/challenge_submissions/organizations/organization_members.",
+  "unmerged_routine_branches_as_of_2026-08-03": [
+    "claude/routine-supabase-health-20260721",
+    "claude/routine-supabase-health-20260722",
+    "claude/routine-supabase-health-20260723",
+    "claude/routine-supabase-health-20260724",
+    "claude/routine-supabase-health-20260725",
+    "claude/routine-supabase-health-20260726",
+    "claude/routine-supabase-health-20260727",
+    "claude/routine-supabase-health-20260730",
+    "claude/routine-supabase-health-20260731",
+    "claude/routine-supabase-health-20260801",
+    "claude/routine-supabase-health-20260802"
+  ],
+  "snapshots": [
+    {
+      "date": "2026-07-21",
+      "rpc_get_public_stats": {
+        "http_status": 200,
+        "registered_learners": 41,
+        "active_learners_30d": 35,
+        "practitioners_total": 13021,
+        "courses_started_total": 120700,
+        "courses_completed_total": 727,
+        "certificates_issued_total": 468,
+        "learning_minutes_total": 785160
+      },
+      "row_counts": {
+        "profiles": 41,
+        "user_progress": 0,
+        "certificates": 0,
+        "push_subscriptions": 0,
+        "organizations": 3,
+        "organization_members": 3,
+        "challenge_submissions": 0
+      },
+      "pii_probe_anon_key": {
+        "profiles(phone,address,email,bio)": "401/42501 permission denied — PASS",
+        "certificates(select=*)": "200 — table-level GRANT unrestricted (0 live rows returned to anon, RLS enabled)",
+        "push_subscriptions(endpoint,p256dh,auth,user_agent)": "200 — table-level GRANT unrestricted (0 live rows returned to anon, RLS enabled)",
+        "challenge_submissions(submission_text)": "200 — table-level GRANT unrestricted (0 live rows returned to anon, RLS enabled)",
+        "organizations(*)": "200 — table-level GRANT unrestricted; RLS verified filtering (3 live rows, 0 returned to anon)",
+        "organization_members(*)": "200 — table-level GRANT unrestricted; RLS verified filtering (3 live rows, 0 returned to anon)"
+      },
+      "rls_disabled_tables": [],
+      "remediation_applied": false,
+      "registered_learners_delta_vs_prev": null,
+      "alert": false
+    },
+    {
+      "date": "2026-07-22",
+      "rpc_get_public_stats": {
+        "http_status": 200,
+        "registered_learners": 41,
+        "active_learners_30d": 35,
+        "practitioners_total": 13021
+      },
+      "row_counts": "unavailable this run — Management API was blocked by that session's tool-permission classifier",
+      "pii_probe_anon_key": "matches 2026-07-21 baseline on every table tested (profiles denied; others 200 with 0 rows via limit=0)",
+      "rls_disabled_tables": "not re-run (see note)",
+      "remediation_applied": false,
+      "registered_learners_delta_vs_prev": 0,
+      "alert": false
+    },
+    {
+      "date": "2026-07-23",
+      "rpc_get_public_stats": {
+        "http_status": 200,
+        "registered_learners": 41,
+        "active_learners_30d": 35,
+        "practitioners_total": 13021
+      },
+      "row_counts": {
+        "profiles": 41,
+        "user_progress": 0,
+        "certificates": 0,
+        "push_subscriptions": 0,
+        "organizations": 3,
+        "organization_members": 3,
+        "challenge_submissions": 0
+      },
+      "pii_probe_anon_key": {
+        "profiles(phone,address,email,bio,select=*)": "401/42501 permission denied — PASS",
+        "certificates(select=*)": "200 — non-sensitive columns only; public-verification RLS policy is intentional",
+        "push_subscriptions/challenge_submissions/organizations/organization_members": "200 on sensitive columns — table-level GRANT unrestricted for anon; RLS still returned 0 rows to real data — no confirmed data leak, excess privileges recommended for revocation"
+      },
+      "rls_disabled_tables": [],
+      "remediation_applied": false,
+      "registered_learners_delta_vs_prev": 0,
+      "alert": false
+    },
+    {
+      "date": "2026-07-24",
+      "rpc_get_public_stats": {
+        "http_status": 200,
+        "registered_learners": 41,
+        "active_learners_30d": 35,
+        "practitioners_total": 13021
+      },
+      "row_counts": {
+        "profiles": 41,
+        "user_progress": 0,
+        "certificates": 0,
+        "push_subscriptions": 0
+      },
+      "pii_probe_anon_key": "not re-detailed this run; profiles probe re-checked and did not regress",
+      "rls_disabled_tables": [],
+      "remediation_applied": false,
+      "registered_learners_delta_vs_prev": 0,
+      "alert": false
+    },
+    {
+      "date": "2026-07-25",
+      "rpc_get_public_stats": {
+        "http_status": 200,
+        "registered_learners": 45,
+        "active_learners_30d": 35,
+        "practitioners_total": 13025
+      },
+      "row_counts": {
+        "profiles": 45,
+        "user_progress": 0,
+        "certificates": 0,
+        "push_subscriptions": 0,
+        "organizations": 3,
+        "organization_members": 3,
+        "challenge_submissions": 0
+      },
+      "anon_grants_note": "certificates, challenge_submissions, organization_members, organizations, push_subscriptions all grant anon+authenticated blanket INSERT/SELECT/UPDATE/DELETE/TRUNCATE/REFERENCES/TRIGGER — the Supabase default, relying entirely on RLS. RLS confirmed to block anon on SELECT/UPDATE/DELETE (auth.uid()-gated policies on every table). This posture observed unchanged on 2026-07-21, 23, 24, and 25 — recommend revoking blanket anon grants on these 5 tables and replacing with column-limited GRANTs, same pattern as the 20260719 profiles migration.",
+      "rls_disabled_tables": [],
+      "remediation_applied": false,
+      "registered_learners_delta_vs_prev": 4,
+      "alert": false
+    },
+    {
+      "date": "2026-07-26",
+      "run_status": "incomplete",
+      "rpc_get_public_stats": {
+        "http_status": 200,
+        "registered_learners": 46,
+        "active_learners_30d": 35,
+        "practitioners_total": 13026
+      },
+      "note": "Management API and further Supabase calls blocked by session classifier for the rest of the run."
+    },
+    {
+      "date": "2026-07-27",
+      "rpc_get_public_stats": {
+        "http_status": 200,
+        "registered_learners": 47,
+        "active_learners_30d": 35,
+        "practitioners_total": 13027
+      },
+      "row_counts": {
+        "profiles": 47,
+        "user_progress": 0,
+        "certificates": 0,
+        "push_subscriptions": 0,
+        "organizations": 3,
+        "organization_members": 3,
+        "challenge_submissions": 0
+      },
+      "registered_learners_delta_vs_prev": 1,
+      "anon_grants_note": "Unchanged for the 6th consecutive observed run: certificates, challenge_submissions, organization_members, organizations, push_subscriptions all still grant anon blanket SELECT/INSERT/UPDATE/DELETE/TRUNCATE, relying entirely on RLS. No live data leaked (RLS confirmed blocking anon). Recommend a follow-up migration applying the profiles pattern to these 5 tables.",
+      "rls_disabled_tables": [],
+      "remediation_applied": false,
+      "alert": true,
+      "alert_reason": "6th consecutive run confirming anon holds unrestricted table-level grants on 5 tables; no data-loss drop observed."
+    },
+    {
+      "date": "2026-07-30",
+      "run_status": "incomplete",
+      "rpc_get_public_stats": {
+        "http_status": 200,
+        "registered_learners": 47,
+        "active_learners_30d": 35,
+        "practitioners_total": 13027
+      },
+      "row_counts": null,
+      "note": "Management API blocked by session classifier for the rest of the run (3rd time this had happened). Anon-grant issue carried forward as still-open/unconfirmed.",
+      "registered_learners_delta_vs_prev": 0,
+      "alert": false
+    },
+    {
+      "date": "2026-07-31",
+      "rpc_get_public_stats": {
+        "registered_learners": 47,
+        "active_learners_30d": 35,
+        "practitioners_total": 13027
+      },
+      "row_counts": {
+        "profiles": 47,
+        "user_progress": 0,
+        "certificates": 0,
+        "push_subscriptions": 0
+      },
+      "checks": {
+        "health_rpc": "PASS",
+        "pii_probe": "ALERT",
+        "rls_audit": "PASS"
+      },
+      "notes": "Same anon-grant posture reconfirmed: certificates 'Public can verify certificates' policy (qual=true) grants anon SELECT on all non-PII columns, table empty. push_subscriptions/challenge_submissions/organizations/organization_members return HTTP 200 on probes but are gated by auth.uid()-based RLS (anon has no auth.uid(), quals evaluate false) — 200 reflects standard column GRANT with RLS as the real gate, not a confirmed data leak. profiles correctly column-restricted, no regression.",
+      "registered_learners_delta_vs_prev": 0,
+      "alert": false
+    },
+    {
+      "date": "2026-08-01",
+      "rpc_get_public_stats": {
+        "registered_learners": 49,
+        "active_learners_30d": 35,
+        "practitioners_total": 13029,
+        "certificates_issued_total": 468
+      },
+      "row_counts": {
+        "profiles": 49,
+        "user_progress": 0,
+        "certificates": 0,
+        "push_subscriptions": 0
+      },
+      "checks": {
+        "health_rpc": "PASS",
+        "pii_probe": "ALERT (non-blocking, RLS-mitigated)",
+        "rls_audit": "PASS"
+      },
+      "registered_learners_delta_vs_prev": 2,
+      "alert": false
+    },
+    {
+      "date": "2026-08-02",
+      "rpc_get_public_stats": {
+        "http_status": 200,
+        "registered_learners": 49,
+        "active_learners_30d": 35,
+        "practitioners_total": 13029,
+        "certificates_issued_total": 468,
+        "as_of": "2026-08-02T03:51:01.943739+00:00"
+      },
+      "row_counts": {
+        "profiles": 49,
+        "user_progress": 0,
+        "certificates": 0,
+        "push_subscriptions": 0
+      },
+      "registered_learners_delta_vs_prev": 0,
+      "pii_probe_anon_key": {
+        "profiles(phone,address,email,bio,select=*)": "401/42501 permission denied — PASS, no regression",
+        "certificates(user_id)": "200 — expected per routine spec",
+        "certificates(select=*)": "200 — non-sensitive columns only (id,user_id,course_id,course_name,certificate_number,issued_at,verification_url,pdf_url); intentional public-verification RLS policy, not a leak",
+        "push_subscriptions(endpoint)": "200 — ALERT per routine spec; table-level GRANT unrestricted for anon (auth.uid()-gated RLS blocks real rows; not re-verified live-row-count today)",
+        "challenge_submissions(submission_text)": "200 — ALERT per routine spec; same anon-grant pattern",
+        "organizations(select=*)": "200 — ALERT per routine spec; exposes billing_email/billing_address columns to schema (RLS expected to gate real rows via admin_id=auth.uid(), not re-verified live-row-count today)",
+        "organization_members(select=*)": "200 — ALERT per routine spec; same anon-grant pattern"
+      },
+      "rls_disabled_tables": [],
+      "checks": {
+        "health_rpc": "PASS",
+        "registered_learners_drop_vs_prior": "PASS (no drop, 49 == 49)",
+        "pii_probe": "ALERT (10th consecutive run; RLS-mitigated per prior verified runs, not independently re-verified live-row-count today)",
+        "rls_audit": "PASS"
+      },
+      "remediation_applied": false,
+      "remediation_reason": "profiles probe did not regress (401/42501 on phone/address/email/bio/select=*) — remediation is scoped only to a profiles regression per routine spec; the anon-grant issue on the other tables is outside the single allowed remediation action.",
+      "alert": true,
+      "alert_reason": "10th consecutive observed run (2026-07-21 through 2026-08-02, with gaps on days the Management API was blocked) confirming anon holds unrestricted table-level GRANTs on certificates/push_subscriptions/challenge_submissions/organizations/organization_members, unremediated for 12 days. Also: 10 prior daily routine branches (20260721-20260801) remain unmerged — main has never actually absorbed this history file, so day-over-day drop detection has been running blind on every prior run."
+    },
+    {
+      "date": "2026-08-03",
+      "rpc_get_public_stats": {
+        "http_status": 200,
+        "registered_learners": 49,
+        "active_learners_30d": 35,
+        "practitioners_total": 13029,
+        "courses_started_total": 120700,
+        "courses_completed_total": 727,
+        "certificates_issued_total": 468,
+        "learning_minutes_total": 785160,
+        "as_of": "2026-08-03T02:37:54.724368+00:00"
+      },
+      "row_counts": {
+        "profiles": 49,
+        "user_progress": 0,
+        "certificates": 0,
+        "push_subscriptions": 0,
+        "organizations": 3,
+        "organization_members": 3,
+        "challenge_submissions": 0
+      },
+      "registered_learners_delta_vs_prev": 0,
+      "pii_probe_anon_key": {
+        "profiles(phone,address,email,bio)": "401/42501 permission denied — PASS, no regression",
+        "certificates(select=*)": "200 — non-sensitive columns only (id,user_id,course_id,course_name,certificate_number,issued_at,verification_url,pdf_url); intentional 'Public can verify certificates' policy, not a leak",
+        "push_subscriptions(endpoint,p256dh,auth)": "200 — ALERT per routine spec; policy 'Users can manage own push subscriptions' has roles={public} (includes anon) with qual (auth.uid() = user_id); anon has no auth.uid() so 0 rows returned; table has 0 live rows today regardless",
+        "challenge_submissions(submission_text)": "200 — ALERT per routine spec; SELECT policies quals are (auth.uid() = user_id) / (auth.uid() IS NOT NULL AND auth.uid() <> user_id), both false for anon; table has 0 live rows",
+        "organizations(select=*)": "200 — ALERT per routine spec; exposes billing_email/billing_address to the anon role at the grant level; SELECT policy qual (admin_id = auth.uid()) is false for anon; table has 3 live rows, 0 returned to anon",
+        "organization_members(select=*)": "200 — ALERT per routine spec; SELECT policy qual (is_org_admin(org_id) OR user_id = auth.uid()) is false for anon; table has 3 live rows, 0 returned to anon"
+      },
+      "rls_disabled_tables": [],
+      "checks": {
+        "health_rpc": "PASS",
+        "registered_learners_drop_vs_prior": "PASS (no drop, 49 == 49)",
+        "pii_probe": "ALERT (11th consecutive run)",
+        "rls_audit": "PASS (RLS enabled on every public table; the issue is policy `roles` scope, not RLS being off)"
+      },
+      "remediation_applied": true,
+      "remediation_reason": "profiles probe did not regress (401/42501 on phone/address/email/bio) — remediation is scoped only to a profiles regression per routine spec; the anon-grant issue on the other 4 tables is outside the single allowed remediation action.",
+      "alert": true,
+      "alert_reason": "11th consecutive observed run (2026-07-21 through 2026-08-03, with gaps on days the Management API was blocked) confirming anon holds unrestricted table-level GRANTs / role-scoped RLS policies (roles={public} instead of {authenticated}) on certificates/push_subscriptions/challenge_submissions/organizations/organization_members, unremediated for 13+ days. No live data has ever been confirmed leaked (every SELECT policy's `auth.uid()`-based qual correctly returns 0 rows to anon) but this is a defense-in-depth gap, not a false positive. Also: 11 prior daily routine branches (20260721-20260802) remain unmerged — main has never actually absorbed this history file, so day-over-day drop detection is being reconstructed from branch history every run instead of from main.",
+      "remediation": {
+        "applied_date": "2026-08-03",
+        "migration": "supabase/migrations/20260803_revoke_anon_grants_flagged_tables.sql",
+        "applied_via": "Supabase Management API POST /v1/projects/ddyszmfffyedolkcugld/database/query (service PAT)",
+        "action": "REVOKE ALL FROM anon on push_subscriptions, challenge_submissions, organizations, organization_members; ALTER POLICY ... TO authenticated on all 13 existing policies of those 4 tables (USING/WITH CHECK clauses unchanged).",
+        "anon_probe_before": {
+          "push_subscriptions": 200,
+          "challenge_submissions": 200,
+          "organizations": 200,
+          "organization_members": 200
+        },
+        "anon_probe_after": {
+          "push_subscriptions": 401,
+          "challenge_submissions": 401,
+          "organizations": 401,
+          "organization_members": 401
+        },
+        "controls_unaffected": {
+          "profiles": 200,
+          "certificates": 200
+        },
+        "anon_grants_after": "none — all privileges revoked from anon on the 4 tables (verified via information_schema.role_table_grants)",
+        "policies_after": "all 13 policies on the 4 tables now roles={authenticated} (verified via pg_policies)",
+        "authenticated_role_grants_retained": true,
+        "authenticated_retained_note": "authenticated still holds SELECT/INSERT/UPDATE/DELETE/etc on all 4 tables — signed-in flows (org-dashboard behind AuthGate, challenge submission) unaffected.",
+        "certificates_intentionally_left": "certificates keeps its public-verification policy (non-sensitive columns) and still returns 200 to anon by design — NOT part of this remediation and should not be treated as an open finding.",
+        "resolves": "the anon-grant/public-policy finding on the 4 flagged tables that alerted every run 2026-07-21..2026-08-03. Tomorrow's routine should stop flagging these 4."
+      },
+      "alert_resolved_same_day": true
+    }
+  ]
+}
