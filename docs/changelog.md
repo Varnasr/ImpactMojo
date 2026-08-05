@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.182.0 — August 5, 2026 (Store: email-first checkout on all product pages)
+
+### Changed
+
+- **Product pages now ask for your email before showing the UPI payment details.** Across all 57 downloadable-product pages, the buy box shows Name + Email first; the QR code, UPI ID and WhatsApp option only appear after you enter a valid email. This captures the delivery address up front (so a completed payment can never be left with nowhere to send the file) and means orders are logged the moment someone proceeds to pay. Purely a checkout-flow change — prices, products and the confirm-and-deliver pipeline are unchanged.
+
 ## v10.181.0 — July 31, 2026 (Scheme Tracker: explorer-style "compose a question" bar)
 
 ### Changed

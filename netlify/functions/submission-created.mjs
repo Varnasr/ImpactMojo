@@ -97,6 +97,15 @@ export const handler = async (event) => {
   const email = (data.email || "").trim();
   const upiRef = (data.upi_ref || "").trim();
 
+  // Email-first gate: a product-order with no UPI reference is a pre-payment
+  // lead (the buyer entered their email before paying). It's recorded in
+  // Netlify so we can reach them, but there is nothing to confirm or deliver
+  // yet — skip the action email. The real "I've paid" submission carries a
+  // upi_ref and flows through normally below.
+  if (form === "product-order" && !upiRef) {
+    return { statusCode: 200 };
+  }
+
   let type, key, label;
   if (form === "product-order") {
     const title = (data.product || "").replace(/\s*\(₹.*$/, "").trim();
