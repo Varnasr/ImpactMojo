@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.183.0 — August 5, 2026 (Dataverse: India village boundary shapefiles)
+
+### Added
+
+- **India Village Boundary Shapefiles** added to the Dataverse (Geospatial category) — official village-level administrative boundary polygons for every state and UT, downloadable per state as Shapefile / GeoJSON / KML from the National Water Informatics Centre (Ministry of Jal Shakti) portal. The Dataverse now catalogues **323** resources.
+
 ## v10.182.0 — August 5, 2026 (Store: email-first checkout on all product pages)
 
 ### Changed
