@@ -123,8 +123,9 @@ export const handler = async (event) => {
   const html = `<p><strong>${label}</strong></p>
     <p>From: ${email}<br>UPI reference quoted: <strong>${upiRef || "—"}</strong></p>
     <p>Check this payment landed in your UPI app, then:</p>
-    <p style="margin:22px 0"><a href="${url}" style="background:#16A34A;color:#fff;text-decoration:none;padding:14px 26px;border-radius:8px;font-weight:700;font-family:Inter,Arial;font-size:15px">✓ Confirm &amp; deliver</a></p>
-    <p style="font-size:12px;color:#94A3B8">Clicking ${type === "product" ? "emails the file to the buyer" : "activates the subscription"}. Ignore if the payment didn't arrive.</p>`;
+    <p style="margin:22px 0"><a href="${url}" style="display:inline-block;background:#16A34A;color:#fff;text-decoration:none;padding:14px 26px;border-radius:8px;font-weight:700;font-family:Inter,Arial;font-size:15px">✓ Confirm &amp; deliver</a></p>
+    <p style="font-size:12px;color:#94A3B8">Clicking ${type === "product" ? "emails the file to the buyer" : "activates the subscription"}. Ignore if the payment didn't arrive.</p>
+    <p style="font-size:12px;color:#94A3B8">Button not showing? Copy this link into your browser:<br><span style="word-break:break-all;color:#64748B">${url}</span></p>`;
   await sendMail(ADMIN_EMAIL, `Confirm payment: ${label}`, html);
   return { statusCode: 200 };
 };
