@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.185.0 — August 5, 2026 (PLFS Workforce Explorer: pay, job security & confidence intervals)
+
+### For Learners
+
+- **PLFS Workforce Explorer — three new lenses.** The labour explorer now goes past "how many work" to *what kind* of work. **Compare pay** shows what women and men earn across the three kinds of work (regular, self-employed, casual) — the gap is starkest in self-employment, where women earn about a third of what men do. **See job security** reveals that nearly three in five workers are self-employed and most regular employees have no written contract, no paid leave and no social-security benefit. And the state **rankings now carry 95% confidence-interval whiskers**, so you can see where a gap between two states is real and where it's just sampling noise. Every figure is transcribed from the PLFS 2023-24 Annual Report (Statements 6–12 and the Appendix B standard-error tables), with the quarterly-earnings basis and the interval caveats disclosed in plain language.
+
 ## v10.184.0 — August 5, 2026 (Dataverse: India Labour Observatory)
 
 ### Added
