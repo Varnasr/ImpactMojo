@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.184.0 — August 5, 2026 (Dataverse: India Labour Observatory)
+
+### Added
+
+- **India Labour Observatory** added to the Dataverse (India Government Data category) — an independent interactive atlas of India's labour market built on PLFS 2023-24, with state/UT views of participation, unemployment, wage quantiles, job quality and sector, gender-disaggregated and with confidence intervals. The Dataverse now catalogues **324** resources.
+
 ## v10.183.0 — August 5, 2026 (Dataverse: India village boundary shapefiles)
 
 ### Added
