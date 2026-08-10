@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.186.0 — August 5, 2026 (Sitewide content-count consistency)
+
+### Fixed
+
+- **Content counts are now consistent across the whole site.** Several pages still showed older totals (the Dataverse catalogue at 321/296/270, labs at 30/35/36, courses at 69, flagship courses at 17/18, reading companions at 105) — the correct figures are **324 Dataverse resources, 34 labs, 70 courses, 19 flagship courses, 163 reading companions**. Every landing, pricing, press-kit and sitemap page, plus the overview docs, now agree. Behind the scenes the count-drift guard was rebuilt to scan every user-facing page automatically (not a hand-maintained list) and to track the Dataverse total, so this class of drift is caught in CI from now on.
+
 ## v10.185.0 — August 5, 2026 (PLFS Workforce Explorer: pay, job security & confidence intervals)
 
 ### For Learners

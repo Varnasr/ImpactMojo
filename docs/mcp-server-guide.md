@@ -14,11 +14,11 @@ ImpactMojo has a **Model Context Protocol (MCP) server** that lets any AI assist
 | `lookup_bct` | Get full BCT technique details (South Asian context, case studies) |
 | `search_bcts` | Search/filter 203 Behavior Change Techniques |
 | `list_bct_categories` | List all 26 BCT categories with counts |
-| `browse_dataverse` | Browse 270 tools, datasets, APIs by category |
+| `browse_dataverse` | Browse 324 tools, datasets, APIs by category |
 | `search_dataverse` | Keyword search across dataverse items |
 | `list_challenges` | List practice challenges by track/difficulty |
 | `get_challenge` | Full challenge with case context and rubric |
-| `list_courses` | 69 courses across 6 learning tracks |
+| `list_courses` | 70 courses across 6 learning tracks |
 | `get_game_info` | 16 economics games with AI agent personas |
 | `query_climate_data` | India GHG emissions from Climate TRACE |
 
