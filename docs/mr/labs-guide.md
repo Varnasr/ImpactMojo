@@ -8,7 +8,7 @@ ImpactMojo **११ इंटरॅक्टिव्ह labs** देते —
 
 ---
 
-## ११ Labs
+## 34 Labs
 
 ### MEL आणि संशोधन Labs
 

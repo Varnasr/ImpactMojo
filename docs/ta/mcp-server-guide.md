@@ -18,7 +18,7 @@ ImpactMojo-வில் ஒரு **Model Context Protocol (MCP) server** உள
 | `search_dataverse` | dataverse உருப்படிகள் முழுவதும் முக்கிய சொல் தேடல் |
 | `list_challenges` | track/சிரம அளவின் அடிப்படையில் பயிற்சி சவால்களைப் பட்டியலிடுங்கள் |
 | `get_challenge` | case சூழல் மற்றும் மதிப்பீட்டுத் திட்டத்துடன் முழு சவால் |
-| `list_courses` | 6 learning tracks முழுவதும் 53 படிப்புகள் |
+| `list_courses` | 6 learning tracks முழுவதும் 70 படிப்புகள் |
 | `get_game_info` | AI agent personas கொண்ட 16 பொருளாதார games |
 | `query_climate_data` | Climate TRACE-இலிருந்து India GHG உமிழ்வுகள் |
 

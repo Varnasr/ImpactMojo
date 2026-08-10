@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.187.0 — August 5, 2026 (Docs, translations & MCP count consistency)
+
+### Fixed
+
+- **Content counts are now consistent on the docs and repo side too.** The self-hosted documentation — including the Hindi, Marathi, Tamil and Bengali translations — showed older figures (53 courses, 13/17 flagship, 40 foundational, 13 labs, 85 handouts, 270 data tools). All now match canonical (**70 courses · 19 flagship · 51 foundational · 34 labs · 89 handouts · 324 Dataverse**). The MCP server's tool descriptions and README were also updated to 324 Dataverse resources. Contextual and historical numbers (per-module counts, changelog/roadmap entries) were deliberately left as-is.
+
 ## v10.186.0 — August 5, 2026 (Sitewide content-count consistency)
 
 ### Fixed
