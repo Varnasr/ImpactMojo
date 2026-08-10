@@ -1,6 +1,6 @@
 # Memberships, Workshops & Services
 
-ImpactMojo's core belief is that high-quality development education should be free. All 69 courses, 135 games, 35 labs, 89 handouts, and the entire Dataverse are free to use — no login required, no paywall, no trial period.
+ImpactMojo's core belief is that high-quality development education should be free. All 70 courses, 135 games, 34 labs, 89 handouts, and the entire Dataverse are free to use — no login required, no paywall, no trial period.
 
 Premium memberships and professional services exist to sustain the platform and offer advanced tools for practitioners who need them.
 
@@ -15,7 +15,7 @@ Everything you need to learn, teach, and facilitate:
 - **ImpactLex** — 390+ development terms dictionary (now hosted on ImpactMojo)
 - **Dev Case Studies** — 200 curated cases from 117 countries
 - **DevDiscourses** — 500+ curated research papers and books
-- **Dataverse** — 270 data tools, APIs, and datasets
+- **Dataverse** — 324 data tools, APIs, and datasets
 - **Field Notes & Podcast** — The Margin Muse (field observations) and Between the Logframes (podcast)
 - **Multilingual content** — English, Hindi, Tamil, Bengali, Telugu, Marathi
 
