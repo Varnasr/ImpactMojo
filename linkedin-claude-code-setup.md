@@ -60,7 +60,7 @@ These are the skills that turn Claude Code into a full infrastructure management
 
 ### Content Creation (5 skills)
 
-**PDF Processing** — Read, extract, create, merge, split PDFs using pdfplumber, reportlab, and pypdf. I generate handout packs (84 handouts across multiple tracks), extract tables from research reports, and create course exports. The skill preserves layout during extraction and handles images, charts, and multi-column layouts.
+**PDF Processing** — Read, extract, create, merge, split PDFs using pdfplumber, reportlab, and pypdf. I generate handout packs (89 handouts across multiple tracks), extract tables from research reports, and create course exports. The skill preserves layout during extraction and handles images, charts, and multi-column layouts.
 
 **PPTX (PowerPoint)** — Programmatic slide generation via python-pptx. The skill has explicit anti-"AI slop" instructions — no bullet-heavy slides, no generic clip art. It uses branded colour schemes, stat slides, comparison layouts, and proper visual hierarchy. This complements Gamma for cases where I need precise control over every element.
 
@@ -174,4 +174,4 @@ The `~/.claude/` directory is the most underleveraged feature of Claude Code. It
 
 ---
 
-*I'm building ImpactMojo — a free development education platform for South Asia with 68 courses, 84 handouts, 134 interactive games, and 13 labs. The entire platform is a static HTML/CSS/JS site with a Supabase backend, deployed on Netlify. Claude Code with this global setup is how a solo developer ships at this scale.*
+*I'm building ImpactMojo — a free development education platform for South Asia with 70 courses, 89 handouts, 135 interactive games, and 34 labs. The entire platform is a static HTML/CSS/JS site with a Supabase backend, deployed on Netlify. Claude Code with this global setup is how a solo developer ships at this scale.*

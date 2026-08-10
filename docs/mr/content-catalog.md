@@ -267,7 +267,7 @@ Specials अंतर्गत परस्परसंवादी पुस्
 | **ImpactLex** | 390+ विकास संज्ञांचा शब्दकोश (PWA, ImpactMojo वर होस्ट केलेला) | विनामूल्य |
 | **Dev Case Studies** | 117 देशांमधील 200 निवडक केसेस | विनामूल्य |
 | **DevDiscourses** | 500+ निवडक संशोधन शोधनिबंध आणि पुस्तके | विनामूल्य |
-| **Dataverse** | 270 डेटा साधने, API आणि datasets | विनामूल्य — [Browse](/dataverse.html) |
+| **Dataverse** | 324 डेटा साधने, API आणि datasets | विनामूल्य — [Browse](/dataverse.html) |
 | **Blog: Learning Loops** | विकास सरावावरील लेख | विनामूल्य — [Read](/blog.html) |
 | **Podcast: Between the Logframes** | Spotify वरील ऑडिओ भाग | विनामूल्य |
 | **Dojos** | 35+ सराव-आधारित कौशल्य सत्रे | सशुल्क |
