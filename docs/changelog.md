@@ -2,6 +2,17 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.188.0 — August 12, 2026 (LEAP Cities Explorer & Dataverse addition)
+
+### For Learners
+
+- **LEAP Cities Explorer — the city economies official statistics can't see.** India estimates no GDP below the state level, so nobody officially knows how big Mangaluru's or Kolhapur's economy is. The new explorer opens up the LEAP Cities Index 2026 — economist Megha Patnaik's composite score for **233 Tier-2 and Tier-3 cities** across eight sectors of economic life. Rank cities by any pillar (a mid-table city can lead manufacturing outright), put any two cities head-to-head across all eight pillars, see which states' smaller cities score highest, or search the full sortable table. The eleventh room in The Data Room — every figure is the published score, source-linked and openly licensed.
+
+### Added
+
+- **LEAP Cities Index 2026** added to the Dataverse (Economic & Financial category) — composite economic scores for 233 Tier-2/Tier-3 Indian cities from 43 official and administrative variables, organised into eight GVA-aligned pillars, by the India Productivity Lab (Patnaik, 2026; Zenodo, CC BY 4.0). The Dataverse now catalogues **325** resources.
+- **The Data Room grows to eleven explorers** — `cities.html` joins as a new "city economy" group on `explorers.html`, with cards on the homepage strip and in the catalog.
+
 ## v10.187.0 — August 5, 2026 (Docs, translations & MCP count consistency)
 
 ### Fixed
