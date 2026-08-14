@@ -2,6 +2,18 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.190.0 — August 14, 2026 (Skills Profiler, MEL Rosetta Lab & Key Terms handout)
+
+### For Learners
+
+- **Skills Profiler — a free 20-minute check-up for development practitioners.** Where are you strong, and what should you learn next? Forty questions across **MEL, Data & Technology, Policy & Economics and AI for M&E**, drawn from ImpactMojo's 2,000-question assessment banks. You get a domain-by-domain profile with strengths and growth areas, an explanation for every answer, matched free next steps, and an attempt history that stays on your own device. No login, no payment — and no fake percentiles: it's a formative mirror, not a gate, and the methodology is published in full on the page.
+- **MEL Rosetta Lab — translate between the frameworks.** The same MEL words mean different things across donors: *outcome* in FCDO usage is *purpose* in a classic USAID logframe and *specific objective* in EU usage. Pick any of 20 contested terms and see what every system means by it, walk the crosswalks for indicator tests (SMART vs CREAM vs SPICED), evaluation criteria, causal approaches, gender instruments and evidence standards — and read the four places the frameworks genuinely conflict, kept deliberately untranslated. Every definition from a named primary source.
+- **Key Terms in MEL: A Disambiguation Handout** — the print-friendly companion (the 90th handout). Attribution vs contribution, impact vs reach, effectiveness vs efficiency vs efficacy, indicator vs target vs milestone — each entry states the confusion, quotes the competing definitions with sources (OECD-DAC Glossary 2nd edition, 2023 throughout), gives a practical test, and names what breaks if you get it wrong. Ends with the donor logframe dialect table and a pin-up quick reference.
+
+### Added
+
+- The Interactive Studios grow to **35 labs**; handouts to **90**. The profiler cross-links the free courses per domain and the paid Assessed Tracks for those who want the credential.
+
 ## v10.189.0 — August 14, 2026 (HPI Explorer & three Dataverse additions)
 
 ### For Learners

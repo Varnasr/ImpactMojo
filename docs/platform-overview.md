@@ -77,7 +77,7 @@ Each game:
 
 ---
 
-## Interactive Studios (34 studios)
+## Interactive Studios (35 studios)
 
 Studios are browser-based workbenches where you build something. Unlike courses (where you read and reflect), studios are hands-on — you follow a guided workflow and produce a real output.
 
@@ -306,7 +306,7 @@ Switch languages from the platform interface. This makes ImpactMojo usable for t
 
 ## What's Free vs. Premium?
 
-The vast majority of ImpactMojo is **completely free** — this is a genuine commitment, not a marketing strategy. All 70 courses, 135 games, 34 studios, handouts, ImpactLex, case studies, DevDiscourses, and Dataverse are available at no cost.
+The vast majority of ImpactMojo is **completely free** — this is a genuine commitment, not a marketing strategy. All 70 courses, 135 games, 35 studios, handouts, ImpactLex, case studies, DevDiscourses, and Dataverse are available at no cost.
 
 Premium memberships (starting at ₹399/month) unlock additional tools, PDF/PNG export from studios, certificates, and priority access to coaching and workshops.
 
