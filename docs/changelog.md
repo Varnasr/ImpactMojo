@@ -2,6 +2,17 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.189.0 — August 14, 2026 (HPI Explorer & three Dataverse additions)
+
+### For Learners
+
+- **HPI Explorer — how much life does a country get per unit of planet?** The Data Room's twelfth explorer, and its first global one, opens up the **Happy Planet Index** — life expectancy × life satisfaction ÷ ecological footprint, for **157 countries across two decades (2006–2025)**, with South Asia as its own region. Rank the world in any year (Costa Rica leads at 68.3; Bangladesh, Nepal and Pakistan all beat India), track any country against the world median and the planet's shrinking fair share (1.71 → 1.48 global hectares per person), and put two countries head-to-head ingredient by ingredient. Don't miss the India puzzle: **#11 in the world in 2006, #65 in 2025** — life expectancy up seven years, footprint still tiny, but reported life satisfaction in a two-decade slide. Every figure is from the published HPI 2026 data file, cited as its authors request.
+
+### Added
+
+- **Three new Dataverse sources** (Economic wellbeing & environment): the **Happy Planet Index** public dataset (Hot or Cool Institute), **Global Footprint Network Open Data** (ecological footprint & biocapacity accounts, 1961–present), and **World Happiness Report Data** (Gallup life-evaluation scores). The Dataverse now catalogues **328** resources.
+- **The Data Room grows to twelve explorers** — `hpi.html` joins as a new "Wellbeing & the planet" group on `explorers.html`, with cards on the homepage strip and in the catalog.
+
 ## v10.188.0 — August 12, 2026 (LEAP Cities Explorer & Dataverse addition)
 
 ### For Learners
