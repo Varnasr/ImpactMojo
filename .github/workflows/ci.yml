@@ -10,6 +10,7 @@ on:
   schedule:
     # Daily at 06:17 UTC — catches any i18n/encoding regression even with no push.
     - cron: '17 6 * * *'
+  workflow_dispatch:
 
 jobs:
   encoding:
@@ -57,6 +58,19 @@ jobs:
       - name: Check content counts match data/counts.json
         run: python3 scripts/check-counts.py
 
+  supabase-anon:
+    name: Supabase anon-exposure guard
+    runs-on: ubuntu-latest
+    # Hits the live PostgREST API, so it runs on the daily schedule and on
+    # demand — not on every PR, where third-party latency would add flake and
+    # contributors can't act on the result anyway.
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Probe anon exposure against the expected contract
+        run: python3 scripts/check-supabase-anon.py
+
   book-companions:
     name: Book-companion blank-page guard
     runs-on: ubuntu-latest
@@ -100,7 +114,11 @@ jobs:
             --exclude 'impactmojo@ibl'
             '**/*.html'
             '**/*.md'
-          fail: false
+          # Never block a PR on third-party flakiness, but DO fail the daily
+          # scheduled run — otherwise link rot (which happens with no commit at
+          # all) is invisible: the job stayed green no matter what it found.
+          # A failed scheduled run notifies the repo owner.
+          fail: ${{ github.event_name == 'schedule' }}
 
       - name: Upload link check report
         if: always()

@@ -205,11 +205,20 @@ async function main() {
     );
   }
 
-  console.log(`\nTotal violations : ${totalViolations}`);
+  const audited = summaries.filter((s) => s.status !== 'SKIPPED').length;
+
+  console.log(`\nPages audited    : ${audited} of ${summaries.length}`);
+  console.log(`Total violations : ${totalViolations}`);
   console.log(`Failing (>= ${MIN_IMPACT}) : ${totalFailingViolations}\n`);
 
   if (totalFailingViolations > 0) {
     console.log(red(`FAILED — ${totalFailingViolations} accessibility violation(s) at ${MIN_IMPACT} level or above.\n`));
+    process.exit(1);
+  } else if (audited === 0) {
+    // Zero violations across zero pages is not a pass. Without this, a server
+    // that never came up makes every page SKIPPED and the suite still exits 0 —
+    // a wholly unreachable site would report green.
+    console.log(red(`FAILED — no pages were audited (all ${summaries.length} skipped). The site was unreachable at ${BASE_URL}.\n`));
     process.exit(1);
   } else {
     console.log(green('PASSED — No serious accessibility violations found.\n'));
