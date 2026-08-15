@@ -5,6 +5,16 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.194.0] - 2026-08-15
+
+### Changed
+
+- **Data-currency notices on four explorers** (#921): `nas.html`, `nfhs.html`, `plfs.html` and `udise.html` now say plainly that their survey round has been superseded, and `dataverse-india.html` records Census 2027 and NFHS-6 as current. Drafted by the never-merged `fact-check-20260801` routine but **verified against primary sources before publishing** — PARAKH Rashtriya Sarvekshan 2024 (run 4 Dec 2024, results from July 2025, Classes 3/6/9 rather than 3/5/8/10), NFHS-6 (fielded 2023-24, released 29 May 2026), the PLFS Annual Report for CY2025 (March 2026, redesigned ~2.7 lakh sample, July–June → Jan–Dec cycle break), UDISE+ 2025-26 (7 July 2026), and Census 2027 (digital, self-enumeration, caste enumerated for the first time since 1931). The routine's draft had Census 2027 population enumeration in "Mar 2027"; it is **February 2027**, corrected. The "this page still shows X" half of each notice was checked against the pages themselves. Wording says the explorer has not been rebuilt yet rather than implying the figures shown are wrong — they remain accurate for the round they describe.
+
+### Fixed
+
+- **Five dead citation links** (#922): Building State Capability → `bsc.hks.harvard.edu` (moved to Harvard Kennedy School), the PRS bill-tracker entry for the Rajasthan gig-workers bill → the enacted Act 29 of 2023 PDF, two J-PAL deep links → `povertyactionlab.org/research-resources` (where that material was consolidated), and the MHRD-era NEP PDF path → `education.gov.in/nep/nep-2020`. Each replacement confirmed to return 200 before committing. Found by scanning every external link in the 40 files the `external-links` routines touched: **30 confirmed 404s, plus 30 × 403 that are publisher bot-blocking rather than breakage** and were deliberately left alone. The remaining 25 dead links are documented in #922 rather than guessed — they are mostly publisher/book pages and three DOIs, where picking the wrong edition or record would turn a dead link into a mis-citation.
+
 ## [10.193.0] - 2026-08-15
 
 ### Fixed
