@@ -5,6 +5,16 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.193.0] - 2026-08-15
+
+### Fixed
+
+- **Three Netlify forms had spam protection that did nothing** (#920): `challenges.html` (`challenge-submission`), `index.html` (`chatbot-feedback`) and `podcast.html` (`podcast-newsletter`) each set `netlify-honeypot="bot-field"` but carried no matching input in the form. Netlify requires both — the attribute names the field, the field has to exist — so the honeypot on those three was inert. Found by the retired `forms-health` routine on 2026-07-31 and never merged; re-audited against main before fixing, which confirmed exactly those 3 broken against 77 correct forms. Fixed with the `<p style="display:none">` pattern the other 77 already use; the routine's own version added a bare visible `<input>` on two of the three.
+
+### Added
+
+- **Structured data on 25 pages** (#920): `Dataset` JSON-LD on the data explorers (`aishe`, `aser`, `eci`, `energy`, `ihds`, `migration`, `nas`, `plfs`, `scheme-tracker`, `udise`, `explorers`) and `LearningResource` JSON-LD on 14 BookSummaries companions, plus `og:image` on the 10 explorer pages that had none. Recovered from the unmerged `seo-health-20260801` and `content-wiring-20260729` routine branches and re-derived onto current main. Both branches had independently written a JSON-LD block for the same 14 companions, so applying both produced two competing `LearningResource` blocks per page; deduplicated by keeping whichever `name` matches the page's own `<title>`. Their `sitemap.xml` rewrite was deliberately not taken — main's sitemap has moved on and theirs would have reverted newer entries.
+
 ## [10.192.0] - 2026-08-15
 
 ### Security
