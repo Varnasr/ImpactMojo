@@ -14,16 +14,18 @@ Open the studio at [/the-long-view.html](/the-long-view.html).
 
 The page is organised into two "wings", with a gallery of classics and modern greats one click further on.
 
-### The Data Wing — 25 original charts
+### The Data Wing — original charts
 
-Twenty-five charts, each built from a public dataset and captioned with its source. They deliberately use a wide range of chart forms so the shape fits the question — among them:
+Each chart is built from a public dataset and captioned with its source. They deliberately use a wide range of chart forms so the shape fits the question — among them:
 
 - **Trends over time** — line and area charts (extreme poverty falling, India's under-five mortality, women re-entering the workforce).
 - **Comparisons and gaps** — a **dumbbell** of gender gaps, a **horizontal bar** of poverty by social group, a **beeswarm** of per-capita carbon.
 - **Parts of a whole** — a **donut** of the electricity mix, **waffle** grids ("if India were 100 people"), a **funnel** of the leaky education pipeline.
-- **Flows and structure** — **Sankey** diagrams (two-stage and three-stage) of India's greenhouse gases, a **chord** diagram of migration between world regions.
+- **Flows and structure** — **Sankey** diagrams (two-stage and three-stage) of India's greenhouse gases, a **hub Sankey** of the Union Budget (every receipt narrows into one rupee, then fans out into what it pays for), a **chord** diagram of migration between world regions.
 - **Distributions and change** — a **bubble chart** of wealth vs. health, a **connected scatterplot** of the demographic transition, a **bump chart** of population rank, **small multiples** of child-mortality decline.
-- **Population and place** — a **population pyramid** (1990 vs. 2050), a **stream graph** of the world's shifting weight, a **radial** chart of the monsoon, and a **hex cartogram** of female literacy by state.
+- **Population and place** — a **population pyramid** (1990 vs. 2050), a **stream graph** of the world's shifting weight, a **radial** chart of the monsoon, and four map forms of the same country: a **hex cartogram** of female literacy, a **dot-density map** of where India's poor actually live, a **Dorling cartogram** of people per Lok Sabha seat, and a **tilegram** built from 121 hexagons, one per crore of Indians.
+
+The four map forms sit together on purpose. A hex cartogram gives every state one tile and colours it by a *rate*; a dot-density map draws the *count* as scattered dots; a Dorling cartogram sizes each state as a circle and throws the coastline away; a tilegram gives each state as many tiles as it has people, so the map itself becomes a bar chart. Read in sequence they are a short course in what a map decides to encode — and in how differently the same country can look depending on that decision.
 
 A twenty-sixth panel, **"How to read a chart honestly,"** is a method note rather than a data chart: it shows the same three numbers on a truncated axis and a zero axis to demonstrate Tufte's "lie factor." Every chart in the studio starts its axis at zero.
 

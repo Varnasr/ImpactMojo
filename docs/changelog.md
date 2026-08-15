@@ -2,6 +2,16 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.191.0 — August 15, 2026 (Four new chart forms in The Long View)
+
+### For Learners
+
+- **Where the rupee comes from, and where it goes.** The Union Budget 2025–26 drawn as a single rupee: eight receipts narrow into it on the left, nine spending heads fan out on the right, every band sized in paise. Nearly a quarter of what the government spends is borrowed — and 20 paise of every rupee goes straight back out as interest on past borrowing. The largest single spending head isn't a scheme at all: it's the states' constitutional share of taxes.
+- **Where India's poor actually live.** A dot-density map, one dot for every 10 lakh people in multidimensional poverty, scattered at random inside each state. Bihar has the highest poverty *rate*; Uttar Pradesh has the largest *number* of poor people — about 5.4 crore, more than the population of South Korea. Put it beside the rate map already in the studio and you can see exactly how differently rates and counts rank the same country.
+- **One person, one vote?** A Dorling cartogram — every state a circle sized by its people, the coastline thrown away — coloured by how many people each Lok Sabha MP represents. Seats were frozen at the 1971 census, so a Rajasthan MP speaks for 27.4 lakh people and a Kerala MP for 16.7 lakh. The darkest circles are northern, the palest southern; that pattern is the delimitation debate in one picture.
+- **India, one hexagon at a time.** A tilegram: give every crore of Indians one hexagon and the country's real weight appears in 121 tiles, of which Uttar Pradesh alone claims 20. Unlike a tile map that gives each state one tile, here the map itself becomes a bar chart you can count by eye. Zones are colour-coded, and the North, Central and East together hold about three in four hexagons.
+- Each chart opens onto its own page with the takeaway, the source, *why this chart form*, *how it was built* and *what to look for* — and the four map forms are meant to be read in sequence as a short course in what a map decides to encode.
+
 ## v10.190.0 — August 14, 2026 (Skills Profiler, MEL Rosetta Lab & Key Terms handout)
 
 ### For Learners

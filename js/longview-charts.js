@@ -584,6 +584,252 @@ window.LV = (function() {
     svg.appendChild(mk('text', { x: lx + 100, y: ly + 8, 'font-size': 9.5, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, o.legend ));
   }
 
+  /* ---------- Sankey through a hub (sources → ₹1 → uses) ---------- */
+  function sankeyHub(id, o) {
+    var svg = frame(id); if (!svg) return; var vw = 460, vh = 400; svg.setAttribute('viewBox', '0 0 ' + vw + ' ' + vh);
+    var S = o.sources, U = o.uses, i;
+    var tot = S.reduce(function(a, d){ return a + d.v; }, 0);
+    var mT = 30, mB = 16, colW = 13, gap = 5, Hh = vh - mT - mB;
+    var maxN = Math.max(S.length, U.length);
+    var ppu = (Hh - gap * (maxN - 1)) / tot;
+    var lx = 104, hx = vw / 2 - colW / 2, rx = vw - 104 - colW;
+    function stack(list) {
+      var h = list.map(function(d){ return d.v * ppu; });
+      var ch = h.reduce(function(a, b){ return a + b; }, 0) + gap * (list.length - 1);
+      var sy = mT + (Hh - ch) / 2, ys = [];
+      h.forEach(function(hh){ ys.push(sy); sy += hh + gap; });
+      return { y: ys, h: h };
+    }
+    var L = stack(S), R = stack(U);
+    var hubH = tot * ppu, hubY = mT + (Hh - hubH) / 2;
+    function ribbon(xa, ya0, ya1, xb, yb0, yb1, col, delay) {
+      var xm = (xa + xb) / 2;
+      var d = 'M' + xa + ',' + ya0.toFixed(1) + ' C' + xm + ',' + ya0.toFixed(1) + ' ' + xm + ',' + yb0.toFixed(1) + ' ' + xb + ',' + yb0.toFixed(1) +
+        ' L' + xb + ',' + yb1.toFixed(1) + ' C' + xm + ',' + yb1.toFixed(1) + ' ' + xm + ',' + ya1.toFixed(1) + ' ' + xa + ',' + ya1.toFixed(1) + ' Z';
+      var p = mk('path', { d: d, fill: col, 'fill-opacity': 0.5 });
+      svg.appendChild(p); fadeIn(p, delay); return p;
+    }
+    // sources → hub
+    var hubOff = hubY;
+    S.forEach(function(d, k){ ribbon(lx + colW, L.y[k], L.y[k] + L.h[k], hx, hubOff, hubOff + L.h[k], d.color, k * 0.05); hubOff += L.h[k]; });
+    // hub → uses
+    hubOff = hubY;
+    U.forEach(function(d, k){ var h = R.h[k]; ribbon(hx + colW, hubOff, hubOff + h, rx, R.y[k], R.y[k] + h, d.color, 0.25 + k * 0.05); hubOff += h; });
+    // nodes
+    S.forEach(function(d, k){ svg.appendChild(mk('rect', { x: lx, y: L.y[k], width: colW, height: Math.max(2, L.h[k]), rx: 2, fill: d.color })); });
+    U.forEach(function(d, k){ svg.appendChild(mk('rect', { x: rx, y: R.y[k], width: colW, height: Math.max(2, R.h[k]), rx: 2, fill: d.color })); });
+    svg.appendChild(mk('rect', { x: hx, y: hubY, width: colW, height: hubH, rx: 3, fill: ink(), 'fill-opacity': 0.85 }));
+    // labels
+    S.forEach(function(d, k){
+      var cy = L.y[k] + L.h[k] / 2;
+      svg.appendChild(mk('text', { x: lx - 7, y: cy + 3, 'text-anchor': 'end', 'font-size': 9.5, 'font-weight': 700, fill: ink(), 'font-family': 'Inter, sans-serif' }, d.name));
+      svg.appendChild(mk('text', { x: lx + colW + 4, y: cy + 3, 'font-size': 8.5, fill: d.color, 'font-family': 'JetBrains Mono, monospace' }, d.v + 'p'));
+    });
+    U.forEach(function(d, k){
+      var cy = R.y[k] + R.h[k] / 2;
+      svg.appendChild(mk('text', { x: rx + colW + 7, y: cy + 3, 'font-size': 9.5, 'font-weight': 700, fill: ink(), 'font-family': 'Inter, sans-serif' }, d.name));
+      svg.appendChild(mk('text', { x: rx - 4, y: cy + 3, 'text-anchor': 'end', 'font-size': 8.5, fill: d.color, 'font-family': 'JetBrains Mono, monospace' }, d.v + 'p'));
+    });
+    svg.appendChild(mk('text', { x: hx + colW / 2, y: hubY - 8, 'text-anchor': 'middle', 'font-size': 15, 'font-weight': 800, fill: ink(), 'font-family': 'Inter, sans-serif' }, o.hub || '₹1'));
+    svg.appendChild(mk('text', { x: 16, y: 16, 'font-size': 9.5, 'font-weight': 700, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, o.leftLabel || 'comes from'));
+    svg.appendChild(mk('text', { x: vw - 16, y: 16, 'text-anchor': 'end', 'font-size': 9.5, 'font-weight': 700, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, o.rightLabel || 'goes to'));
+  }
+
+  /* ---------- Seeded PRNG + hex helpers (shared by the map forms) ---------- */
+  function rng(seed) {
+    var t = seed >>> 0;
+    return function() {
+      t = (t + 0x6D2B79F5) >>> 0;
+      var r = Math.imul(t ^ (t >>> 15), t | 1);
+      r ^= r + Math.imul(r ^ (r >>> 7), r | 61);
+      return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function seedOf(str) { var h = 2166136261; for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+  var SQ3 = Math.sqrt(3);
+  function hexAt(col, row, s) { return [col * 1.5 * s, row * SQ3 * s + (col % 2) * SQ3 * s / 2]; }
+  function hexPts(cx, cy, r) {
+    var pts = [];
+    for (var k = 0; k < 6; k++) { var a = Math.PI / 3 * k; pts.push((cx + r * Math.cos(a)).toFixed(1) + ',' + (cy + r * Math.sin(a)).toFixed(1)); }
+    return pts.join(' ');
+  }
+  function inHex(dx, dy, r) {
+    var ax = Math.abs(dx), ay = Math.abs(dy);
+    return ay <= r * 0.8660254 && (1.7320508 * ax + ay) <= 1.7320508 * r;
+  }
+  function lerpCol(a, b, t) {
+    function hx(c){ return [parseInt(c.slice(1,3),16), parseInt(c.slice(3,5),16), parseInt(c.slice(5,7),16)]; }
+    var A = hx(a), B = hx(b), out = [];
+    for (var i = 0; i < 3; i++) out.push(Math.round(A[i] + (B[i] - A[i]) * Math.max(0, Math.min(1, t))));
+    return 'rgb(' + out.join(',') + ')';
+  }
+
+  /* ---------- Dot-density tile map (one dot = one unit, scattered at random) ---------- */
+  function dotDensity(id, o) {
+    var svg = frame(id); if (!svg) return; var vw = 460, vh = 380; svg.setAttribute('viewBox', '0 0 ' + vw + ' ' + vh);
+    var cells = o.cells;
+    var cols = cells.map(function(c){ return c.col; }), rows = cells.map(function(c){ return c.row; });
+    var colSpan = Math.max.apply(null, cols) - Math.min.apply(null, cols);
+    var rowSpan = Math.max.apply(null, rows) - Math.min.apply(null, rows);
+    // fit the grid to the frame: hexes are 2s wide, √3·s tall, columns 1.5s apart
+    var s = Math.min((vw - 24) / (colSpan * 1.5 + 2), (vh - 52) / (rowSpan * 1.732 + 2.6));
+    var r = s * 0.88; // a visible gutter, so one state's dot field can't be read as its neighbour's
+    var raw = cells.map(function(c){ return hexAt(c.col, c.row, s); });
+    var xs = raw.map(function(p){ return p[0]; }), ys = raw.map(function(p){ return p[1]; });
+    var minX = Math.min.apply(null, xs), maxX = Math.max.apply(null, xs);
+    var minY = Math.min.apply(null, ys), maxY = Math.max.apply(null, ys);
+    var ox = (vw - (maxX - minX)) / 2 - minX, oy = (vh - 46 - (maxY - minY)) / 2 - minY;
+    var unit = o.unit, dotR = o.dotR || 1.7, k;
+    cells.forEach(function(c, i) {
+      var cx = raw[i][0] + ox, cy = raw[i][1] + oy;
+      svg.appendChild(mk('polygon', { points: hexPts(cx, cy, r), fill: ink(), 'fill-opacity': 0.06, stroke: gridc(), 'stroke-width': 1 }));
+    });
+    cells.forEach(function(c, i) {
+      var cx = raw[i][0] + ox, cy = raw[i][1] + oy;
+      var n = Math.round(c.v / unit); if (n <= 0) return;
+      var rand = rng(seedOf(c.code + '|' + id)), g = mk('g', {});
+      for (var j = 0, guard = 0; j < n && guard < n * 60; guard++) {
+        var dx = (rand() * 2 - 1) * r, dy = (rand() * 2 - 1) * r * 0.8660254;
+        if (!inHex(dx, dy, r * 0.94)) continue;
+        g.appendChild(mk('circle', { cx: (cx + dx).toFixed(1), cy: (cy + dy).toFixed(1), r: dotR, fill: o.color, 'fill-opacity': 0.8 }));
+        j++;
+      }
+      svg.appendChild(g); fadeIn(g, i * 0.012);
+    });
+    // codes last, with a halo so they stay legible over dense dots
+    cells.forEach(function(c, i) {
+      var cx = raw[i][0] + ox, cy = raw[i][1] + oy;
+      svg.appendChild(mk('text', { x: cx, y: cy + 3, 'text-anchor': 'middle', 'font-size': 9, 'font-weight': 700,
+        fill: ink(), 'fill-opacity': 0.75, stroke: 'var(--color-bg-card, #fff)', 'stroke-width': 2.8, 'stroke-opacity': 0.9,
+        'paint-order': 'stroke fill', 'font-family': 'JetBrains Mono, monospace' }, c.code));
+    });
+    // legend — a sample of dots at the same density
+    var lx = 16, ly = vh - 18;
+    var lr = rng(seedOf('legend|' + id));
+    for (k = 0; k < 10; k++) svg.appendChild(mk('circle', { cx: (lx + lr() * 42).toFixed(1), cy: (ly - 6 + lr() * 12).toFixed(1), r: dotR, fill: o.color, 'fill-opacity': 0.8 }));
+    svg.appendChild(mk('text', { x: lx + 52, y: ly + 3, 'font-size': 9.5, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, o.legend));
+  }
+
+  /* ---------- Dorling cartogram (circles sized by value, nudged apart) ---------- */
+  function dorling(id, o) {
+    var svg = frame(id); if (!svg) return; var vw = 460, vh = 400; svg.setAttribute('viewBox', '0 0 ' + vw + ' ' + vh);
+    var pad = 14, top = 8, bot = 46;
+    // stretch the hand-placed anchors across the whole frame
+    var axs = o.nodes.map(function(d){ return d.x; }), ays = o.nodes.map(function(d){ return d.y; });
+    var x0 = Math.min.apply(null, axs), x1 = Math.max.apply(null, axs);
+    var y0 = Math.min.apply(null, ays), y1 = Math.max.apply(null, ays);
+    var nodes = o.nodes.map(function(d) {
+      var px = pad + (d.x - x0) / (x1 - x0) * (vw - 2 * pad);
+      var py = top + (d.y - y0) / (y1 - y0) * (vh - top - bot);
+      return { code: d.code, size: d.size, v: d.v, ax: px, ay: py, x: px, y: py, r: o.k * Math.sqrt(d.size) };
+    });
+    for (var it = 0; it < 260; it++) {
+      for (var i = 0; i < nodes.length; i++) {
+        var a = nodes[i];
+        a.x += (a.ax - a.x) * 0.045; a.y += (a.ay - a.y) * 0.045;
+        for (var j = i + 1; j < nodes.length; j++) {
+          var b = nodes[j], dx = b.x - a.x, dy = b.y - a.y;
+          var d = Math.sqrt(dx * dx + dy * dy) || 0.01, min = a.r + b.r + 1.2;
+          if (d < min) {
+            var push = (min - d) / d * 0.5, mx = dx * push, my = dy * push;
+            var wa = b.r / (a.r + b.r), wb = a.r / (a.r + b.r);
+            a.x -= mx * 2 * wa; a.y -= my * 2 * wa; b.x += mx * 2 * wb; b.y += my * 2 * wb;
+          }
+        }
+        a.x = Math.max(a.r + 2, Math.min(vw - a.r - 2, a.x));
+        a.y = Math.max(a.r + top - 6, Math.min(vh - bot - a.r + 6, a.y));
+      }
+    }
+    function shade(v) { return lerpCol(o.lowColor, o.highColor, (v - o.min) / (o.max - o.min)); }
+    nodes.forEach(function(n, i) {
+      var g = mk('g', {});
+      g.appendChild(mk('circle', { cx: n.x.toFixed(1), cy: n.y.toFixed(1), r: n.r.toFixed(1), fill: shade(n.v), stroke: '#fff', 'stroke-width': 1.1, 'stroke-opacity': 0.75 }));
+      if (n.r >= 7.4) {
+        var dark = (n.v - o.min) / (o.max - o.min) > 0.5;
+        var fs = Math.max(6.5, Math.min(12, n.r * 0.55));
+        g.appendChild(mk('text', { x: n.x.toFixed(1), y: (n.y + fs * 0.34).toFixed(1), 'text-anchor': 'middle', 'font-size': fs.toFixed(1), 'font-weight': 800, fill: dark ? '#fff' : '#7c2d12', 'font-family': 'Inter, sans-serif' }, n.code));
+      }
+      svg.appendChild(g); fadeIn(g, i * 0.02);
+    });
+    var lx = 16, lw = 150, ly = vh - 12;
+    var lg = mk('linearGradient', { id: id + '-dg', x1: '0', y1: '0', x2: '1', y2: '0' });
+    lg.appendChild(mk('stop', { offset: '0', 'stop-color': o.lowColor }));
+    lg.appendChild(mk('stop', { offset: '1', 'stop-color': o.highColor }));
+    ensureDefs(svg).appendChild(lg);
+    svg.appendChild(mk('text', { x: lx, y: ly - 22, 'font-size': 9.5, 'font-weight': 700, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, o.legend));
+    svg.appendChild(mk('rect', { x: lx, y: ly - 16, width: lw, height: 9, rx: 2, fill: 'url(#' + id + '-dg)' }));
+    svg.appendChild(mk('text', { x: lx, y: ly, 'font-size': 9, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, o.minLabel));
+    svg.appendChild(mk('text', { x: lx + lw, y: ly, 'text-anchor': 'end', 'font-size': 9, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, o.maxLabel));
+  }
+
+  /* ---------- Tilegram (one tile = one unit; states built from tiles) ---------- */
+  function tilegram(id, o) {
+    var svg = frame(id); if (!svg) return; var vw = 460, vh = 470; svg.setAttribute('viewBox', '0 0 ' + vw + ' ' + vh);
+    var tiles = [];
+    o.groups.forEach(function(g) {
+      g.t.split(' ').forEach(function(cr) {
+        var p = cr.split(',');
+        tiles.push({ code: g.s, zone: g.z, col: +p[0], row: +p[1] });
+      });
+    });
+    var mapW = 292, s = 15.4;
+    var raw = tiles.map(function(t){ return hexAt(t.col, t.row, s); });
+    var xs = raw.map(function(p){ return p[0]; }), ys = raw.map(function(p){ return p[1]; });
+    var minX = Math.min.apply(null, xs), maxX = Math.max.apply(null, xs);
+    var minY = Math.min.apply(null, ys), maxY = Math.max.apply(null, ys);
+    var ox = (mapW - (maxX - minX)) / 2 - minX + 6, oy = (vh - 16 - (maxY - minY)) / 2 - minY;
+    var zc = o.zones.reduce(function(m, z){ m[z.id] = z.color; return m; }, {});
+    var at = {}, cent = {};
+    tiles.forEach(function(t){ at[t.col + ',' + t.row] = t.code; });
+    // neighbour offsets per hex edge (0:SE 1:S 2:SW 3:NW 4:N 5:NE), odd columns sit half a row lower
+    function nb(t, k) {
+      var c = t.col, r = t.row, odd = c % 2 ? 1 : 0;
+      if (k === 1) return [c, r + 1];
+      if (k === 4) return [c, r - 1];
+      if (k === 0) return [c + 1, r + odd];
+      if (k === 5) return [c + 1, r - 1 + odd];
+      if (k === 2) return [c - 1, r + odd];
+      return [c - 1, r - 1 + odd];
+    }
+    tiles.forEach(function(t, i) {
+      var cx = raw[i][0] + ox, cy = raw[i][1] + oy;
+      var hx = mk('polygon', { points: hexPts(cx, cy, s * 0.98), fill: zc[t.zone], 'fill-opacity': 0.86, stroke: 'var(--color-bg-card, #fff)', 'stroke-width': 1 });
+      svg.appendChild(hx); fadeIn(hx, i * 0.006);
+      var c = cent[t.code] || (cent[t.code] = { x: 0, y: 0, n: 0, tiles: [] });
+      c.x += cx; c.y += cy; c.n++; c.tiles.push([cx, cy]);
+    });
+    // state outlines: draw only those hex edges whose neighbour is a different state
+    tiles.forEach(function(t, i) {
+      var cx = raw[i][0] + ox, cy = raw[i][1] + oy, rr = s * 0.98, d = '';
+      for (var k = 0; k < 6; k++) {
+        var n = nb(t, k); if (at[n[0] + ',' + n[1]] === t.code) continue;
+        var a0 = Math.PI / 3 * k, a1 = Math.PI / 3 * (k + 1);
+        d += 'M' + (cx + rr * Math.cos(a0)).toFixed(1) + ',' + (cy + rr * Math.sin(a0)).toFixed(1) +
+             'L' + (cx + rr * Math.cos(a1)).toFixed(1) + ',' + (cy + rr * Math.sin(a1)).toFixed(1);
+      }
+      if (d) svg.appendChild(mk('path', { d: d, fill: 'none', stroke: ink(), 'stroke-opacity': 0.5, 'stroke-width': 1.8, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));
+    });
+    Object.keys(cent).forEach(function(code) {
+      var c = cent[code], mx = c.x / c.n, my = c.y / c.n, best = c.tiles[0], bd = Infinity;
+      c.tiles.forEach(function(p){ var d = (p[0] - mx) * (p[0] - mx) + (p[1] - my) * (p[1] - my); if (d < bd) { bd = d; best = p; } });
+      svg.appendChild(mk('text', { x: best[0].toFixed(1), y: (best[1] + 3.4).toFixed(1), 'text-anchor': 'middle',
+        'font-size': c.n >= 3 ? 10 : 8, 'font-weight': 800, fill: '#fff', 'font-family': 'Inter, sans-serif' }, code));
+    });
+    // legend: zones, their tile counts and share
+    var counts = {};
+    tiles.forEach(function(t){ counts[t.zone] = (counts[t.zone] || 0) + 1; });
+    var lx = mapW + 22, ly = 44;
+    svg.appendChild(mk('text', { x: lx, y: ly - 20, 'font-size': 9.5, 'font-weight': 700, fill: ink(), 'font-family': 'JetBrains Mono, monospace' }, o.legendTitle));
+    o.zones.forEach(function(z, i) {
+      var y = ly + i * 30;
+      svg.appendChild(mk('polygon', { points: hexPts(lx + 8, y, 8), fill: z.color, 'fill-opacity': 0.88 }));
+      svg.appendChild(mk('text', { x: lx + 22, y: y - 1, 'font-size': 10, 'font-weight': 700, fill: ink(), 'font-family': 'Inter, sans-serif' }, z.name));
+      svg.appendChild(mk('text', { x: lx + 22, y: y + 11, 'font-size': 9, fill: ink(), 'fill-opacity': 0.7, 'font-family': 'JetBrains Mono, monospace' }, counts[z.id] + ' hexes · ' + Math.round(counts[z.id] / tiles.length * 100) + '%'));
+    });
+    svg.appendChild(mk('text', { x: lx, y: ly + o.zones.length * 30 + 12, 'font-size': 9, fill: ink(), 'fill-opacity': 0.75, 'font-family': 'JetBrains Mono, monospace' }, tiles.length + ' hexes'));
+    svg.appendChild(mk('text', { x: lx, y: ly + o.zones.length * 30 + 25, 'font-size': 9, fill: ink(), 'fill-opacity': 0.75, 'font-family': 'JetBrains Mono, monospace' }, o.unitLabel));
+  }
+
   /* ---------- Framework: Arnstein's ladder ---------- */
   function ladder(id) {
     var svg = frame(id); if (!svg) return;
@@ -1069,6 +1315,95 @@ window.LV = (function() {
         {code:'KL',col:2,row:6,v:92},{code:'TN',col:3,row:6,v:73}
       ] });
 
+    sankeyHub('c-rupee',
+      { hub: '₹1', leftLabel: 'comes from', rightLabel: 'goes to',
+        sources: [
+          { name:'Borrowings',      v:24, color:'#e11d48' },
+          { name:'Income tax',      v:22, color:'#4f46e5' },
+          { name:'GST & other',     v:18, color:'#0d9488' },
+          { name:'Corporation tax', v:17, color:'#6366f1' },
+          { name:'Non-tax receipts',v:9,  color:'#0891b2' },
+          { name:'Union excise',    v:5,  color:'#f59e0b' },
+          { name:'Customs',         v:4,  color:'#7c3aed' },
+          { name:'Capital receipts',v:1,  color:'#16a34a' }
+        ],
+        uses: [
+          { name:"States' share",     v:22, color:'#0d9488' },
+          { name:'Interest',          v:20, color:'#e11d48' },
+          { name:'Central schemes',   v:16, color:'#4f46e5' },
+          { name:'FC transfers',      v:8,  color:'#22a06b' },
+          { name:'Sponsored schemes', v:8,  color:'#6366f1' },
+          { name:'Defence',           v:8,  color:'#64748b' },
+          { name:'Subsidies',         v:6,  color:'#f59e0b' },
+          { name:'Pensions',          v:4,  color:'#7c3aed' },
+          { name:'Other spending',    v:8,  color:'#94a3b8' }
+        ] });
+
+    dotDensity('c-poor-dots',
+      { unit: 0.1, color: '#e11d48', legend: 'one dot = 10 lakh people in poverty', cells: [
+        {code:'JK',col:2,row:0,v:0.18},{code:'LA',col:3,row:0,v:0.01},
+        {code:'PB',col:2,row:1,v:0.14},{code:'HP',col:3,row:1,v:0.04},{code:'UK',col:4,row:1,v:0.11},{code:'SK',col:6,row:1,v:0.00},{code:'AR',col:8,row:1,v:0.02},
+        {code:'HR',col:2,row:2,v:0.21},{code:'DL',col:3,row:2,v:0.07},{code:'UP',col:4,row:2,v:5.39},{code:'BR',col:5,row:2,v:4.22},{code:'ML',col:6,row:2,v:0.09},{code:'AS',col:7,row:2,v:0.68},{code:'NL',col:8,row:2,v:0.03},
+        {code:'RJ',col:1,row:3,v:1.22},{code:'MP',col:3,row:3,v:1.75},{code:'CG',col:4,row:3,v:0.47},{code:'JH',col:5,row:3,v:1.12},{code:'WB',col:6,row:3,v:1.17},{code:'TR',col:7,row:3,v:0.05},{code:'MN',col:8,row:3,v:0.03},{code:'MZ',col:9,row:3,v:0.01},
+        {code:'GJ',col:0,row:4,v:0.82},{code:'MH',col:2,row:4,v:0.97},{code:'TS',col:4,row:4,v:0.22},{code:'OD',col:5,row:4,v:0.72},
+        {code:'GA',col:1,row:5,v:0.01},{code:'KA',col:2,row:5,v:0.38},{code:'AP',col:4,row:5,v:0.32},
+        {code:'KL',col:2,row:6,v:0.02},{code:'TN',col:3,row:6,v:0.17}
+      ] });
+
+    dorling('c-seats',
+      { k: 9.2, min: 16.7, max: 27.4, lowColor: '#fde68a', highColor: '#9f1239',
+        minLabel: '16.7 lakh', maxLabel: '27.4 lakh', legend: 'people per MP →',
+        nodes: [
+          {code:'JK',x:28,y:3,  size:1.25, v:25.0},{code:'HP',x:34,y:10, size:0.69, v:17.2},
+          {code:'PB',x:27,y:12, size:2.77, v:21.3},{code:'UK',x:39,y:14, size:1.01, v:20.2},
+          {code:'HR',x:31,y:17, size:2.54, v:25.4},{code:'DL',x:36,y:19, size:1.68, v:24.0},
+          {code:'RJ',x:19,y:25, size:6.85, v:27.4},{code:'UP',x:44,y:24, size:19.98,v:25.0},
+          {code:'BR',x:61,y:28, size:10.41,v:26.0},{code:'AS',x:74,y:24, size:3.12, v:22.3},
+          {code:'WB',x:68,y:37, size:9.13, v:21.7},{code:'JH',x:58,y:36, size:3.30, v:23.6},
+          {code:'GJ',x:11,y:39, size:6.04, v:23.2},{code:'MP',x:33,y:36, size:7.26, v:25.0},
+          {code:'CG',x:47,y:43, size:2.55, v:23.2},{code:'OD',x:58,y:46, size:4.20, v:20.0},
+          {code:'MH',x:24,y:50, size:11.24,v:23.4},{code:'TS',x:36,y:57, size:3.51, v:20.6},
+          {code:'AP',x:42,y:65, size:4.94, v:19.8},{code:'KA',x:26,y:66, size:6.11, v:21.8},
+          {code:'TN',x:36,y:79, size:7.21, v:18.5},{code:'KL',x:25,y:80, size:3.34, v:16.7}
+        ] });
+
+    tilegram('c-tilegram',
+      { legendTitle: 'by zone', unitLabel: '1 hex ≈ 1 crore',
+        zones: [
+          { id:'N',  name:'North',      color:'#4f46e5' },
+          { id:'E',  name:'East',       color:'#e11d48' },
+          { id:'S',  name:'South',      color:'#16a34a' },
+          { id:'W',  name:'West',       color:'#0d9488' },
+          { id:'C',  name:'Central',    color:'#f97316' },
+          { id:'NE', name:'North-East', color:'#a855f7' }
+        ],
+        groups: [
+          { s:'JK', z:'N',  t:'6,0' },
+          { s:'HP', z:'N',  t:'6,1' },
+          { s:'PB', z:'N',  t:'5,1 4,2 5,2' },
+          { s:'UK', z:'N',  t:'7,1' },
+          { s:'HR', z:'N',  t:'6,2 4,3 5,3' },
+          { s:'DL', z:'N',  t:'6,3 5,4' },
+          { s:'RJ', z:'N',  t:'2,3 3,3 2,4 3,4 4,4 2,5 3,5' },
+          { s:'UP', z:'N',  t:'7,2 8,2 9,2 7,3 8,3 9,3 6,4 7,4 8,4 9,4 4,5 5,5 6,5 7,5 8,5 6,6 7,6 8,6 6,7 7,7' },
+          { s:'BR', z:'E',  t:'10,3 10,4 11,4 9,5 10,5 9,6 10,6 11,6 8,7 9,7' },
+          { s:'AS', z:'NE', t:'11,2 12,2 11,3' },
+          { s:'NE', z:'NE', t:'12,3' },
+          { s:'GJ', z:'W',  t:'1,6 2,6 1,7 2,7 1,8 2,8' },
+          { s:'MP', z:'C',  t:'3,6 4,6 5,6 3,7 4,7 5,7 4,8' },
+          { s:'WB', z:'E',  t:'11,5 12,6 10,7 11,7 12,7 10,8 11,8 10,9 11,9' },
+          { s:'JH', z:'E',  t:'7,8 8,8 9,8' },
+          { s:'CG', z:'C',  t:'5,8 6,8 5,9' },
+          { s:'OD', z:'E',  t:'6,9 7,9 8,9 9,9' },
+          { s:'MH', z:'W',  t:'3,8 2,9 3,9 4,9 2,10 3,10 4,10 2,11 3,11 4,11 3,12' },
+          { s:'TS', z:'S',  t:'5,10 6,10 5,11 6,11' },
+          { s:'AP', z:'S',  t:'7,10 8,10 7,11 8,11 7,12' },
+          { s:'KA', z:'S',  t:'4,12 5,12 6,12 4,13 5,13 4,14' },
+          { s:'TN', z:'S',  t:'6,13 7,13 5,14 6,14 7,14 4,15 5,15' },
+          { s:'KL', z:'S',  t:'3,13 3,14 3,15' },
+          { s:'UT', z:'W',  t:'2,12' }
+        ] });
+
     ethicChart('c-ethic');
 
     bumpChart('c-bump',
@@ -1313,7 +1648,7 @@ window.LV = (function() {
 
   function drawMasters(){ drawRose(); drawMinard(); drawSnow(); drawDuBois(); }
 
-  var ORDER = ['c-bump','c-gapminder','c-monsoon','c-gender','c-wealth','c-caste','c-co2','c-energy','c-nfhs','c-forest','c-decline','c-transition','c-migration','c-where','c-ghg','c-ghg3','c-waffle','c-stream','c-pyramid','c-states','c-poverty','c-u5mr','c-flfp','c-pipeline','c-climate','c-le','c-solar','c-urban','c-gdp','c-literacy','c-womenparl'];
+  var ORDER = ['c-bump','c-gapminder','c-monsoon','c-gender','c-wealth','c-caste','c-co2','c-energy','c-nfhs','c-forest','c-decline','c-transition','c-migration','c-where','c-ghg','c-ghg3','c-rupee','c-waffle','c-stream','c-pyramid','c-states','c-poor-dots','c-seats','c-tilegram','c-poverty','c-u5mr','c-flfp','c-pipeline','c-climate','c-le','c-solar','c-urban','c-gdp','c-literacy','c-womenparl'];
   var DETAILS = {
     'c-bump': { tag:'Population', title:'The new giants',
       takeaway:"India passed China to become the world's most populous country in 2023. Look further out and the order keeps shifting — the UN projects Nigeria to climb past the United States by 2050.",
@@ -1357,6 +1692,30 @@ window.LV = (function() {
       why:"A Sankey shows how one split maps onto another — here, region to income band — with band thickness as the number of people. It carries two breakdowns and their overlap in one picture.",
       how:"Left nodes are regions, right nodes income bands; each ribbon's thickness is that region-and-band's population. Region totals and income totals are from the World Bank; the cell split is estimated to fit them.",
       look:"How much of the world flows into 'lower-middle', and how thin the 'high income' band is." },
+    'c-rupee': { tag:'Public Finance', title:'Where the rupee comes from, and where it goes',
+      takeaway:"Nearly a quarter of every rupee the Union government spends is borrowed — and a fifth of what it spends goes straight back out as interest on past borrowing. Of the rest, the single largest share is not a scheme at all: it is the states' constitutional share of taxes.",
+      source:"Union Budget 2025–26, 'Budget at a Glance' — the government's own paise-in-the-rupee breakdown of receipts and expenditure. Figures are whole paise and each side sums to 100.",
+      why:"A Sankey drawn through a single hub is the clearest way to read a budget: every source narrows into one rupee, then that rupee fans out into what it pays for. Two lists that would otherwise sit in separate tables become one continuous quantity, and the borrowing-to-interest loop is visible in a way a pie chart can never make it.",
+      how:"Left nodes are receipts, right nodes are spending heads, each sized to its paise share; the centre bar is the whole rupee. Ribbon thickness is the paise figure, so both sides balance exactly at 100.",
+      look:"Compare the red band on the left (borrowings, 24p) with the red band on the right (interest, 20p) — most of what the government borrows this year services what it borrowed in years past." },
+    'c-poor-dots': { tag:'Poverty', title:'Where India’s poor actually live',
+      takeaway:"Bihar has India's highest poverty rate, but Uttar Pradesh has India's largest number of poor people — about 5.4 crore, more than the population of South Korea. Rates and counts point at different states, and they call for different policies.",
+      source:"NITI Aayog National Multidimensional Poverty Index (2023 report, based on NFHS-5, 2019–21) — state headcount ratios applied to projected 2021 state populations. Numbers are approximate; the dots total about 20.6 crore, close to the national MPI figure.",
+      why:"A choropleth colours a whole state by a rate, which quietly hides how many people that rate is about. A dot-density map does the opposite: it draws the count. Each dot is a fixed number of people scattered at random inside the state, so crowding — not colour — carries the quantity, and big numbers look big.",
+      how:"One dot per 10 lakh (one million) multidimensionally poor people, placed at random inside each state's tile by a fixed seed so the pattern is the same every time it draws. Tiles are equal-sized, so how dark a tile looks is how many poor people live there.",
+      look:"How nearly black Uttar Pradesh and Bihar are, and how empty Kerala, Tamil Nadu and the north-east look — then compare with the rate map, 'The geography of a gap', where the ranking is quite different." },
+    'c-seats': { tag:'Democracy & Representation', title:'One person, one vote?',
+      takeaway:"Lok Sabha seats were frozen at the 1971 census, so the states that grew fastest are now the least represented. A Rajasthan MP speaks for about 27.4 lakh people; a Kerala MP for 16.7 lakh. On these numbers a vote in Kerala carries roughly 1.6 times the weight of one in Rajasthan — and the gap has widened since 2011.",
+      source:"Census of India 2011 (state populations) and the current allocation of Lok Sabha seats, frozen by the 42nd Amendment at the 1971 census and extended to 2026 by the 84th. Population per seat is computed from these two.",
+      why:"A Dorling cartogram throws away the map's real shapes and draws each state as a circle sized by its people, nudged apart but kept roughly where it belongs. Land area stops competing with population for your attention — which is the whole point when the subject is how many people sit behind each seat.",
+      how:"One circle per state, area proportional to its 2011 population, coloured by population per Lok Sabha seat. Circles start at their approximate geographic position and are pushed apart until none overlap, so the layout is readable without being a real map.",
+      look:"That the darkest circles — Rajasthan, Bihar, Haryana, Uttar Pradesh, Madhya Pradesh — are mostly northern, and the palest — Kerala, Tamil Nadu, Andhra Pradesh — are mostly southern. That pattern is what the delimitation debate is about." },
+    'c-tilegram': { tag:'Population', title:'India, one hexagon at a time',
+      takeaway:"Give every crore of Indians one hexagon and the country's real weight appears: 121 hexagons, of which Uttar Pradesh alone claims 20 — more than the whole south's five states put together would need if you removed Tamil Nadu. The North, Central and East zones hold about three in every four hexagons.",
+      source:"Census of India 2011 — population by state, one hexagon per crore (10 million), rounded to the nearest crore. The rounding is why the grid comes to 121, India's 2011 population in crore.",
+      why:"A hex cartogram gives every state one tile regardless of size; a tilegram gives each state as many tiles as it has people. So the map itself becomes the bar chart — you can count the population of a region by eye, in units, without reading a single axis. It is the form the NPR and FiveThirtyEight election maps made familiar.",
+      how:"Each state is a block of hexagons, one per crore of population, laid out on a grid that keeps states roughly in their real positions and next to their real neighbours. Blocks are coloured by zone and the legend counts the hexes in each.",
+      look:"The size of the Uttar Pradesh block against everything around it — and how much of the grid the North and East together take up." },
     'c-waffle': { tag:'Access', title:'If India were 100 people',
       takeaway:"Almost everyone has electricity, but far fewer have clean cooking fuel, the internet, or health cover.",
       source:"NFHS-5 (2019–21) for household amenities; Global Findex 2021 for bank accounts.",
