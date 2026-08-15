@@ -5,6 +5,12 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.195.0] - 2026-08-15
+
+### Added
+
+- **`Delete stale branches` workflow** (`.github/workflows/delete-stale-branches.yml`) — manual cleanup of the 46 branches left behind by the retired maintenance Routines, with the list held in `.github/stale-branches.txt` so it is reviewable in version control rather than buried in a script. A workflow is used because branch deletion is impossible from a Claude Code session (the agent proxy blocks repo-scoped GitHub writes, and the `$GITHUB_PAT` fallback hits the same wall) and a pull request cannot delete other branches; a workflow runs on GitHub with its own token. Safety: `workflow_dispatch` only, dry-run unless the operator types `DELETE`, and it refuses the default branch, protected branches, and — re-checked live at run time, not from the audit — any branch with an open pull request. Every run writes a summary table of what was deleted, skipped and why.
+
 ## [10.194.0] - 2026-08-15
 
 ### Changed

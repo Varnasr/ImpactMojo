@@ -1,0 +1,92 @@
+# Manual, reviewable cleanup of the branches left behind by the retired
+# maintenance Routines. Runs only when a human clicks "Run workflow".
+#
+# Why a workflow: branch deletion cannot be done from a Claude Code session
+# (the agent proxy blocks repo-scoped GitHub writes), and a pull request
+# cannot delete other branches. A workflow runs on GitHub with its own
+# GITHUB_TOKEN, so it can.
+#
+# Safety: dry-run by default, requires typing DELETE to act, refuses
+# protected branches and the default branch, and re-checks for an open pull
+# request on every branch immediately before deleting it.
+name: Delete stale branches
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type DELETE to actually delete. Anything else = dry run.'
+        required: true
+        default: 'dry-run'
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  delete:
+    name: Delete branches listed in .github/stale-branches.txt
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Delete (or preview) the listed branches
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const armed = context.payload.inputs.confirm === 'DELETE';
+            const { owner, repo } = context.repo;
+
+            const wanted = fs.readFileSync('.github/stale-branches.txt', 'utf8')
+              .split('\n').map(l => l.trim())
+              .filter(l => l && !l.startsWith('#'));
+
+            core.info(`${wanted.length} branches listed. Mode: ${armed ? 'DELETE' : 'DRY RUN'}`);
+
+            const repoInfo = await github.rest.repos.get({ owner, repo });
+            const defaultBranch = repoInfo.data.default_branch;
+
+            const openPRs = await github.paginate(github.rest.pulls.list, {
+              owner, repo, state: 'open', per_page: 100,
+            });
+            const openHeads = new Set(openPRs.map(pr => pr.head.ref));
+
+            const done = [], skipped = [], failed = [];
+
+            for (const branch of wanted) {
+              if (branch === defaultBranch) { skipped.push([branch, 'default branch']); continue; }
+              if (openHeads.has(branch))    { skipped.push([branch, 'has an OPEN pull request']); continue; }
+
+              let ref;
+              try {
+                ref = await github.rest.repos.getBranch({ owner, repo, branch });
+              } catch (e) {
+                skipped.push([branch, e.status === 404 ? 'already gone' : `lookup failed (${e.status})`]);
+                continue;
+              }
+              if (ref.data.protected) { skipped.push([branch, 'protected']); continue; }
+
+              const sha = ref.data.commit.sha;
+              if (!armed) { done.push([branch, `would delete (tip ${sha.slice(0, 8)})`]); continue; }
+
+              try {
+                await github.rest.git.deleteRef({ owner, repo, ref: `heads/${branch}` });
+                done.push([branch, `deleted (tip was ${sha.slice(0, 8)})`]);
+              } catch (e) {
+                failed.push([branch, `${e.status} ${e.message}`]);
+              }
+            }
+
+            const table = rows => rows.map(([b, why]) => `| \`${b}\` | ${why} |`).join('\n');
+            await core.summary
+              .addHeading(armed ? 'Branches deleted' : 'Dry run — nothing deleted')
+              .addRaw(`\n**${done.length}** actioned · **${skipped.length}** skipped · **${failed.length}** failed\n\n`)
+              .addRaw(done.length ? `| branch | result |\n|---|---|\n${table(done)}\n\n` : '')
+              .addRaw(skipped.length ? `### Skipped\n| branch | reason |\n|---|---|\n${table(skipped)}\n\n` : '')
+              .addRaw(failed.length ? `### Failed\n| branch | error |\n|---|---|\n${table(failed)}\n\n` : '')
+              .addRaw(armed ? '' : '_Re-run with `confirm: DELETE` to apply._\n')
+              .write();
+
+            core.info(`${done.length} actioned, ${skipped.length} skipped, ${failed.length} failed`);
+            if (failed.length) core.setFailed(`${failed.length} branch(es) could not be deleted`);
