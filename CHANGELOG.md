@@ -5,6 +5,22 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.192.0] - 2026-08-15
+
+### Security
+
+- **All 14 npm advisories cleared** (#918) — root 9 high → 0, `mcp-server/` 2 high + 2 moderate + 1 low → 0. Non-breaking lockfile fixes for axios 1.19.0, js-yaml 4.3.1, ip-address 10.5.0 and the chromedriver/extract-zip chain under `@axe-core/cli`; hono, `@hono/node-server`, fast-uri and body-parser in `mcp-server/`. The last four root advisories all traced to one root cause, so **puppeteer 24.43.1 → 25.7.0**, a semver-major that required a code change: v23 dropped the `headless: 'new'` string (v25 types are `boolean | 'shell'`), so `tests/axe-accessibility.js` now passes `headless: true`. Left unchanged, the bump would have broken the a11y gate. Scope note: every one of these is a CI devDependency or the internal MCP server — root `dependencies` is empty and the public site ships no npm runtime code, so none was reachable from impactmojo.in.
+- **New `supabase-anon` guard** (#919) — `scripts/check-supabase-anon.py` re-probes the anon access contract established by the 2026-08-03 remediation (#895): the four remediated tables and the sensitive `profiles` columns must stay anon-denied (401), while `certificates` and the granted `profiles` columns must stay readable (200), so an over-correction that breaks certificate verification fails the guard as loudly as a leak would. Needs **no secrets** — the URL and anon key are read from `js/config.js`, the same pair every browser receives. Runs on the daily schedule and `workflow_dispatch` only, since it hits live PostgREST.
+
+### Fixed
+
+- **Link rot could never turn CI red** (#919) — the `broken-links` job was `fail: false` unconditionally, so lychee's findings changed nothing. Link rot is precisely the failure that needs no commit, making the daily schedule the one place it mattered and the one place it was silent. Now `fail: ${{ github.event_name == 'schedule' }}`: pull requests stay unblocked by third-party flakiness, the scheduled run notifies the owner.
+- **The a11y gate reported green on an unreachable site** (#919) — `tests/axe-accessibility.js` exited 0 when every page was SKIPPED, so zero violations across zero pages read as PASSED. It now fails when nothing was audited and prints `Pages audited : N of M`. Verified in both directions: exit 1 with no server reachable, exit 0 with pages audited.
+
+### Changed
+
+- **The ~12 scheduled maintenance Routines are retired**; their useful parts now live in `ci.yml` (#919). `list_triggers` confirms none of the ImpactMojo Routines created 2026-07-19 still exist — which is why nothing has pushed since 2026-08-04. They left 41 `claude/routine-<name>-<date>` branches, every one verified to have **zero PRs**: each run pushed a branch and never proposed it, so the work never reached `main`. The supabase-health routine recorded the symptom in its own snapshot file for eleven days. Counts, i18n, encoding, internal links and book companions were already enforced in `ci.yml` on every push and daily, so only the two gaps above needed new jobs. `.claude/rules/testing.md` and `.claude/memory.md` record why Routines should not be recreated as branch-pushers: anything that can drift without a commit belongs on `ci.yml`'s `schedule:`, where a red run notifies someone.
+
 ## [10.191.0] - 2026-08-15
 
 ### Added
