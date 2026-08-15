@@ -5,6 +5,23 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.191.0] - 2026-08-15
+
+### Added
+
+- **Four new chart forms in The Long View** (`js/longview-charts.js`, `the-long-view.html`), taking the Data Wing from 31 to 35 charts. All hand-coded SVG in the existing engine — no charting library, theme-aware (redraw on `data-theme` mutation), `prefers-reduced-motion` aware.
+  - `sankeyHub()` → **`c-rupee`**, the Union Budget 2025–26 drawn through a single hub node: 8 receipts narrow into ₹1, 9 spending heads fan out, ribbon thickness in paise so both sides balance at 100. Source: "Budget at a Glance".
+  - `dotDensity()` → **`c-poor-dots`**, a dot-density tile map of multidimensional poverty, one dot per 10 lakh poor people, rejection-sampled inside each state's hexagon. Placement uses a mulberry32 PRNG seeded from the state code (`rng()`/`seedOf()`), so the scatter is identical on every redraw — `Math.random()` would have reshuffled the dots on each theme switch. 206 dots ≈ 20.6 crore, against NITI Aayog's ~20.9 crore national figure.
+  - `dorling()` → **`c-seats`**, a Dorling cartogram of population per Lok Sabha seat: circles sized by Census 2011 population, coloured on a 16.7–27.4 lakh ramp, relaxed apart from hand-placed geographic anchors over 260 iterations with anchor springs and viewport clamping. Anchors are normalised to the data extents so the layout fills the frame.
+  - `tilegram()` → **`c-tilegram`**, a 121-hexagon tilegram of India (1 hex = 1 crore, Census 2011). State outlines are derived from hex adjacency — an edge is stroked only where the neighbour across it belongs to a different state — rather than hand-drawn; group labels snap to the tile nearest each state's centroid, since the raw centroid often falls in the gutter between hexes. Hex size is fitted to the frame from the grid's col/row span.
+  - Shared helpers extracted for the map forms: `rng()`, `seedOf()`, `hexAt()`, `hexPts()`, `inHex()`, `lerpCol()`.
+- Wired into `ORDER` and `DETAILS` (so `/the-long-view/chart.html?c=…` and its prev/next navigation work), the page's "Where the numbers come from" list, `data/search-index.json` (new tags: sankey, alluvial, cartogram, tilegram, dot density, hex map, union budget, lok sabha, representation), `docs/long-view-guide.md` and `docs/changelog.md`.
+
+### Notes
+
+- The three new map forms are deliberately placed next to the existing hex cartogram (`c-states`): same country, four different decisions about what a map encodes — rate vs count vs magnitude vs units. The guide frames them as a sequence.
+- Verified in Chromium at 1280px and 390px in both themes: all four charts fit their `viewBox`, all 206 dots assert inside their own hexagon, 42/42 page SVGs render non-empty, `ORDER`↔`DETAILS` are in bijection, no horizontal overflow, no JS errors. CI: 14 success + 1 neutral (Netlify informational).
+
 ## [10.162.0] - 2026-07-29
 
 ### Fixed
