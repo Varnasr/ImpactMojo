@@ -135,8 +135,9 @@ async function main() {
     await new Promise((r) => setTimeout(r, 2000));
   }
 
+  // puppeteer >= 23 dropped the `'new'` string; `true` now means the new headless mode
   const browser = await puppeteer.launch({
-    headless: 'new',
+    headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
 
