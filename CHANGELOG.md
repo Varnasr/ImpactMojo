@@ -5,6 +5,14 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.197.0] - 2026-08-15
+
+### Fixed
+
+- **The last 13 dead citations resolved** (#925) — 11 repointed to verified targets, 2 unlinked. Again the research showed several were not moved pages but *mislinked works*: J-PAL's `/handbook` and `/page/poor-economics` were pointing at J-PAL for books published by **Princeton UP** (*Running Randomized Evaluations*, Glennerster & Takavarasha) and **PublicAffairs** (*Poor Economics*, Banerjee & Duflo); the Blavatnik School link for Andrews/Pritchett/Woolcock's PDIA work now points at **Building State Capability** at Harvard, where that work lives; and the `aeaweb` link for Dean Spears' child-height paper pointed at a nonexistent AEJ article when the work is **World Bank Policy Research Working Paper 6351** (2013). WHO's life-skills guidance moved to **IRIS** (`10665/63552`), and the WID "billionaire raj" link now resolves to the actual Bharti/Chancel/Piketty/Somanchi working paper — the same one The Long View already cites.
+- **Two unlinked rather than guessed**: J-PAL's *The Stopgap* podcast and a Brookings SEL policy report (Care et al.) have no findable current equivalent. Citation text kept in full, dead `href` removed — a reader loses nothing but a broken click.
+- With this, **every dead external link found in the DeepDives audit is resolved**: 30 confirmed 404s → 5 fixed in #922, 11 in #924, 13 here, and 1 (`linkedin.com/company/impactmojo`) pending the correct handle.
+
 ## [10.196.0] - 2026-08-15
 
 ### Fixed
