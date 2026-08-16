@@ -5,6 +5,21 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.196.0] - 2026-08-15
+
+### Fixed
+
+- **Eleven more dead citations, each researched to the actual work** (#924). The earlier pass (#922) fixed only the five whose new home was unambiguous and left the rest, on the grounds that a wrong publisher or DOI is a mis-citation and worse than a 404. Researching them properly resolved eleven, and turned up that several were not *moved* links but *wrong* ones:
+  - **Cartwright & Hardie, *Evidence-Based Policy*** was linked to Cambridge; the book is **Oxford University Press** (the page's own citation already said "Oxford, 2012"). → `academic.oup.com/book/11611`
+  - **Jaffrelot, *Modi's India*** was linked to Harvard UP; it is **Princeton**. → `press.princeton.edu/.../modis-india`
+  - **Teltumbde, *Republic of Caste*** was linked to Penguin India; it is **Navayana**. → `navayana.org/products/republic-of-caste/`
+  - **The journal *Public Choice*** was linked to Cambridge Core; it is **Springer**. → `link.springer.com/journal/11127`
+  - **Biran et al., SuperAmma handwashing trial** carried DOI `S2214-109X(14)70160-8`; the correct DOI is **`(13)70160-8`** (Lancet Glob Health 2014;2(3):e145–54 — Elsevier registered it in 2013).
+  - **Jones & Bouffard, "SEL in Schools: From Programs to Strategies"** carried an *Educational Psychologist* DOI; the article is SRCD's **Social Policy Report** 26(4), 2012. → `10.1002/j.2379-3988.2012.tb00073.x`
+  - Plus corrected editions/paths for Cohn's *Colonialism and Its Forms of Knowledge* (Princeton ISBN), Kohli's *Poverty Amid Plenty*, Ambedkar's *Annihilation of Caste*, the Social Security Code 2020, and a World Bank working paper.
+  
+  Nine of the eleven return 200; the OUP and Wiley targets return 403 to automated requests but were confirmed to exist. **Fourteen dead links remain** and are still listed in #922 — they need someone who knows which specific resource was meant.
+
 ## [10.195.0] - 2026-08-15
 
 ### Added
