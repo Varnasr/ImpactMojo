@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.199.0 — August 16, 2026 (Telugu documentation)
+
+### For Learners
+
+- **The documentation is now in Telugu** — all 54 guides, matching what already existed in Hindi, Bengali, Marathi and Tamil. Telugu readers had the site in their language but not the docs behind it; that gap is closed. Two missing Telugu course dictionaries (Public Policy, SEL) are filled in too, so Telugu now has the same 33 page translations as every other language.
+
 ## v10.198.0 — August 16, 2026 (Marginalia essay 6)
 
 ### For Learners
