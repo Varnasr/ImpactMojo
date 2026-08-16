@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.198.0 — August 16, 2026 (Marginalia essay 6)
+
+### For Learners
+
+- **The Proposal Wrote the Programme** — the sixth Marginalia cartoon essay, ten drawings on the gap between the proposal and the programme: community-led on paper, demand-driven until the donor's priorities arrive, the innovation angle nobody asked for, the consortium that meets more than it delivers, and a sustainability plan written to be filed rather than followed. Each cartoon is footnoted with the evidence behind it.
+
 ## v10.191.0 — August 15, 2026 (Four new chart forms in The Long View)
 
 ### For Learners
