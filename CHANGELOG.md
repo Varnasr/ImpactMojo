@@ -5,6 +5,12 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.200.0] - 2026-08-16
+
+### Changed
+
+- **Branch review complete.** The 8 branches left after the 46-branch sweep were audited individually. Five had no remaining value and are queued for deletion in `.github/stale-branches.txt`: two were **0 commits ahead of `main`**, one held images already on `main`, one was superseded (main carries 33 page dictionaries per language against its 30, plus a Telugu set it lacked entirely), and one's mobile fixes had landed via #417 — confirmed by loading three flagship courses at 390px and finding zero overflow and zero malformed quiz options. Two held real unpublished work and were rescued (#926, #927). One — a homepage "Free Tools" / freemium reframing — is left for the owner, since it would change what the site charges for rather than merely tidying up.
+
 ## [10.197.0] - 2026-08-15
 
 ### Fixed
