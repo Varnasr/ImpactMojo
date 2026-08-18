@@ -5,6 +5,13 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.201.0] - 2026-08-16
+
+### Added
+
+- **unspurious joins The Greats.** A new card in the Long View gallery (`the-long-view/gallery.html`) links out to [unspurious.com](https://unspurious.com/), a compendium of twenty-eight statistical illusions — Simpson's and Berkson's paradoxes, the base-rate fallacy, Anscombe's quartet — each built from numbers that are individually true and still lead a careful reader to the wrong conclusion. It is the natural companion to the gallery's existing "How to read a chart honestly" card and to `the-long-view/numbers-in-the-news.html`, and its "Lie With This Chart" tool is the hands-on version of our own note on truncated axes.
+- **New gallery filter: "How Numbers Mislead."** The Greats' filter chips were all subject areas (Poverty, Gender, Climate…), with nowhere to put work about *method*. This adds an eleventh chip for it. It holds one card today.
+
 ## [10.200.0] - 2026-08-16
 
 ### Changed
