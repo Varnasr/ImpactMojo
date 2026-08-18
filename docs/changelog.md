@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.201.0 — August 16, 2026 (Statistical illusions in the gallery)
+
+### For Learners
+
+- **unspurious — a compendium of statistical illusions** — a new card in The Long View's gallery, pointing to twenty-eight ways that perfectly correct arithmetic can walk you to the wrong answer, each with a figure you can poke. Filter for it under the new "How Numbers Mislead" chip.
+
 ## v10.199.0 — August 16, 2026 (Telugu documentation)
 
 ### For Learners
