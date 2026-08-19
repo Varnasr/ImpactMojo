@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.202.0 — August 19, 2026 (Fundamentals: the wheel of power, with the evidence)
+
+### For Learners
+
+- **Fundamentals — the Indian Wheel of Power & Powerlessness, made clickable.** Twelve axes of difference, three bands each, thirty-six places a person can stand. Open any band and you get the Indian evidence behind its placement: 113 sourced statistics, statutes and judgments drawn from NFHS-5, PLFS 2023–24, Census 2011, the NSS 76th Round, NCRB, AISHE, ASER, the Time Use Survey, the National MPI, the World Inequality Lab and more — each with the publication and the year named. Every axis also carries a note on what the evidence does *not* settle, and the page is candid about where India simply has no data: sexual orientation is uncounted, disability is measured at 2.2% against a global estimate near 16%, and no official survey collects anything on skin tone or appearance. You can mark where you sit on each axis as a private reflection exercise; there is no score, and no total. The wheel itself is not ours — it was built by **The Listeners Collective** in Bengaluru, adapting Sylvia Duckworth's Wheel of Power/Privilege; the page credits them and the lineage behind them in full.
+
 ## v10.201.0 — August 16, 2026 (Statistical illusions in the gallery)
 
 ### For Learners
