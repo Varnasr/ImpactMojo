@@ -27,9 +27,22 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 
-# Pages whose assets change together with their markup. Add a page here when it
-# gains a JS module that renders into markup the HTML declares.
-PAGES = sorted(ROOT.glob("fundamentals/*.html"))
+# Every page that loads a shared /css/ or /js/ file. The stale-pairing risk is
+# not specific to Fundamentals -- service-worker.js serves HTML network-first
+# and assets stale-while-revalidate site-wide, so any page whose markup and
+# script have to agree can pair fresh HTML with a previous deploy's JS. The
+# Fundamentals cube is simply where it was noticed.
+PAGE_GLOBS = [
+    "*.html",
+    "fundamentals/*.html",
+    "Labs/*.html",
+    "courses/*/index.html",
+    "101-courses/*.html",
+]
+SKIP = {"PAGE-TEMPLATE.html"}
+PAGES = sorted(
+    p for g in PAGE_GLOBS for p in ROOT.glob(g) if p.name not in SKIP
+)
 
 REF = re.compile(r'(?P<attr>href|src)="(?P<path>/(?:css|js)/[A-Za-z0-9._-]+\.(?:css|js))(?:\?v=[0-9a-f]+)?"')
 

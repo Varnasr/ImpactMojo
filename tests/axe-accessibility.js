@@ -39,6 +39,17 @@ const PAGES = [
   'fundamentals/who-counts.html',
 ];
 
+// Each page is audited once per variant. Running only the default light theme
+// at desktop width is how a dark-mode-only failure shipped on 2026-08-19: the
+// Power Cube's three face titles sat at 2.76-3.13:1 and every audit was green,
+// because neither axe nor pa11y ever rendered the dark palette.
+const VARIANTS = [
+  { name: 'light/desktop', theme: 'light', width: 1440, height: 1000 },
+  { name: 'dark/desktop',  theme: 'dark',  width: 1440, height: 1000 },
+  { name: 'light/mobile',  theme: 'light', width: 390,  height: 844  },
+  { name: 'dark/mobile',   theme: 'dark',  width: 390,  height: 844  },
+];
+
 // axe-core impact levels: minor, moderate, serious, critical
 // Only fail on serious + critical by default; override with AXE_MIN_IMPACT
 const MIN_IMPACT = process.env.AXE_MIN_IMPACT || 'serious';
@@ -78,11 +89,20 @@ function printViolation(v) {
 // Main
 // ---------------------------------------------------------------------------
 
-async function runAxeOnPage(browser, url) {
+async function runAxeOnPage(browser, url, variant) {
   const page = await browser.newPage();
   await page.setBypassCSP(true);
+  if (variant) {
+    await page.setViewport({ width: variant.width, height: variant.height });
+  }
   try {
     await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
+    if (variant) {
+      // site-chrome.js reads this on load, so set it and reload rather than
+      // toggling after paint.
+      await page.evaluate((t) => localStorage.setItem('im-theme', t), variant.theme);
+      await page.reload({ waitUntil: 'networkidle2', timeout: 30000 });
+    }
   } catch (err) {
     console.log(yellow(`  WARNING: Could not load ${url} — ${err.message}`));
     await page.close();
@@ -156,13 +176,15 @@ async function main() {
   const summaries = [];
 
   for (const pagePath of PAGES) {
+   for (const variant of VARIANTS) {
+    const label = `${pagePath} [${variant.name}]`;
     const url = `${BASE_URL}/${pagePath}`;
-    console.log(bold(`\n--- ${pagePath} ---`));
+    console.log(bold(`\n--- ${label} ---`));
 
-    const result = await runAxeOnPage(browser, url);
+    const result = await runAxeOnPage(browser, url, variant);
 
     if (result.skipped) {
-      summaries.push({ page: pagePath, status: 'SKIPPED', violations: 0, failing: 0 });
+      summaries.push({ page: label, status: 'SKIPPED', violations: 0, failing: 0 });
       continue;
     }
 
@@ -186,11 +208,12 @@ async function main() {
 
     console.log(`  Passed rules: ${result.passes}`);
     summaries.push({
-      page: pagePath,
+      page: label,
       status: failing.length > 0 ? 'FAIL' : 'PASS',
       violations: result.violations.length,
       failing: failing.length,
     });
+   }
   }
 
   await browser.close();
@@ -201,12 +224,12 @@ async function main() {
 
   // Summary table
   console.log(bold('\n\n=== Summary ===\n'));
-  console.log('Page                          | Status  | Violations | Failing');
-  console.log('------------------------------|---------|------------|--------');
+  console.log('Page / variant                             | Status  | Violations | Failing');
+  console.log('-------------------------------------------|---------|------------|--------');
   for (const s of summaries) {
     const status = s.status === 'FAIL' ? red(s.status) : s.status === 'PASS' ? green(s.status) : yellow(s.status);
     console.log(
-      `${s.page.padEnd(30)}| ${s.status === 'FAIL' ? red(s.status.padEnd(8)) : s.status === 'PASS' ? green(s.status.padEnd(8)) : yellow(s.status.padEnd(8))}| ${String(s.violations).padEnd(11)}| ${s.failing}`
+      `${s.page.padEnd(43)}| ${s.status === 'FAIL' ? red(s.status.padEnd(8)) : s.status === 'PASS' ? green(s.status.padEnd(8)) : yellow(s.status.padEnd(8))}| ${String(s.violations).padEnd(11)}| ${s.failing}`
     );
   }
 

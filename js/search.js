@@ -153,7 +153,11 @@
       '.ims-nav-btn:hover{border-color:var(--accent-color,#6366F1);color:var(--text-primary,#1e293b);box-shadow:0 2px 8px rgba(99,102,241,0.15)}' +
       '.ims-nav-btn svg{width:15px;height:15px}' +
       '.ims-nav-btn kbd{font-size:0.65rem;padding:1px 5px;border-radius:3px;border:1px solid var(--border-color,#d1d5db);background:var(--card-bg,#fff);font-family:monospace;color:var(--text-secondary,#475569)}' +
-      '@media(max-width:768px){.ims-nav-btn kbd{display:none}.ims-nav-btn{padding:6px 10px}}';
+      '@media(max-width:768px){.ims-nav-btn kbd{display:none}.ims-nav-btn{padding:6px 10px}}' +
+      /* --text-secondary is defined in dark mode but --surface-color is not,
+         so the button kept its light fallback background under light text:
+         1.42:1. Pin both sides for dark rather than relying on the vars. */
+      '[data-theme="dark"] .ims-nav-btn{background:#1e293b;color:#e2e8f0;border-color:#334155}';
     document.head.appendChild(css);
   }
 

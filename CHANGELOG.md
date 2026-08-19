@@ -5,6 +5,36 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.206.0] - 2026-08-19
+
+### Added
+
+- **Deep Dive: Farm Animal Welfare in India** — 14 readings across five sections, on the gap between what Indian animal welfare law says and what it costs to break. Covers the 20th Livestock Census headcounts, the Prevention of Cruelty to Animals Act 1960 and its unrevised fifty-rupee first-offence fine, *AWBI v. A. Nagaraja* (2014) reading animal dignity into Article 21, the Law Commission's 269th Report which drafted cage-free rules that were never notified, and the peer-reviewed evidence that slaughter restrictions worsen dairy herd welfare. Deep Dives now 23.
+
+### Fixed
+
+- **Every Deep Dive had contrast failures in both themes.** The six `.dd-type` badges used one hue as both the 12% background wash and the text, putting them at 2.1–3.9:1 in light mode; inks darkened, tints unchanged. `--dd-accent` was 2.62:1 as eyebrow and section-number ink on the cream page background; it is now 5.2–5.6:1 in every place it is used as ink. The same token doubles as the CTA button background, where white sat on light amber at 2.15:1 in dark mode, so the button now takes the opposite ink. One stylesheet, 23 pages.
+- **Two more dark-mode contrast failures found by the new axe variants**: `.chip-count` on `bct-repository.html` (4.04:1 — `--text-muted` on `--hover-bg`, a token pairing that fails anywhere it is used in dark mode) and the earlier `.ims-nav-btn`, `social_proof.trusted_by` and `.practitioner-trust-strip` issues on `index.html`.
+
+## [10.205.0] - 2026-08-19
+
+### Security
+
+- **Closed the RPC surface on Supabase.** `notify_user` was executable by the unauthenticated `anon` role over `/rest/v1/rpc/`, taking an arbitrary `p_user_id` plus free-text `p_title`, `p_body` and `p_link` — a route to address notification content at any user without signing in. `update_streak` was anon-executable with an arbitrary `p_user_id`. Seven trigger functions carried the same grant. The cause in every case was Postgres's default `EXECUTE` grant to `PUBLIC`, which nothing had revoked; a first migration that revoked from `anon`/`authenticated` changed nothing, because neither role held an explicit grant. Every revoke was checked against a caller first: `notify_user` is only used by the `send-notification` edge function through a service-role client, and `update_streak` by `js/auth.js` for the signed-in user's own id, so both keep working. `get_public_stats` is deliberately untouched — `transparency.html` and `js/live-stats.js` read it unauthenticated. `search_path` is now pinned on all nine `SECURITY DEFINER` functions.
+- **`scripts/check-supabase-anon.py` now probes RPCs, not just tables.** All seven of its previous probes were table reads, which is why the exposure above had never appeared in CI. Seven RPC probes were added, sending a no-argument body so a function that takes arguments cannot run — this checks visibility, never behaviour.
+
+### Fixed
+
+- **The wheel's label auto-shrink had never worked.** `fitLabels()` set `font-size` as a presentation attribute, and the `.seg-label.r-*` rules in the stylesheet outrank it, so the computed size never changed. Eight of twelve outer-ring labels overran their arc, the worst by 21%, and read as touching the wedge dividers. Now set as an inline style, with the fill target dropped from 92% to 84% of the arc: every outer label clears its dividers by 11px or more.
+- **Four stale numbers on `libraries.html`** — Reading Companions 149→163, Handouts 89→90, Dataverse 321→328, and a hero chip reading "9 libraries" against 16 cards. The Fundamentals card still described only the wheel; it now describes all four maps.
+- **`scripts/check-counts.py` missed label-then-number tiles.** Its only label-first rule was hardcoded to the homepage's `tp-cnt` class, so `libraries.html`'s `<span class="lib-n">…</span><span class="lib-c">149</span>` drifted unnoticed. Matching is now on shape, not class name. `data-explorers` is also enforced now — the one key of fifteen that was not, and the one that had drifted before.
+
+### Changed
+
+- **Asset-hash stamping widened from 5 pages to 197.** The stale-pairing risk the stamping fixes is not specific to Fundamentals: the service worker serves HTML network-first and assets stale-while-revalidate site-wide.
+- **The axe audit now runs four variants per page** — light and dark theme, desktop and mobile width. Running only the default light theme at desktop is how a dark-mode-only contrast failure shipped.
+- `sitemap.html` is excluded from the count tile rules; its `<span class="cnt">` tallies count the links in each section, and every one was verified to match. That check did surface a real gap: the sitemap lists 17 of 19 flagship courses, 31 of 35 labs and 21 of 22 deep dives.
+
 ## [10.204.0] - 2026-08-19
 
 ### Fixed

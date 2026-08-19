@@ -53,6 +53,13 @@ EXCLUDE_HTML = {
     "PAGE-TEMPLATE.html",    # page skeleton
     "org-dashboard.html",    # per-organisation learning-path counts (dynamic)
     "game-library.html",     # "0 of 0 games" progress placeholder (JS)
+    # Its <span class="cnt"> tallies count the links in each section of the
+    # sitemap, not the platform totals -- "Games 18" is 18 listed links, not the
+    # 135-game library. Verified: every section tally matches the links beneath
+    # it. (That check also showed the sitemap is missing entries -- 17 of 19
+    # flagship courses, 31 of 35 labs, 21 of 22 deep dives -- which is a content
+    # gap to fix in the page, not a count to rewrite.)
+    "sitemap.html",
 }
 
 # Present-tense docs that DO make current platform claims (changelogs,
@@ -89,6 +96,7 @@ def scanned_files():
 # key in counts.json. Matching is case-insensitive. The number precedes the
 # phrase ("324 datasets").
 TERMS = [
+    (r"data\s+explorers?", "data-explorers"),
     (r"flagship\s+courses?", "flagship-courses"),
     (r"foundational\s+courses?", "foundational-courses"),
     (r"courses", "courses"),
@@ -120,6 +128,10 @@ TERMS = [
 # Dataverse phrasings where the number is NOT directly before a noun phrase.
 # Each captures the number as group 1 and maps to "dataverse".
 SPECIAL = [
+    # explorers.html states the platform total as "<b>12</b> explorers"; the
+    # per-group tallies on the same page ("4 explorers" in one theme group) are
+    # legitimately smaller, so this is anchored to the <b> wrapper.
+    (re.compile(r"<b>(\d+)</b>\s*(?:data\s+)?explorers?\b", re.I), "data-explorers"),
     (re.compile(r"Dataverse\s*\(\s*(\d+)\+?\s+(?:sources?|datasets?|data\s+tools?|tools?)", re.I), "dataverse"),
     (re.compile(r"(\d+)\+?[-\s]source\s+Dataverse", re.I), "dataverse"),
     (re.compile(r"Dataverse\s+Tools['\"]?\s*:\s*(\d+)", re.I), "dataverse"),
@@ -135,6 +147,7 @@ SPECIAL = [
 # WORD BOUNDARIES so "Discourses" never matches "courses" and "Premium tools"
 # never matches (bare "tools" is intentionally not a key).
 LABEL_KEYS = [
+    ("data explorers", "data-explorers"),
     ("reading companions", "reading-companions"),
     ("book companions", "reading-companions"),
     ("live case challenges", "challenges"),
@@ -149,6 +162,7 @@ LABEL_KEYS = [
     ("data tools", "dataverse"),
     ("law guides", "law-guides"),
     ("foundational", "foundational-courses"),
+    ("explorers", "data-explorers"),
     ("simulations", "game-simulations"),
     ("datasets", "dataverse"),
     ("challenges", "challenges"),
@@ -166,6 +180,18 @@ LABEL_KEY_RES = [(re.compile(rf"\b{re.escape(kw)}\b", re.I), key) for kw, key in
 # means "WEEK 3</span><span>Games…" (number not alone) is NOT a match.
 TILE_LABEL_RES = [
     re.compile(r">\s*(\d+)\+?\s*</[^>]+>\s*<[^>]+>\s*([A-Za-z][^<]{1,44})"),
+]
+
+# The same tile, written the other way round: the label element first and the
+# number second. libraries.html does this
+#   <span class="lib-n">Reading Companions</span><span class="lib-c">149</span>
+# and it drifted to 149/89/321 against a canonical 163/90/328 without the guard
+# noticing, because the only label-first rule here was hardcoded to the
+# homepage's own "tp-cnt" class. Matching on shape rather than class name means
+# a new page's markup is covered the day it lands. Safe against false positives
+# because the label still has to resolve to a known key via label_to_key().
+TILE_LABEL_FIRST_RES = [
+    re.compile(r">\s*([A-Za-z][^<]{1,44}?)\s*</[^>]+>\s*<[^>]+>\s*(\d+)\+?\s*<"),
 ]
 
 
@@ -236,6 +262,14 @@ def line_hits(line, pattern, counts):
         expected = counts.get(key)
         if expected is not None:
             yield (m.start(2), m.end(2), key, int(m.group(2)), expected)
+    for rx in TILE_LABEL_FIRST_RES:
+        for m in rx.finditer(line):
+            key = label_to_key(m.group(1))
+            if key is None:
+                continue
+            expected = counts.get(key)
+            if expected is not None:
+                yield (m.start(2), m.end(2), key, int(m.group(2)), expected)
     for rx in TILE_LABEL_RES:
         for m in rx.finditer(line):
             key = label_to_key(m.group(2))

@@ -335,14 +335,23 @@ window.FWheel = (function () {
       var href = tp.getAttribute("href") || tp.getAttributeNS("http://www.w3.org/1999/xlink", "href");
       var arc = href && document.querySelector("#wheel " + href);
       if (!arc || !arc.getTotalLength) return;
-      var avail = arc.getTotalLength() * 0.92;
+      /* 0.84, not the full arc: the label rides the centre of its slice, so
+         whatever is left over is split between the two radial dividers. At
+         0.92 the longest labels finished within a few pixels of the divider
+         and read as touching it. */
+      var avail = arc.getTotalLength() * 0.84;
       var size = parseFloat(getComputedStyle(t).fontSize) || 9;
       for (var i = 0; i < 12; i++) {
         var len = 0;
         try { len = t.getComputedTextLength(); } catch (e) { return; }
         if (!len || len <= avail || size <= 6.5) break;
         size = Math.max(6.5, size * Math.max(0.86, avail / len));
-        t.setAttribute("font-size", size.toFixed(2));
+        /* Inline style, not setAttribute: font-size on the element is a
+           presentation attribute, and the .seg-label.r-* rules in the
+           stylesheet outrank it. Setting the attribute left the computed size
+           untouched, so this whole loop was a no-op and the longest labels
+           overran their arc by up to 21%. */
+        t.style.fontSize = size.toFixed(2) + "px";
       }
     });
   }
