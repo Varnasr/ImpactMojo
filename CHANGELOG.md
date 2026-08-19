@@ -5,6 +5,16 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.209.0] - 2026-08-19
+
+### Added
+
+- **Reading companion: *The Science and Application of Positive Psychology*** (Cheavens & Feldman, Cambridge). Eight sections and thirteen concepts. The book's case for studying the positive rests on an asymmetry rather than on optimism: Brickman's 1978 lottery-winner study found no durable happiness gain a year on while accident survivors' negative feelings persisted, and Baumeister's 2001 review found the same asymmetry across finances, friendships and intimate relationships. The chapter most useful outside a classroom is the research-literacy one — whether a mechanism is specified, whether correlation is being sold as causation, whether the sample supports the generalisation — which the authors wrote to separate the field from the pop psychology that borrows its vocabulary. The companion also carries the book's own note that Western psychology has studied wellbeing hedonically while eudaimonic accounts predominate in Eastern traditions.
+
+- **Reading companion: *Unlimited Memory*** (Kevin Horsley). Four sections and twelve concepts covering the SEE principle, the journey and body-peg methods, the number and name systems, and the spaced-review chapter without which the methods decay. This one is a popular technique manual rather than a research volume, and the companion says so: it records where Horsley's claims line up with the cognitive-science literature on encoding and spacing, and where they are presented as method rather than as evidence.
+
+  Reading companions now 166.
+
 ## [10.208.0] - 2026-08-19
 
 ### Added
