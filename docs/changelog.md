@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.205.0 — August 19, 2026 (Wheel labels, library counts, and a backend fix)
+
+### Fixed
+
+- Labels on the wheel's outer ring were running into the dividing lines between segments. They now sit clear of them.
+- The Libraries page was showing out-of-date totals for reading companions, handouts and the Dataverse, and its Fundamentals card still described only the wheel rather than all four maps.
+
 ## v10.204.0 — August 19, 2026 (Fundamentals: rendering and contrast fixes)
 
 ### Fixed

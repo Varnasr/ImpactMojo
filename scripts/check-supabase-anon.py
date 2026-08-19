@@ -59,6 +59,37 @@ PROBES = [
 ]
 
 
+# The table probes above miss the whole RPC surface, which is where the
+# 2026-08-19 review found the real exposure: notify_user was anon-executable
+# with an arbitrary p_user_id plus free-text title, body and link, and
+# update_streak with an arbitrary p_user_id. Both were reachable because
+# Postgres grants EXECUTE to PUBLIC by default and nothing had revoked it.
+#
+# Probing sends a no-argument body, so a function that takes arguments cannot
+# actually run -- this checks visibility, never behaviour. PostgREST answers:
+#   200 -> executable (and it ran)
+#   401 -> the role has no EXECUTE
+#   404 -> not in this role's schema cache, or no matching signature
+# After the revoke, the denied functions drop out of anon's schema cache and
+# answer 404, which is what these expect.
+#
+# (label, function, expected_status, why)
+RPC_PROBES = [
+    ("notify_user",               "notify_user",               404,
+     "revoked from PUBLIC 2026-08-19; only the send-notification edge fn, via service_role"),
+    ("update_streak",             "update_streak",             404,
+     "revoked from PUBLIC 2026-08-19; js/auth.js calls it as authenticated"),
+    ("auto_issue_certificate",    "auto_issue_certificate",    404, "trigger fn, never callable"),
+    ("create_notification_prefs", "create_notification_prefs", 404, "trigger fn, never callable"),
+    ("handle_new_user",           "handle_new_user",           404, "trigger fn, never callable"),
+    ("protect_admin_tier",        "protect_admin_tier",        404, "trigger fn, never callable"),
+
+    # Intentionally public -- a 401/404 here means a live feature broke.
+    ("get_public_stats",          "get_public_stats",          200,
+     "transparency.html and js/live-stats.js read it unauthenticated"),
+]
+
+
 def read_config():
     """Pull the URL + anon key out of js/config.js."""
     try:
@@ -92,11 +123,34 @@ def probe(base, key, path):
     return f"unreachable ({last})"
 
 
+def probe_rpc(base, key, fn):
+    """POST an empty body to an RPC. Retries so a blip is not a breach."""
+    req = urllib.request.Request(
+        f"{base}/rest/v1/rpc/{fn}",
+        data=b"{}",
+        method="POST",
+        headers={"apikey": key, "Authorization": f"Bearer {key}",
+                 "Content-Type": "application/json"},
+    )
+    last = None
+    for attempt in range(ATTEMPTS):
+        try:
+            with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
+                return resp.status
+        except urllib.error.HTTPError as exc:
+            return exc.code
+        except Exception as exc:  # noqa: BLE001 — network flake, retry
+            last = exc
+            if attempt < ATTEMPTS - 1:
+                time.sleep(2 * (attempt + 1))
+    return f"unreachable ({last})"
+
+
 def main():
     verbose = "--verbose" in sys.argv
     base, key = read_config()
     print(f"Supabase anon-exposure guard — {base}")
-    print(f"Probes: {len(PROBES)} (public anon key, no secrets)\n")
+    print(f"Probes: {len(PROBES)} table + {len(RPC_PROBES)} rpc (public anon key, no secrets)\n")
 
     failures = []
     for label, path, expected, why in PROBES:
@@ -107,6 +161,15 @@ def main():
             print(f"          ({why})")
         if not ok:
             failures.append((label, expected, got, why))
+
+    for label, fn, expected, why in RPC_PROBES:
+        got = probe_rpc(base, key, fn)
+        ok = got == expected
+        print(f"  {'ok  ' if ok else 'FAIL'}  rpc {label:<36} expected {expected}, got {got}")
+        if verbose and ok:
+            print(f"          ({why})")
+        if not ok:
+            failures.append((f"rpc {label}", expected, got, why))
 
     print()
     if failures:
