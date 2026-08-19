@@ -57,6 +57,38 @@ const f2 = new global.FormData(); f2.append('form-name','t'); const file=new glo
 await w.imxSubmitForm(f2);
 check('file present -> multipart (no urlencoded header)', usedMultipart===true);
 
+// --- dual path: Netlify + /api/form-submit ---
+// Either landing counts as delivered; only a double failure is a real loss.
+async function dual(netlifyStatus, apiStatus) {
+  let seen = [];
+  const w = makeEnv(async (url, opts) => {
+    const isApi = String(url).includes('/api/form-submit');
+    seen.push(isApi ? 'api' : 'netlify');
+    const st = isApi ? apiStatus : netlifyStatus;
+    if (st === 0) throw new Error('offline');
+    return { ok: st >= 200 && st < 300, status: st };
+  });
+  const f = new global.FormData();
+  f.append('form-name', 'event-registration');
+  f.append('email', 'a@b.co');
+  let ok = true;
+  try { await w.imxSubmitBoth(f); } catch (e) { ok = false; }
+  return { ok, seen };
+}
+
+let d = await dual(200, 200);
+check('dual: both OK -> delivered', d.ok);
+check('dual: both endpoints hit', d.seen.includes('api') && d.seen.includes('netlify'));
+
+d = await dual(404, 200);
+check('dual: netlify rejects, durable OK -> delivered', d.ok);
+
+d = await dual(200, 500);
+check('dual: durable fails, netlify OK -> delivered', d.ok);
+
+d = await dual(500, 500);
+check('dual: both fail -> rejected', !d.ok);
+
 console.log(`\n${pass} passed, ${fail} failed`);
 console.log(fail ? 'FAIL - form-submit contract broken' : 'PASS - form-submit rejects non-2xx, retries 5xx only, and queues failures');
 process.exit(fail?1:0);

@@ -279,6 +279,7 @@ body {
 @media(max-width:600px){.im-topbar{gap:.4rem;padding:.4rem .6rem;flex-wrap:nowrap}.im-topbar-link{display:none}.im-topbar-home span{display:none}.im-browse-btn{font-size:0!important;padding:.45rem!important;gap:0!important}.im-browse-btn svg{width:16px;height:16px}.im-premium-btn{padding:.3rem .55rem;font-size:.72rem}}
 </style>
 <style>.ways-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:1rem}.way-card{background:var(--card-bg,#fff);border:1px solid var(--border-color,#e5e7eb);border-radius:14px;padding:1.1rem 1.2rem}.way-card h3{margin:0 0 .35rem;font-size:1.08rem}.way-card p{margin:0 0 .6rem;color:var(--text-secondary,#6b7280);font-size:.9rem;line-height:1.5}.way-effort{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--accent-color,#4F46E5)}</style>
+  <script src="/js/form-submit.js?v=36a6a01f"></script>
 </head>
 <body>
 <a href="#pageContent" class="im-skip-link">Skip to content</a>
@@ -571,12 +572,10 @@ body {
 function submitContribution(e) {
     e.preventDefault();
     var f = e.target;
-    var data = new URLSearchParams(new FormData(f)).toString();
-    fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: data
-    }).then(function(_res) {if(!_res||!_res.ok){throw new Error('Submission rejected (HTTP '+(_res&&_res.status)+')');}
+    /* Both paths: Netlify sends the notification, /api/form-submit writes the row.
+       A spam-classified submission is accepted with a 200, so the notification
+       alone cannot mean delivered. */
+    window.imxSubmitBothFromElement(f).then(function() {
         f.querySelector('button[type=submit]').style.display = 'none';
         document.getElementById('okMsg').style.display = 'block';
         document.getElementById('okMsg').scrollIntoView({ behavior: 'smooth', block: 'center' });

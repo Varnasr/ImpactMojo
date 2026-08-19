@@ -97,6 +97,7 @@ section.blk h2{font-size:1.5rem;margin-bottom:.8rem;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .ok-msg{display:none;background:rgba(22,163,74,.12);border:1px solid var(--ok);color:var(--ok);border-radius:10px;padding:.8rem 1rem;font-family:'Inter';font-weight:600;font-size:.9rem;margin-top:.6rem;}
 </style>
+  <script src="/js/form-submit.js"></script>
 </head>
 <body>
 <a href="#main" class="skip-link">Skip to content</a>
@@ -220,9 +221,12 @@ function waOrder(){
 // AJAX form submit -> Netlify Forms, show confirmation
 function submitOrder(e){
   e.preventDefault();
-  var f=e.target, data=new URLSearchParams(new FormData(f)).toString();
-  fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:data})
-    .then(function(_res){if(!_res||!_res.ok){throw new Error('Submission rejected (HTTP '+(_res&&_res.status)+')');} f.querySelector('button[type=submit]').style.display='none'; document.getElementById('okMsg').style.display='block'; toast('Order received'); })
+  var f=e.target;
+  /* Both paths: Netlify sends the notification, /api/form-submit writes the
+     row. A spam-classified submission is accepted with a 200, so the
+     notification alone cannot mean delivered. */
+  window.imxSubmitBothFromElement(f)
+    .then(function(){ f.querySelector('button[type=submit]').style.display='none'; document.getElementById('okMsg').style.display='block'; toast('Order received'); })
     .catch(function(){ toast('Something went wrong — please WhatsApp us'); });
   return false;
 }

@@ -199,6 +199,15 @@ body {
 .reg-actions { margin-top: 1.25rem; }
 .reg-actions .btn { width: 100%; justify-content: center; }
 
+.reg-error {
+    display: none; margin-bottom: 1rem; padding: 0.75rem 0.9rem; border-radius: 8px;
+    font-size: 0.9rem; line-height: 1.55;
+    color: #B91C1C; background: #FEF2F2; border: 1px solid #FECACA;
+}
+.reg-error a { color: inherit; text-decoration: underline; }
+html.dark .reg-error, [data-theme="dark"] .reg-error, body.dark-mode .reg-error {
+    color: #FCA5A5; background: #2A1416; border-color: #7F1D1D;
+}
 .reg-success { display: none; text-align: center; padding: 0.5rem 0; }
 .reg-success .tick { font-size: 2.5rem; color: var(--success-color); line-height: 1; }
 .reg-success h3 { font-family: 'Inter', sans-serif; margin: 0.5rem 0; }
@@ -276,6 +285,7 @@ body {
 
 @media(max-width:600px){.im-topbar{gap:.4rem;padding:.4rem .6rem;flex-wrap:nowrap}.im-topbar-link{display:none}.im-topbar-home span{display:none}.im-browse-btn{font-size:0!important;padding:.45rem!important;gap:0!important}.im-browse-btn svg{width:16px;height:16px}.im-premium-btn{padding:.3rem .55rem;font-size:.72rem}}
 </style>
+  <script src="/js/form-submit.js?v=36a6a01f"></script>
 </head>
 <body>
 <a href="#pageContent" class="im-skip-link">Skip to content</a>
@@ -359,6 +369,11 @@ body {
             </div>
         </form>
 
+        <div class="reg-error" id="regError" role="alert">
+            <strong>We could not record that.</strong> Nothing was saved, so please try again in a moment &mdash;
+            or email <a href="mailto:hello@impactmojo.in">hello@impactmojo.in</a> with the session name and we will
+            hold your seat by hand.
+        </div>
         <div class="reg-success" id="regSuccess">
             <div class="tick">&#10003;</div>
             <h3>Seat requested</h3>
@@ -585,16 +600,26 @@ body {
         e.preventDefault();
         var btn = document.getElementById('regSubmit');
         btn.disabled = true; btn.textContent = 'Sending…';
-        var data = new URLSearchParams(new FormData(form)).toString();
         function done() {
             form.style.display = 'none';
             document.getElementById('regJoinBox').style.display = 'none';
             successEl.style.display = 'block';
             btn.disabled = false; btn.textContent = 'Request my seat';
         }
-        fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: data })
-            .then(done)
-            .catch(done); // still confirm to the learner; submission is best-effort
+        function failed() {
+            var el = document.getElementById('regError');
+            if (el) el.style.display = 'block';
+            btn.disabled = false; btn.textContent = 'Request my seat';
+        }
+        var errEl = document.getElementById('regError');
+        if (errEl) errEl.style.display = 'none';
+
+        // Both paths: Netlify Forms sends the notification, /api/form-submit
+        // writes the row. Netlify's spam filter accepts what it discards with a
+        // 200, and it classified six genuine registrations as spam -- two people
+        // signing up for three events each inside a minute -- so the notification
+        // alone cannot be trusted to mean delivered.
+        window.imxSubmitBothFromElement(form).then(done).catch(failed);
     });
 
     // ---------- render ----------
