@@ -27,6 +27,9 @@ jobs:
   delete:
     name: Delete branches listed in .github/stale-branches.txt
     runs-on: ubuntu-latest
+    # Without this a hung step inherits GitHub's 360-minute default and the
+    # job neither passes nor fails -- which reads as "still running".
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
 
