@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.215.0 — August 19, 2026 (A sixth Fundamentals map: gender needs)
+
+### For Learners
+
+- **Practical and Strategic Gender Needs** — the sixth framework in the Fundamentals series, and the first built around gender analysis. Caroline Moser's distinction between what makes a woman's day lighter and what changes whose day it is, drawn as a plot: twelve Indian interventions placed by how much burden each actually lifts and how far it moves the division of labour, assets or authority. Ujjwala, Jal Jeevan and household toilets sit in one corner; the 73rd Amendment's reserved seats and daughters' coparcenary rights in another; MGNREGA and childcare in the corner where both move at once. Every position opens onto its evidence, and says what it leaves unsettled.
+
 ## v10.214.0 — August 19, 2026 (Readable in both themes, and tappable on a phone)
 
 ### For Learners

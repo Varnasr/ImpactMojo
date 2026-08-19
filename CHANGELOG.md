@@ -5,6 +5,27 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.215.0] - 2026-08-19
+
+### Added
+
+- **Fundamentals: Practical and Strategic Gender Needs** (`/fundamentals/gender-needs.html`) — the sixth framework, and the first gender-analysis lens in the series. The distinction is Caroline Moser's, from *World Development* 17(11) (1989) and *Gender Planning and Development* (1993), built on Maxine Molyneux's separation of practical from strategic interests (*Feminist Studies* 11(2), 1985). Molyneux is credited on the page, since the attribution is usually dropped.
+
+  Its own diagram form, as the other five have: a square two-axis plot rather than a list, because the useful part of the distinction is not the two categories but where a real intervention falls between them. Each of twelve Indian cases sits at **relief** (how much material burden it lifts, judged by use rather than by what was distributed) against **shift** (how far it moves the division of labour, assets or authority). The four quadrants are named and glossed under the plot. Both scores are ImpactMojo's and both are stated to be arguable, with the evidence for each printed under the point.
+
+  **22 sourced evidence entries.** The anchor pair is MoSPI's Time Use Survey 2024: Indian women spend **305 minutes a day** on unpaid activity against men's **56**, and **62 minutes** on paid activity against men's **251**. Also drawn on: PLFS 2023-24 (female LFPR 41.7%, 47.6% rural against 28.0% urban, male 78.8%); NFHS-5 asset ownership (31.7% of women own land alone or jointly against 42.3% of men; 42.3% own a house against 60.1%); NFHS-5 household decision-making (88.7%, which set against the land figure is participation without control); MoSPI Gender Statistics on Panchayati Raj representation as on 06.01.2025 (Andhra Pradesh 55.47%, Assam 54.73%, Bihar 52.02%); NFHS-4 spousal violence (33.3%); NSS 78th Round on water; and the statutes and judgments — Article 243D, the Hindu Succession (Amendment) Act 2005 with *Vineeta Sharma v Rakesh Sharma* (2020), PWDVA 2005 s.17, the POSH Act 2013 with *Vishaka* (1997), the Maternity Benefit Act as amended 2017, and MGNREGA 2005.
+
+  The page states plainly where the framework is contested: that it is read as a hierarchy with strategic work treated as the real feminism, that the two are not cleanly separable in practice, and that "women's interests" is not one thing — pointing the reader at the Wheel of Power for the divisions a two-axis plot cannot show.
+
+### Fixed
+
+- **The Fundamentals index and every sibling page** now link the new framework, and the series navigation carries it.
+
+### Changed — guards
+
+- `scripts/check-diagram-contrast.py` gains the new renderer and a `QUAD_LABELS` section. The quadrant labels print on a 7% wash of their own colour over the page ground rather than on a solid fill, so the fill's ink chooser does not reach them. The first version inherited the quadrant colour as the label ink and **all four failed AA in dark, two in light** — on a page whose subject is checking both themes. They now take theme-aware inks from `css/fundamentals.css`, checked against both grounds.
+- A consistency check while writing the data caught two cases whose coordinates contradicted the quadrant they were labelled with. Maternity leave was scored for the relief the Act promises rather than the share of women it reaches; corrected downward, which moves it to the quadrant the page's own reading describes.
+
 ## [10.214.0] - 2026-08-19
 
 ### Fixed

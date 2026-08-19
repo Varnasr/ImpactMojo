@@ -669,3 +669,118 @@ details.ax[open] > summary { border-bottom: 1px solid var(--color-border); }
   .assess-q { break-inside: avoid; }
   .assess-lede, .assess-actions, #assessResult { column-span: all; }
 }
+
+/* ===========================================================================
+   Practical and strategic gender needs — the two-axis plot
+   ---------------------------------------------------------------------------
+   The plot is square by design: both axes are 0-100 scores of the same kind,
+   and stretching one would make it read as the more decisive of the two.
+   Every colour below comes from the shared token set so both themes resolve
+   as a set; the ink painted on a coloured dot is chosen in the renderer by
+   comparing contrast ratios, not here.
+   =========================================================================== */
+
+#needsPlot { margin: 0 auto; max-width: 640px; }
+.gn-svg { display: block; width: 100%; height: auto; font-family: var(--font-body); }
+
+.gn-quad { stroke: none; }
+.gn-quad-name {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 1.2px; text-transform: uppercase;
+}
+.gn-mid { stroke: var(--color-border); stroke-width: 1; stroke-dasharray: 4 4; }
+.gn-frame { fill: none; stroke: var(--color-border); stroke-width: 1.5; }
+.gn-axis {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.5px;
+  text-transform: uppercase; fill: var(--color-text-muted);
+}
+
+.gn-pt { cursor: pointer; }
+.gn-dot { stroke: var(--color-bg-card); stroke-width: 2.5; transition: r 0.12s; }
+.gn-dot-n { font-family: var(--font-mono); font-size: 12px; font-weight: 700; pointer-events: none; }
+.gn-pt:hover .gn-dot, .gn-pt:focus .gn-dot { stroke: var(--color-text); stroke-width: 3; }
+.gn-pt:focus { outline: none; }
+.gn-pt:focus-visible .gn-dot { stroke: var(--color-link); stroke-width: 3.5; }
+.gn-pt.is-on .gn-dot { stroke: var(--color-text); stroke-width: 3.5; }
+
+/* legend under the plot */
+.gn-legend {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem; margin: 1.6rem auto 0; max-width: 900px;
+}
+.gn-leg {
+  background: var(--color-bg-card); border: 1px solid var(--color-border);
+  border-radius: 14px; padding: 0.9rem 1rem;
+}
+.gn-leg b { font-family: var(--font-heading); }
+.gn-leg i { font-family: var(--font-mono); font-size: 0.76rem; color: var(--color-text-muted); font-style: normal; }
+.gn-leg p { margin: 0.45rem 0 0; font-size: 0.9rem; line-height: 1.5; }
+.gn-leg-d { color: var(--color-text-muted); font-size: 0.86rem !important; }
+.gn-leg-sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 0.45rem; vertical-align: middle; }
+
+/* the picker */
+.gn-btn {
+  display: flex; gap: 0.7rem; align-items: flex-start; width: 100%; text-align: left;
+  cursor: pointer; background: var(--color-bg-card); color: var(--color-text);
+  border: 1px solid var(--color-border); border-radius: 12px;
+  padding: 0.7rem 0.85rem; font-family: var(--font-body); font-size: 0.95rem;
+  transition: border-color 0.15s, background 0.15s;
+}
+.gn-btn:hover { border-color: var(--color-link); }
+.gn-btn.is-on { border-color: var(--color-link); background: var(--color-bg-sunk); }
+.gn-btn b { display: block; font-family: var(--font-heading); font-size: 0.98rem; margin-bottom: 0.1rem; }
+.gn-btn span span { display: block; font-size: 0.84rem; color: var(--color-text-muted); line-height: 1.45; }
+.gn-btn-n {
+  flex: 0 0 auto; width: 24px; height: 24px; border-radius: 7px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: 0.78rem; font-weight: 700;
+}
+
+/* the panel */
+.gn-panel-head { border-left: 4px solid; padding-left: 0.9rem; margin-bottom: 1rem; }
+.gn-panel-head h3 { font-family: var(--font-heading); font-size: 1.3rem; margin: 0.4rem 0 0.3rem; }
+.gn-tag {
+  display: inline-block; font-family: var(--font-mono); font-size: 0.68rem;
+  letter-spacing: 1.4px; text-transform: uppercase; padding: 0.2rem 0.6rem;
+  border-radius: 20px; font-weight: 700;
+}
+.gn-coords { font-family: var(--font-mono); font-size: 0.82rem; color: var(--color-text-muted); margin: 0; }
+.gn-what { font-size: 0.95rem; }
+#needsPanel h4 {
+  font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 1.6px;
+  text-transform: uppercase; color: var(--color-text-muted);
+  margin: 1.2rem 0 0.4rem;
+}
+.gn-comp { color: var(--color-text-muted); }
+.gn-ev { list-style: none; padding: 0; margin: 0; }
+.gn-ev li {
+  border-top: 1px solid var(--color-border); padding: 0.7rem 0;
+  font-size: 0.92rem; line-height: 1.55;
+}
+.gn-ev li:first-child { border-top: none; }
+.gn-src { display: block; font-family: var(--font-mono); font-size: 0.76rem; color: var(--color-text-muted); margin-top: 0.3rem; }
+.gn-noev { color: var(--color-text-muted); font-size: 0.92rem; }
+
+@media (max-width: 620px) {
+  .gn-legend { grid-template-columns: 1fr; }
+}
+
+/* Quadrant labels print on a 7% wash of their own colour over the page, which
+   is nowhere near dark enough to carry that colour as ink. These are picked
+   against both theme grounds and checked by scripts/check-diagram-contrast.py,
+   the same way the Power Cube's face titles are. */
+.qn-practical { fill: #075985; }
+.qn-strategic { fill: #5B21B6; }
+.qn-both      { fill: #166534; }
+.qn-neither   { fill: #92400E; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .qn-practical { fill: #7DD3FC; }
+  :root:not([data-theme="light"]) .qn-strategic { fill: #C4B5FD; }
+  :root:not([data-theme="light"]) .qn-both      { fill: #6EE7B7; }
+  :root:not([data-theme="light"]) .qn-neither   { fill: #FCD34D; }
+}
+[data-theme="dark"] .qn-practical { fill: #7DD3FC; }
+[data-theme="dark"] .qn-strategic { fill: #C4B5FD; }
+[data-theme="dark"] .qn-both      { fill: #6EE7B7; }
+[data-theme="dark"] .qn-neither   { fill: #FCD34D; }

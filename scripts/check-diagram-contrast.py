@@ -42,6 +42,7 @@ DIAGRAMS = [
     ("js/whocounts-data.js", "js/whocounts.js", "#1a1420"),
     ("js/fundamentals-data.js", "js/fundamentals-wheel.js", "#241a20"),
     ("js/capabilities-data.js", "js/capabilities.js", "#241a20"),
+    ("js/gender-needs-data.js", "js/gender-needs.js", "#241a20"),
 ]
 
 # The wheel does not paint on the base colour: each ring is a mix of it.
@@ -53,6 +54,22 @@ RING_MIX = {"power": ("#000000", 0.30), "middle": None, "margin": ("#ffffff", 0.
 FACE_TITLES = [
     ("light", "#fbf8f3", ["#6d28d9", "#115e59", "#92400e"]),
     ("dark", "#1b2333", ["#c4b5fd", "#5eead4", "#fbbf24"]),
+]
+
+# The gender-needs quadrant labels print on a 7% wash of their own colour over
+# the page ground, not on a solid fill, so the fill's own ink chooser does not
+# apply. Written out as (theme, page ground, quadrant colour, label ink), and
+# the ground each label really sits on is computed as the wash.
+#
+# This entry exists because the first version inherited the quadrant colour as
+# the label ink: all four failed AA in dark and two in light, on a page whose
+# whole subject is checking both themes.
+QUAD_WASH = 0.07
+QUAD_LABELS = [
+    ("light", "#f7fafc", [("#0369a1", "#075985"), ("#6d28d9", "#5b21b6"),
+                          ("#15803d", "#166534"), ("#b45309", "#92400e")]),
+    ("dark", "#141a26", [("#0369a1", "#7dd3fc"), ("#6d28d9", "#c4b5fd"),
+                         ("#15803d", "#6ee7b7"), ("#b45309", "#fcd34d")]),
 ]
 
 AA_NORMAL = 4.5
@@ -149,6 +166,16 @@ def main():
                     "css/fundamentals.css: face title %s on the %s cube panel "
                     "(%s) is %.2f:1, needs %.1f:1."
                     % (c, theme, panel, got, AA_NORMAL)
+                )
+
+    for theme, ground, pairs in QUAD_LABELS:
+        for base, ink in pairs:
+            wash = mix(base, ground, 1 - QUAD_WASH)
+            got = contrast(ink, wash)
+            if got < AA_NORMAL:
+                problems.append(
+                    "gender-needs quadrant label %s on its %s wash (%s) is "
+                    "%.2f:1, below %.1f" % (ink, theme, wash, got, AA_NORMAL)
                 )
 
     if problems:
