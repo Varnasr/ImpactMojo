@@ -47,28 +47,181 @@
   }
 
   /* ------------------------------------------------------------ the diagram */
-  /* Four stages left to right on desktop, stacked on narrow screens. The arrow
-     between them is the point of the picture: each gap is where a conversion
-     factor gets to intervene. */
-  function buildChainDiagram() {
+  var NS = "http://www.w3.org/2000/svg";
+
+  function el(name, attrs, text) {
+    var n = document.createElementNS(NS, name);
+    Object.keys(attrs || {}).forEach(function (k) { n.setAttribute(k, attrs[k]); });
+    if (text !== undefined) n.appendChild(document.createTextNode(text));
+    return n;
+  }
+
+  /* Wrap a label to a pixel width without a measuring pass: SVG has no text
+     wrapping, and a per-glyph measure would reflow on every resize. */
+  function wrap(text, chars) {
+    var words = String(text).split(/\s+/), lines = [], cur = "";
+    words.forEach(function (w) {
+      if ((cur + " " + w).trim().length > chars && cur) { lines.push(cur); cur = w; }
+      else cur = (cur + " " + w).trim();
+    });
+    if (cur) lines.push(cur);
+    return lines;
+  }
+
+  /**
+   * The conversion chain, drawn.
+   *
+   * The point the picture has to make is that the three conversion factors are
+   * inputs to the second stage rather than decoration around it, and that what
+   * fails to convert leaves the chain instead of arriving at the far end. So the
+   * factors feed in from below and there is a visible leak between conversion
+   * and capability. Where a chain has a real pair of figures, the leak carries
+   * them.
+   *
+   * Two layouts, chosen by width rather than by CSS: at narrow widths a
+   * four-across flow would shrink the type past legibility, so the stages stack.
+   */
+  function drawChain(chain) {
     var host = document.getElementById("chainDiagram");
     if (!host) return;
-    var h = ['<ol class="cap-chain" aria-label="The conversion chain, in four stages">'];
-    D.stages.forEach(function (st, i) {
-      var ink = readableOn(st.color);
-      h.push(
-        '<li class="cap-stage" data-stage="' + esc(st.id) + '">' +
-          '<div class="cap-stage-box" style="background:' + esc(st.color) + ';color:' + ink + '">' +
-            '<span class="cap-stage-n">' + (i + 1) + '</span>' +
-            '<span class="cap-stage-name">' + esc(st.name) + '</span>' +
-          '</div>' +
-          '<p class="cap-stage-gloss">' + esc(st.gloss) + '</p>' +
-          '<p class="cap-stage-detail">' + esc(st.detail) + '</p>' +
-        '</li>'
-      );
+    var vertical = host.clientWidth < 700;
+    host.innerHTML = "";
+
+    var svg = el("svg", {
+      class: "cap-svg",
+      role: "img",
+      "aria-label": "The conversion chain: a resource passes through personal, social and " +
+        "environmental conversion factors to become a capability, and then a functioning. " +
+        "What does not convert leaves the chain."
     });
-    h.push("</ol>");
-    host.innerHTML = h.join("");
+
+    var W = vertical ? 380 : 900;
+    var H = vertical ? 640 : 250;
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+    svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+
+    var boxW = vertical ? 250 : 170;
+    var boxH = vertical ? 82 : 82;
+    var stages = D.stages;
+
+    function pos(i) {
+      return vertical
+        ? { x: 20, y: 16 + i * 152 }
+        : { x: 24 + i * 218, y: 24 };
+    }
+
+    /* connectors first, so the boxes sit on top of them */
+    for (var i = 0; i < stages.length - 1; i++) {
+      var a = pos(i), b = pos(i + 1);
+      var line = vertical
+        ? el("path", { d: "M" + (a.x + boxW / 2) + " " + (a.y + boxH) + " L" + (a.x + boxW / 2) + " " + b.y })
+        : el("path", { d: "M" + (a.x + boxW) + " " + (a.y + boxH / 2) + " L" + b.x + " " + (b.y + boxH / 2) });
+      line.setAttribute("class", "cap-flow");
+      svg.appendChild(line);
+      var mx = vertical ? a.x + boxW / 2 : (a.x + boxW + b.x) / 2;
+      var my = vertical ? (a.y + boxH + b.y) / 2 : a.y + boxH / 2;
+      var head = el("path", {
+        class: "cap-arrow",
+        d: vertical
+          ? "M" + (mx - 5) + " " + (my - 4) + " L" + mx + " " + (my + 5) + " L" + (mx + 5) + " " + (my - 4) + " Z"
+          : "M" + (mx - 4) + " " + (my - 5) + " L" + (mx + 5) + " " + my + " L" + (mx - 4) + " " + (my + 5) + " Z"
+      });
+      svg.appendChild(head);
+    }
+
+    /* the three conversion factors feed the second stage from below */
+    var convo = pos(1);
+    var kinds = ["personal", "social", "environmental"];
+    kinds.forEach(function (kind, k) {
+      var fx = vertical ? convo.x + boxW + 18 : convo.x + boxW / 2 + (k - 1) * 150;
+      var fy = vertical ? convo.y + 10 + k * 24 : convo.y + boxH + 66;
+      var feed = el("path", {
+        class: "cap-feed cf-" + kind,
+        d: vertical
+          ? "M" + fx + " " + fy + " L" + (convo.x + boxW) + " " + (convo.y + boxH / 2)
+          : "M" + fx + " " + fy + " L" + (convo.x + boxW / 2) + " " + (convo.y + boxH)
+      });
+      svg.appendChild(feed);
+      var t = el("text", {
+        class: "cap-feed-label",
+        x: vertical ? fx + 4 : fx,
+        y: vertical ? fy + 4 : fy + 14,
+        "text-anchor": vertical ? "start" : "middle"
+      }, D.FACTOR_LABEL[kind]);
+      svg.appendChild(t);
+    });
+
+    /* the leak: what the resource promised and the capability delivered */
+    var cap = pos(2);
+    /* The leak leaves the conversion-to-capability connector, which is where a
+       resource stops becoming a freedom, and ends where its figures are printed
+       so the number is attached to the path rather than floating near it. */
+    var sx = vertical ? cap.x + boxW / 2 : cap.x - 24;
+    var sy = vertical ? cap.y - 24 : cap.y + boxH / 2;
+    var ex = vertical ? cap.x + boxW - 40 : cap.x + 46;
+    var ey = vertical ? cap.y - 78 : cap.y + boxH + 62;
+    var leak = el("path", {
+      class: "cap-leak",
+      d: vertical
+        ? "M" + sx + " " + sy + " C" + (sx + 40) + " " + sy + " " + ex + " " + (ey + 34) + " " + ex + " " + ey
+        : "M" + sx + " " + sy + " C" + sx + " " + (sy + 40) + " " + (ex - 30) + " " + ey + " " + ex + " " + ey
+    });
+    svg.appendChild(leak);
+
+    /* Only print a pair when both halves are actually quantities. Several chains
+       carry a headline like "Legal right" against "2011", which is a real point
+       on the page but reads as nonsense on a leak arrow. */
+    var hasFigures = chain && chain.headline &&
+      /\d/.test(String(chain.headline.stat || "")) &&
+      /%|\d/.test(String(chain.headline.contrast || "")) &&
+      /%/.test(String(chain.headline.stat) + String(chain.headline.contrast));
+    var leakText = hasFigures
+      ? chain.headline.stat + " \u2192 " + chain.headline.contrast
+      : "what does not convert";
+    var lt = el("text", {
+      class: "cap-leak-label",
+      x: ex + 8,
+      y: ey + 4,
+      "text-anchor": "start"
+    }, leakText);
+    svg.appendChild(lt);
+
+    /* the four stages */
+    stages.forEach(function (st, i) {
+      var p = pos(i);
+      var ink = readableOn(st.color);
+      var g = el("g", { class: "cap-node" });
+      g.appendChild(el("rect", {
+        x: p.x, y: p.y, width: boxW, height: boxH, rx: 12,
+        fill: st.color, class: "cap-node-box"
+      }));
+      g.appendChild(el("text", {
+        x: p.x + 13, y: p.y + 25, fill: ink, class: "cap-node-n"
+      }, String(i + 1)));
+      g.appendChild(el("text", {
+        x: p.x + 32, y: p.y + 25, fill: ink, class: "cap-node-name"
+      }, st.name));
+
+      var body = chain ? chainTextFor(chain, st.id) : st.gloss;
+      /* Two lines at most, and the box is tall enough for both: a third line,
+         or a tighter box, pushes the descender past the fill. */
+      wrap(body, vertical ? 34 : 24).slice(0, 2).forEach(function (ln, k) {
+        g.appendChild(el("text", {
+          x: p.x + 13, y: p.y + 47 + k * 15, fill: ink, class: "cap-node-sub"
+        }, ln));
+      });
+      svg.appendChild(g);
+    });
+
+    host.appendChild(svg);
+  }
+
+  /* What each stage says depends on which resource is open. */
+  function chainTextFor(chain, stageId) {
+    if (stageId === "resource") return chain.name;
+    if (stageId === "capability") return chain.capability;
+    if (stageId === "functioning") return chain.functioning;
+    return "Personal, social, environmental";
   }
 
   /* --------------------------------------------------------------- pickers */
@@ -166,6 +319,7 @@
     if (!c) return;
     state.chain = id;
     markSelected(id);
+    drawChain(c);
     renderPanel(c);
     if (!opts.silent) history.replaceState(null, "", "#" + id);
     if (!opts.silent && opts.focus !== false) {
@@ -177,6 +331,7 @@
   function clearSelection() {
     state.chain = null;
     markSelected(null);
+    drawChain(null);
     renderEmpty();
     history.replaceState(null, "", location.pathname);
   }
@@ -200,8 +355,18 @@
   }
 
   /* ------------------------------------------------------------------- init */
+  var resizeT = null;
+  function onResize() {
+    clearTimeout(resizeT);
+    resizeT = setTimeout(function () {
+      var c = state.chain ? D.chains.filter(function (x) { return x.id === state.chain; })[0] : null;
+      drawChain(c || null);
+    }, 150);
+  }
+
   function init() {
-    buildChainDiagram();
+    drawChain(null);
+    window.addEventListener("resize", onResize);
     buildPickers();
     buildNussbaum();
     renderEmpty();

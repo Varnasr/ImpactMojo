@@ -516,29 +516,35 @@ details.ax[open] > summary { border-bottom: 1px solid var(--color-border); }
    ratio at render time.
    ========================================================================= */
 
-.cap-chain {
-  list-style: none; margin: 0; padding: 0;
-  display: grid; gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  counter-reset: none;
-}
-.cap-stage { background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 14px; padding: 0; overflow: hidden; display: flex; flex-direction: column; }
-.cap-stage-box { padding: 0.85rem 1rem; display: flex; align-items: baseline; gap: 0.6rem; }
-.cap-stage-n { font-family: var(--font-mono); font-size: 0.8rem; opacity: 0.85; }
-.cap-stage-name { font-family: var(--font-heading); font-weight: 700; font-size: 1.02rem; letter-spacing: -0.01em; }
-.cap-stage-gloss { margin: 0.9rem 1rem 0.4rem; font-size: 0.94rem; font-weight: 700; color: var(--color-text); }
-.cap-stage-detail { margin: 0 1rem 1rem; font-size: 0.88rem; line-height: 1.6; color: var(--color-text-muted); }
+/* The conversion chain, drawn. Two layouts chosen in JS by container width,
+   because a four-across flow at phone width shrinks the type past reading. */
+.cap-svg { width: 100%; height: auto; display: block; max-width: 900px; margin: 0 auto; }
 
-/* The chain reads left to right on a wide screen; the arrow is a separator
-   rather than content, so it is hidden from assistive tech. */
-@media (min-width: 900px) {
-  .cap-stage { position: relative; }
-  .cap-stage + .cap-stage::before {
-    content: ""; position: absolute; left: -0.68rem; top: 1.45rem;
-    width: 0.42rem; height: 0.42rem; border-top: 2px solid var(--color-border);
-    border-right: 2px solid var(--color-border); transform: rotate(45deg);
-  }
+.cap-node-box { stroke: var(--color-bg-card); stroke-width: 1.5; }
+.cap-node-n { font-family: var(--font-mono); font-size: 12px; opacity: 0.9; }
+.cap-node-name { font-family: var(--font-heading); font-weight: 700; font-size: 15px; }
+.cap-node-sub { font-family: var(--font-body); font-size: 11.5px; opacity: 0.94; }
+
+.cap-flow { stroke: var(--color-border); stroke-width: 2.5; fill: none; }
+.cap-arrow { fill: var(--color-border); }
+
+/* The factors feed the second stage rather than decorating it, so they are
+   drawn as inputs with the same colours the panel uses for each kind. */
+.cap-feed { stroke-width: 2; fill: none; stroke-dasharray: 3 3; }
+.cap-feed.cf-personal { stroke: #B45309; }
+.cap-feed.cf-social { stroke: #6D28D9; }
+.cap-feed.cf-environmental { stroke: #15803D; }
+.cap-feed-label {
+  font-family: var(--font-heading); font-size: 10.5px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase; fill: var(--color-text-muted);
 }
+
+/* What fails to convert leaves the chain; where a resource has a real pair of
+   figures, this is where they go. */
+.cap-leak { stroke: #B91C1C; stroke-width: 2; fill: none; stroke-dasharray: 4 4; }
+.cap-leak-label { font-family: var(--font-mono); font-size: 12px; fill: #B91C1C; }
+[data-theme="dark"] .cap-leak { stroke: #FCA5A5; }
+[data-theme="dark"] .cap-leak-label { fill: #FCA5A5; }
 
 /* ------------------------------------------------------------- the pickers */
 .chain-picker { display: grid; gap: 0.6rem; }

@@ -126,6 +126,50 @@ window.CAPABILITIES = (function () {
     },
 
     {
+      id: "water",
+      name: "A household water connection",
+      short: "Water connection → being able to drink safely",
+      resource: "An improved drinking water source — a piped supply, a tubewell, a protected well — counted by the source rather than by the household's use of it.",
+      capability: "Being able to drink, cook and wash without spending the day fetching water.",
+      functioning: "A household that has enough safe water, every day of the year.",
+      headline: { stat: "94.5%", label: "of rural households have access to an improved source", contrast: "42.0%", contrastLabel: "have one that is theirs alone, in the premises, and sufficient all year" },
+      factors: [
+        { kind: "personal", text: "Who in the household does the fetching. Where the source is outside the premises the walk is overwhelmingly women's and girls' time, and it is time taken from school and paid work rather than from leisure." },
+        { kind: "social",   text: "Whether the source is shared, and with whom. A well a Dalit household is not free to draw from is an improved source on paper and an inaccessible one in practice." },
+        { kind: "environmental", text: "Distance, and seasonality. A source that runs dry for three months a year still counts as an improved source for the whole year." }
+      ],
+      evidence: [
+        { stat: "94.5%", detail: "of rural households had access to an improved source of drinking water. In urban India the figure is 97.4%. This is the number that gets reported as near-universal coverage.", source: "NSS 76th Round, Drinking Water, Sanitation, Hygiene and Housing Condition (MoSPI)", year: "2018" },
+        { stat: "56.1%", detail: "of rural households had that improved source located within the household premises — so for roughly two in five, water is somewhere else and someone has to go and get it. Urban: 78.6%.", source: "NSS 76th Round (MoSPI)", year: "2018" },
+        { stat: "42.0%", detail: "of rural households had exclusive access to an improved source, in the premises, sufficiently available throughout the year — all three conditions at once. Urban: 50.5%. The gap between this and 94.5% is entirely made of conversion factors.", source: "NSS 76th Round (MoSPI)", year: "2018" }
+      ],
+      reading: "Three figures from one survey, describing the same households, ranging from 94.5% to 42.0%. None of them is wrong and none is a correction of the others: each adds a condition that has to hold before the source becomes water you can actually rely on. A target written on the first is met at a point where the third is still a minority.",
+      complication: "The narrowest measure is not automatically the right one. A shared standpost fifty metres away is a real improvement on an unprotected well, and refusing to count it would erase genuine progress. The argument is not that 42.0% is the true number — it is that which of the three you report is a choice, and it is rarely made explicit."
+    },
+
+    {
+      id: "internet",
+      name: "An internet connection",
+      short: "Connection → being able to reach the state online",
+      resource: "An internet facility within the household premises — the measure behind India's digital-inclusion numbers.",
+      capability: "Being able to file a claim, sit an online class, or hold a video consultation.",
+      functioning: "A household that actually transacts online.",
+      headline: { stat: "83.3%", label: "of rural households have internet within the premises", contrast: "9.1%", contrastLabel: "of those have a fixed or WiFi connection rather than only a mobile one" },
+      factors: [
+        { kind: "personal", text: "Whose phone it is. A household counted as connected is often connected through one handset, and who may use it and for how long is a question the survey does not reach." },
+        { kind: "social",   text: "Digital literacy, and whether the person who needs the service is the person who can operate it. Filing a grievance is not the same task as receiving a message." },
+        { kind: "environmental", text: "Whether the signal holds for the length of a class or a consultation. A mobile connection that drops is adequate for a notification and inadequate for an hour of anything." }
+      ],
+      evidence: [
+        { stat: "83.3%", detail: "of rural households reported an internet facility within the household premises. Urban: 91.6%. This is the figure behind claims of near-universal digital access.", source: "NSS 80th Round, Comprehensive Modular Survey: Telecom (MoSPI)", year: "2025" },
+        { stat: "9.1%", detail: "of connected rural households had a fixed or WiFi connection. Urban: 24%. Almost the entire rural internet is mobile — 98.8% of connected rural households use a mobile network.", source: "NSS 80th Round, CMST (MoSPI)", year: "2025" },
+        { stat: "Article 21", detail: "the Supreme Court has held that the freedoms of speech and of trade over the internet are constitutionally protected, and that an indefinite shutdown is impermissible. The right is settled; the connection it presumes is mostly a shared handset.", source: "Anuradha Bhasin v. Union of India", year: "2020" }
+      ],
+      reading: "Being counted as connected and being able to do the thing connection is for are separated here by an order of magnitude. Government services move online against the 83.3%; the 9.1% is closer to the population that can sit through an online hearing or upload a set of documents without the call dropping.",
+      complication: "A mobile connection is not a poor substitute for broadband so much as a different thing, and for many purposes — a payment, a message, a status check — it is entirely sufficient. The distinction matters for the tasks that take sustained bandwidth, which happen to include most of what the state has moved online."
+    },
+
+    {
       id: "ration",
       name: "A ration entitlement",
       short: "Entitlement → being adequately nourished",

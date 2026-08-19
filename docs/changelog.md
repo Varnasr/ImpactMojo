@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.212.0 — August 19, 2026 (The capability chain, drawn)
+
+### For Learners
+
+- **The Capability Approach now has a real diagram** — the conversion chain drawn out, showing the three kinds of conversion factor feeding into it and what leaks away between what is provided and what a person can actually do.
+
 ## v10.211.0 — August 19, 2026 (A different way into the Wheel of Power)
 
 ### For Learners
