@@ -14,7 +14,7 @@ No sign-in, no card, no trial clock:
 
 - **All 19 flagship courses** and **51 foundational (101) courses**
 - **35 labs** and **135 games** (18 simulations + 117 puzzles)
-- **163 reading companions** and **22 deep dives**
+- **163 reading companions** and **23 deep dives**
 - **7 data dives** and **Field Radio** (community voice notes)
 - **200 case studies**, **500+ Dev Discourses**, and the **ImpactLex** glossary
 - **AI study companions** (NotebookLM notebooks)

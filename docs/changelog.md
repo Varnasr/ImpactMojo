@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.206.0 — August 19, 2026 (A new Deep Dive)
+
+### For Learners
+
+- **Farm Animal Welfare in India** — a new Deep Dive. Fourteen readings on India's livestock numbers, the 1960 cruelty law and its fifty-rupee fine, the Supreme Court judgment that extended the right to life to animals, the cage-free rules drafted in 2017 and never brought into force, and the research showing how cattle protection laws affect the herd.
+
 ## v10.205.0 — August 19, 2026 (Wheel labels, library counts, and a backend fix)
 
 ### Fixed

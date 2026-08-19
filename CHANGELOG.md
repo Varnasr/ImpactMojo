@@ -5,6 +5,17 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.206.0] - 2026-08-19
+
+### Added
+
+- **Deep Dive: Farm Animal Welfare in India** — 14 readings across five sections, on the gap between what Indian animal welfare law says and what it costs to break. Covers the 20th Livestock Census headcounts, the Prevention of Cruelty to Animals Act 1960 and its unrevised fifty-rupee first-offence fine, *AWBI v. A. Nagaraja* (2014) reading animal dignity into Article 21, the Law Commission's 269th Report which drafted cage-free rules that were never notified, and the peer-reviewed evidence that slaughter restrictions worsen dairy herd welfare. Deep Dives now 23.
+
+### Fixed
+
+- **Every Deep Dive had contrast failures in both themes.** The six `.dd-type` badges used one hue as both the 12% background wash and the text, putting them at 2.1–3.9:1 in light mode; inks darkened, tints unchanged. `--dd-accent` was 2.62:1 as eyebrow and section-number ink on the cream page background; it is now 5.2–5.6:1 in every place it is used as ink. The same token doubles as the CTA button background, where white sat on light amber at 2.15:1 in dark mode, so the button now takes the opposite ink. One stylesheet, 23 pages.
+- **Two more dark-mode contrast failures found by the new axe variants**: `.chip-count` on `bct-repository.html` (4.04:1 — `--text-muted` on `--hover-bg`, a token pairing that fails anywhere it is used in dark mode) and the earlier `.ims-nav-btn`, `social_proof.trusted_by` and `.practitioner-trust-strip` issues on `index.html`.
+
 ## [10.205.0] - 2026-08-19
 
 ### Security
