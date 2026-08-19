@@ -12,6 +12,12 @@
 window.WHOCOUNTS = (function () {
   "use strict";
 
+  var ABOUT = {
+    identity:  { label: "Who you are",   note: "Attributes a person carries." },
+    condition: { label: "How you live",  note: "Circumstances that change." },
+    outcome:   { label: "What happens",  note: "Results the state records." }
+  };
+
   var KINDS = {
     never:   { label: "Never asked",     note: "No national instrument collects it at all." },
     under:   { label: "Counted, badly",  note: "An official figure exists and is far below what independent estimates find." },
@@ -20,7 +26,7 @@ window.WHOCOUNTS = (function () {
 
   var gaps = [
     {
-      id: "orientation", name: "Sexual orientation", kind: "never", color: "#7c3aed",
+      id: "orientation", name: "Sexual orientation", kind: "never", about: "identity", color: "#7c3aed",
       missing: "No national survey asks who anyone is attracted to, or whether they are in a same-sex relationship.",
       evidence: [
         { stat: "Zero", detail: "The Census, NFHS and PLFS carry no question on sexual orientation. The absence is complete rather than partial.", source: "Review of Census, NFHS-5 and PLFS instruments", year: "2026" },
@@ -30,7 +36,7 @@ window.WHOCOUNTS = (function () {
       proxy: "None at national scale. Community-led surveys exist and are neither representative nor comparable across states."
     },
     {
-      id: "caste", name: "Caste beyond SC and ST", kind: "frozen", color: "#b45309",
+      id: "caste", name: "Caste beyond SC and ST", kind: "frozen", about: "identity", color: "#b45309",
       missing: "The Census enumerates Scheduled Castes and Scheduled Tribes. It has not enumerated other castes since 1931.",
       evidence: [
         { stat: "1931", detail: "the last Census to count caste in full. Every OBC entitlement since has been argued from estimates, commission findings and sample surveys rather than an enumeration.", source: "Census of India", year: "1931" },
@@ -41,7 +47,7 @@ window.WHOCOUNTS = (function () {
       proxy: "NSS and NFHS record a self-reported caste category, which gives shares but not the jati-level detail policy questions turn on."
     },
     {
-      id: "disability", name: "Disability", kind: "under", color: "#0369a1",
+      id: "disability", name: "Disability", kind: "under", about: "identity", color: "#0369a1",
       missing: "India records disability at a fraction of the rate found everywhere else, and most people it does record hold no certificate.",
       evidence: [
         { stat: "2.2%", detail: "of the population, in both the Census and the NSS 76th Round, measured independently and agreeing with each other.", source: "Census of India; NSS 76th Round", year: "2011, 2018" },
@@ -52,7 +58,7 @@ window.WHOCOUNTS = (function () {
       proxy: "NFHS-5 added disability questions, which is why prevalence estimates from it run higher than the Census. The instrument, not the population, is what changed."
     },
     {
-      id: "unpaid", name: "Unpaid care and domestic work", kind: "frozen", color: "#be185d",
+      id: "unpaid", name: "Unpaid care and domestic work", kind: "frozen", about: "condition", color: "#be185d",
       missing: "India measured how its households spend time once, in 2019, and does not carry the result into any national account.",
       evidence: [
         { stat: "299 vs 97", detail: "minutes a day of unpaid domestic work by women and by men, from the only full Time Use Survey India has run.", source: "Time Use Survey, NSO", year: "2019" },
@@ -62,7 +68,7 @@ window.WHOCOUNTS = (function () {
       proxy: "The 2019 survey remains usable and is now several years old. A second round would make it a series rather than a snapshot."
     },
     {
-      id: "death", name: "What Indians die of", kind: "under", color: "#7f1d1d",
+      id: "death", name: "What Indians die of", kind: "under", about: "outcome", color: "#7f1d1d",
       missing: "Deaths are registered. The cause is medically certified for a small minority of them.",
       evidence: [
         { stat: "22.3%", detail: "of registered deaths carried a medically certified cause. For roughly four in five deaths, the cause is not recorded in the system health policy is argued from.", source: "Medical Certification of Cause of Death, ORGI", year: "2022" },
@@ -72,7 +78,7 @@ window.WHOCOUNTS = (function () {
       proxy: "The Million Death Study used verbal autopsy on a large sample and remains the main evidence for cause of death outside the certified minority."
     },
     {
-      id: "migration", name: "Where people moved", kind: "frozen", color: "#4d7c0f",
+      id: "migration", name: "Where people moved", kind: "frozen", about: "condition", color: "#4d7c0f",
       missing: "The only full picture of internal migration is from a Census taken in 2011.",
       evidence: [
         { stat: "45.6 crore", detail: "internal migrants counted, about 37% of the population, in the last Census India completed.", source: "Census of India", year: "2011" },
@@ -82,7 +88,7 @@ window.WHOCOUNTS = (function () {
       proxy: "PLFS added a migration module in 2020-21, and e-Shram has registered over 30 crore unorganised workers. Neither reproduces the Census's district-to-district detail."
     },
     {
-      id: "poverty", name: "How many are poor", kind: "frozen", color: "#166534",
+      id: "poverty", name: "How many are poor", kind: "frozen", about: "condition", color: "#166534",
       missing: "India has published no official poverty line, and no official poverty count, for more than a decade.",
       evidence: [
         { stat: "2011-12", detail: "the last consumption survey used for an official poverty estimate. The 2017-18 round was not released.", source: "NSSO; Ministry of Statistics", year: "2011-12, 2019" },
@@ -92,7 +98,7 @@ window.WHOCOUNTS = (function () {
       proxy: "The NITI Aayog National MPI counts deprivation across twelve indicators rather than income, which answers a different question and is not a substitute."
     },
     {
-      id: "appearance", name: "Skin tone and appearance", kind: "never", color: "#9d174d",
+      id: "appearance", name: "Skin tone and appearance", kind: "never", about: "identity", color: "#9d174d",
       missing: "No Indian official survey records skin tone, body size, or discrimination based on either.",
       evidence: [
         { stat: "Zero", detail: "national instruments collect it. Evidence on colourism in hiring or marriage comes from audit studies and market data rather than from statistics.", source: "Review of NSO and Census instruments", year: "2026" },
@@ -103,5 +109,5 @@ window.WHOCOUNTS = (function () {
     }
   ];
 
-  return { gaps: gaps, KINDS: KINDS };
+  return { gaps: gaps, KINDS: KINDS, ABOUT: ABOUT };
 })();

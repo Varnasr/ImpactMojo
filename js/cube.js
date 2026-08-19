@@ -42,6 +42,113 @@ window.FCube = (function () {
     return null;
   }
 
+  /* ---------------------------------------------------------------- diagram */
+  /* An isometric cube: three visible faces, each sliced into the three values
+     of one dimension. Nine clickable slices, labelled outside the solid with
+     leader lines so no text sits on a slanted face. */
+  var NS = "http://www.w3.org/2000/svg";
+  var CX = 310, CY = 240, S = 125;
+  var T  = [CX, CY - S], R = [CX + S, CY - S / 2], BO = [CX, CY],
+      L  = [CX - S, CY - S / 2], BL = [CX - S, CY + S / 2],
+      BR = [CX + S, CY + S / 2], BOT = [CX, CY + S];
+
+  function lerp(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]; }
+  function pts(a) { return a.map(function (p) { return p[0].toFixed(1) + "," + p[1].toFixed(1); }).join(" "); }
+  function el(n, at, txt) {
+    var e = document.createElementNS(NS, n);
+    for (var k in at) if (at.hasOwnProperty(k)) e.setAttribute(k, at[k]);
+    if (txt != null) e.textContent = txt;
+    return e;
+  }
+
+  /* face: [a,b,c,d]; slices run between edge a-b and edge d-c.
+     labelEdge: which side the leader comes off — "ad" or "bc". */
+  var FACES = {
+    level: { quad: [T, R, BO, L],   labelEdge: "ad", dx: -14, dy: -3, anchor: "end",   title: [150, 96,  "end"] },
+    space: { quad: [L, BO, BOT, BL], labelEdge: "ad", dx: -16, dy: 4,  anchor: "end",   title: [150, 340, "end"] },
+    form:  { quad: [R, BO, BOT, BR], labelEdge: "ad", dx: 16,  dy: 4,  anchor: "start", title: [470, 340, "start"] }
+  };
+
+  function drawCube() {
+    var svg = document.getElementById("cubeSvg");
+    if (!svg) return;
+    svg.setAttribute("viewBox", "0 0 620 470");
+    svg.setAttribute("role", "group");
+    svg.setAttribute("aria-label", "Power cube: three faces, each sliced into the three values of one dimension. Select a slice to read its evidence.");
+    svg.innerHTML = "";
+
+    D.dims.forEach(function (dim) {
+      var F = FACES[dim.id];
+      if (!F) return;
+      var a = F.quad[0], b = F.quad[1], c = F.quad[2], d = F.quad[3];
+      var g = el("g", { "data-face": dim.id });
+
+      dim.cats.forEach(function (cat, i) {
+        var t0 = i / 3, t1 = (i + 1) / 3;
+        var p1 = lerp(a, d, t0), p2 = lerp(b, c, t0), p3 = lerp(b, c, t1), p4 = lerp(a, d, t1);
+        g.appendChild(el("polygon", {
+          points: pts([p1, p2, p3, p4]), fill: cat.color, class: "slice",
+          role: "button", tabindex: "-1", "data-cat": cat.id,
+          "aria-label": dim.name + ": " + cat.name
+        }));
+        /* leader line and label, outside the solid */
+        var mid = lerp(lerp(a, d, t0), lerp(a, d, t1), 0.5);
+        var lx = mid[0] + F.dx, ly = mid[1] + F.dy;
+        g.appendChild(el("line", { x1: mid[0], y1: mid[1], x2: lx, y2: ly, class: "leader" }));
+        g.appendChild(el("text", {
+          x: lx + (F.anchor === "end" ? -4 : 4), y: ly + 4,
+          "text-anchor": F.anchor, class: "slice-label", "data-cat": cat.id
+        }, cat.name));
+      });
+
+      svg.appendChild(g);
+      svg.appendChild(el("text", {
+        x: F.title[0], y: F.title[1], "text-anchor": F.title[2], class: "face-title", fill: dim.color
+      }, dim.name.toUpperCase()));
+    });
+
+    /* the solid's own edges, drawn over the slices */
+    [[T, R], [R, BO], [BO, L], [L, T], [L, BL], [BL, BOT], [BOT, BR], [BR, R], [BO, BOT]]
+      .forEach(function (e) {
+        svg.appendChild(el("line", { x1: e[0][0], y1: e[0][1], x2: e[1][0], y2: e[1][1], class: "cube-edge" }));
+      });
+
+    svg.querySelectorAll(".slice").forEach(function (n) {
+      n.addEventListener("click", function () { select(n.getAttribute("data-cat")); });
+      n.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(n.getAttribute("data-cat")); }
+      });
+    });
+    var first = svg.querySelector(".slice");
+    if (first) first.setAttribute("tabindex", "0");
+  }
+
+  function paintCube() {
+    var svg = document.getElementById("cubeSvg");
+    if (!svg) return;
+    svg.classList.toggle("has-sel", !!state.cat);
+    svg.querySelectorAll(".slice").forEach(function (n) {
+      n.classList.toggle("is-on", n.getAttribute("data-cat") === state.cat);
+    });
+    svg.querySelectorAll(".slice-label").forEach(function (n) {
+      n.classList.toggle("is-on", n.getAttribute("data-cat") === state.cat);
+    });
+  }
+
+  function setCaption() {
+    var box = document.getElementById("cubeCaption");
+    if (!box) return;
+    if (!state.cat) {
+      box.className = "wheel-caption is-empty";
+      box.innerHTML = '<span class="cap-t">Nothing selected yet. Pick a slice of the cube, or use the buttons below.</span>';
+      return;
+    }
+    var f = find(state.cat);
+    box.className = "wheel-caption";
+    box.innerHTML = '<span class="cap-sw" style="background:' + esc(f.cat.color) + '"></span>' +
+      '<span><span class="cap-s">' + esc(f.dim.name) + '</span><span class="cap-t">' + esc(f.cat.name) + '</span></span>';
+  }
+
   function build() {
     var box = document.getElementById("cube");
     if (!box) return;
@@ -84,6 +191,7 @@ window.FCube = (function () {
     document.querySelectorAll("#cube .cat").forEach(function (b) {
       b.setAttribute("aria-pressed", String(b.getAttribute("data-cat") === id));
     });
+    paintCube(); setCaption();
     var c = f.cat, h = [];
     h.push('<div class="panel-axis"><span class="swatch" style="background:' + esc(c.color) + '"></span>' + esc(f.dim.name) + '</div>');
     h.push('<h3>' + esc(c.name) + '</h3>');
@@ -113,6 +221,7 @@ window.FCube = (function () {
     if (dir === "clear") {
       state.cat = null;
       document.querySelectorAll("#cube .cat").forEach(function (b) { b.setAttribute("aria-pressed", "false"); });
+      paintCube(); setCaption();
       renderEmpty();
       history.replaceState(null, "", location.pathname);
       return;
@@ -139,7 +248,7 @@ window.FCube = (function () {
 
   function init() {
     if (!D || !D.dims) return;
-    build(); buildCases();
+    drawCube(); build(); buildCases(); setCaption();
     if (!fromHash()) renderEmpty();
     window.addEventListener("hashchange", fromHash);
   }

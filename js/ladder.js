@@ -35,6 +35,21 @@ window.FLadder = (function () {
 
   function byId(id) { return D.rungs.filter(function (r) { return r.id === id; })[0]; }
 
+  function setCaption() {
+    var box = document.getElementById("rungCaption");
+    if (!box) return;
+    if (!state.rung) {
+      box.className = "wheel-caption is-empty";
+      box.innerHTML = '<span class="cap-t">Nothing selected yet. Pick a rung of the ladder.</span>';
+      return;
+    }
+    var r = byId(state.rung);
+    box.className = "wheel-caption";
+    box.innerHTML = '<span class="cap-sw" style="background:' + esc(r.color) + '"></span>' +
+      '<span><span class="cap-s">Rung ' + r.n + ' &middot; ' + esc(D.BANDS[r.band].label) + '</span>' +
+      '<span class="cap-t">' + esc(r.name) + '</span></span>';
+  }
+
   function buildLadder() {
     var box = document.getElementById("ladder");
     if (!box) return;
@@ -67,6 +82,7 @@ window.FLadder = (function () {
     document.querySelectorAll("#ladder .rung").forEach(function (b) {
       b.setAttribute("aria-pressed", String(b.getAttribute("data-rung") === id));
     });
+    setCaption();
     renderPanel(r);
     if (!opts.silent) history.replaceState(null, "", "#" + id);
   }
@@ -99,6 +115,7 @@ window.FLadder = (function () {
     if (dir === "clear") {
       state.rung = null;
       document.querySelectorAll("#ladder .rung").forEach(function (b) { b.setAttribute("aria-pressed", "false"); });
+      setCaption();
       renderEmpty();
       history.replaceState(null, "", location.pathname);
       return;
@@ -130,6 +147,7 @@ window.FLadder = (function () {
   function init() {
     if (!D || !D.rungs) return;
     buildLadder();
+    setCaption();
     if (!fromHash()) renderEmpty();
     window.addEventListener("hashchange", fromHash);
   }
