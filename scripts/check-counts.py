@@ -27,9 +27,20 @@ totals — enforcing "current" here would corrupt real content):
   A line can also opt out inline with the token "count-ignore", and any
   line containing an arrow (→ / ->) is treated as historical prose.
 
+The GitHub Wiki is a separate repository, so it is covered by the same
+guard through --wiki: point it at a wiki clone and it scans that clone's
+*.md the same way, minus Changelog.md and Roadmap.md (mirrors of the
+repo's historical prose, excluded here for the same reason they are
+excluded above). Before this existed, .github/workflows/sync-wiki.yml
+refreshed exactly two hardcoded phrases on three of the eleven wiki
+pages, so every other count on the wiki drifted silently: on 2026-08-19
+the Book-Summaries and Premium pages were still claiming 163 reading
+companions, 34 labs, 22 deep dives and 89 handouts.
+
 Usage:
-  python3 scripts/check-counts.py          # report drift, exit 1 if any
+  python3 scripts/check-counts.py           # report drift, exit 1 if any
   python3 scripts/check-counts.py --fix     # rewrite drift to canonical
+  python3 scripts/check-counts.py --wiki DIR [--fix]   # scan a wiki clone
 
 Workflow when adding content:
   1. Update the number in data/counts.json
@@ -84,8 +95,17 @@ DOC_FILES = [
     "docs/freemium-and-premium-guide.md",
 ]
 
+# Wiki pages that mirror historical prose from the repo, so their numbers are
+# records of what was true then — the same exclusion the changelog and roadmap
+# get above.
+EXCLUDE_WIKI = {"Changelog.md", "Roadmap.md"}
 
-def scanned_files():
+
+def scanned_files(wiki_dir=None):
+    if wiki_dir is not None:
+        return sorted(
+            p.name for p in wiki_dir.glob("*.md") if p.name not in EXCLUDE_WIKI
+        )
     html = sorted(
         p.name for p in ROOT.glob("*.html") if p.name not in EXCLUDE_HTML
     )
@@ -110,6 +130,10 @@ TERMS = [
     (r"interactive\s+studios", "labs"),
     (r"studios", "labs"),
     (r"reading\s+companions", "reading-companions"),
+    # The site's other name for the same library. Only reachable on
+    # current-claim surfaces: every "<n> BookSummaries" in the repo sits
+    # in a changelog or a translated doc, both already excluded.
+    (r"booksummaries", "reading-companions"),
     (r"deep\s+dives", "deep-dives"),
     (r"law\s+guides", "law-guides"),
     (r"handouts", "handouts"),
@@ -249,8 +273,16 @@ def line_hits(line, pattern, counts):
         term_idx = next(i for i in range(len(TERMS)) if m.group(f"t{i}") is not None)
         key = TERMS[term_idx][1]
         expected = counts.get(key)
-        if expected is not None:
-            yield (m.start(1), m.end(1), key, number, expected)
+        if expected is None:
+            continue
+        # A year is not a count: "the Q3 2026 BookSummaries expansion" read as
+        # 2026 reading companions, and --fix would have written "Q3 166
+        # BookSummaries" into the wiki. Only suppressed when the canonical
+        # value is not itself year-shaped, so a library that really does reach
+        # 1,900 items is still checked.
+        if 1900 <= number <= 2099 and expected < 1000:
+            continue
+        yield (m.start(1), m.end(1), key, number, expected)
     for rx, key in SPECIAL:
         for m in rx.finditer(line):
             number = int(m.group(1))
@@ -282,6 +314,13 @@ def line_hits(line, pattern, counts):
 
 def main(argv):
     fix = "--fix" in argv
+    wiki_dir = None
+    if "--wiki" in argv:
+        wiki_dir = Path(argv[argv.index("--wiki") + 1]).resolve()
+        if not wiki_dir.is_dir():
+            print(f"FAIL - --wiki {wiki_dir} is not a directory")
+            return 1
+    base = wiki_dir or ROOT
     counts = {
         k: v for k, v in json.loads(COUNTS_FILE.read_text()).items()
         if not k.startswith("_")
@@ -291,8 +330,8 @@ def main(argv):
     fixed = 0
     scanned = 0
 
-    for rel in scanned_files():
-        path = ROOT / rel
+    for rel in scanned_files(wiki_dir):
+        path = base / rel
         if not path.exists():
             continue
         scanned += 1
@@ -344,7 +383,9 @@ def main(argv):
               "data/counts.json if the canonical value changed.")
         return 1
 
-    print(f"PASS — counts consistent with data/counts.json across {scanned} files")
+    where = f"the wiki at {wiki_dir}" if wiki_dir else "the site"
+    print(f"PASS — counts consistent with data/counts.json across "
+          f"{scanned} files ({where})")
     return 0
 
 
