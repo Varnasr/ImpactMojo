@@ -5,6 +5,33 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.217.0] - 2026-08-19
+
+### Added
+
+- **Fundamentals: The Social Model of Disability** (`/fundamentals/social-model.html`) — the eighth framework, completing the three added this week. The impairment/disability distinction is UPIAS's, from the *Fundamental Principles of Disability* (1976); Michael Oliver named the model (1983) and developed it in *The Politics of Disablement* (1990); **Anita Ghai** is credited for the Indian critique, which the page uses rather than mentions.
+
+  **Its own diagram form: the barrier stack.** A person at the foot, an outcome at the head, and four bands between them whose width is how much of the way each barrier blocks — with a clear channel on the right for what gets through. Bands are ordered widest first, because the question the stack exists to answer is which layer blocks most. Every band is clickable for the barrier's detail.
+
+  Six stacks: entering a public building, boarding a bus, finishing school, getting a job, being counted, and holding the certificate. Each carries all four barrier kinds — attitudinal, environmental, institutional, communication.
+
+  **21 sourced evidence entries**, from the NSS 76th Round's disability module (2018) and the statute:
+
+  - **43.6%** of persons with disability accessed a public building in a year (men 48.2%, women 37.3%); **63.9%** of those who did faced difficulties.
+  - **58.1%** used public transport; **67.1%** of those faced difficulties — and the rate barely differs by sex (66.7% men, 67.8% women), which points at the vehicle rather than at who is boarding it.
+  - **14.9%** of rural persons with disability aged 15+ completed secondary education or above, against 31.0% urban — and **8.2%** for rural women. Literacy is 52.2% overall and 33.3% for rural women.
+  - Prevalence is **2.2%**, and **2.4% for men against 1.9% for women**, which is hard to explain biologically in a population where women live longer and easier to explain by who gets reported.
+
+  Plus RPwD Act 2016 ss. 2(r), 16, 32, 34, 44–46, 57 and 58 and the Schedule; *Rajive Raturi v Union of India* (2017); *Vikash Kumar v UPSC* (2021); and the Accessible India Campaign.
+
+  The page states plainly what the model does not claim — that impairment is unreal, or that pain is socially produced, a misreading Oliver spent later years rejecting — records Shakespeare's objection that a model built to look away from the body can end up unable to discuss it, and gives Ghai's argument its own paragraph: a model developed against a functioning welfare state assumes a state that has already promised access, and where services are thin for everyone the line between a barrier faced because of disability and one faced because of poverty is not clean.
+
+  One entry was **dropped rather than published**: NSS 76th Round indicator 8 is titled "advised aid/appliances **and** acquired aid/appliances" and returns a single value per cell, so whether 22.2% means advised, acquired, or both cannot be determined from the API. The metadata does not disambiguate it, so it is not on the page.
+
+### Changed — guards
+
+- `scripts/check-diagram-contrast.py` gains the eighth renderer. **No new label-colour section was needed**: every label in this diagram sits on a coloured band rather than on the page ground, so the renderer's own ink chooser covers all of them. The two pages before this one each needed a theme-aware ink added after the fact; this one avoids the class rather than fixing it a third time.
+
 ## [10.216.0] - 2026-08-19
 
 ### Added

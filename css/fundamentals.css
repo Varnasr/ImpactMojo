@@ -873,3 +873,84 @@ details.ax[open] > summary { border-bottom: 1px solid var(--color-border); }
 @media (max-width: 860px) {
   .lv-layout { grid-template-columns: 1fr; }
 }
+
+/* ===========================================================================
+   The Social Model of Disability — the barrier stack
+   ---------------------------------------------------------------------------
+   Bands whose width is how much of the way each barrier blocks. Every label
+   in the SVG sits on a coloured band rather than on the page, so its ink is
+   chosen in the renderer by contrast ratio and no theme-specific colour is
+   needed here — which is the lesson from the two pages before this one.
+   =========================================================================== */
+
+#barrierStack { display: flex; justify-content: center; }
+.sm-svg { display: block; width: 100%; height: auto; max-width: 520px; font-family: var(--font-body); }
+
+.sm-open { fill: var(--color-bg-sunk); stroke: var(--color-border); stroke-width: 1; }
+.sm-block { stroke: var(--color-bg-card); stroke-width: 1.5; }
+.sm-band { cursor: pointer; }
+.sm-band:focus { outline: none; }
+.sm-band:hover .sm-block, .sm-band:focus-visible .sm-block { stroke: var(--color-text); stroke-width: 2.5; }
+.sm-band.is-on .sm-block { stroke: var(--color-text); stroke-width: 3; }
+.sm-band-name { font-family: var(--font-heading); font-size: 14px; font-weight: 700; pointer-events: none; }
+.sm-band-pct { font-family: var(--font-mono); font-size: 11px; pointer-events: none; }
+
+.sm-out-stat { font-family: var(--font-heading); font-size: 26px; font-weight: 800; fill: var(--color-text); }
+.sm-out-label { font-family: var(--font-body); font-size: 11.5px; fill: var(--color-text-muted); }
+.sm-foot { font-family: var(--font-heading); font-size: 13px; font-weight: 700; fill: var(--color-text); }
+.sm-foot-note { font-family: var(--font-mono); font-size: 10.5px; fill: var(--color-text-muted); }
+
+/* the four kinds */
+#barrierKinds { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; }
+.sm-kind { background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 14px; padding: 0.9rem 1rem; }
+.sm-kind b { font-family: var(--font-heading); margin-left: 0.45rem; }
+.sm-kind-sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: middle; }
+.sm-kind p { margin: 0.5rem 0 0; font-size: 0.9rem; line-height: 1.5; }
+.sm-kind-d { color: var(--color-text-muted); font-size: 0.86rem !important; }
+
+/* the two readings, side by side */
+#twoModels { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; }
+.sm-model { background: var(--color-bg-card); border: 1px solid var(--color-border); border-left-width: 4px; border-radius: 14px; padding: 1rem 1.2rem; }
+/* The accent stripe is decoration — both cards are labelled by their heading
+   — but at 2.1:1 on the dark card it read as washed out rather than as a
+   choice. Theme-aware, like everything else that carries colour here. */
+.sm-medical { border-left-color: #92400E; }
+.sm-social { border-left-color: #166534; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .sm-medical { border-left-color: #FBBF24; }
+  :root:not([data-theme="light"]) .sm-social { border-left-color: #34D399; }
+}
+[data-theme="dark"] .sm-medical { border-left-color: #FBBF24; }
+[data-theme="dark"] .sm-social { border-left-color: #34D399; }
+.sm-model h3 { font-family: var(--font-heading); font-size: 1.15rem; margin: 0 0 0.2rem; }
+.sm-model-g { font-family: var(--font-mono); font-size: 0.82rem; color: var(--color-text-muted); margin: 0 0 0.6rem; }
+.sm-model p { font-size: 0.92rem; line-height: 1.55; margin: 0; }
+
+/* picker */
+#smPicker { display: grid; gap: 0.6rem; }
+.sm-btn {
+  display: block; width: 100%; text-align: left; cursor: pointer;
+  background: var(--color-bg-card); color: var(--color-text);
+  border: 1px solid var(--color-border); border-radius: 12px;
+  padding: 0.7rem 0.9rem; font-family: var(--font-body); font-size: 0.95rem;
+  transition: border-color 0.15s, background 0.15s;
+}
+.sm-btn:hover { border-color: var(--color-link); }
+.sm-btn.is-on { border-color: var(--color-link); background: var(--color-bg-sunk); }
+.sm-btn b { display: block; font-family: var(--font-heading); font-size: 0.98rem; margin-bottom: 0.1rem; }
+.sm-btn span { display: block; font-size: 0.84rem; color: var(--color-text-muted); line-height: 1.45; }
+
+/* panel */
+.sm-head h3 { font-family: var(--font-heading); font-size: 1.35rem; margin: 0 0 0.2rem; }
+.sm-head p { margin: 0; color: var(--color-text-muted); font-family: var(--font-mono); font-size: 0.82rem; }
+.sm-outcome { margin-top: 0.9rem; padding: 0.8rem 1rem; background: var(--color-bg-sunk); border-radius: 12px; font-size: 0.92rem; line-height: 1.6; }
+.sm-outcome b { font-family: var(--font-heading); font-size: 1.05rem; }
+.sm-open-barrier { margin-top: 1rem; border-left: 4px solid; padding-left: 0.9rem; }
+.sm-open-barrier p { font-size: 0.92rem; line-height: 1.55; margin: 0.5rem 0 0; }
+.sm-tag { display: inline-block; font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 1.4px; text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 20px; font-weight: 700; }
+#smPanel h4 { font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 1.6px; text-transform: uppercase; color: var(--color-text-muted); margin: 1.2rem 0 0.4rem; }
+.sm-comp { color: var(--color-text-muted); }
+.sm-ev { list-style: none; padding: 0; margin: 0; }
+.sm-ev li { border-top: 1px solid var(--color-border); padding: 0.7rem 0; font-size: 0.92rem; line-height: 1.55; }
+.sm-ev li:first-child { border-top: none; }
+.sm-src { display: block; font-family: var(--font-mono); font-size: 0.76rem; color: var(--color-text-muted); margin-top: 0.3rem; }
