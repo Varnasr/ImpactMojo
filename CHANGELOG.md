@@ -5,6 +5,30 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.218.0] - 2026-08-19
+
+### Fixed
+
+- **Two distinct live pages both presented themselves as "Theory of Change Workbench."** `Labs/toc-lab.html` carried that name in its `<title>`, `<h1>`, `og:title`, `twitter:title`, JSON-LD and its canvas export watermark — while every link pointing at it (`catalog.html`, `Labs/index.html`, `README.md`) called it **Theory of Change Studio**, and a separate live page, `toc-workbench.html`, is the actual Workbench. Clicking "Studio" landed on a page headed "Workbench". Renamed across all nine occurrences, and its boilerplate social description ("free development education from ImpactMojo. Browse courses, games, labs…") replaced with one describing the tool.
+
+- **`data/search-index.json` returned the same lab twice.** Two entries pointed at `/Labs/toc-lab.html`: `LAB-TOC` ("Theory of Change Studio", type `lab`) and `toc-workbench` ("Theory of Change Workbench", type `tool`). Both descriptions matched the lab; the second was a duplicate carrying the name of a different page. Removed, keeping the lab-typed entry so the 35-lab count still reconciles. 1,088 → 1,087 entries, and no URL now appears twice.
+
+### Changed — repo hygiene
+
+- **The last nine `claude/` branches are queued for deletion.** Six had been queued on 2026-08-16 and were never actioned: the cleanup workflow last ran that morning, at a commit that predated PRs #928 and #929 adding them. The three remaining were audited now and added.
+
+  The audit needed a full clone. This session's checkout is shallow (71 commits), which made every `rev-list --left-right` comparison report 1,700–2,300 commits "ahead" and every `merge-base` come back empty — numbers that look like unmerged work and are not. After `--unshallow`:
+
+  - `marginalia-essay-images` — one commit; all ten essay images and the text are on main via #926.
+  - `impactmojo-updatable-components` — 22 commits, almost all the Telugu docs, which landed via #927 (54 files on the branch, 54 on main). Of its 77 files main lacks, **76 existed at the merge base and were deleted from main deliberately** — the branch only preserves the old state. The 77th, `docs/updatable-components.md`, is the one thing it created that never landed; it is deliberately not salvaged (count table audited 2026-07-06 and stale, structure duplicated by `docs/content-guide.md` and `docs/content-catalog.md`, ripple checklist duplicated by `.claude/rules/content-management.md`).
+  - `routine-backend-upkeep` — one dependency refresh main has overtaken (branch pins puppeteer ^24.43.1, main is on ^25.7.0).
+
+  **Deletion still needs one human click**: Actions → "Delete stale branches" → Run workflow → type `DELETE`. Neither a session PAT nor the GitHub App can dispatch a workflow (403 `Resource not accessible by integration`), which is why the workflow exists in this form.
+
+### Noted, not changed
+
+- **161 pages are in `sitemap.xml` and not in the search index.** A first count said 183 and then 248; both were wrong, because handouts are indexed under URL-encoded paths (`%20`) and the comparison decoded only one side — the same trap `scripts/check-social-images.py` documents. Corrected, the 161 break down as 48 `101-courses` poster/native/practice variants, 19 `BookSummaries` `-interactive` variants, 17 course sub-pages, 8 gated `premium-tools`, 23 root pages (mostly legal and utility) and 33 `products`. Most of those exclusions are deliberate, so no guard was added and nothing was mass-indexed: which of these should be findable is a content decision, not a defect list.
+
 ## [10.217.0] - 2026-08-19
 
 ### Added

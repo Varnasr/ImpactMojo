@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.218.0 — August 19, 2026 (Two pages stopped answering to the same name)
+
+### For Learners
+
+- **The Theory of Change lab is called the same thing everywhere now.** Clicking "Theory of Change Studio" in the catalogue used to land you on a page headed "Theory of Change Workbench" — which is also the name of a different page on the site. The lab is the Studio; the Workbench is the Workbench.
+- **Site search no longer returns the same lab twice.**
+
 ## v10.217.0 — August 19, 2026 (An eighth Fundamentals map: the social model of disability)
 
 ### For Learners
