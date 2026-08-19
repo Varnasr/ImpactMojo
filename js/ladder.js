@@ -34,7 +34,7 @@ window.FLadder = (function () {
           '<span class="rung-say">' + esc(r.india) + '</span></span>' +
         '</button>');
     });
-    box.innerHTML = html.join("");
+    box.innerHTML = '<div class="ladder-key"><span>&uarr; more power</span><span>less power &darr;</span></div>' + html.join("");
     box.querySelectorAll("[data-rung]").forEach(function (b) {
       b.addEventListener("click", function () { select(b.getAttribute("data-rung")); });
     });
