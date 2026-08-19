@@ -32,7 +32,8 @@ const PAGES = [
   'catalog.html',
   'bct-repository.html',
   'courses/mel/index.html',
-  'fundamentals.html',
+  'fundamentals/wheel.html',
+  'fundamentals/index.html',
 ];
 
 // axe-core impact levels: minor, moderate, serious, critical
