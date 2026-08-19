@@ -103,7 +103,60 @@
     return submitForm(fd, options);
   }
 
+  /**
+   * Durable copy, written straight to the database by /api/form-submit.
+   *
+   * Netlify accepts a spam-classified submission with a 200, so response.ok
+   * cannot detect that one was discarded -- six real event registrations were
+   * lost exactly that way. This path is not behind the spam filter.
+   */
+  function submitDurable(formData) {
+    var formName = formData.get('form-name');
+    if (!formName) return Promise.reject(new Error('form-name missing'));
+
+    var data = {};
+    formData.forEach(function (v, k) {
+      // Files are not stored here; the Netlify copy carries the upload.
+      if (typeof v === 'string') data[k] = v;
+    });
+
+    return fetch('/api/form-submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ form_name: formName, data: data })
+    }).then(function (res) {
+      if (!res.ok) throw new Error('form-submit returned ' + res.status);
+      return res;
+    });
+  }
+
+  /**
+   * Send a form down both paths and resolve if EITHER lands. Netlify carries the
+   * notification email and any attachment; the endpoint carries the record that
+   * cannot be silently dropped. Rejects only when both fail, which is the only
+   * case where the submitter has genuinely lost their work.
+   */
+  function submitBoth(formData, options) {
+    var opts = options || {};
+    return Promise.allSettled([
+      submitForm(formData, opts),
+      submitDurable(formData)
+    ]).then(function (results) {
+      if (results.some(function (r) { return r.status === 'fulfilled'; })) return results;
+      throw results[0].reason || results[1].reason || new Error('Submission failed');
+    });
+  }
+
+  function submitBothFromElement(form, options) {
+    var fd = new FormData(form);
+    if (!fd.get('form-name')) fd.append('form-name', form.getAttribute('name') || '');
+    return submitBoth(fd, options);
+  }
+
   global.imxSubmitForm = submitForm;
   global.imxSubmitFormElement = submitFormElement;
+  global.imxSubmitDurable = submitDurable;
+  global.imxSubmitBoth = submitBoth;
+  global.imxSubmitBothFromElement = submitBothFromElement;
   global.imxFailedSubmissions = readQueue;
 })(window);

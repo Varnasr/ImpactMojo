@@ -5,6 +5,24 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.210.0] - 2026-08-19
+
+### Fixed
+
+- **Form submissions could be lost without anyone knowing** (#947, #948). Three faults compounded. `fetch()` resolves on 404 and 500, and all 69 Netlify POST handlers were written as `.then(showSuccess).catch(showError)`, so only a dropped connection ever showed an error — a *rejected* submission showed "received". `challenge_submissions` had held 0 rows since creation, because `syncSubmission()` returned early for signed-out users and `user_id` was `NOT NULL` with no email column. And Netlify Forms accepts a submission its spam filter discards with HTTP 200, so `response.ok` cannot detect that one was dropped.
+
+  The third fault is the one that cost something real: six genuine event registrations were classified as spam and never delivered — two people each signing up for three sessions inside a minute, where the burst rate alone was enough to trip the filter. (The three challenge submissions the filter caught were, on inspection, crypto-phishing bots; that call was correct.)
+
+  Every handler now checks `response.ok`. `public.form_submissions` stores an allowlisted copy of every consequential form, written only by `netlify/functions/form-submit.mjs` with the service role — RLS on, no policies, no grants, so anon can neither read nor write it. `js/form-submit.js` sends to both paths and succeeds if either lands. `events.html` needed rewriting rather than patching: it was `.then(done).catch(done)`, confirming success on failure by design.
+
+  Deliberately left on Netlify Forms alone: `chatbot-feedback` and `podcast-newsletter`, where a lost submission costs nothing.
+
+### Added
+
+- **Attachments on Live Case Challenges.** PDF, Word, Excel, PowerPoint or an image, up to 8 MB. The form previously had no file input, and adding one alone would not have worked — the handler built its body with `URLSearchParams(FormData)`, which silently discards `File` objects.
+- **Email is now required** when submitting a challenge, since it is the only way feedback can be returned. The blank submission template can no longer be submitted unchanged; it is prefilled as the textarea's value, so it cleared the 200-character minimum on its own.
+- Three contract tests (`test-form-submit`, `test-challenge-submit`, `test-form-submit-endpoint`) wired into `ci.yml` as the `form-submission` job, so the false-success bug cannot return unnoticed.
+
 ## [10.209.0] - 2026-08-19
 
 ### Added

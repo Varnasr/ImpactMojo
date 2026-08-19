@@ -10,6 +10,7 @@
 <link rel="icon" type="image/png" href="/assets/images/favicon.png"><meta name="theme-color" content="#0EA5E9">
 <link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/product.css">
+  <script src="/js/form-submit.js"></script>
 </head>
 <body>
 <a href="#main" class="skip-link">Skip to content</a>
@@ -71,8 +72,7 @@ document.getElementById('fPlan').value=plan;
 document.getElementById('upiBtn').href=upiStr;
 QRCode.toCanvas(document.getElementById('qr'), upiStr, {width:220,margin:1}, function(e){ if(e){ document.getElementById('qr').replaceWith(Object.assign(document.createElement('p'),{className:'note',textContent:'Could not draw QR — use the UPI ID above.'})); }});
 function waOrder(){location.href="https://wa.me/"+WA+"?text="+encodeURIComponent("Hi ImpactMojo — paying my "+plan+" subscription (₹"+amt+"), reference "+ref+". Screenshot attached.");}
-function submitPay(e){e.preventDefault();var f=e.target,data=new URLSearchParams(new FormData(f)).toString();
-fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:data}).then(function(_res){if(!_res||!_res.ok){throw new Error('Submission rejected (HTTP '+(_res&&_res.status)+')');}f.querySelector('button[type=submit]').style.display='none';document.getElementById('okMsg').style.display='block';toast('Recorded — thank you');}).catch(function(){toast('Error — please WhatsApp us');});return false;}
+function submitPay(e){e.preventDefault();var f=e.target;/* Both paths: Netlify sends the notification, /api/form-submit writes the row. A spam-classified submission is accepted with a 200, so the notification alone cannot mean delivered. */window.imxSubmitBothFromElement(f).then(function(){f.querySelector('button[type=submit]').style.display='none';document.getElementById('okMsg').style.display='block';toast('Recorded — thank you');}).catch(function(){toast('Error — please WhatsApp us');});return false;}
 </script>
   <script src="/js/translate-sarvam.js" defer></script>
   <script src="/js/site-chrome.js" defer></script>
