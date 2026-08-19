@@ -5,6 +5,20 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.213.0] - 2026-08-19
+
+### Added
+
+- **Blog: *Animal Welfare Law and the Fifty-Rupee Fine*** — a long read on Indian animal welfare law, built out of the Deep Dive published earlier today. Four charts, every figure traced to a named source.
+
+  The lead chart deflates the Prevention of Cruelty to Animals Act's maximum first-offence fine by the Consumer Price Index for Agricultural Labourers (MoSPI, base 1986-87 = 100). The nominal figure has been ₹50 since 1960 and has never moved; in real terms it is **₹3.79** by December 2024. The chart is drawn on a true time axis rather than equal spacing between unequal intervals, and it says plainly that the Act predates the CPI baseline by 26 years so the real erosion is larger than it can show.
+
+  Also: the 851.81 million birds of the 20th Livestock Census split into 534.74m commercial and 317.07m backyard, since only the commercial share is what the never-notified 2017 cage rules would reach; the cage-free share for the UK (82%) and EU (62%) against an empty row for India, because no official Indian figure exists and the often-quoted 70% caged is an advocacy estimate; and a diagram of the mechanism behind the finding that slaughter restrictions appear to have worsened welfare across the herd.
+
+### Fixed — infrastructure
+
+- **Four social preview images pointed at files that do not exist**, so those pages shared with no picture and nothing reported it. One was a blog post published the same morning. `scripts/check-social-images.py` now checks every `og:image` and `twitter:image` against the filesystem — 1,160 references across 860 pages — and is wired into CI as the `social-images` job. A first pass at the check flagged a URL-encoded filename as missing, so it decodes before testing.
+
 ## [10.212.0] - 2026-08-19
 
 ### Fixed

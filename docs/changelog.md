@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.213.0 — August 19, 2026 (A long read on animal welfare law)
+
+### For Learners
+
+- **Animal Welfare Law and the Fifty-Rupee Fine** — a new blog post on the distance between India's animal welfare law and the cost of breaking it. The maximum fine for a first offence of cruelty has been ₹50 since 1960; in real terms it is now ₹3.79. Four charts, including the finding that slaughter restrictions appear to have made welfare worse across the herd.
+
 ## v10.212.0 — August 19, 2026 (The capability chain, drawn)
 
 ### For Learners
