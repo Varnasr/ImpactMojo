@@ -23,10 +23,20 @@ jobs:
         with:
           python-version: '3.11'
 
+      # Step-level timeouts, not just the job-level one above. On 2026-08-19
+      # this step wedged inside `playwright install` and was still reported
+      # in_progress 26 minutes in -- six minutes past the job's own 20-minute
+      # limit, because a job timeout is enforced by the runner process and a
+      # wedged runner never fires it. The PR read as "CI still running" with
+      # every other check green and no way to cancel or re-run it from an
+      # integration token (403). A step timeout fails the step, which the job
+      # can then report.
       - name: Install Playwright + Chromium
+        timeout-minutes: 8
         run: |
           pip install playwright
           python -m playwright install --with-deps chromium
 
       - name: Run mobile overflow audit
+        timeout-minutes: 8
         run: python3 scripts/mobile/audit.py
