@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **Blog: *What Fifty Rupees Buys*** — a long read on Indian animal welfare law, built out of the Deep Dive published earlier today. Four charts, every figure traced to a named source.
+- **Blog: *Animal Welfare Law and the Fifty-Rupee Fine*** — a long read on Indian animal welfare law, built out of the Deep Dive published earlier today. Four charts, every figure traced to a named source.
 
   The lead chart deflates the Prevention of Cruelty to Animals Act's maximum first-offence fine by the Consumer Price Index for Agricultural Labourers (MoSPI, base 1986-87 = 100). The nominal figure has been ₹50 since 1960 and has never moved; in real terms it is **₹3.79** by December 2024. The chart is drawn on a true time axis rather than equal spacing between unequal intervals, and it says plainly that the Act predates the CPI baseline by 26 years so the real erosion is larger than it can show.
 
