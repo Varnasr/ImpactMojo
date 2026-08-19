@@ -117,6 +117,20 @@ jobs:
       - name: Test service worker routing & lifecycle
         run: node scripts/test-service-worker.mjs
 
+  fundamentals-privacy:
+    name: Fundamentals questionnaire privacy guard
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # The wheel's twelve questions cover caste, sexual orientation, religion
+      # and disability, and the page promises the answers never leave the
+      # browser. That promise is about code, so it is checked by code: the
+      # questionnaire files must contain no network primitive at all, and the
+      # page must still carry the promise.
+      - name: Check the questionnaire cannot transmit
+        run: python3 scripts/check-fundamentals-privacy.py
+
   form-submission:
     name: Form submission contract tests
     runs-on: ubuntu-latest

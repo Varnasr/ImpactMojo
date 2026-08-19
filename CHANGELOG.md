@@ -5,6 +5,18 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.211.0] - 2026-08-19
+
+### Added
+
+- **The Wheel of Power can now derive your position from twelve questions** instead of asking you to mark it. Self-placement measures self-perception, and self-perception is patterned by power in the direction that matters most: people near the centre routinely place themselves further out, so the error was never random. The questions ask about categories as a matter of fact, then apply the wheel's own published band definitions and show the definition beside each placement, so the reasoning is visible and can be argued with. Every question can be skipped, and skipping is offered as an answer rather than an escape. Suggested by Pallavi.
+
+  Answers are written to the same `localStorage` key the manual marks already used, so a derived position and a hand-marked one are the same thing to the wheel and neither route loses the other's work.
+
+### Added — infrastructure
+
+- `scripts/check-fundamentals-privacy.py`, wired into CI as the `fundamentals-privacy` job. The page tells the reader their answers stay in their browser and are sent nowhere; that is a promise about code, so it is now enforced by code. The guard fails if the questionnaire files gain any network primitive — fetch, XHR, sendBeacon, WebSocket, EventSource, dynamic import, form submit, gtag or dataLayer — and also fails if the promise is quietly removed from the page, so it cannot be satisfied by deleting the sentence. Verified against both failure modes.
+
 ## [10.210.0] - 2026-08-19
 
 ### Fixed

@@ -511,5 +511,14 @@ window.FWheel = (function () {
     if (!fromHash()) renderEmpty();
   }
 
+  /* The questionnaire in js/fundamentals-assess.js writes derived positions into
+     the same localStorage key and calls this to repaint, so a derived position
+     and a hand-marked one are the same thing to the wheel. */
+  window.imxRefreshMarks = function () {
+    loadMarks();
+    paintMarks();
+    renderMarks();
+  };
+
   return { init: init, select: select };
 })();

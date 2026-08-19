@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.211.0 — August 19, 2026 (A different way into the Wheel of Power)
+
+### For Learners
+
+- **Twelve questions instead of marking yourself** — the Wheel of Power can now work out where you sit from questions about categories, and show you the definition behind each placement so you can disagree with it. Every question is skippable, and your answers never leave your browser.
+
 ## v10.210.0 — August 19, 2026 (Challenges now take attachments)
 
 ### For Learners
