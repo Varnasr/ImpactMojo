@@ -159,8 +159,8 @@
       '<div class="im-sc-right">' +
         '<button class="im-sc-btn im-sc-search" type="button" aria-label="Search the site">' + I.search + '<span class="im-sc-label">Search</span></button>' +
         '<button class="im-sc-btn im-sc-lang" type="button" aria-label="Language">' + I.globe + '<span class="im-sc-label">Language</span></button>' +
-        '<a class="im-sc-btn im-sc-prem" href="' + SITE + '/premium.html">' + I.star + '<span class="im-sc-label">Premium</span></a>' +
-        '<a class="im-sc-btn" href="' + SITE + '/about.html">' + I.info + '<span class="im-sc-label">About</span></a>' +
+        '<a class="im-sc-btn im-sc-prem" href="' + SITE + '/premium.html" aria-label="Premium">' + I.star + '<span class="im-sc-label">Premium</span></a>' +
+        '<a class="im-sc-btn" href="' + SITE + '/about.html" aria-label="About">' + I.info + '<span class="im-sc-label">About</span></a>' +
         '<div class="im-sc-theme" role="group" aria-label="Theme">' +
           '<button class="im-sc-tbtn" data-m="system" title="System" aria-label="System theme">' + I.sys + '</button>' +
           '<button class="im-sc-tbtn" data-m="light" title="Light" aria-label="Light theme">' + I.sun + '</button>' +
