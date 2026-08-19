@@ -147,6 +147,22 @@ jobs:
       - name: Test service worker routing & lifecycle
         run: node scripts/test-service-worker.mjs
 
+  social-images:
+    name: Social preview image guard
+    runs-on: ubuntu-latest
+    # Without this a hung step inherits GitHub's 360-minute default and the
+    # job neither passes nor fails -- which reads as "still running".
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      # A missing og:image is invisible from inside the site: the page renders
+      # perfectly and only shares without a picture, on somebody else's
+      # timeline. Four were live when this was written, including a blog post
+      # published the same morning.
+      - name: Check every social preview image resolves
+        run: python3 scripts/check-social-images.py
+
   fundamentals-privacy:
     name: Fundamentals questionnaire privacy guard
     runs-on: ubuntu-latest
