@@ -15,16 +15,23 @@ window.FCube = (function () {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
     });
   }
-  /* White on the lighter category colours measures ~2.1-2.7:1, below AA, so the
-     ink is chosen per colour rather than fixed. */
+  /* Pick the ink that actually contrasts better, rather than guessing a
+     luminance cutoff. A fixed threshold picked white on #d97706 (3.19:1);
+     comparing the two ratios is self-correcting for any future colour. */
   function ink(hex) {
-    var h = hex.replace("#", "");
-    var c = [0, 2, 4].map(function (i) {
-      var v = parseInt(h.slice(i, i + 2), 16) / 255;
-      return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
-    });
-    var L = 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
-    return L > 0.32 ? "#1a1420" : "#ffffff";
+    function lum(h) {
+      h = h.replace("#", "");
+      var c = [0, 2, 4].map(function (i) {
+        var v = parseInt(h.slice(i, i + 2), 16) / 255;
+        return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+      });
+      return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+    }
+    function ratio(a, b) {
+      var x = lum(a), y = lum(b), hi = Math.max(x, y), lo = Math.min(x, y);
+      return (hi + 0.05) / (lo + 0.05);
+    }
+    return ratio("#1a1420", hex) > ratio("#ffffff", hex) ? "#1a1420" : "#ffffff";
   }
 
   function find(id) {

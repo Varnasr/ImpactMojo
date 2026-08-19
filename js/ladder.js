@@ -14,6 +14,25 @@ window.FLadder = (function () {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
     });
   }
+  /* Pick the ink that actually contrasts better, rather than guessing a
+     luminance cutoff. A fixed threshold picked white on #d97706 (3.19:1);
+     comparing the two ratios is self-correcting for any future colour. */
+  function ink(hex) {
+    function lum(h) {
+      h = h.replace("#", "");
+      var c = [0, 2, 4].map(function (i) {
+        var v = parseInt(h.slice(i, i + 2), 16) / 255;
+        return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+      });
+      return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+    }
+    function ratio(a, b) {
+      var x = lum(a), y = lum(b), hi = Math.max(x, y), lo = Math.min(x, y);
+      return (hi + 0.05) / (lo + 0.05);
+    }
+    return ratio("#1a1420", hex) > ratio("#ffffff", hex) ? "#1a1420" : "#ffffff";
+  }
+
   function byId(id) { return D.rungs.filter(function (r) { return r.id === id; })[0]; }
 
   function buildLadder() {
@@ -28,7 +47,7 @@ window.FLadder = (function () {
       }
       html.push(
         '<button type="button" class="rung b-' + r.band + '" data-rung="' + esc(r.id) + '" aria-pressed="false" ' +
-          'style="--rc:' + esc(r.color) + '">' +
+          'style="--rc:' + esc(r.color) + ';--ri:' + ink(r.color) + '">' +
           '<span class="rung-n">' + r.n + '</span>' +
           '<span class="rung-b"><span class="rung-name">' + esc(r.name) + '</span>' +
           '<span class="rung-say">' + esc(r.india) + '</span></span>' +
