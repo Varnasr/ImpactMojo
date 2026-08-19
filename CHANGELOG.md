@@ -5,6 +5,35 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.216.0] - 2026-08-19
+
+### Added
+
+- **Fundamentals: The Sustainable Livelihoods Framework** (`/fundamentals/livelihoods.html`) — the seventh framework. DFID's *Sustainable Livelihoods Guidance Sheets* (1999), formalising Chambers and Conway's argument (IDS Discussion Paper 296, 1992) and given its analytical shape by Scoones (IDS Working Paper 72, 1998). All three are credited.
+
+  **Its own diagram form: the asset pentagon, drawn eight times.** The framework's claim is that the shape matters more than the total, so the page leads with small multiples — all eight livelihoods to the same scale, side by side — and shows the selected one at size beside its detail. A single chart would have hidden the argument. Each case carries a vulnerability context split into shocks, trends and seasonality, and a note on the structures and processes that decide what its assets are worth.
+
+  The eight: a marginal farmer, a landless labourer, a large landholder (as the contrast case), a forest-dwelling household, a pastoralist, a small-scale marine fisher, a seasonal migrant worker and a home-based worker.
+
+  **20 sourced evidence entries**, most of them new to the site, from the NSS 77th Round:
+
+  - An average agricultural household earns **₹4,063 a month from wages against ₹3,058 from crop production** — total ₹8,337, of which farming is under half. The households agriculture defines earn more from selling labour than from farming.
+  - **70.4%** of agricultural households possess one hectare or less; **0.37%** possess more than ten.
+  - For households under 0.01 ha, **50.3%** of outstanding credit is owed to professional moneylenders and 13.5% to commercial banks. For households over 10 ha those figures are 5.2% and **55.8%**. Land is what buys access to the banking system, which is the sharpest statement of the framework's central claim available in Indian data.
+  - Wage income falls as landholding rises — ₹5,400 a month for ST households with almost no land, ₹2,081 for those with over ten hectares.
+
+  Plus the Forest Rights Act 2006 (ss. 3(1)(c), 3(1)(d) and 3(1)(e), the last recognising transhumant grazing and nomadic communities specifically), *Orissa Mining Corporation v MoEF* (2013), MGNREGA, the Inter-State Migrant Workmen Act 1979, ONORC, and the state Marine Fishing Regulation Acts.
+
+  The page states where the framework is contested: that five neutral-sounding capitals can be drawn for a landlord and for the labourer on that land without showing that one is the reason for the other; that treating credit as an asset is a category error at distress rates, which this page's own evidence demonstrates; and that a pentagon is a stock rather than a direction, so an accumulating and a liquidating household look identical.
+
+### Changed — guards
+
+- `scripts/check-diagram-contrast.py` gains the new renderer and an `AXIS_LABELS` section. The pentagon names each axis beside the chart, on the page ground rather than on any fill — **all five capital colours fail AA on the dark ground**, the same trap the gender-needs quadrant labels fell into a version earlier. They take theme-aware inks, checked against both grounds.
+
+### Fixed
+
+- Two label-clipping bugs in the pentagon, caught by measuring rather than by looking: `FINANCIAL` and `SOCIAL` sit at the widest points of a pentagon and are the two longest words, so a square viewBox clipped both. The labelled chart is now wider than it is tall.
+
 ## [10.215.0] - 2026-08-19
 
 ### Added

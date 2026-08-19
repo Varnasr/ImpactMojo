@@ -784,3 +784,92 @@ details.ax[open] > summary { border-bottom: 1px solid var(--color-border); }
 [data-theme="dark"] .qn-strategic { fill: #C4B5FD; }
 [data-theme="dark"] .qn-both      { fill: #6EE7B7; }
 [data-theme="dark"] .qn-neither   { fill: #FCD34D; }
+
+/* ===========================================================================
+   The Sustainable Livelihoods Framework — the asset pentagon
+   ---------------------------------------------------------------------------
+   Eight small pentagons and one large one. The small multiples exist because
+   the framework's claim is that the shape matters more than the total, and a
+   single chart cannot make that claim visible.
+   =========================================================================== */
+
+.lv-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 2rem; align-items: start; }
+#assetPentagon { display: flex; justify-content: center; }
+.lv-pent { display: block; width: 100%; height: auto; max-width: 400px; font-family: var(--font-body); }
+.lv-grid { fill: none; stroke: var(--color-border); stroke-width: 1; }
+.lv-spoke { stroke: var(--color-border); stroke-width: 1; }
+.lv-shape { fill: var(--color-link); fill-opacity: 0.16; stroke: var(--color-link); stroke-width: 2; }
+.lv-node { stroke: var(--color-bg-card); stroke-width: 1.5; }
+.lv-axis { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; font-weight: 700; }
+.lv-val { font-family: var(--font-mono); font-size: 13px; font-weight: 700; }
+
+/* The axis labels print on the page ground, not on the capital's own fill, so
+   they need their own ink per theme. Every one of the five failed AA on the
+   dark ground when it inherited the capital colour — the same trap the
+   gender-needs quadrant labels fell into. Checked by
+   scripts/check-diagram-contrast.py. */
+.lv-ax-human     { fill: #B45309; }
+.lv-ax-social    { fill: #6D28D9; }
+.lv-ax-natural   { fill: #15803D; }
+.lv-ax-physical  { fill: #0369A1; }
+.lv-ax-financial { fill: #BE185D; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .lv-ax-human     { fill: #FCD34D; }
+  :root:not([data-theme="light"]) .lv-ax-social    { fill: #C4B5FD; }
+  :root:not([data-theme="light"]) .lv-ax-natural   { fill: #6EE7B7; }
+  :root:not([data-theme="light"]) .lv-ax-physical  { fill: #7DD3FC; }
+  :root:not([data-theme="light"]) .lv-ax-financial { fill: #F9A8D4; }
+}
+[data-theme="dark"] .lv-ax-human     { fill: #FCD34D; }
+[data-theme="dark"] .lv-ax-social    { fill: #C4B5FD; }
+[data-theme="dark"] .lv-ax-natural   { fill: #6EE7B7; }
+[data-theme="dark"] .lv-ax-physical  { fill: #7DD3FC; }
+[data-theme="dark"] .lv-ax-financial { fill: #F9A8D4; }
+
+/* small multiples */
+#assetGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.9rem; }
+.lv-thumb {
+  display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+  cursor: pointer; background: var(--color-bg-card); color: var(--color-text);
+  border: 1px solid var(--color-border); border-radius: 14px;
+  padding: 0.7rem 0.6rem 0.8rem; font-family: var(--font-body);
+  transition: border-color 0.15s, background 0.15s;
+}
+.lv-thumb:hover { border-color: var(--color-link); }
+.lv-thumb.is-on { border-color: var(--color-link); background: var(--color-bg-sunk); }
+.lv-thumb .lv-pent { max-width: 120px; }
+.lv-thumb b { display: block; font-family: var(--font-heading); font-size: 0.9rem; text-align: center; line-height: 1.3; }
+.lv-thumb span span { display: block; font-size: 0.78rem; color: var(--color-text-muted); text-align: center; line-height: 1.4; margin-top: 0.15rem; }
+
+/* the capital key */
+#capitalKey { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; margin-top: 1.4rem; }
+.lv-key { background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 14px; padding: 0.9rem 1rem; }
+.lv-key b { font-family: var(--font-heading); margin-left: 0.45rem; }
+.lv-key-sw {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px; border-radius: 7px; vertical-align: middle;
+  font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700;
+}
+.lv-key p { margin: 0.5rem 0 0; font-size: 0.9rem; line-height: 1.5; }
+.lv-key-d { color: var(--color-text-muted); font-size: 0.86rem !important; }
+
+/* the panel */
+.lv-head h3 { font-family: var(--font-heading); font-size: 1.35rem; margin: 0 0 0.2rem; }
+.lv-head p { margin: 0; color: var(--color-text-muted); font-family: var(--font-mono); font-size: 0.82rem; }
+#livePanel h4 {
+  font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 1.6px;
+  text-transform: uppercase; color: var(--color-text-muted); margin: 1.2rem 0 0.4rem;
+}
+.lv-ctx { margin: 0; font-size: 0.92rem; }
+.lv-ctx dt { font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 1.2px; text-transform: uppercase; color: var(--color-text-muted); margin-top: 0.6rem; }
+.lv-ctx dd { margin: 0.15rem 0 0; line-height: 1.55; }
+.lv-comp { color: var(--color-text-muted); }
+.lv-ev { list-style: none; padding: 0; margin: 0; }
+.lv-ev li { border-top: 1px solid var(--color-border); padding: 0.7rem 0; font-size: 0.92rem; line-height: 1.55; }
+.lv-ev li:first-child { border-top: none; }
+.lv-src { display: block; font-family: var(--font-mono); font-size: 0.76rem; color: var(--color-text-muted); margin-top: 0.3rem; }
+
+@media (max-width: 860px) {
+  .lv-layout { grid-template-columns: 1fr; }
+}
