@@ -31,6 +31,30 @@ jobs:
       - name: Check for translation corruption (cross-script, brand, artifacts, char-runs)
         run: python3 scripts/check-i18n-quality.py
 
+  asset-stamps:
+    name: Asset stamp freshness
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Check asset stamps
+        run: python3 scripts/stamp-assets.py --check
+
+  diagram-contrast:
+    name: Diagram text contrast
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Check diagram contrast
+        run: python3 scripts/check-diagram-contrast.py
+
   conflict-markers:
     name: Merge-conflict-marker guard
     runs-on: ubuntu-latest

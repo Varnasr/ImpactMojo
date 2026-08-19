@@ -22,7 +22,7 @@
 
 'use strict';
 
-const VERSION = 'v3-2026-07-19';
+const VERSION = 'v4-2026-08-19';
 const RUNTIME = 'im-runtime-' + VERSION;
 const OFFLINE_URL = '/offline.html';
 const COURSE_PREFIX = 'impactmojo-course-';

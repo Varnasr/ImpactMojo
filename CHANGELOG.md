@@ -5,6 +5,20 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.204.0] - 2026-08-19
+
+### Fixed
+
+- **Fundamentals pages could render blank after a deploy** (reported on a phone: the Power Cube an empty box, the Who Counts matrix absent, both captions empty). Nothing was broken in the code and nothing was red in CI. `service-worker.js` serves HTML network-first and static assets stale-while-revalidate — deliberate, and correct for offline — so the first load after a deploy could pair fresh HTML with the previous deploy's JS: markup declaring `<svg id="cubeSvg">` next to cached JS with no code to draw into it. Every `/css/*` and `/js/*` reference on the five Fundamentals pages now carries `?v=<content hash>` (`scripts/stamp-assets.py`), so a URL changes whenever its file does and fresh HTML can never request an asset that is already cached. The service worker `VERSION` was bumped to purge the stale runtime caches. Reproduced first by serving the new HTML against the previous commit's assets, which showed the exact symptom.
+- **Every label on the outer ring of the Wheel failed WCAG AA** (2.32–3.21:1, desktop, default theme). `readableOn()` chose its ink from a fixed luminance cutoff of 0.42; the rim fills are each axis colour mixed 42% with white and land just under it, so all twelve took white text. They now take dark ink (5.26–7.27:1). The same defect had already been fixed in the cube, ladder and matrix renderers by comparing the two candidate inks instead of guessing a cutoff — the wheel never got that change.
+- **The Power Cube's three face titles were unreadable in dark mode** (SPACES 2.76:1, LEVELS 2.87:1, FORMS 3.13:1). They were drawn in each dimension's own colour, which is mixed for the cream panel, not the dark one. They are now set in CSS with a colour per theme (6.7–7.2:1 light, 8.5–10.6:1 dark).
+
+### Added
+
+- **`scripts/check-diagram-contrast.py`**, run in CI as `diagram-contrast`. Checks that every colour the four diagrams paint text on — including the wheel's three ring mixes — has an ink clearing 4.5:1, *and* that each renderer picks that ink by comparing contrast ratios rather than testing luminance against a constant. The second check is the one that matters: the first passes even when the code picks the worse of the two inks, which is what shipped twice. Neither existing audit covers this — axe-core does not evaluate SVG text contrast, and both axe and pa11y run only the light theme at desktop width.
+- **`scripts/stamp-assets.py`**, run in CI as `asset-stamps`, which fails if any page's asset stamps are stale.
+- `fundamentals/index.html` was missing from `.pa11yci`; it is now audited with the other four.
+
 ## [10.203.0] - 2026-08-19
 
 ### Changed

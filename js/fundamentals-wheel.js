@@ -40,12 +40,22 @@ window.FWheel = (function () {
     if (ring === "middle") return base;
     return mix(base, "#ffffff", 0.42);
   }
-  function readableOn(hex) {
+  /* Compare the two candidate inks rather than guessing a luminance cutoff.
+     The 0.42 cutoff this replaces put white on every outer-ring fill — those
+     are the base mixed 42% with white, and they land just under it, so all 12
+     rim labels read at 2.3-3.2:1. */
+  function lumOf(hex) {
     var c = hex2rgb(hex).map(function (v) {
       v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
     });
-    var L = 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
-    return L > 0.42 ? "#241a20" : "#ffffff";
+    return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+  }
+  function contrast(a, b) {
+    var x = lumOf(a), y = lumOf(b), hi = Math.max(x, y), lo = Math.min(x, y);
+    return (hi + 0.05) / (lo + 0.05);
+  }
+  function readableOn(hex) {
+    return contrast("#241a20", hex) > contrast("#ffffff", hex) ? "#241a20" : "#ffffff";
   }
 
   /* -------------------------------------------------------------- geometry */

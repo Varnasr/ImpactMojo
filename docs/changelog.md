@@ -2,6 +2,14 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.204.0 — August 19, 2026 (Fundamentals: rendering and contrast fixes)
+
+### Fixed
+
+- The Fundamentals diagrams could come up blank on the first visit after a release — the page's markup arrived fresh while its cached code was a version behind. Asset URLs now change whenever the file does, so the two can no longer fall out of step.
+- Labels on the outer ring of the Wheel were white on a pale background and hard to read. They are now dark.
+- The Power Cube's three axis titles were unreadable in dark mode. They now have a colour per theme.
+
 ## v10.202.0 — August 19, 2026 (Fundamentals: the wheel of power, with the evidence)
 
 ### For Learners
