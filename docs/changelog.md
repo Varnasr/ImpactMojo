@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.210.0 — August 19, 2026 (Challenges now take attachments)
+
+### For Learners
+
+- **Attach your work to a Live Case Challenge** — upload a PDF, Word, Excel or PowerPoint file, or an image, alongside your written response.
+- **Your submission now tells you if it did not go through.** Previously a failed submission still showed a confirmation. If something goes wrong you will see it, and your text is kept in the browser so nothing is lost.
+
 ## v10.209.0 — August 19, 2026 (Two new reading companions)
 
 ### For Learners
