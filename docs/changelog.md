@@ -2,6 +2,16 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.217.0 — August 19, 2026 (An eighth Fundamentals map: the social model of disability)
+
+### For Learners
+
+- **The Social Model of Disability** — the eighth framework, and the completion of the three added this week. Six Indian outcomes drawn as barrier stacks: what stands between a person and a public building, a bus, finishing school, a job, being counted at all, and the certificate that unlocks the rest. Each band's width is how much of the way that barrier blocks; click one for the evidence behind it.
+
+  The pair the page opens on: **43.6% of persons with disability entered a public building in a year, and 63.9% of those who did found it difficult.** Read one way those figures describe a population; read the other they describe a set of buildings.
+
+  The page is explicit about what the model does not claim, and about Anita Ghai's argument that a model built against a functioning welfare state travels imperfectly to a context where services are thin for everyone.
+
 ## v10.216.0 — August 19, 2026 (A seventh Fundamentals map: sustainable livelihoods)
 
 ### For Learners

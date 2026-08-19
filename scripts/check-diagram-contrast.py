@@ -44,6 +44,7 @@ DIAGRAMS = [
     ("js/capabilities-data.js", "js/capabilities.js", "#241a20"),
     ("js/gender-needs-data.js", "js/gender-needs.js", "#241a20"),
     ("js/livelihoods-data.js", "js/livelihoods.js", "#241a20"),
+    ("js/social-model-data.js", "js/social-model.js", "#241a20"),
 ]
 
 # The wheel does not paint on the base colour: each ring is a mix of it.
