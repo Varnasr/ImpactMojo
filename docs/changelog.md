@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.209.0 — August 19, 2026 (Two new reading companions)
+
+### For Learners
+
+- **The Science and Application of Positive Psychology** — a companion to the Cheavens and Feldman textbook, including its chapter on how to tell the research from the pop psychology that uses the same words.
+- **Unlimited Memory** — a companion to Kevin Horsley's memory-technique book: the SEE principle, journeys and pegs, and the review habit the methods depend on.
+
 ## v10.208.0 — August 19, 2026 (A new reading companion)
 
 ### For Learners
