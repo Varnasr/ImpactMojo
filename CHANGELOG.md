@@ -5,6 +5,14 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.208.0] - 2026-08-19
+
+### Added
+
+- **Reading companion: *Public Health, Ethics, and Equity*** (Anand, Peter & Sen, Oxford 2004). Nine sections and fourteen concepts covering Sen's argument that health equity cannot be assessed by looking at health alone, Marmot's social gradient and his rejection of health selection, the Rawlsian and indirect accounts of when an inequality is unjust, Anand and Hanson's critique of DALY age-weighting and discounting, and Sen's external-versus-internal perspectives — including the Kerala case, where the state with India's highest life expectancy also reports its highest self-perceived morbidity. Reading companions now 164.
+
+  Two honest limits are recorded in the companion itself: the volume predates the 2010 GBD revision that dropped age-weighting, so some of Anand and Hanson's specific numerical objections describe an earlier version of the metric; and the gradient evidence comes from salaried British civil servants, so its transfer to informal labour markets is an open question.
+
 ## [10.207.0] - 2026-08-19
 
 ### Added

@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.208.0 — August 19, 2026 (A new reading companion)
+
+### For Learners
+
+- **Public Health, Ethics, and Equity** — a new interactive reading companion to the Anand, Peter and Sen volume on what makes a health inequality unjust. Covers the social gradient, the ethics built into measures like the DALY, and why Kerala reports both India's longest lives and its most self-reported illness.
+
 ## v10.207.0 — August 19, 2026 (New on the blog)
 
 ### For Learners
