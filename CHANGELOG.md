@@ -5,6 +5,25 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.203.0] - 2026-08-19
+
+### Changed
+
+- **Fundamentals is now reachable from every page** (#937). It shipped linked from only two places, neither of them navigation: one card 41% down the homepage (17th of 18 in a horizontal scroll strip) and `sitemap.html`. It now sits in the "Explore" column of the footer that `js/site-chrome.js` injects sitewide, and in `libraries.html` under Learn & Practice.
+- **`libraries.html` was stale for more than that page**, so the same pass added the two other collections it was missing: **The Long View** under Data & Research and **Marginalia** under Read & Reference. Skills Profiler was deliberately left out — the page's lede scopes it to "the reference collections you browse, look things up in, and read", and the profiler is a single assessment tool rather than a collection. New cards carry no count badge, matching ImpactLex, DevDiscourses, PolicyDhara and FieldCases, none of which has a canonical figure in `data/counts.json`.
+- **Prose pass on the Fundamentals page** (#936, #935). The copy read as machine-generated and was rewritten: 99 em-dashes in the data file cut to 23, the "X is not Y, it is Z" opener dropped from most axes, the epigram closing nearly every paragraph replaced with a fact, a literal "It is not a score / It is not additive / It is not fixed" triad broken up, and self-congratulatory asides ("an honest note", "the disagreements are the point") removed. 36 editorial strings, 55 evidence captions, the hero, method and credits sections, and the renderer's own copy. No figure, source, year or placement changed — the 113 evidence entries were re-counted across all 36 bands afterwards.
+
+### Fixed
+
+- **JSON-LD drift in `libraries.html`**: the `CollectionPage` structured data declared `numberOfItems: 12` against 13 listed items. Now 16 against 16.
+- **Heading-order jump in the Fundamentals text index**: it went from the section `h2` straight to `h5`, because axis names sat in `<summary>` as plain text. Axis names are now `h3` and ring titles `h4`.
+
+### Known issues
+
+- `libraries.html` carries two pre-existing WCAG AA failures, identical on untouched `main`: `--acc` `#0EA5E9` on `--bg` `#F5F7FA` at **2.58:1**, and `--faint` `#6B7A93` at **4.05:1**, both needing 4.5:1. Dark mode's `--faint` is marginal at 4.41:1. Not fixed because `--acc` also paints two backgrounds and a border, so a correct fix needs a separate `--acc-ink` token rather than darkening `--acc` globally. Worked values: `--acc-ink: #0369A1` (5.53:1), light `--faint: #626F82` (4.75:1), dark `--faint: #717F98` (4.74:1).
+- This is the third page-level instance of the same class of defect, after the site-wide `--color-text-muted` `#718096` (4.01:1 on white) and `#667eea` link colour (3.66:1) found during #935. The pattern is the brand palette, not any individual page, and is worth fixing at the token level.
+- `Mobile overflow audit (390px)` and `Check broken links` both stalled `in_progress` rather than failing on #935 and #936, with logs returning 404 — they die before running any test body. Both completed normally on #937 (2:58 and 3:45), so the stalls are transient runner failures. A check that hangs instead of failing is one nobody can rely on.
+
 ## [10.202.0] - 2026-08-19
 
 ### Added
