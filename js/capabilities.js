@@ -96,7 +96,7 @@
     });
 
     var W = vertical ? 380 : 900;
-    var H = vertical ? 640 : 250;
+    var H = vertical ? 660 : 250;
     svg.setAttribute("viewBox", "0 0 " + W + " " + H);
     svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
 
@@ -104,9 +104,13 @@
     var boxH = vertical ? 82 : 82;
     var stages = D.stages;
 
+    /* Narrow layout spacing is uneven on purpose: the gap after Conversion
+       carries the leak and its figures, so it needs more room than the others.
+       Even spacing put the leak label on top of a factor label. */
+    var vY = [16, 168, 360, 512];
     function pos(i) {
       return vertical
-        ? { x: 20, y: 16 + i * 152 }
+        ? { x: 20, y: vY[i] }
         : { x: 24 + i * 218, y: 24 };
     }
 
@@ -129,27 +133,29 @@
       svg.appendChild(head);
     }
 
-    /* the three conversion factors feed the second stage from below */
+    /* The three conversion factors feed the second stage from below.
+
+       Wide layout: a labelled feed line each, under the Conversion box.
+       Narrow layout: no side column. It did not fit — ENVIRONMENTAL ran past
+       the viewBox edge and the leak label landed on top of it — and it was
+       redundant there anyway, because the Conversion box's own body text reads
+       "Personal, social, environmental". The colour coding is kept as a legend
+       along the foot of the diagram instead. */
     var convo = pos(1);
     var kinds = ["personal", "social", "environmental"];
-    kinds.forEach(function (kind, k) {
-      var fx = vertical ? convo.x + boxW + 18 : convo.x + boxW / 2 + (k - 1) * 150;
-      var fy = vertical ? convo.y + 10 + k * 24 : convo.y + boxH + 66;
-      var feed = el("path", {
-        class: "cap-feed cf-" + kind,
-        d: vertical
-          ? "M" + fx + " " + fy + " L" + (convo.x + boxW) + " " + (convo.y + boxH / 2)
-          : "M" + fx + " " + fy + " L" + (convo.x + boxW / 2) + " " + (convo.y + boxH)
+    if (!vertical) {
+      kinds.forEach(function (kind, k) {
+        var fx = convo.x + boxW / 2 + (k - 1) * 150;
+        var fy = convo.y + boxH + 66;
+        svg.appendChild(el("path", {
+          class: "cap-feed cf-" + kind,
+          d: "M" + fx + " " + fy + " L" + (convo.x + boxW / 2) + " " + (convo.y + boxH)
+        }));
+        svg.appendChild(el("text", {
+          class: "cap-feed-label", x: fx, y: fy + 14, "text-anchor": "middle"
+        }, D.FACTOR_LABEL[kind]));
       });
-      svg.appendChild(feed);
-      var t = el("text", {
-        class: "cap-feed-label",
-        x: vertical ? fx + 4 : fx,
-        y: vertical ? fy + 4 : fy + 14,
-        "text-anchor": vertical ? "start" : "middle"
-      }, D.FACTOR_LABEL[kind]);
-      svg.appendChild(t);
-    });
+    }
 
     /* the leak: what the resource promised and the capability delivered */
     var cap = pos(2);
@@ -157,13 +163,16 @@
        resource stops becoming a freedom, and ends where its figures are printed
        so the number is attached to the path rather than floating near it. */
     var sx = vertical ? cap.x + boxW / 2 : cap.x - 24;
-    var sy = vertical ? cap.y - 24 : cap.y + boxH / 2;
-    var ex = vertical ? cap.x + boxW - 40 : cap.x + 46;
-    var ey = vertical ? cap.y - 78 : cap.y + boxH + 62;
+    var sy = vertical ? convo.y + boxH + 18 : cap.y + boxH / 2;
+    var ex = vertical ? 300 : cap.x + 46;
+    var ey = vertical ? convo.y + boxH + 55 : cap.y + boxH + 62;
     var leak = el("path", {
       class: "cap-leak",
       d: vertical
-        ? "M" + sx + " " + sy + " C" + (sx + 40) + " " + sy + " " + ex + " " + (ey + 34) + " " + ex + " " + ey
+        /* Both control points sit on the approach side of the end point. With
+           the second one past it the curve turned back up and drew a tick at
+           the tip that read as a second arrow. */
+        ? "M" + sx + " " + sy + " C" + (sx + 50) + " " + sy + " " + (ex - 50) + " " + ey + " " + ex + " " + ey
         : "M" + sx + " " + sy + " C" + sx + " " + (sy + 40) + " " + (ex - 30) + " " + ey + " " + ex + " " + ey
     });
     svg.appendChild(leak);
@@ -178,11 +187,13 @@
     var leakText = hasFigures
       ? chain.headline.stat + " \u2192 " + chain.headline.contrast
       : "what does not convert";
+    /* Narrow: the label gets its own line under the curve and is centred, so
+       its length cannot push it off the edge whatever the figures are. */
     var lt = el("text", {
       class: "cap-leak-label",
-      x: ex + 8,
-      y: ey + 4,
-      "text-anchor": "start"
+      x: vertical ? W / 2 : ex + 8,
+      y: vertical ? ey + 30 : ey + 4,
+      "text-anchor": vertical ? "middle" : "start"
     }, leakText);
     svg.appendChild(lt);
 
@@ -214,6 +225,28 @@
     });
 
     host.appendChild(svg);
+
+    /* Narrow-layout legend: keeps the colour coding of the three factors
+       without a column that does not fit. Laid out after the SVG is in the
+       document so each label can be measured rather than estimated — these are
+       letter-spaced uppercase, and a character-count guess put the second
+       dash on top of the first word. */
+    if (vertical) {
+      var lx = 16;
+      kinds.forEach(function (kind) {
+        var t = el("text", {
+          class: "cap-feed-label", x: 0, y: H - 14, "text-anchor": "start"
+        }, D.FACTOR_LABEL[kind]);
+        svg.appendChild(t);
+        var dash = el("path", {
+          class: "cap-feed cf-" + kind,
+          d: "M" + lx + " " + (H - 18) + " L" + (lx + 14) + " " + (H - 18)
+        });
+        svg.appendChild(dash);
+        t.setAttribute("x", lx + 19);
+        lx += 19 + t.getComputedTextLength() + 14;
+      });
+    }
   }
 
   /* What each stage says depends on which resource is open. */

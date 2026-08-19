@@ -26,7 +26,7 @@
 :root[data-theme="light"]{--bg:#F5F7FA;--surface:#FFFFFF;--ink:#0F172A;--mut:#5B677A;--faint:#8996A8;--bd:#E6EBF1;--acc:#0EA5E9;--acc2:#6366F1;--acc-soft:rgba(14,165,233,.10);--shadow:0 1px 2px rgba(15,23,42,.05),0 10px 26px -14px rgba(15,23,42,.14)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,-apple-system,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
-.skip-link{position:absolute;left:-9999px;top:0;background:var(--acc);color:#fff;padding:8px 16px;z-index:100000;border-radius:0 0 6px 0;font:600 .85rem/1.2 Inter,system-ui,sans-serif;text-decoration:none}
+.skip-link{position:absolute;left:-9999px;top:0;background: #0A7AAD;color:#fff;padding:8px 16px;z-index:100000;border-radius:0 0 6px 0;font:600 .85rem/1.2 Inter,system-ui,sans-serif;text-decoration:none}
 .skip-link:focus{left:0}
 .wrap{max-width:1120px;margin:0 auto;padding:0 clamp(16px,4vw,32px)}
 h1,h2,h3{font-family:'Amaranth',system-ui,sans-serif}
@@ -106,7 +106,7 @@ main{padding:20px 0 72px}
 .fr-filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
 .fr-chip{font-size:12px;font-weight:600;padding:5px 11px;border-radius:999px;border:1px solid var(--bd);background:var(--surface);color:var(--mut);cursor:pointer;transition:all .12s}
 .fr-chip:hover{border-color:var(--chip,var(--acc))}
-.fr-chip.is-on{background:var(--chip,var(--acc));border-color:var(--chip,var(--acc));color:#fff}
+.fr-chip.is-on{background: #0A7AAD;border-color:var(--chip,var(--acc));color:#fff}
 .fr-list{display:flex;flex-direction:column;gap:4px;max-height:440px;overflow:auto}
 .fr-item{display:flex;align-items:center;gap:12px;text-align:left;width:100%;padding:10px;border:none;border-radius:11px;background:transparent;cursor:pointer;transition:background .12s}
 .fr-item:hover{background:var(--acc-soft)}
@@ -116,7 +116,17 @@ main{padding:20px 0 72px}
 .fr-item-t{display:block;font-size:.9rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .fr-item-m{display:block;font-size:.76rem;color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .fr-item-d{font-size:.74rem;color:var(--faint);font-family:'JetBrains Mono',monospace}
-.fr-tag-sample{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--acc);background:var(--acc-soft);padding:1px 5px;border-radius:4px;vertical-align:middle}
+.fr-tag-sample{font-size:9.5px;font-weight:700;text-transfo
+/* Theme-scoped contrast corrections. The pairs below resolve to
+   different colours per theme, so no single value clears WCAG AA in
+   both: a near-white ground needs a dark ink and a near-slate ground
+   a light one. Light values sit on the rules themselves; these carry
+   the dark ones, for the unstamped default and for either explicit
+   choice. Enforced by scripts/check-theme-contrast.py. */
+@media (prefers-color-scheme: dark) { body:not(.light-mode):not([data-theme="light"]) .fr-chip.is-on { background: #067BAF; } }
+body.dark-mode .fr-chip.is-on, [data-theme="dark"] .fr-chip.is-on, html.dark .fr-chip.is-on { background: #067BAF; }
+@media (prefers-color-scheme: dark) { body:not(.light-mode):not([data-theme="light"]) .skip-link { background: #067BAF; } }
+body.dark-mode .skip-link, [data-theme="dark"] .skip-link, html.dark .skip-link { background: #067BAF; }rm:uppercase;letter-spacing:.04em;color:var(--acc);background:var(--acc-soft);padding:1px 5px;border-radius:4px;vertical-align:middle}
 
 /* Footer note */
 .fr-note{margin-top:26px;padding:16px 18px;border:1px dashed var(--bd);border-radius:14px;color:var(--mut);font-size:.9rem;background:var(--surface)}

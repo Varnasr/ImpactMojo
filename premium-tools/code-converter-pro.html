@@ -92,7 +92,7 @@ body { font-family: var(--font-main); background: var(--bg-primary); color: var(
 }
 .topbar h1 { font-family: var(--font-heading); font-size: 1.2rem; color: var(--accent-blue); font-weight: 700; letter-spacing: -0.02em; }
 .topbar .subtitle { font-size: 0.8rem; color: var(--text-secondary); }
-.badge { background: var(--accent-red); color: #fff; font-size: 0.65rem; padding: 2px 8px; border-radius: 10px; font-weight: 700; }
+.badge { background: #DC2626; color: #fff; font-size: 0.65rem; padding: 2px 8px; border-radius: 10px; font-weight: 700; }
 
 /* Language Selector Row */
 .selector-row {
@@ -107,7 +107,7 @@ body { font-family: var(--font-main); background: var(--bg-primary); color: var(
   min-width: 110px;
 }
 .swap-btn {
-  background: var(--secondary-accent); color: #fff; border: none;
+  background: #4F46E5; color: #fff; border: none;
   padding: 8px 16px; border-radius: var(--radius); cursor: pointer;
   font-weight: 700; font-size: 1rem; transition: opacity 0.2s;
 }
@@ -203,7 +203,7 @@ body { font-family: var(--font-main); background: var(--bg-primary); color: var(
 .gate-cta { display: inline-flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; }
 .gate-cta .btn { padding: 0.7rem 1.3rem; border-radius: 10px; border: 1px solid var(--border-soft); background: var(--bg-panel); color: var(--text-primary); font-size: 0.9rem; font-family: var(--font-main); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 0.45rem; transition: all 0.2s; }
 .gate-cta .btn:hover { border-color: var(--accent-gold); }
-.gate-cta .btn-premium { background: var(--premium-color, #F59E0B); border: none; color: #fff; font-weight: 700; }
+.gate-cta .btn-premium { background: #A06707; border: none; color: #fff; font-weight: 700; }
 .gate-cta .btn-premium:hover { opacity: 0.9; }
 .gate-price { font-family: var(--font-heading); font-weight: 700; color: var(--premium-color, #F59E0B); margin-top: 1rem; font-size: 0.9rem; }
 #gateLoading { text-align: center; color: var(--text-muted); padding: 2rem; }
@@ -423,7 +423,17 @@ code, pre, .monospace, kbd, samp { font-family: 'JetBrains Mono', monospace !imp
 /* Body clears fixed im-topbar (added by site-wide audit fix) */
 body { padding-top: 56px; }
 @media (max-width: 768px) { body { padding-top: 52px; } }
-</style>
+
+/* Theme-scoped contrast corrections. The pairs below resolve to
+   different colours per theme, so no single value clears WCAG AA in
+   both: a near-white ground needs a dark ink and a near-slate ground
+   a light one. Light values sit on the rules themselves; these carry
+   the dark ones, for the unstamped default and for either explicit
+   choice. Enforced by scripts/check-theme-contrast.py. */
+@media (prefers-color-scheme: dark) { body:not(.light-mode):not([data-theme="light"]) .swap-btn { background: #5E61F1; } }
+body.dark-mode .swap-btn, [data-theme="dark"] .swap-btn, html.dark .swap-btn { background: #5E61F1; }
+@media (prefers-color-scheme: dark) { body:not(.light-mode):not([data-theme="light"]) .badge { background: #E71414; } }
+body.dark-mode .badge, [data-theme="dark"] .badge, html.dark .badge { background: #E71414; }</style>
 <link rel="icon" type="image/png" href="/assets/images/favicon.png">
 <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
 </head>

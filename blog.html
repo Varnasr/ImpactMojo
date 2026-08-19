@@ -550,10 +550,18 @@ body.dark-mode .blob-2 { background: rgba(99, 102, 241, 0.08); opacity: 0.5; }
     z-index: 998;
     opacity: 0;
     transition: opacity 0.3s ease;
+    /* An opacity-0 element still receives taps. The mobile media query
+       below turns this backdrop on unconditionally, so with no
+       pointer-events rule it sat invisible over the whole viewport and
+       swallowed every tap into closeMobileMenu() — no blog post could be
+       opened on a phone, with nothing visible and no error to show for
+       it. Inert unless the menu is actually open. */
+    pointer-events: none;
 }
 
 .mobile-menu-overlay.active {
     opacity: 1;
+    pointer-events: auto;
 }
 
 /* Mobile Auth Section */

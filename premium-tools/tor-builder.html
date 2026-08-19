@@ -67,7 +67,7 @@ a{color:var(--accent-color); text-decoration:none;}
 a:hover{color:var(--accent-hover);}
 code,.mono{font-family:'JetBrains Mono',monospace;}
 
-.skip-link{position:absolute;left:-999px;top:0;z-index:10000;background:var(--accent-color);color:#fff;padding:.6rem 1rem;border-radius:0 0 8px 0;}
+.skip-link{position:absolute;left:-999px;top:0;z-index:10000;background: #0369A1;color:#fff;padding:.6rem 1rem;border-radius:0 0 8px 0;}
 .skip-link:focus{left:0;}
 
 /* Topbar */
@@ -83,7 +83,7 @@ code,.mono{font-family:'JetBrains Mono',monospace;}
 .im-theme-selector{display:flex;gap:2px;background:var(--card-bg);border:1px solid var(--border-color);border-radius:8px;padding:2px;}
 .im-theme-btn{background:transparent;border:none;color:var(--text-muted);padding:6px;border-radius:5px;cursor:pointer;display:flex;align-items:center;justify-content:center;width:30px;height:30px;}
 .im-theme-btn:hover{background:var(--hover-bg);color:var(--text-primary);}
-.im-theme-btn.active{background:var(--accent-color);color:#fff;}
+.im-theme-btn.active{background: #0369A1;color:#fff;}
 .im-theme-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;}
 @media(max-width:768px){body{padding-top:52px;} .im-topbar-home span{display:none;} .im-browse-btn span,.im-premium-btn{display:none;}}
 
@@ -95,7 +95,7 @@ code,.mono{font-family:'JetBrains Mono',monospace;}
 /* Layout */
 .wrap{max-width:1280px;margin:0 auto;padding:1.5rem 1.25rem 2rem;position:relative;z-index:1;}
 .hero{text-align:center;padding:1rem 0 1.75rem;}
-.hero .badge{display:inline-flex;align-items:center;gap:.45rem;background:var(--hover-bg);color:var(--accent-color);border:1px solid var(--border-color);padding:.3rem .8rem;border-radius:999px;font-family:'Inter',sans-serif;font-weight:600;font-size:.78rem;margin-bottom:.85rem;}
+.hero .badge{display:inline-flex;align-items:center;gap:.45rem;background: #F1F5F9;color:var(--accent-color);border:1px solid var(--border-color);padding:.3rem .8rem;border-radius:999px;font-family:'Inter',sans-serif;font-weight:600;font-size:.78rem;margin-bottom:.85rem;}
 .hero h1{font-size:2.1rem;background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.5rem;}
 .hero p{color:var(--text-secondary);max-width:680px;margin:0 auto;}
 .hero .links{margin-top:.9rem;font-size:.9rem;color:var(--text-muted);}
@@ -121,7 +121,7 @@ textarea{resize:vertical;min-height:70px;line-height:1.5;}
 .chips{display:flex;flex-wrap:wrap;gap:.45rem;}
 .chip{display:inline-flex;align-items:center;gap:.35rem;padding:.35rem .7rem;border:1px solid var(--border-color);border-radius:999px;font-size:.82rem;cursor:pointer;user-select:none;transition:all .15s;}
 .chip input{display:none;}
-.chip.on{background:var(--accent-color);color:#fff;border-color:var(--accent-color);}
+.chip.on{background: #0369A1;color:#fff;border-color:var(--accent-color);}
 
 .dynlist .item{display:flex;gap:.5rem;margin-bottom:.5rem;align-items:flex-start;}
 .dynlist .item input,.dynlist .item textarea{flex:1;}
@@ -167,13 +167,27 @@ table.cost .num{text-align:right;font-family:'JetBrains Mono',monospace;}
 /* Lock / upgrade gate */
 :root{--premium-color:#F59E0B;}
 .gate-card{text-align:center;background:var(--card-bg);border:1px solid var(--border-color);border-radius:16px;padding:2.5rem 1.75rem;max-width:680px;margin:1.5rem auto;}
-.gate-card .lock{width:48px;height:48px;margin:0 auto 1rem;color:var(--premium-color);}
+.gate-card .lock{width:48px;height:48
+/* Theme-scoped contrast corrections. The pairs below resolve to
+   different colours per theme, so no single value clears WCAG AA in
+   both: a near-white ground needs a dark ink and a near-slate ground
+   a light one. Light values sit on the rules themselves; these carry
+   the dark ones, for the unstamped default and for either explicit
+   choice. Enforced by scripts/check-theme-contrast.py. */
+@media (prefers-color-scheme: dark) { body:not(.light-mode):not([data-theme="light"]) .chip.on { background: #0A7AAD; } }
+body.dark-mode .chip.on, [data-theme="dark"] .chip.on, html.dark .chip.on { background: #0A7AAD; }
+@media (prefers-color-scheme: dark) { body:not(.light-mode):not([data-theme="light"]) .hero .badge { background: #283242; } }
+body.dark-mode .hero .badge, [data-theme="dark"] .hero .badge, html.dark .hero .badge { background: #283242; }
+@media (prefers-color-scheme: dark) { body:not(.light-mode):not([data-theme="light"]) .im-theme-btn.active { background: #0A7AAD; } }
+body.dark-mode .im-theme-btn.active, [data-theme="dark"] .im-theme-btn.active, html.dark .im-theme-btn.active { background: #0A7AAD; }
+@media (prefers-color-scheme: dark) { body:not(.light-mode):not([data-theme="light"]) .skip-link { background: #0A7AAD; } }
+body.dark-mode .skip-link, [data-theme="dark"] .skip-link, html.dark .skip-link { background: #0A7AAD; }px;margin:0 auto 1rem;color:var(--premium-color);}
 .gate-card h2{font-family:'Inter',sans-serif;font-size:1.4rem;margin-bottom:.5rem;}
 .gate-card p{color:var(--text-secondary);max-width:520px;margin:0 auto 1.5rem;}
 .gate-cta{display:inline-flex;gap:.75rem;flex-wrap:wrap;justify-content:center;}
 .gate-price{font-family:'Inter',sans-serif;font-weight:700;color:var(--premium-color);margin-top:1rem;font-size:.9rem;}
 .btn-premium{background:var(--premium-color);border:none;color:#fff;font-weight:700;}
-.btn-premium:hover{background:#D97706;color:#fff;}
+.btn-premium:hover{background: #AF6005;color:#fff;}
 #gateLoading{text-align:center;color:var(--text-muted);padding:2rem;}
 
 /* footer */

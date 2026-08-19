@@ -2,6 +2,15 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.214.0 — August 19, 2026 (Readable in both themes, and tappable on a phone)
+
+### For Learners
+
+- **Blog posts open on a phone again.** An invisible full-screen panel was sitting over the blog page on mobile and catching every tap, so no post could be opened. It was never visible and nothing errored.
+- **Text is readable in dark mode.** Around 1,900 places across the site put text on a background that was too faint to read comfortably in one theme or the other — buttons with white labels on pale backgrounds, muted captions on grey panels, the language chips on the testimonials page. All corrected in both themes.
+- **The Capability Approach diagram fits a phone screen.** The conversion chain was running its labels off the edge on narrow screens. It now stacks properly, with the three conversion factors as a legend along the foot.
+- **The Fundamentals page said "Four so far" while listing five.** Fixed, and the page now says what it actually holds.
+
 ## v10.213.0 — August 19, 2026 (A long read on animal welfare law)
 
 ### For Learners

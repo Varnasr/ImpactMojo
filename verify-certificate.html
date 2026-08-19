@@ -239,7 +239,7 @@ h1, h2, h3, h4 { font-family: 'Inter', sans-serif; font-weight: 700; }
 .theme-selector { display: flex; gap: 4px; background: var(--hover-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 4px; }
 .theme-btn { background: transparent; border: none; color: var(--text-secondary); padding: 8px; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; }
 .theme-btn:hover { background: var(--hover-bg); color: var(--text-primary); }
-.theme-btn.active { background: var(--accent-color); color: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.theme-btn.active { background: #027AB8; color: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
 .theme-btn svg { width: 18px; height: 18px; }
 .mobile-menu-toggle { display: none; }
 .v3-inline-icon { width: 16px; height: 16px; vertical-align: middle; filter: invert(1); opacity: 0.7; }
@@ -415,7 +415,9 @@ body.light-mode .v3-inline-icon { filter: none; }
     .nav-links.active { display: flex; }
     .nav-buttons { display: none; }
     .mobile-menu-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 998; }
-    .mobile-menu-overlay.active { display: block; }
+    .mobile-menu-overlay.active { display: block;
+    pointer-events: auto;
+}
     .dropdown-menu { position: static; opacity: 1; visibility: visible; transform: none; box-shadow: none; border: none; padding-left: 1rem; display: none; }
     .has-dropdown.open .dropdown-menu { display: block; }
     .page-hero h1 { font-size: 1.75rem; }
@@ -533,7 +535,7 @@ body.light-mode .v3-inline-icon { filter: none; }
     color: var(--im-text-primary, #F1F5F9);
 }
 .im-theme-btn.active {
-    background: var(--im-accent, #0EA5E9);
+    background: #027AB8;
     color: #fff;
 }
 .im-theme-btn svg { width: 16px; height: 16px; }
@@ -635,7 +637,15 @@ main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) 
 <meta name="twitter:image" content="https://www.impactmojo.in/assets/images/og-certificate.png">
 </head>
 <body class="ib">
-<a href="#main-content" class="im-skip-link">Skip to content</a><style>.im-skip-link{position:absolute;left:-9999px;top:0;background:#0EA5E9;color:#fff;padding:8px 16px;z-index:100000;border-radius:0 0 6px 0;font:600 .85rem/1.2 Inter,system-ui,sans-serif;text-decoration:none}.im-skip-link:focus{left:0}</style>
+<a href="#main-content" class="im-skip-link">Skip to content</a><style>.im-skip-link{position:absolute;left:-9999px;top:0;background:#0EA5E9;color:#fff;padding:8px 16px;z-index:100000;border-radius:0 0 6px 0;font:600 .85rem/1.2 Inter,system-ui,sans-serif;text-decoration:none}.im-skip-link:focus{left:0}
+/* Theme-scoped contrast corrections. The pairs below resolve to
+   different colours per theme, so no single value clears WCAG AA in
+   both: a near-white ground needs a dark ink and a near-slate ground
+   a light one. Light values sit on the rules themselves; these carry
+   the dark ones, for the unstamped default and for either explicit
+   choice. Enforced by scripts/check-theme-contrast.py. */
+@media (prefers-color-scheme: dark) { body:not(.light-mode):not([data-theme="light"]) .theme-btn.active { background: #0A7AAD; } }
+body.dark-mode .theme-btn.active, [data-theme="dark"] .theme-btn.active, html.dark .theme-btn.active { background: #0A7AAD; }</style>
 
 
 <!-- Header -->
