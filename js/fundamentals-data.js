@@ -1,7 +1,7 @@
 /* =============================================================================
    ImpactMojo — Fundamentals: the Indian Wheel of Power & Powerlessness
    -----------------------------------------------------------------------------
-   Dataset for /fundamentals.html
+   Dataset for /fundamentals/wheel.html
 
    The wheel itself is NOT ImpactMojo's. It is the Indian Wheel of Power &
    Powerlessness, built in 2022-23 by The Listeners Collective (Bengaluru) —
