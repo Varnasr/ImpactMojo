@@ -103,7 +103,10 @@ window.FCube = (function () {
 
       svg.appendChild(g);
       svg.appendChild(el("text", {
-        x: F.title[0], y: F.title[1], "text-anchor": F.title[2], class: "face-title", fill: dim.color
+        x: F.title[0], y: F.title[1], "text-anchor": F.title[2],
+        /* The fill comes from CSS, not dim.color: the dimension colours are
+           mixed for a light panel and drop to 2.8:1 on the dark one. */
+        class: "face-title ft-" + dim.id
       }, dim.name.toUpperCase()));
     });
 
