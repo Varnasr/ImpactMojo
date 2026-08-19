@@ -185,6 +185,8 @@ a { color: var(--accent-blue); }
 .field label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem; color: var(--text-secondary); }
 .field input { width: 100%; background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.6rem 0.75rem; color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 0.92rem; }
 .field input:focus { outline: 2px solid var(--accent-blue); outline-offset: 1px; border-color: var(--accent-blue); }
+.err-msg { display: none; margin-top: 0.9rem; background: #FEF2F2; border: 1px solid #FECACA; color: #B91C1C; border-radius: 8px; padding: 0.7rem 0.9rem; font-size: 0.9rem; font-weight: 600; line-height: 1.5; }
+body.dark-mode .err-msg, [data-theme="dark"] .err-msg { background: #2A1416; border-color: #7F1D1D; color: #FCA5A5; }
 .ok-msg { display: none; margin-top: 0.9rem; background: rgba(16,185,129,0.12); border: 1px solid var(--success-color); color: var(--success-color); border-radius: 8px; padding: 0.7rem 0.9rem; font-size: 0.9rem; font-weight: 600; }
 .wa-link { display: inline-flex; align-items: center; gap: 0.35rem; margin-top: 0.8rem; font-size: 0.85rem; color: var(--accent-blue); text-decoration: none; background: none; border: none; cursor: pointer; font-family: 'Inter', sans-serif; padding: 0; }
 .wa-link:hover { text-decoration: underline; }
@@ -384,6 +386,7 @@ a { color: var(--accent-blue); }
                     <div class="field"><label for="ref">UPI transaction / reference no.</label><input id="ref" name="upi_ref" required></div>
                     <button class="btn btn-primary" type="submit" style="width:100%;justify-content:center">I&#39;ve paid — enrol me</button>
                     <div class="ok-msg" id="okMsg">Enrolment received. We&#39;ll verify the payment and email your onboarding and capstone brief within 24 hours.</div>
+                    <div class="err-msg" id="errMsg">We could not record your enrolment. Your payment is safe — nothing was taken by this form. Please WhatsApp us on +91 98717 77110 or email hello@impactmojo.in with your UPI reference and we will enrol you by hand.</div>
                 </form>
             </div>
         </div>
@@ -509,12 +512,12 @@ function submitOrder(e){
     e.preventDefault();
     var f = e.target, data = new URLSearchParams(new FormData(f)).toString();
     fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: data })
-        .then(function(){
+        .then(function(_res){if(!_res||!_res.ok){throw new Error('Submission rejected (HTTP '+(_res&&_res.status)+')');}
             f.querySelector('button[type=submit]').style.display = 'none';
             document.getElementById('okMsg').style.display = 'block';
             toast('Enrolment received');
         })
-        .catch(function(){ toast('Something went wrong - please WhatsApp us'); });
+        .catch(function(){ var em=document.getElementById('errMsg'); if(em){em.style.display='block';} toast('We could not record that — please WhatsApp us'); });
     return false;
 }
 </script>

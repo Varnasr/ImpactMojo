@@ -299,8 +299,12 @@
                     // can fill it in directly — but only when there is no saved draft to preserve.
                     '<textarea class="ch-textarea" id="challengeResponse" placeholder="Write your response here...">' + escapeHTML(draft || ch.submissionTemplate || '') + '</textarea>' +
                     '<div class="ch-char-count"><span id="charCount">' + ((draft || ch.submissionTemplate || '').length) + '</span> characters (min 200)</div>' +
-                    '<label class="ch-email-label" for="challengeEmail">Want feedback on your response? Leave an email <span>(optional — we only use it to reply)</span></label>' +
-                    '<input type="email" class="ch-email-input" id="challengeEmail" placeholder="you@example.org" autocomplete="email" value="' + escapeHTML(getSavedEmail()) + '">' +
+                    '<label class="ch-email-label" for="challengeEmail">Your email <span>(required — it is the only way we can send your feedback back)</span></label>' +
+                    '<input type="email" class="ch-email-input" id="challengeEmail" placeholder="you@example.org" autocomplete="email" required aria-required="true" value="' + escapeHTML(getSavedEmail()) + '">' +
+                    '<label class="ch-email-label" for="challengeFile">Attach your work <span>(optional — PDF, Word, Excel, PowerPoint or an image, up to 8&nbsp;MB)</span></label>' +
+                    '<input type="file" class="ch-file-input" id="challengeFile" accept="' + ACCEPT_TYPES + '">' +
+                    '<div class="ch-file-name" id="challengeFileName" hidden></div>' +
+                    '<p class="ch-submit-error" id="challengeError" role="alert" hidden></p>' +
                     '<div class="ch-submit-actions">' +
                         '<button class="ch-btn ch-btn-primary" id="submitChallengeBtn" onclick="window._challengeSubmit(\'' + ch.id + '\')">' +
                             '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg> Submit Response' +
@@ -410,51 +414,97 @@
     // ---- Submit ----
     var NETLIFY_FORM_NAME = 'challenge-submission';
     var EMAIL_STORAGE_KEY = 'im-challenge-email';
+    var MAX_FILE_BYTES = 8 * 1024 * 1024;
+    var ACCEPT_TYPES = '.pdf,.doc,.docx,.odt,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.webp';
+    var ALLOWED_EXT = /\.(pdf|docx?|odt|xlsx?|pptx?|png|jpe?g|webp)$/i;
 
     function getSavedEmail() {
         try { return localStorage.getItem(EMAIL_STORAGE_KEY) || ''; } catch (e) { return ''; }
+    }
+
+    /**
+     * Show the chosen filename. Delegated from document rather than bound on
+     * render, because the detail view is rebuilt from an HTML string each time
+     * it opens, which would discard any listener attached to the input.
+     */
+    document.addEventListener('change', function (e) {
+        if (!e.target || e.target.id !== 'challengeFile') return;
+        var out = document.getElementById('challengeFileName');
+        if (!out) return;
+        var f = e.target.files && e.target.files[0];
+        if (!f) { out.hidden = true; out.textContent = ''; return; }
+        out.textContent = f.name + ' (' + (f.size / 1048576).toFixed(1) + ' MB)';
+        out.hidden = false;
+    });
+
+    function showSubmitError(msg) {
+        var el = document.getElementById('challengeError');
+        if (el) { el.textContent = msg; el.hidden = false; }
+        else { alert(msg); }
+    }
+
+    function resetSubmitButton() {
+        var btn = document.getElementById('submitChallengeBtn');
+        if (!btn) return;
+        btn.disabled = false;
+        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">' +
+            '<path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg> Submit Response';
     }
 
     function submitChallenge(challengeId) {
         var textarea = document.getElementById('challengeResponse');
         if (!textarea) return;
 
+        var errEl = document.getElementById('challengeError');
+        if (errEl) errEl.hidden = true;
+
         var text = textarea.value.trim();
         if (text.length < 200) {
-            alert('Please write at least 200 characters before submitting.');
+            showSubmitError('Please write at least 200 characters before submitting.');
+            return;
+        }
+        // The scaffold is prefilled as the textarea value, so it clears the 200
+        // character minimum on its own -- both submissions received before this
+        // check existed were the untouched template.
+        var ch = challenges.find(function (c) { return c.id === challengeId; });
+        if (ch && ch.submissionTemplate && text === ch.submissionTemplate.trim()) {
+            showSubmitError('This is still the blank template — fill it in with your own response before submitting.');
             return;
         }
 
         var emailInput = document.getElementById('challengeEmail');
         var email = emailInput ? emailInput.value.trim() : '';
-        if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            alert('That email address doesn\'t look right — fix it or leave the field empty.');
+        if (!email) {
+            showSubmitError('Please add your email — it is the only way we can send your feedback back.');
+            if (emailInput) emailInput.focus();
             return;
         }
-        if (email) {
-            try { localStorage.setItem(EMAIL_STORAGE_KEY, email); } catch (e) { /* private mode */ }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            showSubmitError('That email address doesn\'t look right — please check it.');
+            if (emailInput) emailInput.focus();
+            return;
+        }
+        try { localStorage.setItem(EMAIL_STORAGE_KEY, email); } catch (e) { /* private mode */ }
+
+        var fileInput = document.getElementById('challengeFile');
+        var file = fileInput && fileInput.files && fileInput.files[0] ? fileInput.files[0] : null;
+        if (file) {
+            if (file.size > MAX_FILE_BYTES) {
+                showSubmitError('That file is ' + (file.size / 1048576).toFixed(1) + ' MB — the limit is 8 MB.');
+                return;
+            }
+            if (!ALLOWED_EXT.test(file.name)) {
+                showSubmitError('That file type is not accepted. Use a PDF, Word, Excel, PowerPoint or image file.');
+                return;
+            }
         }
 
-        var ch = challenges.find(function (c) { return c.id === challengeId; });
         var btn = document.getElementById('submitChallengeBtn');
         if (btn) {
             btn.disabled = true;
             btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="animation:spin 1s linear infinite"><path d="M12 2v4m0 12v4m-7.07-3.93l2.83-2.83m8.48-8.48l2.83-2.83M2 12h4m12 0h4m-3.93 7.07l-2.83-2.83M7.76 7.76L4.93 4.93"/></svg> Submitting...';
         }
 
-        var now = new Date().toLocaleString();
-        submissions[challengeId] = {
-            text: text,
-            submittedAt: now,
-            status: 'pending'
-        };
-        saveSubmissions();
-
-        // Clear draft
-        delete drafts[challengeId];
-        saveDrafts();
-
-        // Submit to Netlify Forms (email notification)
         var formData = new FormData();
         formData.append('form-name', NETLIFY_FORM_NAME);
         formData.append('challenge_id', challengeId);
@@ -466,42 +516,71 @@
         // so replies from the inbox reach the submitter directly.
         formData.append('email', email);
         formData.append('submitted_at', new Date().toISOString());
+        if (file) formData.append('attachment', file, file.name);
 
-        fetch('/', {
-            method: 'POST',
-            body: new URLSearchParams(formData).toString(),
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-        }).catch(function () { /* silent — localStorage is primary fallback */ });
+        // Two independent paths, because neither alone is sufficient. Netlify
+        // Forms sends the notification email but runs submissions through a spam
+        // filter that returns 200 on the ones it discards; /api/challenge-submit
+        // writes the durable row and is not filtered. The submission counts as
+        // delivered if either succeeds.
+        var netlify = window.imxSubmitForm
+            ? window.imxSubmitForm(formData, { multipart: !!file })
+            : Promise.reject(new Error('form-submit helper not loaded'));
 
-        // Sync to Supabase (DB record)
-        syncSubmission(challengeId, text);
+        var durable = storeSubmission(challengeId, ch, text, email, file);
 
-        // Show success
-        setTimeout(function () {
+        Promise.allSettled([netlify, durable]).then(function (results) {
+            var delivered = results.some(function (r) { return r.status === 'fulfilled'; });
+
+            if (!delivered) {
+                resetSubmitButton();
+                showSubmitError(
+                    'We could not save your submission just now. Your text is kept in this browser — ' +
+                    'please try again in a moment, or email it to hello@impactmojo.in.'
+                );
+                return;
+            }
+
+            // Only record it locally as submitted once something actually took it.
+            submissions[challengeId] = { text: text, submittedAt: new Date().toLocaleString(), status: 'pending' };
+            saveSubmissions();
+            delete drafts[challengeId];
+            saveDrafts();
+
             closeDetail();
             renderGrid();
-            // Reopen to show submitted state
             setTimeout(function () { openDetail(challengeId); }, 300);
-        }, 800);
+        });
     }
 
-    async function syncSubmission(challengeId, text) {
-        var sb = getSupabase();
-        if (!sb) return;
-        var user = await getUser();
-        if (!user) return;
+    /**
+     * Durable path: writes the row through the Netlify Function, which holds the
+     * service role. challenge_submissions stays anon-denied, so the browser is
+     * never given write access to it directly.
+     */
+    async function storeSubmission(challengeId, ch, text, email, file) {
+        var payload = {
+            challenge_id: challengeId,
+            challenge_title: ch ? ch.title : '',
+            submission_text: text,
+            email: email,
+            attachment_name: file ? file.name : null
+        };
+        // Resolve the session rather than reading the cached currentUser: it is
+        // populated by an async call that may not have run yet, which would file
+        // a signed-in learner's work as anonymous and break their upsert.
+        var user = null;
+        try { user = await getUser(); } catch (e) { user = null; }
+        if (user && user.id) payload.user_id = user.id;
 
-        try {
-            await sb.from('challenge_submissions').upsert({
-                challenge_id: challengeId,
-                user_id: user.id,
-                submission_text: text,
-                submission_status: 'pending',
-                submitted_at: new Date().toISOString()
-            }, { onConflict: 'challenge_id,user_id' });
-        } catch (e) {
-            // Silent — local storage is primary
-        }
+        return fetch('/api/challenge-submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        }).then(function (res) {
+            if (!res.ok) throw new Error('challenge-submit returned ' + res.status);
+            return res;
+        });
     }
 
     function saveDraft(challengeId) {

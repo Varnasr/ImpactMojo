@@ -473,6 +473,34 @@ body.dark-mode .ch-group-advanced h2, [data-theme="dark"] .ch-group-advanced h2 
 .ch-email-input:focus { outline: none; border-color: var(--accent-color); }
 .ch-email-input::placeholder { color: var(--text-muted); }
 
+.ch-file-input {
+    display: block; width: 100%; max-width: 420px; font-size: 0.82rem;
+    color: var(--text-secondary); font-family: 'Inter', sans-serif;
+    padding: 0.55rem 0.7rem; margin-bottom: 0.5rem;
+    border: 1px dashed var(--border-color); border-radius: 8px;
+    background: var(--primary-bg); cursor: pointer;
+}
+.ch-file-input:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 2px; }
+.ch-file-input::file-selector-button {
+    font: inherit; margin-right: 0.7rem; padding: 0.35rem 0.7rem; cursor: pointer;
+    border: 1px solid var(--border-color); border-radius: 6px;
+    background: var(--card-bg); color: var(--text-primary);
+}
+.ch-file-name { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem; }
+
+/* The submit path can now fail visibly, so it needs somewhere to say so.
+   --error-color is not defined site-wide; these two hexes clear 4.5:1 on the
+   light and dark card backgrounds respectively. */
+.ch-submit-error {
+    font-size: 0.85rem; line-height: 1.5; margin: 0 0 0.9rem;
+    padding: 0.6rem 0.8rem; border-radius: 8px;
+    color: #B91C1C; background: #FEF2F2; border: 1px solid #FECACA;
+}
+body.dark-mode .ch-submit-error,
+[data-theme="dark"] .ch-submit-error {
+    color: #FCA5A5; background: #2A1416; border-color: #7F1D1D;
+}
+
 .ch-submit-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
 
 .ch-btn {
@@ -937,7 +965,7 @@ code, pre, .monospace, kbd, samp { font-family: 'JetBrains Mono', monospace !imp
 <script>(function(d){var s = d.createElement("script");s.setAttribute("data-account", "EksmhlPg9k");s.setAttribute("src", "https://cdn.userway.org/widget.js");(d.body || d.head).appendChild(s);})(document)</script>
 
 <!-- Hidden form for Netlify Forms detection (JS-submitted challenge submissions) -->
-<form name="challenge-submission" data-netlify="true" netlify-honeypot="bot-field" hidden>
+<form name="challenge-submission" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" hidden>
   <p style="display:none"><label>Don't fill: <input name="bot-field"></label></p>
     <input name="challenge_id">
     <input name="challenge_title">
@@ -946,9 +974,14 @@ code, pre, .monospace, kbd, samp { font-family: 'JetBrains Mono', monospace !imp
     <textarea name="submission_text"></textarea>
     <input type="email" name="email">
     <input name="submitted_at">
+    <!-- Netlify only accepts an upload if the form it detected at build time
+         declares a file field and multipart encoding. Without both, the file is
+         dropped and the rest of the submission still succeeds. -->
+    <input type="file" name="attachment">
 </form>
 
 <!-- Challenges logic (deferred — runs after the Supabase + config scripts below have loaded) -->
+<script src="js/form-submit.js" defer></script>
 <script src="js/challenges.js" defer></script>
 
 <!-- Theme & Mobile Menu -->
