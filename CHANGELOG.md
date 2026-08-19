@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **The Capability Approach page now has an actual diagram.** The conversion chain was four styled boxes — a layout, not a picture, and the weakest visual in a series where every other page has a drawn one. It is now an SVG that shows the mechanism: the three conversion factors feed the second stage as inputs rather than sitting beside it as decoration, and what fails to convert leaves the chain on a visible leak. Where a resource has a real pair of figures the leak carries them — `98.1% → 44.8%` for a school place, `100% → 19%` for a toilet — and where it does not, it says "what does not convert" rather than printing a headline that is not a quantity. Two layouts, chosen by container width, because four boxes across a phone shrinks the type past reading.
 
+- **Two material resources added to the Capability Approach: a household water connection and an internet connection**, both grounded in MoSPI survey data pulled from the source rather than recalled. They came out of Pallavi's suggestion that the Fundamentals need a parameter on infrastructure. They are on the capability page rather than as new spokes on the wheel because that is where they actually belong: infrastructure is Sen's environmental conversion factor, which the chain already has a stage for, and the wheel's twelve axes are about who a person is rather than where they are.
+
+  Water: 94.5% of rural households have access to an improved source; 56.1% have it within the premises; **42.0%** have it exclusively, in the premises, and sufficiently all year (NSS 76th Round). Three figures, same households, same survey, each adding one condition.
+
+  Internet: 83.3% of rural households have an internet facility within the premises, and **9.1%** of those have a fixed or WiFi connection rather than only a mobile one (NSS 80th Round, 2025). Government services move online against the first number.
+
 - **Every CI job now has a `timeout-minutes`.** All 22 had none, so each inherited GitHub's 360-minute default. This was not hypothetical: the mobile-overflow audit hung for over twenty minutes inside its Playwright install on PR #949 without reaching the test body, and a hung job neither passes nor fails — it reads as "still running". On the scheduled run, where `broken-links` is `fail: true`, link rot could go unreported for six hours and nobody would be told. Fast static guards get 10 minutes, browser jobs 20, network-bound 15.
 
 ## [10.211.0] - 2026-08-19
