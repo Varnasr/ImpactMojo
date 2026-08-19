@@ -117,6 +117,25 @@ jobs:
       - name: Test service worker routing & lifecycle
         run: node scripts/test-service-worker.mjs
 
+  form-submission:
+    name: Form submission contract tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      # Both guard the same class of bug: fetch() resolves on 404 and 500, so a
+      # handler that only wires .catch() reports a rejected submission as
+      # received. That shipped on all 69 form handlers and silently lost work.
+      - name: Test the shared Netlify submit helper
+        run: node scripts/test-form-submit.mjs
+
+      - name: Test the challenge-submit endpoint's validation gate
+        run: node scripts/test-challenge-submit.mjs
+
   broken-links:
     name: Check broken links
     runs-on: ubuntu-latest

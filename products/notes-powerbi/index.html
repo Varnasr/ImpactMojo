@@ -246,7 +246,7 @@ function submitOrder(e){
   e.preventDefault();
   var f=e.target, data=new URLSearchParams(new FormData(f)).toString();
   fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:data})
-    .then(function(){ f.querySelector('button[type=submit]').style.display='none'; document.getElementById('okMsg').style.display='block'; toast('Order received'); })
+    .then(function(_res){if(!_res||!_res.ok){throw new Error('Submission rejected (HTTP '+(_res&&_res.status)+')');} f.querySelector('button[type=submit]').style.display='none'; document.getElementById('okMsg').style.display='block'; toast('Order received'); })
     .catch(function(){ toast('Something went wrong — please WhatsApp us'); });
   return false;
 }
