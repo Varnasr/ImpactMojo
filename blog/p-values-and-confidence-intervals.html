@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<!-- Version 2.0.0 - August 19, 2026 -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JRCMEB9TBW');
+</script>
+
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<meta name="version" content="2.0.20251202">
+
+<meta name="description" content="A p-value and a confidence interval answer different questions. Knowing which is which changes what you do with a result — with a worked example from a South Asian programme evaluation."/>
+<meta property="og:title" content="The P-Value Answers a Question You Probably Aren’t Asking">
+<meta property="og:description" content="A p-value and a confidence interval answer different questions. Knowing which is which changes what you do with a result — with a worked example from a South Asian programme evaluation.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://www.impactmojo.in/blog/p-values-and-confidence-intervals.html">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/blog/p-values-and-confidence-intervals-og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="ImpactMojo">
+<meta property="article:author" content="The ImpactMojo Team">
+<meta property="article:published_time" content="2025-12-02">
+<meta property="article:section" content="Methods">
+<meta property="article:tag" content="sample size">
+<meta property="article:tag" content="RCT">
+<meta property="article:tag" content="evaluation">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/blog/p-values-and-confidence-intervals-og.png">
+
+<title>The P-Value Answers a Question You Probably Aren’t Asking | Learning Loops</title>
+<link href="../assets/images/favicon.png" rel="icon" type="image/png"/>
+<link href="../assets/images/apple-touch-icon.png" rel="apple-touch-icon"/>
+<link rel="stylesheet" href="/css/fonts.css">
+
+<!-- ImpactMojo Fonts: Amaranth (body) + Inter (headings) + JetBrains Mono (code) -->
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --primary-bg: #FFFFFF;
+    --secondary-bg: #F8FAFC;
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #52627A;
+    --card-bg: #FFFFFF;
+    --hover-bg: #F1F5F9;
+    --border-color: #E2E8F0;
+    --nav-bg: rgba(255, 255, 255, 0.95);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+@media (prefers-color-scheme: dark) { :root {
+    --primary-bg: #0F172A;
+    --secondary-bg: #1E293B;
+    --accent-color: #0EA5E9;
+    --accent-hover: #0284C7;
+    --secondary-accent: #6366F1;
+    --success-color: #10B981;
+    --warning-color: #F59E0B;
+    --danger-color: #EF4444;
+    --text-primary: #F1F5F9;
+    --text-secondary: #CBD5E1;
+    --text-muted: #94A3B8;
+    --card-bg: #1E293B;
+    --hover-bg: #334155;
+    --border-color: #334155;
+    --gradient-primary: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+    --nav-bg: rgba(15, 23, 42, 0.95);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.2);
+} }
+body.light-mode, [data-theme="light"] {
+    --primary-bg: #FFFFFF;
+    --secondary-bg: #F8FAFC;
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #52627A;
+    --card-bg: #FFFFFF;
+    --hover-bg: #F1F5F9;
+    --border-color: #E2E8F0;
+    --nav-bg: rgba(255, 255, 255, 0.95);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+body.dark-mode, [data-theme="dark"] {
+    --primary-bg: #0F172A;
+    --secondary-bg: #1E293B;
+    --accent-color: #0EA5E9;
+    --accent-hover: #0284C7;
+    --secondary-accent: #6366F1;
+    --success-color: #10B981;
+    --warning-color: #F59E0B;
+    --danger-color: #EF4444;
+    --text-primary: #F1F5F9;
+    --text-secondary: #CBD5E1;
+    --text-muted: #94A3B8;
+    --card-bg: #1E293B;
+    --hover-bg: #334155;
+    --border-color: #334155;
+    --gradient-primary: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+    --nav-bg: rgba(15, 23, 42, 0.95);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+
+body { font-family: 'Amaranth', sans-serif; background: var(--primary-bg); color: var(--text-primary); line-height: 1.8; min-height: 100vh; transition: background 0.3s ease, color 0.3s ease; }
+.header { position: fixed; top: 0; left: 0; right: 0; background: var(--nav-bg); backdrop-filter: blur(20px); z-index: 1000; border-bottom: 1px solid var(--border-color); }
+.nav-container { max-width: 900px; margin: 0 auto; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+.logo-container { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+.logo-container img { border-radius: 6px; }
+.logo-main { font-family: 'Inter', sans-serif; font-size: 1.25rem; font-weight: 700; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.nav-right { display: flex; align-items: center; gap: 1rem; }
+.back-link { display: flex; align-items: center; gap: 0.25rem; color: var(--text-secondary); text-decoration: none; font-family: 'Amaranth', sans-serif; font-size: 0.9rem; padding: 0.5rem 0.75rem; border-radius: 6px; transition: all 0.2s ease; }
+.back-link:hover { background: var(--hover-bg); color: var(--accent-color); }
+.back-link svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+.article-container { max-width: 750px; margin: 0 auto; padding: 3rem 1.5rem; }
+.article-header { margin-bottom: 2.5rem; text-align: center; }
+.article-category { display: inline-block; background: #4F46E5; color: white; font-family: 'Amaranth', sans-serif; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 0.25rem 0.75rem; border-radius: 20px; margin-bottom: 1rem; }
+.article-title { font-family: 'Inter', sans-serif; font-size: 2.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 1.25rem; }
+.article-meta { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; color: var(--text-muted); font-family: 'Amaranth', sans-serif; font-size: 0.9rem; margin-bottom: 1rem; }
+.article-meta span { display: flex; align-items: center; gap: 0.35rem; }
+.article-meta svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
+.article-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
+.article-tag { background: var(--hover-bg); color: var(--tag-ink, var(--text-muted)); font-family: 'Amaranth', sans-serif; font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 12px; }
+
+.article-content { font-size: 1.1rem; color: var(--text-primary); }
+.article-content p { margin-bottom: 1.5rem; }
+.article-content h2 { font-family: 'Inter', sans-serif; font-size: 1.75rem; font-weight: 700; margin: 2.5rem 0 1rem; color: var(--text-primary); }
+.article-content h3 { font-family: 'Inter', sans-serif; font-size: 1.35rem; font-weight: 600; margin: 2rem 0 0.75rem; color: var(--text-primary); }
+.article-content strong { color: var(--text-primary); font-weight: 700; }
+.article-content ul, .article-content ol { margin: 1.5rem 0; padding-left: 1.5rem; }
+.article-content li { margin-bottom: 0.75rem; }
+.article-content blockquote { border-left: 4px solid var(--secondary-accent); padding: 1rem 1.5rem; margin: 2rem 0; background: var(--secondary-bg); border-radius: 0 8px 8px 0; font-style: italic; color: var(--text-secondary); }
+
+.article-illustration { margin: 2.5rem 0; text-align: center; }
+.article-illustration img { max-width: 100%; height: auto; border-radius: 12px; box-shadow: var(--shadow-lg); }
+.article-illustration figcaption { margin-top: 0.75rem; font-family: 'Amaranth', sans-serif; font-size: 0.85rem; color: var(--text-muted); font-style: italic; }
+
+/* Concept Grid */
+.concept-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin: 2rem 0; }
+.concept-card { background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; }
+.concept-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+.concept-name { font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--accent-color); }
+.concept-desc { font-family: 'Amaranth', sans-serif; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; }
+
+/* Formula Box */
+.formula-box { background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; margin: 2rem 0; text-align: center; }
+.formula-title { font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-muted); }
+.formula { font-family: 'Amaranth', sans-serif; font-size: 1.4rem; font-style: italic; color: var(--text-primary); margin-bottom: 1rem; letter-spacing: 0.5px; }
+.formula-legend { text-align: left; font-family: 'Amaranth', sans-serif; font-size: 0.85rem; color: var(--text-secondary); }
+.formula-legend p { margin-bottom: 0.35rem; }
+
+/* Warning Box */
+.warning-box { background: rgba(245, 158, 11, 0.1); border: 1px solid var(--warning-color); border-radius: 12px; padding: 1.25rem; margin: 2rem 0; }
+.warning-title { font-family: 'Amaranth', sans-serif; font-size: 0.85rem; font-weight: 700; color: var(--warning-color); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+.warning-text { font-family: 'Amaranth', sans-serif; font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; }
+
+/* Design Effect Table */
+.de-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-family: 'Amaranth', sans-serif; font-size: 0.9rem; }
+.de-table th, .de-table td { padding: 0.75rem; text-align: center; border: 1px solid var(--border-color); }
+.de-table th { background: var(--secondary-bg); font-weight: 600; color: var(--text-muted); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.5px; }
+.de-table td { color: var(--text-secondary); }
+.de-table tr:nth-child(even) td { background: var(--hover-bg); }
+
+/* Worked Example */
+.worked-example { background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; margin: 2rem 0; }
+.worked-example h4 { font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: var(--success-color); }
+.example-step { display: flex; gap: 1rem; margin-bottom: 0.75rem; font-family: 'Amaranth', sans-serif; font-size: 0.9rem; }
+.step-num { background: var(--success-color); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; }
+.step-text { color: var(--text-secondary); }
+.example-result { background: rgba(16, 185, 129, 0.15); border-radius: 8px; padding: 1rem; margin-top: 1rem; text-align: center; }
+.result-label { font-family: 'Amaranth', sans-serif; font-size: 0.8rem; color: var(--success-color); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.25rem; }
+.result-value { font-family: 'Inter', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--text-primary); }
+
+/* Checklist */
+.checklist { background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; margin: 2rem 0; }
+.checklist h4 { font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-primary); }
+.checklist-item { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.75rem; font-family: 'Amaranth', sans-serif; font-size: 0.95rem; color: var(--text-secondary); }
+.checklist-item::before { content: '☐'; color: var(--accent-color); font-size: 1.1rem; flex-shrink: 0; }
+
+.share-section { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-color); text-align: center; }
+.share-section h4 { font-family: 'Amaranth', sans-serif; font-size: 0.9rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1rem; }
+.share-buttons { display: flex; justify-content: center; gap: 0.75rem; }
+.share-btn { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: var(--secondary-bg); border: 1px solid var(--border-color); color: var(--text-secondary); text-decoration: none; transition: all 0.2s ease; }
+.share-btn:hover { background: var(--accent-color); border-color: var(--accent-color); color: white; transform: translateY(-2px); }
+.share-btn svg { width: 20px; height: 20px; fill: currentColor; }
+
+.newsletter-cta { background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem; margin: 3rem 0; text-align: center; }
+.newsletter-cta h3 { font-family: 'Inter', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
+.newsletter-cta p { color: var(--text-secondary); margin-bottom: 1rem; font-family: 'Amaranth', sans-serif; font-size: 0.95rem; }
+.newsletter-btn { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--gradient-primary); color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-family: 'Amaranth', sans-serif; font-weight: 600; font-size: 0.95rem; transition: all 0.2s ease; }
+.newsletter-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+
+.related-posts { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-color); }
+.related-posts h3 { font-family: 'Inter', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; text-align: center; }
+.related-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+.related-card { background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; text-decoration: none; transition: all 0.2s ease; }
+.related-card:hover { border-color: var(--accent-color); transform: translateY(-3px); }
+.related-card-category { font-family: 'Amaranth', sans-serif; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; color: var(--accent-color); margin-bottom: 0.5rem; }
+.related-card-title { font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 600; color: var(--text-primary); line-height: 1.3; }
+
+.footer { background: var(--secondary-bg); border-top: 1px solid var(--border-color); padding: 2rem; text-align: center; margin-top: 3rem; }
+.footer p { font-family: 'Amaranth', sans-serif; color: var(--text-muted); font-size: 0.875rem; margin-bottom: 0.5rem; }
+.footer a { color: var(--accent-color); text-decoration: none; }
+.footer a:hover { text-decoration: underline; }
+
+@media (max-width: 768px) { .article-title { font-size: 2rem; } .concept-grid { grid-template-columns: 1fr; } .related-grid { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .article-container { padding: 2rem 1rem; } .article-title { font-size: 1.75rem; } .article-content { font-size: 1rem; } .article-meta { flex-direction: column; gap: 0.5rem; } .de-table { font-size: 0.8rem; } .de-table th, .de-table td { padding: 0.5rem; } }
+
+[data-theme="dark"], body.dark-mode { --tag-ink: #CBD5E1; }
+
+.checklist-item a { color: #0369A1; text-decoration: underline; text-underline-offset: 2px; }
+[data-theme="dark"] .checklist-item a, body.dark-mode .checklist-item a { color: #0EA5E9; }
+</style>
+<style>
+/* ===== ImpactMojo Design System ===== */
+:root {
+    --im-primary-bg: #0F172A;
+    --im-secondary-bg: #1E293B;
+    --im-accent: #0EA5E9;
+    --im-accent-hover: #0284C7;
+    --im-secondary-accent: #6366F1;
+    --im-success: #10B981;
+    --im-text-primary: #F1F5F9;
+    --im-text-secondary: #94A3B8;
+    --im-text-muted: #64748B;
+    --im-card-bg: #1E293B;
+    --im-hover-bg: #334155;
+    --im-border: #334155;
+    --im-nav-bg: rgba(15, 23, 42, 0.95);
+    --im-gradient: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+}
+[data-theme="light"] {
+    --im-primary-bg: #F8FAFC;
+    --im-secondary-bg: #FFFFFF;
+    --im-accent: #0284C7;
+    --im-accent-hover: #0369A1;
+    --im-text-primary: #0F172A;
+    --im-text-secondary: #475569;
+    --im-text-muted: #64748B;
+    --im-card-bg: #FFFFFF;
+    --im-hover-bg: #F1F5F9;
+    --im-border: #E2E8F0;
+    --im-nav-bg: rgba(248, 250, 252, 0.95);
+}
+
+/* ImpactMojo Top Bar */
+.im-topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    background: var(--im-nav-bg, rgba(15, 23, 42, 0.95));
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--im-border, #334155);
+    padding: 0.5rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.75rem; flex-wrap: wrap;
+    font-family: 'Inter', sans-serif;
+}
+.im-topbar a { text-decoration: none; }
+.im-topbar-left {
+    display: flex; align-items: center; gap: 0.75rem;
+}
+.im-topbar-home {
+    display: flex; align-items: center; gap: 0.5rem;
+    color: var(--im-text-primary, #F1F5F9);
+    font-weight: 700; font-size: 1rem;
+    background: var(--im-gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.im-topbar-home svg { width: 24px; height: 24px; flex-shrink: 0; }
+.im-topbar-right {
+    display: flex; align-items: center; gap: 0.5rem;
+}
+.im-premium-btn {
+    background: var(--im-gradient);
+    color: #fff !important;
+    padding: 0.35rem 0.85rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: flex; align-items: center; gap: 0.35rem;
+    transition: opacity 0.2s;
+    -webkit-text-fill-color: #fff;
+}
+.im-premium-btn:hover { opacity: 0.9; }
+.im-premium-btn svg { width: 14px; height: 14px; }
+
+/* Theme Selector - 3 mode */
+.im-theme-selector {
+    display: flex; gap: 2px;
+    background: var(--im-card-bg, #1E293B);
+    border: 1px solid var(--im-border, #334155);
+    border-radius: 8px; padding: 2px;
+}
+.im-theme-btn {
+    background: transparent; border: none;
+    color: var(--im-text-secondary, #94A3B8);
+    padding: 6px; border-radius: 5px; cursor: pointer;
+    transition: all 0.2s; display: flex; align-items: center;
+    justify-content: center; width: 30px; height: 30px;
+}
+.im-theme-btn:hover {
+    background: var(--im-hover-bg, #334155);
+    color: var(--im-text-primary, #F1F5F9);
+}
+.im-theme-btn.active {
+    background: var(--im-accent, #0EA5E9);
+    color: #fff;
+}
+.im-theme-btn svg { width: 16px; height: 16px; }
+
+/* Paper Plane */
+.im-paper-plane {
+    position: fixed; top: 15%; right: 8%;
+    width: 120px; height: 120px;
+    opacity: 0.15; z-index: 0;
+    pointer-events: none;
+    animation: im-fly 25s ease-in-out infinite;
+}
+[data-theme="light"] .im-paper-plane { opacity: 0.2; }
+@keyframes im-fly {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    20% { transform: translate(60px, -40px) rotate(12deg); }
+    40% { transform: translate(120px, 30px) rotate(-8deg); }
+    60% { transform: translate(40px, 60px) rotate(15deg); }
+    80% { transform: translate(-30px, 20px) rotate(-5deg); }
+}
+
+/* ImpactMojo Footer */
+.im-footer {
+    background: var(--im-secondary-bg, #1E293B);
+    border-top: 1px solid var(--im-border, #334155);
+    padding: 2rem 1rem; margin-top: auto;
+    font-family: 'Inter', sans-serif;
+    color: var(--im-text-secondary, #94A3B8);
+}
+.im-footer-content {
+    max-width: 1100px; margin: 0 auto;
+}
+.im-footer-made {
+    text-align: center; margin-bottom: 1.5rem;
+    font-size: 0.9rem; color: var(--im-text-muted, #64748B);
+}
+.im-footer-made a { color: var(--im-accent, #0EA5E9); }
+.im-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem; margin-bottom: 1.5rem;
+}
+.im-footer-section h4 {
+    font-family: 'Inter', sans-serif;
+    color: var(--im-text-primary, #F1F5F9);
+    font-size: 0.9rem; margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+.im-footer-section ul { list-style: none; padding: 0; margin: 0; }
+.im-footer-section li { margin-bottom: 0.4rem; }
+.im-footer-section a {
+    color: var(--im-text-secondary, #94A3B8);
+    text-decoration: none; font-size: 0.85rem;
+    transition: color 0.2s;
+}
+.im-footer-section a:hover { color: var(--im-accent, #0EA5E9); }
+.im-footer-bottom {
+    text-align: center; padding-top: 1rem;
+    border-top: 1px solid var(--im-border, #334155);
+    font-size: 0.8rem; color: var(--im-text-muted, #64748B);
+}
+.im-footer-bottom p { margin: 0.25rem 0; }
+.im-footer-bottom a { color: var(--im-accent, #0EA5E9); text-decoration: none; }
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .im-topbar { padding: 0.4rem 0.75rem; gap: 0.5rem; }
+    .im-topbar-home { font-size: 0.85rem; }
+    .im-topbar-home svg { width: 20px; height: 20px; }
+    .im-premium-btn { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
+    .im-theme-btn { width: 26px; height: 26px; padding: 4px; }
+    .im-theme-btn svg { width: 14px; height: 14px; }
+    .im-paper-plane { width: 80px; height: 80px; top: 10%; right: 5%; }
+    .im-footer-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+}
+@media (max-width: 480px) {
+    .im-footer-grid { grid-template-columns: 1fr; }
+    .im-topbar-home span { display: none; }
+}
+
+/* ImpactMojo Global Font Overrides */
+body { font-family: 'Amaranth', sans-serif !important; }
+h1, h2, h3, h4, h5, h6 { font-family: 'Inter', sans-serif !important; }
+code, pre, .monospace, kbd, samp { font-family: 'JetBrains Mono', monospace !important; }
+
+/* WCAG 2.1 AA (1.4.1 Use of Color): inline anchors in content paragraphs must be distinguishable without relying on color alone. Scoped to <main> so nav/footer button-links are unaffected. */
+main p a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]),
+main li a[href]:not([class*="btn"]):not([class*="button"]):not([role="button"]) {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+</style>
+<!-- SEO meta (autogenerated) -->
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.impactmojo.in/blog/p-values-and-confidence-intervals.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "The P-Value Answers a Question You Probably Aren’t Asking", "description": "Statistical power and sample size calculations explained without the jargon—and why getting the numbers right matters for impact evaluation.", "url": "https://www.impactmojo.in/blog/p-values-and-confidence-intervals.html", "inLanguage": "en", "isAccessibleForFree": true, "author": {"@type": "Organization", "name": "ImpactMojo", "url": "https://www.impactmojo.in"}, "publisher": {"@type": "Organization", "name": "ImpactMojo", "url": "https://www.impactmojo.in"}, "datePublished": "2025-12-02", "dateModified": "2025-12-02"}</script>
+</head>
+<body>
+
+
+<header class="header">
+<nav class="nav-container">
+    <a class="logo-container" href="../index.html">
+        <img alt="ImpactMojo" src="../assets/images/ImpactMojo%20Logo.png" width="36" height="36">
+        <div class="logo-main">ImpactMojo</div>
+    </a>
+    <div class="nav-right">
+        <a href="../blog.html" class="back-link">
+            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            All Posts
+        </a>
+        <div class="im-theme-selector" aria-label="Theme selection">
+            <button class="im-theme-btn" data-imtheme="system" title="System theme" aria-label="Use system theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </button>
+            <button class="im-theme-btn" data-imtheme="light" title="Light theme" aria-label="Use light theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </button>
+            <button class="im-theme-btn" data-imtheme="dark" title="Dark theme" aria-label="Use dark theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+        </div>
+    </div>
+</nav>
+</header>
+
+<main class="article-container">
+    <article>
+        <header class="article-header">
+            <span class="article-category">Methods</span>
+            <h1 class="article-title">The P-Value Answers a Question You Probably Aren&rsquo;t Asking</h1>
+            <div class="article-meta">
+                <span>
+                    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    The ImpactMojo Team
+                </span>
+                <span>
+                    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    August 19, 2026
+                </span>
+                <span>
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    8 min read
+                </span>
+            </div>
+            <div class="article-tags"><span class="article-tag">statistics</span><span class="article-tag">p-values</span><span class="article-tag">evaluation</span></div>
+        </header>
+
+        <div class="article-content">
+            <p>Every programme evaluation eventually produces a line like this one: <em>the intervention raised handwashing-with-soap at critical times by 4.1 percentage points (p = 0.03)</em>. The room hears "p is under 0.05", writes down "it worked", and moves to the next slide.</p>
+
+            <p>That reading skips the question the meeting actually came to answer. A p-value is a statement about how surprising the data would be in a world where the programme did nothing. It is silent on how big the effect is, and a decision about whether to scale a programme is almost entirely a question about how big the effect is.</p>
+
+            <figure class="article-illustration">
+<svg viewBox="0 0 460 640" role="img" aria-labelledby="dgm-t dgm-d" style="display:block;width:100%;max-width:460px;height:auto;margin:0 auto;font-family:system-ui,-apple-system,'Segoe UI',sans-serif">
+  <title id="dgm-t">Two questions, two answers</title>
+  <desc id="dgm-d">The p-value asks how surprising the data would be if there were no effect, and returns a single probability: p equals 0.03. The confidence interval asks which effect sizes the data is consistent with, and returns a range: a 4.1 percentage point gain with a 95 per cent interval running from 0.3 to 7.9 points.</desc>
+  <style>
+    .dg-bg   { fill: #ffffff; }
+    .dg-card { fill: #f5f3ee; stroke: #ddd6c9; }
+    .dg-q    { fill: #4a453c; font-size: 14px; }
+    .dg-h    { fill: #1f1b16; font-size: 15px; font-weight: 700; letter-spacing: .05em; }
+    .dg-n    { fill: #1f1b16; font-size: 30px; font-weight: 700; }
+    .dg-s    { fill: #5d574c; font-size: 12.5px; }
+    .dg-rule { stroke: #8a6006; stroke-width: 3; }
+    .dg-tick { stroke: #8a6006; stroke-width: 2.5; }
+    .dg-dot  { fill: #8a6006; }
+    .dg-warn { fill: #8c2f16; font-size: 12.5px; }
+    .dg-ax   { stroke: #b9b1a1; stroke-width: 1; }
+    [data-theme="dark"] .dg-bg   { fill: #14171c; }
+    [data-theme="dark"] .dg-card { fill: #1b1f26; stroke: #2f3742; }
+    [data-theme="dark"] .dg-q    { fill: #c3bdb2; }
+    [data-theme="dark"] .dg-h    { fill: #ece7dd; }
+    [data-theme="dark"] .dg-n    { fill: #ece7dd; }
+    [data-theme="dark"] .dg-s    { fill: #b0a99e; }
+    [data-theme="dark"] .dg-rule,
+    [data-theme="dark"] .dg-tick { stroke: #e8b962; }
+    [data-theme="dark"] .dg-dot  { fill: #e8b962; }
+    [data-theme="dark"] .dg-warn { fill: #f0a184; }
+    [data-theme="dark"] .dg-ax   { stroke: #454c58; }
+  </style>
+  <rect class="dg-bg" x="0" y="0" width="460" height="640"/>
+
+  <rect class="dg-card" x="8" y="8" width="444" height="290" rx="10"/>
+  <text class="dg-h" x="30" y="44">THE P-VALUE</text>
+  <text class="dg-q" x="30" y="76">If there were truly no effect,</text>
+  <text class="dg-q" x="30" y="98">how surprising would this result be?</text>
+  <text class="dg-n" x="30" y="156">p = 0.03</text>
+  <text class="dg-s" x="30" y="186">Data this extreme would turn up 3% of the time</text>
+  <text class="dg-s" x="30" y="206">in a world where the programme did nothing.</text>
+  <text class="dg-warn" x="30" y="240">It does not say there is a 97% chance</text>
+  <text class="dg-warn" x="30" y="260">the effect is real.</text>
+  <text class="dg-s" x="30" y="286">Tells you whether to take the result seriously.</text>
+
+  <rect class="dg-card" x="8" y="318" width="444" height="314" rx="10"/>
+  <text class="dg-h" x="30" y="354">THE CONFIDENCE INTERVAL</text>
+  <text class="dg-q" x="30" y="386">Which effect sizes is this data</text>
+  <text class="dg-q" x="30" y="408">actually consistent with?</text>
+
+  <line class="dg-ax" x1="40" y1="470" x2="420" y2="470"/>
+  <line class="dg-rule" x1="56" y1="446" x2="404" y2="446"/>
+  <line class="dg-tick" x1="56" y1="434" x2="56" y2="458"/>
+  <line class="dg-tick" x1="404" y1="434" x2="404" y2="458"/>
+  <circle class="dg-dot" cx="230" cy="446" r="6"/>
+  <text class="dg-s" x="56" y="490" text-anchor="middle">+0.3 pp</text>
+  <text class="dg-s" x="230" y="490" text-anchor="middle">+4.1 pp</text>
+  <text class="dg-s" x="404" y="490" text-anchor="middle">+7.9 pp</text>
+
+  <text class="dg-s" x="30" y="528">Ninety-five per cent of intervals built this way</text>
+  <text class="dg-s" x="30" y="548">would contain the true effect.</text>
+  <text class="dg-warn" x="30" y="582">It is a claim about the method, not a</text>
+  <text class="dg-warn" x="30" y="602">probability about this one interval.</text>
+  <text class="dg-s" x="30" y="626">Tells you what the result is worth doing about.</text>
+</svg>
+<figcaption>The same analysis, read two ways. Only one of them tells a programme manager whether the effect is large enough to be worth the money.</figcaption>
+</figure>
+
+            <h2>The two questions, precisely</h2>
+
+            <p>A <strong>p-value</strong> asks: if the null hypothesis were true — if the programme genuinely changed nothing — how often would we see data at least this extreme? At p = 0.03, the answer is about three times in a hundred. That is a statement about data, conditional on an assumption. It says nothing about the probability that the assumption is true.</p>
+
+            <p>A <strong>confidence interval</strong> asks a different question: given this data, which values of the effect are compatible with it? A 95% interval of 0.3 to 7.9 percentage points says the data would not be very surprising under any true effect in that range. The "95%" describes the procedure — repeat the study many times and about 95% of the intervals you construct will contain the true value. It is not the probability that this particular interval contains it.</p>
+
+            <div class="worked-example">
+              <div class="formula-title">Why the distinction changes the decision</div>
+              <p>Take the handwashing result above, and suppose the programme costs ₹340 per household reached. The p-value is 0.03 in both of the following cases, and they call for opposite decisions.</p>
+              <div class="example-step"><strong>Interval A: +3.8 to +4.4 pp.</strong> The effect is precisely estimated and comfortably above the level at which the cost per additional practising household is defensible. Scale it.</div>
+              <div class="example-step"><strong>Interval B: +0.3 to +7.9 pp.</strong> Same point estimate, same p-value, far more uncertainty. The data is consistent with an effect large enough to be a flagship result and with one so small the programme is worse value than the alternatives. The honest answer is that this study cannot tell you which, and the next step is a better-powered evaluation rather than a scale-up.</div>
+              <p>Reporting only "4.1 pp, p = 0.03" makes A and B indistinguishable. The interval is what separates them.</p>
+            </div>
+
+            <p>The interval in the diagram is Interval B, which is the more common situation in field evaluations in South Asia — cluster designs, modest sample sizes, and intracluster correlation that widens intervals considerably. A result can clear the significance threshold and still be almost uninformative about magnitude.</p>
+
+            <h2>Four misreadings worth naming</h2>
+
+            <p>The following are documented misinterpretations, not strawmen. Greenland and colleagues catalogue twenty-five of them in a paper written precisely because they recur in published work.</p>
+
+            <div class="concept-grid">
+              <div class="concept-card">
+                <div class="concept-name">"p = 0.03 means a 97% chance the effect is real"</div>
+                <div class="concept-desc">The p-value is computed assuming there is no effect. It cannot also be the probability that there is one. Getting from a p-value to a probability about the hypothesis requires a prior, which is what Bayesian analysis supplies and frequentist testing does not.</div>
+              </div>
+              <div class="concept-card">
+                <div class="concept-name">"p &gt; 0.05 means no effect"</div>
+                <div class="concept-desc">It means the data is compatible with no effect. It is usually also compatible with a substantial effect. An underpowered study reliably produces non-significant results whether or not the programme works, which is why "no significant difference" and "no difference" are not interchangeable.</div>
+              </div>
+              <div class="concept-card">
+                <div class="concept-name">"The 95% interval has a 95% chance of containing the truth"</div>
+                <div class="concept-desc">The true effect is a fixed number; it is either inside this interval or it is not. The 95% is a property of the procedure across repetitions, which is why the term of art is <em>confidence</em> rather than probability.</div>
+              </div>
+              <div class="concept-card">
+                <div class="concept-name">"Two studies disagree because one was significant and one was not"</div>
+                <div class="concept-desc">Two studies with heavily overlapping intervals can easily land on opposite sides of 0.05. Comparing significance verdicts is not the same as comparing effect estimates, and treating it as such manufactures contradictions that the underlying numbers do not support.</div>
+              </div>
+            </div>
+
+            <h2>What to do instead</h2>
+
+            <p>None of this makes p-values useless. It makes them insufficient on their own. Three changes to how results are reported do most of the work.</p>
+
+            <div class="checklist">
+              <div class="checklist-item"><span><strong>Lead with the interval.</strong> Write "+4.1 pp (95% CI: 0.3 to 7.9)" rather than "+4.1 pp, p = 0.03". The interval carries the point estimate, the uncertainty, and the significance verdict together — if it excludes zero, p is below 0.05.</span></div>
+              <div class="checklist-item"><span><strong>Say what would change the decision before you see the result.</strong> If a 2 percentage point gain would not justify the cost, decide that during design. A pre-specified threshold turns an interval into an answer, and stops the effect size being reverse-engineered from whatever the study found.</span></div>
+              <div class="checklist-item"><span><strong>Describe non-significant results by their interval, not their verdict.</strong> "We can rule out effects larger than 3 points" is informative. "No significant effect" is not, and is routinely read as evidence of absence.</span></div>
+            </div>
+
+            <p>The habit worth building is small: whenever a p-value appears without an interval beside it, ask for the interval. In most reports the number is already in the regression output and was simply not carried into the summary.</p>
+
+            <h2>Further reading</h2>
+
+            <div class="checklist">
+              <div class="checklist-item"><span>Ronald Wasserstein and Nicole Lazar, <a href="https://doi.org/10.1080/00031305.2016.1154108" target="_blank" rel="noopener">"The ASA Statement on p-Values: Context, Process, and Purpose"</a> (<em>The American Statistician</em>, 2016). The professional body's own statement of what a p-value is and is not. Six principles, four pages.</span></div>
+              <div class="checklist-item"><span>Sander Greenland and colleagues, <a href="https://doi.org/10.1007/s10654-016-0149-3" target="_blank" rel="noopener">"Statistical tests, P values, confidence intervals, and power: a guide to misinterpretations"</a> (<em>European Journal of Epidemiology</em>, 2016). Twenty-five numbered misinterpretations, each with a correction. The single most useful reference on this page.</span></div>
+              <div class="checklist-item"><span>Valentin Amrhein, Sander Greenland and Blake McShane, <a href="https://doi.org/10.1038/d41586-019-00857-9" target="_blank" rel="noopener">"Scientists rise up against statistical significance"</a> (<em>Nature</em>, 2019). The argument for retiring the significant/non-significant dichotomy, signed by more than eight hundred researchers.</span></div>
+            </div>
+
+            <div class="related-posts">
+            <h3>Related Posts</h3>
+            <div class="related-grid">
+                <a href="meal-demystified.html" class="related-card">
+                    <div class="related-card-category">MEAL</div>
+                    <div class="related-card-title">MEAL Demystified: What Every NGO Should Know</div>
+                </a>
+                <a href="learning-by-doing.html" class="related-card">
+                    <div class="related-card-category">Teaching</div>
+                    <div class="related-card-title">Learning by Doing: Why Labs Matter</div>
+                </a>
+            </div>
+        </div>
+    </article>
+</main>
+
+<footer class="footer">
+    <p>© 2026 ImpactMojo. Released under <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a>.</p>
+    <p>Supported by <a href="https://www.pinpointventures.in" target="_blank">PinPoint Ventures</a></p>
+    <p style="margin-top: 1rem;"><a href="../blog.html">← Back to Learning Loops</a></p>
+    <p style="margin-top: 0.5rem;"><a href="/docs/" rel="noopener noreferrer" target="_blank">Documentation</a></p>
+</footer>
+
+
+<!-- Language Translation (Hindi, Tamil, Bengali, Marathi) -->
+<script src="/js/search.js" defer></script>
+<!-- ImpactMojo Theme Toggle JS -->
+<script src="/js/theme.js"></script>
+<!-- ImpactMojo Paper Plane -->
+<svg class="im-paper-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M80,130 L150,50" stroke="#10B981" stroke-width="2" stroke-dasharray="4,4"/>
+    <circle cx="150" cy="50" r="4" fill="#6366F1"/>
+    <circle cx="40" cy="155" r="2" fill="#0EA5E9" opacity="0.6"/>
+    <circle cx="35" cy="165" r="1.5" fill="#6366F1" opacity="0.4"/>
+    <circle cx="45" cy="170" r="1" fill="#10B981" opacity="0.5"/>
+</svg>
+
+<!-- Supabase Auth -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
+<script src="/js/state-manager.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/translate-sarvam.js" defer></script>
+  <script src="/js/site-chrome.js" defer></script>
+</body>
+</html>

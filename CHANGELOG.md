@@ -5,6 +5,26 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.208.0] - 2026-08-19
+
+### Added
+
+- **Reading companion: *Public Health, Ethics, and Equity*** (Anand, Peter & Sen, Oxford 2004). Nine sections and fourteen concepts covering Sen's argument that health equity cannot be assessed by looking at health alone, Marmot's social gradient and his rejection of health selection, the Rawlsian and indirect accounts of when an inequality is unjust, Anand and Hanson's critique of DALY age-weighting and discounting, and Sen's external-versus-internal perspectives — including the Kerala case, where the state with India's highest life expectancy also reports its highest self-perceived morbidity. Reading companions now 164.
+
+  Two honest limits are recorded in the companion itself: the volume predates the 2010 GBD revision that dropped age-weighting, so some of Anand and Hanson's specific numerical objections describe an earlier version of the metric; and the gradient evidence comes from salaried British civil servants, so its transfer to informal labour markets is an open question.
+
+## [10.207.0] - 2026-08-19
+
+### Added
+
+- **Blog: "The p-value answers a question you probably aren't asking."** On the difference between what a p-value and a confidence interval each tell you, with a worked example where the same point estimate and the same p = 0.03 support opposite programme decisions depending on the interval. Cites the ASA statement (2016), Greenland et al.'s twenty-five misinterpretations (2016), and Amrhein et al. in *Nature* (2019). The diagram is inline SVG rather than a raster illustration, so it carries real text, follows the theme, and scales without a second asset.
+
+### Fixed
+
+- **`.checklist-item` is `display:flex` with no `flex-wrap`**, so any item whose content starts with an element rather than bare text splits into several flex items that cannot wrap. Existing posts use plain text and were unaffected; wrapping the content in a single span is enough.
+- Three more contrast failures on the blog template, all found by auditing in dark mode: the category chip (white on `#6366F1`, 4.47:1 — under AA by 0.03), `.article-tag` (4.04:1), and links inside `.checklist` which the blog's link styling never reached and which fell back to the browser default blue at 1.56:1 on the dark card.
+- `.article-tag` and `.chip-count` fail for the same reason: `--text-muted` on `--hover-bg` is **4.04:1 in dark mode**. That pairing is used elsewhere and is worth a sweep rather than another one-off fix.
+
 ## [10.206.0] - 2026-08-19
 
 ### Added
