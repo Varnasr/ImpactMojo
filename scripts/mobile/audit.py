@@ -22,7 +22,7 @@ DEFAULT = [
  'index.html','catalog.html','premium.html','about.html','blog.html','dojos.html',
  'handouts.html','dataverse.html','faq.html','contact.html','game-library.html',
  'workshops.html','testimonials.html','login.html','signup.html','account.html',
- 'upgrade.html','portfolio.html','coaching.html','sitemap.html',
+ 'upgrade.html','portfolio.html','coaching.html','sitemap.html','fundamentals.html',
  '101-courses/index.html','101-courses/decks.html',
  'courses/causal/index.html','courses/mel/index.html','courses/gender/index.html',
  'BookSummaries/index.html','specials/marginalia/index.html',

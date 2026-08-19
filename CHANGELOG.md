@@ -5,6 +5,25 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.202.0] - 2026-08-19
+
+### Added
+
+- **`fundamentals.html` — the Indian Wheel of Power & Powerlessness as a clickable map.** A 12-axis / 3-ring SVG wheel (36 segments) rendered from `js/fundamentals-data.js`, with a detail panel per segment carrying sourced Indian evidence, an axis-level "what this does not settle" note, and cross-links into the relevant explorers and labs. Styling in `css/fundamentals.css`; interaction in `js/fundamentals-wheel.js`.
+- **The evidence layer: 113 entries across the 36 bands**, each with a named source and year. Every figure is traceable to a national statistical source (Census, NFHS-5, PLFS, NSS 76th Round, NCRB, AISHE, ASER, Time Use Survey), a statute or constitutional provision, or a reported judgment; nothing unsourced was admitted. Two MPI figures are labelled as coming from the NITI Aayog National MPI *baseline* round (NFHS-4, 2015–16), which is where the social-group breakdown is published — the 2023 Progress Review does not restate it.
+- **Attribution is a first-class section, not a footnote.** The wheel is credited to The Listeners Collective (Disha Paul, Ayush Biswas, Trupti M., Ganga Nair; developed 2022, published 2023), the wheel it adapts to Sylvia Duckworth for the Canadian Council for Refugees, the underlying argument to Crenshaw and Collins, and the Indian lineage to Ambedkar, the Phules, Chakravarti, Rege and Guru.
+- **Accessibility and sharing.** Every segment is a keyboard-reachable button (arrow keys move between axes and bands, Enter opens, Escape clears); each selection gets its own `#axis/ring` deep link that scrolls to the wheel on load; and the full dataset is duplicated as a plain-text `<details>` index that reads without the SVG and prints cleanly.
+- **An optional "mark where you sit" mode**, persisted to `localStorage` only. It deliberately produces no score and no total — the page says why in "What this wheel is not".
+
+### Fixed
+
+- `sitemap.html` — the "Explore & Community" group count was stating 23 for 22 links; corrected to the actual count.
+
+### Notes
+
+- The hero is a `<section>` inside `<main>` rather than a top-level `<header>`, because `js/site-chrome.js` removes every `<header>`/`<nav>` that is a direct child of `<body>` when it injects the standard chrome. The same applies to the skip link, which is now a bare `<a>`.
+- The page palette mirrors its dark tokens behind `prefers-color-scheme` as well as `[data-theme="dark"]`, because `site-chrome.js` removes `data-theme` entirely in "system" mode.
+
 ## [10.201.0] - 2026-08-16
 
 ### Added
