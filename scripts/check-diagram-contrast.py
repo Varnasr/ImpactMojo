@@ -43,6 +43,7 @@ DIAGRAMS = [
     ("js/fundamentals-data.js", "js/fundamentals-wheel.js", "#241a20"),
     ("js/capabilities-data.js", "js/capabilities.js", "#241a20"),
     ("js/gender-needs-data.js", "js/gender-needs.js", "#241a20"),
+    ("js/livelihoods-data.js", "js/livelihoods.js", "#241a20"),
 ]
 
 # The wheel does not paint on the base colour: each ring is a mix of it.
@@ -70,6 +71,14 @@ QUAD_LABELS = [
                           ("#15803d", "#166534"), ("#b45309", "#92400e")]),
     ("dark", "#141a26", [("#0369a1", "#7dd3fc"), ("#6d28d9", "#c4b5fd"),
                          ("#15803d", "#6ee7b7"), ("#b45309", "#fcd34d")]),
+]
+
+# The livelihoods pentagon names each axis beside the chart, on the page ground
+# rather than on any fill, so those labels need the same treatment. All five
+# capital colours fail on the dark ground; the light ones are the base colours.
+AXIS_LABELS = [
+    ("light", "#f7fafc", ["#b45309", "#6d28d9", "#15803d", "#0369a1", "#be185d"]),
+    ("dark", "#141a26", ["#fcd34d", "#c4b5fd", "#6ee7b7", "#7dd3fc", "#f9a8d4"]),
 ]
 
 AA_NORMAL = 4.5
@@ -176,6 +185,15 @@ def main():
                 problems.append(
                     "gender-needs quadrant label %s on its %s wash (%s) is "
                     "%.2f:1, below %.1f" % (ink, theme, wash, got, AA_NORMAL)
+                )
+
+    for theme, ground, inks in AXIS_LABELS:
+        for ink in inks:
+            got = contrast(ink, ground)
+            if got < AA_NORMAL:
+                problems.append(
+                    "livelihoods axis label %s on the %s page ground is %.2f:1, "
+                    "below %.1f" % (ink, theme, got, AA_NORMAL)
                 )
 
     if problems:

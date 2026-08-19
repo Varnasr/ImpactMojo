@@ -2,6 +2,14 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.216.0 — August 19, 2026 (A seventh Fundamentals map: sustainable livelihoods)
+
+### For Learners
+
+- **The Sustainable Livelihoods Framework** — the seventh framework in the series. Eight Indian livelihoods drawn as asset pentagons across the five capitals, and shown together so the shapes can be compared: a landless labourer's collapses on the natural axis, a large landholder's is nearly full, a home-based worker's is the smallest on the page. Open any one for the shocks and trends it sits inside, the structures that decide what its assets are actually worth, and the evidence for every corner.
+
+  The finding the page is built around: an average Indian agricultural household earns **₹4,063 a month from wages and ₹3,058 from crop production**. The households that farming defines earn more from selling their labour than from farming.
+
 ## v10.215.0 — August 19, 2026 (A sixth Fundamentals map: gender needs)
 
 ### For Learners
