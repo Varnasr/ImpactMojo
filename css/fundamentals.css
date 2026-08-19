@@ -507,3 +507,159 @@ details.ax[open] > summary { border-bottom: 1px solid var(--color-border); }
   .mx-cell.is-empty { display: none; }
   .mx-ch { position: relative; }
 }
+
+/* ============================================================================
+   Capability approach — the conversion chain
+   Uses the same tokens as the rest of this file, so both themes follow without
+   a second set of colour rules. Only the four stage fills are literal, and
+   those come from js/capabilities-data.js with their ink picked by contrast
+   ratio at render time.
+   ========================================================================= */
+
+.cap-chain {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  counter-reset: none;
+}
+.cap-stage { background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 14px; padding: 0; overflow: hidden; display: flex; flex-direction: column; }
+.cap-stage-box { padding: 0.85rem 1rem; display: flex; align-items: baseline; gap: 0.6rem; }
+.cap-stage-n { font-family: var(--font-mono); font-size: 0.8rem; opacity: 0.85; }
+.cap-stage-name { font-family: var(--font-heading); font-weight: 700; font-size: 1.02rem; letter-spacing: -0.01em; }
+.cap-stage-gloss { margin: 0.9rem 1rem 0.4rem; font-size: 0.94rem; font-weight: 700; color: var(--color-text); }
+.cap-stage-detail { margin: 0 1rem 1rem; font-size: 0.88rem; line-height: 1.6; color: var(--color-text-muted); }
+
+/* The chain reads left to right on a wide screen; the arrow is a separator
+   rather than content, so it is hidden from assistive tech. */
+@media (min-width: 900px) {
+  .cap-stage { position: relative; }
+  .cap-stage + .cap-stage::before {
+    content: ""; position: absolute; left: -0.68rem; top: 1.45rem;
+    width: 0.42rem; height: 0.42rem; border-top: 2px solid var(--color-border);
+    border-right: 2px solid var(--color-border); transform: rotate(45deg);
+  }
+}
+
+/* ------------------------------------------------------------- the pickers */
+.chain-picker { display: grid; gap: 0.6rem; }
+.chain-btn {
+  display: block; width: 100%; text-align: left; cursor: pointer;
+  background: var(--color-bg-card); color: var(--color-text);
+  border: 1px solid var(--color-border); border-radius: 12px;
+  padding: 0.75rem 0.9rem; font-family: var(--font-body); font-size: 0.95rem;
+  transition: border-color 0.15s, background 0.15s;
+}
+.chain-btn b { display: block; font-family: var(--font-heading); font-size: 1rem; margin-bottom: 0.15rem; }
+.chain-btn span { display: block; font-size: 0.86rem; color: var(--color-text-muted); line-height: 1.45; }
+.chain-btn:hover { border-color: var(--color-link); }
+.chain-btn:focus-visible { outline: 2px solid var(--color-link); outline-offset: 2px; }
+.chain-btn.is-on { border-color: var(--color-link); background: var(--color-bg-sunk); }
+
+/* ------------------------------------------------------ the headline pair */
+.cap-headline { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.8rem; margin: 0.9rem 0 1.1rem; }
+.cap-headline > div { background: var(--color-bg-sunk); border-radius: 12px; padding: 0.8rem 0.9rem; }
+.cap-headline b { display: block; font-family: var(--font-heading); font-size: 1.5rem; line-height: 1.15; letter-spacing: -0.02em; }
+.cap-headline span { display: block; font-size: 0.84rem; color: var(--color-text-muted); margin-top: 0.25rem; line-height: 1.45; }
+.cap-headline .ch-a b { color: #0369A1; }
+.cap-headline .ch-b b { color: #B45309; }
+[data-theme="dark"] .cap-headline .ch-a b { color: #7DD3FC; }
+[data-theme="dark"] .cap-headline .ch-b b { color: #FCD34D; }
+
+/* --------------------------------------------------- resource → capability */
+.cap-steps { margin: 0 0 1.1rem; padding: 0; }
+.cap-steps dt {
+  font-family: var(--font-heading); font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.09em; text-transform: uppercase; color: var(--color-text-muted);
+  margin-top: 0.75rem;
+}
+.cap-steps dd { margin: 0.2rem 0 0; font-size: 0.94rem; line-height: 1.6; }
+
+/* ------------------------------------------------------ conversion factors */
+.cap-factors { list-style: none; margin: 0.4rem 0 1.2rem; padding: 0; display: grid; gap: 0.55rem; }
+.cap-factors .cf {
+  background: var(--color-bg-sunk); border-radius: 10px; padding: 0.7rem 0.85rem;
+  font-size: 0.9rem; line-height: 1.6; border-left: 3px solid var(--color-border);
+}
+.cap-factors .cf-tag {
+  display: inline-block; font-family: var(--font-heading); font-size: 0.68rem;
+  font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  margin-right: 0.5rem; color: var(--color-text-muted);
+}
+.cf-personal      { border-left-color: #B45309; }
+.cf-social        { border-left-color: #6D28D9; }
+.cf-environmental { border-left-color: #15803D; }
+
+.cap-reading { background: var(--color-bg-sunk); border-left: 3px solid var(--color-link); border-radius: 0 12px 12px 0; padding: 1rem 1.1rem; margin-bottom: 1.2rem; }
+.cap-reading b { display: block; font-family: var(--font-heading); font-size: 0.95rem; margin-bottom: 0.35rem; }
+.cap-reading p { margin: 0; font-size: 0.92rem; line-height: 1.65; }
+
+/* ------------------------------------------------------------- Nussbaum 10 */
+.nussbaum { margin: 0; padding: 0 0 0 1.3rem; display: grid; gap: 0.7rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.nussbaum li { font-size: 0.93rem; line-height: 1.55; }
+.nussbaum li b { display: block; font-family: var(--font-heading); font-size: 0.98rem; }
+.nussbaum li span { color: var(--color-text-muted); }
+
+/* ============================================================================
+   The twelve questions — deriving a wheel position instead of self-marking
+   ========================================================================= */
+.assess { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--color-border); }
+.assess-lede { font-size: 0.95rem; line-height: 1.7; color: var(--color-text-muted); margin-bottom: 1.6rem; max-width: 62ch; }
+
+.assess-q {
+  border: 1px solid var(--color-border); border-radius: 14px;
+  padding: 1.1rem 1.2rem 0.9rem; margin: 0 0 1rem; background: var(--color-bg-card);
+}
+.assess-q legend {
+  font-family: var(--font-heading); font-weight: 700; font-size: 1rem;
+  line-height: 1.45; padding: 0 0.4rem; display: flex; gap: 0.55rem; align-items: baseline;
+}
+.assess-q .aq-n { font-family: var(--font-mono); font-size: 0.78rem; color: var(--color-text-muted); }
+.aq-help { font-size: 0.86rem; line-height: 1.6; color: var(--color-text-muted); margin: 0.5rem 0 0.8rem; }
+
+.aq-opt {
+  display: flex; gap: 0.6rem; align-items: flex-start;
+  padding: 0.55rem 0.6rem; border-radius: 9px; cursor: pointer;
+  font-size: 0.93rem; line-height: 1.55;
+}
+.aq-opt:hover { background: var(--color-bg-sunk); }
+.aq-opt input { margin-top: 0.28rem; flex: 0 0 auto; accent-color: var(--color-link); }
+.aq-opt input:focus-visible { outline: 2px solid var(--color-link); outline-offset: 2px; }
+/* Skipping is a first-class answer here, not a way out, so it is set apart
+   rather than made to look like a lesser option. */
+.aq-skip { color: var(--color-text-muted); border-top: 1px dashed var(--color-border); margin-top: 0.4rem; padding-top: 0.7rem; }
+.aq-axis {
+  font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--color-text-muted);
+  margin: 0.7rem 0 0; padding-top: 0.55rem; border-top: 1px solid var(--color-border);
+}
+
+.assess-actions { display: flex; gap: 0.7rem; flex-wrap: wrap; margin: 1.3rem 0; }
+
+.assess-result {
+  background: var(--color-bg-sunk); border: 1px solid var(--color-border);
+  border-radius: 14px; padding: 1.2rem 1.3rem; margin-top: 0.5rem;
+}
+.assess-result h4 { font-family: var(--font-heading); font-size: 1.05rem; margin: 0 0 0.5rem; }
+.assess-result > p { font-size: 0.9rem; line-height: 1.65; color: var(--color-text-muted); margin: 0 0 1rem; max-width: 66ch; }
+.assess-result .assess-foot { margin: 1rem 0 0; font-size: 0.86rem; }
+
+.assess-rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+.assess-rows .ar {
+  display: grid; gap: 0.15rem 0.8rem; align-items: baseline;
+  grid-template-columns: 1fr auto;
+  background: var(--color-bg-card); border-radius: 10px;
+  padding: 0.7rem 0.85rem; border-left: 3px solid var(--color-border);
+}
+.assess-rows .ar-axis { font-family: var(--font-heading); font-weight: 700; font-size: 0.96rem; }
+.assess-rows .ar-band { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-text-muted); }
+.assess-rows .ar-def { grid-column: 1 / -1; font-size: 0.86rem; line-height: 1.55; color: var(--color-text-muted); }
+/* Band colours match the wheel's three rings. */
+.assess-rows .r-power  { border-left-color: #7f1d1d; }
+.assess-rows .r-middle { border-left-color: #B45309; }
+.assess-rows .r-margin { border-left-color: #6D28D9; }
+
+@media (min-width: 760px) {
+  #assessBody { columns: 2; column-gap: 1.2rem; }
+  .assess-q { break-inside: avoid; }
+  .assess-lede, .assess-actions, #assessResult { column-span: all; }
+}

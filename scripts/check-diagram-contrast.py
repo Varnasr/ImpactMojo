@@ -41,6 +41,7 @@ DIAGRAMS = [
     ("js/ladder-data.js", "js/ladder.js", "#1a1420"),
     ("js/whocounts-data.js", "js/whocounts.js", "#1a1420"),
     ("js/fundamentals-data.js", "js/fundamentals-wheel.js", "#241a20"),
+    ("js/capabilities-data.js", "js/capabilities.js", "#241a20"),
 ]
 
 # The wheel does not paint on the base colour: each ring is a mix of it.
