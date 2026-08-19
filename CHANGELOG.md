@@ -23,6 +23,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Email is now required** when submitting a challenge, since it is the only way feedback can be returned. The blank submission template can no longer be submitted unchanged; it is prefilled as the textarea's value, so it cleared the 200-character minimum on its own.
 - Three contract tests (`test-form-submit`, `test-challenge-submit`, `test-form-submit-endpoint`) wired into `ci.yml` as the `form-submission` job, so the false-success bug cannot return unnoticed.
 
+## [10.210.0] - 2026-08-19
+
+### Added
+
+- **Fundamentals: The Capability Approach** — the fifth page in the series. Sen's distinction between a resource, a capability and a functioning, drawn as a four-stage conversion chain, with five Indian resources followed from end to end: a school place, a household toilet, a bicycle, household income and a ration entitlement. Fifteen evidence entries, each with a named source and year. Includes Nussbaum's ten central capabilities and the reason Sen declined to write such a list.
+
+  The page opens on the pair that makes the argument: 98.1% of rural children aged 6–14 were enrolled in 2024, and 44.8% of Std V children in government schools could read a Std II text. Both are ASER 2024, taken from the report rather than from memory — the second is the government-school figure specifically, which is the kind of detail that goes wrong when statistics are asserted rather than checked.
+
+  `scripts/check-diagram-contrast.py` now covers the new renderer, making it five. Verified by reintroducing the luminance-cutoff bug and confirming the guard fails.
+
 ## [10.209.0] - 2026-08-19
 
 ### Added

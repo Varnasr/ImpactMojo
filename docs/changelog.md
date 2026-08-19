@@ -9,6 +9,12 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 - **Attach your work to a Live Case Challenge** — upload a PDF, Word, Excel or PowerPoint file, or an image, alongside your written response.
 - **Your submission now tells you if it did not go through.** Previously a failed submission still showed a confirmation. If something goes wrong you will see it, and your text is kept in the browser so nothing is lost.
 
+## v10.210.0 — August 19, 2026 (A fifth Fundamentals map)
+
+### For Learners
+
+- **The Capability Approach** — a new Fundamentals page on the difference between what a programme provides and what a person can actually do with it. Five Indian examples followed end to end, from school places against reading levels to toilets built against toilets used.
+
 ## v10.209.0 — August 19, 2026 (Two new reading companions)
 
 ### For Learners
