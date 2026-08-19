@@ -435,3 +435,64 @@ details.ax[open] > summary { border-bottom: 1px solid var(--color-border); }
 .gap-k { display: inline-block; font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 1.4px; text-transform: uppercase; color: var(--gi, #fff); background: var(--gc); padding: 0.12rem 0.5rem; border-radius: 999px; margin-bottom: 0.35rem; }
 .gap-n { display: block; font-family: var(--font-heading); font-weight: 800; font-size: 1.05rem; line-height: 1.25; }
 .gap-m { display: block; font-size: 0.88rem; color: var(--color-text-muted); margin-top: 0.15rem; }
+
+/* =============================================================================
+   Shared diagram grammar: every Fundamentals page has one clickable, labelled
+   diagram, a live caption under it, and the evidence panel beside it.
+   ============================================================================= */
+
+/* ---------- Ladder: two side rails with rungs spanning between them ---------- */
+.ladder { position: relative; padding: 0 34px; }
+.ladder::before, .ladder::after {
+  content: ""; position: absolute; top: 26px; bottom: 6px; width: 10px; border-radius: 5px;
+  background: linear-gradient(to bottom, #166534 0%, #4d7c0f 30%, #b45309 46%, #d97706 66%, #9f1239 80%, #881337 100%);
+}
+.ladder::before { left: 6px; }
+.ladder::after { right: 6px; }
+.rung { border-left-width: 1px; border-radius: 8px; }
+.rung::before, .rung::after {
+  content: ""; position: absolute; top: 50%; width: 34px; height: 6px; margin-top: -3px;
+  background: var(--rc); opacity: 0.55;
+}
+.rung::before { left: -34px; }
+.rung::after { right: -34px; }
+.rung[aria-pressed="true"]::before, .rung[aria-pressed="true"]::after { opacity: 1; height: 8px; margin-top: -4px; }
+.band-head { padding-left: 4px; }
+.ladder-key { padding: 0 0 0.2rem; }
+
+/* ---------- Cube ---------- */
+.cube-frame { background: var(--wheel-plate); border: 1px solid var(--color-border); border-radius: 20px; padding: 0.6rem; }
+#cubeSvg { width: 100%; height: auto; display: block; }
+.slice { cursor: pointer; stroke: var(--wheel-stroke); stroke-width: 1.5; transition: opacity 0.15s ease; }
+.slice:hover { filter: brightness(1.12); }
+.has-sel .slice:not(.is-on) { opacity: 0.3; }
+.slice.is-on { stroke: var(--color-text); stroke-width: 3; }
+.cube-edge { stroke: var(--color-text); stroke-width: 1.6; fill: none; opacity: 0.55; pointer-events: none; }
+.leader { stroke: var(--color-text-muted); stroke-width: 1; pointer-events: none; }
+.slice-label { font-family: var(--font-heading); font-weight: 700; font-size: 13px; fill: var(--color-text); pointer-events: none; }
+.slice-label.is-on { font-weight: 800; }
+.face-title { font-family: var(--font-heading); font-weight: 800; font-size: 12px; letter-spacing: 2px; pointer-events: none; }
+
+/* ---------- Who Counts matrix ---------- */
+.mx { display: grid; gap: 6px; }
+.mx-row { display: grid; grid-template-columns: minmax(120px, 1.1fr) repeat(3, minmax(120px, 1fr)); gap: 6px; }
+.mx-corner { display: flex; flex-direction: column; justify-content: flex-end; font-family: var(--font-mono); font-size: 0.64rem; letter-spacing: 1px; text-transform: uppercase; color: var(--color-text-muted); padding: 0.3rem; }
+.mx-ch, .mx-rh { background: var(--color-bg-sunk); border-radius: 10px; padding: 0.6rem 0.7rem; }
+.mx-ch b, .mx-rh b { display: block; font-family: var(--font-heading); font-size: 0.86rem; }
+.mx-ch span, .mx-rh span { display: block; font-size: 0.76rem; color: var(--color-text-muted); margin-top: 0.15rem; }
+.mx-cell { background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 10px; padding: 0.45rem; display: flex; flex-direction: column; gap: 0.4rem; justify-content: center; min-height: 64px; }
+.mx-cell.is-empty { background: transparent; border-style: dashed; }
+.mx-none { text-align: center; color: var(--color-text-muted); font-family: var(--font-mono); }
+.mx-tile {
+  width: 100%; text-align: left; cursor: pointer; min-height: 44px;
+  font-family: var(--font-heading); font-weight: 700; font-size: 0.84rem; line-height: 1.2;
+  background: var(--gc); color: var(--gi, #fff); border: 2px solid transparent; border-radius: 8px; padding: 0.5rem 0.6rem;
+}
+.mx-tile[aria-pressed="true"] { border-color: var(--color-text); }
+@media (max-width: 760px) {
+  .mx-row { grid-template-columns: 1fr; }
+  .mx-corner { display: none; }
+  .mx-rh { margin-top: 0.5rem; }
+  .mx-cell.is-empty { display: none; }
+  .mx-ch { position: relative; }
+}

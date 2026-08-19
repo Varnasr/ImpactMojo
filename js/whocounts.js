@@ -35,6 +35,59 @@ window.FWhoCounts = (function () {
 
   function byId(id) { return D.gaps.filter(function (g) { return g.id === id; })[0]; }
 
+  /* ---------------------------------------------------------------- diagram */
+  /* A 3x3 matrix: what is being measured against how the measurement fails.
+     The empty cells carry the argument - identity gaps cluster under "never
+     asked", and every "how you live" gap is frozen rather than missing. */
+  function drawMatrix() {
+    var box = document.getElementById("matrix");
+    if (!box) return;
+    var rows = ["identity", "condition", "outcome"];
+    var cols = ["never", "under", "frozen"];
+    var h = ['<div class="mx" role="table" aria-label="Gaps in Indian official data, by what is measured and how the measurement fails">'];
+    h.push('<div class="mx-row mx-head" role="row"><div class="mx-corner" role="columnheader"><span>what</span><span>how it fails</span></div>');
+    cols.forEach(function (c) {
+      h.push('<div class="mx-ch" role="columnheader"><b>' + esc(D.KINDS[c].label) + '</b><span>' + esc(D.KINDS[c].note) + '</span></div>');
+    });
+    h.push('</div>');
+    rows.forEach(function (r) {
+      h.push('<div class="mx-row" role="row"><div class="mx-rh" role="rowheader"><b>' + esc(D.ABOUT[r].label) + '</b><span>' + esc(D.ABOUT[r].note) + '</span></div>');
+      cols.forEach(function (c) {
+        var here = D.gaps.filter(function (g) { return g.about === r && g.kind === c; });
+        h.push('<div class="mx-cell' + (here.length ? '' : ' is-empty') + '" role="cell">');
+        if (!here.length) h.push('<span class="mx-none" aria-label="no gap of this kind">&mdash;</span>');
+        here.forEach(function (g) {
+          h.push('<button type="button" class="mx-tile" data-gap="' + esc(g.id) + '" aria-pressed="false" style="--gc:' + esc(g.color) + ';--gi:' + ink(g.color) + '">' + esc(g.name) + '</button>');
+        });
+        h.push('</div>');
+      });
+      h.push('</div>');
+    });
+    h.push('</div>');
+    box.innerHTML = h.join("");
+    box.querySelectorAll("[data-gap]").forEach(function (b) {
+      b.addEventListener("click", function () { select(b.getAttribute("data-gap")); });
+    });
+  }
+
+  function paint() {
+    document.querySelectorAll("#matrix .mx-tile, #gaps .gap").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.getAttribute("data-gap") === state.gap));
+    });
+    var box = document.getElementById("gapCaption");
+    if (!box) return;
+    if (!state.gap) {
+      box.className = "wheel-caption is-empty";
+      box.innerHTML = '<span class="cap-t">Nothing selected yet. Pick a tile in the matrix, or a gap from the list below.</span>';
+      return;
+    }
+    var g = byId(state.gap);
+    box.className = "wheel-caption";
+    box.innerHTML = '<span class="cap-sw" style="background:' + esc(g.color) + '"></span>' +
+      '<span><span class="cap-s">' + esc(D.ABOUT[g.about].label) + ' &middot; ' + esc(D.KINDS[g.kind].label) + '</span>' +
+      '<span class="cap-t">' + esc(g.name) + '</span></span>';
+  }
+
   function build() {
     var box = document.getElementById("gaps");
     if (!box) return;
@@ -54,9 +107,7 @@ window.FWhoCounts = (function () {
     var g = byId(id);
     if (!g) return;
     state.gap = id;
-    document.querySelectorAll("#gaps .gap").forEach(function (b) {
-      b.setAttribute("aria-pressed", String(b.getAttribute("data-gap") === id));
-    });
+    paint();
     var h = [];
     h.push('<div class="panel-axis"><span class="swatch" style="background:' + esc(g.color) + '"></span>' + esc(D.KINDS[g.kind].label) + '</div>');
     h.push('<h3>' + esc(g.name) + '</h3>');
@@ -82,7 +133,7 @@ window.FWhoCounts = (function () {
   function nav(dir) {
     if (dir === "clear") {
       state.gap = null;
-      document.querySelectorAll("#gaps .gap").forEach(function (b) { b.setAttribute("aria-pressed", "false"); });
+      paint();
       renderEmpty();
       history.replaceState(null, "", location.pathname);
       return;
@@ -109,7 +160,7 @@ window.FWhoCounts = (function () {
 
   function init() {
     if (!D || !D.gaps) return;
-    build();
+    drawMatrix(); build(); paint();
     if (!fromHash()) renderEmpty();
     window.addEventListener("hashchange", fromHash);
   }
