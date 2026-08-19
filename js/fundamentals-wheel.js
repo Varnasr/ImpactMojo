@@ -120,8 +120,7 @@ window.FWheel = (function () {
         var id = "arc-" + axis.id + "-" + ring;
         defs.appendChild(el("path", { id: id, d: textArc(a0, a1, rMid) }));
         var t = el("text", {
-          class: "seg-label",
-          "font-size": ring === "power" ? 7.6 : 8.4,
+          class: "seg-label r-" + ring,
           fill: readableOn(fill),
           "pointer-events": "none"
         });
@@ -182,6 +181,7 @@ window.FWheel = (function () {
     }
     document.getElementById("wheelFrame").classList.add("wheel-dim");
     syncPickers();
+    setCaption(axis, ring);
     renderPanel(axis, ring);
     if (!opts.silent) history.replaceState(null, "", "#" + axisId + "/" + ring);
   }
@@ -191,6 +191,7 @@ window.FWheel = (function () {
     document.querySelectorAll("#wheel .seg, #wheel .segw").forEach(function (s) { s.classList.remove("is-active"); });
     document.getElementById("wheelFrame").classList.remove("wheel-dim");
     syncPickers();
+    setCaption(null, null);
     renderEmpty();
     history.replaceState(null, "", location.pathname);
   }
@@ -311,6 +312,47 @@ window.FWheel = (function () {
     document.getElementById("clearMarks").addEventListener("click", function () {
       state.marks = {}; saveMarks(); paintMarks(); renderMarks();
     });
+  }
+
+  /* Labels are sized per ring by the arc that ring has, but the longest string
+     in a ring can still overrun its 30-degree slice and spill onto the page
+     background. Measure each one against its own arc and shrink only those
+     that overflow, so a future label change cannot reintroduce it. */
+  function fitLabels() {
+    document.querySelectorAll("#wheel .seg-label").forEach(function (t) {
+      var tp = t.querySelector("textPath");
+      if (!tp) return;
+      var href = tp.getAttribute("href") || tp.getAttributeNS("http://www.w3.org/1999/xlink", "href");
+      var arc = href && document.querySelector("#wheel " + href);
+      if (!arc || !arc.getTotalLength) return;
+      var avail = arc.getTotalLength() * 0.92;
+      var size = parseFloat(getComputedStyle(t).fontSize) || 9;
+      for (var i = 0; i < 12; i++) {
+        var len = 0;
+        try { len = t.getComputedTextLength(); } catch (e) { return; }
+        if (!len || len <= avail || size <= 6.5) break;
+        size = Math.max(6.5, size * Math.max(0.86, avail / len));
+        t.setAttribute("font-size", size.toFixed(2));
+      }
+    });
+  }
+
+  /* ------------------------------------------------------------- caption */
+  /* Below 760px the segment labels would render at about 4px, so they are
+     hidden and this carries the selection at real text size instead. It is
+     useful at every width, which is why it is not itself behind a query. */
+  function setCaption(axis, ring) {
+    var box = document.getElementById("wheelCaption");
+    if (!box) return;
+    if (!axis) {
+      box.className = "wheel-caption is-empty";
+      box.innerHTML = '<span class="cap-t">Nothing selected yet. Pick a band on the wheel, or use the buttons below.</span>';
+      return;
+    }
+    box.className = "wheel-caption";
+    box.innerHTML = '<span class="cap-sw" style="background:' + esc(axis.color) + '"></span>' +
+      '<span><span class="cap-s">' + esc(axis.name) + ' &middot; ' + esc(D.RING_LABEL[ring]) + '</span>' +
+      '<span class="cap-t">' + esc(axis.rings[ring].short) + '</span></span>';
   }
 
   /* --------------------------------------------------------------- pickers */
@@ -439,7 +481,9 @@ window.FWheel = (function () {
   function init() {
     if (!D || !D.axes) return;
     buildWheel();
+    fitLabels();
     buildPickers();
+    setCaption(null, null);
     buildIndex();
     loadMarks();
     paintMarks();

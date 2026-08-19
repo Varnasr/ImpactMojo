@@ -34,6 +34,9 @@ const PAGES = [
   'courses/mel/index.html',
   'fundamentals/wheel.html',
   'fundamentals/index.html',
+  'fundamentals/ladder.html',
+  'fundamentals/power-cube.html',
+  'fundamentals/who-counts.html',
 ];
 
 // axe-core impact levels: minor, moderate, serious, critical

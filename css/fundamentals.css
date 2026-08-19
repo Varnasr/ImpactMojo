@@ -137,7 +137,10 @@ a { color: var(--color-link); }
 .seg.is-active { stroke: var(--color-text); stroke-width: 3; }
 .seg.is-focus { stroke: var(--color-accent-blue); stroke-width: 3.5; }
 .segw { transition: opacity 0.18s ease; }
-.wheel-dim .segw:not(.is-active) { opacity: 0.42; }
+/* Dim the fill, never the label. Fading the whole group took its text down
+   with it: dark labels at 42% opacity measured 2.28:1, below AA. Dimming the
+   path alone lightens the background behind the label, which improves it. */
+.wheel-dim .segw:not(.is-active) .seg { opacity: 0.34; }
 .seg.is-marked { stroke: #f59e0b; stroke-width: 3; }
 
 .hub { fill: var(--wheel-hub); }
@@ -261,6 +264,11 @@ details.ax[open] > summary { border-bottom: 1px solid var(--color-border); }
 /* segment labels drawn on the wheel face */
 .seg-label { font-family: var(--font-heading); font-weight: 700; letter-spacing: 0.2px; pointer-events: none; }
 .axis-label { font-size: 13.5px; }
+/* user units; rendered size = these x the viewBox scale. Sized per ring by
+   the arc available: outer 146 units at 30deg, middle 101, inner 55. */
+.seg-label.r-power  { font-size: 9px; }
+.seg-label.r-middle { font-size: 10px; }
+.seg-label.r-margin { font-size: 11.5px; }
 
 /* System mode: site-chrome.js removes data-theme entirely and lets the media
    query decide, so every [data-theme="dark"] component override needs a twin
@@ -344,7 +352,7 @@ details.ax[open] > summary { border-bottom: 1px solid var(--color-border); }
 .rung[aria-pressed="true"] { border-color: var(--rc); box-shadow: 0 0 0 2px var(--rc) inset; }
 .rung-n {
   flex: 0 0 auto; width: 34px; height: 34px; border-radius: 9px; background: var(--rc);
-  color: #fff; font-family: var(--font-mono); font-weight: 500; font-size: 0.95rem;
+  color: var(--ri, #fff); font-family: var(--font-mono); font-weight: 500; font-size: 0.95rem;
   display: flex; align-items: center; justify-content: center; align-self: center;
 }
 .rung-b { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
@@ -361,3 +369,69 @@ details.ax[open] > summary { border-bottom: 1px solid var(--color-border); }
   .rung { padding: 0.8rem 0.85rem; gap: 0.7rem; }
   .rung-name { font-size: 0.98rem; }
 }
+
+/* ---------- live selection caption ---------- */
+.wheel-caption {
+  margin-top: 0.9rem; padding: 0.7rem 0.95rem; border-radius: 12px;
+  background: var(--color-bg-card); border: 1px solid var(--color-border);
+  display: flex; align-items: center; gap: 0.6rem; min-height: 52px;
+}
+.wheel-caption .cap-sw { width: 14px; height: 14px; border-radius: 4px; flex: 0 0 auto; }
+.wheel-caption .cap-t { font-family: var(--font-heading); font-weight: 800; font-size: 1.02rem; line-height: 1.2; }
+.wheel-caption .cap-s { display: block; font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 1.2px; text-transform: uppercase; color: var(--color-text-muted); }
+.wheel-caption.is-empty .cap-t { font-weight: 400; color: var(--color-text-muted); font-family: var(--font-body); font-size: 0.92rem; }
+
+/* ---------- the ladder, drawn as a ladder ---------- */
+.ladder { position: relative; }
+/* the rail the rungs sit on, coloured by band from citizen power down */
+.ladder::before {
+  content: ""; position: absolute; left: 27px; top: 6px; bottom: 6px; width: 4px; border-radius: 2px;
+  background: linear-gradient(to bottom, #166534 0%, #4d7c0f 30%, #b45309 42%, #d97706 66%, #9f1239 78%, #881337 100%);
+}
+.ladder-key { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 1.4px; text-transform: uppercase; color: var(--color-text-muted); margin-bottom: 0.4rem; padding-left: 4px; }
+.rung { position: relative; z-index: 1; }
+.rung-n { border-radius: 50%; box-shadow: 0 0 0 4px var(--color-bg); }
+[data-theme="dark"] .rung-n { box-shadow: 0 0 0 4px var(--color-bg); }
+.band-head { padding-left: 56px; }
+
+/* ---------- Power cube ---------- */
+.dim + .dim { margin-top: 1.3rem; }
+.dim-h { margin-bottom: 0.5rem; }
+.dim-n { display: inline-block; font-family: var(--font-heading); font-weight: 800; font-size: 0.74rem; letter-spacing: 2px; text-transform: uppercase; color: #fff; background: var(--dc); padding: 0.2rem 0.6rem; border-radius: 6px; }
+.dim-q { display: block; margin-top: 0.3rem; font-size: 0.9rem; color: var(--color-text-muted); }
+.dim-cats { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.cat {
+  display: inline-flex; align-items: center; gap: 0.5rem; flex: 1 1 auto;
+  font-family: var(--font-heading); font-weight: 700; font-size: 0.95rem;
+  background: var(--color-bg-card); color: var(--color-text);
+  border: 1px solid var(--color-border); border-radius: 12px;
+  padding: 0.75rem 1rem; min-height: 56px; cursor: pointer;
+}
+.cat:hover { border-color: var(--cc); }
+.cat[aria-pressed="true"] { background: var(--cc); border-color: var(--cc); color: var(--ci, #fff); }
+.cat-sw { width: 12px; height: 12px; border-radius: 3px; background: var(--cc); flex: 0 0 auto; }
+.cat[aria-pressed="true"] .cat-sw { background: var(--ci, #fff); }
+
+.case-wrap { overflow-x: auto; }
+.case-tbl { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 720px; }
+.case-tbl th, .case-tbl td { text-align: left; vertical-align: top; padding: 0.7rem 0.6rem; border-bottom: 1px solid var(--color-border); }
+.case-tbl thead th { font-family: var(--font-heading); font-size: 0.72rem; letter-spacing: 1.4px; text-transform: uppercase; color: var(--color-text-muted); }
+.case-tbl tbody th { font-family: var(--font-heading); font-weight: 800; width: 20%; }
+.case-tbl .cy { display: block; font-family: var(--font-mono); font-size: 0.72rem; font-weight: 400; color: var(--color-text-muted); }
+.case-tbl .cn { color: var(--color-text-muted); }
+.tag { display: inline-block; font-family: var(--font-heading); font-size: 0.74rem; font-weight: 700; background: var(--cc); padding: 0.15rem 0.5rem; border-radius: 999px; white-space: nowrap; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+/* ---------- Who Counts ---------- */
+.gaps { display: grid; gap: 0.6rem; }
+.gap {
+  display: block; width: 100%; text-align: left; cursor: pointer;
+  background: var(--color-bg-card); border: 1px solid var(--color-border);
+  border-left: 5px solid var(--gc); border-radius: 12px;
+  padding: 0.85rem 1rem; min-height: 56px; font-family: var(--font-body); color: var(--color-text);
+}
+.gap:hover { border-color: var(--gc); }
+.gap[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--gc) inset; }
+.gap-k { display: inline-block; font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 1.4px; text-transform: uppercase; color: var(--gi, #fff); background: var(--gc); padding: 0.12rem 0.5rem; border-radius: 999px; margin-bottom: 0.35rem; }
+.gap-n { display: block; font-family: var(--font-heading); font-weight: 800; font-size: 1.05rem; line-height: 1.25; }
+.gap-m { display: block; font-size: 0.88rem; color: var(--color-text-muted); margin-top: 0.15rem; }
