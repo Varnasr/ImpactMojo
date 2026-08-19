@@ -446,7 +446,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .nav-links > li > a:hover {
-    background: var(--hover-bg);
+    background: #F1F5F9;
     color: var(--accent-color);
 }
 
@@ -508,7 +508,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .dropdown-menu a:hover {
-    background: var(--hover-bg);
+    background: #F1F5F9;
     color: var(--accent-color);
     padding-left: 1.25rem;
 }
@@ -529,7 +529,7 @@ h1, h2, h3, h4, h5, h6 {
 .theme-selector { display: flex; gap: 4px; background: var(--hover-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 4px; }
 .theme-btn { background: transparent; border: none; color: var(--text-secondary); padding: 8px; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; }
 .theme-btn:hover { background: var(--hover-bg); color: var(--text-primary); }
-.theme-btn.active { background: var(--accent-color); color: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.theme-btn.active { background: #075985; color: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
 .theme-btn svg { width: 18px; height: 18px; }
 
 /* Mobile Menu Overlay */
@@ -828,7 +828,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-primary:hover {
-    background: var(--accent-hover);
+    background: #0369A1;
     transform: translateY(-1px);
     box-shadow: 0 8px 20px rgba(14, 165, 233, 0.3);
     color: white;
@@ -1221,7 +1221,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .footer-social a:hover {
-    background: var(--accent-color);
+    background: #075985;
     border-color: var(--accent-color);
     color: white;
 }
@@ -1315,7 +1315,8 @@ h1, h2, h3, h4, h5, h6 {
 
     .mobile-menu-overlay.active {
         display: block;
-    }
+    pointer-events: auto;
+}
 
     .mobile-auth-section {
         display: none;
@@ -1501,9 +1502,9 @@ h1, h2, h3, h4, h5, h6 {
     -webkit-text-fill-color: #fff;
 }
 .im-browse-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--im-text, #1C1917); background: var(--im-surface, #FFFFFF); border: 1.5px solid var(--im-border, #E2E8F0); padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; transition: background 0.18s ease, border-color 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease; }
-.im-browse-btn:hover { background: var(--im-accent, #0EA5E9); color: #FFFFFF; border-color: var(--im-accent, #0EA5E9); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25); }
+.im-browse-btn:hover { background: #027AB8; color: #FFFFFF; border-color: var(--im-accent, #0EA5E9); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25); }
 .im-browse-btn svg { width: 14px; height: 14px; }
-@media (prefers-color-scheme: dark) { .im-browse-btn { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.18); } .im-browse-btn:hover { background: var(--im-accent, #0EA5E9); border-color: var(--im-accent, #0EA5E9); color: #FFFFFF; } }
+@media (prefers-color-scheme: dark) { .im-browse-btn { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.18); } .im-browse-btn:hover { background: #027AB8; border-color: var(--im-accent, #0EA5E9); color: #FFFFFF; } }
 .im-premium-btn:hover { opacity: 0.9; }
 .im-premium-btn svg { width: 14px; height: 14px; }
 
@@ -1526,7 +1527,7 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--im-text-primary, #F1F5F9);
 }
 .im-theme-btn.active {
-    background: var(--im-accent, #0EA5E9);
+    background: #027AB8;
     color: #fff;
 }
 .im-theme-btn svg { width: 16px; height: 16px; }
@@ -1684,7 +1685,23 @@ body.dark-mode .badge-status-coming-soon, body.dark-mode .warning-text,
 body.dark-mode .badge-free, body.dark-mode .badge-status-live, body.dark-mode .success-text,
 [data-theme="dark"] .badge-free, [data-theme="dark"] .badge-status-live, [data-theme="dark"] .success-text { color: #6EE7B7; }
 
-</style>
+
+/* Theme-scoped contrast corrections. The pairs below resolve to
+   different colours per theme, so no single value clears WCAG AA in
+   both: a near-white ground needs a dark ink and a near-slate ground
+   a light one. Light values sit on the rules themselves; these carry
+   the dark ones, for the unstamped default and for either explicit
+   choice. Enforced by scripts/check-theme-contrast.py. */
+@media (prefers-color-scheme: dark) { body:not(.light-mode):not([data-theme="light"]) .footer-social a:hover { background: #0A7AAD; } }
+body.dark-mode .footer-social a:hover, [data-theme="dark"] .footer-social a:hover, html.dark .footer-social a:hover { background: #0A7AAD; }
+@media (prefers-color-scheme: dark) { body:not(.light-mode):not([data-theme="light"]) .btn-primary:hover { background: #027AB8; } }
+body.dark-mode .btn-primary:hover, [data-theme="dark"] .btn-primary:hover, html.dark .btn-primary:hover { background: #027AB8; }
+@media (prefers-color-scheme: dark) { body:not(.light-mode):not([data-theme="light"]) .theme-btn.active { background: #0A7AAD; } }
+body.dark-mode .theme-btn.active, [data-theme="dark"] .theme-btn.active, html.dark .theme-btn.active { background: #0A7AAD; }
+@media (prefers-color-scheme: dark) { body:not(.light-mode):not([data-theme="light"]) .dropdown-menu a:hover { background: #283242; } }
+body.dark-mode .dropdown-menu a:hover, [data-theme="dark"] .dropdown-menu a:hover, html.dark .dropdown-menu a:hover { background: #283242; }
+@media (prefers-color-scheme: dark) { body:not(.light-mode):not([data-theme="light"]) .nav-links > li > a:hover { background: #283242; } }
+body.dark-mode .nav-links > li > a:hover, [data-theme="dark"] .nav-links > li > a:hover, html.dark .nav-links > li > a:hover { background: #283242; }</style>
 <!-- SEO meta (autogenerated) -->
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://www.impactmojo.in/signup.html">

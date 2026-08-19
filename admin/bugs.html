@@ -51,7 +51,7 @@ body{font-family:'Amaranth',sans-serif;background:var(--bg);color:var(--text);li
 .theme-sel{display:flex;gap:2px;background:var(--hover);border:1px solid var(--border);border-radius:8px;padding:2px}
 .theme-btn{background:transparent;border:none;color:var(--muted);padding:6px;border-radius:5px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;width:30px;height:30px}
 .theme-btn:hover{background:var(--hover);color:var(--text)}
-.theme-btn.active{background:var(--accent);color:#fff}
+.theme-btn.active{background: #0A7AAD;color:#fff}
 .theme-btn svg{width:14px;height:14px}
 
 /* Main */
@@ -73,9 +73,9 @@ body{font-family:'Amaranth',sans-serif;background:var(--bg);color:var(--text);li
 .toolbar-left{display:flex;gap:8px;flex-wrap:wrap}
 .toggle-btn{font-family:'Inter',sans-serif;font-size:0.82rem;font-weight:600;padding:7px 16px;border-radius:8px;border:1.5px solid var(--border);background:var(--card);color:var(--text2);cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:6px}
 .toggle-btn:hover{border-color:var(--accent);color:var(--accent)}
-.toggle-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.toggle-btn.active{background: #0A7AAD;color:#fff;border-color:var(--accent)}
 .toggle-btn .count{font-family:'JetBrains Mono',monospace;background:rgba(255,255,255,0.2);padding:1px 6px;border-radius:4px;font-size:0.75rem}
-.toggle-btn:not(.active) .count{background:var(--hover);color:var(--muted)}
+.toggle-btn:not(.active) .count{background: #F1F5F9;color:var(--muted)}
 .report-btn{font-family:'Inter',sans-serif;font-size:0.85rem;font-weight:600;padding:8px 20px;border-radius:8px;border:none;background:var(--grad);color:#fff;cursor:pointer;display:flex;align-items:center;gap:6px;text-decoration:none;transition:opacity 0.2s;white-space:nowrap}
 .report-btn:hover{opacity:0.9}
 .report-btn svg{width:16px;height:16px}
@@ -101,7 +101,15 @@ body{font-family:'Amaranth',sans-serif;background:var(--bg);color:var(--text);li
 .fallback-link:hover{text-decoration:underline}
 
 /* Loading skeleton */
-.skeleton{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 20px;display:flex;gap:14px;animation:pulse 1.5s ease-in-out infinite}
+.skeleton{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 20px;di
+/* Theme-scoped contrast corrections. The pairs below resolve to
+   different colours per theme, so no single value clears WCAG AA in
+   both: a near-white ground needs a dark ink and a near-slate ground
+   a light one. Light values sit on the rules themselves; these carry
+   the dark ones, for the unstamped default and for either explicit
+   choice. Enforced by scripts/check-theme-contrast.py. */
+@media (prefers-color-scheme: dark) { body:not(.light-mode):not([data-theme="light"]) .toggle-btn:not(.active) .count { background: #2B3748; } }
+body.dark-mode .toggle-btn:not(.active) .count, [data-theme="dark"] .toggle-btn:not(.active) .count, html.dark .toggle-btn:not(.active) .count { background: #2B3748; }splay:flex;gap:14px;animation:pulse 1.5s ease-in-out infinite}
 .skel-bar{background:var(--hover);border-radius:4px}
 .skel-num{width:44px;height:16px}
 .skel-body{flex:1;display:flex;flex-direction:column;gap:8px}

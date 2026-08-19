@@ -55,7 +55,7 @@
         .im-theme-selector{display:flex;gap:2px;background:var(--im-card-bg);border:1px solid var(--im-border);border-radius:8px;padding:2px;}
         .im-theme-btn{background:transparent;border:none;color:var(--im-text-secondary);padding:6px;border-radius:5px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;width:30px;height:30px;}
         .im-theme-btn:hover{background:var(--im-hover-bg);color:var(--im-text-primary);}
-        .im-theme-btn.active{background:var(--im-accent);color:#fff;}
+        .im-theme-btn.active{background: #0A7AAD;color:#fff;}
         .im-theme-btn svg{width:15px;height:15px;}
 
         /* Header */
@@ -82,7 +82,7 @@
         .category-filters{display:flex;flex-wrap:wrap;gap:0.5rem;}
         .filter-btn{padding:0.5rem 1rem;font-family:'Inter',sans-serif;font-size:0.82rem;font-weight:500;border:2px solid var(--border);border-radius:8px;background:white;color:var(--text-secondary);cursor:pointer;transition:all 0.2s;}
         .filter-btn:hover{border-color:var(--primary);color:var(--primary);}
-        .filter-btn.active{background:var(--primary);border-color:var(--primary);color:white;}
+        .filter-btn.active{background: #0369A1;border-color:var(--primary);color:white;}
 
         /* Terms grid */
         .terms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.25rem;}
@@ -116,7 +116,7 @@
         .dl-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border-radius:8px;font-family:'Inter',sans-serif;font-size:0.85rem;font-weight:600;text-decoration:none;transition:all 0.2s;border:none;cursor:pointer;}
         .dl-btn-primary{background:linear-gradient(135deg,#0EA5E9,#6366F1);color:white;}
         .dl-btn-primary:hover{opacity:0.9;transform:translateY(-1px);}
-        .dl-btn-secondary{background:white;border:2px solid var(--border);color:var(--text);}
+        .dl-btn-secondary{background:white;border:2px solid var(--border);color: #1E293B;}
         .dl-btn-secondary:hover{border-color:var(--primary);color:var(--primary);}
         .dl-btn svg{width:15px;height:15px;}
 
@@ -135,7 +135,17 @@
     .im-topbar {
     position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
     background: var(--im-nav-bg, rgba(15, 23, 42, 0.95));
-    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px); -webkit-
+/* Theme-scoped contrast corrections. The pairs below resolve to
+   different colours per theme, so no single value clears WCAG AA in
+   both: a near-white ground needs a dark ink and a near-slate ground
+   a light one. Light values sit on the rules themselves; these carry
+   the dark ones, for the unstamped default and for either explicit
+   choice. Enforced by scripts/check-theme-contrast.py. */
+@media (prefers-color-scheme: dark) { body:not(.light-mode):not([data-theme="light"]) .dl-btn-secondary { color: #5476A3; } }
+body.dark-mode .dl-btn-secondary, [data-theme="dark"] .dl-btn-secondary, html.dark .dl-btn-secondary { color: #5476A3; }
+@media (prefers-color-scheme: dark) { body:not(.light-mode):not([data-theme="light"]) .filter-btn.active { background: #0A7AAD; } }
+body.dark-mode .filter-btn.active, [data-theme="dark"] .filter-btn.active, html.dark .filter-btn.active { background: #0A7AAD; }backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--im-border, #334155);
     padding: 0.5rem 1rem;
     display: flex; align-items: center; justify-content: space-between;

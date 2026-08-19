@@ -163,6 +163,64 @@ jobs:
       - name: Check every social preview image resolves
         run: python3 scripts/check-social-images.py
 
+  theme-contrast:
+    name: Theme contrast (both themes)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      # A colour is only ever half-chosen: a value picked against one theme's
+      # surfaces can be unreadable against the other's, and the page looks
+      # fine either way. .card-number carried a comment recording the 6.90:1
+      # it was fixed to in light; in dark the same ink was 1.37:1. axe runs
+      # both themes but only ten pages and never a :hover state; pa11y runs
+      # the default theme only.
+      - name: Check every colour pair clears AA in both themes
+        run: python3 scripts/check-theme-contrast.py
+
+  min-css-fresh:
+    name: Minified CSS matches its source
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      # index.html loads css/imx-main.min.css. There was no script to build it,
+      # so an edit to the source silently failed to reach the busiest page on
+      # the site -- the contrast fixes landed in imx-main.css while the min
+      # copy still served the old values.
+      - name: Check imx-main.min.css is not stale
+        run: python3 scripts/build-min-css.py --check
+
+  tap-traps:
+    name: Invisible tap-blocking overlays
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      # An opacity-0 element still receives taps. The mobile menu backdrop was
+      # displayed unconditionally on phones, so every tap on blog.html landed
+      # on an invisible full-viewport div and no blog post could be opened.
+      # Nothing rendered wrong and nothing errored.
+      - name: Check no invisible overlay swallows taps
+        run: python3 scripts/check-tap-traps.py
+
+  fundamentals-index:
+    name: Fundamentals index counts what ships
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      # The landing page said "Four so far" while listing five frameworks, for
+      # as long as the fifth had been live. check-counts.py scans root-level
+      # pages for platform totals and does not reach this one; a person found
+      # it by reading the page.
+      - name: Check the Fundamentals index counts and links its frameworks
+        run: python3 scripts/check-fundamentals-index.py
+
   fundamentals-privacy:
     name: Fundamentals questionnaire privacy guard
     runs-on: ubuntu-latest

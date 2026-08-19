@@ -131,7 +131,7 @@ body.dark-mode, [data-theme="dark"] {
         .category-pill { padding: 0.4rem 0.85rem; background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 20px; font-size: 0.8rem; color: var(--text-secondary); cursor: pointer; transition: all 0.2s ease; }
         .category-pill:hover, .category-pill.active { background: rgba(14, 165, 233, 0.15); border-color: var(--accent-color); color: var(--accent-color); }
         .category-pill .count { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; background: var(--border-color); border-radius: 10px; font-size: 0.7rem; margin-left: 0.35rem; }
-        .category-pill.active .count { background: var(--accent-color); color: white; }
+        .category-pill.active .count { background: #0369A1; color: white; }
 
         .lexicon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1.25rem; }
         .term-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; transition: all 0.2s ease; }
@@ -237,9 +237,9 @@ body.dark-mode, [data-theme="dark"] {
     -webkit-text-fill-color: #fff;
 }
 .im-browse-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--im-text, #1C1917); background: var(--im-surface, #FFFFFF); border: 1.5px solid var(--im-border, #E2E8F0); padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; transition: background 0.18s ease, border-color 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease; }
-.im-browse-btn:hover { background: var(--im-accent, #0EA5E9); color: #FFFFFF; border-color: var(--im-accent, #0EA5E9); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25); }
+.im-browse-btn:hover { background: #027AB8; color: #FFFFFF; border-color: var(--im-accent, #0EA5E9); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25); }
 .im-browse-btn svg { width: 14px; height: 14px; }
-@media (prefers-color-scheme: dark) { .im-browse-btn { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.18); } .im-browse-btn:hover { background: var(--im-accent, #0EA5E9); border-color: var(--im-accent, #0EA5E9); color: #FFFFFF; } }
+@media (prefers-color-scheme: dark) { .im-browse-btn { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.18); } .im-browse-btn:hover { background: #027AB8; border-color: var(--im-accent, #0EA5E9); color: #FFFFFF; } }
 .im-premium-btn:hover { opacity: 0.9; }
 .im-premium-btn svg { width: 14px; height: 14px; }
 
@@ -262,7 +262,7 @@ body.dark-mode, [data-theme="dark"] {
     color: var(--im-text-primary, #F1F5F9);
 }
 .im-theme-btn.active {
-    background: var(--im-accent, #0EA5E9);
+    background: #027AB8;
     color: #fff;
 }
 .im-theme-btn svg { width: 16px; height: 16px; }
@@ -365,7 +365,15 @@ code, pre, .monospace, kbd, samp { font-family: 'JetBrains Mono', monospace !imp
 /* Body clears fixed im-topbar (added by site-wide audit fix) */
 body { padding-top: 56px; }
 @media (max-width: 768px) { body { padding-top: 52px; } }
-</style>
+
+/* Theme-scoped contrast corrections. The pairs below resolve to
+   different colours per theme, so no single value clears WCAG AA in
+   both: a near-white ground needs a dark ink and a near-slate ground
+   a light one. Light values sit on the rules themselves; these carry
+   the dark ones, for the unstamped default and for either explicit
+   choice. Enforced by scripts/check-theme-contrast.py. */
+@media (prefers-color-scheme: dark) { body:not(.light-mode):not([data-theme="light"]) .category-pill.active .count { background: #0A7AAD; } }
+body.dark-mode .category-pill.active .count, [data-theme="dark"] .category-pill.active .count, html.dark .category-pill.active .count { background: #0A7AAD; }</style>
 <link rel="icon" type="image/png" href="/assets/images/favicon.png">
 <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
 </head>

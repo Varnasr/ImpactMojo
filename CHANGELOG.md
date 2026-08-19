@@ -5,6 +5,50 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.214.0] - 2026-08-19
+
+### Fixed
+
+- **An invisible overlay was swallowing every tap on mobile.** `blog.html`, `about.html` and `404.html` each declared the mobile menu backdrop as `display: none; opacity: 0; position: fixed; inset 100%`, and then turned it on unconditionally inside the mobile media query:
+
+  ```css
+  @media (max-width: 768px) { .mobile-menu-overlay { display: block; } }
+  ```
+
+  An `opacity: 0` element is still hit-tested. So on any phone a full-viewport `div` wired to `closeMobileMenu()` sat over the page, and **no blog post could be opened** — the doorway to every post on the site. Nothing rendered wrong, nothing errored, and both accessibility audits passed, because they read the desktop DOM and never tap anything. The overlay is now `pointer-events: none` at rest and `auto` when open, on all 17 pages that carry one.
+
+- **1,916 colour pairs failed WCAG AA in one theme or both.** A colour is only ever half-chosen: a value picked against the light surfaces can be unreadable on the dark ones. Corrected in the shared stylesheets (57 rules) and in inline page CSS (1,859 rules across 615 pages), each replacement preserving the original hue and moving only its lightness until it clears 4.5:1 — 3:1 where the rule declares large text. Where a pair resolves differently per theme, one literal cannot serve both (a near-white ground needs a dark ink, a near-slate ground a light one), so those 357 rules carry the light value and a theme-scoped override covering the unstamped default and both explicit choices.
+
+  Representative cases:
+
+  - `.card-number` was fixed once already, to `#075985`, with a comment recording the **6.90:1** it achieved on the light hover surface. On the dark one the same ink is **1.37:1**.
+  - The eight language chips on `testimonials.html` paint a hue at 12% over the card and print the same hue on top. Seven of the eight failed — 2.45:1 to 3.25:1 in light, 2.37:1 to 4.38:1 in dark.
+  - White button labels on the brand sky `#0EA5E9` are **2.77:1**; on the success green `#10B981`, **2.54:1**; on WhatsApp green `#25D366`, **1.98:1**.
+  - `--accent-color` used as text on `--hover-bg` is **2.53:1** in light. Three of the four rules doing this are `:hover` states, which axe-core does not evaluate at all.
+
+  `--accent-color` keeps its role as the brand hue for fills, borders and icons; `--accent-solid` is for a surface carrying white text and `--accent-ink` for accent-coloured text. `product.css` gets the same split.
+
+- **`--text-color` was referenced ten times in `css/imx-main.css` and defined nowhere**, so every one of those `color:` declarations was invalid at computed-value time and silently fell back to the inherited colour. Now defined in both themes.
+
+- **`css/imx-main.min.css` was maintained by hand and had gone stale.** `index.html` loads the minified copy, so the contrast fixes landed in the source without reaching the busiest page on the site.
+
+- **The Capability Approach diagram overflowed on narrow screens.** In the vertical layout the conversion-factor labels sat in a right-hand column that did not fit: `ENVIRONMENTAL` ran past the viewBox edge and the leak label landed on top of it. The labels are redundant there — the Conversion box's own text reads "Personal, social, environmental" — so the narrow layout drops the column and carries the colour coding as a legend along the foot, laid out by measuring each label rather than estimating from its character count. The leak gets its own line, and its curve no longer ticks upward at the tip.
+
+- **The Fundamentals index said "Four so far" while listing five frameworks**, and its meta description named only two of them.
+
+### Added — guards
+
+Four CI jobs, each for a failure that leaves nothing on the page to see:
+
+- `theme-contrast` — `scripts/check-theme-contrast.py` resolves every colour/background pair through its `var()` chain in both themes and fails below AA. Theme-scoped selectors are evaluated only in the theme they apply to, rules whose background a more specific companion replaces are skipped, and theme-scoped overrides are resolved before judging a base rule. Gated on the shared stylesheets, where it is deterministic and was checked against a browser; `--pages` reports on inline page CSS without gating it, because a page's several `<style>` elements, utility-class overrides and tints over an ancestor's gradient cannot be resolved reliably from source — a first attempt over pages reported 6,397 rules, essentially all correct on screen.
+- `tap-traps` — `scripts/check-tap-traps.py` fails any element that covers the viewport, rests at `opacity: 0`, is displayed, and does not declare `pointer-events: none`. `visibility: hidden` and `display: none` are excluded, since both already remove an element from hit-testing.
+- `min-css-fresh` — `scripts/build-min-css.py` regenerates `imx-main.min.css` and verifies, by parsing both files back to selector-and-declarations, that minifying changed nothing but whitespace. `--check` fails when the built file is stale.
+- `fundamentals-index` — `scripts/check-fundamentals-index.py` checks the landing page's stated count against the cards it lists, that every card resolves, and that every shipped framework is linked.
+
+### Note on the existing audits
+
+Neither accessibility job would have caught any of this. axe-core does run both themes, but over ten pages, and it never evaluates `:hover` state contrast or a tap target's occlusion. pa11y runs the default theme at desktop width. Both reported zero violations on the run that shipped the mobile tap trap.
+
 ## [10.213.0] - 2026-08-19
 
 ### Added

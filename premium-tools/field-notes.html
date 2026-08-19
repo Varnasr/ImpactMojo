@@ -129,7 +129,7 @@ body {
 }
 .filter-btn .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--dot, var(--text-muted)); }
 .filter-btn:hover { border-color: var(--accent-color); color: var(--text-primary); }
-.filter-btn.active { background: var(--accent-color); color: #fff; border-color: var(--accent-color); }
+.filter-btn.active { background: #0A7AAD; color: #fff; border-color: var(--accent-color); }
 .filter-btn.active .dot { background: rgba(255,255,255,0.85); }
 
 /* Active tag/filter chips */
@@ -183,7 +183,7 @@ body.dark-mode .note-text mark { background: rgba(234,179,90,0.35); }
 }
 .tag::before { content: "#"; opacity: 0.55; }
 .tag:hover { border-color: currentColor; }
-.tag.tag-on { background: var(--cat, var(--accent-color)); color: #fff; }
+.tag.tag-on { background: #0A7AAD; color: #fff; }
 
 .note-meta {
     display: flex; justify-content: space-between; align-items: center; gap: 0.75rem;
@@ -212,7 +212,7 @@ body.dark-mode .note-text mark { background: rgba(234,179,90,0.35); }
     background: var(--card-bg); color: var(--text-primary); cursor: pointer;
     font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600; transition: all 0.18s ease;
 }
-.load-more-btn:hover { background: var(--accent-color); color: #fff; border-color: var(--accent-color); }
+.load-more-btn:hover { background: #0A7AAD; color: #fff; border-color: var(--accent-color); }
 
 /* Toast */
 .toast {
@@ -226,7 +226,7 @@ body.dark-mode .note-text mark { background: rgba(234,179,90,0.35); }
 /* Back to top */
 .to-top {
     position: fixed; bottom: 1.3rem; right: 1.3rem; width: 42px; height: 42px; border-radius: 50%;
-    background: var(--card-bg); border: 1px solid var(--border-color); color: var(--accent-color);
+    background: #333300; border: 1px solid var(--border-color); color: var(--accent-color);
     cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-md);
     opacity: 0; pointer-events: none; transition: all 0.25s ease; z-index: 95;
 }
@@ -255,7 +255,15 @@ body.dark-mode .note-text mark { background: rgba(234,179,90,0.35); }
 }
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-    html { scroll-behavior: auto; }
+    html { scroll
+/* Theme-scoped contrast corrections. The pairs below resolve to
+   different colours per theme, so no single value clears WCAG AA in
+   both: a near-white ground needs a dark ink and a near-slate ground
+   a light one. Light values sit on the rules themselves; these carry
+   the dark ones, for the unstamped default and for either explicit
+   choice. Enforced by scripts/check-theme-contrast.py. */
+@media (prefers-color-scheme: dark) { body:not(.light-mode):not([data-theme="light"]) /* Back to top */ .to-top { background: #221F17; } }
+body.dark-mode /* Back to top */ .to-top, [data-theme="dark"] /* Back to top */ .to-top, html.dark /* Back to top */ .to-top { background: #221F17; }-behavior: auto; }
 }
 .pro-pill{display:inline-flex;align-items:center;gap:.2rem;background:linear-gradient(135deg,#F59E0B,#EF4444);color:#fff;font-weight:700;font-size:.6rem;text-transform:uppercase;letter-spacing:.4px;padding:.1rem .4rem;border-radius:5px;vertical-align:middle;}
 .freemium-note{margin:.75rem auto 0;display:inline-flex;align-items:center;gap:.5rem;flex-wrap:wrap;justify-content:center;padding:.5rem .85rem;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:8px;font-size:.85rem;}

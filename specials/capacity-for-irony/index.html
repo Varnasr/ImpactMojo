@@ -153,7 +153,7 @@ body {
 .cfi-panel:nth-child(even) .cfi-figure { order: 2; }
 .cfi-figure { position: relative; }
 .cfi-figure img { width: 100%; height: auto; display: block; border-radius: 10px; border: 1px solid var(--cfi-border); background: #fff; box-shadow: 0 14px 34px rgba(29, 78, 216, 0.12), 0 3px 8px rgba(0,0,0,0.06); }
-.cfi-num { position: absolute; top: -16px; left: -10px; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1rem; color: #fff; background: var(--cfi-ink); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(29,78,216,0.35); z-index: 2; }
+.cfi-num { position: absolute; top: -16px; left: -10px; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1rem; color: #fff; background: #1D4ED8; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(29,78,216,0.35); z-index: 2; }
 .cfi-body { padding-top: .25rem; }
 .cfi-exchange { border-left: 3px solid var(--cfi-ink); padding: .25rem 0 .25rem 1.1rem; margin-bottom: 1.25rem; }
 .cfi-line { display: block; margin-bottom: .85rem; }
@@ -179,7 +179,15 @@ body {
 .cfi-refs h2 { font-family: 'Inter', sans-serif; font-size: 1.05rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--cfi-muted); margin-bottom: 1.25rem; }
 .cfi-refs ol { list-style: none; counter-reset: ref; padding: 0; }
 .cfi-refs li { counter-increment: ref; position: relative; padding: .7rem 0 .7rem 2.6rem; border-bottom: 1px dashed var(--cfi-border); font-family: 'Inter', sans-serif; font-size: .9rem; color: var(--cfi-text-soft); line-height: 1.5; scroll-margin-top: 70px; }
-.cfi-refs li::before { content: counter(ref); position: absolute; left: 0; top: .65rem; width: 26px; height: 26px; background: var(--cfi-ink-soft); color: var(--cfi-ink); border: 1px solid var(--cfi-ink); border-radius: 50%; font-weight: 700; font-size: .78rem; display: flex; align-items: center; justify-content: center; }
+.cfi-refs li::before { content: counter(ref)
+/* Theme-scoped contrast corrections. The pairs below resolve to
+   different colours per theme, so no single value clears WCAG AA in
+   both: a near-white ground needs a dark ink and a near-slate ground
+   a light one. Light values sit on the rules themselves; these carry
+   the dark ones, for the unstamped default and for either explicit
+   choice. Enforced by scripts/check-theme-contrast.py. */
+@media (prefers-color-scheme: dark) { body:not(.light-mode):not([data-theme="light"]) .cfi-num { background: #2D67FF; } }
+body.dark-mode .cfi-num, [data-theme="dark"] .cfi-num, html.dark .cfi-num { background: #2D67FF; }; position: absolute; left: 0; top: .65rem; width: 26px; height: 26px; background: var(--cfi-ink-soft); color: var(--cfi-ink); border: 1px solid var(--cfi-ink); border-radius: 50%; font-weight: 700; font-size: .78rem; display: flex; align-items: center; justify-content: center; }
 .cfi-refs li:target { background: var(--cfi-ink-soft); border-radius: 8px; }
 .cfi-refs a { color: var(--cfi-ink); text-decoration: none; word-break: break-word; }
 .cfi-refs a:hover { text-decoration: underline; }
