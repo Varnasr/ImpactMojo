@@ -204,10 +204,10 @@ window.FWheel = (function () {
     document.getElementById("panel").innerHTML =
       '<div class="panel-empty">' +
         '<h3>Pick a band on the wheel</h3>' +
-        '<p>Every one of the 36 bands opens the Indian evidence behind its placement — the survey, the law or the judgment, with the year and the source named.</p>' +
+        '<p>Each of the 36 bands opens the Indian evidence behind where it sits: the survey, the statute or the judgment, with the source and year given.</p>' +
         '<ol>' +
-          '<li>The <b>hub</b> is power. The further out a group sits, the further it is from it.</li>' +
-          '<li>Each wedge is one <b>axis</b> of difference — caste, gender, language, and nine more.</li>' +
+          '<li>The <b>hub</b> is power. The further out a group sits, the less of it that group holds.</li>' +
+          '<li>Each wedge is one <b>axis</b>: caste, gender, language and nine others.</li>' +
           '<li>Each band carries a <b>“what this does not settle”</b> note. The wheel is a teaching tool, not a measurement.</li>' +
         '</ol>' +
       '</div>';
@@ -303,7 +303,7 @@ window.FWheel = (function () {
     });
     box.innerHTML =
       '<h4>Where you marked yourself &mdash; ' + ids.length + ' of 12 axes</h4>' +
-      '<p>Kept in this browser only; nothing is sent anywhere. There is no score, and there is no total: a wheel is not a ranking of who has it worst.</p>' +
+      '<p>Kept in this browser only and sent nowhere. Nothing is scored or totalled: a wheel is not a ranking of who has it worst.</p>' +
       '<ul>' + rows.join("") + '</ul>' +
       '<button class="btn-ghost" id="clearMarks">Clear my marks</button>';
     document.getElementById("clearMarks").addEventListener("click", function () {
@@ -322,12 +322,12 @@ window.FWheel = (function () {
           return '<li><b>' + esc(e.stat) + '</b> — ' + esc(e.detail) +
                  ' <i>(' + esc(e.source) + ', ' + esc(e.year) + ')</i></li>';
         }).join("");
-        return '<div class="ax-ring"><h5>' + esc(D.RING_LABEL[ring]) + ' — ' + esc(b.short) + '</h5>' +
+        return '<div class="ax-ring"><h4>' + esc(D.RING_LABEL[ring]) + ' — ' + esc(b.short) + '</h4>' +
                '<p>' + esc(b.groups) + '</p><ul>' + ev + '</ul></div>';
       }).join("");
       return '<details class="ax" id="ax-' + esc(axis.id) + '">' +
         '<summary><span class="swatch" style="background:' + esc(axis.color) + '"></span>' +
-          esc(axis.name) + ' <span class="q">' + esc(axis.question) + '</span></summary>' +
+          '<h3>' + esc(axis.name) + '</h3> <span class="q">' + esc(axis.question) + '</span></summary>' +
         '<div class="ax-body"><p>' + esc(axis.intro) + '</p>' + rings +
           '<div class="caveat"><b>What this does not settle</b><p>' + esc(axis.complication) + '</p></div>' +
         '</div></details>';
