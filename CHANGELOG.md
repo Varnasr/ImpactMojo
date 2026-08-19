@@ -5,6 +5,22 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.219.0] - 2026-08-19
+
+### Fixed
+
+- **The wiki was advertising counts nobody was checking.** `.github/workflows/sync-wiki.yml` refreshed exactly two hardcoded phrases — foundational courses and native decks — on three of the wiki's eleven pages. Every other number on the wiki drifted unread. The Book-Summaries page still said 163 reading companions and the Premium page still said "135 games, 34 labs, 163 BookSummaries, 22 Deep Dives, 89 handouts" against a canonical 166/35/23/90.
+
+  `scripts/check-counts.py` gains `--wiki DIR`: it scans a wiki clone's `*.md` with the same canonical table it already enforces on the site, skipping `Changelog.md` and `Roadmap.md` for the same reason the repo's own changelog and roadmap are skipped. The sync workflow now runs it with `--fix` and then again as a check, replacing the two-phrase `sed`. `data/counts.json` joins the workflow's trigger paths, so a count change reaches the wiki rather than waiting for the next changelog edit.
+
+  Two matcher changes came out of testing it. `BookSummaries` is now a recognised label for `reading-companions` — the site's other name for the same library, and the one carrying the stale 163. And a number that looks like a year is no longer read as a count when the canonical value is not itself year-shaped: "the Q3 2026 BookSummaries expansion" matched as 2026 reading companions, and `--fix` would have written "Q3 166 BookSummaries" into the wiki.
+
+- **The visual-regression harness for #563 listed a page that has never existed.** `tests/visual/visual-regression.spec.js` screenshots `/cookies.html`; there is no such file in the repo and no redirect to one. `page.goto()` was not checking the response, so the first baseline run would have captured the 404 page and compared against it happily ever after — the gate for the `@layer` migration passing while testing nothing. The navigation now asserts a sub-400 status, and the dead entry is replaced with `/nfhs.html`.
+
+### Changed
+
+- **The #563 harness now covers the whole blast radius.** `css/imx-main.css` is loaded by exactly two pages: `index.html` (minified) and `nfhs.html`. Every other page carries its own inline `<style>` and links only `css/fonts.css`. The harness covered one of the two and a 404; it now covers both, with the other seven pages kept as controls that must not move.
+
 ## [10.218.0] - 2026-08-19
 
 ### Fixed

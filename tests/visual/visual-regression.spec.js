@@ -46,7 +46,13 @@ const BASE_HOST = new URL(BASE_URL).host;
 // and baselines must be regenerated).
 const FROZEN_NOW = Date.UTC(2026, 0, 15, 12, 0, 0);
 
-// Representative pages — one of each major template the stylesheet touches.
+// Representative pages — one of each major template.
+//
+// Only two of them load css/imx-main.css at all: '/' (minified) and
+// '/nfhs.html'. Every other page on the site carries its own inline
+// <style> block and links only css/fonts.css, so the @layer migration
+// cannot reach them. Those two are the blast radius and both are covered
+// here; the rest stay in the list as a control — they must NOT move.
 const PAGES = [
   { name: 'home', path: '/' },
   { name: 'course-mel', path: '/courses/mel/' },
@@ -54,7 +60,7 @@ const PAGES = [
   { name: 'premium', path: '/premium.html' },
   { name: 'catalog', path: '/catalog.html' },
   { name: 'account', path: '/account.html' },
-  { name: 'cookies', path: '/cookies.html' },
+  { name: 'nfhs', path: '/nfhs.html' },
   { name: 'booksummaries', path: '/BookSummaries/' },
   { name: 'game-climate', path: '/Games/climate-action-game.html' },
 ];
@@ -116,7 +122,13 @@ for (const theme of THEMES) {
       }, { t: theme, now: FROZEN_NOW });
 
       // With external hosts aborted instantly, networkidle settles fast.
-      await pw.goto(BASE_URL + page.path, { waitUntil: 'networkidle' });
+      const response = await pw.goto(BASE_URL + page.path, { waitUntil: 'networkidle' });
+      // A dead path would otherwise be screenshotted as the 404 page and
+      // baselined as if it were the real one — the gate would then pass
+      // forever while testing nothing. '/cookies.html' was in this list
+      // and has never existed in the repo.
+      expect(response, `no response for ${page.path}`).toBeTruthy();
+      expect(response.status(), `${page.path} returned ${response.status()}`).toBeLessThan(400);
 
       // (4) Belt-and-braces stylesheet kill-switch for animations/carets.
       await pw.addStyleTag({ content: FREEZE_CSS });

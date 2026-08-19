@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.219.0 — August 19, 2026 (The wiki stopped quoting numbers nobody checked)
+
+### Fixed
+
+- The project wiki was still advertising 163 reading companions, 34 labs, 22 deep dives and 89 handouts. The real figures are 166, 35, 23 and 90, and the wiki is now held to the same canonical count file as the website.
+
 ## v10.218.0 — August 19, 2026 (Two pages stopped answering to the same name)
 
 ### For Learners
