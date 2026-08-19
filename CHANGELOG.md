@@ -5,6 +5,18 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.207.0] - 2026-08-19
+
+### Added
+
+- **Blog: "The p-value answers a question you probably aren't asking."** On the difference between what a p-value and a confidence interval each tell you, with a worked example where the same point estimate and the same p = 0.03 support opposite programme decisions depending on the interval. Cites the ASA statement (2016), Greenland et al.'s twenty-five misinterpretations (2016), and Amrhein et al. in *Nature* (2019). The diagram is inline SVG rather than a raster illustration, so it carries real text, follows the theme, and scales without a second asset.
+
+### Fixed
+
+- **`.checklist-item` is `display:flex` with no `flex-wrap`**, so any item whose content starts with an element rather than bare text splits into several flex items that cannot wrap. Existing posts use plain text and were unaffected; wrapping the content in a single span is enough.
+- Three more contrast failures on the blog template, all found by auditing in dark mode: the category chip (white on `#6366F1`, 4.47:1 — under AA by 0.03), `.article-tag` (4.04:1), and links inside `.checklist` which the blog's link styling never reached and which fell back to the browser default blue at 1.56:1 on the dark card.
+- `.article-tag` and `.chip-count` fail for the same reason: `--text-muted` on `--hover-bg` is **4.04:1 in dark mode**. That pairing is used elsewhere and is worth a sweep rather than another one-off fix.
+
 ## [10.206.0] - 2026-08-19
 
 ### Added
