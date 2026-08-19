@@ -123,7 +123,7 @@ a { color: var(--color-link); }
 
 /* ---------- Wheel layout ---------- */
 .wheel-layout { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: start; }
-@media (min-width: 1000px) { .wheel-layout { grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.95fr); } }
+@media (min-width: 1000px) { .wheel-layout { grid-template-columns: minmax(0, 1.2fr) minmax(340px, 0.8fr); } }
 
 .wheel-stage { position: sticky; top: 60px; }
 @media (max-width: 999px) { .wheel-stage { position: static; } }
@@ -260,6 +260,7 @@ details.ax[open] > summary { border-bottom: 1px solid var(--color-border); }
 
 /* segment labels drawn on the wheel face */
 .seg-label { font-family: var(--font-heading); font-weight: 700; letter-spacing: 0.2px; pointer-events: none; }
+.axis-label { font-size: 13.5px; }
 
 /* System mode: site-chrome.js removes data-theme entirely and lets the media
    query decide, so every [data-theme="dark"] component override needs a twin
@@ -272,4 +273,39 @@ details.ax[open] > summary { border-bottom: 1px solid var(--color-border); }
   :root:not([data-theme="light"]) .ring-pos.r-middle { background: rgba(251,146,60,0.16); color: #fdba74; }
   :root:not([data-theme="light"]) .ring-pos.r-margin { background: rgba(214,180,131,0.18); color: #e7cfa8; }
   :root:not([data-theme="light"]) .ev .fig { color: #c9b8ff; }
+}
+
+/* ---------- Axis / band picker ----------
+   The wheel's inner segments are ~30px across on a 390px phone and its labels
+   render at ~3px, so the wheel alone is not a usable control at that size.
+   These chips drive the same selection with 44px+ targets at every width. */
+.picker { margin-top: 1rem; }
+.picker + .picker { margin-top: 0.6rem; }
+.picker-label { display: block; font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 1.6px; text-transform: uppercase; color: var(--color-text-muted); margin-bottom: 0.4rem; }
+.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.chip {
+  font-family: var(--font-heading); font-size: 0.82rem; font-weight: 700;
+  background: var(--color-bg-card); color: var(--color-text);
+  border: 1px solid var(--color-border); border-radius: 999px;
+  padding: 0.5rem 0.85rem; cursor: pointer; min-height: 44px;
+  display: inline-flex; align-items: center; gap: 0.4rem; line-height: 1.1;
+}
+.chip:hover { border-color: var(--color-link); color: var(--color-link); }
+.chip[aria-pressed="true"] { background: var(--color-text); border-color: var(--color-text); color: var(--color-bg-card); }
+.chip .sw { width: 10px; height: 10px; border-radius: 3px; flex: 0 0 auto; }
+.chip[aria-pressed="true"] .sw { outline: 2px solid var(--color-bg-card); outline-offset: 1px; }
+.ring-chips .chip { flex: 1 1 auto; justify-content: center; text-align: center; }
+
+/* ---------- Mobile: the wheel becomes a display, the chips are the control ---------- */
+@media (max-width: 760px) {
+  .wrap { padding-left: 0.9rem; padding-right: 0.9rem; }
+  .wheel-frame { padding: 0.3rem; border-radius: 14px; }
+  /* at this scale these render at ~3px and ~5px — noise, not information */
+  .seg-label { display: none; }
+  .axis-label { display: none; }
+  .hub-label { font-size: 26px; }
+  .chip { font-size: 0.86rem; padding: 0.55rem 0.9rem; }
+}
+@media (max-width: 420px) {
+  .wrap { padding-left: 0.6rem; padding-right: 0.6rem; }
 }

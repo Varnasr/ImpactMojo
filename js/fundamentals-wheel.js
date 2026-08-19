@@ -181,6 +181,7 @@ window.FWheel = (function () {
       if (opts.focus || hadFocus) node.focus();
     }
     document.getElementById("wheelFrame").classList.add("wheel-dim");
+    syncPickers();
     renderPanel(axis, ring);
     if (!opts.silent) history.replaceState(null, "", "#" + axisId + "/" + ring);
   }
@@ -189,6 +190,7 @@ window.FWheel = (function () {
     state.axis = state.ring = null;
     document.querySelectorAll("#wheel .seg, #wheel .segw").forEach(function (s) { s.classList.remove("is-active"); });
     document.getElementById("wheelFrame").classList.remove("wheel-dim");
+    syncPickers();
     renderEmpty();
     history.replaceState(null, "", location.pathname);
   }
@@ -311,6 +313,46 @@ window.FWheel = (function () {
     });
   }
 
+  /* --------------------------------------------------------------- pickers */
+  /* On a 390px phone the inner segments are ~30px across and their labels
+     render at ~3px, so the wheel cannot be the only control. These chips
+     select the same 36 bands with 44px targets at any width. */
+  function buildPickers() {
+    var ax = document.getElementById("axisChips");
+    var rg = document.getElementById("ringChips");
+    if (!ax || !rg) return;
+
+    ax.innerHTML = D.axes.map(function (a) {
+      return '<button type="button" class="chip" data-axis="' + esc(a.id) + '" aria-pressed="false">' +
+             '<span class="sw" style="background:' + esc(a.color) + '"></span>' + esc(a.name) + '</button>';
+    }).join("");
+
+    rg.innerHTML = D.RING_ORDER.map(function (r) {
+      return '<button type="button" class="chip" data-ring="' + r + '" aria-pressed="false">' +
+             esc(D.RING_LABEL[r]) + '</button>';
+    }).join("");
+
+    ax.querySelectorAll("[data-axis]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        select(btn.getAttribute("data-axis"), state.ring || "margin");
+      });
+    });
+    rg.querySelectorAll("[data-ring]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        select(state.axis || D.axes[0].id, btn.getAttribute("data-ring"));
+      });
+    });
+  }
+
+  function syncPickers() {
+    document.querySelectorAll("#axisChips [data-axis]").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.getAttribute("data-axis") === state.axis));
+    });
+    document.querySelectorAll("#ringChips [data-ring]").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.getAttribute("data-ring") === state.ring));
+    });
+  }
+
   /* ----------------------------------------------------------- text index */
   function buildIndex() {
     var box = document.getElementById("axisIndex");
@@ -397,6 +439,7 @@ window.FWheel = (function () {
   function init() {
     if (!D || !D.axes) return;
     buildWheel();
+    buildPickers();
     buildIndex();
     loadMarks();
     paintMarks();
