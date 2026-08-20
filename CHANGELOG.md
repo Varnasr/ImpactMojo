@@ -5,6 +5,26 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.230.0] - 2026-08-20
+
+### Fixed
+
+- **The homepage nav's "recently updated" dots were pointing at the wrong things.** They were two hardcoded `<span>`s, added 2026-07-29 to Libraries and Field Radio and never revisited. Three weeks later they still claimed freshness, while the **blog** — which held the two newest items on the entire site, posts dated 19 and 20 August — carried none. A freshness marker with no expiry drifts in the direction that misleads: it keeps pointing at whatever was new the day someone typed it.
+
+  The dots are derived now, from `data/nav-updated.json` via `scripts/stamp-nav-dots.py`. `nav-blog` takes its date from the newest `article:published_time` across `blog/*.html`, so the one that gains items most often needs no maintenance at all. Hand-set entries are allowed for areas with no per-item dates, and **anything older than 30 days loses its dot automatically** — which is the actual failure being fixed. Enforced in CI via the `nav-dots` job.
+
+- **The homepage tour quoted three stale numbers.** It offered "34 studios", "163 reading companions" and "22 deep dives" against canonical figures of **35, 166 and 23**. Its other counts (70 courses, 135 games, 19 flagship, 51 foundational) were right.
+
+  The cause is why it went unnoticed: `check-counts.py` scanned root-level HTML and the GitBook docs, and `js/tours.js` is neither, so tour copy could drift indefinitely with a green CI. The guard now scans it too — 97 files to 98 — and catches the exact drift that was there, by line. Copy is copy wherever it lives.
+
+  Also checked and *not* a bug: the tour's `.ims-nav-btn` step targets an element that is absent from the static HTML but injected at runtime by `js/search.js`, so it resolves when the tour runs.
+
+### Changed
+
+- **`.claude/rules/testing.md` item 11 no longer tells you to bump the service-worker `VERSION` by hand.** It is redundant and always has been: Netlify's build command runs `scripts/stamp-version.sh`, which rewrites `const VERSION` to `v2-<commit sha>` on every deploy, so the committed value never reaches production. Verified against a live deploy where the repo held `v18-2026-08-20` and production served `v2-772296480539`. The script's own comment already said the committed value is "just a sensible default for local/preview".
+
+- **The note about the visual-regression harness and browsers was wrong in both directions.** `testing.md` said the harness "can't run in the agent sandbox (no browser)"; a July comment on #563 said it "runs fine in remote agent sessions". Measured: Chromium **is** installed at `/opt/pw-browsers/chromium` and launches, but it **cannot reach the network** — every external navigation fails with `ERR_CONNECTION_RESET`, including `example.com`, with or without the proxy set explicitly. So a sandbox run works against a local server only, which is exactly why the `axe-core` and `pa11y-ci` jobs pass while a deploy-preview test cannot run here.
+
 ## [10.229.0] - 2026-08-20
 
 ### Changed
