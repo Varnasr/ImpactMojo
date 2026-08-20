@@ -48,7 +48,11 @@
         powerBI: 'Power BI for Practitioners',
         intervention: 'Designing What Works: Development Interventions from Model to Scale',
         'nothing-about-us': 'Nothing About Us Without Us: Disability, Justice & Development',
-        'nvc-rj': 'Nonviolence in Practice: Communication, Resistance & Repair'
+        'nvc-rj': 'Nonviolence in Practice: Communication, Resistance & Repair',
+        // Missing until 2026-08-20. `courses/social-movements/` has shipped all
+        // along, but without an entry here `if (!COURSE_NAMES[courseId]) return`
+        // exited before the tracker booted, so that course recorded nothing.
+        'social-movements': 'Social Movements & Protests: Theory and South Asian Practice'
     };
 
     // =========================================================

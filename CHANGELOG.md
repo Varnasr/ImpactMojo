@@ -5,6 +5,29 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.231.0] - 2026-08-20
+
+### Fixed
+
+- **Certificates were impossible, and finishing a course silently failed.** This is the real answer to #960, found by running the chain end to end against the live database with a throwaway authenticated user rather than by reading code.
+
+  `auto_issue_certificate()` called **`uuid_generate_v4()`**. The `uuid-ossp` extension *is* installed — in the `extensions` schema — while the function pins `SET search_path TO 'public','pg_temp'`, so the call could never resolve. The trigger fires `BEFORE UPDATE` on `user_progress` when `progress_percentage >= 100`, so its failure **rejected the write itself**:
+
+  ```
+  upsert 25% : OK (HTTP 201)      ← partial progress always worked
+  upsert 100%: FAIL 404 function uuid_generate_v4() does not exist
+  ```
+
+  A learner reaching 100% lost the completion *and* the certificate, and `js/course-progress.js` swallowed the error. Replaced with `gen_random_uuid()`, which is core Postgres in `pg_catalog` and resolves under any `search_path`.
+
+  The completion bar was never the whole story. It was a contributing factor — but even a learner who cleared it could not have been recorded.
+
+- **The certificate trigger knew 9 courses; the tracker knows 20.** The other eleven hit `IF v_course_name IS NULL THEN RETURN NEW` and completed with no certificate and no error, so fixing the UUID alone would have left most of the catalogue silently uncertified. Two of the nine also carried names that disagreed with the client's — `gandhi` ("Gandhi & Contemporary Development" vs "Gandhi's Political Thought") and `poa` ("Philosophy of Action" vs "Politics of Aspiration") — so those certificates would have been issued under the wrong title. The map now covers every course id and matches `COURSE_NAMES` exactly. It stays **server-side** rather than trusting `NEW.course_name`: RLS lets a user write their own progress rows, so a client-supplied name would let anyone mint a publicly verifiable certificate for a course that does not exist.
+
+- **`courses/social-movements/` never tracked anything.** It was missing from `COURSE_NAMES`, so `if (!courseId || !COURSE_NAMES[courseId]) return` exited before the tracker booted. Flagged in #960 and still true until now. Every one of the 19 course directories now has an entry.
+
+  Verified after the fix, same test: `upsert 100% OK (HTTP 200)` and `certificate: ISSUED IM-MEL-2026-04BA79`. The throwaway user and its rows were deleted; the user count is back to 58.
+
 ## [10.230.0] - 2026-08-20
 
 ### Fixed
