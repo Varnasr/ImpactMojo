@@ -5,6 +5,18 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.229.0] - 2026-08-20
+
+### Changed
+
+- **`supabase-js` moves from 2.49.1 to 2.112.3 across the whole site.** 509 references in 509 files, plus the three admin pages that were not pinned at all. `admin/index.html`, `admin/cms.html` and `admin/bugs.html` loaded `@supabase/supabase-js@2` — a floating major that silently tracks whatever npm publishes, so those three had *already* been running 2.112.x in production while every other page ran 2.49.1. They are pinned like everything else now.
+
+  Every changed line is a version string. The four remaining `@2` references are usage examples inside doc comments in `js/auth.js`, `js/course-progress.js`, `js/admin-cms.js` and `js/admin-gate.js`, and the 71 remaining 2.49.1 references are all under `Backups/`, which is a historical snapshot and deliberately untouched.
+
+  `service-worker.js` VERSION → `v18-2026-08-20` and all 201 stamped pages re-stamped, since an asset-stamp change without a version bump can pair fresh HTML with a previous deploy's cached JS.
+
+  Rebuilt on current main rather than merged: the original branch was 12 commits behind and conflicted on the service-worker version. The tree was reset to main and the substitution re-applied, so the diff is provably main plus the version change.
+
 ## [10.228.0] - 2026-08-20
 
 ### Changed
