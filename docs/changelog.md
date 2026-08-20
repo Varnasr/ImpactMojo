@@ -8,6 +8,11 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 
 - **Your progress bar moves as you go.** It used to sit at zero until you got every question in a module right; now each correct answer counts, and both the bar and your account page show it.
 - **A module no longer needs a perfect score.** Getting the majority right — 3 of 4 — completes it.
+## v10.222.0 — August 20, 2026 (Site search can find the paid resources)
+
+### For Learners
+
+- **Searching the site now finds the practice resources.** The assessment banks, checklists, templates, workbooks, refreshers and posters were live and linked, but typing "logframe" or "field readiness" into site search returned nothing. All 33 are now findable.
 
 ## v10.221.0 — August 20, 2026 (Nine ways to fail silently, closed)
 
