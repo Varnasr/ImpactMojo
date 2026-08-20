@@ -257,7 +257,7 @@
             var isComplete = percentage >= 100;
             var now = new Date().toISOString();
 
-            await sb.from('user_progress').upsert({
+            var { error: syncError } = await sb.from('user_progress').upsert({
                 user_id: user.id,
                 course_id: courseId,
                 course_name: COURSE_NAMES[courseId],
@@ -269,8 +269,17 @@
             }, {
                 onConflict: 'user_id,course_id'
             });
+
+            // supabase-js RESOLVES with { data, error } rather than throwing, so
+            // the catch below never saw a rejected write. Progress is still kept
+            // in localStorage either way, but a cloud failure must be visible
+            // somewhere or it stays invisible for months — which it did.
+            if (syncError) {
+                console.error('[CourseProgress] Cloud sync failed for ' + courseId +
+                              ': ' + syncError.message);
+            }
         } catch (e) {
-            // Silently fail — user can still track locally
+            console.error('[CourseProgress] Cloud sync threw for ' + courseId + ':', e);
         }
     }
 

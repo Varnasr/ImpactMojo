@@ -1155,7 +1155,11 @@ function savePortfolio() {
         supabaseClient.from('profiles')
             .update({ portfolio_headline: headline })
             .eq('id', userId)
-            .then(function() {});
+            .then(function (result) {
+                if (result && result.error) {
+                    showStatus('Could not save your headline: ' + result.error.message, 'error');
+                }
+            });
 
         // Upsert portfolio items
         if (portfolioItems.length > 0) {

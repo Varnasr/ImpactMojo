@@ -5,6 +5,34 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.221.0] - 2026-08-20
+
+### Added
+
+- **`scripts/check-supabase-writes.py` — a guard for the class of bug that hid the dead progress sync.** `supabase-js` *resolves* with `{ data, error }` rather than throwing, so `await sb.from('t').upsert({...})` reports a rejected write exactly as it reports a successful one, and any `try/catch` around it can never fire. That is how `user_progress` reached 0 rows ever inserted against 17,022 reads without anyone noticing (#960).
+
+  The static half runs on every push and needs no credentials: it finds every `.from('table')` chained to a mutating verb and fails when the result is discarded, or captured and never checked. It accepts the three legitimate shapes — `var { error } = await …`, `var res = await …` followed by a read of `res.error`, and `.then(cb)` where `cb` inspects `.error` — and a line may opt out with `write-ignore`.
+
+  The live half (`--live`, scheduled only, skips gracefully without `SUPABASE_PAT`) asserts that every table the code writes to has a non-zero `n_tup_ins`. A table with a writer that has never received a row is either broken or never wired to a UI; both are worth knowing, and neither should be silent.
+
+### Fixed
+
+- **Nine Supabase writes could fail without any trace**, found by the new guard and fixed:
+  - `js/course-progress.js` — the `user_progress` upsert behind #960, whose `catch` carried the comment "Silently fail".
+  - `account.html` — notification preferences showed **"Saved"** unconditionally, a false success of exactly the kind the form rebuild removed elsewhere; and marking a notification read.
+  - `admin/index.html` ×2 — feature flags and site metadata saved with no confirmation that anything was written.
+  - `org-dashboard.html` ×2 — deleting a discussion post, and the "fire-and-forget" upsert that makes an organisation's creator a member, where a failure leaves the creator outside their own org.
+  - `portfolio.html` — the portfolio headline update.
+  - `js/auth.js` — `last_active_at` recorded the day in `localStorage` inside a `.then` that ran even on failure, so a failed write suppressed its own retry for the rest of the day.
+
+### Notes on building the guard
+
+Three defects in the guard and its own tooling were caught by testing rather than reading, all of them the guard-passes-anyway failure mode:
+
+- The first regex backtracked catastrophically and **hung** on a long line. A hung CI job neither passes nor fails — it reads as "still running", the exact failure this repo already documents. Replaced with a bounded linear scan.
+- Reformatting a call across several lines made the single-line matcher **go blind to it**: the detected count silently fell from 17 to 13, and the guard "passed" partly because it had stopped looking. Now matched across the whole file text, which also surfaced four writes the first version never saw at all — including one in `js/auth.js`. A false positive was fixed the same way: `portfolio.html` checks `result.error` inside a `.then` callback, which the first classifier did not understand.
+- **The script that added this entry silently did nothing.** It used `str.replace()` against an anchor that did not exist on the branch, with no assertion, so the entry was never written and nothing reported it — the same shape as the bug the entry describes. The anchor is now asserted before the write.
+
 ## [10.219.1] - 2026-08-20
 
 ### Changed

@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.221.0 — August 20, 2026 (Nine ways to fail silently, closed)
+
+### Fixed
+
+- Saving your notification preferences said "Saved" even when it hadn't been. That, and eight other places where the site could fail to save something without telling you or anyone else, now report the failure.
+
 ## v10.219.0 — August 19, 2026 (The wiki stopped quoting numbers nobody checked)
 
 ### Fixed
