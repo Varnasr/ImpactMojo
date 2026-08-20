@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.223.0 — August 20, 2026 (Course progress counts partial work)
+
+### For Learners
+
+- **Your progress bar moves as you go.** It used to sit at zero until you got every question in a module right; now each correct answer counts, and both the bar and your account page show it.
+- **A module no longer needs a perfect score.** Getting the majority right — 3 of 4 — completes it.
+
 ## v10.221.0 — August 20, 2026 (Nine ways to fail silently, closed)
 
 ### Fixed

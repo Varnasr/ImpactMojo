@@ -5,6 +5,28 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.223.0] - 2026-08-20
+
+### Changed
+
+- **Course progress now gives partial credit, and a module passes on a majority.** Two changes to `js/course-progress.js`, both prompted by a diagnosis that turned out to be wrong.
+
+  A module used to require a clean sweep — every graded question correct. MEL delivers 12 modules of 4 questions, so finishing it meant 48 correct answers with no allowance for a single question that reads badly. `PASS_RATIO` is now 0.75: 3 of 4, 2 of 2, 5 of 6. MEL's bar falls from 48 to 36.
+
+  Progress was also all-or-nothing inside a module: the figure written to `user_progress` was `completedModules / totalModules`, which moves only when a whole module lands, so a learner three questions in had nothing on their account page and we could not see where people stop. Each module now contributes a fractional score capped at 1, and a correct answer syncs immediately rather than waiting for the module to finish (`queueSync` already debounces 3s, so a run of quick answers is still one write). One correct answer in MEL now reads 3% instead of 0%.
+
+  **Completion semantics are unchanged.** 100% is still reachable only when every module has passed, which is what the `on_course_completed` trigger keys on. Verified against MEL's real shape: 11 of 12 modules gives 92%, every module at exactly the pass mark gives 100%, and eleven modules complete with one at 2 of 4 does **not** reach 100%.
+
+### Corrected
+
+- **The #960 diagnosis was substantially wrong, and is retracted here.** I read the static HTML of the course pages, found all six graded questions inside `<section id="course-assessment">` and none in the module sections, and concluded that `scanModules()` found nothing, `totalModules` stayed 0, and the tracker never booted for any learner.
+
+  Module bodies are not in the HTML. They are injected at runtime by `js/course-loader.js` from the `course_content` table, which holds 246 modules across 19 courses — **202 with `quiz_html`, 186 of those graded**. Asking the live endpoint for MEL returns 14 modules, none locked even for an anonymous visitor, 12 of them carrying 4 graded questions each inside the correct module section. The tracker boots, the quizzes are wired, and the handshake between loader and tracker works in both directions.
+
+  What remains true is only the measurement: `user_progress` has 0 rows ever inserted against 17,022 reads, and `certificates` 0 ever, with 54 signed-in users. The likeliest explanation is now the ordinary one — a demanding completion bar that nobody has cleared — which is what the two changes above address. A browser check while signed in would settle it.
+
+  Recorded rather than quietly amended, because the wrong diagnosis was detailed and confident enough to have justified writing roughly 663 quiz questions that already existed.
+
 ## [10.221.0] - 2026-08-20
 
 ### Added
