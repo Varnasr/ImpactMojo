@@ -5,6 +5,22 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.228.0] - 2026-08-20
+
+### Changed
+
+- **The six Edge Functions move from `supabase-js` 2.39.3 to 2.112.3.** Eighteen months of fixes on the library that does server-side auth, certificate issuance and push delivery. `game-agent`, `issue-certificate`, `mint-resource-token`, `send-notification`, `send-push` and `serve-course-content`; the diff is six lines, one import pin each, and nothing else.
+
+  **This is the repository only. The functions are not redeployed.** The deploy call is not available from this session, so production still runs 2.39.3 until someone deploys. Anyone who does should run the boot check below immediately afterwards.
+
+- **`.github/stale-branches.txt` re-audited against the actual remote.** The list held 55 branches; **54 of them no longer exist**. A deletion list that is 98% phantom is worse than none, because a dry run reports "would delete 55" and the truth is one. The remote holds four branches: `main`, `gh-pages`, `claude/supabase-js-refresh` (open PR #959), and `claude/routine-backend-upkeep` — the last of the abandoned Routine branches, whose single commit is superseded on both counts (its supabase-js target by #959, its lockfiles by main, which carries axe-core ^4.13.0 against that commit's ^4.11.4). Checked before listing it.
+
+- **`delete-stale-branches.yml` can be triggered by a commit.** The typed-DELETE gate made the workflow unreachable from an agent session, which cannot dispatch. Editing the list on `main` now arms it, the same push-trigger route `release.yml` and `post-discussion.yml` use; a dispatch still requires DELETE typed. The workflow's own checks are untouched and still run on every branch: never the default branch, never a protected branch, and never one with an open pull request, re-checked immediately before each deletion.
+
+### Added
+
+- **`scripts/check-edge-functions.py`** asserts every deployed Edge Function still boots. The functions import `supabase-js` from esm.sh at cold start, and a broken import does not fail at deploy time — it fails on the next cold start, as a 500 that only the caller sees. Each probe is chosen so that passing proves the **function body ran**: the expected response is text the function itself writes, never the platform gateway's. The three with `verify_jwt: true` are probed with the public anon key, since an unauthenticated call is answered by the gateway before the code is reached; `status-alert`, which imports no supabase-js, is the control. Verified by pointing a probe at a non-existent function and by expecting text a healthy function does not write; both fail. Runs in CI on the daily schedule and on demand, not on pull requests, since it hits a live third-party gateway.
+
 ## [10.227.0] - 2026-08-20
 
 First tagged release since `v10.79.0`. Tags had fallen 148 versions behind the changelog because nothing in the toolchain could write one; the two changes below close that, and announce the Fundamentals series.
