@@ -176,6 +176,23 @@ jobs:
       - name: Test service worker routing & lifecycle
         run: node scripts/test-service-worker.mjs
 
+  search-coverage:
+    name: Site-search coverage
+    runs-on: ubuntu-latest
+    # Without this a hung step inherits GitHub's 360-minute default and the
+    # job neither passes nor fails -- which reads as "still running".
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      # The sitemap is what we tell Google exists; the search index is what our
+      # own visitors can find. They had drifted 127 pages apart -- posters,
+      # reading companions, course lexicons and premium tools were live and
+      # crawlable and site search returned none of them, because adding a page
+      # updates the sitemap and the index is a separate file nobody must touch.
+      - name: Check every sitemap page is findable in site search
+        run: python3 scripts/check-search-coverage.py
+
   social-images:
     name: Social preview image guard
     runs-on: ubuntu-latest
