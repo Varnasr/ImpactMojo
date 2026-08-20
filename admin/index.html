@@ -1357,6 +1357,39 @@ body.dark-mode .badge-soon, [data-theme="dark"] .badge-soon, html.dark .badge-so
                 <div class="um-pagination" id="umPagination"></div>
             </div>
 
+
+            <!-- Issue a certificate by hand -->
+            <div class="um-table-wrap" style="margin-top:24px; padding:20px;">
+                <h3 style="margin:0 0 6px; font-size:1rem;">Issue a certificate</h3>
+                <p style="margin:0 0 16px; font-size:0.85rem; color:var(--text-muted); max-width:60ch;">
+                    For the assessed tracks, which are marked by hand and delivered by e-mail.
+                    Recording the award here is what makes it verifiable on
+                    <a href="/verify-certificate.html">the verification page</a> &mdash; the promise
+                    those product pages make. Issuing twice for the same person and course
+                    returns the existing number rather than creating a second one.
+                </p>
+                <div style="display:grid; gap:12px; max-width:520px;">
+                    <label style="display:grid; gap:4px; font-size:0.85rem;">
+                        Learner e-mail
+                        <input type="email" id="certEmail" placeholder="learner@example.com"
+                               style="padding:8px 10px; border:1px solid var(--border-color); border-radius:6px; background:var(--card-bg); color:var(--text-color);">
+                    </label>
+                    <label style="display:grid; gap:4px; font-size:0.85rem;">
+                        Track or course ID
+                        <input type="text" id="certCourseId" placeholder="mel-assessed"
+                               style="padding:8px 10px; border:1px solid var(--border-color); border-radius:6px; background:var(--card-bg); color:var(--text-color);">
+                    </label>
+                    <label style="display:grid; gap:4px; font-size:0.85rem;">
+                        Name as it should appear on the certificate
+                        <input type="text" id="certCourseName" placeholder="AI for M&amp;E Certificate Track"
+                               style="padding:8px 10px; border:1px solid var(--border-color); border-radius:6px; background:var(--card-bg); color:var(--text-color);">
+                    </label>
+                    <button class="btn" id="certIssueBtn" onclick="issueCertificateByHand()"
+                            style="justify-self:start;">Issue certificate</button>
+                    <div id="certResult" role="status" aria-live="polite" style="font-size:0.85rem;"></div>
+                </div>
+            </div>
+
         </div><!-- end tab-users -->
 
         <!-- TAB: Site Settings -->
@@ -1498,6 +1531,83 @@ body.dark-mode .badge-soon, [data-theme="dark"] .badge-soon, html.dark .badge-so
 <script src="/js/config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/js/auth.js"></script>
+<script>
+// Record a certificate that was assessed off-platform.
+//
+// The assessed tracks are marked by a human and delivered by e-mail, so the
+// learner has no user_progress row and their track is not a site course.
+// The self-service path in the issue-certificate function refuses both, which
+// is why every verification returned "Certificate Not Found" while those
+// product pages promised the certificate was independently checkable.
+//
+// Authorisation is decided by the function from the caller's own profile role,
+// read server-side. Nothing here is trusted for that.
+async function issueCertificateByHand() {
+    var btn = document.getElementById('certIssueBtn');
+    var out = document.getElementById('certResult');
+    var email = (document.getElementById('certEmail').value || '').trim();
+    var courseId = (document.getElementById('certCourseId').value || '').trim();
+    var courseName = (document.getElementById('certCourseName').value || '').trim();
+
+    function say(msg, ok) {
+        out.textContent = msg;
+        out.style.color = ok ? 'var(--success-color, #15803D)' : 'var(--error-color, #B91C1C)';
+    }
+
+    if (!email || !courseId || !courseName) {
+        say('E-mail, track ID and certificate name are all required.', false);
+        return;
+    }
+
+    btn.disabled = true;
+    var previous = btn.textContent;
+    btn.textContent = 'Issuing…';
+    try {
+        // Resolve the learner. An admin can read profiles.email; a missing row
+        // is reported rather than silently issuing to nobody.
+        var { data: profile, error: lookupError } = await supabaseClient
+            .from('profiles').select('id, full_name, display_name')
+            .eq('email', email).single();
+        if (lookupError || !profile) {
+            say('No account found for ' + email + '. The learner must have signed up first.', false);
+            return;
+        }
+
+        var { data: session } = await supabaseClient.auth.getSession();
+        var token = session && session.session && session.session.access_token;
+        if (!token) { say('Your admin session has expired — sign in again.', false); return; }
+
+        var resp = await fetch(window.ImpactMojoConfig.SUPABASE_URL + '/functions/v1/issue-certificate', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json',
+                'apikey': window.ImpactMojoConfig.SUPABASE_ANON_KEY
+            },
+            body: JSON.stringify({
+                target_user_id: profile.id,
+                course_id: courseId,
+                course_name: courseName
+            })
+        });
+        var body = await resp.json().catch(function () { return {}; });
+        if (!resp.ok) {
+            say('Not issued (' + resp.status + '): ' + (body.error || 'unknown error'), false);
+            return;
+        }
+        var num = body.certificate_number || '(number not returned)';
+        say((body.message === 'Certificate already issued'
+                ? 'Already issued — existing number: '
+                : 'Issued: ') + num
+            + '  ·  verify at /verify-certificate.html?cert=' + encodeURIComponent(num), true);
+    } catch (e) {
+        say('Request failed: ' + (e && e.message ? e.message : e), false);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = previous;
+    }
+}
+</script>
 <script src="/js/admin-gate.js"></script>
 <script src="/js/dashboard-tabs.js"></script>
 
