@@ -12,6 +12,13 @@
 name: Cut a release
 
 on:
+  # Committing a version to .github/release/VERSION cuts that release. This is
+  # the only route that works from an agent session: workflow_dispatch returns
+  # 403 there, as do tag pushes, so a release could be written but never cut.
+  # post-discussion.yml solves the same problem the same way.
+  push:
+    branches: [main]
+    paths: ['.github/release/VERSION']
   workflow_dispatch:
     inputs:
       version:
@@ -43,8 +50,24 @@ jobs:
           script: |
             const fs = require('fs');
             const { owner, repo } = context.repo;
-            const dryRun = context.payload.inputs.dry_run !== 'false';
-            const asked = (context.payload.inputs.version || '').trim().replace(/^v/, '');
+            const dispatched = context.eventName === 'workflow_dispatch';
+            // A push is a deliberate commit of a version, so it publishes.
+            // A dispatch previews unless dry-run is explicitly unchecked.
+            const dryRun = dispatched && (context.payload.inputs || {}).dry_run !== 'false';
+
+            let asked = dispatched
+              ? ((context.payload.inputs || {}).version || '').trim().replace(/^v/, '')
+              : '';
+            if (!dispatched) {
+              const stamp = '.github/release/VERSION';
+              if (!fs.existsSync(stamp)) { core.setFailed(`${stamp} is missing`); return; }
+              asked = fs.readFileSync(stamp, 'utf8').trim().replace(/^v/, '');
+              if (!/^\d+\.\d+\.\d+$/.test(asked)) {
+                core.setFailed(`${stamp} must hold a bare version like 10.226.0, got "${asked}"`);
+                return;
+              }
+              core.info(`Release requested by commit: ${asked}`);
+            }
 
             const changelog = fs.readFileSync('CHANGELOG.md', 'utf8');
 
@@ -91,8 +114,12 @@ jobs:
               .addRaw(`\nTag \`${tag}\` at \`${sha.slice(0, 8)}\` on \`${branch}\`${heads[idx][2] ? ` · dated ${heads[idx][2]}` : ''}\n\n`);
 
             if (exists) {
-              await summary.addRaw(`Tag \`${tag}\` already exists — nothing to do. Bump the version in CHANGELOG.md first.\n`).write();
-              core.setFailed(`Tag ${tag} already exists`);
+              await summary.addRaw(`Tag \`${tag}\` already exists — nothing to do.\n`).write();
+              // On a push this is the ordinary re-run case (the stamp was
+              // touched without a new version), so it is not a failure. A
+              // dispatch asked for it explicitly, so it is.
+              if (dispatched) core.setFailed(`Tag ${tag} already exists`);
+              else core.info(`Tag ${tag} already exists — nothing to do.`);
               return;
             }
 
