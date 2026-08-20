@@ -65,7 +65,7 @@ SCRIPTS = '''<script src="/DeepDives/dd-shared.js"></script>
 
 
 <!-- Supabase Auth (deferred, non-blocking) -->
-<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1"></script>
 <script defer src="/js/state-manager.js"></script>
 <script defer src="/js/config.js"></script>
 <script defer src="/js/auth.js"></script>
