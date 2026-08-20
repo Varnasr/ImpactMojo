@@ -336,15 +336,21 @@ async function issueCertificate(
   }
 
   // 8. Send certificate congratulations + premium upsell notification
+  // `admin` was never declared anywhere — the client in scope is
+  // `adminClient` — so the first statement in this block threw a
+  // ReferenceError on every call. The catch at the end logs it as non-fatal,
+  // which is why no certificate notification or e-mail has ever been sent and
+  // nothing ever reported it. (`profile` is also already bound above, so the
+  // tier lookup is renamed rather than shadowing it.)
   try {
-    const { data: profile } = await admin
+    const { data: tierProfile } = await adminClient
       .from("profiles")
       .select("subscription_tier")
       .eq("id", userId)
       .single();
 
     // In-app notification for everyone
-    await admin.rpc("notify_user", {
+    await adminClient.rpc("notify_user", {
       p_user_id: userId,
       p_type: "certificate",
       p_title: `Congratulations! You earned your ${courseName} certificate`,
@@ -356,7 +362,7 @@ async function issueCertificate(
     // Email — congrats + soft premium pitch for explorer-tier users
     const resendKey = Deno.env.get("RESEND_API_KEY");
     if (resendKey && recipientEmail) {
-      const isExplorer = profile?.subscription_tier === "explorer";
+      const isExplorer = tierProfile?.subscription_tier === "explorer";
       const premiumPitch = isExplorer
         ? `<hr style="border:none;border-top:1px solid #E2E8F0;margin:24px 0">
 <p style="color:#64748B;font-size:14px"><strong>Want to keep the momentum going?</strong> ImpactMojo Premium gives you professional-grade tools like VaniScribe AI transcription, realistic datasets, and workshop templates — starting at just \u20B9399/month. <a href="https://www.impactmojo.in/premium-letter.html" style="color:#F59E0B">Learn more</a></p>`
@@ -375,7 +381,7 @@ async function issueCertificate(
 <p>Huge congratulations — you've completed <strong>${courseName}</strong> and earned your ImpactMojo certificate!</p>
 <p style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:16px;text-align:center;margin:16px 0">
 <strong style="font-size:18px;color:#92400E">Certificate ${certificateNumber}</strong><br>
-<a href="https://www.impactmojo.in${verificationUrl}" style="color:#F59E0B;font-size:13px">Verify &amp; share this certificate</a>
+<a href="${verificationUrl}" style="color:#F59E0B;font-size:13px">Verify &amp; share this certificate</a>
 </p>
 <p>You can download it, share it on LinkedIn, or add the verification link to your CV. It's yours — you earned it.</p>
 <p>Now that you've finished one course, why not try another? Each one earns you a new certificate and builds on what you've learned.</p>
