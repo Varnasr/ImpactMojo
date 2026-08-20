@@ -5,6 +5,28 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.226.0] - 2026-08-20
+
+### Fixed
+
+- **127 live pages were in the sitemap and missing from site search.** The sitemap is what we tell Google exists; `data/search-index.json` is what our own visitors can find. They had drifted 127 pages apart: **47 course posters, 19 reading companions, 17 course lexicons, 8 premium tools**, and 36 others including `verify-certificate`, `toc-builder`, `podcast`, `testimonials` and the whole legal set. Every one of them was live, crawlable and advertised to search engines, and typing its name into the site's own search returned nothing.
+
+  Nothing failed to make this happen. Adding a page updates `sitemap.xml`; the index is a separate file nobody is forced to touch, so the gap widened one page at a time for months.
+
+  Titles, descriptions and tags are taken from each page's own `<title>` and `meta description` rather than written fresh, and each entry inherits its tags from the already-indexed sibling with the same slug, so a poster carries its course's tags. Six pages had no description at all and were written by hand. Five pages are deliberately left out, each with its reason recorded in the guard: the homepage, the `/handouts` pretty-URL duplicate, a post-transaction thank-you page, a dev-setup artefact, and a 16KB alternate rendering of a course already indexed under the same title.
+
+  Two measurement traps on the way: comparing raw URL strings reports **87 phantom gaps**, because the index stores `%20` in handout paths and the sitemap does not; and resolving the lowercased paths against a case-sensitive filesystem reports **24 sitemap 404s that do not exist**. Both were my own errors, caught by checking rather than by anything failing. There are no 404s in the sitemap.
+
+- **Seven poster pages had a double-escaped `meta description`.** `&amp;mdash;` where `&mdash;` was meant, and `social-margins.html` was escaped three deep (`&amp;amp;mdash;`). These render as literal `&mdash;` text in Google results and social cards, which is the one place a meta description is ever seen. Only the surplus layers are stripped, leaving exactly one valid entity; a real ampersand (`M&amp;E`) cannot match, because the pattern requires a named entity immediately after.
+
+### Added
+
+- **`scripts/check-search-coverage.py`** asserts every `sitemap.xml` page is in the search index, comparing decoded, case-folded, fragment-stripped paths. Exemptions live in the script with a written reason, and a **stale exemption is itself a failure** — if an exempted page later gets indexed, or leaves the sitemap, the guard says so, so the list cannot rot into a permanent blindfold. Verified by reintroducing the bug three ways: removing an indexed entry fails, exempting an indexed page fails as stale, and the restored state passes. Enforced in CI via the `search-coverage` job.
+
+- `showcase` and `special` now have proper labels and icons in `js/search.js`. Both types already existed in the index and fell through to a badge reading the raw type name.
+
+- **The release workflow now refuses a duplicated version instead of guessing.** `CHANGELOG.md` carried **two `## [10.210.0]` sections** — the form-submission fix and the Capability Approach page, both dated 2026-08-19. The workflow resolved a version with `findIndex`, so releasing 10.210.0 would have published whichever section came first, with half the notes and no warning. It now fails on more than one match, and the newer of the two entries is renumbered `10.210.1`. Found by asserting uniqueness while resolving an unrelated merge conflict, not by anything failing.
+
 ## [10.225.0] - 2026-08-20
 
 ### Added
@@ -292,7 +314,7 @@ Neither accessibility job would have caught any of this. axe-core does run both 
 
 - `scripts/check-fundamentals-privacy.py`, wired into CI as the `fundamentals-privacy` job. The page tells the reader their answers stay in their browser and are sent nowhere; that is a promise about code, so it is now enforced by code. The guard fails if the questionnaire files gain any network primitive — fetch, XHR, sendBeacon, WebSocket, EventSource, dynamic import, form submit, gtag or dataLayer — and also fails if the promise is quietly removed from the page, so it cannot be satisfied by deleting the sentence. Verified against both failure modes.
 
-## [10.210.0] - 2026-08-19
+## [10.210.1] - 2026-08-19
 
 ### Fixed
 
