@@ -5,6 +5,14 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.219.1] - 2026-08-20
+
+### Changed
+
+- **Seven open dependabot PRs cleared by applying their bumps on current main** rather than merging seven branches cut between 6 July and 17 August, each of which would have needed rebasing in turn over the same lockfile: `actions/checkout` v4 → v7 (the 2 files still on v4; 25 uses were already v7, #793), `actions/setup-node` v6 → v7 (#839), `actions/setup-python` v6 → v7 (#840), `actions/github-script` v7 → v9 (#930), `axe-core` and `@axe-core/puppeteer` → ^4.13.0 (#931, #932), `@axe-core/cli` → ^4.12.1 (#672). #671 (puppeteer 24.43.1 → 25.3.0) was closed as obsolete — main was already on ^25.7.0. The lockfile was regenerated with `npm install --package-lock-only`, and the full CI suite passed **on the new action versions**, which is the actual verification.
+
+  One gap CI cannot cover: `actions/github-script` v9 is used only in `delete-stale-branches.yml`, which runs on manual dispatch. Its script uses `github.rest.*`, `core.info` and `context.repo`, unchanged across v7…v9, so the jump is a runner-version bump — but the next branch cleanup will be its first real run on v9.
+
 ## [10.219.0] - 2026-08-19
 
 ### Fixed
