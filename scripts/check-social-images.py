@@ -31,7 +31,17 @@ from pathlib import Path
 from urllib.parse import unquote, urlparse
 
 ROOT = Path(__file__).resolve().parent.parent
-SITE = "https://www.impactmojo.in"
+# Both spellings of our own origin. The bare-domain form is what let a broken
+# reference sit unreported: nfhs.html pointed og:image at
+# https://impactmojo.in/assets/og-default.png, which does not exist, and the
+# guard treated the missing "www." as evidence that the URL belonged to
+# somebody else and skipped it.
+SITE_ORIGINS = (
+    "https://www.impactmojo.in",
+    "https://impactmojo.in",
+    "http://www.impactmojo.in",
+    "http://impactmojo.in",
+)
 
 META = re.compile(
     r'<meta\s+(?:property|name)="((?:og|twitter):image(?::secure_url)?)"\s+content="([^"]+)"',
@@ -56,7 +66,7 @@ def main() -> int:
         for prop, url in META.findall(src):
             # Only our own assets can be checked from here; a CDN or a remote
             # host is somebody else's problem and is left alone.
-            if url.startswith("http") and not url.startswith(SITE):
+            if url.startswith("http") and not url.startswith(SITE_ORIGINS):
                 continue
             path = urlparse(url).path if url.startswith("http") else url
             # A space in a filename arrives as %20 and is a real file.
