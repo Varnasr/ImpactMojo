@@ -123,7 +123,8 @@ serve(async (req: Request) => {
       }
       userId = user.id;
 
-      const { course_id: courseId } = await req.json();
+      const body = await req.json();
+      const courseId = body.course_id;
       if (!courseId) {
         return new Response(
           JSON.stringify({ error: "course_id required" }),
@@ -131,6 +132,59 @@ serve(async (req: Request) => {
             status: 400,
             headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
           }
+        );
+      }
+
+      // ── Admin path: issue a certificate that this service did not award.
+      //
+      // The assessed tracks sold on the site (mel-assessed-certificate and
+      // the others, INR 2,499) are marked by a human and delivered by email.
+      // Those learners have no user_progress row and never will, and their
+      // track is not in COURSE_NAMES — so the self-service path below
+      // refuses them twice over. Their certificate was still promised as
+      // "independently checkable", and verify-certificate.html checks by
+      // querying this table, so without this branch that promise cannot be
+      // kept for anyone who paid.
+      //
+      // Guarded by the caller's OWN role, read with the service-role client:
+      // never a flag from the request body, and never the caller's claim
+      // about themselves.
+      if (body.target_user_id || body.course_name) {
+        const adminClient = createClient(supabaseUrl, serviceRoleKey);
+        const { data: callerProfile } = await adminClient
+          .from("profiles")
+          .select("role")
+          .eq("id", userId)
+          .single();
+
+        if (callerProfile?.role !== "admin") {
+          return new Response(
+            JSON.stringify({ error: "Admin role required to issue on behalf of a user" }),
+            {
+              status: 403,
+              headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
+            }
+          );
+        }
+
+        const targetUserId = body.target_user_id || userId;
+        const courseName = body.course_name;
+        if (!courseName) {
+          return new Response(
+            JSON.stringify({ error: "course_name required for an admin-issued certificate" }),
+            {
+              status: 400,
+              headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
+            }
+          );
+        }
+
+        return await issueCertificate(
+          supabaseUrl,
+          serviceRoleKey,
+          targetUserId,
+          courseId,
+          { courseName, skipProgressCheck: true }
         );
       }
 
@@ -158,12 +212,17 @@ async function issueCertificate(
   supabaseUrl: string,
   serviceRoleKey: string,
   userId: string,
-  courseId: string
+  courseId: string,
+  adminOverride?: { courseName: string; skipProgressCheck: boolean }
 ) {
   const adminClient = createClient(supabaseUrl, serviceRoleKey);
 
-  // 1. Verify course is valid
-  const courseName = COURSE_NAMES[courseId];
+  // 1. Resolve the course name.
+  //
+  // An admin-issued certificate carries its own name, because the assessed
+  // tracks are products rather than site courses and are deliberately absent
+  // from COURSE_NAMES. Every other caller must name a known course.
+  const courseName = adminOverride?.courseName ?? COURSE_NAMES[courseId];
   if (!courseName) {
     return new Response(
       JSON.stringify({ error: "Unknown course", course_id: courseId }),
@@ -174,25 +233,28 @@ async function issueCertificate(
     );
   }
 
-  // 2. Check progress is actually 100%
-  const { data: progress } = await adminClient
-    .from("user_progress")
-    .select("progress_percentage")
-    .eq("user_id", userId)
-    .eq("course_id", courseId)
-    .single();
+  // 2. Check progress is actually 100% — unless an admin is recording an
+  //    award that was assessed off-platform, where no progress row exists.
+  if (!adminOverride?.skipProgressCheck) {
+    const { data: progress } = await adminClient
+      .from("user_progress")
+      .select("progress_percentage")
+      .eq("user_id", userId)
+      .eq("course_id", courseId)
+      .single();
 
-  if (!progress || progress.progress_percentage < 100) {
-    return new Response(
-      JSON.stringify({
-        error: "Course not yet completed",
-        progress: progress?.progress_percentage ?? 0,
-      }),
-      {
-        status: 403,
-        headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
-      }
-    );
+    if (!progress || progress.progress_percentage < 100) {
+      return new Response(
+        JSON.stringify({
+          error: "Course not yet completed",
+          progress: progress?.progress_percentage ?? 0,
+        }),
+        {
+          status: 403,
+          headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
+        }
+      );
+    }
   }
 
   // 3. Check if certificate already exists (idempotent)
