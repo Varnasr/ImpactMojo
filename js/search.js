@@ -39,7 +39,9 @@
     poster:          { icon: sargamImg('si_Image'),         label: 'Poster',            color: '#BE185D' },
     reference:       { icon: sargamImg('si_Library_books'), label: 'Reference',         color: '#0D9488' },
     handout:         { icon: sargamImg('si_File_download'), label: 'Handout',           color: '#65A30D' },
-    challenge:       { icon: sargamImg('si_Flag'),          label: 'Challenge',         color: '#DC2626' }
+    challenge:       { icon: sargamImg('si_Flag'),          label: 'Challenge',         color: '#DC2626' },
+    showcase:        { icon: sargamImg('si_Image'),          label: 'Work Sample',       color: '#7C2D12' },
+    special:         { icon: sargamImg('si_Library_books'), label: 'Special',           color: '#9333EA' }
   };
 
   /* ---- Load Fuse.js ---- */

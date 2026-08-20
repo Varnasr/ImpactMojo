@@ -1155,7 +1155,11 @@ function savePortfolio() {
         supabaseClient.from('profiles')
             .update({ portfolio_headline: headline })
             .eq('id', userId)
-            .then(function() {});
+            .then(function (result) {
+                if (result && result.error) {
+                    showStatus('Could not save your headline: ' + result.error.message, 'error');
+                }
+            });
 
         // Upsert portfolio items
         if (portfolioItems.length > 0) {
@@ -1372,7 +1376,7 @@ document.getElementById('headlineInput').addEventListener('input', function() {
 
 
 <!-- Language Translation (Hindi, Tamil, Bengali, Marathi) -->
-<script src="/js/search.js?v=0b4c172b" defer></script>
+<script src="/js/search.js?v=3993b813" defer></script>
 <script defer src="js/auto-refresh.js"></script>
 <!-- ImpactMojo Theme Toggle JS -->
 <script src="/js/theme.js?v=ca787a55"></script>

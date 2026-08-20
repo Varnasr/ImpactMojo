@@ -2498,7 +2498,12 @@ body.dark-mode .v3-paper-plane { opacity: 0.10; }
             // Auto-add admin as member (fire-and-forget)
             supabaseClient.from('organization_members')
                 .upsert({ org_id: org.id, user_id: profile.id, role: 'admin', status: 'active', joined_at: new Date().toISOString() },
-                    { onConflict: 'org_id,user_id', ignoreDuplicates: true }).then(function() {});
+                    { onConflict: 'org_id,user_id', ignoreDuplicates: true })
+                .then(function (result) {
+                    if (result && result.error) {
+                        console.error('[Org] Creator was not added as a member:', result.error.message);
+                    }
+                });
 
             // Load data
             await Promise.all([loadMembers(), loadPaths()]);
@@ -3450,7 +3455,8 @@ body.dark-mode .v3-paper-plane { opacity: 0.10; }
     window.deleteDiscussionPost = async function(postId, cohortId) {
         if (!confirm('Delete this post?')) return;
         try {
-            await sb.from('cohort_discussions').delete().eq('id', postId);
+            var { error: delError } = await sb.from('cohort_discussions').delete().eq('id', postId);
+            if (delError) throw delError;
             await window.openCohortDiscussion(cohortId);
         } catch (e) {
             console.error('Delete post error:', e);
@@ -3593,7 +3599,7 @@ body.dark-mode .v3-paper-plane { opacity: 0.10; }
 </script>
 
 <!-- Language Translation (Hindi, Tamil, Bengali, Marathi) -->
-<script src="/js/search.js?v=0b4c172b" defer></script>
+<script src="/js/search.js?v=3993b813" defer></script>
 <script defer src="js/auto-refresh.js"></script>
 <script src="/js/translate-sarvam.js?v=de32c2b0" defer></script>
   <script src="/js/site-chrome.js?v=39a1bdf4" defer></script>

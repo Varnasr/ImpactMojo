@@ -5,19 +5,145 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [10.220.0] - 2026-08-20
+## [10.228.0] - 2026-08-20
 
 ### Changed
 
-- **supabase-js moved from 2.49.1 to 2.112.3 across the whole site.** The pin dated from February 2025. 508 exact pins were rewritten, plus **7 that were not pinned at all** — `admin/index.html`, `admin/cms.html` and `admin/bugs.html` loaded `@supabase/supabase-js@2`, a floating major that silently tracks whatever npm publishes, so those three admin pages were already running 2.112.x against a site otherwise on 2.49.1. They are now pinned like everything else. (The other four `@2` occurrences were usage examples in `js/auth.js`, `js/course-progress.js`, `js/admin-cms.js` and `js/admin-gate.js` doc comments, updated to match.)
+- **The six Edge Functions move from `supabase-js` 2.39.3 to 2.112.3.** Eighteen months of fixes on the library that does server-side auth, certificate issuance and push delivery. `game-agent`, `issue-certificate`, `mint-resource-token`, `send-notification`, `send-push` and `serve-course-content`; the diff is six lines, one import pin each, and nothing else.
 
-  **This replaces PR #837 rather than merging it.** That PR, cut on 20 July, bumped 534 files to 2.110.7. Merging it now would have been worse than doing nothing: 72 HTML files have landed since it was cut and 48 of them load supabase-js, so the site would have run two different versions of the auth library at once — roughly 486 pages on 2.110.7 and 48 on 2.49.1. It also conflicts with main, and 2.110.7 has itself been superseded.
+  **This is the repository only. The functions are not redeployed.** The deploy call is not available from this session, so production still runs 2.39.3 until someone deploys. Anyone who does should run the boot check below immediately afterwards.
 
-  Every one of the 603 changed lines is a version string or an asset stamp; there are no structural edits. `service-worker.js` VERSION goes to v16 so old runtime caches purge on activate.
+- **`.github/stale-branches.txt` re-audited against the actual remote.** The list held 55 branches; **54 of them no longer exist**. A deletion list that is 98% phantom is worse than none, because a dry run reports "would delete 55" and the truth is one. The remote holds four branches: `main`, `gh-pages`, `claude/supabase-js-refresh` (open PR #959), and `claude/routine-backend-upkeep` — the last of the abandoned Routine branches, whose single commit is superseded on both counts (its supabase-js target by #959, its lockfiles by main, which carries axe-core ^4.13.0 against that commit's ^4.11.4). Checked before listing it.
 
-### Noted, not changed
+- **`delete-stale-branches.yml` can be triggered by a commit.** The typed-DELETE gate made the workflow unreachable from an agent session, which cannot dispatch. Editing the list on `main` now arms it, the same push-trigger route `release.yml` and `post-discussion.yml` use; a dispatch still requires DELETE typed. The workflow's own checks are untouched and still run on every branch: never the default branch, never a protected branch, and never one with an open pull request, re-checked immediately before each deletion.
 
-- **Six Supabase Edge Functions still import supabase-js 2.39.3** — `game-agent`, `issue-certificate`, `mint-resource-token`, `send-notification`, `send-push` and `serve-course-content`, all via `https://esm.sh/@supabase/supabase-js@2.39.3`. These run server-side on Deno and deploy separately from Netlify, so a bump there is a different change with a different verification path (deploy the function, exercise it) and is deliberately out of scope here rather than bundled in silently.
+### Added
+
+- **`scripts/check-edge-functions.py`** asserts every deployed Edge Function still boots. The functions import `supabase-js` from esm.sh at cold start, and a broken import does not fail at deploy time — it fails on the next cold start, as a 500 that only the caller sees. Each probe is chosen so that passing proves the **function body ran**: the expected response is text the function itself writes, never the platform gateway's. The three with `verify_jwt: true` are probed with the public anon key, since an unauthenticated call is answered by the gateway before the code is reached; `status-alert`, which imports no supabase-js, is the control. Verified by pointing a probe at a non-existent function and by expecting text a healthy function does not write; both fail. Runs in CI on the daily schedule and on demand, not on pull requests, since it hits a live third-party gateway.
+
+## [10.227.0] - 2026-08-20
+
+First tagged release since `v10.79.0`. Tags had fallen 148 versions behind the changelog because nothing in the toolchain could write one; the two changes below close that, and announce the Fundamentals series.
+
+### Added
+
+- **Fundamentals is announced.** `.github/announcements/latest.md` now carries the announcement for the eight interactive framework pages — the Indian Wheel of Power & Powerlessness, Arnstein's Ladder, Gaventa's Power Cube, the Capability Approach, Moser's practical and strategic gender needs, the Sustainable Livelihoods Framework, the Social Model of Disability, and Who Counts. Committing that file is what posts the GitHub Discussion, so the announcement ships with the release rather than waiting on a separate manual step.
+
+- **`scripts/check-viewport.py`** enforces the viewport rule that `.claude/rules/testing.md` has stated since the file existed and nothing checked. Without `<meta name="viewport">` a phone lays the page out at desktop width and zooms out; the page looks correct on the machine it was built on, and only a visitor on a phone ever sees the difference. All 859 pages pass today, with the five Supabase email templates exempted for the recorded reason that a mail client ignores viewport. Enforced in CI via the `viewport` job.
+
+  The guard tolerates `name=viewport` unquoted and `content=` written before `name=`, because both shapes exist in this repo and both defeat a naive scan. That matters: an ad-hoc check of mine reported two reading companions as missing a viewport when they had one all along, written unquoted and past the byte cut-off the check happened to read. **No page was broken; the finding was wrong and the edit it prompted has been reverted.** The guard was then re-verified by removing a real tag rather than the redundant one, which is the test that would have caught the mistake the first time.
+
+### Changed
+
+- **The release workflow can now be triggered by a commit.** `workflow_dispatch` returns 403 from an agent session, exactly as tag pushes do, so a release could be written and still never cut — the failure this workflow existed to fix, reappearing one level up. Committing a version to `.github/release/VERSION` now cuts that release, the same push-trigger route `post-discussion.yml` already uses for Discussions. A dispatch still previews by default; a push publishes, because committing a version is the deliberate act. A push naming an already-released version is a no-op rather than a red run. All eight paths (missing stamp, malformed stamp, `v`-prefixed stamp, unknown version, duplicate version, empty section, dispatch preview, dispatch publish) were simulated against the real changelog before the workflow could run.
+
+## [10.226.0] - 2026-08-20
+
+### Fixed
+
+- **127 live pages were in the sitemap and missing from site search.** The sitemap is what we tell Google exists; `data/search-index.json` is what our own visitors can find. They had drifted 127 pages apart: **47 course posters, 19 reading companions, 17 course lexicons, 8 premium tools**, and 36 others including `verify-certificate`, `toc-builder`, `podcast`, `testimonials` and the whole legal set. Every one of them was live, crawlable and advertised to search engines, and typing its name into the site's own search returned nothing.
+
+  Nothing failed to make this happen. Adding a page updates `sitemap.xml`; the index is a separate file nobody is forced to touch, so the gap widened one page at a time for months.
+
+  Titles, descriptions and tags are taken from each page's own `<title>` and `meta description` rather than written fresh, and each entry inherits its tags from the already-indexed sibling with the same slug, so a poster carries its course's tags. Six pages had no description at all and were written by hand. Five pages are deliberately left out, each with its reason recorded in the guard: the homepage, the `/handouts` pretty-URL duplicate, a post-transaction thank-you page, a dev-setup artefact, and a 16KB alternate rendering of a course already indexed under the same title.
+
+  Two measurement traps on the way: comparing raw URL strings reports **87 phantom gaps**, because the index stores `%20` in handout paths and the sitemap does not; and resolving the lowercased paths against a case-sensitive filesystem reports **24 sitemap 404s that do not exist**. Both were my own errors, caught by checking rather than by anything failing. There are no 404s in the sitemap.
+
+- **Seven poster pages had a double-escaped `meta description`.** `&amp;mdash;` where `&mdash;` was meant, and `social-margins.html` was escaped three deep (`&amp;amp;mdash;`). These render as literal `&mdash;` text in Google results and social cards, which is the one place a meta description is ever seen. Only the surplus layers are stripped, leaving exactly one valid entity; a real ampersand (`M&amp;E`) cannot match, because the pattern requires a named entity immediately after.
+
+### Added
+
+- **`scripts/check-search-coverage.py`** asserts every `sitemap.xml` page is in the search index, comparing decoded, case-folded, fragment-stripped paths. Exemptions live in the script with a written reason, and a **stale exemption is itself a failure** — if an exempted page later gets indexed, or leaves the sitemap, the guard says so, so the list cannot rot into a permanent blindfold. Verified by reintroducing the bug three ways: removing an indexed entry fails, exempting an indexed page fails as stale, and the restored state passes. Enforced in CI via the `search-coverage` job.
+
+- `showcase` and `special` now have proper labels and icons in `js/search.js`. Both types already existed in the index and fell through to a badge reading the raw type name.
+
+- **The release workflow now refuses a duplicated version instead of guessing.** `CHANGELOG.md` carried **two `## [10.210.0]` sections** — the form-submission fix and the Capability Approach page, both dated 2026-08-19. The workflow resolved a version with `findIndex`, so releasing 10.210.0 would have published whichever section came first, with half the notes and no warning. It now fails on more than one match, and the newer of the two entries is renumbered `10.210.1`. Found by asserting uniqueness while resolving an unrelated merge conflict, not by anything failing.
+
+## [10.225.0] - 2026-08-20
+
+### Added
+
+- **A workflow that can actually cut a release** (`.github/workflows/release.yml`). Tags on this repo had drifted to `v10.79.0` while the changelog was at 10.224.0 — 153 changelog sections against 7 tags — because nothing in the toolchain could write one. A tag push is rejected 403 both through the session proxy and through a direct PAT, and the GitHub MCP server has no create-release tool, so every release since v10.79.0 was silently skipped rather than refused.
+
+  The workflow runs on GitHub with its own token, reads the notes out of `CHANGELOG.md` rather than restating them, and tags whatever the default branch points at when it runs. Dry-run by default: the first click prints the tag, the commit and the notes to the job summary without creating anything. It refuses a version with no section in the changelog, refuses an empty section, and refuses a tag that already exists. Parser verified against the real file: 153 sections, correct boundaries, no bleed into the next entry.
+
+## [10.224.0] - 2026-08-20
+
+### Added
+
+- **Blog: "Designing an Impact Evaluation: Eight Steps, and When to Take Them"** (`/blog/designing-an-impact-evaluation.html`, Methods, ~1,360 words). Built from an eight-step impact-evaluation guidance deck, but argued rather than summarised: the steps are drawn as a sequence, and the sixth of them, the counterfactual, is a constraint set by how the programme rolls out rather than a stage the evaluator reaches. Covers what that changes about rationale, unit of variation, theory of change and budget; the three rollout situations and what each permits (randomised phase-in, eligibility thresholds, universal entitlement); and planning dissemination for a null result. Indexed, in the sitemap, carded on `blog.html` with an inline SVG rather than a missing image file.
+
+### Fixed
+
+- **`scripts/check-social-images.py` skipped every reference written without the `www.`** It compared each URL against a single origin string, `https://www.impactmojo.in`, and treated anything else beginning with `http` as an external host that is somebody else's problem. `nfhs.html` pointed `og:image` at `https://impactmojo.in/assets/og-default.png` — a file that does not exist — and the missing four characters were enough for the guard to wave it through. The page has been sharing with no preview image, and the guard that exists to catch exactly that reported PASS.
+
+  It now recognises all four spellings of our own origin (`http`/`https` × with/without `www.`), which raises the number of images actually checked from 1,168 to 1,171, and `nfhs.html` now points at a real file.
+## [10.223.0] - 2026-08-20
+
+### Changed
+
+- **Course progress now gives partial credit, and a module passes on a majority.** Two changes to `js/course-progress.js`, both prompted by a diagnosis that turned out to be wrong.
+
+  A module used to require a clean sweep — every graded question correct. MEL delivers 12 modules of 4 questions, so finishing it meant 48 correct answers with no allowance for a single question that reads badly. `PASS_RATIO` is now 0.75: 3 of 4, 2 of 2, 5 of 6. MEL's bar falls from 48 to 36.
+
+  Progress was also all-or-nothing inside a module: the figure written to `user_progress` was `completedModules / totalModules`, which moves only when a whole module lands, so a learner three questions in had nothing on their account page and we could not see where people stop. Each module now contributes a fractional score capped at 1, and a correct answer syncs immediately rather than waiting for the module to finish (`queueSync` already debounces 3s, so a run of quick answers is still one write). One correct answer in MEL now reads 3% instead of 0%.
+
+  **Completion semantics are unchanged.** 100% is still reachable only when every module has passed, which is what the `on_course_completed` trigger keys on. Verified against MEL's real shape: 11 of 12 modules gives 92%, every module at exactly the pass mark gives 100%, and eleven modules complete with one at 2 of 4 does **not** reach 100%.
+
+### Corrected
+
+- **The #960 diagnosis was substantially wrong, and is retracted here.** I read the static HTML of the course pages, found all six graded questions inside `<section id="course-assessment">` and none in the module sections, and concluded that `scanModules()` found nothing, `totalModules` stayed 0, and the tracker never booted for any learner.
+
+  Module bodies are not in the HTML. They are injected at runtime by `js/course-loader.js` from the `course_content` table, which holds 246 modules across 19 courses — **202 with `quiz_html`, 186 of those graded**. Asking the live endpoint for MEL returns 14 modules, none locked even for an anonymous visitor, 12 of them carrying 4 graded questions each inside the correct module section. The tracker boots, the quizzes are wired, and the handshake between loader and tracker works in both directions.
+
+  What remains true is only the measurement: `user_progress` has 0 rows ever inserted against 17,022 reads, and `certificates` 0 ever, with 54 signed-in users. The likeliest explanation is now the ordinary one — a demanding completion bar that nobody has cleared — which is what the two changes above address. A browser check while signed in would settle it.
+
+  Recorded rather than quietly amended, because the wrong diagnosis was detailed and confident enough to have justified writing roughly 663 quiz questions that already existed.
+## [10.222.0] - 2026-08-20
+
+### Fixed
+
+- **33 paid product pages were absent from site search.** Every one is live, ungated and priced — the four ₹499 assessment banks, the ₹99 checklists, the ₹199 budget template, the workbooks, refreshers, posters and templates. They were in `sitemap.xml`, so Google could find them, but ImpactMojo's own search could not: someone already on the site looking for "logframe" or "field readiness checklist" got nothing.
+
+  Entries are generated from each page's own `<title>` and `<meta name="description">` rather than written by hand, so they cannot drift from the page. A description that opened by restating the title is trimmed, since that wastes the whole search snippet. Categories are derived from the slug (Assessment Banks 4, Templates 11, Workbooks 4, Refreshers 4, Checklists 3, Toolkits 3, Decks 2, Posters 2), and each entry carries its price as a tag.
+
+  1,087 → 1,120 entries. Verified after writing: valid JSON on re-read, no duplicate id or URL anywhere in the file, no entry missing a required field, and **all 33 URLs resolve to a real `index.html`**. The sitemap-not-indexed gap falls from 162 to 129; the only `/products` path still outside search is `/products.html` itself, which is the listing page and already has an anchor entry.
+
+## [10.221.0] - 2026-08-20
+
+### Added
+
+- **`scripts/check-supabase-writes.py` — a guard for the class of bug that hid the dead progress sync.** `supabase-js` *resolves* with `{ data, error }` rather than throwing, so `await sb.from('t').upsert({...})` reports a rejected write exactly as it reports a successful one, and any `try/catch` around it can never fire. That is how `user_progress` reached 0 rows ever inserted against 17,022 reads without anyone noticing (#960).
+
+  The static half runs on every push and needs no credentials: it finds every `.from('table')` chained to a mutating verb and fails when the result is discarded, or captured and never checked. It accepts the three legitimate shapes — `var { error } = await …`, `var res = await …` followed by a read of `res.error`, and `.then(cb)` where `cb` inspects `.error` — and a line may opt out with `write-ignore`.
+
+  The live half (`--live`, scheduled only, skips gracefully without `SUPABASE_PAT`) asserts that every table the code writes to has a non-zero `n_tup_ins`. A table with a writer that has never received a row is either broken or never wired to a UI; both are worth knowing, and neither should be silent.
+
+### Fixed
+
+- **Nine Supabase writes could fail without any trace**, found by the new guard and fixed:
+  - `js/course-progress.js` — the `user_progress` upsert behind #960, whose `catch` carried the comment "Silently fail".
+  - `account.html` — notification preferences showed **"Saved"** unconditionally, a false success of exactly the kind the form rebuild removed elsewhere; and marking a notification read.
+  - `admin/index.html` ×2 — feature flags and site metadata saved with no confirmation that anything was written.
+  - `org-dashboard.html` ×2 — deleting a discussion post, and the "fire-and-forget" upsert that makes an organisation's creator a member, where a failure leaves the creator outside their own org.
+  - `portfolio.html` — the portfolio headline update.
+  - `js/auth.js` — `last_active_at` recorded the day in `localStorage` inside a `.then` that ran even on failure, so a failed write suppressed its own retry for the rest of the day.
+
+### Notes on building the guard
+
+Three defects in the guard and its own tooling were caught by testing rather than reading, all of them the guard-passes-anyway failure mode:
+
+- The first regex backtracked catastrophically and **hung** on a long line. A hung CI job neither passes nor fails — it reads as "still running", the exact failure this repo already documents. Replaced with a bounded linear scan.
+- Reformatting a call across several lines made the single-line matcher **go blind to it**: the detected count silently fell from 17 to 13, and the guard "passed" partly because it had stopped looking. Now matched across the whole file text, which also surfaced four writes the first version never saw at all — including one in `js/auth.js`. A false positive was fixed the same way: `portfolio.html` checks `result.error` inside a `.then` callback, which the first classifier did not understand.
+- **The script that added this entry silently did nothing.** It used `str.replace()` against an anchor that did not exist on the branch, with no assertion, so the entry was never written and nothing reported it — the same shape as the bug the entry describes. The anchor is now asserted before the write.
+
+## [10.219.1] - 2026-08-20
+
+### Changed
+
+- **Seven open dependabot PRs cleared by applying their bumps on current main** rather than merging seven branches cut between 6 July and 17 August, each of which would have needed rebasing in turn over the same lockfile: `actions/checkout` v4 → v7 (the 2 files still on v4; 25 uses were already v7, #793), `actions/setup-node` v6 → v7 (#839), `actions/setup-python` v6 → v7 (#840), `actions/github-script` v7 → v9 (#930), `axe-core` and `@axe-core/puppeteer` → ^4.13.0 (#931, #932), `@axe-core/cli` → ^4.12.1 (#672). #671 (puppeteer 24.43.1 → 25.3.0) was closed as obsolete — main was already on ^25.7.0. The lockfile was regenerated with `npm install --package-lock-only`, and the full CI suite passed **on the new action versions**, which is the actual verification.
+
+  One gap CI cannot cover: `actions/github-script` v9 is used only in `delete-stale-branches.yml`, which runs on manual dispatch. Its script uses `github.rest.*`, `core.info` and `context.repo`, unchanged across v7…v9, so the jump is a runner-version bump — but the next branch cleanup will be its first real run on v9.
 
 ## [10.219.0] - 2026-08-19
 
@@ -220,7 +346,7 @@ Neither accessibility job would have caught any of this. axe-core does run both 
 
 - `scripts/check-fundamentals-privacy.py`, wired into CI as the `fundamentals-privacy` job. The page tells the reader their answers stay in their browser and are sent nowhere; that is a promise about code, so it is now enforced by code. The guard fails if the questionnaire files gain any network primitive — fetch, XHR, sendBeacon, WebSocket, EventSource, dynamic import, form submit, gtag or dataLayer — and also fails if the promise is quietly removed from the page, so it cannot be satisfied by deleting the sentence. Verified against both failure modes.
 
-## [10.210.0] - 2026-08-19
+## [10.210.1] - 2026-08-19
 
 ### Fixed
 

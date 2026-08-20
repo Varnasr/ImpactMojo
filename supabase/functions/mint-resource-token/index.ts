@@ -8,7 +8,7 @@
 //   SUPABASE_SERVICE_ROLE_KEY — auto-provided; used to read profiles bypassing RLS
 
 import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.112.3";
 import { create, getNumericDate } from "https://deno.land/x/djwt@v3.0.2/mod.ts";
 
 // ── Tier → resource ACL ──────────────────────────────────────────────

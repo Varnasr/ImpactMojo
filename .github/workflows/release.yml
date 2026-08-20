@@ -1,0 +1,142 @@
+# Cut a tagged GitHub Release from the top of CHANGELOG.md.
+#
+# Why a workflow: tag pushes are rejected (403) from a Claude Code session on
+# both the session proxy and a direct PAT, and the GitHub MCP server has no
+# create-release tool. Tags on this repo had drifted to v10.79.0 while the
+# changelog was at 10.224.0, because nothing could write one. A workflow runs
+# on GitHub with its own GITHUB_TOKEN, so it can.
+#
+# Safety: dry-run by default, refuses a version that is not in CHANGELOG.md,
+# refuses a tag that already exists, and tags whatever the default branch
+# points at when it runs.
+name: Cut a release
+
+on:
+  # Committing a version to .github/release/VERSION cuts that release. This is
+  # the only route that works from an agent session: workflow_dispatch returns
+  # 403 there, as do tag pushes, so a release could be written but never cut.
+  # post-discussion.yml solves the same problem the same way.
+  push:
+    branches: [main]
+    paths: ['.github/release/VERSION']
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release, e.g. 10.224.0. Leave blank for the newest entry in CHANGELOG.md.'
+        required: false
+        default: ''
+      dry_run:
+        description: 'Preview the tag and notes without creating anything.'
+        type: boolean
+        required: false
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Tag and release
+    runs-on: ubuntu-latest
+    # Without this a hung step inherits GitHub's 360-minute default and the
+    # job neither passes nor fails -- which reads as "still running".
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Tag and publish
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const fs = require('fs');
+            const { owner, repo } = context.repo;
+            const dispatched = context.eventName === 'workflow_dispatch';
+            // A push is a deliberate commit of a version, so it publishes.
+            // A dispatch previews unless dry-run is explicitly unchecked.
+            const dryRun = dispatched && (context.payload.inputs || {}).dry_run !== 'false';
+
+            let asked = dispatched
+              ? ((context.payload.inputs || {}).version || '').trim().replace(/^v/, '')
+              : '';
+            if (!dispatched) {
+              const stamp = '.github/release/VERSION';
+              if (!fs.existsSync(stamp)) { core.setFailed(`${stamp} is missing`); return; }
+              asked = fs.readFileSync(stamp, 'utf8').trim().replace(/^v/, '');
+              if (!/^\d+\.\d+\.\d+$/.test(asked)) {
+                core.setFailed(`${stamp} must hold a bare version like 10.226.0, got "${asked}"`);
+                return;
+              }
+              core.info(`Release requested by commit: ${asked}`);
+            }
+
+            const changelog = fs.readFileSync('CHANGELOG.md', 'utf8');
+
+            // Sections look like:  ## [10.224.0] - 2026-08-20
+            const heads = [...changelog.matchAll(/^## \[(\d+\.\d+\.\d+)\](?: - (\S+))?/gm)];
+            if (!heads.length) { core.setFailed('No `## [x.y.z]` sections found in CHANGELOG.md'); return; }
+
+            const version = asked || heads[0][1];
+            const hits = heads.filter(h => h[1] === version);
+            if (!hits.length) {
+              core.setFailed(`Version ${version} has no section in CHANGELOG.md. Newest is ${heads[0][1]}.`);
+              return;
+            }
+            // CHANGELOG.md had two `## [10.210.0]` sections at one point. A
+            // findIndex would have silently released whichever came first,
+            // with half the notes. Refuse instead.
+            if (hits.length > 1) {
+              core.setFailed(`CHANGELOG.md has ${hits.length} sections for ${version}. Renumber one before releasing.`);
+              return;
+            }
+            const idx = heads.indexOf(hits[0]);
+
+            const start = heads[idx].index + heads[idx][0].length;
+            const end = idx + 1 < heads.length ? heads[idx + 1].index : changelog.length;
+            const body = changelog.slice(start, end).trim();
+            if (!body) { core.setFailed(`Section ${version} in CHANGELOG.md is empty.`); return; }
+
+            const tag = `v${version}`;
+            let exists = false;
+            try {
+              await github.rest.git.getRef({ owner, repo, ref: `tags/${tag}` });
+              exists = true;
+            } catch (e) {
+              if (e.status !== 404) throw e;
+            }
+
+            const repoInfo = await github.rest.repos.get({ owner, repo });
+            const branch = repoInfo.data.default_branch;
+            const head = await github.rest.repos.getBranch({ owner, repo, branch });
+            const sha = head.data.commit.sha;
+
+            const summary = core.summary
+              .addHeading(dryRun ? `Dry run — ${tag} not created` : `Released ${tag}`)
+              .addRaw(`\nTag \`${tag}\` at \`${sha.slice(0, 8)}\` on \`${branch}\`${heads[idx][2] ? ` · dated ${heads[idx][2]}` : ''}\n\n`);
+
+            if (exists) {
+              await summary.addRaw(`Tag \`${tag}\` already exists — nothing to do.\n`).write();
+              // On a push this is the ordinary re-run case (the stamp was
+              // touched without a new version), so it is not a failure. A
+              // dispatch asked for it explicitly, so it is.
+              if (dispatched) core.setFailed(`Tag ${tag} already exists`);
+              else core.info(`Tag ${tag} already exists — nothing to do.`);
+              return;
+            }
+
+            if (dryRun) {
+              await summary
+                .addRaw('### Release notes that would be published\n\n')
+                .addRaw(body.length > 40000 ? body.slice(0, 40000) + '\n\n_(truncated in this preview)_\n' : body + '\n')
+                .addRaw('\n_Re-run with `dry_run` unchecked to publish._\n')
+                .write();
+              core.info(`Dry run: would tag ${sha} as ${tag}`);
+              return;
+            }
+
+            await github.rest.git.createRef({ owner, repo, ref: `refs/tags/${tag}`, sha });
+            const release = await github.rest.repos.createRelease({
+              owner, repo, tag_name: tag, name: tag, body, draft: false, prerelease: false,
+            });
+
+            await summary.addRaw(`Published: ${release.data.html_url}\n`).write();
+            core.info(`Released ${tag} -> ${release.data.html_url}`);

@@ -991,7 +991,13 @@ const ImpactMojoAuth = {
             supabaseClient.from('profiles')
                 .update({ last_active_at: new Date().toISOString() })
                 .eq('id', userId)
-                .then(function () { try { localStorage.setItem(key, today); } catch (e) {} });
+                .then(function (result) {
+                    if (result && result.error) {
+                        console.warn('[Auth] last_active_at not recorded:', result.error.message);
+                        return;   // do not mark today as done — let it retry
+                    }
+                    try { localStorage.setItem(key, today); } catch (e) {}
+                });
         } catch (e) { /* best-effort */ }
     },
 

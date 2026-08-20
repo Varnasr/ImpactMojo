@@ -46,7 +46,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Setup Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version: '3.11'
       - name: Check asset stamps
@@ -61,7 +61,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Setup Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version: '3.11'
       - name: Check diagram contrast
@@ -103,6 +103,35 @@ jobs:
       - name: Check content counts match data/counts.json
         run: python3 scripts/check-counts.py
 
+  supabase-writes:
+    name: Supabase write-path guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      # Static only: needs no credentials, so it runs on every push. Catches a
+      # write whose result is discarded — the shape that hid the dead
+      # user_progress sync for eight months, since supabase-js resolves with
+      # { data, error } rather than throwing.
+      - name: Every Supabase write surfaces its errors
+        run: python3 scripts/check-supabase-writes.py
+
+  supabase-writes-live:
+    name: Supabase write-path guard (live insert counts)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Hits the live database, so schedule/dispatch only — same reasoning as
+    # supabase-anon below. Skips gracefully when SUPABASE_PAT is absent.
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Assert every written table has ever received a row
+        env:
+          SUPABASE_PAT: ${{ secrets.SUPABASE_PAT }}
+        run: python3 scripts/check-supabase-writes.py --live
+
   supabase-anon:
     name: Supabase anon-exposure guard
     runs-on: ubuntu-latest
@@ -118,6 +147,25 @@ jobs:
 
       - name: Probe anon exposure against the expected contract
         run: python3 scripts/check-supabase-anon.py
+
+  edge-functions:
+    name: Edge Function boot check
+    runs-on: ubuntu-latest
+    # Without this a hung step inherits GitHub's 360-minute default and the
+    # job neither passes nor fails -- which reads as "still running".
+    timeout-minutes: 10
+    # Hits the live Functions gateway, so it runs on the daily schedule and on
+    # demand -- not on every PR, where third-party latency would add flake and
+    # a contributor could not act on the result.
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v7
+
+      # The functions import supabase-js from esm.sh at cold start. A broken
+      # import does not fail at deploy time -- it fails on the next cold start,
+      # as a 500 only the caller sees.
+      - name: Probe every Edge Function boots and runs its own code
+        run: python3 scripts/check-edge-functions.py
 
   book-companions:
     name: Book-companion blank-page guard
@@ -140,12 +188,45 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
 
       - name: Test service worker routing & lifecycle
         run: node scripts/test-service-worker.mjs
+
+  viewport:
+    name: Viewport meta guard
+    runs-on: ubuntu-latest
+    # Without this a hung step inherits GitHub's 360-minute default and the
+    # job neither passes nor fails -- which reads as "still running".
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      # Without a viewport meta a phone lays the page out at desktop width and
+      # zooms out, so the text arrives too small to read. Nothing errors and the
+      # page looks right on the machine it was built on. testing.md has required
+      # this since the file existed, as a manual step.
+      - name: Check every page declares a viewport
+        run: python3 scripts/check-viewport.py
+
+  search-coverage:
+    name: Site-search coverage
+    runs-on: ubuntu-latest
+    # Without this a hung step inherits GitHub's 360-minute default and the
+    # job neither passes nor fails -- which reads as "still running".
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      # The sitemap is what we tell Google exists; the search index is what our
+      # own visitors can find. They had drifted 127 pages apart -- posters,
+      # reading companions, course lexicons and premium tools were live and
+      # crawlable and site search returned none of them, because adding a page
+      # updates the sitemap and the index is a separate file nobody must touch.
+      - name: Check every sitemap page is findable in site search
+        run: python3 scripts/check-search-coverage.py
 
   social-images:
     name: Social preview image guard
@@ -247,7 +328,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
 
@@ -316,7 +397,7 @@ jobs:
       - uses: actions/checkout@v7
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: 22
 
@@ -442,7 +523,7 @@ jobs:
       - uses: actions/checkout@v7
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: 22
 

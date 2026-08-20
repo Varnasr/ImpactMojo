@@ -2,11 +2,28 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
-## v10.220.0 — August 20, 2026 (The sign-in library is 18 months newer)
+## v10.224.0 — August 20, 2026 (New post: designing an impact evaluation)
+
+### For Learners
+
+- **Designing an Impact Evaluation: Eight Steps, and When to Take Them** — the standard guidance lists eight steps in order, but the counterfactual constrains every step before it, and teams that reach it last find their options already gone. Covers randomised phase-in, eligibility thresholds, and what to ask when the programme is a universal entitlement like MGNREGA.
+## v10.223.0 — August 20, 2026 (Course progress counts partial work)
+
+### For Learners
+
+- **Your progress bar moves as you go.** It used to sit at zero until you got every question in a module right; now each correct answer counts, and both the bar and your account page show it.
+- **A module no longer needs a perfect score.** Getting the majority right — 3 of 4 — completes it.
+## v10.222.0 — August 20, 2026 (Site search can find the paid resources)
+
+### For Learners
+
+- **Searching the site now finds the practice resources.** The assessment banks, checklists, templates, workbooks, refreshers and posters were live and linked, but typing "logframe" or "field readiness" into site search returned nothing. All 33 are now findable.
+
+## v10.221.0 — August 20, 2026 (Nine ways to fail silently, closed)
 
 ### Fixed
 
-- The library behind signing in, saving progress and issuing certificates was pinned to a February 2025 release on most of the site, while three admin pages were quietly running a much newer one. Everything is now on the same current version.
+- Saving your notification preferences said "Saved" even when it hadn't been. That, and eight other places where the site could fail to save something without telling you or anyone else, now report the failure.
 
 ## v10.219.0 — August 19, 2026 (The wiki stopped quoting numbers nobody checked)
 

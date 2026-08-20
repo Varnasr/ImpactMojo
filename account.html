@@ -2725,7 +2725,14 @@ h1, h2, h3, h4, h5, h6 {
                 updated_at: new Date().toISOString()
             };
 
-            await sb.from('notification_preferences').upsert(prefs, { onConflict: 'user_id' });
+            var { error: prefsError } = await sb.from('notification_preferences')
+                .upsert(prefs, { onConflict: 'user_id' });
+            if (prefsError) {
+                // Never claim "Saved" for a write the database rejected.
+                console.error('[Account] Notification preferences failed to save:', prefsError.message);
+                alert('Could not save your notification preferences. Please try again.');
+                return;
+            }
 
             var saved = document.getElementById('notifPrefsSaved');
             saved.style.display = 'block';
@@ -2836,7 +2843,9 @@ h1, h2, h3, h4, h5, h6 {
         try {
             var user = window.ImpactMojoAuth && ImpactMojoAuth.getUser();
             if (user) {
-                await sb.from('notifications').update({ is_read: true }).eq('id', notifId);
+                var { error: readError } = await sb.from('notifications')
+                    .update({ is_read: true }).eq('id', notifId);
+                if (readError) console.warn('[Account] Could not mark notification read:', readError.message);
             }
             if (link) window.location.href = link;
             else await window.loadRecentNotifications();
@@ -3046,7 +3055,7 @@ body.dark-mode .dropdown-menu a:hover, [data-theme="dark"] .dropdown-menu a:hove
 @media (prefers-color-scheme: dark) { body:not(.light-mode):not([data-theme="light"]) .nav-links > li > a:hover { background: #283242; } }
 body.dark-mode .nav-links > li > a:hover, [data-theme="dark"] .nav-links > li > a:hover, html.dark .nav-links > li > a:hover { background: #283242; }</style>
 <!-- Language Translation (Hindi, Tamil, Bengali, Marathi) -->
-<script src="/js/search.js?v=0b4c172b" defer></script>
+<script src="/js/search.js?v=3993b813" defer></script>
 <script defer src="js/auto-refresh.js"></script>
 <!-- ImpactMojo Theme Toggle JS -->
 <script src="/js/theme.js?v=ca787a55"></script>

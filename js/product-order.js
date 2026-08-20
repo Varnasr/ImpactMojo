@@ -74,6 +74,8 @@
     function captureLead() {
       if (captured) return;
       captured = true;
+      // Set before the attempt so a double-click cannot double-post, and
+      // cleared again below if the post fails, so the next click retries.
       try {
         var product = (form.querySelector('[name="product"]') || {}).value || "";
         var body = new URLSearchParams({
@@ -83,9 +85,28 @@
           product: product,
           upi_ref: "" // empty ⇒ pre-payment lead; submission-created skips the confirm email
         }).toString();
+        // Netlify Forms answers 200 for a submission it has classified as spam,
+        // so a resolved promise is not delivery -- but a non-OK status or a
+        // network failure definitely is not, and both were being discarded.
+        // This is the pre-payment lead: losing it means an abandoned cart we
+        // never hear about. The completed order is unaffected; that goes
+        // through imxSubmitBothFromElement, which writes a row and reports
+        // failure to the buyer.
         fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: body })
-          .catch(function () {});
-      } catch (e) { /* non-blocking */ }
+          .then(function (r) {
+            if (!r.ok) {
+              captured = false;
+              console.warn("[ProductOrder] lead capture rejected: HTTP " + r.status);
+            }
+          })
+          .catch(function (err) {
+            captured = false;
+            console.warn("[ProductOrder] lead capture failed to send:", err && err.message ? err.message : err);
+          });
+      } catch (e) {
+        captured = false;
+        console.warn("[ProductOrder] lead capture threw:", e && e.message ? e.message : e);
+      }
     }
 
     var revealed = false;

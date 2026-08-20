@@ -68,6 +68,39 @@
     // =========================================================
     // STATE
     // =========================================================
+    // How much of a module's quiz must be right for the module to count.
+    //
+    // This was a clean sweep: every graded question in the module correct.
+    // With four questions per module across twelve modules, finishing a
+    // course meant 48 correct answers with no allowance for one that simply
+    // reads badly. A majority keeps the module meaningful without making a
+    // single awkward question a wall.
+    const PASS_RATIO = 0.75;                 // 3 of 4; 2 of 2; 5 of 6
+
+    function questionsToPass(total) {
+        return Math.max(1, Math.ceil(total * PASS_RATIO));
+    }
+
+    // Progress with partial credit inside a module.
+    //
+    // The headline number used to be completedModules / totalModules, which
+    // moves only when a whole module lands — so a learner three questions
+    // into a module saw nothing, and neither did their account page. This
+    // gives each module a fractional score, capped at 1, and still reaches
+    // 100 exactly when every module has passed. The certificate trigger fires
+    // at >= 100, so the completion condition is unchanged.
+    function overallPercentage() {
+        var ids = Object.keys(moduleData);
+        if (!ids.length) return 0;
+        var earned = 0;
+        for (var i = 0; i < ids.length; i++) {
+            var m = moduleData[ids[i]];
+            var need = questionsToPass(m.total);
+            earned += Math.min(1, m.correct.size / need);
+        }
+        return Math.round((earned / ids.length) * 100);
+    }
+
     let moduleData = {};    // { module1: { total: 4, correct: Set([0,1,2,3]) }, ... }
     let completedModules = new Set();
     let totalModules = 0;
@@ -141,8 +174,7 @@
         // Check if we have local progress to migrate
         if (completedModules.size === 0) return;
 
-        var percentage = totalModules > 0
-            ? Math.round((completedModules.size / totalModules) * 100) : 0;
+        var percentage = overallPercentage();
 
         // Check if cloud already has progress for this course
         try {
@@ -250,14 +282,12 @@
             var { data: { user } } = await sb.auth.getUser();
             if (!user) return;
 
-            var percentage = totalModules > 0
-                ? Math.round((completedModules.size / totalModules) * 100)
-                : 0;
+            var percentage = overallPercentage();
 
             var isComplete = percentage >= 100;
             var now = new Date().toISOString();
 
-            await sb.from('user_progress').upsert({
+            var { error: syncError } = await sb.from('user_progress').upsert({
                 user_id: user.id,
                 course_id: courseId,
                 course_name: COURSE_NAMES[courseId],
@@ -269,8 +299,17 @@
             }, {
                 onConflict: 'user_id,course_id'
             });
+
+            // supabase-js RESOLVES with { data, error } rather than throwing, so
+            // the catch below never saw a rejected write. Progress is still kept
+            // in localStorage either way, but a cloud failure must be visible
+            // somewhere or it stays invisible for months — which it did.
+            if (syncError) {
+                console.error('[CourseProgress] Cloud sync failed for ' + courseId +
+                              ': ' + syncError.message);
+            }
         } catch (e) {
-            // Silently fail — user can still track locally
+            console.error('[CourseProgress] Cloud sync threw for ' + courseId + ':', e);
         }
     }
 
@@ -308,7 +347,11 @@
 
     function updateProgressBar() {
         var count = completedModules.size;
-        var pct = totalModules > 0 ? Math.round((count / totalModules) * 100) : 0;
+        // The bar shows the same fractional figure that is written to the
+        // database, so a learner mid-module sees the fill move rather than
+        // nothing at all. The "n / total" count still reports whole modules
+        // passed, which is what that label means.
+        var pct = overallPercentage();
 
         var fill = document.querySelector('.cpb-fill');
         var countEl = document.querySelector('.cpb-count');
@@ -484,8 +527,17 @@
 
         mod.correct.add(idx);
 
-        // Check if all questions in this module are correct
-        if (mod.correct.size >= mod.total) {
+        // Record the answer even when the module is not finished. Progress is
+        // fractional now, so a learner part-way through a module has something
+        // real to show on /account.html, and we can see where people stop
+        // rather than only who reached the end. queueSync debounces by 3s, so
+        // a run of quick answers still costs one write.
+        saveProgress();
+        updateProgressBar();
+        queueSync();
+
+        // Module passed?
+        if (mod.correct.size >= questionsToPass(mod.total)) {
             completedModules.add(modId);
             saveProgress();
             updateProgressBar();

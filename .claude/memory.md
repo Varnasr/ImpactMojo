@@ -988,3 +988,43 @@ Lifecycle arc: **early learning** — ASER (outcomes, LIVE) + UDISE+ (inputs, LI
 - Pallavi's community-audit idea deferred as a **Lab**, not a wheel change (maps a place, not a self).
 - **Newsletter is structurally broken, not just badly written**: its parser finds 72 eligible changelog items, ships 5, truncates each at 150 chars mid-sentence, and gives **every** highlight `url: "/docs/#/changelog"` — so it can never link to the thing it announces. Fallback counts stale (labs 28 vs 35, courses 69 vs 70). Rebuild offered, not started.
 - Unfixed: duplicate `/Labs/toc-lab.html` in search-index; `sitemap.html` missing 6 labs / 2 deep dives / 2 courses (`nothing-about-us`, `social-movements`); 5 orphaned docs; `--text-muted` on `--hover-bg` 4.04:1 dark; 9 stale `claude/*` branches (proxy and PAT both 403); `check-book-companions.py` still can't catch a missing renderer field.
+
+## Session 2026-08-19/20 (cont.) — three Fundamentals, the wiki guard, dep refresh, and a dead certificate chain
+
+### The biggest finding: course progress and certificates have never worked
+
+`user_progress` has **0 rows ever inserted** (`pg_stat_user_tables.n_tup_ins`, which survives deletes) against **17,020 sequential scans** — something reads it constantly and has never once written. `certificates` likewise: 0 ever inserted, 5,789 seq + 5,502 idx scans. This is not an empty platform: **54 of 58 users have signed in**, 17 in the last 30 days, signups spread Dec 2025 → Aug 2026. `profiles` shows 58 inserts and **999 updates**, so authenticated writes work fine — same client, same auth.
+
+**Cause.** `js/course-progress.js` `scanModules()` registers a module only if a `section[id^="module"]` contains `.quiz-question[data-correct]`. In **all 17 courses**, all 6 graded questions sit in `<section id="course-assessment">` and **zero** sit in module sections. So `moduleData` stays empty → `totalModules === 0` → `init()` returns at `if (totalModules === 0) return;`. The tracker never boots: no progress bar, no error, nothing. Answering the assessment does nothing either — `questionEl.closest('section[id^="module"]')` returns null there.
+
+Everything downstream is **correct and waiting**: RLS (`FOR ALL … auth.uid() = user_id`, WITH CHECK reuses USING), the `UNIQUE (user_id, course_id)` the upsert targets, and trigger `on_course_completed BEFORE INSERT OR UPDATE ON user_progress WHEN (new.progress_percentage >= 100) EXECUTE auto_issue_certificate()`. Only the first link is broken.
+
+**Why it stayed silent.** `syncToSupabase()` ends in `catch (e) { /* Silently fail */ }` — and that catch cannot fire anyway, because supabase-js returns `{ data, error }` rather than throwing and the return value is never destructured. A DB failure is invisible through both mechanisms. **Check this pattern anywhere else `.from(...)` is awaited without destructuring `error`.**
+
+Also: `courses/social-movements` is absent from `COURSE_NAMES` (tracker returns immediately); `courses/livelihoods` has 0 module sections.
+
+**Not fixed** — the fix encodes a product decision (the code was built for per-module quizzes; content evolved into one end-of-course assessment, so making the assessment the completion gate is the smallest change that matches reality, but it defines what earns a certificate).
+
+### Shipped
+- **#953–#955** Fundamentals 6, 7, 8: Moser's practical/strategic gender needs (2×2 relief×shift), Sustainable Livelihoods (asset pentagon × 8 small multiples), Social Model of Disability (barrier stack). Each got its own diagram form rather than a shared template.
+- **#956** `Labs/toc-lab.html` renamed Workbench → Studio across 9 occurrences (a *different* live page is the actual Workbench); duplicate `/Labs/toc-lab.html` entry removed from search-index (1,088 → 1,087); 9 stale branches queued.
+- **#957** `scripts/check-counts.py --wiki DIR` — the wiki sync had been refreshing 2 hardcoded phrases on 3 of 11 pages, so Book-Summaries and Premium still advertised 163/34/22/89 vs canonical 166/35/23/90. Sync now runs the canonical guard; `data/counts.json` added to its trigger paths. Also fixed the #563 visual harness, which listed `/cookies.html` — a page that has never existed — with no status assertion, so its first baseline run would have screenshotted the 404 and compared against it forever.
+- **#958** seven dependabot PRs cleared by applying bumps on main (see CHANGELOG 10.219.1); #671 closed as obsolete.
+- **#959 open, draft** — supabase-js 2.49.1 → 2.112.3 across 515 refs. Replaces #837, which could not be merged: 72 HTML files landed after it was cut and 48 load supabase-js, so merging would have run **two auth library versions at once**. Gated on a browser auth smoke test. Statically verified: all 11 auth methods exist on 2.112.3, a real `signInWithPassword` against the live project returns a proper structured error, `check-supabase-anon.py` passes.
+
+### Traps hit this session — check these first next time
+- **A squash merge leaves the local branch with a tracking ref to a deleted remote branch.** The stop hook then reports "N unpushed commits" when `git log @{u}..HEAD` is empty and HEAD equals `origin/main`. Fix is `git remote prune origin`, never a push. Fired four times.
+- **The container rolled back mid-session** to a pre-#949 checkout, making two already-merged files (`netlify/functions/monthly-newsletter.mjs`, `scripts/preview-newsletter.mjs`) reappear as "uncommitted". Both were byte-identical to `origin/main`. Committing would have re-committed merged work onto a stale branch. **Always diff against `origin/main` before committing what a hook calls uncommitted.**
+- **Shallow clone (71 commits) makes `merge-base` return empty and `rev-list --left-right` report thousands of commits ahead** — numbers that look exactly like unmerged work. `git fetch --unshallow` first. Hit twice; the rollback undid the first unshallow.
+- **`json.dump` defaults to `ensure_ascii=True`** — silently turned the em-dash in `package.json` into `\u2014`.
+- **I misread a slow CI job as hung** and pushed step-level `timeout-minutes` on that premise; checking the clock showed it was 10 minutes into a 20-minute limit. Reverted — and the 8-minute cap did fail on the superseded commit, while the same step took 3m48s on the next run. **Read the clock, don't estimate elapsed time.**
+
+### Open / next
+- **Decide the certificate fix** (above) — should the 6-question course assessment be the completion gate?
+- **33 paid product pages are absent from search** — `/products/assessment-*`, `/checklist-*`, `/budget/`, all live (200), ungated, priced ₹99–₹199. 58 products in sitemap, 25 indexed. Of 162 total sitemap-not-indexed URLs the rest look deliberate (48 `101-courses` deck variants, 19 BookSummaries `-interactive`, 17 course sub-pages).
+- **Six Edge Functions still import supabase-js 2.39.3** (Dec 2023) from esm.sh: `game-agent`, `issue-certificate`, `mint-resource-token`, `send-notification`, `send-push`, `serve-course-content`. All ACTIVE. Deploys separately from Netlify, so a different verification path. Note `game-agent` is in the repo but **not deployed**, and `status-alert` is deployed but not in the repo's six.
+- Branch deletion still needs one human click (Actions → Delete stale branches → type `DELETE`); no integration token can dispatch, cancel or re-run a workflow (403).
+- Fundamentals announcement drafted but unpublished (posts publicly in the owner's voice, via `.github/announcements/latest.md`).
+
+### Closed since the previous entry
+Duplicate `/Labs/toc-lab.html` in search-index (#956); 9 stale branches queued (#956); `--text-muted` 4.04:1 dark (merged); newsletter rebuild (#949, memory was stale on this).
