@@ -16,6 +16,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`scripts/check-social-images.py` skipped every reference written without the `www.`** It compared each URL against a single origin string, `https://www.impactmojo.in`, and treated anything else beginning with `http` as an external host that is somebody else's problem. `nfhs.html` pointed `og:image` at `https://impactmojo.in/assets/og-default.png` — a file that does not exist — and the missing four characters were enough for the guard to wave it through. The page has been sharing with no preview image, and the guard that exists to catch exactly that reported PASS.
 
   It now recognises all four spellings of our own origin (`http`/`https` × with/without `www.`), which raises the number of images actually checked from 1,168 to 1,171, and `nfhs.html` now points at a real file.
+## [10.223.0] - 2026-08-20
+
+### Changed
+
+- **Course progress now gives partial credit, and a module passes on a majority.** Two changes to `js/course-progress.js`, both prompted by a diagnosis that turned out to be wrong.
+
+  A module used to require a clean sweep — every graded question correct. MEL delivers 12 modules of 4 questions, so finishing it meant 48 correct answers with no allowance for a single question that reads badly. `PASS_RATIO` is now 0.75: 3 of 4, 2 of 2, 5 of 6. MEL's bar falls from 48 to 36.
+
+  Progress was also all-or-nothing inside a module: the figure written to `user_progress` was `completedModules / totalModules`, which moves only when a whole module lands, so a learner three questions in had nothing on their account page and we could not see where people stop. Each module now contributes a fractional score capped at 1, and a correct answer syncs immediately rather than waiting for the module to finish (`queueSync` already debounces 3s, so a run of quick answers is still one write). One correct answer in MEL now reads 3% instead of 0%.
+
+  **Completion semantics are unchanged.** 100% is still reachable only when every module has passed, which is what the `on_course_completed` trigger keys on. Verified against MEL's real shape: 11 of 12 modules gives 92%, every module at exactly the pass mark gives 100%, and eleven modules complete with one at 2 of 4 does **not** reach 100%.
+
+### Corrected
+
+- **The #960 diagnosis was substantially wrong, and is retracted here.** I read the static HTML of the course pages, found all six graded questions inside `<section id="course-assessment">` and none in the module sections, and concluded that `scanModules()` found nothing, `totalModules` stayed 0, and the tracker never booted for any learner.
+
+  Module bodies are not in the HTML. They are injected at runtime by `js/course-loader.js` from the `course_content` table, which holds 246 modules across 19 courses — **202 with `quiz_html`, 186 of those graded**. Asking the live endpoint for MEL returns 14 modules, none locked even for an anonymous visitor, 12 of them carrying 4 graded questions each inside the correct module section. The tracker boots, the quizzes are wired, and the handshake between loader and tracker works in both directions.
+
+  What remains true is only the measurement: `user_progress` has 0 rows ever inserted against 17,022 reads, and `certificates` 0 ever, with 54 signed-in users. The likeliest explanation is now the ordinary one — a demanding completion bar that nobody has cleared — which is what the two changes above address. A browser check while signed in would settle it.
+
+  Recorded rather than quietly amended, because the wrong diagnosis was detailed and confident enough to have justified writing roughly 663 quiz questions that already existed.
+## [10.222.0] - 2026-08-20
+
+### Fixed
+
+- **33 paid product pages were absent from site search.** Every one is live, ungated and priced — the four ₹499 assessment banks, the ₹99 checklists, the ₹199 budget template, the workbooks, refreshers, posters and templates. They were in `sitemap.xml`, so Google could find them, but ImpactMojo's own search could not: someone already on the site looking for "logframe" or "field readiness checklist" got nothing.
+
+  Entries are generated from each page's own `<title>` and `<meta name="description">` rather than written by hand, so they cannot drift from the page. A description that opened by restating the title is trimmed, since that wastes the whole search snippet. Categories are derived from the slug (Assessment Banks 4, Templates 11, Workbooks 4, Refreshers 4, Checklists 3, Toolkits 3, Decks 2, Posters 2), and each entry carries its price as a tag.
+
+  1,087 → 1,120 entries. Verified after writing: valid JSON on re-read, no duplicate id or URL anywhere in the file, no entry missing a required field, and **all 33 URLs resolve to a real `index.html`**. The sitemap-not-indexed gap falls from 162 to 129; the only `/products` path still outside search is `/products.html` itself, which is the listing page and already has an anchor entry.
 
 ## [10.221.0] - 2026-08-20
 
