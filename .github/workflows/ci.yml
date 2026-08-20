@@ -103,6 +103,35 @@ jobs:
       - name: Check content counts match data/counts.json
         run: python3 scripts/check-counts.py
 
+  supabase-writes:
+    name: Supabase write-path guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      # Static only: needs no credentials, so it runs on every push. Catches a
+      # write whose result is discarded — the shape that hid the dead
+      # user_progress sync for eight months, since supabase-js resolves with
+      # { data, error } rather than throwing.
+      - name: Every Supabase write surfaces its errors
+        run: python3 scripts/check-supabase-writes.py
+
+  supabase-writes-live:
+    name: Supabase write-path guard (live insert counts)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Hits the live database, so schedule/dispatch only — same reasoning as
+    # supabase-anon below. Skips gracefully when SUPABASE_PAT is absent.
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Assert every written table has ever received a row
+        env:
+          SUPABASE_PAT: ${{ secrets.SUPABASE_PAT }}
+        run: python3 scripts/check-supabase-writes.py --live
+
   supabase-anon:
     name: Supabase anon-exposure guard
     runs-on: ubuntu-latest

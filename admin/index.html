@@ -2358,7 +2358,13 @@ async function ssSaveFlags() {
     // Try to save to Supabase site_settings table
     try {
         if (typeof supabaseClient !== 'undefined') {
-            await supabaseClient.from('site_settings').upsert({ id: 'feature_flags', value: flags, updated_at: new Date().toISOString() });
+            var { error: flagsError } = await supabaseClient.from('site_settings')
+                .upsert({ id: 'feature_flags', value: flags, updated_at: new Date().toISOString() });
+            if (flagsError) {
+                console.error('[Admin] Failed to save feature_flags:', flagsError.message);
+                alert('Could not save feature flags. Please try again.');
+                return;
+            }
         }
     } catch(e) { /* fallback to localStorage only */ }
     ssShowToast('Feature flags saved');
@@ -2384,7 +2390,13 @@ async function ssSaveMetadata() {
 
     try {
         if (typeof supabaseClient !== 'undefined') {
-            await supabaseClient.from('site_settings').upsert({ id: 'site_metadata', value: meta, updated_at: new Date().toISOString() });
+            var { error: metaError } = await supabaseClient.from('site_settings')
+                .upsert({ id: 'site_metadata', value: meta, updated_at: new Date().toISOString() });
+            if (metaError) {
+                console.error('[Admin] Failed to save site_metadata:', metaError.message);
+                alert('Could not save site metadata. Please try again.');
+                return;
+            }
         }
     } catch(e) { /* fallback to localStorage only */ }
     ssShowToast('Metadata saved');
