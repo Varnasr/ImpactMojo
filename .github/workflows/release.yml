@@ -53,11 +53,19 @@ jobs:
             if (!heads.length) { core.setFailed('No `## [x.y.z]` sections found in CHANGELOG.md'); return; }
 
             const version = asked || heads[0][1];
-            const idx = heads.findIndex(h => h[1] === version);
-            if (idx === -1) {
+            const hits = heads.filter(h => h[1] === version);
+            if (!hits.length) {
               core.setFailed(`Version ${version} has no section in CHANGELOG.md. Newest is ${heads[0][1]}.`);
               return;
             }
+            // CHANGELOG.md had two `## [10.210.0]` sections at one point. A
+            // findIndex would have silently released whichever came first,
+            // with half the notes. Refuse instead.
+            if (hits.length > 1) {
+              core.setFailed(`CHANGELOG.md has ${hits.length} sections for ${version}. Renumber one before releasing.`);
+              return;
+            }
+            const idx = heads.indexOf(hits[0]);
 
             const start = heads[idx].index + heads[idx][0].length;
             const end = idx + 1 < heads.length ? heads[idx + 1].index : changelog.length;

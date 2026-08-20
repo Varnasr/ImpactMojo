@@ -25,6 +25,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `showcase` and `special` now have proper labels and icons in `js/search.js`. Both types already existed in the index and fell through to a badge reading the raw type name.
 
+- **The release workflow now refuses a duplicated version instead of guessing.** `CHANGELOG.md` carried **two `## [10.210.0]` sections** — the form-submission fix and the Capability Approach page, both dated 2026-08-19. The workflow resolved a version with `findIndex`, so releasing 10.210.0 would have published whichever section came first, with half the notes and no warning. It now fails on more than one match, and the newer of the two entries is renumbered `10.210.1`. Found by asserting uniqueness while resolving an unrelated merge conflict, not by anything failing.
+
 ## [10.225.0] - 2026-08-20
 
 ### Added
@@ -312,7 +314,7 @@ Neither accessibility job would have caught any of this. axe-core does run both 
 
 - `scripts/check-fundamentals-privacy.py`, wired into CI as the `fundamentals-privacy` job. The page tells the reader their answers stay in their browser and are sent nowhere; that is a promise about code, so it is now enforced by code. The guard fails if the questionnaire files gain any network primitive — fetch, XHR, sendBeacon, WebSocket, EventSource, dynamic import, form submit, gtag or dataLayer — and also fails if the promise is quietly removed from the page, so it cannot be satisfied by deleting the sentence. Verified against both failure modes.
 
-## [10.210.0] - 2026-08-19
+## [10.210.1] - 2026-08-19
 
 ### Fixed
 
