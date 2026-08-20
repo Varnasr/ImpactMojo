@@ -148,6 +148,25 @@ jobs:
       - name: Probe anon exposure against the expected contract
         run: python3 scripts/check-supabase-anon.py
 
+  edge-functions:
+    name: Edge Function boot check
+    runs-on: ubuntu-latest
+    # Without this a hung step inherits GitHub's 360-minute default and the
+    # job neither passes nor fails -- which reads as "still running".
+    timeout-minutes: 10
+    # Hits the live Functions gateway, so it runs on the daily schedule and on
+    # demand -- not on every PR, where third-party latency would add flake and
+    # a contributor could not act on the result.
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v7
+
+      # The functions import supabase-js from esm.sh at cold start. A broken
+      # import does not fail at deploy time -- it fails on the next cold start,
+      # as a 500 only the caller sees.
+      - name: Probe every Edge Function boots and runs its own code
+        run: python3 scripts/check-edge-functions.py
+
   book-companions:
     name: Book-companion blank-page guard
     runs-on: ubuntu-latest
