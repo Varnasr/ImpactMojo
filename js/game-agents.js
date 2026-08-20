@@ -1,11 +1,17 @@
 /**
  * ImpactMojo Game Agents Client
- * Version: 1.0.0
- * Date: March 17, 2026
+ * Version: 2.0.0
+ * Date: August 20, 2026
  *
- * MiroFish-inspired client library for AI-powered game opponents.
- * Provides the bridge between game frontends (impactmojo.in/Games/)
- * and the game-agent Supabase Edge Function.
+ * Drives the AI opponents in the Games library from a local personality
+ * engine: cooperation bias, memory weight and risk tolerance, per agent.
+ *
+ * v2.0.0 removed the LLM path. Every decision used to POST to a
+ * `game-agent` Supabase Edge Function that was **never deployed**, so the
+ * call 404'd and fell through to this engine — on every move, in twelve
+ * games, silently. The engine was doing all the work already; the round
+ * trip only added latency and a provider menu no page ever rendered.
+ * The unused function source was deleted with it.
  *
  * USAGE (in any game HTML):
  *   <script src="https://www.impactmojo.in/js/game-agents.js"></script>
@@ -48,18 +54,9 @@
   // ── Configuration ──────────────────────────────────────────────────
 
   var CONFIG = {
-    // Supabase Edge Function endpoint
-    EDGE_FUNCTION_URL: 'https://ddyszmfffyedolkcugld.supabase.co/functions/v1/game-agent',
-
-    // Fallback: load agent data directly for offline/free-tier play
-    AGENT_DATA_URL: 'https://www.impactmojo.in/data/game-agents.json',
-
-    // Request timeout (ms)
-    TIMEOUT: 8000,
-
-    // Retry config
-    MAX_RETRIES: 2,
-    RETRY_DELAY: 1000
+    // Agent personalities and rosters. This is the only network call the
+    // client makes, and it is cached after the first load.
+    AGENT_DATA_URL: 'https://www.impactmojo.in/data/game-agents.json'
   };
 
   // ── Agent data cache ───────────────────────────────────────────────
@@ -231,72 +228,11 @@
     };
   }
 
-  // ── API call with timeout and retry ────────────────────────────────
-
-  function fetchWithTimeout(url, options, timeoutMs) {
-    return new Promise(function (resolve, reject) {
-      var timer = setTimeout(function () {
-        reject(new Error('Request timed out'));
-      }, timeoutMs);
-
-      fetch(url, options)
-        .then(function (resp) {
-          clearTimeout(timer);
-          resolve(resp);
-        })
-        .catch(function (err) {
-          clearTimeout(timer);
-          reject(err);
-        });
-    });
-  }
-
-  function callEdgeFunction(body, retries) {
-    if (retries === undefined) retries = 0;
-
-    return fetchWithTimeout(
-      CONFIG.EDGE_FUNCTION_URL,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      },
-      CONFIG.TIMEOUT
-    ).then(function (resp) {
-      if (!resp.ok) {
-        if (resp.status === 429 && retries < CONFIG.MAX_RETRIES) {
-          return new Promise(function (resolve) {
-            setTimeout(resolve, CONFIG.RETRY_DELAY * (retries + 1));
-          }).then(function () {
-            return callEdgeFunction(body, retries + 1);
-          });
-        }
-        throw new Error('Edge function error: ' + resp.status);
-      }
-      return resp.json();
-    });
-  }
-
   // ── Main class ─────────────────────────────────────────────────────
-
-  // ── Available LLM providers (for UI display) ───────────────────────
-  var LLM_PROVIDERS = [
-    { id: 'auto',     name: 'Auto (cheapest available)', description: 'Automatically picks the cheapest configured provider' },
-    { id: 'deepseek', name: 'DeepSeek',                  description: 'Near GPT-4 quality, very cheap (~₹0.50/1K sessions)' },
-    { id: 'groq',     name: 'Groq (Llama 3.1 70B)',      description: 'Free tier, fast inference, rate-limited' },
-    { id: 'gemini',   name: 'Google Gemini Flash',        description: 'Free tier available, good quality' },
-    { id: 'together', name: 'Together AI',                description: 'Cheap and reliable (~₹1-3/1K sessions)' },
-    { id: 'openai',   name: 'OpenAI (GPT-4o-mini)',       description: 'Premium quality' },
-    { id: 'none',     name: 'No AI (personality engine)',  description: 'Free — uses personality weights only, no LLM' }
-  ];
 
   function IMGameAgents(gameId, options) {
     this.gameId = gameId;
     this.options = options || {};
-    this.useLLM = this.options.useLLM !== false;
-    // Provider preference: 'auto' (default), 'deepseek', 'groq', 'gemini', 'together', 'openai', 'none'
-    this.provider = this.options.provider || 'auto';
-    if (this.provider === 'none') this.useLLM = false;
     this._roster = null;
   }
 
@@ -320,43 +256,27 @@
   };
 
   /**
-   * Get a single agent's decision.
-   * Falls back to local engine if Edge Function is unavailable.
+   * Get a single agent's decision from the personality engine.
    */
   IMGameAgents.prototype.getDecision = function (agentId, opts) {
     var self = this;
 
-    var body = {
-      game_id: self.gameId,
-      agent_id: agentId,
-      round: opts.round,
-      total_rounds: opts.totalRounds,
-      history: opts.history || [],
-      available_actions: opts.availableActions,
-      context: opts.context || {},
-      use_llm: self.useLLM,
-      provider: self.provider !== 'auto' ? self.provider : undefined
-    };
+    return loadAgentData().then(function (data) {
+      if (!data || !data.games[self.gameId]) {
+        throw new Error('Agent data unavailable');
+      }
 
-    return callEdgeFunction(body).catch(function () {
-      // Fallback to local engine
-      return loadAgentData().then(function (data) {
-        if (!data || !data.games[self.gameId]) {
-          throw new Error('Agent data unavailable');
+      var agents = data.games[self.gameId].agents;
+      var agent = null;
+      for (var i = 0; i < agents.length; i++) {
+        if (agents[i].id === agentId) {
+          agent = agents[i];
+          break;
         }
+      }
 
-        var agents = data.games[self.gameId].agents;
-        var agent = null;
-        for (var i = 0; i < agents.length; i++) {
-          if (agents[i].id === agentId) {
-            agent = agents[i];
-            break;
-          }
-        }
-
-        if (!agent) throw new Error('Agent not found: ' + agentId);
-        return localDecision(agent, opts);
-      });
+      if (!agent) throw new Error('Agent not found: ' + agentId);
+      return localDecision(agent, opts);
     });
   };
 
@@ -385,29 +305,10 @@
   };
 
   /**
-   * Switch LLM provider at runtime.
-   * @param {string} providerId - 'auto', 'deepseek', 'groq', 'gemini', 'together', 'openai', or 'none'
-   */
-  IMGameAgents.prototype.setProvider = function (providerId) {
-    this.provider = providerId || 'auto';
-    this.useLLM = providerId !== 'none';
-  };
-
-  /**
-   * Get available LLM providers (for settings UI).
-   * Returns array of { id, name, description }.
-   */
-  IMGameAgents.getProviders = function () {
-    return LLM_PROVIDERS.slice(); // return a copy
-  };
-
-  /**
-   * Configure the Edge Function URL (for custom deployments).
+   * Point the client at a different agent-data file (for forks).
    */
   IMGameAgents.configure = function (options) {
-    if (options.edgeFunctionUrl) CONFIG.EDGE_FUNCTION_URL = options.edgeFunctionUrl;
     if (options.agentDataUrl) CONFIG.AGENT_DATA_URL = options.agentDataUrl;
-    if (options.timeout) CONFIG.TIMEOUT = options.timeout;
   };
 
   // ── Export ─────────────────────────────────────────────────────────

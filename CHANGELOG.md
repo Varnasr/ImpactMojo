@@ -5,6 +5,20 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.232.0] - 2026-08-20
+
+### Removed
+
+- **The `game-agent` LLM path, which never worked and never could.** Every AI-opponent move in the Games library POSTed to a `game-agent` Supabase Edge Function that was **never deployed**. The endpoint returned `404 NOT_FOUND`, the call fell through to the local personality engine, and the game carried on — on every move, in twelve games, for as long as the feature has existed. Nobody noticed because the fallback is good: the personality engine (cooperation bias, memory weight, risk tolerance) is what everyone has actually been playing against.
+
+  The engine is the primary path now. `js/game-agents.js` drops from 416 lines to 317: the endpoint, the timeout-and-retry wrapper, the seven-entry `LLM_PROVIDERS` menu, `setProvider()` and `getProviders()`. `supabase/functions/game-agent/` is deleted — 637 lines of Deno that were only ever a repository artefact.
+
+  **Nothing reachable is lost.** No page ever rendered the provider menu, no game called `setProvider`, `getProviders`, `useLLM` or `configure`, and all ten games that use the client construct it with no options — so the LLM branch was unreachable from the site even if the function had been deployed. Deploying it instead would have meant LLM API keys as Supabase secrets and a per-session cost, for a feature with no UI to reach it.
+
+  Verified with the network stubbed to throw on any call other than the agent-data file: every game gets a valid decision from every agent, across all five action shapes (cooperate/defect, contribute, extract, bid, join/wait).
+
+- **`econ-concepts-game.html` and `real-middle-india.html` loaded the client and never used it** — 416 lines of JavaScript fetched for nothing. Script tags removed.
+
 ## [10.231.0] - 2026-08-20
 
 ### Fixed
