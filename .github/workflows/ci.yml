@@ -176,6 +176,22 @@ jobs:
       - name: Test service worker routing & lifecycle
         run: node scripts/test-service-worker.mjs
 
+  viewport:
+    name: Viewport meta guard
+    runs-on: ubuntu-latest
+    # Without this a hung step inherits GitHub's 360-minute default and the
+    # job neither passes nor fails -- which reads as "still running".
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      # Without a viewport meta a phone lays the page out at desktop width and
+      # zooms out, so the text arrives too small to read. Nothing errors and the
+      # page looks right on the machine it was built on. testing.md has required
+      # this since the file existed, as a manual step.
+      - name: Check every page declares a viewport
+        run: python3 scripts/check-viewport.py
+
   search-coverage:
     name: Site-search coverage
     runs-on: ubuntu-latest

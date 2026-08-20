@@ -5,6 +5,22 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.227.0] - 2026-08-20
+
+First tagged release since `v10.79.0`. Tags had fallen 148 versions behind the changelog because nothing in the toolchain could write one; the two changes below close that, and announce the Fundamentals series.
+
+### Added
+
+- **Fundamentals is announced.** `.github/announcements/latest.md` now carries the announcement for the eight interactive framework pages — the Indian Wheel of Power & Powerlessness, Arnstein's Ladder, Gaventa's Power Cube, the Capability Approach, Moser's practical and strategic gender needs, the Sustainable Livelihoods Framework, the Social Model of Disability, and Who Counts. Committing that file is what posts the GitHub Discussion, so the announcement ships with the release rather than waiting on a separate manual step.
+
+- **`scripts/check-viewport.py`** enforces the viewport rule that `.claude/rules/testing.md` has stated since the file existed and nothing checked. Without `<meta name="viewport">` a phone lays the page out at desktop width and zooms out; the page looks correct on the machine it was built on, and only a visitor on a phone ever sees the difference. All 859 pages pass today, with the five Supabase email templates exempted for the recorded reason that a mail client ignores viewport. Enforced in CI via the `viewport` job.
+
+  The guard tolerates `name=viewport` unquoted and `content=` written before `name=`, because both shapes exist in this repo and both defeat a naive scan. That matters: an ad-hoc check of mine reported two reading companions as missing a viewport when they had one all along, written unquoted and past the byte cut-off the check happened to read. **No page was broken; the finding was wrong and the edit it prompted has been reverted.** The guard was then re-verified by removing a real tag rather than the redundant one, which is the test that would have caught the mistake the first time.
+
+### Changed
+
+- **The release workflow can now be triggered by a commit.** `workflow_dispatch` returns 403 from an agent session, exactly as tag pushes do, so a release could be written and still never cut — the failure this workflow existed to fix, reappearing one level up. Committing a version to `.github/release/VERSION` now cuts that release, the same push-trigger route `post-discussion.yml` already uses for Discussions. A dispatch still previews by default; a push publishes, because committing a version is the deliberate act. A push naming an already-released version is a no-op rather than a red run. All eight paths (missing stamp, malformed stamp, `v`-prefixed stamp, unknown version, duplicate version, empty section, dispatch preview, dispatch publish) were simulated against the real changelog before the workflow could run.
+
 ## [10.226.0] - 2026-08-20
 
 ### Fixed
