@@ -5,6 +5,16 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.222.0] - 2026-08-20
+
+### Fixed
+
+- **33 paid product pages were absent from site search.** Every one is live, ungated and priced — the four ₹499 assessment banks, the ₹99 checklists, the ₹199 budget template, the workbooks, refreshers, posters and templates. They were in `sitemap.xml`, so Google could find them, but ImpactMojo's own search could not: someone already on the site looking for "logframe" or "field readiness checklist" got nothing.
+
+  Entries are generated from each page's own `<title>` and `<meta name="description">` rather than written by hand, so they cannot drift from the page. A description that opened by restating the title is trimmed, since that wastes the whole search snippet. Categories are derived from the slug (Assessment Banks 4, Templates 11, Workbooks 4, Refreshers 4, Checklists 3, Toolkits 3, Decks 2, Posters 2), and each entry carries its price as a tag.
+
+  1,087 → 1,120 entries. Verified after writing: valid JSON on re-read, no duplicate id or URL anywhere in the file, no entry missing a required field, and **all 33 URLs resolve to a real `index.html`**. The sitemap-not-indexed gap falls from 162 to 129; the only `/products` path still outside search is `/products.html` itself, which is the listing page and already has an anchor entry.
+
 ## [10.221.0] - 2026-08-20
 
 ### Added
