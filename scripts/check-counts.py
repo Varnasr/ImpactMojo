@@ -100,6 +100,14 @@ DOC_FILES = [
 # get above.
 EXCLUDE_WIKI = {"Changelog.md", "Roadmap.md"}
 
+# Non-HTML files whose *user-facing copy* quotes platform totals. The guard
+# scanned only root-level HTML, so the homepage tour drifted unnoticed: it
+# offered "34 studios", "163 reading companions" and "22 deep dives" while the
+# canonical figures had moved to 35, 166 and 23. Copy is copy wherever it lives.
+COPY_FILES = [
+    "js/tours.js",
+]
+
 
 def scanned_files(wiki_dir=None):
     if wiki_dir is not None:
@@ -109,7 +117,9 @@ def scanned_files(wiki_dir=None):
     html = sorted(
         p.name for p in ROOT.glob("*.html") if p.name not in EXCLUDE_HTML
     )
-    return html + [d for d in DOC_FILES if (ROOT / d).exists()]
+    return html + [d for d in DOC_FILES if (ROOT / d).exists()] + [
+        f for f in COPY_FILES if (ROOT / f).exists()
+    ]
 
 
 # Ordered: longer / more specific phrases first. Each maps a phrase regex to a

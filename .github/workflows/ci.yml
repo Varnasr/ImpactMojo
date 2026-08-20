@@ -195,6 +195,21 @@ jobs:
       - name: Test service worker routing & lifecycle
         run: node scripts/test-service-worker.mjs
 
+  nav-dots:
+    name: Nav "recently updated" dots
+    runs-on: ubuntu-latest
+    # Without this a hung step inherits GitHub's 360-minute default and the
+    # job neither passes nor fails -- which reads as "still running".
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      # The dots were two hardcoded spans that never expired: three weeks on
+      # they still claimed Libraries and Field Radio were fresh, while the blog
+      # -- which held the two newest items on the site -- carried none.
+      - name: Check the nav dots match the content dates
+        run: python3 scripts/stamp-nav-dots.py --check
+
   viewport:
     name: Viewport meta guard
     runs-on: ubuntu-latest
