@@ -2,6 +2,11 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.224.0 — August 20, 2026 (New post: designing an impact evaluation)
+
+### For Learners
+
+- **Designing an Impact Evaluation: Eight Steps, and When to Take Them** — the standard guidance lists eight steps in order, but the counterfactual constrains every step before it, and teams that reach it last find their options already gone. Covers randomised phase-in, eligibility thresholds, and what to ask when the programme is a universal entitlement like MGNREGA.
 ## v10.223.0 — August 20, 2026 (Course progress counts partial work)
 
 ### For Learners

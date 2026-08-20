@@ -5,6 +5,17 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.224.0] - 2026-08-20
+
+### Added
+
+- **Blog: "Designing an Impact Evaluation: Eight Steps, and When to Take Them"** (`/blog/designing-an-impact-evaluation.html`, Methods, ~1,360 words). Built from an eight-step impact-evaluation guidance deck, but argued rather than summarised: the steps are drawn as a sequence, and the sixth of them, the counterfactual, is a constraint set by how the programme rolls out rather than a stage the evaluator reaches. Covers what that changes about rationale, unit of variation, theory of change and budget; the three rollout situations and what each permits (randomised phase-in, eligibility thresholds, universal entitlement); and planning dissemination for a null result. Indexed, in the sitemap, carded on `blog.html` with an inline SVG rather than a missing image file.
+
+### Fixed
+
+- **`scripts/check-social-images.py` skipped every reference written without the `www.`** It compared each URL against a single origin string, `https://www.impactmojo.in`, and treated anything else beginning with `http` as an external host that is somebody else's problem. `nfhs.html` pointed `og:image` at `https://impactmojo.in/assets/og-default.png` — a file that does not exist — and the missing four characters were enough for the guard to wave it through. The page has been sharing with no preview image, and the guard that exists to catch exactly that reported PASS.
+
+  It now recognises all four spellings of our own origin (`http`/`https` × with/without `www.`), which raises the number of images actually checked from 1,168 to 1,171, and `nfhs.html` now points at a real file.
 ## [10.223.0] - 2026-08-20
 
 ### Changed
