@@ -16,7 +16,7 @@
  * when a user logs in, so anonymous progress is preserved.
  *
  * Usage: Add to any course page:
- *   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+ *   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3"></script>
  *   <script src="../../js/course-progress.js"></script>
  */
 

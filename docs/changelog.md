@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.220.0 — August 20, 2026 (The sign-in library is 18 months newer)
+
+### Fixed
+
+- The library behind signing in, saving progress and issuing certificates was pinned to a February 2025 release on most of the site, while three admin pages were quietly running a much newer one. Everything is now on the same current version.
+
 ## v10.219.0 — August 19, 2026 (The wiki stopped quoting numbers nobody checked)
 
 ### Fixed

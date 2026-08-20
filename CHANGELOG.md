@@ -5,6 +5,20 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.220.0] - 2026-08-20
+
+### Changed
+
+- **supabase-js moved from 2.49.1 to 2.112.3 across the whole site.** The pin dated from February 2025. 508 exact pins were rewritten, plus **7 that were not pinned at all** — `admin/index.html`, `admin/cms.html` and `admin/bugs.html` loaded `@supabase/supabase-js@2`, a floating major that silently tracks whatever npm publishes, so those three admin pages were already running 2.112.x against a site otherwise on 2.49.1. They are now pinned like everything else. (The other four `@2` occurrences were usage examples in `js/auth.js`, `js/course-progress.js`, `js/admin-cms.js` and `js/admin-gate.js` doc comments, updated to match.)
+
+  **This replaces PR #837 rather than merging it.** That PR, cut on 20 July, bumped 534 files to 2.110.7. Merging it now would have been worse than doing nothing: 72 HTML files have landed since it was cut and 48 of them load supabase-js, so the site would have run two different versions of the auth library at once — roughly 486 pages on 2.110.7 and 48 on 2.49.1. It also conflicts with main, and 2.110.7 has itself been superseded.
+
+  Every one of the 603 changed lines is a version string or an asset stamp; there are no structural edits. `service-worker.js` VERSION goes to v16 so old runtime caches purge on activate.
+
+### Noted, not changed
+
+- **Six Supabase Edge Functions still import supabase-js 2.39.3** — `game-agent`, `issue-certificate`, `mint-resource-token`, `send-notification`, `send-push` and `serve-course-content`, all via `https://esm.sh/@supabase/supabase-js@2.39.3`. These run server-side on Deno and deploy separately from Netlify, so a bump there is a different change with a different verification path (deploy the function, exercise it) and is deliberately out of scope here rather than bundled in silently.
+
 ## [10.219.0] - 2026-08-19
 
 ### Fixed
