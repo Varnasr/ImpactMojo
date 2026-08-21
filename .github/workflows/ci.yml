@@ -226,6 +226,26 @@ jobs:
       - name: Check every page declares a viewport
         run: python3 scripts/check-viewport.py
 
+  studio-submit:
+    name: Studio submissions and gradebook CSV
+    runs-on: ubuntu-latest
+    # Without this a hung step inherits GitHub's 360-minute default and the
+    # job neither passes nor fails -- which reads as "still running".
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # A submission that loses its identity is a file an instructor cannot
+      # mark, which is the exact gap this feature closes. And CSV quoting that
+      # breaks on a comma shifts every later column, so a gradebook import
+      # attributes work to the wrong student -- course names like
+      # "Sustainability, ESG, CSR and M&E" contain commas as a matter of course.
+      - name: Check submission envelopes and CSV quoting
+        run: node scripts/test-studio-submit.mjs
+
   lms-export:
     name: LMS export packages
     runs-on: ubuntu-latest

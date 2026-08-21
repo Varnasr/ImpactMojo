@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.233.0 — August 21, 2026 (Marking Studio work just got easier)
+
+### For Learners
+
+- **Submit Studio work with your name on it.** In the LogFrame Builder Studio there is now a *Submit for marking* button: type your name once and you get a file to send your instructor, containing your actual work. More Studios will follow.
+- **Instructors: a gradebook CSV in one step.** Drop the files your students sent you into the new gradebook page and download a single CSV your Moodle or Canvas gradebook can import. It runs entirely in your browser — student work is never uploaded anywhere, including to us.
+
 ## v10.232.0 — August 21, 2026 (Your course, inside your university's LMS)
 
 ### For Learners

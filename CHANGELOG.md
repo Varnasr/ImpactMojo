@@ -10,6 +10,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Dead legacy nav code.** `toggleMobileMenu()` on 12 pages (`coaching`, `contact`, `data-protection`, `disclaimer`, `dojos`, `handouts`, `podcast`, `privacy-policy`, `refund-policy`, `terms-of-service`, `updates`, `workshops`) toggled `#navLinks`, an element site-chrome deletes; its only caller was the button in the same deleted header, so it could never run. Removed by brace-matching each function and confirming no caller survives outside the stripped block, rather than by pattern-replacing across files.
 - **`fundamentals/capabilities.html` no longer loads `ladder-data.js` and `ladder.js`.** They belonged to a different page and `capabilities.js` never referenced them. Both wrote to `#panel` on `DOMContentLoaded`, so the correct content won only by being registered second — a latent bug had either script's loading changed. Browser-verified after removal: `#panel` still renders the capabilities content, and `/fundamentals/ladder.html` is unaffected.
 
+## [10.242.0] - 2026-08-21
+
+### Added
+
+- **`/gradebook.html` — a folder of Studio submissions becomes one gradebook CSV.** Roadmap item: *LMS-friendly exports* (the gradebook half).
+
+  **The gap was identity, not export.** The Studios already export — 33 of them do. What they export is working state and nothing else: `logframe-builder` writes `JSON.stringify(state)`, most others write `text/plain`. An instructor who collects thirty of those files has thirty documents and no way to say which student produced which, when, or from which Studio. That is the whole reason a gradebook CSV did not exist, and no amount of CSV-writing would have fixed it.
+
+  **`js/studio-submit.js`** wraps a Studio's existing export in an envelope carrying the student's name, student number, course, Studio, timestamp and a short digest of the payload. The payload is untouched, so a submission is still the thing the student built and can still be re-imported by the Studio that made it. Adoption is two lines per Studio; **LogFrame Builder is wired as the reference**, the other 32 are not yet.
+
+  **It is deliberately not an identity system.** No accounts, no roster, no server: the student types their own name and the instructor reads the files they were sent. The digest catches a file truncated in transit, not a student editing their own submission — and the page says so, because any scheme claiming more than that on a site with no login would be misleading an instructor about what they are looking at.
+
+  CSV quoting is not incidental: course names like *"Sustainability, ESG, CSR and M&E"* contain commas, and unquoted output shifts every later column, silently attributing work to the wrong student. Every field is quoted and internal quotes doubled, and a UTF-8 BOM is emitted so Excel opens Indian names correctly rather than as mojibake.
+
+- **`scripts/test-studio-submit.mjs`** + the `studio-submit` CI job — asserts an envelope carries identity, that a mutated payload is rejected with a digest reason, that a bare Studio export is not accepted as a submission, and that CSV quoting survives a comma and an embedded quote. Confirmed by disabling the digest check and watching the test fail.
+
+### Changed
+
+- **`teach.html`** now points instructors at the gradebook, framed as the return direction from the LMS export.
+- **`js/studio-submit.js` uses an inline dialog rather than three `window.prompt()` calls** — the first version asked for name, number and course in three sequential native modals, with no way to correct the first after seeing the third.
+
+### Fixed
+
+- **`ROADMAP.md` vernacular entry was wrong twice over.** It read as wholly unstarted when in fact all **19 flagship course pages and their 13 lexicons** plus the homepage ship in **5 languages**; and it undercounted, claiming "30 page-dictionaries" and a "409-string" UI dictionary where the repo has **33** and **439**. Corrected, with the real remaining gap named: **0 of 52 foundational 101 decks** are translated, so a learner can browse a flagship in Hindi and hit English the moment they open a deck.
+
 ## [10.241.0] - 2026-08-21
 
 ### Added

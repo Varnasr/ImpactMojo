@@ -738,6 +738,17 @@
       download(slug()+'-logframe.json', JSON.stringify(state, null, 2), 'application/json');
       toast('Exported. Keep the JSON to re-import later or share with a colleague.');
     });
+    // Submission for marking. Export JSON above carries no name, so an instructor
+    // collecting thirty of them cannot tell whose is whose; this wraps the same
+    // state with the student's name, the studio and a timestamp.
+    if (window.IMStudioSubmit) {
+      window.IMStudioSubmit.addButton({
+        after: '#btnExportJson',
+        studio: 'logframe-builder',
+        studioTitle: 'LogFrame Builder Studio',
+        getPayload: function(){ return state; }
+      });
+    }
     document.getElementById('btnImportJson').addEventListener('click', function(){ document.getElementById('fileJson').click(); });
     document.getElementById('fileJson').addEventListener('change', function(e){
       var file = e.target.files && e.target.files[0]; if(!file) return;
@@ -763,6 +774,7 @@
 </script>
 
 <!-- Theme -->
+<script src="/js/studio-submit.js?v=c20f19f1"></script>
 <script src="/js/theme.js?v=ca787a55"></script>
 <script defer src="js/auto-refresh.js"></script>
 <script src="/js/site-chrome.js?v=39a1bdf4" defer></script>
