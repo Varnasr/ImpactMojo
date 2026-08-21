@@ -5,11 +5,35 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.234.0] - 2026-08-21
+
+### Fixed
+
+- **`partnerships.html` asserted partnership activities that nobody had agreed to.** Two facts were supplied for that page: Populi is the end-to-end research and MEL advisory partner, India Institute is the thought advocacy and measurements partner. Everything else about the *relationships* was written to fill out the page and shipped as fact about two real organisations:
+
+  - that Populi reviews ImpactMojo's courses, labs and toolkits before release;
+  - that Populi supplies anonymised evaluation cases as teaching material;
+  - that readers needing paid work are referred to Populi;
+  - that India Institute reviews ImpactMojo's governance, policy and advocacy content;
+  - a five-point "How we work with partners" policy, including the claim that no partner has ever been given editorial approval — a statement about ImpactMojo's history with no source — plus attribution and learner-data commitments nobody had made;
+  - a six-item "Ways to partner" menu of services that are not offered;
+  - form copy claiming enquiries are read personally rather than queued and are always answered.
+
+  All removed, and replaced with the arrangements as the owner states them: ImpactMojo does capacity building work for both Populi and India Institute; refers and endorses Populi for full-fledged research projects; and endorses India Institute, recommending them for measurement work — understanding measurements, tools and validation.
+
+  Alongside that, each partner's own description of itself is quoted and attributed to their site so the reader can see whose claim it is, together with the service and programme lists those sites publish and the licence terms (verifiable from this repo). PinPoint Ventures is described in the wording already used in `about.html`, not as "founding sponsor".
+
+  The page is roughly half its original length. Everything on it now traces to the owner or to a partner's own site.
+
+  The lesson is narrower than "check facts": the register did the damage. Marketing prose needs claims to fill its shape, and when there were none, they got generated. Plain declarative sentences would have left the gaps visible instead of papering over them.
+
 ## [10.233.0] - 2026-08-21
 
 ### Added
 
-- **`partnerships.html`** — a dedicated partnerships page, replacing the two blocks buried at the bottom of `about.html` as the place partnership is explained. Features Populi (https://www.populi.co.in) as end-to-end research + MEL advisory partner, India Institute (https://indiai.org/) as thought advocacy + measurement partner, and PinPoint Ventures as founding sponsor; sets out the partnership terms (editorial independence, no paywalling of partner-supported content, CC BY-NC-ND 4.0, no learner data), lists the ways to partner, and carries a proposal form.
+- **`partnerships.html`** — a dedicated partnerships page, replacing the two blocks at the bottom of `about.html` as the place partnership is explained. Lists Populi (https://www.populi.co.in) as end-to-end research + MEL advisory partner, India Institute (https://indiai.org/) as thought advocacy + measurement partner, and PinPoint Ventures as sponsor, with each partner's own self-description quoted and attributed to their site; states the content licence; and carries an enquiry form.
+
+  **See 10.234.0 — as first published this entry, and the page, described partnership activities that had never been agreed with anyone.**
 
   The form reuses the existing **`partner-inquiry`** Netlify form name and its exact field set (`name`, `email`, `organization`, `interest`, `message`). That is deliberate: `partner-inquiry` is already on the `ALLOWED_FORMS` allowlist in `netlify/functions/form-submit.mjs`, so proposals get both the Netlify notification and the Supabase row with no backend change, and they land in the same place as the ones submitted from `about.html`. A new form name would have needed an allowlist entry and would have split partnership enquiries across two buckets.
 
