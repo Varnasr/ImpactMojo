@@ -101,6 +101,10 @@
     responsive(mount, function (W) {
       var data = opts.data, max = opts.max, suffix = opts.suffix != null ? opts.suffix : '%';
       var vfmt = opts.valueFmt || function (v) { return fmt(v) + suffix; };
+      // Ticks follow valueFmt unless the axis wants something terser. Before this,
+      // ticks were always `t + suffix`, so a chart with a $ valueFmt drew "45%"
+      // on its axis and "+$42.45B" on its bars.
+      var tfmt = opts.tickFmt || vfmt;
       var compact = W < 520;
       var padR = compact ? 14 : 16, padL = compact ? 14 : 16;
       var rowH = compact ? 50 : 40, padTop = 30, padBottom = 30;
@@ -116,7 +120,7 @@
       (opts.ticks || []).forEach(function (t) {
         var x = scale(t);
         svg.appendChild(el('line', { x1: x, y1: padTop - 6, x2: x, y2: padTop + data.length * rowH, class: 'dv-grid-line' }));
-        svg.appendChild(el('text', { x: x, y: padTop + data.length * rowH + 18, 'text-anchor': 'middle', class: 'dv-tick' }, t + suffix));
+        svg.appendChild(el('text', { x: x, y: padTop + data.length * rowH + 18, 'text-anchor': 'middle', class: 'dv-tick' }, tfmt(t)));
       });
       svg.appendChild(el('line', { x1: x0, y1: padTop - 6, x2: x0, y2: padTop + data.length * rowH, class: 'dv-axis-line' }));
 
@@ -224,6 +228,7 @@
     responsive(mount, function (W) {
       var data = opts.data, max = opts.max, suffix = opts.suffix != null ? opts.suffix : '';
       var vfmt = opts.valueFmt || function (v) { return fmt(v) + suffix; };
+      var tfmt = opts.tickFmt || vfmt;
       var compact = W < 520;
       var padR = 16, padL = 16, rowH = compact ? 56 : 44, padTop = 34, padBottom = 30;
       var labelW = compact ? 0 : Math.min(150, Math.max(96, W * 0.22));
@@ -235,7 +240,7 @@
       (opts.ticks || []).forEach(function (t) {
         var x = scale(t);
         svg.appendChild(el('line', { x1: x, y1: padTop - 6, x2: x, y2: padTop + data.length * rowH, class: 'dv-grid-line' }));
-        svg.appendChild(el('text', { x: x, y: padTop + data.length * rowH + 18, 'text-anchor': 'middle', class: 'dv-tick' }, vfmt(t)));
+        svg.appendChild(el('text', { x: x, y: padTop + data.length * rowH + 18, 'text-anchor': 'middle', class: 'dv-tick' }, tfmt(t)));
       });
 
       var gid = addDefs(svg);
