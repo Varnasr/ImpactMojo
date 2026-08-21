@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Turn a folder of ImpactMojo Studio submissions into one gradebook CSV your LMS can import. Runs in your browser — no upload, no login, student work never leaves your machine.">
+<link rel="canonical" href="https://www.impactmojo.in/gradebook.html">
+<meta property="og:title" content="Studio submissions to a gradebook CSV | ImpactMojo">
+<meta property="og:description" content="Drop a folder of Studio submissions and get one CSV your gradebook can import. Runs entirely in your browser.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.impactmojo.in/gradebook.html">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Studio submissions to a gradebook CSV | ImpactMojo">
+<meta name="twitter:description" content="Drop a folder of Studio submissions and get one CSV your gradebook can import.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/og-card.png">
+<link href="assets/images/favicon.png" rel="icon" type="image/png">
+<link href="assets/images/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
+<link href="assets/images/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png">
+<link href="assets/images/apple-touch-icon.png" rel="apple-touch-icon">
+<title>Studio submissions to a gradebook CSV | ImpactMojo</title>
+<link rel="stylesheet" href="/css/imx-main.min.css?v=3a7d9b4d">
+<style>
+  .gb-wrap{max-width:960px;margin:0 auto;padding:0 1.25rem 4rem}
+  .gb-hero{padding:3rem 1.25rem 1.25rem;text-align:center}
+  .gb-hero h1{margin:0 0 .6rem;font-size:clamp(1.9rem,4vw,2.6rem);line-height:1.15}
+  .gb-hero p{margin:0 auto;max-width:58ch;color:var(--text-muted,#5b6472);font-size:1.05rem;line-height:1.6}
+  .gb-card{border:1px solid var(--border,#e2e6ec);border-radius:14px;padding:1.4rem;margin:1.25rem 0;background:var(--bg-card,#fff)}
+  .gb-card h2{margin:0 0 .3rem;font-size:1.15rem}
+  .gb-sub{margin:0 0 1rem;color:var(--text-muted,#5b6472);font-size:.94rem;line-height:1.55}
+  .gb-drop{border:2px dashed var(--border,#cbd2da);border-radius:12px;padding:2rem 1rem;text-align:center;cursor:pointer}
+  .gb-drop.over{border-color:#2563EB;background:rgba(37,99,235,.05)}
+  .gb-drop p{margin:.3rem 0;color:var(--text-muted,#5b6472)}
+  .gb-btn{background:#2563EB;color:#fff;border:0;border-radius:10px;padding:.75rem 1.3rem;font:inherit;font-weight:600;cursor:pointer}
+  .gb-btn[disabled]{opacity:.5;cursor:not-allowed}
+  .gb-status{font-size:.92rem;color:var(--text-muted,#5b6472);min-height:1.3em;margin-top:.8rem}
+  .gb-status.err{color:#B42318}
+  table.gb{width:100%;border-collapse:collapse;font-size:.9rem;margin-top:1rem}
+  table.gb th,table.gb td{text-align:left;padding:.45rem .5rem;border-bottom:1px solid var(--border,#e2e6ec);vertical-align:top}
+  table.gb th{font-weight:600}
+  .gb-bad{color:#B42318}
+  .gb-scroll{overflow-x:auto}
+  .gb-note{border-left:3px solid #B45309;padding:.5rem 0 .5rem .9rem;margin:1rem 0;font-size:.92rem;line-height:1.6;color:var(--text-muted,#5b6472)}
+  .gb-steps{font-size:.95rem;line-height:1.65}
+  .gb-steps code{background:var(--bg-2,#f1f3f6);padding:.1rem .35rem;border-radius:4px;font-size:.9em}
+  @media (prefers-color-scheme:dark){
+    .gb-card{background:#161b22;border-color:#2b323b}
+    .gb-drop{border-color:#2b323b}
+    .gb-steps code{background:#21262d}
+  }
+</style>
+</head>
+<body>
+
+<main id="main">
+
+<section class="gb-hero">
+  <h1>Studio submissions to a gradebook CSV</h1>
+  <p>Drop the files your students sent you. You get one CSV your gradebook can
+     import. Everything happens in this browser tab — the work is never uploaded
+     anywhere, including to us.</p>
+</section>
+
+<div class="gb-wrap">
+
+  <div class="gb-card">
+    <h2>1 &middot; Add the submissions</h2>
+    <p class="gb-sub">Select or drag in any number of <code>.imsub.json</code> files.
+       You can also drop a Studio's plain JSON export — it will be listed as
+       unattributed, because those files carry no name.</p>
+
+    <div class="gb-drop" id="gb-drop" tabindex="0" role="button"
+         aria-label="Choose submission files, or drag them here">
+      <p><strong>Drop files here</strong></p>
+      <p>or click to choose</p>
+      <input type="file" id="gb-file" multiple accept=".json,application/json" hidden>
+    </div>
+    <div class="gb-status" id="gb-status" role="status" aria-live="polite"></div>
+  </div>
+
+  <div class="gb-card" id="gb-result-card" hidden>
+    <h2>2 &middot; Check, then download</h2>
+    <p class="gb-sub">One row per submission. A row flagged in red still appears
+       in the CSV, with the problem in its own column, so nothing is silently
+       dropped.</p>
+    <div class="gb-scroll"><table class="gb" id="gb-table"></table></div>
+    <p style="margin-top:1rem">
+      <button class="gb-btn" id="gb-csv" type="button">Download gradebook CSV</button>
+    </p>
+  </div>
+
+  <div class="gb-card gb-steps">
+    <h2>How students produce these</h2>
+    <p>In any Studio that supports it, the student clicks <strong>Submit for
+       marking</strong>, types their name once, and gets a
+       <code>.imsub.json</code> file to send you. The file carries their name,
+       the Studio, the time, and their actual work — so it is both a submission
+       and a re-openable copy of what they built.</p>
+
+    <div class="gb-note">
+      This is not an identity system. There are no accounts and no roster: the
+      student types their own name, and you read the files they sent you. The
+      digest catches a file truncated in transit, not a student editing their own
+      submission. Any scheme claiming more than that on a site with no login
+      would be misleading you.
+    </div>
+
+    <h2 style="margin-top:1.4rem">Importing the CSV</h2>
+    <p><strong>Moodle:</strong> in the assignment, <code>Grades</code> →
+       <code>Import</code> → CSV, mapping <code>student_name</code> or
+       <code>student_id</code> to the identity column.<br>
+       <strong>Canvas:</strong> <code>Grades</code> → <code>Import</code> → upload
+       the CSV.<br>
+       <strong>Anything else:</strong> it is a plain UTF-8 CSV with a header row —
+       open it in a spreadsheet and paste the column you want.</p>
+    <p>The <code>score</code> column is deliberately left blank. This tool records
+       who submitted what and when; it does not mark the work.</p>
+  </div>
+
+</div>
+</main>
+
+<script src="/js/studio-submit.js?v=c20f19f1"></script>
+<script>
+(function () {
+  var drop = document.getElementById('gb-drop');
+  var input = document.getElementById('gb-file');
+  var status = document.getElementById('gb-status');
+  var card = document.getElementById('gb-result-card');
+  var table = document.getElementById('gb-table');
+  var csvBtn = document.getElementById('gb-csv');
+  var rows = [];
+
+  function say(msg, cls) { status.textContent = msg || ''; status.className = 'gb-status' + (cls ? ' ' + cls : ''); }
+
+  function readFile(f) {
+    return new Promise(function (resolve) {
+      var r = new FileReader();
+      r.onload = function () {
+        var row = { file: f.name, name: '', id: '', course: '', studio: '',
+                    submitted: '', problem: '' };
+        var data;
+        try { data = JSON.parse(r.result); }
+        catch (e) { row.problem = 'not valid JSON'; return resolve(row); }
+
+        var v = window.IMStudioSubmit.verify(data);
+        if (!v.ok) {
+          // A bare Studio export is still worth listing — the instructor knows
+          // who sent it even though the file does not.
+          row.problem = v.reason;
+          row.studio = data && data.studio ? String(data.studio) : '';
+          return resolve(row);
+        }
+        row.name = data.student_name || '';
+        row.id = data.student_id || '';
+        row.course = data.course || '';
+        row.studio = data.studio_title || data.studio || '';
+        row.submitted = data.submitted_at || '';
+        if (!row.name) row.problem = 'no student name in the file';
+        resolve(row);
+      };
+      r.onerror = function () {
+        resolve({ file: f.name, name: '', id: '', course: '', studio: '',
+                  submitted: '', problem: 'could not be read' });
+      };
+      r.readAsText(f);
+    });
+  }
+
+  function render() {
+    if (!rows.length) { card.hidden = true; return; }
+    var head = ['File', 'Student', 'ID', 'Course', 'Studio', 'Submitted', 'Problem'];
+    var html = '<thead><tr>' + head.map(function (h) { return '<th>' + h + '</th>'; }).join('') + '</tr></thead><tbody>';
+    rows.forEach(function (r) {
+      var cls = r.problem ? ' class="gb-bad"' : '';
+      html += '<tr' + cls + '>' +
+        [r.file, r.name, r.id, r.course, r.studio,
+         r.submitted ? r.submitted.slice(0, 16).replace('T', ' ') : '', r.problem]
+        .map(function (c) { return '<td>' + String(c || '').replace(/[<&]/g, function (m) { return m === '<' ? '&lt;' : '&amp;'; }) + '</td>'; })
+        .join('') + '</tr>';
+    });
+    table.innerHTML = html + '</tbody>';
+    card.hidden = false;
+    var bad = rows.filter(function (r) { return r.problem; }).length;
+    say(rows.length + ' file' + (rows.length === 1 ? '' : 's') + ' read'
+        + (bad ? ' — ' + bad + ' need' + (bad === 1 ? 's' : '') + ' your attention' : ''),
+        bad ? 'err' : '');
+  }
+
+  function handle(files) {
+    var list = Array.prototype.slice.call(files);
+    if (!list.length) return;
+    say('Reading ' + list.length + ' file' + (list.length === 1 ? '' : 's') + '…');
+    Promise.all(list.map(readFile)).then(function (res) {
+      rows = rows.concat(res).sort(function (a, b) {
+        return (a.name || '~').localeCompare(b.name || '~') || a.file.localeCompare(b.file);
+      });
+      render();
+    });
+  }
+
+  // CSV: quote every field and double internal quotes, so a comma or a newline
+  // inside a course name cannot shift the columns.
+  function csvCell(v) { return '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"'; }
+
+  csvBtn.addEventListener('click', function () {
+    var head = ['student_name', 'student_id', 'course', 'studio', 'submitted_at', 'file', 'score', 'problem'];
+    var lines = [head.join(',')];
+    rows.forEach(function (r) {
+      lines.push([r.name, r.id, r.course, r.studio, r.submitted, r.file, '', r.problem].map(csvCell).join(','));
+    });
+    // BOM so Excel opens UTF-8 names correctly rather than as mojibake.
+    var blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'impactmojo-gradebook.csv';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+  });
+
+  drop.addEventListener('click', function () { input.click(); });
+  drop.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); input.click(); }
+  });
+  input.addEventListener('change', function (e) { handle(e.target.files); });
+  ['dragenter', 'dragover'].forEach(function (ev) {
+    drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); });
+  });
+  ['dragleave', 'drop'].forEach(function (ev) {
+    drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); });
+  });
+  drop.addEventListener('drop', function (e) {
+    if (e.dataTransfer && e.dataTransfer.files) handle(e.dataTransfer.files);
+  });
+})();
+</script>
+
+<script src="/js/site-chrome.js?v=39a1bdf4" defer></script>
+</body>
+</html>

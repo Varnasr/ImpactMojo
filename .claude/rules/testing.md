@@ -60,6 +60,16 @@ Before considering any change complete:
 
     Full end-to-end (browser) check, when changing the pipeline: serve locally (`python3 -m http.server 8199`), open `/lms-export.html`, download a SCORM package, unzip it, and confirm `imsmanifest.xml` parses and `index.html` contains no `gtag(`/`supabase`/`site-chrome` and still has every slide. In the agent sandbox the Chart.js CDN is blocked, so the export correctly reports itself degraded — that is the sandbox, not a defect.
 
+17. **Studio submissions and the gradebook CSV**: After any change to `js/studio-submit.js` or `gradebook.html`, run `node scripts/test-studio-submit.mjs` — must print `PASS`. Enforced in CI via the `studio-submit` job.
+
+    **The problem this solves is identity, not export.** 33 Studios already export; what they export is working state and nothing else (`logframe-builder` writes `JSON.stringify(state)`, most write `text/plain`). Thirty such files on an instructor's desktop are thirty anonymous documents. `IMStudioSubmit.build()` wraps the same payload with name, number, course, Studio, timestamp and a digest, leaving the payload untouched so the Studio can still re-import its own export.
+
+    **Two failure modes, both invisible here.** A submission missing its name is a file that cannot be marked — the exact gap the feature exists to close. And CSV quoting that breaks on a comma shifts every later column, so a gradebook import attributes work to the *wrong student* and nothing errors; course names like "Sustainability, ESG, CSR and M&E" contain commas routinely. The test asserts both, plus that a mutated payload is rejected for a digest reason and a bare Studio export is not accepted as a submission.
+
+    **Adopting it in another Studio is two lines** — load `/js/studio-submit.js`, then call `IMStudioSubmit.addButton({after:'#someExportBtn', studio:'…', studioTitle:'…', getPayload:fn})`. `getPayload` is called at click time, so it reflects current state rather than state at wiring time. Only **LogFrame Builder** is wired; the other 32 are not. Note the button inherits its host's visibility: in LogFrame Builder both it and `Export JSON` sit inside a `.panel` hidden until the matrix step, which is correct (you submit at the end) but means a headless test must reveal the panel first.
+
+    **Do not describe it as verifying identity.** There is no login, no roster and no server: the student types their own name. The digest detects a file truncated in transit, not a student editing their own submission, and `gradebook.html` says so in as many words. Any wording that implies more would mislead an instructor about what they are looking at.
+
 ### A note on the retired maintenance Routines
 
 Between 2026-07-19 and 2026-08-04 this repo was maintained by ~12 scheduled Claude Routines (daily Supabase health, count drift, content wiring; weekly backend/i18n/link/forms/SEO; monthly fact-check). **They no longer exist**, and they left a mess worth remembering: each run pushed a `claude/routine-<name>-<date>` branch and never opened a PR, so 41 such branches accumulated carrying work that never reached `main`. The Supabase routine spent eleven days re-deriving its own history from unmerged branches and recording, in its own snapshot file, that "none of the 11 daily PRs 20260721-20260802 have ever been merged to main".

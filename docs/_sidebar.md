@@ -22,6 +22,7 @@
   - [Peer Review](peer-review-guide.md)
   - [Reading Companions Guide](book-summaries-guide.md)
   - [101 Course Decks](101-decks-guide.md)
+  - [Teaching, LMS & Gradebook](teaching-and-lms-guide.md)
   - [Podcast Guide](podcast-guide.md)
   - [Field Radio Guide](field-radio-guide.md)
   - [Certificates & Progress](certificates-and-progress.md)

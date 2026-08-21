@@ -8,7 +8,7 @@ Premium memberships and professional services exist to sustain the platform and 
 
 Everything you need to learn, teach, and facilitate:
 
-- **All courses** — 18 flagship + 52 foundational courses across 6 learning tracks
+- **All courses** — 19 flagship + 52 foundational courses across 6 learning tracks
 - **All games** — 16 economics simulations, perfect for workshops
 - **All labs** — 19 interactive workbenches (Theory of Change builder, research design tools, etc.)
 - **All handouts** — 400+ downloadable reference sheets
