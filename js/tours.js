@@ -119,8 +119,8 @@
   // keep the "<number> <type>" phrasing when editing.
   var TOURS = {
     index: [
-      { intro: '<strong>Welcome to ImpactMojo!</strong><br>Development know-how for South Asia — 70 courses, 135 games and 35 studios, all free, built by practitioners. Here’s a quick lay of the land.' },
-      { element: '#nav-learn', intro: '<strong>Learn</strong><br>The heart of the platform: 70 courses (19 flagship + 51 foundational), interactive studios, and practice packs.' },
+      { intro: '<strong>Welcome to ImpactMojo!</strong><br>Development know-how for South Asia — 71 courses, 135 games and 35 studios, all free, built by practitioners. Here’s a quick lay of the land.' },
+      { element: '#nav-learn', intro: '<strong>Learn</strong><br>The heart of the platform: 71 courses (19 flagship + 51 foundational), interactive studios, and practice packs.' },
       { element: '#nav-flagships', intro: '<strong>Flagship courses</strong><br>Semester-depth courses with progress tracking, self-assessments, and free certificates — MEL, development economics, gender studies, causal inference, and more.' },
       { element: '#nav-labs', intro: '<strong>Studios</strong><br>35 studios where you build real artefacts — a Theory of Change, a LogFrame, a sampling plan, a survey instrument.' },
       { element: '#nav-specials', intro: '<strong>Explore</strong><br>The 135-game library, 166 reading companions, 23 deep dives, citation-backed timelines, and daily practice dojos.' },

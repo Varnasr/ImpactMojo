@@ -28,7 +28,7 @@ Each flagship course includes:
 
 ### Foundational Courses (51)
 
-Comprehensive study decks that cover a specific skill or concept in depth. These are self-paced reading materials — thorough in their coverage but simpler in format than flagship courses. **All 51 foundational courses are native ~100-slide HTML decks** with interactive charts, light/dark theme, and keyboard/touch navigation — fully self-hosted, with no third-party presentation embeds. See the [101 Course Decks Guide](101-decks-guide.md) for details.
+Comprehensive study decks that cover a specific skill or concept in depth. These are self-paced reading materials — thorough in their coverage but simpler in format than flagship courses. **All 52 foundational courses are native ~100-slide HTML decks** with interactive charts, light/dark theme, and keyboard/touch navigation — fully self-hosted, with no third-party presentation embeds. See the [101 Course Decks Guide](101-decks-guide.md) for details.
 
 **What they include:**
 - Comprehensive topic coverage — each one covers its subject thoroughly
@@ -250,7 +250,7 @@ ImpactMojo has a **Model Context Protocol (MCP) server** that lets any AI assist
 - `lookup_bct` / `search_bcts` / `list_bct_categories` — 203 BCT techniques with South Asian context and case studies
 - `browse_dataverse` / `search_dataverse` — 328 tools, datasets, APIs
 - `list_challenges` / `get_challenge` — Practice exercises with rubrics
-- `list_courses` — 70 courses across 6 learning tracks
+- `list_courses` — 71 courses across 6 learning tracks
 - `get_game_info` — 18 simulation games with AI agent personas
 - `query_climate_data` — India GHG emissions from Climate TRACE
 
@@ -306,7 +306,7 @@ Switch languages from the platform interface. This makes ImpactMojo usable for t
 
 ## What's Free vs. Premium?
 
-The vast majority of ImpactMojo is **completely free** — this is a genuine commitment, not a marketing strategy. All 70 courses, 135 games, 35 studios, handouts, ImpactLex, case studies, DevDiscourses, and Dataverse are available at no cost.
+The vast majority of ImpactMojo is **completely free** — this is a genuine commitment, not a marketing strategy. All 71 courses, 135 games, 35 studios, handouts, ImpactLex, case studies, DevDiscourses, and Dataverse are available at no cost.
 
 Premium memberships (starting at ₹399/month) unlock additional tools, PDF/PNG export from studios, certificates, and priority access to coaching and workshops.
 

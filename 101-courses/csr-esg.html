@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSR &amp; ESG 101 | ImpactMojo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Amaranth:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --cyan:#0EA5E9; --indigo:#6366F1; --green:#10B981; --amber:#F59E0B;
+  --red:#EF4444; --cream:#FDF8F2; --ink:#1C1917; --ink-mid:#44403C;
+  --ink-light:#78716C; --header-h:52px; --footer-h:36px;
+  --font-head:'Inter',sans-serif; --font-body:'Amaranth',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#111;font-family:var(--font-body);overflow:hidden}
+#deck{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+.slide-viewport{position:relative;flex-shrink:0;width:1280px;height:720px;transform-origin:center center}
+.slide{position:absolute;inset:0;background:var(--cream);overflow:hidden;display:none;flex-direction:column}
+.slide.active{display:flex}
+
+/* HEADER */
+.slide-header{position:absolute;top:0;left:0;right:0;height:var(--header-h);background:var(--ink);display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:10}
+.logo-mark{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-plane{width:28px;height:28px}
+.logo-wordmark{font-family:var(--font-head);font-weight:800;font-size:17px;background:linear-gradient(90deg,#0EA5E9,#6366F1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-0.3px}
+.header-center{font-family:var(--font-head);font-size:11px;font-weight:500;color:rgba(255,255,255,0.5);letter-spacing:1.5px;text-transform:uppercase}
+.header-url{font-family:var(--font-mono);font-size:10px;color:rgba(255,255,255,0.4)}
+
+/* FOOTER */
+.slide-footer{position:absolute;bottom:0;left:0;right:0;height:var(--footer-h);background:var(--ink);display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:10}
+.footer-left{font-family:var(--font-mono);font-size:9px;color:rgba(255,255,255,0.35);letter-spacing:1px;text-transform:uppercase}
+.footer-right{font-family:var(--font-mono);font-size:9px;color:rgba(255,255,255,0.35)}
+.slide-number{font-family:var(--font-mono);font-size:11px;font-weight:600;color:var(--cyan);background:rgba(14,165,233,0.1);padding:2px 8px;border-radius:3px}
+
+/* CONTENT */
+.slide-content{position:absolute;top:var(--header-h);bottom:var(--footer-h);left:0;right:0;padding:24px 40px 20px;overflow:hidden}
+
+/* SECTION LABEL */
+.section-label{font-family:var(--font-mono);font-size:9px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--cyan);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.section-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--cyan) 0%,transparent 100%);opacity:0.3}
+
+/* TYPOGRAPHY */
+.slide-title{font-family:var(--font-head);font-weight:800;line-height:1.1;color:var(--ink);letter-spacing:-0.5px}
+.slide-title.xl{font-size:48px}.slide-title.lg{font-size:34px}.slide-title.md{font-size:30px}.slide-title.sm{font-size:24px}
+.slide-body{font-family:var(--font-body);font-size:15px;line-height:1.65;color:var(--ink-mid)}
+.slide-body.sm{font-size:13px}
+
+/* BULLETS */
+.bullet-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.bullet-list li{position:relative;padding-left:19px;font-family:var(--font-body);font-size:15px;line-height:1.55;color:var(--ink-mid)}
+.bullet-list li::before{content:'';position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:50%;background:var(--cyan)}
+.bullet-list.green li::before{background:var(--green)}
+.bullet-list.amber li::before{background:var(--amber)}
+.bullet-list.indigo li::before{background:var(--indigo)}
+.bullet-list.red li::before{background:var(--red)}
+.bullet-list.sm li{font-size:14px}
+
+/* STAT CARDS */
+.stat-grid{display:grid;gap:14px;margin-top:16px}
+.stat-grid.c2{grid-template-columns:repeat(2,1fr)}.stat-grid.c3{grid-template-columns:repeat(3,1fr)}.stat-grid.c4{grid-template-columns:repeat(4,1fr)}
+.stat-card{background:white;border-radius:10px;padding:18px 20px;border-top:3px solid var(--cyan);box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.stat-card.green{border-top-color:var(--green)}.stat-card.amber{border-top-color:var(--amber)}.stat-card.indigo{border-top-color:var(--indigo)}.stat-card.red{border-top-color:var(--red)}
+.stat-number{font-family:var(--font-head);font-size:34px;font-weight:800;color:var(--ink);line-height:1;margin-bottom:4px}
+.stat-label{font-family:var(--font-body);font-size:13px;color:var(--ink-light);line-height:1.4}
+.stat-source{font-family:var(--font-mono);font-size:9px;color:var(--ink-light);margin-top:5px;opacity:0.7}
+
+/* TWO COLUMN */
+.two-col{display:grid;gap:28px;margin-top:14px}
+.two-col.half{grid-template-columns:1fr 1fr}
+.two-col.a32{grid-template-columns:3fr 2fr}
+.two-col.a23{grid-template-columns:2fr 3fr}
+
+/* PANELS */
+.col-panel{background:white;border-radius:10px;padding:20px 18px;border-left:3px solid var(--cyan);box-shadow:0 2px 6px rgba(0,0,0,0.05)}
+.col-panel.green{border-left-color:var(--green)}.col-panel.amber{border-left-color:var(--amber)}.col-panel.indigo{border-left-color:var(--indigo)}.col-panel.red{border-left-color:var(--red)}
+.col-panel-title{font-family:var(--font-head);font-size:12px;font-weight:700;color:var(--ink);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px}
+
+/* HIGHLIGHT BOX */
+.hbox{border-left:4px solid var(--cyan);background:rgba(14,165,233,0.06);border-radius:0 8px 8px 0;padding:14px 18px;margin-top:14px}
+.hbox.green{border-left-color:var(--green);background:rgba(16,185,129,0.06)}
+.hbox.amber{border-left-color:var(--amber);background:rgba(245,158,11,0.06)}
+.hbox.indigo{border-left-color:var(--indigo);background:rgba(99,102,241,0.06)}
+.hbox.red{border-left-color:var(--red);background:rgba(239,68,68,0.06)}
+.hbox-text{font-family:var(--font-body);font-size:14px;line-height:1.55;color:var(--ink-mid)}
+
+/* TERM BOX */
+.term-box{background:linear-gradient(135deg,#F0E6D6 0%,white 100%);border:1px solid #C4A882;border-radius:12px;padding:18px 22px;margin-top:14px}
+.term-word{font-family:var(--font-head);font-size:22px;font-weight:800;color:#4A3728;margin-bottom:6px}
+.term-def{font-family:var(--font-body);font-size:14px;line-height:1.6;color:var(--ink-mid)}
+
+/* QUOTE */
+.quote-block{background:var(--ink);border-radius:12px;padding:34px 40px;margin-top:16px;position:relative;overflow:hidden}
+.quote-block::before{content:'"';position:absolute;top:-10px;left:18px;font-size:100px;font-family:Georgia,serif;color:var(--cyan);opacity:0.12;line-height:1}
+.quote-text{font-family:var(--font-body);font-size:19px;line-height:1.7;color:white;font-style:italic;position:relative;z-index:1}
+.quote-attr{font-family:var(--font-mono);font-size:10px;color:var(--cyan);margin-top:14px;letter-spacing:0.5px}
+
+/* COMPARE TABLE */
+.ctable{width:100%;border-collapse:collapse;margin-top:12px;font-family:var(--font-body)}
+.ctable th{background:var(--ink);color:white;padding:10px 14px;text-align:left;font-family:var(--font-head);font-size:12px;font-weight:700;letter-spacing:0.5px}
+.ctable td{padding:10px 14px;font-size:13px;color:var(--ink-mid);border-bottom:1px solid #EDE8E0;line-height:1.4}
+.ctable tr:nth-child(even) td{background:white}
+.ctable tr:nth-child(odd) td{background:#F9F6F1}
+.ctable{border:1px solid #D9D2C5}
+.ctable th,.ctable td{vertical-align:top;border-right:1px solid #EDE8E0}
+.ctable th{border-right-color:rgba(255,255,255,0.18)}
+.ctable th:last-child,.ctable td:last-child{border-right:none}
+.ctable tr:last-child td{border-bottom:none}
+
+/* CHART */
+.chart-wrap{background:white;border-radius:10px;padding:14px 16px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.chart-wrap canvas{display:block;width:100%!important;height:220px!important;max-height:220px}
+.chart-title{font-family:var(--font-head);font-size:11px;font-weight:700;color:var(--ink-mid);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px}
+.chart-source{font-family:var(--font-mono);font-size:9px;color:var(--ink-light);margin-top:6px}
+
+/* DARK CARD */
+.dark-card{background:var(--ink);border-radius:12px;padding:22px 20px;color:white}
+.dark-card-label{font-family:var(--font-mono);font-size:9px;color:var(--cyan);letter-spacing:2px;margin-bottom:8px;text-transform:uppercase}
+.dark-card-title{font-family:var(--font-head);font-weight:800;font-size:17px;margin-bottom:8px;color:white}
+.dark-card-body{font-family:var(--font-body);font-size:13px;color:rgba(255,255,255,0.65);line-height:1.5}
+
+/* PROCESS FLOW */
+.flow{display:flex;align-items:center;gap:6px;margin-top:14px;flex-wrap:wrap}
+.flow-step{background:var(--ink);color:white;border-radius:8px;padding:10px 12px;flex:1;min-width:80px;text-align:center}
+.flow-num{font-family:var(--font-mono);font-size:9px;color:var(--cyan);letter-spacing:1px;margin-bottom:3px}
+.flow-label{font-family:var(--font-body);font-size:11px;line-height:1.3;color:white}
+.flow-arrow{font-size:16px;color:var(--cyan);flex-shrink:0}
+
+/* SECTION DIVIDER */
+.section-divider{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;background:var(--ink);text-align:center}
+.div-num{font-family:var(--font-mono);font-size:100px;font-weight:700;color:rgba(255,255,255,0.04);line-height:1;position:absolute}
+.div-label{font-family:var(--font-mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);margin-bottom:14px;position:relative}
+.div-title{font-family:var(--font-head);font-size:44px;font-weight:800;color:white;line-height:1.1;letter-spacing:-1px;max-width:700px;position:relative}
+.div-accent{width:60px;height:4px;background:linear-gradient(90deg,var(--cyan),var(--indigo));border-radius:2px;margin:18px auto 0;position:relative}
+
+/* TITLE SLIDE */
+.title-screen{position:absolute;inset:0;background:var(--ink);overflow:hidden}
+.title-bg{position:absolute;inset:0;opacity:0.04;background-image:repeating-linear-gradient(45deg,#fff 0,#fff 1px,transparent 0,transparent 50%);background-size:20px 20px}
+.title-bar{position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(180deg,#0EA5E9,#6366F1,#10B981)}
+.title-content{padding:0 72px;position:relative;z-index:2;margin-top:90px}
+.title-series{font-family:var(--font-mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);margin-bottom:18px}
+.title-main{font-family:var(--font-head);font-size:54px;font-weight:800;color:white;line-height:1.05;letter-spacing:-1.5px;margin-bottom:14px}
+.title-sub{font-family:var(--font-body);font-size:17px;color:rgba(255,255,255,0.55);line-height:1.5;max-width:600px;margin-bottom:30px}
+.title-tags{display:flex;gap:10px;flex-wrap:wrap}
+.title-tag{font-family:var(--font-mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border-radius:4px;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.55)}
+.title-geo{position:absolute;right:60px;top:var(--header-h);bottom:var(--footer-h);width:300px;overflow:hidden;opacity:0.06}
+
+/* TOC */
+.toc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.toc-item{background:white;border-radius:8px;padding:10px 12px;border-left:3px solid transparent;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.toc-item:nth-child(3n+1){border-left-color:var(--cyan)}.toc-item:nth-child(3n+2){border-left-color:var(--indigo)}.toc-item:nth-child(3n+3){border-left-color:var(--green)}
+.toc-num{font-family:var(--font-mono);font-size:9px;color:var(--ink-light);letter-spacing:1px;margin-bottom:3px}
+.toc-name{font-family:var(--font-head);font-size:13px;font-weight:700;color:var(--ink);line-height:1.3}
+.toc-slides{font-family:var(--font-mono);font-size:9px;color:var(--ink-light);margin-top:3px}
+
+/* THANK YOU */
+.ty-screen{position:absolute;inset:0;background:var(--ink);display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;overflow:hidden}
+.ty-title{font-family:var(--font-head);font-size:50px;font-weight:800;color:white;margin-bottom:10px;letter-spacing:-1px}
+.ty-sub{font-family:var(--font-body);font-size:15px;color:rgba(255,255,255,0.45);max-width:480px;line-height:1.6;margin-bottom:32px}
+.ty-ctas{display:flex;gap:12px}
+.cta-btn{font-family:var(--font-head);font-size:12px;font-weight:700;padding:11px 26px;border-radius:8px;text-decoration:none;letter-spacing:0.3px}
+.cta-btn.primary{background:linear-gradient(135deg,var(--cyan),var(--indigo));color:white}
+.cta-btn.secondary{border:1.5px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.75)}
+
+/* SARGAM INLINE ICON */
+.si{display:inline-block;vertical-align:middle}
+
+/* NAV */
+#nav{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);border-radius:40px;padding:7px 16px;z-index:1000;opacity:1}
+
+.nav-btn{background:rgba(255,255,255,0.1);border:none;cursor:pointer;color:white;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;transition:background 0.2s}
+.nav-btn:hover{background:rgba(255,255,255,0.25)}
+.nav-btn:disabled{opacity:0.3;cursor:default}
+#prog-text{font-family:var(--font-mono);font-size:11px;color:rgba(255,255,255,0.55);min-width:55px;text-align:center}
+#progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--indigo));z-index:2000;transition:width 0.3s}
+#fs-hint{position:fixed;top:10px;right:14px;font-family:var(--font-mono);font-size:9px;color:rgba(255,255,255,0.25);cursor:pointer;z-index:2000;letter-spacing:1px;text-transform:uppercase}
+
+/* SARGAM SPRITE (hidden) */
+svg.sprites{display:none}
+
+/* THEME SWITCHER */
+#theme-bar{position:fixed;top:58px;right:14px;display:flex;gap:4px;z-index:2000;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);border-radius:20px;padding:4px 6px}
+.theme-btn{font-family:var(--font-mono);font-size:9px;letter-spacing:0.5px;text-transform:uppercase;padding:4px 10px;border-radius:12px;border:none;cursor:pointer;color:rgba(255,255,255,0.55);background:transparent;transition:all 0.2s}
+.theme-btn.active{background:rgba(255,255,255,0.2);color:white}
+
+/* LIGHT MODE (default) */
+body.light .slide{background:#FDF8F2}
+body.light{background:#e8e2da}
+
+/* DARK MODE */
+body.dark .slide{background:#1C1917}
+body.dark .slide-content{color:#FDF8F2}
+body.dark .slide-title{color:#FDF8F2}
+body.dark .slide-body{color:rgba(255,255,255,0.7)}
+body.dark .stat-card{background:#2C2926;border-top-color:var(--cyan)}
+body.dark .stat-card.green{border-top-color:var(--green)}
+body.dark .stat-card.amber{border-top-color:var(--amber)}
+body.dark .stat-card.indigo{border-top-color:var(--indigo)}
+body.dark .stat-card.red{border-top-color:var(--red)}
+body.dark .stat-number{color:#FDF8F2}
+body.dark .stat-label{color:rgba(255,255,255,0.55)}
+body.dark .col-panel{background:#2C2926;border-left-color:var(--cyan)}
+body.dark .col-panel.green{border-left-color:var(--green)}
+body.dark .col-panel.amber{border-left-color:var(--amber)}
+body.dark .col-panel.indigo{border-left-color:var(--indigo)}
+body.dark .col-panel.red{border-left-color:var(--red)}
+body.dark .col-panel-title{color:rgba(255,255,255,0.8)}
+body.dark .chart-wrap{background:#2C2926}
+body.dark .chart-title{color:rgba(255,255,255,0.6)}
+body.dark .hbox{background:rgba(14,165,233,0.1);border-left-color:var(--cyan)}
+body.dark .hbox.green{background:rgba(16,185,129,0.1);border-left-color:var(--green)}
+body.dark .hbox.amber{background:rgba(245,158,11,0.1);border-left-color:var(--amber)}
+body.dark .hbox.indigo{background:rgba(99,102,241,0.1);border-left-color:var(--indigo)}
+body.dark .hbox.red{background:rgba(239,68,68,0.1);border-left-color:var(--red)}
+body.dark .hbox-text{color:rgba(255,255,255,0.7)}
+body.dark .term-box{background:linear-gradient(135deg,#2C2926 0%,#383230 100%);border-color:#5C4A3A}
+body.dark .term-word{color:#E8D5C0}
+body.dark .term-def{color:rgba(255,255,255,0.65)}
+body.dark .ctable th{background:#111}
+body.dark .ctable td{color:rgba(255,255,255,0.65);border-bottom-color:rgba(255,255,255,0.08)}
+body.dark .ctable tr:nth-child(even) td{background:#2C2926}
+body.dark .ctable tr:nth-child(odd) td{background:#242120}
+body.dark .ctable{border-color:rgba(255,255,255,0.1)}
+body.dark .ctable td{border-right-color:rgba(255,255,255,0.08)}
+body.dark .ctable th{border-right-color:rgba(255,255,255,0.18)}
+body.dark .toc-item{background:#2C2926}
+body.dark .toc-name{color:#FDF8F2}
+body.dark .toc-num,.toc-slides{color:rgba(255,255,255,0.4)}
+body.dark{background:#111}
+body.dark .bullet-list li{color:rgba(255,255,255,0.7)}
+body.dark .two-col .slide-body{color:rgba(255,255,255,0.7)}
+
+
+
+
+/* ── FILL RULES: make components use full slide area naturally ── */
+
+/* Tables: bigger rows, more breathing room */
+.ctable{margin-top:16px;margin-bottom:16px}
+.ctable td{padding:12px 16px;font-size:14px;line-height:1.5}
+.ctable th{padding:12px 16px;font-size:13px;letter-spacing:0.6px}
+
+/* Stat grids: cards breathe more */
+.stat-grid{gap:16px;margin-top:20px}
+.stat-card{padding:20px 22px;border-radius:12px}
+.stat-number{font-size:36px;margin-bottom:6px}
+.stat-label{font-size:14px;line-height:1.5}
+
+/* Highlight boxes: generous spacing */
+.hbox{padding:16px 20px;margin-top:16px;border-radius:0 10px 10px 0}
+.hbox-text{font-size:15px;line-height:1.6}
+
+/* Term boxes */
+.term-box{padding:20px 24px;margin-top:16px;border-radius:12px}
+.term-word{font-size:24px;margin-bottom:8px}
+.term-def{font-size:15px;line-height:1.65}
+
+/* Titles and body */
+.slide-title.md{font-size:32px}
+.slide-title.sm{font-size:26px}
+.slide-body{font-size:16px;line-height:1.7}
+.slide-body.sm{font-size:14px;line-height:1.65}
+
+/* Bullets: roomier */
+.bullet-list{gap:12px;margin-top:16px}
+.bullet-list li{font-size:16px;line-height:1.6}
+.bullet-list li::before{width:8px;height:8px;top:8px}
+.bullet-list.sm li{font-size:15px}
+
+/* Dark cards */
+.dark-card{padding:24px 22px;border-radius:14px}
+.dark-card-title{font-size:18px;margin-bottom:10px}
+.dark-card-body{font-size:14px;line-height:1.55}
+.dark-card-label{margin-bottom:10px}
+
+/* Panels */
+.col-panel{padding:22px 20px;border-radius:12px}
+.col-panel-title{font-size:13px;margin-bottom:12px}
+
+/* Quotes */
+.quote-block{padding:36px 44px;border-radius:14px;margin-top:20px}
+.quote-text{font-size:20px;line-height:1.75}
+.quote-attr{font-size:11px;margin-top:18px}
+
+/* Two-col layout */
+.two-col{gap:30px;margin-top:16px}
+
+/* Charts */
+.chart-wrap{padding:18px 20px;border-radius:12px}
+.chart-wrap canvas{height:230px!important;max-height:230px}
+.chart-title{font-size:12px;margin-bottom:12px}
+.chart-source{margin-top:8px}
+
+/* TOC */
+.toc-grid{gap:12px;margin-top:16px}
+.toc-item{padding:14px 16px;border-radius:10px}
+.toc-name{font-size:14px;line-height:1.35}
+.toc-num{font-size:10px;margin-bottom:4px}
+.toc-slides{margin-top:4px}
+
+/* Section dividers */
+.div-title{font-size:48px}
+.div-label{font-size:12px;margin-bottom:18px;letter-spacing:3.5px}
+.div-accent{width:70px;height:5px;margin-top:22px}
+
+/* Flow steps */
+.flow{gap:8px;margin-top:18px}
+.flow-step{padding:14px 16px;border-radius:10px}
+.flow-label{font-size:13px;line-height:1.35}
+.flow-num{margin-bottom:4px}
+
+/* Section label */
+.section-label{margin-bottom:12px;font-size:10px;letter-spacing:2.8px}
+
+/* Title slide */
+.title-main{font-size:58px}
+.title-sub{font-size:18px;line-height:1.55;margin-bottom:34px}
+.title-series{font-size:12px;margin-bottom:22px}
+.title-tag{font-size:11px;padding:6px 14px}
+
+/* Thank you slide */
+.ty-title{font-size:54px}
+.ty-sub{font-size:16px;line-height:1.65;margin-bottom:36px}
+
+
+/* === STANDARDISED END SLIDE === */
+.end-screen{position:absolute;inset:0;background:linear-gradient(135deg,#0F172A 0%,#1E293B 50%,#0F172A 100%);overflow:hidden;display:flex;align-items:center;justify-content:center;padding:60px 80px}
+.end-bar{position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(180deg,#0EA5E9,#6366F1,#10B981);z-index:3}
+.end-pattern{position:absolute;inset:0;opacity:0.05;background-image:radial-gradient(circle at 25% 30%,#fff 1px,transparent 1px),radial-gradient(circle at 75% 70%,#fff 1px,transparent 1px);background-size:60px 60px;z-index:1}
+.end-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(99,102,241,0.15) 0%,transparent 70%);top:-200px;right:-100px;z-index:1}
+.end-content{position:relative;z-index:2;max-width:880px;text-align:center}
+.end-eyebrow{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#0EA5E9;margin-bottom:24px}
+.end-headline{font-family:var(--font-head);font-size:84px;font-weight:800;color:white;line-height:0.95;letter-spacing:-2.5px;margin-bottom:28px;background:linear-gradient(135deg,#fff 0%,#CBD5E1 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.end-byline{font-family:var(--font-body);font-size:17px;color:rgba(255,255,255,0.72);line-height:1.6;margin:0 auto 36px;max-width:680px}
+.end-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:34px}
+.end-btn{font-family:var(--font-head);font-size:13px;font-weight:700;padding:13px 28px;border-radius:9px;text-decoration:none;letter-spacing:0.4px;transition:transform 0.15s ease,box-shadow 0.15s ease;display:inline-block}
+.end-btn-primary{background:linear-gradient(135deg,#0EA5E9 0%,#6366F1 100%);color:white;box-shadow:0 4px 14px rgba(14,165,233,0.32)}
+.end-btn-secondary{background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.18);color:rgba(255,255,255,0.95)}
+.end-btn-tertiary{background:transparent;border:1.5px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.7)}
+.end-btn:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(14,165,233,0.45)}
+.end-meta{display:flex;gap:10px;justify-content:center;align-items:center;font-family:var(--font-mono);font-size:11px;color:rgba(255,255,255,0.42);letter-spacing:1px;flex-wrap:wrap}
+.end-meta-divider{opacity:0.4}
+
+
+/* === COMPACT MODE for dense slides === */
+.slide.compact .bullet-list{gap:6px;margin-top:8px}
+.slide.compact .bullet-list li{font-size:12.5px;line-height:1.4}
+.slide.compact .bullet-list.sm li{font-size:11.5px;line-height:1.4}
+.slide.compact .bullet-list li::before{width:5px;height:5px;margin-top:5px}
+.slide.compact .col-panel{padding:14px 14px}
+.slide.compact .col-panel-title{font-size:11px;margin-bottom:6px}
+.slide.compact .slide-body{font-size:13px;line-height:1.5}
+.slide.compact .slide-title.md{font-size:24px;margin-bottom:6px !important}
+.slide.compact .hbox{padding:8px 12px;margin-top:8px !important}
+.slide.compact .hbox-text{font-size:12px;line-height:1.45}
+
+
+/* === ECHARTS CHART SLIDES === */
+.chart-slide-frame{display:flex;flex-direction:column;height:100%;padding:0 8px}
+.chart-context{font-family:var(--font-body);font-size:14px;color:var(--ink-mid);line-height:1.55;margin-bottom:10px}
+.chart-canvas{flex:1;min-height:0;width:100%;border:1px solid rgba(99,102,241,0.10);border-radius:8px;background:linear-gradient(135deg,rgba(14,165,233,0.02),rgba(99,102,241,0.02))}
+.chart-takeaway{font-family:var(--font-body);font-size:13px;color:var(--ink-mid);font-style:italic;margin-top:10px;padding:8px 12px;background:rgba(245,158,11,0.06);border-left:3px solid var(--amber);border-radius:4px}
+.chart-takeaway strong{color:var(--ink);font-style:normal}
+
+/* ========== POLISH FIX BLOCK (v10.23.19) ========== */
+#fs-hint{top:14px !important;right:18px !important;font-size:10px !important;color:rgba(255,255,255,0.85) !important;background:rgba(0,0,0,0.55);padding:6px 12px;border-radius:14px;letter-spacing:0.6px;z-index:3000 !important}
+body.dark #fs-hint{background:rgba(255,255,255,0.14)}
+#nav{opacity:0.18;transition:opacity 0.25s ease;bottom:18px}
+#nav:hover, body.nav-active #nav{opacity:1}
+.slide-content{padding-bottom:46px}
+.slide.compact .slide-content{padding-top:18px;padding-bottom:42px}
+.slide.compact .slide-body{font-size:12.5px;line-height:1.45}
+.slide.compact .ctable td{padding:6px 10px;font-size:12px;line-height:1.35}
+.slide.compact .ctable th{padding:7px 10px;font-size:11px}
+.slide.compact .hbox{padding:10px 14px;margin-top:8px}
+.slide.compact .hbox-text{font-size:12.5px;line-height:1.4}
+.slide.compact .two-col{gap:14px}
+/* fs-hint no longer covers header-url */
+.slide-header{padding-right:120px}
+/* spacious mode for slides with very little content */
+.slide.spacious .slide-title.sm{font-size:30px}
+.slide.spacious .slide-title.md{font-size:38px}
+.slide.spacious .slide-body{font-size:17px;line-height:1.7}
+.slide.spacious .bullet-list li{font-size:16px;line-height:1.6}
+.slide.spacious .hbox{padding:18px 22px;margin-top:14px}
+.slide.spacious .hbox-text{font-size:16px;line-height:1.6}
+.slide.spacious .slide-content{padding-top:42px}
+/* pseudo-table alignment: stat-grids + col-panels + inline grids */
+.stat-grid{align-items:start}
+.col-panel{display:flex;flex-direction:column}
+.col-panel-title{flex:0 0 auto}
+.two-col,.two-col.half,.two-col.a32,.two-col.a23{align-items:start}
+/* inline grids inside slide-content default to top-align */
+/* ultra-compact: applied at runtime if slide still overflows after .compact */
+.slide.ultra-compact .slide-content{padding-top:14px;padding-bottom:38px}
+.slide.ultra-compact .slide-title.sm{font-size:20px;margin-bottom:6px !important}
+.slide.ultra-compact .slide-title.md{font-size:22px;margin-bottom:6px !important}
+.slide.ultra-compact .slide-body,
+.slide.ultra-compact .slide-body.sm{font-size:11.5px;line-height:1.4}
+.slide.ultra-compact .bullet-list{gap:4px;margin-top:6px}
+.slide.ultra-compact .bullet-list li{font-size:11.5px;line-height:1.35}
+.slide.ultra-compact .ctable td{padding:4px 8px;font-size:11px;line-height:1.3}
+.slide.ultra-compact .ctable th{padding:5px 8px;font-size:10px}
+.slide.ultra-compact .hbox{padding:8px 12px;margin-top:6px}
+.slide.ultra-compact .hbox-text{font-size:11.5px;line-height:1.35}
+.slide.ultra-compact .term-box{padding:12px 16px;margin-top:8px}
+.slide.ultra-compact .term-word{font-size:18px}
+.slide.ultra-compact .term-def{font-size:12px;line-height:1.4}
+.slide.ultra-compact .stat-card{padding:12px 14px}
+.slide.ultra-compact .col-panel{padding:12px 14px}
+.slide.ultra-compact .col-panel-title{font-size:10px;margin-bottom:4px}
+.slide.ultra-compact .two-col{gap:10px}
+/* end polish fix block */
+
+/* ========== UNIVERSAL FIT TIGHTENING (v10.23.34) ========== */
+/* Apply consistent slightly-tighter spacing across all slides so most content
+   fits naturally. No font-size changes — only padding, margins, gaps. */
+.slide-content{padding:18px 36px 16px !important}
+.slide-title.md{margin-bottom:6px !important}
+.slide-title.sm{margin-bottom:4px !important}
+.bullet-list{gap:7px;margin-top:10px}
+.bullet-list li{line-height:1.5}
+.hbox{padding:11px 14px;margin-top:8px}
+.hbox-text{line-height:1.45}
+.term-box{padding:14px 18px;margin-top:10px}
+.term-def{line-height:1.5}
+.dark-card{padding:16px 16px;margin-bottom:8px}
+.dark-card-body{line-height:1.45}
+.col-panel{padding:14px 14px}
+.stat-card{padding:14px 16px}
+.section-label{margin-bottom:8px}
+.ctable td{padding:8px 12px;line-height:1.4}
+.ctable th{padding:9px 12px}
+/* ========== /UNIVERSAL FIT TIGHTENING ========== */
+
+/* ===== MOBILE READING MODE (v10.63) — reflow the fixed 16:9 stage into a
+   full-width vertical layout on phones/tablets so slides fill the screen
+   instead of letterboxing to a small centred rectangle. ===== */
+@media (max-width: 820px){
+  html,body{overflow-x:hidden;overflow-y:auto;height:auto;background:var(--cream)}
+  body.dark, body.dark html{background:#1C1917}
+  #deck{position:static;display:block;min-height:100svh}
+  .slide-viewport{width:100%!important;height:auto!important;transform:none!important;position:relative;left:auto;top:auto}
+  .slide{position:relative;inset:auto;display:none;height:auto;min-height:100svh;box-shadow:none}
+  .slide.active{display:flex;flex-direction:column}
+  .slide-header{position:relative;height:auto;min-height:var(--header-h);padding:10px 16px}
+  .header-url{display:none}
+  .slide-content{position:relative!important;top:auto!important;bottom:auto!important;left:auto!important;right:auto!important;height:auto!important;overflow:visible!important;padding:18px 16px 90px!important;zoom:1!important;flex:1}
+  .slide-footer{position:relative;height:auto;min-height:var(--footer-h);padding:8px 16px}
+  /* one column everywhere */
+  .two-col,.two-col.half,.two-col.a32,.two-col.a23{grid-template-columns:1fr!important;gap:14px!important}
+  .stat-grid.c3,.stat-grid.c4{grid-template-columns:1fr 1fr!important}
+  .toc-grid{grid-template-columns:1fr 1fr!important}
+  .flow{flex-direction:column;align-items:stretch}
+  .flow-arrow{transform:rotate(90deg);align-self:center}
+  .chart-wrap canvas,.chart-canvas{height:260px!important;max-height:260px!important}
+  /* readable type */
+  .section-label{font-size:11px!important}
+  .slide-title.xl{font-size:30px!important}.slide-title.lg{font-size:27px!important}
+  .slide-title.md{font-size:23px!important}.slide-title.sm{font-size:20px!important}
+  .slide-body{font-size:15.5px!important;line-height:1.6!important}
+  .slide-body.sm{font-size:14px!important}
+  .bullet-list li,.bullet-list.sm li{font-size:15px!important;line-height:1.55!important}
+  .stat-number{font-size:30px!important}.stat-label{font-size:13px!important}
+  .ctable td{font-size:13px!important}.ctable th{font-size:12px!important}
+  .hbox-text{font-size:14.5px!important}.term-word{font-size:21px!important}.term-def{font-size:14.5px!important}
+  .quote-text{font-size:18px!important}
+  /* full-screen slide types: give them height, not absolute fill */
+  .title-screen,.section-divider,.end-screen{position:relative!important;inset:auto!important;min-height:86svh;height:auto}
+  .title-content{padding:32px 20px!important;margin-top:0!important}
+  .title-main{font-size:40px!important}.title-sub{font-size:16px!important}
+  .title-geo{display:none}
+  .div-title{font-size:32px!important}.div-num{font-size:64px!important}
+  .end-headline{font-size:40px!important}.end-byline{font-size:15px!important}
+  .end-cta{flex-direction:column}.end-content{padding:28px 18px}
+  /* floating nav: keep clear of content */
+  #nav{bottom:14px;opacity:1}
+  #theme-bar{top:auto;bottom:60px;right:10px}
+  #fs-hint{display:none}
+}
+
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JRCMEB9TBW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JRCMEB9TBW');</script>
+<!-- SEO meta -->
+<meta name="description" content="Corporate social responsibility and ESG for India: Section 135 of the Companies Act 2013, Schedule VII, the two per cent, unspent-money rules, CSR-1, impact assessment, and SEBI's BRSR - with the global frameworks as context. Free, no login, CC BY-NC-ND 4.0.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.impactmojo.in/101-courses/csr-esg.html">
+<meta property="og:title" content="CSR &amp; ESG 101">
+<meta property="og:description" content="Corporate social responsibility and ESG for India: Section 135 of the Companies Act 2013, Schedule VII, the two per cent, unspent-money rules, CSR-1, impact assessment, and SEBI's BRSR - with the global frameworks as context. Free, no login, CC BY-NC-ND 4.0.">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<meta property="og:url" content="https://www.impactmojo.in/101-courses/csr-esg.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ImpactMojo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CSR &amp; ESG 101">
+<meta name="twitter:description" content="Corporate social responsibility and ESG for India: Section 135 of the Companies Act 2013, Schedule VII, the two per cent, unspent-money rules, CSR-1, impact assessment, and SEBI's BRSR - with the global frameworks as context. Free, no login, CC BY-NC-ND 4.0.">
+<meta name="twitter:image" content="https://www.impactmojo.in/assets/images/ImpactMojo%20Logo.png">
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+</head>
+<body>
+
+<div id="theme-bar">
+ <button class="theme-btn" onclick="setTheme('system')">System</button>
+ <button class="theme-btn active" onclick="setTheme('light')">Light</button>
+ <button class="theme-btn" onclick="setTheme('dark')">Dark</button>
+</div>
+
+<svg class="sprites" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="si_Heart" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 21C12 21 3 14.5 3 8.5a4.5 4.5 0 0 1 9-0.5 4.5 4.5 0 0 1 9 .5C21 14.5 12 21 12 21Z"/></symbol>
+  <symbol id="si_Book" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 7.333C12 5.5 10.5 4 8.667 4H2v12h6.708C12 16 12 19.334 12 19.334m0-12C12 5.5 13.5 4 15.333 4H22v12h-6.667C12 16 12 19.334 12 19.334m0-12v12"/></symbol>
+  <symbol id="si_Wallet" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M2 8.4V17c0 1.657 1.343 3 3 3h14c1.657 0 3-1.343 3-3V11c0-1.657-1.343-3-3-3H5c-1.657 0-3-1.343-3-3V6c0-1.105.895-2 2-2h13c1.105 0 2 .895 2 2v2M16 15h2"/></symbol>
+  <symbol id="si_Flag" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M4 22V4m0 0 16 6-16 6"/></symbol>
+  <symbol id="si_Chat" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M19 16h-2.525a.99.99 0 0 0-.775.375l-2.925 3.65c-.4.5-1.162.5-1.562 0l-2.925-3.65A.99.99 0 0 0 7.512 16H5c-1.662 0-3-1.338-3-3V6c0-1.662 1.338-3 3-3h14c1.663 0 3 1.338 3 3v7c0 1.662-1.337 3-3 3Z"/></symbol>
+  <symbol id="si_Lightning" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 2 4 14h8l-1 8 9-12h-8l1-8Z"/></symbol>
+  <symbol id="si_Lock" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M7 10V7a5 5 0 0 1 10 0v3m-1.4 1H8.4A2.4 2.4 0 0 0 6 13.4v5.2A2.4 2.4 0 0 0 8.4 21h7.2a2.4 2.4 0 0 0 2.4-2.4v-5.2A2.4 2.4 0 0 0 15.6 11Z"/></symbol>
+  <symbol id="si_Activity" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M1 12h4l4 9 7-18 3 9h4"/></symbol>
+  <symbol id="si_Bar_chart" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M2 22h20M9 8.6A1.6 1.6 0 0 0 7.4 7H4.6A1.6 1.6 0 0 0 3 8.6V22m6 0V3.6A1.6 1.6 0 0 1 10.6 2h2.8A1.6 1.6 0 0 1 15 3.6V22m6 0v-8.4a1.6 1.6 0 0 0-1.6-1.6h-2.8a1.6 1.6 0 0 0-1.6 1.6"/></symbol>
+  <symbol id="si_Globe_detailed" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 22c-3 0-5-4.477-5-10S9 2 12 2s5 4.477 5 10-2 10-5 10ZM2 12h20"/></symbol>
+  <symbol id="si_Leaf" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 3c-8 0-14 4-16 12 4-2 8-3 11-1s4 6 4 10C22 14 19 7 21 3Z"/><path stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M5 15c2 2 3 4 2 7"/></symbol>
+  <symbol id="si_Target" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Zm0-5a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0-3a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></symbol>
+  <symbol id="si_Briefcase" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M15 21V4.8a.8.8 0 0 0-.8-.8H9.8a.8.8 0 0 0-.8.8V21M4.4 7h15.2A2.4 2.4 0 0 1 22 9.4v9.2a2.4 2.4 0 0 1-2.4 2.4H4.4A2.4 2.4 0 0 1 2 18.6V9.4A2.4 2.4 0 0 1 4.4 7"/></symbol>
+  <symbol id="si_Database" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 8c4.97 0 9-1.343 9-3S16.97 2 12 2 3 3.343 3 5s4.03 3 9 3Zm9 6c0 1.657-4.03 3-9 3s-9-1.343-9-3M3 5v14c0 1.657 4.03 3 9 3s9-1.343 9-3V5"/></symbol>
+  <symbol id="si_Info" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Zm0-6v-4m0-2V9"/></symbol>
+  <symbol id="si_Check_circle" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m8 13 3 3 5-7m6 3c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10"/></symbol>
+  <symbol id="si_Arrow_right" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m14 16 4-4m0 0-4-4m4 4H6"/></symbol>
+  <symbol id="si_Flare" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v2m0 14v2M3 12H5m14 0h2m-2.636-6.364-1.414 1.414M7.05 16.95l-1.414 1.414m0-11.314 1.414 1.414m9.9 9.9-1.414-1.414M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/></symbol>
+  <symbol id="si_Library_books" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M4 19V7.4A2.4 2.4 0 0 1 6.4 5H20v14H6.4A2.4 2.4 0 0 1 4 16.6ZM4 17H2M8 5V2m4 3V2m4 3V2"/></symbol>
+  <symbol id="si_Fact_check" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M9 12h6m-6 3h6m-6-6h2M5.4 3h13.2A2.4 2.4 0 0 1 21 5.4v13.2a2.4 2.4 0 0 1-2.4 2.4H5.4A2.4 2.4 0 0 1 3 18.6V5.4A2.4 2.4 0 0 1 5.4 3Z"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m7 15.5 1.5 1.5 3-3.5"/></symbol>
+</svg>
+
+<div id="progress-bar"></div>
+<div id="fs-hint" onclick="toggleFS()">fullscreen</div>
+<div id="deck">
+ <div class="slide-viewport" id="viewport">
+
+<div class="slide active" id="s1"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="title-screen"><div class="title-bg"></div><div class="title-bar"></div><div class="title-content"><div class="title-series">ImpactMojo 101 Series &middot; Free Forever</div><div class="title-main">CSR &amp;<br>ESG 101</div><div class="title-sub">India made corporate responsibility a statute. Start with what the law actually requires &mdash; then read any sustainability report critically.</div><div class="title-tags"><span class="title-tag">Companies Act 2013</span><span class="title-tag">Schedule VII</span><span class="title-tag">BRSR</span><span class="title-tag">India-first</span></div></div><div class="title-geo"><svg viewBox="0 0 300 620" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%"><defs><pattern id="hex" x="0" y="0" width="40" height="46" patternUnits="userSpaceOnUse"><polygon points="20,2 38,12 38,34 20,44 2,34 2,12" fill="none" stroke="white" stroke-width="1"/></pattern></defs><rect width="300" height="620" fill="url(#hex)"/></svg></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">01</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s2"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Agenda</div><div class="slide-title md" style="margin-bottom:8px">What We Cover</div><div class="toc-grid"><div class="toc-item"><div class="toc-num">01</div><div class="toc-name">Why CSR is a statute here, not a slogan</div><div class="toc-slides">Slides 4&ndash;9</div></div><div class="toc-item"><div class="toc-num">02</div><div class="toc-name">Section 135: who is bound, and from when</div><div class="toc-slides">Slides 11&ndash;17</div></div><div class="toc-item"><div class="toc-num">03</div><div class="toc-name">Schedule VII: what actually counts</div><div class="toc-slides">Slides 19&ndash;23</div></div><div class="toc-item"><div class="toc-num">04</div><div class="toc-name">The two per cent, and how it is computed</div><div class="toc-slides">Slides 25&ndash;32</div></div><div class="toc-item"><div class="toc-num">05</div><div class="toc-name">The Committee, the policy and the board</div><div class="toc-slides">Slides 34&ndash;39</div></div><div class="toc-item"><div class="toc-num">06</div><div class="toc-name">What happens to money you did not spend</div><div class="toc-slides">Slides 41&ndash;47</div></div><div class="toc-item"><div class="toc-num">07</div><div class="toc-name">Who may actually implement</div><div class="toc-slides">Slides 49&ndash;55</div></div><div class="toc-item"><div class="toc-num">08</div><div class="toc-name">Impact assessment: where CSR meets M&amp;E</div><div class="toc-slides">Slides 57&ndash;63</div></div><div class="toc-item"><div class="toc-num">09</div><div class="toc-name">From CSR to ESG: the BRSR</div><div class="toc-slides">Slides 65&ndash;71</div></div><div class="toc-item"><div class="toc-num">10</div><div class="toc-name">The global frameworks, and where India sits</div><div class="toc-slides">Slides 73&ndash;79</div></div><div class="toc-item"><div class="toc-num">11</div><div class="toc-name">Reading a report critically, and keeping current</div><div class="toc-slides">Slides 81&ndash;87</div></div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">02</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s3"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="section-divider"><div class="div-num">01</div><div class="div-label">Starting Point</div><div class="div-title">Why CSR is a statute here, not a slogan</div><div class="div-accent"></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">03</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s4"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The distinction</div><div class="slide-title md">India made CSR a legal duty</div><p>In most countries corporate social responsibility is voluntary &mdash; a company chooses whether to spend, how much, and on what. India took a different route. The Companies Act 2013 made a minimum spend a statutory obligation for companies above certain thresholds, with a reporting duty attached.</p><div class="hbox amber"><div class="hbox-text">This is the single most important thing to understand before anything else: for a company in scope, CSR here is compliance, not philanthropy. That changes who is accountable, what gets documented, and what happens when money goes unspent.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">04</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s5"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The scale</div><div class="slide-title md">What that means in practice</div><div class="stat-grid"><div class="stat-card"><div class="stat-number">2%</div><div class="stat-label">of average net profit, minimum</div></div><div class="stat-card"><div class="stat-number">3</div><div class="stat-label">financial years averaged</div></div><div class="stat-card"><div class="stat-number">VII</div><div class="stat-label">the Schedule that lists what counts</div></div></div><div class="hbox cyan"><div class="hbox-text">Every number on this slide is defined precisely in law. Section 4 takes the 2% apart; Section 3 takes Schedule VII apart. Do not use these figures loosely.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">05</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s6"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The vocabulary</div><div class="slide-title md">Three words people use interchangeably, wrongly</div><div class="term-box"><span class="term-word">CSR</span><span class="term-def">In India, a statutory spending and reporting obligation under Section 135 of the Companies Act 2013. Not a synonym for &lsquo;doing good&rsquo;.</span></div><div class="term-box"><span class="term-word">ESG</span><span class="term-def">Environmental, Social and Governance &mdash; a disclosure and investment-analysis frame. About what a company reports on itself, largely for investors.</span></div><div class="term-box"><span class="term-word">Sustainability</span><span class="term-def">The broadest and least precise. Sometimes a synonym for ESG reporting, sometimes an environmental claim, sometimes marketing.</span></div><div class="hbox amber"><div class="hbox-text">If a syllabus, a job advert or a consultant uses these as synonyms, they are describing three different obligations with three different audiences. Keep them apart.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">06</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s7"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Why it happened</div><div class="slide-title md">The road to Section 135</div><p>Voluntary CSR guidelines came first &mdash; the Ministry of Corporate Affairs issued them in 2009 and revised them in 2011 as the National Voluntary Guidelines. Uptake was thin and uneven. The Companies Act 2013 replaced encouragement with obligation.</p><ul class="bullet-list"><li><b>2009</b> &mdash; MCA Corporate Social Responsibility Voluntary Guidelines</li><li><b>2011</b> &mdash; National Voluntary Guidelines on social, environmental and economic responsibilities of business</li><li><b>2013</b> &mdash; Companies Act 2013 passed; Section 135 creates the obligation</li><li><b>2014</b> &mdash; Section 135 and the CSR Rules come into force on 1 April</li><li><b>2021</b> &mdash; Amendment Rules add unspent-money machinery, CSR-1 registration and impact assessment</li></ul><div class="chart-source">Ministry of Corporate Affairs; Companies Act 2013.</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">07</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s8"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The critique</div><div class="slide-title md">What the law is accused of</div><div class="two-col"><div class="col-panel"><div class="col-panel-title">The case for</div><ul class="bullet-list"><li>Predictable money for the social sector, at scale</li><li>Forces board-level attention rather than a marketing budget line</li><li>Creates a public record that can be audited and challenged</li></ul></div><div class="col-panel"><div class="col-panel-title">The case against</div><ul class="bullet-list"><li>A tax by another name, without a tax&rsquo;s democratic allocation</li><li>Compliance-driven spending chases what is easy to document</li><li>Crowds out the awkward work &mdash; rights, advocacy, organising &mdash; that Schedule VII does not obviously cover</li></ul></div></div><div class="hbox amber"><div class="hbox-text">Both cases are argued seriously. A course that only teaches the mechanics and never the critique produces compliance officers, not practitioners.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">08</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s9"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">For your syllabus</div><div class="slide-title md">What a student should be able to do</div><ul class="bullet-list"><li>Decide, from a company&rsquo;s financials, whether Section 135 applies to it</li><li>Compute the minimum obligation and say which years feed the average</li><li>Judge whether a proposed activity falls inside Schedule VII &mdash; and defend the judgement</li><li>Trace unspent money to the right account within the right deadline</li><li>Read a BRSR filing and say what it does and does not tell you</li></ul><div class="hbox amber"><div class="hbox-text">These are the assessable skills. Everything else in this deck exists to support them.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">09</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s10"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="section-divider"><div class="div-num">02</div><div class="div-label">Scope</div><div class="div-title">Section 135: who is bound, and from when</div><div class="div-accent"></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">10</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s11"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The test</div><div class="slide-title md">Three thresholds, any one of which binds you</div><p>Section 135(1) applies to every company &mdash; including a foreign company&rsquo;s Indian branch or project office &mdash; that meets <b>any one</b> of these in the immediately preceding financial year.</p><table class="ctable"><thead><tr><th>Test</th><th>Threshold</th></tr></thead><tbody><tr><td>Net worth</td><td>&ge; &#8377;500 crore</td></tr><tr><td>Turnover</td><td>&ge; &#8377;1,000 crore</td></tr><tr><td>Net profit</td><td>&ge; &#8377;5 crore</td></tr></tbody></table><div class="hbox amber"><div class="hbox-text"><b>Any one</b>, not all three. A loss-making company with net worth above &#8377;500 crore is in scope. This is the single most common error students make.</div></div><div class="chart-source">Companies Act 2013, Section 135(1).</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">11</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s12"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The trap</div><div class="slide-title md">&lsquo;Immediately preceding financial year&rsquo;</div><p>Scope is tested on the <b>immediately preceding</b> financial year. The spending obligation is then calculated on the average of the <b>three</b> immediately preceding financial years. These are two different windows and they are routinely confused.</p><div class="two-col"><div class="col-panel"><div class="col-panel-title">Am I in scope?</div><p>Look at <b>one</b> year &mdash; the one just ended.</p></div><div class="col-panel"><div class="col-panel-title">How much do I owe?</div><p>Average <b>three</b> years of net profit, then take 2%.</p></div></div><div class="hbox cyan"><div class="hbox-text">Set this as a exam question. Give a company four years of figures and ask for both answers. The students who have understood it will use different rows for each.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">12</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s13"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Exit</div><div class="slide-title md">Falling out of scope</div><p>A company that ceases to meet the thresholds is not bound forever. Where a company no longer meets the criteria for three consecutive financial years, it is not required to constitute a CSR Committee, and the obligation lapses until it re-enters scope.</p><div class="hbox amber"><div class="hbox-text">Entry is immediate; exit takes three years. The asymmetry is deliberate &mdash; it stops a company from dipping below a threshold for one year to avoid a spend.</div></div><div class="chart-source">Companies Act 2013, Section 135(9) and the CSR Rules.</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">13</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s14"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Foreign companies</div><div class="slide-title md">Branches and project offices are covered</div><p>A foreign company with a branch or project office in India is in scope if it meets the thresholds. Net worth, turnover and net profit are computed from the balance sheet and profit-and-loss account prepared under Section 381(1)(a) of the Act.</p><div class="hbox amber"><div class="hbox-text">Students at business schools often assume CSR is a domestic-company rule. It is not.</div></div><div class="chart-source">Companies (CSR Policy) Rules 2014, Rule 3.</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">14</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s15"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Net profit</div><div class="slide-title md">Which profit figure the Act means</div><p>&lsquo;Net profit&rsquo; for CSR is <b>not</b> the headline profit-after-tax in a press release. It is net profit computed under Section 198, with specific adjustments &mdash; and the CSR Rules further exclude:</p><ul class="bullet-list"><li>Any profit arising from overseas branches of the company, whether operated as a separate company or otherwise</li><li>Any dividend received from other companies in India which are themselves covered by and complying with Section 135</li></ul><div class="hbox amber"><div class="hbox-text">The second exclusion prevents the same rupee of profit generating a CSR obligation twice as it moves up a group structure.</div></div><div class="chart-source">Companies Act 2013, Sections 135 and 198; Companies (CSR Policy) Rules 2014.</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">15</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s16"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Worked example</div><div class="slide-title md">Does Section 135 apply?</div><table class="ctable"><thead><tr><th>Company</th><th>Net worth</th><th>Turnover</th><th>Net profit</th><th>In scope?</th></tr></thead><tbody><tr><td>Alpha Ltd</td><td>&#8377;620 cr</td><td>&#8377;300 cr</td><td>&#8377;2 cr</td><td><b>Yes</b> &mdash; net worth</td></tr><tr><td>Beta Ltd</td><td>&#8377;90 cr</td><td>&#8377;1,240 cr</td><td>Loss</td><td><b>Yes</b> &mdash; turnover</td></tr><tr><td>Gamma Ltd</td><td>&#8377;110 cr</td><td>&#8377;400 cr</td><td>&#8377;6 cr</td><td><b>Yes</b> &mdash; net profit</td></tr><tr><td>Delta Ltd</td><td>&#8377;80 cr</td><td>&#8377;300 cr</td><td>&#8377;3 cr</td><td>No &mdash; none met</td></tr></tbody></table><div class="hbox amber"><div class="hbox-text">Beta is the instructive one. It made a loss and is still in scope, because turnover crossed the line. Its obligation, however, is computed on average net profit &mdash; which may be nil. In scope is not the same as owing money.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">16</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s17"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Set this as work</div><div class="slide-title md">A classroom exercise</div><p>Hand students the published annual report of any listed Indian company and ask three questions:</p><ul class="bullet-list"><li>Which threshold, if any, brings it into scope &mdash; and in which year?</li><li>What is its prescribed CSR expenditure for the year just ended?</li><li>Does the CSR note in the report agree with your figure? If not, why not?</li></ul><div class="hbox cyan"><div class="hbox-text">The third question is where the learning is. Published figures and student calculations diverge for real reasons &mdash; Section 198 adjustments, overseas branch profits &mdash; and chasing the difference teaches the section properly.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">17</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s18"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="section-divider"><div class="div-num">03</div><div class="div-label">Eligibility</div><div class="div-title">Schedule VII: what actually counts</div><div class="div-accent"></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">18</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s19"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The list</div><div class="slide-title md">Schedule VII in outline</div><p>Schedule VII lists the activities a company may include in its CSR policy. It is the gate: spending outside it is not CSR expenditure, however worthy.</p><ul class="bullet-list"><li>Eradicating hunger, poverty and malnutrition; promoting health care including preventive health care; sanitation; safe drinking water</li><li>Promoting education, including special education and employment-enhancing vocational skills; livelihood enhancement projects</li><li>Promoting gender equality; empowering women; homes and hostels for women and orphans; old age homes; reducing inequalities faced by socially and economically backward groups</li><li>Environmental sustainability; ecological balance; conservation of natural resources; animal welfare; agroforestry</li><li>Protection of national heritage, art and culture; public libraries; traditional arts and handicrafts</li><li>Measures for the benefit of armed forces veterans, war widows and their dependants</li><li>Training to promote rural, nationally recognised, Paralympic or Olympic sports</li><li>Contribution to specified government funds</li><li>Contributions to incubators and to specified research and development bodies</li><li>Rural development projects; slum area development; disaster management including relief, rehabilitation and reconstruction</li></ul><div class="chart-source">Companies Act 2013, Schedule VII. Paraphrased in outline &mdash; read the Schedule itself before advising anyone.</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">19</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s20"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Read it liberally</div><div class="slide-title md">The MCA&rsquo;s own instruction</div><p>The Ministry of Corporate Affairs has repeatedly clarified that the entries in Schedule VII are to be interpreted <b>liberally</b>, so as to capture the essence of the subjects listed, rather than read as a narrow closed list.</p><div class="hbox amber"><div class="hbox-text">This matters for teaching. A student who treats Schedule VII as ten rigid boxes will wrongly reject sound projects. One who treats it as infinitely elastic will wrongly approve anything. The skill is arguing the boundary.</div></div><div class="chart-source">MCA General Circulars and the CSR FAQ series.</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">20</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s21"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">What is excluded</div><div class="slide-title md">The exclusions that catch people out</div><table class="ctable"><thead><tr><th>Excluded</th><th>Why</th></tr></thead><tbody><tr><td>Activities outside India</td><td>With a narrow exception for training Indian sports personnel representing a State or India</td></tr><tr><td>Activities benefiting only employees and their families</td><td>CSR is directed outward; staff welfare is not CSR</td></tr><tr><td>Contribution to any political party</td><td>Expressly excluded &mdash; directly or indirectly</td></tr><tr><td>Activities in the normal course of business</td><td>With a time-limited exception created for certain COVID-19 vaccine R&amp;D</td></tr><tr><td>Sponsorship for marketing benefit</td><td>If the company derives marketing benefit, it is advertising, not CSR</td></tr><tr><td>Fulfilling another statutory obligation</td><td>Money you were already legally required to spend cannot be counted twice</td></tr></tbody></table><div class="chart-source">Companies (CSR Policy) Rules 2014, Rule 2(1)(d).</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">21</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s22"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The hard cases</div><div class="slide-title md">Where reasonable people disagree</div><div class="two-col"><div class="col-panel"><div class="col-panel-title">Probably CSR</div><ul class="bullet-list"><li>A skilling programme open to the wider community, run near a plant</li><li>Restoring a water body the company does not own</li><li>Funding a school the company&rsquo;s employees&rsquo; children may also attend, alongside others</li></ul></div><div class="col-panel"><div class="col-panel-title">Probably not CSR</div><ul class="bullet-list"><li>A skilling programme that only feeds the company&rsquo;s own hiring pipeline</li><li>Effluent treatment the company is required to do anyway</li><li>A crèche for employees only &mdash; and in some cases already a statutory duty</li></ul></div></div><div class="hbox amber"><div class="hbox-text">Notice the pattern. The question is rarely &lsquo;is this good?&rsquo; It is &lsquo;who is the beneficiary, and would this have been spent regardless?&rsquo;</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">22</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s23"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Set this as work</div><div class="slide-title md">The Schedule VII boundary exercise</div><p>Give students six proposed projects, three clearly inside the Schedule, three on the boundary. Ask each student to rule on all six <b>and write the reasoning</b>, then to argue a partner&rsquo;s boundary case the other way.</p><div class="hbox cyan"><div class="hbox-text">Mark the reasoning, not the verdict. On a genuine boundary case, either answer can be defensible; only one of them can be well argued.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">23</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s24"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="section-divider"><div class="div-num">04</div><div class="div-label">The Money</div><div class="div-title">The two per cent, and how it is computed</div><div class="div-accent"></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">24</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s25"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The formula</div><div class="slide-title md">Prescribed CSR expenditure</div><p>The board must ensure the company spends, in every financial year, at least <b>two per cent of the average net profit</b> made during the three immediately preceding financial years.</p><div class="flow"><div class="flow-step"><div class="flow-num">01</div><div class="flow-label">Take net profit under s.198 for each of 3 years</div></div><div class="flow-arrow">&rarr;</div><div class="flow-step"><div class="flow-num">02</div><div class="flow-label">Average them</div></div><div class="flow-arrow">&rarr;</div><div class="flow-step"><div class="flow-num">03</div><div class="flow-label">Multiply by 2%</div></div><div class="flow-arrow">&rarr;</div><div class="flow-step"><div class="flow-num">04</div><div class="flow-label">That is the minimum spend</div></div></div><div class="hbox amber"><div class="hbox-text">Where a company has not completed three financial years, the average is taken over such preceding financial years as it has completed.</div></div><div class="chart-source">Companies Act 2013, Section 135(5).</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">25</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s26"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Worked example</div><div class="slide-title md">Computing the obligation</div><table class="ctable"><thead><tr><th>Financial year</th><th>Net profit (s.198)</th></tr></thead><tbody><tr><td>FY 2023&ndash;24</td><td>&#8377;40 crore</td></tr><tr><td>FY 2024&ndash;25</td><td>&#8377;70 crore</td></tr><tr><td>FY 2025&ndash;26</td><td>&#8377;10 crore</td></tr><tr><td><b>Average</b></td><td><b>&#8377;40 crore</b></td></tr><tr><td><b>2% obligation for FY 2026&ndash;27</b></td><td><b>&#8377;80 lakh</b></td></tr></tbody></table><div class="hbox amber"><div class="hbox-text">The averaging is what makes this survive a bad year. A company that collapses to &#8377;10 crore of profit still owes on a &#8377;40 crore average &mdash; and a company having a spectacular year does not owe on it until the average catches up.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">26</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s27"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">A loss-making year</div><div class="slide-title md">Zero profit is not zero obligation</div><p>Because the base is a three-year average, a single loss-making year does not extinguish the obligation. Equally, a company can be <b>in scope</b> on turnover or net worth while its three-year average net profit is nil &mdash; in which case the prescribed expenditure is nil, but the reporting duty remains.</p><div class="hbox cyan"><div class="hbox-text">Teach the two branches separately: <b>in scope</b> triggers governance and reporting; <b>average net profit</b> sets the amount. They can move independently.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">27</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s28"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Surplus</div><div class="slide-title md">CSR cannot make money</div><p>Any surplus arising out of CSR activities does not form part of the business profit of the company. It must be ploughed back into the same project, or transferred to the Unspent CSR Account and spent, or transferred to a fund specified in Schedule VII.</p><div class="hbox amber"><div class="hbox-text">This closes a route by which a &lsquo;CSR&rsquo; project could quietly become a revenue line.</div></div><div class="chart-source">Companies (CSR Policy) Rules 2014, Rule 7(2).</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">28</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s29"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Set-off</div><div class="slide-title md">Spending more than you owe</div><p>Where a company spends more than its obligation in a financial year, that excess may be set off against the requirement for succeeding financial years, subject to conditions set out in the Rules &mdash; including board approval and limits on how far forward the set-off may be carried.</p><div class="hbox amber"><div class="hbox-text">Check the current text of Rule 7 before advising on set-off. The mechanism has been amended since it was introduced and the conditions are specific.</div></div><div class="chart-source">Companies (CSR Policy) Rules 2014, Rule 7(3).</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">29</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s30"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Capital assets</div><div class="slide-title md">Who may own what CSR money builds</div><p>CSR spend may create or acquire a capital asset, but the asset may not simply sit on the company&rsquo;s balance sheet. It must be held by a Section 8 company or a registered trust or society with an established track record, or by the beneficiaries themselves as a self-help group or collective, or by a public authority.</p><div class="hbox amber"><div class="hbox-text">A school building that remains the company&rsquo;s property is a corporate asset, not CSR. The ownership rule is what makes the spend irreversible.</div></div><div class="chart-source">Companies (CSR Policy) Rules 2014, Rule 7(4).</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">30</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s31"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Administrative overheads</div><div class="slide-title md">The five per cent cap</div><p>Administrative overheads &mdash; the company&rsquo;s own expenses of managing and administering its CSR functions &mdash; may not exceed <b>five per cent</b> of total CSR expenditure for the financial year.</p><div class="hbox amber"><div class="hbox-text">This is the company&rsquo;s own overhead, not the implementing partner&rsquo;s programme delivery cost. Conflating the two is a common and expensive mistake, and it is why some NGOs are told their overheads are &lsquo;capped at 5%&rsquo; when the rule says nothing of the sort.</div></div><div class="chart-source">Companies (CSR Policy) Rules 2014, Rule 7(1).</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">31</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s32"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Set this as work</div><div class="slide-title md">The overheads argument</div><p>Ask students to find a real CSR partnership where an NGO was told its administrative costs must fit within 5%, and write a one-page note to the company explaining what Rule 7(1) actually caps.</p><div class="hbox cyan"><div class="hbox-text">This is a real and recurring dispute in the Indian social sector. Students who can argue it precisely become useful to their future employers immediately.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">32</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s33"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="section-divider"><div class="div-num">05</div><div class="div-label">Governance</div><div class="div-title">The Committee, the policy and the board</div><div class="div-accent"></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">33</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s34"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The Committee</div><div class="slide-title md">Who must constitute one</div><p>A company in scope must constitute a CSR Committee of the Board, consisting of <b>three or more directors</b>, of which at least one must be an independent director.</p><ul class="bullet-list"><li>A company not required to appoint an independent director constitutes its Committee with two or more directors</li><li>Where the amount to be spent does not exceed &#8377;50 lakh, the requirement to constitute a Committee does not apply, and the Board discharges its functions</li></ul><div class="chart-source">Companies Act 2013, Section 135(1) and 135(9), as amended by the Companies (Amendment) Act 2020.</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">34</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s35"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">What the Committee does</div><div class="slide-title md">Three statutory functions</div><div class="flow"><div class="flow-step"><div class="flow-num">01</div><div class="flow-label">Formulate and recommend the CSR Policy</div></div><div class="flow-arrow">&rarr;</div><div class="flow-step"><div class="flow-num">02</div><div class="flow-label">Recommend the amount of expenditure</div></div><div class="flow-arrow">&rarr;</div><div class="flow-step"><div class="flow-num">03</div><div class="flow-label">Monitor the Policy from time to time</div></div></div><div class="hbox amber"><div class="hbox-text">Notice what is absent: the Committee does not choose projects in the sense of day-to-day selection, and it does not implement. It sets policy and watches.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">35</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s36"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The Board&rsquo;s duties</div><div class="slide-title md">Where accountability actually sits</div><ul class="bullet-list"><li>Approve the CSR Policy and disclose its contents in the Board&rsquo;s report and on the website</li><li>Ensure the activities in the Policy are actually undertaken</li><li>Ensure the company spends the prescribed amount</li><li>Satisfy itself that the funds disbursed have been utilised for the purposes and in the manner approved &mdash; with the CFO certifying this</li><li>Where the amount is not spent, give the reason in the Board&rsquo;s report</li></ul><div class="hbox amber"><div class="hbox-text">The CFO certification is the teeth. It converts a governance aspiration into a named officer&rsquo;s signature.</div></div><div class="chart-source">Companies Act 2013, Section 135; Companies (CSR Policy) Rules 2014, Rule 4(5).</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">36</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s37"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The annual action plan</div><div class="slide-title md">What the Committee must formulate</div><ul class="bullet-list"><li>The list of CSR projects or programmes approved, within Schedule VII</li><li>The manner of execution</li><li>The modalities of utilisation of funds and implementation schedules</li><li>Monitoring and reporting mechanism</li><li>Details of need and impact assessment, if any, for the projects</li></ul><div class="hbox amber"><div class="hbox-text">The Board may alter the plan at any time during the financial year, on the Committee&rsquo;s recommendation, based on reasonable justification.</div></div><div class="chart-source">Companies (CSR Policy) Rules 2014, Rule 5(2).</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">37</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s38"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Disclosure</div><div class="slide-title md">What must be public</div><p>The Board&rsquo;s report must include an annual report on CSR containing the particulars specified in the Rules, and the company must disclose the composition of the CSR Committee, the CSR Policy and the projects approved <b>on its website</b>.</p><div class="hbox cyan"><div class="hbox-text">The website duty is what makes classroom research possible. Any listed Indian company of size has this material published; students can read the real thing rather than a textbook summary.</div></div><div class="chart-source">Companies (CSR Policy) Rules 2014, Rule 9.</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">38</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s39"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Set this as work</div><div class="slide-title md">Reading a real CSR policy</div><p>Assign each student a different company. Ask them to find, on the company&rsquo;s own website: the CSR Policy, the Committee composition, and the annual CSR report. Then:</p><ul class="bullet-list"><li>Does the Committee meet the statutory composition?</li><li>Does the annual action plan name projects, or only themes?</li><li>Can you trace a rupee from the prescribed amount to a named project?</li></ul><div class="hbox amber"><div class="hbox-text">Most students find they cannot answer the third question from public documents. That finding <b>is</b> the result, and it is the beginning of the accountability critique.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">39</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s40"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="section-divider"><div class="div-num">06</div><div class="div-label">Unspent</div><div class="div-title">What happens to money you did not spend</div><div class="div-accent"></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">40</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s41"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The 2021 change</div><div class="slide-title md">Unspent CSR stopped being a footnote</div><p>Before 2021, a company that failed to spend explained itself in the Board&rsquo;s report and that was largely the end of it. The Companies (Amendment) Act 2019 and the CSR Amendment Rules 2021 replaced &lsquo;comply or explain&rsquo; with a transfer obligation and deadlines.</p><div class="hbox amber"><div class="hbox-text">This is the most consequential amendment to the CSR regime since it began. If your reference material predates 2021, its treatment of unspent money is wrong.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">41</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s42"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The fork</div><div class="slide-title md">Ongoing project, or not</div><div class="two-col"><div class="col-panel"><div class="col-panel-title">Ongoing project</div><p>Transfer the unspent amount to a special account &mdash; the <b>Unspent CSR Account</b> &mdash; within <b>30 days</b> of the end of the financial year. Spend it within <b>three</b> financial years.</p></div><div class="col-panel"><div class="col-panel-title">Not an ongoing project</div><p>Transfer the unspent amount to a fund specified in <b>Schedule VII</b> within <b>six months</b> of the end of the financial year.</p></div></div><div class="hbox amber"><div class="hbox-text">Everything turns on whether the project is &lsquo;ongoing&rsquo;. That word is defined, and the definition is on the next slide.</div></div><div class="chart-source">Companies Act 2013, Section 135(5) and 135(6).</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">42</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s43"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Ongoing project</div><div class="slide-title md">The definition matters</div><p>An <b>ongoing project</b> means a multi-year project undertaken by a company in fulfilment of its CSR obligation, having a timeline <b>not exceeding three years</b> excluding the financial year in which it was commenced. It includes a project that was initially not approved as multi-year but whose duration is extended beyond one year by the Board on reasonable justification.</p><div class="hbox amber"><div class="hbox-text">Three years, excluding the commencement year. Students routinely drop the exclusion and get the arithmetic wrong.</div></div><div class="chart-source">Companies (CSR Policy) Rules 2014, Rule 2(1)(i).</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">43</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s44"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">If you still do not spend it</div><div class="slide-title md">The three-year backstop</div><p>Money sitting in the Unspent CSR Account that is not spent within three financial years must be transferred to a fund specified in Schedule VII within <b>30 days</b> from the end of the third financial year.</p><div class="flow"><div class="flow-step"><div class="flow-num">01</div><div class="flow-label">FY ends unspent</div></div><div class="flow-arrow">&rarr;</div><div class="flow-step"><div class="flow-num">02</div><div class="flow-label">&rarr; Unspent CSR A/c in 30 days</div></div><div class="flow-arrow">&rarr;</div><div class="flow-step"><div class="flow-num">03</div><div class="flow-label">3 years to spend</div></div><div class="flow-arrow">&rarr;</div><div class="flow-step"><div class="flow-num">04</div><div class="flow-label">Still unspent &rarr; Schedule VII fund in 30 days</div></div></div><div class="chart-source">Companies Act 2013, Section 135(6).</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">44</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s45"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The funds</div><div class="slide-title md">Where unspent money goes</div><ul class="bullet-list"><li>Prime Minister&rsquo;s National Relief Fund</li><li>PM CARES Fund</li><li>Clean Ganga Fund</li><li>Swachh Bharat Kosh</li><li>Any other fund set up by the Central Government as specified in Schedule VII</li></ul><div class="hbox cyan"><div class="hbox-text">Note what this means politically: money a company failed to direct locally is redirected centrally. Whether that is a feature or a defect is a live argument, and worth putting to students.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">45</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s46"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Penalties</div><div class="slide-title md">It is now an enforceable default</div><p>Failure to comply with the transfer obligations attracts penalties on the company and on officers in default, as set out in Section 135(7). The Companies (Amendment) Act 2020 converted the regime from criminal to civil penalty.</p><div class="hbox amber"><div class="hbox-text">Penalty amounts have been amended and are capped by formula. Read the current Section 135(7) before quoting a figure &mdash; a stale number in a compliance note is worse than no number.</div></div><div class="chart-source">Companies Act 2013, Section 135(7).</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">46</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s47"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Set this as work</div><div class="slide-title md">The unspent-money decision tree</div><p>Give students four scenarios and ask for the destination account and the deadline in each: a two-year skilling project half spent; a one-off disaster relief grant unspent; a project extended by the Board from one year to two; money still sitting in an Unspent CSR Account after three years.</p><div class="hbox cyan"><div class="hbox-text">Ask for the <b>date</b>, not the rule. Forcing a calendar date exposes whether the student has understood &lsquo;excluding the year of commencement&rsquo;.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">47</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s48"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="section-divider"><div class="div-num">07</div><div class="div-label">Delivery</div><div class="div-title">Who may actually implement</div><div class="div-accent"></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">48</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s49"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The routes</div><div class="slide-title md">Four ways a company may deliver CSR</div><ul class="bullet-list"><li><b>Itself</b> &mdash; directly, through its own teams</li><li><b>Its own foundation</b> &mdash; a Section 8 company, registered trust or society established by the company, alone or with others</li><li><b>A government entity</b> &mdash; established under an Act of Parliament or a State legislature</li><li><b>An external organisation</b> &mdash; a Section 8 company, registered public trust or registered society with an established track record of at least three years</li></ul><div class="chart-source">Companies (CSR Policy) Rules 2014, Rule 4(1).</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">49</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s50"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">CSR-1</div><div class="slide-title md">Registration became mandatory</div><p>From <b>1 April 2021</b>, an entity intending to undertake CSR activities on behalf of a company must register itself with the Central Government by filing <b>Form CSR-1</b> electronically with the Registrar, and obtain a CSR Registration Number.</p><div class="hbox amber"><div class="hbox-text">For NGOs this is the practical gate. No CSR-1, no corporate money &mdash; regardless of how good the organisation is or how long it has worked.</div></div><div class="chart-source">Companies (CSR Policy) Rules 2014, Rule 4(2).</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">50</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s51"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">What CSR-1 requires</div><div class="slide-title md">In outline</div><ul class="bullet-list"><li>Registration under Section 12A and 80G of the Income-tax Act 1961, where applicable</li><li>Details of the entity &mdash; Section 8 company, registered trust or registered society</li><li>Governing body details and PAN</li><li>Digital signature of an authorised person and certification by a practising professional</li></ul><div class="hbox amber"><div class="hbox-text">Check the current form and its attachments on the MCA portal before advising an organisation. Requirements have been revised.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">51</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s52"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The three-year track record</div><div class="slide-title md">What it excludes</div><p>An external implementing organisation must have an <b>established track record of at least three years</b> in undertaking similar activities. An entity established by the company itself does not face this requirement.</p><div class="hbox cyan"><div class="hbox-text">This is a real barrier to new and community-rooted organisations, and a real safeguard against shell intermediaries. It does both things at once; say so in class rather than presenting only one side.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">52</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s53"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Monitoring the money</div><div class="slide-title md">The company cannot outsource responsibility</div><p>The Board must satisfy itself that funds disbursed have been utilised for the purposes and in the manner approved, and the Chief Financial Officer or the person responsible for financial management must certify to that effect.</p><div class="hbox amber"><div class="hbox-text">For an implementing NGO this translates into utilisation certificates, documented beneficiary records and audit trails. Teach students to design these <b>at proposal stage</b>, not at year end.</div></div><div class="chart-source">Companies (CSR Policy) Rules 2014, Rule 4(5).</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">53</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s54"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Collaboration</div><div class="slide-title md">Companies may pool</div><p>A company may collaborate with other companies for undertaking projects, provided the CSR Committees of each are in a position to report separately on those projects in accordance with the Rules.</p><div class="hbox amber"><div class="hbox-text">Pooling is how small obligations reach a scale worth designing for. The reporting condition is what stops it becoming a black box.</div></div><div class="chart-source">Companies (CSR Policy) Rules 2014, Rule 4(4).</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">54</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s55"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Set this as work</div><div class="slide-title md">The NGO readiness audit</div><p>Ask students to take a real local NGO &mdash; ideally one they know &mdash; and produce a one-page readiness assessment for receiving CSR funds:</p><ul class="bullet-list"><li>Is it a Section 8 company, registered trust or registered society?</li><li>Does it have three years of track record in the relevant activity?</li><li>Is it CSR-1 registered? If not, what does it need first?</li><li>Could it produce a utilisation certificate that would satisfy a CFO?</li></ul><div class="hbox cyan"><div class="hbox-text">This is the single most employable exercise in the deck. Students who can do it are immediately useful to any NGO seeking corporate funding.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">55</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s56"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="section-divider"><div class="div-num">08</div><div class="div-label">Evidence</div><div class="div-title">Impact assessment: where CSR meets M&amp;E</div><div class="div-accent"></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">56</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s57"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">When it is mandatory</div><div class="slide-title md">The two thresholds</div><p>A company must undertake impact assessment through an independent agency where it meets <b>both</b> limbs:</p><table class="ctable"><thead><tr><th>Limb</th><th>Threshold</th></tr></thead><tbody><tr><td>Company&rsquo;s average CSR obligation</td><td>&ge; &#8377;10 crore in the three immediately preceding financial years</td></tr><tr><td>The project</td><td>Outlay &ge; &#8377;1 crore, and completed not less than one year before undertaking the study</td></tr></tbody></table><div class="hbox amber"><div class="hbox-text">Both limbs. A large company&rsquo;s small project is out; a small company&rsquo;s large project is out.</div></div><div class="chart-source">Companies (CSR Policy) Rules 2014, Rule 8(3).</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">57</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s58"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">What it costs</div><div class="slide-title md">The assessment is chargeable to CSR</div><p>Impact assessment expenditure may be booked to CSR for that financial year, subject to a cap set out in the Rules &mdash; expressed as a percentage of total CSR expenditure or an absolute figure, whichever is higher.</p><div class="hbox amber"><div class="hbox-text">Check the current cap in Rule 8(3)(c); it has been amended. The principle &mdash; that evaluation is fundable from the CSR budget rather than an unfunded extra &mdash; has not changed.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">58</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s59"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Independent agency</div><div class="slide-title md">What independence means here</div><p>The Rules require an <b>independent agency</b>. They do not prescribe a methodology, a qualification or an accreditation. In practice this is a real weakness and a real opportunity.</p><div class="two-col"><div class="col-panel"><div class="col-panel-title">The weakness</div><ul class="bullet-list"><li>No methodological floor</li><li>The company selects and pays the evaluator</li><li>Reports vary from serious evaluation to extended brochure</li></ul></div><div class="col-panel"><div class="col-panel-title">The opportunity</div><ul class="bullet-list"><li>A genuine market for evaluation skills in India</li><li>Nothing stops a company commissioning a rigorous design</li><li>Your students can be the people who do it properly</li></ul></div></div><div class="hbox cyan"><div class="hbox-text">This is exactly the seam where a CSR course and an M&amp;E course meet. If you teach both, teach them together here.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">59</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s60"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">What a good assessment does</div><div class="slide-title md">Beyond counting outputs</div><ul class="bullet-list"><li>States the theory of change the project was built on, and tests it</li><li>Distinguishes outputs from outcomes, and says which it can evidence</li><li>Is explicit about attribution &mdash; what would have happened anyway</li><li>Reports what did not work, not only what did</li><li>Names its limitations, sample and period</li></ul><div class="hbox amber"><div class="hbox-text">A report with no negative findings and no stated limitations is not an evaluation. Teach students to say so politely and in writing.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">60</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s61"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Attribution</div><div class="slide-title md">The question CSR reports usually dodge</div><p>A CSR report will say a programme reached 40,000 people. The evaluation question is different: <b>what changed that would not have changed anyway?</b></p><div class="quote-block"><div class="quote-text">Reach is an output. Change is an outcome. Attribution is a claim about causation &mdash; and it needs a comparison, not a headcount.</div><div class="quote-attr">The distinction every impact assessment stands or falls on</div></div><div class="hbox cyan"><div class="hbox-text">If you teach M&amp;E alongside this, the ImpactMojo studios on Theory of Change and Impact Evaluation let students build and defend the comparison design.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">61</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s62"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Where it is published</div><div class="slide-title md">The annexure</div><p>The impact assessment report must be placed before the Board and annexed to the annual report on CSR.</p><div class="hbox amber"><div class="hbox-text">Which means it is public. Students can and should read real ones &mdash; and the variation in quality between them is itself a teaching object.</div></div><div class="chart-source">Companies (CSR Policy) Rules 2014, Rule 8(3)(b).</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">62</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s63"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Set this as work</div><div class="slide-title md">Critique a real impact assessment</div><p>Find a published CSR impact assessment for any large Indian company. Ask students to mark it against five questions:</p><ul class="bullet-list"><li>Is there a stated theory of change?</li><li>Are outputs and outcomes distinguished?</li><li>Is there any comparison group, or any counterfactual reasoning at all?</li><li>Are limitations stated?</li><li>Would you, as the board, change anything after reading it?</li></ul><div class="hbox amber"><div class="hbox-text">Marks for the reasoning, not the verdict. Most published assessments score poorly on questions three and four; the point is for students to be able to say <i>why</i>, precisely, and to propose a better design.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">63</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s64"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="section-divider"><div class="div-num">09</div><div class="div-label">Reporting</div><div class="div-title">From CSR to ESG: the BRSR</div><div class="div-accent"></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">64</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s65"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The shift</div><div class="slide-title md">Different obligation, different audience</div><p>CSR under Section 135 asks: <i>did you spend, and on what?</i> ESG reporting asks a different question: <i>how does your business behave, and what does it cost the world?</i> The audience shifts from the regulator to the investor.</p><table class="ctable"><thead><tr><th></th><th>Section 135 CSR</th><th>BRSR / ESG</th></tr></thead><tbody><tr><td>Governs</td><td>A spending obligation</td><td>A disclosure obligation</td></tr><tr><td>Scope</td><td>The CSR budget</td><td>The whole business</td></tr><tr><td>Audience</td><td>MCA, the board, the public</td><td>Investors, analysts, regulators</td></tr><tr><td>Applies to</td><td>Companies over Section 135 thresholds</td><td>Top listed companies by market capitalisation</td></tr></tbody></table><div class="hbox amber"><div class="hbox-text">A company can spend its 2% impeccably and still have a poor ESG profile, because the 2% is not where the harm is. This is the most important idea in the section.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">65</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s66"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">BRSR</div><div class="slide-title md">What it is</div><p>The <b>Business Responsibility and Sustainability Report</b> is SEBI&rsquo;s mandatory ESG disclosure format, replacing the earlier Business Responsibility Report. It applies to the top <b>1,000</b> listed entities by market capitalisation, mandatory from <b>FY 2022&ndash;23</b>.</p><div class="hbox amber"><div class="hbox-text">Applicability has expanded since introduction, including a &lsquo;BRSR Core&rsquo; subset with assurance requirements phased in by market-cap rank. Confirm the current position on sebi.gov.in before teaching the thresholds as settled.</div></div><div class="chart-source">SEBI (LODR) Regulations; SEBI circulars on BRSR.</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">66</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s67"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">NGRBC</div><div class="slide-title md">The nine principles underneath</div><p>BRSR is structured on the <b>National Guidelines on Responsible Business Conduct</b>. Businesses should:</p><ul class="bullet-list"><li>Conduct themselves with integrity, ethics, transparency and accountability</li><li>Provide goods and services in a safe and sustainable manner</li><li>Respect and promote the wellbeing of all employees, including those in value chains</li><li>Respect the interests of and be responsive to all stakeholders</li><li>Respect and promote human rights</li><li>Protect and restore the environment</li><li>Engage in policy advocacy responsibly and transparently</li><li>Promote inclusive growth and equitable development</li><li>Engage with and provide value to consumers responsibly</li></ul><div class="chart-source">Ministry of Corporate Affairs, National Guidelines on Responsible Business Conduct, 2019.</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">67</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s68"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The structure</div><div class="slide-title md">How a BRSR is laid out</div><div class="flow"><div class="flow-step"><div class="flow-num">01</div><div class="flow-label">Section A: General disclosures</div></div><div class="flow-arrow">&rarr;</div><div class="flow-step"><div class="flow-num">02</div><div class="flow-label">Section B: Management &amp; process</div></div><div class="flow-arrow">&rarr;</div><div class="flow-step"><div class="flow-num">03</div><div class="flow-label">Section C: Principle-wise performance</div></div></div><ul class="bullet-list"><li><b>Section A</b> &mdash; entity details, products, employees, CSR, transparency</li><li><b>Section B</b> &mdash; policies against each of the nine principles, and governance of them</li><li><b>Section C</b> &mdash; essential and leadership indicators for each principle</li></ul><div class="hbox cyan"><div class="hbox-text">The essential/leadership split matters: essential indicators are mandatory, leadership indicators are voluntary. A company reporting only essential indicators is complying, not leading &mdash; and the format lets you see which.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">68</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s69"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">BRSR Core</div><div class="slide-title md">Assurance arrives</div><p>SEBI introduced a <b>BRSR Core</b> &mdash; a defined subset of key performance indicators requiring <b>reasonable assurance</b>, phased in by market-capitalisation rank, with disclosures extending to the value chain.</p><div class="hbox amber"><div class="hbox-text">Assurance is the difference between a company saying a number and a third party standing behind it. When you read any ESG claim, the first question is whether it is assured, and to what level.</div></div><div class="chart-source">SEBI circulars on BRSR Core. Verify the current phase-in schedule.</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">69</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s70"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Greenwashing</div><div class="slide-title md">What the format is designed to resist</div><div class="two-col"><div class="col-panel"><div class="col-panel-title">The tells</div><ul class="bullet-list"><li>Targets with no baseline</li><li>Intensity metrics only, never absolutes</li><li>Scope 1 and 2 emissions reported, Scope 3 omitted</li><li>&lsquo;Committed to&rsquo; and &lsquo;aim to&rsquo; without a date</li></ul></div><div class="col-panel"><div class="col-panel-title">The checks</div><ul class="bullet-list"><li>Is the figure assured, and at what level?</li><li>Is the boundary stated &mdash; which entities are included?</li><li>Is last year&rsquo;s figure restated, and why?</li><li>Does the narrative match the numbers?</li></ul></div></div><div class="hbox amber"><div class="hbox-text">Teach the tells as a checklist. They transfer directly to any sustainability report a student will ever read, Indian or not.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">70</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s71"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Set this as work</div><div class="slide-title md">Read one BRSR properly</div><p>Assign one BRSR filing per student, from companies in different sectors. Ask for a two-page note answering:</p><ul class="bullet-list"><li>Which leadership indicators did they answer, and which did they skip?</li><li>Is any figure assured? At what level?</li><li>Find one number that contradicts a claim in the narrative</li><li>What does the CSR section tell you that Section 135 filings do not?</li></ul><div class="hbox cyan"><div class="hbox-text">The third question is the real assignment. Contradictions are common, and finding one converts a student from a reader of reports into an analyst of them.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">71</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s72"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="section-divider"><div class="div-num">10</div><div class="div-label">Context</div><div class="div-title">The global frameworks, and where India sits</div><div class="div-accent"></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">72</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s73"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The landscape</div><div class="slide-title md">Why there are so many</div><p>ESG reporting grew from voluntary initiatives rather than a single regulator, so the field arrived crowded. Consolidation is underway but incomplete.</p><table class="ctable"><thead><tr><th>Framework</th><th>Focus</th><th>Audience</th></tr></thead><tbody><tr><td>GRI</td><td>Impact of the company on the world</td><td>All stakeholders</td></tr><tr><td>SASB</td><td>Financially material sustainability issues, by industry</td><td>Investors</td></tr><tr><td>TCFD</td><td>Climate-related financial risk and governance</td><td>Investors, regulators</td></tr><tr><td>ISSB (IFRS S1, S2)</td><td>Global baseline for sustainability and climate disclosure</td><td>Capital markets</td></tr><tr><td>CSRD / ESRS</td><td>Mandatory EU sustainability reporting</td><td>EU regulators, investors</td></tr></tbody></table><div class="chart-source">Framework bodies&rsquo; own documentation. Consolidation is active &mdash; confirm the current position.</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">73</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s74"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Double materiality</div><div class="slide-title md">The idea that divides the field</div><div class="two-col"><div class="col-panel"><div class="col-panel-title">Financial materiality</div><p>What sustainability issues affect the <b>company&rsquo;s</b> value? Used by SASB and ISSB. The question an investor asks.</p></div><div class="col-panel"><div class="col-panel-title">Impact materiality</div><p>What effects does the company have on <b>people and the environment</b>? Used by GRI. The question a community asks.</p></div></div><div class="hbox cyan"><div class="hbox-text"><b>Double materiality</b> &mdash; the EU&rsquo;s CSRD position &mdash; requires both. Which materiality a framework adopts tells you who it was written for, and it is the fastest way to read the politics of any reporting standard.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">74</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s75"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Where BRSR sits</div><div class="slide-title md">India&rsquo;s position</div><p>BRSR is built on the NGRBC principles and covers both business conduct and environmental performance, so it sits closer to a broad-stakeholder view than to a purely investor-financial one &mdash; while BRSR Core&rsquo;s assured KPIs and value-chain reach move it toward investor-grade comparability.</p><div class="hbox amber"><div class="hbox-text">Teach BRSR as India&rsquo;s own instrument, not as a local copy of something else. Students who understand NGRBC can read GRI quickly; the reverse is less true.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">75</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s76"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The SDGs</div><div class="slide-title md">Useful frame, weak accountability</div><p>Companies routinely map CSR and ESG activity to the Sustainable Development Goals. The mapping is genuinely useful for communication and genuinely weak as accountability: the SDGs were written for states, have no corporate reporting requirement, and almost any activity can be mapped to at least one goal.</p><div class="hbox amber"><div class="hbox-text">When a report claims to advance eight SDGs, ask which indicator, at which target, moved by how much. The answer is usually silence.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">76</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s77"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Human rights</div><div class="slide-title md">The framework CSR discussions often skip</div><p>The <b>UN Guiding Principles on Business and Human Rights</b> set out a duty to protect, a corporate responsibility to respect, and access to remedy &mdash; with human rights due diligence at the centre. NGRBC Principle 5 carries this into the Indian frame.</p><div class="hbox cyan"><div class="hbox-text">This is the part of ESG closest to social work practice, and the part most often left out of business-school CSR teaching. If your students come from a social work background, it is where they will have the most to say.</div></div><div class="chart-source">UN Guiding Principles on Business and Human Rights, 2011.</div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">77</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s78"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Value chains</div><div class="slide-title md">Where the harm usually is</div><p>A company&rsquo;s own operations are rarely where its worst impacts sit. They sit in the value chain &mdash; suppliers, contractors, informal labour. Scope 3 emissions, supplier labour conditions and contract-worker safety are where reporting is thinnest and the stakes are highest.</p><div class="hbox amber"><div class="hbox-text">In India this connects directly to informal employment, contract labour and migrant work. A course that stops at the company gate misses the majority of the workforce involved in producing the goods.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">78</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s79"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Set this as work</div><div class="slide-title md">Map a company both ways</div><p>Take one company. Ask students to list its five most significant sustainability issues twice &mdash; once by <b>financial</b> materiality, once by <b>impact</b> materiality &mdash; and then to explain each difference between the lists.</p><div class="hbox cyan"><div class="hbox-text">The gap between the two lists is the argument of the entire field, made concrete on one company in one class.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">79</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s80"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="section-divider"><div class="div-num">11</div><div class="div-label">Practice</div><div class="div-title">Reading a report critically, and keeping current</div><div class="div-accent"></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">80</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s81"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The core skill</div><div class="slide-title md">Everything reduces to this</div><p>Your students will not spend careers drafting Section 135 policies. They will read reports written by people with an interest in how they read, and decide what to believe.</p><div class="quote-block"><div class="quote-text">A report is a claim, made by an interested party, in a format that party helped design. Read it as evidence, not as testimony.</div><div class="quote-attr">The disposition this whole course is trying to build</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">81</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s82"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Ten questions</div><div class="slide-title md">A checklist for any CSR or ESG report</div><ul class="bullet-list"><li>What is the reporting boundary &mdash; which entities are in?</li><li>Is the prescribed CSR amount stated, and does the arithmetic work?</li><li>Is any amount unspent, and where did it go?</li><li>Are projects named, or only themes?</li><li>Who implemented, and are they CSR-1 registered?</li><li>Is there an impact assessment, and does it have a counterfactual?</li><li>Are ESG figures assured &mdash; and reasonable or limited assurance?</li><li>Are targets given a baseline and a date?</li><li>Are Scope 3 emissions reported or omitted?</li><li>Does anything in the numbers contradict the narrative?</li></ul><div class="hbox cyan"><div class="hbox-text">Print this. It is the single most transferable artefact in the deck.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">82</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s83"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Common failures</div><div class="slide-title md">What weak reports look like</div><div class="two-col"><div class="col-panel"><div class="col-panel-title">In CSR reporting</div><ul class="bullet-list"><li>Beneficiary counts with no definition of &lsquo;reached&rsquo;</li><li>Themes instead of projects</li><li>Administrative overheads confused with partner delivery costs</li><li>Unspent money explained but not traced</li></ul></div><div class="col-panel"><div class="col-panel-title">In ESG reporting</div><ul class="bullet-list"><li>Intensity metrics hiding absolute growth</li><li>Restated baselines with no explanation</li><li>Leadership indicators skipped without comment</li><li>&lsquo;Net zero by 2070&rsquo; with no interim milestone</li></ul></div></div><div class="hbox amber"><div class="hbox-text">Both columns describe reports that comply fully with the law. Compliance and candour are different properties.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">83</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s84"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Keeping current</div><div class="slide-title md">This area changes, and stale advice is dangerous</div><p>Thresholds, deadlines, forms, penalty amounts and BRSR applicability have all been amended since 2014, several times. Do not teach any figure in this deck as permanent.</p><ul class="bullet-list"><li><b>mca.gov.in</b> &mdash; the Companies Act, the CSR Rules, circulars and the CSR FAQ</li><li><b>csr.gov.in</b> &mdash; the national CSR data portal, with company-level spending data</li><li><b>sebi.gov.in</b> &mdash; LODR regulations and BRSR circulars</li><li>The company&rsquo;s own website &mdash; policy, committee composition and annual CSR report are all required to be public</li></ul><div class="hbox amber"><div class="hbox-text">Teach students to check the primary source themselves. It is a five-minute habit that outlasts everything else in this course.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">84</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s85"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">csr.gov.in</div><div class="slide-title md">A dataset, not just a portal</div><p>The national CSR portal publishes company-level CSR spending, by year, sector and state. It is a genuine dataset and it is open.</p><ul class="bullet-list"><li>Which sectors attract the most CSR money &mdash; and which almost none?</li><li>How is spending distributed across states? Does it follow need, or follow head offices?</li><li>Which companies report large obligations and small spends?</li></ul><div class="hbox cyan"><div class="hbox-text">These are real research questions with public data behind them. They make good dissertations and better classroom arguments than any case study.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">85</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s86"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">The honest summary</div><div class="slide-title md">What this course can and cannot settle</div><div class="two-col"><div class="col-panel"><div class="col-panel-title">Settled</div><ul class="bullet-list"><li>Who is in scope, and how the 2% is computed</li><li>What Schedule VII covers</li><li>Where unspent money must go, and by when</li><li>What a BRSR contains</li></ul></div><div class="col-panel"><div class="col-panel-title">Contested</div><ul class="bullet-list"><li>Whether mandated CSR is good policy at all</li><li>Whether Schedule VII&rsquo;s boundaries are the right ones</li><li>Whether impact assessment as practised is evaluation</li><li>Whether ESG disclosure changes corporate behaviour</li></ul></div></div><div class="hbox amber"><div class="hbox-text">Teach the left column as fact and the right column as argument. Students who cannot tell which is which will be badly served by this field.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">86</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s87"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="slide-content"><div class="section-label">Going further</div><div class="slide-title md">Where to take this next</div><ul class="bullet-list"><li><b>Development Architecture 101</b> &mdash; how development funding is structured, including CSR flows</li><li><b>Climate Essentials 101</b> &mdash; the climate science and policy behind the E in ESG</li><li><b>MEL for Development</b> &mdash; the flagship, for the evaluation half of impact assessment</li><li><b>Theory of Change Studio</b> and <b>Impact Evaluation Studio</b> &mdash; build and defend the designs an assessment needs</li></ul><div class="hbox cyan"><div class="hbox-text">Everything listed is free to open on impactmojo.in, with no login.</div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">87</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+<div class="slide" id="s88"><div class="slide-header"><a href="https://www.impactmojo.in/101-courses/" class="logo-mark" target="_blank"><svg class="logo-plane" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,150 L150,50 L50,100 L80,130 Z" fill="none" stroke="#0EA5E9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M80,130 L150,50" stroke="#6366F1" stroke-width="2" stroke-dasharray="4,4"/><circle cx="150" cy="50" r="4" fill="#10B981"/></svg><span class="logo-wordmark">ImpactMojo</span></a><span class="header-center">CSR &amp; ESG 101</span><span class="header-url">www.impactmojo.in</span></div><div class="end-screen"><div class="end-bar"></div><div class="end-pattern"></div><div class="end-glow"></div><div class="end-content"><div class="end-eyebrow">ImpactMojo 101 Series</div><div class="end-headline">Compliance is the floor.<br>Judgement is the work.</div><div class="end-byline">ImpactMojo &middot; Free development education for South Asia</div><div class="end-cta"><a class="end-btn end-btn-primary" href="https://www.impactmojo.in/101-courses/" target="_blank">More 101 Courses</a><a class="end-btn end-btn-secondary" href="https://www.impactmojo.in/" target="_blank">ImpactMojo Home</a><a class="end-btn end-btn-tertiary" href="https://www.impactmojo.in/catalog.html" target="_blank">Full Catalog</a></div><div class="end-meta"><span>Free Forever</span><span class="end-meta-divider">&middot;</span><span>CC BY-NC-ND 4.0</span><span class="end-meta-divider">&middot;</span><span>www.impactmojo.in</span></div></div></div><div class="slide-footer"><span class="footer-left">CC BY-NC-ND 4.0 &middot; ImpactMojo 101 Series</span><span class="slide-number">88</span><span class="footer-right">www.impactmojo.in</span></div></div>
+
+ </div>
+</div><!-- /deck -->
+
+<div id="nav">
+ <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">&#8249;</button>
+ <span id="prog-text">1 / 88</span>
+ <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">&#8250;</button>
+</div>
+
+<script>
+
+const SLIDE_IDS = ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10','s11','s12','s13','s14','s15','s16','s17','s18','s19','s20','s21','s22','s23','s24','s25','s26','s27','s28','s29','s30','s31','s32','s33','s34','s35','s36','s37','s38','s39','s40','s41','s42','s43','s44','s45','s46','s47','s48','s49','s50','s51','s52','s53','s54','s55','s56','s57','s58','s59','s60','s61','s62','s63','s64','s65','s66','s67','s68','s69','s70','s71','s72','s73','s74','s75','s76','s77','s78','s79','s80','s81','s82','s83','s84','s85','s86','s87','s88'];
+
+let cur = 0;
+const TOTAL = SLIDE_IDS.length;
+
+const chartsInit = {};
+
+function showSlide(n) {
+  document.getElementById(SLIDE_IDS[cur])?.classList.remove('active');
+  cur = Math.max(0, Math.min(n, TOTAL - 1));
+  document.getElementById(SLIDE_IDS[cur])?.classList.add('active');
+  document.getElementById('prog-text').textContent = (cur+1) + ' / ' + TOTAL;
+  document.getElementById('prevBtn').disabled = cur === 0;
+  document.getElementById('nextBtn').disabled = cur === TOTAL - 1;
+  document.getElementById('progress-bar').style.width = ((cur+1)/TOTAL*100) + '%';
+  if (!chartsInit[cur]) { initChart(cur); chartsInit[cur] = true; }
+  showNav();
+}
+
+function changeSlide(d) { showSlide(cur + d); }
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') changeSlide(-1);
+});
+
+let ts = 0;
+document.addEventListener('touchstart', e => ts = e.touches[0].clientX);
+document.addEventListener('touchend', e => {
+  const d = ts - e.changedTouches[0].clientX;
+  if (Math.abs(d) > 50) changeSlide(d > 0 ? 1 : -1);
+});
+
+function showNav() {}
+
+function toggleFS() {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
+}
+document.addEventListener('fullscreenchange', () => {
+  document.getElementById('fs-hint').textContent = document.fullscreenElement ? 'exit fullscreen' : 'fullscreen';
+});
+
+// Viewport scaling — fit the 1280x720 stage to any screen. Re-runs on load,
+// orientation change and visual-viewport resize so mobile (where innerHeight
+// can be ~0 during parse) settles to the correct full-width fit instead of a
+// shrunken sliver.
+function scaleViewport() {
+  const vp = document.getElementById('viewport');
+  if (!vp) return;
+  const s = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+  if (s > 0) vp.style.transform = 'scale(' + s + ')';
+}
+window.addEventListener('resize', scaleViewport);
+window.addEventListener('orientationchange', function(){ setTimeout(scaleViewport, 150); });
+window.addEventListener('load', scaleViewport);
+if (window.visualViewport) window.visualViewport.addEventListener('resize', scaleViewport);
+scaleViewport();
+[50, 200, 500, 1000].forEach(function(t){ setTimeout(scaleViewport, t); });
+
+// Charts
+function initChart(slideIdx) {}
+
+
+// Theme
+function setTheme(t) {
+  document.body.classList.remove('light','dark');
+  if (t === 'light') document.body.classList.add('light');
+  else if (t === 'dark') document.body.classList.add('dark');
+  document.querySelectorAll('.theme-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent.toLowerCase() === t);
+  });
+  localStorage.setItem('im-theme', t);
+}
+(function(){
+  const saved = localStorage.getItem('im-theme') || 'system';
+  setTheme(saved);
+})();
+
+showSlide(0);
+
+// ========== CHART RESIZE-ON-ACTIVATE (v10.23.32) ==========
+// ECharts canvases initialize with 0 width when their parent slide is
+// display:none. When a slide first becomes active, the canvas now has
+// dimensions but the chart hasn't redrawn. Force resize on activation.
+(function chartResize(){
+  function resizeIn(slide){
+    if (!slide || !window.echarts) return;
+    slide.querySelectorAll(".chart-canvas").forEach(function(c){
+      var inst = echarts.getInstanceByDom(c);
+      if (inst) {
+        try { inst.resize(); } catch(e){}
+      }
+    });
+  }
+  function resizeActive(){
+    document.querySelectorAll(".slide.active").forEach(resizeIn);
+  }
+  var vp = document.getElementById("viewport") || document.querySelector(".slide-viewport");
+  if (vp && window.MutationObserver) {
+    new MutationObserver(resizeActive).observe(vp, {subtree:true, attributes:true, attributeFilter:["class"]});
+  }
+  // Initial pass after charts have had time to init
+  setTimeout(resizeActive, 400);
+})();
+// ========== /CHART RESIZE-ON-ACTIVATE ==========
+</script>
+
+<script>
+
+// Init ECharts on slide change (lazy init when slide becomes active)
+(function(){
+  const initECharts = () => {
+
+  };
+  // Defer until DOM ready + ECharts loaded
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    setTimeout(initECharts, 80);
+  } else {
+    document.addEventListener('DOMContentLoaded', () => setTimeout(initECharts, 80));
+  }
+})();
+
+// ========== POLISH FIX BLOCK (v10.23.22) — runtime overflow detection ==========
+(function ensureFit(){
+  // v10.23.29: auto-compact disabled per user — no font shrinking
+  // Original logic preserved below as comments for reference
+  /* DISABLED:
+
+  function checkSlide(slide){
+    if (!slide || slide.classList.contains("compact")) return;
+    if (slide.querySelector(".end-screen, .title-screen, .section-divider, .toc-grid")) return;
+    var content = slide.querySelector(".slide-content");
+    if (!content) return;
+    // Slide must be active (display:flex) to measure
+    if (slide.offsetHeight === 0) return;
+    if (content.scrollHeight > content.clientHeight + 4) {
+      slide.classList.add("compact");
+      // Re-check after compact applied; if still overflowing, escalate
+      requestAnimationFrame(function(){
+        if (content.scrollHeight > content.clientHeight + 4) {
+          slide.classList.add("ultra-compact");
+        }
+      });
+    }
+  }
+  function checkAll(){
+    document.querySelectorAll(".slide.active").forEach(checkSlide);
+  }
+  // Watch slide-viewport for class changes (new active slide)
+  var vp = document.getElementById("viewport") || document.querySelector(".slide-viewport");
+  if (vp && window.MutationObserver) {
+    new MutationObserver(checkAll).observe(vp, {subtree:true, attributes:true, attributeFilter:["class"]});
+  }
+  window.addEventListener("resize", function(){
+    setTimeout(checkAll, 50);
+  });
+  // Initial pass after a brief delay (let scaleViewport run first)
+  setTimeout(checkAll, 200);
+
+  */
+})();
+(function autoSpacious(){
+  document.querySelectorAll(".slide").forEach(function(slide){
+    if (slide.classList.contains("compact")) return;
+    if (slide.querySelector(".end-screen, .title-screen, .section-divider, .toc-grid, .chart-canvas, .chart-wrap, table, svg.diagram")) return;
+    var text = (slide.textContent||"").length;
+    if (text > 0 && text < 420) {
+      slide.classList.add("spacious");
+    }
+  });
+})();
+(function navIdle(){
+  var t;
+  function ping(){
+    document.body.classList.add("nav-active");
+    clearTimeout(t);
+    t = setTimeout(function(){document.body.classList.remove("nav-active");}, 2200);
+  }
+  ["mousemove","keydown","touchstart","click"].forEach(function(e){
+    document.addEventListener(e, ping, {passive:true});
+  });
+  ping();
+})();
+// end polish fix block
+
+// ========== SLIDE DEEP-LINKING (v10.23.30) ==========
+(function slideDeepLinking(){
+  function syncHashFromActive(){
+    var active = document.querySelector(".slide.active");
+    if (active && active.id) {
+      var newHash = "#" + active.id;
+      if (location.hash !== newHash) {
+        history.replaceState(null, "", newHash);
+      }
+    }
+  }
+  function jumpToHash(){
+    if (!location.hash || !/^#s\d+$/.test(location.hash)) return;
+    var targetId = location.hash.slice(1);
+    var target = document.getElementById(targetId);
+    if (!target || !target.classList.contains("slide")) return;
+    if (target.classList.contains("active")) return;
+    var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+    var idx = slides.indexOf(target);
+    if (idx < 0) return;
+    var success = false;
+    if (typeof showSlide === "function") {
+      try { showSlide(idx + 1); if (target.classList.contains("active")) success = true; } catch(e){}
+      if (!success) { try { showSlide(idx); if (target.classList.contains("active")) success = true; } catch(e){} }
+    }
+    if (!success && typeof show === "function") {
+      try { show(idx + 1); if (target.classList.contains("active")) success = true; } catch(e){}
+    }
+    if (!success) {
+      slides.forEach(function(s){ s.classList.remove("active"); });
+      target.classList.add("active");
+      var prog = document.getElementById("prog-text");
+      if (prog) prog.textContent = (idx + 1) + " / " + slides.length;
+      var bar = document.getElementById("progress-bar");
+      if (bar) bar.style.width = ((idx + 1) / slides.length * 100) + "%";
+      var pb = document.getElementById("prevBtn");
+      var nb = document.getElementById("nextBtn");
+      if (pb) pb.disabled = (idx === 0);
+      if (nb) nb.disabled = (idx === slides.length - 1);
+    }
+  }
+  var vp = document.getElementById("viewport") || document.querySelector(".slide-viewport");
+  if (vp && window.MutationObserver) {
+    new MutationObserver(syncHashFromActive).observe(vp, {subtree:true, attributes:true, attributeFilter:["class"]});
+  }
+  if (location.hash && /^#s\d+$/.test(location.hash)) {
+    setTimeout(jumpToHash, 250);
+  }
+  window.addEventListener("hashchange", jumpToHash);
+})();
+// ========== /SLIDE DEEP-LINKING ==========
+
+// ========== PROPORTIONAL AUTO-FIT (v10.23.34) ==========
+(function autoFit(){
+  function fit(slide){
+    if (!slide) return;
+    var content = slide.querySelector(".slide-content");
+    if (!content) return;
+    content.style.zoom = "";
+    if (slide.querySelector(".title-screen, .section-divider, .end-screen")) return;
+    var natural = content.scrollHeight;
+    var avail = content.clientHeight;
+    if (natural <= avail + 4) return;
+    var scale = avail / natural;
+    if (scale < 0.78) return;
+    content.style.zoom = scale;
+  }
+  function fitActive(){
+    document.querySelectorAll(".slide.active").forEach(fit);
+  }
+  var vp = document.getElementById("viewport") || document.querySelector(".slide-viewport");
+  if (vp && window.MutationObserver) {
+    new MutationObserver(fitActive).observe(vp, {subtree:true, attributes:true, attributeFilter:["class"]});
+  }
+  window.addEventListener("resize", function(){ setTimeout(fitActive, 50); });
+  setTimeout(fitActive, 250);
+})();
+// ========== /PROPORTIONAL AUTO-FIT ==========</script>
+
+<script src="/js/translate-sarvam.js?v=de32c2b0" defer></script>
+</body>
+</html>

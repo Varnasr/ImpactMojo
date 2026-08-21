@@ -8,7 +8,7 @@ This guide will walk you through your first experience with ImpactMojo — from 
 
 1. **Open [impactmojo.in](https://www.impactmojo.in)** in any browser — Chrome, Firefox, Safari, or Edge on your phone, tablet, or computer
 2. **Explore the homepage.** You'll see an overview of what's available: courses, games, labs, and resources. Scroll through to get a sense of the platform.
-3. **Browse the course catalog.** Click on "Courses" or "Catalog" to see all 70 courses — 19 flagship courses with deep, multi-module content, and 51 foundational courses on focused topics.
+3. **Browse the course catalog.** Click on "Courses" or "Catalog" to see all 71 courses — 19 flagship courses with deep, multi-module content, and 52 foundational courses on focused topics.
 4. **Open any course and start reading.** No login, no signup, no payment. The content is right there.
 
 That's it. You're learning.
@@ -155,7 +155,7 @@ ImpactMojo is built as a **Progressive Web App (PWA)**, which means it can work 
 ImpactMojo is free to use, and the free tier is genuinely substantial. Here's what each level offers, explained in terms of what it means for your work:
 
 ### Explorer (Free)
-**What you get:** All 70 courses, 135 simulation games, 35 labs, 90 handouts, ImpactLex, Dev Case Studies, DevDiscourses, Dataverse access, and the Telegram community channel.
+**What you get:** All 71 courses, 135 simulation games, 35 labs, 90 handouts, ImpactLex, Dev Case Studies, DevDiscourses, Dataverse access, and the Telegram community channel.
 
 **Who it's for:** Anyone who wants to learn. Students, curious professionals, or team members exploring new topics. There's no time limit and no content restrictions on the core library.
 
