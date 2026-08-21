@@ -5,6 +5,18 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.239.0] - 2026-08-21
+
+### Fixed
+
+- **24 pages were rendering with no `<h1>` at all**, and three of them were losing working UI. `js/site-chrome.js` removes any `<header>` that is a direct child of `<body>` — deliberate, so the shared top bar can replace legacy per-page nav — but on these pages the heading lived inside that header, so it was deleted before anyone saw it. On three pages the block held more than a heading: the **Gandhian Lexicon**'s search box and category filter, the **LogFrame Builder**'s Import / Example / Reset buttons, and the **Public Choice lexicon**'s term counter. Their inline scripts bound listeners at parse time and the deferred chrome removed the elements afterwards, so the handlers ran on detached nodes — no console error, nothing red in CI, the feature simply not there. All four features are back.
+
+  The fix is `<header class="hero">` → `<section class="hero">`; the class carries the styling, so nothing moved. `courses/gandhi/lexicon.html` and `premium-tools/vaniscribe.html` styled the bare `header` tag rather than a class, so those got `.lx-head` / `.vs-head` and matching CSS.
+
+### Added
+
+- **`scripts/check-h1-survives-chrome.py`** + the `heading-survives-chrome` CI job. It re-runs the chrome's own removal rules over every page that loads it and fails if a page's only heading disappears. This existed as a documented trap and still shipped 24 times, because the two accessibility jobs test fixed lists — **10** pages for axe-core, **19** for pa11y-ci — and none of the 24 were on either, nor would a new page be. The guard walks all 834 pages that load the chrome instead.
+
 ## [10.238.0] - 2026-08-21
 
 ### Removed

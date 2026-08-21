@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.231.0 — August 21, 2026 (Search and buttons that were quietly missing)
+
+### Fixed
+
+- **The Gandhian Lexicon's search box and category filter are back.** They were in the page markup but were being removed as the page finished loading, so the lexicon opened with no way to search or filter its 55 terms. The same fault had removed the **LogFrame Builder Studio**'s Import, Example and Reset buttons, and the **Public Choice lexicon**'s count of visible terms.
+- **Twenty-four pages were loading with no main heading**, including Events, Build Circles, the Game Library, The Long View and the assessed-certificate pages. The title was written into each page but stripped before it rendered — so the page looked untitled, and screen readers had nothing to announce.
+
 ## v10.230.0 — August 21, 2026 (Instructor kits go back to being personal)
 
 ### Changed

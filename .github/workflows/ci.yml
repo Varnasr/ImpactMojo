@@ -226,6 +226,29 @@ jobs:
       - name: Check every page declares a viewport
         run: python3 scripts/check-viewport.py
 
+  heading-survives-chrome:
+    name: Heading survives site-chrome
+    runs-on: ubuntu-latest
+    # Without this a hung step inherits GitHub's 360-minute default and the
+    # job neither passes nor fails -- which reads as "still running".
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      # site-chrome.js removes, at runtime, any <header>/<nav> that is a direct
+      # child of <body>. That is deliberate -- it strips legacy per-page nav bars
+      # so the shared top bar can be injected -- but a page whose <h1> lives in
+      # that header ships a heading nobody ever sees, and anything else in there
+      # goes with it. On 2026-08-21 that was 24 pages, and on three of them it
+      # was taking real UI: the Gandhian Lexicon's search box and category
+      # filter, the LogFrame Builder's Import/Example/Reset buttons, and the
+      # Public Choice lexicon's term counter. Nothing was red. axe-core tests 10
+      # hardcoded pages and pa11y-ci 19; none of the 24 were in either list, and
+      # a new page joins neither list by default -- so the check has to be
+      # structural and sitewide rather than page-by-page.
+      - name: Check every heading survives the chrome strip
+        run: python3 scripts/check-h1-survives-chrome.py
+
   search-coverage:
     name: Site-search coverage
     runs-on: ubuntu-latest
