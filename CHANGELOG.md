@@ -5,6 +5,20 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.238.0] - 2026-08-21
+
+### Removed
+
+- **`instructor-kit.html`**, published earlier the same day. `teach.html` offers a kit *mapped to the requester's own syllabus*; a general public page is a weaker, different offer that quietly replaces the promise rather than fulfilling it — and it published our content gaps to everyone instead of telling one instructor honestly. Same error as the partnerships page: building the scalable thing instead of the promised thing. `/instructor-kit.html` and `/instructor-kit` now 301 to `/teach.html#kit`; removed from `sitemap.xml`, `data/search-index.json` and the pointer on `teach.html`.
+
+  Mapped kits are written per requester in Notion instead of committed here, in an **ImpactMojo Teaching Kits** page holding a **Kits** database — one entry per requester, with Instructor / Institution / Course / Level / Status / Requested / Sent and a *Gaps flagged* multi-select that feeds the roadmap. A bespoke document per instructor has no business in a git repo: every kit would be a commit and a deploy, with nothing for CI to guard, and it could never be corrected after the email went out. Notion also gives the instructor in-line comments to reply in.
+
+  Kits are **shared by link, never published** — each one names what ImpactMojo does not cover for that instructor, which is right in a private document and wrong on a public page. A template entry carries the house rules, including a standing instruction to check challenge tiers in `data/challenges.json` before describing any challenge as free.
+
+### Added
+
+- **Four roadmap items under Q2 2026**, from gaps the mapping exposed: a **CSR & ESG 101 course** (no ESG material exists; CSR appears only in passing in a few decks), a **Sustainability/ESG flagship** as the heavier alternative, **LMS-friendly exports** (gradebook CSV from studio exports, per-module deep links), and a **SCORM/xAPI package**. Recorded with the caveat that one instructor's request is not demand evidence, and should be weighed as such.
+
 ## [10.237.0] - 2026-08-21
 
 ### Changed

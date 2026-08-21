@@ -55,6 +55,15 @@ ImpactMojo development priorities for 2026. Items are roughly ordered by priorit
 
 ## Q2 2026 (Apr-Jun) — In Progress
 
+### Content and integration gaps (raised 2026-08-21 by an instructor-kit request)
+
+An instructor at a school of social work asked for a kit covering Sustainability, ESG, CSR and M&E. Mapping the M&E half was straightforward. The other half does not exist here, and mapping it exposed the integration gaps below. One request is not a mandate — these are recorded because they were found, and should be weighed against demand rather than built on the strength of a single enquiry.
+
+- [ ] **CSR & ESG 101 course** — No dedicated ESG material exists; CSR appears only in passing inside a handful of 101 decks. ESG reporting, CSR obligations under the Companies Act, and sustainability frameworks are core teaching for institutional and corporate-adjacent audiences. A 101 deck is the cheapest format to close this.
+- [ ] **Sustainability / ESG flagship** — The heavier version of the above: a full ~13-module flagship with South Asian cases, a lexicon and an assessment. Worth building only if ESG proves a durable teaching market rather than one syllabus.
+- [ ] **LMS-friendly exports** — A gradebook CSV from studio exports and clean per-module deep links. This is the part of LMS integration instructors actually ask for, without the conformance machinery.
+- [ ] **SCORM / xAPI package** — A conformant package that drops into Moodle or Canvas. Heavy to build and to keep conformant; justified only if institutions begin adopting at scale.
+
 - [x] **Native 101 slide decks** — Replaced Gamma iframes with self-hosted HTML decks for Dev Econ, MEL, and Climate (100 slides each, Chart.js, light/dark theme, keyboard/touch nav)
 - [x] **Handout 404s + same-origin serving** — `getHandoutURL` now serves from `/Handouts/` with URL-encoded path segments (previously pointed at a stale mirror)
 - [x] **Brand theme unification** — single `im-theme` localStorage key across main site, handouts, games, account page; seamless legacy-key migration
