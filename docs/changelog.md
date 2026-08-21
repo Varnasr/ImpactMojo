@@ -2,6 +2,17 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.236.0 — August 21, 2026 (The coach speaks once per module, and it is not always the same coach)
+
+### For Learners
+
+- **Every flagship module now ends with one note from a coach, and the two coaches alternate.** You will hear from Vandana, then Varna, then Vandana, the whole way down a course. Before this, some courses repeated the same invitation three or four times inside a single module — the SEL course had 52 of them across 13 modules — and others put the same face on module after module. 158 repeats are gone across all 20 flagships, and the notes that remain say something specific about the module you have just read.
+- **Public Choice callouts now have a coaching link.** All 13 named a coach and showed a generic quote icon with nothing to click. They now carry the coach's photo and the booking link, with the original notes kept as written.
+
+### Changed
+
+- The flagship course standard now states the rule plainly: one reflection prompt and one coach callout per module, coaches alternating so no two consecutive modules show the same face. "Alternating" had been ambiguous and was read as "occasionally".
+
 ## v10.235.0 — August 21, 2026 (A new flagship: Sustainability, ESG & Corporate Responsibility)
 
 ### For Learners
