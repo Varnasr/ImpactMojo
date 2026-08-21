@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.225.0 — August 21, 2026 (A partnerships page)
+
+### Added
+
+- **Partnerships page** (`/partnerships.html`) — who we build the material with, and on what terms. Populi is credited as our end-to-end research and MEL advisory partner, India Institute as our thought advocacy and measurement partner, PinPoint Ventures as founding sponsor. States the terms plainly: editorial independence, partner-supported content stays free under CC BY-NC-ND 4.0, no learner data. Carries a partnership proposal form (reuses the existing `partner-inquiry` form, so proposals land alongside the ones from About). Not yet linked in the site navigation.
+
 ## v10.224.0 — August 20, 2026 (New post: designing an impact evaluation)
 
 ### For Learners
