@@ -64,7 +64,7 @@
     return lines;
   }
 
-  var selected = null;
+  var selected = D.cases[0].id;
 
   /* ------------------------------------------------------------- the plot */
   function draw() {
@@ -249,6 +249,7 @@
     buildPicker();
     buildLegend();
     draw();
+    select(selected);   /* siblings do this; without it the panel loads blank */
     var t;
     window.addEventListener("resize", function () {
       clearTimeout(t);

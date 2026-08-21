@@ -2,6 +2,22 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.229.0 — August 21, 2026 (The fifty-rupee fine, revisited)
+
+### For Learners
+
+- **Animal Welfare Law and the Fifty-Rupee Fine** now carries a section on Animal Ask's 2026 prioritisation of Indian animal advocacy — which reaches the same conclusion about enforcement from a different direction, names the specific legal mechanisms (making offences cognizable, SPCA penalty powers), sets the scale against which court cases are a small lever, and reports that how an ask is framed decides whether it travels.
+
+## v10.228.0 — August 21, 2026 (An instructor kit, and a form that answers you)
+
+### For Learners
+
+- **Instructor Kit** — a ready-made 14-week monitoring-and-evaluation teaching plan, mapped week by week to material you can open today: the MEL flagship, the 101 decks, the studios whose exports work as gradeable assignments, and the case challenges. It says plainly which parts are free, which are part-free, and what the paid extras cost. Free to use in any classroom under CC BY-NC-ND 4.0.
+
+### Changed
+
+- **Requesting an instructor kit now asks the right questions and answers you back.** The form asks what your course is called, at what level, and what it covers — the things needed to actually map a kit — and you get an immediate acknowledgement with a five-working-day commitment instead of silence.
+
 ## v10.227.0 — August 21, 2026 (Four new Data Dives, and flow charts)
 
 ### For Learners
