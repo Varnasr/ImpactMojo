@@ -55,6 +55,13 @@ def twocol(a_title, a_body, b_title, b_body):
             '<div class="col-panel"><div class="col-panel-title">%s</div>%s</div></div>'
             % (a_title, a_body, b_title, b_body))
 
+def chart(context, canvas_id, takeaway):
+    return ('<div class="chart-slide-frame">'
+            '<div class="chart-context">%s</div>'
+            '<div class="chart-canvas"><canvas id="%s"></canvas></div>'
+            '<div class="chart-takeaway"><strong>What to see:</strong> %s</div>'
+            '</div>' % (context, canvas_id, takeaway))
+
 SRC = '<div class="chart-source">%s</div>'
 
 slides.append(('title', None))
@@ -129,18 +136,24 @@ sec("The critique", "What the law is accused of",
     + hbox("Both cases are argued seriously. A course that only teaches the mechanics and never "
            "the critique produces compliance officers, not practitioners.", "amber"))
 
-sec("For your syllabus", "What a student should be able to do",
+sec("Section 01 &middot; What You Will Be Able To Do", "Five things, by the end",
     bullets(["Decide, from a company&rsquo;s financials, whether Section 135 applies to it",
              "Compute the minimum obligation and say which years feed the average",
              "Judge whether a proposed activity falls inside Schedule VII &mdash; and defend the judgement",
              "Trace unspent money to the right account within the right deadline",
              "Read a BRSR filing and say what it does and does not tell you"])
-    + hbox("These are the assessable skills. Everything else in this deck exists to support them."))
+    + "<p>Each of these is a decision someone actually has to make: a company secretary "
+    "determining scope, a finance team computing the figure, a programme manager arguing a "
+    "boundary case, an NGO deciding whether it can accept the money, an analyst reading a "
+    "filing.</p>"
+    + hbox("Everything else here exists to support those five. If a slide does not eventually "
+           "help with one of them, it is context rather than content &mdash; useful, but not "
+           "the thing being taught.", "cyan"))
 
 # ───────────────────────── 2. Section 135: who is bound ─────────────────────
 divider(2, "Who Is Bound", "Section 135, and the threshold that catches you")
 
-sec("The test", "Three thresholds, any one of which binds you",
+sec("Section 02 &middot; The Test", "Three thresholds, any one of which binds",
     "<p>Section 135(1) applies to every company &mdash; including a foreign company&rsquo;s "
     "Indian branch or project office &mdash; that meets <b>any one</b> of these in the "
     "immediately preceding financial year.</p>"
@@ -148,8 +161,11 @@ sec("The test", "Three thresholds, any one of which binds you",
             [["Net worth", "&ge; &#8377;500 crore"],
              ["Turnover", "&ge; &#8377;1,000 crore"],
              ["Net profit", "&ge; &#8377;5 crore"]])
-    + hbox("<b>Any one</b>, not all three. A loss-making company with net worth above &#8377;500 crore "
-           "is in scope. This is the single most common error students make.")
+    + hbox("<b>Any one</b>, not all three. A loss-making company with net worth above "
+            "&#8377;500 crore is in scope, and so is a modestly capitalised distributor turning "
+            "over &#8377;1,000 crore on thin margins. Reading the three as cumulative is the "
+            "single most common error made about this section, and it produces confident, "
+            "wrong advice that a company is exempt.", "amber")
     + SRC % "Companies Act 2013, Section 135(1).")
 
 sec("The trap", "&lsquo;Immediately preceding financial year&rsquo;",
@@ -161,20 +177,32 @@ sec("The trap", "&lsquo;Immediately preceding financial year&rsquo;",
     + hbox("Set this as a exam question. Give a company four years of figures and ask for both "
            "answers. The students who have understood it will use different rows for each.", "cyan"))
 
-sec("Exit", "Falling out of scope",
+sec("Section 02 &middot; Exit", "How a company falls out of scope",
     "<p>A company that ceases to meet the thresholds is not bound forever. Where a company "
     "no longer meets the criteria for three consecutive financial years, it is not required "
     "to constitute a CSR Committee, and the obligation lapses until it re-enters scope.</p>"
-    + hbox("Entry is immediate; exit takes three years. The asymmetry is deliberate &mdash; it "
-           "stops a company from dipping below a threshold for one year to avoid a spend.")
-    + SRC % "Companies Act 2013, Section 135(9) and the CSR Rules.")
+    + "<p>The three-year clock runs on the thresholds, not on the spending. A company that "
+    "falls below the criteria in one year is still bound in that year and the two after it, "
+    "and the obligation is computed on the three-year profit average from when it was "
+    "profitable.</p>"
+    + hbox("Entry is immediate; exit takes three years. The asymmetry is deliberate: it stops a "
+            "company dipping below a threshold for a single year to avoid a spend, and it means "
+            "a business in genuine decline keeps a CSR obligation calculated on better years. "
+            "Both consequences follow from the same clause.", "cyan")
+    + SRC % "Companies Act 2013, Section 135(9); Companies (CSR Policy) Rules 2014.")
 
-sec("Foreign companies", "Branches and project offices are covered",
-    "<p>A foreign company with a branch or project office in India is in scope if it meets "
-    "the thresholds. Net worth, turnover and net profit are computed from the balance sheet "
-    "and profit-and-loss account prepared under Section 381(1)(a) of the Act.</p>"
-    + hbox("Students at business schools often assume CSR is a domestic-company rule. It is not.")
-    + SRC % "Companies (CSR Policy) Rules 2014, Rule 3.")
+sec("Section 02 &middot; Foreign Companies", "Branches and project offices are in scope",
+    "<p>A foreign company with a <b>branch or project office in India</b> is covered if it "
+    "meets the thresholds. Net worth, turnover and net profit are computed from the balance "
+    "sheet and profit-and-loss account prepared under Section 381(1)(a) of the Act &mdash; that "
+    "is, from the Indian operation, not the global group.</p>"
+    + "<p>The consequence is that a multinational whose worldwide revenue is very large may owe "
+    "nothing if its Indian branch is small, while a mid-sized foreign firm with a substantial "
+    "Indian project office may be squarely in scope. Size in India is what the section reads.</p>"
+    + hbox("CSR is widely assumed to be a domestic-company rule. It is not, and the assumption "
+           "produces real compliance failures at foreign branches that never constituted a CSR "
+           "Committee because nobody thought the section applied to them.", "amber")
+    + SRC % "Companies (CSR Policy) Rules 2014, Rule 3; Companies Act 2013, Section 381(1)(a).")
 
 sec("Net profit", "Which profit figure the Act means",
     "<p>&lsquo;Net profit&rsquo; for CSR is <b>not</b> the headline profit-after-tax in a press "
@@ -228,14 +256,19 @@ sec("The list", "Schedule VII in outline",
                "Rural development projects; slum area development; disaster management including relief, rehabilitation and reconstruction"])
     + SRC % "Companies Act 2013, Schedule VII. Paraphrased in outline &mdash; read the Schedule itself before advising anyone.")
 
-sec("Read it liberally", "The MCA&rsquo;s own instruction",
+sec("Section 03 &middot; Read It Liberally", "The MCA&rsquo;s own instruction",
     "<p>The Ministry of Corporate Affairs has repeatedly clarified that the entries in "
     "Schedule VII are to be interpreted <b>liberally</b>, so as to capture the essence of the "
     "subjects listed, rather than read as a narrow closed list.</p>"
-    + hbox("This matters for teaching. A student who treats Schedule VII as ten rigid boxes will "
-           "wrongly reject sound projects. One who treats it as infinitely elastic will wrongly "
-           "approve anything. The skill is arguing the boundary.")
-    + SRC % "MCA General Circulars and the CSR FAQ series.")
+    + "<p>&ldquo;Liberally&rdquo; is not the same as &ldquo;anything&rdquo;. The instruction "
+    "is about reading the <b>essence</b> of each listed subject rather than its narrowest "
+    "wording &mdash; a water project can be rural development, sanitation or environmental "
+    "sustainability depending on its design, and none of those readings is wrong.</p>"
+    + hbox("Treating Schedule VII as ten rigid boxes wrongly rejects sound projects; treating "
+            "it as infinitely elastic wrongly approves anything. The working skill is arguing a "
+            "boundary case in writing, with the entry named and the essence identified &mdash; "
+            "which is also what an auditor will look for.", "cyan")
+    + SRC % "MCA General Circulars and the CSR FAQ series; Schedule VII, Companies Act 2013.")
 
 sec("What is excluded", "The exclusions that catch people out",
     table(["Excluded", "Why"],
@@ -279,7 +312,7 @@ sec("Section 03 &middot; The Boundary Question", "Where Schedule VII is actually
 # ───────────────────────── 4. The two per cent ──────────────────────────────
 divider(4, "The Two Per Cent", "How the obligation is computed")
 
-sec("The formula", "Prescribed CSR expenditure",
+sec("Section 04 &middot; The Formula", "Prescribed CSR expenditure",
     "<p>The board must ensure the company spends, in every financial year, at least "
     "<b>two per cent of the average net profit</b> made during the three immediately "
     "preceding financial years.</p>"
@@ -289,24 +322,33 @@ sec("The formula", "Prescribed CSR expenditure",
            "such preceding financial years as it has completed.")
     + SRC % "Companies Act 2013, Section 135(5).")
 
-sec("Worked example", "Computing the obligation",
+sec("Section 04 &middot; Worked Example", "Computing a real obligation",
     table(["Financial year", "Net profit (s.198)"],
           [["FY 2023&ndash;24", "&#8377;40 crore"],
            ["FY 2024&ndash;25", "&#8377;70 crore"],
            ["FY 2025&ndash;26", "&#8377;10 crore"],
            ["<b>Average</b>", "<b>&#8377;40 crore</b>"],
            ["<b>2% obligation for FY 2026&ndash;27</b>", "<b>&#8377;80 lakh</b>"]])
-    + hbox("The averaging is what makes this survive a bad year. A company that collapses to "
-           "&#8377;10 crore of profit still owes on a &#8377;40 crore average &mdash; and a company "
-           "having a spectacular year does not owe on it until the average catches up."))
+    + "<p>Note which years feed the calculation. The obligation for FY 2026&ndash;27 is set by "
+    "the three years <i>preceding</i> it, so the money a company must spend this year was "
+    "determined by profits it has already made and already reported. There is no forecasting "
+    "involved, and no discretion.</p>"
+    + hbox("The averaging is what makes the obligation survive a bad year. A company that "
+            "collapses to &#8377;10 crore of profit still owes on a &#8377;40 crore average "
+            "&mdash; and a company having a spectacular year does not owe on it until the "
+            "average catches up. The mechanism smooths in both directions.", "cyan")
+    + SRC % "Companies Act 2013, Section 135(5).")
 
 sec("A loss-making year", "Zero profit is not zero obligation",
     "<p>Because the base is a three-year average, a single loss-making year does not "
     "extinguish the obligation. Equally, a company can be <b>in scope</b> on turnover or net "
     "worth while its three-year average net profit is nil &mdash; in which case the "
     "prescribed expenditure is nil, but the reporting duty remains.</p>"
-    + hbox("Teach the two branches separately: <b>in scope</b> triggers governance and reporting; "
-           "<b>average net profit</b> sets the amount. They can move independently.", "cyan"))
+    + hbox("The two tests do different work and move independently. <b>In scope</b> triggers "
+            "governance and reporting duties; <b>average net profit</b> sets the amount. A "
+            "company can be firmly in scope and owe nothing, and it still needs a Committee, a "
+            "policy and a report.", "cyan")
+    + SRC % "Companies Act 2013, Section 135(1) and 135(5).")
 
 sec("Section 04 &middot; The One-Way Rule", "CSR money cannot flow back",
     "<p>Any surplus arising out of CSR activities <b>does not form part of the business profit</b> "
@@ -323,13 +365,18 @@ sec("Section 04 &middot; The One-Way Rule", "CSR money cannot flow back",
            "money is spent when it leaves; it does not come back.", "amber")
     + SRC % "Companies (CSR Policy) Rules 2014, Rule 7(2); read with Rule 7(4) on capital assets.")
 
-sec("Set-off", "Spending more than you owe",
-    "<p>Where a company spends more than its obligation in a financial year, that excess may "
-    "be set off against the requirement for succeeding financial years, subject to conditions "
-    "set out in the Rules &mdash; including board approval and limits on how far forward the "
-    "set-off may be carried.</p>"
+sec("Section 04 &middot; Set-Off", "Spending more than you owe",
+    "<p>Where a company spends more than its obligation in a financial year, the excess may be "
+    "set off against the requirement of succeeding financial years, subject to conditions in "
+    "the Rules &mdash; board approval, a limit on how far forward it carries, and the exclusion "
+    "of any surplus arising out of CSR activities.</p>"
+    + "<p>The mechanism exists because CSR spending is lumpy while the obligation is annual. A "
+    "company that builds a facility in one year may spend three years&rsquo; worth at once; "
+    "without set-off it would be over-compliant once and under-compliant twice.</p>"
     + hbox("Check the current text of Rule 7 before advising on set-off. The mechanism has been "
-           "amended since it was introduced and the conditions are specific.", "amber")
+            "amended since it was introduced and the conditions are specific &mdash; in "
+            "particular, the excess must be genuine expenditure and not a surplus generated by "
+            "the CSR activity itself.", "amber")
     + SRC % "Companies (CSR Policy) Rules 2014, Rule 7(3).")
 
 sec("Capital assets", "Who may own what CSR money builds",
@@ -422,6 +469,26 @@ sec("Section 04 &middot; The National Picture", "What two per cent adds up to",
            "scheme. CSR is a real funding stream and not a substitute for public spending.", "amber")
     + SRC % "CSR spend from public disclosures, compiled in the ImpactMojo CSR map. Budget figure: Budget at a Glance 2026-27.")
 
+sec("Section 04 &middot; The Sector Split", "Where CSR money actually goes",
+    chart("Mandated CSR expenditure by Schedule VII head, FY2023-24, &#8377; crore. "
+          "Compiled from public company disclosures.",
+          "csrSectorChart",
+          "Health and education together take roughly seven rupees in every ten. Environment, "
+          "rural development and every other Schedule VII head &mdash; gender, sport, heritage, "
+          "disaster relief, technology incubation &mdash; divide the remaining 29 per cent "
+          "between them. Schedule VII is far broader than the money that reaches it.")
+    + SRC % "Public disclosures, FY2023-24; interactive version at impactmojo.in/maps/csr-india.html.")
+
+sec("Section 04 &middot; The Concentration Curve", "Ten firms, and everyone else",
+    chart("The ten largest corporate CSR spenders, FY2023-24, &#8377; crore.",
+          "csrTopTenChart",
+          "These ten account for about &#8377;5,880 crore &mdash; roughly 17 per cent of all "
+          "CSR &mdash; while thousands of other covered companies contribute the rest. That "
+          "shapes fundraising: a handful of firms can fund a programme outright, while most "
+          "covered companies have obligations of a few lakh to a few crore and behave quite "
+          "differently as funders.")
+    + SRC % "Public disclosures, FY2023-24, compiled in the ImpactMojo CSR map.")
+
 sec("Section 04 &middot; Where It Lands", "The sector split, and what it implies",
     table(["Sector", "&#8377; crore", "Share"],
           [["Health &amp; sanitation", "13,400", "38.4%"],
@@ -492,7 +559,7 @@ sec("The Board&rsquo;s duties", "Where accountability actually sits",
            "officer&rsquo;s signature.")
     + SRC % "Companies Act 2013, Section 135; Companies (CSR Policy) Rules 2014, Rule 4(5).")
 
-sec("The annual action plan", "What the Committee must formulate",
+sec("Section 05 &middot; The Action Plan", "What the Committee must formulate",
     bullets(["The list of CSR projects or programmes approved, within Schedule VII",
              "The manner of execution",
              "The modalities of utilisation of funds and implementation schedules",
@@ -502,14 +569,19 @@ sec("The annual action plan", "What the Committee must formulate",
            "Committee&rsquo;s recommendation, based on reasonable justification.")
     + SRC % "Companies (CSR Policy) Rules 2014, Rule 5(2).")
 
-sec("Disclosure", "What must be public",
-    "<p>The Board&rsquo;s report must include an annual report on CSR containing the "
-    "particulars specified in the Rules, and the company must disclose the composition of the "
-    "CSR Committee, the CSR Policy and the projects approved <b>on its website</b>.</p>"
-    + hbox("The website duty is what makes classroom research possible. Any listed Indian company "
-           "of size has this material published; students can read the real thing rather than a "
-           "textbook summary.", "cyan")
-    + SRC % "Companies (CSR Policy) Rules 2014, Rule 9.")
+sec("Section 05 &middot; Disclosure", "What has to be public, and where",
+    "<p>The board&rsquo;s report must include an annual report on CSR containing the "
+    "particulars specified in the Rules, and the company must publish three things <b>on its "
+    "website</b>: the composition of the CSR Committee, the CSR Policy, and the projects "
+    "approved by the board.</p>"
+    + bullets(["Board&rsquo;s report &mdash; the annual CSR report, in the prescribed format",
+               "Website &mdash; Committee composition, policy, approved projects",
+               "Where impact assessment applies &mdash; the assessment report, annexed"])
+    + hbox("The website duty is what makes independent scrutiny possible at all. Every listed "
+           "Indian company of size has this material published and indexed, which means anyone "
+           "can read the primary document rather than a summary of it &mdash; and can compare "
+           "what a company said it would fund against what it reported spending.", "cyan")
+    + SRC % "Companies (CSR Policy) Rules 2014, Rule 9; Section 134(3)(o).")
 
 sec("Section 05 &middot; The Annual Action Plan", "What the board actually approves",
     "<p>Since the 2021 amendment the CSR Committee must formulate, and the board approve, an "
@@ -558,15 +630,27 @@ sec("Section 05 &middot; The Argument Against", "Is a CSR mandate good policy?",
 
 divider(6, "The Money That Did Not Move", "Unspent CSR, and the 2021 machinery")
 
-sec("The 2021 change", "Unspent CSR stopped being a footnote",
-    "<p>Before 2021, a company that failed to spend explained itself in the Board&rsquo;s "
-    "report and that was largely the end of it. The Companies (Amendment) Act 2019 and the "
-    "CSR Amendment Rules 2021 replaced &lsquo;comply or explain&rsquo; with a transfer "
-    "obligation and deadlines.</p>"
-    + hbox("This is the most consequential amendment to the CSR regime since it began. If your "
-           "reference material predates 2021, its treatment of unspent money is wrong."))
+sec("Section 06 &middot; The 2021 Change", "When unspent money stopped being a footnote",
+    "<p>Before 2021, a company that failed to spend explained itself in the board&rsquo;s "
+    "report, and that was largely the end of it. Unspent CSR was a disclosure item, not a "
+    "liability.</p>"
+    + twocol("Before: comply or explain",
+             bullets(["Underspend disclosed in the board&rsquo;s report",
+                      "Reasons stated, no transfer required",
+                      "Money stayed with the company",
+                      "No penalty attached to the shortfall"]),
+             "After: transfer or pay",
+             bullets(["Unspent money must move to a defined account or fund",
+                      "Deadlines of 30 days and 6 months apply",
+                      "Three-year backstop on ongoing projects",
+                      "Penalty attaches to failure to transfer"]))
+    + hbox("This is the most consequential amendment to the regime since it began, and the "
+           "reason so much CSR writing is out of date. If a reference predates 2021, its "
+           "treatment of unspent money is simply wrong &mdash; check the date before trusting "
+           "any guidance note on this point.", "amber")
+    + SRC % "Companies (Amendment) Act 2019; Companies (CSR Policy) Amendment Rules 2021.")
 
-sec("The fork", "Ongoing project, or not",
+sec("Section 06 &middot; The Fork", "Ongoing project, or not",
     twocol("Ongoing project",
            "<p>Transfer the unspent amount to a special account &mdash; the <b>Unspent CSR "
            "Account</b> &mdash; within <b>30 days</b> of the end of the financial year. Spend it "
@@ -594,26 +678,44 @@ sec("Section 06 &middot; The Backstop", "What happens after three years",
     "the end of the third financial year.</p>"
     + flow(["FY ends unspent", "&rarr; Unspent CSR A/c in 30 days",
             "3 years to spend", "Still unspent &rarr; Schedule VII fund in 30 days"])
+    + "<p>The three years run from the end of the financial year in which the money was "
+    "transferred, not from when the project started. A project that slips can therefore "
+    "exhaust the window while still running &mdash; and the unspent balance leaves anyway.</p>"
+    + hbox("This is the clause that makes multi-year CSR planning real rather than notional. "
+            "Money parked in the Unspent Account is not the company&rsquo;s to hold "
+            "indefinitely; it is on a clock, and at the end of the clock it goes to a Central "
+            "Government fund whatever the project&rsquo;s state.", "amber")
     + SRC % "Companies Act 2013, Section 135(6).")
 
-sec("The funds", "Where unspent money goes",
+sec("Section 06 &middot; The Funds", "Where unspent money is sent",
     bullets(["Prime Minister&rsquo;s National Relief Fund",
              "PM CARES Fund",
              "Clean Ganga Fund",
              "Swachh Bharat Kosh",
              "Any other fund set up by the Central Government as specified in Schedule VII"])
-    + hbox("Note what this means politically: money a company failed to direct locally is "
-           "redirected centrally. Whether that is a feature or a defect is a live argument, and "
-           "worth putting to students.", "cyan"))
+    + "<p>Every one of these is a fund of the Central Government. There is no option to "
+    "transfer unspent money to a state fund, a local body, or the NGO the company had been "
+    "working with.</p>"
+    + hbox("The political consequence is worth stating plainly: money a company failed to "
+            "direct locally is redirected centrally. One reading is that this prevents "
+            "underspending from simply evaporating; another is that it converts a failure of "
+            "corporate programme management into central revenue, with no say for the district "
+            "the money was meant for. Both are live arguments.", "cyan")
+    + SRC % "Schedule VII, Companies Act 2013; Section 135(5) and 135(6).")
 
-sec("Penalties", "It is now an enforceable default",
-    "<p>Failure to comply with the transfer obligations attracts penalties on the company and "
-    "on officers in default, as set out in Section 135(7). The Companies (Amendment) Act 2020 "
-    "converted the regime from criminal to civil penalty.</p>"
-    + hbox("Penalty amounts have been amended and are capped by formula. Read the current "
-           "Section 135(7) before quoting a figure &mdash; a stale number in a compliance note is "
-           "worse than no number.", "amber")
-    + SRC % "Companies Act 2013, Section 135(7).")
+sec("Section 06 &middot; Penalties", "An enforceable default, not a criminal one",
+    "<p>Failure to comply with the transfer obligations attracts penalty on the company and on "
+    "every officer in default under Section 135(7). The Companies (Amendment) Act 2020 "
+    "converted the regime from <b>criminal to civil</b>.</p>"
+    + "<p>That change is easy to read as a softening and is better read as a redesign. "
+    "Criminalising a spending shortfall made directors personally liable to imprisonment for a "
+    "budgeting failure, which chilled participation on boards without improving spending. A "
+    "monetary penalty attached to the transfer duty targets the behaviour the state actually "
+    "wants: money that is not spent must still leave the company.</p>"
+    + hbox("Penalty amounts are capped by formula and have been amended. Read the current "
+           "Section 135(7) before quoting a figure &mdash; a stale number in a compliance note "
+           "is worse than no number at all.", "amber")
+    + SRC % "Companies Act 2013, Section 135(7), as amended 2020.")
 
 sec("Section 06 &middot; The Order Of Operations", "Which unspent rule applies, and when",
     "<p>The two unspent regimes are decided by one question: was the money committed to an "
@@ -630,7 +732,7 @@ sec("Section 06 &middot; The Order Of Operations", "Which unspent rule applies, 
 # ───────────────────────── 7. Implementation ────────────────────────────────
 divider(7, "Who May Spend It", "Implementation routes and CSR-1")
 
-sec("The routes", "Four ways a company may deliver CSR",
+sec("Section 07 &middot; The Routes", "Four ways a company may deliver CSR",
     bullets(["<b>Itself</b> &mdash; directly, through its own teams",
              "<b>Its own foundation</b> &mdash; a Section 8 company, registered trust or society established by the company, alone or with others",
              "<b>A government entity</b> &mdash; established under an Act of Parliament or a State legislature",
@@ -641,41 +743,73 @@ sec("Section 07 &middot; CSR-1", "When registration became mandatory",
     "<p>From <b>1 April 2021</b>, an entity intending to undertake CSR activities on behalf "
     "of a company must register itself with the Central Government by filing <b>Form CSR-1</b> "
     "electronically with the Registrar, and obtain a CSR Registration Number.</p>"
-    + hbox("For NGOs this is the practical gate. No CSR-1, no corporate money &mdash; regardless of "
-           "how good the organisation is or how long it has worked.")
+    + "<p>The registration is with the Registrar of Companies, not with the funding company, "
+    "and it is a one-time filing rather than a per-grant approval. Once issued, the CSR "
+    "Registration Number is quoted by every company that funds the entity.</p>"
+    + hbox("For an NGO this is the practical gate. No CSR-1, no corporate money &mdash; "
+            "regardless of how good the organisation is or how long it has worked. An "
+            "organisation that has run programmes for a decade but never filed is, for CSR "
+            "purposes, invisible.", "amber")
     + SRC % "Companies (CSR Policy) Rules 2014, Rule 4(2).")
 
-sec("What CSR-1 requires", "In outline",
+sec("Section 07 &middot; Filing CSR-1", "What the form actually asks for",
     bullets(["Registration under Section 12A and 80G of the Income-tax Act 1961, where applicable",
-             "Details of the entity &mdash; Section 8 company, registered trust or registered society",
-             "Governing body details and PAN",
-             "Digital signature of an authorised person and certification by a practising professional"])
+             "The entity type &mdash; Section 8 company, registered public trust or registered society",
+             "Governing body details, PAN, and the registration certificate",
+             "Digital signature of an authorised person",
+             "Certification by a practising chartered accountant, company secretary or cost accountant"])
+    + "<p>Filing is free and there is no fee, but it is not a formality: the professional "
+    "certifying the form is attesting that the entity meets the eligibility conditions, "
+    "including the three-year track record. On acceptance the MCA issues a <b>CSR registration "
+    "number</b>, which the funding company records in its own reporting.</p>"
     + hbox("Check the current form and its attachments on the MCA portal before advising an "
-           "organisation. Requirements have been revised.", "amber"))
+           "organisation. The requirements have been revised more than once since 2021, and an "
+           "outdated checklist wastes a filing cycle.", "amber")
+    + SRC % "Companies (CSR Policy) Rules 2014, Rule 4(2); Form CSR-1, mca.gov.in.")
 
-sec("The three-year track record", "What it excludes",
+sec("Section 07 &middot; The Track Record", "Three years, and who it shuts out",
     "<p>An external implementing organisation must have an <b>established track record of at "
     "least three years</b> in undertaking similar activities. An entity established by the "
-    "company itself does not face this requirement.</p>"
-    + hbox("This is a real barrier to new and community-rooted organisations, and a real "
-           "safeguard against shell intermediaries. It does both things at once; say so in class "
-           "rather than presenting only one side.", "cyan"))
+    "company itself &mdash; its own foundation or Section 8 company &mdash; does not face this "
+    "requirement.</p>"
+    + twocol("What it prevents",
+             bullets(["Shell intermediaries created to route funds",
+                      "Untested entities handling large first grants",
+                      "Agencies with no record to check"]),
+             "What it costs",
+             bullets(["New organisations cannot receive CSR at all for three years",
+                      "Community-rooted groups without formal history are excluded",
+                      "Corporate foundations face a lower bar than independent NGOs"]))
+    + hbox("The asymmetry is the part worth noticing: the rule is strictest on exactly the "
+           "organisations least able to absorb it, and lightest on entities the funder controls. "
+           "It is a safeguard and a barrier at the same time, and both are real.", "cyan")
+    + SRC % "Companies (CSR Policy) Rules 2014, Rule 4(1).")
 
 sec("Monitoring the money", "The company cannot outsource responsibility",
     "<p>The Board must satisfy itself that funds disbursed have been utilised for the purposes "
     "and in the manner approved, and the Chief Financial Officer or the person responsible for "
     "financial management must certify to that effect.</p>"
+    + "<p>The certification runs to the Chief Financial Officer or the person responsible for "
+    "financial management &mdash; not to the CSR Committee that set the policy, and not to the "
+    "implementing agency that did the work. The person who signs is downstream of both.</p>"
     + hbox("For an implementing NGO this translates into utilisation certificates, documented "
-           "beneficiary records and audit trails. Teach students to design these <b>at proposal "
-           "stage</b>, not at year end.")
+            "beneficiary records and audit trails. These are worth designing <b>at proposal "
+            "stage</b> rather than assembling at year end, because the CFO cannot certify what "
+            "was never recorded, and a grant that cannot be certified is a problem for the "
+            "funder as well as the grantee.", "cyan")
     + SRC % "Companies (CSR Policy) Rules 2014, Rule 4(5).")
 
-sec("Collaboration", "Companies may pool",
-    "<p>A company may collaborate with other companies for undertaking projects, provided the "
-    "CSR Committees of each are in a position to report separately on those projects in "
+sec("Section 07 &middot; Collaboration", "Pooling, and the condition attached",
+    "<p>A company may collaborate with other companies on a project, provided the CSR "
+    "Committees of <b>each</b> are in a position to report separately on that project in "
     "accordance with the Rules.</p>"
-    + hbox("Pooling is how small obligations reach a scale worth designing for. The reporting "
-           "condition is what stops it becoming a black box.")
+    + "<p>The economics make this attractive. Most covered companies owe a few lakh to a few "
+    "crore &mdash; enough to fund a fragment of a programme, not a programme. Ten such "
+    "obligations pooled reach a scale at which a district-level intervention can be designed, "
+    "staffed and evaluated rather than scattered across ten small grants.</p>"
+    + hbox("The separate-reporting condition is what stops a pool becoming a black box. Each "
+           "company must still be able to say what its own money did, which in practice means "
+           "the implementing agency has to keep the accounting attributable rather than merged.", "cyan")
     + SRC % "Companies (CSR Policy) Rules 2014, Rule 4(4).")
 
 sec("Section 07 &middot; What CSR-1 Requires", "The registration an NGO cannot skip",
@@ -700,17 +834,28 @@ sec("When it is mandatory", "The two thresholds",
     + table(["Limb", "Threshold"],
             [["Company&rsquo;s average CSR obligation", "&ge; &#8377;10 crore in the three immediately preceding financial years"],
              ["The project", "Outlay &ge; &#8377;1 crore, and completed not less than one year before undertaking the study"]])
-    + hbox("Both limbs. A large company&rsquo;s small project is out; a small company&rsquo;s large "
-           "project is out.")
+    + "<p>The one-year gap in the second limb is deliberate. Assessing a project immediately "
+    "on completion measures delivery, not effect; most outcomes worth measuring &mdash; income, "
+    "attendance, health status &mdash; take time to appear or to fade.</p>"
+    + hbox("Both limbs must be met. A large company&rsquo;s small project is out of scope, and "
+            "a small company&rsquo;s large project is out of scope. The result is that mandatory "
+            "assessment reaches only a narrow band of CSR: big spenders&rsquo; big projects. "
+            "Everything else is assessed voluntarily or not at all.", "cyan")
     + SRC % "Companies (CSR Policy) Rules 2014, Rule 8(3).")
 
-sec("What it costs", "The assessment is chargeable to CSR",
-    "<p>Impact assessment expenditure may be booked to CSR for that financial year, subject "
-    "to a cap set out in the Rules &mdash; expressed as a percentage of total CSR expenditure "
-    "or an absolute figure, whichever is higher.</p>"
-    + hbox("Check the current cap in Rule 8(3)(c); it has been amended. The principle &mdash; that "
-           "evaluation is fundable from the CSR budget rather than an unfunded extra &mdash; has "
-           "not changed.", "amber"))
+sec("Section 08 &middot; Who Pays For It", "Assessment is chargeable to CSR",
+    "<p>Impact assessment expenditure <b>may be booked to CSR</b> for that financial year, "
+    "subject to a cap in the Rules expressed as a percentage of total CSR expenditure or an "
+    "absolute figure, whichever is higher.</p>"
+    + "<p>That matters more than it sounds. Evaluation is usually the first line cut, because "
+    "it competes with delivery for the same budget and produces no beneficiaries. Making it "
+    "chargeable to CSR means a company commissioning a serious assessment is not spending "
+    "money it could otherwise have spent on the programme &mdash; it is spending CSR money on "
+    "finding out whether the programme worked.</p>"
+    + hbox("The cap sits outside the five per cent administrative-overhead limit, so a company "
+           "does not have to choose between running its CSR function and evaluating it. Check "
+           "the current figure in Rule 8(3)(c); it has been amended.", "amber")
+    + SRC % "Companies (CSR Policy) Rules 2014, Rule 8(3)(c).")
 
 sec("Independent agency", "What independence means here",
     "<p>The Rules require an <b>independent agency</b>. They do not prescribe a methodology, a "
@@ -734,23 +879,40 @@ sec("Section 08 &middot; A Better Assessment", "What it would have to do",
              "Is explicit about attribution &mdash; what would have happened anyway",
              "Reports what did not work, not only what did",
              "Names its limitations, sample and period"])
+    + "<p>None of this requires a randomised trial. It requires the author to be explicit "
+    "about what the study can and cannot support &mdash; which is a writing discipline before "
+    "it is a methodological one.</p>"
     + hbox("A report with no negative findings and no stated limitations is not an evaluation. "
-           "Teach students to say so politely and in writing."))
+            "Every real programme has something that did not work and some group it reached "
+            "less well; a document that mentions neither has been written to persuade rather "
+            "than to find out.", "cyan"))
 
-sec("Attribution", "The question CSR reports usually dodge",
+sec("Section 08 &middot; Attribution", "The question CSR reports usually dodge",
     "<p>A CSR report will say a programme reached 40,000 people. The evaluation question is "
     "different: <b>what changed that would not have changed anyway?</b></p>"
     + quote("Reach is an output. Change is an outcome. Attribution is a claim about causation "
             "&mdash; and it needs a comparison, not a headcount.",
             "The distinction every impact assessment stands or falls on")
-    + hbox("If you teach M&amp;E alongside this, the ImpactMojo studios on Theory of Change and "
-           "Impact Evaluation let students build and defend the comparison design.", "cyan"))
+    + "<p>The gap is not usually dishonesty. It is that reach is cheap to measure and change "
+    "is expensive, so a report constrained by budget and deadline reports what it has. The "
+    "problem is that the two are presented in the same register, and a reader who does not "
+    "know the difference will take a headcount for a result.</p>"
+    + hbox("The ImpactMojo Theory of Change and Impact Evaluation studios are where the "
+            "comparison design gets built and defended &mdash; both free, both in the browser, "
+            "and both producing an artefact rather than an essay.", "cyan"))
 
-sec("Where it is published", "The annexure",
-    "<p>The impact assessment report must be placed before the Board and annexed to the "
-    "annual report on CSR.</p>"
-    + hbox("Which means it is public. Students can and should read real ones &mdash; and the "
-           "variation in quality between them is itself a teaching object.")
+sec("Section 08 &middot; Where It Is Published", "The annexure, and why it matters",
+    "<p>The impact assessment report must be placed before the board and <b>annexed to the "
+    "annual report on CSR</b>. That annexure is filed and published, which makes it one of the "
+    "few evaluation documents in Indian development that anyone can read without asking "
+    "permission.</p>"
+    + "<p>The quality varies enormously. Some are competent evaluations with a stated design, "
+    "sample and limitations. Others are the programme brochure with a cover page. Both satisfy "
+    "the same rule, because the Rules require an assessment by an independent agency without "
+    "specifying what an assessment must contain.</p>"
+    + hbox("This is a genuine research resource. Hundreds of impact assessments are published "
+           "every year across sectors and states, and almost nobody reads them systematically. "
+           "The variation between them is itself a finding about how evaluation is practised.", "cyan")
     + SRC % "Companies (CSR Policy) Rules 2014, Rule 8(3)(b).")
 
 sec("Section 08 &middot; The Missing Counterfactual", "What impact assessment usually is not",
@@ -785,15 +947,20 @@ sec("The shift", "Different obligation, different audience",
     + hbox("A company can spend its 2% impeccably and still have a poor ESG profile, because the "
            "2% is not where the harm is. This is the most important idea in the section."))
 
-sec("BRSR", "What it is",
+sec("Section 09 &middot; BRSR", "What the format is, and who files it",
     "<p>The <b>Business Responsibility and Sustainability Report</b> is SEBI&rsquo;s mandatory "
     "ESG disclosure format, replacing the earlier Business Responsibility Report. It applies "
     "to the top <b>1,000</b> listed entities by market capitalisation, mandatory from "
     "<b>FY 2022&ndash;23</b>.</p>"
-    + hbox("Applicability has expanded since introduction, including a &lsquo;BRSR Core&rsquo; "
-           "subset with assurance requirements phased in by market-cap rank. Confirm the current "
-           "position on sebi.gov.in before teaching the thresholds as settled.", "amber")
-    + SRC % "SEBI (LODR) Regulations; SEBI circulars on BRSR.")
+    + "<p>It replaced the Business Responsibility Report, and the change of name marks a "
+    "change of scope: the BRR asked mainly about conduct, while the BRSR adds quantitative "
+    "environmental and social disclosure and a structure that can be compared across "
+    "companies and years.</p>"
+    + hbox("Applicability has expanded since introduction, including the BRSR Core subset with "
+            "assurance phased in by market-capitalisation rank. Confirm the current position on "
+            "sebi.gov.in rather than treating any threshold here as settled &mdash; this is the "
+            "fastest-moving part of the whole subject.", "amber")
+    + SRC % "SEBI (LODR) Regulations, Regulation 34(2)(f); SEBI circulars on BRSR and BRSR Core.")
 
 sec("NGRBC", "The nine principles underneath",
     "<p>BRSR is structured on the <b>National Guidelines on Responsible Business Conduct</b>. "
@@ -819,14 +986,19 @@ sec("The structure", "How a BRSR is laid out",
            "indicators are voluntary. A company reporting only essential indicators is complying, "
            "not leading &mdash; and the format lets you see which.", "cyan"))
 
-sec("BRSR Core", "Assurance arrives",
-    "<p>SEBI introduced a <b>BRSR Core</b> &mdash; a defined subset of key performance "
-    "indicators requiring <b>reasonable assurance</b>, phased in by market-capitalisation "
-    "rank, with disclosures extending to the value chain.</p>"
+sec("Section 09 &middot; Assurance Arrives", "When a number gets checked",
+    "<p>SEBI introduced <b>BRSR Core</b>: a defined subset of key performance indicators "
+    "requiring <b>reasonable assurance</b>, phased in by market-capitalisation rank, with "
+    "disclosure extending into the value chain.</p>"
+    + table(["Level", "What the provider says", "Weight it bears"],
+            [["None", "Nothing &mdash; the company asserts it", "The company&rsquo;s own claim"],
+             ["Limited", "Nothing came to our attention suggesting it is wrong", "Negative comfort"],
+             ["Reasonable", "In our opinion the figure is fairly stated", "A positive opinion"]])
     + hbox("Assurance is the difference between a company saying a number and a third party "
-           "standing behind it. When you read any ESG claim, the first question is whether it is "
-           "assured, and to what level.")
-    + SRC % "SEBI circulars on BRSR Core. Verify the current phase-in schedule.")
+           "standing behind it. Reading any ESG claim, the first question is whether it is "
+           "assured and at what level &mdash; and most published sustainability numbers, "
+           "worldwide, carry none at all.", "cyan")
+    + SRC % "SEBI circulars on BRSR Core; verify the current phase-in schedule at sebi.gov.in.")
 
 sec("Greenwashing", "What the format is designed to resist",
     twocol("The tells",
@@ -839,8 +1011,10 @@ sec("Greenwashing", "What the format is designed to resist",
                     "Is the boundary stated &mdash; which entities are included?",
                     "Is last year&rsquo;s figure restated, and why?",
                     "Does the narrative match the numbers?"]))
-    + hbox("Teach the tells as a checklist. They transfer directly to any sustainability report a "
-           "student will ever read, Indian or not.", "amber"))
+    + hbox("These tells work as a checklist, and they transfer directly to any sustainability "
+            "report &mdash; Indian or not, corporate or governmental. None of them requires "
+            "technical knowledge of the sector; they are questions about how a claim is "
+            "constructed.", "amber"))
 
 sec("Section 09 &middot; The Nine Principles", "What NGRBC actually asks",
     "<p>The BRSR is organised around the nine principles of the National Guidelines on "
@@ -915,32 +1089,48 @@ sec("The landscape", "Why there are so many",
              ["CSRD / ESRS", "Mandatory EU sustainability reporting", "EU regulators, investors"]])
     + SRC % "Framework bodies&rsquo; own documentation. Consolidation is active &mdash; confirm the current position.")
 
-sec("Double materiality", "The idea that divides the field",
+sec("Section 10 &middot; Double Materiality", "The idea that divides the field",
     twocol("Financial materiality",
            "<p>What sustainability issues affect the <b>company&rsquo;s</b> value? Used by SASB "
            "and ISSB. The question an investor asks.</p>",
            "Impact materiality",
            "<p>What effects does the company have on <b>people and the environment</b>? Used by "
            "GRI. The question a community asks.</p>")
-    + hbox("<b>Double materiality</b> &mdash; the EU&rsquo;s CSRD position &mdash; requires both. "
-           "Which materiality a framework adopts tells you who it was written for, and it is the "
-           "fastest way to read the politics of any reporting standard.", "cyan"))
+    + "<p>The two questions can point in opposite directions. A factory&rsquo;s water use may "
+    "be financially immaterial &mdash; water is cheap, supply is secure, no investor cares "
+    "&mdash; while being the single most material fact about that factory to the village "
+    "sharing the aquifer. Under financial materiality alone, it is not reported.</p>"
+    + hbox("<b>Double materiality</b> &mdash; the EU&rsquo;s CSRD position &mdash; requires "
+            "both. Which materiality a framework adopts tells you who it was written for, and "
+            "it is the fastest way to read the politics of any reporting standard: follow the "
+            "question it declines to ask.", "cyan")
+    + SRC % "EU CSRD (2022/2464) and ESRS; GRI Standards; ISSB IFRS S1/S2.")
 
 sec("Where BRSR sits", "India&rsquo;s position",
     "<p>BRSR is built on the NGRBC principles and covers both business conduct and "
     "environmental performance, so it sits closer to a broad-stakeholder view than to a purely "
     "investor-financial one &mdash; while BRSR Core&rsquo;s assured KPIs and value-chain reach "
     "move it toward investor-grade comparability.</p>"
-    + hbox("Teach BRSR as India&rsquo;s own instrument, not as a local copy of something else. "
-           "Students who understand NGRBC can read GRI quickly; the reverse is less true."))
+    + hbox("BRSR is India&rsquo;s own instrument rather than a local copy of something else, "
+            "and it is worth learning in that order: the NGRBC principles carry across to GRI "
+            "readily, while arriving at NGRBC from GRI tends to miss what is distinctive about "
+            "it &mdash; the explicit attention to business conduct alongside environmental "
+            "performance.", "cyan")
+    + SRC % "National Guidelines on Responsible Business Conduct, MCA 2019; SEBI BRSR format.")
 
 sec("Section 10 &middot; The SDGs", "A useful frame with weak accountability",
     "<p>Companies routinely map CSR and ESG activity to the Sustainable Development Goals. "
     "The mapping is genuinely useful for communication and genuinely weak as accountability: "
     "the SDGs were written for states, have no corporate reporting requirement, and almost "
     "any activity can be mapped to at least one goal.</p>"
-    + hbox("When a report claims to advance eight SDGs, ask which indicator, at which target, "
-           "moved by how much. The answer is usually silence.", "amber"))
+    + "<p>There are 17 goals, 169 targets and 231 unique indicators. The indicators are the "
+    "part with measurement definitions attached, and they are also the part corporate SDG "
+    "mapping almost never reaches &mdash; a report will claim alignment with a goal, "
+    "occasionally a target, and essentially never an indicator.</p>"
+    + hbox("When a report claims to advance eight SDGs, the question is which indicator, at "
+            "which target, moved by how much. The answer is usually silence, and the silence is "
+            "informative: goal-level alignment costs nothing to assert.", "amber")
+    + SRC % "UN Sustainable Development Goals; Global Indicator Framework, UN Statistical Commission.")
 
 sec("Human rights", "The framework CSR discussions often skip",
     "<p>The <b>UN Guiding Principles on Business and Human Rights</b> set out a duty to "
@@ -951,14 +1141,18 @@ sec("Human rights", "The framework CSR discussions often skip",
            "the business causes, not benefits it funds.", "cyan")
     + SRC % "UN Guiding Principles on Business and Human Rights, 2011.")
 
-sec("Value chains", "Where the harm usually is",
+sec("Section 10 &middot; Value Chains", "Where the harm usually is",
     "<p>A company&rsquo;s own operations are rarely where its worst impacts sit. They sit in "
     "the value chain &mdash; suppliers, contractors, informal labour. Scope 3 emissions, "
     "supplier labour conditions and contract-worker safety are where reporting is thinnest and "
     "the stakes are highest.</p>"
-    + hbox("In India this connects directly to informal employment, contract labour and migrant "
-           "work. A course that stops at the company gate misses the majority of the workforce "
-           "involved in producing the goods."))
+    + hbox("In India this connects directly to informal employment, contract labour and "
+            "migrant work &mdash; and the numbers are not marginal. An account of corporate "
+            "responsibility that stops at the company gate leaves out most of the workforce "
+            "that produced the goods, which is precisely why CSRD makes value-chain reporting "
+            "explicit and why BRSR&rsquo;s treatment of it is the part most often called "
+            "thin.", "amber")
+    + SRC % "UN Guiding Principles on Business and Human Rights; BRSR Core value-chain disclosures.")
 
 sec("Section 10 &middot; Two Frameworks, One Company", "Why the same firm reports twice",
     "<p>An Indian listed company above the BRSR threshold with European customers may be "
@@ -977,15 +1171,19 @@ sec("Section 10 &middot; Two Frameworks, One Company", "Why the same firm report
 # ───────────────────────── 11. Reading critically ───────────────────────────
 divider(11, "Reading It Critically", "Ten questions, and how to stay current")
 
-sec("The core skill", "Everything reduces to this",
+sec("Section 11 &middot; The Core Skill", "What all of it reduces to",
     "<p>Few people who study this will spend a career drafting Section 135 policies. Almost "
     "everyone will have to read reports written by people with an interest in how they are "
     "read, and decide what to believe.</p>"
     + quote("A report is a claim, made by an interested party, in a format that party helped "
             "design. Read it as evidence, not as testimony.",
-            "The habit this course is trying to build"))
+            "The habit this course is trying to build")
+    + "<p>That does not mean assuming bad faith. Most CSR and sustainability reporting is "
+    "produced by people trying to describe real work accurately, under formats and deadlines "
+    "they did not choose. The discipline is to separate what the document establishes from "
+    "what it asserts &mdash; and to notice that the two are laid out to look alike.</p>")
 
-sec("Ten questions", "A checklist for any CSR or ESG report",
+sec("Section 11 &middot; Ten Questions", "A checklist for any CSR or ESG report",
     bullets(["What is the reporting boundary &mdash; which entities are in?",
              "Is the prescribed CSR amount stated, and does the arithmetic work?",
              "Is any amount unspent, and where did it go?",
@@ -998,7 +1196,7 @@ sec("Ten questions", "A checklist for any CSR or ESG report",
              "Does anything in the numbers contradict the narrative?"])
     + hbox("Print this. It is the single most transferable artefact in the deck.", "cyan"))
 
-sec("Common failures", "What weak reports look like",
+sec("Section 11 &middot; Common Failures", "What weak reports look like",
     twocol("In CSR reporting",
            bullets(["Beneficiary counts with no definition of &lsquo;reached&rsquo;",
                     "Themes instead of projects",
@@ -1019,17 +1217,27 @@ sec("Keeping current", "This area changes, and stale advice is dangerous",
                "<b>csr.gov.in</b> &mdash; the national CSR data portal, with company-level spending data",
                "<b>sebi.gov.in</b> &mdash; LODR regulations and BRSR circulars",
                "The company&rsquo;s own website &mdash; policy, committee composition and annual CSR report are all required to be public"])
-    + hbox("Teach students to check the primary source themselves. It is a five-minute habit that "
-           "outlasts everything else in this course."))
+    + hbox("Checking the primary source directly is a five-minute habit that outlasts "
+            "everything else here. Thresholds, deadlines, forms, penalty amounts and BRSR "
+            "applicability have all been amended since 2014 &mdash; and every secondary "
+            "summary, including this one, is a snapshot of the law on the day it was "
+            "written.", "amber"))
 
-sec("csr.gov.in", "A dataset, not just a portal",
+sec("Section 11 &middot; csr.gov.in", "A dataset, not just a portal",
     "<p>The national CSR portal publishes company-level CSR spending, by year, sector and "
     "state. It is a genuine dataset and it is open.</p>"
     + bullets(["Which sectors attract the most CSR money &mdash; and which almost none?",
                "How is spending distributed across states? Does it follow need, or follow head offices?",
                "Which companies report large obligations and small spends?"])
-    + hbox("These are real research questions with public data behind them. They make good "
-           "dissertations and better classroom arguments than any case study.", "cyan"))
+    + "<p>The distribution questions are the interesting ones. CSR is generated where "
+    "companies are profitable and headquartered, which is not where need is greatest &mdash; so "
+    "the geography of CSR spending is a live question about whether a decentralised, "
+    "corporate-directed funding stream reaches the districts a public programme would have "
+    "prioritised.</p>"
+    + hbox("These are real research questions with public data behind them, and very few people "
+            "are asking them systematically. The portal reports what companies filed, which is "
+            "also its limitation: it is a record of disclosure, not an audit of delivery.", "cyan")
+    + SRC % "National CSR Portal, csr.gov.in, Ministry of Corporate Affairs.")
 
 sec("The honest summary", "What this course can and cannot settle",
     twocol("Settled",
@@ -1042,15 +1250,24 @@ sec("The honest summary", "What this course can and cannot settle",
                     "Whether Schedule VII&rsquo;s boundaries are the right ones",
                     "Whether impact assessment as practised is evaluation",
                     "Whether ESG disclosure changes corporate behaviour"]))
-    + hbox("Teach the left column as fact and the right column as argument. Students who cannot "
-           "tell which is which will be badly served by this field."))
+    + hbox("The left column is settled law; the right column is contested judgement. Anyone who "
+            "cannot tell which is which will be badly served by this field &mdash; and the "
+            "confusion runs both ways, with firm legal requirements treated as debatable and "
+            "open policy questions asserted as settled.", "cyan"))
 
-sec("Going further", "Where to take this next",
+sec("Section 11 &middot; Going Further", "Where to take this next",
     bullets(["<b>Development Architecture 101</b> &mdash; how development funding is structured, including CSR flows",
              "<b>Climate Essentials 101</b> &mdash; the climate science and policy behind the E in ESG",
              "<b>MEL for Development</b> &mdash; the flagship, for the evaluation half of impact assessment",
              "<b>Theory of Change Studio</b> and <b>Impact Evaluation Studio</b> &mdash; build and defend the designs an assessment needs"])
-    + hbox("Everything listed is free to open on impactmojo.in, with no login.", "cyan"))
+    + "<p>Two of these matter more than the others depending on where you are going. If you "
+    "will be <b>commissioning or reading impact assessments</b>, the MEL flagship and the two "
+    "studios are the direct continuation of Section 08. If you will be <b>raising CSR funds</b>, "
+    "Development Architecture 101 explains where corporate money sits among the other flows an "
+    "organisation might approach.</p>"
+    + hbox("Everything listed is free to open on impactmojo.in, with no login. The interactive "
+            "CSR map used for the figures in Section 04 is at impactmojo.in/maps/csr-india.html, "
+            "and is worth an hour on its own.", "cyan"))
 
 
 
@@ -1070,6 +1287,50 @@ TOC = _toc
 
 slides.append(('end', None))
 
+CHARTS = """// Charts
+const CHART_DEFAULTS = {
+  responsive: true, maintainAspectRatio: false,
+  plugins: { legend: { labels: { font: { family: 'JetBrains Mono', size: 10 }, color: '#78716C' } } },
+  scales: {
+    x: { ticks: { font: { family: 'JetBrains Mono', size: 9 }, color: '#78716C' }, grid: { color: 'rgba(0,0,0,0.05)' } },
+    y: { ticks: { font: { family: 'JetBrains Mono', size: 9 }, color: '#78716C' }, grid: { color: 'rgba(0,0,0,0.05)' } }
+  }
+};
+
+function initChart(slideIdx) {
+  // Chart.js is a CDN script. A blocked CDN, an offline classroom or a corporate
+  // firewall must degrade to a chartless slide with its caption and takeaway still
+  // readable -- never a ReferenceError that stops the rest of the deck's JS.
+  if (typeof Chart === 'undefined') return;
+  const id = SLIDE_IDS[slideIdx];
+  const mk = (cid, type, data, opts) => {
+    const el = document.getElementById(cid);
+    if (!el || el._imChart) return;
+    el._imChart = new Chart(el, { type, data, options: { ...CHART_DEFAULTS, ...opts } });
+  };
+
+  if (document.getElementById('csrSectorChart')) {
+    mk('csrSectorChart', 'bar', {
+      labels: ['Health & sanitation','Education & skilling','Other heads','Environment','Rural development'],
+      datasets: [{ label: 'Rs crore, FY2023-24', data: [13400, 11300, 3980, 3800, 2410],
+        backgroundColor: ['#DC2626','#2563EB','#64748B','#0F766E','#D97706'] }]
+    }, { indexAxis: 'y', plugins: { legend: { display: false } },
+         scales: { x: { beginAtZero: true, title: { display: true, text: 'Rs crore' } } } });
+  }
+
+  if (document.getElementById('csrTopTenChart')) {
+    mk('csrTopTenChart', 'bar', {
+      labels: ['HDFC Bank','Reliance','TCS','ONGC','Tata Steel','Infosys','Indian Oil','Reliance Jio','ITC','ICICI Bank'],
+      datasets: [{ label: 'Rs crore, FY2023-24', data: [945,900,813,612,573,451,436,403,380,368],
+        backgroundColor: '#7C3AED' }]
+    }, { indexAxis: 'y', plugins: { legend: { display: false } },
+         scales: { x: { beginAtZero: true, title: { display: true, text: 'Rs crore' } } } });
+  }
+}
+
+
+"""
+
 db.build(
     course="CSR &amp; ESG 101",
     out_name="csr-esg.html",
@@ -1085,5 +1346,6 @@ db.build(
     slides=slides,
     end_headline_html="Compliance is the floor.<br>Judgement is the work.",
     end_byline="ImpactMojo &middot; Free development education for South Asia",
+    charts_js=CHARTS,
 )
 print("BUILT: 101-courses/csr-esg.html  (%d slides)" % len(slides))
