@@ -50,6 +50,58 @@ def opts_out(src: str, rel: str) -> bool:
 CONTAINERS = re.compile(r'<(main|section|article|div)\b', re.I)
 CONTAINERS_CLOSE = re.compile(r'</(main|section|article|div)>', re.I)
 
+# The class tokens site-chrome.js kills ANYWHERE in the document, taken verbatim
+# from its `sel` string. The earlier version of this guard modelled only the
+# body-level <header>/<nav> rule and reported PASS while 13 course lexicons were
+# shipping with no <h1> in the browser: their heading sits in
+# <header class="header"> nested inside .container, which `header.header` in that
+# selector removes regardless of depth. Measured in Chromium, not inferred.
+KILL_CLASSES = {
+    'im-topbar', 'top-nav', 'site-header', 'navbar', 'site-nav', 'main-nav',
+    'nav-container', 'masthead', 'mobile-header',
+    'footer', 'foot', 'site-footer', 'im-footer',
+}
+# <header class="header"> and <header class="mobile-header"> are killed by tag+class.
+KILL_TAG_CLASS = {('header', 'header'), ('header', 'mobile-header')}
+KILL_IDS = {'imtopbar'}
+# The <footer> tag itself is in the selector.
+KILL_TAGS = {'footer'}
+
+OPEN_TAG = re.compile(r'<(header|nav|div|section|footer|aside)\b([^>]*)>', re.I)
+ATTR_CLASS = re.compile(r'\bclass\s*=\s*["\']([^"\']*)["\']', re.I)
+ATTR_ID = re.compile(r'\bid\s*=\s*["\']([^"\']*)["\']', re.I)
+
+
+def _is_killed(tag: str, attrs: str) -> bool:
+    tag = tag.lower()
+    if tag in KILL_TAGS:
+        return True
+    cm = ATTR_CLASS.search(attrs)
+    classes = set(cm.group(1).split()) if cm else set()
+    if classes & KILL_CLASSES:
+        return True
+    if any((tag, c) in KILL_TAG_CLASS for c in classes):
+        return True
+    im = ATTR_ID.search(attrs)
+    if im and im.group(1).strip().lower() in KILL_IDS:
+        return True
+    return False
+
+
+def _element_end(src: str, tag: str, open_end: int) -> int:
+    """Index just past the matching close tag, by depth counting. -1 if unclosed."""
+    depth = 1
+    pat = re.compile(r'<(/?)%s\b[^>]*>' % re.escape(tag), re.I)
+    pos = open_end
+    while True:
+        m = pat.search(src, pos)
+        if not m:
+            return -1
+        depth += -1 if m.group(1) else 1
+        pos = m.end()
+        if depth == 0:
+            return m.end()
+
 
 def body_level_headers(body: str):
     """Yield (start, end_of_open_tag) for each <header> at body level."""
@@ -60,12 +112,36 @@ def body_level_headers(body: str):
 
 
 def strip_chrome(body: str) -> str:
-    """Remove what site-chrome.js removes, so we see what the visitor sees."""
+    """Remove what site-chrome.js removes, so we see what the visitor sees.
+
+    Two rules, both from the real source: any element matching the kill selector
+    at any depth, and any <header>/<nav> that is a direct child of <body>.
+    Removal is outermost-first so a nested match inside an already-removed block
+    is not double-counted.
+    """
+    spans = []
+    for m in OPEN_TAG.finditer(body):
+        tag, attrs = m.group(1), m.group(2)
+        if not _is_killed(tag, attrs):
+            continue
+        end = _element_end(body, tag, m.end())
+        if end > 0:
+            spans.append((m.start(), end))
+    for start, open_end in body_level_headers(body):
+        end = _element_end(body, 'header', open_end)
+        if end > 0:
+            spans.append((start, end))
+
+    # keep only outermost spans, then cut right-to-left
+    spans.sort(key=lambda sp: (sp[0], -sp[1]))
+    outer, last_end = [], -1
+    for a, b in spans:
+        if a >= last_end:
+            outer.append((a, b))
+            last_end = b
     out = body
-    for start, _ in reversed(list(body_level_headers(body))):
-        close = out.find('</header>', start)
-        if close > 0:
-            out = out[:start] + out[close + len('</header>'):]
+    for a, b in reversed(outer):
+        out = out[:a] + out[b:]
     return out
 
 

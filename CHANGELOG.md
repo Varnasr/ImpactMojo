@@ -5,6 +5,36 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.244.0] - 2026-08-21
+
+### Added
+
+- **Sustainability, ESG & Corporate Responsibility for Development Practice** (`/courses/esg/`) — the **20th flagship**, and the second of the four Q2 2026 roadmap items. 13 modules totalling ~270,000 characters in `course_content`, a **63-term lexicon**, a six-question course assessment, and a capstone asking for a three-year strategy for a named company in a named district.
+
+  **The division of labour with the 101 deck is deliberate.** `CSR & ESG 101` teaches the machinery — who is bound, what counts, what you owe. The flagship assumes it and works on what Section 135 leaves open: designing a portfolio against a real district rather than a theme, negotiating an agreement that survives a March deadline, building measurement a CFO will certify, commissioning an impact assessment that can find something, reading a value chain for the harm a company causes, and reading a BRSR properly. Four of the thirteen modules are about what a company *causes* rather than what it funds, which is where the larger effects sit and where no CSR budget reaches.
+
+  Current to the day it shipped: the four Labour Codes in force from **21 November 2025**; the Carbon Credit Trading Scheme's greenhouse-gas intensity targets notified for seven sectors (~490 obligated entities) across **October 2025 and January 2026**; **CBAM's definitive regime from 1 January 2026**; SEBI's March 2025 reframing of BRSR assurance as "assessment or assurance" with value-chain disclosure made voluntary; and the EU Omnibus directive **adopted 24 February 2026**. Every module opens on a primary source with a working link.
+
+- **`courses/esg/lexicon.html`** — 63 terms across 8 categories, each with a definition and a worked example, from Section 135 and the Unspent CSR Account through salience and leverage to BRSR Core and ESG rating divergence.
+
+### Changed
+
+- **Built to `docs/flagship-course-standard.md`, not to a sibling course** — because the siblings do not agree with each other. Part D of that document already records `intervention` with **0 SVG diagrams** and `nvc-rj` at **~4 KB per module**; measured across the DB, `key-insight` runs from 0.0 per module (`mel`) to 1.3 (`intervention`), and `social-movements`' shell carries **no CSS at all** for `stats-grid`, `key-insight` or any callout colour. The first draft of this shell was copied from `social-movements` and had to be rebuilt on `intervention`, which is the only shell with CSS for every component the standard names. A static check now confirms all 44 classes used in module content resolve to CSS in the shell, and a Playwright probe confirms each renders styled in both themes.
+
+  Against the Part C checklist the course carries 15–29 KB prose per module, 13 theme-aware SVG diagrams, 13 licence-clean paper excerpts, **13 worked examples**, **13 reflection prompts**, **5 coach callouts** at the specified ~1-in-3 rhythm, a `capstone-timeline` with stated deliverables, and rotating callout colours. Correctly **no formulae** — the standard gates those to quantitative subjects.
+
+- **Wired sitewide**: `data/counts.json` (courses 71→72, flagship 19→20, with 86 drifted numbers corrected), `search-index.json`, `sitemap.xml`, `catalog.html`, `courses/index.html`, `js/offline.js`, `service-worker.js` `COURSE_URLS`, `js/course-progress.js` `COURSE_NAMES`, and the Supabase `auto_issue_certificate` course map — the last of which is server-side on purpose, since RLS lets a user write their own progress rows and trusting a client-supplied course name would let anyone mint a certificate.
+
+- **`premium-tools` is now a canonical count.** The site claimed 9, 10, 11 and 13 premium tools on four surfaces because nothing was canonical. Every page under `premium-tools/` has a paid tier, so under the rule that anything paid is premium the count is how many ship: **13**. Added to `counts.json` with a matching pattern in the guard.
+
+### Fixed
+
+- **Thirteen pages were rendering with no `<h1>` in the browser, and the guard said PASS.** `js/site-chrome.js` kills `header.header` *anywhere in the document*, not only as a direct child of `<body>` — and eleven course lexicons, `Labs/toc-lab.html` and a BookCompanion tool all put their heading in `<header class="header">` nested inside `.container`. `scripts/check-h1-survives-chrome.py` modelled only the body-level rule, so it reported PASS on all of them. Measured in Chromium: `document.querySelectorAll('h1').length === 0` on every one.
+
+  The guard now models the real kill selector — every class token in it, matched at any depth, with proper depth-counted element extents and outermost-first removal — plus the body-level rule it already had. The fix on the pages is `<header class="header">` → `<section class="header">`; all thirteen were verified to style by class, not by tag, so nothing moves.
+
+  This is the third time this class of bug has shipped (ASER's `.foot`, NFHS's `<footer>`, and the 24 hero headings fixed yesterday). The difference now is that the guard's model is taken from the selector string in the source rather than from a description of it.
+
 ## [10.243.0] - 2026-08-21
 
 ### Added
