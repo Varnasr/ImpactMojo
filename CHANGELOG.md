@@ -5,6 +5,20 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.237.0] - 2026-08-21
+
+### Changed
+
+- **`blog/animal-welfare-and-the-fifty-rupee-fine.html`** gains a section drawing on Animal Ask's *Leverage Points: strategic prioritisation for Animal Advocacy in India* (August 2026), read from the source rather than summarised from coverage of it.
+
+  The report's seventh priority is enforcement of existing law, which it calls "arguably ... the highest-leverage systemic reform if it could be achieved" — the same conclusion this post reached by deflating a single number. The section says so and immediately says why that is not corroboration: a shared conclusion reached twice is still one conclusion. What the report adds is specificity, so the post now names the mechanisms behind "pass the penalty revision" — making PCA offences **cognizable** (they are not, so police cannot register a case without a magistrate's order, which stops enforcement before the fine is ever reached), authorising SPCA inspectors to impose monetary penalties directly, and funding SPCAs with farmed-animal investigators.
+
+  Two findings are included **because** they sit awkwardly with the post's own framing. On scale: ~627M layer hens, 3.4B broilers slaughtered a year, ~320M male chicks, 21–94B shrimp, 10B+ fin-fish — against which an estimated 90% of organised groups work on strays and companions, which is a corrective to writing about this subject through the courts. On litigation: the report's view that it "has overpromised and underdelivered" because judgments "arrived before social, market, and political alignment existed to sustain them" directly complicates this post's opening premise that the argument was settled in 2014, and the section says so rather than burying it.
+
+  Also carries the report's finding that framing is "a strategic variable, not a cosmetic one" — welfare-only asks meet structural resistance where livelihoods, nutrition, food-safety or environmental framings travel — and reproduces the authors' own stated limits, including that they worked from outside India.
+
+  Read time 11 → 16 min (1,710 → 2,473 words); search-index description and tags updated.
+
 ## [10.236.0] - 2026-08-21
 
 ### Added

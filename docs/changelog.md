@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.229.0 — August 21, 2026 (The fifty-rupee fine, revisited)
+
+### For Learners
+
+- **Animal Welfare Law and the Fifty-Rupee Fine** now carries a section on Animal Ask's 2026 prioritisation of Indian animal advocacy — which reaches the same conclusion about enforcement from a different direction, names the specific legal mechanisms (making offences cognizable, SPCA penalty powers), sets the scale against which court cases are a small lever, and reports that how an ask is framed decides whether it travels.
+
 ## v10.228.0 — August 21, 2026 (An instructor kit, and a form that answers you)
 
 ### For Learners
