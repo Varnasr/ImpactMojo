@@ -10,7 +10,7 @@ All three run **entirely in your browser**. Nothing you package and no student f
 
 **[/lms-export](https://www.impactmojo.in/lms-export)**
 
-Pick any of the 71 courses (or one of the 47 practice workbooks), choose a format, and download a package.
+Pick any of the 72 courses (or one of the 47 practice workbooks), choose a format, and download a package.
 
 | Format | Use it when |
 |--------|-------------|

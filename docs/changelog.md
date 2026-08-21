@@ -2,6 +2,18 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.235.0 — August 21, 2026 (A new flagship: Sustainability, ESG & Corporate Responsibility)
+
+### For Learners
+
+- **Sustainability, ESG & Corporate Responsibility for Development Practice** — our 20th free flagship course. India made corporate social spending a legal duty in 2013, and about ₹40,000 crore a year now moves through it. This course is about the part the law leaves open: how to design a portfolio for a real district instead of a theme, how to negotiate an agreement that survives the March deadline, how to build measurement a finance director will sign, how to read a company's supply chain for the harm it causes rather than the good it funds, and how to read a BRSR properly. 13 modules, self-paced, no login.
+- **ESG & CSR Lexicon** — 63 terms with plain definitions and a worked example each, from Section 135 and Schedule VII to scope 3 emissions, the contract worker ratio and double materiality. Search it or filter by category.
+- **A capstone worth doing.** The final module asks for a three-year strategy for a company and district you choose — including the recommendation the company will not enjoy reading. Everything you need is published; the course shows you where.
+
+### Fixed
+
+- **Thirteen pages were loading with no main heading**, including eleven course lexicons and the Theory of Change Lab. The title was in the page but was being stripped as the page finished loading, so screen readers had nothing to announce. All are back.
+
 ## v10.234.0 — August 21, 2026 (A guide for instructors, and numbers that finally add up)
 
 ### For Learners

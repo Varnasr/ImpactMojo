@@ -41,7 +41,7 @@ We provide accessible, high-quality educational materials grounded in South Asia
 
 | Category | Description |
 |----------|-------------|
-| **71 Courses** | 19 flagship + 52 foundational courses across 6 learning tracks (all foundational decks self-hosted as native HTML slide decks). Every flagship ends with an auto-graded "Assess Yourself" self-check |
+| **72 Courses** | 20 flagship + 52 foundational courses across 6 learning tracks (all foundational decks self-hosted as native HTML slide decks). Every flagship ends with an auto-graded "Assess Yourself" self-check |
 | **35 Interactive Studios** | Hands-on workbenches for MEL, policy, partnerships, budgeting, gender analysis, and more |
 | **135 Game Library** | 18 interactive simulations (MiroFish AI agents, Indian folk art — Warli, Madhubani, Gond, Kalamkari, Pichwai, Pattachitra) + 117 crosswords, quizzes & word searches |
 | **ImpactLex Dictionary** | 390+ development terms with contextual definitions, formulas, and case studies (PWA, hosted on ImpactMojo) |
@@ -138,7 +138,7 @@ Available to Practitioner and Professional tier subscribers:
 
 ## Content Inventory
 
-### Flagship Courses (19)
+### Flagship Courses (20)
 
 Deep, comprehensive learning tracks — free for all users:
 
@@ -163,6 +163,7 @@ Deep, comprehensive learning tracks — free for all users:
 | **Nonviolence in Practice: Communication, Resistance & Repair** | Nonviolent communication, nonviolent resistance and restorative justice as working methods |
 | **Social Movements & Protests** | How movements form, mobilise, fracture and win — repertoires, framing, repression, outcomes |
 | **Nothing About Us Without Us: Disability, Justice & Development** | Disability as a development question — models, rights, inclusive design, and disability-inclusive MEL |
+| **Sustainability, ESG & Corporate Responsibility for Development Practice** | Corporate money and corporate conduct in India — Section 135 to BRSR, portfolio design against a real district, and the harm side a CSR budget never touches |
 
 ### Foundational Courses (52)
 
@@ -240,7 +241,7 @@ Browser-based studios under `/Labs/`. Each runs entirely client-side, keeps your
 Everything below is free, runs in the browser, and needs no account.
 
 - **[Teach with ImpactMojo](https://www.impactmojo.in/teach)** (`teach.html`) — syllabus mappings, ready-made course kits, and how to run the material in a classroom or a workshop.
-- **[LMS export](https://www.impactmojo.in/lms-export)** (`lms-export.html`) — package any of the 71 courses — plus the 47 practice workbooks — as **SCORM 1.2**, **SCORM 2004**, **IMS Common Cartridge 1.3**, or a single self-contained HTML file. The package is built in your browser from the live page, so it is never stale. Our analytics, sign-in, Supabase and translation code are stripped before packaging and the rest inlined, so an imported course runs with no network and phones nothing home. SCORM reports completion when the learner reaches the final slide.
+- **[LMS export](https://www.impactmojo.in/lms-export)** (`lms-export.html`) — package any of the 72 courses — plus the 47 practice workbooks — as **SCORM 1.2**, **SCORM 2004**, **IMS Common Cartridge 1.3**, or a single self-contained HTML file. The package is built in your browser from the live page, so it is never stale. Our analytics, sign-in, Supabase and translation code are stripped before packaging and the rest inlined, so an imported course runs with no network and phones nothing home. SCORM reports completion when the learner reaches the final slide.
 - **Studio submissions** (`js/studio-submit.js`) — wraps a Studio's own export in an envelope carrying the student's name, the Studio, a timestamp and a content digest. Studio exports previously carried no identity at all, so thirty files from a class were thirty anonymous JSON blobs. Wired into the LogFrame Builder as the reference implementation; the other Studios take the same two lines.
 - **[Gradebook](https://www.impactmojo.in/gradebook)** (`gradebook.html`) — drop a folder of those submissions in and get one CSV, with tampered files flagged by digest mismatch. Entirely client-side: student work is never uploaded anywhere.
 
@@ -337,7 +338,7 @@ Comprehensive ToC learning and building toolkit:
 - **Reading Lists** — Curated resource collections
 - **Course Comparison** — Compare courses side-by-side
 - **Interactive Assessments** — MCQ, multi-select, and T/F quizzes for MEL, DataViz, and DevAI courses with scoring, feedback, and localStorage persistence
-- **Offline PWA Support** — Service worker caches all 19 flagship courses for offline access with automatic background updates
+- **Offline PWA Support** — Service worker caches all 20 flagship courses for offline access with automatic background updates
 - **Certificate Generation** — Auto-issued on course completion with public verification and Open Badges 3.0 metadata
 - **Badge Wallet** — View, download, and share W3C verifiable credential badges
 - **Portfolio Builder** — Premium feature: curate certificates, projects & case studies with PDF export

@@ -47,6 +47,7 @@
         livelihoods: 'Livelihoods in India: Rural, Urban, and Skills',
         powerBI: 'Power BI for Practitioners',
         intervention: 'Designing What Works: Development Interventions from Model to Scale',
+        esg: 'Sustainability, ESG & Corporate Responsibility for Development Practice',
         'nothing-about-us': 'Nothing About Us Without Us: Disability, Justice & Development',
         'nvc-rj': 'Nonviolence in Practice: Communication, Resistance & Repair',
         // Missing until 2026-08-20. `courses/social-movements/` has shipped all

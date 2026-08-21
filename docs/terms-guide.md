@@ -13,7 +13,7 @@ You can use ImpactMojo's free content without creating an account. If you create
 ## What's Free
 
 All core learning content is permanently free:
-- 19 flagship courses and 52 foundational courses
+- 20 flagship courses and 52 foundational courses
 - 135 interactive games and 35 interactive labs
 - 90 handouts, ImpactLex glossary, Dev Case Studies, DevDiscourses, and Dataverse
 - No login wall, no trial period, no bait-and-switch
