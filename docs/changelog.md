@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.232.0 — August 21, 2026 (CSR & ESG 101)
+
+### For Learners
+
+- **CSR & ESG 101** — a new free course on corporate responsibility in India. Starts where the law does: who Section 135 of the Companies Act binds, what Schedule VII allows you to spend on, how the two per cent is actually calculated, and where unspent money has to go. Then SEBI's BRSR and the global frameworks, and a checklist for reading any company's sustainability report and spotting what it leaves out. 88 slides, self-paced, no login.
+
 ## v10.231.0 — August 21, 2026 (Search and buttons that were quietly missing)
 
 ### Fixed
