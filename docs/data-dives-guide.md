@@ -19,6 +19,10 @@ If you want to know *what to read* on a topic, use a [Deep Dive](deep-dives-guid
 
 | Data Dive | Topic | Dataset | Charts | Link |
 |-----------|-------|---------|--------|------|
+| **Almost all of India's export growth came from services** | Trade | Ministry of Commerce · RBI | 3 | [Open](/DataDives/all-the-growth-was-services.html) |
+| **Most of what India borrows pays for what it already borrowed** | Public Finance | Budget at a Glance 2026-27 | 3 | [Open](/DataDives/borrowing-to-pay-for-borrowing.html) |
+| **Announced, unspent, announced again** | Public Money | Union Budget · Expenditure Profile | 3 | [Open](/DataDives/announced-unspent-announced-again.html) |
+| **The states' 41% share comes to 35% of the tax** | Fiscal Federalism | Union Budget 2026-27 · 16th Finance Commission | 3 | [Open](/DataDives/the-41-percent-that-isnt.html) |
 | **The states that spend most on welfare have the least to show for it** | Public Finance | RBI State Finances 2025-26 | 3 | [Open](/DataDives/state-welfare-budgets.html) |
 | **The women dropping off the voter list** | Democracy & Data | ECI · The Hindu · NFHS-5 | 2 | [Open](/DataDives/women-and-the-sir.html) |
 | **Whose name is on the house?** | Gender & Assets | PMAY · NFHS-5 | 3 | [Open](/DataDives/whose-name-on-the-house.html) |

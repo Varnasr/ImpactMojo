@@ -2,6 +2,19 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.227.0 — August 21, 2026 (Four new Data Dives, and flow charts)
+
+### For Learners
+
+- **Almost all of India's export growth came from services** — India's total exports rose $42.80 billion in 2024-25. Merchandise contributed $0.35 billion of it. A look at which half of the economy actually sells to the world.
+- **Most of what India borrows pays for what it already borrowed** — the 2026-27 Budget borrows ₹16.96 lakh crore and pays ₹14.04 lakh crore in interest. Also: why the famous budget-rupee pie and the budget table don't use the same rupee.
+- **Announced, unspent, announced again** — ₹2.04 lakh crore of scheme money was budgeted in 2025-26 and revised away. Four flagship schemes lost 70–85% of their allocation, then got roughly the same number again.
+- **The states' 41% share comes to 35% of the tax** — the Finance Commission's 41% is a share of the divisible pool, not of what the Centre collects. Three true numbers, three denominators.
+
+### Added
+
+- **Flow diagrams in Data Dives.** The chart engine now draws Sankeys, so a Data Dive can show a quantity that splits, merges or gets absorbed — a trade deficit offset by a services surplus, a budget rupee from its sources to its uses, a tax pool divided between Centre and states.
+
 ## v10.226.0 — August 21, 2026 (Correction to the partnerships page)
 
 ### Fixed
