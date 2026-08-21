@@ -226,6 +226,24 @@ jobs:
       - name: Check every page declares a viewport
         run: python3 scripts/check-viewport.py
 
+  css-vars:
+    name: CSS custom properties resolve
+    runs-on: ubuntu-latest
+    # Without this a hung step inherits GitHub's 360-minute default and the
+    # job neither passes nor fails -- which reads as "still running".
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      # An undefined var() is invalid at computed-value time: a background goes
+      # transparent, and inside a shorthand the whole declaration is dropped.
+      # On 2026-08-21 that meant every callout in ELEVEN flagships painted
+      # transparent, and law's reflection prompts had no border -- all live, and
+      # green in axe, pa11y and the contrast guard, because a component that
+      # isn't painted has no contrast to fail.
+      - name: Check every var() resolves
+        run: python3 scripts/check-css-vars.py
+
   studio-submit:
     name: Studio submissions and gradebook CSV
     runs-on: ubuntu-latest
