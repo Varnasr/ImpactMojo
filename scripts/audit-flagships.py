@@ -72,7 +72,10 @@ def coach_gaps(mods):
     return gaps
 
 SHELL_CHECKS = [
-    ('hero buttons (4)',   lambda s: len(re.findall(r'class="hero-resource-btn', s)), 4),
+    # Both class names are in use: most shells write hero-resource-btn, devai
+    # and gender write hero-btn. Counting only the first reported those two as
+    # 0/4 when they carry a full set, including real Dropbox and NotebookLM links.
+    ('hero buttons (4)',   lambda s: len(re.findall(r'class="hero-(?:resource-)?btn\b', s)), 4),
     ('resource cards (7)', lambda s: len(re.findall(r'class="resource-card [a-z0-9]+"', s)), 7),
     ('v3 blob divs (4)',   lambda s: len(re.findall(r'class="v3-blob v3-blob-\d"', s)), 4),
     ('reading-progress',   lambda s: 1 if 'id="reading-progress"' in s else 0, 1),
@@ -99,7 +102,16 @@ def audit_shell(slug):
         shell = COURSES / slug / (slug.lower() + '.html')
     src = shell.read_text(encoding='utf-8')
     row = {name: (fn(src), want) for name, fn, want in SHELL_CHECKS}
-    row['missing CSS'] = ([c for c in REQUIRED_CSS if not re.search(r'\.%s\b' % re.escape(c), src)], [])
+    # Component CSS moved to a shared sheet in 2026-08 (see the header of
+    # css/course-components.css). Resolve it too, or every shell that correctly
+    # relies on the shared sheet reports as missing all of it -- which turns
+    # this column into a blindfold rather than a check.
+    css = src
+    for m in re.finditer(r'<link[^>]+href="(/css/[^"?]+)', src):
+        extra = ROOT / m.group(1).lstrip('/')
+        if extra.exists():
+            css += extra.read_text(encoding='utf-8')
+    row['missing CSS'] = ([c for c in REQUIRED_CSS if not re.search(r'\.%s\b' % re.escape(c), css)], [])
     row['lexicon terms (40+)'] = (count_terms(COURSES / slug / 'lexicon.html'), 40)
     return row
 

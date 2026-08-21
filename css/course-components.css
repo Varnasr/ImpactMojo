@@ -1,0 +1,274 @@
+/* ============================================================================
+   Flagship course components — the standard set, in one place.
+
+   Why this file exists
+   --------------------
+   Course module bodies are served from Supabase, not the repo, so the same
+   markup lands in twenty different shells. Each shell inlines its own CSS, and
+   they had drifted: eighteen had no `.worked-example` rule, seventeen no
+   `.callout-amber`, and gandhi/gender/social-movements style nothing with
+   tokens at all. Content written to the standard rendered unstyled there —
+   which is how the ESG build went wrong first time, drafted against a shell
+   that styles none of it.
+
+   Two rules keep this safe to add to a live page:
+
+   1. It is linked BEFORE each shell's inline <style>, so a shell that already
+      styles one of these classes still wins. This file fills gaps; it never
+      overrides a course's own look.
+   2. Every custom property is read with a literal fallback — var(--x, #hex).
+      Half these shells define no design tokens, and a bare var() there
+      resolves to nothing, which for `background` means transparent: an
+      invisible callout that looks like a styling bug and reports as none.
+
+   Theme: light values on :root, dark re-stated twice — once for system dark
+   (guarded so an explicit light choice wins) and once for an explicit dark
+   choice. The shells set data-theme on <html> from an inline script.
+   ============================================================================ */
+
+:root {
+  --ccx-bg-2:      var(--color-bg-secondary, #F8FAFC);
+  --ccx-border:    var(--color-border, #E2E8F0);
+  --ccx-text-2:    var(--text-secondary, #475569);
+  --ccx-cyan:      var(--cyan, #0EA5E9);
+  --ccx-gold:      var(--im-gold, #F59E0B);
+  --ccx-coral:     var(--im-coral, #E76F51);
+  --ccx-c-blue:    var(--callout-blue,   rgba(55, 48, 163, 0.08));
+  --ccx-c-green:   var(--callout-green,  rgba(16, 185, 129, 0.10));
+  --ccx-c-yellow:  var(--callout-yellow, rgba(245, 158, 11, 0.12));
+  --ccx-c-orange:  var(--callout-orange, rgba(180, 83, 9, 0.10));
+  --ccx-c-red:     var(--callout-red,    rgba(239, 68, 68, 0.08));
+  --ccx-c-gray:    var(--callout-gray,   rgba(100, 116, 139, 0.08));
+
+/* Raw --callout-* tokens.
+   Eleven shells (dataviz, devecon, law, livelihoods, media, mel,
+   nothing-about-us, nvc-rj, poa, powerBI, sel) write
+   `.callout-blue { background: var(--callout-blue) }` inline and never define
+   the variable. An undefined var in a background resolves to nothing, so every
+   callout in those courses was painting transparent -- live, on 11 of 20
+   flagships, and invisible to every guard we run. Defining the tokens here
+   fixes their existing rules without touching them; the two shells that do
+   define their own (intervention, pubchoice) declare later and still win. */
+  --callout-blue:   rgba(55, 48, 163, 0.08);
+  --callout-purple: rgba(99, 102, 241, 0.10);
+  --callout-pink:   rgba(236, 72, 153, 0.08);
+  --callout-red:    rgba(239, 68, 68, 0.08);
+  --callout-orange: rgba(180, 83, 9, 0.10);
+  --callout-yellow: rgba(245, 158, 11, 0.12);
+  --callout-green:  rgba(16, 185, 129, 0.10);
+  --callout-gray:   rgba(100, 116, 139, 0.08);
+  --callout-brown:  rgba(120, 53, 15, 0.08);
+
+/* Aliases and palette tokens that 13 shells reference but never define.
+   Same silent-failure class as the callouts above, with a sharper edge: in a
+   shorthand, one undefined var invalidates the WHOLE declaration. law wrote
+   `border: 1px dashed var(--cyan)` on its reflection prompts and --cyan is not
+   defined there, so the prompts had no border at all -- not a wrong colour, no
+   border. Values are the consensus across the shells that do define them.
+   Where a shell themes a base token (--primary-bg etc.) the alias follows it,
+   so light/dark keeps working per shell; the literal is only for the three
+   shells (gandhi, gender, social-movements) that define no tokens at all. */
+  --bg-primary:          var(--primary-bg, #FFFFFF);
+  --bg-secondary:        var(--secondary-bg, #F8FAFC);
+  --bg-tertiary:         var(--hover-bg, #F1F5F9);
+  --border-light:        var(--border-color, #E2E8F0);
+  --color-bg-primary:    var(--primary-bg, #FFFFFF);
+  --color-text-primary:  var(--text-primary, #0F172A);
+  --spacing-3xl: 4rem;
+  --im-coral:    #B45309;
+  --im-gold:     #B45309;
+  --im-teal-400: #0EA5E9;
+  --im-teal-600: #0284C7;
+  --cyan:    #06B6D4;
+  --indigo:  #6366F1;
+  --orange:  #F59E0B;
+  --success: #10B981;
+  --gradient-primary: linear-gradient(135deg, #0EA5E9 0%, #6366F1 100%);
+  --gradient-warm:    linear-gradient(135deg, #F59E0B 0%, #B45309 100%);
+  --ccx-sp-xs: var(--spacing-xs, 0.35rem);
+  --ccx-sp-sm: var(--spacing-sm, 0.5rem);
+  --ccx-sp-md: var(--spacing-md, 1rem);
+  --ccx-sp-lg: var(--spacing-lg, 1.5rem);
+  --ccx-sp-xl: var(--spacing-xl, 2rem);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ccx-bg-2:     var(--color-bg-secondary, #1B2432);
+    --ccx-border:   var(--color-border, #2B3748);
+    --ccx-text-2:   var(--text-secondary, #CBD5E1);
+    --ccx-c-blue:   var(--callout-blue,   rgba(99, 102, 241, 0.18));
+    --ccx-c-green:  var(--callout-green,  rgba(52, 211, 153, 0.18));
+    --ccx-c-yellow: var(--callout-yellow, rgba(252, 211, 77, 0.20));
+    --ccx-c-orange: var(--callout-orange, rgba(251, 191, 36, 0.18));
+    --ccx-c-red:    var(--callout-red,    rgba(248, 113, 113, 0.18));
+    --ccx-c-gray:   var(--callout-gray,   rgba(148, 163, 184, 0.16));
+
+    --callout-blue:   rgba(99, 102, 241, 0.18);
+    --callout-purple: rgba(129, 140, 248, 0.18);
+    --callout-pink:   rgba(236, 72, 153, 0.16);
+    --callout-red:    rgba(248, 113, 113, 0.18);
+    --callout-orange: rgba(251, 191, 36, 0.18);
+    --callout-yellow: rgba(252, 211, 77, 0.20);
+    --callout-green:  rgba(52, 211, 153, 0.18);
+    --callout-gray:   rgba(148, 163, 184, 0.16);
+    --callout-brown:  rgba(180, 83, 9, 0.20);
+
+    --bg-primary:         var(--primary-bg, #131A24);
+    --bg-secondary:       var(--secondary-bg, #1B2432);
+    --bg-tertiary:        var(--hover-bg, #222D3D);
+    --border-light:       var(--border-color, #2B3748);
+    --color-bg-primary:   var(--primary-bg, #131A24);
+    --color-text-primary: var(--text-primary, #F1F5F9);
+    --im-coral: #FBBF24;
+    --im-gold:  #FBBF24;
+    --cyan:   #22D3EE;
+    --indigo: #818CF8;
+  }
+}
+
+:root[data-theme="dark"], html.dark, body.dark-mode {
+  --ccx-bg-2:     var(--color-bg-secondary, #1B2432);
+  --ccx-border:   var(--color-border, #2B3748);
+  --ccx-text-2:   var(--text-secondary, #CBD5E1);
+  --ccx-c-blue:   var(--callout-blue,   rgba(99, 102, 241, 0.18));
+  --ccx-c-green:  var(--callout-green,  rgba(52, 211, 153, 0.18));
+  --ccx-c-yellow: var(--callout-yellow, rgba(252, 211, 77, 0.20));
+  --ccx-c-orange: var(--callout-orange, rgba(251, 191, 36, 0.18));
+  --ccx-c-red:    var(--callout-red,    rgba(248, 113, 113, 0.18));
+
+  --callout-blue:   rgba(99, 102, 241, 0.18);
+  --callout-purple: rgba(129, 140, 248, 0.18);
+  --callout-pink:   rgba(236, 72, 153, 0.16);
+  --callout-red:    rgba(248, 113, 113, 0.18);
+  --callout-orange: rgba(251, 191, 36, 0.18);
+  --callout-yellow: rgba(252, 211, 77, 0.20);
+  --callout-green:  rgba(52, 211, 153, 0.18);
+  --callout-gray:   rgba(148, 163, 184, 0.16);
+  --callout-brown:  rgba(180, 83, 9, 0.20);
+
+  --bg-primary:         var(--primary-bg, #131A24);
+  --bg-secondary:       var(--secondary-bg, #1B2432);
+  --bg-tertiary:        var(--hover-bg, #222D3D);
+  --border-light:       var(--border-color, #2B3748);
+  --color-bg-primary:   var(--primary-bg, #131A24);
+  --color-text-primary: var(--text-primary, #F1F5F9);
+  --im-coral: #FBBF24;
+  --im-gold:  #FBBF24;
+  --cyan:   #22D3EE;
+  --indigo: #818CF8;
+}
+
+/* --- stats -------------------------------------------------------------- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--ccx-sp-md);
+  margin: var(--ccx-sp-lg) 0;
+}
+.stat-card {
+  background: var(--ccx-bg-2);
+  border: 1px solid var(--ccx-border);
+  border-radius: 8px;
+  padding: var(--ccx-sp-lg);
+  text-align: center;
+}
+@media (max-width: 640px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 400px) { .stats-grid { grid-template-columns: 1fr; } }
+
+/* --- callouts ----------------------------------------------------------- */
+.callout {
+  display: flex;
+  gap: var(--ccx-sp-md);
+  padding: var(--ccx-sp-lg);
+  border-radius: 6px;
+  margin: var(--ccx-sp-xl) 0;
+  /* A neutral default, so a bare `class="callout"` with no colour variant is
+     still a visible box. gandhi writes 9 of them and its shell defines no
+     callout CSS at all, so before this they rendered as plain paragraphs.
+     The -blue/-green/-amber/-red rules below are declared later at equal
+     specificity, so a variant still wins. */
+  background: var(--ccx-c-gray, rgba(100, 116, 139, 0.08));
+}
+.callout-icon { font-size: 1.25rem; flex-shrink: 0; }
+.callout-content { flex: 1; }
+.callout-content p:last-child { margin-bottom: 0; }
+.callout-blue  { background: var(--ccx-c-blue); }
+.callout-green { background: var(--ccx-c-green); }
+.callout-amber { background: var(--ccx-c-yellow); }
+.callout-red   { background: var(--ccx-c-red); }
+
+/* --- key insight -------------------------------------------------------- */
+.key-insight {
+  background: linear-gradient(135deg, var(--ccx-c-yellow) 0%, var(--ccx-c-orange) 100%);
+  border-left: 4px solid var(--ccx-gold);
+  padding: var(--ccx-sp-lg);
+  border-radius: 0 8px 8px 0;
+  margin: var(--ccx-sp-xl) 0;
+}
+.key-insight-label {
+  display: flex;
+  align-items: center;
+  gap: var(--ccx-sp-xs);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ccx-coral);
+  margin-bottom: var(--ccx-sp-sm);
+}
+
+/* --- worked example ----------------------------------------------------- */
+.worked-example {
+  background: var(--ccx-bg-2);
+  border: 1px solid var(--ccx-border);
+  border-left: 4px solid #10B981;
+  border-radius: 8px;
+  padding: var(--ccx-sp-lg);
+  margin: var(--ccx-sp-xl) 0;
+}
+.worked-example-header, .problem-set-header {
+  display: flex;
+  align-items: center;
+  gap: var(--ccx-sp-sm);
+  font-weight: 700;
+  margin-bottom: var(--ccx-sp-md);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.82rem;
+}
+/* #047857 not #059669: on the light panel the lighter green is 3.6:1, under AA. */
+.worked-example-header { color: #047857; }
+.worked-example-header svg, .problem-set-header svg { width: 18px; height: 18px; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .worked-example-header { color: #6EE7B7; }
+}
+:root[data-theme="dark"] .worked-example-header,
+html.dark .worked-example-header,
+body.dark-mode .worked-example-header { color: #6EE7B7; }
+
+/* --- reflection prompt -------------------------------------------------- */
+.reflection-prompt {
+  padding: 1rem 1.25rem;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.05) 0%, rgba(99, 102, 241, 0.05) 100%);
+  border: 1px dashed var(--ccx-cyan);
+  border-radius: 8px;
+  margin-top: 0.75rem;
+}
+.reflection-prompt p {
+  margin: 0;
+  font-style: italic;
+  color: var(--ccx-text-2);
+  line-height: 1.6;
+}
+
+/* --- capstone timeline -------------------------------------------------- */
+.capstone-timeline { display: grid; gap: 1rem; margin: 1.5rem 0; }
+
+/* --- diagrams ----------------------------------------------------------- */
+.dag-figure {
+  margin: var(--ccx-sp-xl) 0;
+  text-align: center;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
