@@ -289,3 +289,36 @@ html.dark .dv-bar { filter: drop-shadow(0 2px 4px rgba(0,0,0,.45)); }
   .dv-prose p { font-size: 1.02rem; }
   .dv-stat-num { font-size: 1.7rem; }
 }
+
+/* ---- Sankey / flow diagram ----
+   Tones are semantic, not decorative: 'out' is money leaving (deficit side),
+   'in' is money arriving (surplus side), 'a'/'b' are neutral series for flows
+   that are neither. Every value is defined for both themes. */
+.dv-sankey-link { fill-opacity: .42; transition: fill-opacity .15s ease; }
+.dv-sankey-link:hover { fill-opacity: .72; }
+.dv-sankey-a { fill: var(--dv-a); }
+.dv-sankey-b { fill: var(--dv-b); }
+.dv-sankey-in { fill: var(--dv-good); }
+.dv-sankey-out { fill: var(--dv-bad); }
+.dv-sankey-node { fill-opacity: .95; }
+.dv-sankey-node-a { fill: var(--dv-a); }
+.dv-sankey-node-b { fill: var(--dv-b); }
+.dv-sankey-node-in { fill: var(--dv-good); }
+.dv-sankey-node-out { fill: var(--dv-bad); }
+.dv-sankey-lbl { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; fill: var(--dv-ink); }
+.dv-sankey-val { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: var(--dv-muted); }
+@media (max-width: 560px) {
+  .dv-sankey-lbl { font-size: 10.5px; }
+  .dv-sankey-val { font-size: 9.5px; }
+}
+.dv-tip-note { display: block; margin-top: .2rem; opacity: .75; font-size: .72rem; }
+/* Middle-column labels have a ribbon underneath them; the halo is what keeps
+   them readable. paint-order puts the stroke behind the fill so the glyph
+   shape is untouched. */
+.dv-sankey-halo { paint-order: stroke; stroke: var(--dv-chart-surface); stroke-width: 3.5px; stroke-linejoin: round; }
+/* A Sankey below ~460px compresses into an unreadable band, so the renderer
+   draws at 460 and this container pans. Wide content scrolls inside its own
+   box -- the page body never scrolls sideways. */
+.dv-sankey-scroll { overflow-x: auto; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; }
+.dv-sankey-scroll svg { min-width: 0; }
+.dv-sankey-panning::after { content: "Scroll to pan →"; display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--dv-muted); text-align: right; padding-top: .35rem; }
