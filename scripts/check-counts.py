@@ -93,6 +93,8 @@ DOC_FILES = [
     "docs/team.md",
     "docs/transparency-and-commitments.md",
     "docs/freemium-and-premium-guide.md",
+    "docs/teaching-and-lms-guide.md",
+    "docs/101-decks-guide.md",
 ]
 
 # Wiki pages that mirror historical prose from the repo, so their numbers are
@@ -106,6 +108,10 @@ EXCLUDE_WIKI = {"Changelog.md", "Roadmap.md"}
 # canonical figures had moved to 35, 166 and 23. Copy is copy wherever it lives.
 COPY_FILES = [
     "js/tours.js",
+    # The 101 series landing page. Not root-level, so the HTML glob never saw
+    # it, and its <title>, og:title and <h1> each carried a stale foundational
+    # count -- the one page whose entire subject is that number.
+    "101-courses/index.html",
 ]
 
 
@@ -129,6 +135,15 @@ TERMS = [
     (r"data\s+explorers?", "data-explorers"),
     (r"flagship\s+courses?", "flagship-courses"),
     (r"foundational\s+courses?", "foundational-courses"),
+    # The site rarely writes the full phrase. "19 flagship + 51 foundational",
+    # "51 foundational slide decks", "51 foundational primers", "51 foundational
+    # 101 decks" and "51 Foundational Courses for South Asian Practitioners" all
+    # appeared on live pages while `foundational courses` alone reported PASS --
+    # so 52 in counts.json sat beside "71 courses (19 flagship + 51
+    # foundational)" on the homepage, catalogue, FAQ, premium and teach pages,
+    # a total that does not even add up. Match the bare word.
+    (r"foundational\b", "foundational-courses"),
+    (r"flagship\b", "flagship-courses"),
     (r"courses", "courses"),
     (r"interactive\s+simulations?", "game-simulations"),
     (r"simulations", "game-simulations"),
@@ -156,6 +171,10 @@ TERMS = [
     (r"data\s+tools", "dataverse"),
     (r"datasets", "dataverse"),
     (r"dataverse\s+tools", "dataverse"),
+    # README described the library as "296 curated tools" -- no "data", so
+    # the `curated data tools` pattern never saw it, and the number sat 32
+    # behind canonical.
+    (r"curated\s+tools", "dataverse"),
     (r"tools,\s*datasets", "dataverse"),
 ]
 
@@ -322,6 +341,46 @@ def line_hits(line, pattern, counts):
                 yield (m.start(1), m.end(1), key, int(m.group(1)), expected)
 
 
+# Tiles split across lines. `line_hits` scans one line at a time, so a tile
+# written as
+#     <div class="stat-number">70</div>
+#     <div class="stat-label">Courses</div>
+# was invisible to it -- the number and its label never appeared in the same
+# string. about.html writes every tile that way, and nine of them had drifted
+# (70 courses, 163 reading companions, 89 handouts, 36 studios, 22 deep dives,
+# 9 data explorers) against canonical values the guard was reporting PASS on.
+# The same shape is one indent away in any hand-written page, so match the pair
+# across a line boundary in both orders, yielding only spans that fall on the
+# line being scanned.
+def cross_line_tile_hits(prev, line, nxt, counts):
+    if nxt and not SKIP_LINE.search(nxt):
+        joined = line + "\n" + nxt
+        for rx in TILE_LABEL_RES:
+            for m in rx.finditer(joined):
+                if m.end(1) > len(line):
+                    continue
+                key = label_to_key(m.group(2))
+                if key is None:
+                    continue
+                expected = counts.get(key)
+                if expected is not None:
+                    yield (m.start(1), m.end(1), key, int(m.group(1)), expected)
+    if prev and not SKIP_LINE.search(prev):
+        joined = prev + "\n" + line
+        off = len(prev) + 1
+        for rx in TILE_LABEL_FIRST_RES:
+            for m in rx.finditer(joined):
+                if m.start(2) < off:
+                    continue
+                key = label_to_key(m.group(1))
+                if key is None:
+                    continue
+                expected = counts.get(key)
+                if expected is not None:
+                    yield (m.start(2) - off, m.end(2) - off, key,
+                           int(m.group(2)), expected)
+
+
 def main(argv):
     fix = "--fix" in argv
     wiki_dir = None
@@ -352,10 +411,20 @@ def main(argv):
             newline_suffix = raw[len(line):]
             if SKIP_LINE.search(line):
                 continue
-            hits = [
-                h for h in line_hits(line, pattern, counts)
-                if h[3] != h[4] and not in_range(line, h[0], h[1])
-            ]
+            prev_line = lines[i - 1].rstrip("\n") if i else ""
+            next_line = lines[i + 1].rstrip("\n") if i + 1 < len(lines) else ""
+            raw_hits = list(line_hits(line, pattern, counts)) + list(
+                cross_line_tile_hits(prev_line, line, next_line, counts)
+            )
+            hits = []
+            spans = set()
+            for h in raw_hits:
+                if h[3] == h[4] or in_range(line, h[0], h[1]):
+                    continue
+                if (h[0], h[1]) in spans:
+                    continue
+                spans.add((h[0], h[1]))
+                hits.append(h)
             if not hits:
                 continue
             if fix:

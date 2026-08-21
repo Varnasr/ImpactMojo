@@ -5,6 +5,34 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.243.0] - 2026-08-21
+
+### Added
+
+- **`docs/teaching-and-lms-guide.md`** — one page for the person running a course: which LMS format to pick and why, what the export strips out of a package and what that means for a student's session, how Studio submissions carry identity, how the gradebook reads them, and how to deep-link a slide from a syllabus. The three pieces shipped over the last two days (LMS export, `studio-submit`, gradebook) had no instructor-facing documentation between them; `teach.html` links the tools but does not explain them. Added to `docs/SUMMARY.md` and `docs/_sidebar.md`.
+
+- **A "For Instructors" section in `README.md`** covering the same four tools, and a paragraph on `about.html` pointing at them. Neither file mentioned that any of this existed.
+
+### Changed
+
+- **`docs/101-decks-guide.md` rewritten.** It described a system that no longer exists: decks "generated via Gamma", "the remaining 35 decks still use Gamma iframe wrappers", a Gamma sync pipeline with credit limits, and a deck inventory linking out to gamma.app. All 52 decks have been self-hosted native HTML since the migration completed. The rewrite lists the real 52 by track with their slugs, documents the actual `deck_builder.py` + `gen_*_deck.py` build path, and covers deep-linking and LMS export. It also names a gap the old doc hid: the five newest decks (**CSR & ESG**, **Data Protection & the DPDP Act**, **Disability Inclusion**, **GenAI for Practitioners**, **Safeguarding & PSEA**) have no Course Outline poster and no Practice Workbook, where the other 47 have both.
+
+- **`README.md` content inventory rebuilt against the filesystem.** Its three headings read "Flagship Courses (16)", "Foundational Courses (47)" and "Interactive Studios (28)" against canonical 19, 52 and 35 — and the flagship table listed only 15 rows under a heading claiming 16. Four flagships were missing entirely (**Designing What Works**, **Nonviolence in Practice**, **Social Movements & Protests**, **Nothing About Us Without Us**), the foundational track table was a partial list under invented track names, and the studio list held 24 entries including one course and one Studio that does not exist. All three sections are now generated from what is actually on disk. Also corrected: ImpactLex "390+ terms" → **490+** (the seed snapshot holds 494) and Dataverse "296 curated tools" → **328**.
+
+### Fixed
+
+- **"51 foundational" was live on nine pages while canonical was 52**, including the homepage, the catalogue, the FAQ, `premium.html`, `teach.html`, `accessibility.html` and — worst — the 101 series landing page, in its `<title>`, its `og:title` and its `<h1>`. The homepage and catalogue read "71 courses (19 flagship + 51 foundational)", a total that does not add up. `upgrade.html`'s stats banner was worse still: **9 flagship, 39 101-courses, 16 games**, sitting directly beneath a paragraph that correctly said 19, 52 and 135. `about.html`'s tile row was stale in six places (70 courses, 163 reading companions, 89 handouts, 36 studios, 22 deep dives, 9 data explorers) and `catalog.html`'s in two. All corrected; `ImpactMojo_PressKit.html`'s "390+ glossary terms" with it.
+
+- **Three blind spots in `scripts/check-counts.py` that let all of the above pass.** The guard reported PASS on every one of those numbers, which is the actual defect — a count guard that misses the site's most-repeated count is worse than no guard, because it is trusted.
+
+  1. **The bare word.** `foundational courses` was a required phrase, but the site almost never writes it: "19 flagship + 51 foundational", "51 foundational primers", "51 foundational slide decks", "51 foundational 101 decks", "51 Foundational Courses for South Asian Development Practitioners". Now matches `foundational` and `flagship` on their own.
+  2. **Tiles split across lines.** The tile matcher scans one line at a time, so `<div class="stat-number">70</div>` on one line and `<div class="stat-label">Courses</div>` on the next never met. `about.html` writes every tile that way. Now matched across a line boundary in both orders, yielding only spans on the line being scanned, de-duplicated so `--fix` cannot double-apply.
+  3. **A page outside the glob.** `101-courses/index.html` is not root-level, so it was never scanned — the one page whose entire subject is the foundational count. Added to `COPY_FILES`, and `curated tools` added as a Dataverse phrase (README's wording lacked the "data" the existing pattern required).
+
+  With the three fixes the guard immediately reported 11 further drifts, all real. `account.html`'s per-user "Courses completed: 0" tile is correctly *not* one of them — it is marked `count-ignore`, since it is a JS-filled personal statistic rather than a platform claim.
+
+- **`ROADMAP.md` and `README.md` said the LMS export covers "118 courses".** It covers **71 courses and 47 practice workbooks**; 118 is the sum, and calling it a course count contradicted `data/counts.json`.
+
 ### Removed
 
 - **Dead legacy nav code.** `toggleMobileMenu()` on 12 pages (`coaching`, `contact`, `data-protection`, `disclaimer`, `dojos`, `handouts`, `podcast`, `privacy-policy`, `refund-policy`, `terms-of-service`, `updates`, `workshops`) toggled `#navLinks`, an element site-chrome deletes; its only caller was the button in the same deleted header, so it could never run. Removed by brace-matching each function and confirming no caller survives outside the stripped block, rather than by pattern-replacing across files.

@@ -49,7 +49,7 @@ We provide accessible, high-quality educational materials grounded in South Asia
 | **DevDiscourses** | 500+ curated open-access research papers, books, and grey literature |
 | **PolicyDhara** | Curated Indian public policy documents, government schemes, and legislative frameworks |
 | **BCT Repository** | 203 behavior change techniques from BCT Taxonomy v1 with definitions, examples, evidence ratings, 60 WASH/nutrition case studies, fuzzy search, bookmarks, notes, comparison tool, PDF export — dark mode, filters, CSV export |
-| **Dataverse** | 296 curated tools, datasets, APIs, MCP servers, and platforms across 22 categories — dark mode, category filters, responsive cards |
+| **Dataverse** | 328 curated tools, datasets, APIs, MCP servers, and platforms across 22 categories — dark mode, category filters, responsive cards |
 | **166 Reading Companions** | Interactive study companions for development economics, political economy, statistics, leadership, and productivity texts |
 | **12 AI Study Companions** | NotebookLM-powered study notebooks covering the flagship courses |
 | **90 Handouts** | Downloadable resources across 6 learning tracks |
@@ -138,7 +138,7 @@ Available to Practitioner and Professional tier subscribers:
 
 ## Content Inventory
 
-### Flagship Courses (16)
+### Flagship Courses (19)
 
 Deep, comprehensive learning tracks — free for all users:
 
@@ -159,46 +159,74 @@ Deep, comprehensive learning tracks — free for all users:
 | **Causal Inference for Development** | Counterfactuals, RCTs, quasi-experimental designs, and evidence judgement |
 | **Livelihoods in India: Rural, Urban & Skills** | NRLM, informal and gig work, Skill India — evidence for both sides of the commissioning table |
 | **Power BI for Practitioners** | Honest dashboards from real survey data — Power Query, star schemas, DAX, visualisation ethics |
+| **Designing What Works: Development Interventions from Model to Scale** | From a plausible model to something that survives contact with delivery — targeting, fidelity, adaptation, scale |
+| **Nonviolence in Practice: Communication, Resistance & Repair** | Nonviolent communication, nonviolent resistance and restorative justice as working methods |
+| **Social Movements & Protests** | How movements form, mobilise, fracture and win — repertoires, framing, repression, outcomes |
+| **Nothing About Us Without Us: Disability, Justice & Development** | Disability as a development question — models, rights, inclusive design, and disability-inclusive MEL |
 
-### Foundational Courses (47)
+### Foundational Courses (52)
 
-Shorter introductory courses covering the breadth of development practice:
+Shorter introductory courses covering the breadth of development practice. Every one is a self-hosted native HTML deck of roughly 100 slides, with light/dark themes and keyboard and touch navigation — no third-party presentation embeds.
 
 | Track | Courses |
 |-------|---------|
-| **MEL & Research** | MEL Fundamentals, Qualitative Research Methods, Research Ethics, Observation to Insight, EDA for Humanitarian/Health/Social Data, Bivariate Analysis, Multivariate Analysis, Item Response Theory, Cost Effectiveness 101 |
-| **Economics & Policy** | Economics 101, Development Economics, Political Economy, Econometrics 101, Poverty and Inequality, Global Development Architecture, Fundraising Fundamentals, **Public Finance & Budgeting 101** |
-| **Gender & Equity** | Gender Studies 101, Women's Economic Empowerment, Sexual Rights and Health, Care Economy and Unpaid Work, Marginalized Identities and Development, Data Feminism, **Caste Studies 101** |
-| **Governance & Society** | Indian Constitution and Development, Post-Truth Politics, Decolonizing Development, Community-Led Development, Environmental Justice |
-| **Health & Wellbeing** | Public Health 101, Climate Essentials, Social Emotional Learning, **Work, Labour & Livelihoods 101** (replaces Decent Work + Livelihoods Fundamentals) |
-| **Communication & Data** | English for Development, Visual Ethnography, Data Literacy for Development, BCC and Communications, Advocacy Fundamentals, Digital Development Ethics, Education and Pedagogy |
+| **MEL, Research & Data Methods** (14) | MEL Basics, Theory of Change, Logframe, Impact Evaluation, Cost Effectiveness, Survey Design, Qualitative Methods, Mixed Methods, Research Ethics, Observation to Insight, Exploratory Data Analysis, Bivariate Analysis, Multivariate Analysis, Item Response Theory |
+| **Economics & Policy** (7) | Development Economics, Political Economy, Econometrics, Inequality Basics, Global Development Governance, Public Finance & Budgeting, Fundraising Basics |
+| **Gender & Equity** (7) | Gender Mainstreaming, Women's Economic Empowerment, Feminist Research, Care Economy, Sexual Health, Social Margins, Data Feminism |
+| **Governance, Rights & Society** (8) | Indian Constitution, Post-Truth Politics, Decolonial Development, Community Development, Environmental Justice, Disability Inclusion, Safeguarding & PSEA, **CSR & ESG** |
+| **Health, Climate & Wellbeing** (6) | Public Health, Maternal Health, Child Development, Climate Essentials, SEL Basics, Work, Labour & Livelihoods |
+| **Communication, Data & Digital** (10) | English for Development, Visual Ethnography, Data Literacy, Data Visualization, Behaviour Change Communication, Advocacy Basics, Education and Pedagogy, Digital Ethics, GenAI for Practitioners, Data Protection & the DPDP Act |
 
-### Interactive Studios (28)
+47 of the 52 also ship a one-page **Course Outline** poster and a **Practice Workbook**.
 
+### Interactive Studios (35)
+
+Browser-based studios under `/Labs/`. Each runs entirely client-side, keeps your work in the browser, and exports what you build.
+
+**Design & planning**
 - **Theory of Change Studio** — Guided ToC builder with real-time flowchart diagram and PNG export
-- **MEL Design Studio** — Monitoring, evaluation, and learning framework builder
-- **MEL Plan Studio** — Complete MEL implementation plan with data collection schedule
+- **LogFrame Builder** — Results chain, indicators, means of verification and assumptions, exported as JSON
+- **MEL Studio** — Monitoring, evaluation and learning framework builder
+- **MEL Rosetta Lab** — Translate between the MEL vocabularies different donors insist on
 - **Design Thinking Studio** — Human-centred design process: empathy maps, ideation, prototyping
-- **Storytelling Studio** — Impact narrative builder with 4 format adapters and ethical checklist
-- **Risk Mitigation Studio** — Risk register with 5×5 heatmap and mitigation strategies
-- **Policy Advocacy Studio** — Policy brief generator with stakeholder mapping
+- **Risk and Mitigation Studio** — Risk register with 5×5 heatmap and mitigation strategies
 - **Resource Sustainability Studio** — Resource mobilisation and sustainability planning
-- **Impact Partnerships Studio** — Partnership mapping and collaboration framework
-- **Community Engagement Studio** — Participatory assessment and action planning
-- **Gender Studies Studio** — Gender analysis frameworks and assessment tools
-- **Budget & Fiscal Analysis Studio** — Read Union/State budgets (BE/RE/actuals), fund-flow simulator, per-capita calculator, fiscal federalism
-- **Climate Risk & Adaptation Studio** — Vulnerability assessment, risk matrix, adaptation cost-benefit analysis
-- **Conflict-Sensitive Programming Studio** — Do No Harm framework, conflict analysis, adapt/suspend/exit decisions
-- **Data Feminism & Intersectional Analysis Studio** — Disaggregation, bias detection, intersectional visualisation
-- **Digital Public Infrastructure Studio** — Aadhaar, UPI, DigiLocker, ABHA, ONDC and the DPDP Act 2023
-- **Ethics & Research Integrity Studio** — Consent, data privacy, positionality, ethics review, field dilemmas
 - **Grant Writing & Proposal Studio** — Donor matching, theory of change, narrative, budgeting
-- **Participatory Methods Studio** — PRA, community mapping, focus groups, participatory M&E
-- **Policy Brief Writing Studio** — Two-page briefs with audience targeting and structure
-- **Stakeholder Mapping & Power Analysis Studio** — Power–interest grid, actor and influence mapping
+- **Budget & Fiscal Analysis Studio** — Read Union/State budgets (BE/RE/actuals), fund-flow simulator, per-capita calculator, fiscal federalism
+
+**Evidence & measurement**
+- **Impact Evaluation Designer** — Match a question to a design, and see what each design can and cannot claim
+- **RCT Readiness Diagnostic** — Whether a randomised design is feasible here, before you promise one
+- **Sampling Basics (Primer)** — Sampling from first principles for people who were never taught it
+- **Sampling Design Studio** — Strata, clusters, weights and the trade-offs between them
 - **Survey Design Studio** — Question wording, scales, bias tests, translation, piloting
+- **Ethics & Research Integrity Studio** — Consent, data privacy, positionality, ethics review, field dilemmas
+- **Teacher Evidence Explorer** — What the evidence says about teaching interventions, and how strong it is
+- **Disability-Inclusive MEL Studio** — Washington Group questions, accessible instruments, disaggregation
+
+**Politics, power & participation**
+- **Stakeholder Mapping & Power Analysis Studio** — Power–interest grid, actor and influence mapping
+- **Participatory Methods Studio** — PRA, community mapping, focus groups, participatory M&E
+- **Community Development Studio** — Participatory assessment and action planning
+- **Policy & Advocacy Studio** — Policy brief generator with stakeholder mapping
+- **Policy Analysis Studio** — Problem definition, options appraisal, feasibility
+- **Policy Brief Writing Studio** — Two-page briefs with audience targeting and structure
+- **Impact Partnerships Studio** — Partnership mapping and collaboration framework
+- **Gender Studies Studio** — Gender analysis frameworks and assessment tools
+- **Data Feminism & Intersectional Analysis Studio** — Disaggregation, bias detection, intersectional visualisation
+
+**Conflict, climate & systems**
+- **Conflict-Sensitive Programming Studio** — Do No Harm framework, conflict analysis, adapt/suspend/exit decisions
+- **Before We Fall Apart** — Conflict-preparedness studio for teams and institutions
+- **NVC & Mediation Practice** — Nonviolent communication and mediation, rehearsed against real scenarios
+- **Climate Risk & Adaptation Studio** — Vulnerability assessment, risk matrix, adaptation cost-benefit analysis
 - **Systems Thinking & Complexity Studio** — Causal loop diagrams, iceberg model, leverage points
-- **R & Python for Development** — Learn R and Python from zero with live in-browser code (WebR + Pyodide), no install _(early access)_
+- **Livelihoods & Value-Chain** — Map a value chain and find where the margin actually sits
+
+**Data, digital & place**
+- **Digital Public Infrastructure Studio** — Aadhaar, UPI, DigiLocker, ABHA, ONDC and the DPDP Act 2023
+- **Impact Storytelling Studio** — Impact narrative builder with 4 format adapters and ethical checklist
+- **Why City Boundaries Lie** — What an urban boundary hides, and what that does to your denominators
 
 ### Tools & Calculators
 
@@ -206,6 +234,15 @@ Shorter introductory courses covering the breadth of development practice:
 - **Budget Template Generator** — Project budget builder with smart templates and CSV export
 - **Theory of Change Workbench** — Educational workbench with BCT annotations, worked examples, and sector guidance
 - **Theory of Change Builder** — Drag-and-drop canvas with 203 BCT techniques and PNG export
+
+### For Instructors
+
+Everything below is free, runs in the browser, and needs no account.
+
+- **[Teach with ImpactMojo](https://www.impactmojo.in/teach)** (`teach.html`) — syllabus mappings, ready-made course kits, and how to run the material in a classroom or a workshop.
+- **[LMS export](https://www.impactmojo.in/lms-export)** (`lms-export.html`) — package any of the 71 courses — plus the 47 practice workbooks — as **SCORM 1.2**, **SCORM 2004**, **IMS Common Cartridge 1.3**, or a single self-contained HTML file. The package is built in your browser from the live page, so it is never stale. Our analytics, sign-in, Supabase and translation code are stripped before packaging and the rest inlined, so an imported course runs with no network and phones nothing home. SCORM reports completion when the learner reaches the final slide.
+- **Studio submissions** (`js/studio-submit.js`) — wraps a Studio's own export in an envelope carrying the student's name, the Studio, a timestamp and a content digest. Studio exports previously carried no identity at all, so thirty files from a class were thirty anonymous JSON blobs. Wired into the LogFrame Builder as the reference implementation; the other Studios take the same two lines.
+- **[Gradebook](https://www.impactmojo.in/gradebook)** (`gradebook.html`) — drop a folder of those submissions in and get one CSV, with tampered files flagged by digest mismatch. Entirely client-side: student work is never uploaded anywhere.
 
 ### Premium Tools (Paid Tiers)
 
@@ -243,12 +280,12 @@ Interactive simulations powered by **MiroFish AI agents** with **Indian folk art
 
 ### Other Resources
 
-- [**ImpactLex**](https://www.impactmojo.in/impactlex/) — 390+ development terms, formulas, and case studies (PWA, offline-capable, hosted on ImpactMojo)
+- [**ImpactLex**](https://www.impactmojo.in/impactlex/) — 490+ development terms, formulas, and case studies (PWA, offline-capable, hosted on ImpactMojo)
 - [**Dev Case Studies Library**](https://github.com/Varnasr/dev-case-studies) — 200 evidence-based case studies from 117 countries
 - [**DevDiscourses**](https://github.com/Varnasr/development-discourses) — 500+ curated open-access research papers, books, and grey literature
 - [**PolicyDhara**](https://github.com/Varnasr/PolicyDhara) — Auto-updating tracker of Indian development policies across 22 sectors
 - **BCT Repository** — 203 behavior change techniques with definitions, examples, and evidence ratings
-- **Dataverse** — 296 curated tools, datasets, APIs, MCP servers, and platforms for social impact research
+- **Dataverse** — 328 curated tools, datasets, APIs, MCP servers, and platforms for social impact research
 - **90 Handouts** — Downloadable HTML resources across 6 learning tracks
 - **Learning Loops Blog** — Articles, tutorials, case studies, platform updates
 - **Between the Logframes Podcast** — Development conversations on MEAL, ToC, and impact work

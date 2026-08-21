@@ -1,231 +1,191 @@
 # 101 Course Decks Guide
 
-## What Are the 101 Course Decks?
+## What the 101 decks are
 
-ImpactMojo's **51 foundational courses** are available as visual presentation decks — 60-slide interactive decks generated via [Gamma](https://gamma.app) with Indian folk art illustrations, consistent branding, and South Asian context throughout.
+ImpactMojo's **52 foundational courses** are slide decks you read in a browser. Each is a single self-hosted HTML page of roughly 100 slides, with a light/dark/system theme, keyboard and touch navigation, fullscreen, and interactive Chart.js figures where the argument needs a chart rather than a sentence.
 
-These aren't typical slide decks. Each one is a structured learning journey designed for self-study or facilitated workshops, with case studies drawn from development practice in India and South Asia. They are free to view, share, and use in educational settings.
+They are not summaries of the flagship courses. A 101 deck is the shortest honest route into a subject: what the thing is, who it binds, what the numbers are, and what a practitioner is expected to know before walking into a meeting about it. A flagship course is the long version, with modules, readings, a lexicon and an assessment.
 
-All decks are accessible at `https://www.impactmojo.in/101-courses/{course-slug}.html` and require no login or download.
+Every deck lives at `https://www.impactmojo.in/101-courses/{slug}.html`, needs no login, works offline once loaded, and prints.
 
-### Native HTML Decks (New — April 2026)
+### No third-party embeds
 
-Three decks have been migrated from Gamma iframe wrappers to **self-hosted native HTML slide decks** with 100 slides each:
-
-| Deck | Slides | Charts | URL |
-|------|--------|--------|-----|
-| Development Economics 101 | 100 | 17 Chart.js | [View](https://www.impactmojo.in/101-courses/dev-economics.html) |
-| MEL Fundamentals 101 | 100 | — | [View](https://www.impactmojo.in/101-courses/mel-basics.html) |
-| Climate Essentials 101 | 100 | — | [View](https://www.impactmojo.in/101-courses/climate-essentials.html) |
-
-Native decks feature: light/dark/system theme toggle, keyboard/touch/swipe navigation, fullscreen mode, responsive viewport scaling, and interactive Chart.js visualisations. The shared template (`101-courses/native/shared/deck.css` + `deck.js`) is ready for all future 101 deck conversions.
-
-**Workflow for new native decks:**
-1. Generate 100-slide HTML in Claude Chat using an existing native deck as format template
-2. Save/paste the output to `101-courses/{slug}.html`
-3. Fix JS bugs (viewport split after slide 50, newlines in chart labels) and push
-
-The remaining 35 decks still use Gamma iframe wrappers and will be migrated incrementally.
+Earlier versions of this guide described decks generated through Gamma and displayed in an iframe. **That is no longer how any of them work.** All 52 decks were migrated to self-hosted native HTML; zero Gamma iframes remain. The practical consequences: nothing is served from a third-party domain, nothing breaks when an external service changes its embed, the decks are indexed by search engines, they render on a bad connection, and they can be packaged for an LMS (see [For educators](#for-educators)).
 
 ---
 
-## What's in Each Deck
+## What's in a deck
 
-Every 101 deck follows a consistent structure across approximately 60–100 slides:
+Every deck follows the same shape:
 
-1. **Title card** — Course name, ImpactMojo branding, track identity
-2. **Agenda** — Overview of what the deck covers
-3. **10--12 content sections** — Core concepts with explanations, diagrams, and South Asian case studies
-4. **Quiz / Assessment** — Check-your-understanding questions embedded in the deck
-5. **Key Takeaways** — Summary of the most important points
-6. **Glossary** — Definitions of key terms used in the deck
-7. **Further Reading** — Curated references for deeper exploration
-8. **Thank You** — Closing slide with license and attribution
+1. **Title card** — course name, track identity, ImpactMojo branding
+2. **What this covers** — the agenda, stated as questions rather than headings
+3. **Ten to twelve content sections** — concepts, tables, diagrams, and South Asian cases
+4. **Charts where they earn their place** — each with the context above it and the reading below it, not a decorative graphic
+5. **Check-your-understanding** — questions embedded in the deck
+6. **Key takeaways and further reading** — including primary sources and where to find them
 
-### Branding and Design
+### Companion material
 
-- **Fonts**: Inter (body) + Amaranth (headings)
-- **Theme**: Cornflower (consistent across all decks)
-- **Footer**: ImpactMojo branding on every slide
-- **License**: CC BY-NC-ND 4.0 — free to share and adapt for non-commercial use with attribution
+47 of the 52 decks also ship two companions:
 
----
+- **Course Outline poster** — `/101-courses/poster/{slug}.html`, a one-page map of the deck, designed to print
+- **Practice Workbook** — `/101-courses/practice/{slug}.html`, exercises that apply the deck to the reader's own work
 
-## Indian Folk Art Styles by Track
-
-Each track uses a distinct Indian folk art tradition for its illustrations, grounding the learning content in South Asian visual culture.
-
-| Track | Art Style | Origin |
-|-------|-----------|--------|
-| **MEL & Research** | Warli | Maharashtra — white line art on terracotta backgrounds |
-| **Data & Technology** | Gond | Madhya Pradesh — dot patterns, vibrant nature-tech fusion |
-| **Policy & Economics** | Kalamkari | Andhra Pradesh — pen-drawn narrative scrolls |
-| **Gender & Equity** | Madhubani | Bihar — bold outlines, bright fills, nature motifs |
-| **Health & Communication** | Pattachitra | Odisha — scrollwork narrative art, bold outlines |
-| **Philosophy & Governance** | Pichwai | Rajasthan — devotional temple art, rich detail |
+The five most recent decks — **CSR & ESG**, **Data Protection & the DPDP Act**, **Disability Inclusion**, **GenAI for Practitioners** and **Safeguarding & PSEA** — do not yet have a poster or a workbook. That is a known gap, not a design decision.
 
 ---
 
-## Available Decks
+## The 52 decks by track
 
-As of April 2026, **3 native HTML decks** are live (Dev Econ, MEL, Climate) and **22 of 39** Gamma decks have been generated. The remaining courses are being migrated from Gamma iframes to native HTML.
+### MEL, Research & Data Methods (14)
 
-### MEL & Research
+| Deck | Slug |
+|------|------|
+| MEL Basics 101 | `mel-basics` |
+| Theory of Change 101 | `toc-workbench` |
+| Logframe 101 | `logframe-101` |
+| Impact Evaluation 101 | `impact-eval` |
+| Cost Effectiveness 101 | `cost-effectiveness` |
+| Survey Design 101 | `survey-design` |
+| Qualitative Methods 101 | `qual-methods` |
+| Mixed Methods 101 | `mixed-methods` |
+| Research Ethics 101 | `research-ethics` |
+| Observation to Insight 101 | `obs2insight` |
+| Exploratory Data Analysis 101 | `eda-hhs` |
+| Bivariate Analysis 101 | `bi-analysis` |
+| Multivariate Analysis 101 | `multivariate-basics` |
+| Item Response Theory 101 | `irt-basics` |
 
-| Course | Status | Access |
-|--------|--------|--------|
-| MEL Fundamentals | Available | [View deck](/101-courses/mel-basics.html) |
-| Qualitative Research Methods | Available | [View deck](/101-courses/qual-methods.html) |
-| Observation to Insight | Available | [View deck](/101-courses/obs2insight.html) |
-| Visual Ethnography | Available | [View deck](/101-courses/visual-eth.html) |
-| Research Ethics | Available | [View deck](/101-courses/research-ethics.html) |
-| Item Response Theory and Qualitative Assessment | Available | [View deck](/101-courses/irt-basics.html) |
-| BCC and Communications | Coming Soon | — |
-| Theory of Change Workbench | Coming Soon | — |
+### Economics & Policy (7)
 
-### Data & Technology
+| Deck | Slug |
+|------|------|
+| Development Economics 101 | `dev-economics` |
+| Political Economy 101 | `pol-economy` |
+| Econometrics 101 | `econometrics-101` |
+| Inequality Basics 101 | `inequality-basics` |
+| Global Development Governance 101 | `dev-architecture` |
+| Public Finance & Budgeting 101 | `public-finance-budgeting` |
+| Fundraising Basics 101 | `fundraising-basics` |
 
-| Course | Status | Access |
-|--------|--------|--------|
-| Data Literacy for Development | Available | [View deck](/101-courses/data-lit.html) |
-| Data Feminism | Available | [View deck](/101-courses/data-feminism.html) |
-| EDA for Humanitarian/Health/Social Data | Available | [View deck](/101-courses/eda-hhs.html) |
-| Bivariate Analysis | Available | [View deck](/101-courses/bi-analysis.html) |
-| Multivariate Analysis | Available | [View deck](/101-courses/multivariate-basics.html) |
-| Econometrics 101 | Available | [View deck](/101-courses/econometrics-101.html) |
-| Digital Development Ethics | Available | [View deck](/101-courses/digital-ethics.html) |
-| Education and Pedagogy | Coming Soon | — |
-| Social Emotional Learning | Coming Soon | — |
-| Poverty and Inequality | Coming Soon | — |
-| Marginalized Identities and Development | Coming Soon | — |
-| Decent Work for All | Coming Soon | — |
-| Community-Led Development | Coming Soon | — |
-| Decolonizing Development | Coming Soon | — |
-| Environmental Justice | Coming Soon | — |
+### Gender & Equity (7)
 
-### Policy & Economics
+| Deck | Slug |
+|------|------|
+| Gender Mainstreaming 101 | `gender-mainstreaming` |
+| Women's Economic Empowerment 101 | `wee-studies` |
+| Feminist Research 101 | `feminist-research` |
+| Care Economy 101 | `care-economy-101` |
+| Sexual Health 101 | `SRHR-basics` |
+| Social Margins 101 | `social-margins` |
+| Data Feminism 101 | `data-feminism` |
 
-| Course | Status | Access |
-|--------|--------|--------|
-| Development Economics | Available | [View deck](/101-courses/dev-economics.html) |
-| Political Economy | Available | [View deck](/101-courses/pol-economy.html) |
-| Cost-Effectiveness Analysis | Available | [View deck](/101-courses/cost-effectiveness.html) |
-| English for Development | Available | [View deck](/101-courses/eng-dev.html) |
-| Advocacy Fundamentals | Available | [View deck](/101-courses/advocacy-basics.html) |
-| Livelihoods Fundamentals | Available | [View deck](/101-courses/livelihood-basics.html) |
-| Climate Essentials | Available | [View deck](/101-courses/climate-essentials.html) |
-| Post-Truth Politics | Deck Ready (PDF pending) | [View on Gamma](https://gamma.app/docs/07twqrzjtsnf49j) |
-| Fundraising Fundamentals | Deck Ready (PDF pending) | [View on Gamma](https://gamma.app/docs/0j6oy9d9f60xevo) |
-| Global Development Architecture | Deck Ready (PDF pending) | [View on Gamma](https://gamma.app/docs/n6gze051jrfnllw) |
-| Indian Constitution and Development | Coming Soon | — |
+### Governance, Rights & Society (8)
 
-### Gender, Equity & Inclusion
+| Deck | Slug |
+|------|------|
+| Indian Constitution 101 | `ind-constitution` |
+| Post-Truth Politics 101 | `post-truth-101` |
+| Decolonial Development 101 | `decolonize-dev` |
+| Community Development 101 | `community-dev` |
+| Environmental Justice 101 | `env-justice` |
+| Disability Inclusion 101 | `disability-inclusion` |
+| Safeguarding & PSEA 101 | `safeguarding-psea` |
+| CSR & ESG 101 | `csr-esg` |
 
-| Course | Status | Access |
-|--------|--------|--------|
-| Women's Economic Empowerment | Coming Soon | — |
-| Sexual Rights and Health Basics | Coming Soon | — |
-| Care Economy and Unpaid Work | Coming Soon | — |
+### Health, Climate & Wellbeing (6)
 
-### Health & Communication
+| Deck | Slug |
+|------|------|
+| Public Health 101 | `pub-health-basics` |
+| Maternal Health 101 | `maternal-health` |
+| Child Development 101 | `child-development` |
+| Climate Essentials 101 | `climate-essentials` |
+| SEL Basics 101 | `sel-basics` |
+| Work, Labour & Livelihoods 101 | `work-labour-livelihoods` |
 
-| Course | Status | Access |
-|--------|--------|--------|
-| Public Health 101 | Coming Soon | — |
+### Communication, Data & Digital (10)
 
----
+| Deck | Slug |
+|------|------|
+| English for Development 101 | `eng-dev` |
+| Visual Ethnography 101 | `visual-eth` |
+| Data Literacy 101 | `data-lit` |
+| Data Visualization 101 | `data-viz` |
+| Behaviour Change Communication 101 | `bcc-comms` |
+| Advocacy Basics 101 | `advocacy-basics` |
+| Education and Pedagogy 101 | `edu-pedagogy` |
+| Digital Ethics 101 | `digital-ethics` |
+| GenAI for Practitioners 101 | `genai-practitioners` |
+| Data Protection & the DPDP Act 101 | `data-protection-dpdp` |
 
-## How to Access the Decks
-
-### Primary access
-
-Visit `/101-courses/{course-slug}.html` in any browser. For example:
-- [/101-courses/data-lit.html](/101-courses/data-lit.html) — Data Literacy for Development
-- [/101-courses/mel-basics.html](/101-courses/mel-basics.html) — MEL Fundamentals
-- [/101-courses/dev-economics.html](/101-courses/dev-economics.html) — Development Economics
-
-### Gamma fallback
-
-For decks marked "Deck Ready (PDF pending)", use the Gamma link directly. These decks are fully viewable on Gamma's platform — the only difference is that a downloadable PDF has not yet been exported.
-
-### PDF downloads
-
-Completed decks have PDF exports available. These are useful for offline use, printing, or sharing in low-bandwidth contexts.
-
----
-
-## For Educators
-
-### Using Decks in Workshops
-
-The 60-slide format maps well to a **90-minute workshop session**:
-
-1. **Introduction** (10 min) — Use the title card and agenda slides to frame the session
-2. **Content walk-through** (50 min) — Work through the content sections, pausing at case studies for group discussion
-3. **Quiz and discussion** (15 min) — Use the embedded quiz as a group activity
-4. **Takeaways and reflection** (15 min) — Review key takeaways, ask participants to identify one concept they will apply
-
-### Combining with Handouts
-
-ImpactMojo offers 89 handouts in `/Handouts/` that pair well with the decks. For example:
-
-- Use the **Data Literacy deck** alongside the Data & Technology track handouts for a full-day workshop
-- Distribute the **MEL Fundamentals handouts** as pre-reading before presenting the deck
-- Assign **Further Reading** references from the deck as follow-up homework
-
-### Combining with Games
-
-Several 101 courses have companion interactive games on the platform:
-
-- **Development Economics** deck + **Public Good Game** or **Externality Game**
-- **Digital Development Ethics** deck + **Digital Ethics** scenarios
-- **Climate Essentials** deck + **Climate Action Challenge**
-- **Political Economy** deck + **Cooperation Paradox** or **Prisoners' Dilemma**
-
-Play the game first to create an experiential hook, then use the deck to build the conceptual framework.
-
-### Customizing for Local Context
-
-The decks are licensed CC BY-NC-ND 4.0, which means you can:
-
-- **Adapt** — Add local case studies, translate key terms, adjust examples for your state or region
-- **Share** — Distribute to participants, post on your organization's LMS
-- **Remix** — Combine slides from multiple decks for a custom workshop
-
-Please credit ImpactMojo and maintain the non-commercial, share-alike terms.
+Browse them all at [/101-courses/](https://www.impactmojo.in/101-courses/).
 
 ---
 
-## Technical Details
+## How to read one
 
-### How Decks Are Built
+- **Navigate** with the arrow keys, `Space`, or by swiping. `F` toggles fullscreen.
+- **Theme** follows your device by default; the three-button toggle overrides it.
+- **Deep link** to a slide with `#s42` — the slide IDs are stable, so a link you put in a syllabus will still land in the right place next year.
+- **Offline**: once a deck has loaded, it stays available. Flagship courses can also be downloaded explicitly from the course page.
 
-Decks are generated programmatically using the **Gamma API** through an automated pipeline:
+---
 
-1. **Course content** is structured into a prompt with section headings, case studies, and assessment items
-2. **Gamma API** generates the 60-slide deck with the cornflower theme and specified art style
-3. **PDF export** is triggered automatically after successful generation
-4. **Sync results** are logged to `data/gamma-sync-results.json` for tracking
+## For educators
 
-### Sync Pipeline
+### A deck as a workshop
 
-- **Script**: `scripts/gamma-sync.js` handles the full generation and export workflow
-- **Recovery**: The pipeline supports recovery — if a generation succeeds but PDF export fails (e.g., due to credit limits), the Gamma URL is preserved and export can be retried later
-- **Status tracking**: Each course has a status in `gamma-sync-results.json`: `completed` (with or without export URL) or `error` (generation not yet attempted/failed)
+The ~100-slide format maps to a **90-minute session** if you are selective, or a half-day if you stop at every case:
 
-### Current Pipeline Status
+1. **Frame it** (10 min) — the title card and the "what this covers" slides
+2. **Work the content** (50 min) — pause at the case studies and let people argue
+3. **Check understanding** (15 min) — run the embedded questions as a group activity, not a test
+4. **Reflect** (15 min) — ask each participant to name one thing they will do differently
 
-- **18 decks**: Fully completed with PDF export
-- **4 decks**: Generated on Gamma, PDF export pending (credit-limited)
-- **14 decks**: Awaiting generation (credit-limited)
-- **Recovery date**: 2026-03-19 — pipeline recovered previously generated decks that were missing from local tracking
+### Pair with handouts and games
+
+- **Data Literacy** deck + the Data & Technology handouts for a full day
+- **MEL Basics** handouts as pre-reading, deck as the session
+- **Development Economics** deck after the **Public Good Game** or **Externality Game**
+- **Climate Essentials** deck after the **Climate Action Challenge**
+- **Political Economy** deck after **Cooperation Paradox** or **Prisoners' Dilemma**
+
+Play the game first to create the experience, then use the deck to name what happened.
+
+### Put a deck in your LMS
+
+[LMS Export](https://www.impactmojo.in/lms-export) packages any 101 deck as **SCORM 1.2**, **SCORM 2004**, **IMS Common Cartridge 1.3**, or one self-contained HTML file. The package is built in your browser from the live deck, so it is never a stale copy. Our analytics, sign-in, database and translation code are stripped out before packaging and everything else is inlined, so the imported deck runs with no network and reports nothing back to us. SCORM marks the course complete when the learner reaches the final slide.
+
+### Adapt it
+
+The decks are licensed **CC BY-NC-ND 4.0**. You may share them, distribute them to participants, and post them on your organisation's LMS. Credit ImpactMojo and keep the non-commercial terms. If you want to remix or translate a deck for a specific context, [get in touch](mailto:hello@impactmojo.in) — we would rather help than have a bad copy circulate.
+
+---
+
+## Technical details
+
+### How a deck is built
+
+Decks are generated from Python, not by hand:
+
+- **`scripts/deck_builder.py`** — the shared builder. `build()` assembles the page; helpers (`sec`, `divider`, `bullets`, `table`, `stats`, `twocol`, `flow`, `hbox`, `quote`, `terms`, `SRC`) emit the house components so every deck looks the same.
+- **`scripts/gen_{slug}_deck.py`** — one generator per deck, holding that deck's content.
+- **Charts** use Chart.js in the house `chart-slide-frame` pattern: context above the chart, the chart, and the reading below it. A deck degrades gracefully if Chart.js fails to load.
+
+To regenerate a deck, edit its generator and run it; do not hand-edit the output HTML, or the next run will overwrite you.
+
+### After adding or changing a deck
+
+Follow the checklist in `.claude/rules/content-management.md`. In short: update `data/counts.json` first, then run `python3 scripts/check-counts.py`, add the page to `data/search-index.json` and `sitemap.xml`, wire it into `catalog.html` and `101-courses/index.html`, and record it in `docs/changelog.md`.
 
 ---
 
 ## Tips
 
-- **Preview before presenting.** Walk through a deck yourself before using it in a workshop. Note which case studies resonate with your audience and which slides you might skip or expand on.
-- **Use the glossary.** Development jargon trips people up. Point participants to the glossary slide when introducing new terms.
-- **Don't rush the case studies.** The South Asian case studies are where abstract concepts become concrete. Budget time for participants to discuss how the example connects to their own work.
-- **Download PDFs for field settings.** If you are running a workshop in an area with unreliable internet, download the PDF in advance. The decks work well projected from a laptop without a live connection.
-- **Pair decks from the same track.** Running a multi-day training? Sequence two or three decks from the same track for cumulative learning — for example, Data Literacy followed by Bivariate Analysis followed by Multivariate Analysis.
+- **Read it yourself first.** Note which cases land with your audience and which slides you will skip.
+- **Don't rush the cases.** The South Asian examples are where the abstraction becomes real. Budget time to argue about them.
+- **Sequence within a track.** For a multi-day training, run two or three decks from the same track — Data Literacy, then Bivariate Analysis, then Multivariate Analysis.
+- **Print the poster.** For the 47 decks that have one, the Course Outline poster is the handout you want on the table.
+- **Give people the deep link, not the deck.** `#s42` gets a reader to the slide you meant instead of the first one.

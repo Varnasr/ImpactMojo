@@ -2,6 +2,19 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.234.0 — August 21, 2026 (A guide for instructors, and numbers that finally add up)
+
+### For Learners
+
+- **A new guide for anyone teaching with our material.** [Teaching, LMS Export & Gradebook](teaching-and-lms-guide.md) explains which package format your university's system wants, what is stripped out of a course before it goes into your LMS and why, how to collect Studio work with a student's name attached, and how to turn a folder of submissions into one gradebook file.
+- **The 101 Course Decks guide has been rewritten.** It was describing decks hosted on an external service we stopped using. It now lists all 52 decks by track, with what each slug is, how to link to a specific slide from a syllabus, and how to put a deck in your LMS.
+
+### Fixed
+
+- **The site was telling you there were 51 foundational courses. There are 52.** The wrong number was on the homepage, the catalogue, the FAQ, the premium and teaching pages, and the 101 series landing page itself — including its browser tab and its main heading. The homepage went further and offered "71 courses (19 flagship + 51 foundational)", which does not add up.
+- **The About page's numbers were behind on six counts** (courses, reading companions, handouts, studios, deep dives and data explorers), and the upgrade page's banner was showing 9 flagship courses and 16 games where there are 19 and 135.
+- **The check that is supposed to catch exactly this had three holes in it**, which is why none of the above was noticed. All three are closed, and the repaired check immediately found eleven more stale numbers across the site.
+
 ## v10.233.0 — August 21, 2026 (Marking Studio work just got easier)
 
 ### For Learners
@@ -13,7 +26,7 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 
 ### For Learners
 
-- **Put any ImpactMojo course into Moodle, Canvas or Blackboard.** A new page builds a SCORM package, a Common Cartridge, or a single self-contained file for any of our 118 courses — pick a course, pick a format, download. Free, no login. Once imported it runs without internet, and SCORM tells your gradebook who finished. Google Classroom can use the single-file version.
+- **Put any ImpactMojo course into Moodle, Canvas or Blackboard.** A new page builds a SCORM package, a Common Cartridge, or a single self-contained file for any of our 71 courses and 47 practice workbooks — pick one, pick a format, download. Free, no login. Once imported it runs without internet, and SCORM tells your gradebook who finished. Google Classroom can use the single-file version.
 
 ## v10.232.0 — August 21, 2026 (CSR & ESG 101)
 
