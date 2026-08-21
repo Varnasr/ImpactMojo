@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **`partnerships.html`** — a dedicated partnerships page, replacing the two blocks buried at the bottom of `about.html` as the place partnership is explained. Features Populi (https://www.populi.co.in) as end-to-end research + MEL advisory partner, India Institute as thought advocacy + measurement partner, and PinPoint Ventures as founding sponsor; sets out the partnership terms (editorial independence, no paywalling of partner-supported content, CC BY-NC-ND 4.0, no learner data), lists the ways to partner, and carries a proposal form.
+- **`partnerships.html`** — a dedicated partnerships page, replacing the two blocks buried at the bottom of `about.html` as the place partnership is explained. Features Populi (https://www.populi.co.in) as end-to-end research + MEL advisory partner, India Institute (https://indiai.org/) as thought advocacy + measurement partner, and PinPoint Ventures as founding sponsor; sets out the partnership terms (editorial independence, no paywalling of partner-supported content, CC BY-NC-ND 4.0, no learner data), lists the ways to partner, and carries a proposal form.
 
   The form reuses the existing **`partner-inquiry`** Netlify form name and its exact field set (`name`, `email`, `organization`, `interest`, `message`). That is deliberate: `partner-inquiry` is already on the `ALLOWED_FORMS` allowlist in `netlify/functions/form-submit.mjs`, so proposals get both the Netlify notification and the Supabase row with no backend change, and they land in the same place as the ones submitted from `about.html`. A new form name would have needed an allowlist entry and would have split partnership enquiries across two buckets.
 
