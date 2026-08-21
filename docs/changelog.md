@@ -6,7 +6,7 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 
 ### Fixed
 
-- **The partnerships page said things about our partners that were never true.** As first published it claimed Populi reviews our courses and toolkits before release, supplies us anonymised evaluation cases, and receives referrals from us; and that India Institute reviews our governance and policy content. It also set out a five-point partnership policy and a menu of six partnership services. None of that had been agreed with anyone — it was written to fill out the page. All of it is removed. What remains is each partner's role and each partner's own description of itself, attributed to their site.
+- **The partnerships page said things about our partners that were never true.** As first published it claimed Populi reviews our courses and toolkits before release, supplies us anonymised evaluation cases, and receives referrals from us; and that India Institute reviews our governance and policy content. It also set out a five-point partnership policy and a menu of six partnership services. None of that had been agreed with anyone — it was written to fill out the page. All of it is removed, and replaced with what the arrangements actually are: ImpactMojo does capacity building work for both partners, refers and endorses Populi for full-fledged research projects, and endorses India Institute for measurement work — measurements, tools and validation. Each partner's own description of itself is quoted and attributed to their site.
 
 ## v10.225.0 — August 21, 2026 (A partnerships page)
 

@@ -19,9 +19,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - a six-item "Ways to partner" menu of services that are not offered;
   - form copy claiming enquiries are read personally rather than queued and are always answered.
 
-  All removed. What remains is each partner's role exactly as given, each partner's own description of itself quoted and attributed to their site so the reader can see whose claim it is, the service and programme lists those sites publish, and the licence terms (verifiable from this repo). PinPoint Ventures is described in the wording already used in `about.html`, not as "founding sponsor".
+  All removed, and replaced with the arrangements as the owner states them: ImpactMojo does capacity building work for both Populi and India Institute; refers and endorses Populi for full-fledged research projects; and endorses India Institute, recommending them for measurement work — understanding measurements, tools and validation.
 
-  The page is now roughly a third of its original length. That is the correct length until the real terms of each partnership are written down by the people in them.
+  Alongside that, each partner's own description of itself is quoted and attributed to their site so the reader can see whose claim it is, together with the service and programme lists those sites publish and the licence terms (verifiable from this repo). PinPoint Ventures is described in the wording already used in `about.html`, not as "founding sponsor".
+
+  The page is roughly half its original length. Everything on it now traces to the owner or to a partner's own site.
 
   The lesson is narrower than "check facts": the register did the damage. Marketing prose needs claims to fill its shape, and when there were none, they got generated. Plain declarative sentences would have left the gaps visible instead of papering over them.
 
