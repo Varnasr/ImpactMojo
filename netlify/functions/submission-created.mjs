@@ -75,6 +75,12 @@ const FILES = {
   "AI for M&E Assessment — 500-Question Bank": "assessments/ai-for-me-500-assessment.pdf",
 };
 
+const looksLikeEmail = (v) => typeof v === "string" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+
+const esc = (v) => String(v == null ? "" : v)
+  .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+  .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+
 const sign = (parts) => crypto.createHmac("sha256", ADMIN_KEY).update(parts.join("|")).digest("hex").slice(0, 32);
 
 async function sendMail(to, subject, html) {
@@ -103,6 +109,44 @@ export const handler = async (event) => {
   // yet — skip the action email. The real "I've paid" submission carries a
   // upi_ref and flows through normally below.
   if (form === "product-order" && !upiRef) {
+    return { statusCode: 200 };
+  }
+
+  // Instructor-kit requests are not payments; they are a promise. The page
+  // says we reply within five working days, and before this the requester got
+  // nothing at all — no acknowledgement, no expectation set, just silence
+  // until someone happened to read the Netlify notification. Send a receipt
+  // to them and a workable brief to us, then stop.
+  if (form === "instructor-kit") {
+    const name = (data.name || "").trim();
+    const course = (data.course_name || "").trim();
+    const level = (data.level || "").trim();
+    const institution = (data.institution || "").trim();
+    const description = (data.course_description || "").trim();
+
+    if (looksLikeEmail(email)) {
+      await sendMail(email, "Your ImpactMojo instructor kit — on its way",
+        `<p>${name ? "Hi " + esc(name) + "," : "Hello,"}</p>
+         <p>Thanks for asking for an instructor kit${course ? ` for <strong>${esc(course)}</strong>` : ""}. This is an automatic receipt so you know it arrived.</p>
+         <p>We map these by hand against your syllabus rather than sending a standard pack, so it takes <strong>up to five working days</strong>. It will come from hello@impactmojo.in — worth checking your spam folder.</p>
+         <p>Nothing is gated in the meantime. Everything is already free to browse:</p>
+         <ul>
+           <li><a href="${SITE}/catalog.html">The full catalog</a> — every course, lab, game and handout</li>
+           <li><a href="${SITE}/courses/">Flagship courses</a> — ~13 modules each, with auto-graded self-checks</li>
+           <li><a href="${SITE}/Labs/">Studios</a> — browser workbenches whose outputs work as gradeable assignments</li>
+           <li><a href="${SITE}/teach.html">Teaching with ImpactMojo</a> — licensing in plain language</li>
+         </ul>
+         <p>All of it is CC BY-NC-ND 4.0: use it in your classroom with a credit line. You can charge for your facilitation, not for the materials.</p>
+         <p>— ImpactMojo</p>`);
+    }
+
+    await sendMail(ADMIN_EMAIL, `Instructor kit request: ${course || "(course not given)"}`,
+      `<p><strong>${esc(name) || "(no name)"}</strong>${institution ? " — " + esc(institution) : ""}<br>
+       ${esc(email)}</p>
+       <p><strong>Course:</strong> ${esc(course) || "—"}<br>
+       <strong>Level:</strong> ${esc(level) || "—"}</p>
+       <p><strong>Describes it as:</strong><br>${esc(description).replace(/\n/g, "<br>") || "—"}</p>
+       <p style="font-size:12px;color:#94A3B8">An acknowledgement has already gone to the requester promising a mapped kit within five working days.</p>`);
     return { statusCode: 200 };
   }
 

@@ -5,6 +5,24 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.236.0] - 2026-08-21
+
+### Added
+
+- **`instructor-kit.html`** — the thing `teach.html` has been promising. A 14-week M&E teaching spine mapped to real assets, with a column for what to teach from and a column for what to set as work; a section on the studio exports that work as gradeable artefacts; assessment, licensing, and an explicit "what is not here".
+
+  Two things it deliberately does not do. It does not claim everything is free: the practice packs are freemium (first two of four modules), and a first draft of this page said "nothing in this kit is behind a login or a payment", listed the packs as free, and used them in six of fourteen weeks. That was wrong — `practice-packs/index.html` states the terms plainly — and it was caught by checking rather than by reading back what I had written. Packs are now marked with a bullet, explained once, and the headline claim is gone. It also says outright that there is **no ESG or CSR material** and no LMS integration, rather than padding the mapping.
+
+  All 54 internal links were resolved against the filesystem before publishing. Prices in the paid section were read out of `premium.html` and `products.html` rather than recalled.
+
+- **An instructor-kit autoresponder** in `netlify/functions/submission-created.mjs`. The function previously acted on `product-order` and `subscription-payment` and returned 200 for everything else, so an instructor-kit request produced no acknowledgement at all — the requester waited on a promise nobody had scheduled. It now sends them a receipt with the five-working-day expectation and links to the free material, and sends a workable brief to the admin address. Adds `esc()` and `looksLikeEmail()` to that file; `looksLikeEmail` was referenced before being defined in the first draft and would have thrown at runtime.
+
+### Changed
+
+- **The instructor-kit form asks what it needs to answer.** It previously collected name, email, institution and one free-text "what do you teach, and to whom?". It now also asks for the course or paper name, its level (UG / PG / MPhil-PhD / diploma / professional / mixed), and a description prompting for weeks, class size and intended outcomes — which is what a mapping actually requires.
+
+- **`teach.html` now loads `/js/form-submit.js`.** The page posted natively to Netlify Forms and never called `/api/form-submit`, so `instructor-kit` sat on the `ALLOWED_FORMS` allowlist in `form-submit.mjs` doing nothing and no durable row was ever written. A dropped notification email was a lost lead. The form now takes both paths and shows a real success state instead of Netlify's generic page.
+
 ## [10.235.0] - 2026-08-21
 
 ### Added
