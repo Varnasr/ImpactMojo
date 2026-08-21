@@ -10,6 +10,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Dead legacy nav code.** `toggleMobileMenu()` on 12 pages (`coaching`, `contact`, `data-protection`, `disclaimer`, `dojos`, `handouts`, `podcast`, `privacy-policy`, `refund-policy`, `terms-of-service`, `updates`, `workshops`) toggled `#navLinks`, an element site-chrome deletes; its only caller was the button in the same deleted header, so it could never run. Removed by brace-matching each function and confirming no caller survives outside the stripped block, rather than by pattern-replacing across files.
 - **`fundamentals/capabilities.html` no longer loads `ladder-data.js` and `ladder.js`.** They belonged to a different page and `capabilities.js` never referenced them. Both wrote to `#panel` on `DOMContentLoaded`, so the correct content won only by being registered second — a latent bug had either script's loading changed. Browser-verified after removal: `#panel` still renders the capabilities content, and `/fundamentals/ladder.html` is unaffected.
 
+## [10.241.0] - 2026-08-21
+
+### Added
+
+- **`/lms-export.html` — put any course into Moodle, Canvas or Blackboard.** Builds **SCORM 1.2**, **SCORM 2004**, **IMS Common Cartridge 1.3** or a **single self-contained HTML file**, for any of the 118 courses, entirely in the instructor's browser. Roadmap item: *SCORM / xAPI package*.
+
+  **Nothing is committed.** A package per course would be 118 zips rebuilt on every content edit, stale the moment one drifted, and heavy in the repo. The export fetches the live course page instead, so a download is always the current version. `js/vendor/jszip.min.js` (3.10.1, MIT) is the only new dependency.
+
+  **The payload step matters more than the manifest step.** A course page carries analytics, sign-in, Supabase, translation and the shared site chrome; none of that belongs inside someone else's LMS, it would phone home from a student's session, and several pieces throw once the origin no longer matches. The exporter strips them and inlines what remains, so an imported course runs with no network at all. Verified on the generated package: no `gtag`, no Supabase, no service worker, no site chrome — and all 87 content slides intact.
+
+  SCORM reports **incomplete** on open and **completed** when the learner reaches the final slide, hooked to the deck's own `showSlide()` so it follows real navigation including keyboard and deep links. If the LMS API is absent the wrapper degrades silently — a missing API must never break the content for a learner. **xAPI is deliberately not included**: it requires an LRS endpoint to post to, and we do not run one. Claiming xAPI without an LRS would be a checkbox, not a feature.
+
+- **`scripts/test-lms-export.mjs`** + the `lms-export` CI job. Two failure modes here are invisible in the repo and expensive at the far end. A manifest identifier that is not a valid XML **NCName** is rejected at import with an unhelpful error — and course slugs like `101-csr-esg` start with a digit, which NCName forbids, so this is live rather than theoretical (the real package ships as `im-101-csr-esg`). And a completion signal that fires on open marks **every student passed**. The test drives the SCORM wrapper against a mock LMS API and asserts completion fires exactly once, at the last slide. Both halves were confirmed by breaking them deliberately and watching the test fail.
+
+### Changed
+
+- **`teach.html`** now points instructors at the LMS export, and says plainly that Google Classroom cannot read SCORM so they want the single-file version.
+
 ## [10.240.0] - 2026-08-21
 
 ### Added

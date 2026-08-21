@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.232.0 — August 21, 2026 (Your course, inside your university's LMS)
+
+### For Learners
+
+- **Put any ImpactMojo course into Moodle, Canvas or Blackboard.** A new page builds a SCORM package, a Common Cartridge, or a single self-contained file for any of our 118 courses — pick a course, pick a format, download. Free, no login. Once imported it runs without internet, and SCORM tells your gradebook who finished. Google Classroom can use the single-file version.
+
 ## v10.232.0 — August 21, 2026 (CSR & ESG 101)
 
 ### For Learners

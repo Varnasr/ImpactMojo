@@ -226,6 +226,28 @@ jobs:
       - name: Check every page declares a viewport
         run: python3 scripts/check-viewport.py
 
+  lms-export:
+    name: LMS export packages
+    runs-on: ubuntu-latest
+    # Without this a hung step inherits GitHub's 360-minute default and the
+    # job neither passes nor fails -- which reads as "still running".
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # The export builds SCORM / Common Cartridge packages in the visitor's
+      # browser. Both failure modes are invisible here and expensive there: a
+      # manifest identifier that is not a valid XML NCName (course slugs like
+      # "101-csr-esg" start with a digit, which NCName forbids) is rejected at
+      # import with an unhelpful error, and a completion signal that fires on
+      # open marks every student passed. This drives the SCORM wrapper against a
+      # mock LMS API and asserts completion fires once, at the last slide.
+      - name: Check manifests and SCORM runtime behaviour
+        run: node scripts/test-lms-export.mjs
+
   heading-survives-chrome:
     name: Heading survives site-chrome
     runs-on: ubuntu-latest
