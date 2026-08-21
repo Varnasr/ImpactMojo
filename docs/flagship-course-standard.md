@@ -105,16 +105,52 @@ real `notebooklm.google.com` URL (do not repurpose it for the lexicon).
 
 ### 3. Coach & reflection prompts — the "alternating" rhythm
 
-Two distinct blocks, and the balance between them is the tell:
+Two distinct blocks, one of each per module:
 
 - **`.reflection-prompt`** — the *pedagogical* one. Dashed-cyan box, italic
-  secondary text, opens with `<strong>Reflect.</strong>`. **Target: one per
-  module**, closing the module.
-- **`.coach-callout`** — a photo + "book a coaching session" CTA that pops in on
-  scroll. Reserve for a **few** modules (≈1 in 3), not every one.
+  secondary text, opens with `<strong>Reflect.</strong>`. **One per module**,
+  closing the module. It asks the learner a question about their own work; it
+  never sells anything.
+- **`.coach-callout`** — a photo + "book a coaching session" CTA. **One per
+  module, alternating between the two coaches**: Vandana on odd-numbered
+  modules, Varna on even-numbered ones (or the reverse — what matters is that
+  consecutive modules never show the same face).
 
-"Alternating coach prompts" = this per-module rhythm (reflect every module,
-coach occasionally), **not** a left/right CSS alternation (there is none).
+**"Alternating" means alternating coaches, module by module.** It is not a
+left/right CSS alternation (there is none), and it is not "a coach every third
+module". A reader working through a course meets both coaches, in turn, all the
+way down.
+
+Two failure modes, both measured across the live courses in 2026-08:
+
+- **Stacking.** `SEL` carried 52 coach callouts across 13 modules (4.0 per
+  module) and `devai` 37 across 12 (3.1). Repeating the same CTA three or four
+  times inside one module trains the reader to skip it, which costs the
+  conversion the block exists for.
+- **Same face twice.** Alternation is what keeps the block feeling like a person
+  rather than an advertisement. Two Vandanas in a row reads as a banner.
+
+The message must be **specific to that module** — a thing this coach has seen go
+wrong in this subject — not a generic invitation to book a session. A callout
+whose text would work equally well in any module of any course is doing nothing
+that a footer link would not do.
+
+Markup (the `.coach-photo` path is the tell for which coach it is):
+
+```html
+<div class="coach-callout">
+  <img src="https://www.impactmojo.in/assets/images/vandana-photo.jpg"
+       alt="Coach Vandana" class="coach-photo" loading="lazy">
+  <div class="coach-content">
+    <div class="coach-name">Vandana</div>
+    <div class="coach-message"><p>…module-specific counsel…</p></div>
+    <div class="coach-links">
+      <a href="/coaching" class="coach-link">…Book 1:1 Coaching</a>
+      <a href="…" class="coach-link secondary">…a relevant Studio or course</a>
+    </div>
+  </div>
+</div>
+```
 
 ### 4. Worked examples (`.worked-example`) — **≈1–2 per module**
 
@@ -226,7 +262,9 @@ Tick every row before calling a course a flagship.
 
 **Content depth** (per module, in the `course_content` DB rows)
 - [ ] Substantive prose (target **≥10 KB/module**; thin courses sit near 4 KB)
-- [ ] ≈1 `reflection-prompt` per module; `coach-callout` used sparingly
+- [ ] Exactly 1 `reflection-prompt` per module, closing it
+- [ ] Exactly 1 `coach-callout` per module, **alternating coaches** so no two
+      consecutive modules show the same face, each message specific to its module
 - [ ] ≈1–2 `worked-example` per module
 - [ ] Several theme-aware SVG diagrams (or `comparison-cards`) across the course
 - [ ] Formulae **iff** the subject is quantitative
@@ -235,36 +273,101 @@ Tick every row before calling a course a flagship.
 
 ---
 
-## Part D — Current gap snapshot (2026-07)
+## Part D — Current gap snapshot (2026-08-21)
 
-Measured from the live `course_content` DB rows (content is no longer stored in the repo).
+Measured, not remembered. Regenerate with `scripts/audit-flagships.py` rather
+than editing this table by hand — the 2026-07 version of Part D was a two-course
+table maintained manually and it was wrong in **both** directions within a
+month: it recorded `intervention` as having 0 SVG diagrams (it has 14) and
+`nvc-rj` at ~4 KB/module (it is 15.4). A hand-kept conformance table decays
+faster than the thing it describes.
 
-| Component | Gold ref (intervention / causal) | intervention | nvc-rj |
-|---|---|---|---|
-| KB per module | ~10–12 KB | ~12 KB ✅ | **~4 KB** ✗ |
-| worked-example | ~1/module | 13 ✅ | **0** ✗ |
-| reflection-prompt (1/module) | 14 ✅ | 14 ✅ | **1** ✗ (over-uses coach CTA) |
-| SVG diagrams (excali) | causal 72 ✅ | **0** ✗ | **0** ✗ |
-| formulae (subject-gated) | causal 19 ✅ | **0** ✗ (KaTeX wired, unused) | n/a (non-quant) |
-| comparison-cards | 37 | 37 ✅ | **0** ✗ |
-| capstone | ✅ | ✅ | ✅ |
-| hero Papers (Dropbox) btn | ✅ | "Soon" stub | **✗ absent** |
-| hero AI Companion (NotebookLM) | ✅ | "Soon" stub | **✗ absent** |
-| resources-cross notebooklm card | real URL | real block | **✗ repurposed to lexicon** |
-| v3 blobs instantiated | ✅ | ✅ | **✗ CSS only, no markup** |
-| reading-progress element | ✅ | ✅ | **✗ missing element** |
+Content is in the `course_content` DB rows, not the repo, so the audit takes the
+module bodies on stdin as JSON (see the script's docstring).
 
-**To bring the two named courses on par**
-- **NVC-RJ**: enrich modules (worked examples, 1 reflection-prompt/module, SVG
-  diagrams, definitions) to ~10 KB/module; add the two hero buttons; restore the
-  real NotebookLM resource card; instantiate the blob divs + progress-bar element.
-  *No formulae* (non-quantitative subject).
-- **Intervention**: prose is already strong — add **theme-aware SVG diagrams** and
-  **formulae** (cost-effectiveness, targeting, cost-per-outcome; KaTeX is already
-  wired); turn the two "Soon" hero stubs into live links once URLs exist.
+`yes` = present in every module. A fraction = how many modules have it.
 
-**External dependencies** (needed before two components can be finished): a
-**NotebookLM notebook** and a **Dropbox papers folder** for each course — neither
-exists yet (verified: absent from `data/notebooklm-registry.json`, no Dropbox
-folder in either hero). Create via `scripts/notebooklm-manage.py` / Dropbox, or
-supply the URLs.
+| Course | Modules | KB/mod | reflect | worked | excerpt | diagrams | capstone |
+|---|---|---|---|---|---|---|---|
+| `esg` | 13 | 21.0 | yes | yes | yes | 13 | yes |
+| `nvc-rj` | 12 | 15.4 | yes | yes | yes | 12 | yes |
+| `intervention` | 14 | 19.6 | yes | 26/14 | yes | 14 | yes |
+| `pubchoice` | 13 | 36.3 | 0/13 | 0/13 | yes | 13 | none |
+| `powerBI` | 8 | 28.6 | 0/8 | 0/8 | yes | none | none |
+| `law` | 13 | 23.6 | 0/13 | 0/13 | yes | 13 | yes |
+| `devecon` | 13 | 22.4 | 0/13 | 0/13 | yes | none | yes |
+| `poa` | 13 | 19.8 | 0/13 | 0/13 | yes | none | yes |
+| `mel` | 14 | 17.7 | 0/14 | 0/14 | yes | none | none |
+| `media` | 12 | 17.3 | 0/12 | 0/12 | yes | 12 | yes |
+| `gandhi` | 13 | 16.5 | 0/13 | 0/13 | yes | none | none |
+| `devai` | 12 | 14.9 | 0/12 | 0/12 | yes | 12 | none |
+| `dataviz` | 12 | 14.7 | 0/12 | 0/12 | yes | none | none |
+| `pubpol` | 16 | 14.6 | 0/16 | 0/16 | yes | 15 | none |
+| `SEL` | 13 | 14.5 | 0/13 | 0/13 | yes | 13 | none |
+| `causal` | 13 | 13.9 | 0/13 | yes | yes | 7 | none |
+| `social-movements` | 13 | 11.3 | 0/13 | 0/13 | yes | none | none |
+| `gender` | 16 | 10.7 | 0/16 | 0/16 | yes | 16 | none |
+| `livelihoods` | 17 | 9.3 | 0/17 | 0/17 | yes | 17 | none |
+| `nothing-about-us` | 9 | 5.0 | 0/9 | 0/9 | 0/9 | none | none |
+
+**Three of twenty** meet Part C in full: `esg`, `nvc-rj`, `intervention`.
+
+### Coach callouts — done (2026-08-21)
+
+This is the one row no longer in the table, because all 20 courses now pass it:
+**exactly one coach callout per module, alternating, no two consecutive modules
+showing the same face**, across all 260 modules.
+
+Getting there was mostly *deletion*. The failure was over-use, not absence —
+`SEL` carried 52 callouts across 13 modules, `devai` 37 across 12, `dataviz` 30
+across 12. In total **158 surplus blocks were removed**, 20 blocks were
+re-attributed to the other coach (only where the message carried no first-person
+claim, so nothing is now attributed to a person who did not say it), and 9 were
+newly written for modules that had none.
+
+`pubchoice` was a separate shape: 13 callouts that named a coach in text but
+showed a generic quote icon instead of a face and carried **no coaching link at
+all** — the CTA the block exists for. Its shell had always styled `.coach-photo`
+as a 64px circle with `object-fit: cover`, i.e. for a photograph. All 13 were
+re-emitted in canonical markup with the authored messages preserved.
+
+A backup of every module body as it stood before this work is in
+`course_content_backup_20260821` (259 rows).
+
+### What is left, in the order worth doing it
+
+1. **`nothing-about-us`** — 5.0 KB/module and the only course with no paper
+   excerpts at all. It is not a thin flagship, it is a draft. Rewrite before
+   adding components to it.
+2. **Reflection prompts** — absent from 17 of 20 courses. Cheapest large win:
+   one closing question per module, and the standard already fixes the shape.
+3. **Worked examples** — absent from 16 of 20.
+4. **Capstone timeline** — absent from 13 of 20. Several of those courses do
+   have a capstone module; what they lack is the `capstone-timeline` component.
+5. **SVG diagrams** — none in `dataviz`, `devecon`, `gandhi`, `mel`,
+   `nothing-about-us`, `poa`, `powerBI`, `social-movements`. `dataviz` having
+   no diagram is the odd one.
+6. **Prose depth** — `livelihoods` (9.3 KB) and `social-movements` (11.3 KB)
+   sit below the 10–12 KB the standard targets.
+
+### Shell gaps (run `scripts/audit-flagships.py --shell-only`)
+
+Distinct from content, and the reason to check before writing: `devai`,
+`gender`, `gandhi`, `social-movements` and `pubpol` carry **no CSS** for
+`stats-grid`, `key-insight` or the callout colours, so standard content written
+into them renders unstyled. This is exactly how the ESG build went wrong first
+time — it was drafted against `social-movements`, whose shell styles none of it.
+
+### A note on malformed div nesting
+
+35 modules across 9 courses have unbalanced `<div>` counts — `dataviz` m6 and
+`devai` m2 literally begin with a stray `</div>`. **This is inert**, and worth
+recording so nobody spends a day on it: `js/course-loader.js` injects via
+`placeholder.innerHTML`, and the HTML fragment parser discards unmatched end
+tags and auto-closes unclosed ones at the fragment boundary. Verified in
+Chromium against all three malformation shapes — content stays inside the
+placeholder in every case. Untidy, not broken.
+
+**External dependencies** (block two components everywhere): a **NotebookLM
+notebook** and a **Dropbox papers folder** per course. Create via
+`scripts/notebooklm-manage.py` / Dropbox, or supply the URLs.

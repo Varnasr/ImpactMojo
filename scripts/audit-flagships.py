@@ -33,8 +33,43 @@ CONTENT_CHECKS = [
     ('reflect',    'reflection-prompt', 1.0,  'reflection prompt'),
     ('worked',     'worked-example',    1.0,  'worked example'),
     ('diagram',    'dag-figure',        0.25, 'SVG diagram'),   # "several per course"
-    ('coach',      'coach-callout',     0.20, 'coach callout'), # "~1 in 3", floor at 1 in 5
 ]
+
+# The coach block has its own rule, because a count alone cannot express it:
+# exactly one per module, alternating between the two coaches so that no two
+# consecutive modules show the same face. Stacking is the commoner failure --
+# measured 2026-08, SEL carried 52 callouts across 13 modules and devai 37
+# across 12, which trains a reader to skip the CTA the block exists for.
+COACH_RE = re.compile(r'/assets/images/(vandana|varna)-photo\.jpg', re.I)
+
+
+def coach_gaps(mods):
+    """`mods` is each module's content_html, ordered by module_number."""
+    gaps, seq, over, under = [], [], 0, 0
+    for html in mods:
+        found = COACH_RE.findall(html or '')
+        seq.append(found[0].lower() if found else None)
+        if len(found) > 1:
+            over += 1
+        elif not found:
+            under += 1
+    if under:
+        gaps.append('no coach callout in %d module(s)' % under)
+    if over:
+        gaps.append('coach callout stacked in %d module(s)' % over)
+    repeats = sum(1 for a, b in zip(seq, seq[1:]) if a and a == b)
+    if repeats:
+        gaps.append('same coach twice running in %d place(s)' % repeats)
+    # A callout with no coaching link is the CTA-less shape `pubchoice` carried
+    # until 2026-08: a coach's name and a paragraph, and nothing to click. The
+    # photo check is deliberately strict about the canonical `<img class=
+    # "coach-photo">`, because the variant it replaced sized a 32px quote icon
+    # inside a 64px circle the shell CSS had always written for a face.
+    noclick = sum(1 for h in mods
+                  if COACH_RE.search(h or '') and 'coach-links' not in (h or ''))
+    if noclick:
+        gaps.append('coach callout has no CTA in %d module(s)' % noclick)
+    return gaps
 
 SHELL_CHECKS = [
     ('hero buttons (4)',   lambda s: len(re.findall(r'class="hero-resource-btn', s)), 4),
@@ -80,6 +115,8 @@ TERM_SHAPES = [
     r'\bterm\s*:\s*[\'"]',       # id: 1, term: '...'
     r'<h3 class="lex-t"',        # static cards (causal)
     r'class="term-name"',
+    r'^\s*\["',                  # gender: const TERMS = [ ["Term","Cat",...], ...
+    r'^\s+roman:\s*"',           # gandhi: {id: 1, devanagari: "...", roman: "..."}
 ]
 
 
@@ -87,7 +124,7 @@ def count_terms(path):
     if not path.exists():
         return 0
     src = path.read_text(encoding='utf-8')
-    return max(len(re.findall(rx, src)) for rx in TERM_SHAPES)
+    return max(len(re.findall(rx, src, re.M)) for rx in TERM_SHAPES)
 
 
 def main(argv):
@@ -99,6 +136,7 @@ def main(argv):
         except Exception as exc:                    # no stdin / bad JSON
             print('could not read module JSON on stdin (%s); use --shell-only' % exc)
             return 2
+        rows.sort(key=lambda r: (r['course_id'], r['module_number']))
         for r in rows:
             by_course.setdefault(r['course_id'], []).append(r['content_html'] or '')
 
@@ -126,6 +164,7 @@ def main(argv):
                 want = max(1, int(round(per_mod * n)))
                 if got < want:
                     gaps.append('%s: %d (want ~%d)' % (label, got, want))
+            gaps.extend(coach_gaps(mods))
             if not any('capstone-timeline' in m for m in mods):
                 gaps.append('no capstone-timeline')
         elif not shell_only:
