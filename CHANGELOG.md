@@ -5,6 +5,16 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.233.0] - 2026-08-21
+
+### Added
+
+- **`partnerships.html`** — a dedicated partnerships page, replacing the two blocks buried at the bottom of `about.html` as the place partnership is explained. Features Populi (https://www.populi.co.in) as end-to-end research + MEL advisory partner, India Institute (https://indiai.org/) as thought advocacy + measurement partner, and PinPoint Ventures as founding sponsor; sets out the partnership terms (editorial independence, no paywalling of partner-supported content, CC BY-NC-ND 4.0, no learner data), lists the ways to partner, and carries a proposal form.
+
+  The form reuses the existing **`partner-inquiry`** Netlify form name and its exact field set (`name`, `email`, `organization`, `interest`, `message`). That is deliberate: `partner-inquiry` is already on the `ALLOWED_FORMS` allowlist in `netlify/functions/form-submit.mjs`, so proposals get both the Netlify notification and the Supabase row with no backend change, and they land in the same place as the ones submitted from `about.html`. A new form name would have needed an allowlist entry and would have split partnership enquiries across two buckets.
+
+  Registered in `sitemap.xml` and `data/search-index.json` (`check-search-coverage.py` fails if a sitemap page is missing from site search). **Not linked from the site navigation yet** — deliberate, at the owner's request.
+
 ## [10.232.0] - 2026-08-20
 
 ### Removed
