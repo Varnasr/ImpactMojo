@@ -101,6 +101,10 @@
     responsive(mount, function (W) {
       var data = opts.data, max = opts.max, suffix = opts.suffix != null ? opts.suffix : '%';
       var vfmt = opts.valueFmt || function (v) { return fmt(v) + suffix; };
+      // Ticks follow valueFmt unless the axis wants something terser. Before this,
+      // ticks were always `t + suffix`, so a chart with a $ valueFmt drew "45%"
+      // on its axis and "+$42.45B" on its bars.
+      var tfmt = opts.tickFmt || vfmt;
       var compact = W < 520;
       var padR = compact ? 14 : 16, padL = compact ? 14 : 16;
       var rowH = compact ? 50 : 40, padTop = 30, padBottom = 30;
@@ -116,7 +120,7 @@
       (opts.ticks || []).forEach(function (t) {
         var x = scale(t);
         svg.appendChild(el('line', { x1: x, y1: padTop - 6, x2: x, y2: padTop + data.length * rowH, class: 'dv-grid-line' }));
-        svg.appendChild(el('text', { x: x, y: padTop + data.length * rowH + 18, 'text-anchor': 'middle', class: 'dv-tick' }, t + suffix));
+        svg.appendChild(el('text', { x: x, y: padTop + data.length * rowH + 18, 'text-anchor': 'middle', class: 'dv-tick' }, tfmt(t)));
       });
       svg.appendChild(el('line', { x1: x0, y1: padTop - 6, x2: x0, y2: padTop + data.length * rowH, class: 'dv-axis-line' }));
 
@@ -224,6 +228,7 @@
     responsive(mount, function (W) {
       var data = opts.data, max = opts.max, suffix = opts.suffix != null ? opts.suffix : '';
       var vfmt = opts.valueFmt || function (v) { return fmt(v) + suffix; };
+      var tfmt = opts.tickFmt || vfmt;
       var compact = W < 520;
       var padR = 16, padL = 16, rowH = compact ? 56 : 44, padTop = 34, padBottom = 30;
       var labelW = compact ? 0 : Math.min(150, Math.max(96, W * 0.22));
@@ -235,7 +240,7 @@
       (opts.ticks || []).forEach(function (t) {
         var x = scale(t);
         svg.appendChild(el('line', { x1: x, y1: padTop - 6, x2: x, y2: padTop + data.length * rowH, class: 'dv-grid-line' }));
-        svg.appendChild(el('text', { x: x, y: padTop + data.length * rowH + 18, 'text-anchor': 'middle', class: 'dv-tick' }, vfmt(t)));
+        svg.appendChild(el('text', { x: x, y: padTop + data.length * rowH + 18, 'text-anchor': 'middle', class: 'dv-tick' }, tfmt(t)));
       });
 
       var gid = addDefs(svg);
@@ -326,5 +331,183 @@
     });
   }
 
-  window.DataDive = { barChart: barChart, scatterChart: scatterChart, dumbbellChart: dumbbellChart, lineChart: lineChart };
+
+  /* ============ SANKEY / FLOW DIAGRAM ============
+     A quantity that splits, merges, or gets absorbed. Use it only when the flow is
+     the point -- a Sankey is a poor bar chart, and a good bar chart is a poor Sankey.
+
+     opts: {
+       nodes: [{ id, label, col, tone?, note? }]   // col = 0-based column index
+       links: [{ source, target, value, tone? }]   // tone: 'a' | 'b' | 'in' | 'out'
+       unit?: string                                // appended to every value
+       valueFmt?: fn(v)                             // overrides unit
+       height?: number                              // plot height, default 460
+       nodeWidth?: number, gap?: number             // px
+       minLabel?: number                            // hide value labels below this share
+     }
+     Node value is max(inflow, outflow), so a node that only receives or only sends
+     is sized by the side that exists. Columns are scaled independently to the same
+     plot height; a column carrying less total value gets thinner ribbons, which is
+     the honest rendering -- the alternative (scale each column to fill) would make
+     unequal totals look equal. */
+  function sankeyChart(mount, opts) {
+    // A Sankey squeezed below ~460px stops being a Sankey: the ribbons compress
+    // into a band and the shape -- which is the entire reason to use this form --
+    // is gone. Below that, draw at 460 and let the reader pan, rather than
+    // rendering something that technically fits and says nothing.
+    // Only a multi-column flow needs the floor; a 2-column chart reads fine
+    // at any width and should not be given a pointless scrollbar.
+    var maxCol = 0;
+    opts.nodes.forEach(function (n) { if (n.col > maxCol) maxCol = n.col; });
+    var MINW = (maxCol >= 2) ? (opts.minWidth || 460) : 0;
+    mount.classList.add('dv-sankey-scroll');
+    responsive(mount, function (W0) {
+      var W = Math.max(W0, MINW);
+      var inner = W > W0;
+      if (inner) mount.classList.add('dv-sankey-panning');
+      else mount.classList.remove('dv-sankey-panning');
+      var unit = opts.unit || '';
+      var vfmt = opts.valueFmt || function (v) { return fmt(v) + unit; };
+      var narrow = W < 560;
+      var H = opts.height || (narrow ? 520 : 460);
+      var NW = opts.nodeWidth || (narrow ? 10 : 14);
+      var GAP = opts.gap || 14;
+      var padT = 18, padB = 18;
+      var labelPad = narrow ? 6 : 10;
+
+      var svg = svgRoot(W, H);
+      // svgRoot sets width:100%, which would shrink the drawing back to the
+      // container and defeat the floor. Pin the real width when panning.
+      if (inner) svg.style.width = W + 'px';
+      var byId = {};
+      opts.nodes.forEach(function (n) { byId[n.id] = { def: n, in: 0, out: 0 }; });
+      opts.links.forEach(function (l) {
+        if (!byId[l.source] || !byId[l.target]) return;
+        byId[l.source].out += l.value;
+        byId[l.target].in += l.value;
+      });
+
+      // columns, in declared order within each
+      var cols = [];
+      opts.nodes.forEach(function (n) {
+        (cols[n.col] = cols[n.col] || []).push(byId[n.id]);
+      });
+      cols.forEach(function (c) {
+        c.forEach(function (nd) { nd.value = Math.max(nd.in, nd.out); });
+      });
+
+      // one shared value->px scale across all columns, so ribbon thickness is
+      // comparable everywhere on the chart
+      var maxColTotal = 0;
+      cols.forEach(function (c) {
+        var t = 0; c.forEach(function (nd) { t += nd.value; });
+        if (t > maxColTotal) maxColTotal = t;
+      });
+      var tallest = 0;
+      cols.forEach(function (c) { if (c.length > tallest) tallest = c.length; });
+      var avail = H - padT - padB - (tallest - 1) * GAP;
+      var vscale = maxColTotal > 0 ? avail / maxColTotal : 1;
+
+      // horizontal placement: reserve room for the outermost labels
+      // The outer margins are sized from the LONGEST label actually in the first
+      // and last columns. A fixed reserve clips "Current account deficit" and
+      // leaves acres of dead space next to "GST". Capped at 38% of width per
+      // side so the ribbons never get squeezed out on a narrow screen.
+      var nCols = cols.length;
+      var charW = narrow ? 5.6 : 6.5;    // ~12px Inter semibold
+      var charWv = narrow ? 5.4 : 6.3;   // ~11px JetBrains Mono
+      function widest(c) {
+        // Measure the VALUE line too: "Total" is 5 characters but "40.5 lakh cr"
+        // is 12, and it is the value that gets clipped.
+        var m = 0;
+        (c || []).forEach(function (nd) {
+          var t = String(nd.def.label || nd.def.id).length * charW;
+          var v = String(vfmt(nd.value)).length * charWv;
+          t = Math.max(t, v);
+          if (t > m) m = t;
+        });
+        return m;
+      }
+      var capSide = W * 0.38;
+      var sideL = Math.min(capSide, widest(cols[0]) + labelPad + 4);
+      var sideR = Math.min(capSide, widest(cols[nCols - 1]) + labelPad + 4);
+      var innerW = W - sideL - sideR - NW;
+      var colX = function (i) { return sideL + (nCols > 1 ? (innerW * i) / (nCols - 1) : 0); };
+
+      // vertical placement: each column centred
+      cols.forEach(function (c) {
+        var total = 0; c.forEach(function (nd) { total += nd.value * vscale; });
+        total += (c.length - 1) * GAP;
+        var y = padT + (H - padT - padB - total) / 2;
+        c.forEach(function (nd) {
+          nd.y0 = y; nd.h = Math.max(1, nd.value * vscale); nd.y1 = y + nd.h;
+          y += nd.h + GAP;
+          nd.outCur = nd.y0; nd.inCur = nd.y0;
+        });
+      });
+
+      // ribbons first, so nodes sit on top
+      var gLinks = el('g');
+      opts.links.forEach(function (l) {
+        var s = byId[l.source], t = byId[l.target];
+        if (!s || !t) return;
+        var sh = l.value * vscale, th = l.value * vscale;
+        var x0 = colX(s.def.col) + NW, x1 = colX(t.def.col);
+        var y0a = s.outCur, y0b = y0a + sh;
+        var y1a = t.inCur, y1b = y1a + th;
+        s.outCur += sh; t.inCur += th;
+        var xm = (x0 + x1) / 2;
+        var d = 'M' + x0 + ',' + y0a +
+                ' C' + xm + ',' + y0a + ' ' + xm + ',' + y1a + ' ' + x1 + ',' + y1a +
+                ' L' + x1 + ',' + y1b +
+                ' C' + xm + ',' + y1b + ' ' + xm + ',' + y0b + ' ' + x0 + ',' + y0b + ' Z';
+        var tone = l.tone || s.def.tone || 'a';
+        var path = el('path', { d: d, class: 'dv-sankey-link dv-sankey-' + tone });
+        attachTip(path, '<b>' + (s.def.label || s.def.id) + ' → ' + (t.def.label || t.def.id) +
+                        '</b><br>' + vfmt(l.value));
+        gLinks.appendChild(path);
+      });
+      svg.appendChild(gLinks);
+
+      // nodes + labels
+      var minShare = opts.minLabel != null ? opts.minLabel : 0.045;
+      cols.forEach(function (c, ci) {
+        c.forEach(function (nd) {
+          var x = colX(ci);
+          var r = el('rect', { x: x, y: nd.y0, width: NW, height: nd.h, rx: 2,
+                               class: 'dv-sankey-node dv-sankey-node-' + (nd.def.tone || 'a') });
+          attachTip(r, '<b>' + (nd.def.label || nd.def.id) + '</b><br>' + vfmt(nd.value) +
+                       (nd.def.note ? '<br><span class="dv-tip-note">' + nd.def.note + '</span>' : ''));
+          svg.appendChild(r);
+
+          // First and last columns label into the reserved outer margins, so the
+          // text never sits on a ribbon. Middle columns have nowhere clear to go --
+          // their labels get a surface-coloured halo (paint-order:stroke) so they
+          // stay readable wherever a ribbon runs underneath.
+          var isFirst = ci === 0, isLast = ci === nCols - 1;
+          var anchor, lx;
+          if (isFirst) { anchor = 'end'; lx = x - labelPad; }
+          else { anchor = 'start'; lx = x + NW + labelPad; }
+          var mid = !isFirst && !isLast;
+          var cy = nd.y0 + nd.h / 2;
+          var big = nd.h >= 26;
+
+          var g = el('g', { class: 'dv-sankey-lbl-g' });
+          g.appendChild(el('text', { x: lx, y: big ? cy - 2 : cy + 4, 'text-anchor': anchor,
+                                     class: 'dv-sankey-lbl' + (mid ? ' dv-sankey-halo' : '') },
+                           nd.def.label || nd.def.id));
+          if (big && nd.value / maxColTotal >= minShare) {
+            g.appendChild(el('text', { x: lx, y: cy + 13, 'text-anchor': anchor,
+                                       class: 'dv-sankey-val' + (mid ? ' dv-sankey-halo' : '') },
+                             vfmt(nd.value)));
+          }
+          svg.appendChild(g);
+        });
+      });
+
+      return svg;
+    });
+  }
+
+  window.DataDive = { barChart: barChart, scatterChart: scatterChart, dumbbellChart: dumbbellChart, lineChart: lineChart, sankeyChart: sankeyChart };
 })();
