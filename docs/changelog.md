@@ -2,11 +2,17 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.226.0 — August 21, 2026 (Correction to the partnerships page)
+
+### Fixed
+
+- **The partnerships page said things about our partners that were never true.** As first published it claimed Populi reviews our courses and toolkits before release, supplies us anonymised evaluation cases, and receives referrals from us; and that India Institute reviews our governance and policy content. It also set out a five-point partnership policy and a menu of six partnership services. None of that had been agreed with anyone — it was written to fill out the page. All of it is removed. What remains is each partner's role and each partner's own description of itself, attributed to their site.
+
 ## v10.225.0 — August 21, 2026 (A partnerships page)
 
 ### Added
 
-- **Partnerships page** (`/partnerships.html`) — who we build the material with, and on what terms. Populi is credited as our end-to-end research and MEL advisory partner, India Institute as our thought advocacy and measurement partner, PinPoint Ventures as founding sponsor. States the terms plainly: editorial independence, partner-supported content stays free under CC BY-NC-ND 4.0, no learner data. Carries a partnership proposal form (reuses the existing `partner-inquiry` form, so proposals land alongside the ones from About). Not yet linked in the site navigation.
+- **Partnerships page** (`/partnerships.html`) — lists ImpactMojo's partners: Populi (end-to-end research and MEL advisory), India Institute (thought advocacy and measurement) and PinPoint Ventures (sponsor). Each partner's own description of itself is quoted and attributed to their site. Carries an enquiry form (reuses the existing `partner-inquiry` form, so enquiries land alongside the ones from About). Not linked in the site navigation.
 
 ## v10.224.0 — August 20, 2026 (New post: designing an impact evaluation)
 
