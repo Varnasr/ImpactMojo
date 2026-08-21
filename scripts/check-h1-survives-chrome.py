@@ -29,6 +29,24 @@ EXEMPT = {
     # add "path.html": "reason" here
 }
 
+def opts_out(src: str, rel: str) -> bool:
+    """True when site-chrome.js loads but deliberately leaves the page's chrome alone.
+
+    site-chrome.js treats these as "the homepage" and skips build() entirely
+    (see its isHome check): data-im-home on <html> or <body>, a
+    <meta name="im-chrome" content="off">, or the site root path. Pages that
+    opt out keep their own <header>, so nothing is stripped and this guard must
+    not report them. Missing this made two ImpactLex pages look broken when
+    they were fine -- the same false-positive shape that made an earlier ad-hoc
+    viewport check untrustworthy.
+    """
+    if re.search(r'<meta\s+name="im-chrome"\s+content="off"', src, re.I):
+        return True
+    if re.search(r'<(html|body)\b[^>]*\bdata-im-home\b', src, re.I):
+        return True
+    return rel == 'index.html'
+
+
 CONTAINERS = re.compile(r'<(main|section|article|div)\b', re.I)
 CONTAINERS_CLOSE = re.compile(r'</(main|section|article|div)>', re.I)
 
@@ -63,6 +81,8 @@ def main() -> int:
             continue
         if 'site-chrome.js' not in src:
             continue          # page does not run the chrome; nothing is stripped
+        if opts_out(src, rel):
+            continue          # chrome is loaded but skips build(); the header stays
         checked += 1
         if rel in EXEMPT:
             continue

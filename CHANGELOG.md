@@ -5,6 +5,11 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+### Removed
+
+- **Dead legacy nav code.** `toggleMobileMenu()` on 12 pages (`coaching`, `contact`, `data-protection`, `disclaimer`, `dojos`, `handouts`, `podcast`, `privacy-policy`, `refund-policy`, `terms-of-service`, `updates`, `workshops`) toggled `#navLinks`, an element site-chrome deletes; its only caller was the button in the same deleted header, so it could never run. Removed by brace-matching each function and confirming no caller survives outside the stripped block, rather than by pattern-replacing across files.
+- **`fundamentals/capabilities.html` no longer loads `ladder-data.js` and `ladder.js`.** They belonged to a different page and `capabilities.js` never referenced them. Both wrote to `#panel` on `DOMContentLoaded`, so the correct content won only by being registered second — a latent bug had either script's loading changed. Browser-verified after removal: `#panel` still renders the capabilities content, and `/fundamentals/ladder.html` is unaffected.
+
 ## [10.239.0] - 2026-08-21
 
 ### Fixed
