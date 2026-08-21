@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.230.0 — August 21, 2026 (Instructor kits go back to being personal)
+
+### Changed
+
+- **The instructor kit is mapped to your syllabus again.** A general kit page went up earlier today and has been taken down — it was a weaker substitute for what the page actually offers, which is a kit built around the course *you* teach. Requesting one works the same way, and now sends you an acknowledgement with a five-working-day commitment.
+
 ## v10.229.0 — August 21, 2026 (The fifty-rupee fine, revisited)
 
 ### For Learners
