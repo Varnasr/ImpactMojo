@@ -133,6 +133,11 @@ def scanned_files(wiki_dir=None):
 # phrase ("324 datasets").
 TERMS = [
     (r"data\s+explorers?", "data-explorers"),
+    # Every page under premium-tools/ has a paid tier, and the rule is that
+    # anything paid is premium -- so the count is simply how many of those
+    # pages ship. It had drifted to 9, 10, 11 and 13 on four surfaces
+    # because nothing was canonical.
+    (r"premium\s+tools?", "premium-tools"),
     (r"flagship\s+courses?", "flagship-courses"),
     (r"foundational\s+courses?", "foundational-courses"),
     # The site rarely writes the full phrase. "19 flagship + 51 foundational",
@@ -201,6 +206,7 @@ SPECIAL = [
 # never matches (bare "tools" is intentionally not a key).
 LABEL_KEYS = [
     ("data explorers", "data-explorers"),
+    ("premium tools", "premium-tools"),
     ("reading companions", "reading-companions"),
     ("book companions", "reading-companions"),
     ("live case challenges", "challenges"),
