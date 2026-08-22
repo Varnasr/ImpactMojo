@@ -33,7 +33,7 @@ MIN_TWO_COL = 28
 # stale entry, and a deck NOT here that falls below the floor fails outright.
 # Without both halves the list would quietly become a permanent exemption.
 DECK_BACKLOG = {
-    'cost-effectiveness.html': 71, 'SRHR-basics.html': 71,
+    'SRHR-basics.html': 71,
     'advocacy-basics.html': 71, 'econometrics-101.html': 71, 'multivariate-basics.html': 71,
     'pub-health-basics.html': 72, 'fundraising-basics.html': 72, 'obs2insight.html': 72,
     'env-justice.html': 72, 'visual-eth.html': 72, 'eda-hhs.html': 73,
