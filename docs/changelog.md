@@ -2,6 +2,18 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.238.0 — August 22, 2026 (A diagram in every flagship module)
+
+### For Learners
+
+- **Every one of the 259 flagship modules now carries a hand-drawn diagram.** The last 58 were added this week, finishing a set that started at 12 courses out of 20: the two routes a rupee can take from cotton to cloth, the four conditions Gandhi held had to be in place before a fast was anything other than coercion, and the ring diagram that explains why he thought a village worker who had never spun had no standing to speak for the village.
+- **Power BI's diagram captions were rendering as ordinary paragraphs.** It was the one flagship whose page had never styled them, so eight captions sat at body size, upright, reading as another line of text rather than as a note under the figure.
+- **A Power BI resource card linked to a folder with no page in it**, so "Open the handout" reached a 404. It now opens the Data & Technology track in the handouts browser, where those templates actually live.
+
+### Fixed
+
+- Twenty-one course pages — every lexicon, plus the Power BI course itself — were never having their CSS and JavaScript links content-stamped, because the check only looked at files named `index.html`. Those pages could pair fresh markup with a previous deploy's stylesheet on the first load after a release. The check now walks the whole course tree.
+
 ## v10.237.0 — August 21, 2026 (Every flagship now teaches the same way)
 
 ### For Learners
