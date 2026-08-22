@@ -2,6 +2,18 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.240.0 — August 22, 2026 (Four more foundational decks at full depth)
+
+### For Learners
+
+- **Observation to Insight 101 has been rewritten** — 72 words a slide to 155. The added half is what makes watching a method rather than a visit: why not seeing something in twelve sessions is not evidence it does not happen, why "the mother was hostile" is a judgement no reader can check and "she folded her arms and did not reply" is a record they can, why notes written three days later feel vivid and have quietly reorganised themselves around your conclusion, and why the rule that competent staff keep breaking is usually the finding.
+- **Fundraising Basics 101 has been rewritten** — 72 words a slide to 154. The added half is the part that decides whether you are eligible rather than merely unsuccessful: that CSR is a statutory duty restricted to a defined list and so can never fund your organisation, that CSR-1 and 80G are gates and not paperwork, why committing co-funding you have not yet raised turns a win into a deadline, and that a company which under-spent its obligation last year is the most receptive prospect you will find.
+- **Public Health 101 has been rewritten** — 72 words a slide to 148.
+
+### Fixed
+
+- **Two diagrams in Observation to Insight 101 were cut off at the bottom of the slide**, taking their explanations with them. The triangulation triangle lost the line naming the four kinds of triangulation the rest of the section depends on, and the funnel lost the sentence saying what the narrowing means — leaving four coloured bands and no explanation. Both had been that way since the deck was published. (#998)
+
 ## v10.239.0 — August 22, 2026 (Everything we have ever fixed, on one page)
 
 ### For Learners
