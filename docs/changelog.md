@@ -6,6 +6,8 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 
 ### For Learners
 
+- **SEL Basics 101 has been rewritten to nearly three times its depth** — from 67 words a slide to 184, the first of the 41 foundational decks being brought up to the new standard. The added material is the practical half a thin deck leaves out: what each competency looks like in an eight-year-old, the four objections you will actually hear in a staffroom and what to say back, why the most-quoted number in the field ("11-percentile-point gain") is misquoted as often as it is cited, and where SEL turns into asking children to cope with conditions the school should be fixing.
+
 - **Every one of the 259 flagship modules now carries a hand-drawn diagram.** The last 58 were added this week, finishing a set that started at 12 courses out of 20: the two routes a rupee can take from cotton to cloth, the four conditions Gandhi held had to be in place before a fast was anything other than coercion, and the ring diagram that explains why he thought a village worker who had never spun had no standing to speak for the village.
 - **Power BI's diagram captions were rendering as ordinary paragraphs.** It was the one flagship whose page had never styled them, so eight captions sat at body size, upright, reading as another line of text rather than as a note under the figure.
 - **A Power BI resource card linked to a folder with no page in it**, so "Open the handout" reached a 404. It now opens the Data & Technology track in the handouts browser, where those templates actually live.
