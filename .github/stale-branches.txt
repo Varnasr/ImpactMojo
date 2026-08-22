@@ -1,21 +1,27 @@
 # Branches to delete, one per line. Blank lines and # comments ignored.
 #
-# Re-audited 2026-08-20 against `git ls-remote --heads origin`. The previous
-# list held 55 entries; 54 of them no longer existed. A deletion list that is
-# 98% phantom is worse than no list, because a dry run reports "would delete
-# 55" and the real number is one.
+# Re-audited 2026-08-22 against `git ls-remote --heads origin`. The previous
+# list named claude/routine-backend-upkeep, which no longer exists — it was
+# deleted after that audit and the list was never updated. A list that names
+# only phantoms reports "0 to delete" and reads as "nothing to clean up",
+# which is how the branch below survived.
 #
-# The remote now holds exactly four branches:
-#   main                        the default branch
-#   gh-pages                    deployment target, never delete
-#   claude/supabase-js-refresh  open PR #959, never delete while it is open
-#   claude/routine-backend-upkeep   listed below
+# The remote now holds exactly three branches:
+#   main                                 the default branch
+#   gh-pages                             deployment target, NEVER delete
+#   claude/routine-count-drift-20260821  listed below
 #
-# claude/routine-backend-upkeep is the last of the abandoned Routine branches
-# described in .claude/rules/testing.md: a scheduled run that pushed a branch
-# and never opened a PR. Its one commit (f8175f00, 2026-07-20) bumps
-# supabase-js to 2.110.7 and refreshes lockfiles. Both are superseded --
-# PR #959 targets 2.112.3 on current main, and main already carries newer
-# dependencies than that commit (axe-core ^4.13.0 against its ^4.11.4).
-# Checked before listing it; nothing on the branch is unique.
-claude/routine-backend-upkeep
+# claude/routine-count-drift-20260821 is the last of the abandoned Routine
+# branches described in .claude/rules/testing.md: a scheduled run that pushed
+# a branch and never opened a PR.
+#
+# Checked before listing it, per concern rather than per branch:
+#   * Its count-drift fixes are superseded — check-counts.py passes on main.
+#   * Its OTHER half was NOT superseded. It carried the GA4 tag for 16 live,
+#     indexed pages (ASER, NFHS, UDISE, PLFS, AISHE and 11 more) that had no
+#     analytics at all. That was salvaged onto main in PR #991 before listing
+#     the branch here — deleting it first would have destroyed real work.
+#   * `comm` against main's tree confirms 0 files exist only on this branch.
+#
+# Nothing on it is now unique. Safe to delete.
+claude/routine-count-drift-20260821
