@@ -21,6 +21,7 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 
 ### Fixed
 
+- **Three 101 decks had a five-across row of stat cards rendering as five stacked full-width boxes** — MEL Basics, Mixed Methods and Community Development each used a `c5` grid class that was never defined, so the row collapsed to one column and pushed the closing note to the bottom edge of the slide.
 - Twenty-one course pages — every lexicon, plus the Power BI course itself — were never having their CSS and JavaScript links content-stamped, because the check only looked at files named `index.html`. Those pages could pair fresh markup with a previous deploy's stylesheet on the first load after a release. The check now walks the whole course tree.
 
 ## v10.237.0 — August 21, 2026 (Every flagship now teaches the same way)
