@@ -36,7 +36,12 @@ PAGE_GLOBS = [
     "*.html",
     "fundamentals/*.html",
     "Labs/*.html",
-    "courses/*/index.html",
+    # `courses/*/index.html` alone missed the one flagship whose entry page is
+    # not called index.html (powerBI/powerbi.html) and every course lexicon --
+    # 21 pages that load the same shared CSS/JS and so carry the same
+    # stale-pairing risk, silently unstamped. Match the whole tree instead.
+    "courses/*.html",
+    "courses/*/*.html",
     "101-courses/*.html",
 ]
 SKIP = {"PAGE-TEMPLATE.html"}
