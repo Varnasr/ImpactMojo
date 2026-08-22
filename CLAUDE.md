@@ -33,6 +33,7 @@ Free development education platform for South Asia. Static HTML/CSS/JS, Supabase
 - Stale `101.impactmojo.in` links — should point to self-hosted files
 - `data/search-index.json` must stay valid JSON
 - Update `docs/changelog.md` for user-facing changes
+- **Fixing a defect? File a `bug` issue first, then fix, then cite it as `(#NNN)` in `### Fixed`** — the public Known Issues page can only show what was filed. See `docs/bug-reporting.md`
 
 ## API Keys
 

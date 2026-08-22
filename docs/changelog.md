@@ -2,6 +2,21 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.239.0 — August 22, 2026 (Everything we have ever fixed, on one page)
+
+### For Learners
+
+- **The Known Issues page now lists everything we have fixed, not just the last 90 days.** It showed nothing when you first looked, and it was right to: it reads live from our issue tracker, and we had filed three bug reports in the site's entire history while quietly fixing ninety-two things and writing them up in these release notes. The fixes were real; the record was not searchable. Every one of those ninety-two is now on the page, dated by the release it shipped in — because that is the date we actually know. (#993)
+- **Public Health 101 has been rewritten** — 72 words a slide to 148. The added half is the reasoning that makes the subject usable: why a rise in prevalence can mean treatment is working rather than an epidemic worsening, why most cases come from the many at modest risk rather than the few at high risk (so advice reaches the wrong people and regulation reaches everyone), that newborn deaths are now most of India's infant mortality, and why a scheme covering hospital bills leaves untouched the outpatient spending that is most of what families actually pay.
+- **Multivariate Analysis 101 has been rewritten** — 71 words a slide to 154. The added half is the judgement a coefficient cannot supply: which variables belong in a model and which two kinds make it worse, why dropping an overlapping predictor swaps a visible problem for an invisible one, and why an odds ratio of 2 does not mean twice as likely.
+- **Econometrics 101 has been rewritten** — 71 words a slide to 151. The added half is how to read someone else's causal claim: find the design, find the single assumption it rests on, and ask what would break it.
+- **Advocacy Basics 101, Sexual Health (SRHR) 101, Cost Effectiveness 101, Qualitative Methods 101, Maternal Health 101 and Mixed Methods 101** have each been rewritten to roughly twice their previous depth.
+
+### Fixed
+
+- **Maternal Health 101 gave the wrong figure for anaemia in pregnancy.** Two stat cards said 57% of pregnant women in India are anaemic, citing NFHS-5. That is the figure for all women aged 15–49; for pregnant women NFHS-5 reports 52%. Both cards now say 52%, and the table beside them gives all three figures so the distinction is visible rather than something you have to already know. (#993)
+- **The Known Issues page had no way to show anything fixed before we started filing issues** (#993), so it showed an empty list — which reads as "nothing is broken" and was the one thing that page must never say falsely.
+
 ## v10.238.0 — August 22, 2026 (A diagram in every flagship module)
 
 ### For Learners
