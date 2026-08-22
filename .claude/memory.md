@@ -1036,3 +1036,69 @@ Also: `courses/social-movements` is absent from `COURSE_NAMES` (tracker returns 
 
 ### Closed since the previous entry
 Duplicate `/Labs/toc-lab.html` in search-index (#956); 9 stale branches queued (#956); `--text-muted` 4.04:1 dark (merged); newsletter rebuild (#949, memory was stale on this).
+
+---
+
+## Session 2026-08-21 (evening) — flagship standardisation, and a whole class of invisible CSS faults
+
+### The finding worth carrying forward
+
+**Eleven of twenty flagship shells were rendering callouts with no background at all.** Each writes
+`.callout-blue { background: var(--callout-blue) }` inline and none defined the token. An undefined
+custom property is *invalid at computed-value time* — the declaration is dropped, so the background
+resolves to nothing. `law` had the sharper form: `border: 1px dashed var(--cyan)` with no `--cyan`,
+and in a **shorthand one bad var kills the entire declaration**, so its reflection prompts had no
+border. A twelfth variant: a bare `class="callout"` with no colour modifier was never painted either
+(gandhi writes nine).
+
+**Why nothing caught it, and why nothing could have**: axe, pa11y and `check-diagram-contrast` all
+measure things that *are painted*. A component that isn't painted has no contrast to fail. All three
+were green throughout. `scripts/check-css-vars.py` now fails on any no-fallback `var()` nothing
+defines (14 shells fail without the fix). **Check this pattern in any file that inlines its own tokens.**
+
+Fix shape: `css/course-components.css`, linked from all 20 shells **before** their inline `<style>`,
+so a shell that already styles a class still wins — it fills gaps, never overrides. Every var in it
+carries a literal fallback because gandhi/gender/social-movements define no tokens at all.
+
+### Shipped
+- **#989** coach callouts: one per module, two coaches alternating, across all 260 modules. Failure
+  was **over-use, not absence** — SEL 52 across 13 modules, devai 37 across 12. 158 surplus removed,
+  20 re-attributed (only where the message carried no first-person claim), 9 authored. `pubchoice`
+  was a separate shape: named a coach, showed a generic quote icon, **no coaching link at all**.
+- **#990** all 259 modules now carry excerpt + worked example + reflection prompt; all 20 courses have
+  a capstone timeline and 3+ diagrams. Was 3/20, 4/20, 7/20, 12/20. `nothing-about-us` rebuilt 5.0 →
+  10.4 KB/module (was the only course with zero excerpts). Plus the CSS fix above and
+  `.worked-example-header` **#059669 → #047857** (3.60:1, under AA, live in all four courses that
+  shipped worked examples).
+- **#991** GA4 tag added to 16 data explorers that had **no analytics at all** (ASER, NFHS, UDISE,
+  PLFS, AISHE…). Salvaged from `claude/routine-count-drift-20260821` before deleting it.
+
+### Traps hit — check these first next time
+- **Measuring HTML with regex cost four wrong answers in one hour.** Matching `<a>` missed stubs built
+  from `<span>`; matching `class="hero-resource-btn"` missed devai/gender, which use `hero-btn` and
+  were never short of anything; and a `{0,400}` inner-content cap **silently dropped** a real element
+  whose inner HTML was 402 chars. Use `html.parser` with a depth-counting stack, not regex.
+- **Today's squash-merge divergence was NOT the previously recorded case.** Memory says the fix is
+  `git remote prune origin`, never a push — that applies when the remote branch was *deleted*. Here
+  the remote branch still existed with divergent history and an identical tree. `merge origin/main`
+  + ordinary fast-forward push resolved it with nothing rewritten and no force-push. Force-push was
+  blocked by the classifier and turned out to be unnecessary.
+- **A "spare" branch was not spare.** `claude/routine-count-drift-20260821` looked superseded (its
+  count fixes were), but held GA4 tags for 16 live indexed pages. **Diff a branch's content against
+  main before deleting, per concern — not per branch.**
+- **`nfhs.html` has no `<head>` element** (implicit head, opens straight into meta tags). An
+  "insert before `</head>`" pass aborted on it and silently left five later files untouched.
+- Two stray `>` characters and one stray CJK char reached the DB from my own SQL heredocs before
+  being caught. Grep `E'\n><'` and `[一-鿿]` after bulk content writes.
+- **Heredoc-written scratch scripts vanish when the shell is killed by a timeout.** Rewrite the file
+  in its own call rather than re-running.
+
+### Open / next
+- **`gh-pages` deliberately untouched** — 14 commits ahead, 2,535 diff lines, untouched since
+  2025-09-18. May be serving something. Needs an owner decision before deletion.
+- Content volume shipped today (~530 authored components across 259 modules) has been reviewed only
+  by me. Backups: `course_content_backup_20260821`, `course_content_backup_20260821b`.
+- Shell gaps down 23 → 6, all remaining are counts (hero buttons 3/4 on esg/media/social-movements,
+  resource cards 6/7 livelihoods and 0/7 powerBI, v3 blobs 0/4 sel) — nothing a reader sees as broken.
+- Helper SQL functions left in `public`: `im_insert_before`, `im_append_block`, `im_add_reflect`,
+  `im_add_worked`, `im_add_capstone`, `im_add_diagram`, `im_min_depth`, plus the earlier `im_coach_*`.

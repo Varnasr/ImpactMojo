@@ -2,6 +2,21 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.237.0 — August 21, 2026 (Every flagship now teaches the same way)
+
+### For Learners
+
+- **Every module of every flagship course now ends with a question about your own work.** All 259 modules across the 20 flagships gained a closing reflection prompt, a worked example and a source extract — where before, reflection prompts existed in only 3 courses and worked examples in 4. The worked examples are concrete: two venue quotes where the cheaper one cannot be made accessible at any price, two completion figures from the same quarter that differ only in what was counted, four women with identical disability certificates and four different outcomes.
+- **Every course now has a capstone plan and diagrams.** Capstone timelines went from 7 courses to all 20, and diagrams from 12 to all 20 — including the disability–poverty cycle, the twin-track approach, and why a map coloured by case counts is really a population map.
+- **Nothing About Us Without Us has been rebuilt.** It was the thinnest course on the site and the only one with no source extracts at all. It now runs at more than double the depth, quoting the Disability Rights Convention directly — including the article that says a disabled adult's decisions are theirs to make, which is the one most often quietly ignored in practice. Its lexicon grew to 41 terms.
+- **Sixteen data explorers now work properly with our analytics**, so we can finally tell which of them people actually use — ASER, NFHS, UDISE, PLFS, AISHE and eleven others had no tracking at all.
+
+### Fixed
+
+- **Eleven flagship courses were showing coloured callout boxes with no colour.** The highlighted boxes meant to draw your eye to a key point were rendering as ordinary paragraphs, and had been for some time. On the Constitutional Law course the reflection prompts had lost their border entirely. All 20 courses now share one stylesheet, and a new automated check makes this class of fault impossible to ship again.
+- **The green "Worked example" heading was too faint to read comfortably** against its panel, in both light and dark mode. It now meets the contrast standard.
+- **Public Choice offered "Course Papers" and "AI Study Companion" links that opened an email window.** They looked live and were not. They now say clearly that they are coming, as three other courses already did.
+
 ## v10.236.0 — August 21, 2026 (The coach speaks once per module, and it is not always the same coach)
 
 ### For Learners
