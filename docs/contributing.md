@@ -2,6 +2,8 @@
 
 Thank you for your interest in contributing! ImpactMojo is built by and for the development community. Whether you're a practitioner who spotted an outdated statistic, an educator with a great case study, or a developer who can fix a bug — there's a meaningful way for you to contribute.
 
+**Found a bug?** Check [Known Issues](https://www.impactmojo.in/known-issues.html) first — it reads live from this repository's issue tracker, so if we already know, it is listed there with what we know so far. If it is not listed, open an issue and label it `bug`; that is what puts it on the page. If you do not use GitHub, the same page has a form.
+
 ## You Don't Need to Be Technical
 
 Many of our most valuable contributions come from practitioners, not programmers. Here's how you can help without writing a single line of code:

@@ -472,6 +472,7 @@ Advanced tools and products for researchers and practitioners — 30 in all, inc
 | **Podcast: Between the Logframes** | Audio episodes on Spotify | Free |
 | **Dojos** | 56-session practice program | Paid |
 | **Status Page** | Live platform status checks | Free — [View](/status.html) |
+| **Known Issues** | Every open and recently fixed bug, live from the public tracker | Free — [View](/known-issues.html) |
 | **MCP Server** | 11 tools + 3 resources for AI assistants (Claude, Cursor, etc.) | Free — [Setup](https://github.com/ImpactMojo/ImpactMojo/tree/main/mcp-server) |
 
 ---
