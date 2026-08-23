@@ -37,7 +37,7 @@ DECK_BACKLOG = {
     
     
     
-    'data-viz.html': 81, 'safeguarding-psea.html': 140,
+    'safeguarding-psea.html': 140,
 }
 
 SLIDE_RE = re.compile(r'class="slide[ "]')
