@@ -2,6 +2,17 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.241.0 — August 23, 2026 (All 52 foundational decks now at full depth)
+
+### For Learners
+
+- **Every one of the 52 foundational 101 decks is now written to the same depth.** Forty-one of them were thin — around 70 words a slide, against 140-plus for the decks written later. Twenty-two were rewritten this week, finishing the set. Nothing that was already on a slide was changed; each slide gained the practical half a short deck leaves out — the failure modes, what a claim does not support, and what to check before you rely on it.
+- **Survey Design 101** — 78 words a slide to 142. The added half is what separates a survey you can defend from one you cannot: why fixing a badly worded question breaks the trend it was measuring, why a beneficiary list is the most tempting sampling frame and the one that can never describe a population, which single component of survey error a margin of error actually describes (and which four it says nothing about), and why the cheapest completed interview is not cheap if it reaches the wrong people.
+- **Data Visualization 101** — 81 words a slide to 142. The added half is how a chart misleads while every number in it is true: why a stacked bar can only be read reliably at the baseline segment, why overlapping confidence intervals mean the ranking you drew is not a ranking, why the rainbow colour ramp invents boundaries in smooth data, and why a map shaded by case counts is a map of where the people are.
+- **Education & Pedagogy 101** — 77 words a slide to 147. The added half is the reasoning behind the methods: why guided discovery beats unguided for novices, what makes a real inquiry question different from a fake one, what ASER's household survey does and does not measure, why Teaching at the Right Level worked in trials and failed in some scale-ups, and why cascade training loses its content at every step down.
+- **Safeguarding & PSEA 101** — every part now opens with a map of what it covers and the one thing in it that is hardest to get right: that assuming it cannot happen in your organisation is the condition under which it does, that the red lines are short and the difficulty lives in everyday boundaries, and that well-meaning amateur investigation is the failure that recurs.
+- **Impact Evaluation 101, Theory of Change 101, Logframe 101, Political Economy 101, Research Ethics 101, Feminist Research 101, Data Feminism 101, Gender Mainstreaming 101, Women's Economic Empowerment 101, Care Economy 101, Community Development 101, Behaviour Change Communication 101, Indian Constitution 101, Global Development Governance 101, Visual Ethnography 101, Exploratory Data Analysis 101, Item Response Theory 101 and English for Development 101** have each been rewritten to roughly twice their previous depth.
+
 ## v10.240.0 — August 22, 2026 (Four more foundational decks at full depth)
 
 ### For Learners
