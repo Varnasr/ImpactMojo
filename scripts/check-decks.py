@@ -37,7 +37,6 @@ DECK_BACKLOG = {
     
     
     
-    'survey-design.html': 78,
     'data-viz.html': 81, 'safeguarding-psea.html': 140,
 }
 
