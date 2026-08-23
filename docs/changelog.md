@@ -2,6 +2,44 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.241.0 — August 23, 2026 (All 52 foundational decks now at full depth)
+
+### For Learners
+
+- **Every one of the 52 foundational 101 decks is now written to the same depth.** Forty-one of them were thin — around 70 words a slide, against 140-plus for the decks written later. Twenty-two were rewritten this week, finishing the set. Nothing that was already on a slide was changed; each slide gained the practical half a short deck leaves out — the failure modes, what a claim does not support, and what to check before you rely on it.
+- **Survey Design 101** — 78 words a slide to 142. The added half is what separates a survey you can defend from one you cannot: why fixing a badly worded question breaks the trend it was measuring, why a beneficiary list is the most tempting sampling frame and the one that can never describe a population, which single component of survey error a margin of error actually describes (and which four it says nothing about), and why the cheapest completed interview is not cheap if it reaches the wrong people.
+- **Data Visualization 101** — 81 words a slide to 142. The added half is how a chart misleads while every number in it is true: why a stacked bar can only be read reliably at the baseline segment, why overlapping confidence intervals mean the ranking you drew is not a ranking, why the rainbow colour ramp invents boundaries in smooth data, and why a map shaded by case counts is a map of where the people are.
+- **Education & Pedagogy 101** — 77 words a slide to 147. The added half is the reasoning behind the methods: why guided discovery beats unguided for novices, what makes a real inquiry question different from a fake one, what ASER's household survey does and does not measure, why Teaching at the Right Level worked in trials and failed in some scale-ups, and why cascade training loses its content at every step down.
+- **Safeguarding & PSEA 101** — every part now opens with a map of what it covers and the one thing in it that is hardest to get right: that assuming it cannot happen in your organisation is the condition under which it does, that the red lines are short and the difficulty lives in everyday boundaries, and that well-meaning amateur investigation is the failure that recurs.
+- **Impact Evaluation 101, Theory of Change 101, Logframe 101, Political Economy 101, Research Ethics 101, Feminist Research 101, Data Feminism 101, Gender Mainstreaming 101, Women's Economic Empowerment 101, Care Economy 101, Community Development 101, Behaviour Change Communication 101, Indian Constitution 101, Global Development Governance 101, Visual Ethnography 101, Exploratory Data Analysis 101, Item Response Theory 101 and English for Development 101** have each been rewritten to roughly twice their previous depth.
+
+## v10.240.0 — August 22, 2026 (Four more foundational decks at full depth)
+
+### For Learners
+
+- **Observation to Insight 101 has been rewritten** — 72 words a slide to 155. The added half is what makes watching a method rather than a visit: why not seeing something in twelve sessions is not evidence it does not happen, why "the mother was hostile" is a judgement no reader can check and "she folded her arms and did not reply" is a record they can, why notes written three days later feel vivid and have quietly reorganised themselves around your conclusion, and why the rule that competent staff keep breaking is usually the finding.
+- **Fundraising Basics 101 has been rewritten** — 72 words a slide to 154. The added half is the part that decides whether you are eligible rather than merely unsuccessful: that CSR is a statutory duty restricted to a defined list and so can never fund your organisation, that CSR-1 and 80G are gates and not paperwork, why committing co-funding you have not yet raised turns a win into a deadline, and that a company which under-spent its obligation last year is the most receptive prospect you will find.
+- **Public Health 101 has been rewritten** — 72 words a slide to 148.
+
+### Fixed
+
+- **Two diagrams in Observation to Insight 101 were cut off at the bottom of the slide**, taking their explanations with them. The triangulation triangle lost the line naming the four kinds of triangulation the rest of the section depends on, and the funnel lost the sentence saying what the narrowing means — leaving four coloured bands and no explanation. Both had been that way since the deck was published. (#998)
+
+## v10.239.0 — August 22, 2026 (Everything we have ever fixed, on one page)
+
+### For Learners
+
+- **The Known Issues page now lists everything we have fixed, not just the last 90 days.** It showed nothing when you first looked, and it was right to: it reads live from our issue tracker, and we had filed three bug reports in the site's entire history while quietly fixing ninety-two things and writing them up in these release notes. The fixes were real; the record was not searchable. Every one of those ninety-two is now on the page, dated by the release it shipped in — because that is the date we actually know. (#993)
+- **Public Health 101 has been rewritten** — 72 words a slide to 148. The added half is the reasoning that makes the subject usable: why a rise in prevalence can mean treatment is working rather than an epidemic worsening, why most cases come from the many at modest risk rather than the few at high risk (so advice reaches the wrong people and regulation reaches everyone), that newborn deaths are now most of India's infant mortality, and why a scheme covering hospital bills leaves untouched the outpatient spending that is most of what families actually pay.
+- **Multivariate Analysis 101 has been rewritten** — 71 words a slide to 154. The added half is the judgement a coefficient cannot supply: which variables belong in a model and which two kinds make it worse, why dropping an overlapping predictor swaps a visible problem for an invisible one, and why an odds ratio of 2 does not mean twice as likely.
+- **Econometrics 101 has been rewritten** — 71 words a slide to 151. The added half is how to read someone else's causal claim: find the design, find the single assumption it rests on, and ask what would break it.
+- **Advocacy Basics 101, Sexual Health (SRHR) 101, Cost Effectiveness 101, Qualitative Methods 101, Maternal Health 101 and Mixed Methods 101** have each been rewritten to roughly twice their previous depth.
+
+### Fixed
+
+- **Maternal Health 101 gave the wrong figure for anaemia in pregnancy.** Two stat cards said 57% of pregnant women in India are anaemic, citing NFHS-5. That is the figure for all women aged 15–49; for pregnant women NFHS-5 reports 52%. Both cards now say 52%, and the table beside them gives all three figures so the distinction is visible rather than something you have to already know. (#993)
+- **The Known Issues page had no way to show anything fixed before we started filing issues** (#993), so it showed an empty list — which reads as "nothing is broken" and was the one thing that page must never say falsely.
+
 ## v10.238.0 — August 22, 2026 (A diagram in every flagship module)
 
 ### For Learners

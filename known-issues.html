@@ -392,6 +392,13 @@ main li a[href]:not([class*="btn"]):not([class*="button"]) {
     </section>
 
     <section class="ki-section">
+        <h2>Earlier fixes</h2>
+        <p class="ki-sub">Defects we found and fixed before we began filing them as issues. These come from the release notes rather than the tracker, so the date is the release the fix shipped in &mdash; which is what we actually know.</p>
+        <div class="ki-list" id="kiHistoryList"><p class="ki-loading">Loading&hellip;</p></div>
+        <p class="ki-more"><button type="button" class="ki-btn ki-btn-ghost" id="kiHistoryMore" hidden>Show all</button></p>
+    </section>
+
+    <section class="ki-section">
         <h2>Found something broken?</h2>
         <div class="ki-report">
             <div class="ki-report-card">
@@ -461,7 +468,11 @@ main li a[href]:not([class*="btn"]):not([class*="button"]) {
 .ki-item h3 { font-size: 1rem; margin: 0 0 0.3rem; }
 .ki-item h3 a { color: var(--text-primary, #0F172A); text-decoration: none; }
 .ki-item h3 a:hover { text-decoration: underline; }
+.ki-item h3 { color: var(--text-primary, #0F172A); }
+.ki-detail { font-size: 0.88rem; color: var(--text-secondary, #475569); margin: 0 0 0.45rem; max-width: 78ch; }
 .ki-meta { font-size: 0.8rem; color: var(--text-secondary, #475569); display: flex; flex-wrap: wrap; gap: 0.5rem 0.9rem; }
+.ki-meta a { color: inherit; }
+.ki-more { margin-top: 1rem; }
 .ki-tag { display: inline-block; font-size: 0.72rem; padding: 0.1rem 0.5rem; border-radius: 999px; background: var(--hover-bg, #F1F5F9); color: var(--text-secondary, #475569); border: 1px solid var(--border-color, #E2E8F0); }
 .ki-report { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; align-items: start; }
 .ki-report-card { background: var(--card-bg, #fff); border: 1px solid var(--border-color, #E2E8F0); border-radius: 10px; padding: 1.2rem; }
@@ -470,6 +481,8 @@ main li a[href]:not([class*="btn"]):not([class*="button"]) {
 .ki-btn { display: inline-block; padding: 0.6rem 1.1rem; border-radius: 8px; font-weight: 600; font-size: 0.92rem; text-decoration: none; border: 1px solid transparent; cursor: pointer; }
 .ki-btn-primary { background: var(--accent-color, #0284C7); color: #fff; }
 .ki-btn-primary:hover { background: var(--accent-hover, #0369A1); }
+.ki-btn-ghost { background: transparent; color: var(--text-primary, #0F172A); border-color: var(--border-color, #E2E8F0); font-family: inherit; }
+.ki-btn-ghost:hover { background: var(--hover-bg, #F1F5F9); }
 .ki-form { display: grid; gap: 0.4rem; }
 .ki-form label { font-size: 0.82rem; font-weight: 600; color: var(--text-primary, #0F172A); margin-top: 0.4rem; }
 .ki-opt { font-weight: 400; color: var(--text-secondary, #475569); }
@@ -620,10 +633,74 @@ main li a[href]:not([class*="btn"]):not([class*="button"]) {
         });
     }
 
+    // The tracker is the right source for what is broken now. It is the wrong
+    // source for what we fixed before we started filing issues -- backfilling
+    // those as closed issues would stamp every one of them with today's date,
+    // so a defect fixed in June would read "Fixed today". The changelog knows
+    // the real date, so the history is derived from there instead.
+    var HISTORY_PREVIEW = 12;
+
+    function renderHistory(entries, showAll) {
+        var list = document.getElementById('kiHistoryList');
+        var shown = showAll ? entries : entries.slice(0, HISTORY_PREVIEW);
+        list.innerHTML = shown.map(function (e) {
+            var when = new Date(e.fixed_on + 'T00:00:00Z');
+            var label = isNaN(when) ? e.fixed_on : when.toLocaleDateString(undefined, {
+                year: 'numeric', month: 'long', day: 'numeric'
+            });
+            return '<article class="ki-item is-fixed">' +
+                '<h3>' + esc(e.title) + '</h3>' +
+                (e.detail ? '<p class="ki-detail">' + esc(e.detail) + '</p>' : '') +
+                '<div class="ki-meta">' +
+                '<span>Fixed ' + esc(label) + '</span>' +
+                '<span>' + esc(e.release) + '</span>' +
+                (e.issue ? '<span><a href="https://github.com/' + REPO + '/issues/' + e.issue +
+                    '" target="_blank" rel="noopener">#' + e.issue + '</a></span>' : '') +
+                '</div></article>';
+        }).join('');
+
+        var more = document.getElementById('kiHistoryMore');
+        if (entries.length > HISTORY_PREVIEW) {
+            more.hidden = false;
+            more.textContent = showAll
+                ? 'Show fewer'
+                : 'Show all ' + entries.length;
+        } else {
+            more.hidden = true;
+        }
+    }
+
+    function loadHistory() {
+        var list = document.getElementById('kiHistoryList');
+        fetch('/data/fix-history.json').then(function (r) {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return r.json();
+        }).then(function (data) {
+            var entries = (data && data.entries) || [];
+            if (!entries.length) {
+                list.innerHTML = '<p class="ki-empty">No earlier fixes recorded.</p>';
+                return;
+            }
+            var showAll = false;
+            renderHistory(entries, showAll);
+            document.getElementById('kiHistoryMore').addEventListener('click', function () {
+                showAll = !showAll;
+                renderHistory(entries, showAll);
+            });
+        }).catch(function () {
+            // Same rule as the tracker itself: say the list is missing rather
+            // than showing an empty one, which would read as "nothing to show".
+            list.innerHTML = '<p class="ki-empty">The earlier-fixes list could not be loaded. ' +
+                'It is also in the <a href="/docs/changelog.md">release notes</a>.</p>';
+        });
+    }
+
+    function start() { load(); loadHistory(); }
+
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', load);
+        document.addEventListener('DOMContentLoaded', start);
     } else {
-        load();
+        start();
     }
 })();
 </script>

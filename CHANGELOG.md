@@ -5,6 +5,14 @@ All notable changes to ImpactMojo are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [10.245.0] - 2026-08-23
+
+### Changed
+
+- **`DECK_BACKLOG` in `scripts/check-decks.py` is empty.** It opened on 2026-08-22 with 41 of the 52 foundational decks below the 140-words-per-slide floor; all 41 have now been rewritten and every deck clears it. The dict is deliberately kept rather than deleted — its two properties (an unlisted deck below the floor fails; a listed deck that now clears it also fails, as a stale entry) are what make the floor enforceable, and an empty dict is the correct state for them to be in. A deck genuinely mid-rewrite can be listed again, and must then come off. `docs/101-deck-standard.md` updated to match.
+
+- **The last 22 decks rewritten to the standard**: `impact-eval`, `toc-workbench`, `logframe-101`, `pol-economy`, `research-ethics`, `feminist-research`, `data-feminism`, `gender-mainstreaming`, `wee-studies`, `care-economy-101`, `community-dev`, `bcc-comms`, `ind-constitution`, `dev-architecture`, `visual-eth`, `eda-hhs`, `irt-basics`, `eng-dev`, `edu-pedagogy`, `survey-design`, `data-viz`, `safeguarding-psea`. Method throughout: existing slide text untouched (the decks were thin, not wrong), each slide gaining a `two-col half` block — a `ctable` on one side, one or two `hbox` notes on the other — appended inside `.slide-content`. Every deck verified at `clipped=0` against the fixed 1280×720 slide box before commit.
+
 ## [10.244.0] - 2026-08-21
 
 ### Added

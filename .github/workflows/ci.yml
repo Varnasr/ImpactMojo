@@ -103,6 +103,23 @@ jobs:
       - name: Check content counts match data/counts.json
         run: python3 scripts/check-counts.py
 
+  fix-issues:
+    name: Fixes cite an issue
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      # The Known Issues page can only show defects that were filed. Before this
+      # guard, 92 fixes had been written up in the changelog and 3 issues had
+      # ever been filed -- so the page showed nothing, correctly, and nothing
+      # went red. See docs/bug-reporting.md.
+      - name: Every changelog "Fixed" entry cites an issue
+        run: python3 scripts/check-fix-issues.py
+
+      - name: Published fix history matches the changelog
+        run: python3 scripts/build-fix-history.py --check
+
   supabase-writes:
     name: Supabase write-path guard
     runs-on: ubuntu-latest

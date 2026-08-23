@@ -28,24 +28,15 @@ MIN_WORDS_PER_SLIDE = 140
 MIN_TABLES = 7
 MIN_TWO_COL = 28
 
-# Decks below the floor as of 2026-08-22, with their measured density.
+# Decks below the floor, with their measured density. Empty since 2026-08-23:
+# the backlog opened at 41 decks on 2026-08-22 and every one has been rewritten.
+# Kept rather than deleted, because the two properties below are what make the
+# floor enforceable, and a deck genuinely mid-rewrite can be listed here again.
+#
 # This list can only SHRINK: a deck here that now clears the floor fails as a
 # stale entry, and a deck NOT here that falls below the floor fails outright.
 # Without both halves the list would quietly become a permanent exemption.
-DECK_BACKLOG = {
-    'mixed-methods.html': 70, 'maternal-health.html': 70,
-    'qual-methods.html': 70, 'cost-effectiveness.html': 71, 'SRHR-basics.html': 71,
-    'advocacy-basics.html': 71, 'econometrics-101.html': 71, 'multivariate-basics.html': 71,
-    'pub-health-basics.html': 72, 'fundraising-basics.html': 72, 'obs2insight.html': 72,
-    'env-justice.html': 72, 'visual-eth.html': 72, 'eda-hhs.html': 73,
-    'dev-architecture.html': 73, 'gender-mainstreaming.html': 73, 'irt-basics.html': 73,
-    'logframe-101.html': 74, 'toc-workbench.html': 74, 'data-feminism.html': 74,
-    'care-economy-101.html': 74, 'community-dev.html': 74, 'eng-dev.html': 74,
-    'research-ethics.html': 75, 'feminist-research.html': 75, 'pol-economy.html': 75,
-    'bcc-comms.html': 76, 'ind-constitution.html': 76, 'wee-studies.html': 76,
-    'impact-eval.html': 76, 'edu-pedagogy.html': 77, 'survey-design.html': 78,
-    'data-viz.html': 81, 'safeguarding-psea.html': 140,
-}
+DECK_BACKLOG = {}
 
 SLIDE_RE = re.compile(r'class="slide[ "]')
 TABLE_RE = re.compile(r'<table', re.I)

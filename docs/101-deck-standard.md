@@ -79,11 +79,17 @@ course unchanged, it is not teaching that course.
 
 ## The backlog is part of the standard
 
-41 decks are below the floor. They are listed in `DECK_BACKLOG` in
-`scripts/check-decks.py`, with their measured density, and the guard prints
-the list and its size on every run.
+The backlog is now empty: as of 2026-08-23 all 52 decks clear the floor. It
+started at 41 decks, each listed in `DECK_BACKLOG` in `scripts/check-decks.py`
+with its measured density; the guard printed the list and its size on every run
+until the last entry cleared.
 
-Two properties keep that list from becoming a blindfold, matching the `EXEMPT`
+`DECK_BACKLOG` is deliberately kept in place rather than deleted. Its two
+properties are what make the floor enforceable at all, and an empty dict is the
+correct state for them to be in — a future deck that is genuinely mid-rewrite
+can be listed and then must come off again.
+
+Two properties keep the list from becoming a blindfold, matching the `EXEMPT`
 convention in the other guards:
 
 - A deck **not** on the list that falls below the floor **fails**. New thin

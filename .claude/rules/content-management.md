@@ -13,6 +13,13 @@ When adding or modifying content:
    ```
 4. **Update docs**: `docs/games-guide.md`, `docs/labs-guide.md`, `docs/content-guide.md` as relevant
 5. **Update changelog**: `docs/changelog.md` for user-facing changes
+   - **5z. Fixing a defect? File the issue FIRST.** Label it `bug`, fix it, close it
+     once the fix is on `main` (not on a branch — the public page would then say
+     "fixed" while production still has the defect), and cite it in the `### Fixed`
+     entry as `(#NNN)`. CI enforces the citation via `scripts/check-fix-issues.py`.
+     This exists because `known-issues.html` can only show defects that were filed,
+     and 92 fixes were shipped against 3 filed issues before anyone noticed the
+     page was empty. See `docs/bug-reporting.md`.
    - **5a. Learner-facing additions** (new games, labs, courses, book summaries, deep dives, blog posts, premium tools): also add a `- **Title** — short description` bullet to a `### For Learners` subsection in the release entry. The monthly newsletter (`netlify/functions/monthly-newsletter.mjs`) parses **only** that subsection — anything in `### Added` / `### Changed` / `### Fixed` or topic-specific sections is treated as internal/dev-facing and ignored. Keep bullets short and benefit-focused; never include infra terms (Formspree, drip, RLS, Edge Function, migration, cron, webhook, etc.) — a defensive blocklist will strip them anyway.
 6. **Update sitemap**: add `<url>` entry to `sitemap.xml`
 7. **Update catalog**: `catalog.html` / `catalog_data.json` for courses
