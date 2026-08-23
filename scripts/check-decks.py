@@ -37,7 +37,7 @@ DECK_BACKLOG = {
     
     
     
-    'impact-eval.html': 76, 'edu-pedagogy.html': 77, 'survey-design.html': 78,
+    'edu-pedagogy.html': 77, 'survey-design.html': 78,
     'data-viz.html': 81, 'safeguarding-psea.html': 140,
 }
 
