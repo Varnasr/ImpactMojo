@@ -34,7 +34,7 @@ MIN_TWO_COL = 28
 # Without both halves the list would quietly become a permanent exemption.
 DECK_BACKLOG = {
     
-    'community-dev.html': 74, 'eng-dev.html': 74,
+    'eng-dev.html': 74,
     'research-ethics.html': 75, 'feminist-research.html': 75, 'pol-economy.html': 75,
     'bcc-comms.html': 76, 'ind-constitution.html': 76, 'wee-studies.html': 76,
     'impact-eval.html': 76, 'edu-pedagogy.html': 77, 'survey-design.html': 78,
