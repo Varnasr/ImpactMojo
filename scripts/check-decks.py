@@ -28,17 +28,15 @@ MIN_WORDS_PER_SLIDE = 140
 MIN_TABLES = 7
 MIN_TWO_COL = 28
 
-# Decks below the floor as of 2026-08-22, with their measured density.
+# Decks below the floor, with their measured density. Empty since 2026-08-23:
+# the backlog opened at 41 decks on 2026-08-22 and every one has been rewritten.
+# Kept rather than deleted, because the two properties below are what make the
+# floor enforceable, and a deck genuinely mid-rewrite can be listed here again.
+#
 # This list can only SHRINK: a deck here that now clears the floor fails as a
 # stale entry, and a deck NOT here that falls below the floor fails outright.
 # Without both halves the list would quietly become a permanent exemption.
-DECK_BACKLOG = {
-    
-    
-    
-    
-    'safeguarding-psea.html': 140,
-}
+DECK_BACKLOG = {}
 
 SLIDE_RE = re.compile(r'class="slide[ "]')
 TABLE_RE = re.compile(r'<table', re.I)
