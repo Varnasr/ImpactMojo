@@ -33,7 +33,7 @@ MIN_TWO_COL = 28
 # stale entry, and a deck NOT here that falls below the floor fails outright.
 # Without both halves the list would quietly become a permanent exemption.
 DECK_BACKLOG = {
-    'toc-workbench.html': 74, 'data-feminism.html': 74,
+    'data-feminism.html': 74,
     'care-economy-101.html': 74, 'community-dev.html': 74, 'eng-dev.html': 74,
     'research-ethics.html': 75, 'feminist-research.html': 75, 'pol-economy.html': 75,
     'bcc-comms.html': 76, 'ind-constitution.html': 76, 'wee-studies.html': 76,
