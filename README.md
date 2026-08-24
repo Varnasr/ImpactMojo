@@ -49,7 +49,7 @@ We provide accessible, high-quality educational materials grounded in South Asia
 | **DevDiscourses** | 500+ curated open-access research papers, books, and grey literature |
 | **PolicyDhara** | Curated Indian public policy documents, government schemes, and legislative frameworks |
 | **BCT Repository** | 203 behavior change techniques from BCT Taxonomy v1 with definitions, examples, evidence ratings, 60 WASH/nutrition case studies, fuzzy search, bookmarks, notes, comparison tool, PDF export — dark mode, filters, CSV export |
-| **Dataverse** | 336 curated tools, datasets, APIs, MCP servers, and platforms across 22 categories — dark mode, category filters, responsive cards |
+| **Dataverse** | 337 curated tools, datasets, APIs, MCP servers, and platforms across 22 categories — dark mode, category filters, responsive cards |
 | **166 Reading Companions** | Interactive study companions for development economics, political economy, statistics, leadership, and productivity texts |
 | **12 AI Study Companions** | NotebookLM-powered study notebooks covering the flagship courses |
 | **90 Handouts** | Downloadable resources across 6 learning tracks |
@@ -286,7 +286,7 @@ Interactive simulations powered by **MiroFish AI agents** with **Indian folk art
 - [**DevDiscourses**](https://github.com/Varnasr/development-discourses) — 500+ curated open-access research papers, books, and grey literature
 - [**PolicyDhara**](https://github.com/Varnasr/PolicyDhara) — Auto-updating tracker of Indian development policies across 22 sectors
 - **BCT Repository** — 203 behavior change techniques with definitions, examples, and evidence ratings
-- **Dataverse** — 336 curated tools, datasets, APIs, MCP servers, and platforms for social impact research
+- **Dataverse** — 337 curated tools, datasets, APIs, MCP servers, and platforms for social impact research
 - **90 Handouts** — Downloadable HTML resources across 6 learning tracks
 - **Learning Loops Blog** — Articles, tutorials, case studies, platform updates
 - **Between the Logframes Podcast** — Development conversations on MEAL, ToC, and impact work
@@ -461,7 +461,7 @@ ImpactMojo/
 ├── dojos.html              # Practice-based skill sessions
 ├── catalog.html            # Complete learning catalog
 ├── bct-repository.html     # BCT Repository (203 techniques, fuzzy search, bookmarks, comparison, PDF export)
-├── dataverse.html          # Dataverse (336 tools & datasets across 22 categories)
+├── dataverse.html          # Dataverse (337 tools & datasets across 22 categories)
 ├── blog.html               # Learning Loops blog
 ├── podcast.html            # Between the Logframes podcast
 ├── handouts.html           # 84 downloadable resources

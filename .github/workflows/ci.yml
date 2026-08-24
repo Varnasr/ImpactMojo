@@ -261,6 +261,19 @@ jobs:
       - name: Check every var() resolves
         run: python3 scripts/check-css-vars.py
 
+  judgments:
+    name: Development Law Docket integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Every judgment is sourced and its status stated
+        run: python3 scripts/check-judgments.py
+      - name: Law guides match the dataset
+        run: python3 scripts/build-law-guide-cases.py --check
+
   decks:
     name: 101 deck density
     runs-on: ubuntu-latest

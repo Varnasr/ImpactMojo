@@ -2,6 +2,16 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.244.0 — August 24, 2026 (The judgments that changed development practice)
+
+### For Learners
+
+- **A new Development Law Docket** — 54 Indian Supreme Court judgments that changed what development organisations, state programmes and rights-holders can actually do. Each says what the court decided, what it changed on the ground, and whether it is still good law: Vishaka before there was a POSH Act, Olga Tellis on eviction and livelihood, Niyamgiri putting the decision with the Gram Sabha, Puttaswamy on privacy, Vikash Kumar on reasonable accommodation as a right rather than a concession. Searchable and filterable by theme, status and landmark.
+- **The six law guides now cite cases.** Until now they explained what a law requires and never showed you the judgment that decided what it requires. POSH, RPwD, RTI, FCRA and child protection each gained the judgments that shaped them; the CSR guide says plainly that no landmark case turns on Section 135, because that absence is itself worth knowing.
+- **Every entry says whether it still stands.** A holding can be narrowed later, replaced by a statute, or sent to a larger bench — seven of the 54 carry exactly that kind of qualification, and each explains it. Section 66A was struck down in 2015 and people are still booked under it; the docket says so.
+- **What is missing is listed too.** Six candidate cases were dropped rather than published on a weak match, and the page names them and why. One search matched a different case with a similar name and was caught only by a second check.
+- **An NFHS district explorer** joins the Dataverse — 93 indicators across 715 districts, comparing NFHS-5 and NFHS-6, by Nandlal Mishra. It is an independent project rather than an official release, so check figures against the NFHS factsheet before citing them.
+
 ## v10.243.0 — August 24, 2026 (Every Indian judgment, in one open dataset)
 
 ### For Learners
