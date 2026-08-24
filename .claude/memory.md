@@ -1154,8 +1154,17 @@ This bit three times in one session, each time in a different disguise.
 - **What is verified is identity, not interpretation** — that a case exists with this name and date
   and contains these terms. Whether a holding summary is *correct* is editorial and unaudited. Said
   on the page and in `docs/judgments-standard.md`. Do not describe this as verified case law.
-- PUCL right-to-food: only the 9 July 2007 ICDS order is in. The litigation spans two decades of
-  orders not published as discrete indexed documents; each needs its own entry.
+- PUCL right-to-food: two orders are in — the 2 May 2003 mid-day meal order (which restates the
+  28 November 2001 direction: cooked meal, 300 calories, 8-12g protein, 200 school days) and the
+  9 July 2007 ICDS/Anganwadi order. The litigation spans two decades of orders not published as
+  discrete indexed documents; each needs its own entry. **The 2003 entry is the one exception to
+  the docket's sourcing convention**: Indian Kanoon indexes neither the 2001 nor the 2003 order,
+  and the Court does not publish its interim orders in this petition individually, so `source_url`
+  points at the text hosted by ESCR-Net and `verified.against` says so rather than implying an
+  Indian Kanoon or court origin. I originally excluded the 2007 order because I required the term
+  "Public Distribution" in its text — that order is about ICDS, not the PDS. The document was fine;
+  my assertion was wrong, and I wrote the exclusion up as principled restraint. **"My tool didn't
+  find it" is not "it isn't findable."**
 - Coverage is Supreme Court only. No High Court, tribunal, or district decisions.
 - `claude/routine-count-drift-20260821` was pruned locally this session (it was a stale remote ref).
   ~40 other `claude/routine-*` branches from the retired Routines remain.
