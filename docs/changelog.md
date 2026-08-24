@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.242.0 — August 23, 2026 (Seven more open geospatial data sources)
+
+### For Learners
+
+- **Seven free sources for maps and satellite data have been added to the Dataverse**, now 335 entries. Natural Earth (public-domain basemaps you can publish without an attribution line), USGS EarthExplorer (the whole Landsat record back to 1972), Esri's Open Data Hub, OpenTopography (elevation and lidar, processed server-side so you request an area rather than download tiles), NASA Earth Observations (about fifty environmental variables as plain images and CSV grids — the easiest satellite source to teach with), UNEP's World Environment Situation Room, and Geofabrik's country-by-country OpenStreetMap extracts.
+- **Two widely circulated GIS links were checked and left out.** UNEP's Environmental Data Explorer is offline, so the entry points at the World Environment Situation Room that replaced it. IPUMS Terra Populus has been decommissioned by its own maintainers — its page still loads, which is exactly why a link checker would not have caught it.
+
 ## v10.241.0 — August 23, 2026 (All 52 foundational decks now at full depth)
 
 ### For Learners
