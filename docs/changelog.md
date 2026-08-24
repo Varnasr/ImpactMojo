@@ -2,6 +2,16 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.246.0 — August 24, 2026 (The right-to-food order, and a number that lied)
+
+### For Learners
+
+- **The right-to-food litigation is now represented in the docket**, taking it to 60. The 9 July 2007 order in PUCL v. Union of India directs that every sanctioned Anganwadi Centre actually be made operational and that ICDS reach children, adolescent girls and pregnant and lactating women — the order to cite when a centre exists in the records and not in the village. It is described as what it is: one order in a petition that has run for two decades, not a summary of the whole case.
+
+### Fixed
+
+- **The docket said six cases had been set aside and listed one.** The sentence was written by hand while the list beneath it was generated from data, so when the list shrank the sentence did not. It now derives from the same data as the list and cannot contradict it. (#1002)
+
 ## v10.245.0 — August 24, 2026 (Five more judgments, and case names that read like case names)
 
 ### For Learners

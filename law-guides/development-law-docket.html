@@ -8,7 +8,7 @@
 <!-- Open Graph -->
 <meta property="og:type" content="article">
 <meta property="og:title" content="Development Law Docket — ImpactMojo">
-<meta property="og:description" content="59 Indian judgments that changed development practice, each with what it changed and whether it still stands.">
+<meta property="og:description" content="60 Indian judgments that changed development practice, each with what it changed and whether it still stands.">
 <meta property="og:url" content="https://impactmojo.in/law-guides/rti-act-social-sector.html">
 <meta property="og:image" content="https://www.impactmojo.in/assets/images/og-card.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -130,9 +130,7 @@
 
     <section id="excluded" style="margin-top:2.5rem">
       <h2>What is deliberately not here</h2>
-      <p>Six candidate cases were dropped rather than published on a weak match. This list is
-      part of the record, because a docket that shows only what it found looks more complete
-      than it is.</p>
+      <p id="excluded-intro"></p>
       <ul class="dk-excluded" id="excluded-list"></ul>
     </section>
 
@@ -255,7 +253,14 @@
       DATA.forEach(function(j){(j.themes||[]).forEach(function(t){th[t]=1}); st[j.status]=1});
       fill('theme', Object.keys(th)); fill('status', Object.keys(st));
       $('verif').textContent = META.verification || '';
-      $('excluded-list').innerHTML = (META.excluded||[]).map(function(e){
+      var ex = META.excluded||[];
+      // Derived, not written: a hardcoded count here once said "six" over a list of one.
+      $('excluded-intro').textContent = ex.length
+        ? (ex.length===1
+            ? 'One candidate was set aside rather than published on a weak match. It is named here because a docket that shows only what it found looks more complete than it is.'
+            : ex.length+' candidates were set aside rather than published on a weak match. They are named here because a docket that shows only what it found looks more complete than it is.')
+        : 'Nothing is currently set aside. Anything dropped rather than published would be named here.';
+      $('excluded-list').innerHTML = ex.map(function(e){
         return '<li><strong>'+esc(e.case)+'</strong> — '+esc(e.why)+'</li>'}).join('');
       ['q','theme','status','scope'].forEach(function(id){
         $(id).addEventListener('input', render); $(id).addEventListener('change', render);
