@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.247.0 — August 24, 2026 (The mid-day meal order)
+
+### For Learners
+
+- **The mid-day meal order is now in the docket**, taking it to 61. The Supreme Court's direction of 28 November 2001 — every child in every government and government-assisted primary school to get a cooked meal of at least 300 calories and 8–12 grams of protein, for at least 200 school days — is the order that turned the mid-day meal from a scheme into an entitlement, and the reason a cooked meal rather than dry rations is the compliance standard. It is entered through the 2 May 2003 interim order that restates and enforces it, because that is the version whose full text is publicly available.
+
 ## v10.246.0 — August 24, 2026 (The right-to-food order, and a number that lied)
 
 ### For Learners
