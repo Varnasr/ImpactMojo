@@ -464,7 +464,7 @@ Advanced tools and products for researchers and practitioners — 30 in all, inc
 | **ImpactLex** | 390 development terms dictionary (PWA, hosted on ImpactMojo) | Free — [Browse](/impactlex/) |
 | **FieldCases** | 200 curated development cases from 117 countries | Free |
 | **NudgeKit** | 203 behaviour change techniques (BCTs) with South Asian context | Free — [Browse](/bct-repository) |
-| **Dataverse** | 328 data tools, APIs, and datasets | Free — [Browse](/dataverse.html) |
+| **Dataverse** | 337 data tools, APIs, and datasets | Free — [Browse](/dataverse.html) |
 | **DevDiscourses** | 500+ curated research papers and books | Free |
 | **PolicyDhara** | Indian policy tracking and analysis | Free — [Browse](/policydhara) |
 | **NotebookLM Study Companions** | 12 AI study companion notebooks | Free |

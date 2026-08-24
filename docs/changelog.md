@@ -2,6 +2,29 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.244.0 — August 24, 2026 (The judgments that changed development practice)
+
+### For Learners
+
+- **A new Development Law Docket** — 54 Indian Supreme Court judgments that changed what development organisations, state programmes and rights-holders can actually do. Each says what the court decided, what it changed on the ground, and whether it is still good law: Vishaka before there was a POSH Act, Olga Tellis on eviction and livelihood, Niyamgiri putting the decision with the Gram Sabha, Puttaswamy on privacy, Vikash Kumar on reasonable accommodation as a right rather than a concession. Searchable and filterable by theme, status and landmark.
+- **The six law guides now cite cases.** Until now they explained what a law requires and never showed you the judgment that decided what it requires. POSH, RPwD, RTI, FCRA and child protection each gained the judgments that shaped them; the CSR guide says plainly that no landmark case turns on Section 135, because that absence is itself worth knowing.
+- **Every entry says whether it still stands.** A holding can be narrowed later, replaced by a statute, or sent to a larger bench — seven of the 54 carry exactly that kind of qualification, and each explains it. Section 66A was struck down in 2015 and people are still booked under it; the docket says so.
+- **What is missing is listed too.** Six candidate cases were dropped rather than published on a weak match, and the page names them and why. One search matched a different case with a similar name and was caught only by a second check.
+- **An NFHS district explorer** joins the Dataverse — 93 indicators across 715 districts, comparing NFHS-5 and NFHS-6, by Nandlal Mishra. It is an independent project rather than an official release, so check figures against the NFHS factsheet before citing them.
+
+## v10.243.0 — August 24, 2026 (Every Indian judgment, in one open dataset)
+
+### For Learners
+
+- **Open India Law is now in the Dataverse** — every Supreme Court and High Court judgment from 1950 to 2025 (12.8 million), 813,000 tribunal and regulator matters, and 22,265 Central and State Acts broken down to the individual section, all from official sources in one schema. The scrapers are open source and the compiled data is free to reuse with attribution. District and trial court decisions are not included.
+
+## v10.242.0 — August 23, 2026 (Seven more open geospatial data sources)
+
+### For Learners
+
+- **Seven free sources for maps and satellite data have been added to the Dataverse**, now 335 entries. Natural Earth (public-domain basemaps you can publish without an attribution line), USGS EarthExplorer (the whole Landsat record back to 1972), Esri's Open Data Hub, OpenTopography (elevation and lidar, processed server-side so you request an area rather than download tiles), NASA Earth Observations (about fifty environmental variables as plain images and CSV grids — the easiest satellite source to teach with), UNEP's World Environment Situation Room, and Geofabrik's country-by-country OpenStreetMap extracts.
+- **Two widely circulated GIS links were checked and left out.** UNEP's Environmental Data Explorer is offline, so the entry points at the World Environment Situation Room that replaced it. IPUMS Terra Populus has been decommissioned by its own maintainers — its page still loads, which is exactly why a link checker would not have caught it.
+
 ## v10.241.0 — August 23, 2026 (All 52 foundational decks now at full depth)
 
 ### For Learners

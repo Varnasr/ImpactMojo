@@ -188,7 +188,7 @@ Entries are organized by topic and tagged for easy browsing.
 
 Dataverse is your starting point for development data. It includes:
 
-- **328 datasets, tools, and APIs** from sources like the World Bank, DHS, NFHS, NSSO, and more
+- **337 datasets, tools, and APIs** from sources like the World Bank, DHS, NFHS, NSSO, and more
 - **APIs** for programmatic data access
 - **Tools** for data analysis and visualization
 - **MCP servers** for AI-assisted development research
@@ -248,7 +248,7 @@ ImpactMojo has a **Model Context Protocol (MCP) server** that lets any AI assist
 **11 tools available:**
 - `search_content` — Full-text search across all 700+ content items
 - `lookup_bct` / `search_bcts` / `list_bct_categories` — 203 BCT techniques with South Asian context and case studies
-- `browse_dataverse` / `search_dataverse` — 328 tools, datasets, APIs
+- `browse_dataverse` / `search_dataverse` — 337 tools, datasets, APIs
 - `list_challenges` / `get_challenge` — Practice exercises with rubrics
 - `list_courses` — 72 courses across 6 learning tracks
 - `get_game_info` — 18 simulation games with AI agent personas
