@@ -1102,3 +1102,69 @@ carries a literal fallback because gandhi/gender/social-movements define no toke
   resource cards 6/7 livelihoods and 0/7 powerBI, v3 blobs 0/4 sel) — nothing a reader sees as broken.
 - Helper SQL functions left in `public`: `im_insert_before`, `im_append_block`, `im_add_reflect`,
   `im_add_worked`, `im_add_capstone`, `im_add_diagram`, `im_min_depth`, plus the earlier `im_coach_*`.
+
+---
+
+## Session — 2026-08-24 · Deck backlog closed, Development Law Docket built
+
+### Shipped
+- **All 52 foundational 101 decks now clear the 140-words/slide floor.** `DECK_BACKLOG` opened at 41
+  on 2026-08-22 and is now `{}`. Kept rather than deleted: its two properties (unlisted thin deck
+  fails; listed deck that clears the floor also fails as stale) are what make the floor enforceable.
+- **Development Law Docket** — `law-guides/development-law-docket.html`, 60 Supreme Court judgments,
+  38 landmark. One dataset (`data/judgments.json`), three surfaces: the docket page, generated
+  sections in the 6 law guides, and a landmark filter. Guards: `check-judgments.py` and
+  `build-law-guide-cases.py --check` (CI job `judgments`).
+- **Dataverse 328 → 337.** Open India Law, NFHS District Explorer, 7 geospatial sources.
+- PRs #999, #1000, #1001, #1003 — all merged, deploys verified, issues #993 #998 #1002 closed.
+
+### The lesson worth keeping: generated surface + hand-written claim = drift
+This bit three times in one session, each time in a different disguise.
+1. `known-issues.html` rendered from data; the changelog was hand-written. 92 fixes, 3 filed issues.
+2. Law-guide case sections generated from `judgments.json`; had they been hand-copied they would
+   have diverged, and the divergent copy sits inside a compliance guide. Hence `--check`.
+3. **The docket said "Six candidate cases were dropped" over a list of one (#1002).** The list
+   rendered from `meta.excluded`; the sentence was hardcoded. Fixed by deriving the sentence.
+**Rule: if a surface renders from data, every number describing it must come from the same data.**
+
+### Verification lessons — all three were my error, not the data's
+- **A name-and-year match is not identification.** Searching *Consumer Education & Research Centre
+  v. Union of India* matched **LIC v. CERC**, a different case, and passed the filter. Only a
+  required-term check caught it. Every judgment entry now declares terms that must appear in the text.
+- **A bad assertion looks exactly like a principled exclusion.** I dropped the PUCL right-to-food
+  order because I required the term "Public Distribution" and that order is about ICDS, not the PDS.
+  The document was fine. I then wrote the exclusion up as rigour. **When a verification fails, check
+  the assertion before blaming the source.**
+- **"My search couldn't find it" is not a property of the world.** Five cases (NALSA, Devika Biswas,
+  RTE 25%, Sampurna Behura, CERC) were excluded because an automated resolver failed. Three web
+  searches found all five. Indian Kanoon's free-tier ranking is poor for multi-word queries; use
+  `doctypes:supremecourt` and `title:"..."` operators.
+
+### Tooling gotchas
+- **Netlify strips `.html` from hrefs in post-processing.** Grepping live HTML for
+  `href=".../*.html"` finds nothing and reads as breakage. I reported the law guides missing on this
+  basis; they were fine. **Check a live page by reading it, not by pattern-matching source syntax.**
+- **Netlify CDN caches 300s.** Two post-deploy checks reported 0 cases on pages that had them. Bust
+  with a query string before concluding anything is wrong.
+- `oss-data-in.vaquill.ai` 403s datacenter IPs; the AWS Open Data S3 buckets, Indian Kanoon and
+  India Code are all reachable from the sandbox.
+- Bash `sleep` chaining is blocked; use `run_in_background: true`. Max foreground timeout 10 min.
+
+### Open / next
+- **What is verified is identity, not interpretation** — that a case exists with this name and date
+  and contains these terms. Whether a holding summary is *correct* is editorial and unaudited. Said
+  on the page and in `docs/judgments-standard.md`. Do not describe this as verified case law.
+- PUCL right-to-food: two orders are in — the 2 May 2003 mid-day meal order (which restates the
+  28 November 2001 direction: cooked meal, 300 calories, 8-12g protein, 200 school days) and the
+  9 July 2007 ICDS/Anganwadi order. The litigation spans two decades of orders not published as
+  discrete indexed documents; each needs its own entry. **The 2003 entry is the one exception to
+  the docket's sourcing convention**: Indian Kanoon indexes neither the 2001 nor the 2003 order,
+  and the Court does not publish its interim orders in this petition individually, so `source_url`
+  points at the text hosted by ESCR-Net and `verified.against` says so rather than implying an
+  Indian Kanoon or court origin. I originally excluded the 2007 order because I required the term
+  "Public Distribution" in its text — that order is about ICDS, not the PDS. The document was fine;
+  my assertion was wrong, and I wrote the exclusion up as principled restraint. **"My tool didn't
+  find it" is not "it isn't findable."**
+- Coverage is Supreme Court only. No High Court, tribunal, or district decisions.
+- `claude/routine-count-drift-20260821` was pruned locally this session (it was a stale remote ref).
+  ~40 other `claude/routine-*` branches from the retired Routines remain.
