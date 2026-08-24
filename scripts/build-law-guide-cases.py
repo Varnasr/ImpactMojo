@@ -48,6 +48,11 @@ def esc(s):
 def render(guide_stem, cases):
     rows = []
     for j in sorted(cases, key=lambda c: -c['year']):
+        # The scraper title carries the exact decision date; pull it out so the
+        # card shows "12 May, 2023" rather than just the year.
+        j = dict(j)
+        st = j.get('source_title', '')
+        j['decided'] = st.rsplit(' on ', 1)[-1] if ' on ' in st else ''
         note = ''
         if j.get('status_note'):
             note = ('<p class="lg-case-note"><strong>%s.</strong> %s</p>'
@@ -56,7 +61,7 @@ def render(guide_stem, cases):
         rows.append(
             '<article class="lg-case">'
             f'<h3 class="lg-case-name">{esc(j["case"])}</h3>'
-            f'<p class="lg-case-meta">{esc(j["court"])} &middot; {esc(j["year"])} '
+            f'<p class="lg-case-meta">{esc(j["court"])} &middot; {esc(j["decided"] or j["year"])} '
             f'&middot; <span class="lg-case-status s-{esc(j["status"])}">'
             f'{esc(STATUS_LABEL.get(j["status"], j["status"]))}</span></p>'
             f'<p><strong>Held.</strong> {esc(j["holding"])}</p>'

@@ -50,8 +50,12 @@ STATUS = {
 # status_note is NOT here: it is required only when the status is qualified,
 # which is checked separately below. A case that is simply good law has
 # nothing to add, and demanding filler there would train people to write it.
-REQUIRED = ('id', 'case', 'court', 'year', 'holding', 'what_changed',
-            'status', 'themes', 'source_url', 'verified')
+# `case` is the name written as a lawyer would cite it; `source_title` is the
+# raw title of the document it was verified against. Both are required, and they
+# are separate on purpose: the clean name is editorial, and if it were the only
+# name recorded there would be no way to check it back against the source.
+REQUIRED = ('id', 'case', 'source_title', 'court', 'year', 'holding',
+            'what_changed', 'status', 'themes', 'source_url', 'verified')
 
 ID_RE = re.compile(r'^[a-z0-9]+(-[a-z0-9]+)*$')
 URL_RE = re.compile(r'^https://')
@@ -85,6 +89,12 @@ def main():
             if j['id'] in seen:
                 failures.append('%-28s duplicate id (also entry #%d)' % (who, seen[j['id']]))
             seen[j['id']] = n
+
+        # A scraper title in the `case` field means the clean-up was skipped.
+        name = j.get('case', '')
+        if ' vs ' in name or ' on ' in name.lower()[-24:] or '...' in name:
+            failures.append('%-28s case name looks like raw scraper output: %s'
+                            % (who, name[:60]))
 
         st = j.get('status')
         if st and st not in STATUS:
