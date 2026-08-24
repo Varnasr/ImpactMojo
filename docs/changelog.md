@@ -2,6 +2,14 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.245.0 — August 24, 2026 (Five more judgments, and case names that read like case names)
+
+### For Learners
+
+- **Five judgments that were missing are now in the docket**, taking it to 59. NALSA on transgender recognition, Devika Biswas on sterilisation camps, the RTE 25% quota case, Sampurna Behura on juvenile justice machinery, and Consumer Education & Research Centre on asbestos workers' right to health. All five had been left out because an automated search could not resolve them; they were found by hand and checked against the judgment text like the rest.
+- **Case names now read the way a lawyer would write them.** They had been carrying raw titles from the source database — "Vishaka & Ors vs State Of Rajasthan & Ors on 13 August, 1997" — which is machine output, not a case name. Every entry now reads "Vishaka v. State of Rajasthan", with the exact decision date beside it and the original title kept underneath so anyone can check the citation back to its source.
+- **One case is still deliberately absent.** The right-to-food litigation, PUCL v. Union of India, runs as a continuing mandamus whose interim orders are not published as separate documents we could verify one at a time. Listing it as a single entry would misrepresent what it is, so the docket says why it is missing instead.
+
 ## v10.244.0 — August 24, 2026 (The judgments that changed development practice)
 
 ### For Learners
