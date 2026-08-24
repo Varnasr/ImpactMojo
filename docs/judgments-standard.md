@@ -51,11 +51,38 @@ name and decision year, then re-checked: each entry declares terms that must
 appear in the judgment text, and an entry whose terms are absent is dropped
 rather than published.
 
-Six were dropped, and they are listed in `meta.excluded` on the page itself —
-because a docket that shows only what it found looks more complete than it is.
-One drop is worth keeping in mind: a search for *Consumer Education & Research
-Centre v. Union of India* matched **LIC v. CERC**, a different case, and the
+Six were dropped on that check. Five were later found by searching for them
+properly rather than re-running the same query, and are now in the docket; the
+sixth — the right-to-food litigation — turned out to have been dropped on an
+assertion of mine that was simply wrong (I required the phrase "Public
+Distribution" in an order about ICDS). One drop is worth keeping in mind for
+the opposite reason: a search for *Consumer Education & Research Centre v.
+Union of India* matched **LIC v. CERC**, a different case, and the
 name-and-year filter alone let it through. The term check is what caught it.
+
+The lesson from the five is the one that generalises: **"my tool did not find
+it" is not "it is not findable"**, and writing the former up as principled
+restraint makes a research failure look like rigour.
+
+### `meta.excluded` vs `meta.coverage_notes`
+
+Two different claims, and mixing them shipped a bug (#1005).
+
+`meta.excluded` means **absent**: a candidate considered and not published,
+named so that a docket showing only what it found does not look more complete
+than it is. The page renders it under *"What is deliberately not here"*.
+
+`meta.coverage_notes` means **published, but read it narrowly**: a caveat about
+what an entry that *is* here can be taken to stand for. The page renders it
+under *"How these entries were checked"*, beside the Supreme-Court-only scope
+line.
+
+The right-to-food litigation sat in `excluded` while two of its orders were
+live on the same page, because the note was written when the docket had neither
+and nobody moved it when they went in. `scripts/check-judgments.py` now fails
+when an `excluded` entry names a petition number the docket publishes — matched
+on the citation number (`196 of 2001` ≡ `196/2001`) rather than party names,
+since "Union of India" is one side of most of this file.
 
 **What is verified is identity, not interpretation.** That a case exists, has
 this name and this date, and contains these terms — checked. That the summary

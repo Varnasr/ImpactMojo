@@ -61,6 +61,15 @@ ID_RE = re.compile(r'^[a-z0-9]+(-[a-z0-9]+)*$')
 URL_RE = re.compile(r'^https://')
 
 
+def citation_numbers(text):
+    """Petition/citation numbers in a string, normalised so "196 of 2001" and
+    "196/2001" compare equal. These identify a case; party names do not."""
+    out = set()
+    for num, year in re.findall(r'(\d{1,5})\s*(?:of\s*|/)\s*((?:19|20)\d\d)', text):
+        out.add('%s/%s' % (num.lstrip('0') or '0', year))
+    return out
+
+
 def main():
     if not DATA.exists():
         print('FAIL - %s not found.' % DATA.relative_to(ROOT))
@@ -129,6 +138,38 @@ def main():
 
     if not entries:
         failures.append('data/judgments.json holds no entries')
+
+    # An "excluded" entry that names a case the docket actually publishes tells
+    # a reader the opposite of the truth. That shipped: the right-to-food
+    # litigation sat under "What is deliberately not here" while two of its
+    # orders were live on the same page, because the note was written when the
+    # docket had neither and never moved when they went in.
+    #
+    # Matched on the petition/citation number rather than party names, because
+    # the party names in Indian public-interest litigation repeat endlessly
+    # ("Union of India" is one side of most of this file) while "196 of 2001"
+    # identifies exactly one petition. A caveat about what a published entry
+    # stands for belongs in meta.coverage_notes, which the page renders under
+    # coverage instead of under exclusions.
+    published = set()
+    for j in entries:
+        published |= citation_numbers(' '.join(
+            str(j.get(k, '')) for k in ('case', 'source_title', 'holding')))
+    for i, e in enumerate(doc.get('meta', {}).get('excluded', []) or []):
+        if not isinstance(e, dict) or not e.get('case') or not e.get('why'):
+            failures.append('meta.excluded[%d]           needs both "case" and "why"' % i)
+            continue
+        clash = citation_numbers(e['case'] + ' ' + e['why']) & published
+        if clash:
+            failures.append(
+                'meta.excluded[%d]           names %s, which the docket publishes -- '
+                'a coverage caveat belongs in meta.coverage_notes'
+                % (i, ', '.join(sorted(clash))))
+
+    notes = doc.get('meta', {}).get('coverage_notes', [])
+    if not isinstance(notes, list) or any(not isinstance(n, str) or not n.strip()
+                                          for n in notes):
+        failures.append('meta.coverage_notes         must be a list of non-empty strings')
 
     if failures:
         print('FAIL')

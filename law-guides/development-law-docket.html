@@ -139,6 +139,7 @@
       <p id="verif"></p>
       <p>Coverage is the Supreme Court of India. High Court and tribunal decisions, and the
       district courts entirely, are outside this first release.</p>
+      <div id="coverage-notes"></div>
     </section>
   </main>
 
@@ -262,6 +263,11 @@
         : 'Nothing is currently set aside. Anything dropped rather than published would be named here.';
       $('excluded-list').innerHTML = ex.map(function(e){
         return '<li><strong>'+esc(e.case)+'</strong> — '+esc(e.why)+'</li>'}).join('');
+      // Caveats about what a published entry can be taken to stand for are not
+      // exclusions — listing them under "not here" said a case was missing that
+      // is in fact in the docket. They belong with coverage.
+      $('coverage-notes').innerHTML = (META.coverage_notes||[])
+        .map(function(n){ return '<p>'+esc(n)+'</p>' }).join('');
       ['q','theme','status','scope'].forEach(function(id){
         $(id).addEventListener('input', render); $(id).addEventListener('change', render);
       });
