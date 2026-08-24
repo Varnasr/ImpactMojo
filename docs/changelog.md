@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.248.0 — August 24, 2026 (A case that was listed as missing while it was there)
+
+### Fixed
+
+- **The Law Docket listed the right-to-food litigation under "What is deliberately not here" — while publishing two of its orders on the same page.** PUCL v. Union of India is the most consequential right-to-food case in India, and a reader scanning the docket was told it was absent. The note had been written when the docket held neither the mid-day meal order nor the ICDS order; both went in afterwards and the note stayed where it was. It now sits under coverage, where it says the true thing: two orders from a two-decade petition are here, and neither stands for the case as a whole. Nothing is currently listed as set aside. (#1005)
+
 ## v10.247.0 — August 24, 2026 (The mid-day meal order)
 
 ### For Learners
