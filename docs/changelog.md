@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.243.0 — August 24, 2026 (Every Indian judgment, in one open dataset)
+
+### For Learners
+
+- **Open India Law is now in the Dataverse** — every Supreme Court and High Court judgment from 1950 to 2025 (12.8 million), 813,000 tribunal and regulator matters, and 22,265 Central and State Acts broken down to the individual section, all from official sources in one schema. The scrapers are open source and the compiled data is free to reuse with attribution. District and trial court decisions are not included.
+
 ## v10.242.0 — August 23, 2026 (Seven more open geospatial data sources)
 
 ### For Learners
