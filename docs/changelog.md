@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.251.0 — August 25, 2026 (Eight years of Union spending)
+
+### For Learners
+
+- **The Union Budget Explorer now goes back eight years.** Actual spending by head from 2017-18 to 2024-25, beside the current budget — so you can see that interest on past borrowing more than doubled, transport quadrupled, and education rose 38% in rupees that were themselves losing value. Only the current year is published as a spreadsheet; the earlier years were read out of the budget PDFs, and the page says which document each figure came from. It is candid about what cannot be compared: heads get renamed, split and merged, so a blank means the budget changed what it published, not that spending stopped. Where a head does not appear in every year, no change figure is shown at all.
+
 ## v10.250.0 — August 25, 2026 (Where the Union rupee goes)
 
 ### For Learners
