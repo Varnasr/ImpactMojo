@@ -274,6 +274,25 @@ jobs:
       - name: Law guides match the dataset
         run: python3 scripts/build-law-guide-cases.py --check
 
+  budget:
+    name: Union Budget data matches its source
+    runs-on: ubuntu-latest
+    # data/union-budget.json is extracted from a vendored workbook, and every
+    # figure on /fiscal.html is a government number a reader may act on. If the
+    # JSON is edited by hand, or the workbook is swapped for a new year without
+    # re-running the extractor, the page shows numbers that are in no published
+    # document. This fails on that.
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install openpyxl
+        run: pip install --quiet openpyxl
+      - name: Budget JSON matches the workbook
+        run: python3 scripts/build-budget-data.py --check
+
   decks:
     name: 101 deck density
     runs-on: ubuntu-latest

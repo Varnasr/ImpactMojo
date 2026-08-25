@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.250.0 — August 25, 2026 (Where the Union rupee goes)
+
+### For Learners
+
+- **A Union Budget Explorer** — what the Government of India collects and what it spends it on, head by head, with 2024-25 actuals beside the 2025-26 budget, its mid-year revision, and the 2026-27 budget. Enter what you paid in income tax and it works out your share of defence, interest, education, health, rural development and every other head. It says plainly what that number is not: taxes on income are about 27% of Union receipts, nothing marks one rupee as yours, and the figure is a proportion rather than a trace. Interest on past borrowing is the single largest head at ₹14.04 lakh crore — more than defence, education and health — and the page explains why that is debt service and not a programme.
+
 ## v10.249.0 — August 24, 2026 (An empty list is not a finding)
 
 ### Fixed

@@ -1168,3 +1168,59 @@ This bit three times in one session, each time in a different disguise.
 - Coverage is Supreme Court only. No High Court, tribunal, or district decisions.
 - `claude/routine-count-drift-20260821` was pruned locally this session (it was a stale remote ref).
   ~40 other `claude/routine-*` branches from the retired Routines remain.
+
+## 2026-08-25 — The docket's three-bug pattern, and a claim about the world
+
+Three separate defects shipped in the Law Docket's "what is not here" area, each caught by the
+user rather than by CI, each with the same cause. Worth naming because the fix for the third
+is not a guard.
+
+**The pattern: a hand-written claim about a generated surface.** The list is built from data;
+the sentence above it is typed by hand; the data moves and the sentence does not.
+
+| Issue | What it said | What was true |
+|---|---|---|
+| #1002 | "Six candidate cases were dropped" | The generated list beneath held one |
+| #1005 | Right-to-food litigation listed under "deliberately not here" | Two of its orders were published on the same page |
+| #1008 | "This statute has not yet produced the kind of landmark litigation that reshapes practice" | Nobody had searched for Section 135 litigation |
+
+#1002 and #1005 are now mechanically guarded — the intro derives from the same array as the
+list, and `check-judgments.py` fails when an `excluded` entry names a petition number the docket
+publishes (matched on the citation number, `196 of 2001` ≡ `196/2001`, not party names, because
+"Union of India" is one side of most of this file). **#1008 gets no guard**: no check can tell a
+true claim about case law from a false one. It got a comment in the generator explaining the
+constraint instead.
+
+### `meta.excluded` vs `meta.coverage_notes`
+New field this session. `excluded` means **absent** — considered and not published; renders under
+"What is deliberately not here". `coverage_notes` means **published, read it narrowly** — renders
+under "How these entries were checked". Mixing them is what shipped #1005. Documented in
+`docs/judgments-standard.md`.
+
+### The failure underneath all three
+Treating "my tool didn't find it" as "it isn't findable", then writing that up as principled
+restraint. It cost five real judgments (later found by searching properly), the PUCL ICDS order
+(excluded because I required a term that order doesn't contain), and #1008. The user's line is
+worth keeping: *"the Right to Food litigation is very famous, I am sure you will find it online."*
+
+### Operational
+- `check-fix-issues.py` and `build-fix-history.py` are **different guards over the same file**.
+  Running the first and assuming it covers the second turned CI red on #1006. Run the whole
+  suite, not a subset.
+- `broken-links` is `fail: ${{ github.event_name == 'schedule' }}` — advisory on PRs, blocking on
+  the daily run. A PR sitting at `mergeable_state: unstable` with only broken-links outstanding
+  is mergeable. Check `ci.yml` rather than assuming.
+- The check-runs API served a stale `in_progress` for axe-core on two PRs while the real result
+  had already posted as a PR comment. Cross-check the sticky comment before concluding a job hung.
+- Netlify's 300s CDN cache produced a false "wrong content" reading again (POSH guide showed 2 of
+  4 cases). Re-fetch with `Cache-Control: no-cache` before believing a discrepancy.
+
+### Public finance — there is no flagship
+Checked on request: `data/counts.json` says 20 flagships and none is public finance. What exists is
+`101-courses/public-finance-budgeting.html` (103 slides) plus fiscal material inside the Public
+Policy and Public Choice flagships. So a Fiscal Playground-style explorer would either anchor a
+**new** flagship or stand on the 101 deck — not "a companion to our public finance flagship".
+fiscalplayground.in (Sarthak Pradhan and Pranay Kotasthane, *Fiscal Fables*) is a hub of three
+tools: income-tax spending breakdown, per-state fiscal indicators from GSDP data, and a state
+budget document analyser. Its page is JS-rendered — the tool list is in an inline JS array, so a
+plain fetch reads empty. **The hard part is data, not UI**: we hold none of those series.

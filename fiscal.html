@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#0F172A">
+<title>Union Budget Explorer — where the Union rupee goes | ImpactMojo</title>
+<meta name="description" content="Explore the Union Budget of India 2026-27 — what the government collects, what it spends it on, and what your own income tax works out to across every head of expenditure. Figures from Budget at a Glance, Ministry of Finance.">
+<link rel="canonical" href="https://www.impactmojo.in/fiscal.html">
+<meta property="og:title" content="Union Budget Explorer — ImpactMojo">
+<meta property="og:description" content="What does the Union government collect, and where does it go? Enter what you paid in income tax and see your share of every head of spending — defence, interest, education, health, rural development.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.impactmojo.in/fiscal.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="/assets/images/favicon.png" rel="icon" type="image/png">
+<style>
+:root{
+  --bg:#F6F8FB; --panel:#FFFFFF; --ink:#0F172A; --mut:#5A6B82; --faint:#8595AB;
+  --bd:#E4EAF1; --acc:#0D9488; --acc2:#7C3AED; --good:#10B981; --bad:#EF4444;
+  --chip:#EEF3F9; --barlo:#CCFBF1; --barhi:#0F766E;
+}
+html[data-theme="dark"]{
+  --bg:#0B1120; --panel:#131C2E; --ink:#F1F5F9; --mut:#9DB0C7; --faint:#7387A0;
+  --bd:#25314A; --chip:#1C2740; --barlo:#134E4A; --barhi:#5EEAD4;
+}
+@media(prefers-color-scheme:dark){html:not([data-theme]){
+  --bg:#0B1120; --panel:#131C2E; --ink:#F1F5F9; --mut:#9DB0C7; --faint:#7387A0;
+  --bd:#25314A; --chip:#1C2740; --barlo:#134E4A; --barhi:#5EEAD4;
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Amaranth',system-ui,-apple-system,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.ui{font-family:'Inter',system-ui,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:0 clamp(14px,3vw,26px)}
+.mono{font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums}
+.hero{padding:clamp(22px,4vw,40px) 0 8px}
+.eyebrow{font-size:.75rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--acc)}
+.hero h1{font-family:'Amaranth','Inter',sans-serif;font-weight:700;letter-spacing:-.5px;font-size:clamp(1.6rem,4.4vw,2.5rem);margin:.35rem 0 .5rem;line-height:1.12}
+.hero p.lede{color:var(--mut);max-width:70ch;margin:0;font-size:1.02rem}
+.srcbadge{display:inline-flex;gap:7px;align-items:center;margin-top:14px;font-family:'Inter';font-size:12px;font-weight:600;color:var(--mut);background:var(--chip);border:1px solid var(--bd);padding:5px 11px;border-radius:99px}
+.srcbadge b{color:var(--ink)}
+.hstats{display:flex;flex-wrap:wrap;gap:10px 22px;margin:16px 0 0;padding:0;list-style:none}
+.hstats li{font-size:.88rem;color:var(--faint)}
+.hstats b{color:var(--ink);font-weight:700;font-size:1.05rem;display:block}
+.about{margin:18px 0 6px;border:1px solid var(--bd);border-left:4px solid var(--acc2);background:var(--chip);border-radius:12px;padding:15px 18px;font-size:.94rem;color:var(--mut)}
+.about h2{font-family:'Amaranth',sans-serif;font-size:1rem;margin:0 0 6px;color:var(--ink)}
+.about b{color:var(--ink)}
+.calc{background:var(--panel);border:1px solid var(--bd);border-radius:16px;padding:20px 22px;margin:20px 0;box-shadow:0 1px 3px rgba(16,24,40,.04)}
+.qlead{font-family:'Inter';font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--faint);margin:0 0 12px}
+.qline{font-family:'Inter';font-weight:600;font-size:clamp(1.05rem,2.4vw,1.35rem);line-height:1.9;color:var(--ink);margin:0;letter-spacing:-.2px}
+input.blank{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:inherit;color:var(--acc);background:transparent;border:0;border-bottom:2px dashed var(--acc);width:8ch;padding:0 2px;text-align:right}
+input.blank:focus{outline:2px solid var(--acc);outline-offset:3px;border-radius:2px}
+select.blank{-webkit-appearance:none;appearance:none;font-family:'Inter';font-weight:800;font-size:inherit;color:var(--acc);background:transparent;border:0;border-bottom:2px dashed var(--acc);padding:0 2px;cursor:pointer}
+select.blank:focus{outline:2px solid var(--acc);outline-offset:3px;border-radius:2px}
+.qhint{font-family:'Inter';font-size:12.5px;color:var(--faint);margin:14px 0 0}
+.caption{font-size:.95rem;color:var(--mut);margin:16px 0 10px;min-height:1.4em}
+.caption b{color:var(--ink)}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+caption{text-align:left;font-family:'Inter';font-size:12px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--faint);padding:0 0 10px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--bd);text-align:right}
+th:first-child,td:first-child{text-align:left}
+thead th{font-family:'Inter';font-size:11.5px;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.6px;white-space:nowrap}
+tbody tr:hover{background:var(--chip)}
+td.name{font-weight:600}
+td.sub{padding-left:26px;font-weight:400;color:var(--mut)}
+tr.total td{font-weight:800;border-top:2px solid var(--bd);border-bottom:0}
+.bar{position:relative}
+.bar i{position:absolute;left:0;top:50%;transform:translateY(-50%);height:60%;background:var(--barlo);border-radius:3px;z-index:0}
+.bar span{position:relative;z-index:1}
+.panel{background:var(--panel);border:1px solid var(--bd);border-radius:16px;padding:18px 20px;margin:14px 0;overflow-x:auto}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 0}
+.tab{font-family:'Inter';font-size:13px;font-weight:600;padding:7px 14px;border-radius:99px;border:1px solid var(--bd);background:var(--chip);color:var(--mut);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--acc);border-color:var(--acc);color:#fff}
+.warn{margin:18px 0;border:1px solid var(--bd);border-left:4px solid var(--bad);background:var(--chip);border-radius:12px;padding:14px 16px;font-size:.9rem;color:var(--mut)}
+.warn h2{font-family:'Amaranth',sans-serif;font-size:.98rem;margin:0 0 6px;color:var(--ink)}
+.method{margin:26px 0 40px;font-size:.9rem;color:var(--mut);line-height:1.65}
+.method h2{font-family:'Amaranth',sans-serif;font-size:1.05rem;color:var(--ink);margin:0 0 8px}
+.method p{margin:0 0 10px}
+.method b{color:var(--ink)}
+a{color:var(--acc)}
+@media(max-width:560px){th,td{padding:6px 6px;font-size:.86rem}td.sub{padding-left:16px}}
+</style>
+</head>
+<body>
+
+<main class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow">Data Explorer</div>
+    <h1>Where the Union rupee goes</h1>
+    <p class="lede">What the Government of India expects to collect in 2026&#8209;27, what it plans to spend it on, and
+    what your own income tax works out to across every head of spending.</p>
+    <div class="srcbadge">Source: <b>Budget at a Glance</b>, Ministry of Finance</div>
+    <ul class="hstats" id="hstats"></ul>
+  </section>
+
+  <div class="about">
+    <h2>What this is</h2>
+    <p style="margin:0">The Union Budget is published as a stack of documents most people never open. This reads the
+    headline one &mdash; <b>Budget at a Glance</b> &mdash; and lays out the two halves of it: every rupee the Union
+    government expects to receive, and every head it expects to spend on. Four columns throughout: what was actually
+    spent in <b>2024&#8209;25</b>, what was budgeted and then revised for <b>2025&#8209;26</b>, and what is budgeted for
+    <b>2026&#8209;27</b>.</p>
+  </div>
+
+  <section class="calc" aria-label="Your share of Union spending">
+    <p class="qlead">Work out your share</p>
+    <p class="qline">If I paid <input class="blank mono" id="tax" type="number" min="0" step="1000" value="50000"
+      inputmode="numeric" aria-label="Income tax paid in rupees"> rupees in income tax, my share of
+      <select class="blank" id="year" aria-label="Which year"></select> spending on
+      <select class="blank" id="head" aria-label="Which head of spending"></select> is&hellip;</p>
+    <p class="qhint">Change any underlined value. This is a <b>proportional</b> share, not a trace &mdash; see
+      &ldquo;What this number is not&rdquo; below.</p>
+  </section>
+
+  <div class="caption" id="caption" aria-live="polite"></div>
+
+  <div class="warn">
+    <h2>What this number is not</h2>
+    <p style="margin:0">It is not a trace of your money. Taxes on income are roughly <b id="pctshare">&mdash;</b> of what
+    the Union government receives; the rest comes from corporation tax, GST, customs, excise, dividends and borrowing,
+    and nothing marks one rupee as yours. What the figure shows is <b>proportion</b>: if the Union rupee is spent in
+    these shares, this is what your contribution looks like at that scale. Anyone who tells you your income tax paid for
+    a particular road is telling you something the budget cannot show.</p>
+  </div>
+
+  <div class="tabs" role="tablist" id="tabs"></div>
+  <section class="panel" id="panel"></section>
+
+  <div class="method">
+    <h2>Reading it responsibly</h2>
+    <p><b>The Excel is not the authority.</b> <span id="authnote"></span></p>
+    <p><b>Estimates are not outcomes.</b> Only the <b>2024&#8209;25</b> column is Actuals. <b>Budget Estimates</b> are
+    what was planned before the year began; <b>Revised Estimates</b> are the mid-year correction. The gap between them is
+    often the interesting part &mdash; compare 2025&#8209;26 BE against 2025&#8209;26 RE to see where plans met reality.</p>
+    <p><b>Interest is the largest single head, and it is not a service.</b> At
+    <b id="interestnote">&mdash;</b> it exceeds defence, education and health. It is the cost of past borrowing, not
+    money spent on anything this year &mdash; which is why a share of your tax &ldquo;going to interest&rdquo; is real
+    but describes debt service, not a programme.</p>
+    <p><b>The lines do not sum exactly.</b> <span id="residnote"></span> This is rounding in the source, where each line
+    is published to the nearest crore &mdash; not a missing head.</p>
+    <p><b>Centre and States are different budgets.</b> A large share of Union receipts is transferred straight to the
+    States and never spent by the Centre &mdash; the devolution line in the Transfers tab. State budgets, which fund most
+    schools, clinics and police, are published separately by each State and are not in this explorer.</p>
+    <p>Figures transcribed from <a href="https://www.indiabudget.gov.in/" target="_blank" rel="noopener">Budget at a
+    Glance, Union Budget 2026&#8209;27</a> (Ministry of Finance, Government of India), read directly from the published
+    workbook rather than typed by hand. All amounts in <b>&#8377; crore</b> unless shown otherwise. This is an
+    independent, source-linked interface for learning and discussion &mdash; for methodology and authoritative
+    interpretation, consult the Ministry of Finance directly. ImpactMojo is not affiliated with the Ministry or the
+    Government of India.</p>
+  </div>
+
+</main>
+
+<script>
+(function(){
+  var D=null, TAB='expenditure_function', YEAR=3;
+  function $(id){return document.getElementById(id)}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+  // ₹ crore -> a phrase a person reads without counting zeroes.
+  function cr(n){
+    if(n===null||n===undefined) return '—';
+    var a=Math.abs(n);
+    if(a>=100000) return '₹'+(n/100000).toFixed(2).replace(/\.?0+$/,'')+' lakh crore';
+    if(a>=1000)   return '₹'+Math.round(n).toLocaleString('en-IN')+' crore';
+    return '₹'+(Math.round(n*100)/100).toLocaleString('en-IN')+' crore';
+  }
+  function rs(n){
+    return '₹'+n.toLocaleString('en-IN',{maximumFractionDigits:n<100?2:0});
+  }
+  function row(b,label){
+    for(var i=0;i<b.rows.length;i++) if(b.rows[i].label===label) return b.rows[i];
+    return null;
+  }
+  function find(b,frag){
+    for(var i=0;i<b.rows.length;i++)
+      if(b.rows[i].label.toLowerCase().indexOf(frag.toLowerCase())>=0) return b.rows[i];
+    return null;
+  }
+
+  var TABS=[
+    ['expenditure_function','Spending by head'],
+    ['receipts','Where it comes from'],
+    ['expenditure_structure','How it is spent'],
+    ['deficit','Deficit'],
+    ['transfers','Transfers to States']
+  ];
+
+  function heads(){
+    var b=D.blocks.expenditure_function, out=[];
+    for(var i=0;i<b.rows.length;i++){
+      var r=b.rows[i];
+      if(r.values && r.label!=='Grand Total') out.push(r);
+    }
+    return out;
+  }
+
+  function calc(){
+    var b=D.blocks.expenditure_function;
+    var tax=parseFloat($('tax').value); if(!(tax>=0)||isNaN(tax)) tax=0;
+    var yi=parseInt($('year').value,10);
+    var head=$('head').value;
+    var r=row(b,head), gt=row(b,'Grand Total');
+    if(!r||!gt||r.values[yi]===null||gt.values[yi]===null){
+      $('caption').innerHTML='That head has no published figure for that year.'; return;
+    }
+    var share=r.values[yi]/gt.values[yi];
+    var yours=tax*share;
+    var y=b.years[yi];
+    $('caption').innerHTML=
+      '<b>'+rs(Math.round(yours*100)/100)+'</b> of your '+rs(tax)+'. '+
+      esc(head)+' is '+cr(r.values[yi])+' of '+cr(gt.values[yi])+' total &mdash; <b>'+
+      (share*100).toFixed(1)+'%</b> of Union spending in '+esc(y.year)+' ('+esc(y.kind)+').';
+  }
+
+  function render(){
+    var b=D.blocks[TAB];
+    var yrs=b.years;
+    var h='<table><caption>'+esc(TABS.filter(function(t){return t[0]===TAB})[0][1])+
+          ' &middot; ₹ crore</caption><thead><tr><th>Head</th>';
+    for(var i=0;i<yrs.length;i++)
+      h+='<th>'+esc(yrs[i].year)+'<br><span style="font-weight:400;text-transform:none">'+
+         esc(yrs[i].kind)+'</span></th>';
+    h+='</tr></thead><tbody>';
+    // bar width is relative to the largest non-total line in the last column
+    var mx=0;
+    for(var k=0;k<b.rows.length;k++){
+      var rr=b.rows[k];
+      if(rr.values && rr.label!=='Grand Total'){
+        var v=rr.values[yrs.length-1];
+        if(v!==null && v>mx) mx=v;
+      }
+    }
+    for(var j=0;j<b.rows.length;j++){
+      var r=b.rows[j];
+      var cls=(r.label==='Grand Total'||r.label.indexOf('Total')===0)?' class="total"':'';
+      h+='<tr'+cls+'><td class="'+(r.depth?'sub':'name')+'">'+esc(r.label)+'</td>';
+      if(r.header){
+        for(var m=0;m<yrs.length;m++) h+='<td>—</td>';
+      } else {
+        for(var n=0;n<yrs.length;n++){
+          var val=r.values[n];
+          var last=(n===yrs.length-1 && mx>0 && val!==null && r.label!=='Grand Total');
+          h+='<td'+(last?' class="bar"':'')+'>'+
+             (last?'<i style="width:'+Math.max(0,(val/mx)*100).toFixed(1)+'%"></i>':'')+
+             '<span class="mono">'+(val===null?'—':Math.round(val).toLocaleString('en-IN'))+'</span></td>';
+        }
+      }
+      h+='</tr>';
+    }
+    $('panel').innerHTML=h+'</tbody></table>';
+    var t=$('tabs').children;
+    for(var q=0;q<t.length;q++) t[q].setAttribute('aria-selected', t[q].dataset.k===TAB?'true':'false');
+  }
+
+  fetch('/data/union-budget.json').then(function(r){return r.json()}).then(function(d){
+    D=d;
+    var ef=D.blocks.expenditure_function, rc=D.blocks.receipts;
+    var gt=row(ef,'Grand Total'), last=ef.years.length-1;
+    var inc=find(rc,'Taxes on Income'), tot=find(rc,'Total Receipts');
+    var interest=row(ef,'Interest');
+
+    $('hstats').innerHTML=
+      '<li><b>'+cr(gt.values[last])+'</b>total Union spending, '+esc(ef.years[last].year)+'</li>'+
+      '<li><b>'+cr(inc.values[inc.values.length-1])+'</b>from taxes on income</li>'+
+      '<li><b>'+cr(interest.values[last])+'</b>interest on past borrowing</li>';
+
+    // Derived, never typed: the share sentence in "What this number is not".
+    var pct=(inc.values[inc.values.length-1]/tot.values[tot.values.length-1])*100;
+    $('pctshare').textContent=pct.toFixed(0)+'%';
+    $('interestnote').textContent=cr(interest.values[last])+', or '+
+      ((interest.values[last]/gt.values[last])*100).toFixed(0)+'% of all Union spending';
+    $('authnote').textContent=D.meta.authoritative;
+
+    var res=ef.residual||[], mxr=0;
+    for(var i=0;i<res.length;i++) if(Math.abs(res[i])>mxr) mxr=Math.abs(res[i]);
+    // Plain ratio rather than scientific notation: toExponential rendered as
+    // "4×10⁻5%", which reads as a typo rather than a very small number.
+    $('residnote').textContent='Adding up the individual heads misses the published Grand Total by at most ₹'+
+      mxr+' crore, against a total of '+cr(gt.values[last])+'.';
+
+    var ys='';
+    for(var y=0;y<ef.years.length;y++)
+      ys+='<option value="'+y+'"'+(y===last?' selected':'')+'>'+
+          esc(ef.years[y].year)+' '+esc(ef.years[y].kind)+'</option>';
+    $('year').innerHTML=ys;
+    var hs='', H=heads();
+    for(var k=0;k<H.length;k++)
+      hs+='<option'+(H[k].label==='Education'?' selected':'')+'>'+esc(H[k].label)+'</option>';
+    $('head').innerHTML=hs;
+
+    var tb='';
+    for(var t=0;t<TABS.length;t++)
+      tb+='<button class="tab ui" role="tab" data-k="'+TABS[t][0]+'" aria-selected="'+
+          (TABS[t][0]===TAB)+'">'+esc(TABS[t][1])+'</button>';
+    $('tabs').innerHTML=tb;
+    $('tabs').addEventListener('click',function(e){
+      var b=e.target.closest('.tab'); if(!b) return; TAB=b.dataset.k; render();
+    });
+    ['tax','year','head'].forEach(function(id){
+      $(id).addEventListener('input',calc); $(id).addEventListener('change',calc);
+    });
+    calc(); render();
+  }).catch(function(){
+    $('panel').innerHTML='<p>Could not load the budget data. Please reload.</p>';
+  });
+})();
+</script>
+
+<script src="/js/site-chrome.js?v=a464b16d" defer></script>
+</body>
+</html>
