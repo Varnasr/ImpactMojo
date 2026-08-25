@@ -53,11 +53,10 @@ import pathlib
 import re
 import sys
 
-try:
-    import pymupdf
-except ImportError:
-    print('FAIL - pymupdf is required: pip install pymupdf')
-    sys.exit(1)
+# pymupdf is imported lazily, inside build() only. `--check` validates the
+# committed JSON against itself and never opens a PDF, so requiring a PDF
+# library to run the guard would be wrong -- and did in fact fail CI, where
+# only openpyxl is installed.
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 PDFS = ROOT / 'data' / 'sources' / 'baag'
@@ -240,6 +239,7 @@ def sha(path):
 
 
 def from_pdf(path):
+    import pymupdf
     doc = pymupdf.open(path)
     page = expenditure_page(doc)
     if page is None:
@@ -262,6 +262,12 @@ def from_pdf(path):
 
 
 def build():
+    try:
+        import pymupdf
+    except ImportError:
+        print('FAIL - pymupdf is required to rebuild: pip install pymupdf')
+        return None
+
     if not PDFS.exists():
         print('FAIL - %s not found.' % PDFS.relative_to(ROOT))
         return None
