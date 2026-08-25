@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.249.0 — August 24, 2026 (An empty list is not a finding)
+
+### Fixed
+
+- **The CSR law guide said no landmark CSR litigation exists. It did not know that.** It is the one law guide with no case in the docket, and the page turned that absence into a claim about Indian case law — "this statute has not yet produced the kind of landmark litigation that reshapes practice" — which nobody had checked. On a page about someone's statutory obligations, that errs toward false reassurance. It now says what is true: this docket covers the Supreme Court only and is deliberately narrow, so an empty list is the limit of what is collected here, not evidence that no such case exists. (#1008)
+
 ## v10.248.0 — August 24, 2026 (A case that was listed as missing while it was there)
 
 ### Fixed

@@ -77,10 +77,17 @@ def render(guide_stem, cases):
             'practice. Summaries are editorial orientation, not legal advice &mdash; the '
             'linked judgment is what is authoritative.</p>' + ''.join(rows))
     else:
-        body = ('<p>No judgment in the docket turns on this law. That is the finding, not a '
-                'gap in the research: this statute has not yet produced the kind of landmark '
-                'litigation that reshapes practice. If you know of one, '
-                '<a href="/contribute.html">tell us</a>.</p>')
+        # Say what the docket holds, not what the courts have done. This used to
+        # read "that is the finding ... this statute has not yet produced the kind
+        # of landmark litigation that reshapes practice", which is a claim about
+        # Indian case law that nothing here checked -- no search for Section 135
+        # litigation was ever run. An empty list is a fact about the dataset, and
+        # on a page about someone's statutory obligations, dressing it up as a
+        # fact about the world errs toward false reassurance. (#1008)
+        body = ('<p>No judgment in this docket turns on this law. The docket covers the '
+                'Supreme Court only and is deliberately narrow, so read that as the limit '
+                'of what is collected here, not as a finding that no such case exists. '
+                'If you know of one, <a href="/contribute.html">tell us</a>.</p>')
 
     return (
         f'{START}\n'
