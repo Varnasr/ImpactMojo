@@ -1224,3 +1224,63 @@ fiscalplayground.in (Sarthak Pradhan and Pranay Kotasthane, *Fiscal Fables*) is 
 tools: income-tax spending breakdown, per-state fiscal indicators from GSDP data, and a state
 budget document analyser. Its page is JS-rendered — the tool list is in an inline JS array, so a
 plain fetch reads empty. **The hard part is data, not UI**: we hold none of those series.
+
+## 2026-08-25 (later) — The Union Budget Explorer, and extracting eight years out of PDFs
+
+`/fiscal.html` shipped, then gained a 2017-18 → 2024-25 series. The build path is worth
+recording because almost none of it was guessable in advance.
+
+### The data
+- **Only the current year is a spreadsheet.** `indiabudget.gov.in` publishes 260 XLSX files for
+  the live budget; every prior year is PDF only. Archive URL shapes differ by era —
+  `budget2025-26/`, `budget2018-2019/`, `budget_archive/ub2010-11/` — and go back to 1999-2000.
+  My first guess (`budget2025-2026`) 404s; the recent years use a **2-digit** second year.
+- `data/sources/budget-at-a-glance-2026-27.xlsx` is vendored (28 KB) so the current-year
+  extraction is reproducible in CI with no network. The seven PDFs are **not** committed (14 MB);
+  their URL and SHA-256 live in `union-budget-history.json` → `meta.provenance`.
+
+### PDF tooling in this sandbox
+- **`pypdf` and `pdfplumber` are both unusable**: `cryptography` raises
+  `pyo3_runtime.PanicException` on import. There is no `pdftotext`/`poppler` either.
+- **`pymupdf` works** and does not touch `cryptography`. `pip install pymupdf`.
+- `page.find_tables()` finds **nothing** in these PDFs — they have no ruled lines. Group words
+  into visual rows by y-coordinate (3pt buckets) and order by x.
+- Import it **lazily**. A guard that validates committed JSON must not require a PDF library;
+  importing at module level failed CI, where only `openpyxl` is installed.
+
+### What the arithmetic caught that reading never would
+Every PDF year's heads summed to **2–6% more** than that document's own printed Grand Total. The
+cause was one sub-row — `of which Transfer to GST Compensation Fund` — whose label wraps across
+two bands *with a Hindi-only band between them*, so it read as a head in its own right while its
+amount already sat inside Tax Administration. **Nothing in the text revealed this.** Two checks
+now run in CI and would catch a recurrence: consecutive budgets must agree where they overlap
+(each restates the prior year's estimate — 6 independent overlaps), and each year must sum to its
+own published total (residuals now ±1 crore).
+
+### Normalisation can invent facts
+Merging wrapped labels by prefix is necessary — `- - Fertiliser` / `- Fertiliser` / `Fertiliser`
+were three "heads" and the chart showed the subsidy vanishing and returning. But it must **refuse
+to absorb a parenthesised qualifier**:
+- `Agriculture and Allied Activities` → `... (Excluding PM-KISAN)` stamped a qualifier onto seven
+  years whose documents say no such thing. Only the 2023-24 budget excludes PM-KISAN.
+- `Home Affairs` vs `Home Affairs (including Union Territories)`: in 2021-22 those were two heads
+  (₹1,12,301 + ₹56,490 cr); from 2023-24 they are one (₹1,96,872 cr). Merging draws a **63% jump
+  that never happened.**
+A head absent in a year is `null`, never 0, and the change column is blank for any head not
+present in all eight years rather than comparing a shorter window under an eight-year header.
+
+### A JS bug worth remembering
+The page reported the history tab "unavailable" while the data sat loaded in memory. Cause: the
+load callback already declared `var H = heads()` for a dropdown, and **`var` hoists to the top of
+the whole callback** — so assigning the fetched data to an outer `H` landed on that local, which
+was then overwritten by the head list. Symptom looked like a scope mystery: `H` truthy in the
+`.then`, falsy in the renderer, `window.__H` truthy. Renamed to `HIST`. When adding a variable to
+an existing callback, grep the callback for the name first.
+
+### Honesty carried over from the docket
+The Ministry's own disclaimer — *"in case of any inconsistency, pdf files will be treated as
+final"* — is quoted on the page, not paraphrased. The income-tax figure is labelled a
+**proportion, not a trace**: taxes on income are ~27% of Union receipts and nothing marks one
+rupee as anyone's. Licensing was considered and deliberately left as attribution: GODL-India on
+data.gov.in would be an explicit grant, but republishing published government figures with
+attribution matches what every other explorer here already does.
