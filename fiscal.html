@@ -141,6 +141,21 @@ a{color:var(--acc)}
     but describes debt service, not a programme.</p>
     <p><b>The lines do not sum exactly.</b> <span id="residnote"></span> This is rounding in the source, where each line
     is published to the nearest crore &mdash; not a missing head.</p>
+    <p><b>Eight years, and why the rows do not all run the full width.</b>
+    <span id="histnote"></span> Heads are renamed, split and merged between budgets, so a blank is a
+    change in what the budget published, not a year of zero spending. Two worth knowing: from
+    2023&#8209;24 <b>Home Affairs</b> absorbs <b>Union Territories</b>, which were separate heads
+    before, so the two rows are not one series; and the 2023&#8209;24 document reports agriculture
+    <em>excluding</em> PM&#8209;KISAN while listing PM&#8209;KISAN separately. Read the series for
+    direction, not as a like-for-like ledger.</p>
+
+    <p><b>How the older years were checked.</b> <span id="provnote"></span> Each budget restates the
+    previous year's estimate, so consecutive documents overlap by one column and must agree — and
+    every head in a year must sum to that year's own published total. Both checks run in CI. The
+    second is what caught a sub-line (&ldquo;of which Transfer to GST Compensation Fund&rdquo;) being
+    counted as a head in its own right, which had overstated every older year by 2&ndash;6%. Nothing
+    in the text revealed that; only the arithmetic did.</p>
+
     <p><b>Centre and States are different budgets.</b> A large share of Union receipts is transferred straight to the
     States and never spent by the Centre &mdash; the devolution line in the Transfers tab. State budgets, which fund most
     schools, clinics and police, are published separately by each State and are not in this explorer.</p>
@@ -184,6 +199,7 @@ a{color:var(--acc)}
 
   var TABS=[
     ['expenditure_function','Spending by head'],
+    ['history','Eight years'],
     ['receipts','Where it comes from'],
     ['expenditure_structure','How it is spent'],
     ['deficit','Deficit'],
@@ -217,7 +233,51 @@ a{color:var(--acc)}
       (share*100).toFixed(1)+'%</b> of Union spending in '+esc(y.year)+' ('+esc(y.kind)+').';
   }
 
+  function renderHistory(){
+    if(!HIST){ $('panel').innerHTML='<p>The historical series is unavailable.</p>'; return }
+    var ys=HIST.meta.years, rows=HIST.series.slice();
+    // Largest current-year head first: a reader scanning the table wants the
+    // big movers, not alphabetical order.
+    var last=ys.length-1;
+    rows.sort(function(a,b){
+      var av=a.values[last], bv=b.values[last];
+      if(av===null&&bv===null) return a.head<b.head?-1:1;
+      if(av===null) return 1; if(bv===null) return -1;
+      return bv-av;
+    });
+    var h='<table><caption>Actual expenditure by head &middot; ₹ crore</caption>'+
+          '<thead><tr><th>Head</th>';
+    for(var i=0;i<ys.length;i++) h+='<th>'+esc(ys[i])+'</th>';
+    h+='<th>'+esc(ys[0])+' &rarr; '+esc(ys[ys.length-1])+'</th></tr></thead><tbody>';
+    // Only for heads present in every year. Computing first-to-last non-null
+    // would report a six-year change under a column headed by the full eight,
+    // which reads as a like-for-like comparison and is not one.
+    function line(vals){
+      for(var i=0;i<vals.length;i++) if(vals[i]===null) return '—';
+      var f=vals[0], l=vals[vals.length-1];
+      if(!f) return '—';
+      var pc=((l-f)/f)*100;
+      return (pc>=0?'+':'')+pc.toFixed(0)+'%';
+    }
+    for(var r=0;r<rows.length;r++){
+      h+='<tr><td class="name">'+esc(rows[r].head)+'</td>';
+      for(var c=0;c<ys.length;c++){
+        var v=rows[r].values[c];
+        h+='<td><span class="mono">'+(v===null?'—':Math.round(v).toLocaleString('en-IN'))+'</span></td>';
+      }
+      h+='<td><span class="mono">'+line(rows[r].values)+'</span></td></tr>';
+    }
+    h+='<tr class="total"><td>Grand Total</td>';
+    for(var g=0;g<ys.length;g++)
+      h+='<td><span class="mono">'+Math.round(HIST.grand_total[g]).toLocaleString('en-IN')+'</span></td>';
+    h+='<td><span class="mono">'+line(HIST.grand_total)+'</span></td></tr>';
+    $('panel').innerHTML=h+'</tbody></table>';
+    var t=$('tabs').children;
+    for(var q=0;q<t.length;q++) t[q].setAttribute('aria-selected', t[q].dataset.k===TAB?'true':'false');
+  }
+
   function render(){
+    if(TAB==='history') return renderHistory();
     var b=D.blocks[TAB];
     var yrs=b.years;
     var h='<table><caption>'+esc(TABS.filter(function(t){return t[0]===TAB})[0][1])+
@@ -257,7 +317,31 @@ a{color:var(--acc)}
     for(var q=0;q<t.length;q++) t[q].setAttribute('aria-selected', t[q].dataset.k===TAB?'true':'false');
   }
 
-  fetch('/data/union-budget.json').then(function(r){return r.json()}).then(function(d){
+  // Named HIST, not H: the load callback below already declares `var H = heads()`
+  // for the dropdown, and `var` hoists that to the top of the whole callback.
+  // With both called H, the assignment here landed on the callback's local and
+  // was later overwritten by the head list, so the outer variable stayed null
+  // and the history tab reported itself unavailable while the data was loaded.
+  var HIST=null;
+  // One retry before giving up. A single dropped request would otherwise turn
+  // into a permanent "unavailable" for the reader, and on a flaky connection
+  // that is the common case rather than the rare one.
+  function grab(url, tries){
+    return fetch(url, {cache:'no-store'}).then(function(r){
+      if(!r.ok) throw new Error(r.status);
+      return r.json();
+    }).catch(function(err){
+      if(tries>0) return new Promise(function(res){setTimeout(res,400)}).then(function(){
+        return grab(url, tries-1);
+      });
+      throw err;
+    });
+  }
+  Promise.all([
+    grab('/data/union-budget.json', 1),
+    grab('/data/union-budget-history.json', 1).catch(function(){return null})
+  ]).then(function(both){
+    var d=both[0]; HIST=both[1];
     D=d;
     var ef=D.blocks.expenditure_function, rc=D.blocks.receipts;
     var gt=row(ef,'Grand Total'), last=ef.years.length-1;
@@ -276,6 +360,18 @@ a{color:var(--acc)}
       ((interest.values[last]/gt.values[last])*100).toFixed(0)+'% of all Union spending';
     $('authnote').textContent=D.meta.authoritative;
 
+    if(HIST){
+      var hy=HIST.meta.years, nh=HIST.series.length;
+      var partial=0;
+      for(var q=0;q<HIST.series.length;q++)
+        for(var w=0;w<hy.length;w++) if(HIST.series[q].values[w]===null){ partial++; break }
+      $('histnote').textContent='The Eight years tab covers '+hy[0]+' to '+hy[hy.length-1]+
+        ' — actual spending, not estimates — across '+nh+' heads, of which '+partial+
+        ' do not appear in every year.';
+      $('provnote').textContent='Only the current year is published as a spreadsheet; the '+
+        (HIST.meta.provenance.length-1)+' earlier years were read out of the Budget at a Glance PDFs, '+
+        'each identified by URL and SHA-256 in the data file.';
+    }
     var res=ef.residual||[], mxr=0;
     for(var i=0;i<res.length;i++) if(Math.abs(res[i])>mxr) mxr=Math.abs(res[i]);
     // Plain ratio rather than scientific notation: toExponential rendered as

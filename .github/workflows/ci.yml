@@ -292,6 +292,13 @@ jobs:
         run: pip install --quiet openpyxl
       - name: Budget JSON matches the workbook
         run: python3 scripts/build-budget-data.py --check
+      - name: Historical series is internally consistent
+        # Checks the built file against itself rather than the PDFs, which are
+        # not committed: consecutive budget documents must agree where they
+        # overlap, and each year's heads must sum to that year's own published
+        # Grand Total. The second caught a sub-row being counted as a head,
+        # which had overstated every older year by 2-6%.
+        run: python3 scripts/build-budget-history.py --check
 
   decks:
     name: 101 deck density
