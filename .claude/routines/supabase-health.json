@@ -335,6 +335,63 @@
         "resolves": "the anon-grant/public-policy finding on the 4 flagged tables that alerted every run 2026-07-21..2026-08-03. Tomorrow's routine should stop flagging these 4."
       },
       "alert_resolved_same_day": true
+    },
+    {
+      "date": "2026-08-25",
+      "note": "First run since 2026-08-03 (routine was reportedly retired ~2026-08-04 per rules/testing.md; this session was explicitly asked to run it again). Gap of ~3 weeks between this snapshot and the last one — day-over-day delta is vs 2026-08-03, not vs yesterday.",
+      "rpc_get_public_stats": {
+        "http_status": 200,
+        "registered_learners": 63,
+        "active_learners_30d": 35,
+        "practitioners_total": 13043,
+        "courses_started_total": 120700,
+        "courses_completed_total": 727,
+        "certificates_issued_total": 468,
+        "learning_minutes_total": 785160,
+        "as_of": "2026-08-25T02:37:06.592137+00:00"
+      },
+      "row_counts": {
+        "profiles": 63,
+        "user_progress": 0,
+        "certificates": 0,
+        "push_subscriptions": 0,
+        "organizations": 3,
+        "organization_members": 3,
+        "challenge_submissions": 0
+      },
+      "registered_learners_delta_vs_prev": 14,
+      "pii_probe_anon_key": {
+        "profiles(phone,address,email,bio)": "401/42501 permission denied — PASS, no regression",
+        "profiles(*)": "401/42501 permission denied — PASS",
+        "certificates(user_id)": "200 — expected per routine spec",
+        "certificates(select=*)": "200 — non-sensitive columns only; intentional public-verification RLS policy, not a leak (unchanged since 2026-07-21 baseline)",
+        "push_subscriptions(endpoint,p256dh,auth)": "401/42501 permission denied — PASS, 2026-08-03 remediation holding",
+        "challenge_submissions(submission_text)": "401/42501 permission denied — PASS, 2026-08-03 remediation holding",
+        "organizations(*)": "401/42501 permission denied — PASS, 2026-08-03 remediation holding",
+        "organization_members(*)": "401/42501 permission denied — PASS, 2026-08-03 remediation holding"
+      },
+      "rls_disabled_tables": [
+        "course_content_backup_20260821",
+        "course_content_backup_20260821b"
+      ],
+      "rls_disabled_tables_detail": {
+        "context": "Ad-hoc pre-edit backups of course_content taken 2026-08-21 during a bulk content pass (259 rows each; see .claude/memory.md session log 2026-08-21 and docs/flagship-course-standard.md:335). Not created via a migration, so they never went through the repo's usual RLS/grant hygiene.",
+        "anon_grants": "SELECT, INSERT, UPDATE, DELETE, TRUNCATE, REFERENCES, TRIGGER — full default Supabase blanket grant, never revoked",
+        "authenticated_grants": "same full set as anon",
+        "live_exposure_confirmed": "read-only anon-key probe GET .../course_content_backup_20260821?select=id,course_id&limit=1 returned 200 with a live row (course_id=livelihoods); same for the _b table (course_id=causal). No write was attempted.",
+        "no_legitimate_consumer": "grepped repo *.js/*.html for both table names — zero references outside docs/memory.md, so nothing in the app legitimately queries these via anon or authenticated REST",
+        "remediation_status": "NOT applied to the live database this run — out of scope for the routine's single allowed remediation action (profiles regression only). Drafted supabase/migrations/20260825_revoke_grants_course_content_backups.sql (REVOKE ALL FROM anon, authenticated + ENABLE ROW LEVEL SECURITY on both tables) and pushed it on a branch for owner review/apply, matching the 20260803 precedent."
+      },
+      "checks": {
+        "health_rpc": "PASS",
+        "registered_learners_drop_vs_prior": "PASS (increase, 49 -> 63, no drop)",
+        "pii_probe": "PASS (all 8 probes matched expected contract; 2026-08-03 remediation confirmed holding 22 days later)",
+        "rls_audit": "ALERT (2 tables with RLS disabled: course_content_backup_20260821, course_content_backup_20260821b — anon+authenticated hold full CRUD/TRUNCATE with no policy layer; live SELECT exposure confirmed)"
+      },
+      "remediation_applied": false,
+      "remediation_reason": "profiles probe did not regress (401/42501 on phone/address/email/bio), so the routine's single allowed DB write (reapplying 20260719_fix_profiles_public_exposure.sql) does not apply. The RLS-disabled backup-table finding is a different issue outside that scope; fix drafted as a migration on a branch instead of applied live.",
+      "alert": true,
+      "alert_reason": "RLS disabled with live anon SELECT (and unrevoked anon/authenticated INSERT/UPDATE/DELETE/TRUNCATE) on course_content_backup_20260821 and course_content_backup_20260821b. Not PII, but a genuine unauthenticated write/delete/truncate exposure on 259+259 rows of course content backups via the public REST API. Migration drafted and pushed; needs owner apply."
     }
   ]
 }
