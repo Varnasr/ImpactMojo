@@ -38,6 +38,10 @@
     .dk-controls input,.dk-controls select{padding:.5rem .65rem;border:1px solid var(--im-border,#cbd5e1);
       border-radius:8px;font:inherit;background:var(--im-bg,#fff);color:inherit}
     .dk-controls input{flex:1 1 260px;min-width:0}
+    @media (max-width:560px){
+      .dk-controls select{flex:1 1 calc(50% - .3rem);min-width:0}
+      .dk-controls input{flex:1 1 100%}
+    }
     .dk-count{font-size:.9rem;opacity:.75;margin:.35rem 0 1rem}
     .dk-list{display:grid;gap:1rem;grid-template-columns:1fr}
     @media(min-width:820px){.dk-list{grid-template-columns:1fr 1fr}}
@@ -120,6 +124,18 @@
       <select id="theme" aria-label="Filter by theme"><option value="">All themes</option></select>
       <select id="status" aria-label="Filter by status"><option value="">Any status</option></select>
       <select id="court" aria-label="Filter by court"><option value="">All courts</option></select>
+      <select id="proceeding" aria-label="Filter by what the court is still doing">
+        <option value="">Any stage</option>
+        <option value="decided">Decided</option>
+        <option value="continuing-mandamus">Court still seized</option>
+        <option value="live">Pending</option>
+        <option value="recalled">Recalled</option>
+      </select>
+      <select id="layer" aria-label="Filter by layer">
+        <option value="">Both layers</option>
+        <option value="A">How the sector operates</option>
+        <option value="B">Rights in our issue areas</option>
+      </select>
       <select id="scope" aria-label="Filter by scope">
         <option value="">All judgments</option>
         <option value="landmark">Landmarks only</option>
@@ -243,11 +259,13 @@
     function render(){
       var q=($('q').value||'').toLowerCase().trim(),
           th=$('theme').value, st=$('status').value, sc=$('scope').value,
-          ct=$('court').value;
+          ct=$('court').value, pr=$('proceeding').value, ly=$('layer').value;
       var out=DATA.filter(function(j){
         if(th && (j.themes||[]).indexOf(th)<0) return false;
         if(st && j.status!==st) return false;
         if(ct && j.court!==ct) return false;
+        if(pr && j.proceeding!==pr) return false;
+        if(ly && j.layer!==ly) return false;
         if(sc==='landmark' && !j.landmark) return false;
         if(!q) return true;
         return (j.case+' '+j.court+' '+j.holding+' '+j.what_changed+' '+(j.themes||[]).join(' ')).toLowerCase().indexOf(q)>=0;
@@ -287,7 +305,7 @@
       // is in fact in the docket. They belong with coverage.
       $('coverage-notes').innerHTML = (META.coverage_notes||[])
         .map(function(n){ return '<p>'+esc(n)+'</p>' }).join('');
-      ['q','theme','status','scope','court'].forEach(function(id){
+      ['q','theme','status','scope','court','proceeding','layer'].forEach(function(id){
         $(id).addEventListener('input', render); $(id).addEventListener('change', render);
       });
       render();
