@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.264.0 — August 26, 2026 (The judgment that was struck down, recalled, and reheard)
+
+### For Learners
+
+- **Both ends of the Vanashakti litigation are now in the Docket, and they disagree with each other.** In May 2025 the Supreme Court struck down the two instruments that let a project built without environmental clearance be regularised afterwards, holding that clearance after the fact is alien to environmental law. That judgment was recalled on review in November 2025 by two judges to one. On rehearing, on 29 July 2026, the Court split the difference: the 2017 Notification is valid, the 2021 Office Memorandum is quashed prospectively, clearances already granted stand unless someone challenges them one by one, and no fresh applications will be entertained.
+- **Why both are listed.** For fourteen months the law was the opposite of what it is now. Anyone who advised a community, drafted an objection or planned a campaign on the 2025 judgment was working from a judgment that no longer exists — and the Docket's whole purpose is to make that visible rather than leave the older, stronger-sounding ruling sitting there looking current. The 2025 entry is marked recalled and points at the 2026 one.
+
 ## v10.263.0 — August 26, 2026 (The Docket reaches 101)
 
 ### For Learners
