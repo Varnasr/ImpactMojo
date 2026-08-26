@@ -2,6 +2,17 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.256.0 — August 26, 2026 (MEL Practice Series, September to October)
+
+### For Learners
+
+- **The MEL Practice Series is now on the events page** — six Saturday sessions across September and October, each 45 minutes, online, capped at 10 seats and with no recording. Theory of Change without the jargon (5 Sept), building an indicator that actually measures something (12 Sept), from survey to dashboard (19 Sept), AI for M&E (26 Sept), gender-disaggregated data beyond the checkbox (3 Oct), and sampling for real-world baselines (10 Oct). Each card shows its date, level and fee, and the announcement is downloadable as a PDF.
+- **The page now distinguishes the paid series from the standing clinics.** The six sessions with confirmed dates appear at the top with their fee; the four clinics not in this run stay below, free to request as before. A session cannot appear in both lists, and once a date has passed it drops out of the series on its own — when the run ends the whole block hides itself and all ten clinics return to the standing list, so nothing on the page has to be edited afterwards.
+
+### Changed
+
+- **The events page no longer describes every session as free.** The hero, the page description, the social preview and the catalog entry all said "free, live online sessions", which stopped being true the moment a paid series went on the page. All four now say which sessions carry a fee and which do not.
+
 ## v10.255.0 — August 26, 2026 (How we teach, written down)
 
 ### For Learners
