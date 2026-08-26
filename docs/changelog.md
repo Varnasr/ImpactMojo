@@ -2,6 +2,16 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.258.0 — August 26, 2026 (Data Dives are now Data Notes)
+
+### Changed
+
+- **Data Dives have been renamed Data Notes.** They sat next to Deep Dives and sounded like a variant of them, when the two are different things: a Deep Dive is a curated, annotated reading list from a named scholar, and a Data Note is a worked analysis of one public dataset testing a single claim. Data Dives was the one to rename — it is the smaller collection, and "deep dive" is ordinary English worth keeping. Every old `/DataDives/` link redirects to the new path, so nothing you have bookmarked or shared will break. Earlier changelog entries have been updated to the new name too, so searching for it finds the whole history.
+
+### Fixed
+
+- **Two pages were quoting the wrong number of them.** One said six and another said seven, when there are eleven. Nothing was checking, because this was the one content type with no canonical count. It has one now, and the count guard that covers everything else covers it too — so the next time one is added, any page still showing the old number is named. (#1020)
+
 ## v10.257.0 — August 26, 2026 (Diagrams that look like diagrams)
 
 ### For Learners
@@ -294,7 +304,7 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 
 - **Requesting an instructor kit now asks the right questions and answers you back.** The form asks what your course is called, at what level, and what it covers — the things needed to actually map a kit — and you get an immediate acknowledgement with a five-working-day commitment instead of silence.
 
-## v10.227.0 — August 21, 2026 (Four new Data Dives, and flow charts)
+## v10.227.0 — August 21, 2026 (Four new Data Notes, and flow charts)
 
 ### For Learners
 
@@ -305,7 +315,7 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 
 ### Added
 
-- **Flow diagrams in Data Dives.** The chart engine now draws Sankeys, so a Data Dive can show a quantity that splits, merges or gets absorbed — a trade deficit offset by a services surplus, a budget rupee from its sources to its uses, a tax pool divided between Centre and states.
+- **Flow diagrams in Data Notes.** The chart engine now draws Sankeys, so a Data Note can show a quantity that splits, merges or gets absorbed — a trade deficit offset by a services surplus, a budget rupee from its sources to its uses, a tax pool divided between Centre and states.
 
 ## v10.226.0 — August 21, 2026 (Correction to the partnerships page)
 
@@ -1005,7 +1015,7 @@ Fourteen new interactive Reading Companions, each grounded in the full text of t
 
 - **Dataverse** — centered the hero, featured the new Competency & Learning Rubrics tool, and updated the resource count (320 → 321).
 - **Tours** now run on the homepage only (removed from the Dataverse, Premium, and Transparency pages).
-- **Libraries landing** — removed items that already have a Showcase-menu home (Deep Dives, Timelines, Marginalia, Research to Action); gave the Data Dives and Live Projects nav items distinct icons.
+- **Libraries landing** — removed items that already have a Showcase-menu home (Deep Dives, Timelines, Marginalia, Research to Action); gave the Data Notes and Live Projects nav items distinct icons.
 
 ## v10.130.0 — July 16, 2026 (Competency & Learning Rubrics in the Dataverse)
 
@@ -1098,17 +1108,17 @@ Fourteen new interactive Reading Companions, each grounded in the full text of t
 
 - **Dalit Feminist Discourse: Voices in Dalit Writings** (eds. Charu Arya & Nabanita Deka, Routledge, 2025) — a new interactive Reading Companion to this 15-chapter anthology on Dalit feminist thought and women's writing: the "difference" debate with savarna feminism, Brahmanical patriarchy, Dalit women's autobiography and poetry, and the aesthetics of testimonio — connected throughout to gender-justice practice in South Asia.
 
-## v10.118.0 — July 13, 2026 (New Data Dive, Deep Dive & a Marginalia essay)
+## v10.118.0 — July 13, 2026 (New Data Note, Deep Dive & a Marginalia essay)
 
 ### For Learners
 
-- **The wage that ran to stand still** — a new Data Dive on India's MGNREGA wage: roughly quadrupled on paper since 2006, yet barely moved in real terms because it rises only with prices — and now below the state minimum wage across much of the country. Two original charts, with the numbers and their caveats laid out honestly.
+- **The wage that ran to stand still** — a new Data Note on India's MGNREGA wage: roughly quadrupled on paper since 2006, yet barely moved in real terms because it rises only with prices — and now below the state minimum wage across much of the country. Two original charts, with the numbers and their caveats laid out honestly.
 - **Water, Sanitation, and the Behaviour Gap** — a new Deep Dive reading list on WASH in South Asia: why toilets get built and not used, why open defecation persisted even where people could afford not to, what actually changes behaviour, and how to read the Swachh Bharat Mission's claims. 14 annotated readings across four sections.
 
 ### Added
 
 - **Marginalia essay 5 — "The Theory of Change."** The logic-model industry meets the district it diagrams: the theory of change drawn after the plan, the logframe built for control, the arrows that don't survive the field, systems change in a two-year grant. The full essay — ten cited exchanges, commentary and footnotes — is published; the ten cartoon illustrations are pending (placeholder image paths under `/assets/images/the-theory-of-change/`). The series index now lists five essays.
-- Registered all three in `data/search-index.json`, `sitemap.xml`, the `data/data-dives.json` / `data/deep-dives.json` registries, and the Marginalia guide.
+- Registered all three in `data/search-index.json`, `sitemap.xml`, the `data/data-notes.json` / `data/deep-dives.json` registries, and the Marginalia guide.
 
 ## v10.117.0 — July 12, 2026 (Fact-check audit — corrections across companions & a 101 deck)
 
@@ -1229,17 +1239,17 @@ The Interactive Labs library is now **30** and the handout library is **89**.
 - **Content Marketing Kit + Press Kit refreshed to the 2026 platform.** Fixed stale counts throughout (games →135, labs →27, reading companions →105, Dataverse →296, ImpactLex →390+, libraries →12) and the press kit's internal contradiction (its Quick Facts said 62 courses / 16 flagship while its own offerings section said 69 / 17 — now consistently 69 / 17). Both now feature the genuinely-new offerings: Field Radio, Pro Studio, the single 8-tab MEL Lab, ₹350 Notes PDFs, Assessed Certificate Tracks, and Peer Review.
 - **Learner Analytics dashboard deepened** (`/admin/learner-analytics.html`, admin-only). Added Engaged-Learners and Avg-Progress summary cards, a Learners-by-Plan-Tier breakdown, a Submissions-per-Week trend, and a Top-Courses-by-Enrollment table — all computed live from the database.
 
-## v10.104.0 — July 11, 2026 (Data Dives — independent data investigations)
+## v10.104.0 — July 11, 2026 (Data Notes — independent data investigations)
 
 ### For Learners
 
-- **Data Dives** — a new kind of content: independent data investigations that take one public dataset, chart it, make an argument, and spell out what the numbers can't show. Browse them at [/DataDives/](https://www.impactmojo.in/DataDives/). Six to start, each with fancy interactive charts (that also work on your phone) and a plain-English "what this data can and can't tell you" guide:
-  - [**The states that spend most on welfare have the least to show for it**](https://www.impactmojo.in/DataDives/state-welfare-budgets.html) — India's biggest social-sector spenders record its worst welfare outcomes (RBI state budgets).
-  - [**The women dropping off the voter list**](https://www.impactmojo.in/DataDives/women-and-the-sir.html) — women deleted from the electoral rolls in far greater numbers than men.
-  - [**Whose name is on the house?**](https://www.impactmojo.in/DataDives/whose-name-on-the-house.html) — the gap between the housing scheme's women-ownership mandate and who actually owns a home.
-  - [**Paid an honorarium, not a wage**](https://www.impactmojo.in/DataDives/honorarium-not-a-wage.html) — the ~34 lakh women who run India's nutrition and health systems, paid below the wage floor.
-  - [**The safety fund nobody spends**](https://www.impactmojo.in/DataDives/the-safety-fund-nobody-spends.html) — how the Nirbhaya Fund is "76% spent" and "a fifth spent" at the same time.
-  - [**The pension that never got a raise**](https://www.impactmojo.in/DataDives/the-pension-that-never-got-a-raise.html) — the ₹200 old-age pension, unchanged since 2006, worth a third of what it was.
+- **Data Notes** — a new kind of content: independent data investigations that take one public dataset, chart it, make an argument, and spell out what the numbers can't show. Browse them at [/DataNotes/](https://www.impactmojo.in/DataNotes/). Six to start, each with fancy interactive charts (that also work on your phone) and a plain-English "what this data can and can't tell you" guide:
+  - [**The states that spend most on welfare have the least to show for it**](https://www.impactmojo.in/DataNotes/state-welfare-budgets.html) — India's biggest social-sector spenders record its worst welfare outcomes (RBI state budgets).
+  - [**The women dropping off the voter list**](https://www.impactmojo.in/DataNotes/women-and-the-sir.html) — women deleted from the electoral rolls in far greater numbers than men.
+  - [**Whose name is on the house?**](https://www.impactmojo.in/DataNotes/whose-name-on-the-house.html) — the gap between the housing scheme's women-ownership mandate and who actually owns a home.
+  - [**Paid an honorarium, not a wage**](https://www.impactmojo.in/DataNotes/honorarium-not-a-wage.html) — the ~34 lakh women who run India's nutrition and health systems, paid below the wage floor.
+  - [**The safety fund nobody spends**](https://www.impactmojo.in/DataNotes/the-safety-fund-nobody-spends.html) — how the Nirbhaya Fund is "76% spent" and "a fifth spent" at the same time.
+  - [**The pension that never got a raise**](https://www.impactmojo.in/DataNotes/the-pension-that-never-got-a-raise.html) — the ₹200 old-age pension, unchanged since 2006, worth a third of what it was.
 
 ## v10.103.0 — July 11, 2026 (One comprehensive MEL Lab)
 

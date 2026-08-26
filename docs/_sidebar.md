@@ -15,7 +15,7 @@
   - [Research to Action Guide](research-to-action-guide.md)
   - [Practice Packs Guide](practice-packs-guide.md)
   - [Deep Dives Guide](deep-dives-guide.md)
-  - [Data Dives Guide](data-dives-guide.md)
+  - [Data Notes Guide](data-notes-guide.md)
   - [The Long View](long-view-guide.md)
   - [Marginalia](marginalia-guide.md)
   - [Dojos Guide](dojos-guide.md)

@@ -34,7 +34,7 @@
     product:         { icon: sargamImg('si_Bag'),           label: 'Product',           color: '#DB2777' },
     'practice-pack': { icon: sargamImg('si_Fact_check'),    label: 'Practice Pack',     color: '#059669' },
     tool:            { icon: sargamImg('si_Wrench'),        label: 'Tool',              color: '#2563EB' },
-    'data-dive':     { icon: sargamImg('si_Bar_chart'),     label: 'Data Dive',         color: '#4F46E5' },
+    'data-dive':     { icon: sargamImg('si_Bar_chart'),     label: 'Data Note',         color: '#4F46E5' },
     timeline:        { icon: sargamImg('si_Timer'),         label: 'Timeline',          color: '#B45309' },
     poster:          { icon: sargamImg('si_Image'),         label: 'Poster',            color: '#BE185D' },
     reference:       { icon: sargamImg('si_Library_books'), label: 'Reference',         color: '#0D9488' },

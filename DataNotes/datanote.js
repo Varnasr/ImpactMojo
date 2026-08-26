@@ -1,4 +1,4 @@
-/* ImpactMojo Data Dives — shared, responsive chart engine.
+/* ImpactMojo Data Notes — shared, responsive chart engine.
    Charts are drawn at the container's REAL pixel width (viewBox = clientWidth),
    so 1 SVG unit = 1 CSS px and text stays readable at any screen size instead of
    shrinking. Every chart re-renders on resize and switches to a compact layout on
