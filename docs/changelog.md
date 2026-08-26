@@ -2,6 +2,16 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.268.0 — August 26, 2026 (Rewriting the two new posts, and a button nobody could read)
+
+### Fixed
+
+- **The newsletter button on both new posts was unreadable** (#1033). Assembling the pages from an existing post's shell dropped the `</div>` that closes `.article-content`, so the share and newsletter blocks ended up inside the article body and inherited its `.article-content a { color: var(--accent-color); text-decoration: underline }` rule — blue link text on the blue gradient, underlined. Both posts now close the div, and the button matches every other post.
+
+### Changed
+
+- **Both posts rewritten.** The first drafts read as machine-written: a bolded lead-in on almost every paragraph, aphoristic fragment closers, "it is not X, it is Y" constructions, and rhetorical imperatives. They are now ordinary prose, and the titles are plainer — *The judgment you cited may have been overruled* and *What India's unemployment rate hides about who works*. No figure, source or argument changed; the diagrams are the same.
+
 ## v10.267.0 — August 26, 2026 (Duplicate ids in the search index)
 
 ### Fixed
