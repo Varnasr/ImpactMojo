@@ -515,6 +515,20 @@ jobs:
       - name: Test the generic form-submit endpoint's allowlist and caps
         run: node scripts/test-form-submit-endpoint.mjs
 
+  judgment-sources:
+    name: Judgment source PDFs resolve
+    runs-on: ubuntu-latest
+    # Network-dependent, like supabase-anon: a contributor cannot act on
+    # somebody else's S3 being slow, so this runs on the schedule and on
+    # demand rather than gating every pull request.
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Check every judgment source_url resolves
+        run: python3 scripts/check-judgment-sources.py
+
   broken-links:
     name: Check broken links
     runs-on: ubuntu-latest

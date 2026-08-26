@@ -22,14 +22,17 @@
   --bd:#E4EAF1; --acc:#0EA5E9; --acc2:#6366F1; --good:#10B981; --bad:#EF4444;
   --grad:linear-gradient(135deg,#0EA5E9,#6366F1);
   --chip:#EEF3F9; --chipactive:#0EA5E9; --barlo:#BAE6FD; --barhi:#0369A1;
+  --sg-valink:#FFFFFF;
 }
 html[data-theme="dark"]{
   --bg:#0B1120; --panel:#131C2E; --ink:#F1F5F9; --mut:#9DB0C7; --faint:#64748B;
   --bd:#25314A; --chip:#1C2740; --chipactive:#0EA5E9; --barlo:#0C4A6E; --barhi:#38BDF8;
+  --sg-valink:#06283B;
 }
 @media(prefers-color-scheme:dark){html:not([data-theme]){
   --bg:#0B1120; --panel:#131C2E; --ink:#F1F5F9; --mut:#9DB0C7; --faint:#64748B;
   --bd:#25314A; --chip:#1C2740; --barlo:#0C4A6E; --barhi:#38BDF8;
+  --sg-valink:#06283B;
 }}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:'Amaranth',system-ui,-apple-system,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
@@ -104,6 +107,39 @@ table.data tr.ai td{font-weight:800;color:var(--acc);border-top:2px solid var(--
 .wom-c{background:#F59E0B}
 .gap-legend{display:flex;gap:16px;margin-top:14px;font-family:'Inter';font-size:12px;color:var(--mut)}
 .gap-legend span{display:inline-flex;align-items:center;gap:6px}
+/* ---- social-group panel (calendar-year series) ---- */
+.sg{background:var(--panel);border:1px solid var(--bd);border-radius:16px;padding:18px 20px;margin:22px 0 0;box-shadow:0 1px 3px rgba(16,24,40,.04)}
+.sg h2{font-family:'Amaranth',sans-serif;font-size:1.1rem;margin:0 0 4px;color:var(--ink)}
+.sg .sg-lede{color:var(--mut);font-size:.93rem;margin:0 0 14px;max-width:74ch}
+.sg .sg-tabs{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+.sg .sg-tab{font-family:'Inter';font-size:12.5px;font-weight:700;padding:6px 13px;border-radius:99px;border:1px solid var(--bd);background:var(--chip);color:var(--mut);cursor:pointer}
+.sg .sg-tab[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#fff}
+.sg .sg-tab:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.sg-row{display:grid;grid-template-columns:9.5rem 1fr 4.6rem;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid var(--bd)}
+.sg-row:last-of-type{border-bottom:0}
+.sg-row.is-all{background:var(--chip);border-radius:8px;padding-left:8px;padding-right:8px;border-bottom:0;margin-bottom:4px}
+.sg-name{font-family:'Inter';font-size:13px;font-weight:600;color:var(--ink);line-height:1.25}
+.sg-name em{display:block;font-style:normal;font-size:11px;font-weight:500;color:var(--faint)}
+.sg-track{position:relative;height:22px;background:var(--chip);border-radius:5px;overflow:hidden}
+.sg-bar{position:absolute;inset:0 auto 0 0;background:var(--barhi);border-radius:5px}
+.sg-bar.sg-idle{background:var(--bad);opacity:.85;border-radius:0}
+.sg-val{position:absolute;top:50%;transform:translateY(-50%);font-family:'Inter';font-size:11.5px;font-weight:700;color:var(--sg-valink);left:8px}
+.sg-ur{font-family:'Inter';font-size:14px;font-weight:800;color:var(--ink);text-align:right}
+.sg-ur span{display:block;font-size:10px;font-weight:600;color:var(--faint);letter-spacing:.4px;text-transform:uppercase}
+.sg-head{display:grid;grid-template-columns:9.5rem 1fr 4.6rem;gap:10px;font-family:'Inter';font-size:10.5px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--faint);padding-bottom:6px;border-bottom:1px solid var(--bd);margin-bottom:4px}
+.sg-head span:last-child{text-align:right}
+.sg-key{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-family:'Inter';font-size:11.5px;color:var(--mut)}
+.sg-key i{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.sg-read{margin:14px 0 0;padding:12px 14px;border:1px solid var(--bd);border-left:4px solid var(--acc2);background:var(--chip);border-radius:10px;font-size:.9rem;color:var(--mut)}
+.sg-read b{color:var(--ink)}
+.sg-read p{margin:0 0 8px}
+.sg-read p:last-child{margin:0}
+.sg-src{font-family:'Inter';font-size:11.5px;color:var(--faint);margin:12px 0 0;line-height:1.55}
+.sg-src a{color:var(--mut)}
+@media (max-width:560px){
+  .sg-row,.sg-head{grid-template-columns:6.6rem 1fr 3.8rem;gap:8px}
+  .sg-name{font-size:12px}
+}
 </style>
 <meta property="og:image" content="https://www.impactmojo.in/assets/images/og-card.png">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Dataset", "name": "PLFS Workforce Explorer — Who Works in India", "description": "Explore PLFS data on India's workforce — labour-force participation, worker ratio and unemployment, by state and gender, and the sharp climb in women's workforce participation since 2017-18. Source: PLFS 2023-24, MoSPI.", "url": "https://www.impactmojo.in/plfs.html", "keywords": ["PLFS", "India", "labour force", "workforce participation", "unemployment", "gender gap"], "creator": {"@type": "Organization", "name": "ImpactMojo", "url": "https://www.impactmojo.in"}, "spatialCoverage": {"@type": "Place", "name": "India"}, "isAccessibleForFree": true, "citation": "Periodic Labour Force Survey (PLFS) 2023-24, MoSPI."}</script>
@@ -134,7 +170,7 @@ table.data tr.ai td{font-weight:800;color:var(--acc);border-top:2px solid var(--
 
   <div class="note">
 
-    <b>Newer data available.</b> MoSPI released the PLFS Annual Report for calendar year 2025 (Jan–Dec 2025) in March 2026 — the first under a redesigned, larger sample (about 2.7 lakh households) and a switch from the July–June to a January–December cycle. Because of that methodology break the new figures are not a simple continuation of the 2017-18 to 2023-24 series shown below; this page has not yet been rebuilt on the 2025 dataset.
+    <b>Newer data available.</b> MoSPI released the PLFS Annual Report for calendar year 2025 (Jan–Dec 2025) in March 2026 — the first under a redesigned, larger sample (about 2.7 lakh households) and a switch from the July–June to a January–December cycle. Because of that methodology break the new figures are not a simple continuation of the 2017-18 to 2023-24 series shown below; the explorer below still runs on the July&ndash;June series. One part of the 2025 data is here already: the <a href="#social">social-group breakdown</a> further down, which is drawn from the calendar-year series and labelled as such.
 
   </div>
 
@@ -152,6 +188,7 @@ table.data tr.ai td{font-weight:800;color:var(--acc);border-top:2px solid var(--
       <li><b>Five views:</b> <b>Rank</b> the states, <b>Track</b> the national trend since 2017-18 (watch the women's line climb), <b>Compare pay</b> by job type, <b>See job security</b>, or <b>List</b> the table.</li>
       <li><b>The whiskers on the rank view are 95% confidence intervals</b> — how much sampling uncertainty sits around each state's estimate. Where two states' whiskers overlap heavily, the gap between them may not be real.</li>
       <li><b>Rank &amp; trend are state/national percentages</b>; <b>Compare pay</b> and <b>See job security</b> are all-India (these breakdowns are published nationally). PLFS is designed for state and national estimates, not districts.</li>
+      <li><b>Below the explorer</b>, a separate panel reads the same three measures <a href="#social">by social group</a> &mdash; the clearest demonstration on this page of why the unemployment rate is the wrong number to read on its own.</li>
     </ul>
   </div>
 
@@ -164,6 +201,35 @@ table.data tr.ai td{font-weight:800;color:var(--acc);border-top:2px solid var(--
   <div class="caption" id="caption" aria-live="polite"></div>
   <section class="panel" id="panel"></section>
 
+  <section class="sg" id="social" aria-labelledby="sg-h">
+    <h2 id="sg-h">The same labour market, read by social group</h2>
+    <p class="sg-lede">PLFS breaks its three headline numbers down by social group as well as by state. Doing so is a useful test of whether you are reading the right measure &mdash; because participation and unemployment point in opposite directions here.</p>
+
+    <div class="sg-tabs" role="group" aria-label="Choose who to show">
+      <button class="sg-tab" type="button" data-g="p" aria-pressed="true">Everyone</button>
+      <button class="sg-tab" type="button" data-g="f" aria-pressed="false">Women</button>
+      <button class="sg-tab" type="button" data-g="m" aria-pressed="false">Men</button>
+    </div>
+
+    <div class="sg-head" aria-hidden="true"><span>Social group</span><span>In the labour force (LFPR) &middot; employed (WPR)</span><span>Unemp.</span></div>
+    <div id="sgRows"></div>
+
+    <div class="sg-key">
+      <span><i style="background:var(--barhi)"></i>Employed &mdash; worker population ratio</span>
+      <span><i style="background:var(--bad);opacity:.85"></i>In the labour force but without work</span>
+      <span>Bars are % of the 15+ population. Unemployment is % of that group's labour force.</span>
+    </div>
+
+    <div class="sg-read">
+      <p><b>Read the unemployment column on its own and you get the story backwards.</b> Unemployment is lowest for Scheduled Tribes (<b>2.1%</b>) and highest for the residual &ldquo;Others&rdquo; category (<b>3.7%</b>). Taken alone that says Scheduled Tribes are faring best in India's labour market. Participation says something close to the opposite: <b>73.1%</b> of Scheduled Tribe adults are in the labour force against <b>53.9%</b> of &ldquo;Others&rdquo;, and the gap is far larger than anything in the unemployment column.</p>
+      <p><b>The unemployment rate measures search, not hardship.</b> To be counted unemployed you have to be both without work and looking for it, and looking takes a household that can go without your earnings while you do. Where it cannot, people take whatever work is available rather than search, and measured unemployment stays low. That is why the rate varies so little &mdash; from 2.1% to 3.7% across every social group &mdash; while participation varies by twenty percentage points.</p>
+      <p><b>The clearest case is among women.</b> Scheduled Tribe women have the highest participation of any group here (<b>62.6%</b>) and the lowest unemployment (<b>1.7%</b>). Women in the &ldquo;Others&rdquo; category have the lowest participation (<b>31.0%</b>) and the highest unemployment (<b>4.7%</b>) &mdash; both on the same row. Switch to the <b>Women</b> tab above to see it.</p>
+      <p><b>So read them together.</b> Participation tells you how many people are in the market at all; the worker ratio tells you how many are actually working; unemployment tells you only about the minority who are searching. A programme designed off the unemployment column alone would target the wrong households.</p>
+    </div>
+
+    <p class="sg-src"><b>Source and caveats.</b> MoSPI <a href="https://esankhyiki.mospi.gov.in/" target="_blank" rel="noopener">eSankhyiki</a> PLFS data service, annual <b>calendar-year 2025</b> series (LFPR, WPR and UR), All-India, age 15 and above, usual status PS+SS, rural and urban combined, by social group; retrieved 26 August 2026. <b>This is the calendar-year series, not the July&ndash;June one used elsewhere on this page</b> &mdash; the two are not a continuous run, so do not read the figures here against the 2023-24 numbers above. &ldquo;Others&rdquo; is PLFS's residual category for households outside the three reserved classifications, not a group in its own right; the four categories are administrative, and each contains wide variation. Sampling error is not shown for this breakdown because MoSPI does not publish relative standard errors disaggregated by social group.</p>
+  </section>
+
   <div class="method">
     <h2>Making sense of the numbers</h2>
     <p><b>What the measures mean.</b> <b>LFPR</b> (Labour Force Participation Rate) is the share of people aged 15+ who are either working or actively seeking work. <b>WPR</b> (Worker Population Ratio) is the share actually employed. The <b>unemployment rate</b> is the share of the <em>labour force</em> (not the whole population) that is seeking work but hasn't found it — which is why a state can have low unemployment and low participation at once. All figures here use <b>usual status (PS+SS)</b> for the 15+ age group, rural and urban combined.</p>
@@ -175,6 +241,63 @@ table.data tr.ai td{font-weight:800;color:var(--acc);border-top:2px solid var(--
     <p>Participation, worker-ratio and unemployment figures are pulled from the official <a href="https://esankhyiki.mospi.gov.in/" target="_blank" rel="noopener">MoSPI eSankhyiki</a> PLFS data service (Ministry of Statistics &amp; Programme Implementation, Government of India), PLFS annual 2017-18 to 2023-24; the wage, job-quality and standard-error figures are transcribed from the published <a href="https://mospi.gov.in/annual-report-periodic-labour-force-survey-plfs-2023-24" target="_blank" rel="noopener">PLFS 2023-24 Annual Report</a>. National figures were validated against that report (LFPR 60.1%, male 78.8%, female 41.7%). Two small UTs (Dadra &amp; Nagar Haveli, Daman &amp; Diu) are omitted from the trend where the series did not return a value. This is an independent, source-linked interface for learning and discussion — for methodology and authoritative interpretation, consult MoSPI directly. ImpactMojo is not affiliated with MoSPI.</p>
   </div>
 </main>
+
+<script>
+/* PLFS by social group — MoSPI eSankhyiki, annual CALENDAR-YEAR 2025 series.
+   Retrieved 2026-08-26. Exact query parameters, so this can be re-pulled and checked:
+     dataset=PLFS  frequency_code=1 (Annual)  indicator_code=1|2|3 (LFPR|WPR|UR)
+     state_code=99 (All India)  age_code=1 (15+)  weekly_status_code=1 (PS+SS)
+     sector_code=3 (rural+urban)  social_category_code=1..5  religion_code=1 (all)
+     education_code=0 (all)
+   Not the July–June series used by PLFS_DATA above; the two are not continuous. */
+window.PLFS_SOCIAL={"year":"2025","period":"calendar year (Jan–Dec 2025)",
+ "order":["all","st","sc","obc","oth"],
+ "labels":{"all":["All social groups",""],"st":["Scheduled Tribes","ST"],"sc":["Scheduled Castes","SC"],"obc":["Other Backward Classes","OBC"],"oth":["Others","PLFS residual category"]},
+ "d":{
+  "all":{"lfpr":{"m":79.1,"f":40.0,"p":59.3},"wpr":{"m":76.6,"f":38.8,"p":57.4},"ur":{"m":3.1,"f":3.1,"p":3.1}},
+  "st":{"lfpr":{"m":83.8,"f":62.6,"p":73.1},"wpr":{"m":81.8,"f":61.5,"p":71.6},"ur":{"m":2.5,"f":1.7,"p":2.1}},
+  "sc":{"lfpr":{"m":80.5,"f":42.8,"p":61.3},"wpr":{"m":77.7,"f":41.5,"p":59.3},"ur":{"m":3.5,"f":2.8,"p":3.3}},
+  "obc":{"lfpr":{"m":78.7,"f":39.3,"p":58.6},"wpr":{"m":76.4,"f":38.2,"p":56.9},"ur":{"m":3.0,"f":2.9,"p":3.0}},
+  "oth":{"lfpr":{"m":76.9,"f":31.0,"p":53.9},"wpr":{"m":74.4,"f":29.6,"p":51.9},"ur":{"m":3.3,"f":4.7,"p":3.7}}
+ }};
+(function(){
+  "use strict";
+  var S=window.PLFS_SOCIAL, rows=document.getElementById('sgRows');
+  if(!S||!rows) return;
+  var tabs=[].slice.call(document.querySelectorAll('.sg-tab'));
+  var g='p';
+  function esc(s){return String(s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
+  function draw(){
+    /* one shared scale so bar lengths are comparable across groups and tabs */
+    var max=0;
+    S.order.forEach(function(k){var v=S.d[k].lfpr[g]; if(v>max) max=v;});
+    var scale=Math.min(100, Math.ceil(max/10)*10+5);
+    rows.innerHTML=S.order.map(function(k){
+      var r=S.d[k], L=S.labels[k];
+      var lf=r.lfpr[g], wp=r.wpr[g], ur=r.ur[g];
+      var lfw=(lf/scale*100).toFixed(1), wpw=(wp/scale*100).toFixed(1);
+      return '<div class="sg-row'+(k==='all'?' is-all':'')+'">'
+        + '<div class="sg-name">'+esc(L[0])+(L[1]?'<em>'+esc(L[1])+'</em>':'')+'</div>'
+        + '<div class="sg-track" role="img" aria-label="'+esc(L[0])+': '+lf+'% in the labour force, '+wp+'% employed">'
+        +   '<div class="sg-bar sg-idle" style="width:'+lfw+'%"></div>'
+        +   '<div class="sg-bar" style="width:'+wpw+'%"></div>'
+        +   '<div class="sg-val">'+lf.toFixed(1)+'%</div>'
+        + '</div>'
+        + '<div class="sg-ur">'+ur.toFixed(1)+'%<span>rate</span></div>'
+        + '</div>';
+    }).join('');
+  }
+  tabs.forEach(function(b){
+    b.addEventListener('click',function(){
+      g=b.getAttribute('data-g');
+      tabs.forEach(function(o){o.setAttribute('aria-pressed', String(o===b));});
+      draw();
+    });
+  });
+  draw();
+})();
+</script>
+
 
 <script>
 window.PLFS_DATA={"meta":{"src":"PLFS 2023-24 (annual, usual status PS+SS, age 15+), MoSPI","year":"2023-24","trendYears":["2017-18","2018-19","2019-20","2020-21","2021-22","2022-23","2023-24"]},"national":{"lfpr":{"m":78.8,"f":41.7,"p":60.1},"wpr":{"m":76.3,"f":40.3,"p":58.2},"ur":{"m":3.2,"f":3.2,"p":3.2}},"states":{"31":{"n":"Andaman & Nicobar Islands","lfpr":{"m":84.3,"f":46.3,"p":65.7},"wpr":{"m":78.4,"f":36.7,"p":58.0},"ur":{"m":7.0,"f":20.9,"p":11.8}},"1":{"n":"Andhra Pradesh","lfpr":{"m":76.7,"f":44.8,"p":60.2},"wpr":{"m":73.4,"f":43.1,"p":57.8},"ur":{"m":4.3,"f":3.7,"p":4.1}},"2":{"n":"Arunachal Pradesh","lfpr":{"m":79.2,"f":66.5,"p":73.0},"wpr":{"m":74.4,"f":62.4,"p":68.5},"ur":{"m":6.1,"f":6.2,"p":6.1}},"3":{"n":"Assam","lfpr":{"m":83.3,"f":50.2,"p":66.9},"wpr":{"m":80.2,"f":48.1,"p":64.3},"ur":{"m":3.8,"f":4.1,"p":3.9}},"4":{"n":"Bihar","lfpr":{"m":75.8,"f":30.5,"p":53.2},"wpr":{"m":73.1,"f":30.1,"p":51.6},"ur":{"m":3.6,"f":1.4,"p":3.0}},"32":{"n":"Chandigarh","lfpr":{"m":76.9,"f":31.0,"p":54.7},"wpr":{"m":73.9,"f":26.2,"p":50.9},"ur":{"m":3.9,"f":15.3,"p":7.1}},"5":{"n":"Chhattisgarh","lfpr":{"m":83.4,"f":59.5,"p":71.5},"wpr":{"m":81.2,"f":58.1,"p":69.7},"ur":{"m":2.6,"f":2.4,"p":2.5}},"38":{"n":"Dadra & Nagar Haveli & Daman & Diu","lfpr":{"m":87.8,"f":46.5,"p":69.4},"wpr":{"m":85.3,"f":46.0,"p":67.8},"ur":{"m":2.9,"f":1.1,"p":2.3}},"6":{"n":"Delhi","lfpr":{"m":70.1,"f":18.5,"p":46.4},"wpr":{"m":68.6,"f":18.3,"p":45.5},"ur":{"m":2.2,"f":1.5,"p":2.1}},"7":{"n":"Goa","lfpr":{"m":74.1,"f":29.3,"p":51.8},"wpr":{"m":70.2,"f":24.4,"p":47.4},"ur":{"m":5.2,"f":16.7,"p":8.5}},"8":{"n":"Gujarat","lfpr":{"m":82.4,"f":46.0,"p":64.6},"wpr":{"m":81.5,"f":45.6,"p":63.9},"ur":{"m":1.1,"f":1.0,"p":1.1}},"9":{"n":"Haryana","lfpr":{"m":72.7,"f":24.2,"p":49.5},"wpr":{"m":69.9,"f":23.6,"p":47.8},"ur":{"m":3.8,"f":2.2,"p":3.4}},"10":{"n":"Himachal Pradesh","lfpr":{"m":81.7,"f":67.6,"p":74.4},"wpr":{"m":78.9,"f":62.3,"p":70.3},"ur":{"m":3.4,"f":7.8,"p":5.5}},"11":{"n":"Jammu & Kashmir","lfpr":{"m":75.7,"f":52.1,"p":64.3},"wpr":{"m":72.9,"f":47.1,"p":60.4},"ur":{"m":3.8,"f":9.7,"p":6.1}},"12":{"n":"Jharkhand","lfpr":{"m":78.3,"f":49.8,"p":63.8},"wpr":{"m":76.9,"f":49.6,"p":63.0},"ur":{"m":1.8,"f":0.5,"p":1.3}},"13":{"n":"Karnataka","lfpr":{"m":75.5,"f":38.0,"p":56.8},"wpr":{"m":73.1,"f":37.2,"p":55.2},"ur":{"m":3.1,"f":1.9,"p":2.7}},"14":{"n":"Kerala","lfpr":{"m":74.4,"f":40.8,"p":56.2},"wpr":{"m":71.1,"f":36.0,"p":52.2},"ur":{"m":4.4,"f":11.6,"p":7.2}},"37":{"n":"Ladakh","lfpr":{"m":72.5,"f":51.6,"p":62.5},"wpr":{"m":70.7,"f":47.1,"p":59.3},"ur":{"m":2.6,"f":8.8,"p":5.1}},"35":{"n":"Lakshadweep","lfpr":{"m":74.7,"f":17.1,"p":48.5},"wpr":{"m":69.0,"f":11.3,"p":42.7},"ur":{"m":7.7,"f":34.1,"p":11.9}},"15":{"n":"Madhya Pradesh","lfpr":{"m":85.0,"f":52.3,"p":68.9},"wpr":{"m":84.0,"f":51.9,"p":68.3},"ur":{"m":1.1,"f":0.7,"p":1.0}},"16":{"n":"Maharashtra","lfpr":{"m":77.2,"f":40.1,"p":59.0},"wpr":{"m":74.4,"f":39.1,"p":57.0},"ur":{"m":3.7,"f":2.7,"p":3.3}},"17":{"n":"Manipur","lfpr":{"m":70.8,"f":48.7,"p":59.6},"wpr":{"m":67.2,"f":45.0,"p":56.0},"ur":{"m":5.0,"f":7.7,"p":6.1}},"18":{"n":"Meghalaya","lfpr":{"m":82.3,"f":71.8,"p":76.9},"wpr":{"m":78.7,"f":65.9,"p":72.1},"ur":{"m":4.3,"f":8.2,"p":6.2}},"19":{"n":"Mizoram","lfpr":{"m":66.1,"f":41.7,"p":54.2},"wpr":{"m":64.6,"f":40.7,"p":53.0},"ur":{"m":2.2,"f":2.4,"p":2.3}},"20":{"n":"Nagaland","lfpr":{"m":82.4,"f":64.3,"p":73.3},"wpr":{"m":76.6,"f":59.7,"p":68.1},"ur":{"m":7.0,"f":7.1,"p":7.1}},"21":{"n":"Odisha","lfpr":{"m":81.7,"f":49.4,"p":64.9},"wpr":{"m":78.9,"f":48.0,"p":62.9},"ur":{"m":3.3,"f":2.7,"p":3.1}},"36":{"n":"Puducherry","lfpr":{"m":73.3,"f":34.2,"p":52.4},"wpr":{"m":70.5,"f":32.2,"p":50.0},"ur":{"m":3.9,"f":5.9,"p":4.6}},"22":{"n":"Punjab","lfpr":{"m":79.8,"f":31.1,"p":55.7},"wpr":{"m":75.9,"f":28.9,"p":52.7},"ur":{"m":4.9,"f":6.9,"p":5.5}},"23":{"n":"Rajasthan","lfpr":{"m":78.2,"f":50.9,"p":64.4},"wpr":{"m":74.8,"f":48.9,"p":61.7},"ur":{"m":4.3,"f":4.0,"p":4.2}},"24":{"n":"Sikkim","lfpr":{"m":83.4,"f":68.2,"p":76.2},"wpr":{"m":81.3,"f":66.8,"p":74.4},"ur":{"m":2.5,"f":2.1,"p":2.3}},"25":{"n":"Tamil Nadu","lfpr":{"m":75.7,"f":43.2,"p":58.8},"wpr":{"m":73.2,"f":41.5,"p":56.8},"ur":{"m":3.4,"f":3.8,"p":3.5}},"26":{"n":"Telangana","lfpr":{"m":78.5,"f":46.7,"p":62.2},"wpr":{"m":74.8,"f":44.3,"p":59.2},"ur":{"m":4.6,"f":5.0,"p":4.8}},"27":{"n":"Tripura","lfpr":{"m":78.9,"f":47.1,"p":63.0},"wpr":{"m":77.5,"f":46.3,"p":62.0},"ur":{"m":1.7,"f":1.6,"p":1.7}},"28":{"n":"Uttarakhand","lfpr":{"m":76.4,"f":45.6,"p":60.7},"wpr":{"m":73.0,"f":43.7,"p":58.1},"ur":{"m":4.5,"f":4.1,"p":4.3}},"29":{"n":"Uttar Pradesh","lfpr":{"m":79.5,"f":34.5,"p":56.9},"wpr":{"m":76.9,"f":33.6,"p":55.1},"ur":{"m":3.3,"f":2.5,"p":3.1}},"30":{"n":"West Bengal","lfpr":{"m":82.4,"f":40.4,"p":61.1},"wpr":{"m":80.5,"f":39.2,"p":59.6},"ur":{"m":2.3,"f":3.0,"p":2.5}}},"trend":{"2017-18":{"m":75.8,"f":23.3,"p":49.8},"2018-19":{"m":75.5,"f":24.5,"p":50.2},"2019-20":{"m":76.8,"f":30.0,"p":53.5},"2020-21":{"m":77.0,"f":32.5,"p":54.9},"2021-22":{"m":77.2,"f":32.8,"p":55.2},"2022-23":{"m":78.5,"f":37.0,"p":57.9},"2023-24":{"m":78.8,"f":41.7,"p":60.1}}};

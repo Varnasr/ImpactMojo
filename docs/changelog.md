@@ -2,6 +2,23 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.265.0 — August 26, 2026 (Six judgments read off the court's own PDFs, and the same labour market read by social group)
+
+### For Learners
+
+- **Six more judgments in the Development Law Docket, taking it to 109** — and this batch was verified differently. Each one is linked to the Supreme Court's own signed PDF, released as open data, rather than to a search result. Among them: the November 2024 demolition judgment, which requires fifteen days' written show cause before a structure comes down; the ruling that made school fire and building safety a condition of the right to education; the RTI judgment that gives a student the right to inspect their own evaluated answer sheet; the direction that every government school must have a functioning toilet; and the rule that a school's own governing body cannot be treated as its employer's substitute.
+- **How to read a judgment's identity.** Every one of the six carries the court's neutral citation, its CNR number, the decision date and the presiding judge as printed in the document itself. If you cite one of these in a proposal or a submission, those four things are what a reader can check you against.
+- **The PLFS Workforce Explorer now reads the same labour market by social group.** Unemployment barely moves between Scheduled Tribes (2.1%), Scheduled Castes (3.3%), OBCs (3.0%) and the residual "Others" category (3.7%). Participation moves by twenty points, in the opposite direction. Read the unemployment column alone and you would conclude Scheduled Tribes are faring best; read it with participation and you get a different programme.
+- **The sharpest version is among women.** Scheduled Tribe women have the highest participation of any group (62.6%) and the lowest unemployment (1.7%). Women in the "Others" category have the lowest participation (31.0%) and the highest unemployment (4.7%) — both on the same row. A targeting decision made off the unemployment rate would reach the wrong households.
+
+### Added
+
+- `scripts/check-judgment-sources.py` — resolves every judgment `source_url` that points at the Supreme Court open-data bucket, so a mistyped or guessed PDF path fails loudly instead of shipping as a dead link. Runs in CI as the `judgment-sources` job on the daily schedule and on demand, alongside `supabase-anon`; it hits a third-party service, so it does not gate pull requests.
+
+### Changed
+
+- The PLFS explorer's "newer data available" note now says which part of the calendar-year 2025 series is already on the page, instead of only saying the page has not been rebuilt on it.
+
 ## v10.264.0 — August 26, 2026 (The judgment that was struck down, recalled, and reheard)
 
 ### For Learners
