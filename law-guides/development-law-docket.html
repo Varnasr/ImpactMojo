@@ -128,7 +128,9 @@
     <div class="dk-list" id="list"></div>
     <div class="dk-empty" id="empty" hidden>No judgment matches those filters.</div>
 
-    <section id="excluded" style="margin-top:2.5rem">
+    <!-- Hidden unless something is actually set aside; the render code unhides it.
+         The meta.excluded mechanism stays, only the empty state goes. -->
+    <section id="excluded" style="margin-top:2.5rem" hidden>
       <h2>What is deliberately not here</h2>
       <p id="excluded-intro"></p>
       <ul class="dk-excluded" id="excluded-list"></ul>
@@ -137,8 +139,8 @@
     <section style="margin-top:2rem">
       <h2>How these entries were checked</h2>
       <p id="verif"></p>
-      <p>Coverage is the Supreme Court of India. High Court and tribunal decisions, and the
-      district courts entirely, are outside this first release.</p>
+      <p>Coverage is the Supreme Court of India. High Court, tribunal and district court
+      decisions are not included.</p>
       <div id="coverage-notes"></div>
     </section>
   </main>
@@ -256,11 +258,12 @@
       $('verif').textContent = META.verification || '';
       var ex = META.excluded||[];
       // Derived, not written: a hardcoded count here once said "six" over a list of one.
-      $('excluded-intro').textContent = ex.length
-        ? (ex.length===1
-            ? 'One candidate was set aside rather than published on a weak match. It is named here because a docket that shows only what it found looks more complete than it is.'
-            : ex.length+' candidates were set aside rather than published on a weak match. They are named here because a docket that shows only what it found looks more complete than it is.')
-        : 'Nothing is currently set aside. Anything dropped rather than published would be named here.';
+      // The whole section stays hidden while the list is empty, rather than
+      // rendering a heading about absences over a sentence saying there are none.
+      $('excluded').hidden = ex.length === 0;
+      $('excluded-intro').textContent = ex.length===1
+        ? 'One candidate was set aside rather than published on a weak match. It is named here because a docket that shows only what it found looks more complete than it is.'
+        : ex.length+' candidates were set aside rather than published on a weak match. They are named here because a docket that shows only what it found looks more complete than it is.';
       $('excluded-list').innerHTML = ex.map(function(e){
         return '<li><strong>'+esc(e.case)+'</strong> — '+esc(e.why)+'</li>'}).join('');
       // Caveats about what a published entry can be taken to stand for are not

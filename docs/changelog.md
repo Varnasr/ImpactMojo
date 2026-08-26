@@ -2,7 +2,40 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
-## v10.253.0 — August 26, 2026 (Dividing good by money)
+## v10.256.0 — August 26, 2026 (MEL Practice Series, September to October)
+
+### For Learners
+
+- **The MEL Practice Series is now on the events page** — six Saturday sessions across September and October, each 45 minutes, online, capped at 10 seats and with no recording. Theory of Change without the jargon (5 Sept), building an indicator that actually measures something (12 Sept), from survey to dashboard (19 Sept), AI for M&E (26 Sept), gender-disaggregated data beyond the checkbox (3 Oct), and sampling for real-world baselines (10 Oct). Each card shows its date, level and fee, and the announcement is downloadable as a PDF.
+- **The page now distinguishes the paid series from the standing clinics.** The six sessions with confirmed dates appear at the top with their fee; the four clinics not in this run stay below, free to request as before. A session cannot appear in both lists, and once a date has passed it drops out of the series on its own — when the run ends the whole block hides itself and all ten clinics return to the standing list, so nothing on the page has to be edited afterwards.
+
+### Changed
+
+- **The events page no longer describes every session as free.** The hero, the page description, the social preview and the catalog entry all said "free, live online sessions", which stopped being true the moment a paid series went on the page. All four now say which sessions carry a fee and which do not.
+
+## v10.255.0 — August 26, 2026 (How we teach, written down)
+
+### For Learners
+
+- **A Teaching Principles page** — the twenty-four rules every ImpactMojo course, lab and game is built by, in one place. The challenge equation we use instead of differentiation; why prerequisite knowledge gets checked rather than assumed, and why the quantitative floor is the prerequisite most often skipped; teaching what a concept is *and* what it is not; building a diagram in front of people rather than reading a slide aloud; six named routes through an explanation; retrieval as a routine rather than an activity; interleaving; withdrawing support as knowledge grows; whole-class feedback instead of written comments; and slowing an activity down until it teaches something. Adapted from Adam Boxer's *Teaching Secondary Science* and the cognitive science behind it, with sources listed. Three principles are marked as places where teaching social science needs something different — misconceptions here are positions rather than errors, everyday words carry technical meanings that quietly mislead, and values are part of the content rather than noise to strip out. It ends with four things we are still bad at.
+
+### Fixed
+
+- **Case cards in the Law Docket and all six law guides were unreadable in dark mode.** They rendered white text on a white card — a contrast ratio of about 1.13 to 1, so the text was present, selectable and invisible. Two colour variables used throughout those pages had never been defined anywhere in the site, so every use fell back to a light-mode colour whatever theme the reader had chosen. Neither accessibility check would have caught it: both run the light theme at desktop width only. (#1016)
+
+## v10.254.0 — August 26, 2026 (The essay, rewritten and sourced)
+
+### For Learners
+
+- **The essay on deciding what to fund has been rebuilt around principles rather than one organisation's method.** It no longer reads as Singer versus a named framework. It sets out the strongest form of the case for letting cost-effectiveness decide, five objections that defeat it, and then eight working principles that keep the counting while withdrawing its authority to conclude — count and publish your assumptions; eliminate with arithmetic rather than select with it; gate rather than multiply when the variance falls on someone else; put the affected person's judgement inside the measure; use a counterfactual you can act on; track trajectories as well as interventions; protect a line for work no institution wants done; and ask what would have to be true for this to be wrong. Every principle carries its own failure mode.
+- **Every claim now names its source.** Singer, Rawls, Nozick, Williams, Pogge, Young, Sen, Nussbaum, Chambers, Scott, Deaton, Cartwright and Hardie, Bostrom, Klein, Strathern, the Miguel–Kremer deworming study with its 2015 replications and the Cochrane review, the Core Humanitarian Standard, Building State Capability, the Human Rights Watch report on Rohingya biometric data, and CARE's published evidence strategy — cited inline and collected in a reference list at the end.
+
+### Fixed
+
+- **The essay's diagrams were unreadable on a phone.** They were drawn as SVG on a 720-unit canvas, so on a 390px screen their labels rendered at about five pixels — present in the page, invisible in practice. They are now laid out in HTML, so they reflow to a single column on a narrow screen and the text stays at full size. Colours are set per theme, because the amber and teal used for the stop and go states each fell below the contrast floor on one of the two backgrounds. (#1014)
+- **The Law Docket showed a heading announcing what is missing, over a list saying nothing is missing.** "What is deliberately not here" has been rendering above the sentence "Nothing is currently set aside" ever since the last two entries under it were moved or removed. The section now stays hidden until something is actually set aside; the mechanism that names exclusions is unchanged. The coverage note below it no longer says "this first release" — there have been several, and all 66 judgments are still Supreme Court, so the fact was fine and only the framing was stale. (#1015)
+
+## v10.253.0 — August 26, 2026 (Dividing good by money — superseded by v10.254.0)
 
 ### For Learners
 
