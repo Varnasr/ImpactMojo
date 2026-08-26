@@ -2,6 +2,15 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.263.0 — August 26, 2026 (The Docket reaches 101)
+
+### For Learners
+
+- **Twenty-four more judgments, taking the Docket to 101.** Among them: the seven-judge Bench that allowed states to sub-classify within the Scheduled Castes and overruled the case that had barred it; the prison judgment that struck down caste-based segregation and ordered every state to rewrite its manual; the accessibility ruling that made the disability guidelines mandatory instead of advisory; the POCSO judgment closing the possession loophole, and the one that overturned the "skin to skin" reading; the rule that a settlement cannot be cleared without a survey and meaningful engagement with the people living in it; and the four-part test that makes access to justice a right — a forum must exist, be reachable, be timely, and be affordable.
+- **The identity of survivors, and what it means for your reporting.** A 2018 judgment prohibits disclosing the identity of victims of sexual offences, including children. A case study, photograph, grant report or post that lets someone be identified is not a communications judgement call.
+- **Manual scavenging, three years after the landmark direction.** A compliance order from January 2026 shows what enforcement actually looks like: the ₹30 lakh figure for a sewer death being claimed case by case, a district survey still unfinished, and a court that has not let go. If you work on sanitation-worker safety, the live orders carry the obligations, not the 2023 judgment alone.
+- **A public interest petition is held to a standard now.** Four judgments set what a court asks before it hears you: who is really behind the petition, whether the contents are accurate, and whether this is a policy disagreement dressed as a public grievance.
+
 ## v10.262.0 — August 26, 2026 (The Docket learns what a court is still doing)
 
 ### For Learners
