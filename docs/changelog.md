@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.266.0 — August 26, 2026 (Two posts: the law that moved, and the column nobody prints)
+
+### For Learners
+
+- **The Law You Cited May Not Be the Law Any More** — a Supreme Court judgment was struck down in May 2025, recalled in November 2025, and reheard in July 2026. For six months citing it was right; for the eight after that it did not exist. Nothing in anybody's files changed on any of those dates. The post covers why development documents carry stale case law longer than most sectors, the four things worth checking before you cite a judgment, and what became free to check this year — the Supreme Court's own signed PDFs as open data, India Open Law's 12.8 million judgments and 813,168 tribunal matters, and eCourts for the district courts. Two diagrams.
+- **India's Unemployment Rate Is 3.1%. That Is Not the Useful Number.** — read the unemployment column by social group on its own and Scheduled Tribes look like the group faring best in India's labour market. Put labour-force participation next to it and the picture reverses, by twenty points. The post explains why the two rates have different denominators, and sets out the two rules the thirteen data explorers ended up following: never show a headline number without the thing that changes what it means, and say plainly what the page cannot tell you. Two diagrams, and an honest account of what following those rules cost us.
+
 ## v10.265.0 — August 26, 2026 (Six judgments read off the court's own PDFs, and the same labour market read by social group)
 
 ### For Learners
