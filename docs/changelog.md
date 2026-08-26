@@ -2,7 +2,19 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
-## v10.253.0 — August 26, 2026 (Dividing good by money)
+## v10.254.0 — August 26, 2026 (The essay, rewritten and sourced)
+
+### For Learners
+
+- **The essay on deciding what to fund has been rebuilt around principles rather than one organisation's method.** It no longer reads as Singer versus a named framework. It sets out the strongest form of the case for letting cost-effectiveness decide, five objections that defeat it, and then eight working principles that keep the counting while withdrawing its authority to conclude — count and publish your assumptions; eliminate with arithmetic rather than select with it; gate rather than multiply when the variance falls on someone else; put the affected person's judgement inside the measure; use a counterfactual you can act on; track trajectories as well as interventions; protect a line for work no institution wants done; and ask what would have to be true for this to be wrong. Every principle carries its own failure mode.
+- **Every claim now names its source.** Singer, Rawls, Nozick, Williams, Pogge, Young, Sen, Nussbaum, Chambers, Scott, Deaton, Cartwright and Hardie, Bostrom, Klein, Strathern, the Miguel–Kremer deworming study with its 2015 replications and the Cochrane review, the Core Humanitarian Standard, Building State Capability, the Human Rights Watch report on Rohingya biometric data, and CARE's published evidence strategy — cited inline and collected in a reference list at the end.
+
+### Fixed
+
+- **The essay's diagrams were unreadable on a phone.** They were drawn as SVG on a 720-unit canvas, so on a 390px screen their labels rendered at about five pixels — present in the page, invisible in practice. They are now laid out in HTML, so they reflow to a single column on a narrow screen and the text stays at full size. Colours are set per theme, because the amber and teal used for the stop and go states each fell below the contrast floor on one of the two backgrounds. (#1014)
+- **The Law Docket showed a heading announcing what is missing, over a list saying nothing is missing.** "What is deliberately not here" has been rendering above the sentence "Nothing is currently set aside" ever since the last two entries under it were moved or removed. The section now stays hidden until something is actually set aside; the mechanism that names exclusions is unchanged. The coverage note below it no longer says "this first release" — there have been several, and all 66 judgments are still Supreme Court, so the fact was fine and only the framing was stale. (#1015)
+
+## v10.253.0 — August 26, 2026 (Dividing good by money — superseded by v10.254.0)
 
 ### For Learners
 
