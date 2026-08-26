@@ -2,6 +2,16 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.260.0 — August 26, 2026 (A wrong reason, corrected)
+
+### Fixed
+
+- **The Docket said district court decisions "are not published in a form that can be cited". That is not true, and it should not have been written.** Every district court has its own site, the eCourts services carry judgments, and much of it is mirrored where it can be linked and checked line by line. The note now says so, and gives the two reasons that actually apply: a district court decision binds the parties in front of it and nobody else, so it cannot settle what an organisation elsewhere may or must do; and most of what district courts decide is private people's family and criminal matters, which we will not summarise on a public teaching site to illustrate a point. (#1023)
+
+### For Learners
+
+- **A farmer's accident claim, refused by the insurer and recovered in a district consumer forum.** The widow of a farmer claimed under the Gopinath Mundhe Farmers Accident Scheme through the Taluka Agriculture Officer; the insurer repudiated it as a heart attack rather than an accident. The District Consumer Forum at Aurangabad ordered ₹2 lakh with interest, and the State Commission dismissed the insurer's appeal. It is in the Docket because the route matters as much as the outcome — the claim went in through an agriculture officer, was refused there, and was won in a forum an ordinary claimant can actually reach. For anyone advising scheme beneficiaries, a repudiation letter is the start of a process, not the end of one.
+
 ## v10.259.0 — August 26, 2026 (The docket leaves the Supreme Court)
 
 ### For Learners
