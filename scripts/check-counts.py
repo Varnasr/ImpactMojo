@@ -165,6 +165,9 @@ TERMS = [
     # in a changelog or a translated doc, both already excluded.
     (r"booksummaries", "reading-companions"),
     (r"deep\s+dives", "deep-dives"),
+    # Renamed from "data dives" in v10.258.0; both prose counts had drifted
+    # to 6 and 7 against an actual 11, because nothing was checking them.
+    (r"data\s+notes", "data-notes"),
     (r"law\s+guides", "law-guides"),
     (r"handouts", "handouts"),
     (r"timelines", "timelines"),
@@ -217,6 +220,7 @@ LABEL_KEYS = [
     ("game library", "games"),
     ("practice packs", "practice-packs"),
     ("deep dives", "deep-dives"),
+    ("data notes", "data-notes"),
     ("dataverse tools", "dataverse"),
     ("data tools", "dataverse"),
     ("law guides", "law-guides"),
@@ -281,6 +285,7 @@ TILE_TERMS = {
     "studios": "labs",
     "reading companions": "reading-companions",
     "deep dives": "deep-dives",
+    "data notes": "data-notes",
     "handouts": "handouts",
     "timelines": "timelines",
     "practice packs": "practice-packs",
