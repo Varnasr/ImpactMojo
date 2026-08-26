@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.253.0 — August 26, 2026 (Dividing good by money)
+
+### For Learners
+
+- **A long essay on how to decide what to fund** — Peter Singer's argument and CARE's cost-per-outcome framework, read side by side. Both divide good by money, so the essay does not pretend one counts and the other doesn't. It sets out what Singer gets right and will not stop being right about, then five things actually wrong with the framework built on him: aggregation erases the separateness of persons, the measurement gradient decides more than the ethics does, the person holding the ruler is not the person living the outcome, politics gets laundered into technique, and multiplying through uncertainty eventually multiplies through a catastrophe. It then does the same to CARE's five gates, including the one nobody criticises — scaling only where a government or market will adopt the work would have ruled out the manual scavenging petition, the mid-day meal order and Samatha. Ends with what actually changes on a Tuesday morning.
+
 ## v10.252.0 — August 25, 2026 (Five more judgments, and one note removed)
 
 ### For Learners
