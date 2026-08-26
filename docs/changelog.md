@@ -2,6 +2,19 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.253.0 — August 26, 2026 (Dividing good by money)
+
+### For Learners
+
+- **A long essay on how to decide what to fund** — Peter Singer's argument and CARE's cost-per-outcome framework, read side by side. Both divide good by money, so the essay does not pretend one counts and the other doesn't. It sets out what Singer gets right and will not stop being right about, then five things actually wrong with the framework built on him: aggregation erases the separateness of persons, the measurement gradient decides more than the ethics does, the person holding the ruler is not the person living the outcome, politics gets laundered into technique, and multiplying through uncertainty eventually multiplies through a catastrophe. It then does the same to CARE's five gates, including the one nobody criticises — scaling only where a government or market will adopt the work would have ruled out the manual scavenging petition, the mid-day meal order and Samatha. Ends with what actually changes on a Tuesday morning.
+
+## v10.252.0 — August 25, 2026 (Five more judgments, and one note removed)
+
+### For Learners
+
+- **Five judgments join the Law Docket**, taking it to 66 — in the areas it was thinnest. Safai Karamchari Andolan, where the Court set ₹10 lakh compensation for a sewer death and made entering a sewer without safety gear a crime even in an emergency. The Asiad workers case, which held that paying below minimum wage is itself forced labour under Article 23. Narmada Bachao Andolan, which requires rehabilitation to keep pace with each rise in a dam's height. And the two Great Indian Bustard judgments read as a pair: the 2021 order to put power lines underground, and the 2025 judgment that replaced it with a mapped, staged regime after an expert committee reported. That pair is the clearest example in the docket of a court revisiting its own direction once evidence of implementation arrives.
+- **A note about the right-to-food litigation has been removed.** It said the docket's two orders from that petition should not be read as the whole case. True, but nothing else in the docket carries a note explaining that one judgment is not the whole of a subject, and the page already says coverage is the Supreme Court only. It was left over from an earlier fix rather than written on purpose.
+
 ## v10.251.0 — August 25, 2026 (Eight years of Union spending)
 
 ### For Learners

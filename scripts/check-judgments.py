@@ -136,6 +136,22 @@ def main():
         if j.get('year') and not (1947 <= int(j['year']) <= datetime.date.today().year):
             failures.append('%-28s year %s is out of range' % (who, j['year']))
 
+    # The same judgment must not appear twice. It nearly did: three entries were
+    # added under new ids for cases already in the docket under different names
+    # ("CPIO, Supreme Court of India" vs "Central Public Information Officer,
+    # Supreme Court of India"), so a name search found nothing and the id was
+    # free. The source URL is the only stable identity a judgment has here.
+    seen_url = {}
+    for i, j in enumerate(entries):
+        u = j.get('source_url')
+        if not u:
+            continue
+        if u in seen_url:
+            failures.append('%-28s same source_url as %s -- one judgment, two entries'
+                            % ('#%d %s' % (i + 1, j.get('id', '?')), seen_url[u]))
+        else:
+            seen_url[u] = j.get('id', '#%d' % (i + 1))
+
     if not entries:
         failures.append('data/judgments.json holds no entries')
 
