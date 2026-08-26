@@ -2,6 +2,22 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.257.0 — August 26, 2026 (Diagrams that look like diagrams)
+
+### For Learners
+
+- **The webinar page now carries what people have said about our workshops** — four notes from participants, quoted as we received them and published without names or organisations.
+- **Teaching Principles is reachable from the site footer and the Learn menu.** It was linked from exactly one page since it went up, which is close to unpublished.
+
+### Changed
+
+- **The Law Docket no longer says High Court and tribunal decisions "are not included".** That phrasing reads as a policy decision when the truth is narrower: every judgment collected so far happens to be a Supreme Court one. The page now says that, and says plainly that High Courts decide most development law that reaches a courtroom and are worth adding.
+
+### Fixed
+
+- **The essay's diagrams had stopped being diagrams.** Fixing their unreadability on phones (#1014) meant redrawing them in HTML, and that rewrite dropped every line the figures were made of — the arrows between steps, the drop-lines showing where a gate can stop the process, the connector into the result. What was left was a stack of text boxes. They are diagrams again, with the connectors drawn in a way that survives a narrow screen, and the third figure now shows arithmetic's usefulness shrinking to nothing across its three panels rather than only asserting it. (#1018)
+- **On a phone, the multiplication signs in the first diagram were invisible.** A leftover style rule from the previous version hid them below 620px, so the row that exists to show effect size × reach × probability ÷ cost showed four unlabelled boxes instead. Every connector is now checked at four screen widths rather than assumed. (#1018)
+
 ## v10.256.0 — August 26, 2026 (MEL Practice Series, September to October)
 
 ### For Learners

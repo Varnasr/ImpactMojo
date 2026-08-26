@@ -180,6 +180,7 @@
         '<div class="im-sc-foot-col"><h3>Learn</h3>' +
           '<a href="' + SITE + '/courses/">Flagship Courses</a><a href="' + SITE + '/101-courses/">101 Series</a>' +
           '<a href="' + SITE + '/Labs/">Studios</a><a href="' + SITE + '/teach.html">Teach with ImpactMojo</a>' +
+          '<a href="' + SITE + '/teaching-principles.html">Teaching Principles</a>' +
           '<a href="' + SITE + '/catalog.html">Full Catalog</a></div>' +
         '<div class="im-sc-foot-col"><h3>Explore</h3>' +
           '<a href="' + SITE + '/libraries.html"><b>All Libraries</b></a><a href="' + SITE + '/dataverse.html">Dataverse</a>' +
