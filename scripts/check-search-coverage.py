@@ -14,8 +14,18 @@ strings reports 87 phantom gaps.
 
 EXEMPT lists the pages deliberately left out, each with the reason. Adding to it
 is a decision someone has to write down, which is the point.
+
+It also asserts that `id` is unique across the index. That is here because
+coverage is compared by url, so id collisions were invisible to every guard we
+had: three ids were each carrying two different pages (#1031).
+The cause is worth knowing, because it will recur otherwise -- the next id gets
+chosen by reading the id of the *last* blog entry in the array, but the array is
+not sorted by id, so the last blog entry was BLOG037 while the highest in the
+file was BLOG061. Search still worked throughout, which is exactly why nobody
+noticed.
 """
 import json, re, sys, urllib.parse, xml.etree.ElementTree as ET
+from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -68,6 +78,24 @@ def main():
         for s in stale:
             why = "now indexed" if s in indexed else "no longer in sitemap.xml"
             print(f"    {s}  ({why})")
+        return 1
+
+    # An id looks like a primary key, so anything downstream may treat it as
+    # unique; nothing else in the repo reads the field at all, which is how
+    # three collisions survived (#1031). Urls are deliberately NOT checked for
+    # uniqueness: many entries point at the same page under different fragments
+    # -- every judgment at the docket, every dataverse resource at dataverse.html
+    # -- and norm() strips fragments, so a url check would fail on correct data.
+    dup_id = sorted(k for k, n in Counter(
+        e["id"] for e in entries if isinstance(e.get("id"), str)).items() if n > 1)
+    if dup_id:
+        print(f"FAIL - data/search-index.json has {len(dup_id)} duplicate id(s):")
+        for d in dup_id:
+            urls = [e.get("url") for e in entries if e.get("id") == d]
+            print(f"    {d} -> {', '.join(str(u) for u in urls)}")
+        print("\nGive each entry its own id. For a new blog post take max(id) over")
+        print("the whole file, not the id of the last blog entry in the array --")
+        print("the array is not sorted by id.")
         return 1
 
     print(f"PASS - all {len(sitemap_paths)} sitemap pages are in site search "

@@ -2,6 +2,16 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.267.0 — August 26, 2026 (Duplicate ids in the search index)
+
+### Fixed
+
+- Three ids in `data/search-index.json` were each carrying two different pages (#1031). `BLOG037` predated today; `BLOG038` and `BLOG039` were introduced yesterday by the same mistake that produced the first — the next id was taken from the id of the *last* blog entry in the array rather than the maximum over the file, and the array is not sorted by id, so the last blog entry read `BLOG037` while the highest in the file was `BLOG061`. A fourth collision (`nfhs-district-explorer`, used by both the in-house explorer and the independent NFHS-5-vs-6 project) is fixed too.
+
+### Added
+
+- `scripts/check-search-coverage.py` now fails on any repeated `id`. Coverage is compared by url, so id collisions were invisible to every guard we had, and nothing else in the repo reads the id field at all — search kept working throughout, which is why nobody noticed. Urls are deliberately not checked for uniqueness: many entries point at the same page under different fragments (every judgment at the docket, every dataverse resource at `dataverse.html`), so a url check would fail on correct data. Proved by re-introducing the exact `BLOG038` collision and confirming the guard caught it.
+
 ## v10.266.0 — August 26, 2026 (Two posts: the law that moved, and the column nobody prints)
 
 ### For Learners
