@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.261.0 — August 26, 2026 (The Docket stops narrating itself)
+
+### Changed
+
+- **The note at the foot of the Law Docket is half the length and says only what is true now.** It had grown a paragraph explaining that an earlier version of itself had given a wrong reason, and another announcing what was going to be added next. Neither is something a reader came to the page for: what the correction was belongs in this changelog, and what is coming next belongs nowhere until it ships. It now says which courts are covered and why district courts are not, in about eighty words.
+
 ## v10.260.0 — August 26, 2026 (A wrong reason, corrected)
 
 ### Fixed
