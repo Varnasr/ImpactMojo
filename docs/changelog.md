@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.259.0 — August 26, 2026 (The docket leaves the Supreme Court)
+
+### For Learners
+
+- **The Law Docket now covers High Courts and tribunals, not only the Supreme Court**, and has a court filter so you can see what is there from each. Five judgments open it up. *Laxmi Mandal* (Delhi High Court, 2010), where two women below the poverty line were denied maternity entitlements and the Court treated it as a violation of the rights to health and food rather than a service failure — and treated the schemes as one enforceable whole, so a gap in one is not answered by another. *Social Jurist* (Delhi High Court, 2007), holding private hospitals to the free-treatment conditions attached to the public land they were given, which is the reasoning that applies to any organisation given premises on a stated public purpose. *Naz Foundation* (Delhi High Court, 2009), read down Section 377 — carried with its full later history, because it was set aside in 2013 and only vindicated in 2018 by a different judgment, and that is the thing worth knowing before you rely on a High Court ruling. *Sarang Yadwadkar* (National Green Tribunal, 2013), which stopped a municipal road inside a mapped flood line and made the line bind the authority granting permission, not only the builder. And *Vardhaman Kaushik* (National Green Tribunal), as a worked example of what years of continuing supervision over air quality actually looks like.
+- **The page now says why district court decisions are absent**, instead of listing them as excluded. They are not systematically published as citable documents, so there is usually nothing to link to and nothing to check a summary against; where a trial court decision does matter it is often readable only through the appellate judgment reviewing it, as with the Bhopal magistrate's convictions of 2010. An entry sourced to another court's account of a decision would not meet the standard the rest of the docket is held to, so none was added on that basis.
+
 ## v10.258.0 — August 26, 2026 (Data Dives are now Data Notes)
 
 ### Changed

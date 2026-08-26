@@ -119,6 +119,7 @@
       <input id="q" type="search" placeholder="Search case, holding, or what it changed" aria-label="Search judgments">
       <select id="theme" aria-label="Filter by theme"><option value="">All themes</option></select>
       <select id="status" aria-label="Filter by status"><option value="">Any status</option></select>
+      <select id="court" aria-label="Filter by court"><option value="">All courts</option></select>
       <select id="scope" aria-label="Filter by scope">
         <option value="">All judgments</option>
         <option value="landmark">Landmarks only</option>
@@ -139,10 +140,19 @@
     <section style="margin-top:2rem">
       <h2>How these entries were checked</h2>
       <p id="verif"></p>
-      <p>Every judgment here is a decision of the Supreme Court of India. That is the scope of
-      what has been collected so far, not a view that other courts matter less: High Courts decide
-      most development law that reaches a courtroom, and a good deal of what binds a programme is
-      settled by a tribunal. Those are worth adding, and are not here yet.</p>
+      <p>Coverage is the Supreme Court of India, the High Courts and the tribunals &mdash; use the
+      court filter above to see what is here from each. High Courts decide most development law that
+      ever reaches a courtroom, and a great deal of what actually binds a programme is settled by a
+      tribunal rather than a court, so both belong in a docket meant to be useful rather than
+      decorative.</p>
+      <p>District court decisions are not here, and the reason is worth stating plainly rather than
+      leaving as a gap. They are not systematically published as citable documents, so there is
+      usually nothing to link to and nothing to check a summary against. Where a trial court decision
+      does matter, it commonly becomes visible only through the appellate judgment reviewing it
+      &mdash; the Bhopal Chief Judicial Magistrate&rsquo;s convictions of 7 June 2010, for instance,
+      are readable today mainly in the Supreme Court judgment that considered them. An entry sourced
+      to another court&rsquo;s account of a decision would not meet the standard the rest of this
+      docket is held to, so none has been added on that basis.</p>
       <div id="coverage-notes"></div>
     </section>
   </main>
@@ -235,13 +245,15 @@
     }
     function render(){
       var q=($('q').value||'').toLowerCase().trim(),
-          th=$('theme').value, st=$('status').value, sc=$('scope').value;
+          th=$('theme').value, st=$('status').value, sc=$('scope').value,
+          ct=$('court').value;
       var out=DATA.filter(function(j){
         if(th && (j.themes||[]).indexOf(th)<0) return false;
         if(st && j.status!==st) return false;
+        if(ct && j.court!==ct) return false;
         if(sc==='landmark' && !j.landmark) return false;
         if(!q) return true;
-        return (j.case+' '+j.holding+' '+j.what_changed+' '+(j.themes||[]).join(' ')).toLowerCase().indexOf(q)>=0;
+        return (j.case+' '+j.court+' '+j.holding+' '+j.what_changed+' '+(j.themes||[]).join(' ')).toLowerCase().indexOf(q)>=0;
       });
       $('list').innerHTML=out.map(card).join('');
       $('empty').hidden = out.length>0;
@@ -255,8 +267,13 @@
     fetch('/data/judgments.json').then(function(r){return r.json()}).then(function(d){
       DATA=d.judgments||[]; META=d.meta||{};
       var th={},st={};
-      DATA.forEach(function(j){(j.themes||[]).forEach(function(t){th[t]=1}); st[j.status]=1});
+      var ct={};
+      DATA.forEach(function(j){(j.themes||[]).forEach(function(t){th[t]=1}); st[j.status]=1;
+                               if(j.court) ct[j.court]=1});
       fill('theme', Object.keys(th)); fill('status', Object.keys(st));
+      // Courts are derived, so adding a tribunal to the data adds it here. A
+      // hardcoded list is how this page once claimed six exclusions over one.
+      fill('court', Object.keys(ct).sort());
       $('verif').textContent = META.verification || '';
       var ex = META.excluded||[];
       // Derived, not written: a hardcoded count here once said "six" over a list of one.
@@ -273,7 +290,7 @@
       // is in fact in the docket. They belong with coverage.
       $('coverage-notes').innerHTML = (META.coverage_notes||[])
         .map(function(n){ return '<p>'+esc(n)+'</p>' }).join('');
-      ['q','theme','status','scope'].forEach(function(id){
+      ['q','theme','status','scope','court'].forEach(function(id){
         $(id).addEventListener('input', render); $(id).addEventListener('change', render);
       });
       render();
