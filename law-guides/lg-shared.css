@@ -82,6 +82,18 @@ html.dark {
     --lg-red: #F87171;
     --lg-red-soft: rgba(248, 113, 113, 0.10);
 }
+
+/* --im-surface and --im-surface-2 are referenced by the docket, the law guides
+   and teaching-principles.html but were defined nowhere in the repo, so every
+   use fell through to its light-mode fallback whatever the theme. In dark mode
+   that painted the case cards #FFFFFF and left the inherited #F1F5F9 text on
+   top -- 1.13:1, present and invisible. Aliased to the --lg-* tokens above so
+   there is one place a surface colour is decided rather than two. (#1016)
+   theme.js sets both html.dark and data-theme, so both selectors are covered. */
+:root { --im-surface: var(--lg-surface); --im-surface-2: var(--lg-bg); }
+html.dark, :root[data-theme="dark"] { --im-surface: #1E293B; --im-surface-2: #0F172A; }
+:root[data-theme="light"] { --im-surface: #FFFFFF; --im-surface-2: #FAF7F2; }
+
 html, body { background: var(--lg-bg); color: var(--lg-text); font-family: 'Amaranth', Arial, sans-serif; line-height: 1.7; }
 .lg-wrap { max-width: 780px; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; position: relative; z-index: 1; }
 

@@ -2,6 +2,16 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.255.0 — August 26, 2026 (How we teach, written down)
+
+### For Learners
+
+- **A Teaching Principles page** — the twenty-four rules every ImpactMojo course, lab and game is built by, in one place. The challenge equation we use instead of differentiation; why prerequisite knowledge gets checked rather than assumed, and why the quantitative floor is the prerequisite most often skipped; teaching what a concept is *and* what it is not; building a diagram in front of people rather than reading a slide aloud; six named routes through an explanation; retrieval as a routine rather than an activity; interleaving; withdrawing support as knowledge grows; whole-class feedback instead of written comments; and slowing an activity down until it teaches something. Adapted from Adam Boxer's *Teaching Secondary Science* and the cognitive science behind it, with sources listed. Three principles are marked as places where teaching social science needs something different — misconceptions here are positions rather than errors, everyday words carry technical meanings that quietly mislead, and values are part of the content rather than noise to strip out. It ends with four things we are still bad at.
+
+### Fixed
+
+- **Case cards in the Law Docket and all six law guides were unreadable in dark mode.** They rendered white text on a white card — a contrast ratio of about 1.13 to 1, so the text was present, selectable and invisible. Two colour variables used throughout those pages had never been defined anywhere in the site, so every use fell back to a light-mode colour whatever theme the reader had chosen. Neither accessibility check would have caught it: both run the light theme at desktop width only. (#1016)
+
 ## v10.254.0 — August 26, 2026 (The essay, rewritten and sourced)
 
 ### For Learners
