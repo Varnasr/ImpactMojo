@@ -55,7 +55,23 @@ STATUS = {
 # are separate on purpose: the clean name is editorial, and if it were the only
 # name recorded there would be no way to check it back against the source.
 REQUIRED = ('id', 'case', 'source_title', 'court', 'year', 'holding',
-            'what_changed', 'status', 'themes', 'source_url', 'verified')
+            'what_changed', 'status', 'themes', 'source_url', 'verified',
+            'layer', 'proceeding')
+
+# Two axes, deliberately separate. `status` answers "does this holding still
+# stand"; `proceeding` answers "is the court still doing anything about it".
+# A continuing-mandamus matter is good law AND still live, and collapsing the
+# two would lose exactly the distinction a practitioner needs.
+LAYER = {
+    'A',   # the law governing how the sector itself operates
+    'B',   # substantive rights in the sector's issue areas
+}
+PROCEEDING = {
+    'decided',              # disposed of; nothing further listed
+    'continuing-mandamus',  # court still seized, issuing directions over time
+    'live',                 # pending, no operative holding yet
+    'recalled',             # judgment recalled; the position is unsettled
+}
 
 ID_RE = re.compile(r'^[a-z0-9]+(-[a-z0-9]+)*$')
 URL_RE = re.compile(r'^https://')
@@ -104,6 +120,21 @@ def main():
         if ' vs ' in name or ' on ' in name.lower()[-24:] or '...' in name:
             failures.append('%-28s case name looks like raw scraper output: %s'
                             % (who, name[:60]))
+
+        lay = j.get('layer')
+        if lay and lay not in LAYER:
+            failures.append('%-28s layer "%s" is not one of: %s'
+                            % (who, lay, ', '.join(sorted(LAYER))))
+
+        pr = j.get('proceeding')
+        if pr and pr not in PROCEEDING:
+            failures.append('%-28s proceeding "%s" is not one of: %s'
+                            % (who, pr, ', '.join(sorted(PROCEEDING))))
+
+        # A matter nobody has decided cannot also be settled law. This pairing
+        # shipped nowhere yet and the guard exists so it never does.
+        if pr in ('live', 'recalled') and j.get('status') == 'good-law':
+            failures.append('%-28s proceeding "%s" cannot carry status "good-law"' % (who, pr))
 
         st = j.get('status')
         if st and st not in STATUS:

@@ -2,6 +2,18 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.262.0 — August 26, 2026 (The Docket learns what a court is still doing)
+
+### For Learners
+
+- **You can now filter the Docket by what stage a matter is at, not just whether the holding stands.** Those are different questions and the Docket was only answering one. A case can be good law and still live, with a court issuing fresh directions year after year — the right-to-food litigation, the migrant-workers matter, the forest-governance case. Five entries are now marked as matters the court is still seized of, and you can pull up just those.
+- **And by layer** — the law governing how organisations themselves operate (foreign funding, tax exemption, RTI exposure, how a public interest petition must be brought) versus the rights law in the areas we work in. Eight entries sit in the first group.
+- **Five judgments added, including a pair that shows why the Docket exists.** *Pune Municipal Corporation* (2014) was the authority on which a great many old land acquisitions were reopened and land returned to owners — and it was overruled in 2020 by *Indore Development Authority*, which narrowed the rule sharply. Both are now in, each pointing at the other. Anyone still working from advice given before March 2020 needs to know the ground moved. Also added: the RTI test for whether an organisation is a "public authority" at all, the standard a public interest petition is now held to, and the charitable-status rule for organisations that charge fees.
+
+### Changed
+
+- **The Docket's filter row fits a phone again.** Adding two filters took it to seven controls, each on its own line on a narrow screen, which pushed the first judgment most of a screen further down. They now sit two to a row below 560px.
+
 ## v10.261.0 — August 26, 2026 (The Docket stops narrating itself)
 
 ### Changed
