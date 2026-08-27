@@ -2,6 +2,19 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.271.0 — August 27, 2026 (PLFS moves to calendar 2025, and ResGov joins the Dataverse)
+
+### For Learners
+
+- **The PLFS Workforce Explorer now runs on calendar year 2025.** State rankings, the table and the pay view use the latest annual figures: women's labour-force participation is **40.0%** against men's **79.1%**. You can switch the rankings and the table back to 2023-24 with the underlined year.
+- **The trend view shows both survey designs side by side, with the break marked.** PLFS moved from a July–June cycle to a January–December one under a redesigned, much larger sample, so the two runs are drawn as separate lines with a dashed rule between them. A single line across that join would be a trend that never happened. Women's participation climbed 23.3% → 41.7% on the old basis, then 33.9% → 40.0% on the new one.
+- **Pay figures are now annual rather than a single quarter.** The old series only published earnings by survey quarter; the calendar series publishes a yearly figure. Women's average gross earnings from self-employment are **₹6,374 a month against men's ₹17,914** — about 36%.
+- **ResGov joins the Dataverse.** The Foundation for Responsive Governance publishes 50 ministry-by-ministry Union Budget briefs — agriculture, rural development, education, health, Jal Shakti, women and child development, housing, defence, and named schemes like PMAY-Gramin — plus working papers on welfare delivery and state capacity. Read them beside the head-level numbers in the Union Budget explorer.
+
+### Changed
+
+- Two things on the PLFS page that could not move to 2025, both now labelled rather than quietly left stale: the **job-security view stays on 2023-24**, because MoSPI does not publish that breakdown on the calendar series (the API returns an error for it); and the **confidence-interval whiskers appear on the 2023-24 rankings only**, because the relative standard errors exist in that report's Appendix B and have no published equivalent for 2025. The 2025 view draws none rather than borrowing the old ones, and the legend says so instead of promising whiskers that are not there.
+
 ## v10.270.0 — August 27, 2026 (NFHS State Explorer, and eight dead links out of the Dataverse)
 
 ### For Learners

@@ -59,7 +59,7 @@ A **dictionary of 500+ development terms** — from "attribution" to "zero-based
 **500+ curated academic papers, books, and reports** — the essential reading list for development professionals, organized so you can actually find what you need.
 
 ### Dataverse
-**334 datasets, APIs, tools, and MCP servers** for development research. If you need data on poverty, health outcomes, governance indicators, or climate — start here.
+**335 datasets, APIs, tools, and MCP servers** for development research. If you need data on poverty, health outcomes, governance indicators, or climate — start here.
 
 ### Blog & Podcast
 Regular writing and audio on development practice, new platform features, and sector trends.
