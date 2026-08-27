@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.269.0 — August 26, 2026 (The NFHS explorer in the Dataverse now covers states too)
+
+### Changed
+
+- **The NFHS-5 vs NFHS-6 explorer in the Dataverse has grown a state layer**, and our entry had not caught up. It now carries 101 indicators for states and UTs alongside the 93 district ones, and a second author. The entry is renamed to *NFHS State & District Explorer*, credited to Nand Lal Mishra and Swati Sneha, and still says plainly that it is an independent project rather than an official IIPS or MoHFW release, and that NFHS-6 district results are still being released.
+
 ## v10.268.0 — August 26, 2026 (Rewriting the two new posts, and a button nobody could read)
 
 ### Fixed
