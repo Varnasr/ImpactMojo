@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#0F172A">
+<title>NFHS State Explorer — rural and urban India, side by side | ImpactMojo</title>
+<meta name="description" content="India's health and nutrition indicators by state, with rural and urban shown separately rather than combined. 136 indicators across NFHS-4 (2015-16) and NFHS-5 (2019-21), from the MoSPI eSankhyiki NFHS data service.">
+<link rel="canonical" href="https://www.impactmojo.in/nfhs-state.html">
+<meta property="og:title" content="NFHS State Explorer — rural and urban India, side by side">
+<meta property="og:description" content="The combined state figure hides the gap. 136 NFHS indicators by state, rural and urban separately, NFHS-4 against NFHS-5.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.impactmojo.in/nfhs-state.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="/assets/images/favicon.png" rel="icon" type="image/png">
+<style>
+
+:root{
+  --bg:#F6F8FB; --panel:#FFFFFF; --ink:#0F172A; --mut:#5A6B82; --faint:#8595AB;
+  --bd:#E4EAF1; --acc:#0EA5E9; --acc2:#6366F1; --good:#10B981; --bad:#EF4444;
+  --grad:linear-gradient(135deg,#0EA5E9,#6366F1);
+  --chip:#EEF3F9; --chipactive:#0EA5E9; --barlo:#BAE6FD; --barhi:#0369A1;
+  --sg-valink:#FFFFFF; --rural:#0369A1; --urban:#B45309; --warn:#B45309;
+}
+html[data-theme="dark"]{
+  --bg:#0B1120; --panel:#131C2E; --ink:#F1F5F9; --mut:#9DB0C7; --faint:#64748B;
+  --bd:#25314A; --chip:#1C2740; --chipactive:#0EA5E9; --barlo:#0C4A6E; --barhi:#38BDF8;
+  --sg-valink:#06283B; --rural:#38BDF8; --urban:#FBBF24; --warn:#FBBF24;
+}
+@media(prefers-color-scheme:dark){html:not([data-theme]){
+  --bg:#0B1120; --panel:#131C2E; --ink:#F1F5F9; --mut:#9DB0C7; --faint:#64748B;
+  --bd:#25314A; --chip:#1C2740; --barlo:#0C4A6E; --barhi:#38BDF8;
+  --sg-valink:#06283B; --rural:#38BDF8; --urban:#FBBF24; --warn:#FBBF24;
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Amaranth',system-ui,-apple-system,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.ui{font-family:'Inter',system-ui,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:0 clamp(14px,3vw,26px)}
+.mono{font-family:'JetBrains Mono',monospace}
+.hero{padding:clamp(22px,4vw,40px) 0 8px}
+.eyebrow{font-family:'Amaranth',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--acc)}
+.hero h1{font-family:'Amaranth','Inter',sans-serif;font-weight:700;letter-spacing:-.5px;font-size:clamp(1.6rem,4.4vw,2.5rem);margin:.35rem 0 .5rem;line-height:1.12}
+.hero p.lede{color:var(--mut);max-width:70ch;margin:0;font-size:1.02rem}
+.srcbadge{display:inline-flex;gap:7px;align-items:center;margin-top:14px;font-family:'Inter';font-size:12px;font-weight:600;color:var(--mut);background:var(--chip);border:1px solid var(--bd);padding:5px 11px;border-radius:99px}
+.srcbadge b{color:var(--ink)}
+.hstats{display:flex;flex-wrap:wrap;gap:10px 22px;margin:16px 0 0;padding:0;list-style:none}
+.hstats li{font-size:.88rem;color:var(--faint)}
+.hstats b{color:var(--ink);font-weight:700;font-size:1.05rem;display:block}
+.about{margin:18px 0 6px;border:1px solid var(--bd);border-left:4px solid var(--acc2);background:var(--chip);border-radius:12px;padding:15px 18px;font-size:.94rem;color:var(--mut)}
+.about h2{font-family:'Amaranth',sans-serif;font-size:1rem;margin:0 0 6px;color:var(--ink)}
+.about b{color:var(--ink)}
+.howto{margin:14px 0 6px;border:1px solid var(--bd);border-left:4px solid var(--acc);background:var(--chip);border-radius:12px;padding:14px 16px}
+.howto h2{font-family:'Amaranth',sans-serif;font-size:.98rem;margin:0 0 6px;display:flex;align-items:center;gap:8px;color:var(--ink)}
+.howto ul{margin:6px 0 0;padding-left:20px;color:var(--mut);font-size:.9rem}
+.howto li{margin:3px 0}
+.qbar{background:var(--panel);border:1px solid var(--bd);border-radius:16px;padding:20px 22px;margin:20px 0;box-shadow:0 1px 3px rgba(16,24,40,.04)}
+.qlead{font-family:'Inter';font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--faint);margin:0 0 10px}
+.qline{font-family:'Inter';font-weight:600;font-size:clamp(1.15rem,2.6vw,1.5rem);line-height:1.7;color:var(--ink);margin:0;letter-spacing:-.2px}
+.qhint{font-family:'Inter';font-size:12.5px;color:var(--faint);margin:14px 0 0}
+.blankdemo{color:var(--acc);border-bottom:2px dashed var(--acc);font-weight:700}
+select.blank{-webkit-appearance:none;-moz-appearance:none;appearance:none;font-family:'Inter';font-weight:800;font-size:inherit;color:var(--acc);
+  background:linear-gradient(var(--chip),var(--chip)) padding-box;border:0;border-bottom:2.5px solid var(--acc);border-radius:6px 6px 0 0;
+  padding:1px 26px 3px 9px;margin:0 2px;cursor:pointer;line-height:1.35;max-width:100%;
+  background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230EA5E9' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 7px center}
+select.blank:hover{background-color:color-mix(in srgb,var(--acc) 16%,transparent)}
+select.blank:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+html[data-theme="dark"] select.blank{color:#7DD3FC;border-bottom-color:#38BDF8}
+@media(prefers-color-scheme:dark){html:not([data-theme]) select.blank{color:#7DD3FC;border-bottom-color:#38BDF8}}
+.caption{background:var(--panel);border:1px solid var(--bd);border-left:4px solid var(--acc);border-radius:12px;padding:14px 18px;margin-bottom:16px}
+.caption .q{font-family:'Inter';font-weight:700;font-size:1.08rem;color:var(--ink)}
+.caption .sub{color:var(--mut);font-size:.92rem;margin-top:3px}
+.caption .allindia{margin-top:9px;font-family:'Inter';font-size:13px;color:var(--mut)}
+.caption .allindia b{color:var(--acc);font-size:15px}
+.caption .why{margin-top:8px;font-size:.9rem;color:var(--mut);font-style:italic}
+.panel{background:var(--panel);border:1px solid var(--bd);border-radius:16px;padding:18px;box-shadow:0 1px 3px rgba(16,24,40,.04)}
+.chart-svg{width:100%;height:auto;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-family:'Inter';font-size:12px;color:var(--mut)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.dot{width:11px;height:11px;border-radius:3px;display:inline-block}
+table.data{width:100%;border-collapse:collapse;font-family:'Inter';font-size:13.5px}
+table.data th,table.data td{padding:9px 10px;text-align:right;border-bottom:1px solid var(--bd)}
+table.data th{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--faint);font-weight:700;cursor:pointer;user-select:none}
+table.data td:first-child,table.data th:first-child{text-align:left}
+table.data tbody tr:hover{background:var(--chip)}
+table.data tr.ai td{font-weight:800;color:var(--acc);border-top:2px solid var(--acc)}
+.method{margin:26px 0 60px;color:var(--mut);font-size:13px;line-height:1.6}
+.method h2{font-family:'Amaranth',sans-serif;font-size:1rem;color:var(--ink);margin:0 0 8px}
+.method a{color:var(--acc)}
+.note{background:var(--chip);border:1px solid var(--bd);border-radius:12px;padding:13px 16px;margin:18px 0;font-size:13px;color:var(--mut)}
+.note b{color:var(--ink)}
+.gap-wrap{display:flex;flex-direction:column;gap:20px}
+.gap-sec h3{font-family:'Inter';font-size:.8rem;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--faint);margin:0 0 12px}
+.gaprow{margin:0 0 15px}
+.gaplab{font-family:'Inter';font-weight:600;font-size:.95rem;color:var(--ink);margin-bottom:6px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.gaplab .unit{color:var(--faint);font-weight:600;font-size:.8rem;white-space:nowrap}
+.gb{display:flex;align-items:center;gap:10px;margin:4px 0;font-family:'Inter'}
+.gbk{width:50px;font-size:.8rem;color:var(--mut);flex:none}
+.gbtrack{flex:1;background:var(--chip);border-radius:6px;height:20px;position:relative;overflow:hidden;min-width:40px}
+.gbtrack i{position:absolute;left:0;top:0;bottom:0;border-radius:6px;display:block}
+.gbv{width:82px;text-align:right;font-family:'JetBrains Mono';font-size:.82rem;font-weight:600;color:var(--ink);flex:none}
+.gapratio{font-family:'Inter';font-size:.82rem;color:var(--mut);margin-top:5px}
+.gapratio b{color:var(--acc)}
+.men-c{background:var(--acc)}
+.wom-c{background:#F59E0B}
+.gap-legend{display:flex;gap:16px;margin-top:14px;font-family:'Inter';font-size:12px;color:var(--mut)}
+.gap-legend span{display:inline-flex;align-items:center;gap:6px}
+/* ---- social-group panel (calendar-year series) ---- */
+.sg{background:var(--panel);border:1px solid var(--bd);border-radius:16px;padding:18px 20px;margin:22px 0 0;box-shadow:0 1px 3px rgba(16,24,40,.04)}
+.sg h2{font-family:'Amaranth',sans-serif;font-size:1.1rem;margin:0 0 4px;color:var(--ink)}
+.sg .sg-lede{color:var(--mut);font-size:.93rem;margin:0 0 14px;max-width:74ch}
+.sg .sg-tabs{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+.sg .sg-tab{font-family:'Inter';font-size:12.5px;font-weight:700;padding:6px 13px;border-radius:99px;border:1px solid var(--bd);background:var(--chip);color:var(--mut);cursor:pointer}
+.sg .sg-tab[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#fff}
+.sg .sg-tab:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.sg-row{display:grid;grid-template-columns:9.5rem 1fr 4.6rem;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid var(--bd)}
+.sg-row:last-of-type{border-bottom:0}
+.sg-row.is-all{background:var(--chip);border-radius:8px;padding-left:8px;padding-right:8px;border-bottom:0;margin-bottom:4px}
+.sg-name{font-family:'Inter';font-size:13px;font-weight:600;color:var(--ink);line-height:1.25}
+.sg-name em{display:block;font-style:normal;font-size:11px;font-weight:500;color:var(--faint)}
+.sg-track{position:relative;height:22px;background:var(--chip);border-radius:5px;overflow:hidden}
+.sg-bar{position:absolute;inset:0 auto 0 0;background:var(--barhi);border-radius:5px}
+.sg-bar.sg-idle{background:var(--bad);opacity:.85;border-radius:0}
+.sg-val{position:absolute;top:50%;transform:translateY(-50%);font-family:'Inter';font-size:11.5px;font-weight:700;color:var(--sg-valink);left:8px}
+.sg-ur{font-family:'Inter';font-size:14px;font-weight:800;color:var(--ink);text-align:right}
+.sg-ur span{display:block;font-size:10px;font-weight:600;color:var(--faint);letter-spacing:.4px;text-transform:uppercase}
+.sg-head{display:grid;grid-template-columns:9.5rem 1fr 4.6rem;gap:10px;font-family:'Inter';font-size:10.5px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--faint);padding-bottom:6px;border-bottom:1px solid var(--bd);margin-bottom:4px}
+.sg-head span:last-child{text-align:right}
+.sg-key{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-family:'Inter';font-size:11.5px;color:var(--mut)}
+.sg-key i{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.sg-read{margin:14px 0 0;padding:12px 14px;border:1px solid var(--bd);border-left:4px solid var(--acc2);background:var(--chip);border-radius:10px;font-size:.9rem;color:var(--mut)}
+.sg-read b{color:var(--ink)}
+.sg-read p{margin:0 0 8px}
+.sg-read p:last-child{margin:0}
+.sg-src{font-family:'Inter';font-size:11.5px;color:var(--faint);margin:12px 0 0;line-height:1.55}
+.sg-src a{color:var(--mut)}
+@media (max-width:560px){
+  .sg-row,.sg-head{grid-template-columns:6.6rem 1fr 3.8rem;gap:8px}
+  .sg-name{font-size:12px}
+}
+/* ---- rural / urban split views ---- */
+.ru-head{display:grid;grid-template-columns:11rem 1fr 5.2rem;gap:10px;font-family:'Inter';font-size:10.5px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--faint);padding-bottom:6px;border-bottom:1px solid var(--bd);margin-bottom:5px}
+.ru-head span:last-child{text-align:right}
+.ru-row{display:grid;grid-template-columns:11rem 1fr 5.2rem;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--bd)}
+.ru-row:last-child{border-bottom:0}
+.ru-row.is-all{background:var(--chip);border-radius:8px;padding:8px;border-bottom:0;margin-bottom:5px}
+.ru-name{font-family:'Inter';font-size:12.5px;font-weight:600;color:var(--ink);line-height:1.25}
+.ru-name em{display:block;font-style:normal;font-size:10.5px;font-weight:500;color:var(--faint)}
+.ru-track{position:relative;height:26px}
+.ru-axis{position:absolute;left:0;right:0;top:50%;height:1px;background:var(--bd)}
+.ru-link{position:absolute;top:50%;height:3px;transform:translateY(-50%);background:var(--acc2);opacity:.42;border-radius:2px}
+.ru-dot{position:absolute;top:50%;width:11px;height:11px;margin-left:-5.5px;transform:translateY(-50%);border-radius:50%;border:2px solid var(--panel)}
+.ru-dot.r{background:var(--rural)}
+.ru-dot.u{background:var(--urban)}
+.ru-tick{position:absolute;top:50%;width:2px;height:13px;margin-left:-1px;transform:translateY(-50%);background:var(--faint);opacity:.75}
+.ru-gap{font-family:'Inter';font-size:13px;font-weight:800;color:var(--ink);text-align:right;font-variant-numeric:tabular-nums}
+.ru-gap small{display:block;font-size:9.5px;font-weight:600;color:var(--faint);letter-spacing:.4px;text-transform:uppercase}
+.ru-gap.na{color:var(--faint);font-weight:600;font-size:11px}
+.ru-key{display:flex;flex-wrap:wrap;gap:15px;margin-top:13px;font-family:'Inter';font-size:11.5px;color:var(--mut);align-items:center}
+.ru-key i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.ru-key b.tk{display:inline-block;width:2px;height:11px;background:var(--faint);margin-right:6px;vertical-align:-1px}
+.ru-scale{font-family:'Inter';font-size:10.5px;color:var(--faint);display:flex;justify-content:space-between;margin-top:2px}
+.ru-flag{grid-column:1/-1;font-family:'Inter';font-size:11px;color:var(--warn);padding:2px 0 4px;line-height:1.4}
+.ru-note{margin-top:14px;padding:12px 14px;border:1px solid var(--bd);border-left:4px solid var(--acc2);background:var(--chip);border-radius:10px;font-size:.9rem;color:var(--mut)}
+.ru-note b{color:var(--ink)}
+.ru-note p{margin:0 0 8px}.ru-note p:last-child{margin:0}
+.lowmark{color:var(--warn);font-weight:700}
+.prof-tab{width:100%;border-collapse:collapse;font-family:'Inter';font-size:12.5px}
+.prof-tab th,.prof-tab td{padding:7px 8px;border-bottom:1px solid var(--bd);text-align:right;font-variant-numeric:tabular-nums}
+.prof-tab th{font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:var(--faint);font-weight:700}
+.prof-tab td:first-child,.prof-tab th:first-child{text-align:left;font-weight:600;color:var(--ink);max-width:23rem}
+.prof-tab tbody tr:hover{background:var(--chip)}
+.prof-tab .grp{background:var(--chip);font-family:'Amaranth',sans-serif;font-weight:700;color:var(--ink);text-align:left;font-size:12.5px}
+.prof-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.dl{display:inline-flex;align-items:center;gap:7px;margin-top:14px;font-family:'Inter';font-size:12.5px;font-weight:700;color:var(--acc);background:var(--chip);border:1px solid var(--bd);padding:7px 13px;border-radius:99px;cursor:pointer}
+.dl:hover{border-color:var(--acc)}
+@media (max-width:620px){
+  .ru-row,.ru-head{grid-template-columns:7.2rem 1fr 3.4rem;gap:7px}
+  .ru-name{font-size:11.5px}
+  .ru-gap{font-size:12px}
+  .ru-gap small{display:none}   /* the column header already says Gap */
+  .prof-tab{font-size:11.5px}
+}
+</style>
+</head>
+<body>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="eyebrow">ImpactMojo Studio &middot; Health &amp; the household</div>
+    <h1>NFHS State Explorer</h1>
+    <p class="lede">India's health and nutrition indicators by state, with <b>rural and urban shown separately</b> rather than rolled into one figure. Most published NFHS state tables give you the combined number; on a wide gap that number describes neither half of the state. 136 indicators across <b>NFHS-4 (2015-16)</b> and <b>NFHS-5 (2019-21)</b>, from the government's own data service.</p>
+    <ul class="hstats" aria-hidden="true">
+      <li><b>136</b> indicators</li>
+      <li><b>39</b> states &amp; UTs</li>
+      <li><b>2</b> survey rounds</li>
+      <li><b>rural &amp; urban</b> separately</li>
+      <li><b>27,084</b> published figures</li>
+    </ul>
+    <div class="srcbadge">Source: <b>NFHS-4 &amp; NFHS-5</b> via MoSPI eSankhyiki</div>
+  </section>
+
+  <div class="note">
+    <b>NFHS-6 is not here, and cannot be yet.</b> The 2023-24 round is published as fact sheets, not through the data service this page draws on, and it is absent from the DHS Program's India collection too. For NFHS-5 against NFHS-6 at district and state level, use the independent <a href="https://nfhs-district-explorer.snehanand.chatgpt.site/" target="_blank" rel="noopener">explorer by Nand Lal Mishra and Swati Sneha</a>, which was built from those fact sheets. This page covers the two rounds the API carries, and adds the split that fact sheets do not report at state level.
+  </div>
+
+  <section class="about">
+    <h2>Why rural and urban separately</h2>
+    <p>A state's combined figure is a population-weighted average of two populations that often differ sharply. Kerala's children under five who are stunted went from <b>19.7% to 23.4%</b> between the rounds &mdash; but that is <b>19.5% to 26.4% in rural Kerala</b> against <b>19.8% to 20.1% in urban</b>. Nearly all of the change is rural, and the combined number shows about half of it. Which figure you quote decides where a programme goes.</p>
+  </section>
+
+  <div class="howto">
+    <h2>&#9656; How to read this explorer</h2>
+    <ul>
+      <li><b>Start with the question.</b> Tap any <span style="border-bottom:2px dashed var(--acc);color:var(--acc);font-weight:700">underlined</span> word to change the indicator, the state or the view.</li>
+      <li><b>Four views.</b> <b>Rank</b> states by the size of the rural&ndash;urban gap; <b>Track</b> what changed between the rounds for each half separately; read one state's whole <b>profile</b>; or <b>List</b> the full table and download it.</li>
+      <li><b>Every figure is as published.</b> A dagger (&dagger;) marks an estimate based on 25&ndash;49 unweighted cases, which NFHS prints in brackets to warn you it is unreliable. An em dash means the figure was not published, or was suppressed for fewer than 25 cases. Nothing here is interpolated.</li>
+      <li><b>No indicator is coloured good or bad.</b> Rural and urban keep the same two colours throughout. Whether a rise is progress depends on the indicator, and that judgement is yours.</li>
+    </ul>
+  </div>
+
+  <section class="qbar ui" id="qbar" aria-label="Compose your question" hidden>
+    <p class="qlead">Ask the data a question</p>
+    <p class="qline" id="qline"></p>
+    <p class="qhint">Tap any <span class="blankdemo">underlined</span> word to ask something different.</p>
+  </section>
+
+  <div class="note" id="loading">Loading 27,084 published figures&hellip;</div>
+  <div class="caption" id="caption" aria-live="polite"></div>
+  <section class="panel" id="panel"></section>
+
+  <div class="method">
+    <h2>Making sense of the numbers</h2>
+    <p><b>What NFHS is.</b> The National Family Health Survey is India's largest household survey on health, nutrition and family welfare. <b>NFHS-4</b> was fielded in 2015-16 and <b>NFHS-5</b> in 2019-21. Both are designed to produce estimates for states and union territories, and separately for their rural and urban populations, which is the split this page uses.</p>
+    <p><b>Five units cannot be compared across the rounds.</b> Jammu &amp; Kashmir was reorganised in October 2019: NFHS-4 covered the undivided state including Ladakh, NFHS-5 does not, so its change figure would compare two different places. Ladakh appears in NFHS-5 only. Dadra &amp; Nagar Haveli and Daman &amp; Diu were separate union territories in NFHS-4 and one merged territory in NFHS-5. The change view leaves all five out rather than showing a number that looks real; the other views keep them, each with a note.</p>
+    <p><b>What the markers mean.</b> Of the 27,084 published figures, <b>25,761</b> are plain estimates, <b>375</b> are printed by NFHS in brackets because they rest on 25&ndash;49 unweighted cases (kept here and marked &dagger;), <b>414</b> are suppressed because fewer than 25 cases were available, and <b>534</b> were not published for that state, sector or round. Suppressed and unpublished figures both show as an em dash. None of them is filled in by estimation.</p>
+    <p><b>Indicator names.</b> Twenty-one of the 136 names as published carry plain typing errors &mdash; <em>wih</em> for <em>with</em>, <em>swith</em> for <em>with</em>, a stray brace closing a bracket, a footnote number left inside the text. Those are corrected here so the list is searchable; no figure was touched, and nothing else about the wording was changed.</p>
+    <p><b>Comparing the two rounds.</b> Some indicators were added or reworded for NFHS-5 and so have no NFHS-4 value. Where either round is missing, no change is shown. The change view reports differences in <b>percentage points</b>, not percentage change, because most of these indicators are already percentages.</p>
+    <p>Figures come from the <a href="https://esankhyiki.mospi.gov.in/" target="_blank" rel="noopener">MoSPI eSankhyiki</a> NFHS data service (Ministry of Statistics &amp; Programme Implementation, Government of India), endpoint <code>api.mospi.gov.in/api/nfhs/getNfhsRecords</code>, retrieved 27 August 2026, across all 21 indicator groups it publishes. For methodology and authoritative interpretation, consult the <a href="https://rchiips.org/nfhs/" target="_blank" rel="noopener">International Institute for Population Sciences</a>, which conducts the survey. This is an independent, source-linked interface for learning and discussion. ImpactMojo is not affiliated with MoSPI or IIPS.</p>
+  </div>
+</main>
+
+<script>
+(function(){
+  "use strict";
+  var D=null, G, I, ST, V, LOW, META;
+  var SEC={r:0,u:1,c:2}, R4=0, R5=3;   // slot = round + sector
+  var S={view:"split", ind:0, state:0, grp:0};
+
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+  function val(i,s,slot){var a=V[i]&&V[i][s];return a?a[slot]:null;}
+  function isLow(i,s,slot){return LOW[i+","+s+","+slot]===1;}
+  function fmt(v){return v==null?"&mdash;":(Math.round(v*10)/10).toFixed(1);}
+  function cell(i,s,slot){
+    var v=val(i,s,slot);
+    if(v==null) return "&mdash;";
+    return fmt(v)+(isLow(i,s,slot)?'<span class="lowmark" title="Based on 25-49 unweighted cases">&dagger;</span>':"");
+  }
+  /* A state whose boundary changed between the rounds cannot carry a change figure. */
+  function comparable(s){return !ST[s][1];}
+
+  // ---------- question bar ----------
+  function blank(name,cur,opts){
+    var h='<select class="blank" data-k="'+name+'" aria-label="'+name+'">';
+    for(var i=0;i<opts.length;i++){
+      h+='<option value="'+esc(opts[i][0])+'"'+(String(opts[i][0])===String(cur)?" selected":"")+'>'+esc(opts[i][1])+'</option>';
+    }
+    return h+"</select>";
+  }
+  function indOpts(){return I.map(function(x,i){return [i, x[0]];});}
+  function stateOpts(){return ST.map(function(x,i){return [i, x[0]];});}
+  function grpOpts(){return G.map(function(g,i){return [i, g];});}
+  var VIEWS=[["split","Rank states by the rural&ndash;urban gap"],["change","Track what changed, rural vs urban"],
+             ["profile","Show one state's whole profile"],["table","List the full table"]];
+
+  function renderQuestion(){
+    var q=document.getElementById("qline"), h="";
+    var Vw=blank("view",S.view,VIEWS.map(function(v){return [v[0], v[1].replace(/&ndash;/g,"–")];}));
+    if(S.view==="split")   h=Vw+" in "+blank("ind",S.ind,indOpts())+", NFHS-5 (2019-21).";
+    else if(S.view==="change") h=Vw+" in "+blank("ind",S.ind,indOpts())+", NFHS-4 to NFHS-5.";
+    else if(S.view==="profile") h=Vw+" &mdash; "+blank("state",S.state,stateOpts())+", on "+blank("grp",S.grp,grpOpts())+".";
+    else h=Vw+" for "+blank("ind",S.ind,indOpts())+", every state, both rounds.";
+    q.innerHTML=h;
+    [].slice.call(q.querySelectorAll("select.blank")).forEach(function(sel){
+      sel.addEventListener("change",function(){
+        var k=sel.getAttribute("data-k");
+        S[k]= (k==="view") ? sel.value : parseInt(sel.value,10);
+        draw();
+      });
+    });
+  }
+
+  // ---------- views ----------
+  function scaleFor(list){
+    var mx=0;
+    list.forEach(function(v){ if(v!=null && v>mx) mx=v; });
+    return Math.max(10, Math.min(100, Math.ceil(mx/10)*10));
+  }
+
+  function viewSplit(){
+    var i=S.ind, rows=[];
+    for(var s=0;s<ST.length;s++){
+      var r=val(i,s,R5+SEC.r), u=val(i,s,R5+SEC.u), c=val(i,s,R5+SEC.c);
+      if(r==null && u==null && c==null) continue;
+      rows.push({s:s, r:r, u:u, c:c, gap:(r!=null&&u!=null)?(r-u):null});
+    }
+    var all=rows.filter(function(x){return x.s===0;});
+    var rest=rows.filter(function(x){return x.s!==0;});
+    rest.sort(function(a,b){
+      if(a.gap==null) return 1; if(b.gap==null) return -1;
+      return Math.abs(b.gap)-Math.abs(a.gap);
+    });
+    var ordered=all.concat(rest);
+    var sc=scaleFor(rows.reduce(function(m,x){return m.concat([x.r,x.u,x.c]);},[]));
+    var h='<div class="ru-head"><span>State / UT</span><span>Rural vs urban &mdash; 0 to '+sc+'%</span><span>Gap</span></div>';
+    ordered.forEach(function(x){
+      var pos=function(v){return (v/sc*100);};
+      var bar="";
+      if(x.r!=null&&x.u!=null){
+        var lo=Math.min(pos(x.r),pos(x.u)), hi=Math.max(pos(x.r),pos(x.u));
+        bar+='<div class="ru-link" style="left:'+lo+'%;width:'+(hi-lo)+'%"></div>';
+      }
+      if(x.c!=null) bar+='<div class="ru-tick" style="left:'+pos(x.c)+'%" title="Combined '+fmt(x.c)+'"></div>';
+      if(x.r!=null) bar+='<div class="ru-dot r" style="left:'+pos(x.r)+'%" title="Rural '+fmt(x.r)+'"></div>';
+      if(x.u!=null) bar+='<div class="ru-dot u" style="left:'+pos(x.u)+'%" title="Urban '+fmt(x.u)+'"></div>';
+      var g = x.gap==null ? '<span class="ru-gap na">n/a</span>'
+            : '<span class="ru-gap">'+(x.gap>0?"+":"")+fmt(x.gap)+'<small>rural &minus; urban</small></span>';
+      h+='<div class="ru-row'+(x.s===0?" is-all":"")+'">'
+       + '<div class="ru-name">'+esc(ST[x.s][0])+'<em>R '+fmt(x.r)+' &middot; U '+fmt(x.u)+'</em></div>'
+       + '<div class="ru-track"><div class="ru-axis"></div>'+bar+'</div>'
+       + g + '</div>';
+    });
+    return h+key();
+  }
+
+  function viewChange(){
+    var i=S.ind, rows=[];
+    for(var s=0;s<ST.length;s++){
+      if(!comparable(s)) continue;
+      var dr=null, du=null;
+      var r4=val(i,s,R4+SEC.r), r5=val(i,s,R5+SEC.r);
+      var u4=val(i,s,R4+SEC.u), u5=val(i,s,R5+SEC.u);
+      if(r4!=null&&r5!=null) dr=r5-r4;
+      if(u4!=null&&u5!=null) du=u5-u4;
+      if(dr==null&&du==null) continue;
+      rows.push({s:s,dr:dr,du:du,split:(dr!=null&&du!=null)?Math.abs(dr-du):-1});
+    }
+    var all=rows.filter(function(x){return x.s===0;}), rest=rows.filter(function(x){return x.s!==0;});
+    rest.sort(function(a,b){return b.split-a.split;});
+    var ordered=all.concat(rest);
+    var mx=1; ordered.forEach(function(x){[x.dr,x.du].forEach(function(v){if(v!=null&&Math.abs(v)>mx)mx=Math.abs(v);});});
+    mx=Math.ceil(mx/5)*5;
+    var h='<div class="ru-head"><span>State / UT</span><span>Change in points, NFHS-4 &rarr; NFHS-5 (&minus;'+mx+' to +'+mx+')</span><span>Rural&minus;urban</span></div>';
+    ordered.forEach(function(x){
+      var mid=50, w=function(v){return Math.abs(v)/mx*50;};
+      var bar='<div class="ru-axis"></div><div class="ru-tick" style="left:50%;opacity:.5"></div>';
+      [["r",x.dr],["u",x.du]].forEach(function(p,idx){
+        if(p[1]==null) return;
+        var left=p[1]<0 ? mid-w(p[1]) : mid;
+        bar+='<div class="ru-link" style="left:'+left+'%;width:'+w(p[1])+'%;top:'+(idx?68:32)+'%;background:var(--'+(idx?"urban":"rural")+');opacity:.55"></div>';
+        bar+='<div class="ru-dot '+p[0]+'" style="left:'+(mid+(p[1]/mx*50))+'%;top:'+(idx?68:32)+'%" title="'+(idx?"Urban ":"Rural ")+(p[1]>0?"+":"")+fmt(p[1])+' points"></div>';
+      });
+      var d = (x.dr!=null&&x.du!=null)
+        ? '<span class="ru-gap">'+((x.dr-x.du)>0?"+":"")+fmt(x.dr-x.du)+'<small>points apart</small></span>'
+        : '<span class="ru-gap na">n/a</span>';
+      h+='<div class="ru-row'+(x.s===0?" is-all":"")+'">'
+       + '<div class="ru-name">'+esc(ST[x.s][0])+'<em>R '+(x.dr!=null&&x.dr>0?"+":"")+fmt(x.dr)+' &middot; U '+(x.du!=null&&x.du>0?"+":"")+fmt(x.du)+'</em></div>'
+       + '<div class="ru-track" style="height:30px">'+bar+'</div>'+d+'</div>';
+    });
+    var dropped=ST.filter(function(x){return x[1];}).length;
+    return h+key()+'<div class="ru-note"><p><b>'+dropped+' units are left out of this view.</b> '
+      +'Their boundaries changed between the two rounds, so a change figure would compare different places. '
+      +'They are still in the other views, each with a note saying what happened.</p></div>';
+  }
+
+  function viewProfile(){
+    var s=S.state, g=S.grp;
+    var idx=[]; I.forEach(function(x,i){ if(x[1]===g) idx.push(i); });
+    var h='<div class="prof-wrap"><table class="prof-tab"><thead><tr><th>'+esc(G[g])+'</th>'
+      +'<th>Rural<br>NFHS-4</th><th>Rural<br>NFHS-5</th><th>Urban<br>NFHS-4</th><th>Urban<br>NFHS-5</th>'
+      +'<th>Combined<br>NFHS-4</th><th>Combined<br>NFHS-5</th></tr></thead><tbody>';
+    if(!idx.length) h+='<tr><td colspan="7">No indicators in this group.</td></tr>';
+    idx.forEach(function(i){
+      h+='<tr><td>'+esc(I[i][0])+'</td>'
+       + '<td>'+cell(i,s,R4+SEC.r)+'</td><td>'+cell(i,s,R5+SEC.r)+'</td>'
+       + '<td>'+cell(i,s,R4+SEC.u)+'</td><td>'+cell(i,s,R5+SEC.u)+'</td>'
+       + '<td>'+cell(i,s,R4+SEC.c)+'</td><td>'+cell(i,s,R5+SEC.c)+'</td></tr>';
+    });
+    h+='</tbody></table></div>';
+    if(ST[s][1]) h+='<div class="ru-note"><p><b>'+esc(ST[s][0])+':</b> '+esc(ST[s][1])+'</p></div>';
+    return h+key();
+  }
+
+  function viewTable(){
+    var i=S.ind;
+    var h='<div class="prof-wrap"><table class="prof-tab"><thead><tr><th>State / UT</th>'
+      +'<th>Rural<br>NFHS-4</th><th>Rural<br>NFHS-5</th><th>Urban<br>NFHS-4</th><th>Urban<br>NFHS-5</th>'
+      +'<th>Combined<br>NFHS-4</th><th>Combined<br>NFHS-5</th></tr></thead><tbody>';
+    for(var s=0;s<ST.length;s++){
+      h+='<tr><td>'+esc(ST[s][0])+(ST[s][1]?' <span class="lowmark" title="'+esc(ST[s][1])+'">&#9888;</span>':"")+'</td>'
+       + '<td>'+cell(i,s,R4+SEC.r)+'</td><td>'+cell(i,s,R5+SEC.r)+'</td>'
+       + '<td>'+cell(i,s,R4+SEC.u)+'</td><td>'+cell(i,s,R5+SEC.u)+'</td>'
+       + '<td>'+cell(i,s,R4+SEC.c)+'</td><td>'+cell(i,s,R5+SEC.c)+'</td></tr>';
+    }
+    h+='</tbody></table></div><button class="dl" id="dlBtn" type="button">Download this table as CSV</button>';
+    return h+key();
+  }
+
+  function key(){
+    return '<div class="ru-key">'
+      + '<span><i style="background:var(--rural)"></i>Rural</span>'
+      + '<span><i style="background:var(--urban)"></i>Urban</span>'
+      + '<span><b class="tk"></b>Combined</span>'
+      + '<span><span class="lowmark">&dagger;</span> based on 25&ndash;49 unweighted cases</span>'
+      + '<span>&mdash; not published, or fewer than 25 cases</span></div>';
+  }
+
+  function caption(){
+    var c=document.getElementById("caption");
+    var name=I[S.ind]?I[S.ind][0]:"";
+    if(S.view==="split")
+      c.innerHTML="<div class='q'>Where rural and urban India differ most</div><div class='sub'>"+esc(name)
+        +" &middot; NFHS-5 (2019-21) &middot; states ordered by the size of the gap</div>"
+        +"<div class='why'>The combined figure sits between the two dots. On a wide row it is close to neither.</div>";
+    else if(S.view==="change")
+      c.innerHTML="<div class='q'>What moved, and for whom</div><div class='sub'>"+esc(name)
+        +" &middot; change in percentage points, NFHS-4 (2015-16) to NFHS-5 (2019-21)</div>"
+        +"<div class='why'>Ordered by how far the rural and urban changes diverged.</div>";
+    else if(S.view==="profile")
+      c.innerHTML="<div class='q'>"+esc(ST[S.state][0])+"</div><div class='sub'>"+esc(G[S.grp])
+        +" &middot; both rounds, rural and urban separately</div>";
+    else
+      c.innerHTML="<div class='q'>Every state, both rounds</div><div class='sub'>"+esc(name)+"</div>";
+  }
+
+  function draw(){
+    renderQuestion(); caption();
+    var p=document.getElementById("panel");
+    p.innerHTML = S.view==="split"?viewSplit() : S.view==="change"?viewChange()
+                : S.view==="profile"?viewProfile() : viewTable();
+    var b=document.getElementById("dlBtn");
+    if(b) b.addEventListener("click", downloadCsv);
+  }
+
+  function downloadCsv(){
+    var i=S.ind, q=function(x){return '"'+String(x).replace(/"/g,'""')+'"';};
+    var out=[["State/UT","Indicator","Rural NFHS-4","Rural NFHS-5","Urban NFHS-4","Urban NFHS-5","Combined NFHS-4","Combined NFHS-5"].map(q).join(",")];
+    for(var s=0;s<ST.length;s++){
+      out.push([ST[s][0], I[i][0], val(i,s,R4),val(i,s,R5),val(i,s,R4+1),val(i,s,R5+1),val(i,s,R4+2),val(i,s,R5+2)]
+        .map(function(x){return x==null?'""':q(x);}).join(","));
+    }
+    var blob=new Blob([out.join("\n")],{type:"text/csv;charset=utf-8"});
+    var a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download="nfhs-state-"+String(I[i][0]).toLowerCase().replace(/[^a-z0-9]+/g,"-").slice(0,50)+".csv";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(a.href);},2000);
+  }
+
+  function boot(d){
+    D=d; G=d.G; I=d.I; ST=d.S; V=d.V; LOW=d.LOW||{}; META=d.meta;
+    // default to a well-covered indicator if present
+    var want="Children under 5 years who are stunted (height-for-age) (%)";
+    for(var i=0;i<I.length;i++){ if(I[i][0]===want){ S.ind=i; S.grp=I[i][1]; break; } }
+    document.getElementById("loading").hidden=true;
+    document.getElementById("qbar").hidden=false;
+    draw();
+  }
+  function fail(){
+    document.getElementById("loading").innerHTML=
+      '<b>The data did not load.</b> Reload the page, or read the figures at '
+      +'<a href="https://esankhyiki.mospi.gov.in/" target="_blank" rel="noopener">MoSPI eSankhyiki</a> directly.';
+  }
+  fetch("/data/nfhs-state.json").then(function(r){
+    if(!r.ok) throw new Error(r.status); return r.json();
+  }).then(boot).catch(fail);
+})();
+</script>
+
+
+<script>
+/* PLFS by social group — MoSPI eSankhyiki, annual CALENDAR-YEAR 2025 series.
+   Retrieved 2026-08-26. Exact query parameters, so this can be re-pulled and checked:
+     dataset=PLFS  frequency_code=1 (Annual)  indicator_code=1|2|3 (LFPR|WPR|UR)
+     state_code=99 (All India)  age_code=1 (15+)  weekly_status_code=1 (PS+SS)
+     sector_code=3 (rural+urban)  social_category_code=1..5  religion_code=1 (all)
+     education_code=0 (all)
+   Not the July–June series used by PLFS_DATA above; the two are not continuous. */
+window.PLFS_SOCIAL={"year":"2025","period":"calendar year (Jan–Dec 2025)",
+ "order":["all","st","sc","obc","oth"],
+ "labels":{"all":["All social groups",""],"st":["Scheduled Tribes","ST"],"sc":["Scheduled Castes","SC"],"obc":["Other Backward Classes","OBC"],"oth":["Others","PLFS residual category"]},
+ "d":{
+  "all":{"lfpr":{"m":79.1,"f":40.0,"p":59.3},"wpr":{"m":76.6,"f":38.8,"p":57.4},"ur":{"m":3.1,"f":3.1,"p":3.1}},
+  "st":{"lfpr":{"m":83.8,"f":62.6,"p":73.1},"wpr":{"m":81.8,"f":61.5,"p":71.6},"ur":{"m":2.5,"f":1.7,"p":2.1}},
+  "sc":{"lfpr":{"m":80.5,"f":42.8,"p":61.3},"wpr":{"m":77.7,"f":41.5,"p":59.3},"ur":{"m":3.5,"f":2.8,"p":3.3}},
+  "obc":{"lfpr":{"m":78.7,"f":39.3,"p":58.6},"wpr":{"m":76.4,"f":38.2,"p":56.9},"ur":{"m":3.0,"f":2.9,"p":3.0}},
+  "oth":{"lfpr":{"m":76.9,"f":31.0,"p":53.9},"wpr":{"m":74.4,"f":29.6,"p":51.9},"ur":{"m":3.3,"f":4.7,"p":3.7}}
+ }};
+(function(){
+  "use strict";
+  var S=window.PLFS_SOCIAL, rows=document.getElementById('sgRows');
+  if(!S||!rows) return;
+  var tabs=[].slice.call(document.querySelectorAll('.sg-tab'));
+  var g='p';
+  function esc(s){return String(s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
+  function draw(){
+    /* one shared scale so bar lengths are comparable across groups and tabs */
+    var max=0;
+    S.order.forEach(function(k){var v=S.d[k].lfpr[g]; if(v>max) max=v;});
+    var scale=Math.min(100, Math.ceil(max/10)*10+5);
+    rows.innerHTML=S.order.map(function(k){
+      var r=S.d[k], L=S.labels[k];
+      var lf=r.lfpr[g], wp=r.wpr[g], ur=r.ur[g];
+      var lfw=(lf/scale*100).toFixed(1), wpw=(wp/scale*100).toFixed(1);
+      return '<div class="sg-row'+(k==='all'?' is-all':'')+'">'
+        + '<div class="sg-name">'+esc(L[0])+(L[1]?'<em>'+esc(L[1])+'</em>':'')+'</div>'
+        + '<div class="sg-track" role="img" aria-label="'+esc(L[0])+': '+lf+'% in the labour force, '+wp+'% employed">'
+        +   '<div class="sg-bar sg-idle" style="width:'+lfw+'%"></div>'
+        +   '<div class="sg-bar" style="width:'+wpw+'%"></div>'
+        +   '<div class="sg-val">'+lf.toFixed(1)+'%</div>'
+        + '</div>'
+        + '<div class="sg-ur">'+ur.toFixed(1)+'%<span>rate</span></div>'
+        + '</div>';
+    }).join('');
+  }
+  tabs.forEach(function(b){
+    b.addEventListener('click',function(){
+      g=b.getAttribute('data-g');
+      tabs.forEach(function(o){o.setAttribute('aria-pressed', String(o===b));});
+      draw();
+    });
+  });
+  draw();
+})();
+</script>
+
+
+<script>
+window.PLFS_DATA={"meta":{"src":"PLFS 2023-24 (annual, usual status PS+SS, age 15+), MoSPI","year":"2023-24","trendYears":["2017-18","2018-19","2019-20","2020-21","2021-22","2022-23","2023-24"]},"national":{"lfpr":{"m":78.8,"f":41.7,"p":60.1},"wpr":{"m":76.3,"f":40.3,"p":58.2},"ur":{"m":3.2,"f":3.2,"p":3.2}},"states":{"31":{"n":"Andaman & Nicobar Islands","lfpr":{"m":84.3,"f":46.3,"p":65.7},"wpr":{"m":78.4,"f":36.7,"p":58.0},"ur":{"m":7.0,"f":20.9,"p":11.8}},"1":{"n":"Andhra Pradesh","lfpr":{"m":76.7,"f":44.8,"p":60.2},"wpr":{"m":73.4,"f":43.1,"p":57.8},"ur":{"m":4.3,"f":3.7,"p":4.1}},"2":{"n":"Arunachal Pradesh","lfpr":{"m":79.2,"f":66.5,"p":73.0},"wpr":{"m":74.4,"f":62.4,"p":68.5},"ur":{"m":6.1,"f":6.2,"p":6.1}},"3":{"n":"Assam","lfpr":{"m":83.3,"f":50.2,"p":66.9},"wpr":{"m":80.2,"f":48.1,"p":64.3},"ur":{"m":3.8,"f":4.1,"p":3.9}},"4":{"n":"Bihar","lfpr":{"m":75.8,"f":30.5,"p":53.2},"wpr":{"m":73.1,"f":30.1,"p":51.6},"ur":{"m":3.6,"f":1.4,"p":3.0}},"32":{"n":"Chandigarh","lfpr":{"m":76.9,"f":31.0,"p":54.7},"wpr":{"m":73.9,"f":26.2,"p":50.9},"ur":{"m":3.9,"f":15.3,"p":7.1}},"5":{"n":"Chhattisgarh","lfpr":{"m":83.4,"f":59.5,"p":71.5},"wpr":{"m":81.2,"f":58.1,"p":69.7},"ur":{"m":2.6,"f":2.4,"p":2.5}},"38":{"n":"Dadra & Nagar Haveli & Daman & Diu","lfpr":{"m":87.8,"f":46.5,"p":69.4},"wpr":{"m":85.3,"f":46.0,"p":67.8},"ur":{"m":2.9,"f":1.1,"p":2.3}},"6":{"n":"Delhi","lfpr":{"m":70.1,"f":18.5,"p":46.4},"wpr":{"m":68.6,"f":18.3,"p":45.5},"ur":{"m":2.2,"f":1.5,"p":2.1}},"7":{"n":"Goa","lfpr":{"m":74.1,"f":29.3,"p":51.8},"wpr":{"m":70.2,"f":24.4,"p":47.4},"ur":{"m":5.2,"f":16.7,"p":8.5}},"8":{"n":"Gujarat","lfpr":{"m":82.4,"f":46.0,"p":64.6},"wpr":{"m":81.5,"f":45.6,"p":63.9},"ur":{"m":1.1,"f":1.0,"p":1.1}},"9":{"n":"Haryana","lfpr":{"m":72.7,"f":24.2,"p":49.5},"wpr":{"m":69.9,"f":23.6,"p":47.8},"ur":{"m":3.8,"f":2.2,"p":3.4}},"10":{"n":"Himachal Pradesh","lfpr":{"m":81.7,"f":67.6,"p":74.4},"wpr":{"m":78.9,"f":62.3,"p":70.3},"ur":{"m":3.4,"f":7.8,"p":5.5}},"11":{"n":"Jammu & Kashmir","lfpr":{"m":75.7,"f":52.1,"p":64.3},"wpr":{"m":72.9,"f":47.1,"p":60.4},"ur":{"m":3.8,"f":9.7,"p":6.1}},"12":{"n":"Jharkhand","lfpr":{"m":78.3,"f":49.8,"p":63.8},"wpr":{"m":76.9,"f":49.6,"p":63.0},"ur":{"m":1.8,"f":0.5,"p":1.3}},"13":{"n":"Karnataka","lfpr":{"m":75.5,"f":38.0,"p":56.8},"wpr":{"m":73.1,"f":37.2,"p":55.2},"ur":{"m":3.1,"f":1.9,"p":2.7}},"14":{"n":"Kerala","lfpr":{"m":74.4,"f":40.8,"p":56.2},"wpr":{"m":71.1,"f":36.0,"p":52.2},"ur":{"m":4.4,"f":11.6,"p":7.2}},"37":{"n":"Ladakh","lfpr":{"m":72.5,"f":51.6,"p":62.5},"wpr":{"m":70.7,"f":47.1,"p":59.3},"ur":{"m":2.6,"f":8.8,"p":5.1}},"35":{"n":"Lakshadweep","lfpr":{"m":74.7,"f":17.1,"p":48.5},"wpr":{"m":69.0,"f":11.3,"p":42.7},"ur":{"m":7.7,"f":34.1,"p":11.9}},"15":{"n":"Madhya Pradesh","lfpr":{"m":85.0,"f":52.3,"p":68.9},"wpr":{"m":84.0,"f":51.9,"p":68.3},"ur":{"m":1.1,"f":0.7,"p":1.0}},"16":{"n":"Maharashtra","lfpr":{"m":77.2,"f":40.1,"p":59.0},"wpr":{"m":74.4,"f":39.1,"p":57.0},"ur":{"m":3.7,"f":2.7,"p":3.3}},"17":{"n":"Manipur","lfpr":{"m":70.8,"f":48.7,"p":59.6},"wpr":{"m":67.2,"f":45.0,"p":56.0},"ur":{"m":5.0,"f":7.7,"p":6.1}},"18":{"n":"Meghalaya","lfpr":{"m":82.3,"f":71.8,"p":76.9},"wpr":{"m":78.7,"f":65.9,"p":72.1},"ur":{"m":4.3,"f":8.2,"p":6.2}},"19":{"n":"Mizoram","lfpr":{"m":66.1,"f":41.7,"p":54.2},"wpr":{"m":64.6,"f":40.7,"p":53.0},"ur":{"m":2.2,"f":2.4,"p":2.3}},"20":{"n":"Nagaland","lfpr":{"m":82.4,"f":64.3,"p":73.3},"wpr":{"m":76.6,"f":59.7,"p":68.1},"ur":{"m":7.0,"f":7.1,"p":7.1}},"21":{"n":"Odisha","lfpr":{"m":81.7,"f":49.4,"p":64.9},"wpr":{"m":78.9,"f":48.0,"p":62.9},"ur":{"m":3.3,"f":2.7,"p":3.1}},"36":{"n":"Puducherry","lfpr":{"m":73.3,"f":34.2,"p":52.4},"wpr":{"m":70.5,"f":32.2,"p":50.0},"ur":{"m":3.9,"f":5.9,"p":4.6}},"22":{"n":"Punjab","lfpr":{"m":79.8,"f":31.1,"p":55.7},"wpr":{"m":75.9,"f":28.9,"p":52.7},"ur":{"m":4.9,"f":6.9,"p":5.5}},"23":{"n":"Rajasthan","lfpr":{"m":78.2,"f":50.9,"p":64.4},"wpr":{"m":74.8,"f":48.9,"p":61.7},"ur":{"m":4.3,"f":4.0,"p":4.2}},"24":{"n":"Sikkim","lfpr":{"m":83.4,"f":68.2,"p":76.2},"wpr":{"m":81.3,"f":66.8,"p":74.4},"ur":{"m":2.5,"f":2.1,"p":2.3}},"25":{"n":"Tamil Nadu","lfpr":{"m":75.7,"f":43.2,"p":58.8},"wpr":{"m":73.2,"f":41.5,"p":56.8},"ur":{"m":3.4,"f":3.8,"p":3.5}},"26":{"n":"Telangana","lfpr":{"m":78.5,"f":46.7,"p":62.2},"wpr":{"m":74.8,"f":44.3,"p":59.2},"ur":{"m":4.6,"f":5.0,"p":4.8}},"27":{"n":"Tripura","lfpr":{"m":78.9,"f":47.1,"p":63.0},"wpr":{"m":77.5,"f":46.3,"p":62.0},"ur":{"m":1.7,"f":1.6,"p":1.7}},"28":{"n":"Uttarakhand","lfpr":{"m":76.4,"f":45.6,"p":60.7},"wpr":{"m":73.0,"f":43.7,"p":58.1},"ur":{"m":4.5,"f":4.1,"p":4.3}},"29":{"n":"Uttar Pradesh","lfpr":{"m":79.5,"f":34.5,"p":56.9},"wpr":{"m":76.9,"f":33.6,"p":55.1},"ur":{"m":3.3,"f":2.5,"p":3.1}},"30":{"n":"West Bengal","lfpr":{"m":82.4,"f":40.4,"p":61.1},"wpr":{"m":80.5,"f":39.2,"p":59.6},"ur":{"m":2.3,"f":3.0,"p":2.5}}},"trend":{"2017-18":{"m":75.8,"f":23.3,"p":49.8},"2018-19":{"m":75.5,"f":24.5,"p":50.2},"2019-20":{"m":76.8,"f":30.0,"p":53.5},"2020-21":{"m":77.0,"f":32.5,"p":54.9},"2021-22":{"m":77.2,"f":32.8,"p":55.2},"2022-23":{"m":78.5,"f":37.0,"p":57.9},"2023-24":{"m":78.8,"f":41.7,"p":60.1}}};
+window.PLFS_RSE={"national":{"lfpr":[0.29,0.66,0.31],"wpr":[0.29,0.67,0.32],"ur":[2.8,3.15,2.19]},"states":{"1":{"lfpr":[1.39,2.45,1.33],"wpr":[1.41,2.65,1.4],"ur":[8.53,13.85,7.04]},"2":{"lfpr":[2.18,2.21,1.92],"wpr":[2.56,2.68,2.46],"ur":[10.84,17.77,12.87]},"3":{"lfpr":[1.08,3.48,1.51],"wpr":[1.11,3.57,1.53],"ur":[11.31,15.6,8.74]},"4":{"lfpr":[1.42,3.92,1.7],"wpr":[1.36,3.88,1.68],"ur":[13.0,23.28,12.22]},"5":{"lfpr":[1.42,3.25,1.8],"wpr":[1.47,3.27,1.86],"ur":[12.56,14.08,9.55]},"6":{"lfpr":[1.77,8.2,2.87],"wpr":[2.36,7.84,3.41],"ur":[33.57,42.85,25.93]},"7":{"lfpr":[5.28,7.94,3.35],"wpr":[5.81,8.27,4.68],"ur":[37.37,11.34,21.43]},"8":{"lfpr":[1.28,3.06,1.12],"wpr":[1.26,3.12,1.14],"ur":[10.47,16.26,9.72]},"9":{"lfpr":[1.51,6.42,2.02],"wpr":[1.6,6.52,2.16],"ur":[13.69,29.53,12.84]},"10":{"lfpr":[1.88,2.77,1.26],"wpr":[1.85,3.04,1.45],"ur":[17.41,14.36,10.79]},"12":{"lfpr":[1.55,3.47,1.79],"wpr":[1.61,3.44,1.79],"ur":[18.28,34.14,18.83]},"13":{"lfpr":[1.33,2.6,1.32],"wpr":[1.29,2.76,1.37],"ur":[11.6,21.42,11.92]},"14":{"lfpr":[1.21,1.85,1.11],"wpr":[1.26,1.69,1.11],"ur":[7.68,8.44,6.05]},"15":{"lfpr":[0.93,2.28,1.15],"wpr":[0.97,2.32,1.18],"ur":[12.7,20.4,9.91]},"16":{"lfpr":[0.69,2.45,0.93],"wpr":[0.74,2.5,1.03],"ur":[9.93,11.95,8.04]},"17":{"lfpr":[2.31,2.25,1.45],"wpr":[2.56,2.56,1.36],"ur":[8.09,20.39,8.79]},"18":{"lfpr":[2.31,2.52,1.84],"wpr":[2.92,3.18,2.41],"ur":[19.54,15.76,15.37]},"19":{"lfpr":[2.67,3.66,1.91],"wpr":[3.18,3.81,2.25],"ur":[25.46,34.08,21.21]},"20":{"lfpr":[1.23,3.03,1.86],"wpr":[2.48,3.27,2.48],"ur":[21.25,14.17,15.25]},"21":{"lfpr":[1.26,2.6,1.35],"wpr":[1.33,2.64,1.42],"ur":[9.89,12.23,8.69]},"22":{"lfpr":[1.05,3.6,1.3],"wpr":[1.31,3.74,1.5],"ur":[10.2,15.63,9.42]},"23":{"lfpr":[1.08,3.08,1.5],"wpr":[1.17,3.06,1.49],"ur":[9.52,12.8,7.29]},"24":{"lfpr":[1.04,4.99,2.11],"wpr":[1.29,5.48,1.87],"ur":[30.98,25.74,13.13]},"25":{"lfpr":[1.13,1.87,1.02],"wpr":[1.09,1.89,1.03],"ur":[8.85,9.69,6.31]},"26":{"lfpr":[1.64,2.91,1.45],"wpr":[1.69,2.68,1.48],"ur":[9.55,16.99,9.49]},"27":{"lfpr":[0.55,3.37,1.06],"wpr":[0.69,3.68,1.1],"ur":[21.38,25.21,9.49]},"28":{"lfpr":[1.87,6.37,3.31],"wpr":[2.37,6.6,3.59],"ur":[37.4,31.86,34.68]},"29":{"lfpr":[0.86,2.0,0.82],"wpr":[0.91,2.05,0.89],"ur":[9.66,11.95,8.11]},"30":{"lfpr":[1.04,2.58,1.35],"wpr":[1.09,2.63,1.38],"ur":[8.85,10.02,7.1]},"31":{"lfpr":[4.86,5.59,4.14],"wpr":[5.89,2.13,4.44],"ur":[28.47,14.49,15.13]},"32":{"lfpr":[4.03,17.95,8.39],"wpr":[3.41,17.2,7.47],"ur":[14.9,4.14,12.09]},"38":{"lfpr":[6.71,10.68,7.26],"wpr":[6.32,10.52,6.77],"ur":[37.1,30.25,33.04]},"11":{"lfpr":[1.61,2.49,1.63],"wpr":[1.62,2.8,1.71],"ur":[12.11,8.04,7.43]},"37":{"lfpr":[4.21,18.76,6.81],"wpr":[5.19,22.88,8.23],"ur":[37.44,46.15,30.9]},"35":{"lfpr":[1.89,12.95,2.53],"wpr":[4.11,25.49,1.74],"ur":[42.63,41.23,29.1]},"36":{"lfpr":[3.18,6.63,3.06],"wpr":[3.31,7.07,3.36],"ur":[8.92,45.22,23.23]}}};
+window.PLFS_WAGE={"q":"Apr–Jun 2024","cats":[{"k":"reg","L":"Regular wage / salaried","unit":"₹/month","m":22375,"f":17034,"p":21103},{"k":"self","L":"Self-employed","unit":"₹/month","m":16723,"f":5803,"p":13900},{"k":"casual","L":"Casual labour","unit":"₹/day","m":459,"f":306,"p":433}]};
+window.PLFS_JOB={"status":[{"k":"self","L":"Self-employed","m":53.6,"f":67.4,"p":58.4},{"k":"reg","L":"Regular wage / salaried","m":24.9,"f":15.9,"p":21.7},{"k":"casual","L":"Casual labour","m":21.5,"f":16.7,"p":19.8}],"security":[{"k":"nc","L":"No written job contract","m":58.2,"f":57.3,"p":58.0},{"k":"npl","L":"Not eligible for paid leave","m":47.8,"f":45.9,"p":47.3},{"k":"nss","L":"No social-security benefit","m":51.8,"f":58.0,"p":53.4}]};
+</script>
+<script>
+(function(){
+  "use strict";
+  var D=window.PLFS_DATA, ST=D.states, NAT=D.national, TR=D.trend, M=D.meta;
+  var RSE=window.PLFS_RSE, WAGE=window.PLFS_WAGE, JOB=window.PLFS_JOB, GI={m:0,f:1,p:2};
+  var CODES=Object.keys(ST).sort(function(a,b){return ST[a].n.localeCompare(ST[b].n);});
+  var IND={lfpr:{L:"labour-force participation",short:"LFPR",dir:1,ref:"pop"},
+           wpr:{L:"the worker ratio",short:"WPR",dir:1,ref:"pop"},
+           ur:{L:"the unemployment rate",short:"Unemployment",dir:0,ref:"lf"}};
+  var GENDER={m:"men",f:"women",p:"all workers"};
+  var S={view:"rank", ind:"lfpr", gender:"f"};
+
+  function esc(s){return String(s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
+  function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+  function mix(a,b,t){function h(x){x=x.replace('#','');return[parseInt(x.slice(0,2),16),parseInt(x.slice(2,4),16),parseInt(x.slice(4,6),16)];}
+    var A=h(a),B=h(b),o=A.map(function(c,i){return Math.round(c+(B[i]-c)*t);});return"rgb("+o.join(",")+")";}
+  function goodness(k,v,lo,hi){var t=(hi>lo)?(v-lo)/(hi-lo):0.5;return IND[k].dir===0?1-t:t;}
+  function barColor(k,v,lo,hi){return mix(css('--barlo'),css('--barhi'),0.12+0.88*goodness(k,v,lo,hi));}
+  function val(o,k,g){var x=o&&o[k]?o[k][g]:null;return (x===undefined?null:x);}
+
+  var VIEW_OPTS=[["rank","Rank the states"],["trend","Track the national trend"],["pay","Compare pay by job type"],["quality","See job security"],["table","List a table"]];
+  var IND_OPTS=[["lfpr","labour-force participation"],["wpr","the worker ratio"],["ur","the unemployment rate"]];
+  var GENDER_OPTS=[["f","women"],["m","men"],["p","all workers"]];
+  function blank(key,cur,opts){
+    return '<select class="blank" data-key="'+key+'" aria-label="'+key+'">'+
+      opts.map(function(p){return '<option value="'+esc(p[0])+'"'+(String(p[0])===String(cur)?' selected':'')+'>'+esc(p[1])+'</option>';}).join('')+'</select>';
+  }
+  function renderQuestion(){
+    var q=document.getElementById("qline"),h="";
+    var V=blank("view",S.view,VIEW_OPTS);
+    if(S.view==="rank") h=V+" by "+blank("ind",S.ind,IND_OPTS)+" for "+blank("gender",S.gender,GENDER_OPTS)+", in 2023&ndash;24, with 95% confidence intervals.";
+    else if(S.view==="trend") h=V+" in labour-force participation for "+blank("gender",S.gender,GENDER_OPTS)+", 2017&ndash;18 to 2023&ndash;24.";
+    else if(S.view==="pay") h=V+" &mdash; what women and men earn across India, latest survey quarter (Apr&ndash;Jun 2024).";
+    else if(S.view==="quality") h=V+" &mdash; how India works, and the security gaps for regular workers, 2023&ndash;24.";
+    else h=V+" of every state's workforce, 2023&ndash;24.";
+    q.innerHTML=h;
+    [].forEach.call(q.querySelectorAll("select.blank"),function(sel){
+      sel.addEventListener("change",function(){S[sel.dataset.key]=sel.value;renderQuestion();render();});
+    });
+  }
+
+  function fmt(v){return v==null?"—":v.toFixed(1)+"%";}
+  function renderCaption(){
+    var cap=document.getElementById("caption");
+    if(S.view==="trend"){
+      var g=S.gender, first=val(TR["2017-18"],null,g)||TR["2017-18"][g], last=TR["2023-24"][g];
+      cap.innerHTML="<div class='q'>The climb in labour-force participation — "+GENDER[g]+"</div>"+
+        "<div class='sub'>All-India · 2017-18 to 2023-24 · usual status, age 15+</div>"+
+        "<div class='allindia'>"+GENDER[g]+": <b>"+TR["2017-18"][g].toFixed(1)+"%</b> (2017-18) → <b>"+last.toFixed(1)+"%</b> (2023-24)</div>"+
+        "<div class='why'>Women's participation has risen faster than men's — the single biggest movement in India's labour data.</div>";
+      return;
+    }
+    if(S.view==="table"){cap.innerHTML="<div class='q'>Every state's workforce at a glance</div><div class='sub'>PLFS 2023-24 · LFPR, worker ratio &amp; unemployment · tap a column to sort</div>";return;}
+    if(S.view==="pay"){cap.innerHTML="<div class='q'>What India earns — by job type and gender</div>"+
+      "<div class='sub'>All-India · earnings basis (current weekly status) · latest survey quarter, Apr–Jun 2024</div>"+
+      "<div class='why'>The widest gap is among the self-employed, where women earn only about a third of what men do.</div>";return;}
+    if(S.view==="quality"){cap.innerHTML="<div class='q'>How secure is India's work?</div>"+
+      "<div class='sub'>All-India · usual status, age 15+ · PLFS 2023-24 · security gaps are for regular workers in non-farm jobs</div>"+
+      "<div class='allindia'>Nearly <b>3 in 5</b> workers are self-employed — and most regular employees have <b>no written contract</b>.</div>";return;}
+    var k=S.ind,g=S.gender,ref=NAT[k][g];
+    cap.innerHTML="<div class='q'>States ranked by "+IND[k].L.replace(/^the /,'')+" — "+GENDER[g]+"</div>"+
+      "<div class='sub'>PLFS 2023-24 · usual status, age 15+ · "+(IND[k].dir===0?"lower is better":"higher = more people in the workforce")+"</div>"+
+      "<div class='allindia'>All-India ("+GENDER[g]+"): <b>"+fmt(ref)+"</b></div>"+
+      (k==="lfpr"&&g==="f"?"<div class='why'>Only about two in five women are in the labour force nationally — but look at how far the top states pull ahead.</div>":"");
+  }
+
+  function ciFor(c,k,g){
+    var v=val(ST[c],k,g); if(v==null) return null;
+    var r=(RSE&&RSE.states[c]&&RSE.states[c][k])?RSE.states[c][k][GI[g]]:null;
+    if(r==null) return {v:v,lo:null,hi:null};
+    var se=v*r/100, lo=Math.max(0,v-1.96*se), hi=Math.min(100,v+1.96*se);
+    return {v:v,lo:lo,hi:hi,rse:r};
+  }
+  function renderRank(){
+    var k=S.ind,g=S.gender;
+    var rows=CODES.map(function(c){var ci=ciFor(c,k,g);return ci?{c:c,n:ST[c].n,v:ci.v,lo:ci.lo,hi:ci.hi}:null;}).filter(Boolean)
+      .sort(function(a,b){return IND[k].dir===0?a.v-b.v:b.v-a.v;});
+    var ref=NAT[k][g];
+    var W=760,padL=150,padR=64,rowH=22,top=16,bot=10,H=top+bot+rows.length*rowH,innerW=W-padL-padR;
+    var max=Math.max.apply(null,rows.map(function(r){return r.hi!=null?r.hi:r.v;}).concat([ref]));
+    var sc=function(v){return padL+innerW*(v/Math.max(max,1));};
+    var svg=['<svg class="chart-svg" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMinYMin meet" role="img" aria-label="State ranking with 95% confidence intervals">'];
+    var xr=sc(ref);
+    svg.push('<line x1="'+xr+'" y1="'+(top-6)+'" x2="'+xr+'" y2="'+(H-bot)+'" stroke="'+css('--acc2')+'" stroke-width="1.4" stroke-dasharray="4 3" opacity="0.9"/>');
+    svg.push('<text x="'+xr+'" y="'+(top-8)+'" text-anchor="middle" font-family="Inter" font-size="10.5" font-weight="700" fill="'+css('--acc2')+'">All-India '+ref.toFixed(1)+'%</text>');
+    var fnt=css('--faint');
+    rows.forEach(function(r,i){
+      var y=top+i*rowH,ym=y+rowH/2,bw=Math.max(2,sc(r.v)-padL),col=barColor(k,r.v,0,max);
+      var tip=r.n+': '+r.v.toFixed(1)+'%'+(r.lo!=null?' (95% CI '+r.lo.toFixed(1)+'–'+r.hi.toFixed(1)+')':'');
+      svg.push('<text x="'+(padL-8)+'" y="'+(ym+4)+'" text-anchor="end" font-family="Inter" font-size="11" fill="'+css('--ink')+'">'+esc(r.n)+'</text>');
+      svg.push('<rect x="'+padL+'" y="'+(y+3)+'" width="'+bw+'" height="'+(rowH-7)+'" rx="2.5" fill="'+col+'"><title>'+esc(tip)+'</title></rect>');
+      var labX=padL+bw+6;
+      if(r.lo!=null){
+        var wl=sc(r.lo),wh=sc(r.hi);
+        svg.push('<line x1="'+wl.toFixed(1)+'" y1="'+ym+'" x2="'+wh.toFixed(1)+'" y2="'+ym+'" stroke="'+fnt+'" stroke-width="1.3" opacity="0.85"/>');
+        svg.push('<line x1="'+wl.toFixed(1)+'" y1="'+(ym-3.5)+'" x2="'+wl.toFixed(1)+'" y2="'+(ym+3.5)+'" stroke="'+fnt+'" stroke-width="1.3" opacity="0.85"/>');
+        svg.push('<line x1="'+wh.toFixed(1)+'" y1="'+(ym-3.5)+'" x2="'+wh.toFixed(1)+'" y2="'+(ym+3.5)+'" stroke="'+fnt+'" stroke-width="1.3" opacity="0.85"/>');
+        labX=Math.max(labX,wh+6);
+      }
+      svg.push('<text x="'+labX.toFixed(1)+'" y="'+(ym+4)+'" font-family="JetBrains Mono" font-size="10.5" font-weight="600" fill="'+css('--ink')+'">'+r.v.toFixed(1)+'</text>');
+    });
+    svg.push('</svg>');
+    document.getElementById("panel").innerHTML=svg.join("")+
+      '<div class="legend"><span><span class="dot" style="background:'+css('--barhi')+'"></span>'+(IND[k].dir===0?'darker = lower unemployment':'darker = higher participation')+'</span>'+
+      '<span><span class="dot" style="background:'+css('--acc2')+'"></span>dashed = All-India</span>'+
+      '<span>&#8942; whisker = 95% confidence interval</span></div>';
+  }
+
+  function renderTrend(){
+    var W=760,H=340,padL=48,padR=120,padT=24,padB=40;
+    var years=M.trendYears.slice();
+    var series=[
+      {name:"Men",color:css('--acc'),vals:years.map(function(y){return TR[y].m;})},
+      {name:"Women",color:'#F59E0B',vals:years.map(function(y){return TR[y].f;})},
+      {name:"All",color:css('--acc2'),vals:years.map(function(y){return TR[y].p;}),dash:true}
+    ];
+    var innerW=W-padL-padR,innerH=H-padT-padB,maxv=90;
+    var xs=function(i){return padL+innerW*(i/(years.length-1));};
+    var ys=function(v){return padT+innerH*(1-v/maxv);};
+    var svg=['<svg class="chart-svg" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="LFPR trend">'];
+    for(var gl=0;gl<=maxv;gl+=30){var y=ys(gl);svg.push('<line x1="'+padL+'" y1="'+y+'" x2="'+(W-padR)+'" y2="'+y+'" stroke="'+css('--bd')+'" stroke-width="1"/>');
+      svg.push('<text x="'+(padL-8)+'" y="'+(y+4)+'" text-anchor="end" font-family="Inter" font-size="10.5" fill="'+css('--faint')+'">'+gl+'%</text>');}
+    years.forEach(function(yr,i){svg.push('<text x="'+xs(i)+'" y="'+(H-14)+'" text-anchor="middle" font-family="Inter" font-size="10" font-weight="600" fill="'+css('--mut')+'">'+yr.slice(2)+'</text>');});
+    series.forEach(function(se){
+      var pts=se.vals.map(function(v,i){return [xs(i),ys(v)];});
+      var dp=pts.map(function(p,i){return (i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1);}).join(' ');
+      svg.push('<path d="'+dp+'" fill="none" stroke="'+se.color+'" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"'+(se.dash?' stroke-dasharray="5 4"':'')+'/>');
+      pts.forEach(function(p,i){svg.push('<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="3.5" fill="'+se.color+'"/>');
+        if(i===0||i===pts.length-1)svg.push('<text x="'+p[0].toFixed(1)+'" y="'+(p[1]-9).toFixed(1)+'" text-anchor="middle" font-family="JetBrains Mono" font-size="10" font-weight="600" fill="'+se.color+'">'+se.vals[i].toFixed(1)+'</text>');});
+      var last=pts[pts.length-1];
+      svg.push('<text x="'+(last[0]+8)+'" y="'+(last[1]+4)+'" font-family="Inter" font-size="12" font-weight="700" fill="'+se.color+'">'+esc(se.name)+'</text>');
+    });
+    svg.push('</svg>');
+    document.getElementById("panel").innerHTML=svg.join("")+
+      '<div class="legend"><span>Labour-force participation, % of 15+ population</span><span><b style="color:#F59E0B">Women: '+TR["2017-18"].f.toFixed(1)+'% → '+TR["2023-24"].f.toFixed(1)+'%</b></span></div>';
+  }
+
+  var sortKey="lfpr_f",sortDir=-1;
+  function renderTable(){
+    var cols=[["lfpr_f","LFPR women"],["lfpr_m","LFPR men"],["wpr_p","WPR all"],["ur_p","Unempl."]];
+    function cv(c,key){var p=key.split("_");return val(ST[c],p[0],p[1]);}
+    var rows=CODES.slice().sort(function(a,b){ if(sortKey==="n")return sortDir*ST[a].n.localeCompare(ST[b].n);
+      var va=cv(a,sortKey),vb=cv(b,sortKey);va=va==null?-1:va;vb=vb==null?-1:vb;return sortDir*(va-vb);});
+    var h='<div style="overflow-x:auto"><table class="data"><thead><tr><th data-k="n">State / UT</th>'+
+      cols.map(function(c){return '<th data-k="'+c[0]+'">'+c[1]+'</th>';}).join('')+'</tr></thead><tbody>';
+    rows.forEach(function(c){h+='<tr><td>'+esc(ST[c].n)+'</td>'+cols.map(function(col){return '<td>'+fmt(cv(c,col[0]))+'</td>';}).join('')+'</tr>';});
+    h+='<tr class="ai"><td>All India</td>'+cols.map(function(col){var p=col[0].split("_");return '<td>'+fmt(NAT[p[0]][p[1]])+'</td>';}).join('')+'</tr>';
+    h+='</tbody></table></div>';
+    document.getElementById("panel").innerHTML=h;
+    [].forEach.call(document.querySelectorAll("th[data-k]"),function(th){th.addEventListener("click",function(){var k=th.dataset.k;if(sortKey===k)sortDir*=-1;else{sortKey=k;sortDir=k==="n"?1:-1;}renderTable();});});
+  }
+
+  function inr(n){return '₹'+Number(n).toLocaleString('en-IN');}
+  function pctS(n){return n.toFixed(1)+'%';}
+  function gapRow(c,maxv,fmt,note){
+    var mw=Math.max(3,100*c.m/maxv), fw=Math.max(3,100*c.f/maxv);
+    return '<div class="gaprow"><div class="gaplab"><span>'+esc(c.L)+'</span>'+(c.unit?'<span class="unit">'+esc(c.unit)+'</span>':'')+'</div>'+
+      '<div class="gb"><span class="gbk">Men</span><div class="gbtrack"><i class="men-c" style="width:'+mw.toFixed(1)+'%"></i></div><span class="gbv">'+fmt(c.m)+'</span></div>'+
+      '<div class="gb"><span class="gbk">Women</span><div class="gbtrack"><i class="wom-c" style="width:'+fw.toFixed(1)+'%"></i></div><span class="gbv">'+fmt(c.f)+'</span></div>'+
+      (note?'<div class="gapratio">'+note(c)+'</div>':'')+'</div>';
+  }
+  function legendMW(){return '<div class="gap-legend"><span><span class="dot men-c"></span>Men</span><span><span class="dot wom-c"></span>Women</span></div>';}
+  function renderWages(){
+    var cats=WAGE.cats, monMax=Math.max(cats[0].m,cats[1].m);
+    var ratio=function(c){return 'Women earn <b>'+Math.round(100*c.f/c.m)+'%</b> of what men earn';};
+    var h='<div class="gap-wrap"><div class="gap-sec"><h3>Monthly earnings</h3>'+
+      gapRow(cats[0],monMax,inr,ratio)+gapRow(cats[1],monMax,inr,ratio)+'</div>'+
+      '<div class="gap-sec"><h3>Casual labour — daily wage</h3>'+gapRow(cats[2],cats[2].m,inr,ratio)+'</div></div>'+legendMW();
+    document.getElementById("panel").innerHTML=h;
+  }
+  function renderJobQuality(){
+    var allNote=function(c){return 'All workers: <b>'+pctS(c.p)+'</b>';};
+    var h='<div class="gap-wrap"><div class="gap-sec"><h3>How India works — share of workers by type</h3>';
+    JOB.status.forEach(function(c){h+=gapRow(c,100,pctS,allNote);});
+    h+='</div><div class="gap-sec"><h3>Security gaps — regular non-farm workers <em>without</em>&hellip;</h3>';
+    JOB.security.forEach(function(c){h+=gapRow(c,100,pctS,allNote);});
+    h+='</div></div>'+legendMW();
+    document.getElementById("panel").innerHTML=h;
+  }
+  function render(){
+    renderCaption();
+    if(S.view==="rank")renderRank();
+    else if(S.view==="trend")renderTrend();
+    else if(S.view==="pay")renderWages();
+    else if(S.view==="quality")renderJobQuality();
+    else renderTable();
+  }
+  new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+  renderQuestion();
+  render();
+})();
+</script>
+<script src="/js/translate-sarvam.js?v=de32c2b0" defer></script>
+<script src="/js/site-chrome.js?v=92c9f4d1" defer></script>
+</body>
+</html>

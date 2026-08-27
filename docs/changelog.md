@@ -2,6 +2,22 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.270.0 — August 27, 2026 (NFHS State Explorer, and eight dead links out of the Dataverse)
+
+### For Learners
+
+- **NFHS State Explorer** — India's health and nutrition indicators by state, with **rural and urban shown separately** instead of rolled into one figure. Published state tables give you the combined number, and on a wide gap that number describes neither half of the state. Kerala's child stunting went from 19.7% to 23.4% between NFHS-4 and NFHS-5 — but that is 19.5% to 26.4% rural against 19.8% to 20.1% urban. Nearly all of it is rural, and the combined figure shows about half. 136 indicators, 39 states and union territories, both rounds, 27,084 published figures.
+- **Four ways in.** Rank states by the size of the rural–urban gap; track what changed between the rounds for each half separately (Assam's stunting fell 2 points in rural areas and rose 7.5 in urban); read one state's whole profile on any theme; or list the full table and download it as CSV.
+- **It says what it cannot tell you.** Five units — Jammu & Kashmir, Ladakh, and the Daman & Diu territories — were reorganised between the rounds, so the change view leaves them out rather than compare two different places. Estimates NFHS prints in brackets because they rest on 25–49 unweighted cases are kept and marked; suppressed and unpublished figures show as a dash. Nothing is interpolated.
+
+### Fixed
+
+- **Eight Dataverse entries pointed at URLs that do not exist** (#1036) — seven GitHub repositories and one 404 on J-PAL's site. Five were repointed to the correct location, each confirmed with `git ls-remote` first; three had no replacement and were removed, including one that was a duplicate of another entry's URL. The Dataverse goes 337 → 334.
+
+### Changed
+
+- The Data Room grows to 14 explorers; the existing NFHS explorer is now named **NFHS District Explorer** to distinguish it from the state one.
+
 ## v10.269.0 — August 26, 2026 (The NFHS explorer in the Dataverse now covers states too)
 
 ### Changed
