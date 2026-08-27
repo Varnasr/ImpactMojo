@@ -2,6 +2,17 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.273.0 — August 27, 2026 (A guard for the bug that shipped a button nobody could read)
+
+### Fixed
+
+- **Five Dataverse entries pointed at bare GitHub organisation pages that do not exist** (#1036). Gmail, Notion, Airtable and Docker MCP are repointed at their real repositories, each confirmed with `git ls-remote` first — Notion's is the company's own. MCP Analytics is removed: nothing matching its description exists, and the one live thing with that name is a different product (web analytics, not the "50+ ML and statistics tools" the entry described), so substituting it would have been worse than removing it. The sixth link, to d-saikrishna's profile, is correct as it stands — the account was verified and the entry covers several projects rather than one repo, which the description now says. Dataverse 335 → 334.
+- **An unclosed `<div>` in the p-values post** — the same defect as #1033, sitting latent with no visible symptom. 32 divs opened, 31 closed.
+
+### Added
+
+- `scripts/check-html-nesting.py` — every element that opens in a blog post must close, in order. #1033 shipped an unreadable Substack button because a `</div>` was lost when a new post was spliced into an existing post's shell, and **no existing guard could see it**: the page rendered, and the h1 and viewport checks both passed. Proved by re-introducing the exact defect and confirming the guard names the file, the element and the line. Enforced in CI via the `html-nesting` job, and written up as item 18 in `rules/testing.md`.
+
 ## v10.272.0 — August 27, 2026 (The Union Budget explorer now points at the analysis)
 
 ### For Learners
