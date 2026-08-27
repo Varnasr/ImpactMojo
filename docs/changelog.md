@@ -2,6 +2,18 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.272.0 — August 27, 2026 (The Union Budget explorer now points at the analysis)
+
+### For Learners
+
+- **Nine spending heads in the Union Budget Explorer now carry a link to ResGov's analysis of that ministry.** Agriculture, education, health, rural development, urban development, defence, social welfare, energy and food each get a **brief** chip beside the head name; hover it to see every brief for that head, across years. Education has five, health has eight.
+- **All 50 briefs are reachable from a panel below the table**, grouped by head, with two honest extra columns: three cover the budget as a whole rather than one head, and fourteen — on water, environment, tribal affairs and city-level clean-air finance — cut across several heads or sit under none. Nothing is orphaned and nothing is forced into a head it does not belong to.
+- **The page says why the fit is approximate.** ResGov organises by ministry, department or scheme; the budget's expenditure table is organised by function. The two do not line up exactly, and the panel opens by saying so. The links go to ResGov and the analysis is theirs, which the panel also states.
+
+### Changed
+
+- The brief chip uses a dedicated `--rg-ink` token rather than the page's teal accent, which measured **3.35:1 in light and 3.99:1 in dark** at 10.5px — both under the 4.5:1 minimum. It is now 4.91:1 and 7.98:1, measured in the browser rather than assumed.
+
 ## v10.271.0 — August 27, 2026 (PLFS moves to calendar 2025, and ResGov joins the Dataverse)
 
 ### For Learners
