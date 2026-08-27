@@ -227,6 +227,20 @@ jobs:
       - name: Check the nav dots match the content dates
         run: python3 scripts/stamp-nav-dots.py --check
 
+  html-nesting:
+    name: Blog markup nests correctly
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      # A missing </div> does not error and does not show up in any other guard:
+      # the page still renders, with the later blocks nested inside the earlier
+      # one and inheriting its styles. That shipped an unreadable newsletter
+      # button in #1033, and had been sitting latent in a second post.
+      - name: Check block markup in blog/
+        run: python3 scripts/check-html-nesting.py
+
   viewport:
     name: Viewport meta guard
     runs-on: ubuntu-latest
