@@ -20,15 +20,15 @@
 :root{
   --bg:#F6F8FB; --panel:#FFFFFF; --ink:#0F172A; --mut:#5A6B82; --faint:#8595AB;
   --bd:#E4EAF1; --acc:#0D9488; --acc2:#7C3AED; --good:#10B981; --bad:#EF4444;
-  --chip:#EEF3F9; --barlo:#CCFBF1; --barhi:#0F766E;
+  --chip:#EEF3F9; --rg-ink:#0F766E; --barlo:#CCFBF1; --barhi:#0F766E;
 }
 html[data-theme="dark"]{
   --bg:#0B1120; --panel:#131C2E; --ink:#F1F5F9; --mut:#9DB0C7; --faint:#7387A0;
-  --bd:#25314A; --chip:#1C2740; --barlo:#134E4A; --barhi:#5EEAD4;
+  --bd:#25314A; --chip:#1C2740; --rg-ink:#2DD4BF; --barlo:#134E4A; --barhi:#5EEAD4;
 }
 @media(prefers-color-scheme:dark){html:not([data-theme]){
   --bg:#0B1120; --panel:#131C2E; --ink:#F1F5F9; --mut:#9DB0C7; --faint:#7387A0;
-  --bd:#25314A; --chip:#1C2740; --barlo:#134E4A; --barhi:#5EEAD4;
+  --bd:#25314A; --chip:#1C2740; --rg-ink:#2DD4BF; --barlo:#134E4A; --barhi:#5EEAD4;
 }}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:'Amaranth',system-ui,-apple-system,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
@@ -69,6 +69,17 @@ tr.total td{font-weight:800;border-top:2px solid var(--bd);border-bottom:0}
 .bar{position:relative}
 .bar i{position:absolute;left:0;top:50%;transform:translateY(-50%);height:60%;background:var(--barlo);border-radius:3px;z-index:0}
 .bar span{position:relative;z-index:1}
+.rg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.rg-col h3{font-family:'Inter';font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--faint);margin:0 0 6px}
+.rg-col ul{margin:0;padding-left:16px}
+.rg-col li{font-size:.88rem;color:var(--mut);margin-bottom:4px;line-height:1.35}
+.rg-col a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--bd)}
+.rg-col a:hover{border-color:var(--acc);color:var(--acc)}
+.rg-y{font-family:'Inter';font-size:10.5px;color:var(--faint)}
+.rg-src{font-family:'Inter';font-size:11.5px;color:var(--faint);margin:14px 0 0}
+.rg{display:inline-block;margin-left:7px;font-family:'Inter';font-size:10.5px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;color:var(--rg-ink);border:1px solid var(--bd);background:var(--chip);border-radius:99px;padding:1px 7px;text-decoration:none;vertical-align:1px;white-space:nowrap}
+.rg:hover{border-color:var(--acc)}
+.rg:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 .panel{background:var(--panel);border:1px solid var(--bd);border-radius:16px;padding:18px 20px;margin:14px 0;overflow-x:auto}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 0}
 .tab{font-family:'Inter';font-size:13px;font-weight:600;padding:7px 14px;border-radius:99px;border:1px solid var(--bd);background:var(--chip);color:var(--mut);cursor:pointer}
@@ -128,6 +139,12 @@ a{color:var(--acc)}
 
   <div class="tabs" role="tablist" id="tabs"></div>
   <section class="panel" id="panel"></section>
+
+  <section class="panel" id="rgPanel" hidden aria-labelledby="rg-h">
+    <h2 id="rg-h" style="font-family:'Amaranth',sans-serif;font-size:1.05rem;margin:0 0 4px;color:var(--ink)">Ministry briefs on these heads</h2>
+    <p id="rgLede" style="color:var(--mut);font-size:.92rem;margin:0 0 12px;max-width:74ch"></p>
+    <div id="rgBody"></div>
+  </section>
 
   <div class="method">
     <h2>Reading it responsibly</h2>
@@ -260,7 +277,7 @@ a{color:var(--acc)}
       return (pc>=0?'+':'')+pc.toFixed(0)+'%';
     }
     for(var r=0;r<rows.length;r++){
-      h+='<tr><td class="name">'+esc(rows[r].head)+'</td>';
+      h+='<tr><td class="name">'+esc(rows[r].head)+briefLink(rows[r].head)+'</td>';
       for(var c=0;c<ys.length;c++){
         var v=rows[r].values[c];
         h+='<td><span class="mono">'+(v===null?'—':Math.round(v).toLocaleString('en-IN'))+'</span></td>';
@@ -298,7 +315,7 @@ a{color:var(--acc)}
     for(var j=0;j<b.rows.length;j++){
       var r=b.rows[j];
       var cls=(r.label==='Grand Total'||r.label.indexOf('Total')===0)?' class="total"':'';
-      h+='<tr'+cls+'><td class="'+(r.depth?'sub':'name')+'">'+esc(r.label)+'</td>';
+      h+='<tr'+cls+'><td class="'+(r.depth?'sub':'name')+'">'+esc(r.label)+briefLink(r.label)+'</td>';
       if(r.header){
         for(var m=0;m<yrs.length;m++) h+='<td>—</td>';
       } else {
@@ -337,11 +354,45 @@ a{color:var(--acc)}
       throw err;
     });
   }
+  /* ResGov publishes a brief per ministry, department or scheme; the budget's
+     table is by function. BRIEFS maps the two where the correspondence is real
+     and leaves the rest alone. Optional: a failure here must not stop the
+     budget itself from rendering. */
+  var BRIEFS=null;
+  function briefLink(head){
+    if(!BRIEFS || !BRIEFS.heads[head]) return '';
+    var list=BRIEFS.heads[head], n=list.length;
+    return ' <a class="rg" href="'+list[0].u+'" target="_blank" rel="noopener" title="'+
+      list.map(function(b){return b.y+' \u00b7 '+b.t;}).join(' \u2014 ').replace(/"/g,'&quot;')+
+      '">brief'+(n>1?'s ('+n+')':'')+'</a>';
+  }
+
+  function renderBriefs(){
+    if(!BRIEFS) return;
+    var p=document.getElementById('rgPanel'); if(!p) return;
+    function li(b){return '<li><a href="'+b.u+'" target="_blank" rel="noopener">'+esc(b.t)+'</a> <span class="rg-y">'+b.y+'</span></li>';}
+    var heads=Object.keys(BRIEFS.heads).sort();
+    var h='<div class="rg-grid">';
+    heads.forEach(function(k){
+      h+='<div class="rg-col"><h3>'+esc(k)+'</h3><ul>'+BRIEFS.heads[k].map(li).join('')+'</ul></div>';
+    });
+    if(BRIEFS.whole && BRIEFS.whole.length)
+      h+='<div class="rg-col"><h3>The budget as a whole</h3><ul>'+BRIEFS.whole.map(li).join('')+'</ul></div>';
+    if(BRIEFS.unmapped && BRIEFS.unmapped.length)
+      h+='<div class="rg-col"><h3>Across heads, or under none</h3><ul>'+BRIEFS.unmapped.map(li).join('')+'</ul></div>';
+    h+='</div><p class="rg-src">Source: <a href="'+BRIEFS.index+'" target="_blank" rel="noopener">'+esc(BRIEFS.source)+
+       '</a>. Links go to ResGov; the analysis is theirs, not ours.</p>';
+    document.getElementById('rgBody').innerHTML=h;
+    document.getElementById('rgLede').textContent=BRIEFS.note;
+    p.hidden=false;
+  }
   Promise.all([
     grab('/data/union-budget.json', 1),
-    grab('/data/union-budget-history.json', 1).catch(function(){return null})
+    grab('/data/union-budget-history.json', 1).catch(function(){return null}),
+    grab('/data/resgov-budget-briefs.json', 1).catch(function(){return null})
   ]).then(function(both){
-    var d=both[0]; HIST=both[1];
+    var d=both[0]; HIST=both[1]; BRIEFS=both[2];
+    renderBriefs();
     D=d;
     var ef=D.blocks.expenditure_function, rc=D.blocks.receipts;
     var gt=row(ef,'Grand Total'), last=ef.years.length-1;
