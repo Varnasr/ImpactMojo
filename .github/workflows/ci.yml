@@ -52,6 +52,24 @@ jobs:
       - name: Check asset stamps
         run: python3 scripts/stamp-assets.py --check
 
+  aqi-data:
+    name: Air quality explorer data is current
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+
+      # The CPCB series is hourly, so a snapshot that quietly mixed two hours
+      # would average across time without saying so. The build asserts every
+      # reading carries the same timestamp, keeps 'NA' out of the averages
+      # instead of counting it as zero, and re-injects the page's inline copy.
+      - name: Rebuild the air quality data and compare
+        run: python3 scripts/build-aqi-explorer-data.py --check
+
   justice-data:
     name: Justice explorer data is current
     runs-on: ubuntu-latest

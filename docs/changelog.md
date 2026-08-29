@@ -2,6 +2,18 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.276.0 — August 29, 2026 (What the air monitors measure)
+
+### For Learners
+
+- **Air Quality Explorer** — station-by-station readings from India's Central Pollution Control Board network: 502 continuous monitors across 265 cities, for PM2.5, PM10, NO₂, SO₂, ozone, carbon monoxide and ammonia. Filter every station by name, city or state.
+- **The network itself is the second story.** Stations per 10 million residents runs from Delhi's 26.8 to Jharkhand's 0.6, and six of India's 36 states and union territories have no station at all. A state with no station is not a state with clean air; it is a state with no measurement, and it can never appear in a ranking of the worst places to breathe.
+- **The page says what hour it is showing.** These are readings from a single hour, not a daily or annual average, and the reading time sits at the top rather than being implied away.
+
+### Added
+
+- `scripts/fetch-aqi-data.py` and `scripts/build-aqi-explorer-data.py`, with the `aqi-data` job in CI. The build refuses to run if the snapshot mixes reading times, keeps a station's `NA` out of the average instead of counting it as zero — 9.2% of readings come back blank — and records how many of a city's stations reported each pollutant.
+
 ## v10.275.0 — August 29, 2026 (Who is actually in prison?)
 
 ### For Learners
