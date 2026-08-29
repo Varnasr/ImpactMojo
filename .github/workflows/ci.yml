@@ -52,6 +52,26 @@ jobs:
       - name: Check asset stamps
         run: python3 scripts/stamp-assets.py --check
 
+  csr-data:
+    name: CSR explorer data is current
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+
+      # csr.html carries its data inline, so there are two copies of it: the
+      # JSON file and the page. This re-derives both from the raw snapshot and
+      # fails if either has drifted -- an edit to one and not the other would
+      # otherwise render a page of confident, wrong numbers with nothing to
+      # show for it. The same run re-checks the joins: both source tables
+      # carry a 'Total' row, and summing the column double-counts exactly.
+      - name: Rebuild the CSR data and compare
+        run: python3 scripts/build-csr-explorer-data.py --check
+
   diagram-contrast:
     name: Diagram text contrast
     runs-on: ubuntu-latest

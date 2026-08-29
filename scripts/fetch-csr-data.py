@@ -32,6 +32,17 @@ RESOURCES = {
               "State/UT-wise Details of CSR Expenditure from 2018-19 to 2022-23"),
     "sector": ("40ca3289-b33c-4f60-b8fe-c5050d8e27fa",
                "Development Sector-wise Details of CSR Expenditure from 2018-19 to 2022-23"),
+    # Denominator for the per-person view. Census 2011 is the most recent
+    # enumerated population India has -- the 2021 census has not been held --
+    # so per-person figures are CSR now over people counted then, and the page
+    # says so rather than burying it.
+    "population": ("cd3f9ecd-0bc3-406a-bb7d-8562ffb75083",
+                   "State/UT-wise Population, Decadal Growth Rate and Density, Census 2011"),
+    # The wealth axis. Per-capita NSDP covers 33 states and reaches 2022-23,
+    # matching the CSR series; the per-capita GSDP table covers only 28.
+    # Carries literal "NA" strings for unpublished cells -- not zero.
+    "nsdp": ("c9bfd3c0-b9de-4a5b-8752-f72a4f2932ad",
+             "State/UT-wise Per Capita Net State Domestic Product at Current Prices"),
 }
 
 PAGE = 10          # the shared key's hard cap
@@ -104,9 +115,9 @@ def main():
         out["series"][name] = {"resource_id": rid, "title": title, "rows": rows}
 
     OUT.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"\nwrote {OUT.relative_to(ROOT)}  "
-          f"({len(out['series']['state']['rows'])} states, "
-          f"{len(out['series']['sector']['rows'])} sectors)")
+    print(f"\nwrote {OUT.relative_to(ROOT)}")
+    for k, v in out["series"].items():
+        print(f"  {k:12s} {len(v['rows']):>4} rows")
     return 0
 
 

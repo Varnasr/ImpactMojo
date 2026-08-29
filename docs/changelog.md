@@ -2,6 +2,24 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.274.0 — August 29, 2026 (Where India's CSR money actually goes)
+
+### For Learners
+
+- **CSR Explorer** — five years of India's mandated corporate social responsibility spending, 2018-19 to 2022-23, from the Ministry of Corporate Affairs. Which states received it, which causes absorbed it, and how much was assigned to no state at all.
+- **The money tracks income, not need.** Plotted against per-capita state income, CSR per resident correlates **+0.87**: Delhi received about **₹884 per person** in 2022-23, Bihar **₹23**. If giving followed need the line would slope the other way.
+- **Education and health took 56.4% of everything** — both causes where public provision is already strongest in the states that receive the most.
+- **Nearly a quarter of all CSR belongs to no state.** ₹7,030 crore of the ₹29,988 crore spent in 2022-23 sits under "PAN India", "PAN India (Other Centralized Funds)" and "NEC/Not Mentioned". The explorer shows those rows rather than dropping them or spreading them across states, either of which would change every figure on the page.
+
+### Added
+
+- `scripts/fetch-csr-data.py` — snapshots the four data.gov.in series the explorer joins (CSR by state, CSR by sector, Census 2011 population, per-capita NSDP) into `data/csr-india.json`. Re-run to refresh.
+- `scripts/build-csr-explorer-data.py` — joins them, and refuses to write if the join is wrong. Both source tables carry a **"Total" row**, so summing the column double-counts exactly; the script checks that the two series agree on the national total and that the parts sum to it, and stops with the two figures if they do not. It also injects the result into `csr.html`, so the page and the data file cannot drift apart. Enforced in CI via the `csr-data` job.
+
+### Fixed
+
+- `.faint` on the explorer measured **3.05:1** in light — the eyebrow, the control labels, the axis ticks and the source line, all real text. Now 5.03:1. The sitewide theme-contrast gate reads `css/*.css` and never saw it, which is the point of measuring rather than trusting a green run.
+
 ## v10.273.0 — August 27, 2026 (A guard for the bug that shipped a button nobody could read)
 
 ### Fixed
