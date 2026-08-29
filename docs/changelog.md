@@ -2,6 +2,104 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.278.0 — August 29, 2026 (The hundred days)
+
+### For Learners
+
+- **MGNREGA Explorer** — the Act owes every rural household 100 days of paid work a year on demand. In 2025-26 the average household that worked got **42.7 days**, and **4.0%** reached the full hundred. Eight financial years, 757 districts, searchable by district or state.
+- **The state spread is wide.** Mizoram averaged 91.3 days, Puducherry 24.3. Kerala got 27.3% of its working households to a full hundred; most states are under 5%.
+- **One promise the programme does keep.** Women did **56.7%** of all person-days, well above the one-third floor the Act sets.
+- **A year still running is labelled as one.** The year chips show how many months each has reported, and the page opens on the last complete year rather than ranking a one-month year against a twelve-month one.
+
+### Added
+
+- `scripts/fetch-mgnrega-data.py` and `scripts/build-mgnrega-explorer-data.py`, with the `mgnrega-data` job in CI.
+
+### Corrected before release
+
+- **All five data explorers had scrollable tables that a keyboard could not reach.** axe reported them clean because the tables sit inside a collapsed `<details>`; opening them first surfaced 14 violations across the five pages. Every scroll container is now focusable and named.
+
+### Data notes
+
+- The source's columns are **cumulative within the financial year**, so each year's figure is its last reported month rather than a sum of the months. Summing returns roughly six times the truth and still looks plausible. The build asserts the shape — 97.0% of month-to-month steps rise and the median district-year ends 16.9× where it started — and stops if the source ever switches to monthly flows.
+- **From 2024-25 the source publishes a fresh snapshot of each district-month every day**, up to 31 rows for one district and month. The most complete snapshot of the final month is used; 346,412 repeat rows were collapsed.
+- **The fortnight-payment measure is not shown.** The source publishes a column for the share of wages paid within 15 days, and it is not a percentage: median about 100, 95th percentile 1,143, maximum over 84 million. Every way of making it look like one amounts to keeping the districts that appear compliant, so the page says the measure is missing and why.
+- The raw snapshot is 415,834 district-months and 266 MB, so it is not committed. `data/mgnrega-explorer.json` is; refresh with the fetch script.
+
+## v10.277.0 — August 29, 2026 (What happens after a case is registered)
+
+### For Learners
+
+- **Case Outcomes Explorer** — NCRB 2023, state by state, on what happens to a case rather than how many there are: chargesheeting rate, conviction rate, and how much is still pending with the police and with the courts.
+- **Six categories side by side.** All IPC crime, crime against women, atrocities against Scheduled Castes and Scheduled Tribes, cyber crime, and crime against senior citizens.
+- **Atrocities against Scheduled Castes reach a chargesheet more often than crime in general — 81.2% against 72.7% — and convict far less often, 31.9% against 54.0%.** The gap opens in court, not at the police station.
+- **Cyber crime is the other outlier**, with 33.9% of disposed cases reaching a chargesheet against 72.7% for IPC crime as a whole.
+- **The page refuses to rank states by crime, and says why at the top.** A registered case needs someone to go to a police station and someone there to write it down, so a state with a high count may be a state where reporting works. Counts measure reporting at least as much as they measure crime.
+
+### Added
+
+- `scripts/fetch-crime-data.py` and `scripts/build-crime-explorer-data.py`, with the `crime-data` job in CI.
+
+### Data notes
+
+- Rates are shown only for states with at least 100 cases at the relevant stage. Lakshadweep charge-sheeting 100% of four cases is not a fact about its police, and the states left out are named on the page rather than dropped quietly.
+- Where NCRB publishes no state-wise court table — crime against women and atrocities against Scheduled Tribes — the court panels say so instead of rendering an empty chart.
+
+## v10.276.0 — August 29, 2026 (What the air monitors measure)
+
+### For Learners
+
+- **Air Quality Explorer** — station-by-station readings from India's Central Pollution Control Board network: 502 continuous monitors across 265 cities, for PM2.5, PM10, NO₂, SO₂, ozone, carbon monoxide and ammonia. Filter every station by name, city or state.
+- **The network itself is the second story.** Stations per 10 million residents runs from Delhi's 26.8 to Jharkhand's 0.6, and six of India's 36 states and union territories have no station at all. A state with no station is not a state with clean air; it is a state with no measurement, and it can never appear in a ranking of the worst places to breathe.
+- **The page says what hour it is showing.** These are readings from a single hour, not a daily or annual average, and the reading time sits at the top rather than being implied away.
+
+### Added
+
+- `scripts/fetch-aqi-data.py` and `scripts/build-aqi-explorer-data.py`, with the `aqi-data` job in CI. The build refuses to run if the snapshot mixes reading times, keeps a station's `NA` out of the average instead of counting it as zero — 9.2% of readings come back blank — and records how many of a city's stations reported each pollutant.
+
+## v10.275.0 — August 29, 2026 (Who is actually in prison?)
+
+### For Learners
+
+- **Prisons & Undertrials Explorer** — of the 530,333 people held in Indian prisons on 31 December 2023, **73.5% had not been convicted of anything**. They were undertrials: in custody, waiting for a trial to finish.
+- **Prisons hold 120.8% of the space they were built for**, and you can rank every state by occupancy or by prisoners per 100,000 residents.
+- **How long people have already waited**, before any finding of guilt: 30.7% of undertrials have been in custody more than a year, and 33,398 for more than three.
+- **Who they are.** Scheduled Castes are 16.6% of the population and 20.6% of undertrials; Scheduled Tribes 8.6% and 10.0%. A scatter puts each state's population share against its undertrial share, with a diagonal where the two would match. 64% of undertrials left school before Class X or never attended, and bail costs money.
+- **A right that mostly went unused.** Section 436A of the Code of Criminal Procedure entitles an undertrial who has served half the maximum sentence to release. In 2023, 1,384 people were recorded as eligible and 656 were released.
+- **The queue outside**, which is why the wait is long: 44.9 million cases pending in the district courts, grouped by how long they have already been pending, and ranked per 1,000 residents.
+
+### Added
+
+- `scripts/datagov.py` — one shared client for data.gov.in, used by every explorer built on it. Refuses to return a short read: a truncated fetch is the failure that does not look like one, since the file stays valid, the page renders, and a tenth of India is quietly missing.
+- `scripts/fetch-justice-data.py` and `scripts/build-justice-explorer-data.py`. The build step refuses to write when the join is wrong, and CI re-runs it as the `justice-data` job.
+
+### Corrected before release
+
+- **The CSR explorer showed the light palette to anyone who had never touched the theme toggle**, including a visitor whose phone is set to dark. It styled `html[data-theme="dark"]` only, and a visitor with no stored preference carries no such attribute. Every other explorer already handled this.
+- **The CSR explorer was also missing the shared top bar and the translation control** that every other explorer loads.
+
+### Data notes
+
+- Two source defects were caught before publishing, and both would have shipped wrong numbers with nothing on screen to show for it. Every NCRB table carries three total rows, so summing a column returns exactly three times the real figure. And the Scheduled Tribe columns of the Census SC/ST table are scrambled across rows — Kerala's row carries Madhya Pradesh's ST population and its percentage, so the row checks out against itself and the column still sums to the correct national total. Plotted, it put Kerala at 46% Scheduled Tribe against a real 1.5%. Scheduled Tribe figures now come from the Ministry of Tribal Affairs table, the two sources must agree nationally before either is used, and any state that fails the check is dropped and named on the page.
+
+## v10.274.0 — August 29, 2026 (Where India's CSR money actually goes)
+
+### For Learners
+
+- **CSR Explorer** — five years of India's mandated corporate social responsibility spending, 2018-19 to 2022-23, from the Ministry of Corporate Affairs. Which states received it, which causes absorbed it, and how much was assigned to no state at all.
+- **The money tracks income, not need.** Plotted against per-capita state income, CSR per resident correlates **+0.87**: Delhi received about **₹884 per person** in 2022-23, Bihar **₹23**. If giving followed need the line would slope the other way.
+- **Education and health took 56.4% of everything** — both causes where public provision is already strongest in the states that receive the most.
+- **Nearly a quarter of all CSR belongs to no state.** ₹7,030 crore of the ₹29,988 crore spent in 2022-23 sits under "PAN India", "PAN India (Other Centralized Funds)" and "NEC/Not Mentioned". The explorer shows those rows rather than dropping them or spreading them across states, either of which would change every figure on the page.
+
+### Added
+
+- `scripts/fetch-csr-data.py` — snapshots the four data.gov.in series the explorer joins (CSR by state, CSR by sector, Census 2011 population, per-capita NSDP) into `data/csr-india.json`. Re-run to refresh.
+- `scripts/build-csr-explorer-data.py` — joins them, and refuses to write if the join is wrong. Both source tables carry a **"Total" row**, so summing the column double-counts exactly; the script checks that the two series agree on the national total and that the parts sum to it, and stops with the two figures if they do not. It also injects the result into `csr.html`, so the page and the data file cannot drift apart. Enforced in CI via the `csr-data` job.
+
+### Corrected before release
+
+- `.faint` on the explorer measured **3.05:1** in light — the eyebrow, the control labels, the axis ticks and the source line, all real text. Now 5.03:1. The sitewide theme-contrast gate reads `css/*.css` and never saw it, which is the point of measuring rather than trusting a green run.
+
 ## v10.273.0 — August 27, 2026 (A guard for the bug that shipped a button nobody could read)
 
 ### Fixed

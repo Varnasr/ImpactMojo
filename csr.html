@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#0F172A">
+<title>CSR Explorer — where India's corporate social responsibility money actually goes | ImpactMojo</title>
+<meta name="description" content="Explore five years of India's CSR spending by state and by development sector, from Ministry of Corporate Affairs data. Corporate giving tracks state income far more closely than state need.">
+<link rel="canonical" href="https://www.impactmojo.in/csr.html">
+<meta property="og:title" content="CSR Explorer — where India's CSR money actually goes">
+<meta property="og:description" content="Five years of Indian CSR spending by state and sector. Corporate giving tracks income, not need — and a quarter of it is assigned to no state at all.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.impactmojo.in/csr.html">
+<meta property="og:image" content="https://www.impactmojo.in/assets/images/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="/assets/images/favicon.png" rel="icon" type="image/png">
+<style>
+:root{
+  --bg:#F6F8FB; --panel:#FFFFFF; --ink:#0F172A; --mut:#5A6B82; --faint:#617087;
+  --bd:#E4EAF1; --acc:#0369A1; --acc2:#6366F1; --grad:linear-gradient(135deg,#0EA5E9,#6366F1);
+  --chip:#EEF3F9; --chipactive:#0369A1; --chipink:#FFFFFF;
+  --dot:#0369A1; --trend:#7C8CA5; --gridline:#E9EEF5;
+  --r1:#BAE6FD; --r2:#7DD3FC; --r3:#38BDF8; --r4:#0EA5E9; --r5:#0369A1;
+}
+html[data-theme="dark"]{
+  --bg:#0B1120; --panel:#131C2E; --ink:#F1F5F9; --mut:#A8BACF; --faint:#7C8CA5;
+  --bd:#25314A; --acc:#38BDF8; --acc2:#818CF8;
+  --chip:#1C2740; --chipactive:#38BDF8; --chipink:#06283B;
+  --dot:#38BDF8; --trend:#64748B; --gridline:#1E2A42;
+  --r1:#0C4A6E; --r2:#075985; --r3:#0369A1; --r4:#0284C7; --r5:#38BDF8;
+}
+/* A visitor who has never touched the theme toggle has no data-theme
+   attribute at all, so the rule above never matches and a dark OS got
+   the light palette. Every other explorer handles this; this one did
+   not. */
+@media(prefers-color-scheme:dark){html:not([data-theme]){
+  --bg:#0B1120; --panel:#131C2E; --ink:#F1F5F9; --mut:#A8BACF; --faint:#7C8CA5;
+  --bd:#25314A; --acc:#38BDF8; --acc2:#818CF8;
+  --chip:#1C2740; --chipactive:#38BDF8; --chipink:#06283B;
+  --dot:#38BDF8; --trend:#64748B; --gridline:#1E2A42;
+  --r1:#0C4A6E; --r2:#075985; --r3:#0369A1; --r4:#0284C7; --r5:#38BDF8;
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  font-size:15px;line-height:1.6;-webkit-text-size-adjust:100%}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px 72px}
+a{color:var(--acc)}
+h1,h2,h3{font-family:Amaranth,Georgia,serif;line-height:1.2;text-wrap:balance;margin:0}
+header.top{padding:34px 0 8px}
+.eyebrow{font-size:.74rem;letter-spacing:.11em;text-transform:uppercase;color:var(--faint);font-weight:700}
+h1{font-size:clamp(1.85rem,4.6vw,2.7rem);margin:.35em 0 .3em}
+.lede{color:var(--mut);max-width:64ch;font-size:1.03rem}
+.panel{background:var(--panel);border:1px solid var(--bd);border-radius:14px;padding:20px;margin:20px 0}
+h2{font-size:1.2rem;margin-bottom:.15em}
+.sub{color:var(--mut);font-size:.87rem;margin:.2em 0 1.1em;max-width:70ch}
+/* stat tiles */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:12px;margin:22px 0}
+.tile{background:var(--panel);border:1px solid var(--bd);border-radius:12px;padding:15px 16px}
+.tile .v{font-family:Amaranth,Georgia,serif;font-size:1.85rem;line-height:1.05;
+  font-variant-numeric:tabular-nums;color:var(--ink)}
+.tile .l{font-size:.79rem;color:var(--mut);margin-top:5px}
+/* controls */
+.ctrls{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;margin-bottom:6px}
+.cgrp{display:flex;flex-direction:column;gap:6px}
+.clab{font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--bd);background:var(--chip);color:var(--ink);
+  border-radius:999px;padding:6px 13px;font:inherit;font-size:.83rem;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--chipactive);color:var(--chipink);border-color:var(--chipactive);font-weight:600}
+.chip:focus-visible{outline:2px solid var(--acc2);outline-offset:2px}
+/* charts */
+.chartbox{position:relative;width:100%;overflow-x:auto}
+svg{display:block;max-width:100%;height:auto}
+.axis text{fill:var(--faint);font-size:11px}
+.axis line,.axis path{stroke:var(--gridline)}
+.glab{fill:var(--mut);font-size:11.5px}
+.dlab{fill:var(--ink);font-size:11.5px;font-weight:600;
+  paint-order:stroke;stroke:var(--panel);stroke-width:3px;stroke-linejoin:round}
+.bar{fill:var(--r5)}
+.tip{position:absolute;pointer-events:none;background:var(--panel);border:1px solid var(--bd);
+  border-radius:9px;padding:8px 11px;font-size:.82rem;box-shadow:0 6px 22px rgba(15,23,42,.16);
+  opacity:0;transition:opacity .1s;max-width:250px;z-index:5}
+.tip b{font-family:Amaranth,Georgia,serif;font-size:1rem}
+.tip .n{font-variant-numeric:tabular-nums}
+/* table */
+table{border-collapse:collapse;width:100%;font-size:.86rem}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--bd)}
+th{font-size:.74rem;letter-spacing:.05em;text-transform:uppercase;color:var(--faint)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+details.tbl{margin-top:14px}
+details.tbl summary{cursor:pointer;font-size:.85rem;color:var(--acc);font-weight:600}
+.scroll{max-height:340px;overflow:auto;margin-top:10px;border:1px solid var(--bd);border-radius:10px}
+/* notes */
+.notes{font-size:.86rem;color:var(--mut)}
+.notes li{margin-bottom:.5em}
+.src{font-size:.79rem;color:var(--faint);margin-top:16px}
+.back{display:inline-block;margin:26px 0 0;font-size:.87rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div class="eyebrow">Data Explorer</div>
+  <h1>Where does the CSR money go?</h1>
+  <p class="lede">India is one of very few countries that makes corporate charity a legal duty. Section 135
+  of the Companies Act sends roughly &#8377;30,000 crore a year into development work. This traces five years
+  of it &mdash; which states received it, which causes absorbed it, and how much was never assigned to a
+  state at all.</p>
+</header>
+
+<div class="tiles" id="tiles"></div>
+
+<section class="panel">
+  <h2>Money follows income, not need</h2>
+  <p class="sub">Each dot is a state: how rich it is across the bottom, how much CSR each resident
+  received up the side. If giving followed need, the dots would slope downward. They do the opposite.</p>
+  <div class="ctrls">
+    <div class="cgrp">
+      <span class="clab" id="yl">Financial year</span>
+      <div class="chips" role="group" aria-labelledby="yl" id="years"></div>
+    </div>
+  </div>
+  <div class="chartbox"><svg id="scatter" role="img" aria-labelledby="scTitle"><title id="scTitle">CSR per person against per-capita income, by state</title></svg><div class="tip" id="scTip"></div></div>
+  <p class="notes" id="scNote"></p>
+</section>
+
+<section class="panel">
+  <h2>Every state, ranked</h2>
+  <p class="sub">Totals reward big states. Per person is the fairer comparison &mdash; and the one that
+  shows the gap.</p>
+  <div class="ctrls">
+    <div class="cgrp">
+      <span class="clab" id="ml">Measure</span>
+      <div class="chips" role="group" aria-labelledby="ml" id="measure">
+        <button class="chip" data-m="pp" aria-pressed="true">Per person</button>
+        <button class="chip" data-m="tot" aria-pressed="false">Total spend</button>
+      </div>
+    </div>
+  </div>
+  <div class="chartbox"><svg id="states" role="img" aria-labelledby="stTitle"><title id="stTitle">CSR spending by state</title></svg><div class="tip" id="stTip"></div></div>
+  <details class="tbl"><summary>Show as a table</summary><div class="scroll" tabindex="0" role="region" aria-label="Every state, ranked, scrollable table"><table id="stTable"></table></div></details>
+</section>
+
+<section class="panel">
+  <h2>What the money is spent on</h2>
+  <p class="sub">Education and health together take more than half of all CSR &mdash; and both are causes
+  where public provision is already strongest in the states that receive the most.</p>
+  <div class="chartbox"><svg id="sectors" role="img" aria-labelledby="seTitle"><title id="seTitle">CSR spending by development sector</title></svg><div class="tip" id="seTip"></div></div>
+  <details class="tbl"><summary>Show as a table</summary><div class="scroll" tabindex="0" role="region" aria-label="What the money is spent on, scrollable table"><table id="seTable"></table></div></details>
+</section>
+
+<section class="panel">
+  <h2>What this data cannot tell you</h2>
+  <ul class="notes" id="caveats"></ul>
+  <p class="src" id="src"></p>
+</section>
+
+<a class="back" href="/explorers.html">&larr; All data explorers</a>
+</div>
+
+<script id="csr-data" type="application/json">{"_source":"Ministry of Corporate Affairs, via data.gov.in (Open Government Data Platform)","_licence":"Government Open Data Licence - India","_fetched":"2026-08-29","_built_by":"scripts/build-csr-explorer-data.py","_caveats":["CSR expenditure in rupees crore, financial years.","Population is Census 2011 -- the most recent enumerated count India has, since the 2021 census was not held. Per-person figures are therefore CSR now over people counted then.","'PAN India', 'PAN India (Other Centralized Funds)' and 'NEC/Not Mentioned' are CSR not attributable to any state. They are kept separate, not distributed across states."],"years":["2018-19","2019-20","2020-21","2021-22","2022-23"],"year_keys":["2018_19","2019_20","2020_21","2021_22","2022_23"],"national_total":{"2018_19":20217.65,"2019_20":24965.82,"2020_21":26210.95,"2021_22":26616.3,"2022_23":29987.92},"states":[{"name":"Andaman and Nicobar Islands","csr":{"2018_19":0.82,"2019_20":1.29,"2020_21":2.86,"2021_22":9.71,"2022_23":2.53},"population_2011":null,"nsdp_per_capita":{"2019_20":219653.0,"2020_21":205368.0,"2021_22":229080.0,"2022_23":null}},{"name":"Andhra Pradesh","csr":{"2018_19":665.97,"2019_20":710.23,"2020_21":719.81,"2021_22":656.79,"2022_23":954.65},"population_2011":49386799.0,"nsdp_per_capita":{"2019_20":160341.0,"2020_21":163746.0,"2021_22":192587.0,"2022_23":219518.0}},{"name":"Arunachal Pradesh","csr":{"2018_19":24.56,"2019_20":18.02,"2020_21":10.58,"2021_22":119.42,"2022_23":13.35},"population_2011":1383727.0,"nsdp_per_capita":{"2019_20":182171.0,"2020_21":181684.0,"2021_22":205645.0,"2022_23":null}},{"name":"Assam","csr":{"2018_19":210.0,"2019_20":285.0,"2020_21":180.23,"2021_22":406.17,"2022_23":470.25},"population_2011":31205576.0,"nsdp_per_capita":{"2019_20":90123.0,"2020_21":90482.0,"2021_22":102965.0,"2022_23":118504.0}},{"name":"Bihar","csr":{"2018_19":137.95,"2019_20":110.48,"2020_21":89.89,"2021_22":165.97,"2022_23":235.37},"population_2011":104099452.0,"nsdp_per_capita":{"2019_20":44175.0,"2020_21":42083.0,"2021_22":47498.0,"2022_23":54111.0}},{"name":"Chandigarh","csr":{"2018_19":11.46,"2019_20":15.58,"2020_21":13.4,"2021_22":50.88,"2022_23":18.63},"population_2011":1055450.0,"nsdp_per_capita":{"2019_20":330703.0,"2020_21":290671.0,"2021_22":333932.0,"2022_23":null}},{"name":"Chhattisgarh","csr":{"2018_19":149.35,"2019_20":269.68,"2020_21":325.63,"2021_22":305.29,"2022_23":596.11},"population_2011":25545198.0,"nsdp_per_capita":{"2019_20":106603.0,"2020_21":104788.0,"2021_22":120704.0,"2022_23":133898.0}},{"name":"Dadra and Nagar Haveli","csr":{"2018_19":13.48,"2019_20":18.34,"2020_21":21.98,"2021_22":14.11,"2022_23":13.71},"population_2011":343709.0,"nsdp_per_capita":{}},{"name":"Daman and Diu","csr":{"2018_19":6.25,"2019_20":9.53,"2020_21":5.25,"2021_22":4.13,"2022_23":9.4},"population_2011":243247.0,"nsdp_per_capita":{}},{"name":"Delhi","csr":{"2018_19":750.85,"2019_20":830.0,"2020_21":724.59,"2021_22":1196.34,"2022_23":1483.91},"population_2011":16787941.0,"nsdp_per_capita":{"2019_20":355798.0,"2020_21":331112.0,"2021_22":389529.0,"2022_23":444768.0}},{"name":"Goa","csr":{"2018_19":46.77,"2019_20":43.91,"2020_21":41.92,"2021_22":45.43,"2022_23":58.16},"population_2011":1458545.0,"nsdp_per_capita":{"2019_20":435949.0,"2020_21":431351.0,"2021_22":472070.0,"2022_23":null}},{"name":"Gujarat","csr":{"2018_19":1082.18,"2019_20":984.37,"2020_21":1461.6,"2021_22":1604.26,"2022_23":2008.42},"population_2011":60439692.0,"nsdp_per_capita":{"2019_20":212428.0,"2020_21":207324.0,"2021_22":241930.0,"2022_23":null}},{"name":"Haryana","csr":{"2018_19":378.11,"2019_20":537.91,"2020_21":550.86,"2021_22":683.95,"2022_23":701.07},"population_2011":25351462.0,"nsdp_per_capita":{"2019_20":230563.0,"2020_21":229065.0,"2021_22":264835.0,"2022_23":296685.0}},{"name":"Himachal Pradesh","csr":{"2018_19":78.79,"2019_20":78.78,"2020_21":106.31,"2021_22":140.22,"2022_23":138.63},"population_2011":6864602.0,"nsdp_per_capita":{"2019_20":186559.0,"2020_21":177924.0,"2021_22":201271.0,"2022_23":222227.0}},{"name":"Jammu and Kashmir","csr":{"2018_19":36.44,"2019_20":25.27,"2020_21":35.56,"2021_22":50.68,"2022_23":71.22},"population_2011":12541302.0,"nsdp_per_capita":{"2019_20":101868.0,"2020_21":101540.0,"2021_22":120790.0,"2022_23":136771.0}},{"name":"Jharkhand","csr":{"2018_19":109.8,"2019_20":155.21,"2020_21":226.54,"2021_22":193.33,"2022_23":388.35},"population_2011":32988134.0,"nsdp_per_capita":{"2019_20":75016.0,"2020_21":69963.0,"2021_22":84059.0,"2022_23":91874.0}},{"name":"Karnataka","csr":{"2018_19":1257.69,"2019_20":1448.16,"2020_21":1277.81,"2021_22":1839.73,"2022_23":1985.82},"population_2011":61095297.0,"nsdp_per_capita":{"2019_20":221431.0,"2020_21":221310.0,"2021_22":265623.0,"2022_23":301673.0}},{"name":"Kerala","csr":{"2018_19":354.78,"2019_20":298.56,"2020_21":290.67,"2021_22":239.73,"2022_23":351.6},"population_2011":33406061.0,"nsdp_per_capita":{"2019_20":208879.0,"2020_21":194432.0,"2021_22":233855.0,"2022_23":null}},{"name":"Lakshadweep","csr":{"2018_19":0.39,"2019_20":null,"2020_21":0.01,"2021_22":0.45,"2022_23":0.02},"population_2011":64473.0,"nsdp_per_capita":{}},{"name":"Leh and Ladakh","csr":{"2018_19":null,"2019_20":null,"2020_21":null,"2021_22":14.84,"2022_23":11.72},"population_2011":null,"nsdp_per_capita":{}},{"name":"Madhya Pradesh","csr":{"2018_19":243.55,"2019_20":220.46,"2020_21":375.51,"2021_22":427.68,"2022_23":656.42},"population_2011":72626809.0,"nsdp_per_capita":{"2019_20":101909.0,"2020_21":103654.0,"2021_22":121594.0,"2022_23":140583.0}},{"name":"Maharashtra","csr":{"2018_19":3147.72,"2019_20":3353.24,"2020_21":3464.81,"2021_22":5380.41,"2022_23":5497.32},"population_2011":112374333.0,"nsdp_per_capita":{"2019_20":189889.0,"2020_21":183704.0,"2021_22":215233.0,"2022_23":null}},{"name":"Manipur","csr":{"2018_19":7.81,"2019_20":14.21,"2020_21":10.39,"2021_22":15.62,"2022_23":53.45},"population_2011":2855794.0,"nsdp_per_capita":{"2019_20":78574.0,"2020_21":75784.0,"2021_22":91560.0,"2022_23":null}},{"name":"Meghalaya","csr":{"2018_19":16.54,"2019_20":17.65,"2020_21":17.63,"2021_22":19.63,"2022_23":21.73},"population_2011":2966889.0,"nsdp_per_capita":{"2019_20":87653.0,"2020_21":90751.0,"2021_22":103335.0,"2022_23":112737.0}},{"name":"Mizoram","csr":{"2018_19":0.11,"2019_20":0.25,"2020_21":0.97,"2021_22":6.94,"2022_23":10.99},"population_2011":1097206.0,"nsdp_per_capita":{"2019_20":195365.0,"2020_21":173521.0,"2021_22":198962.0,"2022_23":null}},{"name":"Nagaland","csr":{"2018_19":2.12,"2019_20":5.1,"2020_21":3.57,"2021_22":12.46,"2022_23":13.57},"population_2011":1978502.0,"nsdp_per_capita":{"2019_20":122759.0,"2020_21":119781.0,"2021_22":125887.0,"2022_23":null}},{"name":"Odisha","csr":{"2018_19":697.91,"2019_20":717.39,"2020_21":578.16,"2021_22":670.32,"2022_23":987.7},"population_2011":41974218.0,"nsdp_per_capita":{"2019_20":104633.0,"2020_21":103203.0,"2021_22":128181.0,"2022_23":149902.0}},{"name":"Puducherry","csr":{"2018_19":9.15,"2019_20":11.32,"2020_21":12.43,"2021_22":9.31,"2022_23":12.55},"population_2011":1247953.0,"nsdp_per_capita":{"2019_20":217937.0,"2020_21":208453.0,"2021_22":251344.0,"2022_23":null}},{"name":"Punjab","csr":{"2018_19":166.85,"2019_20":189.44,"2020_21":158.46,"2021_22":184.89,"2022_23":247.57},"population_2011":27743338.0,"nsdp_per_capita":{"2019_20":154385.0,"2020_21":150620.0,"2021_22":168705.0,"2022_23":181716.0}},{"name":"Rajasthan","csr":{"2018_19":595.49,"2019_20":734.12,"2020_21":670.0,"2021_22":711.82,"2022_23":1102.37},"population_2011":68548437.0,"nsdp_per_capita":{"2019_20":115360.0,"2020_21":115122.0,"2021_22":135962.0,"2022_23":156149.0}},{"name":"Sikkim","csr":{"2018_19":5.87,"2019_20":10.99,"2020_21":17.28,"2021_22":28.24,"2022_23":36.18},"population_2011":610577.0,"nsdp_per_capita":{"2019_20":412627.0,"2020_21":415045.0,"2021_22":463509.0,"2022_23":519964.0}},{"name":"Tamil Nadu","csr":{"2018_19":877.08,"2019_20":1072.26,"2020_21":1174.07,"2021_22":1432.06,"2022_23":1562.48},"population_2011":72147030.0,"nsdp_per_capita":{"2019_20":206165.0,"2020_21":209628.0,"2021_22":242253.0,"2022_23":275583.0}},{"name":"Telangana","csr":{"2018_19":428.06,"2019_20":445.8,"2020_21":627.71,"2021_22":685.87,"2022_23":1007.54},"population_2011":35193978.0,"nsdp_per_capita":{"2019_20":231326.0,"2020_21":225663.0,"2021_22":270839.0,"2022_23":312398.0}},{"name":"Tripura","csr":{"2018_19":23.06,"2019_20":9.4,"2020_21":9.29,"2021_22":15.91,"2022_23":19.26},"population_2011":3673917.0,"nsdp_per_capita":{"2019_20":121456.0,"2020_21":118401.0,"2021_22":137472.0,"2022_23":159419.0}},{"name":"Uttar Pradesh","csr":{"2018_19":521.32,"2019_20":577.98,"2020_21":907.32,"2021_22":1339.18,"2022_23":1152.57},"population_2011":199812341.0,"nsdp_per_capita":{"2019_20":65660.0,"2020_21":61434.0,"2021_22":73048.0,"2022_23":83565.0}},{"name":"Uttarakhand","csr":{"2018_19":172.31,"2019_20":124.7,"2020_21":160.58,"2021_22":228.08,"2022_23":301.11},"population_2011":10086292.0,"nsdp_per_capita":{"2019_20":190543.0,"2020_21":184002.0,"2021_22":211657.0,"2022_23":233565.0}},{"name":"West Bengal","csr":{"2018_19":382.23,"2019_20":423.85,"2020_21":471.48,"2021_22":567.21,"2022_23":762.29},"population_2011":91276115.0,"nsdp_per_capita":{"2019_20":110313.0,"2020_21":106510.0,"2021_22":124798.0,"2022_23":141373.0}}],"unattributed":[{"name":"PAN India","csr":{"2018_19":6443.53,"2019_20":9385.66,"2020_21":7805.03,"2021_22":5525.16,"2022_23":6060.98}},{"name":"NEC/Not Mentioned","csr":{"2018_19":4.44,"2019_20":20.97,"2020_21":169.47,"2021_22":0.52,"2022_23":20.12}},{"name":"PAN India (Other Centralized Funds)","csr":{"2018_19":1156.86,"2019_20":1790.69,"2020_21":3491.3,"2021_22":1613.57,"2022_23":948.81}}],"sectors":[{"name":"Agro forestry","csr":{"2018_19":64.75,"2019_20":67.38,"2020_21":20.9,"2021_22":34.27,"2022_23":65.07}},{"name":"Animal welfare","csr":{"2018_19":98.33,"2019_20":106.12,"2020_21":193.55,"2021_22":168.79,"2022_23":315.98}},{"name":"Armed Forces, Veterans, War Widows/ Dependents","csr":{"2018_19":90.18,"2019_20":62.06,"2020_21":84.05,"2021_22":47.22,"2022_23":62.27}},{"name":"Art And Culture","csr":{"2018_19":225.94,"2019_20":933.57,"2020_21":493.13,"2021_22":248.34,"2022_23":441.02}},{"name":"Conservation of natural resources","csr":{"2018_19":173.55,"2019_20":160.6,"2020_21":92.0,"2021_22":273.82,"2022_23":580.37}},{"name":"Education","csr":{"2018_19":6111.66,"2019_20":7179.51,"2020_21":6693.25,"2021_22":6569.82,"2022_23":10085.78}},{"name":"Environmental Sustainability","csr":{"2018_19":1368.27,"2019_20":1470.53,"2020_21":1030.16,"2021_22":2433.24,"2022_23":1960.13}},{"name":"Gender Equality","csr":{"2018_19":51.86,"2019_20":82.93,"2020_21":43.83,"2021_22":104.67,"2022_23":119.83}},{"name":"Health Care","csr":{"2018_19":3617.15,"2019_20":4905.72,"2020_21":7325.83,"2021_22":7816.29,"2022_23":6830.6}},{"name":"Livelihood Enhancement Projects","csr":{"2018_19":907.98,"2019_20":1077.72,"2020_21":938.91,"2021_22":854.78,"2022_23":1654.39}},{"name":"NEC/Not Mentioned","csr":{"2018_19":87.61,"2019_20":502.79,"2020_21":203.14,"2021_22":0.59,"2022_23":1.5}},{"name":"Other Central Government Funds","csr":{"2018_19":1156.86,"2019_20":1790.69,"2020_21":3491.3,"2021_22":1620.09,"2022_23":1091.86}},{"name":"Poverty, Eradicating Hunger, Malnutrition","csr":{"2018_19":1195.78,"2019_20":1159.71,"2020_21":1407.58,"2021_22":1896.95,"2022_23":1232.62}},{"name":"Rural development projects","csr":{"2018_19":2434.17,"2019_20":2301.02,"2020_21":1850.71,"2021_22":1833.76,"2022_23":2005.37}},{"name":"Safe drinking water","csr":{"2018_19":228.23,"2019_20":253.4,"2020_21":203.13,"2021_22":182.68,"2022_23":246.36}},{"name":"Sanitation","csr":{"2018_19":506.66,"2019_20":521.72,"2020_21":338.97,"2021_22":313.26,"2022_23":429.91}},{"name":"Senior citizens welfare","csr":{"2018_19":46.52,"2019_20":52.33,"2020_21":56.47,"2021_22":79.58,"2022_23":132.87}},{"name":"Setting up homes and hostels for women","csr":{"2018_19":57.01,"2019_20":48.5,"2020_21":44.52,"2021_22":100.92,"2022_23":48.53}},{"name":"Setting up orphanage","csr":{"2018_19":12.89,"2019_20":36.5,"2020_21":21.88,"2021_22":27.52,"2022_23":41.24}},{"name":"Slum area development","csr":{"2018_19":51.06,"2019_20":42.94,"2020_21":88.95,"2021_22":58.38,"2022_23":93.84}},{"name":"Socio-economic inequalities","csr":{"2018_19":167.92,"2019_20":214.88,"2020_21":149.81,"2021_22":164.9,"2022_23":154.01}},{"name":"Special education","csr":{"2018_19":186.13,"2019_20":196.88,"2020_21":209.24,"2021_22":190.52,"2022_23":305.67}},{"name":"Technology incubators","csr":{"2018_19":32.1,"2019_20":53.5,"2020_21":62.62,"2021_22":8.57,"2022_23":1.38}},{"name":"Training To Promote Sports","csr":{"2018_19":310.16,"2019_20":304.0,"2020_21":243.39,"2021_22":291.85,"2022_23":526.14}},{"name":"Vocational skills","csr":{"2018_19":798.36,"2019_20":1181.23,"2020_21":717.65,"2021_22":1034.18,"2022_23":1164.19}},{"name":"Women Empowerment","csr":{"2018_19":236.54,"2019_20":259.57,"2020_21":206.0,"2021_22":261.34,"2022_23":396.99}}]}</script>
+<script>
+(function(){
+  'use strict';
+  var D = JSON.parse(document.getElementById('csr-data').textContent);
+  if(!D || !D.states){ return; }
+
+  var YK = D.year_keys, YL = D.years;
+  var year = YK[YK.length-1];
+  var measure = 'pp';
+
+  var fmt = function(n,d){ return (n==null||isNaN(n)) ? '—' :
+    n.toLocaleString('en-IN',{minimumFractionDigits:d||0,maximumFractionDigits:d||0}); };
+  var esc = function(s){ return String(s).replace(/[&<>"]/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
+
+  // CSR is published in rupees crore; 1 crore = 1e7 rupees.
+  function perPerson(s,y){
+    var c=s.csr[y], p=s.population_2011;
+    return (c!=null && p) ? (c*1e7/p) : null;
+  }
+  function nsdp(s,y){ var v=s.nsdp_per_capita||{}; return v[y]!=null?v[y]:null; }
+
+  function yearLabel(y){ return YL[YK.indexOf(y)]; }
+
+  // Label geometry. The charts are SVG, so nothing wraps or ellipsises for
+  // free: a label wider than the margin it sits in is drawn off the edge of
+  // the box and silently clipped -- 'Dadra and Nagar Haveli' rendered as
+  // 'adra and Nagar Hav'. Widths are therefore measured, not estimated from
+  // the character count: the estimate has to assume a font, and the page
+  // renders in whatever the fallback stack supplies when Inter has not
+  // loaded, which is wider.
+  var NS = 'http://www.w3.org/2000/svg';
+  function measurer(svg, cls){
+    var t = document.createElementNS(NS,'text');
+    t.setAttribute('class', cls);
+    t.setAttribute('x','-9999'); t.setAttribute('y','-9999');
+    svg.appendChild(t);
+    function m(s){
+      t.textContent = String(s);
+      var w = 0;
+      try { w = t.getComputedTextLength(); } catch(e){ w = 0; }
+      // 0 means the SVG is not being laid out (hidden tab, print). Fall back
+      // to an estimate rather than collapsing every margin to nothing.
+      return w || String(s).length * 6.6;
+    }
+    m.done = function(){ if(t.parentNode) t.parentNode.removeChild(t); };
+    return m;
+  }
+  function clip(s, px, m){
+    if(m(s) <= px) return s;
+    var out = String(s);
+    while(out.length > 1 && m(out + '\u2026') > px) out = out.slice(0,-1);
+    return out.replace(/[\s,.;:]+$/,'') + '\u2026';
+  }
+
+  /* ---------- headline tiles ---------- */
+  function tiles(){
+    var tot = D.national_total[year] || 0;
+    var una = D.unattributed.reduce(function(a,u){ return a + (u.csr[year]||0); },0);
+    var sec = D.sectors.slice().sort(function(a,b){ return (b.csr[year]||0)-(a.csr[year]||0); });
+    var edu = sec.filter(function(s){ return /^education/i.test(s.name); })[0];
+    var hea = sec.filter(function(s){ return /health/i.test(s.name); })[0];
+    var eh  = ((edu&&edu.csr[year])||0) + ((hea&&hea.csr[year])||0);
+    var pp  = D.states.map(function(s){ return {n:s.name,v:perPerson(s,year)}; })
+                      .filter(function(o){ return o.v; })
+                      .sort(function(a,b){ return b.v-a.v; });
+    var hi=pp[0], lo=pp[pp.length-1];
+    var t=[
+      ['₹'+fmt(tot)+' cr','Total CSR, '+yearLabel(year)],
+      [fmt(100*una/tot,1)+'%','assigned to no state at all'],
+      [fmt(100*eh/tot,1)+'%','went to education and health'],
+      [hi&&lo ? Math.round(hi.v/lo.v)+'×' : '—',
+       hi&&lo ? hi.n+' vs '+lo.n+', per person' : '']
+    ];
+    document.getElementById('tiles').innerHTML = t.map(function(x){
+      return '<div class="tile"><div class="v">'+esc(x[0])+'</div><div class="l">'+esc(x[1])+'</div></div>';
+    }).join('');
+  }
+
+  /* ---------- scatter ---------- */
+  function scatter(){
+    var svg=document.getElementById('scatter'), tip=document.getElementById('scTip');
+    // No minimum width. An SVG wider than its box is scaled down by
+    // `max-width:100%`, which shrinks the type with it -- on a phone the
+    // 11.5px axis labels came out near 7px. Sizing to the box instead keeps
+    // every label at its real size at every width.
+    var W=Math.min(1000,svg.parentNode.clientWidth||760), H=W<560?330:430;
+    var narrow=W<560;
+    var M={t:narrow?32:16,r:narrow?12:20,b:narrow?46:52,l:narrow?46:66};
+    var pts=D.states.map(function(s){
+      return {n:s.name, x:nsdp(s,year), y:perPerson(s,year), c:s.csr[year]};
+    }).filter(function(p){ return p.x && p.y; });
+
+    if(!pts.length){ svg.innerHTML=''; document.getElementById('scNote').textContent=
+      'No state has both an income figure and a population figure for '+yearLabel(year)+'.'; return; }
+
+    var xs=pts.map(function(p){return p.x;}), ys=pts.map(function(p){return p.y;});
+    var x0=0, x1=Math.max.apply(null,xs)*1.06;
+    var y0=0, y1=Math.max.apply(null,ys)*1.10;
+    var X=function(v){ return M.l+(v-x0)/(x1-x0)*(W-M.l-M.r); };
+    var Y=function(v){ return H-M.b-(v-y0)/(y1-y0)*(H-M.t-M.b); };
+
+    // least-squares trend, and Pearson r, computed here so the caption cannot drift
+    var n=pts.length, mx=xs.reduce(function(a,b){return a+b;},0)/n, my=ys.reduce(function(a,b){return a+b;},0)/n;
+    var sxy=0,sxx=0,syy=0;
+    pts.forEach(function(p){ var dx=p.x-mx, dy=p.y-my; sxy+=dx*dy; sxx+=dx*dx; syy+=dy*dy; });
+    var slope=sxx?sxy/sxx:0, icept=my-slope*mx;
+    var r = (sxx&&syy) ? sxy/Math.sqrt(sxx*syy) : 0;
+
+    var g=[], i;
+    var mLab = measurer(svg,'dlab');
+    // recessive grid + axes
+    var TK = narrow ? 3 : 4;
+    for(i=0;i<=TK;i++){
+      var gy=y0+(y1-y0)*i/TK, py=Y(gy);
+      g.push('<line x1="'+M.l+'" y1="'+py+'" x2="'+(W-M.r)+'" y2="'+py+'" stroke="var(--gridline)"/>');
+      g.push('<text class="glab" x="'+(M.l-9)+'" y="'+(py+4)+'" text-anchor="end">₹'+fmt(gy)+'</text>');
+    }
+    for(i=0;i<=TK;i++){
+      var gx=x0+(x1-x0)*i/TK, px=X(gx);
+      // The end ticks are anchored inward: centred, the first one sat on top
+      // of the '₹0' of the vertical axis and the last one ran off the edge,
+      // losing its 'k'.
+      var an = i===0 ? 'start' : i===TK ? 'end' : 'middle';
+      g.push('<text class="glab" x="'+px+'" y="'+(H-M.b+20)+'" text-anchor="'+an+'">₹'+fmt(gx/1000)+'k</text>');
+    }
+    g.push('<text class="glab" x="'+((M.l+W-M.r)/2)+'" y="'+(H-6)+'" text-anchor="middle">Per-capita income (NSDP, '+yearLabel(year)+')</text>');
+    // On a phone the rotated axis title and the tick values fight for the
+    // same 40px of left margin, and the title loses -- it was drawn straight
+    // through '₹648'. Narrow layouts get a horizontal title above the plot.
+    g.push(narrow
+      ? '<text class="glab" x="2" y="13" text-anchor="start">CSR received per person</text>'
+      : '<text class="glab" transform="translate(15,'+((M.t+H-M.b)/2)+
+        ') rotate(-90)" text-anchor="middle">CSR received per person</text>');
+
+    // trend line, drawn under the dots
+    var tx0=x0, tx1=x1;
+    g.push('<line x1="'+X(tx0)+'" y1="'+Y(icept+slope*tx0)+'" x2="'+X(tx1)+'" y2="'+Y(icept+slope*tx1)+
+           '" stroke="var(--trend)" stroke-width="2" stroke-dasharray="5 4"/>');
+
+    // Label the states a reader goes looking for. Wanting a label is not
+    // enough to get one: in the crowded bottom-left the names overlap each
+    // other and the dots, so a label is only drawn if its box is still clear.
+    var WANT = narrow
+      ? ['Delhi','Bihar','Sikkim','Karnataka']
+      : ['Delhi','Bihar','Sikkim','Uttar Pradesh','Kerala','Maharashtra',
+         'Karnataka','Gujarat','Odisha','Goa'];
+    var placed=[], labels=[];
+    function clear(box){
+      for(var j=0;j<placed.length;j++){
+        var q=placed[j];
+        if(box.x1>q.x0 && box.x0<q.x1 && box.y1>q.y0 && box.y0<q.y1) return false;
+      }
+      return true;
+    }
+    // Every dot is drawn and registered first, so a label is tested against
+    // the finished plot rather than against however much of it happened to be
+    // drawn before it. Labels are then placed in WANT order, which puts the
+    // states the surrounding text names ahead of the ones it does not.
+    pts.forEach(function(p){
+      p.cx=X(p.x); p.cy=Y(p.y);
+      g.push('<circle cx="'+p.cx+'" cy="'+p.cy+'" r="6" fill="var(--dot)" fill-opacity=".85" '+
+             'stroke="var(--panel)" stroke-width="2" tabindex="0" role="img" '+
+             'aria-label="'+esc(p.n)+': ₹'+fmt(p.y)+' per person" '+
+             'data-n="'+esc(p.n)+'" data-y="'+Math.round(p.y)+'" data-x="'+Math.round(p.x)+'" data-c="'+Math.round(p.c)+'"/>');
+      placed.push({x0:p.cx-7,x1:p.cx+7,y0:p.cy-7,y1:p.cy+7});
+    });
+    WANT.forEach(function(name){
+      var p=null;
+      for(var k=0;k<pts.length;k++){ if(pts[k].n===name){ p=pts[k]; break; } }
+      if(!p) return;
+      var cx=p.cx, cy=p.cy;
+      // Four candidate positions, tried in order of how easily the eye ties
+      // the name back to its dot. A name that fits none of them is dropped
+      // rather than drawn over a neighbour.
+      var w=mLab(p.n)+4;
+      var cand=[[cx+10,cy+4,'start'],[cx-10,cy+4,'end'],
+                [cx,cy-13,'middle'],[cx,cy+22,'middle']];
+      for(var ci=0;ci<cand.length;ci++){
+        var c=cand[ci], anch=c[2];
+        var x0 = anch==='start' ? c[0] : anch==='end' ? c[0]-w : c[0]-w/2;
+        var box={x0:x0,x1:x0+w,y0:c[1]-13,y1:c[1]+3};
+        if(x0<M.l-4 || box.x1>W-2 || box.y0<M.t || box.y1>H-M.b) continue;
+        if(!clear(box)) continue;
+        placed.push(box);
+        labels.push('<text class="dlab" x="'+c[0]+'" y="'+c[1]+
+                    '" text-anchor="'+anch+'">'+esc(p.n)+'</text>');
+        break;
+      }
+    });
+    g=g.concat(labels);          // labels last, so they sit above every dot
+    mLab.done();
+    svg.setAttribute('viewBox','0 0 '+W+' '+H);
+    svg.setAttribute('width',W); svg.setAttribute('height',H);
+    svg.innerHTML='<title id="scTitle">CSR per person against per-capita income, by state</title>'+g.join('');
+
+    document.getElementById('scNote').innerHTML =
+      'Correlation <b>'+(r>=0?'+':'')+r.toFixed(2)+'</b> across '+n+' states with both figures published for '+
+      yearLabel(year)+'. A positive number means richer states receive more CSR per resident, not less. '+
+      'States without a published income or population figure are not plotted; they still appear in the ranking below.';
+
+    svg.querySelectorAll('circle').forEach(function(c){
+      function show(){
+        var b=svg.getBoundingClientRect(), p=svg.parentNode.getBoundingClientRect();
+        tip.innerHTML='<b>'+c.dataset.n+'</b><br><span class="n">₹'+fmt(+c.dataset.y)+
+          '</span> per person<br><span class="n">₹'+fmt(+c.dataset.c)+' cr</span> total<br>'+
+          '<span class="n">₹'+fmt(+c.dataset.x)+'</span> income per head';
+        tip.style.opacity=1;
+        tip.style.left=Math.min(p.width-190,(+c.getAttribute('cx'))*(b.width/W)+12)+'px';
+        tip.style.top=((+c.getAttribute('cy'))*(b.height/H)-10)+'px';
+      }
+      c.addEventListener('mouseenter',show); c.addEventListener('focus',show);
+      c.addEventListener('mouseleave',function(){tip.style.opacity=0;});
+      c.addEventListener('blur',function(){tip.style.opacity=0;});
+    });
+  }
+
+  /* ---------- horizontal bars ---------- */
+  function bars(svgId,tipId,rows,unit,tableId,cols){
+    var svg=document.getElementById(svgId), tip=document.getElementById(tipId);
+    var W=Math.min(1000,svg.parentNode.clientWidth||760);
+    var BH=W<560?19:21;
+    // The name column is sized to the longest name, capped at a share of the
+    // box. A fixed 172px silently beheaded the long sector names -- 'Livelihood
+    // Enhancement Projects' was drawn as 'ihood Enhancement Projects'.
+    var mName=measurer(svg,'glab'), mVal=measurer(svg,'dlab');
+    var longest=rows.reduce(function(a,r){ return Math.max(a,mName(r.n)); },0);
+    var widest=rows.reduce(function(a,r){
+      return Math.max(a,mVal(unit+fmt(r.v,r.d))); },0);
+    var M={t:6,r:Math.ceil(widest)+14,b:6,
+           l:Math.ceil(Math.min(longest+10, W*(W<560?0.44:0.36)))};
+    var H=M.t+M.b+rows.length*BH;
+    var max=Math.max.apply(null,rows.map(function(r){return r.v||0;}))||1;
+    var g=[];
+    rows.forEach(function(r,i){
+      var y=M.t+i*BH, w=Math.max(2,(r.v||0)/max*(W-M.l-M.r));
+      // 2px surface gap between adjacent bars
+      g.push('<rect class="bar" x="'+M.l+'" y="'+(y+2)+'" width="'+w+'" height="'+(BH-4)+'" rx="4" '+
+             'tabindex="0" role="img" aria-label="'+esc(r.n)+': '+unit+fmt(r.v,r.d)+'" '+
+             'data-n="'+esc(r.n)+'" data-v="'+(r.v||0)+'" data-e="'+esc(r.extra||'')+'"/>');
+      g.push('<text class="glab" x="'+(M.l-8)+'" y="'+(y+BH/2+4)+'" text-anchor="end">'+
+             esc(clip(r.n,M.l-10,mName))+'</text>');
+      g.push('<text class="dlab" x="'+(M.l+w+7)+'" y="'+(y+BH/2+4)+'">'+unit+fmt(r.v,r.d)+'</text>');
+    });
+    mName.done(); mVal.done();
+    svg.setAttribute('viewBox','0 0 '+W+' '+H);
+    svg.setAttribute('width',W); svg.setAttribute('height',H);
+    // Carry the <title> across the redraw. The svg is labelled by it through
+    // aria-labelledby, so overwriting innerHTML without it left both bar
+    // charts with no accessible name at all -- and every render after the
+    // first is an overwrite, so the page shipped that way from the first
+    // paint. axe caught it; nothing on screen would have.
+    var ttl=svg.querySelector('title');
+    svg.innerHTML=(ttl?ttl.outerHTML:'')+g.join('');
+    svg.querySelectorAll('rect').forEach(function(b){
+      function show(){
+        var r=svg.getBoundingClientRect(), p=svg.parentNode.getBoundingClientRect();
+        // Two decimals on a per-person rupee figure is detail; on a
+        // ₹1,484-crore total it is noise.
+        var v=+b.dataset.v;
+        tip.innerHTML='<b>'+b.dataset.n+'</b><br><span class="n">'+unit+fmt(v,v<1000?2:0)+'</span>'+
+          (b.dataset.e?'<br>'+b.dataset.e:'');
+        tip.style.opacity=1;
+        tip.style.left=Math.min(p.width-200,M.l*(r.width/W))+'px';
+        tip.style.top=((+b.getAttribute('y'))*(r.height/H)-6)+'px';
+      }
+      b.addEventListener('mouseenter',show); b.addEventListener('focus',show);
+      b.addEventListener('mouseleave',function(){tip.style.opacity=0;});
+      b.addEventListener('blur',function(){tip.style.opacity=0;});
+    });
+    if(tableId){
+      document.getElementById(tableId).innerHTML =
+        '<thead><tr><th>'+cols[0]+'</th><th class="n">'+cols[1]+'</th></tr></thead><tbody>'+
+        rows.map(function(r){ return '<tr><td>'+esc(r.n)+'</td><td class="n">'+unit+fmt(r.v,r.d)+'</td></tr>'; }).join('')+
+        '</tbody>';
+    }
+  }
+
+  function statesChart(){
+    var rows=D.states.map(function(s){
+      var v = measure==='pp' ? perPerson(s,year) : s.csr[year];
+      return {n:s.name, v:v, d:0,
+        extra: measure==='pp'
+          ? (s.csr[year]!=null ? '₹'+fmt(s.csr[year])+' cr in total' : '')
+          : (perPerson(s,year)!=null ? '₹'+fmt(perPerson(s,year))+' per person' : 'no population figure')};
+    }).filter(function(r){ return r.v!=null; })
+      .sort(function(a,b){ return b.v-a.v; });
+    bars('states','stTip',rows, measure==='pp'?'₹':'₹', 'stTable',
+         ['State / UT', measure==='pp'?'Per person':'₹ crore']);
+  }
+
+  function sectorsChart(){
+    var tot=D.national_total[year]||1;
+    var rows=D.sectors.map(function(s){
+      return {n:s.name, v:s.csr[year], d:0,
+              extra:fmt(100*(s.csr[year]||0)/tot,1)+'% of all CSR that year'};
+    }).filter(function(r){ return r.v!=null && r.v>0; })
+      .sort(function(a,b){ return b.v-a.v; });
+    bars('sectors','seTip',rows,'₹','seTable',['Development sector','₹ crore']);
+  }
+
+  /* ---------- notes ---------- */
+  function notes(){
+    var una=D.unattributed.map(function(u){
+      return esc(u.name)+' (₹'+fmt(u.csr[year]||0)+' cr)'; }).join(', ');
+    var noPop=D.states.filter(function(s){ return !s.population_2011; })
+                      .map(function(s){ return esc(s.name); });
+    var noInc=D.states.filter(function(s){ return !nsdp(s,year); })
+                      .map(function(s){ return esc(s.name); });
+    var li=D._caveats.map(function(c){ return '<li>'+esc(c)+'</li>'; });
+    li.push('<li>In '+yearLabel(year)+' the unattributed rows were '+una+'. That money was spent; '+
+            'the data simply does not say where.</li>');
+    if(noPop.length) li.push('<li>No population figure, so no per-person value: '+noPop.join(', ')+'.</li>');
+    if(noInc.length) li.push('<li>No published income figure for '+yearLabel(year)+
+            ', so absent from the scatter: '+noInc.join(', ')+'.</li>');
+    li.push('<li>The series ends at '+YL[YL.length-1]+'. Later headline totals reported elsewhere come '+
+            'from the National CSR Portal, which publishes on a different schedule.</li>');
+    document.getElementById('caveats').innerHTML=li.join('');
+    document.getElementById('src').innerHTML =
+      'Source: '+esc(D._source)+'. '+esc(D._licence)+'. Snapshot taken '+esc(D._fetched)+
+      '; rebuild with <code>scripts/fetch-csr-data.py</code>.';
+  }
+
+  /* ---------- wiring ---------- */
+  document.getElementById('years').innerHTML = YK.map(function(y,i){
+    return '<button class="chip" data-y="'+y+'" aria-pressed="'+(y===year)+'">'+YL[i]+'</button>';
+  }).join('');
+  document.getElementById('years').addEventListener('click',function(e){
+    var b=e.target.closest('button[data-y]'); if(!b) return;
+    year=b.dataset.y;
+    this.querySelectorAll('button').forEach(function(x){
+      x.setAttribute('aria-pressed', String(x.dataset.y===year)); });
+    render();
+  });
+  document.getElementById('measure').addEventListener('click',function(e){
+    var b=e.target.closest('button[data-m]'); if(!b) return;
+    measure=b.dataset.m;
+    this.querySelectorAll('button').forEach(function(x){
+      x.setAttribute('aria-pressed', String(x.dataset.m===measure)); });
+    statesChart();
+  });
+
+  function render(){ tiles(); scatter(); statesChart(); sectorsChart(); notes(); }
+  render();
+  var t; window.addEventListener('resize',function(){ clearTimeout(t); t=setTimeout(render,180); });
+})();
+</script>
+<script src="/js/translate-sarvam.js?v=de32c2b0" defer></script>
+<script src="/js/site-chrome.js?v=92c9f4d1" defer></script>
+</body>
+</html>

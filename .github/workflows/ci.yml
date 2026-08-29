@@ -52,6 +52,105 @@ jobs:
       - name: Check asset stamps
         run: python3 scripts/stamp-assets.py --check
 
+  mgnrega-data:
+    name: MGNREGA explorer data is current
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+
+      # The raw snapshot is 415,834 district-months and 266 MB, so it is not in
+      # the repo and this job checks the drift it still can: the page's inline
+      # copy against the committed data file. The source-shape assertions --
+      # that the columns are still cumulative within the year, and that the
+      # daily snapshots collapse correctly -- run when the data is refreshed.
+      - name: Check the MGNREGA page matches its data
+        run: python3 scripts/build-mgnrega-explorer-data.py --check
+
+  crime-data:
+    name: Crime explorer data is current
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+
+      # Same triple total-row trap as the prisons data, plus a column-naming
+      # one: the same NCRB column is 'charge_sheets_submitted___cases_charge_
+      # sheeted__col...' in one table and 'chargesheets_submitted___cases_
+      # chargesheeted__col...' in the next, and even the state column is named
+      # three different ways. The build matches on letters alone and asserts
+      # exactly one hit per column, so a renamed source fails here instead of
+      # rendering a page of blanks.
+      - name: Rebuild the crime data and compare
+        run: python3 scripts/build-crime-explorer-data.py --check
+
+  aqi-data:
+    name: Air quality explorer data is current
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+
+      # The CPCB series is hourly, so a snapshot that quietly mixed two hours
+      # would average across time without saying so. The build asserts every
+      # reading carries the same timestamp, keeps 'NA' out of the averages
+      # instead of counting it as zero, and re-injects the page's inline copy.
+      - name: Rebuild the air quality data and compare
+        run: python3 scripts/build-aqi-explorer-data.py --check
+
+  justice-data:
+    name: Justice explorer data is current
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+
+      # Every NCRB table carries three total rows -- Total (States),
+      # Total (UTs) and Total (All India) -- so summing a column returns
+      # exactly three times the real figure, and the court tables double.
+      # This rebuilds from the snapshot and refuses to write unless the parts
+      # agree with the source's own totals. It also re-runs the cross-source
+      # check on Scheduled Tribe population, whose primary table has rows
+      # carrying another state's numbers.
+      - name: Rebuild the justice data and compare
+        run: python3 scripts/build-justice-explorer-data.py --check
+
+  csr-data:
+    name: CSR explorer data is current
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+
+      # csr.html carries its data inline, so there are two copies of it: the
+      # JSON file and the page. This re-derives both from the raw snapshot and
+      # fails if either has drifted -- an edit to one and not the other would
+      # otherwise render a page of confident, wrong numbers with nothing to
+      # show for it. The same run re-checks the joins: both source tables
+      # carry a 'Total' row, and summing the column double-counts exactly.
+      - name: Rebuild the CSR data and compare
+        run: python3 scripts/build-csr-explorer-data.py --check
+
   diagram-contrast:
     name: Diagram text contrast
     runs-on: ubuntu-latest
