@@ -14,7 +14,7 @@
  * The unused function source was deleted with it.
  *
  * USAGE (in any game HTML):
- *   <script src="https://www.impactmojo.in/js/game-agents.js"></script>
+ *   <script src="/js/game-agents.js"></script>
  *
  *   // Initialise for a specific game
  *   var agents = new IMGameAgents('public-good-game');
@@ -56,7 +56,12 @@
   var CONFIG = {
     // Agent personalities and rosters. This is the only network call the
     // client makes, and it is cached after the first load.
-    AGENT_DATA_URL: 'https://www.impactmojo.in/data/game-agents.json'
+    // Root-relative so the games work on any origin: the custom domain,
+    // impactmojo.netlify.app, a deploy preview, or a local server. When DNS
+    // for the canonical domain failed on 2026-08-29 this absolute URL made
+    // every agent decision fall back to the local engine even on a host that
+    // was serving the file perfectly.
+    AGENT_DATA_URL: '/data/game-agents.json'
   };
 
   // ── Agent data cache ───────────────────────────────────────────────

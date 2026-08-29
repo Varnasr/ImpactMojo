@@ -2,6 +2,18 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.279.0 — August 29, 2026 (The site works on any address again)
+
+### Fixed
+
+- **The site could only be browsed on one hostname** (#1042). About 6,200 of its own navigation links, across 248 pages, were written as `https://www.impactmojo.in/...` rather than `/...`. On the custom domain that works, so nothing ever looked wrong. It meant that on `impactmojo.netlify.app`, on a deploy preview, or on a local server, every link left for the canonical host — and when DNS for that domain went down, every page Netlify was still serving perfectly sent visitors nowhere and reported them offline. All in-site links are now root-relative, which resolves identically on the custom domain. `<link rel="canonical">`, Open Graph and Twitter tags, JSON-LD, the sitemap, the email templates and Open Badges credential identifiers stay absolute, because those are read off-site.
+- **The AI opponents in the Games library fetched their data from the absolute domain** (#1042), so they silently fell back to the local engine on any other origin.
+- **Four internal links were broken and invisible** (#1043), because the link checker skips external URLs and these were written as absolute ones: a `/fieldcases` page in the press kit that has never existed (link removed rather than invented), a doubled `/community/community`, a `/courses/publicpolicy/` that is really `/courses/pubpol/`, and a `/courses/powerBI/` directory with no index file.
+
+### Added
+
+- `scripts/make-links-origin-relative.py`, enforced in CI as the `origin-relative-links` job, so a hard-coded host cannot creep back in.
+
 ## v10.278.0 — August 29, 2026 (The hundred days)
 
 ### For Learners

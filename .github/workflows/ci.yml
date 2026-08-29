@@ -131,6 +131,28 @@ jobs:
       - name: Rebuild the justice data and compare
         run: python3 scripts/build-justice-explorer-data.py --check
 
+  origin-relative-links:
+    name: In-site links work on any origin
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+
+      # The site had ~6,200 of its own navigation links written as
+      # https://www.impactmojo.in/... On the custom domain that works, so
+      # nothing ever looked wrong -- but it meant the site could only be
+      # browsed on that one hostname. When DNS for the domain failed on
+      # 2026-08-29, every page Netlify was serving perfectly still sent the
+      # visitor to a dead host, and the whole site reported them offline.
+      # Root-relative links resolve the same on the custom domain and work
+      # on netlify.app, deploy previews and localhost too.
+      - name: No in-site link hard-codes the canonical host
+        run: python3 scripts/make-links-origin-relative.py --check
+
   csr-data:
     name: CSR explorer data is current
     runs-on: ubuntu-latest
