@@ -521,7 +521,7 @@ IMX.Pomodoro = {
         if (Notification.permission === 'granted') {
             new Notification('Pomodoro Complete!', {
                 body: this.currentLabel + ' session finished. Great work!',
-                icon: 'https://impactmojo.in/favicon.ico'
+                icon: '/favicon.ico'
             });
         }
         
