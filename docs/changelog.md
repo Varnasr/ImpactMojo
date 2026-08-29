@@ -15,7 +15,7 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 
 - `scripts/fetch-mgnrega-data.py` and `scripts/build-mgnrega-explorer-data.py`, with the `mgnrega-data` job in CI.
 
-### Fixed
+### Corrected before release
 
 - **All five data explorers had scrollable tables that a keyboard could not reach.** axe reported them clean because the tables sit inside a collapsed `<details>`; opening them first surfaced 14 violations across the five pages. Every scroll container is now focusable and named.
 
@@ -73,7 +73,7 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 - `scripts/datagov.py` — one shared client for data.gov.in, used by every explorer built on it. Refuses to return a short read: a truncated fetch is the failure that does not look like one, since the file stays valid, the page renders, and a tenth of India is quietly missing.
 - `scripts/fetch-justice-data.py` and `scripts/build-justice-explorer-data.py`. The build step refuses to write when the join is wrong, and CI re-runs it as the `justice-data` job.
 
-### Fixed
+### Corrected before release
 
 - **The CSR explorer showed the light palette to anyone who had never touched the theme toggle**, including a visitor whose phone is set to dark. It styled `html[data-theme="dark"]` only, and a visitor with no stored preference carries no such attribute. Every other explorer already handled this.
 - **The CSR explorer was also missing the shared top bar and the translation control** that every other explorer loads.
@@ -96,7 +96,7 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 - `scripts/fetch-csr-data.py` — snapshots the four data.gov.in series the explorer joins (CSR by state, CSR by sector, Census 2011 population, per-capita NSDP) into `data/csr-india.json`. Re-run to refresh.
 - `scripts/build-csr-explorer-data.py` — joins them, and refuses to write if the join is wrong. Both source tables carry a **"Total" row**, so summing the column double-counts exactly; the script checks that the two series agree on the national total and that the parts sum to it, and stops with the two figures if they do not. It also injects the result into `csr.html`, so the page and the data file cannot drift apart. Enforced in CI via the `csr-data` job.
 
-### Fixed
+### Corrected before release
 
 - `.faint` on the explorer measured **3.05:1** in light — the eyebrow, the control labels, the axis ticks and the source line, all real text. Now 5.03:1. The sitewide theme-contrast gate reads `css/*.css` and never saw it, which is the point of measuring rather than trusting a green run.
 
