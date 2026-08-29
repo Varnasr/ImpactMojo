@@ -52,6 +52,27 @@ jobs:
       - name: Check asset stamps
         run: python3 scripts/stamp-assets.py --check
 
+  justice-data:
+    name: Justice explorer data is current
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+
+      # Every NCRB table carries three total rows -- Total (States),
+      # Total (UTs) and Total (All India) -- so summing a column returns
+      # exactly three times the real figure, and the court tables double.
+      # This rebuilds from the snapshot and refuses to write unless the parts
+      # agree with the source's own totals. It also re-runs the cross-source
+      # check on Scheduled Tribe population, whose primary table has rows
+      # carrying another state's numbers.
+      - name: Rebuild the justice data and compare
+        run: python3 scripts/build-justice-explorer-data.py --check
+
   csr-data:
     name: CSR explorer data is current
     runs-on: ubuntu-latest

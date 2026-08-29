@@ -2,6 +2,31 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.275.0 — August 29, 2026 (Who is actually in prison?)
+
+### For Learners
+
+- **Prisons & Undertrials Explorer** — of the 530,333 people held in Indian prisons on 31 December 2023, **73.5% had not been convicted of anything**. They were undertrials: in custody, waiting for a trial to finish.
+- **Prisons hold 120.8% of the space they were built for**, and you can rank every state by occupancy or by prisoners per 100,000 residents.
+- **How long people have already waited**, before any finding of guilt: 30.7% of undertrials have been in custody more than a year, and 33,398 for more than three.
+- **Who they are.** Scheduled Castes are 16.6% of the population and 20.6% of undertrials; Scheduled Tribes 8.6% and 10.0%. A scatter puts each state's population share against its undertrial share, with a diagonal where the two would match. 64% of undertrials left school before Class X or never attended, and bail costs money.
+- **A right that mostly went unused.** Section 436A of the Code of Criminal Procedure entitles an undertrial who has served half the maximum sentence to release. In 2023, 1,384 people were recorded as eligible and 656 were released.
+- **The queue outside**, which is why the wait is long: 44.9 million cases pending in the district courts, grouped by how long they have already been pending, and ranked per 1,000 residents.
+
+### Added
+
+- `scripts/datagov.py` — one shared client for data.gov.in, used by every explorer built on it. Refuses to return a short read: a truncated fetch is the failure that does not look like one, since the file stays valid, the page renders, and a tenth of India is quietly missing.
+- `scripts/fetch-justice-data.py` and `scripts/build-justice-explorer-data.py`. The build step refuses to write when the join is wrong, and CI re-runs it as the `justice-data` job.
+
+### Fixed
+
+- **The CSR explorer showed the light palette to anyone who had never touched the theme toggle**, including a visitor whose phone is set to dark. It styled `html[data-theme="dark"]` only, and a visitor with no stored preference carries no such attribute. Every other explorer already handled this.
+- **The CSR explorer was also missing the shared top bar and the translation control** that every other explorer loads.
+
+### Data notes
+
+- Two source defects were caught before publishing, and both would have shipped wrong numbers with nothing on screen to show for it. Every NCRB table carries three total rows, so summing a column returns exactly three times the real figure. And the Scheduled Tribe columns of the Census SC/ST table are scrambled across rows — Kerala's row carries Madhya Pradesh's ST population and its percentage, so the row checks out against itself and the column still sums to the correct national total. Plotted, it put Kerala at 46% Scheduled Tribe against a real 1.5%. Scheduled Tribe figures now come from the Ministry of Tribal Affairs table, the two sources must agree nationally before either is used, and any state that fails the check is dropped and named on the page.
+
 ## v10.274.0 — August 29, 2026 (Where India's CSR money actually goes)
 
 ### For Learners
