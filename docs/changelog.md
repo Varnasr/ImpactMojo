@@ -2,6 +2,30 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.278.0 — August 29, 2026 (The hundred days)
+
+### For Learners
+
+- **MGNREGA Explorer** — the Act owes every rural household 100 days of paid work a year on demand. In 2025-26 the average household that worked got **42.7 days**, and **4.0%** reached the full hundred. Eight financial years, 757 districts, searchable by district or state.
+- **The state spread is wide.** Mizoram averaged 91.3 days, Puducherry 24.3. Kerala got 27.3% of its working households to a full hundred; most states are under 5%.
+- **One promise the programme does keep.** Women did **56.7%** of all person-days, well above the one-third floor the Act sets.
+- **A year still running is labelled as one.** The year chips show how many months each has reported, and the page opens on the last complete year rather than ranking a one-month year against a twelve-month one.
+
+### Added
+
+- `scripts/fetch-mgnrega-data.py` and `scripts/build-mgnrega-explorer-data.py`, with the `mgnrega-data` job in CI.
+
+### Fixed
+
+- **All five data explorers had scrollable tables that a keyboard could not reach.** axe reported them clean because the tables sit inside a collapsed `<details>`; opening them first surfaced 14 violations across the five pages. Every scroll container is now focusable and named.
+
+### Data notes
+
+- The source's columns are **cumulative within the financial year**, so each year's figure is its last reported month rather than a sum of the months. Summing returns roughly six times the truth and still looks plausible. The build asserts the shape — 97.0% of month-to-month steps rise and the median district-year ends 16.9× where it started — and stops if the source ever switches to monthly flows.
+- **From 2024-25 the source publishes a fresh snapshot of each district-month every day**, up to 31 rows for one district and month. The most complete snapshot of the final month is used; 346,412 repeat rows were collapsed.
+- **The fortnight-payment measure is not shown.** The source publishes a column for the share of wages paid within 15 days, and it is not a percentage: median about 100, 95th percentile 1,143, maximum over 84 million. Every way of making it look like one amounts to keeping the districts that appear compliant, so the page says the measure is missing and why.
+- The raw snapshot is 415,834 district-months and 266 MB, so it is not committed. `data/mgnrega-explorer.json` is; refresh with the fetch script.
+
 ## v10.277.0 — August 29, 2026 (What happens after a case is registered)
 
 ### For Learners

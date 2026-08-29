@@ -36,6 +36,8 @@ FY_MONTHS = ["apr", "may", "jun", "jul", "aug", "sep",
 MONTH_IX = {m: i for i, m in enumerate(FY_MONTHS)}
 
 # The cumulative counters. These must never be summed across months.
+PICK = "Persondays_of_Central_Liability_so_far"   # the dedupe yardstick
+
 CUMULATIVE = [
     "Total_Households_Worked", "Total_Individuals_Worked",
     "Total_No_of_Active_Workers",
@@ -48,8 +50,15 @@ CUMULATIVE = [
 RATES = [
     "Average_Wage_rate_per_day_per_person",
     "Average_days_of_employment_provided_per_Household",
-    "percentage_payments_gererated_within_15_days",
 ]
+# Deliberately NOT carried: percentage_payments_gererated_within_15_days.
+# It is the most interesting column in the source and it is not a percentage.
+# Its median is about 100 but its 95th percentile reaches 1,143 and its
+# maximum 84,031,507, in every year before 2024-25. Whatever it holds, it is
+# not the share of payments made inside the legal fortnight, and the ways to
+# make it look like one -- clipping at 100, dropping the rows above it -- all
+# amount to selecting the districts that appear compliant. The page says the
+# measure is missing instead of showing a cleaned-up version of it.
 
 SHORT = {
     "Total_Households_Worked": "households",
@@ -64,7 +73,6 @@ SHORT = {
     "Wages": "wages",
     "Average_Wage_rate_per_day_per_person": "wage_rate",
     "Average_days_of_employment_provided_per_Household": "days_per_household",
-    "percentage_payments_gererated_within_15_days": "paid_in_15_days",
 }
 
 
@@ -86,12 +94,21 @@ def month_ix(m):
     return MONTH_IX.get(str(m).strip().lower()[:3])
 
 
+# The source abbreviates one state past recognition: 'DN HAVELI AND DD'
+# title-cases to 'Dn Haveli and Dd', which is not a place anyone would search
+# for.
+STATE_NAMES = {
+    "Dn Haveli and Dd": "Dadra and Nagar Haveli and Daman and Diu",
+    "Andaman and Nicobar": "Andaman and Nicobar Islands",
+}
+
+
 def title(s):
     """Source writes states and districts in shouting caps."""
     s = " ".join(str(s or "").split()).title()
     for a, b in (("And ", "and "), ("Of ", "of "), ("The ", "the ")):
         s = s.replace(" " + a, " " + b)
-    return s
+    return STATE_NAMES.get(s, s)
 
 
 def payload_for_page(d):
@@ -123,49 +140,115 @@ def sync_page(js, check_only):
 
 def main():
     check_only = "--check" in sys.argv
+
+    if not SRC.exists():
+        # The raw snapshot is 266 MB and is deliberately not in the repo, so on
+        # a fresh checkout there is nothing to rebuild from. The drift that CI
+        # can still catch -- and the one that actually happens -- is the page's
+        # inline copy falling out of step with the committed data file. That is
+        # checked here; the heavier assertions run when someone refreshes the
+        # data and has the raw file to hand.
+        if not check_only:
+            print(f"FAIL - {SRC.name} is missing. Fetch it first:\n"
+                  "       DATA_GOV_KEY=... python3 scripts/fetch-mgnrega-data.py")
+            return 1
+        if not OUT.exists():
+            print(f"FAIL - neither {SRC.name} nor {OUT.name} is present.")
+            return 1
+        built = json.loads(OUT.read_text(encoding="utf-8"))
+        rc = sync_page(payload_for_page(built), True)
+        if rc:
+            return rc
+        print("PASS (page matches the committed data; raw snapshot not in the "
+              "repo, so the source-shape assertions were not re-run)")
+        return 0
+
     raw = json.loads(SRC.read_text(encoding="utf-8"))
     rows = raw["rows"]
 
     # (year, state, district) -> {month index: row}
     cell = {}
-    bad_month = 0
+    bad_month, blank, dupes = 0, 0, 0
     for r in rows:
+        # The source carries one row that is 'NA' in every column, including
+        # the year and the district. It is not a district-month with an
+        # unreadable date; it is not a row. Dropping it is right, and counting
+        # it as a parse failure would mask a real one.
+        if all(str(r.get(f, "NA")).strip() in ("NA", "", "None")
+               for f in ("fin_year", "state_name", "district_name")):
+            blank += 1
+            continue
         mi = month_ix(r.get("month"))
         if mi is None:
             bad_month += 1
             continue
         k = (r.get("fin_year"), r.get("state_name"), r.get("district_name"))
-        cell.setdefault(k, {})[mi] = r
+        # From 2024-25 the source publishes a DAILY snapshot of each
+        # district-month -- up to 31 rows for one district and month, each a
+        # little further along (11,419,430 person-days, then 11,419,598, then
+        # 11,420,376). Keeping whichever arrived last in iteration order picks
+        # an arbitrary day. The cumulative columns only grow within a month, so
+        # the largest is the most complete reading of it.
+        prev = cell.setdefault(k, {}).get(mi)
+        if prev is None or (num(r.get(PICK)) or -1) > (num(prev.get(PICK)) or -1):
+            cell[k][mi] = r
+        dupes += 1 if prev is not None else 0
     if bad_month:
-        print(f"FAIL - {bad_month:,} rows have a month this script cannot place "
-              "in the financial year. Taking the last month would then be "
-              "taking an arbitrary month.")
+        print(f"FAIL - {bad_month:,} rows name a district and a year but a month "
+              "this script cannot place in the financial year. Taking the last "
+              "month would then be taking an arbitrary month.")
         return 1
 
-    # The assumption this whole script rests on: within a year, a cumulative
-    # column never goes down. Checked on every district-year, not a sample.
-    violations = []
-    for k, months in cell.items():
-        order = sorted(months)
-        for col in ("Persondays_of_Central_Liability_so_far",
-                    "Total_Households_Worked"):
-            prev = None
-            for mi in order:
-                v = num(months[mi].get(col))
-                if v is None:
-                    continue
-                if prev is not None and v < prev * 0.999:
-                    violations.append((k, col, prev, v))
-                    break
-                prev = v
-    if len(violations) > len(cell) * 0.02:
-        print(f"FAIL - {len(violations):,} of {len(cell):,} district-years have a "
-              "cumulative column that goes DOWN during the year. The columns are "
-              "not year-to-date after all, and taking the last month would report "
-              "one month as a year. First few:")
-        for k, col, a, b in violations[:5]:
-            print(f"    {k} {col}: {a:,.0f} -> {b:,.0f}")
+    # The assumption this whole script rests on is that the columns are
+    # cumulative within the year. It is tested by shape, on every district-year
+    # rather than a sample, because the obvious test is the wrong one.
+    #
+    # "No cumulative column ever goes down" fails here: the MIS revises figures
+    # downward as muster rolls are verified, so 148 of 6,479 district-years
+    # contain at least one decrease. Those are revisions, not a refutation.
+    #
+    # What actually separates cumulative from monthly is the shape of the
+    # series. Measured on this snapshot: 97.0% of month-to-month steps rise and
+    # 0.2% fall, and the median district-year ends 18.6x where it started. If
+    # the source switched to monthly flows, roughly half the steps would fall
+    # and the ratio would sit near 1. The thresholds below are set far from the
+    # measured values in the direction of the failure, so a real switch trips
+    # them and a normal year of revisions does not.
+    MAX_FALLING_STEPS = 0.05      # measured 0.002
+    MIN_GROWTH_RATIO = 4.0        # measured 18.6
+    up = down = 0
+    ratios = []
+    for months in cell.values():
+        seq = [num(months[mi].get("Persondays_of_Central_Liability_so_far"))
+               for mi in sorted(months)]
+        seq = [v for v in seq if v is not None]
+        if len(seq) < 3:
+            continue
+        for a, b in zip(seq, seq[1:]):
+            if b > a:
+                up += 1
+            elif b < a:
+                down += 1
+        if seq[0]:
+            ratios.append(seq[-1] / seq[0])
+    steps = up + down
+    falling = down / steps if steps else 0.0
+    ratios.sort()
+    growth = ratios[len(ratios) // 2] if ratios else 0.0
+    if not steps or not ratios:
+        print("FAIL - not enough month-to-month pairs to test whether the "
+              "columns are cumulative. Refusing to guess.")
         return 1
+    if falling > MAX_FALLING_STEPS or growth < MIN_GROWTH_RATIO:
+        print(f"FAIL - these columns no longer look cumulative within the year: "
+              f"{100*falling:.1f}% of month-to-month steps fall (expected under "
+              f"{100*MAX_FALLING_STEPS:.0f}%) and the median district-year ends "
+              f"{growth:.1f}x where it started (expected at least "
+              f"{MIN_GROWTH_RATIO:.0f}x). If the source has switched to monthly "
+              "flows, taking the last month reports ONE MONTH as a year and the "
+              "figures must be summed instead.")
+        return 1
+    shape = (falling, growth)
 
     districts = {}
     years = set()
@@ -181,6 +264,12 @@ def main():
         vals["months_reported"] = len(months)
         d["y"][fy] = vals
 
+    # A financial year still in progress is not a year. Recording how many
+    # months the fullest district reported lets the page label it instead of
+    # ranking a five-month year against a twelve-month one.
+    months_in_year = {}
+    for (fy, _s, _d), months in cell.items():
+        months_in_year[fy] = max(months_in_year.get(fy, 0), len(months))
     year_list = sorted(years)
     dist_list = sorted(districts.values(), key=lambda d: (d["state"], d["district"]))
 
@@ -199,9 +288,9 @@ def main():
         # of the district averages.
         out["days_per_household"] = (out["persondays"] / out["households"]
                                      if out["persondays"] and out["households"] else None)
-        # The wage rate and the 15-day share have no published denominator per
-        # district, so these are weighted by person-days, and the page says so.
-        for f in ("wage_rate", "paid_in_15_days"):
+        # The wage rate has no published denominator per district, so it is
+        # weighted by person-days, and the page says so.
+        for f in ("wage_rate",):
             num_, den = 0.0, 0.0
             for m in members:
                 v = m["y"].get(fy, {}).get(f)
@@ -219,6 +308,20 @@ def main():
     states = [{"state": st, "y": {fy: rollup(ms, fy) for fy in year_list}}
               for st, ms in sorted(by_state.items())]
     national = {fy: rollup(dist_list, fy) for fy in year_list}
+
+    # The district payload carries only what the district table reads. Every
+    # column for 757 districts across 9 years put 2.3 MB of JSON inline in the
+    # page, most of it never looked at; the state and national roll-ups above
+    # are computed from the full set first.
+    DISTRICT_FIELDS = ("households", "hh_100_days", "persondays",
+                       "women_persondays", "sc_persondays", "st_persondays",
+                       "days_per_household")
+    slim_districts = [
+        {"state": d["state"], "district": d["district"],
+         "y": {fy: {f: v[f] for f in DISTRICT_FIELDS if f in v}
+               for fy, v in d["y"].items()}}
+        for d in dist_list
+    ]
 
     out = {
         "_source": raw["_source"],
@@ -238,17 +341,19 @@ def main():
             "averaged across districts weighted by person-days, because the "
             "source publishes no denominator for them. A simple mean would let a "
             "district of forty thousand outweigh one of four million.",
-            "'Payments generated within 15 days' is when the payment order was "
-            "raised, not when money reached the worker's account. The gap between "
-            "the two is not in this data.",
+            "From 2024-25 the source publishes a fresh snapshot of each "
+            "district-month every day. The most complete snapshot of the final "
+            "month is used as the year's figure.",
             "Districts are as the source names them, and district boundaries have "
             "changed over these years. A district created mid-series appears only "
             "from the year it starts reporting.",
         ],
         "years": year_list,
+        "months_reported": months_in_year,
+        "complete_years": [y for y in year_list if months_in_year.get(y, 0) >= 12],
         "national": national,
         "states": states,
-        "districts": dist_list,
+        "districts": slim_districts,
     }
 
     js = payload_for_page(out)
@@ -266,16 +371,23 @@ def main():
         return rc
 
     print("PASS" if check_only else f"wrote {OUT.relative_to(ROOT)}")
+    if blank:
+        print(f"  dropped {blank} all-NA row(s) from the source")
+    if dupes:
+        print(f"  collapsed {dupes:,} repeat daily snapshots into "
+              f"{len(cell):,} district-years")
     print(f"  {len(dist_list):,} districts, {len(states)} states, "
           f"{len(year_list)} years: {year_list[0]} to {year_list[-1]}")
-    print(f"  {len(violations):,} district-years with a non-monotonic cumulative "
-          f"column ({100*len(violations)/max(1,len(cell)):.2f}%, tolerated below 2%)")
+    print(f"  cumulative check: {100*shape[0]:.1f}% of steps fall, median "
+          f"district-year grows {shape[1]:.1f}x over its months")
     for fy in year_list:
         n = national[fy]
+        mm = months_in_year.get(fy, 0)
         print(f"  {fy}: {(n['households'] or 0)/1e7:5.2f} cr households, "
               f"{(n['persondays'] or 0)/1e7:6.1f} cr person-days, "
               f"avg {(n['days_per_household'] or 0):4.1f} days, "
-              f"{(n['paid_in_15_days'] or 0):4.1f}% paid in 15 days")
+              f"wage Rs {(n['wage_rate'] or 0):6.2f}"
+              + ("" if mm >= 12 else f"   [partial year: {mm} months]"))
     return 0
 
 
