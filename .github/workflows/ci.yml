@@ -52,6 +52,27 @@ jobs:
       - name: Check asset stamps
         run: python3 scripts/stamp-assets.py --check
 
+  crime-data:
+    name: Crime explorer data is current
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+
+      # Same triple total-row trap as the prisons data, plus a column-naming
+      # one: the same NCRB column is 'charge_sheets_submitted___cases_charge_
+      # sheeted__col...' in one table and 'chargesheets_submitted___cases_
+      # chargesheeted__col...' in the next, and even the state column is named
+      # three different ways. The build matches on letters alone and asserts
+      # exactly one hit per column, so a renamed source fails here instead of
+      # rendering a page of blanks.
+      - name: Rebuild the crime data and compare
+        run: python3 scripts/build-crime-explorer-data.py --check
+
   aqi-data:
     name: Air quality explorer data is current
     runs-on: ubuntu-latest

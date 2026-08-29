@@ -2,6 +2,25 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.277.0 — August 29, 2026 (What happens after a case is registered)
+
+### For Learners
+
+- **Case Outcomes Explorer** — NCRB 2023, state by state, on what happens to a case rather than how many there are: chargesheeting rate, conviction rate, and how much is still pending with the police and with the courts.
+- **Six categories side by side.** All IPC crime, crime against women, atrocities against Scheduled Castes and Scheduled Tribes, cyber crime, and crime against senior citizens.
+- **Atrocities against Scheduled Castes reach a chargesheet more often than crime in general — 81.2% against 72.7% — and convict far less often, 31.9% against 54.0%.** The gap opens in court, not at the police station.
+- **Cyber crime is the other outlier**, with 33.9% of disposed cases reaching a chargesheet against 72.7% for IPC crime as a whole.
+- **The page refuses to rank states by crime, and says why at the top.** A registered case needs someone to go to a police station and someone there to write it down, so a state with a high count may be a state where reporting works. Counts measure reporting at least as much as they measure crime.
+
+### Added
+
+- `scripts/fetch-crime-data.py` and `scripts/build-crime-explorer-data.py`, with the `crime-data` job in CI.
+
+### Data notes
+
+- Rates are shown only for states with at least 100 cases at the relevant stage. Lakshadweep charge-sheeting 100% of four cases is not a fact about its police, and the states left out are named on the page rather than dropped quietly.
+- Where NCRB publishes no state-wise court table — crime against women and atrocities against Scheduled Tribes — the court panels say so instead of rendering an empty chart.
+
 ## v10.276.0 — August 29, 2026 (What the air monitors measure)
 
 ### For Learners
