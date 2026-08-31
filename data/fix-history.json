@@ -1,8 +1,22 @@
 {
   "generated_from": "docs/changelog.md",
   "note": "Derived from the changelog, not from GitHub Issues. Dates are the release the fix shipped in, which is what we actually know; issue numbers appear only where one was filed.",
-  "count": 113,
+  "count": 115,
   "entries": [
+    {
+      "title": "The offline page overlapped its own text on every phone",
+      "detail": "(#1045). Its footer was pinned to the bottom of the viewport, so on any screen short enough for the content to reach the bottom it sat on top of the tip paragraph. It now follows the content and still holds the bottom when there is room. Checked at 360×640, 412×915 and 1180×900.",
+      "fixed_on": "2026-08-29",
+      "release": "v10.280.0",
+      "issue": 1045
+    },
+    {
+      "title": "The offline page never recovered on its own",
+      "detail": "(#1045). It was a dead end with a \"Try again\" button, so a visitor who landed there during the domain outage had no way to know when the site came back except by tapping. It now re-checks the address it is standing in for every ten seconds and reloads itself the moment a real response arrives, plus an immediate check when the browser reports the connection back. navigator.onLine is not used as the test on its own: it reports whether the device has a link, not whether this site answers, and it was true throughout the outage.",
+      "fixed_on": "2026-08-29",
+      "release": "v10.280.0",
+      "issue": 1045
+    },
     {
       "title": "The site could only be browsed on one hostname",
       "detail": "(#1042). About 6,200 of its own navigation links, across 248 pages, were written as https://www.impactmojo.in/... rather than /.... On the custom domain that works, so nothing ever looked wrong. It meant that on impactmojo.netlify.app, on a deploy preview, or on a local server, every link left for the canonical host — and when DNS for that domain went down, every page Netlify was still serving perfectly sent visitors nowhere and reported them offline. All in-site links are now root-relative, which resolves identically on the custom domain. <link rel=\"canonical\">, Open Graph and Twitter tags, JSON-LD, the sitemap, the email templates and Open Badges credential identifiers stay absolute, because those are read off-site.",

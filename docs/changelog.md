@@ -2,6 +2,13 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.280.0 — August 29, 2026 (The offline page gets you back)
+
+### Fixed
+
+- **The offline page overlapped its own text on every phone** (#1045). Its footer was pinned to the bottom of the viewport, so on any screen short enough for the content to reach the bottom it sat on top of the tip paragraph. It now follows the content and still holds the bottom when there is room. Checked at 360×640, 412×915 and 1180×900.
+- **The offline page never recovered on its own** (#1045). It was a dead end with a "Try again" button, so a visitor who landed there during the domain outage had no way to know when the site came back except by tapping. It now re-checks the address it is standing in for every ten seconds and reloads itself the moment a real response arrives, plus an immediate check when the browser reports the connection back. `navigator.onLine` is not used as the test on its own: it reports whether the device has a link, not whether this site answers, and it was true throughout the outage.
+
 ## v10.279.0 — August 29, 2026 (The site works on any address again)
 
 ### Fixed
