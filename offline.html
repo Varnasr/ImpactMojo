@@ -113,6 +113,15 @@ body.dark-mode, [data-theme="dark"] {
             z-index: 1;
         }
 
+        /* The page is a column: content, then footer after it, never over it. */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .offline-container { margin: auto 0; }
+
         .offline-icon {
             font-size: 4rem;
             margin-bottom: 1.5rem;
@@ -192,16 +201,21 @@ body.dark-mode, [data-theme="dark"] {
         .v3-blob-2 { bottom: 20%; left: 5%; width: 300px; height: 300px; background: var(--secondary-accent); animation-delay: -5s; }
         @keyframes pulseBlob { 0%, 100% { transform: scale(1); opacity: 0.15; } 50% { transform: scale(1.1); opacity: 0.2; } }
 
-        /* Footer */
+        /* Footer.
+
+           Not position:fixed. Pinned to the bottom of the viewport it sat on
+           top of the tip paragraph on any screen short enough that the content
+           reached the bottom -- which is every phone. It now follows the
+           content, and `margin-top:auto` still holds it to the bottom on a
+           tall screen, where there is room to spare. */
         .offline-footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            width: 100%;
+            margin-top: auto;
+            padding: 2rem 1rem 1rem;
             text-align: center;
-            padding: 1rem;
             font-size: 0.8rem;
             color: var(--text-muted);
+            position: relative;
             z-index: 1;
         }
 
@@ -486,14 +500,82 @@ body.dark-mode .btn-primary, [data-theme="dark"] .btn-primary, html.dark .btn-pr
         <h1>You are offline</h1>
         <p>It looks like you have lost your internet connection. Any courses you have previously downloaded are still available.</p>
         <div class="offline-actions">
-            <button class="btn btn-primary" onclick="window.location.reload()">Try again</button>
+            <button class="btn btn-primary" id="retryBtn" onclick="window.location.reload()">Try again</button>
             <a class="btn btn-secondary" href="/">Go to homepage</a>
         </div>
+        <p class="hint" id="autoRetry" style="margin-top:0.9rem;min-height:1.2em"></p>
         <div id="dlCourses" style="display:none; margin-top:1.25rem; text-align:left;">
             <h2 style="font-size:1rem; margin-bottom:0.5rem;">Your downloaded courses</h2>
             <ul id="dlCoursesList" style="list-style:none; padding:0; margin:0;"></ul>
         </div>
         <p class="hint">Tip: Use the "Download for Offline" button on any course page to make it available without internet.</p>
+        <script>
+        // Come back on our own when the site does.
+        //
+        // This page is served by the service worker whenever a navigation
+        // request fails, so a visitor lands here for any reason the site is
+        // unreachable -- their connection, or the site's. In August 2026 the
+        // domain's registration lapsed, and every returning visitor sat on
+        // this page until they thought to tap a button. Once DNS came back
+        // there was nothing to tell them.
+        //
+        // So poll for a real response and reload the moment one arrives.
+        // `navigator.onLine` is not enough: it reports the device's link, not
+        // whether this site answers, and it was true throughout that outage.
+        (function () {
+            var el = document.getElementById('autoRetry');
+            if (!el) return;
+
+            // Only poll when this page is standing in for a DIFFERENT url.
+            // The service worker serves it as the fallback for a failed
+            // navigation, and the address bar keeps the url the visitor asked
+            // for -- so that is what we re-check. Opened directly, the thing
+            // we would be polling for is this very page, which answers as soon
+            // as the network is up: reload, script runs, fetch succeeds,
+            // reload again, forever. Verified as a real loop before this
+            // guard, two loads inside twenty-six seconds.
+            var here = location.pathname.replace(/\/+$/, '');
+            if (here === '/offline.html' || here === '/offline') {
+                el.textContent = 'Reload this page once you are back online.';
+                return;
+            }
+
+            var tries = 0;
+            var MAX = 60;                 // about 10 minutes, then stop
+            var target = location.pathname + location.search;
+
+            function check() {
+                tries++;
+                // cache:'no-store' so neither the browser nor the service
+                // worker can answer this from the cache that put us here.
+                fetch(target, { method: 'HEAD', cache: 'no-store' })
+                    .then(function (res) {
+                        if (res && res.ok) {
+                            el.textContent = 'Back online — reloading…';
+                            location.reload();
+                            return;
+                        }
+                        schedule();
+                    })
+                    .catch(schedule);
+            }
+
+            function schedule() {
+                if (tries >= MAX) {
+                    el.textContent = 'Still no connection. Tap “Try again” when you are back.';
+                    return;
+                }
+                el.textContent = 'Checking for a connection… (' + tries + ')';
+                setTimeout(check, 10000);
+            }
+
+            // The browser telling us the link is back is worth an immediate
+            // look, on top of the steady poll.
+            window.addEventListener('online', check);
+            schedule();
+        })();
+        </script>
+
         <script>
         // Enumerate impactmojo-course-* caches (the SW preserves them across
         // deploys) and link straight to each cached course entry page.
