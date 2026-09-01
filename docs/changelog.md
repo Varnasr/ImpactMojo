@@ -2,6 +2,12 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.283.0 — September 1, 2026 (The subscription QR code comes back)
+
+### Fixed
+
+- **The subscription payment page loaded a script that returns 404, so the UPI QR code never drew** (#1054). `subscribe/pay/index.html` pinned `qrcode@1.5.3/build/qrcode.min.js`, and that version publishes no `build/` directory at all, so the URL had never resolved. The call to `QRCode.toCanvas` then threw a `ReferenceError` *before* its own error handler could run, which meant the page could not even show the "Could not draw QR — use the UPI ID above." message it already contained: a visitor got an empty box and no explanation. Everything above that line still ran, so the amount, the reference and the `upi://` button were correct and payment by UPI ID was still possible. Now pinned to `qrcode@1.5.1/build/qrcode.min.js`, a 23,738-byte browser bundle that declares `var QRCode` at top level, and the call site is guarded so a future CDN failure shows the fallback message rather than nothing. Verified in Chromium against all three cases: the old file with the real 404 painted 0 of 48,400 canvas pixels and logged `QRCode is not defined`; the new file paints all 48,400 with 22,879 dark modules and no console errors; the new file with the CDN forced to 404 shows the fallback line.
+
 ## v10.282.0 — September 1, 2026 (Course backups stop being public)
 
 ### Fixed
