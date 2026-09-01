@@ -2,6 +2,23 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.281.0 — September 1, 2026 (The Libraries page becomes readable)
+
+### Fixed
+
+- **Accent-coloured text on the Libraries page was unreadable in the light theme** (#1048). The sky-blue `#0EA5E9` used for the eyebrow, the count chips and every "Browse →" measured **2.58:1** on the page background and 2.77:1 on a card, against the 4.5:1 WCAG AA needs. The same token also paints the card icons and the hover border, so darkening it outright would have changed the design; the text now takes a separate `--acc-ink` (`#0369A1`, 5.03:1 at worst, over the translucent chip fill) and the icons and border keep the original blue.
+- **The group subtitles failed AA in both themes** (#1048) — `#65758B` at 4.38:1 in light, `#6B7A93` at 3.99:1 on a dark card. Now `#626F82` (4.75:1) and `#7A88A0` (4.84:1), still a step lighter than the body muted tone so the hierarchy survives.
+- **"Skip to content" skipped the page's own heading** (#1049). The `<main>` landmark opened below the hero, so the h1 and its introduction sat outside it and a keyboard user taking the skip link landed past the title. The landmark now opens above the hero.
+
+### Changed
+
+- **The accessibility audit reported green while skipping most of its own page list.** `libraries.html` had never been in the list, which is why the contrast failures shipped — the pre-fix page reports 29 failing nodes in light and 4 in dark. Adding it turned out not to be enough. Three problems in `tests/axe-accessibility.js`, all of which made a page look audited when it was not:
+
+  - A page that failed to load was marked `SKIPPED` and the run still passed. Only an *entirely* unreachable site failed, so one page dropping out was a yellow warning nobody reads. Measured on this repo: **14 of 44 page/variant runs audited, 30 skipped, verdict PASSED.** A page in the list that was never looked at now fails the run. With the load fixed below, the same suite audits **44 of 44** and still reports zero violations, so nothing was hiding behind the skips.
+  - The skips were mostly not the pages' fault. The harness waits for the network to go idle, which never happens when a page pulls icons or fonts from a third-party CDN that is slow or blocked — `libraries.html` requests 16 icons from jsdelivr and left nine in flight indefinitely. The page itself is served fine and axe can audit it perfectly. It now falls back to `domcontentloaded` and audits the page instead of abandoning it.
+  - A page that no longer exists loaded the server's 404 body, audited it, and reported PASS. A renamed or deleted page could sit in the list passing forever. The HTTP status is now checked.
+- **The changelog gate that enforces all of this accepted a hex colour as an issue number** (#1050). `check-fix-issues.py` looked for `#\d+`, which matches the leading digits of `#0369A1` and `#38BDF8`. Of the three uncited entries above, it flagged one — the other two quoted colours and passed. It now rejects a number followed by a hex letter, while still accepting the three older entries that cite a bare `#NNN`.
+
 ## v10.280.0 — August 29, 2026 (The offline page gets you back)
 
 ### Fixed
