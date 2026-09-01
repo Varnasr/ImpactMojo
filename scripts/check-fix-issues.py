@@ -45,7 +45,13 @@ ENFORCE_FROM = datetime.date(2026, 8, 23)
 RELEASE_RE = re.compile(r'^(?P<version>v[\d.]+)\s+—\s+(?P<date>\w+ \d+, \d{4})')
 FIXED_RE = re.compile(r'^### Fixed\n(.*?)(?=^###|\Z)', re.M | re.S)
 BULLET_RE = re.compile(r'^- (.+?)(?=\n- |\Z)', re.M | re.S)
-ISSUE_RE = re.compile(r'#\d+')
+# A bare `#\d+` also matches the leading digits of a hex colour -- #0369A1
+# matches on #0369, #38BDF8 on #38 -- so any Fixed entry quoting a colour that
+# starts with a digit satisfied this gate while citing nothing. That is how two
+# of the three uncited entries in v10.281.0 got through. The documented form is
+# (#NNN), but three older entries cite a bare #NNN, so the number is accepted
+# either way and only a following hex letter rules it out.
+ISSUE_RE = re.compile(r'#\d+(?![0-9A-Fa-f])')
 
 
 def main():
