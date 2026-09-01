@@ -2,6 +2,16 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.282.0 — September 1, 2026 (Course backups stop being public)
+
+### Fixed
+
+- **Two backup copies of the course content were readable, editable and deletable by anyone** (#1052). `course_content_backup_20260821` and `course_content_backup_20260821b`, taken on 21 August, were created with `CREATE TABLE AS`, which copies the rows but inherits neither the source table's row level security nor its policies. `course_content` itself is service-role-only and returns nothing to a visitor; the backups returned all 259 rows, 217 of them the gated `is_preview=false` module bodies with their full `content_html`, to anyone holding the anon key that ships in `js/config.js` with every page. A write probe returned `204` rather than `401`, so the rows could have been altered or deleted as well. Both tables now have RLS enabled with no policies and the inherited `anon` / `authenticated` grants revoked, matching `course_content`. No rows were changed or dropped. Exposure ran 21 August to 1 September; there is no access log that would say whether anyone read them.
+
+### Changed
+
+- **The anon-exposure guard could not see a table nobody had added to it.** `scripts/check-supabase-anon.py` probes a fixed list, so a table created after the script was written is outside the check by default, which is how these two went eleven days unnoticed. Both are now probed (nine table probes, up from seven). The underlying shape of the gap is the same fixed-list problem already documented for the axe and pa11y jobs in `rules/testing.md`: a probe that enumerates every `public` table with RLS off, rather than a list a person maintains, would catch the next one without anyone remembering.
+
 ## v10.281.0 — September 1, 2026 (The Libraries page becomes readable)
 
 ### Fixed

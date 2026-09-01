@@ -45,6 +45,17 @@ PROBES = [
     ("organization_members",  "organization_members?select=*&limit=1",  401,
      "revoked from anon in 20260803_revoke_anon_grants_flagged_tables.sql"),
 
+    # Locked on 2026-09-01 (#1052). These are CREATE TABLE AS snapshots of
+    # course_content, which is service-role-only; they inherited neither its RLS
+    # nor its policies, so anon could read all 259 rows (217 of them the gated
+    # is_preview=false module bodies) and could update and delete them too.
+    ("course_content_backup_20260821",
+     "course_content_backup_20260821?select=id&limit=1", 401,
+     "locked in 20260901_lock_course_content_backup_tables.sql"),
+    ("course_content_backup_20260821b",
+     "course_content_backup_20260821b?select=id&limit=1", 401,
+     "locked in 20260901_lock_course_content_backup_tables.sql"),
+
     # Sensitive columns must stay denied even though the table is readable.
     ("profiles(phone,address,email,bio)",
      "profiles?select=phone,address,email,bio&limit=1", 401,
