@@ -12,7 +12,11 @@ What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](h
 
 ### Changed
 
-- `libraries.html` is now audited by `tests/axe-accessibility.js` (6 pages → 7, across four theme/width variants). It had never been in the list, which is why the contrast failures shipped: the pre-fix page reports 29 failing nodes in light and 4 in dark, and the audit was green the whole time because it was not looking at the page.
+- **The accessibility audit reported green while skipping most of its own page list.** `libraries.html` had never been in the list, which is why the contrast failures shipped — the pre-fix page reports 29 failing nodes in light and 4 in dark. Adding it turned out not to be enough. Three problems in `tests/axe-accessibility.js`, all of which made a page look audited when it was not:
+
+  - A page that failed to load was marked `SKIPPED` and the run still passed. Only an *entirely* unreachable site failed, so one page dropping out was a yellow warning nobody reads. Measured on this repo: **14 of 44 page/variant runs audited, 30 skipped, verdict PASSED.** A page in the list that was never looked at now fails the run.
+  - The skips were mostly not the pages' fault. The harness waits for the network to go idle, which never happens when a page pulls icons or fonts from a third-party CDN that is slow or blocked — `libraries.html` requests 16 icons from jsdelivr and left nine in flight indefinitely. The page itself is served fine and axe can audit it perfectly. It now falls back to `domcontentloaded` and audits the page instead of abandoning it.
+  - A page that no longer exists loaded the server's 404 body, audited it, and reported PASS. A renamed or deleted page could sit in the list passing forever. The HTTP status is now checked.
 
 ## v10.280.0 — August 29, 2026 (The offline page gets you back)
 

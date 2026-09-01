@@ -96,18 +96,39 @@ async function runAxeOnPage(browser, url, variant) {
   if (variant) {
     await page.setViewport({ width: variant.width, height: variant.height });
   }
-  try {
-    await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
+  // networkidle2 waits for the request count to fall to 2, which a page that
+  // pulls icons or fonts from a third-party CDN never reaches when that CDN is
+  // unreachable — libraries.html requests 16 icons from jsdelivr and left nine
+  // in flight forever behind a restrictive proxy. The page itself was served
+  // fine and axe can audit it perfectly; only the decorative assets are
+  // missing. Falling back to domcontentloaded audits it instead of skipping it,
+  // which is the whole point of the page being in the list.
+  const load = async (waitUntil) => {
+    let res = await page.goto(url, { waitUntil, timeout: 30000 });
     if (variant) {
       // site-chrome.js reads this on load, so set it and reload rather than
       // toggling after paint.
       await page.evaluate((t) => localStorage.setItem('im-theme', t), variant.theme);
-      await page.reload({ waitUntil: 'networkidle2', timeout: 30000 });
+      res = await page.reload({ waitUntil, timeout: 30000 });
     }
+    // A page that is gone still returns a body — the server's 404 — and axe
+    // audits that happily and reports it clean, so a renamed or deleted page
+    // could sit in PAGES "passing" indefinitely while nothing was checked.
+    if (res && res.status() >= 400) {
+      throw new Error(`HTTP ${res.status()}`);
+    }
+  };
+  try {
+    await load('networkidle2');
   } catch (err) {
-    console.log(yellow(`  WARNING: Could not load ${url} — ${err.message}`));
-    await page.close();
-    return { url, violations: [], skipped: true };
+    try {
+      await load('domcontentloaded');
+      console.log(yellow(`  NOTE: ${url} never went network-idle (${err.message}); audited on domcontentloaded instead.`));
+    } catch (err2) {
+      console.log(red(`  ERROR: Could not load ${url} — ${err2.message}`));
+      await page.close();
+      return { url, violations: [], skipped: true };
+    }
   }
 
   // Inject axe-core manually (works even if @axe-core/puppeteer is not installed)
@@ -240,6 +261,8 @@ async function main() {
   console.log(`Total violations : ${totalViolations}`);
   console.log(`Failing (>= ${MIN_IMPACT}) : ${totalFailingViolations}\n`);
 
+  const skipped = summaries.filter((s) => s.status === 'SKIPPED');
+
   if (totalFailingViolations > 0) {
     console.log(red(`FAILED — ${totalFailingViolations} accessibility violation(s) at ${MIN_IMPACT} level or above.\n`));
     process.exit(1);
@@ -248,6 +271,17 @@ async function main() {
     // that never came up makes every page SKIPPED and the suite still exits 0 —
     // a wholly unreachable site would report green.
     console.log(red(`FAILED — no pages were audited (all ${summaries.length} skipped). The site was unreachable at ${BASE_URL}.\n`));
+    process.exit(1);
+  } else if (skipped.length > 0) {
+    // The all-skipped guard above only caught a site that was wholly down. One
+    // page skipping was silent: a yellow warning, and the suite still green.
+    // That is the same defect one page at a time, and it landed immediately —
+    // libraries.html was added to this list precisely so it would be audited,
+    // failed to load on all four variants, and the run reported PASSED. A page
+    // in this list that was never looked at is not a page that passed.
+    console.log(red(`FAILED — ${skipped.length} page/variant(s) in the list could not be audited:\n`));
+    skipped.forEach((s) => console.log(red(`    ${s.page}`)));
+    console.log(red('\n  Remove the page from PAGES if it is gone, or fix the load.\n'));
     process.exit(1);
   } else {
     console.log(green('PASSED — No serious accessibility violations found.\n'));
