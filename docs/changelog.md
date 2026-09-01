@@ -2,6 +2,18 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.281.0 — September 1, 2026 (The Libraries page becomes readable)
+
+### Fixed
+
+- **Accent-coloured text on the Libraries page was unreadable in the light theme.** The sky-blue `#0EA5E9` used for the eyebrow, the count chips and every "Browse →" measured **2.58:1** on the page background and 2.77:1 on a card, against the 4.5:1 WCAG AA needs. The same token also paints the card icons and the hover border, so darkening it outright would have changed the design; the text now takes a separate `--acc-ink` (`#0369A1`, 5.03:1 at worst, over the translucent chip fill) and the icons and border keep the original blue.
+- **The group subtitles failed AA in both themes** — `#65758B` at 4.38:1 in light, `#6B7A93` at 3.99:1 on a dark card. Now `#626F82` (4.75:1) and `#7A88A0` (4.84:1), still a step lighter than the body muted tone so the hierarchy survives.
+- **"Skip to content" skipped the page's own heading.** The `<main>` landmark opened below the hero, so the h1 and its introduction sat outside it and a keyboard user taking the skip link landed past the title. The landmark now opens above the hero.
+
+### Changed
+
+- `libraries.html` is now audited by `tests/axe-accessibility.js` (6 pages → 7, across four theme/width variants). It had never been in the list, which is why the contrast failures shipped: the pre-fix page reports 29 failing nodes in light and 4 in dark, and the audit was green the whole time because it was not looking at the page.
+
 ## v10.280.0 — August 29, 2026 (The offline page gets you back)
 
 ### Fixed

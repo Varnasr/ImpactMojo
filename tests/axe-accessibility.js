@@ -31,6 +31,7 @@ const PAGES = [
   'about.html',
   'catalog.html',
   'bct-repository.html',
+  'libraries.html',
   'courses/mel/index.html',
   'fundamentals/wheel.html',
   'fundamentals/index.html',
