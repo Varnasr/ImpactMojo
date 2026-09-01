@@ -1,8 +1,15 @@
 {
   "generated_from": "docs/changelog.md",
   "note": "Derived from the changelog, not from GitHub Issues. Dates are the release the fix shipped in, which is what we actually know; issue numbers appear only where one was filed.",
-  "count": 119,
+  "count": 120,
   "entries": [
+    {
+      "title": "The subscription payment page loaded a script that returns 404, so the UPI QR code never drew",
+      "detail": "(#1054). subscribe/pay/index.html pinned qrcode@1.5.3/build/qrcode.min.js, and that version publishes no build/ directory at all, so the URL had never resolved. The call to QRCode.toCanvas then threw a ReferenceError before its own error handler could run, which meant the page could not even show the \"Could not draw QR — use the UPI ID above.\" message it already contained: a visitor got an empty box and no explanation. Everything above that line still ran, so the amount, the reference and the upi:// button were correct and payment by UPI ID was still possible. Now pinned to qrcode@1.5.1/build/qrcode.min.js, a 23,738-byte browser bundle that declares var QRCode at top level, and the call site is guarded so a future CDN failure shows the fallback message rather than nothing. Verified in Chromium against all three cases: the old file with the real 404 painted 0 of 48,400 canvas pixels and logged QRCode is not defined; the new file paints all 48,400 with 22,879 dark modules and no console errors; the new file with the CDN forced to 404 shows the fallback line.",
+      "fixed_on": "2026-09-01",
+      "release": "v10.283.0",
+      "issue": 1054
+    },
     {
       "title": "Two backup copies of the course content were readable, editable and deletable by anyone",
       "detail": "(#1052). course_content_backup_20260821 and course_content_backup_20260821b, taken on 21 August, were created with CREATE TABLE AS, which copies the rows but inherits neither the source table's row level security nor its policies. course_content itself is service-role-only and returns nothing to a visitor; the backups returned all 259 rows, 217 of them the gated is_preview=false module bodies with their full content_html, to anyone holding the anon key that ships in js/config.js with every page. A write probe returned 204 rather than 401, so the rows could have been altered or deleted as well. Both tables now have RLS enabled with no policies and the inherited anon / authenticated grants revoked, matching course_content. No rows were changed or dropped. Exposure ran 21 August to 1 September; there is no access log that would say whether anyone read them.",
