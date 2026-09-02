@@ -43,7 +43,21 @@ PAGE_GLOBS = [
     "courses/*.html",
     "courses/*/*.html",
     "101-courses/*.html",
+    # The Long View draws every chart from js/longview-charts.js, and its
+    # per-chart page reads a generated data script that has to match the
+    # renderer that consumes it. An old cached renderer against fresh markup
+    # does not error -- the guarded call simply does not run and the reader
+    # gets an empty box, which is the exact failure this stamp exists for.
+    "the-long-view/*.html",
 ]
+
+# Known gap, deliberately not closed here: BookSummaries (186 pages), blog (39),
+# 101-courses/poster and /practice (94), DeepDives (25), Games (18),
+# premium-tools (14), DataNotes (12), law-guides (8) and the Handouts tree all
+# load shared /css/ and /js/ files and are outside these globs, so they carry
+# the same stale-pairing risk unstamped. Adding them rewrites several thousand
+# references across ~400 files and deserves its own change and its own check,
+# rather than riding along with a chart.
 SKIP = {"PAGE-TEMPLATE.html"}
 PAGES = sorted(
     p for g in PAGE_GLOBS for p in ROOT.glob(g) if p.name not in SKIP
