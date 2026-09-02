@@ -2,6 +2,23 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.282.0 — September 2, 2026 (Deprivation travels in packs)
+
+### For Learners
+
+- **Deprivation travels in packs** — a new chart in The Long View. Six deprivations across all 706 districts, and only **21 clear all six**. The largest single group is 129 districts carrying five at once. The one they leave out is sanitation.
+- **What went backwards** — between the two NFHS rounds, sanitation worsened in 20 districts and clean cooking fuel in 13. Women's anaemia worsened in 353 and children's in 401, and in 128 districts both worsened together.
+- **A chart type worth knowing.** Both use an UpSet plot, which answers a question a Venn diagram cannot be drawn for past three sets and a bar chart actively hides: not how common each thing is, but how often they land on the same place. Each chart explains how to read it.
+
+### Added
+
+- `scripts/build-upset-data.py`, with the `upset-data` job in CI. It rebuilds both views from the committed NFHS district file and fails if the data file or the generated chart script has drifted from it.
+- `upset()` in `js/longview-charts.js`, and `--chart-acc1` / `--chart-acc2` theme tokens. A filled mark needs 3:1 against the surface behind it and no single step clears that on both the white and the dark card, so each theme takes its own step from the same ramp.
+
+### Fixed
+
+- **The asset stamp did not cover The Long View** (#1056). Its per-chart page loads the shared chart engine, so fresh markup could pair with a previous deploy's script — the same stale-pairing the stamp was built to prevent, on a page it was not watching. A reader would get an empty box and no error. `the-long-view/*.html` is now stamped. Roughly 400 further pages (BookSummaries, the blog, DeepDives, Games and others) are still outside it; that is recorded in the script rather than quietly fixed here.
+
 ## v10.283.0 — September 1, 2026 (The subscription QR code comes back)
 
 ### Fixed

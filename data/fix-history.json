@@ -4,6 +4,13 @@
   "count": 120,
   "entries": [
     {
+      "title": "The asset stamp did not cover The Long View",
+      "detail": "(#1056). Its per-chart page loads the shared chart engine, so fresh markup could pair with a previous deploy's script — the same stale-pairing the stamp was built to prevent, on a page it was not watching. A reader would get an empty box and no error. the-long-view/*.html is now stamped. Roughly 400 further pages (BookSummaries, the blog, DeepDives, Games and others) are still outside it; that is recorded in the script rather than quietly fixed here.",
+      "fixed_on": "2026-09-02",
+      "release": "v10.282.0",
+      "issue": 1056
+    },
+    {
       "title": "The subscription payment page loaded a script that returns 404, so the UPI QR code never drew",
       "detail": "(#1054). subscribe/pay/index.html pinned qrcode@1.5.3/build/qrcode.min.js, and that version publishes no build/ directory at all, so the URL had never resolved. The call to QRCode.toCanvas then threw a ReferenceError before its own error handler could run, which meant the page could not even show the \"Could not draw QR — use the UPI ID above.\" message it already contained: a visitor got an empty box and no explanation. Everything above that line still ran, so the amount, the reference and the upi:// button were correct and payment by UPI ID was still possible. Now pinned to qrcode@1.5.1/build/qrcode.min.js, a 23,738-byte browser bundle that declares var QRCode at top level, and the call site is guarded so a future CDN failure shows the fallback message rather than nothing. Verified in Chromium against all three cases: the old file with the real 404 painted 0 of 48,400 canvas pixels and logged QRCode is not defined; the new file paints all 48,400 with 22,879 dark modules and no console errors; the new file with the CDN forced to 404 shows the fallback line.",
       "fixed_on": "2026-09-01",
@@ -832,13 +839,6 @@
     {
       "title": "Duplicate headers",
       "detail": "on 28 pages where the im-topbar was hiding the main site navigation",
-      "fixed_on": "2026-04-07",
-      "release": "v10.14.0",
-      "issue": null
-    },
-    {
-      "title": "121 stale 101.impactmojo.in course links",
-      "detail": "rewritten to self-hosted equivalents",
       "fixed_on": "2026-04-07",
       "release": "v10.14.0",
       "issue": null

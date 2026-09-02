@@ -10,6 +10,7 @@ window.LV = (function() {
   function clear(el) { while (el && el.firstChild) el.removeChild(el.firstChild); }
   function ink() { return (getComputedStyle(document.documentElement).getPropertyValue('--chart-ink') || '#475569').trim(); }
   function gridc() { return (getComputedStyle(document.documentElement).getPropertyValue('--chart-grid') || '#e8edf4').trim(); }
+  function css(name, fallback) { return (getComputedStyle(document.documentElement).getPropertyValue(name) || fallback).trim() || fallback; }
   function reduced() { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
 
   var W = 460, H = 290;
@@ -288,6 +289,119 @@ window.LV = (function() {
       svg.appendChild(mk('text', { x: xf + (xf <= xm ? -9 : 9), y: y + 4, 'text-anchor': xf <= xm ? 'end' : 'start', 'font-size': 11, 'font-weight': 800, fill: o.fColor, 'font-family': 'Inter, sans-serif' }, d.f));
       svg.appendChild(mk('text', { x: xm + (xm < xf ? -9 : 9), y: y + 4, 'text-anchor': xm < xf ? 'end' : 'start', 'font-size': 11, 'font-weight': 800, fill: o.mColor, 'font-family': 'Inter, sans-serif' }, d.m));
     });
+  }
+
+
+  /* ---------- UpSet plot (which sets overlap, and how much) ----------
+     A Venn diagram stops being readable at four sets and cannot be drawn
+     honestly at six. An UpSet plot replaces the overlapping circles with a
+     matrix: every column is one exact combination, the dots below say which
+     sets are in it, and the bar above says how many members it has. It is the
+     right form here because the question is not "how common is each of these"
+     but "how often do they land on the same district". */
+  function upset(id, v, o) {
+    var svg = frame(id); if (!svg) return;
+    var acc = css('--chart-acc' + (o && o.acc === 2 ? 2 : 1), '#be123c');
+    var sets = v.sets, cols = v.shown, ns = sets.length, nc = cols.length;
+
+    var mL = 6, setW = 44, labX = mL + setW + 8, matL = 210, matR = 452;
+    var barTop = 30, barH = 96, base = barTop + barH;
+    var matT = base + 22, rowH = 21, colW = (matR - matL) / nc;
+    var vh = matT + ns * rowH + 44;
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + vh);
+
+    // The <title> is the accessible name. frame() cleared the element, so it
+    // has to be put back here or the chart has no name at all.
+    svg.appendChild(mk('title', {}, o && o.alt ? o.alt : 'UpSet plot of overlapping groups'));
+
+    var maxN = Math.max.apply(null, cols.map(function(c){ return c.n; }));
+    var maxS = Math.max.apply(null, sets.map(function(s){ return s.n; }));
+    var idx = {}; sets.forEach(function(s, i){ idx[s.key] = i; });
+
+    /* ----- left: how big each set is on its own ----- */
+    // The label lane is fixed and the labels are prose, so a long one used to
+    // run straight through its own count ("No clean cooking fu351"). The lane is
+    // now wide enough for the longest of them at full size, which is what
+    // actually fixes it: measuring alone did not, because the chart draws before
+    // Inter has loaded and the fallback face measures narrower, so every label
+    // passed the check and then reflowed wider once the real font arrived. The
+    // step-down below stays as a backstop for longer labels in future data;
+    // getComputedTextLength returns 0 when the node is not laid out (a hidden
+    // tab, print), and a character-count estimate would have to assume a font
+    // that may not be the one in use, so in that case leave the size alone.
+    var lane = (matL - 26) - labX;
+    sets.forEach(function(s, i) {
+      var y = matT + i * rowH, w = Math.max(2, (s.n / maxS) * setW);
+      svg.appendChild(mk('rect', { x: mL + setW - w, y: y + rowH / 2 - 5, width: w, height: 10,
+        rx: 3, fill: acc, opacity: 0.30 }));
+      var t = mk('text', { x: labX, y: y + rowH / 2 + 4, 'font-size': 10,
+        fill: ink(), 'font-family': 'Inter, sans-serif' }, s.label);
+      svg.appendChild(t);
+      for (var fs = 10; fs > 7.5; fs -= 0.5) {
+        var wpx = t.getComputedTextLength ? t.getComputedTextLength() : 0;
+        if (!wpx || wpx <= lane) break;
+        t.setAttribute('font-size', fs - 0.5);
+      }
+      svg.appendChild(mk('text', { x: matL - 8, y: y + rowH / 2 + 4, 'text-anchor': 'end',
+        'font-size': 9.5, fill: ink(), opacity: 0.75,
+        'font-family': 'JetBrains Mono, monospace' }, String(s.n)));
+    });
+
+    /* ----- top: how big each exact combination is ----- */
+    cols.forEach(function(c, j) {
+      var cx = matL + j * colW + colW / 2;
+      var h = Math.max(2, (c.n / maxN) * barH), bw = Math.min(15, colW - 7);
+      var g = mk('g', {});
+      var names = c.sets.map(function(k){ return sets[idx[k]].label; });
+      g.appendChild(mk('title', {}, c.n + ' ' + (o && o.unit || 'districts') + ' — ' +
+        (names.length ? names.join(' + ') : 'none of these')));
+      g.appendChild(mk('rect', { x: cx - bw / 2, y: base - h, width: bw, height: h,
+        rx: 4, fill: acc }));
+      g.appendChild(mk('text', { x: cx, y: base - h - 5, 'text-anchor': 'middle',
+        'font-size': 9.5, 'font-weight': 700, fill: ink(),
+        'font-family': 'JetBrains Mono, monospace' }, String(c.n)));
+      // a generous, invisible hit area so the hover target is bigger than the mark
+      g.appendChild(mk('rect', { x: matL + j * colW, y: barTop, width: colW,
+        height: (matT + ns * rowH) - barTop, fill: 'transparent' }));
+      svg.appendChild(g); fadeIn(g, j * 0.04);
+    });
+
+    svg.appendChild(mk('line', { x1: matL - 4, y1: base, x2: matR, y2: base,
+      stroke: gridc(), 'stroke-width': 1 }));
+
+    /* ----- the matrix: filled = in this combination ----- */
+    cols.forEach(function(c, j) {
+      var cx = matL + j * colW + colW / 2, on = {};
+      c.sets.forEach(function(k){ on[idx[k]] = 1; });
+      var rows = c.sets.map(function(k){ return idx[k]; }).sort(function(a, b){ return a - b; });
+      if (rows.length > 1) {
+        svg.appendChild(mk('line', { x1: cx, y1: matT + rows[0] * rowH + rowH / 2,
+          x2: cx, y2: matT + rows[rows.length - 1] * rowH + rowH / 2,
+          stroke: acc, 'stroke-width': 2 }));
+      }
+      sets.forEach(function(s, i) {
+        svg.appendChild(mk('circle', { cx: cx, cy: matT + i * rowH + rowH / 2, r: 4.5,
+          fill: on[i] ? acc : gridc() }));
+      });
+      // A column with no filled dot is the group that has none of them -- a real
+      // and interesting category, but an unlabelled empty column reads as a
+      // drawing fault, so it gets named.
+      if (!rows.length) {
+        svg.appendChild(mk('text', { x: cx, y: matT + ns * rowH + 11, 'text-anchor': 'middle',
+          'font-size': 8.5, fill: ink(), opacity: 0.85,
+          'font-family': 'Inter, sans-serif' }, 'none'));
+      }
+    });
+
+    /* ----- what is not drawn ----- */
+    if (v.hiddenCombos > 0) {
+      svg.appendChild(mk('text', { x: mL, y: vh - 7, 'font-size': 9, fill: ink(),
+        opacity: 0.8, 'font-family': 'Inter, sans-serif' },
+        'The ' + nc + ' largest of ' + (nc + v.hiddenCombos) + ' combinations. The other ' +
+        v.hiddenCombos + ' hold ' + v.hiddenDistricts + ' ' + (o && o.unit || 'districts') + '.'));
+    }
+    svg.appendChild(mk('text', { x: mL, y: 15, 'font-size': 9.5, fill: ink(), opacity: 0.8,
+      'font-family': 'Inter, sans-serif' }, o && o.caption || ''));
   }
 
   /* ---------- Heatmap (matrix) ---------- */
@@ -1157,6 +1271,22 @@ window.LV = (function() {
         values: [[39,79,89],[44,62,76],[null,53,79],[52,62,64],[45,47,43]] },
       { min: 38, max: 90 });
 
+    if (window.LV_UPSET) {
+      upset('c-upset-deprivation', window.LV_UPSET.deprivation,
+        { acc: 1, unit: 'districts',
+          caption: 'Each column is one exact combination. 706 districts, NFHS-5.',
+          alt: 'UpSet plot: how six deprivations overlap across 706 Indian districts. '
+             + 'The largest single group is 129 districts carrying five at once — every '
+             + 'one except sanitation.' });
+
+      upset('c-upset-backwards', window.LV_UPSET.backwards,
+        { acc: 2, unit: 'districts',
+          caption: 'Districts that moved the wrong way, NFHS-4 to NFHS-5. 574 districts.',
+          alt: 'UpSet plot: which indicators went backwards between the two survey rounds. '
+             + 'The largest group is 128 districts where both women\u2019s and '
+             + 'children\u2019s anaemia worsened together.' });
+    }
+
     forest('c-forest',
       [{label:'Net zero ~2050', est:1.4, lo:1.0, hi:1.8, color:'#16a34a'},
        {label:'Strong cuts', est:1.8, lo:1.3, hi:2.4, color:'#0d9488'},
@@ -1649,7 +1779,7 @@ window.LV = (function() {
 
   function drawMasters(){ drawRose(); drawMinard(); drawSnow(); drawDuBois(); }
 
-  var ORDER = ['c-bump','c-gapminder','c-monsoon','c-gender','c-wealth','c-caste','c-co2','c-energy','c-nfhs','c-forest','c-decline','c-transition','c-migration','c-where','c-ghg','c-ghg3','c-rupee','c-waffle','c-stream','c-pyramid','c-states','c-poor-dots','c-seats','c-tilegram','c-poverty','c-u5mr','c-flfp','c-pipeline','c-climate','c-le','c-solar','c-urban','c-gdp','c-literacy','c-womenparl'];
+  var ORDER = ['c-bump','c-gapminder','c-monsoon','c-gender','c-wealth','c-caste','c-co2','c-energy','c-nfhs','c-upset-deprivation','c-upset-backwards','c-forest','c-decline','c-transition','c-migration','c-where','c-ghg','c-ghg3','c-rupee','c-waffle','c-stream','c-pyramid','c-states','c-poor-dots','c-seats','c-tilegram','c-poverty','c-u5mr','c-flfp','c-pipeline','c-climate','c-le','c-solar','c-urban','c-gdp','c-literacy','c-womenparl'];
   var DETAILS = {
     'c-bump': { tag:'Population', title:'The new giants',
       takeaway:"India passed China to become the world's most populous country in 2023. Look further out and the order keeps shifting — the UN projects Nigeria to climb past the United States by 2050.",
@@ -1789,6 +1919,18 @@ window.LV = (function() {
       why:"A heatmap is good for a small grid you want to scan in both directions. Every indicator is framed in the positive direction, so one green scale reads honestly: greener is always better.",
       how:"Each cell is coloured by its value on a single green scale, with the number printed in the cell so colour and figure agree.",
       look:"Most rows turn greener from left to right. The bottom row doesn't." },
+    'c-upset-deprivation': { tag:'Poverty · Method', title:'Deprivation travels in packs',
+      takeaway:"Only 21 of 706 districts clear all six thresholds. The single biggest group \u2014 129 districts \u2014 carries five at once: stunting, anaemia, child marriage, no clean cooking fuel and women under-schooled. The one it does not include is sanitation.",
+      source:"NFHS-5 (2019-21) district fact sheets, IIPS/MoHFW. Thresholds: stunting \u226530% and women's anaemia \u226540% are the WHO 'very high' and 'severe public health problem' marks; the other three are stated on the chart.",
+      why:"A Venn diagram cannot be drawn honestly for six sets, and six separate bars actively mislead: reading 63%, 90%, 50%, 8%, 75% and 46% invites you to picture six different sets of places. An UpSet plot answers the question those bars cannot \u2014 whether the same district carries several at once. That is what 'multidimensional' poverty means, and it is the only chart form that shows it directly.",
+      how:"Every column is one exact combination. The dots below say which deprivations are in it, joined by a line; the bar above says how many districts have that combination and nothing else. The small bars on the left are how common each deprivation is on its own.",
+      look:"The tall column five dots deep, and which row its line skips. Sanitation is the one dimension that broke away from the pack." },
+    'c-upset-backwards': { tag:'Health & Nutrition', title:'What went backwards',
+      takeaway:"Between the two rounds, sanitation went backwards in 20 districts and clean cooking fuel in 13. Women's anaemia went backwards in 353, and children's in 401 \u2014 and in 128 districts the two worsened together, the largest single pattern of reversal.",
+      source:"NFHS-4 (2015-16) and NFHS-5 (2019-21) district fact sheets, IIPS/MoHFW. 574 districts have comparable values on all eight indicators.",
+      why:"National averages can hide who moved and who did not. Counting the districts that went the wrong way, and then asking which reversals travelled together, separates a broad retreat from a handful of unlucky places \u2014 something a line of national averages cannot do.",
+      how:"Same reading as the chart above: a column is one exact combination of indicators that worsened, the dots say which, and the bar says how many districts.",
+      look:"How short the infrastructure rows are against the two anaemia rows. Things the state builds improved almost everywhere; things measured in people's blood did not." },
     'c-forest': { tag:'Climate · Evidence', title:'How hot, by 2100?',
       takeaway:"Only the lowest-emission paths stay near the 1.5°C and 2°C limits; the higher ones pass them comfortably.",
       source:"IPCC Sixth Assessment Report (AR6, WG1, 2021): best estimate and 'very likely' range by scenario.",
