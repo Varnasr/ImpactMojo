@@ -36,7 +36,7 @@
  * - Storage keys now match index.html (impactmojo_bookmarks, etc.)
  * 
  * Include this file in your HTML pages:
- * <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+ * <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.114.0"></script>
  * <script src="js/auth.js"></script>
  */
 

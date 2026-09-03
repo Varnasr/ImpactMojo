@@ -20,7 +20,7 @@
 (function () {
   'use strict';
 
-  var CHART_CDN = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js';
+  var CHART_CDN = 'https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js';
 
   // Scripts that are site plumbing rather than course content. Matched against
   // the src attribute; inline blocks are matched by content in stripInline().

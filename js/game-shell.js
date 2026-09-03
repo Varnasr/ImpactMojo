@@ -19,7 +19,7 @@
 
   // ── Sargam Icon helper ─────────────────────────────────────
   // Usage: IMXIcon('Flare') returns an <img> tag string
-  var SARGAM_CDN = 'https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/';
+  var SARGAM_CDN = 'https://cdn.jsdelivr.net/npm/sargam-icons@1.6.7/Icons/';
   window.IMXIcon = function(name, size, style) {
     size = size || 16;
     style = style || 'Line';
