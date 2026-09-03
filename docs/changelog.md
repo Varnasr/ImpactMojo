@@ -2,6 +2,18 @@
 
 What's new on ImpactMojo. For the full technical changelog, see [CHANGELOG.md](https://github.com/ImpactMojo/ImpactMojo/blob/main/CHANGELOG.md) in the repository.
 
+## v10.284.0 — September 3, 2026 (Icons that were never there)
+
+### Fixed
+
+- **Sixteen icon files and two stylesheets were requested from a CDN that has never had them** (#1060). Pages across Labs, courses and the catalog asked for Sargam icons by names the package does not publish — `si_Users`, `si_Task`, `si_Share`, `si_File`, `si_Database`, `si_Timer`, `si_Edit`, `si_Globe`, `si_Scale`, `si_Bulb`, `si_Folder`, `si_Accessibility`, `si_Check_ring` and `si_Check_tick_double` — and three pages linked a Sargam stylesheet, which the package does not ship at any version. Every one of those URLs returned 404, at the pinned 1.6.6 and at 1.6.7. Because each `<img>` carried `alt=""` and no layout depended on it, nothing errored and nothing moved: the icon was simply absent, on the Disability-Inclusive MEL, Systems Thinking and Livelihoods Value Chain studio badges, the "Rights & Justice" cards on Nothing About Us, the catalog's Programmes filter, and the assessment entries in the SEL and Media course navigation. The package publishes 433 Line icons; each reference now points at one that exists, chosen by what the surrounding content is about, and the three stylesheet links are gone. Verified by requesting all 131 distinct Sargam paths the site uses and confirming every one returns 200.
+
+### Changed
+
+- Browser libraries moved up, each pinned to an exact version: Supabase JS 2.112.3 to 2.114.0 (520 references), Chart.js 4.4.0 and 4.4.1 to 4.5.1 (57), Sargam Icons 1.6.6 to 1.6.7 (802). `Backups/` is deliberately left on the versions it was taken with. Checked in Chromium: `supabase.createClient` builds a working client on 2.114.0, and pages that paint charts on load still paint them. Two pages that draw nothing without live data behave identically on 4.5.1 and on 4.4.0, so that is how they were before, not a regression.
+- The MCP server builds on TypeScript 7.0.2, up from 5.7. TypeScript 7 no longer picks up `@types/node` implicitly under `moduleResolution: Node16`, so `tsconfig.json` names it in `types` — the compiler's own suggested fix. Two advisories in a transitive `qs` were cleared at the same time; `npm audit` reports none.
+- CI runs on current action majors, and the two jobs still pinned to Node 20 now use Node 22. GitHub had begun forcing Node 20 actions onto Node 24 with a deprecation warning on every run.
+
 ## v10.282.0 — September 2, 2026 (Deprivation travels in packs)
 
 ### For Learners

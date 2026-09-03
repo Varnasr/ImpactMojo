@@ -90,7 +90,7 @@
   function renderLockedModule(placeholder, mod) {
     placeholder.innerHTML =
       '<div class="module-locked" style="padding:3rem 2rem;text-align:center;background:var(--bg-secondary,#f8fafc);border-radius:12px;border:1px dashed var(--border-color,#e2e8f0);">' +
-      '<div style="margin-bottom:1rem;"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Lock.svg" alt="Locked" style="width:48px;height:48px;opacity:0.6;filter:brightness(0) saturate(100%) invert(48%) sepia(95%) saturate(1012%) hue-rotate(178deg) brightness(97%) contrast(97%);"></div>' +
+      '<div style="margin-bottom:1rem;"><img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.7/Icons/Line/si_Lock.svg" alt="Locked" style="width:48px;height:48px;opacity:0.6;filter:brightness(0) saturate(100%) invert(48%) sepia(95%) saturate(1012%) hue-rotate(178deg) brightness(97%) contrast(97%);"></div>' +
       '<h3 style="font-family:var(--font-display,Inter,sans-serif);margin-bottom:0.5rem;color:var(--text-primary,#1e293b);">Sign in to continue</h3>' +
       '<p style="color:var(--text-secondary,#475569);max-width:400px;margin:0 auto 1.5rem;">Create a free ImpactMojo account to access all course modules, track your progress, and earn certificates.</p>' +
       '<a href="/login.html" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.5rem;background:var(--color-primary,#4F46E5);color:#fff;border-radius:8px;font-weight:600;text-decoration:none;transition:transform 0.2s;">Sign up free →</a>' +

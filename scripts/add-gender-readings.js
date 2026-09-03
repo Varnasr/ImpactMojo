@@ -103,7 +103,7 @@ function buildReadingHTML(moduleNum) {
   let html = `
             <div class="reading-list-section" style="margin-top: 2rem; padding: 1.5rem; background: var(--bg-secondary, rgba(99,102,241,0.05)); border-radius: 12px; border: 1px solid var(--border-color, rgba(99,102,241,0.15));">
                 <h4 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; font-family: 'Inter', sans-serif; color: var(--text-primary);">
-                    <img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/si_Book.svg" alt="" style="width: 20px; height: 20px; opacity: 0.7;">
+                    <img src="https://cdn.jsdelivr.net/npm/sargam-icons@1.6.7/Icons/Line/si_Book.svg" alt="" style="width: 20px; height: 20px; opacity: 0.7;">
                     Further Reading
                 </h4>
                 <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">`;

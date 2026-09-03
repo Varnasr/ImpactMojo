@@ -16,7 +16,7 @@
   var selectedIndex = -1;
   var visible = false;
 
-  var SARGAM_CDN = 'https://cdn.jsdelivr.net/npm/sargam-icons@1.6.6/Icons/Line/';
+  var SARGAM_CDN = 'https://cdn.jsdelivr.net/npm/sargam-icons@1.6.7/Icons/Line/';
   function sargamImg(name) {
     return '<img src="' + SARGAM_CDN + name + '.svg" alt="" style="width:18px;height:18px;filter:brightness(0) invert(1);" loading="lazy">';
   }

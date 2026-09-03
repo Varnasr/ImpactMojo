@@ -39,7 +39,7 @@
  *
  * PREREQUISITES:
  *   <script src="js/config.js"></script>
- *   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+ *   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.114.0"></script>
  *   <script src="js/auth.js"></script>
  *   <script src="js/admin-gate.js"></script>
  *   <script src="js/admin-cms.js"></script>
